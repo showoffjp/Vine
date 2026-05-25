@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -49,7 +51,7 @@ export const metadata: Metadata = {
       "The world's first all-in-one Christian platform. Discussions, Bible tools, devotionals, life hacks, mental health, prayer, and more.",
     images: [
       {
-        url: "/og-image.png",
+        url: "/api/og?title=Grow.+Connect.+Thrive+in+Faith.",
         width: 1200,
         height: 630,
         alt: "Vine — The Christian Everything Platform",
@@ -61,7 +63,7 @@ export const metadata: Metadata = {
     title: "Vine — Grow. Connect. Thrive in Faith.",
     description:
       "The world's first all-in-one Christian platform. Join thousands of believers worldwide.",
-    images: ["/og-image.png"],
+    images: ["/api/og?title=Grow.+Connect.+Thrive+in+Faith."],
     creator: "@vinecommunity",
   },
   robots: {
@@ -97,6 +99,8 @@ export default function RootLayout({
         style={{ background: "#07070F", color: "#F2F2F8" }}
       >
         {children}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

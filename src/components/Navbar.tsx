@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { Menu, X, Search, Bell, ChevronDown } from "lucide-react";
+import SearchOverlay from "./SearchOverlay";
+import AuthModal from "./AuthModal";
 
 const navLinks = [
   {
@@ -30,6 +32,20 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [authOpen, setAuthOpen] = useState(false);
+  const [authMode, setAuthMode] = useState<"signin" | "signup">("signup");
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+        e.preventDefault();
+        setSearchOpen((v) => !v);
+      }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, []);
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 20);
@@ -153,10 +169,13 @@ export default function Navbar() {
           {/* Right actions */}
           <div className="flex items-center gap-3">
             <button
-              className="hidden sm:flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-all duration-200"
-              style={{ color: "#8A8AA8" }}
+              onClick={() => setSearchOpen(true)}
+              className="hidden sm:flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-all duration-200 group"
+              style={{ color: "#8A8AA8", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}
+              title="Search (⌘K)"
             >
-              <Search size={16} />
+              <Search size={15} />
+              <span className="text-xs hidden lg:block" style={{ color: "#4A4A68" }}>⌘K</span>
             </button>
 
             <button
@@ -166,11 +185,17 @@ export default function Navbar() {
               <Bell size={16} />
             </button>
 
-            <button className="hidden sm:block btn-outline-gold px-4 py-2 rounded-lg text-sm font-semibold">
+            <button
+              className="hidden sm:block btn-outline-gold px-4 py-2 rounded-lg text-sm font-semibold"
+              onClick={() => { setAuthMode("signin"); setAuthOpen(true); }}
+            >
               Sign In
             </button>
 
-            <button className="btn-gold px-4 py-2 rounded-lg text-sm">
+            <button
+              className="btn-gold px-4 py-2 rounded-lg text-sm"
+              onClick={() => { setAuthMode("signup"); setAuthOpen(true); }}
+            >
               Join Free
             </button>
 
@@ -225,16 +250,25 @@ export default function Navbar() {
               </div>
             ))}
             <div className="pt-3 flex flex-col gap-2">
-              <button className="btn-outline-gold w-full py-2.5 rounded-lg text-sm font-semibold">
+              <button
+                className="btn-outline-gold w-full py-2.5 rounded-lg text-sm font-semibold"
+                onClick={() => { setAuthMode("signin"); setAuthOpen(true); setMobileOpen(false); }}
+              >
                 Sign In
               </button>
-              <button className="btn-gold w-full py-2.5 rounded-lg text-sm">
+              <button
+                className="btn-gold w-full py-2.5 rounded-lg text-sm"
+                onClick={() => { setAuthMode("signup"); setAuthOpen(true); setMobileOpen(false); }}
+              >
                 Join Free
               </button>
             </div>
           </div>
         </div>
       )}
+
+      <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
+      <AuthModal open={authOpen} onClose={() => setAuthOpen(false)} initialMode={authMode} />
     </nav>
   );
 }

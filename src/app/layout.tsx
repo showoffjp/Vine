@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -12,12 +12,74 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+export const viewport: Viewport = {
+  themeColor: "#07070F",
+  colorScheme: "dark",
+};
+
 export const metadata: Metadata = {
-  title: "Vine — The Christian Everything Platform",
+  metadataBase: new URL("https://vine.community"),
+  title: {
+    default: "Vine — The Christian Everything Platform",
+    template: "%s | Vine",
+  },
   description:
     "The world's first all-in-one Christian platform. Community, Bible tools, devotionals, life hacks, mental health, discussions, and more. Grow. Connect. Thrive in faith.",
-  keywords:
-    "Christian community, Bible, devotionals, Christian life hacks, Christian mental health, faith discussions, Christian resources",
+  keywords: [
+    "Christian community",
+    "Bible study",
+    "devotionals",
+    "Christian life hacks",
+    "Christian mental health",
+    "faith discussions",
+    "Christian resources",
+    "prayer wall",
+    "worship",
+    "apologetics",
+  ],
+  authors: [{ name: "Vine" }],
+  creator: "Vine",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://vine.community",
+    siteName: "Vine",
+    title: "Vine — Grow. Connect. Thrive in Faith.",
+    description:
+      "The world's first all-in-one Christian platform. Discussions, Bible tools, devotionals, life hacks, mental health, prayer, and more.",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Vine — The Christian Everything Platform",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Vine — Grow. Connect. Thrive in Faith.",
+    description:
+      "The world's first all-in-one Christian platform. Join thousands of believers worldwide.",
+    images: ["/og-image.png"],
+    creator: "@vinecommunity",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+  },
+  manifest: "/manifest.json",
 };
 
 export default function RootLayout({

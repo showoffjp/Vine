@@ -20,6 +20,8 @@ import AppDownload from "@/components/AppDownload";
 import NewsletterSignup from "@/components/NewsletterSignup";
 import JoinCTA from "@/components/JoinCTA";
 import Footer from "@/components/Footer";
+import ScrollToTop from "@/components/ScrollToTop";
+import FadeIn from "@/components/FadeIn";
 
 export default function Home() {
   return (
@@ -32,25 +34,26 @@ export default function Home() {
       <main className="flex flex-col flex-1">
         <Hero />
         <TrendingTicker />
-        <PlatformPillars />
-        <QuoteCarousel />
-        <DailyBread />
-        <CommunityPreview />
-        <PrayerWallPreview />
-        <ResourceHub />
-        <VideoSpotlight />
-        <PodcastHub />
-        <LifeFaith />
-        <WeeklyChallenge />
-        <CreatorSpotlight />
-        <EventsSection />
-        <TopicBrowser />
-        <Testimonials />
-        <AppDownload />
-        <NewsletterSignup />
-        <JoinCTA />
+        <FadeIn><PlatformPillars /></FadeIn>
+        <FadeIn delay={100}><QuoteCarousel /></FadeIn>
+        <FadeIn><DailyBread /></FadeIn>
+        <FadeIn><CommunityPreview /></FadeIn>
+        <FadeIn delay={50}><PrayerWallPreview /></FadeIn>
+        <FadeIn><ResourceHub /></FadeIn>
+        <FadeIn delay={50}><VideoSpotlight /></FadeIn>
+        <FadeIn><PodcastHub /></FadeIn>
+        <FadeIn><LifeFaith /></FadeIn>
+        <FadeIn delay={50}><WeeklyChallenge /></FadeIn>
+        <FadeIn><CreatorSpotlight /></FadeIn>
+        <FadeIn><EventsSection /></FadeIn>
+        <FadeIn><TopicBrowser /></FadeIn>
+        <FadeIn><Testimonials /></FadeIn>
+        <FadeIn delay={50}><AppDownload /></FadeIn>
+        <FadeIn><NewsletterSignup /></FadeIn>
+        <FadeIn><JoinCTA /></FadeIn>
       </main>
       <Footer />
+      <ScrollToTop />
     </div>
   );
 }

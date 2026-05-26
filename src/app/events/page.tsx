@@ -35,7 +35,7 @@ const featuredEvent = {
 };
 
 type EventItem = {
-  id: string | null;
+  id: string;
   month: string;
   monthFull: string;
   day: string;
@@ -53,7 +53,7 @@ type EventItem = {
 
 const events: EventItem[] = [
   {
-    id: null,
+    id: "womens-gathering-rooted-rising",
     month: "JUN",
     monthFull: "Jun",
     day: "7",
@@ -69,7 +69,7 @@ const events: EventItem[] = [
     accentColor: "#BB4F7A",
   },
   {
-    id: null,
+    id: "online-bible-study-gospel-john",
     month: "JUN",
     monthFull: "Jun",
     day: "14",
@@ -117,7 +117,7 @@ const events: EventItem[] = [
     accentColor: "#00FF88",
   },
   {
-    id: null,
+    id: "young-adults-retreat-wild-faith",
     month: "JUL",
     monthFull: "Jul",
     day: "11",
@@ -133,7 +133,7 @@ const events: EventItem[] = [
     accentColor: "#E07030",
   },
   {
-    id: null,
+    id: "online-leadership-conference-jul",
     month: "JUL",
     monthFull: "Jul",
     day: "25",
@@ -149,7 +149,7 @@ const events: EventItem[] = [
     accentColor: "#4F8FBB",
   },
   {
-    id: null,
+    id: "marriage-enrichment-weekend-nairobi",
     month: "AUG",
     monthFull: "Aug",
     day: "8",
@@ -165,7 +165,7 @@ const events: EventItem[] = [
     accentColor: "#4FBBAA",
   },
   {
-    id: null,
+    id: "youth-camp-be-bold-brazil",
     month: "AUG",
     monthFull: "Aug",
     day: "22",
@@ -181,7 +181,7 @@ const events: EventItem[] = [
     accentColor: "#BB4F7A",
   },
   {
-    id: null,
+    id: "seoul-christian-leadership-forum",
     month: "SEP",
     monthFull: "Sep",
     day: "5",
@@ -213,7 +213,7 @@ const events: EventItem[] = [
     accentColor: "#00FF88",
   },
   {
-    id: null,
+    id: "sydney-evangelism-conference",
     month: "OCT",
     monthFull: "Oct",
     day: "3",
@@ -229,7 +229,7 @@ const events: EventItem[] = [
     accentColor: "#E07030",
   },
   {
-    id: null,
+    id: "lagos-gospel-arts-festival",
     month: "NOV",
     monthFull: "Nov",
     day: "14",

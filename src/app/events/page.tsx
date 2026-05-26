@@ -23,6 +23,7 @@ export const metadata: Metadata = {
 /* ------------------------------------------------------------------ */
 
 const featuredEvent = {
+  id: "global-prayer-summit-2026",
   title: "Global Prayer & Worship Summit 2026",
   dates: "July 18–20, 2026",
   location: "Houston, TX",
@@ -36,6 +37,7 @@ const featuredEvent = {
 };
 
 type EventItem = {
+  id: string | null;
   month: string;
   day: string;
   title: string;
@@ -52,6 +54,7 @@ type EventItem = {
 
 const events: EventItem[] = [
   {
+    id: null,
     month: "JUN",
     day: "7",
     title: "Women's Gathering: Rooted & Rising",
@@ -66,6 +69,7 @@ const events: EventItem[] = [
     accentColor: "#BB4F7A",
   },
   {
+    id: null,
     month: "JUN",
     day: "14",
     title: "Online Bible Study: The Gospel of John",
@@ -80,6 +84,7 @@ const events: EventItem[] = [
     accentColor: "#4FBBAA",
   },
   {
+    id: "apologetics-symposium-faith-reason",
     month: "JUN",
     day: "21",
     title: "Apologetics Symposium: Faith & Reason",
@@ -94,6 +99,7 @@ const events: EventItem[] = [
     accentColor: "#6B4FBB",
   },
   {
+    id: "worship-night-heavens-frequency",
     month: "JUL",
     day: "4",
     title: "Worship Night: Heaven's Frequency",
@@ -108,6 +114,7 @@ const events: EventItem[] = [
     accentColor: "#00FF88",
   },
   {
+    id: null,
     month: "JUL",
     day: "11",
     title: "Young Adults Retreat: Wild Faith",
@@ -122,6 +129,7 @@ const events: EventItem[] = [
     accentColor: "#E07030",
   },
   {
+    id: null,
     month: "JUL",
     day: "25",
     title: "Online Leadership Conference",
@@ -136,6 +144,7 @@ const events: EventItem[] = [
     accentColor: "#4F8FBB",
   },
   {
+    id: null,
     month: "AUG",
     day: "8",
     title: "Marriage Enrichment Weekend",
@@ -150,6 +159,7 @@ const events: EventItem[] = [
     accentColor: "#4FBBAA",
   },
   {
+    id: null,
     month: "AUG",
     day: "22",
     title: "Youth Camp: Be Bold",
@@ -164,6 +174,7 @@ const events: EventItem[] = [
     accentColor: "#BB4F7A",
   },
   {
+    id: null,
     month: "SEP",
     day: "5",
     title: "Seoul Christian Leadership Forum",
@@ -178,6 +189,7 @@ const events: EventItem[] = [
     accentColor: "#6B4FBB",
   },
   {
+    id: "online-prayer-summit-24hr",
     month: "SEP",
     day: "19",
     title: "Online Prayer Summit: 24-Hour Watch",
@@ -192,6 +204,7 @@ const events: EventItem[] = [
     accentColor: "#00FF88",
   },
   {
+    id: null,
     month: "OCT",
     day: "3",
     title: "Sydney Evangelism Conference",
@@ -206,6 +219,7 @@ const events: EventItem[] = [
     accentColor: "#E07030",
   },
   {
+    id: null,
     month: "NOV",
     day: "14",
     title: "Lagos Gospel Arts Festival",
@@ -233,7 +247,7 @@ export default function EventsPage() {
     <div className="min-h-screen" style={{ background: "#07070F" }}>
       <Navbar />
 
-      <main className="pt-16">
+      <main className="page-body">
         {/* Hero */}
         <section className="relative py-20 px-4 text-center overflow-hidden">
           <div
@@ -416,12 +430,13 @@ export default function EventsPage() {
                 </p>
 
                 <div className="flex flex-wrap items-center gap-3">
-                  <button
-                    className="px-7 py-3 rounded-xl text-sm font-black"
-                    style={{ background: "linear-gradient(135deg, #00FF88 0%, #B8960C 100%)", color: "#07070F" }}
+                  <a
+                    href={`/events/${featuredEvent.id}`}
+                    className="px-7 py-3 rounded-xl text-sm font-black inline-block"
+                    style={{ background: "linear-gradient(135deg, #00FF88 0%, #44FFAA 100%)", color: "#07070F", textDecoration: "none" }}
                   >
                     Register Free
-                  </button>
+                  </a>
                   <span className="text-sm" style={{ color: "#6A6A88" }}>
                     By{" "}
                     <span style={{ color: "#8A8AA8" }}>{featuredEvent.organizer}</span>
@@ -490,9 +505,11 @@ export default function EventsPage() {
 /* ------------------------------------------------------------------ */
 
 function EventCard({ event }: { event: EventItem }) {
+  const Wrapper = event.id ? "a" : "div";
   return (
-    <div
-      className="rounded-2xl overflow-hidden flex flex-col"
+    <Wrapper
+      {...(event.id ? { href: `/events/${event.id}`, style: { textDecoration: "none" } } : {})}
+      className="rounded-2xl overflow-hidden flex flex-col group cursor-pointer transition-all hover:border-[rgba(0,255,136,0.2)]"
       style={{ background: "#12121F", border: "1px solid #1E1E32" }}
     >
       {/* Date badge + type */}
@@ -588,6 +605,6 @@ function EventCard({ event }: { event: EventItem }) {
           {event.cta}
         </button>
       </div>
-    </div>
+    </Wrapper>
   );
 }

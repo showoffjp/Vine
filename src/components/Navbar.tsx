@@ -52,6 +52,7 @@ const navLinks = [
     label: "Explore",
     children: [
       { label: "Discover", href: "/explore" },
+      { label: "Challenges", href: "/challenges" },
       { label: "Missions", href: "/missions" },
       { label: "Events", href: "/events" },
       { label: "Leaderboard", href: "/leaderboard" },
@@ -356,6 +357,7 @@ export default function Navbar() {
                       {[
                         { label: "My Feed", href: "/feed" },
                         { label: "My Profile", href: "/profile" },
+                        { label: "My Journal", href: "/journal" },
                         { label: "My Groups", href: "/groups" },
                         { label: "Notifications", href: "/notifications" },
                       ].map(item => (

@@ -230,6 +230,7 @@ export default function FeedPage() {
   const [savedPosts, setSavedPosts] = useState<PostSaved>({ 3: true, 5: true });
   const [postText, setPostText] = useState("");
   const [postShared, setPostShared] = useState(false);
+  const [feedSort, setFeedSort] = useState("Latest");
 
   const toggleLike = (id: number) =>
     setLikedPosts((p) => ({ ...p, [id]: !p[id] }));
@@ -381,8 +382,29 @@ export default function FeedPage() {
                 </div>
               </div>
 
+              {/* Sort bar */}
+              <div className="flex items-center gap-2">
+                {["Latest", "Popular", "Prayers"].map((s) => (
+                  <button
+                    key={s}
+                    onClick={() => setFeedSort(s)}
+                    className="px-3 py-1.5 rounded-full text-xs font-semibold transition-all"
+                    style={{
+                      background: feedSort === s ? "rgba(0,255,136,0.12)" : "transparent",
+                      border: `1px solid ${feedSort === s ? "rgba(0,255,136,0.3)" : "rgba(255,255,255,0.06)"}`,
+                      color: feedSort === s ? "#00FF88" : "#6A6A88",
+                    }}
+                  >
+                    {s}
+                  </button>
+                ))}
+              </div>
+
               {/* Posts */}
-              {posts.map((post) => (
+              {[...posts]
+                .filter((p) => feedSort !== "Prayers" || p.type === "prayer")
+                .sort((a, b) => feedSort === "Popular" ? b.likes - a.likes : 0)
+                .map((post) => (
                 <div
                   key={post.id}
                   className="rounded-2xl p-5"

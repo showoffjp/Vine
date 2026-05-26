@@ -429,8 +429,9 @@ export default function VideoSpotlight() {
         </div>
 
         {/* Browse all button */}
-        <div style={{ textAlign: "center" }}>
-          <button
+        <div style={{ textAlign: "center", display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
+          <a
+            href="/video"
             className="btn-outline-gold"
             style={{
               padding: "12px 32px",
@@ -441,10 +442,31 @@ export default function VideoSpotlight() {
               display: "inline-flex",
               alignItems: "center",
               gap: "8px",
+              textDecoration: "none",
             }}
           >
             Browse All Videos <ArrowRight size={16} />
-          </button>
+          </a>
+          <a
+            href="/live"
+            style={{
+              padding: "12px 32px",
+              borderRadius: "12px",
+              fontSize: "0.9rem",
+              fontWeight: 600,
+              cursor: "pointer",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "8px",
+              textDecoration: "none",
+              background: "rgba(239,68,68,0.1)",
+              border: "1px solid rgba(239,68,68,0.3)",
+              color: "#EF4444",
+            }}
+          >
+            <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#EF4444", display: "inline-block", animation: "pulse 2s infinite" }} />
+            Watch Live
+          </a>
         </div>
       </div>
     </section>

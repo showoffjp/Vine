@@ -197,8 +197,41 @@ function NotifRow({
 function AccountTab() {
   const [denomination, setDenomination] = useState("Non-denominational");
   const [saved, setSaved] = useState(false);
+  const [displayName, setDisplayName] = useState("Jason Doe");
+  const [username, setUsername] = useState("jasondoe");
+  const [email, setEmail] = useState("jason@pharrgo.com");
+  const [bio, setBio] = useState("Follower of Christ | Husband | Father | Proverbs 3:5-6");
+  const [location, setLocation] = useState("Atlanta, GA");
+
+  useState(() => {
+    try {
+      const stored = localStorage.getItem("vine_user");
+      if (stored) {
+        const u = JSON.parse(stored);
+        if (u.firstName || u.lastName) setDisplayName(`${u.firstName || ""} ${u.lastName || ""}`.trim());
+        if (u.email) setEmail(u.email);
+        if (u.denomination) setDenomination(u.denomination);
+        if (u.bio) setBio(u.bio);
+        if (u.location) setLocation(u.location);
+        if (u.username) setUsername(u.username);
+      }
+    } catch {}
+  });
 
   const handleSave = () => {
+    try {
+      const stored = localStorage.getItem("vine_user");
+      const u = stored ? JSON.parse(stored) : {};
+      const parts = displayName.split(" ");
+      u.firstName = parts[0] || u.firstName;
+      u.lastName = parts.slice(1).join(" ") || u.lastName;
+      u.email = email;
+      u.denomination = denomination;
+      u.bio = bio;
+      u.location = location;
+      u.username = username;
+      localStorage.setItem("vine_user", JSON.stringify(u));
+    } catch {}
     setSaved(true);
     setTimeout(() => setSaved(false), 2500);
   };
@@ -294,7 +327,7 @@ function AccountTab() {
       {/* Form Fields */}
       <Section title="Profile Information">
         <Field label="Display Name">
-          <input style={inputStyle} defaultValue="Jason Doe" />
+          <input style={inputStyle} value={displayName} onChange={(e) => setDisplayName(e.target.value)} />
         </Field>
         <Field label="Username">
           <div style={{ position: "relative" }}>
@@ -312,7 +345,8 @@ function AccountTab() {
             </span>
             <input
               style={{ ...inputStyle, paddingLeft: 28 }}
-              defaultValue="jasondoe"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
             />
           </div>
         </Field>
@@ -320,7 +354,8 @@ function AccountTab() {
           <input
             style={inputStyle}
             type="email"
-            defaultValue="jason@pharrgo.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </Field>
         <Field label="Bio">
@@ -331,11 +366,12 @@ function AccountTab() {
               minHeight: 90,
               fontFamily: "inherit",
             }}
-            defaultValue="Follower of Christ | Husband | Father | Proverbs 3:5-6"
+            value={bio}
+            onChange={(e) => setBio(e.target.value)}
           />
         </Field>
         <Field label="Location">
-          <input style={inputStyle} defaultValue="Atlanta, GA" />
+          <input style={inputStyle} value={location} onChange={(e) => setLocation(e.target.value)} />
         </Field>
         <Field label="Website">
           <input style={inputStyle} placeholder="https://yoursite.com" />

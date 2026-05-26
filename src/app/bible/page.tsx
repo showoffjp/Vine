@@ -247,6 +247,27 @@ export default function BiblePage() {
   const [selectedChapter, setSelectedChapter] = useState(3);
   const [bookDropOpen, setBookDropOpen] = useState(false);
   const [chapterDropOpen, setChapterDropOpen] = useState(false);
+  const [verseSearch, setVerseSearch] = useState("");
+  const [searchResults, setSearchResults] = useState<Array<{ book: string; chapter: number; verse: VerseData }>>([]);
+  const [searchOpen, setSearchOpen] = useState(false);
+
+  const handleVerseSearch = (q: string) => {
+    setVerseSearch(q);
+    if (!q.trim()) { setSearchResults([]); setSearchOpen(false); return; }
+    const lower = q.toLowerCase();
+    const results: Array<{ book: string; chapter: number; verse: VerseData }> = [];
+    for (const [book, chapters] of Object.entries(bibleData)) {
+      for (const [ch, verses] of Object.entries(chapters)) {
+        for (const verse of verses) {
+          if (verse.text.toLowerCase().includes(lower)) {
+            results.push({ book, chapter: Number(ch), verse });
+          }
+        }
+      }
+    }
+    setSearchResults(results.slice(0, 8));
+    setSearchOpen(results.length > 0);
+  };
 
   useEffect(() => {
     const handleClickOutside = () => { setBookDropOpen(false); setChapterDropOpen(false); };
@@ -331,13 +352,31 @@ export default function BiblePage() {
                 <input
                   type="text"
                   placeholder="Search any verse, word, or topic..."
+                  value={verseSearch}
+                  onChange={(e) => handleVerseSearch(e.target.value)}
+                  onFocus={() => searchResults.length > 0 && setSearchOpen(true)}
                   className="w-full pl-9 pr-4 py-2.5 rounded-xl text-sm outline-none transition-all duration-200"
                   style={{
                     background: "#12121F",
-                    border: "1px solid #1E1E32",
+                    border: `1px solid ${searchOpen ? "rgba(0,255,136,0.3)" : "#1E1E32"}`,
                     color: "#F2F2F8",
                   }}
                 />
+                {searchOpen && searchResults.length > 0 && (
+                  <div className="absolute top-full left-0 right-0 mt-1 rounded-xl z-50 overflow-hidden"
+                    style={{ background: "#12121F", border: "1px solid #1E1E32", boxShadow: "0 8px 32px rgba(0,0,0,0.5)" }}>
+                    {searchResults.map((r, i) => (
+                      <button key={i} onClick={() => {
+                        setSelectedBook(r.book); setSelectedChapter(r.chapter);
+                        setVerseSearch(""); setSearchOpen(false); setSearchResults([]);
+                      }} className="w-full text-left px-4 py-3 border-b transition-colors hover:bg-[#1E1E32]"
+                        style={{ borderColor: "rgba(255,255,255,0.04)" }}>
+                        <p className="text-xs font-bold mb-1" style={{ color: "#00FF88" }}>{r.book} {r.chapter}:{r.verse.num}</p>
+                        <p className="text-xs leading-relaxed line-clamp-2" style={{ color: "#8A8AA8" }}>{r.verse.text}</p>
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
               <button
                 onClick={() => setSidePanelOpen(!sidePanelOpen)}

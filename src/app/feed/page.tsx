@@ -18,7 +18,7 @@ import {
   ChevronRight,
   Feather,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const stories = [
   { name: "You", avatar: "ME", color: "#00FF88", hasStory: false, isYou: true },
@@ -231,6 +231,17 @@ export default function FeedPage() {
   const [postText, setPostText] = useState("");
   const [postShared, setPostShared] = useState(false);
   const [feedSort, setFeedSort] = useState("Latest");
+  const [userName, setUserName] = useState("Friend");
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem("vine_user");
+      if (stored) {
+        const u = JSON.parse(stored);
+        if (u.firstName) setUserName(u.firstName);
+      }
+    } catch {}
+  }, []);
 
   const toggleLike = (id: number) =>
     setLikedPosts((p) => ({ ...p, [id]: !p[id] }));
@@ -349,7 +360,7 @@ export default function FeedPage() {
                     ME
                   </div>
                   <textarea
-                    placeholder="Share what God is doing in your life..."
+                    placeholder={`What's on your heart, ${userName}?`}
                     value={postText}
                     onChange={(e) => setPostText(e.target.value)}
                     rows={2}

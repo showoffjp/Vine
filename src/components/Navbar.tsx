@@ -12,16 +12,16 @@ const navLinks = [
       { label: "Discussions", href: "/discussions" },
       { label: "Circles", href: "/community" },
       { label: "Prayer Wall", href: "/prayer" },
-      { label: "Global Connect", href: "/community" },
+      { label: "Global Connect", href: "/global-connect" },
     ],
   },
   {
     label: "Resources",
     children: [
       { label: "Guides & Articles", href: "/resources" },
+      { label: "Video Library", href: "/video" },
       { label: "Bible Tools", href: "/bible" },
       { label: "Reading Plan", href: "/reading-plan" },
-      { label: "AI Companion", href: "/ai-companion" },
     ],
   },
   {

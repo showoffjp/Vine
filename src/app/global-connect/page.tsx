@@ -1,0 +1,343 @@
+"use client";
+
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import {
+  Globe,
+  Users,
+  MessageSquare,
+  Heart,
+  MapPin,
+  Star,
+  ChevronRight,
+  Flame,
+} from "lucide-react";
+
+const regions = [
+  {
+    name: "Sub-Saharan Africa",
+    flag: "🌍",
+    members: "412K",
+    growth: "+34%",
+    color: "#F59E0B",
+    countries: ["Nigeria", "Kenya", "Ghana", "Ethiopia", "South Africa", "Uganda"],
+    activeDiscussion: "Revival happening in Lagos — share your testimony",
+    highlight: "Fastest-growing Christian region in the world",
+  },
+  {
+    name: "East Asia",
+    flag: "🌏",
+    members: "287K",
+    growth: "+18%",
+    color: "#EC4899",
+    countries: ["South Korea", "China", "Japan", "Philippines", "Indonesia", "Taiwan"],
+    activeDiscussion: "Faith under pressure — navigating Christianity in Asia",
+    highlight: "Home to some of the largest megachurches globally",
+  },
+  {
+    name: "Latin America",
+    flag: "🌎",
+    members: "356K",
+    growth: "+22%",
+    color: "#10B981",
+    countries: ["Brazil", "Mexico", "Colombia", "Argentina", "Chile", "Peru"],
+    activeDiscussion: "Pentecostalism's rise in Brazil — what's driving it?",
+    highlight: "Catholic roots meet vibrant evangelical growth",
+  },
+  {
+    name: "North America",
+    flag: "🇺🇸",
+    members: "524K",
+    growth: "+8%",
+    color: "#3B82F6",
+    countries: ["USA", "Canada", "Mexico"],
+    activeDiscussion: "Post-pandemic church attendance — what's your experience?",
+    highlight: "Diverse denominational landscape and missions hub",
+  },
+  {
+    name: "Europe & UK",
+    flag: "🇪🇺",
+    members: "198K",
+    growth: "+12%",
+    color: "#6B4FBB",
+    countries: ["UK", "Germany", "Netherlands", "France", "Poland", "Scandinavia"],
+    activeDiscussion: "Being a Christian in a secular society — strategies that work",
+    highlight: "Growing immigrant church movements reshaping Europe",
+  },
+  {
+    name: "Middle East & North Africa",
+    flag: "🌙",
+    members: "89K",
+    growth: "+41%",
+    color: "#EF4444",
+    countries: ["Egypt", "Lebanon", "Ethiopia", "Sudan", "Jordan", "Iraq"],
+    activeDiscussion: "Persecution and perseverance — stories of faith under fire",
+    highlight: "Ancient Christian roots + growing underground church",
+  },
+];
+
+const globalMembers = [
+  { name: "Amara Osei", country: "Ghana", flag: "🇬🇭", role: "Worship Leader", joined: "2024", avatar: "AO", color: "#F59E0B" },
+  { name: "Ji-Woo Park", country: "South Korea", flag: "🇰🇷", role: "Seminary Student", joined: "2025", avatar: "JP", color: "#EC4899" },
+  { name: "Carlos Mendez", country: "Colombia", flag: "🇨🇴", role: "Church Planter", joined: "2024", avatar: "CM", color: "#10B981" },
+  { name: "Lydia Böhm", country: "Germany", flag: "🇩🇪", role: "Youth Pastor", joined: "2025", avatar: "LB", color: "#6B4FBB" },
+  { name: "Samuel Mwangi", country: "Kenya", flag: "🇰🇪", role: "Bible Teacher", joined: "2023", avatar: "SM", color: "#D4AF37" },
+  { name: "Isabella Ferreira", country: "Brazil", flag: "🇧🇷", role: "Missionary", joined: "2024", avatar: "IF", color: "#3B82F6" },
+];
+
+const prayerRequests = [
+  { country: "🇨🇳", region: "China", request: "For the underground church — wisdom, safety, and growth.", time: "1h ago" },
+  { country: "🇮🇷", region: "Iran", request: "New believers facing family rejection — courage and community.", time: "3h ago" },
+  { country: "🇳🇬", region: "Nigeria", request: "Safety for Christian communities in the north — protection from violence.", time: "5h ago" },
+  { country: "🇰🇵", region: "North Korea", request: "For believers detained for their faith — miraculous provision.", time: "12h ago" },
+];
+
+const stats = [
+  { label: "Countries represented", value: "184", icon: Globe },
+  { label: "Active members globally", value: "2.1M", icon: Users },
+  { label: "Languages supported", value: "47", icon: MessageSquare },
+  { label: "Global prayer requests today", value: "8,400", icon: Heart },
+];
+
+export default function GlobalConnectPage() {
+  return (
+    <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
+      <Navbar />
+      <div className="pt-24 pb-20">
+        {/* Hero */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-14">
+          <div className="text-center max-w-3xl mx-auto">
+            <div className="flex items-center justify-center gap-2 mb-4">
+              <Globe size={24} style={{ color: "#D4AF37" }} />
+              <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#D4AF37" }}>
+                Global Connect
+              </span>
+            </div>
+            <h1 className="text-4xl sm:text-5xl font-black mb-6">
+              One body.{" "}
+              <span
+                style={{
+                  background: "linear-gradient(135deg, #D4AF37, #10B981)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                Every nation.
+              </span>
+            </h1>
+            <p className="text-lg mb-10" style={{ color: "#6A6A88" }}>
+              Connect with Christians from 184 countries. Share stories, pray together, and discover how the global Church is moving. Revelation 7:9 is not a metaphor — it&apos;s our future becoming our present.
+            </p>
+            {/* Stats */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              {stats.map((s) => {
+                const Icon = s.icon;
+                return (
+                  <div
+                    key={s.label}
+                    className="rounded-2xl p-4 text-center"
+                    style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
+                  >
+                    <Icon size={18} style={{ color: "#D4AF37" }} className="mx-auto mb-2" />
+                    <p className="text-2xl font-black mb-0.5" style={{ color: "#F2F2F8" }}>{s.value}</p>
+                    <p className="text-xs" style={{ color: "#6A6A88" }}>{s.label}</p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* Regions */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-14">
+          <h2 className="text-2xl font-black mb-8" style={{ color: "#F2F2F8" }}>
+            Connect by Region
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {regions.map((r) => (
+              <div
+                key={r.name}
+                className="group rounded-2xl p-6 cursor-pointer transition-all"
+                style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = `${r.color}40`;
+                  e.currentTarget.style.background = `${r.color}06`;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)";
+                  e.currentTarget.style.background = "rgba(255,255,255,0.02)";
+                }}
+              >
+                <div className="flex items-start justify-between mb-4">
+                  <div>
+                    <span className="text-3xl block mb-1">{r.flag}</span>
+                    <h3 className="font-black text-lg" style={{ color: "#F2F2F8" }}>{r.name}</h3>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-lg font-black" style={{ color: r.color }}>{r.members}</p>
+                    <p className="text-xs font-semibold" style={{ color: "#10B981" }}>{r.growth} this year</p>
+                  </div>
+                </div>
+                <p className="text-xs mb-3 italic" style={{ color: "#6A6A88" }}>{r.highlight}</p>
+                <div className="flex flex-wrap gap-1.5 mb-4">
+                  {r.countries.map((c) => (
+                    <span
+                      key={c}
+                      className="text-xs px-2 py-0.5 rounded-full"
+                      style={{ background: `${r.color}10`, color: r.color }}
+                    >
+                      {c}
+                    </span>
+                  ))}
+                </div>
+                <div
+                  className="p-3 rounded-xl"
+                  style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}
+                >
+                  <p className="text-xs mb-1 font-bold" style={{ color: "#D4AF37" }}>🔥 Active Discussion</p>
+                  <p className="text-sm" style={{ color: "#8A8AA8" }}>{r.activeDiscussion}</p>
+                </div>
+                <button
+                  className="mt-4 flex items-center gap-1 text-sm font-bold group-hover:gap-2 transition-all"
+                  style={{ color: r.color }}
+                >
+                  Join this circle <ChevronRight size={14} />
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Global Members */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-14">
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-2xl font-black" style={{ color: "#F2F2F8" }}>
+              Members Around the World
+            </h2>
+            <button className="flex items-center gap-1 text-sm font-semibold" style={{ color: "#D4AF37" }}>
+              View All <ChevronRight size={16} />
+            </button>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {globalMembers.map((m) => (
+              <div
+                key={m.name}
+                className="group flex items-center gap-4 p-4 rounded-xl cursor-pointer transition-all"
+                style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = "rgba(255,255,255,0.04)";
+                  e.currentTarget.style.borderColor = "rgba(212,175,55,0.15)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = "rgba(255,255,255,0.02)";
+                  e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)";
+                }}
+              >
+                <div
+                  className="w-12 h-12 rounded-full flex items-center justify-center text-sm font-black shrink-0"
+                  style={{ background: `${m.color}25`, color: m.color, border: `2px solid ${m.color}40` }}
+                >
+                  {m.avatar}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2">
+                    <p className="font-semibold text-sm group-hover:text-[#D4AF37] transition-colors truncate" style={{ color: "#F2F2F8" }}>
+                      {m.name}
+                    </p>
+                    <span>{m.flag}</span>
+                  </div>
+                  <p className="text-xs" style={{ color: "#6A6A88" }}>{m.role} · {m.country}</p>
+                </div>
+                <button
+                  className="text-xs px-2.5 py-1 rounded-full font-semibold shrink-0"
+                  style={{ background: "rgba(212,175,55,0.1)", color: "#D4AF37", border: "1px solid rgba(212,175,55,0.2)" }}
+                >
+                  Connect
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Global Prayer Wall */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-14">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div>
+              <div className="flex items-center gap-2 mb-5">
+                <Heart size={18} style={{ color: "#D4AF37" }} />
+                <h2 className="text-xl font-black" style={{ color: "#F2F2F8" }}>
+                  Global Prayer Wall
+                </h2>
+              </div>
+              <div className="space-y-3">
+                {prayerRequests.map((p, i) => (
+                  <div
+                    key={i}
+                    className="p-4 rounded-xl flex gap-4"
+                    style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
+                  >
+                    <span className="text-2xl shrink-0">{p.country}</span>
+                    <div className="flex-1">
+                      <p className="text-xs font-bold mb-1" style={{ color: "#D4AF37" }}>{p.region}</p>
+                      <p className="text-sm leading-relaxed" style={{ color: "#A0A0C0" }}>{p.request}</p>
+                      <div className="flex items-center gap-3 mt-2">
+                        <span className="text-xs" style={{ color: "#4A4A68" }}>{p.time}</span>
+                        <button
+                          className="text-xs flex items-center gap-1 font-semibold"
+                          style={{ color: "#6B4FBB" }}
+                        >
+                          🙏 Pray
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <button
+                className="mt-4 w-full py-3 rounded-xl text-sm font-semibold"
+                style={{ background: "rgba(212,175,55,0.06)", border: "1px solid rgba(212,175,55,0.15)", color: "#D4AF37" }}
+              >
+                View All Global Prayers
+              </button>
+            </div>
+
+            {/* Verse / Join */}
+            <div className="space-y-5">
+              <div
+                className="rounded-2xl p-8"
+                style={{
+                  background: "linear-gradient(135deg, rgba(107,79,187,0.1) 0%, rgba(212,175,55,0.06) 100%)",
+                  border: "1px solid rgba(107,79,187,0.2)",
+                }}
+              >
+                <p className="text-lg italic mb-4 leading-relaxed" style={{ color: "#C0C0D8" }}>
+                  &ldquo;After this I looked, and there before me was a great multitude that no one could count, from every nation, tribe, people and language, standing before the throne and before the Lamb.&rdquo;
+                </p>
+                <p className="font-bold text-sm" style={{ color: "#D4AF37" }}>— Revelation 7:9</p>
+              </div>
+              <div
+                className="rounded-2xl p-6"
+                style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
+              >
+                <MapPin size={24} style={{ color: "#D4AF37" }} className="mb-3" />
+                <h3 className="font-bold text-lg mb-2" style={{ color: "#F2F2F8" }}>
+                  Set Your Location
+                </h3>
+                <p className="text-sm mb-4" style={{ color: "#6A6A88" }}>
+                  Help other believers find you. Connect with Christians near you and in your home country.
+                </p>
+                <button
+                  className="w-full py-2.5 rounded-xl text-sm font-bold text-black"
+                  style={{ background: "linear-gradient(135deg, #D4AF37, #B8942C)" }}
+                >
+                  Update My Location
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <Footer />
+    </div>
+  );
+}

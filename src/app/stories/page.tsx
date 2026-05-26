@@ -113,6 +113,10 @@ export default function StoriesPage() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [saved, setSaved] = useState<Record<string, boolean>>({});
 
+  const filteredStories = activeCategory === "All"
+    ? stories
+    : stories.filter((s) => s.category === activeCategory);
+
   return (
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
       <Navbar />
@@ -216,7 +220,7 @@ export default function StoriesPage() {
 
           {/* Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-10">
-            {stories.map((story, i) => (
+            {filteredStories.map((story, i) => (
               <a
                 key={i}
                 href={story.slug ? `/stories/${story.slug}` : undefined}

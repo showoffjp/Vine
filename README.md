@@ -186,11 +186,34 @@ The `.page-body` CSS utility class applies header-aware top padding (`padding-to
 - **`/apologetics`** — Christian apologetics hub with topic tracks, common objections with responses, key thinkers (C.S. Lewis, Alvin Plantinga, N.T. Wright, William Lane Craig, Francis Collins)
 - **`/resources`** — Resource library with category + topic filtering, bookmark/save toggles, empty state
 
+### Live & Media
+- **`/live`** — Live Church Streams hub with:
+  - 6 concurrent live streams with animated viewer count
+  - Category filter (Worship, Prayer, Bible Study, Youth, Mental Health, Missions)
+  - Featured stream with auto-incrementing live viewer count via `useEffect`
+  - In-stream live chat with message input and community messages
+  - Join/watch toggles per stream
+  - Upcoming streams section with Bell/BellOff reminder toggles
+- **`/podcast`** — Podcast hub with episode browser, category filters, and play state
+
+### Personal Growth
+- **`/journal`** — Personal devotional journal with:
+  - Create new entries with title, body, verse reference, mood pill selection, and tag picker
+  - Entry list with full-text search and tag filtering
+  - Left sidebar showing streak, days journaled, and total entries
+  - Detail view for reading past entries
+  - Save confirmation state
+- **`/challenges`** — Faith Challenges hub with:
+  - Featured 30-Day Prayer Streak with interactive 30-day grid (toggle each day completed)
+  - 5 active challenges with join/leave toggles
+  - Category filter (Prayer, Scripture, Community, Rest, Generosity)
+  - Hall of Fame section showing top completers
+
 ### AI & Tools
 - **`/ai-companion`** — AI Bible Companion chat interface with conversation history
 - **`/giving`** — Multi-cause giving hub with GiveButton per cause:
   - Amount picker (preset + custom)
-  - Confirm step
+  - Monthly giving option with confirmation celebration
   - Success confirmation with receipt notice
 
 ### Settings & Utility
@@ -224,6 +247,14 @@ Every action across the entire app provides visual feedback. Key patterns:
 | Mental Health | Book sessions + join support groups |
 | Blog | Bookmark posts + follow editors |
 | Settings | All toggles functional with visual state |
+| Live Streams | Join/watch toggle + live viewer count + in-stream chat |
+| Journal | Create/browse/search entries with mood and tag system |
+| Challenges | Join challenges + 30-day grid streak tracker |
+| Giving (monthly) | Start monthly giving with confirmation state |
+| Story Actions | Heart story with live count + save + share |
+| Discussion Actions | Upvote OP + save + share in discussion thread |
+| Creator Profiles | Follow + unfollow with live follower count |
+| Topic Follow | Follow/unfollow individual topic pages |
 
 ---
 

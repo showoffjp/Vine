@@ -8,7 +8,9 @@ const footerLinks: Record<string, LinkEntry[]> = {
     { label: "Bible Tools", href: "/bible" },
     { label: "Daily Devotionals", href: "/daily" },
     { label: "Video Library", href: "/video" },
+    { label: "Podcasts", href: "/podcast" },
     { label: "Prayer Wall", href: "/prayer" },
+    { label: "Live Church", href: "/live" },
     { label: "AI Companion", href: "/ai-companion" },
     { label: "Reading Plan", href: "/reading-plan" },
     { label: "Worship", href: "/worship" },
@@ -34,6 +36,8 @@ const footerLinks: Record<string, LinkEntry[]> = {
     { label: "Trending Topics", href: "/topics" },
     { label: "Blog", href: "/blog" },
     { label: "Creators", href: "/creators" },
+    { label: "Challenges", href: "/challenges" },
+    { label: "My Journal", href: "/journal" },
   ],
   Company: [
     { label: "About Vine", href: "/about" },

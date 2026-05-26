@@ -360,6 +360,7 @@ export default function Navbar() {
                         { label: "My Journal", href: "/journal" },
                         { label: "My Groups", href: "/groups" },
                         { label: "Notifications", href: "/notifications" },
+                        { label: "Settings", href: "/settings" },
                       ].map(item => (
                         <a key={item.label} href={item.href} className="flex items-center px-4 py-2.5 text-sm transition-colors" style={{ color: "#8A8AA8" }}
                           onMouseEnter={e => { e.currentTarget.style.color = "#F2F2F8"; e.currentTarget.style.background = "rgba(0,255,136,0.06)"; }}

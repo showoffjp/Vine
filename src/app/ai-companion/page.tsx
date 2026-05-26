@@ -247,8 +247,6 @@ function MessageBubble({ message }: { message: Message }) {
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
-export const metadata = undefined; // metadata export only works in server components
-
 export default function AICompanionPage() {
   const router = useRouter();
   const [messages, setMessages] = useState<Message[]>([WELCOME_MESSAGE]);

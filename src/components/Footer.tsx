@@ -1,37 +1,45 @@
 "use client";
 
-const footerLinks = {
+type LinkEntry = { label: string; href: string };
+
+const footerLinks: Record<string, LinkEntry[]> = {
   Platform: [
-    "Discussions",
-    "Bible Tools",
-    "Daily Devotionals",
-    "Resource Library",
-    "Video Library",
-    "Prayer Wall",
+    { label: "Discussions", href: "#" },
+    { label: "Bible Tools", href: "#" },
+    { label: "Daily Devotionals", href: "#" },
+    { label: "Resource Library", href: "#" },
+    { label: "Video Library", href: "#" },
+    { label: "Prayer Wall", href: "#" },
+    { label: "AI Companion", href: "/ai-companion" },
+    { label: "Reading Plan", href: "/reading-plan" },
+    { label: "Events", href: "/events" },
+    { label: "Creators", href: "/creators" },
   ],
   "Life & Faith": [
-    "Life Hacks",
-    "Mental Health",
-    "Relationships",
-    "Finances",
-    "Parenting",
-    "Work & Leadership",
+    { label: "Life Hacks", href: "/life-hacks" },
+    { label: "Mental Health", href: "/mental-health" },
+    { label: "Relationships", href: "#" },
+    { label: "Finances", href: "#" },
+    { label: "Parenting", href: "#" },
+    { label: "Work & Leadership", href: "#" },
   ],
   Community: [
-    "Global Connect",
-    "Interest Circles",
-    "Events",
-    "Creators",
-    "Trending Topics",
-    "Weekly Newsletter",
+    { label: "Global Connect", href: "#" },
+    { label: "Interest Circles", href: "#" },
+    { label: "Events", href: "/events" },
+    { label: "Creators", href: "/creators" },
+    { label: "Trending Topics", href: "#" },
+    { label: "Weekly Newsletter", href: "#" },
   ],
   Company: [
-    "About Vine",
-    "Our Mission",
-    "Blog",
-    "Press",
-    "Careers",
-    "Contact",
+    { label: "About Vine", href: "/about" },
+    { label: "Our Mission", href: "/about" },
+    { label: "Blog", href: "#" },
+    { label: "Press", href: "#" },
+    { label: "Careers", href: "#" },
+    { label: "Contact", href: "#" },
+    { label: "Notifications", href: "/notifications" },
+    { label: "Settings", href: "/settings" },
   ],
 };
 
@@ -82,9 +90,9 @@ export default function Footer() {
               </h4>
               <ul className="space-y-2.5">
                 {links.map((link) => (
-                  <li key={link}>
+                  <li key={link.label}>
                     <a
-                      href="#"
+                      href={link.href}
                       className="text-sm transition-colors duration-150"
                       style={{ color: "#6A6A88" }}
                       onMouseEnter={(e) =>
@@ -94,7 +102,7 @@ export default function Footer() {
                         (e.currentTarget.style.color = "#6A6A88")
                       }
                     >
-                      {link}
+                      {link.label}
                     </a>
                   </li>
                 ))}

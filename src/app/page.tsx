@@ -1,6 +1,7 @@
 import AnnouncementBanner from "@/components/AnnouncementBanner";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
+import TrustBar from "@/components/TrustBar";
 import TrendingTicker from "@/components/TrendingTicker";
 import PlatformPillars from "@/components/PlatformPillars";
 import QuoteCarousel from "@/components/QuoteCarousel";
@@ -33,6 +34,7 @@ export default function Home() {
       <Navbar />
       <main className="flex flex-col flex-1">
         <Hero />
+        <TrustBar />
         <TrendingTicker />
         <FadeIn><PlatformPillars /></FadeIn>
         <FadeIn delay={100}><QuoteCarousel /></FadeIn>

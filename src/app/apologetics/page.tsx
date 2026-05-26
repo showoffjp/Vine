@@ -12,6 +12,7 @@ const tracks = [
     color: "#3B82F6",
     articles: 84,
     featured: "The Fine-Tuning Argument: A Physicist's Case for God",
+    href: "/discussions/resurrection-evidence-002",
   },
   {
     icon: "📜",
@@ -20,6 +21,7 @@ const tracks = [
     color: "#00FF88",
     articles: 127,
     featured: "NT Wright's Resurrection Case — A Summary",
+    href: "/blog/why-the-resurrection-changes-everything",
   },
   {
     icon: "😢",
@@ -28,6 +30,7 @@ const tracks = [
     color: "#EF4444",
     articles: 62,
     featured: "Why the Problem of Evil Doesn't Win the Debate",
+    href: "/blog/problem-of-evil",
   },
   {
     icon: "🌍",
@@ -36,6 +39,7 @@ const tracks = [
     color: "#10B981",
     articles: 45,
     featured: "Inclusive Exclusivism: A Better Way to Frame It",
+    href: "/discussions/free-will-omniscience-003",
   },
   {
     icon: "📖",
@@ -44,6 +48,7 @@ const tracks = [
     color: "#6B4FBB",
     articles: 93,
     featured: "The Top 10 'Contradictions' — Actually Examined",
+    href: "/discussions/faith-and-doubt-001",
   },
   {
     icon: "🤖",
@@ -52,6 +57,7 @@ const tracks = [
     color: "#F59E0B",
     articles: 28,
     featured: "Can an AI Have a Soul? A Biblical Anthropology",
+    href: "/topics/christian-ai-ethics",
   },
 ];
 
@@ -123,10 +129,11 @@ export default function ApologeticsPage() {
           <h2 className="text-2xl font-black mb-8" style={{ color: "#F2F2F8" }}>Topic Tracks</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {tracks.map((t) => (
-              <div
+              <a
                 key={t.title}
-                className="group rounded-2xl p-6 cursor-pointer transition-all"
-                style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
+                href={t.href}
+                className="group rounded-2xl p-6 cursor-pointer transition-all block"
+                style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", textDecoration: "none" }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.borderColor = `${t.color}40`;
                   e.currentTarget.style.background = `${t.color}05`;
@@ -146,7 +153,7 @@ export default function ApologeticsPage() {
                     Explore <ChevronRight size={12} />
                   </span>
                 </div>
-              </div>
+              </a>
             ))}
           </div>
         </div>

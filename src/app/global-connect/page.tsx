@@ -22,6 +22,7 @@ const regions = [
     color: "#F59E0B",
     countries: ["Nigeria", "Kenya", "Ghana", "Ethiopia", "South Africa", "Uganda"],
     activeDiscussion: "Revival happening in Lagos — share your testimony",
+    discussionSlug: "cancer-free-praise-005",
     highlight: "Fastest-growing Christian region in the world",
   },
   {
@@ -32,6 +33,7 @@ const regions = [
     color: "#EC4899",
     countries: ["South Korea", "China", "Japan", "Philippines", "Indonesia", "Taiwan"],
     activeDiscussion: "Faith under pressure — navigating Christianity in Asia",
+    discussionSlug: "faith-and-doubt-001",
     highlight: "Home to some of the largest megachurches globally",
   },
   {
@@ -42,6 +44,7 @@ const regions = [
     color: "#10B981",
     countries: ["Brazil", "Mexico", "Colombia", "Argentina", "Chile", "Peru"],
     activeDiscussion: "Pentecostalism's rise in Brazil — what's driving it?",
+    discussionSlug: "free-will-omniscience-003",
     highlight: "Catholic roots meet vibrant evangelical growth",
   },
   {
@@ -52,6 +55,7 @@ const regions = [
     color: "#3B82F6",
     countries: ["USA", "Canada", "Mexico"],
     activeDiscussion: "Post-pandemic church attendance — what's your experience?",
+    discussionSlug: "faith-and-doubt-001",
     highlight: "Diverse denominational landscape and missions hub",
   },
   {
@@ -62,6 +66,7 @@ const regions = [
     color: "#6B4FBB",
     countries: ["UK", "Germany", "Netherlands", "France", "Poland", "Scandinavia"],
     activeDiscussion: "Being a Christian in a secular society — strategies that work",
+    discussionSlug: "faith-and-doubt-001",
     highlight: "Growing immigrant church movements reshaping Europe",
   },
   {
@@ -72,17 +77,18 @@ const regions = [
     color: "#EF4444",
     countries: ["Egypt", "Lebanon", "Ethiopia", "Sudan", "Jordan", "Iraq"],
     activeDiscussion: "Persecution and perseverance — stories of faith under fire",
+    discussionSlug: "depression-therapy-faith-005",
     highlight: "Ancient Christian roots + growing underground church",
   },
 ];
 
 const globalMembers = [
-  { name: "Amara Osei", country: "Ghana", flag: "🇬🇭", role: "Worship Leader", joined: "2024", avatar: "AO", color: "#F59E0B" },
-  { name: "Ji-Woo Park", country: "South Korea", flag: "🇰🇷", role: "Seminary Student", joined: "2025", avatar: "JP", color: "#EC4899" },
-  { name: "Carlos Mendez", country: "Colombia", flag: "🇨🇴", role: "Church Planter", joined: "2024", avatar: "CM", color: "#10B981" },
-  { name: "Lydia Böhm", country: "Germany", flag: "🇩🇪", role: "Youth Pastor", joined: "2025", avatar: "LB", color: "#6B4FBB" },
-  { name: "Samuel Mwangi", country: "Kenya", flag: "🇰🇪", role: "Bible Teacher", joined: "2023", avatar: "SM", color: "#00FF88" },
-  { name: "Isabella Ferreira", country: "Brazil", flag: "🇧🇷", role: "Missionary", joined: "2024", avatar: "IF", color: "#3B82F6" },
+  { name: "Amara Osei", country: "Ghana", flag: "🇬🇭", role: "Worship Leader", joined: "2024", avatar: "AO", color: "#F59E0B", storySlug: "amara-osei-widowed-at-28" },
+  { name: "Ji-Woo Park", country: "South Korea", flag: "🇰🇷", role: "Seminary Student", joined: "2025", avatar: "JP", color: "#EC4899", storySlug: "ji-woo-park-kpop-idol-to-pastor" },
+  { name: "Carlos Mendez", country: "Colombia", flag: "🇨🇴", role: "Church Planter", joined: "2024", avatar: "CM", color: "#10B981", storySlug: "carlos-mendez-drug-cartel-to-church-planter" },
+  { name: "Lydia Böhm", country: "Germany", flag: "🇩🇪", role: "Youth Pastor", joined: "2025", avatar: "LB", color: "#6B4FBB", storySlug: "lydia-bohm-deconstruction" },
+  { name: "Samuel Mwangi", country: "Kenya", flag: "🇰🇪", role: "Bible Teacher", joined: "2023", avatar: "SM", color: "#00FF88", storySlug: "samuel-mwangi-from-prosperity-gospel-to-grace" },
+  { name: "Isabella Ferreira", country: "Brazil", flag: "🇧🇷", role: "Missionary", joined: "2024", avatar: "IF", color: "#3B82F6", storySlug: null },
 ];
 
 const prayerRequests = [
@@ -168,6 +174,7 @@ export default function GlobalConnectPage() {
                   e.currentTarget.style.background = "rgba(255,255,255,0.02)";
                 }}
               >
+
                 <div className="flex items-start justify-between mb-4">
                   <div>
                     <span className="text-3xl block mb-1">{r.flag}</span>
@@ -190,13 +197,16 @@ export default function GlobalConnectPage() {
                     </span>
                   ))}
                 </div>
-                <div
-                  className="p-3 rounded-xl"
-                  style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}
+                <a
+                  href={`/discussions/${r.discussionSlug}`}
+                  className="block p-3 rounded-xl transition-all"
+                  style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", textDecoration: "none" }}
+                  onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(0,255,136,0.2)"; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)"; }}
                 >
                   <p className="text-xs mb-1 font-bold" style={{ color: "#00FF88" }}>🔥 Active Discussion</p>
                   <p className="text-sm" style={{ color: "#8A8AA8" }}>{r.activeDiscussion}</p>
-                </div>
+                </a>
                 <button
                   className="mt-4 flex items-center gap-1 text-sm font-bold group-hover:gap-2 transition-all"
                   style={{ color: r.color }}
@@ -233,6 +243,7 @@ export default function GlobalConnectPage() {
                   e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)";
                 }}
               >
+
                 <div
                   className="w-12 h-12 rounded-full flex items-center justify-center text-sm font-black shrink-0"
                   style={{ background: `${m.color}25`, color: m.color, border: `2px solid ${m.color}40` }}
@@ -248,12 +259,22 @@ export default function GlobalConnectPage() {
                   </div>
                   <p className="text-xs" style={{ color: "#6A6A88" }}>{m.role} · {m.country}</p>
                 </div>
-                <button
-                  className="text-xs px-2.5 py-1 rounded-full font-semibold shrink-0"
-                  style={{ background: "rgba(0,255,136,0.1)", color: "#00FF88", border: "1px solid rgba(0,255,136,0.2)" }}
-                >
-                  Connect
-                </button>
+                {m.storySlug ? (
+                  <a
+                    href={`/stories/${m.storySlug}`}
+                    className="text-xs px-2.5 py-1 rounded-full font-semibold shrink-0"
+                    style={{ background: "rgba(0,255,136,0.1)", color: "#00FF88", border: "1px solid rgba(0,255,136,0.2)", textDecoration: "none" }}
+                  >
+                    Story
+                  </a>
+                ) : (
+                  <button
+                    className="text-xs px-2.5 py-1 rounded-full font-semibold shrink-0"
+                    style={{ background: "rgba(0,255,136,0.1)", color: "#00FF88", border: "1px solid rgba(0,255,136,0.2)" }}
+                  >
+                    Connect
+                  </button>
+                )}
               </div>
             ))}
           </div>
@@ -293,12 +314,13 @@ export default function GlobalConnectPage() {
                   </div>
                 ))}
               </div>
-              <button
-                className="mt-4 w-full py-3 rounded-xl text-sm font-semibold"
-                style={{ background: "rgba(0,255,136,0.06)", border: "1px solid rgba(0,255,136,0.15)", color: "#00FF88" }}
+              <a
+                href="/prayer"
+                className="mt-4 block w-full py-3 rounded-xl text-sm font-semibold text-center"
+                style={{ background: "rgba(0,255,136,0.06)", border: "1px solid rgba(0,255,136,0.15)", color: "#00FF88", textDecoration: "none" }}
               >
                 View All Global Prayers
-              </button>
+              </a>
             </div>
 
             {/* Verse / Join */}

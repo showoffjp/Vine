@@ -70,6 +70,7 @@ const articles = [
     desc: "If your family devotional time feels forced, these practical shifts might change everything.",
     author: "Naomi & David Park",
     time: "8 min",
+    href: "/daily",
   },
   {
     emoji: "📱",
@@ -79,6 +80,7 @@ const articles = [
     desc: "A grace-filled, practical framework for navigating technology with your kids.",
     author: "James Okafor",
     time: "9 min",
+    href: "/blog/digital-sabbath",
   },
   {
     emoji: "😢",
@@ -88,6 +90,7 @@ const articles = [
     desc: "This is one of the most painful experiences a Christian parent can face. Here's how to respond.",
     author: "Rev. Amara Osei",
     time: "10 min",
+    href: "/discussions/prodigal-child-prayers-014",
   },
   {
     emoji: "🏠",
@@ -97,6 +100,7 @@ const articles = [
     desc: "The most faith-forming thing you can do isn't a curriculum — it's shared, repeated practices.",
     author: "Dr. Sarah Kimani",
     time: "7 min",
+    href: "/blog/digital-sabbath",
   },
   {
     emoji: "💬",
@@ -106,6 +110,7 @@ const articles = [
     desc: "The conversations you avoid become the ones they have elsewhere. Let's change that.",
     author: "Pastor Marcus Webb",
     time: "11 min",
+    href: "/discussions/faith-and-doubt-001",
   },
   {
     emoji: "⚡",
@@ -115,6 +120,7 @@ const articles = [
     desc: "Proverbs 13:24 is often misquoted and misapplied. Here's what Scripture actually says about discipline.",
     author: "Dr. Lydia Cross",
     time: "8 min",
+    href: "/blog/servant-leadership-jesus",
   },
 ];
 
@@ -226,10 +232,11 @@ export default function ParentingPage() {
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {articles.map((art, i) => (
-              <div
+              <a
                 key={i}
-                className="group rounded-xl p-5 cursor-pointer transition-all"
-                style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
+                href={art.href}
+                className="group rounded-xl p-5 cursor-pointer transition-all block"
+                style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", textDecoration: "none" }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.background = "rgba(255,255,255,0.04)";
                   e.currentTarget.style.borderColor = "rgba(0,255,136,0.15)";
@@ -255,7 +262,7 @@ export default function ParentingPage() {
                   <span>·</span>
                   <span>{art.time} read</span>
                 </div>
-              </div>
+              </a>
             ))}
           </div>
         </div>

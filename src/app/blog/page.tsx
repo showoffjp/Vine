@@ -208,6 +208,38 @@ const posts = [
     image: "💰",
     tags: ["Finance", "Stewardship", "Generosity"],
   },
+  {
+    slug: "when-marriage-is-hard",
+    category: "Family",
+    categoryColor: "#EC4899",
+    title: "When Marriage Is Hard: A Theology of the Long Haul",
+    excerpt:
+      "The Instagram version of Christian marriage doesn't survive contact with reality. Here's what the Bible actually says about staying through the difficult seasons — and why it's worth it.",
+    author: "Dr. Naomi Park",
+    date: "May 20, 2026",
+    readTime: "9 min read",
+    views: "18.7k",
+    comments: 203,
+    saved: false,
+    image: "💍",
+    tags: ["Marriage", "Relationships", "Commitment"],
+  },
+  {
+    slug: "raising-faith-filled-children",
+    category: "Family",
+    categoryColor: "#10B981",
+    title: "Raising Faith-Filled Children in a Post-Christian World",
+    excerpt:
+      "Research shows the most powerful faith formation doesn't happen at church. It happens at 6:30am around a cereal bowl. A practical guide for Christian parents.",
+    author: "Dr. Sarah Kimani",
+    date: "May 18, 2026",
+    readTime: "10 min read",
+    views: "31.4k",
+    comments: 287,
+    saved: false,
+    image: "👨‍👩‍👧‍👦",
+    tags: ["Parenting", "Faith Formation", "Children"],
+  },
 ];
 
 const trending = [

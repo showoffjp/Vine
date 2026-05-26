@@ -74,6 +74,7 @@ const featured = [
     tag: "Dating",
     tagColor: "#EC4899",
     emoji: "💍",
+    href: "/discussions/christian-dating-apps-007",
   },
   {
     title: "When Your Spouse Won't Go to Church",
@@ -83,6 +84,7 @@ const featured = [
     tag: "Marriage",
     tagColor: "#6B4FBB",
     emoji: "⛪",
+    href: "/blog/marriage-covenant-not-contract",
   },
   {
     title: "How to Set Boundaries Without Cutting People Off",
@@ -92,6 +94,7 @@ const featured = [
     tag: "Healing",
     tagColor: "#F59E0B",
     emoji: "🛡️",
+    href: "/discussions/marriage-hard-church-silent-013",
   },
   {
     title: "Finding Real Friends in Your 30s and 40s",
@@ -101,6 +104,7 @@ const featured = [
     tag: "Friendships",
     tagColor: "#10B981",
     emoji: "🤝",
+    href: "/discussions/faith-and-doubt-001",
   },
 ];
 
@@ -215,12 +219,14 @@ export default function RelationshipsPage() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             {featured.map((art, i) => (
-              <div
+              <a
                 key={i}
+                href={art.href}
                 className="group rounded-2xl p-6 cursor-pointer transition-all flex gap-4"
                 style={{
                   background: "rgba(255,255,255,0.02)",
                   border: "1px solid rgba(255,255,255,0.06)",
+                  textDecoration: "none",
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.background = "rgba(255,255,255,0.04)";
@@ -254,7 +260,7 @@ export default function RelationshipsPage() {
                     <span>{art.readTime} read</span>
                   </div>
                 </div>
-              </div>
+              </a>
             ))}
           </div>
         </div>

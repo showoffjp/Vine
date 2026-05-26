@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ReplyBox from "@/components/ReplyBox";
-import { ArrowLeft, MessageSquare, ChevronUp, Share2, Bookmark, Flag, ChevronRight } from "lucide-react";
+import DiscussionActions from "@/components/DiscussionActions";
+import ReplyUpvote from "@/components/ReplyUpvote";
+import { ArrowLeft, MessageSquare, Flag, ChevronRight } from "lucide-react";
 
 const threads: Record<string, {
   title: string; body: string; hub: string; hubColor: string;
@@ -553,13 +555,8 @@ export default async function DiscussionPage({ params }: { params: Promise<{ id:
               <p className="text-sm font-bold" style={{ color: "#F2F2F8" }}>{thread.author} {thread.flag}</p>
               <p className="text-xs" style={{ color: "#4A4A68" }}>{thread.date}</p>
             </div>
-            <div className="ml-auto flex items-center gap-3">
-              <button className="flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-lg"
-                style={{ background: "rgba(0,255,136,0.08)", border: "1px solid rgba(0,255,136,0.15)", color: "#00FF88" }}>
-                <ChevronUp size={12} /> {thread.upvotes.toLocaleString()}
-              </button>
-              <button className="p-1.5 rounded-lg" style={{ color: "#4A4A68" }}><Share2 size={14} /></button>
-              <button className="p-1.5 rounded-lg" style={{ color: "#4A4A68" }}><Bookmark size={14} /></button>
+            <div className="ml-auto">
+              <DiscussionActions initialUpvotes={thread.upvotes} />
             </div>
           </div>
 
@@ -599,10 +596,7 @@ export default async function DiscussionPage({ params }: { params: Promise<{ id:
                         <span className="text-xs" style={{ color: "#4A4A68" }}>{reply.date}</span>
                       </div>
                     </div>
-                    <button className="flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-lg shrink-0"
-                      style={{ background: "rgba(255,255,255,0.04)", color: "#6A6A88" }}>
-                      <ChevronUp size={11} /> {reply.upvotes.toLocaleString()}
-                    </button>
+                    <ReplyUpvote initialCount={reply.upvotes} size={11} />
                   </div>
 
                   <p className="text-sm leading-relaxed mb-3" style={{ color: "#C0C0D8", lineHeight: "1.75" }}>{reply.body}</p>
@@ -629,10 +623,7 @@ export default async function DiscussionPage({ params }: { params: Promise<{ id:
                             <span className="font-bold text-xs" style={{ color: "#F2F2F8" }}>{child.author} {child.flag}</span>
                             <span className="text-xs ml-2" style={{ color: "#4A4A68" }}>{child.date}</span>
                           </div>
-                          <button className="flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded-lg shrink-0"
-                            style={{ background: "rgba(255,255,255,0.04)", color: "#6A6A88" }}>
-                            <ChevronUp size={10} /> {child.upvotes}
-                          </button>
+                          <ReplyUpvote initialCount={child.upvotes} size={10} />
                         </div>
                         <p className="text-sm leading-relaxed" style={{ color: "#A0A0C0", lineHeight: "1.7" }}>{child.body}</p>
                       </div>

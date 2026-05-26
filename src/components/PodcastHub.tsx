@@ -148,7 +148,7 @@ export default function PodcastHub() {
             </h2>
           </div>
           <a
-            href="/resources"
+            href="/podcast"
             style={{
               display: "flex",
               alignItems: "center",

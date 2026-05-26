@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import CreatorProfileActions, { CreatorFollowSidebar } from "@/components/CreatorProfileActions";
 import {
   CheckCircle,
   Users,
@@ -9,8 +10,6 @@ import {
   Headphones,
   BookOpen,
   ArrowLeft,
-  Share2,
-  Heart,
 } from "lucide-react";
 
 type RecentContentItem = {
@@ -380,27 +379,7 @@ export default async function CreatorProfilePage({ params }: { params: Promise<{
             </div>
 
             {/* Action Buttons */}
-            <div className="flex gap-3 flex-shrink-0 pb-1">
-              <button
-                className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold"
-                style={{
-                  background: `linear-gradient(135deg, ${accent} 0%, ${accent}BB 100%)`,
-                  color: "#07070F",
-                }}
-              >
-                <Heart size={14} /> Follow
-              </button>
-              <button
-                className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold"
-                style={{
-                  background: "transparent",
-                  color: accent,
-                  border: `1px solid ${accent}55`,
-                }}
-              >
-                <Share2 size={14} /> Share
-              </button>
-            </div>
+            <CreatorProfileActions accent={accent} />
           </div>
 
           {/* ── Two-column layout ── */}
@@ -608,18 +587,7 @@ export default async function CreatorProfilePage({ params }: { params: Promise<{
                 <p className="font-bold text-sm mb-1" style={{ color: "#F2F2F8" }}>
                   Join {creator.name.split(" ")[0]}&rsquo;s Community
                 </p>
-                <p className="text-xs mb-4" style={{ color: "#6A6A88" }}>
-                  {creator.followers} followers and growing
-                </p>
-                <button
-                  className="w-full py-2.5 rounded-xl font-bold text-sm"
-                  style={{
-                    background: `linear-gradient(135deg, ${accent} 0%, ${accent}BB 100%)`,
-                    color: "#07070F",
-                  }}
-                >
-                  Follow Creator
-                </button>
+                <CreatorFollowSidebar accent={accent} followers={creator.followers} />
               </div>
             </aside>
           </div>

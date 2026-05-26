@@ -1,13 +1,11 @@
-import type { Metadata } from "next";
+"use client";
+
+import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import GiveButton from "@/components/GiveButton";
-import { Heart, Globe, Shield, ChevronRight, Star, Users, BookOpen } from "lucide-react";
+import { Heart, Globe, Shield, ChevronRight, Users } from "lucide-react";
 
-export const metadata: Metadata = {
-  title: "Give — Vine",
-  description: "Support missionaries, church planters, and the Vine platform. 100% of designated giving goes directly to the field.",
-};
 
 const causes = [
   {
@@ -116,6 +114,13 @@ function ProgressBar({ raised, goal, color }: { raised: number; goal: number; co
 }
 
 export default function GivingPage() {
+  const [selectedMonthly, setSelectedMonthly] = useState<number | null>(null);
+  const [monthlyConfirmed, setMonthlyConfirmed] = useState(false);
+
+  const handleStartGiving = () => {
+    if (selectedMonthly) setMonthlyConfirmed(true);
+  };
+
   return (
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
       <Navbar />
@@ -236,22 +241,51 @@ export default function GivingPage() {
             <p className="text-base mb-6 max-w-lg mx-auto" style={{ color: "#6A6A88" }}>
               Recurring gifts allow us to plan, commit to missionaries long-term, and keep Vine free for the global church.
             </p>
-            <div className="flex flex-wrap gap-3 justify-center mb-6">
-              {[10, 25, 50, 100, 250].map((amt) => (
+            {monthlyConfirmed ? (
+              <div className="py-4">
+                <div className="text-4xl mb-3">🎉</div>
+                <h4 className="text-xl font-black mb-2" style={{ color: "#00FF88" }}>Thank you, partner!</h4>
+                <p className="text-sm mb-1" style={{ color: "#C0C0D8" }}>
+                  Your ${selectedMonthly}/month gift is confirmed.
+                </p>
+                <p className="text-xs" style={{ color: "#4A4A68" }}>A receipt will be emailed to you. You can cancel anytime in Settings.</p>
+              </div>
+            ) : (
+              <>
+                <div className="flex flex-wrap gap-3 justify-center mb-6">
+                  {[10, 25, 50, 100, 250].map((amt) => {
+                    const selected = selectedMonthly === amt;
+                    return (
+                      <button
+                        key={amt}
+                        onClick={() => setSelectedMonthly(amt)}
+                        className="px-5 py-2.5 rounded-xl font-bold text-sm transition-all"
+                        style={{
+                          background: selected ? "rgba(0,255,136,0.2)" : "rgba(0,255,136,0.1)",
+                          border: selected ? "1px solid rgba(0,255,136,0.6)" : "1px solid rgba(0,255,136,0.2)",
+                          color: "#00FF88",
+                          transform: selected ? "scale(1.05)" : "scale(1)",
+                        }}
+                      >
+                        ${amt}/mo
+                      </button>
+                    );
+                  })}
+                </div>
                 <button
-                  key={amt}
-                  className="px-5 py-2.5 rounded-xl font-bold text-sm"
-                  style={{ background: "rgba(0,255,136,0.1)", border: "1px solid rgba(0,255,136,0.2)", color: "#00FF88" }}
+                  onClick={handleStartGiving}
+                  className="inline-flex items-center gap-2 px-8 py-3 rounded-xl font-bold text-black transition-all"
+                  style={{
+                    background: selectedMonthly ? "linear-gradient(135deg, #00FF88, #00BB55)" : "#2A2A40",
+                    color: selectedMonthly ? "#07070F" : "#6A6A88",
+                    cursor: selectedMonthly ? "pointer" : "not-allowed",
+                  }}
                 >
-                  ${amt}/mo
+                  {selectedMonthly ? `Give $${selectedMonthly}/month` : "Select an amount"} <ChevronRight size={16} />
                 </button>
-              ))}
-            </div>
-            <button className="inline-flex items-center gap-2 px-8 py-3 rounded-xl font-bold text-black"
-              style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)" }}>
-              Start Giving Monthly <ChevronRight size={16} />
-            </button>
-            <p className="mt-4 text-xs" style={{ color: "#4A4A68" }}>Cancel anytime. Receipts emailed. Tax-deductible where applicable.</p>
+                <p className="mt-4 text-xs" style={{ color: "#4A4A68" }}>Cancel anytime. Receipts emailed. Tax-deductible where applicable.</p>
+              </>
+            )}
           </div>
         </div>
       </div>

@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
@@ -10,7 +11,7 @@ import {
   MapPin,
   Star,
   ChevronRight,
-  Flame,
+  CheckCircle2,
 } from "lucide-react";
 
 const regions = [
@@ -92,10 +93,10 @@ const globalMembers = [
 ];
 
 const prayerRequests = [
-  { country: "🇨🇳", region: "China", request: "For the underground church — wisdom, safety, and growth.", time: "1h ago" },
-  { country: "🇮🇷", region: "Iran", request: "New believers facing family rejection — courage and community.", time: "3h ago" },
-  { country: "🇳🇬", region: "Nigeria", request: "Safety for Christian communities in the north — protection from violence.", time: "5h ago" },
-  { country: "🇰🇵", region: "North Korea", request: "For believers detained for their faith — miraculous provision.", time: "12h ago" },
+  { id: 0, country: "🇨🇳", region: "China", request: "For the underground church — wisdom, safety, and growth.", time: "1h ago", count: 847 },
+  { id: 1, country: "🇮🇷", region: "Iran", request: "New believers facing family rejection — courage and community.", time: "3h ago", count: 612 },
+  { id: 2, country: "🇳🇬", region: "Nigeria", request: "Safety for Christian communities in the north — protection from violence.", time: "5h ago", count: 1203 },
+  { id: 3, country: "🇰🇵", region: "North Korea", request: "For believers detained for their faith — miraculous provision.", time: "12h ago", count: 2841 },
 ];
 
 const stats = [
@@ -106,6 +107,38 @@ const stats = [
 ];
 
 export default function GlobalConnectPage() {
+  const [joinedCircles, setJoinedCircles] = useState<Set<number>>(new Set());
+  const [prayedRequests, setPrayedRequests] = useState<Set<number>>(new Set());
+  const [prayCounts, setPrayCounts] = useState<Record<number, number>>(
+    Object.fromEntries(prayerRequests.map((p) => [p.id, p.count]))
+  );
+  const [connectedMembers, setConnectedMembers] = useState<Set<string>>(new Set());
+  const [locationSet, setLocationSet] = useState(false);
+
+  const toggleCircle = (i: number) => {
+    setJoinedCircles((prev) => {
+      const next = new Set(prev);
+      if (next.has(i)) next.delete(i);
+      else next.add(i);
+      return next;
+    });
+  };
+
+  const handlePray = (id: number) => {
+    if (prayedRequests.has(id)) return;
+    setPrayedRequests((prev) => new Set([...prev, id]));
+    setPrayCounts((prev) => ({ ...prev, [id]: prev[id] + 1 }));
+  };
+
+  const toggleConnect = (name: string) => {
+    setConnectedMembers((prev) => {
+      const next = new Set(prev);
+      if (next.has(name)) next.delete(name);
+      else next.add(name);
+      return next;
+    });
+  };
+
   return (
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
       <Navbar />
@@ -160,61 +193,76 @@ export default function GlobalConnectPage() {
             Connect by Region
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {regions.map((r) => (
-              <div
-                key={r.name}
-                className="group rounded-2xl p-6 cursor-pointer transition-all"
-                style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = `${r.color}40`;
-                  e.currentTarget.style.background = `${r.color}06`;
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)";
-                  e.currentTarget.style.background = "rgba(255,255,255,0.02)";
-                }}
-              >
-
-                <div className="flex items-start justify-between mb-4">
-                  <div>
-                    <span className="text-3xl block mb-1">{r.flag}</span>
-                    <h3 className="font-black text-lg" style={{ color: "#F2F2F8" }}>{r.name}</h3>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-lg font-black" style={{ color: r.color }}>{r.members}</p>
-                    <p className="text-xs font-semibold" style={{ color: "#10B981" }}>{r.growth} this year</p>
-                  </div>
-                </div>
-                <p className="text-xs mb-3 italic" style={{ color: "#6A6A88" }}>{r.highlight}</p>
-                <div className="flex flex-wrap gap-1.5 mb-4">
-                  {r.countries.map((c) => (
-                    <span
-                      key={c}
-                      className="text-xs px-2 py-0.5 rounded-full"
-                      style={{ background: `${r.color}10`, color: r.color }}
-                    >
-                      {c}
-                    </span>
-                  ))}
-                </div>
-                <a
-                  href={`/discussions/${r.discussionSlug}`}
-                  className="block p-3 rounded-xl transition-all"
-                  style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", textDecoration: "none" }}
-                  onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(0,255,136,0.2)"; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)"; }}
+            {regions.map((r, i) => {
+              const joined = joinedCircles.has(i);
+              return (
+                <div
+                  key={r.name}
+                  className="group rounded-2xl p-6 transition-all"
+                  style={{
+                    background: joined ? `${r.color}06` : "rgba(255,255,255,0.02)",
+                    border: `1px solid ${joined ? r.color + "40" : "rgba(255,255,255,0.06)"}`,
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!joined) {
+                      e.currentTarget.style.borderColor = `${r.color}40`;
+                      e.currentTarget.style.background = `${r.color}06`;
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!joined) {
+                      e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)";
+                      e.currentTarget.style.background = "rgba(255,255,255,0.02)";
+                    }
+                  }}
                 >
-                  <p className="text-xs mb-1 font-bold" style={{ color: "#00FF88" }}>🔥 Active Discussion</p>
-                  <p className="text-sm" style={{ color: "#8A8AA8" }}>{r.activeDiscussion}</p>
-                </a>
-                <button
-                  className="mt-4 flex items-center gap-1 text-sm font-bold group-hover:gap-2 transition-all"
-                  style={{ color: r.color }}
-                >
-                  Join this circle <ChevronRight size={14} />
-                </button>
-              </div>
-            ))}
+                  <div className="flex items-start justify-between mb-4">
+                    <div>
+                      <span className="text-3xl block mb-1">{r.flag}</span>
+                      <h3 className="font-black text-lg" style={{ color: "#F2F2F8" }}>{r.name}</h3>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-lg font-black" style={{ color: r.color }}>{r.members}</p>
+                      <p className="text-xs font-semibold" style={{ color: "#10B981" }}>{r.growth} this year</p>
+                    </div>
+                  </div>
+                  <p className="text-xs mb-3 italic" style={{ color: "#6A6A88" }}>{r.highlight}</p>
+                  <div className="flex flex-wrap gap-1.5 mb-4">
+                    {r.countries.map((c) => (
+                      <span
+                        key={c}
+                        className="text-xs px-2 py-0.5 rounded-full"
+                        style={{ background: `${r.color}10`, color: r.color }}
+                      >
+                        {c}
+                      </span>
+                    ))}
+                  </div>
+                  <a
+                    href={`/discussions/${r.discussionSlug}`}
+                    className="block p-3 rounded-xl transition-all mb-4"
+                    style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", textDecoration: "none" }}
+                    onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(0,255,136,0.2)"; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)"; }}
+                  >
+                    <p className="text-xs mb-1 font-bold" style={{ color: "#00FF88" }}>🔥 Active Discussion</p>
+                    <p className="text-sm" style={{ color: "#8A8AA8" }}>{r.activeDiscussion}</p>
+                  </a>
+                  <button
+                    onClick={() => toggleCircle(i)}
+                    className="w-full py-2.5 rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2"
+                    style={{
+                      background: joined ? `${r.color}20` : "transparent",
+                      border: `1px solid ${joined ? r.color + "50" : r.color + "30"}`,
+                      color: r.color,
+                    }}
+                  >
+                    {joined ? <CheckCircle2 size={14} /> : <ChevronRight size={14} />}
+                    {joined ? "✓ Joined!" : "Join this circle"}
+                  </button>
+                </div>
+              );
+            })}
           </div>
         </div>
 
@@ -243,7 +291,6 @@ export default function GlobalConnectPage() {
                   e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)";
                 }}
               >
-
                 <div
                   className="w-12 h-12 rounded-full flex items-center justify-center text-sm font-black shrink-0"
                   style={{ background: `${m.color}25`, color: m.color, border: `2px solid ${m.color}40` }}
@@ -269,10 +316,15 @@ export default function GlobalConnectPage() {
                   </a>
                 ) : (
                   <button
-                    className="text-xs px-2.5 py-1 rounded-full font-semibold shrink-0"
-                    style={{ background: "rgba(0,255,136,0.1)", color: "#00FF88", border: "1px solid rgba(0,255,136,0.2)" }}
+                    onClick={() => toggleConnect(m.name)}
+                    className="text-xs px-2.5 py-1 rounded-full font-semibold shrink-0 transition-all"
+                    style={{
+                      background: connectedMembers.has(m.name) ? "rgba(0,255,136,0.2)" : "rgba(0,255,136,0.1)",
+                      color: "#00FF88",
+                      border: `1px solid ${connectedMembers.has(m.name) ? "rgba(0,255,136,0.4)" : "rgba(0,255,136,0.2)"}`,
+                    }}
                   >
-                    Connect
+                    {connectedMembers.has(m.name) ? "✓ Connected" : "Connect"}
                   </button>
                 )}
               </div>
@@ -291,28 +343,39 @@ export default function GlobalConnectPage() {
                 </h2>
               </div>
               <div className="space-y-3">
-                {prayerRequests.map((p, i) => (
-                  <div
-                    key={i}
-                    className="p-4 rounded-xl flex gap-4"
-                    style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
-                  >
-                    <span className="text-2xl shrink-0">{p.country}</span>
-                    <div className="flex-1">
-                      <p className="text-xs font-bold mb-1" style={{ color: "#00FF88" }}>{p.region}</p>
-                      <p className="text-sm leading-relaxed" style={{ color: "#A0A0C0" }}>{p.request}</p>
-                      <div className="flex items-center gap-3 mt-2">
-                        <span className="text-xs" style={{ color: "#4A4A68" }}>{p.time}</span>
-                        <button
-                          className="text-xs flex items-center gap-1 font-semibold"
-                          style={{ color: "#6B4FBB" }}
-                        >
-                          🙏 Pray
-                        </button>
+                {prayerRequests.map((p) => {
+                  const prayed = prayedRequests.has(p.id);
+                  return (
+                    <div
+                      key={p.id}
+                      className="p-4 rounded-xl flex gap-4"
+                      style={{
+                        background: "rgba(255,255,255,0.02)",
+                        border: `1px solid ${prayed ? "rgba(107,79,187,0.3)" : "rgba(255,255,255,0.06)"}`,
+                      }}
+                    >
+                      <span className="text-2xl shrink-0">{p.country}</span>
+                      <div className="flex-1">
+                        <p className="text-xs font-bold mb-1" style={{ color: "#00FF88" }}>{p.region}</p>
+                        <p className="text-sm leading-relaxed" style={{ color: "#A0A0C0" }}>{p.request}</p>
+                        <div className="flex items-center gap-3 mt-2">
+                          <span className="text-xs" style={{ color: "#4A4A68" }}>{p.time}</span>
+                          <button
+                            onClick={() => handlePray(p.id)}
+                            disabled={prayed}
+                            className="text-xs flex items-center gap-1 font-semibold transition-all"
+                            style={{
+                              color: prayed ? "#00FF88" : "#6B4FBB",
+                              opacity: prayed ? 1 : 1,
+                            }}
+                          >
+                            🙏 {prayed ? `Praying (${prayCounts[p.id].toLocaleString()})` : `Pray · ${prayCounts[p.id].toLocaleString()}`}
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
               <a
                 href="/prayer"
@@ -343,17 +406,30 @@ export default function GlobalConnectPage() {
               >
                 <MapPin size={24} style={{ color: "#00FF88" }} className="mb-3" />
                 <h3 className="font-bold text-lg mb-2" style={{ color: "#F2F2F8" }}>
-                  Set Your Location
+                  {locationSet ? "Location Updated!" : "Set Your Location"}
                 </h3>
                 <p className="text-sm mb-4" style={{ color: "#6A6A88" }}>
-                  Help other believers find you. Connect with Christians near you and in your home country.
+                  {locationSet
+                    ? "Other believers near you can now find and connect with you."
+                    : "Help other believers find you. Connect with Christians near you and in your home country."}
                 </p>
-                <button
-                  className="w-full py-2.5 rounded-xl text-sm font-bold text-black"
-                  style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)" }}
-                >
-                  Update My Location
-                </button>
+                {locationSet ? (
+                  <div
+                    className="w-full py-2.5 rounded-xl text-sm font-bold text-center flex items-center justify-center gap-2"
+                    style={{ background: "rgba(0,255,136,0.1)", border: "1px solid rgba(0,255,136,0.3)", color: "#00FF88" }}
+                  >
+                    <CheckCircle2 size={15} />
+                    Location saved
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => setLocationSet(true)}
+                    className="w-full py-2.5 rounded-xl text-sm font-bold text-black"
+                    style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)" }}
+                  >
+                    Update My Location
+                  </button>
+                )}
               </div>
             </div>
           </div>

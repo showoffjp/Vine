@@ -3,11 +3,11 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import JoinGroupButton from "@/components/JoinGroupButton";
 import CreatePostModal from "@/components/CreatePostModal";
+import ReplyUpvote from "@/components/ReplyUpvote";
 import {
   ArrowLeft,
   Users,
   MessageSquare,
-  ChevronUp,
   Pin,
   Plus,
   Shield,
@@ -908,12 +908,7 @@ export default async function GroupPage({
                         {post.time}
                       </span>
                       <div className="ml-auto flex items-center gap-3">
-                        <button
-                          className="flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-lg"
-                          style={{ background: "rgba(0,255,136,0.07)", color: "#00FF88", border: "1px solid rgba(0,255,136,0.12)" }}
-                        >
-                          <ChevronUp size={11} /> {post.upvotes.toLocaleString()}
-                        </button>
+                        <ReplyUpvote initialCount={post.upvotes} size={11} />
                         <span className="flex items-center gap-1 text-xs" style={{ color: "#6A6A88" }}>
                           <MessageSquare size={11} /> {post.replies}
                         </span>

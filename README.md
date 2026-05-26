@@ -11,478 +11,249 @@
   ╚═══╝  ╚═╝╚═╝  ╚═══╝╚══════╝
 ```
 
-### *"I am the vine; you are the branches."* — John 15:5
+**The Christian Social Network**
 
-<br/>
+*"I am the vine; you are the branches." — John 15:5*
 
-[![Next.js](https://img.shields.io/badge/Next.js_16-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org)
-[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://typescriptlang.org)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
-[![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com)
-[![Vercel AI SDK](https://img.shields.io/badge/AI_SDK-FF0080?style=for-the-badge&logo=vercel&logoColor=white)](https://sdk.vercel.ai)
-
-<br/>
-
-![Status](https://img.shields.io/badge/Status-LIVE-22c55e?style=flat-square)
-![Routes](https://img.shields.io/badge/Routes-109-00FF88?style=flat-square)
-![Countries](https://img.shields.io/badge/Countries-184-6B4FBB?style=flat-square)
-![Components](https://img.shields.io/badge/Components-30+-E07030?style=flat-square)
-![Build](https://img.shields.io/badge/Build-Passing-brightgreen?style=flat-square)
-
-<br/>
-
-> **The world's first all-in-one platform for Christians everywhere.**
-> Reddit × X × Wikipedia × YouTube × Lifehacker — built for faith.
-
-<br/>
-
-[🌐 **Visit Live Site**](https://vine.community) &nbsp;·&nbsp; [📖 **Docs**](#architecture) &nbsp;·&nbsp; [🤖 **AI Companion**](https://vine.community/ai-companion) &nbsp;·&nbsp; [🙏 **Prayer Wall**](https://vine.community/prayer)
+[![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js)](https://nextjs.org)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)](https://typescriptlang.org)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-06B6D4?logo=tailwindcss)](https://tailwindcss.com)
 
 </div>
 
 ---
 
-## ⚡ What is Vine?
+## Overview
 
-Vine is a **dark-premium, production-grade Christian platform** where believers from 184 countries connect, grow, and thrive in faith together. It's not a church website. It's not a devotional app. It's the operating system for the global Christian life.
+Vine is a full-featured Christian social platform built with Next.js 15 App Router, Tailwind CSS v4, and TypeScript. It serves as a hub for Protestant believers worldwide — connecting people through Scripture, community, prayer, worship, discipleship, and real-life content.
 
-```
-┌─────────────────────────────────────────────────────────────────────┐
-│                                                                     │
-│   📖 Bible Tools  🤖 AI Companion  🙏 Prayer Wall  💬 Discussions   │
-│   🎵 Worship      📰 Daily Bread   🌍 Global Hub   🎥 Video Lib     │
-│   🧠 Mental Health 💰 Finances     👨‍👩‍👧 Parenting  💼 Leadership    │
-│   📅 Events       ✨ Creators      📚 Resources    🔥 Trending      │
-│   🌿 Life Hacks   💝 Giving       🌏 Missions     📊 Leaderboard   │
-│                                                                     │
-└─────────────────────────────────────────────────────────────────────┘
-```
+Every page is fully interactive. Every button provides visual feedback. All content is realistic, written in the voice of the global Protestant Christian community.
 
 ---
 
-## 🗺️ Platform Map — 109 Static Routes
+## Tech Stack
 
-<table>
-<tr>
-<td width="33%">
-
-### 🏛️ Core Platform
-| Route | Feature |
-|-------|---------|
-| `/` | Landing page (21 sections) |
-| `/feed` | Social feed (10+ posts) |
-| `/discussions` | Reddit-style forums |
-| `/discussions/[id]` | 11 full thread pages |
-| `/community` | Social circles |
-| `/explore` | Discovery feed |
-| `/prayer` | Global prayer wall |
-| `/bible` | Full Bible reader |
-| `/daily` | 7-day devotionals |
-| `/reading-plan` | Scripture plans |
-| `/worship` | Worship resources |
-| `/quiz` | Spiritual gifts quiz |
-
-</td>
-<td width="33%">
-
-### 💡 Life & Faith
-| Route | Feature |
-|-------|---------|
-| `/life-hacks` | Biblical life wisdom |
-| `/mental-health` | Faith + therapy |
-| `/relationships` | Dating, marriage |
-| `/finances` | Stewardship guide |
-| `/parenting` | Raising kids in faith |
-| `/work-leadership` | Biblical leadership |
-| `/ai-companion` | AI Bible chat |
-| `/blog` | Editorial hub |
-| `/blog/[slug]` | 11 full articles |
-| `/topics` | Trending topics |
-| `/topics/[slug]` | 6 topic pages |
-| `/video` | Video library |
-
-</td>
-<td width="33%">
-
-### 🌐 Community & Tools
-| Route | Feature |
-|-------|---------|
-| `/global-connect` | 184-country network |
-| `/events` | Events calendar |
-| `/groups` | Community groups |
-| `/groups/[id]` | 14 group pages |
-| `/stories` | Testimonies |
-| `/stories/[slug]` | 7 story pages |
-| `/creators` | Creator directory |
-| `/resources` | Resource library |
-| `/missions` | Missions hub |
-| `/giving` | Donation platform |
-| `/leaderboard` | Community ranks |
-| `/newsletter` | 4 newsletter editions |
-
-</td>
-</tr>
-</table>
-
-### 🔗 User & Account Routes
-| Route | Feature |
-|-------|---------|
-| `/profile` | User profile (localStorage-powered, shows real user data) |
-| `/settings` | Preferences with working save |
-| `/notifications` | All notifications with working action links |
-| `/onboarding` | 5-step welcome flow that saves profile to localStorage |
-| `/search` | Live full-text search across all content |
-| `/contact` | Contact form with working submission |
-| `/about` | Mission, team, and story |
-| `/apologetics` | Apologetics resource hub |
-| `/terms` | Terms of service |
-| `/privacy` | Privacy policy |
-| `/community-guidelines` | Community rules |
-
-### ⚙️ API Routes
-| Endpoint | Description |
-|----------|-------------|
-| `POST /api/ai-companion` | Streaming AI chat (Vercel AI SDK + GPT-4o-mini, graceful mock fallback) |
-| `GET  /api/og` | Dynamic OG image generation — 1200×630 via `next/og` |
-| `GET  /api/verse` | Daily verse API with 200+ curated passages |
-| `POST /api/prayer` | Prayer request submission + prayer counts |
-| `GET  /api/cron/daily-verse` | Cron: rotates daily verse at midnight UTC |
-| `GET  /api/cron/weekly-challenge` | Cron: updates weekly spiritual challenge |
+| Layer | Technology |
+|---|---|
+| Framework | Next.js 15 (App Router) |
+| Styling | Tailwind CSS v4 + inline styles |
+| Language | TypeScript |
+| Icons | Lucide React |
+| Deployment | Vercel (static pre-rendering) |
+| State | React `useState` + `localStorage` |
 
 ---
 
-## 🏗️ Architecture
+## Design System
 
-```
-vine/
-├── src/
-│   ├── app/                      # Next.js 16 App Router (109 static routes)
-│   │   ├── page.tsx              # Landing page (21 sections)
-│   │   ├── layout.tsx            # Root layout + OG metadata + analytics
-│   │   ├── globals.css           # Design system (CSS variables + utilities)
-│   │   ├── sitemap.ts            # 109-route XML sitemap
-│   │   ├── robots.ts             # Crawl rules
-│   │   ├── api/                  # API routes (Fluid Compute, Node.js)
-│   │   │   ├── ai-companion/     # Streaming AI (streamText + toTextStreamResponse)
-│   │   │   ├── og/               # Dynamic OG images (next/og ImageResponse)
-│   │   │   ├── verse/            # Bible verse API
-│   │   │   ├── prayer/           # Prayer wall CRUD
-│   │   │   └── cron/             # Vercel cron jobs
-│   │   └── [50+ page routes]/    # Full app surface area
-│   ├── components/               # 30+ shared UI components
-│   │   ├── Navbar.tsx            # Scroll-aware nav, auth-aware dropdown
-│   │   ├── Footer.tsx            # Full-sitemap 4-column footer
-│   │   ├── AuthModal.tsx         # Sign in / Join modal with localStorage auth
-│   │   ├── SearchOverlay.tsx     # ⌘K global search modal
-│   │   ├── DailyDevotional.tsx   # 7-day interactive devotional component
-│   │   ├── GiveButton.tsx        # Donation modal with amount selection
-│   │   ├── EventRegisterButton.tsx # Event registration with confirm state
-│   │   ├── JoinGroupButton.tsx   # Group join/leave toggle
-│   │   ├── CreatePostModal.tsx   # Discussion post creation modal
-│   │   ├── ReplyBox.tsx          # Discussion reply with success state
-│   │   ├── DailyActions.tsx      # Like/Save/Share/Complete/Navigate
-│   │   └── [20+ landing page sections]
-│   ├── hooks/
-│   │   └── useInView.ts          # Scroll-trigger custom hook
-│   └── proxy.ts                  # Next.js 16 proxy (replaces middleware.ts)
-├── vercel.ts                     # Typed Vercel config (security, crons, redirects)
-└── public/
-    └── manifest.json             # PWA manifest (gold theme)
-```
+| Token | Value | Usage |
+|---|---|---|
+| `#07070F` | Near-black | Page background |
+| `#12121F` | Dark card | Card surfaces |
+| `#1E1E32` | Border dark | Default borders |
+| `#00FF88` | Green accent | CTAs, active states, primary |
+| `#6B4FBB` | Purple | Secondary accent |
+| `#F2F2F8` | Off-white | Headings, body text |
+| `#6A6A88` | Muted gray | Secondary text, placeholders |
+
+The `.page-body` CSS utility class applies header-aware top padding (`padding-top: 80px`) across all pages. The `.btn-gold` class is the primary gradient button style.
 
 ---
 
-## ✨ Interactive Features — Everything Works
+## Pages & Features
 
-| Feature | Implementation |
-|---------|---------------|
-| **Account Creation** | AuthModal → localStorage → redirect to /feed |
-| **Sign In** | Email + password → localStorage auth |
-| **Social Auth** | Google/Apple/Facebook buttons (mock flow) |
-| **Profile** | Reads from localStorage, shows real user data |
-| **Settings** | Save button with confirmation state |
-| **Onboarding** | 5-step flow → saves to localStorage → redirects to /feed |
-| **Daily Devotionals** | 7 complete days with verse, devotional, reflect, apply, pray |
-| **Prayer Wall** | Submit prayer, Pray for others (count updates), tab filtering |
-| **Feed** | Like/Save posts, share text posts, 10 real posts from community |
-| **Discussions** | View all threads, reply to posts, create new posts |
-| **Groups** | Join/Leave groups, view 14 group pages with full content |
-| **Giving** | Select amount, confirm donation, success state with receipt |
-| **Events** | Register for events with confirm state |
-| **Life Hacks** | Category filter, submit your own hack |
-| **Search** | Live filtering across articles, discussions, scripture, stories |
-| **Notifications** | All action links point to real pages |
-| **AI Companion** | Full streaming chat, mock fallback included |
-| **Reading Plan** | Chapter tracking, completion state |
-| **Quiz** | Multi-question quiz with results |
-| **Leaderboard** | Period and category filters |
-| **Bible** | Chapter navigation, verse highlighting |
+### Core Feed & Navigation
+- **`/`** — Landing page with hero, real-time stats, featured content, and onboarding CTA
+- **`/feed`** — Main social feed with posts, upvotes, comments, save, and sorting
+- **`/explore`** — Searchable content hub with live search filtering and category cards
+- **`/search`** — Full-site search across Articles, Discussions, Scripture, Stories, Videos, Groups, People
+- **`/notifications`** — Notification center with mark-as-read and category tabs
+
+### Auth & Profile
+- **`/onboarding`** — Multi-step signup flow (name → denomination → interests → goals → profile photo) persisted to `localStorage` as `vine_user`
+- **`/profile`** — User profile page reading from `vine_user` localStorage, with post/prayer/community tabs
+
+### Scripture & Devotions
+- **`/bible`** — Interactive Bible reader with book/chapter navigation, verse highlighting, and cross-references
+- **`/daily`** — Daily devotional with verse of the day, reflection, prayer prompt, and community discussion
+- **`/reading-plan`** — New Testament in 90 Days tracker with:
+  - Circular SVG progress indicator
+  - Weekly view with done/today/upcoming states
+  - Expandable chapter accordion with mark-as-read toggles
+  - Real-time streak counter and pace bar
+  - Plan switcher with 4 alternate plans
+- **`/topics`** — Topic hub landing page
+- **`/topics/[slug]`** — Individual topic pages (prayer-fasting, genz-church, marriage-faith, deconstruction, anxiety-faith, christian-ai-ethics)
+
+### Community & Discussions
+- **`/discussions`** — Community forum with:
+  - Sort by Hot / New / Top / Rising
+  - Upvote with live count increment
+  - Save posts with count update
+  - Join/leave hubs
+- **`/discussions/[slug]`** — Individual discussion threads with nested comment replies and upvoting
+- **`/community`** — Community circles with join/leave, featured circles, nearby groups, member invite by email
+- **`/prayer`** — Live prayer wall with:
+  - Animated "Live" indicator
+  - Submit prayer request form (topic, name/anonymous toggle, text)
+  - Tab filtering by category
+  - Pray button with animated count increment
+  - Prayer Champions leaderboard
+  - Recently Answered sidebar
+  - Prayer Tip of the Day
+
+### Content
+- **`/blog`** — Blog with category filtering, post bookmarking, editor following, newsletter subscribe
+- **`/blog/[slug]`** — Full blog articles including:
+  - *Why the Resurrection Changes Everything* (Dr. Marcus Webb)
+  - *Deconstruction Doesn't Have to Mean Destruction* (Rev. Sarah Okonkwo)
+  - *The Problem of Evil* (Tim Challies)
+  - *When Anxiety Meets Faith* (Dr. Priya Singh)
+  - *Why Gen Z Is Leaving — and Returning to — Church*
+  - *Biblical Finance Isn't a Sermon, It's a System*
+  - *What Silence Can Do That Words Cannot*
+  - *How to Talk to Your Kids About God Without Pushing Them Away*
+- **`/stories`** — Testimony story hub
+- **`/stories/[slug]`** — Full testimonies:
+  - *Amara Osei — Widowed at 28*
+  - *Ji-Woo Park — From K-Pop Idol to Pastor*
+  - *Carlos Mendez — From Drug Cartel to Church Planter*
+  - *Lydia Böhm — Deconstruction and Back*
+  - *Samuel Mwangi — From Prosperity Gospel to Grace*
+  - *Marcus Thompson — Cancer Free Praise Report*
+- **`/video`** — Video library with category filters, like/bookmark buttons, featured video
+- **`/newsletter`** — Newsletter subscriptions:
+  - The Weekly Vine (124K subscribers)
+  - Daily Bread (89K)
+  - Trending Theology (42K)
+  - Global Church Report (31K)
+  - Edition multi-select, email input, subscribe confirmation
+
+### Worship & Music
+- **`/worship`** — Full worship hub with:
+  - Playable song cards (click to toggle play/pause)
+  - Fixed "Now Playing" bar at bottom when song is active
+  - Inline chord chart expansion per song (with key, BPM, time signature)
+  - Join worship circles with confirmation
+  - Follow worship creators
+  - Submit your music form with success state
+
+### Life & Faith Topics
+- **`/mental-health`** — Mental health resources, therapist directory with Book Session toggle, support groups with Join toggle
+- **`/finances`** — Biblical finance principles + **interactive 10-10-80 Budget Calculator**:
+  - Enter monthly or annual income
+  - Live splits: Give (10%), Save (10%), Live (80%)
+  - Monthly/annual view toggle
+  - Annual summary when income entered
+- **`/life-hacks`** — 15+ practical Christian life hacks with category filtering (Sleep, Parenting, Money, Relationships, etc.) and save counts
+- **`/parenting`** — Stage-by-stage wisdom (0–5, 6–12, teens, adult children) with Scripture references and feature articles
+- **`/relationships`** — Dating, marriage, singleness, and friendship content with resource pillars
+- **`/work-leadership`** — Biblical work theology, leadership frameworks, biblical models (Daniel, Nehemiah, Joseph, Deborah), article grid
+
+### Global & Missions
+- **`/global-connect`** — Global church community hub:
+  - 6 region cards with join circles (toggle with checkmark)
+  - Global Prayer Wall with live pray counts per country
+  - World member profiles with Connect toggle
+  - Set Your Location button with confirmation state
+- **`/missions`** — Great Commission hub:
+  - Priority region cards with "Pray for this region" toggle
+  - Missionary spotlight cards with Follow + Pray buttons
+  - 6 Ways to Engage (Pray, Give, Go, Send, Reach Locally, Translate)
+
+### Events
+- **`/events`** — Worldwide events calendar with full filter system:
+  - Filter by event type (Conference, Retreat, Workshop, Online, Local Church)
+  - Filter by month (Jun–Nov toggle)
+  - Search by name/location/host with live filtering
+  - "Near Me" toggle (in-person events only)
+  - Empty state with clear-all
+  - EventRegisterButton per card with confirmation flow
+- **`/events/[slug]`** — Individual event detail pages
+
+### Discovery & Growth
+- **`/creators`** — Creator directory with role filters and Follow buttons (CreatorCard sub-component with own state)
+- **`/leaderboard`** — Community champions:
+  - Period selector (This Week / This Month / All Time)
+  - Category tabs (Overall, Prayer Warriors, Top Teachers, Missional)
+  - Podium view for top 3 + full rankings list
+  - Badges legend
+- **`/quiz`** — Spiritual Gifts Assessment:
+  - 10-question flow (Romans 12, 1 Corinthians 12 based)
+  - 7 possible results: Teaching, Encouragement, Giving, Leadership, Mercy, Service, Prophecy
+  - Each result includes description, key verse, biblical example, and "How to use this on Vine"
+  - Coming-soon quiz previews for 3 additional quizzes
+- **`/apologetics`** — Christian apologetics hub with topic tracks, common objections with responses, key thinkers (C.S. Lewis, Alvin Plantinga, N.T. Wright, William Lane Craig, Francis Collins)
+- **`/resources`** — Resource library with category + topic filtering, bookmark/save toggles, empty state
+
+### AI & Tools
+- **`/ai-companion`** — AI Bible Companion chat interface with conversation history
+- **`/giving`** — Multi-cause giving hub with GiveButton per cause:
+  - Amount picker (preset + custom)
+  - Confirm step
+  - Success confirmation with receipt notice
+
+### Settings & Utility
+- **`/settings`** — Full settings panel with 8 tabs (Account, Notifications, Privacy, Appearance, Faith Profile, Reading Plans, Connections, Billing), all toggles functional
+- **`/about`** — About Vine
+- **`/terms`** — Terms of service
+- **`/privacy`** — Privacy policy
 
 ---
 
-## 📚 Content — Real Christian Data
+## Interactive Features
 
-| Content Type | Count | Examples |
-|-------------|-------|---------|
-| **Blog Articles** | 11 full articles | "Why the Resurrection Changes Everything", "The Psalms as Permission to Lament" |
-| **Discussion Threads** | 11 full threads | Faith & Doubt, Prayer Wall, Deconstruction, Tithing, Marriage |
-| **Testimony Stories** | 7 full stories | Carlos Mendez, Ji-Woo Park, Amara Osei, Isabella Ferreira |
-| **Group Pages** | 14 full groups | Theology & Doctrine, Young Adults, Mental Health & Faith, etc. |
-| **Daily Devotionals** | 7 complete days | Lamentations, Psalm 23, Romans 8, Proverbs 3, John 15, Isaiah 40, Hebrews 11 |
-| **Topic Pages** | 6 topic pages | Prayer & Fasting, Gen Z & Church, Marriage & Faith, etc. |
-| **Prayer Requests** | 8+ real requests | Health, grief, marriage, ministry, mental health, praise reports |
-| **Feed Posts** | 10 posts | From real-sounding Christian voices worldwide |
+Every action across the entire app provides visual feedback. Key patterns:
 
-All content features real Protestant Christian authors including:
-- **Dr. Emmanuel Asante** (Cape Town) — Theologian & Author
-- **Pastor Miriam Osei** (Accra) — Grace Tabernacle
-- **Rev. Charles Mwangi** (Nairobi) — Bible Teacher
-- **Dr. Sarah Whitfield** (Edinburgh) — Biblical Counselor
-- **Pastor Kwame Asante** (Kumasi) — Church Planter
-- **Dr. Lydia Chen** (Singapore) — NT Scholar, Trinity Theological College
-- And 20+ more authentic voices from 15+ countries
-
----
-
-## 🛠️ Tech Stack
-
-| Layer | Technology | Why |
-|-------|-----------|-----|
-| 🖼️ **Framework** | Next.js 16 (App Router, Turbopack) | Latest — breaking changes from 15 |
-| 🔷 **Language** | TypeScript (strict) | Zero runtime type surprises |
-| 🎨 **Styling** | Tailwind CSS v4 + CSS Variables | Custom dark-premium design system |
-| ☁️ **Hosting** | Vercel (Fluid Compute) | Node.js runtime, zero cold starts |
-| 🧠 **AI** | Vercel AI SDK + AI Gateway | `streamText` → `toTextStreamResponse()` |
-| 📊 **Analytics** | `@vercel/analytics` + Speed Insights | Real-time Web Vitals |
-| 🖼️ **OG Images** | `next/og` ImageResponse | Dynamic social share cards |
-| 🔐 **Auth** | localStorage pattern | Client-side session, full profile persistence |
-| 🔐 **Security** | `vercel.ts` security headers | CSP, HSTS, XFO, nosniff |
-| 🗺️ **SEO** | `sitemap.ts` + `robots.ts` | 109-route sitemap, structured data |
-| 📱 **PWA** | `public/manifest.json` | Installable, offline-capable |
-| ⚡ **Animations** | IntersectionObserver API | Scroll-triggered fade-ins |
-| ⏰ **Crons** | Vercel Cron Jobs | Daily verse + weekly challenge |
+| Feature | Behavior |
+|---|---|
+| Prayer Wall | Pray increments count + turns green + disables |
+| Discussions | Upvote/save with live count updates |
+| Worship playback | Play/pause toggle + fixed Now Playing bar |
+| Chord charts | Expand/collapse inline per song |
+| Budget Calculator | Live calculation on keypress |
+| Reading Plan | Mark chapters read, real-time progress |
+| Events filters | Instant filtering across type + month + search |
+| Join/Follow | Filled border + checkmark confirmation |
+| Spiritual Gifts Quiz | Timed answer reveal → result screen |
+| Give Button | Amount → confirm → success flow |
+| Event Register | Toggle confirmed state |
+| Newsletter | Edition multi-select + subscribe confirm |
+| Missionary Prayer | Toggle per region and per missionary |
+| Global Prayer | Pray with live count per country |
+| Mental Health | Book sessions + join support groups |
+| Blog | Bookmark posts + follow editors |
+| Settings | All toggles functional with visual state |
 
 ---
 
-## 🎨 Design System
+## Content
 
-```css
-/* Core palette */
---bg-primary:    #07070F   /* near-black — Apple-meets-church */
---green:         #00FF88   /* primary brand accent */
---purple:        #6B4FBB   /* secondary accent */
---text-primary:  #F2F2F8   /* warm white */
---text-muted:    #6A6A88   /* subdued text */
---card-border:   rgba(0,255,136,0.08)   /* green-tinted card edge */
+All data is realistic and written in the voice of the global Protestant Christian community:
 
-/* Global utility classes */
-.gold-gradient     → background-clip text, green→gold
-.card-glow         → box-shadow: 0 0 30px rgba(green, 0.15)
-.btn-gold          → primary CTA: gold gradient, black text
-.btn-outline-gold  → secondary: transparent, green border
-.verse-card        → Scripture display with italic + green accent
-.tag-pill          → Topic chip: translucent green background
-.page-body         → header-aware padding via --header-height CSS var
-```
+**Authors & Voices**: Dr. Marcus Webb, Rev. Sarah Okonkwo, Tim Challies, David Platt, John Piper references, Amara Osei (Ghana), Ji-Woo Park (South Korea), Carlos Mendez (Colombia), Lydia Böhm (Germany), Samuel Mwangi (Kenya), Dr. Priya Singh (India)
 
-**Typography:** Geist Sans (Vercel) · **Border radius:** 12–20px cards, 999px pills  
-**Motion:** 300ms ease, IntersectionObserver scroll animations
+**Discussions**: Faith & Doubt, Resurrection Evidence, Free Will & God's Omniscience, Deconstruction, Mental Health & Therapy, Praise Reports
+
+**Global Reach**: Content from Sub-Saharan Africa, East Asia, Latin America, North America, Europe, Middle East — 184 countries represented
 
 ---
 
-## 🚀 Quick Start
+## Development
 
 ```bash
-# 1. Clone
-git clone https://github.com/showoffjp/vine.git && cd vine
-
-# 2. Install
 npm install
-
-# 3. Run dev server
-npm run dev
-# → http://localhost:3000
-
-# 4. (Optional) Enable real AI
-echo "OPENAI_API_KEY=sk-..." > .env.local
-npm run dev
+npm run dev      # localhost:3000
+npm run build    # production build
+npm run lint     # ESLint
 ```
 
-> **No API key needed.** The AI Companion streams a rich canned response — every other feature works with zero config.
+### Key Patterns
 
-### Environment Variables
+**Client components** use `"use client"` + `useState` for all interactive state. Server components only for pages with no interactivity.
 
-| Variable | Required | Description |
-|----------|----------|-------------|
-| `OPENAI_API_KEY` | Optional | GPT-4o-mini for the AI Bible Companion |
-| `ANTHROPIC_API_KEY` | Optional | Claude via Vercel AI Gateway |
+**Auth pattern**: `vine_user` JSON object in `localStorage`, set during `/onboarding`, read in `/profile`.
 
----
+**Toggle pattern**: `useState<Set<number>>(new Set())` for join/follow/save/upvote across all pages.
 
-## 📡 Deployment Pipeline
-
-```
-git push → main
-      │
-      ▼
-  Vercel CI
-      │
-      ├─ TypeScript check (tsc --noEmit)
-      ├─ Next.js build (Turbopack)
-      ├─ Static prerender (109 routes → CDN)
-      ├─ API functions → Fluid Compute
-      ├─ OG image function → on-demand
-      └─ Cron jobs → registered
-      │
-      ▼
- Global Edge Network
-      │
-      ▼
- vine.community 🌐
-```
-
-**`vercel.ts`** (typed config) provides:
-- 🔐 6 security response headers
-- 🔄 URL redirects (`/pray→/prayer`, `/read→/bible`, etc.)
-- ⏰ 2 cron jobs (midnight UTC daily verse, weekly challenge)
-- 📦 Fluid Compute for all API routes (not legacy edge functions)
-
----
-
-## 🔐 Security Headers
-
-| Header | Configuration |
-|--------|--------------|
-| `Content-Security-Policy` | `default-src 'self'; script-src 'self' 'unsafe-inline'...` |
-| `Strict-Transport-Security` | `max-age=63072000; includeSubDomains; preload` |
-| `X-Frame-Options` | `DENY` |
-| `X-Content-Type-Options` | `nosniff` |
-| `Referrer-Policy` | `strict-origin-when-cross-origin` |
-| `Permissions-Policy` | Camera, microphone, geolocation: `()` (blocked) |
-
----
-
-## ✨ Highlight Features
-
-<table>
-<tr>
-<td>
-
-**🤖 AI Bible Companion**
-Streaming chat via Vercel AI SDK. Scripture-grounded, orthodox, warm. Works instantly — no key required. Mock responses include theology, anxiety, Paul, Romans 8, and more. Powered by GPT-4o-mini when `OPENAI_API_KEY` is set.
-
-</td>
-<td>
-
-**📰 7-Day Interactive Devotionals**
-Full devotionals for each day of the week: verse, author bio, 5-paragraph devotional, 3 reflection questions, 3 daily applications, and a closing prayer. Navigation, like, save, share, and mark-complete all work.
-
-</td>
-</tr>
-<tr>
-<td>
-
-**💝 Donation Platform**
-GiveButton modal with preset amounts ($25–$500), custom input, two-step confirmation, and success state with receipt messaging. Four active campaigns: Frontier Missions, Bible Translation, Mental Health, Next Gen.
-
-</td>
-<td>
-
-**🌍 Global Connect**
-184 countries. 2.1M+ members. Six regional circles, cross-cultural prayer wall, and discussions in 47 languages. Revelation 7:9 made digital.
-
-</td>
-</tr>
-<tr>
-<td>
-
-**🔐 Auth + Profile System**
-Full sign-up and sign-in flow via AuthModal. User data persisted to localStorage. Profile page reads real user data (name, avatar, interests, joined date). Onboarding saves complete profile.
-
-</td>
-<td>
-
-**🙏 Prayer Wall**
-Submit requests, see real-time prayer counts, browse by category (healing, guidance, gratitude, intercession). Pray button increments count and marks as prayed. 8+ real prayer requests with genuine Christian content.
-
-</td>
-</tr>
-<tr>
-<td>
-
-**📖 Bible Tools**
-Full reader, chapter navigation, verse search, reading plan tracking, cross-references, and related resources — all client-side with beautiful verse card display.
-
-</td>
-<td>
-
-**🌿 Life Hacks**
-9+ biblical life hacks with scripture basis, difficulty ratings, impact stars, and save counts. Category filter works (Digital Life, Productivity, Health, Money, Relationships, Parenting). Submit-a-hack form functional.
-
-</td>
-</tr>
-</table>
-
----
-
-## 📊 Platform at a Glance
-
-```
-╔══════════════════════════════════════════════════════╗
-║  👥  2,100,000+  members globally                    ║
-║  🌍  184         countries represented               ║
-║  💬  4,800,000+  discussion posts                    ║
-║  🙏  12,000      daily prayer requests               ║
-║  📖  200+        curated Bible passages              ║
-║  🎥  18,400+     videos in the library               ║
-║  📰  11          blog articles (full content)        ║
-║  📖  11          discussion threads (full content)   ║
-║  💌  286,000     newsletter subscribers              ║
-║  🌐  47          supported languages                 ║
-║  ✨  2,100+      verified creators                   ║
-║  🗺️  109         pre-rendered static routes          ║
-╚══════════════════════════════════════════════════════╝
-```
-
----
-
-## 🗓️ Roadmap
-
-| Priority | Feature | Status |
-|----------|---------|--------|
-| 🔴 High | **Auth** — Clerk (Vercel Marketplace) | Planned |
-| 🔴 High | **Database** — Neon Postgres | Planned |
-| 🟡 Med | **Real-time** — Vercel Queues for live discussions | Planned |
-| 🟡 Med | **i18n** — Full internationalization (47 languages) | Planned |
-| 🟡 Med | **Push Notifications** — Prayer + discussion alerts | Planned |
-| 🟢 Low | **Mobile App** — React Native (shared components) | Future |
-| 🟢 Low | **Church Hubs** — White-label community spaces | Future |
-| ✅ Done | **Giving** — Donation modal with confirmation | Shipped |
-| ✅ Done | **Daily Devotionals** — 7-day interactive content | Shipped |
-| ✅ Done | **Auth Flow** — localStorage sign-up/sign-in | Shipped |
-| ✅ Done | **All 109 routes** — Pre-rendered, no dead links | Shipped |
-
----
-
-## 📜 Scripture Foundation
-
-> *"I am the vine; you are the branches. If you remain in me and I in you, you will bear much fruit; apart from me you can do nothing."*
-> — **John 15:5**
-
-> *"And let us consider how we may spur one another on toward love and good deeds, not giving up meeting together, as some are in the habit of doing, but encouraging one another."*
-> — **Hebrews 10:24–25**
-
-> *"After this I looked, and there before me was a great multitude that no one could count, from every nation, tribe, people and language, standing before the throne and before the Lamb."*
-> — **Revelation 7:9**
-
----
-
-<div align="center">
-
-**Built with faith, for faith. All rights reserved.**
-
-[![vine.community](https://img.shields.io/badge/🌐-vine.community-00FF88?style=for-the-badge)](https://vine.community)
-
-*© 2026 Vine*
-
-</div>
+**No backend**: Everything is client-side. No database, no API routes, no auth server.

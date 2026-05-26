@@ -1,12 +1,9 @@
-import type { Metadata } from "next";
+"use client";
+
+import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Globe, Heart, Users, ChevronRight, MapPin, Flame, BookOpen } from "lucide-react";
-
-export const metadata: Metadata = {
-  title: "Missions — Vine",
-  description: "Global missions, unreached peoples, and how to engage the Great Commission from wherever you are.",
-};
+import { Globe, Heart, Users, ChevronRight, MapPin, Flame, BookOpen, CheckCircle2 } from "lucide-react";
 
 const stats = [
   { label: "Unreached people groups", value: "7,400+", note: "With little to no access to the Gospel" },
@@ -131,6 +128,37 @@ const spotlights = [
 ];
 
 export default function MissionsPage() {
+  const [prayedRegions, setPrayedRegions] = useState<Set<number>>(new Set());
+  const [followedMissionaries, setFollowedMissionaries] = useState<Set<number>>(new Set());
+  const [prayedMissionaries, setPrayedMissionaries] = useState<Set<number>>(new Set());
+
+  const toggleRegionPrayer = (i: number) => {
+    setPrayedRegions((prev) => {
+      const next = new Set(prev);
+      if (next.has(i)) next.delete(i);
+      else next.add(i);
+      return next;
+    });
+  };
+
+  const toggleFollow = (i: number) => {
+    setFollowedMissionaries((prev) => {
+      const next = new Set(prev);
+      if (next.has(i)) next.delete(i);
+      else next.add(i);
+      return next;
+    });
+  };
+
+  const toggleMissionaryPrayer = (i: number) => {
+    setPrayedMissionaries((prev) => {
+      const next = new Set(prev);
+      if (next.has(i)) next.delete(i);
+      else next.add(i);
+      return next;
+    });
+  };
+
   return (
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
       <Navbar />
@@ -185,24 +213,39 @@ export default function MissionsPage() {
           <h2 className="text-2xl font-black mb-3" style={{ color: "#F2F2F8" }}>Priority Regions</h2>
           <p className="text-base mb-8" style={{ color: "#6A6A88" }}>Where the need — and the harvest — is greatest.</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-            {regions.map((r) => (
-              <div key={r.name} className="rounded-2xl p-6" style={{ background: "rgba(255,255,255,0.02)", border: `1px solid ${r.color}25` }}>
-                <div className="flex items-center justify-between mb-3">
-                  <h3 className="font-black text-lg" style={{ color: "#F2F2F8" }}>{r.name}</h3>
-                  <span className="text-xs font-bold px-2 py-0.5 rounded-full" style={{ background: `${r.color}15`, color: r.color }}>
-                    {r.urgency}
-                  </span>
-                </div>
-                <p className="text-sm mb-4 leading-relaxed" style={{ color: "#6A6A88" }}>{r.description}</p>
-                <div className="flex flex-wrap gap-1.5">
-                  {r.countries.map((c) => (
-                    <span key={c} className="text-xs px-2 py-0.5 rounded-full" style={{ background: `${r.color}10`, color: r.color }}>
-                      {c}
+            {regions.map((r, i) => {
+              const prayed = prayedRegions.has(i);
+              return (
+                <div key={r.name} className="rounded-2xl p-6" style={{ background: "rgba(255,255,255,0.02)", border: `1px solid ${prayed ? r.color + "40" : r.color + "25"}` }}>
+                  <div className="flex items-center justify-between mb-3">
+                    <h3 className="font-black text-lg" style={{ color: "#F2F2F8" }}>{r.name}</h3>
+                    <span className="text-xs font-bold px-2 py-0.5 rounded-full" style={{ background: `${r.color}15`, color: r.color }}>
+                      {r.urgency}
                     </span>
-                  ))}
+                  </div>
+                  <p className="text-sm mb-4 leading-relaxed" style={{ color: "#6A6A88" }}>{r.description}</p>
+                  <div className="flex flex-wrap gap-1.5 mb-4">
+                    {r.countries.map((c) => (
+                      <span key={c} className="text-xs px-2 py-0.5 rounded-full" style={{ background: `${r.color}10`, color: r.color }}>
+                        {c}
+                      </span>
+                    ))}
+                  </div>
+                  <button
+                    onClick={() => toggleRegionPrayer(i)}
+                    className="flex items-center gap-2 text-sm font-bold px-4 py-2 rounded-xl transition-all"
+                    style={{
+                      background: prayed ? `${r.color}15` : "transparent",
+                      border: `1px solid ${prayed ? r.color + "50" : r.color + "30"}`,
+                      color: r.color,
+                    }}
+                  >
+                    {prayed ? <CheckCircle2 size={14} /> : <Heart size={14} />}
+                    {prayed ? "🙏 Praying for this region" : "Pray for this region"}
+                  </button>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 
@@ -210,27 +253,52 @@ export default function MissionsPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-14">
           <h2 className="text-2xl font-black mb-8" style={{ color: "#F2F2F8" }}>Missionary Spotlights</h2>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
-            {spotlights.map((s) => (
-              <div key={s.name} className="rounded-2xl p-6" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-12 rounded-full flex items-center justify-center text-sm font-black" style={{ background: `${s.color}25`, color: s.color, border: `2px solid ${s.color}30` }}>
-                    {s.avatar}
+            {spotlights.map((s, i) => {
+              const following = followedMissionaries.has(i);
+              const prayed = prayedMissionaries.has(i);
+              return (
+                <div key={s.name} className="rounded-2xl p-6" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-12 h-12 rounded-full flex items-center justify-center text-sm font-black" style={{ background: `${s.color}25`, color: s.color, border: `2px solid ${s.color}30` }}>
+                      {s.avatar}
+                    </div>
+                    <div>
+                      <p className="font-bold text-sm" style={{ color: "#F2F2F8" }}>{s.name} {s.flag}</p>
+                      <p className="text-xs" style={{ color: "#6A6A88" }}>{s.role} · {s.location}</p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="font-bold text-sm" style={{ color: "#F2F2F8" }}>{s.name} {s.flag}</p>
-                    <p className="text-xs" style={{ color: "#6A6A88" }}>{s.role} · {s.location}</p>
+                  <p className="text-sm font-semibold mb-3" style={{ color: "#C0C0D8" }}>{s.summary}</p>
+                  <div className="p-3 rounded-xl mb-4" style={{ background: "rgba(0,255,136,0.05)", border: "1px solid rgba(0,255,136,0.1)" }}>
+                    <p className="text-xs font-bold mb-1" style={{ color: "#00FF88" }}>Latest Update</p>
+                    <p className="text-sm italic" style={{ color: "#8A8AA8" }}>&ldquo;{s.update}&rdquo;</p>
+                  </div>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => toggleMissionaryPrayer(i)}
+                      className="flex-1 py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-1 transition-all"
+                      style={{
+                        background: prayed ? "rgba(0,255,136,0.12)" : "transparent",
+                        border: `1px solid ${prayed ? "rgba(0,255,136,0.4)" : "rgba(0,255,136,0.2)"}`,
+                        color: "#00FF88",
+                      }}
+                    >
+                      🙏 {prayed ? "Praying" : "Pray"}
+                    </button>
+                    <button
+                      onClick={() => toggleFollow(i)}
+                      className="flex-1 py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-1 transition-all"
+                      style={{
+                        background: following ? `${s.color}15` : "transparent",
+                        border: `1px solid ${following ? s.color + "50" : s.color + "30"}`,
+                        color: s.color,
+                      }}
+                    >
+                      {following ? "✓ Following" : "Follow"}
+                    </button>
                   </div>
                 </div>
-                <p className="text-sm font-semibold mb-3" style={{ color: "#C0C0D8" }}>{s.summary}</p>
-                <div className="p-3 rounded-xl" style={{ background: "rgba(0,255,136,0.05)", border: "1px solid rgba(0,255,136,0.1)" }}>
-                  <p className="text-xs font-bold mb-1" style={{ color: "#00FF88" }}>Latest Update</p>
-                  <p className="text-sm italic" style={{ color: "#8A8AA8" }}>&ldquo;{s.update}&rdquo;</p>
-                </div>
-                <a href="/giving" className="mt-4 text-sm font-bold flex items-center gap-1" style={{ color: s.color, textDecoration: "none" }}>
-                  Support them <ChevronRight size={14} />
-                </a>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 

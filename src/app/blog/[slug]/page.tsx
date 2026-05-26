@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Clock, Eye, MessageSquare, Heart, Share2, Bookmark, ChevronRight, ArrowLeft } from "lucide-react";
+import BlogArticleActions from "@/components/BlogArticleActions";
+import { Clock, Eye, MessageSquare, ChevronRight, ArrowLeft } from "lucide-react";
 
 const articles: Record<string, {
   title: string; excerpt: string; author: string; role: string; avatar: string; avatarColor: string;
@@ -521,20 +522,7 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
           </div>
 
           {/* Actions */}
-          <div className="flex items-center gap-4 py-6 mb-10" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-            <button className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all"
-              style={{ background: "rgba(236,72,153,0.1)", color: "#EC4899", border: "1px solid rgba(236,72,153,0.2)" }}>
-              <Heart size={14} /> Like
-            </button>
-            <button className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold"
-              style={{ background: "rgba(0,255,136,0.08)", color: "#00FF88", border: "1px solid rgba(0,255,136,0.2)" }}>
-              <Bookmark size={14} /> Save
-            </button>
-            <button className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold"
-              style={{ background: "rgba(255,255,255,0.04)", color: "#8A8AA8", border: "1px solid rgba(255,255,255,0.08)" }}>
-              <Share2 size={14} /> Share
-            </button>
-          </div>
+          <BlogArticleActions />
 
           {/* Author Card */}
           <div className="rounded-2xl p-6 mb-10" style={{ background: `${article.avatarColor}08`, border: `1px solid ${article.avatarColor}20` }}>

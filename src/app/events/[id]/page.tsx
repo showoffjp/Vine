@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import EventDetailActions from "@/components/EventDetailActions";
 import {
   Calendar,
   MapPin,
@@ -9,8 +10,6 @@ import {
   Radio,
   ArrowLeft,
   CheckCircle,
-  Share2,
-  Heart,
   Clock,
   Mic,
   BookOpen,
@@ -568,33 +567,12 @@ export default async function EventDetailPage({
                     </div>
                   )}
 
-                  <button
-                    className="w-full py-3.5 rounded-xl text-sm font-black mt-2"
-                    style={{
-                      background:
-                        event.price === "Free"
-                          ? `linear-gradient(135deg, ${event.accentColor} 0%, ${event.secondaryColor} 100%)`
-                          : event.accentColor,
-                      color: "#07070F",
-                    }}
-                  >
-                    {event.price === "Free" ? "Register Free" : "Get Tickets"}
-                  </button>
-
-                  <div className="flex gap-2">
-                    <button
-                      className="flex-1 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5"
-                      style={{ background: "rgba(255,255,255,0.04)", color: "#8A8AA8", border: "1px solid rgba(255,255,255,0.08)" }}
-                    >
-                      <Heart size={12} /> Save
-                    </button>
-                    <button
-                      className="flex-1 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5"
-                      style={{ background: "rgba(255,255,255,0.04)", color: "#8A8AA8", border: "1px solid rgba(255,255,255,0.08)" }}
-                    >
-                      <Share2 size={12} /> Share
-                    </button>
-                  </div>
+                  <EventDetailActions
+                    price={event.price}
+                    accentColor={event.accentColor}
+                    secondaryColor={event.secondaryColor}
+                    eventTitle={event.title}
+                  />
                 </div>
               </div>
 

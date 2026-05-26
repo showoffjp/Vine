@@ -8,11 +8,9 @@ import {
   Heart,
   Bookmark,
   Share2,
-  Filter,
   Clock,
   TrendingUp,
   Star,
-  ChevronRight,
   Search,
   Volume2,
 } from "lucide-react";
@@ -153,6 +151,18 @@ export default function VideoPage() {
   const [search, setSearch] = useState("");
   const [likedVideos, setLikedVideos] = useState<Set<number>>(new Set([1]));
   const [savedVideos, setSavedVideos] = useState<Set<number>>(new Set());
+  const [followedChannels, setFollowedChannels] = useState<Set<string>>(new Set());
+  const [featuredSaved, setFeaturedSaved] = useState(false);
+
+  const filteredVideos = videos.filter((v) => {
+    const matchCat = activeCategory === "All" || v.tag === activeCategory;
+    const matchSearch = !search || v.title.toLowerCase().includes(search.toLowerCase()) || v.channel.toLowerCase().includes(search.toLowerCase());
+    return matchCat && matchSearch;
+  });
+
+  const toggleFollow = (name: string) => setFollowedChannels(prev => {
+    const next = new Set(prev); next.has(name) ? next.delete(name) : next.add(name); return next;
+  });
 
   const toggleLike = (i: number) => setLikedVideos(prev => {
     const next = new Set(prev); next.has(i) ? next.delete(i) : next.add(i); return next;
@@ -282,10 +292,15 @@ export default function VideoPage() {
                   <Play size={14} /> Watch Now
                 </button>
                 <button
-                  className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold"
-                  style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#8A8AA8" }}
+                  onClick={() => setFeaturedSaved(!featuredSaved)}
+                  className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all"
+                  style={{
+                    background: featuredSaved ? "rgba(0,255,136,0.1)" : "rgba(255,255,255,0.04)",
+                    border: `1px solid ${featuredSaved ? "rgba(0,255,136,0.3)" : "rgba(255,255,255,0.08)"}`,
+                    color: featuredSaved ? "#00FF88" : "#8A8AA8",
+                  }}
                 >
-                  <Bookmark size={14} /> Save
+                  <Bookmark size={14} fill={featuredSaved ? "#00FF88" : "none"} /> {featuredSaved ? "Saved" : "Save"}
                 </button>
               </div>
             </div>
@@ -314,10 +329,19 @@ export default function VideoPage() {
             <div className="lg:col-span-2">
               <div className="flex items-center gap-2 mb-5">
                 <TrendingUp size={16} style={{ color: "#00FF88" }} />
-                <h2 className="text-lg font-black" style={{ color: "#F2F2F8" }}>Trending Videos</h2>
+                <h2 className="text-lg font-black" style={{ color: "#F2F2F8" }}>
+                  {filteredVideos.length === videos.length ? "Trending Videos" : `${filteredVideos.length} Videos Found`}
+                </h2>
               </div>
+              {filteredVideos.length === 0 && (
+                <div className="rounded-2xl p-8 text-center" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
+                  <p className="text-3xl mb-3">🎬</p>
+                  <p className="font-bold mb-1" style={{ color: "#F2F2F8" }}>No videos found</p>
+                  <button onClick={() => { setActiveCategory("All"); setSearch(""); }} className="text-sm mt-2" style={{ color: "#00FF88" }}>Clear filters</button>
+                </div>
+              )}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {videos.map((v, i) => (
+                {filteredVideos.map((v, i) => (
                   <div
                     key={i}
                     className="group rounded-xl overflow-hidden cursor-pointer transition-all"
@@ -362,13 +386,40 @@ export default function VideoPage() {
                       <h3 className="font-semibold text-sm mb-1.5 leading-snug group-hover:text-[#00FF88] transition-colors" style={{ color: "#F2F2F8" }}>
                         {v.title}
                       </h3>
-                      <div className="flex items-center justify-between">
+                      <div className="flex items-center justify-between mb-2">
                         <span className="text-xs font-semibold" style={{ color: v.channelColor }}>
                           {v.channel}
                         </span>
                         <span className="text-xs" style={{ color: "#4A4A68" }}>
                           {v.views} · {v.age}
                         </span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={(e) => { e.stopPropagation(); toggleLike(i); }}
+                          className="flex items-center gap-1 text-xs px-2 py-1 rounded-lg transition-all"
+                          style={{
+                            background: likedVideos.has(i) ? "rgba(236,72,153,0.12)" : "transparent",
+                            border: `1px solid ${likedVideos.has(i) ? "rgba(236,72,153,0.3)" : "rgba(255,255,255,0.06)"}`,
+                            color: likedVideos.has(i) ? "#EC4899" : "#6A6A88",
+                          }}
+                        >
+                          <Heart size={11} fill={likedVideos.has(i) ? "#EC4899" : "none"} />
+                        </button>
+                        <button
+                          onClick={(e) => { e.stopPropagation(); toggleSave(i); }}
+                          className="flex items-center gap-1 text-xs px-2 py-1 rounded-lg transition-all"
+                          style={{
+                            background: savedVideos.has(i) ? "rgba(0,255,136,0.1)" : "transparent",
+                            border: `1px solid ${savedVideos.has(i) ? "rgba(0,255,136,0.25)" : "rgba(255,255,255,0.06)"}`,
+                            color: savedVideos.has(i) ? "#00FF88" : "#6A6A88",
+                          }}
+                        >
+                          <Bookmark size={11} fill={savedVideos.has(i) ? "#00FF88" : "none"} />
+                        </button>
+                        <button className="flex items-center gap-1 text-xs px-2 py-1 rounded-lg ml-auto" style={{ color: "#4A4A68", border: "1px solid rgba(255,255,255,0.06)" }}>
+                          <Share2 size={11} />
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -407,10 +458,15 @@ export default function VideoPage() {
                         </p>
                       </div>
                       <button
-                        className="text-xs px-2.5 py-1 rounded-full font-semibold shrink-0"
-                        style={{ background: "rgba(0,255,136,0.1)", color: "#00FF88", border: "1px solid rgba(0,255,136,0.2)" }}
+                        onClick={() => toggleFollow(ch.name)}
+                        className="text-xs px-2.5 py-1 rounded-full font-semibold shrink-0 transition-all"
+                        style={{
+                          background: followedChannels.has(ch.name) ? "rgba(0,255,136,0.2)" : "rgba(0,255,136,0.1)",
+                          color: "#00FF88",
+                          border: `1px solid ${followedChannels.has(ch.name) ? "rgba(0,255,136,0.4)" : "rgba(0,255,136,0.2)"}`,
+                        }}
                       >
-                        Follow
+                        {followedChannels.has(ch.name) ? "✓ Following" : "Follow"}
                       </button>
                     </div>
                   ))}

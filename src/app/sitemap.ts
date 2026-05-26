@@ -41,6 +41,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/terms", priority: 0.4, changeFreq: "yearly" as const },
     { path: "/community-guidelines", priority: 0.5, changeFreq: "monthly" as const },
     { path: "/notifications", priority: 0.3, changeFreq: "hourly" as const },
+    { path: "/search", priority: 0.7, changeFreq: "daily" as const },
+    { path: "/leaderboard", priority: 0.6, changeFreq: "daily" as const },
+    { path: "/blog/why-the-resurrection-changes-everything", priority: 0.7, changeFreq: "monthly" as const },
+    { path: "/blog/ai-chatgpt-church", priority: 0.7, changeFreq: "monthly" as const },
+    { path: "/stories/carlos-mendez-drug-cartel-to-church-planter", priority: 0.7, changeFreq: "monthly" as const },
+    { path: "/stories/lydia-bohm-deconstruction", priority: 0.7, changeFreq: "monthly" as const },
   ];
 
   return routes.map(({ path, priority, changeFreq }) => ({

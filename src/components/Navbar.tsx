@@ -11,8 +11,10 @@ const navLinks = [
     children: [
       { label: "My Feed", href: "/feed" },
       { label: "Discussions", href: "/discussions" },
+      { label: "Groups", href: "/groups" },
       { label: "Prayer Wall", href: "/prayer" },
       { label: "Global Connect", href: "/global-connect" },
+      { label: "Stories", href: "/stories" },
     ],
   },
   {
@@ -22,6 +24,7 @@ const navLinks = [
       { label: "Video Library", href: "/video" },
       { label: "Bible Tools", href: "/bible" },
       { label: "Reading Plan", href: "/reading-plan" },
+      { label: "Apologetics", href: "/apologetics" },
     ],
   },
   {
@@ -46,7 +49,9 @@ const navLinks = [
     label: "Explore",
     children: [
       { label: "Discover", href: "/explore" },
+      { label: "Missions", href: "/missions" },
       { label: "Events", href: "/events" },
+      { label: "Leaderboard", href: "/leaderboard" },
       { label: "Creators", href: "/creators" },
       { label: "About Vine", href: "/about" },
     ],

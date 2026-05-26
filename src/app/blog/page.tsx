@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
@@ -225,6 +226,22 @@ const editors = [
 ];
 
 export default function BlogPage() {
+  const [activeCategory, setActiveCategory] = useState("All");
+  const [savedPosts, setSavedPosts] = useState<Set<number>>(new Set());
+  const [followedEditors, setFollowedEditors] = useState<Set<string>>(new Set());
+  const [newsletterEmail, setNewsletterEmail] = useState("");
+  const [newsletterDone, setNewsletterDone] = useState(false);
+
+  const toggleSave = (i: number) => setSavedPosts(prev => { const n = new Set(prev); n.has(i) ? n.delete(i) : n.add(i); return n; });
+  const toggleFollow = (name: string) => setFollowedEditors(prev => { const n = new Set(prev); n.has(name) ? n.delete(name) : n.add(name); return n; });
+  const handleSubscribe = () => {
+    if (!newsletterEmail.trim()) return;
+    setNewsletterDone(true);
+    setNewsletterEmail("");
+  };
+
+  const filteredPosts = activeCategory === "All" ? posts : posts.filter(p => p.category === activeCategory);
+
   return (
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
       <Navbar />
@@ -333,25 +350,32 @@ export default function BlogPage() {
 
               {/* Category Filter */}
               <div className="flex gap-2 flex-wrap">
-                {categories.map((cat) => (
-                  <button
-                    key={cat.name}
-                    className="px-4 py-1.5 rounded-full text-sm font-semibold transition-all"
-                    style={{
-                      background: cat.active ? "#00FF88" : "rgba(255,255,255,0.04)",
-                      color: cat.active ? "#000" : "#6A6A88",
-                      border: `1px solid ${cat.active ? "#00FF88" : "rgba(255,255,255,0.08)"}`,
-                    }}
-                  >
-                    {cat.name}
-                    <span className="ml-1.5 text-xs opacity-70">({cat.count})</span>
-                  </button>
-                ))}
+                {categories.map((cat) => {
+                  const active = activeCategory === cat.name;
+                  return (
+                    <button
+                      key={cat.name}
+                      onClick={() => setActiveCategory(cat.name)}
+                      className="px-4 py-1.5 rounded-full text-sm font-semibold transition-all"
+                      style={{
+                        background: active ? "#00FF88" : "rgba(255,255,255,0.04)",
+                        color: active ? "#000" : "#6A6A88",
+                        border: `1px solid ${active ? "#00FF88" : "rgba(255,255,255,0.08)"}`,
+                      }}
+                    >
+                      {cat.name}
+                      <span className="ml-1.5 text-xs opacity-70">({cat.count})</span>
+                    </button>
+                  );
+                })}
               </div>
 
               {/* Post Grid */}
               <div className="space-y-4">
-                {posts.map((post, i) => (
+                {filteredPosts.length === 0 && (
+                  <p className="text-center py-8 text-sm" style={{ color: "#8A8AA8" }}>No posts in this category yet.</p>
+                )}
+                {filteredPosts.map((post, i) => (
                   <a
                     key={i}
                     href={post.slug ? `/blog/${post.slug}` : undefined}
@@ -387,9 +411,13 @@ export default function BlogPage() {
                         >
                           {post.category}
                         </span>
-                        {post.saved && (
-                          <Bookmark size={12} style={{ color: "#00FF88" }} />
-                        )}
+                        <button
+                          onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleSave(i); }}
+                          className="ml-auto p-1 rounded transition hover:bg-[#1E1E32]"
+                          style={{ color: savedPosts.has(i) || post.saved ? "#00FF88" : "#4A4A68" }}
+                        >
+                          <Bookmark size={12} fill={savedPosts.has(i) || post.saved ? "#00FF88" : "none"} />
+                        </button>
                       </div>
                       <h3 className="font-bold text-base mb-1.5 leading-snug group-hover:text-[#00FF88] transition-colors" style={{ color: "#F2F2F8" }}>
                         {post.title}
@@ -503,10 +531,15 @@ export default function BlogPage() {
                         <p className="text-xs" style={{ color: "#6A6A88" }}>{ed.role}</p>
                       </div>
                       <button
-                        className="ml-auto text-xs px-3 py-1 rounded-full font-semibold"
-                        style={{ background: "rgba(0,255,136,0.1)", color: "#00FF88", border: "1px solid rgba(0,255,136,0.2)" }}
+                        onClick={() => toggleFollow(ed.name)}
+                        className="ml-auto text-xs px-3 py-1 rounded-full font-semibold transition-all"
+                        style={{
+                          background: followedEditors.has(ed.name) ? "#00FF88" : "rgba(0,255,136,0.1)",
+                          color: followedEditors.has(ed.name) ? "#07070F" : "#00FF88",
+                          border: "1px solid rgba(0,255,136,0.2)",
+                        }}
                       >
-                        Follow
+                        {followedEditors.has(ed.name) ? "✓ Following" : "Follow"}
                       </button>
                     </div>
                   ))}
@@ -528,22 +561,35 @@ export default function BlogPage() {
                 <p className="text-sm mb-4" style={{ color: "#6A6A88" }}>
                   The 5 best articles from the week, curated every Sunday morning.
                 </p>
-                <input
-                  type="email"
-                  placeholder="your@email.com"
-                  className="w-full px-4 py-2.5 rounded-lg text-sm mb-3 outline-none"
-                  style={{
-                    background: "rgba(255,255,255,0.05)",
-                    border: "1px solid rgba(255,255,255,0.1)",
-                    color: "#F2F2F8",
-                  }}
-                />
-                <button
-                  className="w-full py-2.5 rounded-lg text-sm font-bold text-black"
-                  style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)" }}
-                >
-                  Subscribe Free
-                </button>
+                {newsletterDone ? (
+                  <div className="py-3 text-center">
+                    <p className="font-bold text-sm" style={{ color: "#00FF88" }}>✓ You're subscribed!</p>
+                    <p className="text-xs mt-1" style={{ color: "#6A6A88" }}>First digest arrives Sunday morning.</p>
+                  </div>
+                ) : (
+                  <>
+                    <input
+                      type="email"
+                      value={newsletterEmail}
+                      onChange={(e) => setNewsletterEmail(e.target.value)}
+                      onKeyDown={(e) => e.key === "Enter" && handleSubscribe()}
+                      placeholder="your@email.com"
+                      className="w-full px-4 py-2.5 rounded-lg text-sm mb-3 outline-none"
+                      style={{
+                        background: "rgba(255,255,255,0.05)",
+                        border: "1px solid rgba(255,255,255,0.1)",
+                        color: "#F2F2F8",
+                      }}
+                    />
+                    <button
+                      onClick={handleSubscribe}
+                      className="w-full py-2.5 rounded-lg text-sm font-bold text-black"
+                      style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)" }}
+                    >
+                      Subscribe Free
+                    </button>
+                  </>
+                )}
                 <p className="text-xs mt-2 text-center" style={{ color: "#4A4A68" }}>
                   No spam. Unsubscribe anytime.
                 </p>

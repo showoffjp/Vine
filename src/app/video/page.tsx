@@ -151,6 +151,15 @@ const channels = [
 export default function VideoPage() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [search, setSearch] = useState("");
+  const [likedVideos, setLikedVideos] = useState<Set<number>>(new Set([1]));
+  const [savedVideos, setSavedVideos] = useState<Set<number>>(new Set());
+
+  const toggleLike = (i: number) => setLikedVideos(prev => {
+    const next = new Set(prev); next.has(i) ? next.delete(i) : next.add(i); return next;
+  });
+  const toggleSave = (i: number) => setSavedVideos(prev => {
+    const next = new Set(prev); next.has(i) ? next.delete(i) : next.add(i); return next;
+  });
 
   return (
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>

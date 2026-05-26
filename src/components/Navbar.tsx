@@ -58,6 +58,14 @@ const navLinks = [
   },
 ];
 
+interface VineUser {
+  name: string;
+  firstName: string;
+  email: string;
+  avatar: string;
+  interests: string[];
+}
+
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -66,7 +74,21 @@ export default function Navbar() {
   const [authOpen, setAuthOpen] = useState(false);
   const [authMode, setAuthMode] = useState<"signin" | "signup">("signup");
   const [bannerVisible, setBannerVisible] = useState(true);
+  const [user, setUser] = useState<VineUser | null>(null);
   const headerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const stored = localStorage.getItem("vine_user");
+    if (stored) {
+      try { setUser(JSON.parse(stored)); } catch { /* ignore */ }
+    }
+  }, []);
+
+  const handleSignOut = () => {
+    localStorage.removeItem("vine_user");
+    setUser(null);
+    window.location.href = "/";
+  };
 
   // Keep --header-height CSS var in sync with actual rendered height
   useEffect(() => {
@@ -122,9 +144,9 @@ export default function Navbar() {
           <span style={{ color: "#C0C0D8" }}>
             <span className="font-bold" style={{ color: "#00FF88" }}>Vine Beta is live.</span>{" "}
             <span className="hidden sm:inline">Join early and shape the future of Christian community.</span>{" "}
-            <a href="#join" className="underline font-semibold" style={{ color: "#44FFAA" }}>
+            <button onClick={() => { setAuthMode("signup"); setAuthOpen(true); }} className="underline font-semibold" style={{ color: "#44FFAA" }}>
               Join free →
-            </a>
+            </button>
           </span>
           <button
             onClick={() => setBannerVisible(false)}
@@ -306,18 +328,64 @@ export default function Navbar() {
               </div>
 
               {/* Auth */}
-              <button
-                className="hidden sm:block btn-outline-gold px-4 py-1.5 rounded-lg text-sm font-semibold"
-                onClick={() => { setAuthMode("signin"); setAuthOpen(true); }}
-              >
-                Sign In
-              </button>
-              <button
-                className="btn-gold px-4 py-1.5 rounded-lg text-sm font-semibold"
-                onClick={() => { setAuthMode("signup"); setAuthOpen(true); }}
-              >
-                Join Free
-              </button>
+              {user ? (
+                <div className="relative">
+                  <button
+                    className="flex items-center gap-2 pl-1.5 pr-3 py-1.5 rounded-xl transition-all"
+                    style={{ background: "rgba(0,255,136,0.08)", border: "1px solid rgba(0,255,136,0.15)" }}
+                    onClick={() => setActiveDropdown(activeDropdown === "user" ? null : "user")}
+                  >
+                    <div className="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-black" style={{ background: "linear-gradient(135deg, #00FF88, #6B4FBB)", color: "#07070F" }}>
+                      {user.avatar}
+                    </div>
+                    <span className="text-sm font-semibold hidden sm:block" style={{ color: "#F2F2F8" }}>{user.firstName}</span>
+                    <ChevronDown size={12} style={{ color: "#8A8AA8", transform: activeDropdown === "user" ? "rotate(180deg)" : "none", transition: "transform 200ms" }} />
+                  </button>
+                  {activeDropdown === "user" && (
+                    <div
+                      className="absolute right-0 top-full mt-2 w-52 rounded-2xl py-1.5 z-50"
+                      style={{ background: "rgba(11,11,22,0.98)", border: "1px solid rgba(0,255,136,0.12)", backdropFilter: "blur(24px)", boxShadow: "0 24px 64px rgba(0,0,0,0.6)" }}
+                    >
+                      <div className="px-4 py-3" style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
+                        <p className="text-sm font-bold" style={{ color: "#F2F2F8" }}>{user.name}</p>
+                        <p className="text-xs mt-0.5" style={{ color: "#6A6A88" }}>{user.email}</p>
+                      </div>
+                      {[
+                        { label: "My Feed", href: "/feed" },
+                        { label: "My Profile", href: "/profile" },
+                        { label: "My Groups", href: "/groups" },
+                        { label: "Notifications", href: "/notifications" },
+                      ].map(item => (
+                        <a key={item.label} href={item.href} className="flex items-center px-4 py-2.5 text-sm transition-colors" style={{ color: "#8A8AA8" }}
+                          onMouseEnter={e => { e.currentTarget.style.color = "#F2F2F8"; e.currentTarget.style.background = "rgba(0,255,136,0.06)"; }}
+                          onMouseLeave={e => { e.currentTarget.style.color = "#8A8AA8"; e.currentTarget.style.background = "transparent"; }}
+                        >{item.label}</a>
+                      ))}
+                      <div style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }} className="mt-1 pt-1">
+                        <button onClick={handleSignOut} className="w-full text-left flex items-center px-4 py-2.5 text-sm transition-colors" style={{ color: "#EF4444" }}
+                          onMouseEnter={e => { e.currentTarget.style.background = "rgba(239,68,68,0.06)"; }}
+                          onMouseLeave={e => { e.currentTarget.style.background = "transparent"; }}
+                        >Sign Out</button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <>
+                  <button
+                    className="hidden sm:block btn-outline-gold px-4 py-1.5 rounded-lg text-sm font-semibold"
+                    onClick={() => { setAuthMode("signin"); setAuthOpen(true); }}
+                  >
+                    Sign In
+                  </button>
+                  <button
+                    className="btn-gold px-4 py-1.5 rounded-lg text-sm font-semibold"
+                    onClick={() => { setAuthMode("signup"); setAuthOpen(true); }}
+                  >
+                    Join Free
+                  </button>
+                </>
+              )}
 
               {/* Hamburger */}
               <button
@@ -373,18 +441,28 @@ export default function Navbar() {
                 </div>
               ))}
               <div className="pt-3 pb-2 flex flex-col gap-2">
-                <button
-                  className="btn-outline-gold w-full py-2.5 rounded-lg text-sm font-semibold"
-                  onClick={() => { setAuthMode("signin"); setAuthOpen(true); setMobileOpen(false); }}
-                >
-                  Sign In
-                </button>
-                <button
-                  className="btn-gold w-full py-2.5 rounded-lg text-sm"
-                  onClick={() => { setAuthMode("signup"); setAuthOpen(true); setMobileOpen(false); }}
-                >
-                  Join Free
-                </button>
+                {user ? (
+                  <>
+                    <a href="/feed" className="btn-gold w-full py-2.5 rounded-lg text-sm text-center" onClick={() => setMobileOpen(false)}>My Feed</a>
+                    <a href="/profile" className="btn-outline-gold w-full py-2.5 rounded-lg text-sm text-center" onClick={() => setMobileOpen(false)}>My Profile</a>
+                    <button className="w-full py-2.5 rounded-lg text-sm font-semibold" style={{ color: "#EF4444", border: "1px solid rgba(239,68,68,0.2)" }} onClick={handleSignOut}>Sign Out</button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      className="btn-outline-gold w-full py-2.5 rounded-lg text-sm font-semibold"
+                      onClick={() => { setAuthMode("signin"); setAuthOpen(true); setMobileOpen(false); }}
+                    >
+                      Sign In
+                    </button>
+                    <button
+                      className="btn-gold w-full py-2.5 rounded-lg text-sm"
+                      onClick={() => { setAuthMode("signup"); setAuthOpen(true); setMobileOpen(false); }}
+                    >
+                      Join Free
+                    </button>
+                  </>
+                )}
               </div>
             </div>
           </div>

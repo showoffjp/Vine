@@ -1,13 +1,9 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import DailyActions from "@/components/DailyActions";
 import {
-  ChevronLeft,
-  ChevronRight,
   Clock,
-  Share2,
-  Heart,
-  Bookmark,
   CheckCircle,
   Flame,
   BookOpen,
@@ -221,27 +217,7 @@ export default function DailyPage() {
 
               {/* Share / Like / Save */}
               <div className="flex items-center gap-3 mt-6 pt-5" style={{ borderTop: "1px solid #1E1E32" }}>
-                <button
-                  className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 hover:bg-[#1E1E32]"
-                  style={{ color: "#8A8AA8" }}
-                >
-                  <Heart size={15} />
-                  Like
-                </button>
-                <button
-                  className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 hover:bg-[#1E1E32]"
-                  style={{ color: "#8A8AA8" }}
-                >
-                  <Bookmark size={15} />
-                  Save
-                </button>
-                <button
-                  className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 hover:bg-[#1E1E32] ml-auto"
-                  style={{ color: "#8A8AA8" }}
-                >
-                  <Share2 size={15} />
-                  Share
-                </button>
+                <DailyActions />
               </div>
             </div>
 
@@ -321,19 +297,6 @@ export default function DailyPage() {
               </p>
             </div>
 
-            {/* Navigation */}
-            <div className="flex items-center justify-between">
-              <button
-                className="btn-outline-gold flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-semibold"
-              >
-                <ChevronLeft size={16} />
-                Previous Day
-              </button>
-              <button className="btn-gold flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-bold">
-                Next Day
-                <ChevronRight size={16} />
-              </button>
-            </div>
 
             {/* More Devotionals */}
             <div className="mt-10">

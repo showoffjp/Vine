@@ -176,6 +176,18 @@ export default function PrayerPage() {
   const [prayingAnimation, setPrayingAnimation] = useState<Set<number>>(new Set());
   const [requestText, setRequestText] = useState("");
   const [selectedTopic, setSelectedTopic] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmitPrayer = () => {
+    if (!requestText.trim()) return;
+    setSubmitted(true);
+    setRequestText("");
+    setSelectedTopic("");
+    setTimeout(() => {
+      setSubmitted(false);
+      setShowForm(false);
+    }, 3000);
+  };
 
   const handlePray = (cardId: number) => {
     if (prayedCards.has(cardId)) return;
@@ -350,19 +362,26 @@ export default function PrayerPage() {
                 </p>
               </div>
 
-              <div className="flex items-center gap-3">
-                <button className="btn-gold px-6 py-2.5 rounded-xl text-sm font-bold flex items-center gap-2">
-                  <Send size={14} />
-                  Submit Prayer Request
-                </button>
-                <button
-                  onClick={() => setShowForm(false)}
-                  className="px-4 py-2.5 rounded-xl text-sm font-semibold transition hover:bg-[#18182A]"
-                  style={{ border: "1px solid #1E1E32", color: "#8A8AA8" }}
-                >
-                  Cancel
-                </button>
-              </div>
+              {submitted ? (
+                <div className="rounded-xl p-4 text-center" style={{ background: "rgba(0,255,136,0.08)", border: "1px solid rgba(0,255,136,0.2)" }}>
+                  <p className="text-sm font-bold" style={{ color: "#00FF88" }}>🙏 Your prayer request has been shared with the community.</p>
+                  <p className="text-xs mt-1" style={{ color: "#6A6A88" }}>Believers around the world are already lifting you up.</p>
+                </div>
+              ) : (
+                <div className="flex items-center gap-3">
+                  <button onClick={handleSubmitPrayer} className="btn-gold px-6 py-2.5 rounded-xl text-sm font-bold flex items-center gap-2">
+                    <Send size={14} />
+                    Submit Prayer Request
+                  </button>
+                  <button
+                    onClick={() => setShowForm(false)}
+                    className="px-4 py-2.5 rounded-xl text-sm font-semibold transition hover:bg-[#18182A]"
+                    style={{ border: "1px solid #1E1E32", color: "#8A8AA8" }}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              )}
             </div>
           )}
         </div>

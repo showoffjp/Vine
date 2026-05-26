@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import CreatePostModal from "@/components/CreatePostModal";
 import {
   Flame,
   Sparkles,
@@ -172,6 +173,54 @@ const posts = [
     pinned: false,
     award: null,
   },
+  {
+    id: 9,
+    slug: "deconstruction-faith-008",
+    hub: "Faith & Doubt",
+    hubColor: "#6B4FBB",
+    time: "4 days ago",
+    title: "I've been deconstructing for 2 years. Has anyone come out the other side?",
+    preview: "Two years ago I started asking hard questions. The purity culture, the political Christianity, the unanswered prayers, the pastor scandals. I haven't left — but I barely recognize my faith anymore...",
+    flair: "Vulnerable Share",
+    flairColor: "#BB4F7A",
+    votes: 3841,
+    comments: 612,
+    saves: 902,
+    pinned: false,
+    award: "💜 Most Supported",
+  },
+  {
+    id: 10,
+    slug: "prayer-doesnt-feel-real-009",
+    hub: "Prayer Warriors",
+    hubColor: "#00FF88",
+    time: "3 days ago",
+    title: "I pray and pray and nothing seems to happen. Is God actually listening?",
+    preview: "I know this is vulnerable to share, but I've been praying about the same situation for 3 years. Nothing has changed. I believe God exists. But sometimes in the silence I wonder if prayer is just talking to myself...",
+    flair: "Vulnerable Share",
+    flairColor: "#BB4F7A",
+    votes: 4219,
+    comments: 487,
+    saves: 1102,
+    pinned: false,
+    award: "⭐ Top Post This Week",
+  },
+  {
+    id: 11,
+    slug: "tithing-biblical-or-cultural-010",
+    hub: "Theology & Doctrine",
+    hubColor: "#6B4FBB",
+    time: "2 days ago",
+    title: "Is tithing 10% still a biblical command for Christians, or is it Old Covenant?",
+    preview: "My pastor says tithing is mandatory. My friend says it was part of the Mosaic Law and doesn't apply to Christians. I've looked at Malachi 3:10 and the NT passages and I'm genuinely confused...",
+    flair: "Theology",
+    flairColor: "#3B82F6",
+    votes: 1847,
+    comments: 334,
+    saves: 412,
+    pinned: false,
+    award: null,
+  },
 ];
 
 const trending = [
@@ -232,10 +281,7 @@ export default function DiscussionsPage() {
               <p className="text-xs mb-3" style={{ color: "#6A6A88" }}>
                 A space for honest, grace-filled conversations about faith, life, and everything in between.
               </p>
-              <button className="btn-gold w-full py-2 rounded-xl text-sm font-bold flex items-center justify-center gap-2">
-                <Plus size={15} />
-                Create Post
-              </button>
+              <CreatePostModal label="Create Post" />
             </div>
 
             {/* Your Hubs */}
@@ -536,10 +582,7 @@ export default function DiscussionsPage() {
               <p className="text-xs mb-3" style={{ color: "#8A8AA8" }}>
                 Share what&apos;s on your mind. The community is here to grow together.
               </p>
-              <button className="btn-gold w-full py-2 rounded-xl text-sm font-bold flex items-center justify-center gap-2">
-                <Plus size={14} />
-                New Post
-              </button>
+              <CreatePostModal label="New Post" />
             </div>
           </aside>
         </div>

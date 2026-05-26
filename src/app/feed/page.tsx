@@ -142,11 +142,19 @@ export default function FeedPage() {
   const [likedPosts, setLikedPosts] = useState<PostLikes>({ 2: true, 5: true });
   const [savedPosts, setSavedPosts] = useState<PostSaved>({ 3: true, 5: true });
   const [postText, setPostText] = useState("");
+  const [postShared, setPostShared] = useState(false);
 
   const toggleLike = (id: number) =>
     setLikedPosts((p) => ({ ...p, [id]: !p[id] }));
   const toggleSave = (id: number) =>
     setSavedPosts((p) => ({ ...p, [id]: !p[id] }));
+
+  const handleShare = () => {
+    if (!postText.trim()) return;
+    setPostShared(true);
+    setPostText("");
+    setTimeout(() => setPostShared(false), 3000);
+  };
 
   return (
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
@@ -274,13 +282,14 @@ export default function FeedPage() {
                     </button>
                   </div>
                   <button
+                    onClick={handleShare}
                     className="px-5 py-1.5 rounded-lg text-sm font-bold text-black transition-opacity"
                     style={{
-                      background: "linear-gradient(135deg, #00FF88, #00BB55)",
-                      opacity: postText.trim() ? 1 : 0.4,
+                      background: postShared ? "linear-gradient(135deg, #6B4FBB, #8B6FDB)" : "linear-gradient(135deg, #00FF88, #00BB55)",
+                      opacity: postText.trim() || postShared ? 1 : 0.4,
                     }}
                   >
-                    Share
+                    {postShared ? "Shared! ✓" : "Share"}
                   </button>
                 </div>
               </div>

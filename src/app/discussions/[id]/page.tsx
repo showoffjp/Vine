@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import ReplyBox from "@/components/ReplyBox";
 import { ArrowLeft, MessageSquare, ChevronUp, Share2, Bookmark, Flag, ChevronRight } from "lucide-react";
 
 const threads: Record<string, {
@@ -325,6 +326,165 @@ const threads: Record<string, {
         body: "The empty tomb plus the failure of Jewish authorities to produce the body. If the body was still in the tomb, the resurrection claim could have been definitively silenced with one simple act. Instead the authorities claimed the disciples stole it — which actually concedes the tomb was empty. Even they didn't deny that part.",
         upvotes: 741,
         date: "May 20, 2026",
+        children: [],
+      },
+    ],
+  },
+  "deconstruction-faith-008": {
+    title: "I've been deconstructing for 2 years. Has anyone come out the other side?",
+    body: "Two years ago I started asking hard questions about faith. The purity culture I grew up in, the political Christianity I saw in my family, the unanswered prayers, the pastor scandals. I haven't left — but I barely recognize my faith anymore. Has anyone deconstructed and found something real on the other side, or does it just lead to nothing?",
+    hub: "r/FaithAndDoubt",
+    hubColor: "#6B4FBB",
+    author: "Anonymous",
+    avatar: "?",
+    avatarColor: "#4A4A68",
+    flag: "🇺🇸",
+    upvotes: 3841,
+    date: "May 18, 2026",
+    replies: [
+      {
+        author: "Lydia Böhm",
+        avatar: "LB",
+        avatarColor: "#6B4FBB",
+        flag: "🇩🇪",
+        body: "Yes. Four years for me. I came out the other side with something smaller, quieter, and more honest — and to my surprise, more durable. I had to let go of the version of Christianity that was really just a system for feeling okay about myself. What I found underneath it was a Jesus I hadn't met before. Not the one from the culture war, but the one from the Sermon on the Mount. It was worth the pain to get there.",
+        upvotes: 1204,
+        date: "May 18, 2026",
+        verse: "Matthew 5:1-12",
+        children: [
+          {
+            author: "Ji-Woo Park",
+            avatar: "JP",
+            avatarColor: "#EC4899",
+            flag: "🇰🇷",
+            body: "This resonates so much. I think the version of faith that breaks during deconstruction often needs to break. The question is whether you're willing to let something new grow in its place or whether you just clear the land and walk away. Both are understandable. But the first option is available.",
+            upvotes: 893,
+            date: "May 18, 2026",
+          },
+        ],
+      },
+      {
+        author: "Pastor Daniel Abara",
+        avatar: "DA",
+        avatarColor: "#10B981",
+        flag: "🇳🇬",
+        body: "I want to say something honest from a pastor's perspective: some of what people deconstruct deserves to be deconstructed. Not the core — not the resurrection, not the love of God — but the cultural accretions, the power dynamics, the prosperity gospel, the political capture of the church. If deconstructing that gets you to the genuine article, that's not loss, that's gain. The problem is when deconstruction becomes an identity rather than a process. At some point reconstruction has to begin.",
+        upvotes: 2103,
+        date: "May 19, 2026",
+        children: [],
+      },
+      {
+        author: "Amara Osei",
+        avatar: "AO",
+        avatarColor: "#00FF88",
+        flag: "🇬🇭",
+        body: "What helped me most was finding a community of people who were asking honest questions AND staying in the faith. Not people who had all the answers, but people who were willing to sit in the tension with me. That combination — honesty plus perseverance — was rarer than I expected but absolutely exists. Don't let the algorithm show you only the people who walked away.",
+        upvotes: 1567,
+        date: "May 19, 2026",
+        verse: "Job 38:1",
+        children: [],
+      },
+    ],
+  },
+  "tithing-biblical-or-cultural-010": {
+    title: "Is tithing 10% still a biblical command for Christians, or is it Old Covenant?",
+    body: "My pastor says tithing is mandatory. My friend says it was part of the Mosaic Law and doesn't apply to Christians. I've looked at the passages and I'm genuinely confused. Malachi 3:10 is Old Testament. Does the New Testament teach tithing or is it more of a principle? What does good scholarship say?",
+    hub: "r/Theology",
+    hubColor: "#3B82F6",
+    author: "Michael Adebayo",
+    avatar: "MA",
+    avatarColor: "#3B82F6",
+    flag: "🇿🇦",
+    upvotes: 1847,
+    date: "May 22, 2026",
+    replies: [
+      {
+        author: "Dr. Sarah Whitfield",
+        avatar: "SW",
+        avatarColor: "#F59E0B",
+        flag: "🇦🇺",
+        body: "The tithe was a specific Mosaic institution — actually closer to a 23% total when you include all three tithes (Levitical tithe, festival tithe, poor tithe). The NT doesn't command a 10% standard. What it does teach extensively is radical, joyful, Spirit-led generosity — see 2 Corinthians 8-9. For many western Christians, 10% is actually *less* than Spirit-led giving might call for. For others in poverty, it can be oppressive. The principle matters more than the percentage.",
+        upvotes: 934,
+        date: "May 22, 2026",
+        verse: "2 Corinthians 9:7",
+        children: [
+          {
+            author: "Michael Adebayo",
+            avatar: "MA",
+            avatarColor: "#3B82F6",
+            flag: "🇿🇦",
+            body: "This is exactly the kind of answer I needed. The 23% figure is something I've never heard before. And the point about 10% being a floor for some and a ceiling for others — that reframes the whole thing for me.",
+            upvotes: 312,
+            date: "May 22, 2026",
+          },
+        ],
+      },
+      {
+        author: "Rev. Charles Mwangi",
+        avatar: "CM",
+        avatarColor: "#6B4FBB",
+        flag: "🇰🇪",
+        body: "I've been a pastor for 20 years and I'll be honest: a lot of tithing teaching is financially motivated by church leadership. That doesn't mean giving isn't important — it absolutely is. But the teaching that you're under a curse if you don't give 10% to your specific church is manipulative and without NT basis. Give generously, cheerfully, as you've been blessed, starting with your local church but not limited to it.",
+        upvotes: 1203,
+        date: "May 22, 2026",
+        children: [],
+      },
+    ],
+  },
+  "prayer-doesnt-feel-real-009": {
+    title: "I pray and pray and nothing seems to happen. Is God actually listening?",
+    body: "I know this is vulnerable to share, but I've been praying about the same situation for 3 years. Nothing has changed. I believe God exists. But sometimes in the silence I wonder if prayer is just... talking to myself? I feel guilty even writing this. Has anyone else been here?",
+    hub: "r/Prayer",
+    hubColor: "#00FF88",
+    author: "Hannah P.",
+    avatar: "HP",
+    avatarColor: "#EC4899",
+    flag: "🇬🇧",
+    upvotes: 4219,
+    date: "May 20, 2026",
+    pinned: false,
+    replies: [
+      {
+        author: "Pastor Marcus Webb",
+        avatar: "MW",
+        avatarColor: "#6B4FBB",
+        flag: "🇺🇸",
+        body: "This is one of the most important questions in all of Christianity and you shouldn't feel guilty for asking it. The Psalms are *full* of this — 'How long, O Lord? Will you forget me forever?' (Ps 13:1). 'My God, my God, why have you forsaken me?' (Ps 22:1 — which Jesus Himself quoted on the cross). Unanswered prayer is not evidence that you're doing something wrong or that God isn't listening. It's a universal experience of every serious person of faith in history.",
+        upvotes: 2841,
+        date: "May 20, 2026",
+        verse: "Psalm 13:1-6",
+        children: [
+          {
+            author: "Hannah P.",
+            avatar: "HP",
+            avatarColor: "#EC4899",
+            flag: "🇬🇧",
+            body: "Knowing Jesus himself prayed 'why have you forsaken me' is actually... really grounding. I've never thought of it that way before. Thank you.",
+            upvotes: 1104,
+            date: "May 20, 2026",
+          },
+        ],
+      },
+      {
+        author: "Amara Osei",
+        avatar: "AO",
+        avatarColor: "#00FF88",
+        flag: "🇬🇭",
+        body: "Practical and honest response: I've been through seasons where prayer felt completely empty. What helped me was changing what I was asking from 'God, change this situation' to 'God, change me in this situation.' It's not that God ignores the first kind of prayer — he doesn't — but the second kind has a different quality. It's more available to be answered, in some way, every day.",
+        upvotes: 1893,
+        date: "May 20, 2026",
+        children: [],
+      },
+      {
+        author: "Ji-Woo Park",
+        avatar: "JP",
+        avatarColor: "#EC4899",
+        flag: "🇰🇷",
+        body: "What also helped me: reading the mystics — Teresa of Ávila, John of the Cross, Thomas à Kempis. They described 'the dark night of the soul' centuries ago. What you're experiencing has a name, has been walked before, and people have come through it to deeper faith. You're not alone and you're not failing.",
+        upvotes: 1207,
+        date: "May 21, 2026",
+        verse: "Romans 8:26",
+        children: [],
       },
     ],
   },
@@ -484,22 +644,7 @@ export default async function DiscussionPage({ params }: { params: Promise<{ id:
           </div>
 
           {/* Reply Box */}
-          <div className="rounded-2xl p-5" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(0,255,136,0.15)" }}>
-            <p className="text-sm font-bold mb-3" style={{ color: "#F2F2F8" }}>Join the conversation</p>
-            <textarea
-              rows={4}
-              placeholder="Share your thoughts, Scripture, or experience..."
-              className="w-full rounded-xl p-4 text-sm resize-none outline-none mb-3"
-              style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)", color: "#F2F2F8" }}
-            />
-            <div className="flex items-center justify-between">
-              <p className="text-xs" style={{ color: "#4A4A68" }}>Be kind, be honest. Ephesians 4:29.</p>
-              <button className="px-5 py-2 rounded-xl font-bold text-sm text-black"
-                style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)" }}>
-                Reply
-              </button>
-            </div>
-          </div>
+          <ReplyBox />
         </div>
       </div>
       <Footer />

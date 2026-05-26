@@ -68,6 +68,7 @@ const resources = [
     saves: 3241,
     topic: "Mental Health",
     topicColor: "#4FBBAA",
+    href: "/discussions/depression-therapy-faith-005",
   },
   {
     type: "Video",
@@ -80,6 +81,7 @@ const resources = [
     saves: 8109,
     topic: "Faith Basics",
     topicColor: "#00FF88",
+    href: "/video",
   },
   {
     type: "Audio",
@@ -92,6 +94,7 @@ const resources = [
     saves: 2876,
     topic: "Finance",
     topicColor: "#4F8FBB",
+    href: "/blog/biblical-finances-stewardship",
   },
   {
     type: "Study Guide",
@@ -104,6 +107,7 @@ const resources = [
     saves: 6543,
     topic: "Theology",
     topicColor: "#6B4FBB",
+    href: "/reading-plan",
   },
   {
     type: "Article",
@@ -116,6 +120,7 @@ const resources = [
     saves: 4312,
     topic: "Relationships",
     topicColor: "#BB4F7A",
+    href: "/relationships",
   },
   {
     type: "Video",
@@ -128,6 +133,7 @@ const resources = [
     saves: 7201,
     topic: "Apologetics",
     topicColor: "#BB7A4F",
+    href: "/blog/why-the-resurrection-changes-everything",
   },
   {
     type: "Article",
@@ -140,6 +146,7 @@ const resources = [
     saves: 3890,
     topic: "Parenting",
     topicColor: "#BB4F7A",
+    href: "/parenting",
   },
   {
     type: "eBook",
@@ -152,6 +159,7 @@ const resources = [
     saves: 2134,
     topic: "Life & Productivity",
     topicColor: "#4FBBAA",
+    href: "/work-leadership",
   },
   {
     type: "Study Guide",
@@ -164,6 +172,7 @@ const resources = [
     saves: 5670,
     topic: "Faith Basics",
     topicColor: "#00FF88",
+    href: "/prayer",
   },
 ];
 
@@ -460,10 +469,11 @@ export default function ResourcesPage() {
               {/* Resource Grid */}
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 mb-8">
                 {resources.map((r, i) => (
-                  <article
+                  <a
                     key={i}
+                    href={r.href}
                     className="rounded-2xl p-4 flex flex-col cursor-pointer transition-all duration-200 hover:bg-[#18182A] group"
-                    style={{ background: "#12121F", border: "1px solid #1E1E32" }}
+                    style={{ background: "#12121F", border: "1px solid #1E1E32", textDecoration: "none" }}
                   >
                     {/* Type + Topic */}
                     <div className="flex items-center justify-between mb-3">
@@ -534,7 +544,7 @@ export default function ResourcesPage() {
                         </button>
                       </div>
                     </div>
-                  </article>
+                  </a>
                 ))}
               </div>
 

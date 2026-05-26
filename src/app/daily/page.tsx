@@ -72,7 +72,7 @@ export default function DailyPage() {
     <div className="min-h-screen" style={{ background: "#07070F" }}>
       <Navbar />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 page-body pb-16">
         {/* Reading Plan Progress Bar */}
         <div
           className="rounded-2xl p-4 mb-6 flex items-center gap-4"

@@ -189,7 +189,7 @@ export default function ExplorePage() {
     <div className="min-h-screen" style={{ background: "#07070F" }}>
       <Navbar />
 
-      <main className="pt-24 pb-16">
+      <main className="page-body pb-16">
         {/* HERO SEARCH */}
         <div
           className="relative overflow-hidden border-b"

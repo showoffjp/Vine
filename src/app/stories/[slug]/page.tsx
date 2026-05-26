@@ -97,7 +97,7 @@ export default async function StoryDetailPage({ params }: { params: Promise<{ sl
     return (
       <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
         <Navbar />
-        <div className="pt-24 pb-20 text-center max-w-2xl mx-auto px-4">
+        <div className="page-body pb-20 text-center max-w-2xl mx-auto px-4">
           <p className="text-6xl mb-6">📭</p>
           <h1 className="text-3xl font-black mb-4">Story not found</h1>
           <a href="/stories" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-black" style={{ background: "linear-gradient(135deg, #D4AF37, #B8942C)" }}>
@@ -112,7 +112,7 @@ export default async function StoryDetailPage({ params }: { params: Promise<{ sl
   return (
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
       <Navbar />
-      <div className="pt-24 pb-20">
+      <div className="page-body pb-20">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Back */}
           <a href="/stories" className="inline-flex items-center gap-2 text-sm mb-8" style={{ color: "#6A6A88" }}>

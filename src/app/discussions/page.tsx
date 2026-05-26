@@ -200,7 +200,7 @@ export default function DiscussionsPage() {
     <div className="min-h-screen" style={{ background: "#07070F" }}>
       <Navbar />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 page-body pb-16">
         <div className="flex gap-6">
           {/* LEFT SIDEBAR */}
           <aside className="hidden lg:flex flex-col gap-4 w-64 flex-shrink-0">

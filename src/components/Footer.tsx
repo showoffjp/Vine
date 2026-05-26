@@ -7,13 +7,13 @@ const footerLinks: Record<string, LinkEntry[]> = {
     { label: "Discussions", href: "/discussions" },
     { label: "Bible Tools", href: "/bible" },
     { label: "Daily Devotionals", href: "/daily" },
-    { label: "Resource Library", href: "/resources" },
     { label: "Video Library", href: "/video" },
     { label: "Prayer Wall", href: "/prayer" },
     { label: "AI Companion", href: "/ai-companion" },
     { label: "Reading Plan", href: "/reading-plan" },
+    { label: "Worship", href: "/worship" },
     { label: "Events", href: "/events" },
-    { label: "Creators", href: "/creators" },
+    { label: "Search", href: "/search" },
   ],
   "Life & Faith": [
     { label: "Life Hacks", href: "/life-hacks" },
@@ -22,22 +22,24 @@ const footerLinks: Record<string, LinkEntry[]> = {
     { label: "Finances", href: "/finances" },
     { label: "Parenting", href: "/parenting" },
     { label: "Work & Leadership", href: "/work-leadership" },
+    { label: "Missions", href: "/missions" },
+    { label: "Apologetics", href: "/apologetics" },
   ],
   Community: [
     { label: "My Feed", href: "/feed" },
+    { label: "Groups", href: "/groups" },
+    { label: "Stories", href: "/stories" },
     { label: "Global Connect", href: "/global-connect" },
-    { label: "Events", href: "/events" },
-    { label: "Creators", href: "/creators" },
+    { label: "Leaderboard", href: "/leaderboard" },
     { label: "Trending Topics", href: "/topics" },
     { label: "Blog", href: "/blog" },
+    { label: "Creators", href: "/creators" },
   ],
   Company: [
     { label: "About Vine", href: "/about" },
-    { label: "Our Mission", href: "/about" },
-    { label: "Blog", href: "/blog" },
     { label: "Newsletter", href: "/newsletter" },
     { label: "Contact", href: "/contact" },
-    { label: "Notifications", href: "/notifications" },
+    { label: "Give", href: "/giving" },
     { label: "Settings", href: "/settings" },
   ],
 };
@@ -116,7 +118,7 @@ export default function Footer() {
           style={{ borderColor: "rgba(255,255,255,0.04)" }}
         >
           <p className="text-xs" style={{ color: "#4A4A68" }}>
-            © 2025 Vine. Built with faith, for faith. All rights reserved.
+            © 2026 Vine. Built with faith, for faith. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
             {[

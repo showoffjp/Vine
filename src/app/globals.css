@@ -60,6 +60,11 @@ body {
   transform: translateY(-2px);
 }
 
+/* Page body: clears the fixed header (including optional banner) + breathing room */
+.page-body {
+  padding-top: calc(var(--header-height, 64px) + 2rem);
+}
+
 .hero-glow {
   background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(212, 175, 55, 0.08) 0%, transparent 70%);
 }

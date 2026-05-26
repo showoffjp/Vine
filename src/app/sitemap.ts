@@ -47,6 +47,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/blog/ai-chatgpt-church", priority: 0.7, changeFreq: "monthly" as const },
     { path: "/stories/carlos-mendez-drug-cartel-to-church-planter", priority: 0.7, changeFreq: "monthly" as const },
     { path: "/stories/lydia-bohm-deconstruction", priority: 0.7, changeFreq: "monthly" as const },
+    { path: "/giving", priority: 0.8, changeFreq: "weekly" as const },
+    { path: "/discussions/faith-and-doubt-001", priority: 0.7, changeFreq: "daily" as const },
+    { path: "/discussions/resurrection-evidence-002", priority: 0.7, changeFreq: "daily" as const },
   ];
 
   return routes.map(({ path, priority, changeFreq }) => ({

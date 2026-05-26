@@ -98,7 +98,7 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
     return (
       <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
         <Navbar />
-        <div className="pt-24 pb-20 text-center max-w-2xl mx-auto px-4">
+        <div className="page-body pb-20 text-center max-w-2xl mx-auto px-4">
           <p className="text-6xl mb-6">📭</p>
           <h1 className="text-3xl font-black mb-4">Article not found</h1>
           <p className="mb-8" style={{ color: "#6A6A88" }}>This article may have moved or been removed.</p>
@@ -114,7 +114,7 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
   return (
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
       <Navbar />
-      <div className="pt-24 pb-20">
+      <div className="page-body pb-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Back link */}
           <a href="/blog" className="inline-flex items-center gap-2 text-sm mb-8 transition-colors hover:text-[#D4AF37]" style={{ color: "#6A6A88" }}>

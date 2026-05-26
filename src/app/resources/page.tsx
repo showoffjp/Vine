@@ -201,7 +201,7 @@ export default function ResourcesPage() {
     <div className="min-h-screen" style={{ background: "#07070F" }}>
       <Navbar />
 
-      <main className="pt-24 pb-16">
+      <main className="page-body pb-16">
         {/* Page Header */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">

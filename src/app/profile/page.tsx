@@ -142,7 +142,7 @@ export default function ProfilePage() {
     <div className="min-h-screen" style={{ background: "#07070F" }}>
       <Navbar />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 page-body pb-16">
         <div className="flex flex-col lg:flex-row gap-6">
           {/* LEFT SIDEBAR */}
           <aside className="w-full lg:w-72 flex-shrink-0 flex flex-col gap-4">

@@ -20,8 +20,8 @@ const navLinks = [
     children: [
       { label: "Guides & Articles", href: "/resources" },
       { label: "Bible Tools", href: "/bible" },
-      { label: "Video Library", href: "/resources" },
-      { label: "Podcasts", href: "/resources" },
+      { label: "Reading Plan", href: "/reading-plan" },
+      { label: "AI Companion", href: "/ai-companion" },
     ],
   },
   {
@@ -29,8 +29,8 @@ const navLinks = [
     children: [
       { label: "Today's Devotional", href: "/daily" },
       { label: "Bible Reader", href: "/bible" },
-      { label: "Reading Plans", href: "/daily" },
-      { label: "Journals", href: "/daily" },
+      { label: "Reading Plans", href: "/reading-plan" },
+      { label: "Worship", href: "/worship" },
     ],
   },
   {
@@ -38,16 +38,16 @@ const navLinks = [
     children: [
       { label: "Life Hacks", href: "/life-hacks" },
       { label: "Mental Health", href: "/mental-health" },
-      { label: "Worship", href: "/worship" },
       { label: "Spiritual Gifts Quiz", href: "/quiz" },
+      { label: "AI Bible Companion", href: "/ai-companion" },
     ],
   },
   {
     label: "Explore",
     children: [
       { label: "Discover", href: "/explore" },
-      { label: "Events", href: "/explore" },
-      { label: "Creators", href: "/explore" },
+      { label: "Events", href: "/events" },
+      { label: "Creators", href: "/creators" },
       { label: "About Vine", href: "/about" },
     ],
   },

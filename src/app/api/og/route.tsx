@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 import { NextRequest } from "next/server";
 
-export const runtime = "edge";
+// Fluid Compute (Node.js) — edge is no longer recommended on Vercel
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);

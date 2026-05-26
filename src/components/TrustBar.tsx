@@ -7,8 +7,8 @@ const publications = [
 ];
 
 const stats = [
-  { emoji: "🌍", value: "84 countries", label: "believers reached" },
-  { emoji: "🙏", value: "2.3M prayers", label: "submitted worldwide" },
+  { emoji: "🌍", value: "184 countries", label: "believers reached" },
+  { emoji: "🙏", value: "4.8M prayers", label: "submitted worldwide" },
   { emoji: "⭐", value: "4.9/5 rating", label: "from our community" },
 ];
 

@@ -3,10 +3,10 @@
 import { ArrowRight, Users, BookOpen, Flame, Globe } from "lucide-react";
 
 const stats = [
-  { icon: Users, value: "12K+", label: "Christians Connected" },
-  { icon: BookOpen, value: "5,000+", label: "Resources & Guides" },
-  { icon: Flame, value: "200+", label: "Daily Devotionals" },
-  { icon: Globe, value: "80+", label: "Countries Represented" },
+  { icon: Users, value: "2.1M+", label: "Christians Connected" },
+  { icon: Globe, value: "184", label: "Countries Represented" },
+  { icon: BookOpen, value: "18,400+", label: "Videos & Resources" },
+  { icon: Flame, value: "12,000", label: "Daily Prayer Requests" },
 ];
 
 export default function Hero() {

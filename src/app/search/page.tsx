@@ -41,7 +41,7 @@ const allResults = [
     title: "How do you handle doubt without losing faith?",
     excerpt: "I've been a Christian for 15 years, but the last six months have shaken me. Looking for honest responses, not platitudes.",
     meta: "r/FaithAndDoubt · 847 replies · 2.1k upvotes",
-    href: "/discussions",
+    href: "/discussions/faith-and-doubt-001",
     tags: ["Doubt", "Faith"],
     hearts: 2103,
   },
@@ -63,7 +63,7 @@ const allResults = [
     title: "From Drug Cartel Enforcer to Church Planter",
     excerpt: "I was 23 years old, knee-deep in cartel work, certain I was going to die before 30...",
     meta: "Carlos Mendez · Bogotá, Colombia · 12 min read",
-    href: "/stories",
+    href: "/stories/carlos-mendez-drug-cartel-to-church-planter",
     tags: ["Redemption", "Colombia"],
     hearts: 5832,
   },
@@ -113,6 +113,75 @@ const allResults = [
   },
 ];
 
+const allResultsExtra = [
+  {
+    type: "Article",
+    typeColor: "#EF4444",
+    icon: "📖",
+    title: "The Problem of Evil: Why Suffering Doesn't Disprove God",
+    excerpt: "Epicurus posed the challenge 2,300 years ago. Alvin Plantinga answered it in the 20th century. Here's why the logical problem of evil fails.",
+    meta: "Dr. Priya Singh · 10 min read · 18.7k views",
+    href: "/blog/problem-of-evil",
+    tags: ["Theodicy", "Suffering", "Apologetics"],
+    hearts: 1203,
+  },
+  {
+    type: "Discussion",
+    typeColor: "#6B4FBB",
+    icon: "💬",
+    title: "Does free will actually exist if God is omniscient?",
+    excerpt: "If God knew before creation every choice I would ever make, in what sense am I actually making free choices? Philosophy student asks the community.",
+    meta: "r/Theology&Doctrine · 234 replies · 847 upvotes",
+    href: "/discussions/free-will-omniscience-003",
+    tags: ["Free Will", "Theology"],
+    hearts: 847,
+  },
+  {
+    type: "Article",
+    typeColor: "#00FF88",
+    icon: "📖",
+    title: "The Digital Sabbath: How to Rest in a Hyper-Connected World",
+    excerpt: "Your phones have colonized Sunday. The ancient practice of Shabbat has something radical to say about it.",
+    meta: "Rachel Kim · 6 min read · 41.2k views",
+    href: "/blog/digital-sabbath",
+    tags: ["Sabbath", "Technology", "Rest"],
+    hearts: 3891,
+  },
+  {
+    type: "Story",
+    typeColor: "#EC4899",
+    icon: "❤️",
+    title: "I Deconstructed My Faith — and Then Found It Again, Better",
+    excerpt: "I left evangelical Christianity at 24. I was done. Four years of questions, grief, and honest searching later, I walked back in.",
+    meta: "Lydia Böhm · Berlin, Germany · 11 min read",
+    href: "/stories/lydia-bohm-deconstruction",
+    tags: ["Deconstruction", "Faith"],
+    hearts: 6104,
+  },
+  {
+    type: "Discussion",
+    typeColor: "#00FF88",
+    icon: "💬",
+    title: "After 3 years of depression and praying for healing, I finally got therapy — and it changed everything.",
+    excerpt: "I believed that if I just had enough faith, my depression would lift. I was drowning. Finally started seeing a Christian counselor.",
+    meta: "r/MentalHealth&Faith · 318 replies · 2.3k upvotes",
+    href: "/discussions/depression-therapy-faith-005",
+    tags: ["Depression", "Mental Health", "Therapy"],
+    hearts: 2341,
+  },
+  {
+    type: "Story",
+    typeColor: "#F59E0B",
+    icon: "❤️",
+    title: "Widowed at 28 with Three Children. How Faith Became My Only Floor.",
+    excerpt: "When my husband Emmanuel died in a road accident, I had three children under five and no job. What happened next I can only describe as divine provision.",
+    meta: "Amara Osei · Accra, Ghana · 8 min read",
+    href: "/stories/amara-osei-widowed-at-28",
+    tags: ["Grief", "Faith", "Ghana"],
+    hearts: 3241,
+  },
+];
+
 const recentSearches = ["Philippians 4:13", "prayer for anxiety", "C.S. Lewis Mere Christianity"];
 
 export default function SearchPage() {
@@ -124,7 +193,8 @@ export default function SearchPage() {
     setTimeout(() => inputRef.current?.focus(), 100);
   }, []);
 
-  const filtered = allResults.filter((r) => {
+  const allResultsCombined = [...allResults, ...allResultsExtra];
+  const filtered = allResultsCombined.filter((r) => {
     const matchCat = activeCategory === "All" || r.type === activeCategory || (activeCategory === "Articles" && r.type === "Article") || (activeCategory === "Discussions" && r.type === "Discussion") || (activeCategory === "Scripture" && r.type === "Scripture") || (activeCategory === "Stories" && r.type === "Story") || (activeCategory === "Videos" && r.type === "Video") || (activeCategory === "Groups" && r.type === "Group") || (activeCategory === "People" && r.type === "People");
     const matchQuery = query === "" || r.title.toLowerCase().includes(query.toLowerCase()) || r.excerpt.toLowerCase().includes(query.toLowerCase()) || r.tags.some((t) => t.toLowerCase().includes(query.toLowerCase()));
     return matchCat && matchQuery;
@@ -133,7 +203,7 @@ export default function SearchPage() {
   return (
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
       <Navbar />
-      <div className="pt-20 pb-20">
+      <div className="page-body pb-20">
         {/* Search Header */}
         <div
           className="py-12 px-4"

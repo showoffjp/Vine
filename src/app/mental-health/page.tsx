@@ -1,4 +1,6 @@
-import type { Metadata } from "next";
+"use client";
+
+import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
@@ -19,11 +21,6 @@ import {
   Quote,
 } from "lucide-react";
 
-export const metadata: Metadata = {
-  title: "Mental Health & Inner Healing — Vine",
-  description:
-    "Faith-based mental health resources, Christian therapist directory, and peer support — because God meets us in our pain.",
-};
 
 const entryPoints = [
   {
@@ -145,6 +142,12 @@ const supportGroups = [
 ];
 
 export default function MentalHealthPage() {
+  const [bookedSessions, setBookedSessions] = useState<Set<number>>(new Set());
+  const [joinedGroups, setJoinedGroups] = useState<Set<number>>(new Set());
+
+  const toggleBook = (i: number) => setBookedSessions(prev => { const n = new Set(prev); n.has(i) ? n.delete(i) : n.add(i); return n; });
+  const toggleJoinGroup = (i: number) => setJoinedGroups(prev => { const n = new Set(prev); n.has(i) ? n.delete(i) : n.add(i); return n; });
+
   return (
     <div style={{ background: "#07070F", minHeight: "100vh" }}>
       <Navbar />
@@ -420,11 +423,12 @@ export default function MentalHealthPage() {
                     </span>
                   </div>
                   <button
+                    onClick={() => toggleBook(i)}
                     style={{
                       width: "100%",
-                      background: "linear-gradient(135deg, #00FF88, #B8922A)",
-                      color: "#07070F",
-                      border: "none",
+                      background: bookedSessions.has(i) ? "rgba(0,255,136,0.15)" : "linear-gradient(135deg, #00FF88, #B8922A)",
+                      color: bookedSessions.has(i) ? "#00FF88" : "#07070F",
+                      border: bookedSessions.has(i) ? "1px solid rgba(0,255,136,0.3)" : "none",
                       borderRadius: "10px",
                       padding: "10px",
                       fontWeight: 700,
@@ -434,9 +438,10 @@ export default function MentalHealthPage() {
                       alignItems: "center",
                       justifyContent: "center",
                       gap: "6px",
+                      transition: "all 0.2s",
                     }}
                   >
-                    <Calendar size={13} /> Book Session
+                    <Calendar size={13} /> {bookedSessions.has(i) ? "✓ Session Requested!" : "Book Session"}
                   </button>
                 </div>
               ))}
@@ -472,19 +477,21 @@ export default function MentalHealthPage() {
                     {group.meets}
                   </p>
                   <button
+                    onClick={() => toggleJoinGroup(i)}
                     style={{
                       width: "100%",
-                      background: `${group.color}15`,
+                      background: joinedGroups.has(i) ? group.color : `${group.color}15`,
                       border: `1px solid ${group.color}30`,
-                      color: group.color,
+                      color: joinedGroups.has(i) ? "#07070F" : group.color,
                       borderRadius: "8px",
                       padding: "8px",
                       fontWeight: 700,
                       fontSize: "12px",
                       cursor: "pointer",
+                      transition: "all 0.2s",
                     }}
                   >
-                    Join Group
+                    {joinedGroups.has(i) ? "✓ Joined!" : "Join Group"}
                   </button>
                 </div>
               ))}

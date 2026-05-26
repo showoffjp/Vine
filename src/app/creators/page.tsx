@@ -1,4 +1,6 @@
-import type { Metadata } from "next";
+"use client";
+
+import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
@@ -18,11 +20,6 @@ import {
   ArrowRight,
 } from "lucide-react";
 
-export const metadata: Metadata = {
-  title: "Creators — Vine",
-  description:
-    "Discover teachers, worship leaders, devotional writers, apologists, and voices of faith from around the world.",
-};
 
 const featuredCreator = {
   name: "Ama Christabel",
@@ -240,6 +237,23 @@ const roleIcons: Record<string, React.ComponentType<{ size?: number; style?: Rea
 };
 
 export default function CreatorsPage() {
+  const [activeFilter, setActiveFilter] = useState("All");
+  const [followingFeatured, setFollowingFeatured] = useState(false);
+  const [search, setSearch] = useState("");
+
+  const filteredCreators = creators.filter(c => {
+    const matchFilter = activeFilter === "All" ||
+      (activeFilter === "Teachers" && c.role === "Bible Teacher") ||
+      (activeFilter === "Worship Leaders" && c.role === "Worship Leader") ||
+      (activeFilter === "Writers" && c.role === "Devotional Writer") ||
+      (activeFilter === "Therapists" && c.role === "Christian Therapist") ||
+      (activeFilter === "Pastors" && (c.role === "Youth Pastor" || c.role.includes("Pastor"))) ||
+      (activeFilter === "Apologists" && c.role === "Apologist") ||
+      (activeFilter === "Youth" && c.role === "Youth Pastor");
+    const matchSearch = !search || c.name.toLowerCase().includes(search.toLowerCase()) || c.role.toLowerCase().includes(search.toLowerCase());
+    return matchFilter && matchSearch;
+  });
+
   return (
     <div className="min-h-screen" style={{ background: "#07070F" }}>
       <Navbar />
@@ -372,13 +386,15 @@ export default function CreatorsPage() {
                   {/* Buttons */}
                   <div className="flex gap-3 flex-shrink-0">
                     <button
-                      className="px-5 py-2.5 rounded-xl text-sm font-bold"
+                      onClick={() => setFollowingFeatured(!followingFeatured)}
+                      className="px-5 py-2.5 rounded-xl text-sm font-bold transition-all"
                       style={{
-                        background: "linear-gradient(135deg, #00FF88 0%, #B8960C 100%)",
-                        color: "#07070F",
+                        background: followingFeatured ? "rgba(0,255,136,0.2)" : "linear-gradient(135deg, #00FF88 0%, #B8960C 100%)",
+                        color: followingFeatured ? "#00FF88" : "#07070F",
+                        border: followingFeatured ? "1px solid rgba(0,255,136,0.4)" : "none",
                       }}
                     >
-                      Follow
+                      {followingFeatured ? "✓ Following" : "Follow"}
                     </button>
                     <a
                       href={`/creators/${featuredCreator.slug}`}
@@ -462,39 +478,44 @@ export default function CreatorsPage() {
                 <input
                   type="text"
                   placeholder="Search creators by name or topic..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
                   className="flex-1 bg-transparent text-sm outline-none"
                   style={{ color: "#F2F2F8" }}
                 />
               </div>
             </div>
             <div className="flex flex-wrap gap-2">
-              {filterPills.map((pill, i) => (
-                <button
-                  key={pill}
-                  className="text-xs font-semibold px-4 py-2 rounded-full transition-all duration-150"
-                  style={
-                    i === 0
-                      ? {
-                          background: "linear-gradient(135deg, #00FF88 0%, #B8960C 100%)",
-                          color: "#07070F",
-                        }
-                      : {
-                          background: "#12121F",
-                          color: "#8A8AA8",
-                          border: "1px solid #1E1E32",
-                        }
-                  }
-                >
-                  {pill}
-                </button>
-              ))}
+              {filterPills.map((pill) => {
+                const active = activeFilter === pill;
+                return (
+                  <button
+                    key={pill}
+                    onClick={() => setActiveFilter(pill)}
+                    className="text-xs font-semibold px-4 py-2 rounded-full transition-all duration-150"
+                    style={
+                      active
+                        ? { background: "linear-gradient(135deg, #00FF88 0%, #B8960C 100%)", color: "#07070F" }
+                        : { background: "#12121F", color: "#8A8AA8", border: "1px solid #1E1E32" }
+                    }
+                  >
+                    {pill}
+                  </button>
+                );
+              })}
             </div>
           </section>
 
           {/* Creator Grid */}
           <section className="mb-16">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-              {creators.map((creator) => {
+              {filteredCreators.length === 0 && (
+                <div className="col-span-full text-center py-12">
+                  <p style={{ color: "#8A8AA8" }}>No creators match your filter.</p>
+                  <button onClick={() => { setActiveFilter("All"); setSearch(""); }} className="mt-2 text-sm font-semibold" style={{ color: "#00FF88" }}>Clear filters</button>
+                </div>
+              )}
+              {filteredCreators.map((creator) => {
                 const RoleIcon = roleIcons[creator.role] ?? BookOpen;
                 return (
                   <CreatorCard key={creator.name} creator={creator} RoleIcon={RoleIcon} />
@@ -590,6 +611,8 @@ function CreatorCard({
   creator: Creator;
   RoleIcon: React.ComponentType<{ size?: number; style?: React.CSSProperties }>;
 }) {
+  const [following, setFollowing] = useState(false);
+
   return (
     <div
       className="rounded-2xl overflow-hidden flex flex-col"
@@ -664,14 +687,15 @@ function CreatorCard({
       {/* Follow button */}
       <div className="px-5 pb-5 mt-auto">
         <button
+          onClick={() => setFollowing(!following)}
           className="w-full py-2.5 rounded-xl text-xs font-bold transition-all duration-150"
           style={{
-            background: "rgba(0,255,136,0.1)",
-            color: "#00FF88",
+            background: following ? "#00FF88" : "rgba(0,255,136,0.1)",
+            color: following ? "#07070F" : "#00FF88",
             border: "1px solid rgba(0,255,136,0.25)",
           }}
         >
-          Follow
+          {following ? "✓ Following" : "Follow"}
         </button>
       </div>
     </div>

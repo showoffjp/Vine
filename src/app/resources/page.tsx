@@ -1,4 +1,6 @@
-import type { Metadata } from "next";
+"use client";
+
+import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
@@ -22,7 +24,6 @@ import {
   Square,
 } from "lucide-react";
 
-export const metadata: Metadata = { title: "Resources — Vine" };
 
 const categories = [
   { name: "All", icon: Filter, count: 2847 },
@@ -206,6 +207,25 @@ function FilterSection({ title, children }: { title: string; children: React.Rea
 }
 
 export default function ResourcesPage() {
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedTopic, setSelectedTopic] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [savedResources, setSavedResources] = useState<Set<number>>(new Set());
+  const [featuredSaved, setFeaturedSaved] = useState(false);
+
+  const toggleSave = (i: number) => setSavedResources(prev => {
+    const next = new Set(prev);
+    if (next.has(i)) next.delete(i); else next.add(i);
+    return next;
+  });
+
+  const filteredResources = resources.filter(r => {
+    const matchCat = selectedCategory === "All" || r.type === selectedCategory;
+    const matchTopic = !selectedTopic || r.topic === selectedTopic;
+    const matchSearch = !searchQuery || r.title.toLowerCase().includes(searchQuery.toLowerCase()) || r.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchCat && matchTopic && matchSearch;
+  });
+
   return (
     <div className="min-h-screen" style={{ background: "#07070F" }}>
       <Navbar />
@@ -231,6 +251,8 @@ export default function ResourcesPage() {
                 <input
                   type="text"
                   placeholder="Search resources..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                   className="pl-9 pr-4 py-2.5 rounded-xl text-sm outline-none w-64"
                   style={{
                     background: "#12121F",
@@ -261,49 +283,52 @@ export default function ResourcesPage() {
                 {/* Category */}
                 <FilterSection title="Category">
                   <div className="space-y-1">
-                    {categories.map((cat, i) => (
+                    {categories.map((cat) => {
+                    const active = selectedCategory === cat.name;
+                    return (
                       <button
                         key={cat.name}
+                        onClick={() => setSelectedCategory(cat.name)}
                         className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-left transition-all duration-150 hover:bg-[#18182A]"
-                        style={{
-                          background: i === 0 ? "rgba(0,255,136,0.08)" : "transparent",
-                        }}
+                        style={{ background: active ? "rgba(0,255,136,0.08)" : "transparent" }}
                       >
-                        {i === 0 ? (
+                        {active ? (
                           <CheckSquare size={13} style={{ color: "#00FF88" }} />
                         ) : (
                           <Square size={13} style={{ color: "#4A4A68" }} />
                         )}
-                        <span
-                          className="text-xs flex-1"
-                          style={{ color: i === 0 ? "#00FF88" : "#8A8AA8" }}
-                        >
+                        <span className="text-xs flex-1" style={{ color: active ? "#00FF88" : "#8A8AA8" }}>
                           {cat.name}
                         </span>
                         <span className="text-[10px]" style={{ color: "#4A4A68" }}>
                           {cat.count.toLocaleString()}
                         </span>
                       </button>
-                    ))}
+                    );
+                  })}
                   </div>
                 </FilterSection>
 
                 {/* Topic */}
                 <FilterSection title="Topic">
                   <div className="flex flex-wrap gap-1.5">
-                    {topics.map((topic, i) => (
-                      <button
-                        key={topic}
-                        className="text-[10px] font-semibold px-2.5 py-1 rounded-full transition-all duration-150"
-                        style={{
-                          background: i === 1 ? "rgba(0,255,136,0.12)" : "rgba(255,255,255,0.04)",
-                          border: i === 1 ? "1px solid rgba(0,255,136,0.3)" : "1px solid #1E1E32",
-                          color: i === 1 ? "#00FF88" : "#6A6A88",
-                        }}
-                      >
-                        {topic}
-                      </button>
-                    ))}
+                    {topics.map((topic) => {
+                      const active = selectedTopic === topic;
+                      return (
+                        <button
+                          key={topic}
+                          onClick={() => setSelectedTopic(active ? null : topic)}
+                          className="text-[10px] font-semibold px-2.5 py-1 rounded-full transition-all duration-150"
+                          style={{
+                            background: active ? "rgba(0,255,136,0.12)" : "rgba(255,255,255,0.04)",
+                            border: active ? "1px solid rgba(0,255,136,0.3)" : "1px solid #1E1E32",
+                            color: active ? "#00FF88" : "#6A6A88",
+                          }}
+                        >
+                          {topic}
+                        </button>
+                      );
+                    })}
                   </div>
                 </FilterSection>
 
@@ -364,23 +389,27 @@ export default function ResourcesPage() {
               <div className="flex flex-wrap items-center gap-3 mb-5">
                 <span className="text-sm font-semibold" style={{ color: "#F2F2F8" }}>
                   Showing{" "}
-                  <span style={{ color: "#00FF88" }}>2,847</span> resources
+                  <span style={{ color: "#00FF88" }}>{filteredResources.length}</span> resources
                 </span>
                 <div className="flex items-center gap-2 flex-wrap">
-                  {["Mental Health", "Articles"].map((pill) => (
-                    <span
-                      key={pill}
+                  {selectedCategory !== "All" && (
+                    <button
+                      onClick={() => setSelectedCategory("All")}
                       className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full"
-                      style={{
-                        background: "rgba(0,255,136,0.08)",
-                        border: "1px solid rgba(0,255,136,0.2)",
-                        color: "#00FF88",
-                      }}
+                      style={{ background: "rgba(0,255,136,0.08)", border: "1px solid rgba(0,255,136,0.2)", color: "#00FF88" }}
                     >
-                      {pill}
-                      <X size={11} />
-                    </span>
-                  ))}
+                      {selectedCategory} <X size={11} />
+                    </button>
+                  )}
+                  {selectedTopic && (
+                    <button
+                      onClick={() => setSelectedTopic(null)}
+                      className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full"
+                      style={{ background: "rgba(0,255,136,0.08)", border: "1px solid rgba(0,255,136,0.2)", color: "#00FF88" }}
+                    >
+                      {selectedTopic} <X size={11} />
+                    </button>
+                  )}
                 </div>
                 <div className="ml-auto flex items-center gap-2">
                   <TrendingUp size={14} style={{ color: "#6A6A88" }} />
@@ -451,15 +480,16 @@ export default function ResourcesPage() {
                       </span>
                     </div>
                     <div className="flex items-center gap-3 mt-4">
-                      <button className="btn-gold px-5 py-2.5 rounded-xl text-sm font-bold">
+                      <a href="/resources" className="btn-gold px-5 py-2.5 rounded-xl text-sm font-bold" style={{ textDecoration: "none" }}>
                         Read Now — Free
-                      </button>
+                      </a>
                       <button
+                        onClick={() => setFeaturedSaved(!featuredSaved)}
                         className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 hover:bg-[#18182A]"
-                        style={{ border: "1px solid #1E1E32", color: "#8A8AA8" }}
+                        style={{ border: `1px solid ${featuredSaved ? "rgba(0,255,136,0.3)" : "#1E1E32"}`, color: featuredSaved ? "#00FF88" : "#8A8AA8" }}
                       >
-                        <Bookmark size={14} />
-                        Save
+                        <Bookmark size={14} fill={featuredSaved ? "#00FF88" : "none"} />
+                        {featuredSaved ? "Saved!" : "Save"}
                       </button>
                     </div>
                   </div>
@@ -468,7 +498,13 @@ export default function ResourcesPage() {
 
               {/* Resource Grid */}
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 mb-8">
-                {resources.map((r, i) => (
+                {filteredResources.length === 0 && (
+                  <div className="col-span-full text-center py-16">
+                    <p style={{ color: "#8A8AA8" }}>No resources match your filters.</p>
+                    <button onClick={() => { setSelectedCategory("All"); setSelectedTopic(null); setSearchQuery(""); }} className="mt-3 text-sm font-semibold" style={{ color: "#00FF88" }}>Clear all filters</button>
+                  </div>
+                )}
+                {filteredResources.map((r, i) => (
                   <a
                     key={i}
                     href={r.href}
@@ -531,12 +567,14 @@ export default function ResourcesPage() {
                       </div>
                       <div className="flex items-center gap-1">
                         <button
+                          onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleSave(i); }}
                           className="p-1.5 rounded-lg transition hover:bg-[#1E1E32]"
-                          style={{ color: "#4A4A68" }}
+                          style={{ color: savedResources.has(i) ? "#00FF88" : "#4A4A68" }}
                         >
-                          <Bookmark size={13} />
+                          <Bookmark size={13} fill={savedResources.has(i) ? "#00FF88" : "none"} />
                         </button>
                         <button
+                          onClick={(e) => e.preventDefault()}
                           className="p-1.5 rounded-lg transition hover:bg-[#1E1E32]"
                           style={{ color: "#4A4A68" }}
                         >

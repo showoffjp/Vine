@@ -1,4 +1,6 @@
-import type { Metadata } from "next";
+"use client";
+
+import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CreatePostModal from "@/components/CreatePostModal";
@@ -26,7 +28,6 @@ import {
   AlertCircle,
 } from "lucide-react";
 
-export const metadata: Metadata = { title: "Discussions — Vine" };
 
 const hubs = [
   { icon: BookOpen, name: "Theology & Doctrine", members: "24.1k", color: "#6B4FBB", groupId: "theology-doctrine" },
@@ -239,20 +240,16 @@ const rules = [
   "No spam, self-promotion, or off-topic posts",
 ];
 
-function VoteButton({ count }: { count: number }) {
-  const formatted = count >= 1000 ? `${(count / 1000).toFixed(1)}k` : count.toString();
-  return (
-    <button
-      className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-sm font-semibold transition-all duration-200 hover:bg-[#1E1E32]"
-      style={{ color: "#8A8AA8" }}
-    >
-      <ArrowUp size={15} />
-      <span>{formatted}</span>
-    </button>
-  );
-}
-
 export default function DiscussionsPage() {
+  const [upvotedPosts, setUpvotedPosts] = useState<Set<number>>(new Set());
+  const [savedPosts, setSavedPosts] = useState<Set<number>>(new Set());
+  const [joinedHubs, setJoinedHubs] = useState<Set<number>>(new Set());
+  const [activeSort, setActiveSort] = useState("Hot");
+
+  const toggleUpvote = (id: number) => setUpvotedPosts(prev => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
+  const toggleSave = (id: number) => setSavedPosts(prev => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
+  const toggleHub = (i: number) => setJoinedHubs(prev => { const n = new Set(prev); n.has(i) ? n.delete(i) : n.add(i); return n; });
+
   return (
     <div className="min-h-screen" style={{ background: "#07070F" }}>
       <Navbar />
@@ -296,7 +293,7 @@ export default function DiscussionsPage() {
                 Your Hubs
               </h4>
               <div className="space-y-1">
-                {hubs.map((hub) => (
+                {hubs.map((hub, i) => (
                   <a
                     key={hub.name}
                     href={`/groups/${hub.groupId}`}
@@ -334,7 +331,7 @@ export default function DiscussionsPage() {
                 Discover Hubs
               </h4>
               <div className="space-y-2">
-                {suggestedHubs.map((hub) => (
+                {suggestedHubs.map((hub, si) => (
                   <div key={hub.name} className="flex items-center justify-between">
                     <div>
                       <p className="text-xs font-medium" style={{ color: "#C0C0D8" }}>
@@ -345,13 +342,15 @@ export default function DiscussionsPage() {
                       </p>
                     </div>
                     <button
+                      onClick={() => toggleHub(hubs.length + si)}
                       className="text-xs px-2.5 py-1 rounded-full font-semibold transition-all duration-200"
                       style={{
+                        background: joinedHubs.has(hubs.length + si) ? "#00FF88" : "transparent",
                         border: "1px solid rgba(0,255,136,0.3)",
-                        color: "#00FF88",
+                        color: joinedHubs.has(hubs.length + si) ? "#07070F" : "#00FF88",
                       }}
                     >
-                      Join
+                      {joinedHubs.has(hubs.length + si) ? "✓" : "Join"}
                     </button>
                   </div>
                 ))}
@@ -388,17 +387,18 @@ export default function DiscussionsPage() {
               {/* Sort tabs */}
               <div className="flex">
                 {[
-                  { label: "Hot", icon: Flame, active: true },
-                  { label: "New", icon: Sparkles, active: false },
-                  { label: "Top", icon: Star, active: false },
-                  { label: "Rising", icon: TrendingUp, active: false },
+                  { label: "Hot", icon: Flame },
+                  { label: "New", icon: Sparkles },
+                  { label: "Top", icon: Star },
+                  { label: "Rising", icon: TrendingUp },
                 ].map((tab) => (
                   <button
                     key={tab.label}
+                    onClick={() => setActiveSort(tab.label)}
                     className="flex items-center gap-1.5 px-5 py-3 text-sm font-semibold transition-all duration-200"
                     style={{
-                      color: tab.active ? "#00FF88" : "#6A6A88",
-                      borderBottom: tab.active ? "2px solid #00FF88" : "2px solid transparent",
+                      color: activeSort === tab.label ? "#00FF88" : "#6A6A88",
+                      borderBottom: activeSort === tab.label ? "2px solid #00FF88" : "2px solid transparent",
                     }}
                   >
                     <tab.icon size={14} />
@@ -473,8 +473,15 @@ export default function DiscussionsPage() {
                     {post.preview}
                   </p>
 
-                  <div className="flex items-center gap-1">
-                    <VoteButton count={post.votes} />
+                  <div className="flex items-center gap-1" onClick={(e) => e.preventDefault()}>
+                    <button
+                      onClick={() => toggleUpvote(post.id)}
+                      className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-sm font-semibold transition-all duration-200 hover:bg-[#1E1E32]"
+                      style={{ color: upvotedPosts.has(post.id) ? "#00FF88" : "#8A8AA8" }}
+                    >
+                      <ArrowUp size={15} />
+                      <span>{(post.votes + (upvotedPosts.has(post.id) ? 1 : 0)) >= 1000 ? `${((post.votes + (upvotedPosts.has(post.id) ? 1 : 0)) / 1000).toFixed(1)}k` : post.votes + (upvotedPosts.has(post.id) ? 1 : 0)}</span>
+                    </button>
                     <button
                       className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-sm transition-all duration-200 hover:bg-[#1E1E32]"
                       style={{ color: "#8A8AA8" }}
@@ -483,11 +490,12 @@ export default function DiscussionsPage() {
                       <span>{post.comments >= 1000 ? `${(post.comments / 1000).toFixed(1)}k` : post.comments}</span>
                     </button>
                     <button
+                      onClick={() => toggleSave(post.id)}
                       className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-sm transition-all duration-200 hover:bg-[#1E1E32]"
-                      style={{ color: "#8A8AA8" }}
+                      style={{ color: savedPosts.has(post.id) ? "#00FF88" : "#8A8AA8" }}
                     >
-                      <Bookmark size={14} />
-                      <span>{post.saves >= 1000 ? `${(post.saves / 1000).toFixed(1)}k` : post.saves}</span>
+                      <Bookmark size={14} fill={savedPosts.has(post.id) ? "#00FF88" : "none"} />
+                      <span>{(post.saves + (savedPosts.has(post.id) ? 1 : 0)) >= 1000 ? `${((post.saves + (savedPosts.has(post.id) ? 1 : 0)) / 1000).toFixed(1)}k` : post.saves + (savedPosts.has(post.id) ? 1 : 0)}</span>
                     </button>
                     <button
                       className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-sm transition-all duration-200 hover:bg-[#1E1E32] ml-auto"

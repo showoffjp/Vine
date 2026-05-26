@@ -1,4 +1,6 @@
-import type { Metadata } from "next";
+"use client";
+
+import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
@@ -27,7 +29,6 @@ import {
   Sparkles,
 } from "lucide-react";
 
-export const metadata: Metadata = { title: "Explore — Vine" };
 
 const trendingTopics = [
   { name: "Prayer & Fasting", posts: "12.4k posts", gradient: "linear-gradient(135deg, #6B4FBB 0%, #4F8FBB 100%)", href: "/topics/prayer-fasting" },
@@ -195,6 +196,8 @@ const categories = [
 ];
 
 export default function ExplorePage() {
+  const [searchQuery, setSearchQuery] = useState("");
+
   return (
     <div className="min-h-screen" style={{ background: "#07070F" }}>
       <Navbar />
@@ -228,11 +231,13 @@ export default function ExplorePage() {
               <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2" style={{ color: "#6A6A88" }} />
               <input
                 type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search Vine — topics, creators, discussions, resources..."
                 className="w-full pl-12 pr-6 py-4 rounded-2xl text-base outline-none"
                 style={{
                   background: "#12121F",
-                  border: "1px solid #1E1E32",
+                  border: `1px solid ${searchQuery ? "rgba(0,255,136,0.35)" : "#1E1E32"}`,
                   color: "#F2F2F8",
                   boxShadow: "0 0 0 1px rgba(0,255,136,0.05), 0 8px 32px rgba(0,0,0,0.3)",
                 }}
@@ -244,10 +249,11 @@ export default function ExplorePage() {
               {["Prayer", "Anxiety", "Marriage", "Salvation", "Fasting", "Apologetics"].map((tag) => (
                 <button
                   key={tag}
+                  onClick={() => setSearchQuery(tag)}
                   className="text-xs px-3 py-1.5 rounded-full font-medium transition-all duration-200 hover:border-[rgba(0,255,136,0.4)] hover:text-[#00FF88]"
                   style={{
-                    border: "1px solid #1E1E32",
-                    color: "#6A6A88",
+                    border: searchQuery === tag ? "1px solid rgba(0,255,136,0.4)" : "1px solid #1E1E32",
+                    color: searchQuery === tag ? "#00FF88" : "#6A6A88",
                     background: "transparent",
                   }}
                 >

@@ -23,6 +23,7 @@ const featuredGroup = {
 
 const groups = [
   {
+    id: "fathers-of-faith",
     name: "Fathers of Faith",
     emoji: "👨‍👧‍👦",
     color: "#3B82F6",
@@ -34,6 +35,7 @@ const groups = [
     tags: ["Fatherhood", "Leadership", "Marriage"],
   },
   {
+    id: "global-prayer-warriors",
     name: "Global Prayer Warriors",
     emoji: "🙏",
     color: "#00FF88",
@@ -45,6 +47,7 @@ const groups = [
     tags: ["Intercession", "Missions", "Warfare Prayer"],
   },
   {
+    id: "creative-christians",
     name: "Creative Christians",
     emoji: "🎨",
     color: "#EC4899",
@@ -56,6 +59,7 @@ const groups = [
     tags: ["Music", "Visual Art", "Film", "Writing"],
   },
   {
+    id: "college-faith-network",
     name: "College Faith Network",
     emoji: "🎓",
     color: "#10B981",
@@ -67,6 +71,7 @@ const groups = [
     tags: ["Campus", "Apologetics", "Young Adults"],
   },
   {
+    id: "biblical-marriage",
     name: "Biblical Marriage",
     emoji: "💍",
     color: "#EF4444",
@@ -78,6 +83,7 @@ const groups = [
     tags: ["Covenant", "Communication", "Intimacy"],
   },
   {
+    id: "women-in-the-word",
     name: "Women in the Word",
     emoji: "📖",
     color: "#F59E0B",
@@ -89,6 +95,7 @@ const groups = [
     tags: ["Bible Study", "Mentorship", "Identity"],
   },
   {
+    id: "faith-career",
     name: "Business as Mission",
     emoji: "💼",
     color: "#6B4FBB",
@@ -100,6 +107,7 @@ const groups = [
     tags: ["Entrepreneurship", "Marketplace", "Ethics"],
   },
   {
+    id: "grief-hope",
     name: "Grief & Hope",
     emoji: "🕊️",
     color: "#8B9BCC",
@@ -111,6 +119,7 @@ const groups = [
     tags: ["Grief", "Loss", "Healing", "Support"],
   },
   {
+    id: "frontier-missions-network",
     name: "Frontier Missions Network",
     emoji: "🌍",
     color: "#EF4444",
@@ -122,6 +131,7 @@ const groups = [
     tags: ["Unreached", "Church Planting", "10/40"],
   },
   {
+    id: "christian-parenting",
     name: "New Parents Circle",
     emoji: "👶",
     color: "#10B981",
@@ -133,6 +143,7 @@ const groups = [
     tags: ["Newborns", "Toddlers", "Christian Home"],
   },
   {
+    id: "mental-health-faith",
     name: "Addiction Freedom",
     emoji: "⛓️",
     color: "#00FF88",
@@ -144,6 +155,7 @@ const groups = [
     tags: ["Recovery", "Accountability", "Freedom"],
   },
   {
+    id: "theology-doctrine",
     name: "Apologetics Lab",
     emoji: "🧠",
     color: "#3B82F6",

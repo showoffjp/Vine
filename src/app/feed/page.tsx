@@ -33,6 +33,7 @@ const stories = [
 const posts = [
   {
     id: 1,
+    link: "/discussions/faith-and-doubt-001",
     author: "Amara Osei",
     avatar: "AO",
     color: "#F59E0B",
@@ -50,6 +51,7 @@ const posts = [
   },
   {
     id: 2,
+    link: "/discussions/faith-and-doubt-001",
     author: "Ji-Woo Park",
     avatar: "JP",
     color: "#EC4899",
@@ -66,6 +68,7 @@ const posts = [
   },
   {
     id: 3,
+    link: "/blog/why-the-resurrection-changes-everything",
     author: "Pastor Marcus Webb",
     avatar: "MW",
     color: "#6B4FBB",
@@ -85,6 +88,7 @@ const posts = [
   },
   {
     id: 4,
+    link: "/stories/carlos-mendez-drug-cartel-to-church-planter",
     author: "Carlos Mendez",
     avatar: "CM",
     color: "#10B981",
@@ -101,6 +105,7 @@ const posts = [
   },
   {
     id: 5,
+    link: "/discussions/depression-therapy-faith-005",
     author: "Dr. Sarah Kimani",
     avatar: "SK",
     color: "#00FF88",
@@ -358,10 +363,10 @@ export default function FeedPage() {
                       <Heart size={15} fill={likedPosts[post.id] ? "#EC4899" : "none"} />
                       <span className="text-xs">{likedPosts[post.id] ? post.likes + 1 : post.likes}</span>
                     </button>
-                    <button className="flex items-center gap-1.5 text-sm transition-colors" style={{ color: "#6A6A88" }}>
+                    <a href={post.link} className="flex items-center gap-1.5 text-sm transition-colors hover:text-[#00FF88]" style={{ color: "#6A6A88", textDecoration: "none" }}>
                       <MessageSquare size={15} />
                       <span className="text-xs">{post.comments}</span>
-                    </button>
+                    </a>
                     <button className="flex items-center gap-1.5 text-sm" style={{ color: "#6A6A88" }}>
                       <Share2 size={15} />
                     </button>

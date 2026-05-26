@@ -1,4 +1,6 @@
-import type { Metadata } from "next";
+"use client";
+
+import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
@@ -18,11 +20,6 @@ import {
   Trophy,
 } from "lucide-react";
 
-export const metadata: Metadata = {
-  title: "Life Hacks — Vine",
-  description:
-    "Biblical life hacks for modern living. Practical faith meets real life — money, relationships, productivity, health, and more.",
-};
 
 const trending = [
   { title: "The 10-10-80 Money Method", saves: "4.2k", category: "Money", color: "#00FF88" },
@@ -173,6 +170,21 @@ const mostSaved = [
 ];
 
 export default function LifeHacksPage() {
+  const [activeCategory, setActiveCategory] = useState("All");
+  const [submitted, setSubmitted] = useState(false);
+  const [hackTitle, setHackTitle] = useState("");
+
+  const filteredHacks = activeCategory === "All"
+    ? hacks
+    : hacks.filter((h) => h.category === activeCategory);
+
+  const handleSubmit = () => {
+    if (!hackTitle.trim()) return;
+    setSubmitted(true);
+    setHackTitle("");
+    setTimeout(() => setSubmitted(false), 3000);
+  };
+
   return (
     <div style={{ background: "#07070F", minHeight: "100vh" }}>
       <Navbar />
@@ -292,28 +304,38 @@ export default function LifeHacksPage() {
               flexWrap: "wrap",
             }}
           >
-            {categories.map((cat, i) => (
-              <button
-                key={i}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "6px",
-                  padding: "8px 16px",
-                  borderRadius: "100px",
-                  border: i === 0 ? "1px solid rgba(0,255,136,0.5)" : "1px solid #1E1E32",
-                  background: i === 0 ? "rgba(0,255,136,0.12)" : "transparent",
-                  color: i === 0 ? "#00FF88" : "#8A8AA8",
-                  fontSize: "13px",
-                  fontWeight: 600,
-                  cursor: "pointer",
-                  flexShrink: 0,
-                }}
-              >
-                <cat.icon size={13} />
-                {cat.label}
-              </button>
-            ))}
+            {categories.map((cat, i) => {
+              const isActive = activeCategory === cat.label;
+              return (
+                <button
+                  key={i}
+                  onClick={() => setActiveCategory(cat.label)}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "6px",
+                    padding: "8px 16px",
+                    borderRadius: "100px",
+                    border: isActive ? "1px solid rgba(0,255,136,0.5)" : "1px solid #1E1E32",
+                    background: isActive ? "rgba(0,255,136,0.12)" : "transparent",
+                    color: isActive ? "#00FF88" : "#8A8AA8",
+                    fontSize: "13px",
+                    fontWeight: 600,
+                    cursor: "pointer",
+                    flexShrink: 0,
+                    transition: "all 0.15s",
+                  }}
+                >
+                  <cat.icon size={13} />
+                  {cat.label}
+                  {isActive && activeCategory !== "All" && (
+                    <span style={{ fontSize: "10px", background: "rgba(0,255,136,0.2)", borderRadius: "10px", padding: "1px 6px" }}>
+                      {filteredHacks.length}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
           </div>
 
           {/* FEATURED HACK */}
@@ -403,7 +425,13 @@ export default function LifeHacksPage() {
               All Hacks
             </h2>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: "16px" }}>
-              {hacks.map((hack, i) => (
+              {filteredHacks.length === 0 ? (
+                <div style={{ gridColumn: "1 / -1", padding: "40px", textAlign: "center", color: "#6A6A88" }}>
+                  <p style={{ fontSize: "32px", marginBottom: "12px" }}>🔍</p>
+                  <p style={{ fontWeight: 700, color: "#F2F2F8", marginBottom: "4px" }}>No hacks in this category yet</p>
+                  <p style={{ fontSize: "14px" }}>Be the first to submit one!</p>
+                </div>
+              ) : filteredHacks.map((hack, i) => (
                 <div
                   key={i}
                   style={{
@@ -589,7 +617,8 @@ export default function LifeHacksPage() {
                 </p>
                 <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
                   <input
-                    readOnly
+                    value={hackTitle}
+                    onChange={(e) => setHackTitle(e.target.value)}
                     placeholder="Hack title (e.g. 'The 2-Minute Evening Prayer Reset')"
                     style={{
                       background: "#12121F",
@@ -632,25 +661,33 @@ export default function LifeHacksPage() {
                       width: "100%",
                     }}
                   />
-                  <button
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      gap: "8px",
-                      background: "linear-gradient(135deg, #00FF88, #B8922A)",
-                      color: "#07070F",
-                      border: "none",
-                      borderRadius: "12px",
-                      padding: "14px 28px",
-                      fontWeight: 800,
-                      fontSize: "15px",
-                      cursor: "pointer",
-                      alignSelf: "flex-start",
-                    }}
-                  >
-                    <Send size={15} /> Submit Hack
-                  </button>
+                  {submitted ? (
+                    <div style={{ background: "rgba(0,255,136,0.1)", border: "1px solid rgba(0,255,136,0.25)", borderRadius: "12px", padding: "14px 28px", color: "#00FF88", fontWeight: 700, fontSize: "15px", textAlign: "center" }}>
+                      ✓ Hack submitted! We&apos;ll review it shortly.
+                    </div>
+                  ) : (
+                    <button
+                      onClick={handleSubmit}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: "8px",
+                        background: hackTitle.trim() ? "linear-gradient(135deg, #00FF88, #B8922A)" : "#1E1E32",
+                        color: hackTitle.trim() ? "#07070F" : "#4A4A68",
+                        border: "none",
+                        borderRadius: "12px",
+                        padding: "14px 28px",
+                        fontWeight: 800,
+                        fontSize: "15px",
+                        cursor: hackTitle.trim() ? "pointer" : "not-allowed",
+                        alignSelf: "flex-start",
+                        transition: "all 0.2s",
+                      }}
+                    >
+                      <Send size={15} /> Submit Hack
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

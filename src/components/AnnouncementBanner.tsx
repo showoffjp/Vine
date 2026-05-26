@@ -20,7 +20,7 @@ export default function AnnouncementBanner() {
       <span style={{ color: "#C0C0D8" }}>
         <span className="font-bold" style={{ color: "#00FF88" }}>Vine Beta is live.</span>{" "}
         Join early and shape the future of Christian community online.{" "}
-        <a href="#join" className="underline font-semibold" style={{ color: "#44FFAA" }}>
+        <a href="/feed" className="underline font-semibold" style={{ color: "#44FFAA" }}>
           Join free →
         </a>
       </span>

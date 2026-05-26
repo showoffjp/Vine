@@ -30,14 +30,14 @@ import {
 export const metadata: Metadata = { title: "Explore — Vine" };
 
 const trendingTopics = [
-  { name: "Prayer & Fasting", posts: "12.4k posts", gradient: "linear-gradient(135deg, #6B4FBB 0%, #4F8FBB 100%)" },
-  { name: "Gen Z & Church", posts: "9.8k posts", gradient: "linear-gradient(135deg, #BB4F7A 0%, #6B4FBB 100%)" },
-  { name: "Marriage & Faith", posts: "8.1k posts", gradient: "linear-gradient(135deg, #00FF88 0%, #BB7A4F 100%)" },
-  { name: "Mental Health & God", posts: "14.2k posts", gradient: "linear-gradient(135deg, #4FBBAA 0%, #4F8FBB 100%)" },
-  { name: "Christian AI Ethics", posts: "6.7k posts", gradient: "linear-gradient(135deg, #6B4FBB 0%, #BB4F7A 100%)" },
-  { name: "Deconstruction Stories", posts: "11.3k posts", gradient: "linear-gradient(135deg, #BB7A4F 0%, #00FF88 100%)" },
-  { name: "Apologetics Q&A", posts: "5.4k posts", gradient: "linear-gradient(135deg, #4F8FBB 0%, #4FBBAA 100%)" },
-  { name: "Worship Music 2025", posts: "7.9k posts", gradient: "linear-gradient(135deg, #00FF88 0%, #4FBBAA 100%)" },
+  { name: "Prayer & Fasting", posts: "12.4k posts", gradient: "linear-gradient(135deg, #6B4FBB 0%, #4F8FBB 100%)", href: "/topics/prayer-fasting" },
+  { name: "Gen Z & Church", posts: "9.8k posts", gradient: "linear-gradient(135deg, #BB4F7A 0%, #6B4FBB 100%)", href: "/topics/genz-church" },
+  { name: "Marriage & Faith", posts: "8.1k posts", gradient: "linear-gradient(135deg, #00FF88 0%, #BB7A4F 100%)", href: "/topics/marriage-faith" },
+  { name: "Mental Health & God", posts: "14.2k posts", gradient: "linear-gradient(135deg, #4FBBAA 0%, #4F8FBB 100%)", href: "/topics/mental-health-god" },
+  { name: "Christian AI Ethics", posts: "6.7k posts", gradient: "linear-gradient(135deg, #6B4FBB 0%, #BB4F7A 100%)", href: "/topics/christian-ai-ethics" },
+  { name: "Deconstruction Stories", posts: "11.3k posts", gradient: "linear-gradient(135deg, #BB7A4F 0%, #00FF88 100%)", href: "/topics/deconstruction" },
+  { name: "Apologetics Q&A", posts: "5.4k posts", gradient: "linear-gradient(135deg, #4F8FBB 0%, #4FBBAA 100%)", href: "/apologetics" },
+  { name: "Worship Music 2026", posts: "7.9k posts", gradient: "linear-gradient(135deg, #00FF88 0%, #4FBBAA 100%)", href: "/worship" },
 ];
 
 const forYouContent = [
@@ -275,7 +275,7 @@ export default function ExplorePage() {
               {trendingTopics.map((topic) => (
                 <a
                   key={topic.name}
-                  href="/discussions"
+                  href={topic.href}
                   className="flex-shrink-0 w-44 block rounded-2xl p-4 cursor-pointer transition-all duration-200 hover:scale-105"
                   style={{
                     background: topic.gradient,

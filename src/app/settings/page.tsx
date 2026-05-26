@@ -196,6 +196,12 @@ function NotifRow({
 
 function AccountTab() {
   const [denomination, setDenomination] = useState("Non-denominational");
+  const [saved, setSaved] = useState(false);
+
+  const handleSave = () => {
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2500);
+  };
 
   const denoms = [
     "Non-denominational",
@@ -354,21 +360,30 @@ function AccountTab() {
         </Field>
       </Section>
 
-      <button
-        style={{
-          background: "linear-gradient(135deg, #00CC66, #00FF88)",
-          color: "#07070F",
-          fontWeight: 700,
-          fontSize: 15,
-          border: "none",
-          borderRadius: 10,
-          padding: "13px 32px",
-          cursor: "pointer",
-          display: "block",
-        }}
-      >
-        Save Changes
-      </button>
+      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+        <button
+          onClick={handleSave}
+          style={{
+            background: saved ? "linear-gradient(135deg, #00AA55, #00CC66)" : "linear-gradient(135deg, #00CC66, #00FF88)",
+            color: "#07070F",
+            fontWeight: 700,
+            fontSize: 15,
+            border: "none",
+            borderRadius: 10,
+            padding: "13px 32px",
+            cursor: "pointer",
+            display: "block",
+            transition: "all 0.2s",
+          }}
+        >
+          {saved ? "✓ Saved!" : "Save Changes"}
+        </button>
+        {saved && (
+          <span style={{ color: "#00FF88", fontSize: 13, fontWeight: 600 }}>
+            Your profile has been updated.
+          </span>
+        )}
+      </div>
     </div>
   );
 }

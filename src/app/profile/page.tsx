@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
@@ -140,9 +140,33 @@ const savedItems = [
   { title: "Depression, Therapy, and the Church", type: "Discussion", time: "2 weeks ago", href: "/discussions/depression-therapy-faith-005" },
 ];
 
+interface VineUser {
+  name: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  avatar: string;
+  interests: string[];
+  joinedAt: string;
+}
+
 export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState("Activity");
   const [hoveredBadge, setHoveredBadge] = useState<string | null>(null);
+  const [user, setUser] = useState<VineUser | null>(null);
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem("vine_user");
+      if (raw) setUser(JSON.parse(raw));
+    } catch {}
+  }, []);
+
+  const displayName = user?.name || "Jason Harper";
+  const displayHandle = user ? `@${(user.firstName || "jason").toLowerCase()}${(user.lastName || "harper").toLowerCase()}` : "@jasonharper";
+  const displayAvatar = user?.avatar || "JH";
+  const displayInterests = user?.interests?.length ? user.interests : interests;
+  const joinedYear = user?.joinedAt ? new Date(user.joinedAt).getFullYear() : 2025;
 
   return (
     <div className="min-h-screen" style={{ background: "#07070F" }}>
@@ -166,14 +190,14 @@ export default function ProfilePage() {
                   boxShadow: "0 0 0 4px rgba(0,255,136,0.15)",
                 }}
               >
-                JH
+                {displayAvatar}
               </div>
 
               <h2 className="text-xl font-black mb-0.5" style={{ color: "#F2F2F8" }}>
-                Jason Harper
+                {displayName}
               </h2>
               <p className="text-sm mb-3" style={{ color: "#8A8AA8" }}>
-                @jasonharper
+                {displayHandle}
               </p>
 
               <div className="flex items-center gap-1.5 text-xs mb-1" style={{ color: "#6A6A88" }}>
@@ -182,7 +206,7 @@ export default function ProfilePage() {
               </div>
               <div className="flex items-center gap-1.5 text-xs mb-4" style={{ color: "#6A6A88" }}>
                 <Calendar size={12} />
-                Member since Jan 2025
+                Member since Jan {joinedYear}
               </div>
 
               <p className="text-sm leading-relaxed mb-5 text-left" style={{ color: "#8A8AA8" }}>
@@ -280,7 +304,7 @@ export default function ProfilePage() {
                 Interests
               </h4>
               <div className="flex flex-wrap gap-1.5">
-                {interests.map((tag) => (
+                {displayInterests.map((tag) => (
                   <span key={tag} className="tag-pill">
                     {tag}
                   </span>

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import GiveButton from "@/components/GiveButton";
 import { Heart, Globe, Shield, ChevronRight, Star, Users, BookOpen } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -181,12 +182,7 @@ export default function GivingPage() {
                   <p className="text-xs mb-4 font-semibold" style={{ color: c.color }}>
                     💡 {c.impact}
                   </p>
-                  <button
-                    className="w-full py-2.5 rounded-xl font-bold text-sm mt-auto"
-                    style={{ background: `linear-gradient(135deg, ${c.color}CC, ${c.color})`, color: "#fff" }}
-                  >
-                    Give to This Cause
-                  </button>
+                  <GiveButton cause={c.title} color={c.color} />
                 </div>
               );
             })}

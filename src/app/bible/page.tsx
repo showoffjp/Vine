@@ -95,6 +95,7 @@ const relatedResources = [
     author: "Dr. John Walton",
     time: "12 min read",
     color: "#6B4FBB",
+    href: "/discussions/resurrection-evidence-002",
   },
   {
     type: "Video",
@@ -102,6 +103,7 @@ const relatedResources = [
     author: "The Bible Project",
     time: "18 min watch",
     color: "#00FF88",
+    href: "/video",
   },
   {
     type: "Study Guide",
@@ -109,6 +111,7 @@ const relatedResources = [
     author: "Vine Theology Team",
     time: "30 days",
     color: "#4FBBAA",
+    href: "/reading-plan",
   },
 ];
 
@@ -509,10 +512,11 @@ export default function BiblePage() {
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   {relatedResources.map((r, i) => (
-                    <div
+                    <a
                       key={i}
-                      className="rounded-2xl p-4 cursor-pointer transition-all duration-200 hover:bg-[#18182A]"
-                      style={{ background: "#12121F", border: "1px solid #1E1E32" }}
+                      href={r.href}
+                      className="rounded-2xl p-4 cursor-pointer transition-all duration-200 hover:bg-[#18182A] block"
+                      style={{ background: "#12121F", border: "1px solid #1E1E32", textDecoration: "none" }}
                     >
                       <span
                         className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full inline-block mb-3"
@@ -526,7 +530,7 @@ export default function BiblePage() {
                       <p className="text-xs" style={{ color: "#6A6A88" }}>
                         {r.author} · {r.time}
                       </p>
-                    </div>
+                    </a>
                   ))}
                 </div>
               </div>

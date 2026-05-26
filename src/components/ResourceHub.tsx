@@ -108,7 +108,7 @@ export default function ResourceHub() {
             </h2>
           </div>
           <a
-            href="#"
+            href="/resources"
             className="flex items-center gap-1 text-sm font-semibold whitespace-nowrap"
             style={{ color: "#00FF88" }}
           >

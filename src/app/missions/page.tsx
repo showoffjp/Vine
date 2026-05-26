@@ -226,9 +226,9 @@ export default function MissionsPage() {
                   <p className="text-xs font-bold mb-1" style={{ color: "#00FF88" }}>Latest Update</p>
                   <p className="text-sm italic" style={{ color: "#8A8AA8" }}>&ldquo;{s.update}&rdquo;</p>
                 </div>
-                <button className="mt-4 text-sm font-bold flex items-center gap-1" style={{ color: s.color }}>
+                <a href="/giving" className="mt-4 text-sm font-bold flex items-center gap-1" style={{ color: s.color, textDecoration: "none" }}>
                   Support them <ChevronRight size={14} />
-                </button>
+                </a>
               </div>
             ))}
           </div>

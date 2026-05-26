@@ -152,7 +152,7 @@ export default function DailyBread() {
                 Today&apos;s Devotionals
               </h3>
               <a
-                href="#"
+                href="/daily"
                 className="text-sm font-semibold flex items-center gap-1"
                 style={{ color: "#00FF88" }}
               >

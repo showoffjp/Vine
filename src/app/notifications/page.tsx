@@ -32,6 +32,7 @@ interface Notification {
   read: boolean;
   category: NotifCategory;
   action: string;
+  href: string;
 }
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
@@ -46,6 +47,7 @@ const todayNotifs: Notification[] = [
     read: false,
     category: "prayer",
     action: "View Prayers",
+    href: "/prayer",
   },
   {
     id: 2,
@@ -56,6 +58,7 @@ const todayNotifs: Notification[] = [
     read: false,
     category: "reply",
     action: "View Reply",
+    href: "/discussions/resurrection-evidence-002",
   },
   {
     id: 3,
@@ -66,6 +69,7 @@ const todayNotifs: Notification[] = [
     read: false,
     category: "milestone",
     action: "See Post",
+    href: "/discussions/biblical-finances-stewardship-007",
   },
   {
     id: 4,
@@ -76,6 +80,7 @@ const todayNotifs: Notification[] = [
     read: false,
     category: "devotional",
     action: "Read Now",
+    href: "/daily",
   },
   {
     id: 5,
@@ -86,6 +91,7 @@ const todayNotifs: Notification[] = [
     read: false,
     category: "like",
     action: "View",
+    href: "/prayer",
   },
   {
     id: 6,
@@ -96,6 +102,7 @@ const todayNotifs: Notification[] = [
     read: true,
     category: "follow",
     action: "View Profiles",
+    href: "/community",
   },
   {
     id: 7,
@@ -106,6 +113,7 @@ const todayNotifs: Notification[] = [
     read: true,
     category: "challenge",
     action: "View Challenge",
+    href: "/reading-plan",
   },
   {
     id: 8,
@@ -116,6 +124,7 @@ const todayNotifs: Notification[] = [
     read: true,
     category: "badge",
     action: "View Badge",
+    href: "/profile",
   },
 ];
 
@@ -129,6 +138,7 @@ const yesterdayNotifs: Notification[] = [
     read: true,
     category: "prayer",
     action: "View Prayers",
+    href: "/prayer",
   },
   {
     id: 10,
@@ -139,6 +149,7 @@ const yesterdayNotifs: Notification[] = [
     read: true,
     category: "reply",
     action: "View Thread",
+    href: "/discussions",
   },
   {
     id: 11,
@@ -149,6 +160,7 @@ const yesterdayNotifs: Notification[] = [
     read: true,
     category: "circle",
     action: "Visit Circle",
+    href: "/groups/young-adults",
   },
   {
     id: 12,
@@ -159,6 +171,7 @@ const yesterdayNotifs: Notification[] = [
     read: true,
     category: "badge",
     action: "View Badge",
+    href: "/profile",
   },
   {
     id: 13,
@@ -169,6 +182,7 @@ const yesterdayNotifs: Notification[] = [
     read: true,
     category: "like",
     action: "View",
+    href: "/prayer",
   },
   {
     id: 14,
@@ -179,6 +193,7 @@ const yesterdayNotifs: Notification[] = [
     read: true,
     category: "devotional",
     action: "Read Now",
+    href: "/daily",
   },
 ];
 
@@ -192,6 +207,7 @@ const thisWeekNotifs: Notification[] = [
     read: true,
     category: "event",
     action: "View Event",
+    href: "/events",
   },
   {
     id: 16,
@@ -202,6 +218,7 @@ const thisWeekNotifs: Notification[] = [
     read: true,
     category: "challenge",
     action: "View Challenge",
+    href: "/reading-plan",
   },
   {
     id: 17,
@@ -212,6 +229,7 @@ const thisWeekNotifs: Notification[] = [
     read: true,
     category: "resource",
     action: "View Resource",
+    href: "/resources",
   },
   {
     id: 18,
@@ -222,6 +240,7 @@ const thisWeekNotifs: Notification[] = [
     read: true,
     category: "circle",
     action: "View Invite",
+    href: "/groups",
   },
   {
     id: 19,
@@ -232,6 +251,7 @@ const thisWeekNotifs: Notification[] = [
     read: true,
     category: "milestone",
     action: "See Comment",
+    href: "/discussions",
   },
   {
     id: 20,
@@ -242,6 +262,7 @@ const thisWeekNotifs: Notification[] = [
     read: true,
     category: "system",
     action: "Read Update",
+    href: "/community-guidelines",
   },
 ];
 
@@ -318,18 +339,18 @@ function NotifItem({
         </p>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
           <span style={{ fontSize: 12, color: "#6A6A88" }}>{notif.time}</span>
-          <span
+          <a
+            href={notif.href}
             style={{
               fontSize: 12,
               color: categoryColors[notif.category],
               fontWeight: 600,
               cursor: "pointer",
-              textDecoration: "underline",
-              textDecorationColor: "transparent",
+              textDecoration: "none",
             }}
           >
-            {notif.action}
-          </span>
+            {notif.action} →
+          </a>
         </div>
       </div>
 
@@ -450,7 +471,7 @@ export default function NotificationsPage() {
           </div>
 
           <a
-            href="#"
+            href="/notifications"
             style={{
               fontSize: 13,
               fontWeight: 600,

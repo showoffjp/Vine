@@ -190,7 +190,7 @@ export default function EventsSection() {
             </h2>
           </div>
           <a
-            href="#"
+            href="/events"
             style={{
               display: "flex",
               alignItems: "center",

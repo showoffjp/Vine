@@ -81,16 +81,16 @@ export default function Hero() {
 
         {/* CTAs */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
-          <button className="btn-gold px-8 py-4 rounded-xl text-base flex items-center gap-2 group">
+          <a href="/feed" className="btn-gold px-8 py-4 rounded-xl text-base flex items-center gap-2 group" style={{ textDecoration: "none" }}>
             Join the Community — It&apos;s Free
             <ArrowRight
               size={18}
               className="transition-transform group-hover:translate-x-1"
             />
-          </button>
-          <button className="btn-outline-gold px-8 py-4 rounded-xl text-base font-semibold">
+          </a>
+          <a href="/explore" className="btn-outline-gold px-8 py-4 rounded-xl text-base font-semibold" style={{ textDecoration: "none" }}>
             Explore Vine
-          </button>
+          </a>
         </div>
 
         {/* Stats */}

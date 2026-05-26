@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import EventRegisterButton from "@/components/EventRegisterButton";
 import {
   Search,
   MapPin,
@@ -591,19 +592,7 @@ function EventCard({ event }: { event: EventItem }) {
             {event.price}
           </p>
         </div>
-        <button
-          className="px-4 py-2 rounded-xl text-xs font-bold"
-          style={{
-            background:
-              event.price === "Free"
-                ? "linear-gradient(135deg, #00FF88 0%, #B8960C 100%)"
-                : "transparent",
-            color: event.price === "Free" ? "#07070F" : "#00FF88",
-            border: event.price === "Free" ? "none" : "1px solid rgba(0,255,136,0.35)",
-          }}
-        >
-          {event.cta}
-        </button>
+        <EventRegisterButton cta={event.cta} price={event.price} eventTitle={event.title} />
       </div>
     </Wrapper>
   );

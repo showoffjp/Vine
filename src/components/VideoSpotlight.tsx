@@ -151,7 +151,7 @@ export default function VideoSpotlight() {
             </h2>
           </div>
           <a
-            href="#"
+            href="/video"
             style={{
               display: "flex",
               alignItems: "center",

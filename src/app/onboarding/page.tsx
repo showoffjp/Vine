@@ -134,6 +134,26 @@ export default function OnboardingPage() {
     return true;
   }
 
+  function handleFinishSetup() {
+    const userData = {
+      name: `${form.firstName} ${form.lastName}`.trim() || form.firstName,
+      firstName: form.firstName,
+      lastName: form.lastName,
+      email: `${form.username}@vine.community`,
+      avatar: (form.firstName[0] || "V").toUpperCase() + (form.lastName[0] || "M").toUpperCase(),
+      interests: selectedInterests,
+      denomination: form.denomination,
+      faithDuration: form.faithDuration,
+      location: form.location,
+      readingPlan: selectedPlan,
+      joinedAt: new Date().toISOString(),
+    };
+    try {
+      localStorage.setItem("vine_user", JSON.stringify(userData));
+    } catch {}
+    setStep((s) => s + 1);
+  }
+
   return (
     <div
       className="min-h-screen flex flex-col items-center justify-center px-4 py-12 relative overflow-hidden"
@@ -519,9 +539,9 @@ export default function OnboardingPage() {
               )}
             </div>
 
-            <Link href="/" className="block">
+            <Link href="/feed" className="block">
               <button className="btn-gold w-full py-4 rounded-2xl text-base font-black flex items-center justify-center gap-2">
-                Enter Vine
+                Enter Vine →
                 <ChevronRight size={18} />
               </button>
             </Link>
@@ -542,7 +562,7 @@ export default function OnboardingPage() {
               Back
             </button>
             <button
-              onClick={() => setStep((s) => s + 1)}
+              onClick={step === 4 ? handleFinishSetup : () => setStep((s) => s + 1)}
               disabled={!canAdvance()}
               className="flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold transition-all duration-200"
               style={{

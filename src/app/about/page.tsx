@@ -932,7 +932,7 @@ export default function AboutPage() {
                   Join Free <ChevronRight size={17} />
                 </a>
                 <a
-                  href="#"
+                  href="/feed"
                   style={{
                     display: "inline-flex",
                     alignItems: "center",

@@ -84,16 +84,16 @@ export default function JoinCTA() {
 
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
-          <button className="btn-gold px-10 py-4 rounded-2xl text-base flex items-center gap-2 group">
+          <a href="/feed" className="btn-gold px-10 py-4 rounded-2xl text-base flex items-center gap-2 group" style={{ textDecoration: "none" }}>
             Join Vine — It&apos;s Free
             <ArrowRight
               size={18}
               className="group-hover:translate-x-1 transition-transform"
             />
-          </button>
-          <button className="btn-outline-gold px-8 py-4 rounded-2xl text-base font-semibold">
+          </a>
+          <a href="/about" className="btn-outline-gold px-8 py-4 rounded-2xl text-base font-semibold" style={{ textDecoration: "none" }}>
             Learn More
-          </button>
+          </a>
         </div>
 
         <p className="text-xs" style={{ color: "#4A4A68" }}>

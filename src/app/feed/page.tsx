@@ -1,0 +1,385 @@
+"use client";
+
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import {
+  Heart,
+  MessageSquare,
+  Share2,
+  Bookmark,
+  MoreHorizontal,
+  TrendingUp,
+  Users,
+  Bell,
+  Flame,
+  BookOpen,
+  Globe,
+  Star,
+  ChevronRight,
+  Feather,
+} from "lucide-react";
+import { useState } from "react";
+
+const stories = [
+  { name: "You", avatar: "ME", color: "#D4AF37", hasStory: false, isYou: true },
+  { name: "Amara", avatar: "AO", color: "#F59E0B", hasStory: true },
+  { name: "Ji-Woo", avatar: "JP", color: "#EC4899", hasStory: true },
+  { name: "Carlos", avatar: "CM", color: "#10B981", hasStory: true },
+  { name: "Lydia", avatar: "LB", color: "#6B4FBB", hasStory: true },
+  { name: "Samuel", avatar: "SM", color: "#3B82F6", hasStory: true },
+  { name: "Grace", avatar: "GN", color: "#EF4444", hasStory: false },
+];
+
+const posts = [
+  {
+    id: 1,
+    author: "Amara Osei",
+    avatar: "AO",
+    color: "#F59E0B",
+    role: "Worship Leader · Ghana 🇬🇭",
+    time: "2h ago",
+    type: "text",
+    content:
+      "Psalm 34:8 — \"Taste and see that the LORD is good.\" I've been sitting with this verse all week. It's not asking you to agree with a theological proposition. It's inviting you to experience. What does that look like for you today?",
+    verse: "Psalm 34:8",
+    likes: 847,
+    comments: 142,
+    liked: false,
+    saved: false,
+    tags: ["Psalms", "Devotional"],
+  },
+  {
+    id: 2,
+    author: "Ji-Woo Park",
+    avatar: "JP",
+    color: "#EC4899",
+    role: "Seminary Student · South Korea 🇰🇷",
+    time: "4h ago",
+    type: "question",
+    content:
+      "Genuine question for the community: How do you handle doubt without losing faith? I'm in my second year of seminary and wrestling with some hard questions that don't have easy answers. Looking for real, honest responses — not just \"just trust God\" please 🙏",
+    likes: 1204,
+    comments: 384,
+    liked: true,
+    saved: false,
+    tags: ["Doubt", "Theology", "Faith"],
+  },
+  {
+    id: 3,
+    author: "Pastor Marcus Webb",
+    avatar: "MW",
+    color: "#6B4FBB",
+    role: "Senior Pastor · Atlanta, USA 🇺🇸",
+    time: "6h ago",
+    type: "verse",
+    content:
+      "The verse that has anchored me through every hard season of ministry:",
+    verse: "Romans 8:38-39",
+    verseText:
+      "\"For I am convinced that neither death nor life, neither angels nor demons, neither the present nor the future, nor any powers, neither height nor depth, nor anything else in all creation, will be able to separate us from the love of God that is in Christ Jesus our Lord.\"",
+    likes: 2341,
+    comments: 89,
+    liked: false,
+    saved: true,
+    tags: ["Romans", "Assurance"],
+  },
+  {
+    id: 4,
+    author: "Carlos Mendez",
+    avatar: "CM",
+    color: "#10B981",
+    role: "Church Planter · Bogotá, Colombia 🇨🇴",
+    time: "9h ago",
+    type: "testimony",
+    content:
+      "Planted our church 3 years ago with 7 people in my living room. Yesterday we broke ground on our first building — 340 members strong. To everyone in early-stage ministry who's exhausted and wondering if it matters: IT MATTERS. Don't quit. The harvest comes. 🌱",
+    likes: 5832,
+    comments: 741,
+    liked: false,
+    saved: false,
+    tags: ["Testimony", "Church Planting", "Mission"],
+  },
+  {
+    id: 5,
+    author: "Dr. Sarah Kimani",
+    avatar: "SK",
+    color: "#D4AF37",
+    role: "Biblical Counselor · Nairobi, Kenya 🇰🇪",
+    time: "Yesterday",
+    type: "text",
+    content:
+      "Reminder: You are allowed to grieve AND trust God simultaneously. Lament is not a lack of faith — it's one of the most theologically honest things you can do. Half the Psalms are lament. The cross itself is lament. God can handle your grief. Bring it to Him.",
+    likes: 3190,
+    comments: 217,
+    liked: true,
+    saved: true,
+    tags: ["Mental Health", "Grief", "Psalms"],
+  },
+];
+
+const suggestedPeople = [
+  { name: "Rev. David Osei", role: "Theologian", avatar: "DO", color: "#D4AF37", mutual: 12 },
+  { name: "Isabella Ferreira", role: "Missionary · Brazil", avatar: "IF", color: "#EC4899", mutual: 7 },
+  { name: "James Okafor", role: "Christian Writer", avatar: "JO", color: "#3B82F6", mutual: 24 },
+];
+
+const trendingNow = [
+  { tag: "Resurrection", posts: "4.8k posts" },
+  { tag: "GenZFaith", posts: "3.2k posts" },
+  { tag: "ChristianMentalHealth", posts: "2.9k posts" },
+  { tag: "BiblicalLeadership", posts: "1.7k posts" },
+];
+
+type PostLikes = { [key: number]: boolean };
+type PostSaved = { [key: number]: boolean };
+
+export default function FeedPage() {
+  const [likedPosts, setLikedPosts] = useState<PostLikes>({ 2: true, 5: true });
+  const [savedPosts, setSavedPosts] = useState<PostSaved>({ 3: true, 5: true });
+  const [postText, setPostText] = useState("");
+
+  const toggleLike = (id: number) =>
+    setLikedPosts((p) => ({ ...p, [id]: !p[id] }));
+  const toggleSave = (id: number) =>
+    setSavedPosts((p) => ({ ...p, [id]: !p[id] }));
+
+  return (
+    <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
+      <Navbar />
+      <div className="pt-20 pb-20">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 pt-6">
+
+            {/* Left sidebar */}
+            <div className="hidden lg:block space-y-4">
+              {/* Quick nav */}
+              <div
+                className="rounded-2xl p-4"
+                style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
+              >
+                {[
+                  { icon: Flame, label: "My Feed", href: "/feed", active: true },
+                  { icon: Globe, label: "Global Connect", href: "/global-connect", active: false },
+                  { icon: MessageSquare, label: "Discussions", href: "/discussions", active: false },
+                  { icon: BookOpen, label: "Daily Bread", href: "/daily", active: false },
+                  { icon: Bell, label: "Notifications", href: "/notifications", active: false },
+                  { icon: Bookmark, label: "Saved Posts", href: "/profile", active: false },
+                ].map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <a
+                      key={item.label}
+                      href={item.href}
+                      className="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all"
+                      style={{
+                        background: item.active ? "rgba(212,175,55,0.08)" : "transparent",
+                        color: item.active ? "#D4AF37" : "#8A8AA8",
+                      }}
+                      onMouseEnter={(e) => {
+                        if (!item.active) e.currentTarget.style.color = "#C0C0D8";
+                      }}
+                      onMouseLeave={(e) => {
+                        if (!item.active) e.currentTarget.style.color = "#8A8AA8";
+                      }}
+                    >
+                      <Icon size={16} />
+                      <span className="text-sm font-semibold">{item.label}</span>
+                    </a>
+                  );
+                })}
+              </div>
+
+              {/* Daily verse */}
+              <div
+                className="rounded-2xl p-5"
+                style={{
+                  background: "linear-gradient(135deg, rgba(212,175,55,0.06) 0%, rgba(107,79,187,0.06) 100%)",
+                  border: "1px solid rgba(212,175,55,0.15)",
+                }}
+              >
+                <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#D4AF37" }}>
+                  ✨ Verse of the Day
+                </p>
+                <p className="text-sm italic mb-2 leading-relaxed" style={{ color: "#C0C0D8" }}>
+                  &ldquo;The Lord your God is with you, the Mighty Warrior who saves.&rdquo;
+                </p>
+                <p className="text-xs font-bold" style={{ color: "#8A6A20" }}>— Zephaniah 3:17</p>
+              </div>
+            </div>
+
+            {/* Main feed */}
+            <div className="lg:col-span-2 space-y-5">
+              {/* Stories */}
+              <div
+                className="rounded-2xl p-4"
+                style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
+              >
+                <div className="flex gap-3 overflow-x-auto pb-1">
+                  {stories.map((s) => (
+                    <div key={s.name} className="flex flex-col items-center gap-1.5 cursor-pointer shrink-0">
+                      <div
+                        className="w-12 h-12 rounded-full flex items-center justify-center text-sm font-black relative"
+                        style={{
+                          background: s.hasStory ? `${s.color}25` : "rgba(255,255,255,0.04)",
+                          color: s.color,
+                          boxShadow: s.hasStory ? `0 0 0 2px ${s.color}` : "none",
+                        }}
+                      >
+                        {s.isYou ? "+" : s.avatar}
+                      </div>
+                      <span className="text-xs" style={{ color: "#6A6A88" }}>
+                        {s.isYou ? "Add" : s.name}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Compose */}
+              <div
+                className="rounded-2xl p-5"
+                style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
+              >
+                <div className="flex gap-3 mb-3">
+                  <div
+                    className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-black shrink-0"
+                    style={{ background: "rgba(212,175,55,0.2)", color: "#D4AF37" }}
+                  >
+                    ME
+                  </div>
+                  <textarea
+                    placeholder="Share what God is doing in your life..."
+                    value={postText}
+                    onChange={(e) => setPostText(e.target.value)}
+                    rows={2}
+                    className="flex-1 bg-transparent outline-none text-sm resize-none"
+                    style={{ color: "#F2F2F8" }}
+                  />
+                </div>
+                <div className="flex items-center justify-between border-t pt-3" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+                  <div className="flex gap-3">
+                    <button className="text-xs flex items-center gap-1.5 font-semibold" style={{ color: "#6A6A88" }}>
+                      <BookOpen size={14} /> Verse
+                    </button>
+                    <button className="text-xs flex items-center gap-1.5 font-semibold" style={{ color: "#6A6A88" }}>
+                      <Heart size={14} /> Prayer
+                    </button>
+                    <button className="text-xs flex items-center gap-1.5 font-semibold" style={{ color: "#6A6A88" }}>
+                      <Feather size={14} /> Testimony
+                    </button>
+                  </div>
+                  <button
+                    className="px-5 py-1.5 rounded-lg text-sm font-bold text-black transition-opacity"
+                    style={{
+                      background: "linear-gradient(135deg, #D4AF37, #B8942C)",
+                      opacity: postText.trim() ? 1 : 0.4,
+                    }}
+                  >
+                    Share
+                  </button>
+                </div>
+              </div>
+
+              {/* Posts */}
+              {posts.map((post) => (
+                <div
+                  key={post.id}
+                  className="rounded-2xl p-5"
+                  style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
+                >
+                  {/* Header */}
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="flex items-center gap-3">
+                      <div
+                        className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-black shrink-0"
+                        style={{ background: `${post.color}25`, color: post.color, border: `2px solid ${post.color}30` }}
+                      >
+                        {post.avatar}
+                      </div>
+                      <div>
+                        <p className="font-semibold text-sm" style={{ color: "#F2F2F8" }}>{post.author}</p>
+                        <p className="text-xs" style={{ color: "#4A4A68" }}>{post.role} · {post.time}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      {post.type === "testimony" && (
+                        <span className="text-xs px-2 py-0.5 rounded-full font-bold" style={{ background: "rgba(16,185,129,0.15)", color: "#10B981" }}>
+                          ✨ Testimony
+                        </span>
+                      )}
+                      {post.type === "question" && (
+                        <span className="text-xs px-2 py-0.5 rounded-full font-bold" style={{ background: "rgba(107,79,187,0.15)", color: "#A080FF" }}>
+                          ❓ Question
+                        </span>
+                      )}
+                      <button style={{ color: "#4A4A68" }}>
+                        <MoreHorizontal size={16} />
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Content */}
+                  <p className="text-sm mb-3 leading-relaxed" style={{ color: "#C0C0D8" }}>{post.content}</p>
+
+                  {/* Verse block */}
+                  {post.verseText && (
+                    <div
+                      className="p-4 rounded-xl mb-3"
+                      style={{ background: "rgba(212,175,55,0.05)", border: "1px solid rgba(212,175,55,0.15)" }}
+                    >
+                      <p className="text-sm italic mb-1.5 leading-relaxed" style={{ color: "#C8A84B" }}>{post.verseText}</p>
+                      <p className="text-xs font-bold" style={{ color: "#8A6A20" }}>— {post.verse}</p>
+                    </div>
+                  )}
+                  {post.verse && !post.verseText && (
+                    <span className="text-xs px-2 py-0.5 rounded-full mb-3 inline-block" style={{ background: "rgba(212,175,55,0.1)", color: "#D4AF37" }}>
+                      📜 {post.verse}
+                    </span>
+                  )}
+
+                  {/* Tags */}
+                  {post.tags && (
+                    <div className="flex gap-2 flex-wrap mb-4">
+                      {post.tags.map((t) => (
+                        <span key={t} className="text-xs px-2 py-0.5 rounded-full" style={{ background: "rgba(255,255,255,0.05)", color: "#6A6A88" }}>
+                          #{t}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Actions */}
+                  <div className="flex items-center gap-5 border-t pt-3" style={{ borderColor: "rgba(255,255,255,0.05)" }}>
+                    <button
+                      onClick={() => toggleLike(post.id)}
+                      className="flex items-center gap-1.5 text-sm transition-colors"
+                      style={{ color: likedPosts[post.id] ? "#EC4899" : "#6A6A88" }}
+                    >
+                      <Heart size={15} fill={likedPosts[post.id] ? "#EC4899" : "none"} />
+                      <span className="text-xs">{likedPosts[post.id] ? post.likes + 1 : post.likes}</span>
+                    </button>
+                    <button className="flex items-center gap-1.5 text-sm transition-colors" style={{ color: "#6A6A88" }}>
+                      <MessageSquare size={15} />
+                      <span className="text-xs">{post.comments}</span>
+                    </button>
+                    <button className="flex items-center gap-1.5 text-sm" style={{ color: "#6A6A88" }}>
+                      <Share2 size={15} />
+                    </button>
+                    <button
+                      onClick={() => toggleSave(post.id)}
+                      className="flex items-center gap-1.5 text-sm ml-auto transition-colors"
+                      style={{ color: savedPosts[post.id] ? "#D4AF37" : "#6A6A88" }}
+                    >
+                      <Bookmark size={15} fill={savedPosts[post.id] ? "#D4AF37" : "none"} />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+      <Footer />
+    </div>
+  );
+}

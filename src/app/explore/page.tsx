@@ -73,7 +73,7 @@ const forYouContent = [
     type: "Podcast",
     typeColor: "#00FF88",
     icon: Headphones,
-    link: "/ai-companion",
+    link: "/podcast",
     title: "How to Have Hard Conversations at Work as a Christian",
     meta: "Faith & Career · 41 min listen",
     engagement: "2.3k listens",

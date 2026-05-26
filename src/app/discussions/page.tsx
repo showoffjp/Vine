@@ -128,7 +128,7 @@ const posts = [
   },
   {
     id: 6,
-    slug: null,
+    slug: "lunch-break-devotional-006",
     hub: "Faith & Career",
     hubColor: "#4F8FBB",
     time: "8 hours ago",

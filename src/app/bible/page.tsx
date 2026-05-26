@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
@@ -27,6 +27,117 @@ import {
 } from "lucide-react";
 
 const translations = ["NIV", "ESV", "KJV", "NKJV", "NLT", "MSG"];
+
+type VerseData = { num: number; text: string; hebrew?: string };
+
+const bibleData: Record<string, Record<number, VerseData[]>> = {
+  Genesis: {
+    1: [
+      { num: 1, text: "In the beginning God created the heavens and the earth.", hebrew: "בְּרֵאשִׁית בָּרָא אֱלֹהִים אֵת הַשָּׁמַיִם וְאֵת הָאָרֶץ" },
+      { num: 2, text: "Now the earth was formless and empty, darkness was over the surface of the deep, and the Spirit of God was hovering over the waters." },
+      { num: 3, text: 'And God said, "Let there be light," and there was light.' },
+      { num: 4, text: "God saw that the light was good, and he separated the light from the darkness." },
+      { num: 5, text: 'God called the light "day," and the darkness he called "night." And there was evening, and there was morning—the first day.' },
+      { num: 6, text: 'And God said, "Let there be a vault between the waters to separate water from water."' },
+      { num: 7, text: "So God made the vault and separated the water under the vault from the water above it. And it was so." },
+      { num: 8, text: 'God called the vault "sky." And there was evening, and there was morning—the second day.' },
+      { num: 9, text: 'And God said, "Let the water under the sky be gathered to one place, and let dry ground appear." And it was so.' },
+      { num: 10, text: 'God called the dry ground "land," and the gathered waters he called "seas." And God saw that it was good.' },
+    ],
+  },
+  Psalms: {
+    23: [
+      { num: 1, text: "The LORD is my shepherd, I lack nothing." },
+      { num: 2, text: "He makes me lie down in green pastures, he leads me beside quiet waters," },
+      { num: 3, text: "he refreshes my soul. He guides me along the right paths for his name's sake." },
+      { num: 4, text: "Even though I walk through the darkest valley, I will fear no evil, for you are with me; your rod and your staff, they comfort me." },
+      { num: 5, text: "You prepare a table before me in the presence of my enemies. You anoint my head with oil; my cup overflows." },
+      { num: 6, text: "Surely your goodness and love will follow me all the days of my life, and I will dwell in the house of the LORD forever." },
+    ],
+    139: [
+      { num: 1, text: "You have searched me, LORD, and you know me." },
+      { num: 2, text: "You know when I sit and when I rise; you perceive my thoughts from afar." },
+      { num: 3, text: "You discern my going out and my lying down; you are familiar with all my ways." },
+      { num: 4, text: "Before a word is on my tongue you, LORD, know it completely." },
+      { num: 5, text: "You hem me in behind and before, and you lay your hand upon me." },
+      { num: 6, text: "Such knowledge is too wonderful for me, too lofty for me to attain." },
+      { num: 13, text: "For you created my inmost being; you knit me together in my mother's womb." },
+      { num: 14, text: "I praise you because I am fearfully and wonderfully made; your works are wonderful, I know that full well." },
+    ],
+  },
+  Proverbs: {
+    3: [
+      { num: 1, text: "My son, do not forget my teaching, but keep my commands in your heart," },
+      { num: 2, text: "for they will prolong your life many years and bring you peace and prosperity." },
+      { num: 3, text: "Let love and faithfulness never leave you; bind them around your neck, write them on the tablet of your heart." },
+      { num: 4, text: "Then you will win favor and a good name in the sight of God and man." },
+      { num: 5, text: "Trust in the LORD with all your heart and lean not on your own understanding;" },
+      { num: 6, text: "in all your ways submit to him, and he will make your paths straight." },
+      { num: 7, text: "Do not be wise in your own eyes; fear the LORD and shun evil." },
+    ],
+  },
+  John: {
+    1: [
+      { num: 1, text: "In the beginning was the Word, and the Word was with God, and the Word was God." },
+      { num: 2, text: "He was with God in the beginning." },
+      { num: 3, text: "Through him all things were made; without him nothing was made that has been made." },
+      { num: 4, text: "In him was life, and that life was the light of all mankind." },
+      { num: 5, text: "The light shines in the darkness, and the darkness has not overcome it." },
+      { num: 14, text: "The Word became flesh and made his dwelling among us. We have seen his glory, the glory of the one and only Son, who came from the Father, full of grace and truth." },
+    ],
+    3: [
+      { num: 1, text: "Now there was a Pharisee, a man named Nicodemus who was a member of the Jewish ruling council." },
+      { num: 2, text: 'He came to Jesus at night and said, "Rabbi, we know that you are a teacher who has come from God. For no one could perform the signs you are doing if God were not with him."' },
+      { num: 3, text: 'Jesus replied, "Very truly I tell you, no one can see the kingdom of God unless they are born again."' },
+      { num: 14, text: 'Just as Moses lifted up the snake in the wilderness, so the Son of Man must be lifted up,' },
+      { num: 15, text: 'that everyone who believes may have eternal life in him.' },
+      { num: 16, text: 'For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life.' },
+      { num: 17, text: 'For God did not send his Son into the world to condemn the world, but to save the world through him.' },
+    ],
+    15: [
+      { num: 1, text: '"I am the true vine, and my Father is the gardener.' },
+      { num: 2, text: "He cuts off every branch in me that bears no fruit, while every branch that does bear fruit he prunes so that it will be even more fruitful." },
+      { num: 4, text: 'Remain in me, as I also remain in you. No branch can bear fruit by itself; it must remain in the vine. Neither can you bear fruit unless you remain in me.' },
+      { num: 5, text: '"I am the vine; you are the branches. If you remain in me and I in you, you will bear much fruit; apart from me you can do nothing.' },
+      { num: 7, text: 'If you remain in me and my words remain in you, ask whatever you wish, and it will be done for you.' },
+      { num: 12, text: 'My command is this: Love each other as I have loved you.' },
+      { num: 13, text: 'Greater love has no one than this: to lay down one\'s life for one\'s friends.' },
+    ],
+  },
+  Romans: {
+    8: [
+      { num: 1, text: "Therefore, there is now no condemnation for those who are in Christ Jesus," },
+      { num: 2, text: "because through Christ Jesus the law of the Spirit who gives life has set you free from the law of sin and death." },
+      { num: 18, text: "I consider that our present sufferings are not worth comparing with the glory that will be revealed in us." },
+      { num: 26, text: "In the same way, the Spirit helps us in our weakness. We do not know what we ought to pray for, but the Spirit himself intercedes for us through wordless groans." },
+      { num: 28, text: "And we know that in all things God works for the good of those who love him, who have been called according to his purpose." },
+      { num: 38, text: "For I am convinced that neither death nor life, neither angels nor demons, neither the present nor the future, nor any powers," },
+      { num: 39, text: "neither height nor depth, nor anything else in all creation, will be able to separate us from the love of God that is in Christ Jesus our Lord." },
+    ],
+  },
+  Philippians: {
+    4: [
+      { num: 4, text: "Rejoice in the Lord always. I will say it again: Rejoice!" },
+      { num: 5, text: "Let your gentleness be evident to all. The Lord is near." },
+      { num: 6, text: "Do not be anxious about anything, but in every situation, by prayer and petition, with thanksgiving, present your requests to God." },
+      { num: 7, text: "And the peace of God, which transcends all understanding, will guard your hearts and your minds in Christ Jesus." },
+      { num: 8, text: "Finally, brothers and sisters, whatever is true, whatever is noble, whatever is right, whatever is pure, whatever is lovely, whatever is admirable—if anything is excellent or praiseworthy—think about such things." },
+      { num: 11, text: "I am not saying this because I am in need, for I have learned to be content whatever the circumstances." },
+      { num: 13, text: "I can do all this through him who gives me strength." },
+    ],
+  },
+};
+
+const bookChapters: Record<string, number[]> = {
+  Genesis: [1],
+  Psalms: [23, 139],
+  Proverbs: [3],
+  John: [1, 3, 15],
+  Romans: [8],
+  Philippians: [4],
+};
+
+const allBooks = Object.keys(bookChapters);
 
 const genesisVerses = [
   {
@@ -132,6 +243,50 @@ export default function BiblePage() {
   const [fontSize, setFontSize] = useState(17);
   const [activeHighlightColor, setActiveHighlightColor] = useState(highlightColors[0]);
   const [bookmarkedVerses, setBookmarkedVerses] = useState<Set<number>>(new Set());
+  const [selectedBook, setSelectedBook] = useState("John");
+  const [selectedChapter, setSelectedChapter] = useState(3);
+  const [bookDropOpen, setBookDropOpen] = useState(false);
+  const [chapterDropOpen, setChapterDropOpen] = useState(false);
+
+  useEffect(() => {
+    const handleClickOutside = () => { setBookDropOpen(false); setChapterDropOpen(false); };
+    if (bookDropOpen || chapterDropOpen) {
+      document.addEventListener("click", handleClickOutside);
+      return () => document.removeEventListener("click", handleClickOutside);
+    }
+  }, [bookDropOpen, chapterDropOpen]);
+
+  const currentVerses = bibleData[selectedBook]?.[selectedChapter] ?? genesisVerses;
+  const currentChapters = bookChapters[selectedBook] ?? [1];
+
+  const navigatePrev = () => {
+    const idx = currentChapters.indexOf(selectedChapter);
+    if (idx > 0) { setSelectedChapter(currentChapters[idx - 1]); setSelectedVerse(null); }
+    else {
+      const bookIdx = allBooks.indexOf(selectedBook);
+      if (bookIdx > 0) {
+        const prevBook = allBooks[bookIdx - 1];
+        setSelectedBook(prevBook);
+        const prevChapters = bookChapters[prevBook];
+        setSelectedChapter(prevChapters[prevChapters.length - 1]);
+        setSelectedVerse(null);
+      }
+    }
+  };
+
+  const navigateNext = () => {
+    const idx = currentChapters.indexOf(selectedChapter);
+    if (idx < currentChapters.length - 1) { setSelectedChapter(currentChapters[idx + 1]); setSelectedVerse(null); }
+    else {
+      const bookIdx = allBooks.indexOf(selectedBook);
+      if (bookIdx < allBooks.length - 1) {
+        const nextBook = allBooks[bookIdx + 1];
+        setSelectedBook(nextBook);
+        setSelectedChapter(bookChapters[nextBook][0]);
+        setSelectedVerse(null);
+      }
+    }
+  };
 
   const handleVerseClick = (verseNum: number) => {
     setSelectedVerse(selectedVerse === verseNum ? null : verseNum);
@@ -201,22 +356,56 @@ export default function BiblePage() {
             {/* Reader Controls */}
             <div className="flex flex-wrap items-center gap-3">
               {/* Book/Chapter/Verse selectors */}
-              <div className="flex items-center gap-2">
-                {["Genesis", "Chapter 1"].map((label, i) => (
+              <div className="flex items-center gap-2 relative">
+                <div className="relative">
                   <button
-                    key={i}
+                    onClick={() => { setBookDropOpen(!bookDropOpen); setChapterDropOpen(false); }}
                     className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-semibold transition-all duration-200"
                     style={{ background: "#12121F", border: "1px solid #1E1E32", color: "#F2F2F8" }}
                   >
-                    {label}
+                    {selectedBook}
                     <ChevronDown size={13} style={{ color: "#6A6A88" }} />
                   </button>
-                ))}
+                  {bookDropOpen && (
+                    <div className="absolute top-full left-0 mt-1 rounded-xl z-50 py-1 min-w-[140px]"
+                      style={{ background: "#12121F", border: "1px solid #1E1E32", boxShadow: "0 8px 32px rgba(0,0,0,0.5)" }}>
+                      {allBooks.map((book) => (
+                        <button key={book} onClick={() => { setSelectedBook(book); setSelectedChapter(bookChapters[book][0]); setBookDropOpen(false); setSelectedVerse(null); }}
+                          className="w-full text-left px-4 py-2 text-sm transition-colors"
+                          style={{ color: book === selectedBook ? "#00FF88" : "#C0C0D8", background: book === selectedBook ? "rgba(0,255,136,0.08)" : "transparent" }}>
+                          {book}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+                <div className="relative">
+                  <button
+                    onClick={() => { setChapterDropOpen(!chapterDropOpen); setBookDropOpen(false); }}
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-semibold transition-all duration-200"
+                    style={{ background: "#12121F", border: "1px solid #1E1E32", color: "#F2F2F8" }}
+                  >
+                    Chapter {selectedChapter}
+                    <ChevronDown size={13} style={{ color: "#6A6A88" }} />
+                  </button>
+                  {chapterDropOpen && (
+                    <div className="absolute top-full left-0 mt-1 rounded-xl z-50 py-1 min-w-[120px]"
+                      style={{ background: "#12121F", border: "1px solid #1E1E32", boxShadow: "0 8px 32px rgba(0,0,0,0.5)" }}>
+                      {currentChapters.map((ch) => (
+                        <button key={ch} onClick={() => { setSelectedChapter(ch); setChapterDropOpen(false); setSelectedVerse(null); }}
+                          className="w-full text-left px-4 py-2 text-sm transition-colors"
+                          style={{ color: ch === selectedChapter ? "#00FF88" : "#C0C0D8", background: ch === selectedChapter ? "rgba(0,255,136,0.08)" : "transparent" }}>
+                          Chapter {ch}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
                 <div className="flex items-center gap-1">
-                  <button className="p-1.5 rounded-lg transition hover:bg-[#1E1E32]" style={{ color: "#8A8AA8" }}>
+                  <button onClick={navigatePrev} className="p-1.5 rounded-lg transition hover:bg-[#1E1E32]" style={{ color: "#8A8AA8" }}>
                     <ChevronLeft size={16} />
                   </button>
-                  <button className="p-1.5 rounded-lg transition hover:bg-[#1E1E32]" style={{ color: "#8A8AA8" }}>
+                  <button onClick={navigateNext} className="p-1.5 rounded-lg transition hover:bg-[#1E1E32]" style={{ color: "#8A8AA8" }}>
                     <ChevronRight size={16} />
                   </button>
                 </div>
@@ -371,15 +560,15 @@ export default function BiblePage() {
               {/* Chapter Header */}
               <div className="mb-8 text-center">
                 <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: "#00FF88" }}>
-                  Old Testament
+                  {["Psalms", "Proverbs"].includes(selectedBook) ? "Old Testament" : "New Testament"}
                 </p>
-                <h1 className="text-4xl font-black mb-1" style={{ color: "#F2F2F8" }}>Genesis</h1>
-                <p className="text-lg font-light" style={{ color: "#8A8AA8" }}>Chapter 1 · {selectedTranslation}</p>
+                <h1 className="text-4xl font-black mb-1" style={{ color: "#F2F2F8" }}>{selectedBook}</h1>
+                <p className="text-lg font-light" style={{ color: "#8A8AA8" }}>Chapter {selectedChapter} · {selectedTranslation}</p>
               </div>
 
               {/* Verses */}
               <div className="space-y-1 max-w-2xl mx-auto">
-                {genesisVerses.map((verse) => {
+                {currentVerses.map((verse) => {
                   const isSelected = selectedVerse === verse.num;
                   const isHighlighted = highlightedVerses[verse.num];
                   const isBookmarked = bookmarkedVerses.has(verse.num);

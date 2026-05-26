@@ -1,0 +1,484 @@
+"use client";
+
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import {
+  BookOpen,
+  TrendingUp,
+  Clock,
+  Eye,
+  MessageSquare,
+  Heart,
+  ChevronRight,
+  Bookmark,
+  Share2,
+  Flame,
+  Star,
+  Filter,
+  Rss,
+} from "lucide-react";
+
+
+const featuredPost = {
+  category: "Theology",
+  categoryColor: "#6B4FBB",
+  title: "Why the Resurrection Changes Everything — Not Just After Death",
+  excerpt:
+    "Paul's declaration in 1 Corinthians 15 isn't a footnote to Christianity — it's the entire foundation. Here's why Jesus rising from the dead rewires how we live right now, not just what happens when we die.",
+  author: "Dr. Marcus Webb",
+  role: "Professor of Biblical Studies",
+  date: "May 24, 2026",
+  readTime: "8 min read",
+  views: "24.3k",
+  comments: 142,
+  tags: ["Resurrection", "Theology", "Easter"],
+  gradient: "linear-gradient(135deg, #1a0533 0%, #07070F 100%)",
+};
+
+const categories = [
+  { name: "All", count: 847, active: true },
+  { name: "Theology", count: 234, active: false },
+  { name: "Life & Faith", count: 198, active: false },
+  { name: "Culture", count: 156, active: false },
+  { name: "Leadership", count: 112, active: false },
+  { name: "Family", count: 89, active: false },
+  { name: "Devotional", count: 58, active: false },
+];
+
+const posts = [
+  {
+    category: "Life & Faith",
+    categoryColor: "#D4AF37",
+    title: "The Discipline of Silence: What Contemplative Prayer Is (and Isn't)",
+    excerpt:
+      "Modern Christianity moves fast. But the richest seasons of spiritual growth in my life have come from deliberately slowing down — and shutting up.",
+    author: "Rev. Amara Osei",
+    date: "May 23, 2026",
+    readTime: "6 min read",
+    views: "18.7k",
+    comments: 89,
+    saved: false,
+    image: "🌿",
+    tags: ["Prayer", "Spiritual Disciplines"],
+  },
+  {
+    category: "Culture",
+    categoryColor: "#3B82F6",
+    title: "AI, ChatGPT, and the Church: A Faithful Reckoning",
+    excerpt:
+      "Artificial intelligence isn't going away. The question isn't whether Christians should engage it — it's how. Three frameworks for thinking about AI through a biblical lens.",
+    author: "James Okafor",
+    date: "May 22, 2026",
+    readTime: "9 min read",
+    views: "32.1k",
+    comments: 217,
+    saved: true,
+    image: "🤖",
+    tags: ["Technology", "Ethics", "Church"],
+  },
+  {
+    category: "Leadership",
+    categoryColor: "#10B981",
+    title: "Servant Leadership Isn't Weak — Jesus Proved That",
+    excerpt:
+      "We've confused servant leadership with spineless management. The washing of feet wasn't a moment of vulnerability — it was a radical act of power exercised with love.",
+    author: "Pastor Kwame Asante",
+    date: "May 21, 2026",
+    readTime: "7 min read",
+    views: "14.2k",
+    comments: 63,
+    saved: false,
+    image: "🙌",
+    tags: ["Leadership", "Discipleship"],
+  },
+  {
+    category: "Theology",
+    categoryColor: "#6B4FBB",
+    title: "Does God Actually Speak Today? A Biblical Case for Ongoing Revelation",
+    excerpt:
+      "Cessationism vs continuationism is one of the most divisive debates in modern evangelicalism. Here's why the answer matters more than the argument.",
+    author: "Dr. Sarah Kimani",
+    date: "May 20, 2026",
+    readTime: "11 min read",
+    views: "41.5k",
+    comments: 384,
+    saved: false,
+    image: "📜",
+    tags: ["Holy Spirit", "Theology", "Spiritual Gifts"],
+  },
+  {
+    category: "Family",
+    categoryColor: "#F59E0B",
+    title: "Raising Kids Who Love God When the World Says Otherwise",
+    excerpt:
+      "Statistics on faith retention are brutal. But they're not destiny. Here's what the research — and Scripture — says actually keeps the next generation in the faith.",
+    author: "Naomi & David Park",
+    date: "May 19, 2026",
+    readTime: "8 min read",
+    views: "22.8k",
+    comments: 156,
+    saved: false,
+    image: "👨‍👩‍👧‍👦",
+    tags: ["Parenting", "Family", "Next Gen"],
+  },
+  {
+    category: "Devotional",
+    categoryColor: "#EC4899",
+    title: "When the Psalms Feel More Real Than Your Sunday Morning",
+    excerpt:
+      "The Psalms give us permission to show up to God exactly as we are — broken, angry, confused, and desperate. That's not spiritual weakness. That's biblical honesty.",
+    author: "Lydia Mbeki",
+    date: "May 18, 2026",
+    readTime: "5 min read",
+    views: "16.4k",
+    comments: 91,
+    saved: true,
+    image: "🕊️",
+    tags: ["Psalms", "Devotional", "Lament"],
+  },
+];
+
+const trending = [
+  { rank: 1, title: "Why Young Christians Are Leaving Church (And How to Stop It)", views: "58k" },
+  { rank: 2, title: "The 5 Spiritual Disciplines That Actually Stick", views: "43k" },
+  { rank: 3, title: "Biblical Dating in a Swipe Culture", views: "37k" },
+  { rank: 4, title: "Is Christian Nationalism Biblical? A Fair Look", views: "29k" },
+  { rank: 5, title: "How to Forgive Someone Who Isn't Sorry", views: "25k" },
+];
+
+const editors = [
+  { name: "Dr. Marcus Webb", role: "Theology", avatar: "MW", color: "#6B4FBB" },
+  { name: "Rev. Amara Osei", role: "Devotional", avatar: "AO", color: "#D4AF37" },
+  { name: "James Okafor", role: "Culture", avatar: "JO", color: "#3B82F6" },
+  { name: "Pastor Kwame Asante", role: "Leadership", avatar: "KA", color: "#10B981" },
+];
+
+export default function BlogPage() {
+  return (
+    <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
+      <Navbar />
+      <div className="pt-24 pb-20">
+        {/* Header */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+          <div className="flex items-center gap-3 mb-4">
+            <div
+              className="w-10 h-10 rounded-xl flex items-center justify-center"
+              style={{ background: "linear-gradient(135deg, #D4AF37 0%, #6B4FBB 100%)" }}
+            >
+              <BookOpen size={20} className="text-black" />
+            </div>
+            <div>
+              <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#D4AF37" }}>
+                Vine Blog
+              </span>
+              <div className="flex items-center gap-2 mt-0.5">
+                <Rss size={12} style={{ color: "#4A4A68" }} />
+                <span className="text-xs" style={{ color: "#4A4A68" }}>
+                  New posts every weekday
+                </span>
+              </div>
+            </div>
+          </div>
+          <h1 className="text-4xl sm:text-5xl font-black mb-4" style={{ color: "#F2F2F8" }}>
+            Faith that thinks.
+            <br />
+            <span style={{ background: "linear-gradient(135deg, #D4AF37, #6B4FBB)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+              Truth that moves.
+            </span>
+          </h1>
+          <p className="text-lg max-w-2xl" style={{ color: "#6A6A88" }}>
+            Theology, culture, life application, and editorial pieces written for Christians navigating the modern world.
+          </p>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Main content */}
+            <div className="lg:col-span-2 space-y-8">
+              {/* Featured Post */}
+              <div
+                className="rounded-2xl p-8 relative overflow-hidden"
+                style={{
+                  background: featuredPost.gradient,
+                  border: "1px solid rgba(107,79,187,0.3)",
+                }}
+              >
+                <div className="absolute inset-0 opacity-10"
+                  style={{ background: "radial-gradient(circle at 70% 50%, #6B4FBB 0%, transparent 60%)" }} />
+                <div className="relative">
+                  <div className="flex items-center gap-3 mb-4">
+                    <span
+                      className="text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full"
+                      style={{
+                        background: `${featuredPost.categoryColor}20`,
+                        color: featuredPost.categoryColor,
+                        border: `1px solid ${featuredPost.categoryColor}40`,
+                      }}
+                    >
+                      {featuredPost.category}
+                    </span>
+                    <span className="text-xs font-bold px-2 py-1 rounded-full" style={{ background: "rgba(212,175,55,0.1)", color: "#D4AF37" }}>
+                      Featured
+                    </span>
+                  </div>
+                  <h2 className="text-2xl sm:text-3xl font-black mb-4 leading-tight" style={{ color: "#F2F2F8" }}>
+                    {featuredPost.title}
+                  </h2>
+                  <p className="text-base mb-6 leading-relaxed" style={{ color: "#A0A0C0" }}>
+                    {featuredPost.excerpt}
+                  </p>
+                  <div className="flex items-center gap-4 flex-wrap">
+                    <div className="flex items-center gap-2">
+                      <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold"
+                        style={{ background: "linear-gradient(135deg, #6B4FBB, #D4AF37)", color: "#000" }}>
+                        MW
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold" style={{ color: "#E0E0F0" }}>{featuredPost.author}</p>
+                        <p className="text-xs" style={{ color: "#6A6A88" }}>{featuredPost.role}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-4 ml-auto">
+                      <span className="text-xs flex items-center gap-1" style={{ color: "#6A6A88" }}>
+                        <Clock size={12} /> {featuredPost.readTime}
+                      </span>
+                      <span className="text-xs flex items-center gap-1" style={{ color: "#6A6A88" }}>
+                        <Eye size={12} /> {featuredPost.views}
+                      </span>
+                      <span className="text-xs flex items-center gap-1" style={{ color: "#6A6A88" }}>
+                        <MessageSquare size={12} /> {featuredPost.comments}
+                      </span>
+                    </div>
+                  </div>
+                  <button
+                    className="mt-6 flex items-center gap-2 text-sm font-bold"
+                    style={{ color: "#D4AF37" }}
+                  >
+                    Read Article <ChevronRight size={16} />
+                  </button>
+                </div>
+              </div>
+
+              {/* Category Filter */}
+              <div className="flex gap-2 flex-wrap">
+                {categories.map((cat) => (
+                  <button
+                    key={cat.name}
+                    className="px-4 py-1.5 rounded-full text-sm font-semibold transition-all"
+                    style={{
+                      background: cat.active ? "#D4AF37" : "rgba(255,255,255,0.04)",
+                      color: cat.active ? "#000" : "#6A6A88",
+                      border: `1px solid ${cat.active ? "#D4AF37" : "rgba(255,255,255,0.08)"}`,
+                    }}
+                  >
+                    {cat.name}
+                    <span className="ml-1.5 text-xs opacity-70">({cat.count})</span>
+                  </button>
+                ))}
+              </div>
+
+              {/* Post Grid */}
+              <div className="space-y-4">
+                {posts.map((post, i) => (
+                  <article
+                    key={i}
+                    className="group rounded-xl p-5 flex gap-5 cursor-pointer transition-all"
+                    style={{
+                      background: "rgba(255,255,255,0.02)",
+                      border: "1px solid rgba(255,255,255,0.06)",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = "rgba(255,255,255,0.04)";
+                      e.currentTarget.style.borderColor = "rgba(212,175,55,0.15)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = "rgba(255,255,255,0.02)";
+                      e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)";
+                    }}
+                  >
+                    <div
+                      className="w-14 h-14 rounded-xl flex items-center justify-center text-2xl shrink-0"
+                      style={{ background: "rgba(255,255,255,0.04)" }}
+                    >
+                      {post.image}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1.5">
+                        <span
+                          className="text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded-full"
+                          style={{
+                            background: `${post.categoryColor}15`,
+                            color: post.categoryColor,
+                          }}
+                        >
+                          {post.category}
+                        </span>
+                        {post.saved && (
+                          <Bookmark size={12} style={{ color: "#D4AF37" }} />
+                        )}
+                      </div>
+                      <h3 className="font-bold text-base mb-1.5 leading-snug group-hover:text-[#D4AF37] transition-colors" style={{ color: "#F2F2F8" }}>
+                        {post.title}
+                      </h3>
+                      <p className="text-sm mb-3 line-clamp-2 leading-relaxed" style={{ color: "#6A6A88" }}>
+                        {post.excerpt}
+                      </p>
+                      <div className="flex items-center gap-4 flex-wrap">
+                        <span className="text-xs font-semibold" style={{ color: "#8A8AA8" }}>
+                          {post.author}
+                        </span>
+                        <span className="text-xs" style={{ color: "#4A4A68" }}>
+                          {post.date}
+                        </span>
+                        <span className="text-xs flex items-center gap-1" style={{ color: "#4A4A68" }}>
+                          <Clock size={11} /> {post.readTime}
+                        </span>
+                        <span className="text-xs flex items-center gap-1 ml-auto" style={{ color: "#4A4A68" }}>
+                          <Eye size={11} /> {post.views}
+                        </span>
+                        <span className="text-xs flex items-center gap-1" style={{ color: "#4A4A68" }}>
+                          <MessageSquare size={11} /> {post.comments}
+                        </span>
+                      </div>
+                    </div>
+                  </article>
+                ))}
+              </div>
+
+              {/* Load More */}
+              <button
+                className="w-full py-3.5 rounded-xl text-sm font-semibold transition-all"
+                style={{
+                  background: "rgba(255,255,255,0.03)",
+                  border: "1px solid rgba(212,175,55,0.12)",
+                  color: "#8A8AA8",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = "rgba(212,175,55,0.06)";
+                  e.currentTarget.style.color = "#D4AF37";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = "rgba(255,255,255,0.03)";
+                  e.currentTarget.style.color = "#8A8AA8";
+                }}
+              >
+                Load More Articles
+              </button>
+            </div>
+
+            {/* Sidebar */}
+            <div className="space-y-6">
+              {/* Trending */}
+              <div
+                className="rounded-2xl p-6"
+                style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
+              >
+                <div className="flex items-center gap-2 mb-5">
+                  <Flame size={16} style={{ color: "#D4AF37" }} />
+                  <h3 className="text-sm font-bold uppercase tracking-widest" style={{ color: "#D4AF37" }}>
+                    Trending
+                  </h3>
+                </div>
+                <div className="space-y-4">
+                  {trending.map((item) => (
+                    <div key={item.rank} className="flex gap-3 group cursor-pointer">
+                      <span className="text-2xl font-black w-6 shrink-0" style={{ color: "rgba(212,175,55,0.2)" }}>
+                        {item.rank}
+                      </span>
+                      <div>
+                        <p
+                          className="text-sm font-semibold leading-snug group-hover:text-[#D4AF37] transition-colors"
+                          style={{ color: "#C0C0D8" }}
+                        >
+                          {item.title}
+                        </p>
+                        <div className="flex items-center gap-1 mt-1">
+                          <Eye size={11} style={{ color: "#4A4A68" }} />
+                          <span className="text-xs" style={{ color: "#4A4A68" }}>{item.views} views</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Writers */}
+              <div
+                className="rounded-2xl p-6"
+                style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
+              >
+                <div className="flex items-center gap-2 mb-5">
+                  <Star size={16} style={{ color: "#D4AF37" }} />
+                  <h3 className="text-sm font-bold uppercase tracking-widest" style={{ color: "#D4AF37" }}>
+                    Featured Writers
+                  </h3>
+                </div>
+                <div className="space-y-3">
+                  {editors.map((ed) => (
+                    <div key={ed.name} className="flex items-center gap-3 cursor-pointer group">
+                      <div
+                        className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold shrink-0"
+                        style={{ background: `${ed.color}30`, color: ed.color, border: `1px solid ${ed.color}40` }}
+                      >
+                        {ed.avatar}
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold group-hover:text-[#D4AF37] transition-colors" style={{ color: "#E0E0F0" }}>
+                          {ed.name}
+                        </p>
+                        <p className="text-xs" style={{ color: "#6A6A88" }}>{ed.role}</p>
+                      </div>
+                      <button
+                        className="ml-auto text-xs px-3 py-1 rounded-full font-semibold"
+                        style={{ background: "rgba(212,175,55,0.1)", color: "#D4AF37", border: "1px solid rgba(212,175,55,0.2)" }}
+                      >
+                        Follow
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Newsletter */}
+              <div
+                className="rounded-2xl p-6"
+                style={{
+                  background: "linear-gradient(135deg, rgba(212,175,55,0.06) 0%, rgba(107,79,187,0.06) 100%)",
+                  border: "1px solid rgba(212,175,55,0.12)",
+                }}
+              >
+                <TrendingUp size={24} style={{ color: "#D4AF37" }} className="mb-3" />
+                <h3 className="font-bold mb-2" style={{ color: "#F2F2F8" }}>
+                  Weekly Digest
+                </h3>
+                <p className="text-sm mb-4" style={{ color: "#6A6A88" }}>
+                  The 5 best articles from the week, curated every Sunday morning.
+                </p>
+                <input
+                  type="email"
+                  placeholder="your@email.com"
+                  className="w-full px-4 py-2.5 rounded-lg text-sm mb-3 outline-none"
+                  style={{
+                    background: "rgba(255,255,255,0.05)",
+                    border: "1px solid rgba(255,255,255,0.1)",
+                    color: "#F2F2F8",
+                  }}
+                />
+                <button
+                  className="w-full py-2.5 rounded-lg text-sm font-bold text-black"
+                  style={{ background: "linear-gradient(135deg, #D4AF37, #B8942C)" }}
+                >
+                  Subscribe Free
+                </button>
+                <p className="text-xs mt-2 text-center" style={{ color: "#4A4A68" }}>
+                  No spam. Unsubscribe anytime.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <Footer />
+    </div>
+  );
+}

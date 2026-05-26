@@ -38,8 +38,8 @@ const navLinks = [
     children: [
       { label: "Life Hacks", href: "/life-hacks" },
       { label: "Mental Health", href: "/mental-health" },
-      { label: "Spiritual Gifts Quiz", href: "/quiz" },
-      { label: "AI Bible Companion", href: "/ai-companion" },
+      { label: "Relationships", href: "/relationships" },
+      { label: "Work & Leadership", href: "/work-leadership" },
     ],
   },
   {

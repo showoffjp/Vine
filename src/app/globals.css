@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 :root {
+  --header-height: 64px;
   --bg-primary: #07070F;
   --bg-secondary: #0E0E1A;
   --bg-card: #12121F;

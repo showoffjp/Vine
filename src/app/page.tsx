@@ -1,4 +1,3 @@
-import AnnouncementBanner from "@/components/AnnouncementBanner";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import TrustBar from "@/components/TrustBar";
@@ -30,7 +29,6 @@ export default function Home() {
       className="flex flex-col flex-1"
       style={{ background: "#07070F", color: "#F2F2F8" }}
     >
-      <AnnouncementBanner />
       <Navbar />
       <main className="flex flex-col flex-1">
         <Hero />

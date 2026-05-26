@@ -11,7 +11,7 @@ const stats = [
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-16">
+    <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden" style={{ paddingTop: "var(--header-height, 64px)" }}>
       {/* Background radial glow */}
       <div className="absolute inset-0 hero-glow pointer-events-none" />
       <div

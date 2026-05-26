@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Menu, X, Search, Bell, ChevronDown } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { Menu, X, Search, Bell, ChevronDown, Sparkles } from "lucide-react";
 import SearchOverlay from "./SearchOverlay";
 import AuthModal from "./AuthModal";
 
@@ -65,7 +65,26 @@ export default function Navbar() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [authOpen, setAuthOpen] = useState(false);
   const [authMode, setAuthMode] = useState<"signin" | "signup">("signup");
+  const [bannerVisible, setBannerVisible] = useState(true);
+  const headerRef = useRef<HTMLDivElement>(null);
 
+  // Keep --header-height CSS var in sync with actual rendered height
+  useEffect(() => {
+    const update = () => {
+      if (headerRef.current) {
+        document.documentElement.style.setProperty(
+          "--header-height",
+          headerRef.current.offsetHeight + "px"
+        );
+      }
+    };
+    update();
+    const ro = new ResizeObserver(update);
+    if (headerRef.current) ro.observe(headerRef.current);
+    return () => ro.disconnect();
+  }, [bannerVisible]);
+
+  // Keyboard shortcut ⌘K
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === "k") {
@@ -77,265 +96,303 @@ export default function Navbar() {
     return () => window.removeEventListener("keydown", handler);
   }, []);
 
+  // Scroll detection
   useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handler);
+    const handler = () => setScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", handler, { passive: true });
     return () => window.removeEventListener("scroll", handler);
   }, []);
 
   return (
-    <nav
-      className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
-      style={{
-        background: scrolled
-          ? "rgba(7,7,15,0.95)"
-          : "transparent",
-        backdropFilter: scrolled ? "blur(20px)" : "none",
-        borderBottom: scrolled
-          ? "1px solid rgba(212,175,55,0.08)"
-          : "1px solid transparent",
-      }}
+    <div
+      ref={headerRef}
+      className="fixed top-0 left-0 right-0 z-50"
+      style={{ transition: "background 300ms, border-color 300ms" }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <a href="/" className="flex items-center gap-3">
-            <div
-              className="w-8 h-8 rounded-lg flex items-center justify-center"
-              style={{
-                background:
-                  "linear-gradient(135deg, #D4AF37 0%, #8B6FDB 100%)",
-              }}
-            >
-              <span className="text-black font-black text-sm">V</span>
-            </div>
-            <span
-              className="text-xl font-black tracking-tight"
-              style={{ color: "#F2F2F8" }}
-            >
-              Vine
-            </span>
-            <span
-              className="text-xs font-semibold px-2 py-0.5 rounded-full"
-              style={{
-                background: "rgba(212,175,55,0.1)",
-                color: "#D4AF37",
-                border: "1px solid rgba(212,175,55,0.2)",
-              }}
-            >
-              BETA
-            </span>
-          </a>
+      {/* Announcement Banner */}
+      {bannerVisible && (
+        <div
+          className="flex items-center justify-center gap-2 px-4 py-2 text-xs sm:text-sm relative"
+          style={{
+            background: "linear-gradient(90deg, rgba(107,79,187,0.25) 0%, rgba(212,175,55,0.12) 50%, rgba(107,79,187,0.25) 100%)",
+            borderBottom: "1px solid rgba(212,175,55,0.15)",
+          }}
+        >
+          <Sparkles size={12} style={{ color: "#D4AF37", flexShrink: 0 }} />
+          <span style={{ color: "#C0C0D8" }}>
+            <span className="font-bold" style={{ color: "#D4AF37" }}>Vine Beta is live.</span>{" "}
+            <span className="hidden sm:inline">Join early and shape the future of Christian community.</span>{" "}
+            <a href="#join" className="underline font-semibold" style={{ color: "#F0D060" }}>
+              Join free →
+            </a>
+          </span>
+          <button
+            onClick={() => setBannerVisible(false)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 p-1 rounded transition-colors"
+            style={{ color: "#4A4A68" }}
+            aria-label="Dismiss banner"
+          >
+            <X size={13} />
+          </button>
+        </div>
+      )}
 
-          {/* Desktop Nav */}
-          <div className="hidden lg:flex items-center gap-1">
-            {navLinks.map((link) => (
+      {/* Main Navbar */}
+      <nav
+        style={{
+          background: scrolled ? "rgba(7,7,15,0.96)" : "rgba(7,7,15,0.0)",
+          backdropFilter: scrolled ? "blur(24px)" : "none",
+          borderBottom: scrolled ? "1px solid rgba(212,175,55,0.08)" : "1px solid transparent",
+          transition: "all 300ms",
+        }}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+
+            {/* Logo */}
+            <a href="/" className="flex items-center gap-2.5 shrink-0">
               <div
-                key={link.label}
-                className="relative"
-                onMouseEnter={() => setActiveDropdown(link.label)}
-                onMouseLeave={() => setActiveDropdown(null)}
+                className="w-8 h-8 rounded-lg flex items-center justify-center"
+                style={{ background: "linear-gradient(135deg, #D4AF37 0%, #8B6FDB 100%)" }}
               >
-                <button
-                  className="flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200"
-                  style={{
-                    color:
-                      activeDropdown === link.label
-                        ? "#D4AF37"
-                        : "#A0A0C0",
-                    background:
-                      activeDropdown === link.label
-                        ? "rgba(212,175,55,0.06)"
-                        : "transparent",
-                  }}
+                <span className="text-black font-black text-sm">V</span>
+              </div>
+              <span className="text-xl font-black tracking-tight" style={{ color: "#F2F2F8" }}>
+                Vine
+              </span>
+              <span
+                className="text-[10px] font-bold px-1.5 py-0.5 rounded-full hidden sm:block"
+                style={{ background: "rgba(212,175,55,0.1)", color: "#D4AF37", border: "1px solid rgba(212,175,55,0.2)" }}
+              >
+                BETA
+              </span>
+            </a>
+
+            {/* Desktop Nav Links */}
+            <div className="hidden lg:flex items-center gap-0.5">
+              {navLinks.map((link) => (
+                <div
+                  key={link.label}
+                  className="relative"
+                  onMouseEnter={() => setActiveDropdown(link.label)}
+                  onMouseLeave={() => setActiveDropdown(null)}
                 >
-                  {link.label}
-                  <ChevronDown
-                    size={13}
-                    className="transition-transform duration-200"
+                  <button
+                    className="flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-medium transition-all"
                     style={{
-                      transform:
-                        activeDropdown === link.label
-                          ? "rotate(180deg)"
-                          : "none",
+                      color: activeDropdown === link.label ? "#D4AF37" : "#9090B0",
+                      background: activeDropdown === link.label ? "rgba(212,175,55,0.07)" : "transparent",
                     }}
+                  >
+                    {link.label}
+                    <ChevronDown
+                      size={12}
+                      style={{
+                        transform: activeDropdown === link.label ? "rotate(180deg)" : "none",
+                        transition: "transform 200ms",
+                        opacity: 0.7,
+                      }}
+                    />
+                  </button>
+
+                  {/* Dropdown */}
+                  {activeDropdown === link.label && (
+                    <div
+                      className="absolute top-full left-0 mt-1.5 py-1.5 rounded-xl min-w-[190px] z-50"
+                      style={{
+                        background: "rgba(11,11,22,0.98)",
+                        border: "1px solid rgba(212,175,55,0.12)",
+                        backdropFilter: "blur(24px)",
+                        boxShadow: "0 24px 64px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.03)",
+                      }}
+                    >
+                      {link.children.map((child) => (
+                        <a
+                          key={child.label}
+                          href={child.href}
+                          className="flex items-center px-4 py-2.5 text-sm transition-colors"
+                          style={{ color: "#8A8AA8" }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.color = "#F2F2F8";
+                            e.currentTarget.style.background = "rgba(212,175,55,0.06)";
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.color = "#8A8AA8";
+                            e.currentTarget.style.background = "transparent";
+                          }}
+                        >
+                          {child.label}
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            {/* Right Actions */}
+            <div className="flex items-center gap-2">
+              {/* Search */}
+              <button
+                onClick={() => setSearchOpen(true)}
+                className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm transition-all"
+                style={{ color: "#6A6A88", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}
+                title="Search (⌘K)"
+              >
+                <Search size={14} />
+                <span className="text-xs hidden xl:block" style={{ color: "#4A4A68" }}>⌘K</span>
+              </button>
+
+              {/* Notifications */}
+              <div className="relative hidden sm:block">
+                <button
+                  className="relative p-2 rounded-lg transition-all"
+                  style={{ color: "#6A6A88" }}
+                  onClick={() => setActiveDropdown(activeDropdown === "notifs" ? null : "notifs")}
+                >
+                  <Bell size={16} />
+                  <span
+                    className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full"
+                    style={{ background: "#D4AF37", boxShadow: "0 0 5px #D4AF37" }}
                   />
                 </button>
 
-                {/* Dropdown */}
-                {activeDropdown === link.label && (
+                {activeDropdown === "notifs" && (
                   <div
-                    className="absolute top-full left-0 mt-1 py-2 rounded-xl min-w-[180px]"
+                    className="absolute right-0 top-full mt-2 w-80 rounded-2xl py-1 z-50"
                     style={{
-                      background: "rgba(14,14,26,0.98)",
+                      background: "rgba(11,11,22,0.98)",
                       border: "1px solid rgba(212,175,55,0.12)",
-                      backdropFilter: "blur(20px)",
-                      boxShadow:
-                        "0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(212,175,55,0.05)",
+                      backdropFilter: "blur(24px)",
+                      boxShadow: "0 24px 64px rgba(0,0,0,0.6)",
                     }}
                   >
-                    {link.children.map((child) => (
-                      <a
-                        key={child.label}
-                        href={child.href}
-                        className="block px-4 py-2 text-sm transition-colors duration-150"
-                        style={{ color: "#8A8AA8" }}
-                        onMouseEnter={(e) =>
-                          (e.currentTarget.style.color = "#D4AF37")
-                        }
-                        onMouseLeave={(e) =>
-                          (e.currentTarget.style.color = "#8A8AA8")
-                        }
-                      >
-                        {child.label}
-                      </a>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-
-          {/* Right actions */}
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => setSearchOpen(true)}
-              className="hidden sm:flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-all duration-200 group"
-              style={{ color: "#8A8AA8", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}
-              title="Search (⌘K)"
-            >
-              <Search size={15} />
-              <span className="text-xs hidden lg:block" style={{ color: "#4A4A68" }}>⌘K</span>
-            </button>
-
-            <div className="relative hidden sm:block">
-              <button
-                className="relative flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-all duration-200"
-                style={{ color: "#8A8AA8" }}
-                onClick={() => setActiveDropdown(activeDropdown === "notifs" ? null : "notifs")}
-              >
-                <Bell size={16} />
-                <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full" style={{ background: "#D4AF37", boxShadow: "0 0 6px #D4AF37" }} />
-              </button>
-              {activeDropdown === "notifs" && (
-                <div className="absolute right-0 top-full mt-2 w-80 rounded-2xl py-2 z-50"
-                  style={{ background: "rgba(14,14,26,0.98)", border: "1px solid rgba(212,175,55,0.12)", backdropFilter: "blur(20px)", boxShadow: "0 20px 60px rgba(0,0,0,0.5)" }}>
-                  <div className="px-4 py-2 flex items-center justify-between border-b" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
-                    <span className="text-sm font-bold" style={{ color: "#F2F2F8" }}>Notifications</span>
-                    <span className="text-xs font-semibold" style={{ color: "#D4AF37" }}>Mark all read</span>
-                  </div>
-                  {[
-                    { icon: "🙏", text: "3 people prayed for your request", time: "2m ago", unread: true },
-                    { icon: "💬", text: "Sarah replied to your discussion in r/FaithAndDoubt", time: "15m ago", unread: true },
-                    { icon: "🔥", text: "Your post reached 500 upvotes!", time: "1h ago", unread: true },
-                    { icon: "📖", text: "Day 21 devotional is ready", time: "This morning", unread: false },
-                    { icon: "👥", text: "Marcus Johnson started following you", time: "Yesterday", unread: false },
-                  ].map((n, i) => (
-                    <div key={i} className="flex items-start gap-3 px-4 py-3 cursor-pointer transition-colors"
-                      style={{ background: n.unread ? "rgba(212,175,55,0.04)" : "transparent" }}
-                      onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,255,255,0.04)")}
-                      onMouseLeave={e => (e.currentTarget.style.background = n.unread ? "rgba(212,175,55,0.04)" : "transparent")}
+                    <div
+                      className="px-4 py-3 flex items-center justify-between"
+                      style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}
                     >
-                      <span className="text-lg shrink-0">{n.icon}</span>
-                      <div className="flex-1">
-                        <p className="text-sm leading-snug" style={{ color: n.unread ? "#E0E0F0" : "#8A8AA8" }}>{n.text}</p>
-                        <p className="text-xs mt-0.5" style={{ color: "#4A4A68" }}>{n.time}</p>
-                      </div>
-                      {n.unread && <div className="w-2 h-2 rounded-full mt-1.5 shrink-0" style={{ background: "#D4AF37" }} />}
+                      <span className="text-sm font-bold" style={{ color: "#F2F2F8" }}>Notifications</span>
+                      <button className="text-xs font-semibold" style={{ color: "#D4AF37" }}>Mark all read</button>
                     </div>
-                  ))}
-                  <div className="px-4 pt-2 border-t" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
-                    <a href="/notifications" className="text-xs font-semibold block text-center py-2" style={{ color: "#D4AF37" }}>View all notifications</a>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            <button
-              className="hidden sm:block btn-outline-gold px-4 py-2 rounded-lg text-sm font-semibold"
-              onClick={() => { setAuthMode("signin"); setAuthOpen(true); }}
-            >
-              Sign In
-            </button>
-
-            <button
-              className="btn-gold px-4 py-2 rounded-lg text-sm"
-              onClick={() => { setAuthMode("signup"); setAuthOpen(true); }}
-            >
-              Join Free
-            </button>
-
-            <button
-              className="lg:hidden p-2 rounded-lg"
-              style={{ color: "#8A8AA8" }}
-              onClick={() => setMobileOpen(!mobileOpen)}
-            >
-              {mobileOpen ? <X size={20} /> : <Menu size={20} />}
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Mobile Menu */}
-      {mobileOpen && (
-        <div
-          className="lg:hidden border-t"
-          style={{
-            background: "rgba(7,7,15,0.98)",
-            borderColor: "rgba(212,175,55,0.1)",
-          }}
-        >
-          <div className="px-4 py-4 space-y-1">
-            {navLinks.map((link) => (
-              <div key={link.label}>
-                <button
-                  className="w-full text-left px-3 py-2 rounded-lg text-sm font-semibold"
-                  style={{ color: "#D4AF37" }}
-                  onClick={() =>
-                    setActiveDropdown(
-                      activeDropdown === link.label ? null : link.label
-                    )
-                  }
-                >
-                  {link.label}
-                </button>
-                {activeDropdown === link.label && (
-                  <div className="ml-4 space-y-1">
-                    {link.children.map((child) => (
-                      <a
-                        key={child.label}
-                        href={child.href}
-                        className="block px-3 py-1.5 text-sm rounded"
-                        style={{ color: "#8A8AA8" }}
-                        onClick={() => setMobileOpen(false)}
+                    {[
+                      { icon: "🙏", text: "3 people prayed for your request", time: "2m ago", unread: true },
+                      { icon: "💬", text: "Sarah replied in r/FaithAndDoubt", time: "15m ago", unread: true },
+                      { icon: "🔥", text: "Your post reached 500 upvotes!", time: "1h ago", unread: true },
+                      { icon: "📖", text: "Day 21 devotional is ready", time: "This morning", unread: false },
+                      { icon: "👥", text: "Marcus Johnson started following you", time: "Yesterday", unread: false },
+                    ].map((n, i) => (
+                      <div
+                        key={i}
+                        className="flex items-start gap-3 px-4 py-3 cursor-pointer"
+                        style={{ background: n.unread ? "rgba(212,175,55,0.03)" : "transparent" }}
+                        onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.03)")}
+                        onMouseLeave={(e) => (e.currentTarget.style.background = n.unread ? "rgba(212,175,55,0.03)" : "transparent")}
                       >
-                        {child.label}
-                      </a>
+                        <span className="text-base shrink-0">{n.icon}</span>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-xs leading-snug" style={{ color: n.unread ? "#D0D0E8" : "#6A6A88" }}>{n.text}</p>
+                          <p className="text-xs mt-0.5" style={{ color: "#4A4A68" }}>{n.time}</p>
+                        </div>
+                        {n.unread && <div className="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0" style={{ background: "#D4AF37" }} />}
+                      </div>
                     ))}
+                    <div className="px-4 py-2" style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}>
+                      <a href="/notifications" className="text-xs font-semibold block text-center py-1.5" style={{ color: "#D4AF37" }}>
+                        View all notifications
+                      </a>
+                    </div>
                   </div>
                 )}
               </div>
-            ))}
-            <div className="pt-3 flex flex-col gap-2">
+
+              {/* Auth */}
               <button
-                className="btn-outline-gold w-full py-2.5 rounded-lg text-sm font-semibold"
-                onClick={() => { setAuthMode("signin"); setAuthOpen(true); setMobileOpen(false); }}
+                className="hidden sm:block btn-outline-gold px-4 py-1.5 rounded-lg text-sm font-semibold"
+                onClick={() => { setAuthMode("signin"); setAuthOpen(true); }}
               >
                 Sign In
               </button>
               <button
-                className="btn-gold w-full py-2.5 rounded-lg text-sm"
-                onClick={() => { setAuthMode("signup"); setAuthOpen(true); setMobileOpen(false); }}
+                className="btn-gold px-4 py-1.5 rounded-lg text-sm font-semibold"
+                onClick={() => { setAuthMode("signup"); setAuthOpen(true); }}
               >
                 Join Free
+              </button>
+
+              {/* Hamburger */}
+              <button
+                className="lg:hidden p-2 rounded-lg transition-colors"
+                style={{ color: "#8A8AA8" }}
+                onClick={() => setMobileOpen(!mobileOpen)}
+              >
+                {mobileOpen ? <X size={20} /> : <Menu size={20} />}
               </button>
             </div>
           </div>
         </div>
-      )}
+
+        {/* Mobile Menu */}
+        {mobileOpen && (
+          <div
+            className="lg:hidden"
+            style={{
+              background: "rgba(7,7,15,0.99)",
+              borderTop: "1px solid rgba(255,255,255,0.06)",
+              borderBottom: "1px solid rgba(255,255,255,0.06)",
+            }}
+          >
+            <div className="px-4 py-3 space-y-0.5">
+              {navLinks.map((link) => (
+                <div key={link.label}>
+                  <button
+                    className="w-full text-left flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-semibold"
+                    style={{ color: activeDropdown === link.label ? "#D4AF37" : "#C0C0D8" }}
+                    onClick={() => setActiveDropdown(activeDropdown === link.label ? null : link.label)}
+                  >
+                    {link.label}
+                    <ChevronDown
+                      size={13}
+                      style={{ transform: activeDropdown === link.label ? "rotate(180deg)" : "none", transition: "transform 200ms" }}
+                    />
+                  </button>
+                  {activeDropdown === link.label && (
+                    <div className="ml-3 mb-1 space-y-0.5" style={{ borderLeft: "2px solid rgba(212,175,55,0.15)", paddingLeft: "12px" }}>
+                      {link.children.map((child) => (
+                        <a
+                          key={child.label}
+                          href={child.href}
+                          className="block px-2 py-2 text-sm rounded"
+                          style={{ color: "#6A6A88" }}
+                          onClick={() => setMobileOpen(false)}
+                        >
+                          {child.label}
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+              <div className="pt-3 pb-2 flex flex-col gap-2">
+                <button
+                  className="btn-outline-gold w-full py-2.5 rounded-lg text-sm font-semibold"
+                  onClick={() => { setAuthMode("signin"); setAuthOpen(true); setMobileOpen(false); }}
+                >
+                  Sign In
+                </button>
+                <button
+                  className="btn-gold w-full py-2.5 rounded-lg text-sm"
+                  onClick={() => { setAuthMode("signup"); setAuthOpen(true); setMobileOpen(false); }}
+                >
+                  Join Free
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </nav>
 
       <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
       <AuthModal open={authOpen} onClose={() => setAuthOpen(false)} initialMode={authMode} />
-    </nav>
+    </div>
   );
 }

@@ -32,6 +32,7 @@ const featuredCreator = {
   followers: "84,200",
   posts: 847,
   videos: 124,
+  slug: "ama-christabel",
   bio: "Teaching the unchanging Word in a changing world. From Accra to the global church, I help believers go deeper into Scripture with joy and clarity.",
   tags: ["Bible Study", "Devotionals", "Women's Ministry"],
   gradient: "linear-gradient(135deg, #1A1430 0%, #2D1B69 50%, #1A2A0A 100%)",
@@ -54,7 +55,21 @@ const filterPills: FilterPill[] = [
   "Youth",
 ];
 
-const creators = [
+type Creator = {
+  initials: string;
+  name: string;
+  country: string;
+  flag: string;
+  role: string;
+  followers: string;
+  badges: string[];
+  bio: string;
+  verified: boolean;
+  avatarGradient: string;
+  slug: string | null;
+};
+
+const creators: Creator[] = [
   {
     initials: "MO",
     name: "Marcus Osei",
@@ -66,6 +81,7 @@ const creators = [
     bio: "Making deep theology accessible to everyday believers.",
     verified: true,
     avatarGradient: "linear-gradient(135deg, #00FF88 0%, #8B4513 100%)",
+    slug: "marcus-osei",
   },
   {
     initials: "SJ",
@@ -78,6 +94,7 @@ const creators = [
     bio: "Leading hearts into the presence of God through prophetic worship.",
     verified: true,
     avatarGradient: "linear-gradient(135deg, #6B4FBB 0%, #BB4F7A 100%)",
+    slug: null,
   },
   {
     initials: "TC",
@@ -90,6 +107,7 @@ const creators = [
     bio: "Defending the faith with grace and intellectual rigor.",
     verified: true,
     avatarGradient: "linear-gradient(135deg, #1A6B2A 0%, #4FBBAA 100%)",
+    slug: "tunde-coker",
   },
   {
     initials: "JY",
@@ -102,6 +120,7 @@ const creators = [
     bio: "Writing devotionals that bridge Eastern thought and biblical truth.",
     verified: false,
     avatarGradient: "linear-gradient(135deg, #4F8FBB 0%, #1A1A60 100%)",
+    slug: null,
   },
   {
     initials: "LF",
@@ -114,6 +133,7 @@ const creators = [
     bio: "Equipping the next generation of Brazilian believers for mission.",
     verified: false,
     avatarGradient: "linear-gradient(135deg, #2A8A2A 0%, #00FF88 100%)",
+    slug: null,
   },
   {
     initials: "EV",
@@ -126,6 +146,7 @@ const creators = [
     bio: "Integrating psychology and Scripture for whole-person healing.",
     verified: true,
     avatarGradient: "linear-gradient(135deg, #4FBBAA 0%, #1A4A6B 100%)",
+    slug: "eva-van-der-berg",
   },
   {
     initials: "GW",
@@ -138,6 +159,7 @@ const creators = [
     bio: "Pouring out the faithfulness of God one story at a time.",
     verified: false,
     avatarGradient: "linear-gradient(135deg, #BB4F7A 0%, #4A1A1A 100%)",
+    slug: null,
   },
   {
     initials: "CM",
@@ -150,6 +172,7 @@ const creators = [
     bio: "Helping couples build Christ-centered, lasting covenant marriages.",
     verified: false,
     avatarGradient: "linear-gradient(135deg, #00FF88 0%, #BB4F4F 100%)",
+    slug: null,
   },
   {
     initials: "PR",
@@ -162,6 +185,7 @@ const creators = [
     bio: "Bringing the light of Christ to the subcontinent through the Word.",
     verified: false,
     avatarGradient: "linear-gradient(135deg, #E07030 0%, #6B4FBB 100%)",
+    slug: null,
   },
   {
     initials: "BH",
@@ -174,6 +198,7 @@ const creators = [
     bio: "Showing that Christianity is not only livable — it's intellectually compelling.",
     verified: true,
     avatarGradient: "linear-gradient(135deg, #4F8FBB 0%, #1A3A1A 100%)",
+    slug: null,
   },
   {
     initials: "RA",
@@ -186,6 +211,7 @@ const creators = [
     bio: "Crafting anthems of praise that move both heaven and earth.",
     verified: true,
     avatarGradient: "linear-gradient(135deg, #6B4FBB 0%, #00FF88 100%)",
+    slug: "ruth-adeyemi",
   },
   {
     initials: "JP",
@@ -198,6 +224,7 @@ const creators = [
     bio: "Planting churches across the unreached islands of Southeast Asia.",
     verified: false,
     avatarGradient: "linear-gradient(135deg, #4FBBAA 0%, #4F8FBB 100%)",
+    slug: null,
   },
 ];
 
@@ -217,7 +244,7 @@ export default function CreatorsPage() {
     <div className="min-h-screen" style={{ background: "#07070F" }}>
       <Navbar />
 
-      <main className="pt-16">
+      <main className="page-body">
         {/* Hero */}
         <section className="relative py-20 px-4 text-center overflow-hidden">
           <div
@@ -353,16 +380,19 @@ export default function CreatorsPage() {
                     >
                       Follow
                     </button>
-                    <button
+                    <a
+                      href={`/creators/${featuredCreator.slug}`}
                       className="px-5 py-2.5 rounded-xl text-sm font-bold"
                       style={{
                         background: "transparent",
                         color: "#00FF88",
                         border: "1px solid rgba(0,255,136,0.4)",
+                        textDecoration: "none",
+                        display: "inline-block",
                       }}
                     >
                       View Profile
-                    </button>
+                    </a>
                   </div>
                 </div>
 
@@ -552,8 +582,6 @@ export default function CreatorsPage() {
 /* ------------------------------------------------------------------ */
 /* Creator Card — extracted to keep JSX readable                         */
 /* ------------------------------------------------------------------ */
-
-type Creator = (typeof creators)[number];
 
 function CreatorCard({
   creator,

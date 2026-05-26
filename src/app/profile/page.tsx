@@ -79,24 +79,27 @@ const activityFeed = [
     detail: '"The Case for the Resurrection: 5 Historical Arguments That Changed My Faith"',
     time: "2 hours ago",
     meta: "247 upvotes · 38 comments",
+    href: "/discussions/resurrection-evidence-002",
   },
   {
     type: "save",
     icon: Bookmark,
     color: "#00FF88",
     text: "Saved an article",
-    detail: '"10 Biblical Principles for Getting Out of Debt — Dave Ramsey\'s Method vs. Scripture"',
+    detail: '"Why the Resurrection Changes Everything"',
     time: "5 hours ago",
-    meta: "Resource · 8 min read",
+    meta: "Blog · 6 min read",
+    href: "/blog/why-the-resurrection-changes-everything",
   },
   {
     type: "devotional",
     icon: BookOpen,
     color: "#4FBBAA",
-    text: "Completed a devotional",
+    text: "Completed today's devotional",
     detail: '"Mercies New Every Morning — Lamentations 3:22-23"',
     time: "Yesterday",
     meta: "Day 21 of 30-day plan",
+    href: "/daily",
   },
   {
     type: "streak",
@@ -106,6 +109,7 @@ const activityFeed = [
     detail: "30 consecutive days of prayer — a personal milestone!",
     time: "2 days ago",
     meta: "Achievement unlocked 🔥",
+    href: "/prayer",
   },
   {
     type: "prayer",
@@ -115,6 +119,7 @@ const activityFeed = [
     detail: "Prayed for Marcus W. who is going through a difficult season in his marriage",
     time: "3 days ago",
     meta: "Prayer Wall",
+    href: "/prayer",
   },
   {
     type: "comment",
@@ -124,14 +129,15 @@ const activityFeed = [
     detail: '"This is exactly what I needed to hear. The point about sovereignty vs. free will really helped me..."',
     time: "4 days ago",
     meta: "In: Does free will exist if God is omniscient?",
+    href: "/discussions/free-will-omniscience-003",
   },
 ];
 
 const savedItems = [
-  { title: "How to Study the Bible: 7 Methods for Deeper Understanding", type: "Article", time: "1 day ago" },
-  { title: "Financial Freedom Through Biblical Stewardship", type: "Resource", time: "3 days ago" },
-  { title: "When God Feels Silent — Walking Through Spiritual Dryness", type: "Devotional", time: "1 week ago" },
-  { title: "Raising Children Who Love God in a Digital World", type: "Discussion", time: "2 weeks ago" },
+  { title: "Why the Resurrection Changes Everything", type: "Article", time: "1 day ago", href: "/blog/why-the-resurrection-changes-everything" },
+  { title: "The Problem of Evil — A Christian Response", type: "Article", time: "3 days ago", href: "/blog/problem-of-evil" },
+  { title: "Does free will exist if God is omniscient?", type: "Discussion", time: "1 week ago", href: "/discussions/free-will-omniscience-003" },
+  { title: "Depression, Therapy, and the Church", type: "Discussion", time: "2 weeks ago", href: "/discussions/depression-therapy-faith-005" },
 ];
 
 export default function ProfilePage() {
@@ -379,10 +385,11 @@ export default function ProfilePage() {
             {activeTab === "Activity" && (
               <div className="space-y-3">
                 {activityFeed.map((item, i) => (
-                  <div
+                  <a
                     key={i}
-                    className="rounded-2xl p-4 cursor-pointer transition-all duration-200 hover:bg-[#18182A]"
-                    style={{ background: "#12121F", border: "1px solid #1E1E32" }}
+                    href={item.href}
+                    className="block rounded-2xl p-4 cursor-pointer transition-all duration-200 hover:bg-[#18182A]"
+                    style={{ background: "#12121F", border: "1px solid #1E1E32", textDecoration: "none" }}
                   >
                     <div className="flex items-start gap-3">
                       <div
@@ -408,7 +415,7 @@ export default function ProfilePage() {
                         </p>
                       </div>
                     </div>
-                  </div>
+                  </a>
                 ))}
               </div>
             )}
@@ -417,10 +424,11 @@ export default function ProfilePage() {
             {activeTab === "Saved" && (
               <div className="space-y-3">
                 {savedItems.map((item, i) => (
-                  <div
+                  <a
                     key={i}
-                    className="rounded-2xl p-4 cursor-pointer transition-all duration-200 hover:bg-[#18182A] flex items-center gap-4"
-                    style={{ background: "#12121F", border: "1px solid #1E1E32" }}
+                    href={item.href}
+                    className="block rounded-2xl p-4 cursor-pointer transition-all duration-200 hover:bg-[#18182A] flex items-center gap-4"
+                    style={{ background: "#12121F", border: "1px solid #1E1E32", textDecoration: "none" }}
                   >
                     <Bookmark size={18} style={{ color: "#00FF88" }} />
                     <div className="flex-1 min-w-0">
@@ -435,7 +443,7 @@ export default function ProfilePage() {
                       </div>
                     </div>
                     <ChevronRight size={16} style={{ color: "#6A6A88" }} />
-                  </div>
+                  </a>
                 ))}
               </div>
             )}

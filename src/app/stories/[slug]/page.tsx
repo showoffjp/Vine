@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Heart, Share2, Bookmark, ChevronRight, ArrowLeft, Clock, Globe } from "lucide-react";
+import StoryActions from "@/components/StoryActions";
+import { ChevronRight, ArrowLeft, Clock, Globe, Heart } from "lucide-react";
 
 const stories: Record<string, {
   name: string; flag: string; location: string; avatar: string; color: string;
@@ -318,20 +319,7 @@ export default async function StoryDetailPage({ params }: { params: Promise<{ sl
           </div>
 
           {/* Actions */}
-          <div className="flex items-center gap-3 py-6 mb-10" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-            <button className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold"
-              style={{ background: "rgba(236,72,153,0.1)", color: "#EC4899", border: "1px solid rgba(236,72,153,0.2)" }}>
-              <Heart size={14} /> {story.hearts.toLocaleString()}
-            </button>
-            <button className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold"
-              style={{ background: "rgba(0,255,136,0.08)", color: "#00FF88", border: "1px solid rgba(0,255,136,0.2)" }}>
-              <Bookmark size={14} /> Save
-            </button>
-            <button className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold"
-              style={{ background: "rgba(255,255,255,0.04)", color: "#8A8AA8", border: "1px solid rgba(255,255,255,0.08)" }}>
-              <Share2 size={14} /> Share
-            </button>
-          </div>
+          <StoryActions initialHearts={story.hearts} />
 
           {/* Submit your own */}
           <div className="rounded-2xl p-6 mb-10 text-center"

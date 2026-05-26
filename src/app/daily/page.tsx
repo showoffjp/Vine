@@ -1,4 +1,6 @@
-import type { Metadata } from "next";
+"use client";
+
+import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import DailyDevotional from "@/components/DailyDevotional";
@@ -9,19 +11,14 @@ import {
   Clock,
 } from "lucide-react";
 
-export const metadata: Metadata = {
-  title: "Daily Bread — Vine",
-  description: "Your daily devotional and Scripture reading",
-};
-
 const weekSchedule = [
-  { day: "Mon", label: "Lamentations 3", active: true },
-  { day: "Tue", label: "Psalm 23", active: false },
-  { day: "Wed", label: "Romans 8", active: false },
-  { day: "Thu", label: "Proverbs 3", active: false },
-  { day: "Fri", label: "John 15", active: false },
-  { day: "Sat", label: "Isaiah 40", active: false },
-  { day: "Sun", label: "Hebrews 11", active: false },
+  { day: "Mon", label: "Lamentations 3", todayIndex: 0 },
+  { day: "Tue", label: "Psalm 23", todayIndex: 1 },
+  { day: "Wed", label: "Romans 8", todayIndex: 2 },
+  { day: "Thu", label: "Proverbs 3", todayIndex: 3 },
+  { day: "Fri", label: "John 15", todayIndex: 4 },
+  { day: "Sat", label: "Isaiah 40", todayIndex: 5 },
+  { day: "Sun", label: "Hebrews 11", todayIndex: 6 },
 ];
 
 const moreDevotionals = [
@@ -60,7 +57,17 @@ const moreDevotionals = [
 ];
 
 export default function DailyPage() {
+  const [completedDays, setCompletedDays] = useState<Set<number>>(new Set([0]));
   const streakDays = Array.from({ length: 21 }, (_, i) => i + 1);
+
+  const toggleDay = (idx: number) => {
+    setCompletedDays((prev) => {
+      const next = new Set(prev);
+      if (next.has(idx)) next.delete(idx);
+      else next.add(idx);
+      return next;
+    });
+  };
 
   return (
     <div className="min-h-screen" style={{ background: "#07070F" }}>
@@ -181,35 +188,39 @@ export default function DailyPage() {
                 This Week
               </h4>
               <div className="space-y-2">
-                {weekSchedule.map((day) => (
-                  <div
-                    key={day.day}
-                    className="flex items-center gap-3 p-2 rounded-xl transition-all duration-200"
-                    style={{
-                      background: day.active ? "rgba(0,255,136,0.08)" : "transparent",
-                      border: day.active ? "1px solid rgba(0,255,136,0.2)" : "1px solid transparent",
-                    }}
-                  >
+                {weekSchedule.map((day) => {
+                  const done = completedDays.has(day.todayIndex);
+                  return (
                     <div
-                      className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 text-[10px] font-black"
+                      key={day.day}
+                      onClick={() => toggleDay(day.todayIndex)}
+                      className="flex items-center gap-3 p-2 rounded-xl transition-all duration-200 cursor-pointer"
                       style={{
-                        background: day.active ? "rgba(0,255,136,0.2)" : "#1E1E32",
-                        color: day.active ? "#00FF88" : "#6A6A88",
+                        background: done ? "rgba(0,255,136,0.08)" : "transparent",
+                        border: done ? "1px solid rgba(0,255,136,0.2)" : "1px solid transparent",
                       }}
                     >
-                      {day.day}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p
-                        className="text-xs font-medium truncate"
-                        style={{ color: day.active ? "#F2F2F8" : "#6A6A88" }}
+                      <div
+                        className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 text-[10px] font-black"
+                        style={{
+                          background: done ? "rgba(0,255,136,0.2)" : "#1E1E32",
+                          color: done ? "#00FF88" : "#6A6A88",
+                        }}
                       >
-                        {day.label}
-                      </p>
+                        {day.day}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p
+                          className="text-xs font-medium truncate"
+                          style={{ color: done ? "#F2F2F8" : "#6A6A88" }}
+                        >
+                          {day.label}
+                        </p>
+                      </div>
+                      {done && <CheckCircle size={13} style={{ color: "#00FF88" }} />}
                     </div>
-                    {day.active && <CheckCircle size={13} style={{ color: "#00FF88" }} />}
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
 

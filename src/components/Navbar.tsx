@@ -22,6 +22,7 @@ const navLinks = [
     children: [
       { label: "Guides & Articles", href: "/resources" },
       { label: "Video Library", href: "/video" },
+      { label: "Podcasts", href: "/podcast" },
       { label: "Bible Tools", href: "/bible" },
       { label: "Reading Plan", href: "/reading-plan" },
       { label: "Apologetics", href: "/apologetics" },
@@ -34,6 +35,7 @@ const navLinks = [
       { label: "Bible Reader", href: "/bible" },
       { label: "Reading Plans", href: "/reading-plan" },
       { label: "Worship", href: "/worship" },
+      { label: "Live Church", href: "/live" },
     ],
   },
   {

@@ -70,6 +70,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/events/apologetics-symposium-faith-reason", priority: 0.7, changeFreq: "weekly" as const },
     { path: "/events/worship-night-heavens-frequency", priority: 0.7, changeFreq: "weekly" as const },
     { path: "/events/online-prayer-summit-24hr", priority: 0.8, changeFreq: "weekly" as const },
+    { path: "/creators/ama-christabel", priority: 0.7, changeFreq: "weekly" as const },
+    { path: "/creators/marcus-osei", priority: 0.7, changeFreq: "weekly" as const },
+    { path: "/creators/tunde-coker", priority: 0.7, changeFreq: "weekly" as const },
+    { path: "/creators/eva-van-der-berg", priority: 0.7, changeFreq: "weekly" as const },
+    { path: "/creators/ruth-adeyemi", priority: 0.7, changeFreq: "weekly" as const },
   ];
 
   return routes.map(({ path, priority, changeFreq }) => ({

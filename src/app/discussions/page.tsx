@@ -28,12 +28,12 @@ import {
 export const metadata: Metadata = { title: "Discussions — Vine" };
 
 const hubs = [
-  { icon: BookOpen, name: "Theology & Doctrine", members: "24.1k", color: "#6B4FBB" },
-  { icon: Heart, name: "Mental Health & Faith", members: "18.7k", color: "#00FF88" },
-  { icon: Users, name: "Young Adults", members: "31.2k", color: "#4FBBAA" },
-  { icon: Baby, name: "Christian Parenting", members: "12.4k", color: "#BB4F7A" },
-  { icon: Briefcase, name: "Faith & Career", members: "9.8k", color: "#4F8FBB" },
-  { icon: HelpCircle, name: "Doubts & Questions", members: "15.3k", color: "#BB7A4F" },
+  { icon: BookOpen, name: "Theology & Doctrine", members: "24.1k", color: "#6B4FBB", groupId: "theology-doctrine" },
+  { icon: Heart, name: "Mental Health & Faith", members: "18.7k", color: "#00FF88", groupId: "mental-health-faith" },
+  { icon: Users, name: "Young Adults", members: "31.2k", color: "#4FBBAA", groupId: "young-adults" },
+  { icon: Baby, name: "Christian Parenting", members: "12.4k", color: "#BB4F7A", groupId: "christian-parenting" },
+  { icon: Briefcase, name: "Faith & Career", members: "9.8k", color: "#4F8FBB", groupId: "faith-career" },
+  { icon: HelpCircle, name: "Doubts & Questions", members: "15.3k", color: "#BB7A4F", groupId: "doubts-questions" },
 ];
 
 const suggestedHubs = [
@@ -175,11 +175,11 @@ const posts = [
 ];
 
 const trending = [
-  { title: "Why Gen Z is returning to church", count: "4.2k posts" },
-  { title: "The Lord's Prayer — verse by verse", count: "2.8k posts" },
-  { title: "Christian response to AI ethics", count: "1.9k posts" },
-  { title: "Finding community after deconstruction", count: "3.1k posts" },
-  { title: "Fasting — types and spiritual benefits", count: "1.4k posts" },
+  { title: "Why Gen Z is returning to church", count: "4.2k posts", href: "/topics/genz-church" },
+  { title: "The Lord's Prayer — verse by verse", count: "2.8k posts", href: "/topics/prayer-fasting" },
+  { title: "Christian response to AI ethics", count: "1.9k posts", href: "/topics/christian-ai-ethics" },
+  { title: "Finding community after deconstruction", count: "3.1k posts", href: "/topics/deconstruction" },
+  { title: "Fasting — types and spiritual benefits", count: "1.4k posts", href: "/topics/prayer-fasting" },
 ];
 
 const rules = [
@@ -251,9 +251,11 @@ export default function DiscussionsPage() {
               </h4>
               <div className="space-y-1">
                 {hubs.map((hub) => (
-                  <button
+                  <a
                     key={hub.name}
-                    className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-left transition-all duration-200 hover:bg-[#18182A]"
+                    href={`/groups/${hub.groupId}`}
+                    className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-left transition-all duration-200 hover:bg-[#18182A] block"
+                    style={{ textDecoration: "none" }}
                   >
                     <div
                       className="w-6 h-6 rounded-md flex items-center justify-center flex-shrink-0"
@@ -269,7 +271,7 @@ export default function DiscussionsPage() {
                         {hub.members} members
                       </p>
                     </div>
-                  </button>
+                  </a>
                 ))}
               </div>
             </div>
@@ -479,7 +481,7 @@ export default function DiscussionsPage() {
               </h4>
               <div className="space-y-3">
                 {trending.map((item, i) => (
-                  <div key={i} className="flex items-start gap-2.5 group cursor-pointer">
+                  <a key={i} href={item.href} className="flex items-start gap-2.5 group cursor-pointer" style={{ textDecoration: "none" }}>
                     <TrendingUp size={13} className="mt-0.5 flex-shrink-0" style={{ color: "#00FF88" }} />
                     <div>
                       <p className="text-xs font-medium leading-snug transition-colors group-hover:text-[#00FF88]" style={{ color: "#C0C0D8" }}>
@@ -489,7 +491,7 @@ export default function DiscussionsPage() {
                         {item.count}
                       </p>
                     </div>
-                  </div>
+                  </a>
                 ))}
               </div>
             </div>

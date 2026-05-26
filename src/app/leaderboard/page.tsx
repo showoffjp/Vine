@@ -65,6 +65,20 @@ const leaderboards: Record<string, Array<{
     { rank: 4, name: "Carlos Mendez", flag: "🇨🇴", avatar: "CM", color: "#10B981", location: "Bogotá, Colombia", score: 24, unit: "countries", streak: 156, badges: ["🌍", "✝️"], change: "down" },
     { rank: 5, name: "Amara Osei", flag: "🇬🇭", avatar: "AO", color: "#00FF88", location: "Accra, Ghana", score: 19, unit: "countries", streak: 127, badges: ["🌍", "🏆"], change: "up" },
   ],
+  "Most Helpful": [
+    { rank: 1, name: "Rev. David Osei", flag: "🇬🇭", avatar: "DO", color: "#F59E0B", location: "Kumasi, Ghana", score: 4821, unit: "hearts", streak: 67, badges: ["❤️", "🙏"], change: "same" },
+    { rank: 2, name: "Amara Osei", flag: "🇬🇭", avatar: "AO", color: "#00FF88", location: "Accra, Ghana", score: 4203, unit: "hearts", streak: 127, badges: ["❤️", "🏆"], change: "up" },
+    { rank: 3, name: "Dr. Priya Singh", flag: "🇮🇳", avatar: "PS", color: "#6B4FBB", location: "Bangalore, India", score: 3891, unit: "hearts", streak: 29, badges: ["❤️", "💡"], change: "same" },
+    { rank: 4, name: "Lydia Böhm", flag: "🇩🇪", avatar: "LB", color: "#EC4899", location: "Berlin, Germany", score: 3412, unit: "hearts", streak: 41, badges: ["❤️", "🔥"], change: "down" },
+    { rank: 5, name: "Samuel Mwangi", flag: "🇰🇪", avatar: "SM", color: "#3B82F6", location: "Nairobi, Kenya", score: 2987, unit: "hearts", streak: 54, badges: ["❤️", "💡"], change: "up" },
+  ],
+  "Discussion Leaders": [
+    { rank: 1, name: "Ji-Woo Park", flag: "🇰🇷", avatar: "JP", color: "#6B4FBB", location: "Seoul, South Korea", score: 892, unit: "replies", streak: 89, badges: ["💡", "✝️"], change: "same" },
+    { rank: 2, name: "Samuel Mwangi", flag: "🇰🇪", avatar: "SM", color: "#3B82F6", location: "Nairobi, Kenya", score: 734, unit: "replies", streak: 54, badges: ["💡", "📖"], change: "up" },
+    { rank: 3, name: "Rev. David Osei", flag: "🇬🇭", avatar: "DO", color: "#F59E0B", location: "Kumasi, Ghana", score: 671, unit: "replies", streak: 67, badges: ["💡", "🙏"], change: "down" },
+    { rank: 4, name: "Isabella Ferreira", flag: "🇧🇷", avatar: "IF", color: "#EF4444", location: "Mozambique", score: 542, unit: "replies", streak: 203, badges: ["💡", "🌍"], change: "same" },
+    { rank: 5, name: "Lydia Böhm", flag: "🇩🇪", avatar: "LB", color: "#EC4899", location: "Berlin, Germany", score: 498, unit: "replies", streak: 41, badges: ["💡", "❤️"], change: "up" },
+  ],
 };
 
 const rankColors: Record<number, string> = { 1: "#00FF88", 2: "#C0C0C0", 3: "#CD7F32" };

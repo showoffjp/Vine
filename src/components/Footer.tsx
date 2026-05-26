@@ -24,8 +24,8 @@ const footerLinks: Record<string, LinkEntry[]> = {
     { label: "Work & Leadership", href: "/work-leadership" },
   ],
   Community: [
+    { label: "My Feed", href: "/feed" },
     { label: "Global Connect", href: "/global-connect" },
-    { label: "Interest Circles", href: "/community" },
     { label: "Events", href: "/events" },
     { label: "Creators", href: "/creators" },
     { label: "Trending Topics", href: "/topics" },

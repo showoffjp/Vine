@@ -9,8 +9,8 @@ const navLinks = [
   {
     label: "Community",
     children: [
+      { label: "My Feed", href: "/feed" },
       { label: "Discussions", href: "/discussions" },
-      { label: "Circles", href: "/community" },
       { label: "Prayer Wall", href: "/prayer" },
       { label: "Global Connect", href: "/global-connect" },
     ],

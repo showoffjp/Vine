@@ -78,7 +78,7 @@ const stories = [
     hearts: 2891,
   },
   {
-    slug: null,
+    slug: "isabella-ferreira-mozambique-missions",
     name: "Isabella Ferreira",
     flag: "🇧🇷",
     location: "São Paulo, Brazil",
@@ -92,7 +92,7 @@ const stories = [
     hearts: 2934,
   },
   {
-    slug: null,
+    slug: "david-osei-marriage-breakdown-grace",
     name: "Rev. David Osei",
     flag: "🇬🇭",
     location: "Kumasi, Ghana",

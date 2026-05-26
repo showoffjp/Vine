@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import JoinGroupButton from "@/components/JoinGroupButton";
+import CreatePostModal from "@/components/CreatePostModal";
 import {
   ArrowLeft,
   Users,
@@ -819,12 +821,7 @@ export default async function GroupPage({
                   </span>
                 </div>
               </div>
-              <button
-                className="px-6 py-2.5 rounded-xl font-bold text-sm text-black shrink-0"
-                style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)" }}
-              >
-                Join Group
-              </button>
+              <JoinGroupButton groupId={group.id} color={group.color} />
             </div>
           </div>
 
@@ -853,12 +850,7 @@ export default async function GroupPage({
                 >
                   Share something with the group...
                 </div>
-                <button
-                  className="flex items-center gap-1.5 px-4 py-2 rounded-xl font-bold text-sm shrink-0"
-                  style={{ background: `${group.color}20`, color: group.color, border: `1px solid ${group.color}30` }}
-                >
-                  <Plus size={14} /> Post
-                </button>
+                <CreatePostModal label="Post" variant="outline" />
               </div>
 
               {/* Posts */}

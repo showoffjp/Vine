@@ -240,7 +240,7 @@ export default function Navbar() {
                     </div>
                   ))}
                   <div className="px-4 pt-2 border-t" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
-                    <a href="#" className="text-xs font-semibold block text-center py-2" style={{ color: "#D4AF37" }}>View all notifications</a>
+                    <a href="/notifications" className="text-xs font-semibold block text-center py-2" style={{ color: "#D4AF37" }}>View all notifications</a>
                   </div>
                 </div>
               )}

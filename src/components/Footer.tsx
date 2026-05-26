@@ -119,11 +119,14 @@ export default function Footer() {
             © 2025 Vine. Built with faith, for faith. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
-            {["Privacy Policy", "Terms of Service", "Community Guidelines"].map(
-              (l) => (
+            {[
+              { label: "Privacy Policy", href: "/privacy" },
+              { label: "Terms of Service", href: "/terms" },
+              { label: "Community Guidelines", href: "/community-guidelines" },
+            ].map(({ label, href }) => (
                 <a
-                  key={l}
-                  href="#"
+                  key={label}
+                  href={href}
                   className="text-xs transition-colors"
                   style={{ color: "#4A4A68" }}
                   onMouseEnter={(e) =>
@@ -133,7 +136,7 @@ export default function Footer() {
                     (e.currentTarget.style.color = "#4A4A68")
                   }
                 >
-                  {l}
+                  {label}
                 </a>
               )
             )}

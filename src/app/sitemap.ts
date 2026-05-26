@@ -28,6 +28,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/ai-companion", priority: 0.8, changeFreq: "monthly" as const },
     { path: "/quiz", priority: 0.6, changeFreq: "monthly" as const },
     { path: "/about", priority: 0.5, changeFreq: "monthly" as const },
+    { path: "/feed", priority: 0.9, changeFreq: "hourly" as const },
+    { path: "/video", priority: 0.8, changeFreq: "daily" as const },
+    { path: "/global-connect", priority: 0.8, changeFreq: "daily" as const },
+    { path: "/newsletter", priority: 0.6, changeFreq: "weekly" as const },
+    { path: "/contact", priority: 0.5, changeFreq: "monthly" as const },
+    { path: "/stories", priority: 0.8, changeFreq: "daily" as const },
+    { path: "/missions", priority: 0.8, changeFreq: "weekly" as const },
+    { path: "/apologetics", priority: 0.8, changeFreq: "weekly" as const },
+    { path: "/groups", priority: 0.8, changeFreq: "daily" as const },
+    { path: "/privacy", priority: 0.4, changeFreq: "yearly" as const },
+    { path: "/terms", priority: 0.4, changeFreq: "yearly" as const },
+    { path: "/community-guidelines", priority: 0.5, changeFreq: "monthly" as const },
+    { path: "/notifications", priority: 0.3, changeFreq: "hourly" as const },
   ];
 
   return routes.map(({ path, priority, changeFreq }) => ({

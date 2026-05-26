@@ -6,13 +6,13 @@
   --bg-secondary: #0E0E1A;
   --bg-card: #12121F;
   --bg-card-hover: #18182A;
-  --gold: #D4AF37;
-  --gold-light: #F0D060;
-  --gold-dim: #9A7D20;
+  --gold: #00FF88;
+  --gold-light: #44FFAA;
+  --gold-dim: #006633;
   --text-primary: #F2F2F8;
   --text-muted: #8A8AA8;
   --border: #1E1E32;
-  --border-gold: #2E2A10;
+  --border-gold: #002A18;
   --purple: #6B4FBB;
   --purple-light: #8B6FDB;
 }
@@ -40,7 +40,7 @@ body {
 }
 
 .gold-gradient {
-  background: linear-gradient(135deg, #D4AF37 0%, #F0D060 50%, #B8962E 100%);
+  background: linear-gradient(135deg, #00FF88 0%, #44FFAA 50%, #00BB55 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -51,12 +51,12 @@ body {
 }
 
 .card-glow {
-  box-shadow: 0 0 0 1px var(--border), 0 4px 24px rgba(212, 175, 55, 0.04);
+  box-shadow: 0 0 0 1px var(--border), 0 4px 24px rgba(0, 255, 136, 0.04);
   transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
 .card-glow:hover {
-  box-shadow: 0 0 0 1px rgba(212, 175, 55, 0.3), 0 8px 40px rgba(212, 175, 55, 0.12);
+  box-shadow: 0 0 0 1px rgba(0, 255, 136, 0.3), 0 8px 40px rgba(0, 255, 136, 0.12);
   transform: translateY(-2px);
 }
 
@@ -66,7 +66,7 @@ body {
 }
 
 .hero-glow {
-  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(212, 175, 55, 0.08) 0%, transparent 70%);
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0, 255, 136, 0.08) 0%, transparent 70%);
 }
 
 .section-glow {
@@ -76,24 +76,24 @@ body {
 .gradient-border {
   border: 1px solid transparent;
   background: linear-gradient(var(--bg-card), var(--bg-card)) padding-box,
-              linear-gradient(135deg, rgba(212,175,55,0.4), rgba(107,79,187,0.2), transparent) border-box;
+              linear-gradient(135deg, rgba(0,255,136,0.4), rgba(107,79,187,0.2), transparent) border-box;
 }
 
 .btn-gold {
-  background: linear-gradient(135deg, #C9A227 0%, #E8C840 50%, #C9A227 100%);
+  background: linear-gradient(135deg, #00CC66 0%, #00FF88 50%, #00CC66 100%);
   color: #07070F;
   font-weight: 700;
   transition: all 0.2s ease;
 }
 
 .btn-gold:hover {
-  background: linear-gradient(135deg, #D4AF37 0%, #F0D060 50%, #D4AF37 100%);
-  box-shadow: 0 0 32px rgba(212, 175, 55, 0.4);
+  background: linear-gradient(135deg, #00FF88 0%, #44FFAA 50%, #00FF88 100%);
+  box-shadow: 0 0 32px rgba(0, 255, 136, 0.4);
   transform: translateY(-1px);
 }
 
 .btn-outline-gold {
-  border: 1px solid rgba(212, 175, 55, 0.4);
+  border: 1px solid rgba(0, 255, 136, 0.4);
   color: var(--gold);
   transition: all 0.2s ease;
   background: transparent;
@@ -101,8 +101,8 @@ body {
 
 .btn-outline-gold:hover {
   border-color: var(--gold);
-  background: rgba(212, 175, 55, 0.08);
-  box-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
+  background: rgba(0, 255, 136, 0.08);
+  box-shadow: 0 0 20px rgba(0, 255, 136, 0.15);
 }
 
 .scrollbar-hide {
@@ -125,13 +125,13 @@ body {
 }
 
 .verse-card {
-  background: linear-gradient(135deg, rgba(212,175,55,0.06) 0%, rgba(107,79,187,0.04) 100%);
-  border: 1px solid rgba(212,175,55,0.15);
+  background: linear-gradient(135deg, rgba(0,255,136,0.06) 0%, rgba(107,79,187,0.04) 100%);
+  border: 1px solid rgba(0,255,136,0.15);
 }
 
 .tag-pill {
-  background: rgba(212,175,55,0.08);
-  border: 1px solid rgba(212,175,55,0.15);
+  background: rgba(0,255,136,0.08);
+  border: 1px solid rgba(0,255,136,0.15);
   color: var(--gold);
   font-size: 0.7rem;
   font-weight: 600;

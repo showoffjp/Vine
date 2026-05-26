@@ -110,7 +110,7 @@ const todayNotifs: Notification[] = [
   {
     id: 8,
     emoji: "🏆",
-    emojiBg: "#C9A227",
+    emojiBg: "#00CC66",
     text: "You earned the 'Prayer Warrior' badge — 100+ prayers prayed!",
     time: "5h ago",
     read: true,
@@ -153,7 +153,7 @@ const yesterdayNotifs: Notification[] = [
   {
     id: 12,
     emoji: "🏆",
-    emojiBg: "#C9A227",
+    emojiBg: "#00CC66",
     text: "You earned the 'Scripture Scholar' badge — 30-day reading streak!",
     time: "Yesterday, 8:00 AM",
     read: true,
@@ -255,7 +255,7 @@ const categoryColors: Record<NotifCategory, string> = {
   like: "#BB4F7A",
   follow: "#2A6496",
   challenge: "#6B4FBB",
-  badge: "#D4AF37",
+  badge: "#00FF88",
   event: "#3A7BD5",
   resource: "#E8A030",
   circle: "#4CAF82",
@@ -280,7 +280,7 @@ function NotifItem({
         gap: 14,
         padding: "16px 20px",
         borderBottom: last ? "none" : "1px solid #1E1E32",
-        background: notif.read ? "transparent" : "rgba(212,175,55,0.03)",
+        background: notif.read ? "transparent" : "rgba(0,255,136,0.03)",
         position: "relative",
       }}
     >
@@ -340,7 +340,7 @@ function NotifItem({
             width: 8,
             height: 8,
             borderRadius: "50%",
-            background: "#D4AF37",
+            background: "#00FF88",
             flexShrink: 0,
             marginTop: 6,
           }}
@@ -432,7 +432,7 @@ export default function NotificationsPage() {
               {unreadCount > 0 && (
                 <span
                   style={{
-                    background: "#D4AF37",
+                    background: "#00FF88",
                     color: "#07070F",
                     fontSize: 12,
                     fontWeight: 800,
@@ -454,7 +454,7 @@ export default function NotificationsPage() {
             style={{
               fontSize: 13,
               fontWeight: 600,
-              color: "#D4AF37",
+              color: "#00FF88",
               textDecoration: "none",
             }}
           >
@@ -479,10 +479,10 @@ export default function NotificationsPage() {
                 padding: "7px 16px",
                 borderRadius: 20,
                 border: "1px solid",
-                borderColor: i === 0 ? "#D4AF37" : "#1E1E32",
+                borderColor: i === 0 ? "#00FF88" : "#1E1E32",
                 background:
-                  i === 0 ? "rgba(212,175,55,0.12)" : "transparent",
-                color: i === 0 ? "#D4AF37" : "#8A8AA8",
+                  i === 0 ? "rgba(0,255,136,0.12)" : "transparent",
+                color: i === 0 ? "#00FF88" : "#8A8AA8",
                 fontSize: 13,
                 fontWeight: i === 0 ? 700 : 500,
                 cursor: "pointer",

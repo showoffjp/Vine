@@ -101,7 +101,7 @@ const relatedResources = [
     title: "Genesis 1 Through Ancient Near Eastern Eyes",
     author: "The Bible Project",
     time: "18 min watch",
-    color: "#D4AF37",
+    color: "#00FF88",
   },
   {
     type: "Study Guide",
@@ -185,9 +185,9 @@ export default function BiblePage() {
                 onClick={() => setSidePanelOpen(!sidePanelOpen)}
                 className="hidden lg:flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200"
                 style={{
-                  background: sidePanelOpen ? "rgba(212,175,55,0.12)" : "#12121F",
-                  border: `1px solid ${sidePanelOpen ? "rgba(212,175,55,0.3)" : "#1E1E32"}`,
-                  color: sidePanelOpen ? "#D4AF37" : "#8A8AA8",
+                  background: sidePanelOpen ? "rgba(0,255,136,0.12)" : "#12121F",
+                  border: `1px solid ${sidePanelOpen ? "rgba(0,255,136,0.3)" : "#1E1E32"}`,
+                  color: sidePanelOpen ? "#00FF88" : "#8A8AA8",
                 }}
               >
                 <ScrollText size={15} />
@@ -233,8 +233,8 @@ export default function BiblePage() {
                     onClick={() => setSelectedTranslation(t)}
                     className="px-3 py-1.5 text-xs font-bold transition-all duration-200"
                     style={{
-                      background: selectedTranslation === t ? "rgba(212,175,55,0.15)" : "transparent",
-                      color: selectedTranslation === t ? "#D4AF37" : "#6A6A88",
+                      background: selectedTranslation === t ? "rgba(0,255,136,0.15)" : "transparent",
+                      color: selectedTranslation === t ? "#00FF88" : "#6A6A88",
                       borderRight: "1px solid #1E1E32",
                     }}
                   >
@@ -255,8 +255,8 @@ export default function BiblePage() {
                   onClick={() => setStudyMode(false)}
                   className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold transition-all duration-200"
                   style={{
-                    background: !studyMode ? "rgba(212,175,55,0.15)" : "transparent",
-                    color: !studyMode ? "#D4AF37" : "#6A6A88",
+                    background: !studyMode ? "rgba(0,255,136,0.15)" : "transparent",
+                    color: !studyMode ? "#00FF88" : "#6A6A88",
                   }}
                 >
                   <BookOpen size={13} />
@@ -266,8 +266,8 @@ export default function BiblePage() {
                   onClick={() => setStudyMode(true)}
                   className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold transition-all duration-200"
                   style={{
-                    background: studyMode ? "rgba(212,175,55,0.15)" : "transparent",
-                    color: studyMode ? "#D4AF37" : "#6A6A88",
+                    background: studyMode ? "rgba(0,255,136,0.15)" : "transparent",
+                    color: studyMode ? "#00FF88" : "#6A6A88",
                     borderLeft: "1px solid #1E1E32",
                   }}
                 >
@@ -308,12 +308,12 @@ export default function BiblePage() {
         {/* Reading Plan Progress */}
         <div
           className="border-b"
-          style={{ background: "rgba(212,175,55,0.04)", borderColor: "#1E1E32" }}
+          style={{ background: "rgba(0,255,136,0.04)", borderColor: "#1E1E32" }}
         >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex items-center gap-4">
             <div className="flex items-center gap-2">
-              <BookOpen size={13} style={{ color: "#D4AF37" }} />
-              <span className="text-xs font-semibold" style={{ color: "#D4AF37" }}>
+              <BookOpen size={13} style={{ color: "#00FF88" }} />
+              <span className="text-xs font-semibold" style={{ color: "#00FF88" }}>
                 Genesis Reading Plan
               </span>
               <span className="text-xs" style={{ color: "#6A6A88" }}>
@@ -323,7 +323,7 @@ export default function BiblePage() {
             <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ background: "#1E1E32" }}>
               <div
                 className="h-full rounded-full"
-                style={{ width: "2%", background: "linear-gradient(90deg, #D4AF37, #F0D060)" }}
+                style={{ width: "2%", background: "linear-gradient(90deg, #00FF88, #44FFAA)" }}
               />
             </div>
             <span className="text-xs font-mono" style={{ color: "#6A6A88" }}>2%</span>
@@ -367,7 +367,7 @@ export default function BiblePage() {
 
               {/* Chapter Header */}
               <div className="mb-8 text-center">
-                <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: "#D4AF37" }}>
+                <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: "#00FF88" }}>
                   Old Testament
                 </p>
                 <h1 className="text-4xl font-black mb-1" style={{ color: "#F2F2F8" }}>Genesis</h1>
@@ -397,9 +397,9 @@ export default function BiblePage() {
                           <button
                             onClick={() => handleBookmark(verse.num)}
                             className="flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-medium transition-all hover:bg-[#1E1E32]"
-                            style={{ color: isBookmarked ? "#D4AF37" : "#8A8AA8" }}
+                            style={{ color: isBookmarked ? "#00FF88" : "#8A8AA8" }}
                           >
-                            <Bookmark size={12} fill={isBookmarked ? "#D4AF37" : "none"} />
+                            <Bookmark size={12} fill={isBookmarked ? "#00FF88" : "none"} />
                             Save
                           </button>
                           <div className="w-px h-4" style={{ background: "#1E1E32" }} />
@@ -447,12 +447,12 @@ export default function BiblePage() {
                         className="flex gap-4 px-4 py-2.5 rounded-xl cursor-pointer transition-all duration-150"
                         style={{
                           background: isSelected
-                            ? "rgba(212,175,55,0.08)"
+                            ? "rgba(0,255,136,0.08)"
                             : isHighlighted
                             ? isHighlighted.bg
                             : "transparent",
                           borderLeft: isSelected
-                            ? "3px solid #D4AF37"
+                            ? "3px solid #00FF88"
                             : isHighlighted
                             ? `3px solid ${isHighlighted.border}`
                             : "3px solid transparent",
@@ -460,7 +460,7 @@ export default function BiblePage() {
                       >
                         <span
                           className="text-xs font-bold mt-1 flex-shrink-0 w-5 text-right select-none"
-                          style={{ color: isSelected ? "#D4AF37" : "#4A4A68" }}
+                          style={{ color: isSelected ? "#00FF88" : "#4A4A68" }}
                         >
                           {verse.num}
                         </span>
@@ -471,7 +471,7 @@ export default function BiblePage() {
                           {verse.text}
                         </p>
                         {isBookmarked && (
-                          <Bookmark size={13} className="mt-1 flex-shrink-0" fill="#D4AF37" style={{ color: "#D4AF37" }} />
+                          <Bookmark size={13} className="mt-1 flex-shrink-0" fill="#00FF88" style={{ color: "#00FF88" }} />
                         )}
                       </div>
                     </div>
@@ -492,9 +492,9 @@ export default function BiblePage() {
                 <button
                   className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200"
                   style={{
-                    background: "rgba(212,175,55,0.1)",
-                    border: "1px solid rgba(212,175,55,0.2)",
-                    color: "#D4AF37",
+                    background: "rgba(0,255,136,0.1)",
+                    border: "1px solid rgba(0,255,136,0.2)",
+                    color: "#00FF88",
                   }}
                 >
                   Next Chapter
@@ -504,7 +504,7 @@ export default function BiblePage() {
 
               {/* Related Resources */}
               <div className="mt-12 max-w-2xl mx-auto">
-                <h3 className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: "#D4AF37" }}>
+                <h3 className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: "#00FF88" }}>
                   Related Resources
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -544,7 +544,7 @@ export default function BiblePage() {
                   style={{ background: "#12121F", border: "1px solid #1E1E32" }}
                 >
                   <div className="flex items-center justify-between mb-3">
-                    <h4 className="text-xs font-bold uppercase tracking-widest" style={{ color: "#D4AF37" }}>
+                    <h4 className="text-xs font-bold uppercase tracking-widest" style={{ color: "#00FF88" }}>
                       Cross-References
                     </h4>
                     <span className="text-xs" style={{ color: "#6A6A88" }}>Genesis 1:1</span>
@@ -552,7 +552,7 @@ export default function BiblePage() {
                   <div className="space-y-3">
                     {crossRefs.map((ref, i) => (
                       <div key={i} className="cursor-pointer group">
-                        <p className="text-xs font-bold mb-0.5 group-hover:text-[#D4AF37] transition-colors" style={{ color: "#C0C0D8" }}>
+                        <p className="text-xs font-bold mb-0.5 group-hover:text-[#00FF88] transition-colors" style={{ color: "#C0C0D8" }}>
                           {ref.ref}
                         </p>
                         <p className="text-xs leading-relaxed" style={{ color: "#6A6A88" }}>
@@ -568,7 +568,7 @@ export default function BiblePage() {
                   className="rounded-2xl p-4"
                   style={{ background: "#12121F", border: "1px solid #1E1E32" }}
                 >
-                  <h4 className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#D4AF37" }}>
+                  <h4 className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#00FF88" }}>
                     Commentary
                   </h4>
                   <p className="text-xs font-semibold mb-1" style={{ color: "#C0C0D8" }}>
@@ -577,7 +577,7 @@ export default function BiblePage() {
                   <p className="text-xs leading-relaxed" style={{ color: "#6A6A88" }}>
                     The first verse of the Bible gives a grand statement of the creation. &ldquo;In the beginning&rdquo; — not from eternity, but at the commencement of time itself. God is the uncreated Creator, existing before and independent of all creation. The heavens and earth encompass the totality of the created order...
                   </p>
-                  <button className="mt-2 text-xs font-semibold transition-colors hover:text-[#F0D060]" style={{ color: "#D4AF37" }}>
+                  <button className="mt-2 text-xs font-semibold transition-colors hover:text-[#44FFAA]" style={{ color: "#00FF88" }}>
                     Read more →
                   </button>
                 </div>
@@ -588,8 +588,8 @@ export default function BiblePage() {
                   style={{ background: "#12121F", border: "1px solid #1E1E32" }}
                 >
                   <div className="flex items-center gap-2 mb-3">
-                    <Languages size={14} style={{ color: "#D4AF37" }} />
-                    <h4 className="text-xs font-bold uppercase tracking-widest" style={{ color: "#D4AF37" }}>
+                    <Languages size={14} style={{ color: "#00FF88" }} />
+                    <h4 className="text-xs font-bold uppercase tracking-widest" style={{ color: "#00FF88" }}>
                       Original Language
                     </h4>
                   </div>
@@ -598,9 +598,9 @@ export default function BiblePage() {
                   </p>
                   <div className="space-y-3">
                     {hebrewBreakdown.map((word, i) => (
-                      <div key={i} className="rounded-lg p-2.5" style={{ background: "rgba(212,175,55,0.04)", border: "1px solid rgba(212,175,55,0.08)" }}>
+                      <div key={i} className="rounded-lg p-2.5" style={{ background: "rgba(0,255,136,0.04)", border: "1px solid rgba(0,255,136,0.08)" }}>
                         <div className="flex items-start justify-between gap-2 mb-1">
-                          <span className="text-base font-bold" style={{ color: "#D4AF37", direction: "rtl" }}>
+                          <span className="text-base font-bold" style={{ color: "#00FF88", direction: "rtl" }}>
                             {word.word}
                           </span>
                           <span className="text-[10px] px-1.5 py-0.5 rounded-full" style={{ background: "#1E1E32", color: "#6A6A88" }}>
@@ -618,12 +618,12 @@ export default function BiblePage() {
                 <div
                   className="rounded-2xl p-4"
                   style={{
-                    background: "linear-gradient(135deg, rgba(107,79,187,0.12) 0%, rgba(212,175,55,0.06) 100%)",
-                    border: "1px solid rgba(212,175,55,0.15)",
+                    background: "linear-gradient(135deg, rgba(107,79,187,0.12) 0%, rgba(0,255,136,0.06) 100%)",
+                    border: "1px solid rgba(0,255,136,0.15)",
                   }}
                 >
                   <div className="flex items-center gap-3 mb-3">
-                    <Headphones size={18} style={{ color: "#D4AF37" }} />
+                    <Headphones size={18} style={{ color: "#00FF88" }} />
                     <div>
                       <p className="text-sm font-bold" style={{ color: "#F2F2F8" }}>Listen to Chapter</p>
                       <p className="text-xs" style={{ color: "#6A6A88" }}>Dramatized NIV · 4m 12s</p>

@@ -30,7 +30,7 @@ const songs = [
     artist: "Sinach",
     plays: "4.2M",
     genre: "Contemporary",
-    gradient: "linear-gradient(135deg, #6B4FBB 0%, #D4AF37 100%)",
+    gradient: "linear-gradient(135deg, #6B4FBB 0%, #00FF88 100%)",
   },
   {
     title: "Goodness of God",
@@ -44,7 +44,7 @@ const songs = [
     artist: "Hillsong Worship",
     plays: "5.1M",
     genre: "Hillsong",
-    gradient: "linear-gradient(135deg, #D4AF37 0%, #BB7A4F 100%)",
+    gradient: "linear-gradient(135deg, #00FF88 0%, #BB7A4F 100%)",
   },
   {
     title: "Total Praise",
@@ -75,7 +75,7 @@ const playlists = [
     songs: 24,
     duration: "1h 42m",
     contributors: 8,
-    color: "#D4AF37",
+    color: "#00FF88",
     emoji: "☀️",
   },
   {
@@ -124,14 +124,14 @@ const chords = [
     artist: "Cory Asbury",
     key: "D",
     difficulty: "Intermediate",
-    diffColor: "#D4AF37",
+    diffColor: "#00FF88",
   },
   {
     song: "Gratitude",
     artist: "Brandon Lake",
     key: "A",
     difficulty: "Intermediate",
-    diffColor: "#D4AF37",
+    diffColor: "#00FF88",
   },
   {
     song: "The Stand",
@@ -154,7 +154,7 @@ const circles = [
     name: "Acoustic Worship Collective",
     members: "3.4k",
     description: "Acoustic guitar-led worship discussions, tutorials, and community.",
-    color: "#D4AF37",
+    color: "#00FF88",
   },
   {
     name: "Gospel Choir Network",
@@ -182,7 +182,7 @@ const creators = [
     location: "Accra, Ghana",
     followers: "28.4k",
     specialty: "Contemporary Gospel",
-    gradient: "linear-gradient(135deg, #D4AF37, #BB7A4F)",
+    gradient: "linear-gradient(135deg, #00FF88, #BB7A4F)",
     initials: "AC",
     bio: "Bringing the sound of West African worship to the global church. Known for her powerful vocal arrangements and original compositions.",
   },
@@ -212,7 +212,7 @@ const genreColors: Record<string, string> = {
   Gospel: "#BB4F7A",
   Hymn: "#4F8FBB",
   Hillsong: "#4FBBAA",
-  Bethel: "#D4AF37",
+  Bethel: "#00FF88",
 };
 
 export default function WorshipPage() {
@@ -225,7 +225,7 @@ export default function WorshipPage() {
         <section
           style={{
             background:
-              "linear-gradient(180deg, rgba(107,79,187,0.18) 0%, rgba(212,175,55,0.06) 60%, transparent 100%)",
+              "linear-gradient(180deg, rgba(107,79,187,0.18) 0%, rgba(0,255,136,0.06) 60%, transparent 100%)",
             padding: "80px 0 60px",
             textAlign: "center",
           }}
@@ -236,15 +236,15 @@ export default function WorshipPage() {
                 display: "inline-flex",
                 alignItems: "center",
                 gap: "8px",
-                background: "rgba(212,175,55,0.1)",
-                border: "1px solid rgba(212,175,55,0.25)",
+                background: "rgba(0,255,136,0.1)",
+                border: "1px solid rgba(0,255,136,0.25)",
                 borderRadius: "100px",
                 padding: "6px 16px",
                 marginBottom: "24px",
               }}
             >
-              <Music size={14} style={{ color: "#D4AF37" }} />
-              <span style={{ color: "#D4AF37", fontSize: "12px", fontWeight: 700, letterSpacing: "0.08em" }}>
+              <Music size={14} style={{ color: "#00FF88" }} />
+              <span style={{ color: "#00FF88", fontSize: "12px", fontWeight: 700, letterSpacing: "0.08em" }}>
                 WORSHIP HUB
               </span>
             </div>
@@ -254,7 +254,7 @@ export default function WorshipPage() {
                 fontWeight: 900,
                 lineHeight: 1.05,
                 marginBottom: "20px",
-                background: "linear-gradient(135deg, #FFFFFF 0%, #D4AF37 50%, #F2F2F8 100%)",
+                background: "linear-gradient(135deg, #FFFFFF 0%, #00FF88 50%, #F2F2F8 100%)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
@@ -271,7 +271,7 @@ export default function WorshipPage() {
                   display: "flex",
                   alignItems: "center",
                   gap: "8px",
-                  background: "linear-gradient(135deg, #D4AF37, #B8922A)",
+                  background: "linear-gradient(135deg, #00FF88, #B8922A)",
                   color: "#07070F",
                   border: "none",
                   borderRadius: "12px",
@@ -314,7 +314,7 @@ export default function WorshipPage() {
               <h2 style={{ fontSize: "24px", fontWeight: 800, color: "#F2F2F8" }}>
                 Now Trending in Worship
               </h2>
-              <button style={{ display: "flex", alignItems: "center", gap: "6px", color: "#D4AF37", fontSize: "14px", fontWeight: 600, background: "none", border: "none", cursor: "pointer" }}>
+              <button style={{ display: "flex", alignItems: "center", gap: "6px", color: "#00FF88", fontSize: "14px", fontWeight: 600, background: "none", border: "none", cursor: "pointer" }}>
                 See all <ChevronRight size={16} />
               </button>
             </div>
@@ -522,8 +522,8 @@ export default function WorshipPage() {
                     <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                       <span
                         style={{
-                          background: "rgba(212,175,55,0.12)",
-                          color: "#D4AF37",
+                          background: "rgba(0,255,136,0.12)",
+                          color: "#00FF88",
                           borderRadius: "6px",
                           padding: "2px 8px",
                           fontSize: "11px",
@@ -550,8 +550,8 @@ export default function WorshipPage() {
                     style={{
                       flexShrink: 0,
                       background: "transparent",
-                      border: "1px solid rgba(212,175,55,0.3)",
-                      color: "#D4AF37",
+                      border: "1px solid rgba(0,255,136,0.3)",
+                      color: "#00FF88",
                       borderRadius: "10px",
                       padding: "8px 14px",
                       fontSize: "12px",
@@ -643,16 +643,16 @@ export default function WorshipPage() {
                   display: "inline-flex",
                   alignItems: "center",
                   gap: "6px",
-                  background: "rgba(212,175,55,0.1)",
-                  border: "1px solid rgba(212,175,55,0.2)",
+                  background: "rgba(0,255,136,0.1)",
+                  border: "1px solid rgba(0,255,136,0.2)",
                   borderRadius: "100px",
                   padding: "4px 12px",
-                  color: "#D4AF37",
+                  color: "#00FF88",
                   fontSize: "11px",
                   fontWeight: 700,
                 }}
               >
-                <Star size={11} fill="#D4AF37" /> Featured This Week
+                <Star size={11} fill="#00FF88" /> Featured This Week
               </span>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: "20px" }}>
@@ -707,9 +707,9 @@ export default function WorshipPage() {
                     <button
                       style={{
                         width: "100%",
-                        background: "rgba(212,175,55,0.08)",
-                        border: "1px solid rgba(212,175,55,0.25)",
-                        color: "#D4AF37",
+                        background: "rgba(0,255,136,0.08)",
+                        border: "1px solid rgba(0,255,136,0.25)",
+                        color: "#00FF88",
                         borderRadius: "10px",
                         padding: "10px",
                         fontWeight: 700,
@@ -729,8 +729,8 @@ export default function WorshipPage() {
           <section>
             <div
               style={{
-                background: "linear-gradient(135deg, rgba(107,79,187,0.2) 0%, rgba(212,175,55,0.1) 100%)",
-                border: "1px solid rgba(212,175,55,0.2)",
+                background: "linear-gradient(135deg, rgba(107,79,187,0.2) 0%, rgba(0,255,136,0.1) 100%)",
+                border: "1px solid rgba(0,255,136,0.2)",
                 borderRadius: "24px",
                 padding: "48px",
                 textAlign: "center",
@@ -741,15 +741,15 @@ export default function WorshipPage() {
                   width: "64px",
                   height: "64px",
                   borderRadius: "20px",
-                  background: "rgba(212,175,55,0.15)",
-                  border: "1px solid rgba(212,175,55,0.3)",
+                  background: "rgba(0,255,136,0.15)",
+                  border: "1px solid rgba(0,255,136,0.3)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   margin: "0 auto 20px",
                 }}
               >
-                <Upload size={28} style={{ color: "#D4AF37" }} />
+                <Upload size={28} style={{ color: "#00FF88" }} />
               </div>
               <h2 style={{ fontSize: "28px", fontWeight: 800, color: "#F2F2F8", marginBottom: "12px" }}>
                 Submit Your Music
@@ -763,7 +763,7 @@ export default function WorshipPage() {
                     display: "flex",
                     alignItems: "center",
                     gap: "8px",
-                    background: "linear-gradient(135deg, #D4AF37, #B8922A)",
+                    background: "linear-gradient(135deg, #00FF88, #B8922A)",
                     color: "#07070F",
                     border: "none",
                     borderRadius: "12px",

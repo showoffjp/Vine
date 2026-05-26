@@ -77,12 +77,12 @@ const stories = [
     flag: "🇧🇷",
     location: "São Paulo, Brazil",
     avatar: "IF",
-    color: "#D4AF37",
+    color: "#00FF88",
     title: "We Sold Everything and Moved to Mozambique. Here's Year Three.",
     preview: "Missions sounds romantic until you're actually there — sick, broke, questioning everything. This is an honest account of what long-term missions actually looks like from the inside.",
     readTime: "16 min",
     category: "Missions",
-    categoryColor: "#D4AF37",
+    categoryColor: "#00FF88",
     hearts: 2934,
   },
   {
@@ -113,12 +113,12 @@ export default function StoriesPage() {
         {/* Header */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
           <div className="text-center max-w-3xl mx-auto">
-            <span className="text-xs font-bold uppercase tracking-widest mb-4 block" style={{ color: "#D4AF37" }}>
+            <span className="text-xs font-bold uppercase tracking-widest mb-4 block" style={{ color: "#00FF88" }}>
               Testimonies
             </span>
             <h1 className="text-4xl sm:text-5xl font-black mb-5">
               Real stories.{" "}
-              <span style={{ background: "linear-gradient(135deg, #D4AF37, #6B4FBB)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+              <span style={{ background: "linear-gradient(135deg, #00FF88, #6B4FBB)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
                 Real faith.
               </span>
             </h1>
@@ -140,7 +140,7 @@ export default function StoriesPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
               <div>
                 <div className="flex items-center gap-2 mb-4">
-                  <span className="text-xs font-bold px-3 py-1 rounded-full" style={{ background: "rgba(212,175,55,0.15)", color: "#D4AF37" }}>
+                  <span className="text-xs font-bold px-3 py-1 rounded-full" style={{ background: "rgba(0,255,136,0.15)", color: "#00FF88" }}>
                     ⭐ Featured Story
                   </span>
                   <span className="text-xs font-bold px-2 py-1 rounded-full" style={{ background: `${featured.categoryColor}15`, color: featured.categoryColor }}>
@@ -166,7 +166,7 @@ export default function StoriesPage() {
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
-                  <button className="flex items-center gap-2 px-6 py-2.5 rounded-xl font-bold text-sm text-black" style={{ background: "linear-gradient(135deg, #D4AF37, #B8942C)" }}>
+                  <button className="flex items-center gap-2 px-6 py-2.5 rounded-xl font-bold text-sm text-black" style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)" }}>
                     Read Story <ChevronRight size={14} />
                   </button>
                   <div className="flex items-center gap-1 text-sm" style={{ color: "#6A6A88" }}>
@@ -197,9 +197,9 @@ export default function StoriesPage() {
                 onClick={() => setActiveCategory(cat)}
                 className="px-4 py-1.5 rounded-full text-sm font-semibold transition-all"
                 style={{
-                  background: activeCategory === cat ? "#D4AF37" : "rgba(255,255,255,0.04)",
+                  background: activeCategory === cat ? "#00FF88" : "rgba(255,255,255,0.04)",
                   color: activeCategory === cat ? "#000" : "#6A6A88",
-                  border: `1px solid ${activeCategory === cat ? "#D4AF37" : "rgba(255,255,255,0.08)"}`,
+                  border: `1px solid ${activeCategory === cat ? "#00FF88" : "rgba(255,255,255,0.08)"}`,
                 }}
               >
                 {cat}
@@ -238,7 +238,7 @@ export default function StoriesPage() {
                   </span>
                 </div>
 
-                <h3 className="font-black text-base mb-2 leading-snug group-hover:text-[#D4AF37] transition-colors flex-1" style={{ color: "#F2F2F8" }}>
+                <h3 className="font-black text-base mb-2 leading-snug group-hover:text-[#00FF88] transition-colors flex-1" style={{ color: "#F2F2F8" }}>
                   {story.title}
                 </h3>
                 <p className="text-sm mb-4 leading-relaxed line-clamp-3" style={{ color: "#6A6A88" }}>
@@ -255,9 +255,9 @@ export default function StoriesPage() {
                   <div className="flex items-center gap-3">
                     <button
                       onClick={() => setSaved((s) => ({ ...s, [story.name]: !s[story.name] }))}
-                      style={{ color: saved[story.name] ? "#D4AF37" : "#4A4A68" }}
+                      style={{ color: saved[story.name] ? "#00FF88" : "#4A4A68" }}
                     >
-                      <Bookmark size={14} fill={saved[story.name] ? "#D4AF37" : "none"} />
+                      <Bookmark size={14} fill={saved[story.name] ? "#00FF88" : "none"} />
                     </button>
                     <span className="flex items-center gap-1 text-xs" style={{ color: "#4A4A68" }}>
                       <Heart size={12} style={{ color: "#EC4899" }} />
@@ -273,18 +273,18 @@ export default function StoriesPage() {
           <div
             className="rounded-2xl p-10 text-center"
             style={{
-              background: "linear-gradient(135deg, rgba(212,175,55,0.06) 0%, rgba(107,79,187,0.06) 100%)",
-              border: "1px solid rgba(212,175,55,0.15)",
+              background: "linear-gradient(135deg, rgba(0,255,136,0.06) 0%, rgba(107,79,187,0.06) 100%)",
+              border: "1px solid rgba(0,255,136,0.15)",
             }}
           >
-            <Globe size={32} style={{ color: "#D4AF37" }} className="mx-auto mb-4" />
+            <Globe size={32} style={{ color: "#00FF88" }} className="mx-auto mb-4" />
             <h3 className="text-2xl font-black mb-3" style={{ color: "#F2F2F8" }}>Share Your Story</h3>
             <p className="text-base mb-6 max-w-lg mx-auto" style={{ color: "#6A6A88" }}>
               &ldquo;They triumphed over him by the blood of the Lamb and by the word of their testimony.&rdquo; — Revelation 12:11. Your story matters. Share it.
             </p>
             <button
               className="inline-flex items-center gap-2 px-8 py-3 rounded-xl font-bold text-black"
-              style={{ background: "linear-gradient(135deg, #D4AF37, #B8942C)" }}
+              style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)" }}
             >
               Submit Your Testimony <ChevronRight size={16} />
             </button>

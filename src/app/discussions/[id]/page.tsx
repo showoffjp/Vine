@@ -72,7 +72,7 @@ const threads: Record<string, {
       {
         author: "Amara Osei",
         avatar: "AO",
-        avatarColor: "#D4AF37",
+        avatarColor: "#00FF88",
         flag: "🇬🇭",
         isOp: false,
         body: "Practical suggestion: Find one honest, intellectually serious Christian to talk to about this in person. Not to resolve the doubt — just to not be alone in it. Isolation makes doubt feel much larger than it is. The book of Job is literally a long argument between Job and his friends. God shows up at the end not to explain everything but to be present. Sometimes that's enough.",
@@ -150,7 +150,7 @@ export default async function DiscussionPage({ params }: { params: Promise<{ id:
           <p className="text-6xl mb-6">💬</p>
           <h1 className="text-3xl font-black mb-4">Thread not found</h1>
           <a href="/discussions" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-black"
-            style={{ background: "linear-gradient(135deg, #D4AF37, #B8942C)" }}>
+            style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)" }}>
             Back to Discussions
           </a>
         </div>
@@ -167,7 +167,7 @@ export default async function DiscussionPage({ params }: { params: Promise<{ id:
       <div className="page-body pb-20">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Back */}
-          <a href="/discussions" className="inline-flex items-center gap-2 text-sm mb-6 hover:text-[#D4AF37] transition-colors" style={{ color: "#6A6A88" }}>
+          <a href="/discussions" className="inline-flex items-center gap-2 text-sm mb-6 hover:text-[#00FF88] transition-colors" style={{ color: "#6A6A88" }}>
             <ArrowLeft size={14} /> Discussions
           </a>
 
@@ -192,7 +192,7 @@ export default async function DiscussionPage({ params }: { params: Promise<{ id:
             </div>
             <div className="ml-auto flex items-center gap-3">
               <button className="flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-lg"
-                style={{ background: "rgba(212,175,55,0.08)", border: "1px solid rgba(212,175,55,0.15)", color: "#D4AF37" }}>
+                style={{ background: "rgba(0,255,136,0.08)", border: "1px solid rgba(0,255,136,0.15)", color: "#00FF88" }}>
                 <ChevronUp size={12} /> {thread.upvotes.toLocaleString()}
               </button>
               <button className="p-1.5 rounded-lg" style={{ color: "#4A4A68" }}><Share2 size={14} /></button>
@@ -246,7 +246,7 @@ export default async function DiscussionPage({ params }: { params: Promise<{ id:
 
                   {reply.verse && (
                     <span className="text-xs px-2 py-0.5 rounded-full inline-flex items-center gap-1"
-                      style={{ background: "rgba(212,175,55,0.08)", color: "#D4AF37" }}>
+                      style={{ background: "rgba(0,255,136,0.08)", color: "#00FF88" }}>
                       📜 {reply.verse}
                     </span>
                   )}
@@ -281,7 +281,7 @@ export default async function DiscussionPage({ params }: { params: Promise<{ id:
           </div>
 
           {/* Reply Box */}
-          <div className="rounded-2xl p-5" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(212,175,55,0.15)" }}>
+          <div className="rounded-2xl p-5" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(0,255,136,0.15)" }}>
             <p className="text-sm font-bold mb-3" style={{ color: "#F2F2F8" }}>Join the conversation</p>
             <textarea
               rows={4}
@@ -292,7 +292,7 @@ export default async function DiscussionPage({ params }: { params: Promise<{ id:
             <div className="flex items-center justify-between">
               <p className="text-xs" style={{ color: "#4A4A68" }}>Be kind, be honest. Ephesians 4:29.</p>
               <button className="px-5 py-2 rounded-xl font-bold text-sm text-black"
-                style={{ background: "linear-gradient(135deg, #D4AF37, #B8942C)" }}>
+                style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)" }}>
                 Reply
               </button>
             </div>

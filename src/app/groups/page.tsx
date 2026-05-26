@@ -36,7 +36,7 @@ const groups = [
   {
     name: "Global Prayer Warriors",
     emoji: "🙏",
-    color: "#D4AF37",
+    color: "#00FF88",
     members: 34502,
     online: 1204,
     category: "Prayer",
@@ -135,7 +135,7 @@ const groups = [
   {
     name: "Addiction Freedom",
     emoji: "⛓️",
-    color: "#D4AF37",
+    color: "#00FF88",
     members: 3891,
     online: 94,
     category: "Recovery",
@@ -158,7 +158,7 @@ const groups = [
 
 const myGroups = [
   { name: "Reformed Theology Discussion", emoji: "⛪", color: "#6B4FBB", unread: 24 },
-  { name: "Global Prayer Warriors", emoji: "🙏", color: "#D4AF37", unread: 7 },
+  { name: "Global Prayer Warriors", emoji: "🙏", color: "#00FF88", unread: 7 },
   { name: "College Faith Network", emoji: "🎓", color: "#10B981", unread: 0 },
 ];
 
@@ -185,12 +185,12 @@ export default function GroupsPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
           <div className="text-center max-w-3xl mx-auto">
             <div className="flex items-center justify-center gap-2 mb-4">
-              <Users size={22} style={{ color: "#D4AF37" }} />
-              <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#D4AF37" }}>Interest Circles</span>
+              <Users size={22} style={{ color: "#00FF88" }} />
+              <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#00FF88" }}>Interest Circles</span>
             </div>
             <h1 className="text-4xl sm:text-5xl font-black mb-5">
               Find your{" "}
-              <span style={{ background: "linear-gradient(135deg, #D4AF37, #6B4FBB)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+              <span style={{ background: "linear-gradient(135deg, #00FF88, #6B4FBB)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
                 people.
               </span>
             </h1>
@@ -226,7 +226,7 @@ export default function GroupsPage() {
                         <p className="text-xs font-semibold truncate" style={{ color: "#C0C0D8" }}>{g.name}</p>
                       </div>
                       {g.unread > 0 && (
-                        <span className="text-xs font-bold px-1.5 py-0.5 rounded-full min-w-[20px] text-center" style={{ background: "#D4AF37", color: "#000" }}>
+                        <span className="text-xs font-bold px-1.5 py-0.5 rounded-full min-w-[20px] text-center" style={{ background: "#00FF88", color: "#000" }}>
                           {g.unread}
                         </span>
                       )}
@@ -238,7 +238,7 @@ export default function GroupsPage() {
               {/* Create Group */}
               <button
                 className="w-full flex items-center gap-2 p-4 rounded-2xl font-bold text-sm"
-                style={{ background: "rgba(212,175,55,0.08)", border: "1px solid rgba(212,175,55,0.2)", color: "#D4AF37" }}
+                style={{ background: "rgba(0,255,136,0.08)", border: "1px solid rgba(0,255,136,0.2)", color: "#00FF88" }}
               >
                 <Plus size={16} />
                 Create a Group
@@ -255,9 +255,9 @@ export default function GroupsPage() {
                     onClick={() => setActiveCategory(cat)}
                     className="px-4 py-1.5 rounded-full text-sm font-semibold transition-all"
                     style={{
-                      background: activeCategory === cat ? "#D4AF37" : "rgba(255,255,255,0.04)",
+                      background: activeCategory === cat ? "#00FF88" : "rgba(255,255,255,0.04)",
                       color: activeCategory === cat ? "#000" : "#6A6A88",
-                      border: `1px solid ${activeCategory === cat ? "#D4AF37" : "rgba(255,255,255,0.08)"}`,
+                      border: `1px solid ${activeCategory === cat ? "#00FF88" : "rgba(255,255,255,0.08)"}`,
                     }}
                   >
                     {cat}
@@ -279,7 +279,7 @@ export default function GroupsPage() {
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-2 flex-wrap">
                         <h2 className="font-black text-xl" style={{ color: "#F2F2F8" }}>{featuredGroup.name}</h2>
-                        <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "rgba(212,175,55,0.15)", color: "#D4AF37" }}>⭐ Featured</span>
+                        <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "rgba(0,255,136,0.15)", color: "#00FF88" }}>⭐ Featured</span>
                         <span className="text-xs px-2 py-0.5 rounded-full flex items-center gap-1" style={{ background: `${featuredGroup.color}15`, color: featuredGroup.color }}>
                           <Globe size={10} /> Public
                         </span>
@@ -399,7 +399,7 @@ export default function GroupsPage() {
               {/* Create CTA */}
               <div
                 className="mt-8 rounded-2xl p-8 text-center"
-                style={{ background: "linear-gradient(135deg, rgba(107,79,187,0.07) 0%, rgba(212,175,55,0.07) 100%)", border: "1px solid rgba(107,79,187,0.2)" }}
+                style={{ background: "linear-gradient(135deg, rgba(107,79,187,0.07) 0%, rgba(0,255,136,0.07) 100%)", border: "1px solid rgba(107,79,187,0.2)" }}
               >
                 <Flame size={28} style={{ color: "#6B4FBB" }} className="mx-auto mb-3" />
                 <h3 className="text-xl font-black mb-2" style={{ color: "#F2F2F8" }}>Don&apos;t see your community?</h3>

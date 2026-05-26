@@ -24,8 +24,8 @@ const quizMeta = [
     icon: "✨",
     questions: 10,
     results: 7,
-    color: "#D4AF37",
-    gradient: "linear-gradient(135deg, rgba(212,175,55,0.2), rgba(212,175,55,0.05))",
+    color: "#00FF88",
+    gradient: "linear-gradient(135deg, rgba(0,255,136,0.2), rgba(0,255,136,0.05))",
     available: true,
   },
   {
@@ -164,7 +164,7 @@ const giftResults: Record<string, { title: string; description: string; verse: s
     verse: "2 Timothy 2:15 — 'Do your best to present yourself to God as one approved, a worker who has no need to be ashamed, rightly handling the word of truth.'",
     example: "Apollos — 'an eloquent man, competent in the Scriptures' (Acts 18:24). He taught the way of God accurately and powerfully.",
     vineUse: "Lead a Bible Study Circle, write devotionals, record Scripture breakdowns, answer theology questions in Discussions.",
-    color: "#D4AF37",
+    color: "#00FF88",
     emoji: "📖",
   },
   Encouragement: {
@@ -287,15 +287,15 @@ export default function QuizPage() {
                 display: "inline-flex",
                 alignItems: "center",
                 gap: "8px",
-                background: "rgba(212,175,55,0.1)",
-                border: "1px solid rgba(212,175,55,0.25)",
+                background: "rgba(0,255,136,0.1)",
+                border: "1px solid rgba(0,255,136,0.25)",
                 borderRadius: "100px",
                 padding: "6px 16px",
                 marginBottom: "24px",
               }}
             >
-              <Star size={14} style={{ color: "#D4AF37" }} />
-              <span style={{ color: "#D4AF37", fontSize: "12px", fontWeight: 700, letterSpacing: "0.08em" }}>
+              <Star size={14} style={{ color: "#00FF88" }} />
+              <span style={{ color: "#00FF88", fontSize: "12px", fontWeight: 700, letterSpacing: "0.08em" }}>
                 SPIRITUAL QUIZZES
               </span>
             </div>
@@ -305,7 +305,7 @@ export default function QuizPage() {
                 fontWeight: 900,
                 lineHeight: 1.05,
                 marginBottom: "16px",
-                background: "linear-gradient(135deg, #FFFFFF 0%, #D4AF37 50%, #BBA8D4 100%)",
+                background: "linear-gradient(135deg, #FFFFFF 0%, #00FF88 50%, #BBA8D4 100%)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
@@ -452,7 +452,7 @@ export default function QuizPage() {
                 <div
                   style={{
                     height: "100%",
-                    background: "linear-gradient(90deg, #D4AF37, #B8922A)",
+                    background: "linear-gradient(90deg, #00FF88, #B8922A)",
                     borderRadius: "100px",
                     width: `${((currentQ + 1) / giftQuestions.length) * 100}%`,
                     transition: "width 0.4s ease",
@@ -469,7 +469,7 @@ export default function QuizPage() {
                   padding: "40px",
                 }}
               >
-                <p style={{ color: "#D4AF37", fontSize: "11px", fontWeight: 700, letterSpacing: "0.1em", marginBottom: "16px" }}>
+                <p style={{ color: "#00FF88", fontSize: "11px", fontWeight: 700, letterSpacing: "0.1em", marginBottom: "16px" }}>
                   ✨ WHAT IS YOUR SPIRITUAL GIFT?
                 </p>
                 <h2
@@ -491,11 +491,11 @@ export default function QuizPage() {
                       style={{
                         background:
                           selected === idx
-                            ? "linear-gradient(135deg, rgba(212,175,55,0.25), rgba(212,175,55,0.1))"
+                            ? "linear-gradient(135deg, rgba(0,255,136,0.25), rgba(0,255,136,0.1))"
                             : "#0F0F1C",
                         border:
                           selected === idx
-                            ? "1px solid rgba(212,175,55,0.6)"
+                            ? "1px solid rgba(0,255,136,0.6)"
                             : "1px solid #1E1E32",
                         borderRadius: "14px",
                         padding: "16px 20px",
@@ -516,8 +516,8 @@ export default function QuizPage() {
                           width: "26px",
                           height: "26px",
                           borderRadius: "50%",
-                          background: selected === idx ? "rgba(212,175,55,0.25)" : "rgba(255,255,255,0.04)",
-                          color: selected === idx ? "#D4AF37" : "#6A6A88",
+                          background: selected === idx ? "rgba(0,255,136,0.25)" : "rgba(255,255,255,0.04)",
+                          color: selected === idx ? "#00FF88" : "#6A6A88",
                           fontSize: "12px",
                           fontWeight: 800,
                           marginRight: "12px",
@@ -601,7 +601,7 @@ export default function QuizPage() {
                       marginBottom: "20px",
                     }}
                   >
-                    <p style={{ color: "#D4AF37", fontSize: "11px", fontWeight: 700, letterSpacing: "0.1em", marginBottom: "8px" }}>
+                    <p style={{ color: "#00FF88", fontSize: "11px", fontWeight: 700, letterSpacing: "0.1em", marginBottom: "8px" }}>
                       BIBLICAL EXAMPLE
                     </p>
                     <p style={{ color: "#8A8AA8", fontSize: "14px", lineHeight: 1.65 }}>
@@ -636,7 +636,7 @@ export default function QuizPage() {
                         alignItems: "center",
                         justifyContent: "center",
                         gap: "8px",
-                        background: "linear-gradient(135deg, #D4AF37, #B8922A)",
+                        background: "linear-gradient(135deg, #00FF88, #B8922A)",
                         color: "#07070F",
                         border: "none",
                         borderRadius: "12px",

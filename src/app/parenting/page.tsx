@@ -29,7 +29,7 @@ const stages = [
   {
     age: "6–12",
     label: "Elementary",
-    color: "#D4AF37",
+    color: "#00FF88",
     tips: [
       "Start devotionals together — even 5 minutes",
       "Answer their hard questions honestly",
@@ -92,7 +92,7 @@ const articles = [
   {
     emoji: "🏠",
     tag: "Family Culture",
-    tagColor: "#D4AF37",
+    tagColor: "#00FF88",
     title: "The Power of Family Rhythms: Sabbath, Meals, and Rituals",
     desc: "The most faith-forming thing you can do isn't a curriculum — it's shared, repeated practices.",
     author: "Dr. Sarah Kimani",
@@ -132,12 +132,12 @@ export default function ParentingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <span className="text-xs font-bold uppercase tracking-widest mb-4 block" style={{ color: "#D4AF37" }}>
+              <span className="text-xs font-bold uppercase tracking-widest mb-4 block" style={{ color: "#00FF88" }}>
                 Life & Faith · Parenting
               </span>
               <h1 className="text-4xl sm:text-5xl font-black mb-6 leading-tight">
                 Raise them up.{" "}
-                <span style={{ background: "linear-gradient(135deg, #EC4899, #D4AF37)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+                <span style={{ background: "linear-gradient(135deg, #EC4899, #00FF88)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
                   In the faith.
                 </span>
               </h1>
@@ -146,10 +146,10 @@ export default function ParentingPage() {
               </p>
               <div
                 className="p-5 rounded-2xl"
-                style={{ background: "rgba(212,175,55,0.06)", border: "1px solid rgba(212,175,55,0.15)" }}
+                style={{ background: "rgba(0,255,136,0.06)", border: "1px solid rgba(0,255,136,0.15)" }}
               >
-                <p className="text-sm italic mb-2" style={{ color: "#C8A84B" }}>{verseBlock.verse}</p>
-                <p className="text-xs font-bold" style={{ color: "#8A6A20" }}>— {verseBlock.ref}</p>
+                <p className="text-sm italic mb-2" style={{ color: "#00DD77" }}>{verseBlock.verse}</p>
+                <p className="text-xs font-bold" style={{ color: "#007A33" }}>— {verseBlock.ref}</p>
               </div>
             </div>
             <div className="grid grid-cols-2 gap-4">
@@ -232,7 +232,7 @@ export default function ParentingPage() {
                 style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.background = "rgba(255,255,255,0.04)";
-                  e.currentTarget.style.borderColor = "rgba(212,175,55,0.15)";
+                  e.currentTarget.style.borderColor = "rgba(0,255,136,0.15)";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.background = "rgba(255,255,255,0.02)";
@@ -246,7 +246,7 @@ export default function ParentingPage() {
                 >
                   {art.tag}
                 </span>
-                <h3 className="font-bold text-base mb-2 leading-snug group-hover:text-[#D4AF37] transition-colors" style={{ color: "#F2F2F8" }}>
+                <h3 className="font-bold text-base mb-2 leading-snug group-hover:text-[#00FF88] transition-colors" style={{ color: "#F2F2F8" }}>
                   {art.title}
                 </h3>
                 <p className="text-sm mb-3 leading-relaxed" style={{ color: "#6A6A88" }}>{art.desc}</p>
@@ -265,7 +265,7 @@ export default function ParentingPage() {
           <div
             className="rounded-2xl p-10 text-center"
             style={{
-              background: "linear-gradient(135deg, rgba(236,72,153,0.06) 0%, rgba(212,175,55,0.06) 100%)",
+              background: "linear-gradient(135deg, rgba(236,72,153,0.06) 0%, rgba(0,255,136,0.06) 100%)",
               border: "1px solid rgba(236,72,153,0.12)",
             }}
           >
@@ -280,7 +280,7 @@ export default function ParentingPage() {
               <a
                 href="/community"
                 className="inline-flex items-center gap-2 px-8 py-3 rounded-xl font-bold text-black"
-                style={{ background: "linear-gradient(135deg, #D4AF37, #B8942C)" }}
+                style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)" }}
               >
                 Join the Community <ChevronRight size={16} />
               </a>

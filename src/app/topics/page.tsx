@@ -22,7 +22,7 @@ const trending = [
     growth: "+342%",
     hot: true,
     description: "The historical and theological case for the bodily resurrection of Jesus",
-    color: "#D4AF37",
+    color: "#00FF88",
   },
   {
     rank: 2,
@@ -76,7 +76,7 @@ const trending = [
     growth: "+412%",
     hot: true,
     description: "Why young Christians are leaving — and what can bring them back",
-    color: "#D4AF37",
+    color: "#00FF88",
   },
   {
     rank: 8,
@@ -110,7 +110,7 @@ const topicClusters = [
   },
   {
     title: "Faith & Practice",
-    color: "#D4AF37",
+    color: "#00FF88",
     icon: "🙏",
     topics: ["Prayer", "Fasting", "Worship", "Bible Reading", "Sabbath", "Giving", "Serving", "Evangelism"],
   },
@@ -181,17 +181,17 @@ export default function TopicsPage() {
           <div className="flex items-center gap-3 mb-4">
             <div
               className="w-10 h-10 rounded-xl flex items-center justify-center"
-              style={{ background: "linear-gradient(135deg, #D4AF37 0%, #6B4FBB 100%)" }}
+              style={{ background: "linear-gradient(135deg, #00FF88 0%, #6B4FBB 100%)" }}
             >
               <TrendingUp size={20} className="text-black" />
             </div>
-            <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#D4AF37" }}>
+            <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#00FF88" }}>
               Trending Topics
             </span>
           </div>
           <h1 className="text-4xl sm:text-5xl font-black mb-4">
             What the Church is{" "}
-            <span style={{ background: "linear-gradient(135deg, #D4AF37, #6B4FBB)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+            <span style={{ background: "linear-gradient(135deg, #00FF88, #6B4FBB)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
               talking about.
             </span>
           </h1>
@@ -207,7 +207,7 @@ export default function TopicsPage() {
               {/* Trending List */}
               <div>
                 <div className="flex items-center gap-2 mb-5">
-                  <Flame size={18} style={{ color: "#D4AF37" }} />
+                  <Flame size={18} style={{ color: "#00FF88" }} />
                   <h2 className="text-xl font-black" style={{ color: "#F2F2F8" }}>
                     Trending Right Now
                   </h2>
@@ -220,20 +220,20 @@ export default function TopicsPage() {
                       style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
                       onMouseEnter={(e) => {
                         e.currentTarget.style.background = "rgba(255,255,255,0.04)";
-                        e.currentTarget.style.borderColor = "rgba(212,175,55,0.15)";
+                        e.currentTarget.style.borderColor = "rgba(0,255,136,0.15)";
                       }}
                       onMouseLeave={(e) => {
                         e.currentTarget.style.background = "rgba(255,255,255,0.02)";
                         e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)";
                       }}
                     >
-                      <span className="text-3xl font-black w-8 shrink-0 text-center" style={{ color: "rgba(212,175,55,0.15)" }}>
+                      <span className="text-3xl font-black w-8 shrink-0 text-center" style={{ color: "rgba(0,255,136,0.15)" }}>
                         {topic.rank}
                       </span>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap mb-1">
                           <span
-                            className="font-bold text-base group-hover:text-[#D4AF37] transition-colors"
+                            className="font-bold text-base group-hover:text-[#00FF88] transition-colors"
                             style={{ color: "#F2F2F8" }}
                           >
                             #{topic.tag}
@@ -275,7 +275,7 @@ export default function TopicsPage() {
               {/* Hot Discussions */}
               <div>
                 <div className="flex items-center gap-2 mb-5">
-                  <MessageSquare size={18} style={{ color: "#D4AF37" }} />
+                  <MessageSquare size={18} style={{ color: "#00FF88" }} />
                   <h2 className="text-xl font-black" style={{ color: "#F2F2F8" }}>
                     Hot Discussions
                   </h2>
@@ -288,7 +288,7 @@ export default function TopicsPage() {
                       style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
                       onMouseEnter={(e) => {
                         e.currentTarget.style.background = "rgba(255,255,255,0.04)";
-                        e.currentTarget.style.borderColor = "rgba(212,175,55,0.15)";
+                        e.currentTarget.style.borderColor = "rgba(0,255,136,0.15)";
                       }}
                       onMouseLeave={(e) => {
                         e.currentTarget.style.background = "rgba(255,255,255,0.02)";
@@ -296,14 +296,14 @@ export default function TopicsPage() {
                       }}
                     >
                       <div className="flex items-start gap-3">
-                        <Hash size={14} className="mt-0.5 shrink-0" style={{ color: "#D4AF37" }} />
+                        <Hash size={14} className="mt-0.5 shrink-0" style={{ color: "#00FF88" }} />
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-1.5">
-                            <span className="text-xs font-bold" style={{ color: "#D4AF37" }}>#{d.tag}</span>
+                            <span className="text-xs font-bold" style={{ color: "#00FF88" }}>#{d.tag}</span>
                             {d.hot && <Flame size={12} style={{ color: "#EF4444" }} />}
                             <span className="text-xs ml-auto" style={{ color: "#4A4A68" }}>{d.timeAgo}</span>
                           </div>
-                          <h3 className="font-semibold text-base leading-snug mb-2 group-hover:text-[#D4AF37] transition-colors" style={{ color: "#E0E0F0" }}>
+                          <h3 className="font-semibold text-base leading-snug mb-2 group-hover:text-[#00FF88] transition-colors" style={{ color: "#E0E0F0" }}>
                             {d.title}
                           </h3>
                           <div className="flex items-center gap-4">
@@ -323,7 +323,7 @@ export default function TopicsPage() {
                   <a
                     href="/discussions"
                     className="inline-flex items-center gap-2 text-sm font-semibold"
-                    style={{ color: "#D4AF37" }}
+                    style={{ color: "#00FF88" }}
                   >
                     See All Discussions <ChevronRight size={16} />
                   </a>

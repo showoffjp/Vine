@@ -28,7 +28,7 @@ const pillars = [
     title: "Bible Tools",
     desc: "Search, cross-reference, read plans, and dive deep with commentaries and study guides.",
     tag: "Scripture",
-    color: "#D4AF37",
+    color: "#00FF88",
   },
   {
     icon: Heart,
@@ -70,7 +70,7 @@ const pillars = [
     title: "Daily Devotionals",
     desc: "Fresh devotionals every morning — short, deep, and written by real believers.",
     tag: "Daily Bread",
-    color: "#D4AF37",
+    color: "#00FF88",
   },
   {
     icon: Sparkles,

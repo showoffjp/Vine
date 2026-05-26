@@ -30,7 +30,7 @@ export default function Error({
       <a href="/" className="flex items-center gap-2 mb-12">
         <div
           className="w-9 h-9 rounded-xl flex items-center justify-center"
-          style={{ background: "linear-gradient(135deg, #D4AF37, #8B6FDB)" }}
+          style={{ background: "linear-gradient(135deg, #00FF88, #8B6FDB)" }}
         >
           <span className="text-black font-black">V</span>
         </div>
@@ -43,7 +43,7 @@ export default function Error({
         We hit an unexpected error. It&apos;s not you — it&apos;s us. Try refreshing,
         and if it persists, we&apos;re on it.
       </p>
-      <p className="text-sm italic mb-10" style={{ color: "rgba(212,175,55,0.4)" }}>
+      <p className="text-sm italic mb-10" style={{ color: "rgba(0,255,136,0.4)" }}>
         &ldquo;His mercies are new every morning.&rdquo; — Lamentations 3:23
       </p>
 
@@ -52,7 +52,7 @@ export default function Error({
           onClick={reset}
           className="flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold"
           style={{
-            background: "linear-gradient(135deg, #C9A227, #E8C840)",
+            background: "linear-gradient(135deg, #00CC66, #00FF88)",
             color: "#07070F",
           }}
         >

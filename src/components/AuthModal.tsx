@@ -38,7 +38,7 @@ export default function AuthModal({ open, onClose, initialMode = "signup" }: Aut
         className="w-full max-w-md rounded-3xl overflow-hidden relative"
         style={{
           background: "#0E0E1A",
-          border: "1px solid rgba(212,175,55,0.15)",
+          border: "1px solid rgba(0,255,136,0.15)",
           boxShadow: "0 40px 80px rgba(0,0,0,0.8)",
         }}
       >
@@ -55,7 +55,7 @@ export default function AuthModal({ open, onClose, initialMode = "signup" }: Aut
         <div className="p-8">
           {/* Logo */}
           <div className="flex items-center gap-2 mb-8">
-            <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: "linear-gradient(135deg, #D4AF37, #8B6FDB)" }}>
+            <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: "linear-gradient(135deg, #00FF88, #8B6FDB)" }}>
               <span className="text-black font-black text-sm">V</span>
             </div>
             <span className="text-lg font-black" style={{ color: "#F2F2F8" }}>Vine</span>
@@ -74,9 +74,9 @@ export default function AuthModal({ open, onClose, initialMode = "signup" }: Aut
                       onClick={() => toggleInterest(interest)}
                       className="px-3 py-1.5 rounded-full text-sm font-medium transition-all"
                       style={selected ? {
-                        background: "#D4AF37",
+                        background: "#00FF88",
                         color: "#07070F",
-                        border: "1px solid #D4AF37",
+                        border: "1px solid #00FF88",
                       } : {
                         background: "rgba(255,255,255,0.04)",
                         color: "#8A8AA8",
@@ -142,7 +142,7 @@ export default function AuthModal({ open, onClose, initialMode = "signup" }: Aut
 
               <p className="text-xs text-center" style={{ color: "#6A6A88" }}>
                 Already a member?{" "}
-                <button className="font-semibold" style={{ color: "#D4AF37" }} onClick={() => setMode("signin")}>Sign in</button>
+                <button className="font-semibold" style={{ color: "#00FF88" }} onClick={() => setMode("signin")}>Sign in</button>
               </p>
             </>
           ) : (
@@ -161,7 +161,7 @@ export default function AuthModal({ open, onClose, initialMode = "signup" }: Aut
               </div>
 
               <div className="flex justify-end mb-4">
-                <button className="text-xs" style={{ color: "#D4AF37" }}>Forgot password?</button>
+                <button className="text-xs" style={{ color: "#00FF88" }}>Forgot password?</button>
               </div>
 
               <button className="btn-gold w-full py-3.5 rounded-xl mb-6 flex items-center justify-center gap-2 group">
@@ -170,7 +170,7 @@ export default function AuthModal({ open, onClose, initialMode = "signup" }: Aut
 
               <p className="text-xs text-center" style={{ color: "#6A6A88" }}>
                 New to Vine?{" "}
-                <button className="font-semibold" style={{ color: "#D4AF37" }} onClick={() => setMode("signup")}>Create a free account</button>
+                <button className="font-semibold" style={{ color: "#00FF88" }} onClick={() => setMode("signup")}>Create a free account</button>
               </p>
             </>
           )}

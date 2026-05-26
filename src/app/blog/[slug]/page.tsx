@@ -71,7 +71,7 @@ const articles: Record<string, {
     ],
     related: [
       { title: "Can an AI Have a Soul? A Biblical Anthropology", slug: "ai-have-soul", readTime: "8 min", category: "Apologetics", categoryColor: "#EF4444" },
-      { title: "The Digital Sabbath: How to Rest in a Hyper-Connected World", slug: "digital-sabbath", readTime: "6 min", category: "Life & Faith", categoryColor: "#D4AF37" },
+      { title: "The Digital Sabbath: How to Rest in a Hyper-Connected World", slug: "digital-sabbath", readTime: "6 min", category: "Life & Faith", categoryColor: "#00FF88" },
     ],
   },
 };
@@ -102,7 +102,7 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
           <p className="text-6xl mb-6">📭</p>
           <h1 className="text-3xl font-black mb-4">Article not found</h1>
           <p className="mb-8" style={{ color: "#6A6A88" }}>This article may have moved or been removed.</p>
-          <a href="/blog" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-black" style={{ background: "linear-gradient(135deg, #D4AF37, #B8942C)" }}>
+          <a href="/blog" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-black" style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)" }}>
             Browse all articles
           </a>
         </div>
@@ -117,7 +117,7 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
       <div className="page-body pb-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Back link */}
-          <a href="/blog" className="inline-flex items-center gap-2 text-sm mb-8 transition-colors hover:text-[#D4AF37]" style={{ color: "#6A6A88" }}>
+          <a href="/blog" className="inline-flex items-center gap-2 text-sm mb-8 transition-colors hover:text-[#00FF88]" style={{ color: "#6A6A88" }}>
             <ArrowLeft size={14} /> Back to Blog
           </a>
 
@@ -168,9 +168,9 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
                 <p key={i} className="text-base leading-relaxed mb-5" style={{ color: "#C0C0D8", lineHeight: "1.85" }}>{block.text}</p>
               );
               if (block.type === "quote") return (
-                <blockquote key={i} className="my-8 p-6 rounded-2xl" style={{ background: "rgba(212,175,55,0.06)", borderLeft: "3px solid #D4AF37" }}>
-                  <p className="text-lg italic mb-3" style={{ color: "#C8A84B" }}>&ldquo;{block.text}&rdquo;</p>
-                  {block.attribution && <p className="text-sm font-bold" style={{ color: "#8A6A20" }}>— {block.attribution}</p>}
+                <blockquote key={i} className="my-8 p-6 rounded-2xl" style={{ background: "rgba(0,255,136,0.06)", borderLeft: "3px solid #00FF88" }}>
+                  <p className="text-lg italic mb-3" style={{ color: "#00DD77" }}>&ldquo;{block.text}&rdquo;</p>
+                  {block.attribution && <p className="text-sm font-bold" style={{ color: "#007A33" }}>— {block.attribution}</p>}
                 </blockquote>
               );
               if (block.type === "verse") return (
@@ -190,7 +190,7 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
               <Heart size={14} /> Like
             </button>
             <button className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold"
-              style={{ background: "rgba(212,175,55,0.08)", color: "#D4AF37", border: "1px solid rgba(212,175,55,0.2)" }}>
+              style={{ background: "rgba(0,255,136,0.08)", color: "#00FF88", border: "1px solid rgba(0,255,136,0.2)" }}>
               <Bookmark size={14} /> Save
             </button>
             <button className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold"
@@ -228,7 +228,7 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
                   >
                     <div>
                       <span className="text-xs font-bold" style={{ color: r.categoryColor }}>{r.category}</span>
-                      <p className="font-bold text-sm group-hover:text-[#D4AF37] transition-colors" style={{ color: "#F2F2F8" }}>{r.title}</p>
+                      <p className="font-bold text-sm group-hover:text-[#00FF88] transition-colors" style={{ color: "#F2F2F8" }}>{r.title}</p>
                       <p className="text-xs" style={{ color: "#4A4A68" }}>{r.readTime}</p>
                     </div>
                     <ChevronRight size={16} style={{ color: "#4A4A68" }} />

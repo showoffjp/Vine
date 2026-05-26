@@ -17,7 +17,7 @@ const tracks = [
     icon: "📜",
     title: "Historical Reliability",
     description: "Is the Bible trustworthy? Did the resurrection actually happen? What do non-Christian sources say about Jesus?",
-    color: "#D4AF37",
+    color: "#00FF88",
     articles: 127,
     featured: "NT Wright's Resurrection Case — A Summary",
   },
@@ -56,7 +56,7 @@ const tracks = [
 ];
 
 const thinkers = [
-  { name: "C.S. Lewis", era: "1898–1963", work: "Mere Christianity, The Problem of Pain", icon: "📚", color: "#D4AF37" },
+  { name: "C.S. Lewis", era: "1898–1963", work: "Mere Christianity, The Problem of Pain", icon: "📚", color: "#00FF88" },
   { name: "Alvin Plantinga", era: "b. 1932", work: "Warranted Christian Belief, God, Freedom & Evil", icon: "🧠", color: "#6B4FBB" },
   { name: "N.T. Wright", era: "b. 1948", work: "The Resurrection of the Son of God, Simply Christian", icon: "✝️", color: "#10B981" },
   { name: "William Lane Craig", era: "b. 1949", work: "Reasonable Faith, The Kalam Cosmological Argument", icon: "⚛️", color: "#3B82F6" },
@@ -96,12 +96,12 @@ export default function ApologeticsPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-14">
           <div className="text-center max-w-3xl mx-auto">
             <div className="flex items-center justify-center gap-2 mb-4">
-              <Shield size={22} style={{ color: "#D4AF37" }} />
-              <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#D4AF37" }}>Apologetics</span>
+              <Shield size={22} style={{ color: "#00FF88" }} />
+              <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#00FF88" }}>Apologetics</span>
             </div>
             <h1 className="text-4xl sm:text-5xl font-black mb-6">
               Always be prepared to{" "}
-              <span style={{ background: "linear-gradient(135deg, #D4AF37, #3B82F6)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+              <span style={{ background: "linear-gradient(135deg, #00FF88, #3B82F6)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
                 give an answer.
               </span>
             </h1>
@@ -110,10 +110,10 @@ export default function ApologeticsPage() {
             </p>
             <blockquote
               className="p-5 rounded-2xl text-sm italic"
-              style={{ background: "rgba(212,175,55,0.06)", border: "1px solid rgba(212,175,55,0.15)", color: "#C8A84B" }}
+              style={{ background: "rgba(0,255,136,0.06)", border: "1px solid rgba(0,255,136,0.15)", color: "#00DD77" }}
             >
               &ldquo;Always be prepared to give an answer to everyone who asks you to give the reason for the hope that you have. But do this with gentleness and respect.&rdquo;
-              <br /><span className="not-italic font-bold text-xs mt-1 block" style={{ color: "#8A6A20" }}>— 1 Peter 3:15</span>
+              <br /><span className="not-italic font-bold text-xs mt-1 block" style={{ color: "#007A33" }}>— 1 Peter 3:15</span>
             </blockquote>
           </div>
         </div>
@@ -137,7 +137,7 @@ export default function ApologeticsPage() {
                 }}
               >
                 <span className="text-3xl mb-3 block">{t.icon}</span>
-                <h3 className="font-black text-lg mb-2 group-hover:text-[#D4AF37] transition-colors" style={{ color: "#F2F2F8" }}>{t.title}</h3>
+                <h3 className="font-black text-lg mb-2 group-hover:text-[#00FF88] transition-colors" style={{ color: "#F2F2F8" }}>{t.title}</h3>
                 <p className="text-sm mb-4 leading-relaxed" style={{ color: "#6A6A88" }}>{t.description}</p>
                 <p className="text-xs mb-4 font-semibold" style={{ color: t.color }}>📌 {t.featured}</p>
                 <div className="flex items-center justify-between">
@@ -160,7 +160,7 @@ export default function ApologeticsPage() {
               <div key={i} className="rounded-2xl p-6" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
                 <h3 className="font-bold text-base mb-3" style={{ color: "#EF4444" }}>{obj.objection}</h3>
                 <p className="text-sm leading-relaxed mb-3" style={{ color: "#8A8AA8" }}>{obj.response}</p>
-                <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "rgba(212,175,55,0.1)", color: "#D4AF37" }}>
+                <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "rgba(0,255,136,0.1)", color: "#00FF88" }}>
                   📜 See also: {obj.verse}
                 </span>
               </div>
@@ -193,7 +193,7 @@ export default function ApologeticsPage() {
             <p className="text-base mb-6 max-w-lg mx-auto" style={{ color: "#6A6A88" }}>
               The AI Bible Companion can walk through apologetics questions with you — grounded in Scripture and Christian philosophy.
             </p>
-            <a href="/ai-companion" className="inline-flex items-center gap-2 px-8 py-3 rounded-xl font-bold text-black" style={{ background: "linear-gradient(135deg, #D4AF37, #B8942C)" }}>
+            <a href="/ai-companion" className="inline-flex items-center gap-2 px-8 py-3 rounded-xl font-bold text-black" style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)" }}>
               Ask the AI Companion <ChevronRight size={16} />
             </a>
           </div>

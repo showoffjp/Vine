@@ -65,7 +65,7 @@ const featuredCircles = [
     members: "15.9K",
     posts: "6.7K",
     gradient: "linear-gradient(135deg, #2A2A1A 0%, #4D4D1B 100%)",
-    accent: "#D4AF37",
+    accent: "#00FF88",
     tag: "Growing Fast",
   },
 ];
@@ -74,13 +74,13 @@ const categories = [
   { icon: BookOpen, name: "Theology", members: "85K+", color: "#6B4FBB" },
   { icon: Baby, name: "Parenting", members: "42K+", color: "#BB4F7A" },
   { icon: Heart, name: "Mental Health", members: "56K+", color: "#4FBBAA" },
-  { icon: DollarSign, name: "Finance", members: "32K+", color: "#D4AF37" },
+  { icon: DollarSign, name: "Finance", members: "32K+", color: "#00FF88" },
   { icon: Music, name: "Music & Worship", members: "71K+", color: "#E07030" },
   { icon: Users, name: "Youth", members: "48K+", color: "#4F8FBB" },
   { icon: Star, name: "Women of Faith", members: "98K+", color: "#BB4F7A" },
   { icon: Zap, name: "Men of God", members: "76K+", color: "#6B4FBB" },
   { icon: Globe, name: "International", members: "124K+", color: "#4FBBAA" },
-  { icon: Briefcase, name: "Professionals", members: "28K+", color: "#D4AF37" },
+  { icon: Briefcase, name: "Professionals", members: "28K+", color: "#00FF88" },
   { icon: GraduationCap, name: "Students", members: "39K+", color: "#4F8FBB" },
   { icon: Headphones, name: "Prayer", members: "112K+", color: "#E07030" },
 ];
@@ -111,7 +111,7 @@ const nearbyCircles = [
 
 const activeCircles = [
   { name: "Prayer Warriors", activity: "38 praying right now", color: "#E07030", members: "112K" },
-  { name: "Sunday Sermon Discussion", activity: "247 discussing", color: "#D4AF37", members: "23K" },
+  { name: "Sunday Sermon Discussion", activity: "247 discussing", color: "#00FF88", members: "23K" },
   { name: "Mental Health & Faith", activity: "91 sharing right now", color: "#4FBBAA", members: "56K" },
   { name: "Daily Verse Chat", activity: "182 in conversation", color: "#6B4FBB", members: "78K" },
   { name: "Worship & Praise", activity: "64 worshipping together", color: "#BB4F7A", members: "71K" },
@@ -168,7 +168,7 @@ export default function CommunityPage() {
               <h2 className="text-xl font-black" style={{ color: "#F2F2F8" }}>
                 Featured Circles
               </h2>
-              <button className="text-sm font-semibold" style={{ color: "#D4AF37" }}>
+              <button className="text-sm font-semibold" style={{ color: "#00FF88" }}>
                 View all →
               </button>
             </div>
@@ -261,11 +261,11 @@ export default function CommunityPage() {
           {/* Near You */}
           <section className="mb-14">
             <div className="flex items-center gap-2 mb-6">
-              <MapPin size={18} style={{ color: "#D4AF37" }} />
+              <MapPin size={18} style={{ color: "#00FF88" }} />
               <h2 className="text-xl font-black" style={{ color: "#F2F2F8" }}>
                 Near You
               </h2>
-              <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "rgba(212,175,55,0.1)", color: "#D4AF37", border: "1px solid rgba(212,175,55,0.2)" }}>
+              <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "rgba(0,255,136,0.1)", color: "#00FF88", border: "1px solid rgba(0,255,136,0.2)" }}>
                 Houston, TX
               </span>
             </div>
@@ -366,8 +366,8 @@ export default function CommunityPage() {
             <div
               className="rounded-2xl p-8 text-center"
               style={{
-                background: "linear-gradient(135deg, rgba(107,79,187,0.12) 0%, rgba(212,175,55,0.06) 100%)",
-                border: "1px solid rgba(212,175,55,0.15)",
+                background: "linear-gradient(135deg, rgba(107,79,187,0.12) 0%, rgba(0,255,136,0.06) 100%)",
+                border: "1px solid rgba(0,255,136,0.15)",
               }}
             >
               <h2 className="text-2xl font-black mb-2" style={{ color: "#F2F2F8" }}>
@@ -399,7 +399,7 @@ export default function CommunityPage() {
           <section>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {[
-                { icon: Globe, value: "12,847", label: "Circles worldwide", color: "#D4AF37" },
+                { icon: Globe, value: "12,847", label: "Circles worldwide", color: "#00FF88" },
                 { icon: MapPin, value: "184", label: "Countries represented", color: "#6B4FBB" },
                 { icon: TrendingUp, value: "3.2M", label: "Conversations", color: "#4FBBAA" },
               ].map((stat) => (

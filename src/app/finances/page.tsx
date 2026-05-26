@@ -53,7 +53,7 @@ const steps = [
     title: "Know Your Numbers",
     description: "You can't steward what you don't track. Start with a brutally honest budget.",
     icon: BarChart3,
-    color: "#D4AF37",
+    color: "#00FF88",
   },
   {
     step: "02",
@@ -115,7 +115,7 @@ const resources = [
     author: "Vicki Robin",
     description: "A secular book with principles that align remarkably well with biblical stewardship.",
     emoji: "💡",
-    tagColor: "#D4AF37",
+    tagColor: "#00FF88",
   },
   {
     title: "Jesus on Money — Matthew 6:19-34",
@@ -142,12 +142,12 @@ export default function FinancesPage() {
         {/* Hero */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
           <div className="text-center max-w-3xl mx-auto">
-            <span className="text-xs font-bold uppercase tracking-widest mb-4 block" style={{ color: "#D4AF37" }}>
+            <span className="text-xs font-bold uppercase tracking-widest mb-4 block" style={{ color: "#00FF88" }}>
               Life & Faith · Finances
             </span>
             <h1 className="text-4xl sm:text-5xl font-black mb-6">
               Stewardship, not{" "}
-              <span style={{ background: "linear-gradient(135deg, #D4AF37, #10B981)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+              <span style={{ background: "linear-gradient(135deg, #00FF88, #10B981)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
                 stress.
               </span>
             </h1>
@@ -164,7 +164,7 @@ export default function FinancesPage() {
                 className="rounded-2xl p-5 text-center"
                 style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
               >
-                <p className="text-3xl font-black mb-1" style={{ color: "#D4AF37" }}>{s.value}</p>
+                <p className="text-3xl font-black mb-1" style={{ color: "#00FF88" }}>{s.value}</p>
                 <p className="text-sm font-semibold mb-1" style={{ color: "#F2F2F8" }}>{s.label}</p>
                 <p className="text-xs" style={{ color: "#4A4A68" }}>{s.note}</p>
               </div>
@@ -182,14 +182,14 @@ export default function FinancesPage() {
               <div
                 key={p.title}
                 className="rounded-2xl p-6"
-                style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(212,175,55,0.08)" }}
+                style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(0,255,136,0.08)" }}
               >
                 <div className="flex items-start gap-4">
                   <span className="text-3xl">{p.icon}</span>
                   <div>
                     <h3 className="font-bold text-lg mb-2" style={{ color: "#F2F2F8" }}>{p.title}</h3>
-                    <p className="text-sm italic mb-3 leading-relaxed" style={{ color: "#C8A84B" }}>
-                      {p.verse} <span className="not-italic font-bold" style={{ color: "#8A6A20" }}>— {p.ref}</span>
+                    <p className="text-sm italic mb-3 leading-relaxed" style={{ color: "#00DD77" }}>
+                      {p.verse} <span className="not-italic font-bold" style={{ color: "#007A33" }}>— {p.ref}</span>
                     </p>
                     <p className="text-sm leading-relaxed" style={{ color: "#6A6A88" }}>{p.body}</p>
                   </div>
@@ -224,7 +224,7 @@ export default function FinancesPage() {
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-1.5">
-                      <span className="text-xs font-black" style={{ color: "rgba(212,175,55,0.3)" }}>{step.step}</span>
+                      <span className="text-xs font-black" style={{ color: "rgba(0,255,136,0.3)" }}>{step.step}</span>
                       <h3 className="font-bold text-base" style={{ color: "#F2F2F8" }}>{step.title}</h3>
                     </div>
                     <p className="text-sm leading-relaxed" style={{ color: "#6A6A88" }}>{step.description}</p>
@@ -248,7 +248,7 @@ export default function FinancesPage() {
                 style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.background = "rgba(255,255,255,0.04)";
-                  e.currentTarget.style.borderColor = "rgba(212,175,55,0.15)";
+                  e.currentTarget.style.borderColor = "rgba(0,255,136,0.15)";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.background = "rgba(255,255,255,0.02)";
@@ -266,7 +266,7 @@ export default function FinancesPage() {
                     </span>
                     <span className="text-xs" style={{ color: "#4A4A68" }}>by {r.author}</span>
                   </div>
-                  <h3 className="font-bold text-base mb-1 group-hover:text-[#D4AF37] transition-colors" style={{ color: "#F2F2F8" }}>
+                  <h3 className="font-bold text-base mb-1 group-hover:text-[#00FF88] transition-colors" style={{ color: "#F2F2F8" }}>
                     {r.title}
                   </h3>
                   <p className="text-sm" style={{ color: "#6A6A88" }}>{r.description}</p>
@@ -281,11 +281,11 @@ export default function FinancesPage() {
           <div
             className="rounded-2xl p-10 text-center"
             style={{
-              background: "linear-gradient(135deg, rgba(212,175,55,0.06) 0%, rgba(16,185,129,0.06) 100%)",
-              border: "1px solid rgba(212,175,55,0.12)",
+              background: "linear-gradient(135deg, rgba(0,255,136,0.06) 0%, rgba(16,185,129,0.06) 100%)",
+              border: "1px solid rgba(0,255,136,0.12)",
             }}
           >
-            <DollarSign size={32} style={{ color: "#D4AF37" }} className="mx-auto mb-4" />
+            <DollarSign size={32} style={{ color: "#00FF88" }} className="mx-auto mb-4" />
             <h3 className="text-2xl font-black mb-3" style={{ color: "#F2F2F8" }}>
               Ask a Financial Stewardship Question
             </h3>
@@ -295,7 +295,7 @@ export default function FinancesPage() {
             <a
               href="/ai-companion"
               className="inline-flex items-center gap-2 px-8 py-3 rounded-xl font-bold text-black"
-              style={{ background: "linear-gradient(135deg, #D4AF37, #B8942C)" }}
+              style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)" }}
             >
               Ask Now <ChevronRight size={16} />
             </a>

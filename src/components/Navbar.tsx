@@ -114,15 +114,15 @@ export default function Navbar() {
         <div
           className="flex items-center justify-center gap-2 px-4 py-2 text-xs sm:text-sm relative"
           style={{
-            background: "linear-gradient(90deg, rgba(107,79,187,0.25) 0%, rgba(212,175,55,0.12) 50%, rgba(107,79,187,0.25) 100%)",
-            borderBottom: "1px solid rgba(212,175,55,0.15)",
+            background: "linear-gradient(90deg, rgba(107,79,187,0.25) 0%, rgba(0,255,136,0.12) 50%, rgba(107,79,187,0.25) 100%)",
+            borderBottom: "1px solid rgba(0,255,136,0.15)",
           }}
         >
-          <Sparkles size={12} style={{ color: "#D4AF37", flexShrink: 0 }} />
+          <Sparkles size={12} style={{ color: "#00FF88", flexShrink: 0 }} />
           <span style={{ color: "#C0C0D8" }}>
-            <span className="font-bold" style={{ color: "#D4AF37" }}>Vine Beta is live.</span>{" "}
+            <span className="font-bold" style={{ color: "#00FF88" }}>Vine Beta is live.</span>{" "}
             <span className="hidden sm:inline">Join early and shape the future of Christian community.</span>{" "}
-            <a href="#join" className="underline font-semibold" style={{ color: "#F0D060" }}>
+            <a href="#join" className="underline font-semibold" style={{ color: "#44FFAA" }}>
               Join free →
             </a>
           </span>
@@ -142,7 +142,7 @@ export default function Navbar() {
         style={{
           background: scrolled ? "rgba(7,7,15,0.96)" : "rgba(7,7,15,0.0)",
           backdropFilter: scrolled ? "blur(24px)" : "none",
-          borderBottom: scrolled ? "1px solid rgba(212,175,55,0.08)" : "1px solid transparent",
+          borderBottom: scrolled ? "1px solid rgba(0,255,136,0.08)" : "1px solid transparent",
           transition: "all 300ms",
         }}
       >
@@ -153,7 +153,7 @@ export default function Navbar() {
             <a href="/" className="flex items-center gap-2.5 shrink-0">
               <div
                 className="w-8 h-8 rounded-lg flex items-center justify-center"
-                style={{ background: "linear-gradient(135deg, #D4AF37 0%, #8B6FDB 100%)" }}
+                style={{ background: "linear-gradient(135deg, #00FF88 0%, #8B6FDB 100%)" }}
               >
                 <span className="text-black font-black text-sm">V</span>
               </div>
@@ -162,7 +162,7 @@ export default function Navbar() {
               </span>
               <span
                 className="text-[10px] font-bold px-1.5 py-0.5 rounded-full hidden sm:block"
-                style={{ background: "rgba(212,175,55,0.1)", color: "#D4AF37", border: "1px solid rgba(212,175,55,0.2)" }}
+                style={{ background: "rgba(0,255,136,0.1)", color: "#00FF88", border: "1px solid rgba(0,255,136,0.2)" }}
               >
                 BETA
               </span>
@@ -180,8 +180,8 @@ export default function Navbar() {
                   <button
                     className="flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-medium transition-all"
                     style={{
-                      color: activeDropdown === link.label ? "#D4AF37" : "#9090B0",
-                      background: activeDropdown === link.label ? "rgba(212,175,55,0.07)" : "transparent",
+                      color: activeDropdown === link.label ? "#00FF88" : "#9090B0",
+                      background: activeDropdown === link.label ? "rgba(0,255,136,0.07)" : "transparent",
                     }}
                   >
                     {link.label}
@@ -201,7 +201,7 @@ export default function Navbar() {
                       className="absolute top-full left-0 mt-1.5 py-1.5 rounded-xl min-w-[190px] z-50"
                       style={{
                         background: "rgba(11,11,22,0.98)",
-                        border: "1px solid rgba(212,175,55,0.12)",
+                        border: "1px solid rgba(0,255,136,0.12)",
                         backdropFilter: "blur(24px)",
                         boxShadow: "0 24px 64px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.03)",
                       }}
@@ -214,7 +214,7 @@ export default function Navbar() {
                           style={{ color: "#8A8AA8" }}
                           onMouseEnter={(e) => {
                             e.currentTarget.style.color = "#F2F2F8";
-                            e.currentTarget.style.background = "rgba(212,175,55,0.06)";
+                            e.currentTarget.style.background = "rgba(0,255,136,0.06)";
                           }}
                           onMouseLeave={(e) => {
                             e.currentTarget.style.color = "#8A8AA8";
@@ -253,7 +253,7 @@ export default function Navbar() {
                   <Bell size={16} />
                   <span
                     className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full"
-                    style={{ background: "#D4AF37", boxShadow: "0 0 5px #D4AF37" }}
+                    style={{ background: "#00FF88", boxShadow: "0 0 5px #00FF88" }}
                   />
                 </button>
 
@@ -262,7 +262,7 @@ export default function Navbar() {
                     className="absolute right-0 top-full mt-2 w-80 rounded-2xl py-1 z-50"
                     style={{
                       background: "rgba(11,11,22,0.98)",
-                      border: "1px solid rgba(212,175,55,0.12)",
+                      border: "1px solid rgba(0,255,136,0.12)",
                       backdropFilter: "blur(24px)",
                       boxShadow: "0 24px 64px rgba(0,0,0,0.6)",
                     }}
@@ -272,7 +272,7 @@ export default function Navbar() {
                       style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}
                     >
                       <span className="text-sm font-bold" style={{ color: "#F2F2F8" }}>Notifications</span>
-                      <button className="text-xs font-semibold" style={{ color: "#D4AF37" }}>Mark all read</button>
+                      <button className="text-xs font-semibold" style={{ color: "#00FF88" }}>Mark all read</button>
                     </div>
                     {[
                       { icon: "🙏", text: "3 people prayed for your request", time: "2m ago", unread: true },
@@ -284,20 +284,20 @@ export default function Navbar() {
                       <div
                         key={i}
                         className="flex items-start gap-3 px-4 py-3 cursor-pointer"
-                        style={{ background: n.unread ? "rgba(212,175,55,0.03)" : "transparent" }}
+                        style={{ background: n.unread ? "rgba(0,255,136,0.03)" : "transparent" }}
                         onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.03)")}
-                        onMouseLeave={(e) => (e.currentTarget.style.background = n.unread ? "rgba(212,175,55,0.03)" : "transparent")}
+                        onMouseLeave={(e) => (e.currentTarget.style.background = n.unread ? "rgba(0,255,136,0.03)" : "transparent")}
                       >
                         <span className="text-base shrink-0">{n.icon}</span>
                         <div className="flex-1 min-w-0">
                           <p className="text-xs leading-snug" style={{ color: n.unread ? "#D0D0E8" : "#6A6A88" }}>{n.text}</p>
                           <p className="text-xs mt-0.5" style={{ color: "#4A4A68" }}>{n.time}</p>
                         </div>
-                        {n.unread && <div className="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0" style={{ background: "#D4AF37" }} />}
+                        {n.unread && <div className="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0" style={{ background: "#00FF88" }} />}
                       </div>
                     ))}
                     <div className="px-4 py-2" style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}>
-                      <a href="/notifications" className="text-xs font-semibold block text-center py-1.5" style={{ color: "#D4AF37" }}>
+                      <a href="/notifications" className="text-xs font-semibold block text-center py-1.5" style={{ color: "#00FF88" }}>
                         View all notifications
                       </a>
                     </div>
@@ -346,7 +346,7 @@ export default function Navbar() {
                 <div key={link.label}>
                   <button
                     className="w-full text-left flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-semibold"
-                    style={{ color: activeDropdown === link.label ? "#D4AF37" : "#C0C0D8" }}
+                    style={{ color: activeDropdown === link.label ? "#00FF88" : "#C0C0D8" }}
                     onClick={() => setActiveDropdown(activeDropdown === link.label ? null : link.label)}
                   >
                     {link.label}
@@ -356,7 +356,7 @@ export default function Navbar() {
                     />
                   </button>
                   {activeDropdown === link.label && (
-                    <div className="ml-3 mb-1 space-y-0.5" style={{ borderLeft: "2px solid rgba(212,175,55,0.15)", paddingLeft: "12px" }}>
+                    <div className="ml-3 mb-1 space-y-0.5" style={{ borderLeft: "2px solid rgba(0,255,136,0.15)", paddingLeft: "12px" }}>
                       {link.children.map((child) => (
                         <a
                           key={child.label}

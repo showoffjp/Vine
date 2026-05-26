@@ -49,7 +49,7 @@ function Toggle({
         height: 26,
         borderRadius: 13,
         background: value
-          ? "linear-gradient(135deg, #C9A227, #E8C840)"
+          ? "linear-gradient(135deg, #00CC66, #00FF88)"
           : "#2A2A44",
         border: "none",
         cursor: "pointer",
@@ -231,7 +231,7 @@ function AccountTab() {
                 width: 80,
                 height: 80,
                 borderRadius: "50%",
-                background: "linear-gradient(135deg, #6B4FBB, #D4AF37)",
+                background: "linear-gradient(135deg, #6B4FBB, #00FF88)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -269,7 +269,7 @@ function AccountTab() {
             </div>
             <button
               style={{
-                background: "linear-gradient(135deg, #C9A227, #E8C840)",
+                background: "linear-gradient(135deg, #00CC66, #00FF88)",
                 color: "#07070F",
                 fontWeight: 700,
                 fontSize: 12,
@@ -356,7 +356,7 @@ function AccountTab() {
 
       <button
         style={{
-          background: "linear-gradient(135deg, #C9A227, #E8C840)",
+          background: "linear-gradient(135deg, #00CC66, #00FF88)",
           color: "#07070F",
           fontWeight: 700,
           fontSize: 15,
@@ -500,7 +500,7 @@ function RadioGroup({
                 width: 18,
                 height: 18,
                 borderRadius: "50%",
-                border: `2px solid ${value === opt.value ? "#D4AF37" : "#2A2A44"}`,
+                border: `2px solid ${value === opt.value ? "#00FF88" : "#2A2A44"}`,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -513,7 +513,7 @@ function RadioGroup({
                     width: 8,
                     height: 8,
                     borderRadius: "50%",
-                    background: "#D4AF37",
+                    background: "#00FF88",
                   }}
                 />
               )}
@@ -673,7 +673,7 @@ function AppearanceTab() {
               key={t.id}
               style={{
                 flex: 1,
-                border: `2px solid ${!t.available ? "#1E1E32" : t.id === "dark" ? "#D4AF37" : "#1E1E32"}`,
+                border: `2px solid ${!t.available ? "#1E1E32" : t.id === "dark" ? "#00FF88" : "#1E1E32"}`,
                 borderRadius: 12,
                 padding: "16px 12px",
                 textAlign: "center",
@@ -714,7 +714,7 @@ function AppearanceTab() {
                     width: 20,
                     height: 20,
                     borderRadius: "50%",
-                    background: "#D4AF37",
+                    background: "#00FF88",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -755,7 +755,7 @@ function AppearanceTab() {
                   cursor: "pointer",
                   background:
                     fontSize === size
-                      ? "linear-gradient(135deg, #C9A227, #E8C840)"
+                      ? "linear-gradient(135deg, #00CC66, #00FF88)"
                       : "transparent",
                   color: fontSize === size ? "#07070F" : "#8A8AA8",
                   transition: "all 0.2s",
@@ -869,13 +869,13 @@ function FaithProfileTab() {
               max={50}
               value={years}
               onChange={(e) => setYears(Number(e.target.value))}
-              style={{ flex: 1, accentColor: "#D4AF37" }}
+              style={{ flex: 1, accentColor: "#00FF88" }}
             />
             <span
               style={{
                 fontSize: 15,
                 fontWeight: 700,
-                color: "#D4AF37",
+                color: "#00FF88",
                 minWidth: 40,
                 textAlign: "right",
               }}
@@ -916,9 +916,9 @@ function FaithProfileTab() {
                   style={{
                     padding: "7px 14px",
                     borderRadius: 20,
-                    border: `1px solid ${selected ? "#D4AF37" : "#1E1E32"}`,
-                    background: selected ? "rgba(212,175,55,0.12)" : "transparent",
-                    color: selected ? "#D4AF37" : "#8A8AA8",
+                    border: `1px solid ${selected ? "#00FF88" : "#1E1E32"}`,
+                    background: selected ? "rgba(0,255,136,0.12)" : "transparent",
+                    color: selected ? "#00FF88" : "#8A8AA8",
                     fontSize: 13,
                     fontWeight: 600,
                     cursor: "pointer",
@@ -966,7 +966,7 @@ function ReadingPlansTab() {
           <div
             style={{
               background:
-                "linear-gradient(135deg, rgba(107,79,187,0.2), rgba(212,175,55,0.1))",
+                "linear-gradient(135deg, rgba(107,79,187,0.2), rgba(0,255,136,0.1))",
               border: "1px solid #2A2A44",
               borderRadius: 12,
               padding: 18,
@@ -988,13 +988,13 @@ function ReadingPlansTab() {
               </div>
               <div
                 style={{
-                  background: "rgba(212,175,55,0.15)",
-                  border: "1px solid rgba(212,175,55,0.3)",
+                  background: "rgba(0,255,136,0.15)",
+                  border: "1px solid rgba(0,255,136,0.3)",
                   borderRadius: 6,
                   padding: "4px 10px",
                   fontSize: 12,
                   fontWeight: 700,
-                  color: "#D4AF37",
+                  color: "#00FF88",
                 }}
               >
                 🔥 14-day streak
@@ -1013,7 +1013,7 @@ function ReadingPlansTab() {
                 style={{
                   height: "100%",
                   width: `${(22 / 90) * 100}%`,
-                  background: "linear-gradient(90deg, #6B4FBB, #D4AF37)",
+                  background: "linear-gradient(90deg, #6B4FBB, #00FF88)",
                   borderRadius: 6,
                 }}
               />
@@ -1038,7 +1038,7 @@ function ReadingPlansTab() {
               width: "auto",
               fontWeight: 700,
               fontSize: 16,
-              color: "#D4AF37",
+              color: "#00FF88",
             }}
           />
         </div>
@@ -1054,9 +1054,9 @@ function ReadingPlansTab() {
                 style={{
                   padding: "8px 18px",
                   borderRadius: 8,
-                  border: `1px solid ${translation === t ? "#D4AF37" : "#1E1E32"}`,
-                  background: translation === t ? "rgba(212,175,55,0.12)" : "transparent",
-                  color: translation === t ? "#D4AF37" : "#8A8AA8",
+                  border: `1px solid ${translation === t ? "#00FF88" : "#1E1E32"}`,
+                  background: translation === t ? "rgba(0,255,136,0.12)" : "transparent",
+                  color: translation === t ? "#00FF88" : "#8A8AA8",
                   fontSize: 13,
                   fontWeight: 700,
                   cursor: "pointer",
@@ -1201,7 +1201,7 @@ function ConnectionsTab() {
         <div style={{ padding: "16px 20px" }}>
           <button
             style={{
-              background: "linear-gradient(135deg, #C9A227, #E8C840)",
+              background: "linear-gradient(135deg, #00CC66, #00FF88)",
               color: "#07070F",
               fontWeight: 700,
               fontSize: 13,
@@ -1285,8 +1285,8 @@ function BillingTab() {
       <div
         style={{
           background:
-            "linear-gradient(135deg, rgba(212,175,55,0.08), rgba(107,79,187,0.12))",
-          border: "1px solid rgba(212,175,55,0.25)",
+            "linear-gradient(135deg, rgba(0,255,136,0.08), rgba(107,79,187,0.12))",
+          border: "1px solid rgba(0,255,136,0.25)",
           borderRadius: 16,
           padding: 24,
           position: "relative",
@@ -1299,7 +1299,7 @@ function BillingTab() {
             position: "absolute",
             top: 16,
             right: -24,
-            background: "linear-gradient(135deg, #C9A227, #E8C840)",
+            background: "linear-gradient(135deg, #00CC66, #00FF88)",
             color: "#07070F",
             fontSize: 10,
             fontWeight: 900,
@@ -1318,7 +1318,7 @@ function BillingTab() {
               fontSize: 11,
               fontWeight: 700,
               letterSpacing: "0.1em",
-              color: "#D4AF37",
+              color: "#00FF88",
               textTransform: "uppercase",
             }}
           >
@@ -1339,7 +1339,7 @@ function BillingTab() {
           {proFeatures.map((f) => (
             <div
               key={f}
-              style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "#D4AF37" }}
+              style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "#00FF88" }}
             >
               <Check size={14} />
               {f}
@@ -1350,7 +1350,7 @@ function BillingTab() {
         <button
           disabled
           style={{
-            background: "linear-gradient(135deg, #C9A227, #E8C840)",
+            background: "linear-gradient(135deg, #00CC66, #00FF88)",
             color: "#07070F",
             fontWeight: 700,
             fontSize: 14,
@@ -1448,10 +1448,10 @@ export default function SettingsPage() {
                     gap: 10,
                     width: "100%",
                     padding: "11px 18px",
-                    background: active ? "rgba(212,175,55,0.08)" : "transparent",
+                    background: active ? "rgba(0,255,136,0.08)" : "transparent",
                     border: "none",
-                    borderLeft: `3px solid ${active ? "#D4AF37" : "transparent"}`,
-                    color: active ? "#D4AF37" : "#8A8AA8",
+                    borderLeft: `3px solid ${active ? "#00FF88" : "transparent"}`,
+                    color: active ? "#00FF88" : "#8A8AA8",
                     fontSize: 14,
                     fontWeight: active ? 700 : 500,
                     cursor: "pointer",

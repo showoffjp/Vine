@@ -8,7 +8,7 @@ import { useState } from "react";
 const periods = ["This Week", "This Month", "All Time"];
 
 const categories = [
-  { label: "Overall", icon: Trophy, color: "#D4AF37" },
+  { label: "Overall", icon: Trophy, color: "#00FF88" },
   { label: "Most Helpful", icon: Heart, color: "#EC4899" },
   { label: "Prayer Warriors", icon: Shield, color: "#6B4FBB" },
   { label: "Top Teachers", icon: BookOpen, color: "#3B82F6" },
@@ -17,7 +17,7 @@ const categories = [
 ];
 
 const badges = [
-  { emoji: "🏆", name: "Gold Vine", desc: "Top 1% contributor", color: "#D4AF37" },
+  { emoji: "🏆", name: "Gold Vine", desc: "Top 1% contributor", color: "#00FF88" },
   { emoji: "🔥", name: "Fire Keeper", desc: "30-day streak", color: "#EF4444" },
   { emoji: "🙏", name: "Prayer Warrior", desc: "500+ prayers offered", color: "#6B4FBB" },
   { emoji: "📖", name: "Word Keeper", desc: "365-day reading plan", color: "#3B82F6" },
@@ -33,7 +33,7 @@ const leaderboards: Record<string, Array<{
   badges: string[]; change: "up" | "down" | "same";
 }>> = {
   Overall: [
-    { rank: 1, name: "Amara Osei", flag: "🇬🇭", avatar: "AO", color: "#D4AF37", location: "Accra, Ghana", score: 48920, unit: "pts", streak: 127, badges: ["🏆", "🔥", "🙏"], change: "same" },
+    { rank: 1, name: "Amara Osei", flag: "🇬🇭", avatar: "AO", color: "#00FF88", location: "Accra, Ghana", score: 48920, unit: "pts", streak: 127, badges: ["🏆", "🔥", "🙏"], change: "same" },
     { rank: 2, name: "Ji-Woo Park", flag: "🇰🇷", avatar: "JP", color: "#6B4FBB", location: "Seoul, South Korea", score: 41304, unit: "pts", streak: 89, badges: ["🔥", "📖", "✝️"], change: "up" },
     { rank: 3, name: "Isabella Ferreira", flag: "🇧🇷", avatar: "IF", color: "#EF4444", location: "Mozambique", score: 38817, unit: "pts", streak: 203, badges: ["🌍", "🙏", "🏆"], change: "up" },
     { rank: 4, name: "Samuel Mwangi", flag: "🇰🇪", avatar: "SM", color: "#3B82F6", location: "Nairobi, Kenya", score: 35102, unit: "pts", streak: 54, badges: ["💡", "❤️"], change: "down" },
@@ -47,7 +47,7 @@ const leaderboards: Record<string, Array<{
   "Prayer Warriors": [
     { rank: 1, name: "Isabella Ferreira", flag: "🇧🇷", avatar: "IF", color: "#EF4444", location: "Mozambique", score: 2847, unit: "prayers", streak: 203, badges: ["🙏", "🌍"], change: "same" },
     { rank: 2, name: "Rev. David Osei", flag: "🇬🇭", avatar: "DO", color: "#F59E0B", location: "Kumasi, Ghana", score: 2301, unit: "prayers", streak: 67, badges: ["🙏", "📖"], change: "up" },
-    { rank: 3, name: "Amara Osei", flag: "🇬🇭", avatar: "AO", color: "#D4AF37", location: "Accra, Ghana", score: 2104, unit: "prayers", streak: 127, badges: ["🙏", "🏆"], change: "down" },
+    { rank: 3, name: "Amara Osei", flag: "🇬🇭", avatar: "AO", color: "#00FF88", location: "Accra, Ghana", score: 2104, unit: "prayers", streak: 127, badges: ["🙏", "🏆"], change: "down" },
     { rank: 4, name: "Carlos Mendez", flag: "🇨🇴", avatar: "CM", color: "#10B981", location: "Bogotá, Colombia", score: 1892, unit: "prayers", streak: 156, badges: ["🙏", "✝️"], change: "same" },
     { rank: 5, name: "Fatima Al-Rashid", flag: "🇱🇧", avatar: "FA", color: "#EF4444", location: "Lebanon", score: 1634, unit: "prayers", streak: 88, badges: ["🙏", "❤️"], change: "up" },
   ],
@@ -63,11 +63,11 @@ const leaderboards: Record<string, Array<{
     { rank: 2, name: "Isabella Ferreira", flag: "🇧🇷", avatar: "IF", color: "#EF4444", location: "Mozambique", score: 38, unit: "countries", streak: 203, badges: ["🌍", "🙏"], change: "up" },
     { rank: 3, name: "Fatima Al-Rashid", flag: "🇱🇧", avatar: "FA", color: "#EF4444", location: "Lebanon", score: 31, unit: "countries", streak: 88, badges: ["🌍", "❤️"], change: "same" },
     { rank: 4, name: "Carlos Mendez", flag: "🇨🇴", avatar: "CM", color: "#10B981", location: "Bogotá, Colombia", score: 24, unit: "countries", streak: 156, badges: ["🌍", "✝️"], change: "down" },
-    { rank: 5, name: "Amara Osei", flag: "🇬🇭", avatar: "AO", color: "#D4AF37", location: "Accra, Ghana", score: 19, unit: "countries", streak: 127, badges: ["🌍", "🏆"], change: "up" },
+    { rank: 5, name: "Amara Osei", flag: "🇬🇭", avatar: "AO", color: "#00FF88", location: "Accra, Ghana", score: 19, unit: "countries", streak: 127, badges: ["🌍", "🏆"], change: "up" },
   ],
 };
 
-const rankColors: Record<number, string> = { 1: "#D4AF37", 2: "#C0C0C0", 3: "#CD7F32" };
+const rankColors: Record<number, string> = { 1: "#00FF88", 2: "#C0C0C0", 3: "#CD7F32" };
 const changeIcon: Record<string, string> = { up: "↑", down: "↓", same: "—" };
 const changeColor: Record<string, string> = { up: "#10B981", down: "#EF4444", same: "#4A4A68" };
 
@@ -85,12 +85,12 @@ export default function LeaderboardPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
           <div className="text-center max-w-2xl mx-auto">
             <div className="flex items-center justify-center gap-2 mb-4">
-              <Trophy size={22} style={{ color: "#D4AF37" }} />
-              <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#D4AF37" }}>Community Champions</span>
+              <Trophy size={22} style={{ color: "#00FF88" }} />
+              <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#00FF88" }}>Community Champions</span>
             </div>
             <h1 className="text-4xl sm:text-5xl font-black mb-5">
               Top{" "}
-              <span style={{ background: "linear-gradient(135deg, #D4AF37, #6B4FBB)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+              <span style={{ background: "linear-gradient(135deg, #00FF88, #6B4FBB)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
                 Contributors
               </span>
             </h1>
@@ -109,9 +109,9 @@ export default function LeaderboardPage() {
                 onClick={() => setActivePeriod(p)}
                 className="px-5 py-2 rounded-xl text-sm font-semibold transition-all"
                 style={{
-                  background: activePeriod === p ? "#D4AF37" : "rgba(255,255,255,0.04)",
+                  background: activePeriod === p ? "#00FF88" : "rgba(255,255,255,0.04)",
                   color: activePeriod === p ? "#000" : "#6A6A88",
-                  border: `1px solid ${activePeriod === p ? "#D4AF37" : "rgba(255,255,255,0.08)"}`,
+                  border: `1px solid ${activePeriod === p ? "#00FF88" : "rgba(255,255,255,0.08)"}`,
                 }}
               >
                 {p}
@@ -151,7 +151,7 @@ export default function LeaderboardPage() {
                     className="rounded-2xl p-5 relative overflow-hidden"
                     style={{
                       background: entry.rank === 1
-                        ? "linear-gradient(135deg, rgba(212,175,55,0.12) 0%, rgba(7,7,15,1) 100%)"
+                        ? "linear-gradient(135deg, rgba(0,255,136,0.12) 0%, rgba(7,7,15,1) 100%)"
                         : "rgba(255,255,255,0.02)",
                       border: `1px solid ${rankColors[entry.rank] ?? "rgba(255,255,255,0.06)"}30`,
                     }}
@@ -217,7 +217,7 @@ export default function LeaderboardPage() {
                     key={entry.rank}
                     className="flex items-center gap-4 p-4 rounded-xl transition-all"
                     style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.04)" }}
-                    onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(212,175,55,0.15)"; e.currentTarget.style.background = "rgba(212,175,55,0.02)"; }}
+                    onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(0,255,136,0.15)"; e.currentTarget.style.background = "rgba(0,255,136,0.02)"; }}
                     onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.04)"; e.currentTarget.style.background = "rgba(255,255,255,0.02)"; }}
                   >
                     {/* Rank */}
@@ -275,9 +275,9 @@ export default function LeaderboardPage() {
               {/* Join CTA */}
               <div
                 className="mt-6 rounded-2xl p-6 text-center"
-                style={{ background: "linear-gradient(135deg, rgba(212,175,55,0.06) 0%, rgba(107,79,187,0.06) 100%)", border: "1px solid rgba(212,175,55,0.15)" }}
+                style={{ background: "linear-gradient(135deg, rgba(0,255,136,0.06) 0%, rgba(107,79,187,0.06) 100%)", border: "1px solid rgba(0,255,136,0.15)" }}
               >
-                <Crown size={24} style={{ color: "#D4AF37" }} className="mx-auto mb-3" />
+                <Crown size={24} style={{ color: "#00FF88" }} className="mx-auto mb-3" />
                 <p className="font-black text-base mb-1" style={{ color: "#F2F2F8" }}>Your rank: Not yet on the board</p>
                 <p className="text-sm mb-4" style={{ color: "#6A6A88" }}>
                   Start contributing — pray, teach, connect, encourage — and earn your place.
@@ -285,7 +285,7 @@ export default function LeaderboardPage() {
                 <a
                   href="/feed"
                   className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl font-bold text-sm text-black"
-                  style={{ background: "linear-gradient(135deg, #D4AF37, #B8942C)" }}
+                  style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)" }}
                 >
                   Start Contributing <ChevronRight size={14} />
                 </a>

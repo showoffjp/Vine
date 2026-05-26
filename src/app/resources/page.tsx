@@ -79,11 +79,11 @@ const resources = [
     rating: 4.9,
     saves: 8109,
     topic: "Faith Basics",
-    topicColor: "#D4AF37",
+    topicColor: "#00FF88",
   },
   {
     type: "Audio",
-    typeColor: "#D4AF37",
+    typeColor: "#00FF88",
     title: "Financially Faithful: Managing Money God's Way",
     excerpt: "A podcast series covering tithing, budgeting, debt freedom, and investing from a biblically grounded perspective...",
     author: "Marcus & Joy Williams",
@@ -163,7 +163,7 @@ const resources = [
     rating: 4.8,
     saves: 5670,
     topic: "Faith Basics",
-    topicColor: "#D4AF37",
+    topicColor: "#00FF88",
   },
 ];
 
@@ -174,11 +174,11 @@ function StarRating({ rating }: { rating: number }) {
         <Star
           key={s}
           size={11}
-          fill={s <= Math.floor(rating) ? "#D4AF37" : "none"}
-          style={{ color: s <= Math.floor(rating) ? "#D4AF37" : "#3A3A58" }}
+          fill={s <= Math.floor(rating) ? "#00FF88" : "none"}
+          style={{ color: s <= Math.floor(rating) ? "#00FF88" : "#3A3A58" }}
         />
       ))}
-      <span className="text-xs ml-1 font-semibold" style={{ color: "#D4AF37" }}>
+      <span className="text-xs ml-1 font-semibold" style={{ color: "#00FF88" }}>
         {rating}
       </span>
     </div>
@@ -188,7 +188,7 @@ function StarRating({ rating }: { rating: number }) {
 function FilterSection({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div className="mb-5">
-      <h4 className="text-[10px] font-black uppercase tracking-widest mb-2.5" style={{ color: "#D4AF37" }}>
+      <h4 className="text-[10px] font-black uppercase tracking-widest mb-2.5" style={{ color: "#00FF88" }}>
         {title}
       </h4>
       {children}
@@ -206,7 +206,7 @@ export default function ResourcesPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
             <div>
-              <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: "#D4AF37" }}>
+              <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: "#00FF88" }}>
                 Resource Library
               </p>
               <h1 className="text-3xl sm:text-4xl font-black" style={{ color: "#F2F2F8" }}>
@@ -244,7 +244,7 @@ export default function ResourcesPage() {
               >
                 <div className="flex items-center justify-between mb-5">
                   <span className="text-sm font-bold" style={{ color: "#F2F2F8" }}>Filters</span>
-                  <button className="text-xs font-semibold" style={{ color: "#D4AF37" }}>
+                  <button className="text-xs font-semibold" style={{ color: "#00FF88" }}>
                     Clear all
                   </button>
                 </div>
@@ -257,17 +257,17 @@ export default function ResourcesPage() {
                         key={cat.name}
                         className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-left transition-all duration-150 hover:bg-[#18182A]"
                         style={{
-                          background: i === 0 ? "rgba(212,175,55,0.08)" : "transparent",
+                          background: i === 0 ? "rgba(0,255,136,0.08)" : "transparent",
                         }}
                       >
                         {i === 0 ? (
-                          <CheckSquare size={13} style={{ color: "#D4AF37" }} />
+                          <CheckSquare size={13} style={{ color: "#00FF88" }} />
                         ) : (
                           <Square size={13} style={{ color: "#4A4A68" }} />
                         )}
                         <span
                           className="text-xs flex-1"
-                          style={{ color: i === 0 ? "#D4AF37" : "#8A8AA8" }}
+                          style={{ color: i === 0 ? "#00FF88" : "#8A8AA8" }}
                         >
                           {cat.name}
                         </span>
@@ -287,9 +287,9 @@ export default function ResourcesPage() {
                         key={topic}
                         className="text-[10px] font-semibold px-2.5 py-1 rounded-full transition-all duration-150"
                         style={{
-                          background: i === 1 ? "rgba(212,175,55,0.12)" : "rgba(255,255,255,0.04)",
-                          border: i === 1 ? "1px solid rgba(212,175,55,0.3)" : "1px solid #1E1E32",
-                          color: i === 1 ? "#D4AF37" : "#6A6A88",
+                          background: i === 1 ? "rgba(0,255,136,0.12)" : "rgba(255,255,255,0.04)",
+                          border: i === 1 ? "1px solid rgba(0,255,136,0.3)" : "1px solid #1E1E32",
+                          color: i === 1 ? "#00FF88" : "#6A6A88",
                         }}
                       >
                         {topic}
@@ -337,11 +337,11 @@ export default function ResourcesPage() {
                         className="w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-left transition hover:bg-[#18182A]"
                       >
                         {i === 0 ? (
-                          <CheckSquare size={13} style={{ color: "#D4AF37" }} />
+                          <CheckSquare size={13} style={{ color: "#00FF88" }} />
                         ) : (
                           <Square size={13} style={{ color: "#4A4A68" }} />
                         )}
-                        <span className="text-xs" style={{ color: i === 0 ? "#D4AF37" : "#8A8AA8" }}>{s}</span>
+                        <span className="text-xs" style={{ color: i === 0 ? "#00FF88" : "#8A8AA8" }}>{s}</span>
                       </button>
                     ))}
                   </div>
@@ -355,7 +355,7 @@ export default function ResourcesPage() {
               <div className="flex flex-wrap items-center gap-3 mb-5">
                 <span className="text-sm font-semibold" style={{ color: "#F2F2F8" }}>
                   Showing{" "}
-                  <span style={{ color: "#D4AF37" }}>2,847</span> resources
+                  <span style={{ color: "#00FF88" }}>2,847</span> resources
                 </span>
                 <div className="flex items-center gap-2 flex-wrap">
                   {["Mental Health", "Articles"].map((pill) => (
@@ -363,9 +363,9 @@ export default function ResourcesPage() {
                       key={pill}
                       className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full"
                       style={{
-                        background: "rgba(212,175,55,0.08)",
-                        border: "1px solid rgba(212,175,55,0.2)",
-                        color: "#D4AF37",
+                        background: "rgba(0,255,136,0.08)",
+                        border: "1px solid rgba(0,255,136,0.2)",
+                        color: "#00FF88",
                       }}
                     >
                       {pill}
@@ -390,7 +390,7 @@ export default function ResourcesPage() {
               <div
                 className="rounded-2xl p-6 mb-6 relative overflow-hidden"
                 style={{
-                  background: "linear-gradient(135deg, rgba(107,79,187,0.18) 0%, rgba(212,175,55,0.08) 100%)",
+                  background: "linear-gradient(135deg, rgba(107,79,187,0.18) 0%, rgba(0,255,136,0.08) 100%)",
                   border: "1px solid rgba(107,79,187,0.3)",
                 }}
               >
@@ -485,7 +485,7 @@ export default function ResourcesPage() {
                       </span>
                     </div>
 
-                    <h3 className="text-sm font-bold leading-snug mb-2 flex-1 group-hover:text-[#D4AF37] transition-colors" style={{ color: "#F2F2F8" }}>
+                    <h3 className="text-sm font-bold leading-snug mb-2 flex-1 group-hover:text-[#00FF88] transition-colors" style={{ color: "#F2F2F8" }}>
                       {r.title}
                     </h3>
                     <p className="text-xs leading-relaxed mb-3 line-clamp-2" style={{ color: "#6A6A88" }}>
@@ -545,9 +545,9 @@ export default function ResourcesPage() {
                     key={i}
                     className="w-9 h-9 rounded-lg text-sm font-semibold transition-all duration-150"
                     style={{
-                      background: page === 1 ? "rgba(212,175,55,0.15)" : "transparent",
-                      border: page === 1 ? "1px solid rgba(212,175,55,0.3)" : "1px solid #1E1E32",
-                      color: page === 1 ? "#D4AF37" : page === "..." ? "#4A4A68" : "#8A8AA8",
+                      background: page === 1 ? "rgba(0,255,136,0.15)" : "transparent",
+                      border: page === 1 ? "1px solid rgba(0,255,136,0.3)" : "1px solid #1E1E32",
+                      color: page === 1 ? "#00FF88" : page === "..." ? "#4A4A68" : "#8A8AA8",
                     }}
                   >
                     {page}

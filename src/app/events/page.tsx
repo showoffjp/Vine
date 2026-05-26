@@ -105,7 +105,7 @@ const events: EventItem[] = [
     attendees: "1,820",
     price: "Free",
     cta: "Register",
-    accentColor: "#D4AF37",
+    accentColor: "#00FF88",
   },
   {
     month: "JUL",
@@ -189,7 +189,7 @@ const events: EventItem[] = [
     attendees: "12,000",
     price: "Free",
     cta: "Register",
-    accentColor: "#D4AF37",
+    accentColor: "#00FF88",
   },
   {
     month: "OCT",
@@ -240,7 +240,7 @@ export default function EventsPage() {
             className="absolute inset-0"
             style={{
               background:
-                "radial-gradient(ellipse 80% 60% at 50% 0%, rgba(107,79,187,0.12) 0%, rgba(212,175,55,0.06) 40%, transparent 70%)",
+                "radial-gradient(ellipse 80% 60% at 50% 0%, rgba(107,79,187,0.12) 0%, rgba(0,255,136,0.06) 40%, transparent 70%)",
             }}
           />
           <div className="relative max-w-3xl mx-auto">
@@ -258,7 +258,7 @@ export default function EventsPage() {
               Events{" "}
               <span
                 style={{
-                  backgroundImage: "linear-gradient(90deg, #D4AF37 0%, #F0D060 50%, #D4AF37 100%)",
+                  backgroundImage: "linear-gradient(90deg, #00FF88 0%, #44FFAA 50%, #00FF88 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
@@ -300,7 +300,7 @@ export default function EventsPage() {
                     className="text-xs font-semibold px-4 py-2 rounded-full transition-all duration-150"
                     style={
                       i === 0
-                        ? { background: "linear-gradient(135deg, #D4AF37 0%, #B8960C 100%)", color: "#07070F" }
+                        ? { background: "linear-gradient(135deg, #00FF88 0%, #B8960C 100%)", color: "#07070F" }
                         : { background: "#12121F", color: "#8A8AA8", border: "1px solid #1E1E32" }
                     }
                   >
@@ -331,7 +331,7 @@ export default function EventsPage() {
               {/* Near Me toggle */}
               <button
                 className="flex items-center gap-2 text-xs font-semibold px-4 py-2 rounded-full"
-                style={{ background: "rgba(212,175,55,0.1)", color: "#D4AF37", border: "1px solid rgba(212,175,55,0.25)" }}
+                style={{ background: "rgba(0,255,136,0.1)", color: "#00FF88", border: "1px solid rgba(0,255,136,0.25)" }}
               >
                 <MapPin size={12} />
                 Near Me
@@ -347,7 +347,7 @@ export default function EventsPage() {
               </h2>
               <span
                 className="text-xs font-bold px-2.5 py-1 rounded-full"
-                style={{ background: "rgba(212,175,55,0.1)", color: "#D4AF37", border: "1px solid rgba(212,175,55,0.25)" }}
+                style={{ background: "rgba(0,255,136,0.1)", color: "#00FF88", border: "1px solid rgba(0,255,136,0.25)" }}
               >
                 Editor&apos;s Pick
               </span>
@@ -366,7 +366,7 @@ export default function EventsPage() {
                   className="absolute inset-0"
                   style={{
                     background:
-                      "radial-gradient(ellipse 50% 70% at 10% 50%, rgba(212,175,55,0.12) 0%, transparent 60%)",
+                      "radial-gradient(ellipse 50% 70% at 10% 50%, rgba(0,255,136,0.12) 0%, transparent 60%)",
                   }}
                 />
                 <div className="relative flex flex-wrap items-end gap-4">
@@ -374,9 +374,9 @@ export default function EventsPage() {
                     <span
                       className="inline-block text-[10px] font-bold px-2.5 py-0.5 rounded-full mb-2"
                       style={{
-                        background: "rgba(212,175,55,0.2)",
-                        color: "#D4AF37",
-                        border: "1px solid rgba(212,175,55,0.35)",
+                        background: "rgba(0,255,136,0.2)",
+                        color: "#00FF88",
+                        border: "1px solid rgba(0,255,136,0.35)",
                       }}
                     >
                       {featuredEvent.type}
@@ -392,11 +392,11 @@ export default function EventsPage() {
               <div className="p-6 sm:p-8">
                 <div className="flex flex-wrap gap-x-6 gap-y-2 mb-4">
                   <div className="flex items-center gap-2 text-sm" style={{ color: "#8A8AA8" }}>
-                    <Calendar size={14} style={{ color: "#D4AF37" }} />
+                    <Calendar size={14} style={{ color: "#00FF88" }} />
                     {featuredEvent.dates}
                   </div>
                   <div className="flex items-center gap-2 text-sm" style={{ color: "#8A8AA8" }}>
-                    <MapPin size={14} style={{ color: "#D4AF37" }} />
+                    <MapPin size={14} style={{ color: "#00FF88" }} />
                     {featuredEvent.location}
                   </div>
                   {featuredEvent.livestreamed && (
@@ -418,7 +418,7 @@ export default function EventsPage() {
                 <div className="flex flex-wrap items-center gap-3">
                   <button
                     className="px-7 py-3 rounded-xl text-sm font-black"
-                    style={{ background: "linear-gradient(135deg, #D4AF37 0%, #B8960C 100%)", color: "#07070F" }}
+                    style={{ background: "linear-gradient(135deg, #00FF88 0%, #B8960C 100%)", color: "#07070F" }}
                   >
                     Register Free
                   </button>
@@ -441,7 +441,7 @@ export default function EventsPage() {
                 <span className="text-sm" style={{ color: "#6A6A88" }}>Sort by:</span>
                 <button
                   className="flex items-center gap-1 text-sm font-semibold"
-                  style={{ color: "#D4AF37" }}
+                  style={{ color: "#00FF88" }}
                 >
                   Date
                   <ChevronDown size={14} />
@@ -469,8 +469,8 @@ export default function EventsPage() {
               className="flex items-center gap-2 px-8 py-3 rounded-xl text-sm font-bold"
               style={{
                 background: "transparent",
-                color: "#D4AF37",
-                border: "1px solid rgba(212,175,55,0.35)",
+                color: "#00FF88",
+                border: "1px solid rgba(0,255,136,0.35)",
               }}
             >
               Load More Events
@@ -569,7 +569,7 @@ function EventCard({ event }: { event: EventItem }) {
           </div>
           <p
             className="text-xs font-bold"
-            style={{ color: event.price === "Free" ? "#4FBBAA" : "#D4AF37" }}
+            style={{ color: event.price === "Free" ? "#4FBBAA" : "#00FF88" }}
           >
             {event.price}
           </p>
@@ -579,10 +579,10 @@ function EventCard({ event }: { event: EventItem }) {
           style={{
             background:
               event.price === "Free"
-                ? "linear-gradient(135deg, #D4AF37 0%, #B8960C 100%)"
+                ? "linear-gradient(135deg, #00FF88 0%, #B8960C 100%)"
                 : "transparent",
-            color: event.price === "Free" ? "#07070F" : "#D4AF37",
-            border: event.price === "Free" ? "none" : "1px solid rgba(212,175,55,0.35)",
+            color: event.price === "Free" ? "#07070F" : "#00FF88",
+            border: event.price === "Free" ? "none" : "1px solid rgba(0,255,136,0.35)",
           }}
         >
           {event.cta}

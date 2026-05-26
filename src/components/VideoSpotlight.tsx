@@ -27,7 +27,7 @@ const videos = [
     duration: "35:08",
     tag: "Worship",
     gradient: "linear-gradient(135deg, #1a1000 0%, #3d2800 100%)",
-    accentColor: "#D4AF37",
+    accentColor: "#00FF88",
   },
   {
     title: "5-Minute Morning Devotional: Psalm 23",
@@ -52,7 +52,7 @@ const videos = [
 const tagColors: Record<string, string> = {
   Sermon: "#6B4FBB",
   Testimony: "#2E7D52",
-  Worship: "#D4AF37",
+  Worship: "#00FF88",
   Devotional: "#1565C0",
   Teaching: "#B71C1C",
 };
@@ -126,10 +126,10 @@ export default function VideoSpotlight() {
                 marginBottom: "8px",
               }}
             >
-              <Video size={16} style={{ color: "#D4AF37" }} />
+              <Video size={16} style={{ color: "#00FF88" }} />
               <span
                 style={{
-                  color: "#D4AF37",
+                  color: "#00FF88",
                   fontSize: "0.75rem",
                   fontWeight: 700,
                   letterSpacing: "0.15em",
@@ -156,7 +156,7 @@ export default function VideoSpotlight() {
               display: "flex",
               alignItems: "center",
               gap: "6px",
-              color: "#D4AF37",
+              color: "#00FF88",
               fontWeight: 600,
               fontSize: "0.9rem",
               textDecoration: "none",
@@ -210,8 +210,8 @@ export default function VideoSpotlight() {
                   width: "72px",
                   height: "72px",
                   borderRadius: "50%",
-                  background: "rgba(212,175,55,0.15)",
-                  border: "2px solid rgba(212,175,55,0.6)",
+                  background: "rgba(0,255,136,0.15)",
+                  border: "2px solid rgba(0,255,136,0.6)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -222,8 +222,8 @@ export default function VideoSpotlight() {
                 <Play
                   size={28}
                   style={{
-                    color: "#D4AF37",
-                    fill: "#D4AF37",
+                    color: "#00FF88",
+                    fill: "#00FF88",
                     marginLeft: "4px",
                   }}
                 />
@@ -348,8 +348,8 @@ export default function VideoSpotlight() {
                       width: "40px",
                       height: "40px",
                       borderRadius: "50%",
-                      background: "rgba(212,175,55,0.15)",
-                      border: "1.5px solid rgba(212,175,55,0.5)",
+                      background: "rgba(0,255,136,0.15)",
+                      border: "1.5px solid rgba(0,255,136,0.5)",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
@@ -358,8 +358,8 @@ export default function VideoSpotlight() {
                     <Play
                       size={16}
                       style={{
-                        color: "#D4AF37",
-                        fill: "#D4AF37",
+                        color: "#00FF88",
+                        fill: "#00FF88",
                         marginLeft: "2px",
                       }}
                     />

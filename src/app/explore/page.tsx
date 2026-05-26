@@ -32,12 +32,12 @@ export const metadata: Metadata = { title: "Explore — Vine" };
 const trendingTopics = [
   { name: "Prayer & Fasting", posts: "12.4k posts", gradient: "linear-gradient(135deg, #6B4FBB 0%, #4F8FBB 100%)" },
   { name: "Gen Z & Church", posts: "9.8k posts", gradient: "linear-gradient(135deg, #BB4F7A 0%, #6B4FBB 100%)" },
-  { name: "Marriage & Faith", posts: "8.1k posts", gradient: "linear-gradient(135deg, #D4AF37 0%, #BB7A4F 100%)" },
+  { name: "Marriage & Faith", posts: "8.1k posts", gradient: "linear-gradient(135deg, #00FF88 0%, #BB7A4F 100%)" },
   { name: "Mental Health & God", posts: "14.2k posts", gradient: "linear-gradient(135deg, #4FBBAA 0%, #4F8FBB 100%)" },
   { name: "Christian AI Ethics", posts: "6.7k posts", gradient: "linear-gradient(135deg, #6B4FBB 0%, #BB4F7A 100%)" },
-  { name: "Deconstruction Stories", posts: "11.3k posts", gradient: "linear-gradient(135deg, #BB7A4F 0%, #D4AF37 100%)" },
+  { name: "Deconstruction Stories", posts: "11.3k posts", gradient: "linear-gradient(135deg, #BB7A4F 0%, #00FF88 100%)" },
   { name: "Apologetics Q&A", posts: "5.4k posts", gradient: "linear-gradient(135deg, #4F8FBB 0%, #4FBBAA 100%)" },
-  { name: "Worship Music 2025", posts: "7.9k posts", gradient: "linear-gradient(135deg, #D4AF37 0%, #4FBBAA 100%)" },
+  { name: "Worship Music 2025", posts: "7.9k posts", gradient: "linear-gradient(135deg, #00FF88 0%, #4FBBAA 100%)" },
 ];
 
 const forYouContent = [
@@ -67,7 +67,7 @@ const forYouContent = [
   },
   {
     type: "Podcast",
-    typeColor: "#D4AF37",
+    typeColor: "#00FF88",
     icon: Headphones,
     title: "How to Have Hard Conversations at Work as a Christian",
     meta: "Faith & Career · 41 min listen",
@@ -104,7 +104,7 @@ const popularPosts = [
     rank: 2,
     title: "After 22 years as an atheist, I walked into a church on a dare and didn't leave for 3 hours",
     hub: "Testimonies",
-    hubColor: "#D4AF37",
+    hubColor: "#00FF88",
     votes: 12304,
     comments: 1892,
   },
@@ -137,7 +137,7 @@ const popularPosts = [
 const creators = [
   { name: "Pastor Josh Rivera", handle: "@joshrivera", role: "Theology & Apologetics", followers: "48.2k", initials: "JR", color: "#6B4FBB" },
   { name: "Dr. Maya Chen", handle: "@drmayachen", role: "Faith & Mental Health", followers: "31.7k", initials: "MC", color: "#4FBBAA" },
-  { name: "The Bible Project", handle: "@bibleproject", role: "Scripture & Theology", followers: "124k", initials: "BP", color: "#D4AF37" },
+  { name: "The Bible Project", handle: "@bibleproject", role: "Scripture & Theology", followers: "124k", initials: "BP", color: "#00FF88" },
   { name: "Rachel & Tim Moore", handle: "@mooremarriage", role: "Christian Marriage", followers: "22.4k", initials: "RM", color: "#BB4F7A" },
   { name: "Emmanuel Okonkwo", handle: "@ekonkwo", role: "Worship & Discipleship", followers: "18.9k", initials: "EO", color: "#4F8FBB" },
 ];
@@ -147,7 +147,7 @@ const newToVine = [
     icon: Compass,
     title: "Start Here",
     desc: "Your 5-minute orientation to everything Vine offers",
-    color: "#D4AF37",
+    color: "#00FF88",
   },
   {
     icon: Zap,
@@ -175,12 +175,12 @@ const categories = [
   { name: "Relationships", icon: Heart, posts: "31.2k", color: "#BB4F7A", gradient: "linear-gradient(135deg, rgba(187,79,122,0.25), rgba(187,79,122,0.08))" },
   { name: "Parenting", icon: Baby, posts: "12.4k", color: "#BB7A4F", gradient: "linear-gradient(135deg, rgba(187,122,79,0.25), rgba(187,122,79,0.08))" },
   { name: "Career & Work", icon: Briefcase, posts: "9.8k", color: "#4F8FBB", gradient: "linear-gradient(135deg, rgba(79,143,187,0.25), rgba(79,143,187,0.08))" },
-  { name: "Apologetics", icon: Shield, posts: "7.2k", color: "#D4AF37", gradient: "linear-gradient(135deg, rgba(212,175,55,0.25), rgba(212,175,55,0.08))" },
+  { name: "Apologetics", icon: Shield, posts: "7.2k", color: "#00FF88", gradient: "linear-gradient(135deg, rgba(0,255,136,0.25), rgba(0,255,136,0.08))" },
   { name: "Worship", icon: Music, posts: "22.1k", color: "#BB4F7A", gradient: "linear-gradient(135deg, rgba(187,79,122,0.2), rgba(107,79,187,0.12))" },
   { name: "Global Church", icon: Globe, posts: "15.8k", color: "#4FBBAA", gradient: "linear-gradient(135deg, rgba(79,187,170,0.2), rgba(79,143,187,0.1))" },
   { name: "Community", icon: Users, posts: "41.3k", color: "#6B4FBB", gradient: "linear-gradient(135deg, rgba(107,79,187,0.2), rgba(79,187,170,0.08))" },
-  { name: "Daily Life", icon: Coffee, posts: "19.2k", color: "#BB7A4F", gradient: "linear-gradient(135deg, rgba(187,122,79,0.2), rgba(212,175,55,0.1))" },
-  { name: "Devotionals", icon: Star, posts: "28.4k", color: "#D4AF37", gradient: "linear-gradient(135deg, rgba(212,175,55,0.2), rgba(187,122,79,0.1))" },
+  { name: "Daily Life", icon: Coffee, posts: "19.2k", color: "#BB7A4F", gradient: "linear-gradient(135deg, rgba(187,122,79,0.2), rgba(0,255,136,0.1))" },
+  { name: "Devotionals", icon: Star, posts: "28.4k", color: "#00FF88", gradient: "linear-gradient(135deg, rgba(0,255,136,0.2), rgba(187,122,79,0.1))" },
   { name: "Trending Now", icon: TrendingUp, posts: "Live", color: "#FF6B6B", gradient: "linear-gradient(135deg, rgba(255,107,107,0.2), rgba(187,79,122,0.1))" },
 ];
 
@@ -203,8 +203,8 @@ export default function ExplorePage() {
           />
           <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
             <div className="flex items-center justify-center gap-2 mb-4">
-              <Sparkles size={16} style={{ color: "#D4AF37" }} />
-              <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#D4AF37" }}>
+              <Sparkles size={16} style={{ color: "#00FF88" }} />
+              <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#00FF88" }}>
                 Discover
               </span>
             </div>
@@ -224,7 +224,7 @@ export default function ExplorePage() {
                   background: "#12121F",
                   border: "1px solid #1E1E32",
                   color: "#F2F2F8",
-                  boxShadow: "0 0 0 1px rgba(212,175,55,0.05), 0 8px 32px rgba(0,0,0,0.3)",
+                  boxShadow: "0 0 0 1px rgba(0,255,136,0.05), 0 8px 32px rgba(0,0,0,0.3)",
                 }}
               />
             </div>
@@ -234,7 +234,7 @@ export default function ExplorePage() {
               {["Prayer", "Anxiety", "Marriage", "Salvation", "Fasting", "Apologetics"].map((tag) => (
                 <button
                   key={tag}
-                  className="text-xs px-3 py-1.5 rounded-full font-medium transition-all duration-200 hover:border-[rgba(212,175,55,0.4)] hover:text-[#D4AF37]"
+                  className="text-xs px-3 py-1.5 rounded-full font-medium transition-all duration-200 hover:border-[rgba(0,255,136,0.4)] hover:text-[#00FF88]"
                   style={{
                     border: "1px solid #1E1E32",
                     color: "#6A6A88",
@@ -254,10 +254,10 @@ export default function ExplorePage() {
           <section>
             <div className="flex items-center justify-between mb-5">
               <div className="flex items-center gap-2">
-                <Flame size={16} style={{ color: "#D4AF37" }} />
+                <Flame size={16} style={{ color: "#00FF88" }} />
                 <h2 className="text-lg font-black" style={{ color: "#F2F2F8" }}>Trending Topics</h2>
               </div>
-              <button className="flex items-center gap-1 text-xs font-semibold transition-colors hover:text-[#F0D060]" style={{ color: "#D4AF37" }}>
+              <button className="flex items-center gap-1 text-xs font-semibold transition-colors hover:text-[#44FFAA]" style={{ color: "#00FF88" }}>
                 See all <ChevronRight size={13} />
               </button>
             </div>
@@ -287,16 +287,16 @@ export default function ExplorePage() {
           <section>
             <div className="flex items-center justify-between mb-5">
               <div className="flex items-center gap-2">
-                <Star size={16} style={{ color: "#D4AF37" }} />
+                <Star size={16} style={{ color: "#00FF88" }} />
                 <h2 className="text-lg font-black" style={{ color: "#F2F2F8" }}>For You</h2>
                 <span
                   className="text-[10px] font-bold px-2 py-0.5 rounded-full"
-                  style={{ background: "rgba(212,175,55,0.1)", color: "#D4AF37", border: "1px solid rgba(212,175,55,0.2)" }}
+                  style={{ background: "rgba(0,255,136,0.1)", color: "#00FF88", border: "1px solid rgba(0,255,136,0.2)" }}
                 >
                   Personalized
                 </span>
               </div>
-              <button className="flex items-center gap-1 text-xs font-semibold" style={{ color: "#D4AF37" }}>
+              <button className="flex items-center gap-1 text-xs font-semibold" style={{ color: "#00FF88" }}>
                 See all <ChevronRight size={13} />
               </button>
             </div>
@@ -322,7 +322,7 @@ export default function ExplorePage() {
                         {item.type}
                       </span>
                       <h3
-                        className="text-sm font-bold leading-snug mt-0.5 mb-2 group-hover:text-[#D4AF37] transition-colors"
+                        className="text-sm font-bold leading-snug mt-0.5 mb-2 group-hover:text-[#00FF88] transition-colors"
                         style={{ color: "#F2F2F8" }}
                       >
                         {item.title}
@@ -342,10 +342,10 @@ export default function ExplorePage() {
           <section>
             <div className="flex items-center justify-between mb-5">
               <div className="flex items-center gap-2">
-                <TrendingUp size={16} style={{ color: "#D4AF37" }} />
+                <TrendingUp size={16} style={{ color: "#00FF88" }} />
                 <h2 className="text-lg font-black" style={{ color: "#F2F2F8" }}>Popular This Week</h2>
               </div>
-              <button className="flex items-center gap-1 text-xs font-semibold" style={{ color: "#D4AF37" }}>
+              <button className="flex items-center gap-1 text-xs font-semibold" style={{ color: "#00FF88" }}>
                 See all <ChevronRight size={13} />
               </button>
             </div>
@@ -360,7 +360,7 @@ export default function ExplorePage() {
                     className="text-3xl font-black flex-shrink-0 w-10 text-center"
                     style={{
                       color:
-                        post.rank === 1 ? "#D4AF37" :
+                        post.rank === 1 ? "#00FF88" :
                         post.rank === 2 ? "#A0A0C0" :
                         post.rank === 3 ? "#BB7A4F" :
                         "#3A3A58",
@@ -369,7 +369,7 @@ export default function ExplorePage() {
                     {post.rank}
                   </span>
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-bold text-sm leading-snug mb-1.5 group-hover:text-[#D4AF37] transition-colors" style={{ color: "#F2F2F8" }}>
+                    <h3 className="font-bold text-sm leading-snug mb-1.5 group-hover:text-[#00FF88] transition-colors" style={{ color: "#F2F2F8" }}>
                       {post.title}
                     </h3>
                     <div className="flex items-center gap-3">
@@ -395,10 +395,10 @@ export default function ExplorePage() {
           <section>
             <div className="flex items-center justify-between mb-5">
               <div className="flex items-center gap-2">
-                <Users size={16} style={{ color: "#D4AF37" }} />
+                <Users size={16} style={{ color: "#00FF88" }} />
                 <h2 className="text-lg font-black" style={{ color: "#F2F2F8" }}>Discover Creators</h2>
               </div>
-              <button className="flex items-center gap-1 text-xs font-semibold" style={{ color: "#D4AF37" }}>
+              <button className="flex items-center gap-1 text-xs font-semibold" style={{ color: "#00FF88" }}>
                 See all <ChevronRight size={13} />
               </button>
             </div>
@@ -434,9 +434,9 @@ export default function ExplorePage() {
                   <button
                     className="w-full py-1.5 rounded-xl text-xs font-bold transition-all duration-200"
                     style={{
-                      background: "rgba(212,175,55,0.08)",
-                      border: "1px solid rgba(212,175,55,0.2)",
-                      color: "#D4AF37",
+                      background: "rgba(0,255,136,0.08)",
+                      border: "1px solid rgba(0,255,136,0.2)",
+                      color: "#00FF88",
                     }}
                   >
                     Follow
@@ -449,7 +449,7 @@ export default function ExplorePage() {
           {/* NEW TO VINE */}
           <section>
             <div className="flex items-center gap-2 mb-5">
-              <Zap size={16} style={{ color: "#D4AF37" }} />
+              <Zap size={16} style={{ color: "#00FF88" }} />
               <h2 className="text-lg font-black" style={{ color: "#F2F2F8" }}>New to Vine?</h2>
               <span
                 className="text-[10px] font-bold px-2 py-0.5 rounded-full"
@@ -472,7 +472,7 @@ export default function ExplorePage() {
                     <item.icon size={20} style={{ color: item.color }} />
                   </div>
                   <h3
-                    className="font-bold text-sm mb-2 group-hover:text-[#D4AF37] transition-colors"
+                    className="font-bold text-sm mb-2 group-hover:text-[#00FF88] transition-colors"
                     style={{ color: "#F2F2F8" }}
                   >
                     {item.title}
@@ -492,7 +492,7 @@ export default function ExplorePage() {
           <section>
             <div className="flex items-center justify-between mb-5">
               <div className="flex items-center gap-2">
-                <Globe size={16} style={{ color: "#D4AF37" }} />
+                <Globe size={16} style={{ color: "#00FF88" }} />
                 <h2 className="text-lg font-black" style={{ color: "#F2F2F8" }}>All Categories</h2>
               </div>
             </div>

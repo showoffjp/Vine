@@ -16,7 +16,7 @@ const quotes = [
     author: "Corrie ten Boom",
     title: "Holocaust Survivor & Author",
     initials: "CTB",
-    color: "#D4AF37",
+    color: "#00FF88",
   },
   {
     text: "We must be ready to allow ourselves to be interrupted by God. God will be constantly crossing our paths and canceling our plans by sending us people with claims and petitions.",
@@ -87,7 +87,7 @@ export default function QuoteCarousel() {
           position: "absolute",
           inset: 0,
           background:
-            "radial-gradient(ellipse 70% 60% at 50% 50%, rgba(212,175,55,0.06) 0%, transparent 70%)",
+            "radial-gradient(ellipse 70% 60% at 50% 50%, rgba(0,255,136,0.06) 0%, transparent 70%)",
           pointerEvents: "none",
         }}
       />
@@ -105,7 +105,7 @@ export default function QuoteCarousel() {
         <div style={{ textAlign: "center", marginBottom: "48px" }}>
           <p
             style={{
-              color: "#D4AF37",
+              color: "#00FF88",
               fontSize: "0.75rem",
               fontWeight: 700,
               letterSpacing: "0.15em",
@@ -134,9 +134,9 @@ export default function QuoteCarousel() {
             background: "#12121F",
             borderRadius: "24px",
             padding: "56px 48px 48px",
-            border: "1px solid rgba(212,175,55,0.12)",
+            border: "1px solid rgba(0,255,136,0.12)",
             boxShadow:
-              "0 0 60px rgba(212,175,55,0.06), 0 0 0 1px rgba(212,175,55,0.06)",
+              "0 0 60px rgba(0,255,136,0.06), 0 0 0 1px rgba(0,255,136,0.06)",
             position: "relative",
             minHeight: "280px",
             display: "flex",
@@ -153,7 +153,7 @@ export default function QuoteCarousel() {
               position: "absolute",
               top: "24px",
               left: "32px",
-              color: "rgba(212,175,55,0.2)",
+              color: "rgba(0,255,136,0.2)",
             }}
           >
             <Quote size={48} />
@@ -202,7 +202,7 @@ export default function QuoteCarousel() {
           <div style={{ textAlign: "center" }}>
             <p
               style={{
-                color: "#D4AF37",
+                color: "#00FF88",
                 fontWeight: 700,
                 fontSize: "1rem",
                 marginBottom: "4px",
@@ -238,9 +238,9 @@ export default function QuoteCarousel() {
               width: "40px",
               height: "40px",
               borderRadius: "50%",
-              border: "1px solid rgba(212,175,55,0.3)",
+              border: "1px solid rgba(0,255,136,0.3)",
               background: "transparent",
-              color: "#D4AF37",
+              color: "#00FF88",
               cursor: "pointer",
               display: "flex",
               alignItems: "center",
@@ -249,7 +249,7 @@ export default function QuoteCarousel() {
             }}
             onMouseEnter={(e) => {
               (e.currentTarget as HTMLButtonElement).style.background =
-                "rgba(212,175,55,0.1)";
+                "rgba(0,255,136,0.1)";
             }}
             onMouseLeave={(e) => {
               (e.currentTarget as HTMLButtonElement).style.background =
@@ -272,7 +272,7 @@ export default function QuoteCarousel() {
                   borderRadius: "999px",
                   border: "none",
                   background:
-                    i === active ? "#D4AF37" : "rgba(212,175,55,0.25)",
+                    i === active ? "#00FF88" : "rgba(0,255,136,0.25)",
                   cursor: "pointer",
                   transition: "all 0.3s ease",
                   padding: 0,
@@ -289,9 +289,9 @@ export default function QuoteCarousel() {
               width: "40px",
               height: "40px",
               borderRadius: "50%",
-              border: "1px solid rgba(212,175,55,0.3)",
+              border: "1px solid rgba(0,255,136,0.3)",
               background: "transparent",
-              color: "#D4AF37",
+              color: "#00FF88",
               cursor: "pointer",
               display: "flex",
               alignItems: "center",
@@ -300,7 +300,7 @@ export default function QuoteCarousel() {
             }}
             onMouseEnter={(e) => {
               (e.currentTarget as HTMLButtonElement).style.background =
-                "rgba(212,175,55,0.1)";
+                "rgba(0,255,136,0.1)";
             }}
             onMouseLeave={(e) => {
               (e.currentTarget as HTMLButtonElement).style.background =

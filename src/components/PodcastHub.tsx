@@ -28,7 +28,7 @@ const podcasts = [
     episodes: 95,
     latestEpisode: "The Tithe Debate: What Scripture Really Says",
     gradient: "linear-gradient(135deg, #1a1000 0%, #4a3200 100%)",
-    accentColor: "#D4AF37",
+    accentColor: "#00FF88",
     initials: "BF",
   },
   {
@@ -123,10 +123,10 @@ export default function PodcastHub() {
                 marginBottom: "8px",
               }}
             >
-              <Headphones size={16} style={{ color: "#D4AF37" }} />
+              <Headphones size={16} style={{ color: "#00FF88" }} />
               <span
                 style={{
-                  color: "#D4AF37",
+                  color: "#00FF88",
                   fontSize: "0.75rem",
                   fontWeight: 700,
                   letterSpacing: "0.15em",
@@ -153,7 +153,7 @@ export default function PodcastHub() {
               display: "flex",
               alignItems: "center",
               gap: "6px",
-              color: "#D4AF37",
+              color: "#00FF88",
               fontWeight: 600,
               fontSize: "0.9rem",
               textDecoration: "none",
@@ -292,7 +292,7 @@ export default function PodcastHub() {
       <div
         style={{
           background: "#0E0E1A",
-          borderTop: "1px solid rgba(212,175,55,0.15)",
+          borderTop: "1px solid rgba(0,255,136,0.15)",
           padding: "16px 24px",
         }}
       >
@@ -371,7 +371,7 @@ export default function PodcastHub() {
                 width: "40px",
                 height: "40px",
                 borderRadius: "50%",
-                background: "linear-gradient(135deg, #C9A227 0%, #E8C840 100%)",
+                background: "linear-gradient(135deg, #00CC66 0%, #00FF88 100%)",
                 border: "none",
                 color: "#07070F",
                 cursor: "pointer",
@@ -439,7 +439,7 @@ export default function PodcastHub() {
                     width: `${progress}%`,
                     borderRadius: "999px",
                     background:
-                      "linear-gradient(90deg, #C9A227 0%, #E8C840 100%)",
+                      "linear-gradient(90deg, #00CC66 0%, #00FF88 100%)",
                     transition: "width 0.1s",
                   }}
                 />

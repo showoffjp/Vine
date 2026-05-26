@@ -29,7 +29,7 @@ export async function GET(req: NextRequest) {
             position: "absolute",
             inset: 0,
             background:
-              "radial-gradient(ellipse 70% 50% at 50% 30%, rgba(212,175,55,0.12) 0%, transparent 70%)",
+              "radial-gradient(ellipse 70% 50% at 50% 30%, rgba(0,255,136,0.12) 0%, transparent 70%)",
           }}
         />
 
@@ -39,7 +39,7 @@ export async function GET(req: NextRequest) {
             position: "absolute",
             inset: 0,
             backgroundImage:
-              "linear-gradient(rgba(212,175,55,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(212,175,55,0.04) 1px, transparent 1px)",
+              "linear-gradient(rgba(0,255,136,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,255,136,0.04) 1px, transparent 1px)",
             backgroundSize: "80px 80px",
           }}
         />
@@ -59,7 +59,7 @@ export async function GET(req: NextRequest) {
               width: "52px",
               height: "52px",
               borderRadius: "14px",
-              background: "linear-gradient(135deg, #D4AF37, #8B6FDB)",
+              background: "linear-gradient(135deg, #00FF88, #8B6FDB)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -83,7 +83,7 @@ export async function GET(req: NextRequest) {
               fontWeight: 700,
               letterSpacing: "0.1em",
               textTransform: "uppercase",
-              color: "#D4AF37",
+              color: "#00FF88",
               marginBottom: "16px",
               zIndex: 1,
             }}
@@ -126,7 +126,7 @@ export async function GET(req: NextRequest) {
             bottom: "32px",
             fontSize: "15px",
             fontStyle: "italic",
-            color: "rgba(212,175,55,0.5)",
+            color: "rgba(0,255,136,0.5)",
             zIndex: 1,
           }}
         >

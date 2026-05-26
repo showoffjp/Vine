@@ -35,7 +35,7 @@ const pillars = [
     icon: Shield,
     title: "Singleness",
     description: "The gift (yes, gift) of singleness — living fully and purposefully as one person for God.",
-    color: "#D4AF37",
+    color: "#00FF88",
     verses: ["1 Corinthians 7:7", "Psalm 73:25"],
     articles: 34,
   },
@@ -117,7 +117,7 @@ export default function RelationshipsPage() {
         {/* Hero */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
           <div className="text-center max-w-3xl mx-auto">
-            <span className="text-xs font-bold uppercase tracking-widest mb-4 block" style={{ color: "#D4AF37" }}>
+            <span className="text-xs font-bold uppercase tracking-widest mb-4 block" style={{ color: "#00FF88" }}>
               Life & Faith · Relationships
             </span>
             <h1 className="text-4xl sm:text-5xl font-black mb-6">
@@ -133,14 +133,14 @@ export default function RelationshipsPage() {
             <div
               className="inline-block px-6 py-4 rounded-2xl text-sm italic"
               style={{
-                background: "rgba(212,175,55,0.06)",
-                border: "1px solid rgba(212,175,55,0.15)",
-                color: "#C8A84B",
+                background: "rgba(0,255,136,0.06)",
+                border: "1px solid rgba(0,255,136,0.15)",
+                color: "#00DD77",
                 maxWidth: "520px",
               }}
             >
               <p className="mb-1">{verseCard.verse}</p>
-              <p className="text-xs not-italic font-bold" style={{ color: "#8A6A20" }}>{verseCard.ref}</p>
+              <p className="text-xs not-italic font-bold" style={{ color: "#007A33" }}>{verseCard.ref}</p>
             </div>
           </div>
         </div>
@@ -208,7 +208,7 @@ export default function RelationshipsPage() {
             </h2>
             <button
               className="flex items-center gap-1 text-sm font-semibold"
-              style={{ color: "#D4AF37" }}
+              style={{ color: "#00FF88" }}
             >
               View All <ChevronRight size={16} />
             </button>
@@ -224,7 +224,7 @@ export default function RelationshipsPage() {
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.background = "rgba(255,255,255,0.04)";
-                  e.currentTarget.style.borderColor = "rgba(212,175,55,0.15)";
+                  e.currentTarget.style.borderColor = "rgba(0,255,136,0.15)";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.background = "rgba(255,255,255,0.02)";
@@ -244,7 +244,7 @@ export default function RelationshipsPage() {
                   >
                     {art.tag}
                   </span>
-                  <h3 className="font-bold text-base mb-1.5 leading-snug group-hover:text-[#D4AF37] transition-colors" style={{ color: "#F2F2F8" }}>
+                  <h3 className="font-bold text-base mb-1.5 leading-snug group-hover:text-[#00FF88] transition-colors" style={{ color: "#F2F2F8" }}>
                     {art.title}
                   </h3>
                   <p className="text-sm mb-3" style={{ color: "#6A6A88" }}>{art.excerpt}</p>
@@ -278,7 +278,7 @@ export default function RelationshipsPage() {
             <a
               href="/ai-companion"
               className="inline-flex items-center gap-2 px-8 py-3 rounded-xl font-bold text-black"
-              style={{ background: "linear-gradient(135deg, #D4AF37, #B8942C)" }}
+              style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)" }}
             >
               Ask the AI Companion <ChevronRight size={16} />
             </a>

@@ -21,7 +21,7 @@ import {
 import { useState } from "react";
 
 const stories = [
-  { name: "You", avatar: "ME", color: "#D4AF37", hasStory: false, isYou: true },
+  { name: "You", avatar: "ME", color: "#00FF88", hasStory: false, isYou: true },
   { name: "Amara", avatar: "AO", color: "#F59E0B", hasStory: true },
   { name: "Ji-Woo", avatar: "JP", color: "#EC4899", hasStory: true },
   { name: "Carlos", avatar: "CM", color: "#10B981", hasStory: true },
@@ -103,7 +103,7 @@ const posts = [
     id: 5,
     author: "Dr. Sarah Kimani",
     avatar: "SK",
-    color: "#D4AF37",
+    color: "#00FF88",
     role: "Biblical Counselor · Nairobi, Kenya 🇰🇪",
     time: "Yesterday",
     type: "text",
@@ -118,7 +118,7 @@ const posts = [
 ];
 
 const suggestedPeople = [
-  { name: "Rev. David Osei", role: "Theologian", avatar: "DO", color: "#D4AF37", mutual: 12 },
+  { name: "Rev. David Osei", role: "Theologian", avatar: "DO", color: "#00FF88", mutual: 12 },
   { name: "Isabella Ferreira", role: "Missionary · Brazil", avatar: "IF", color: "#EC4899", mutual: 7 },
   { name: "James Okafor", role: "Christian Writer", avatar: "JO", color: "#3B82F6", mutual: 24 },
 ];
@@ -172,8 +172,8 @@ export default function FeedPage() {
                       href={item.href}
                       className="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all"
                       style={{
-                        background: item.active ? "rgba(212,175,55,0.08)" : "transparent",
-                        color: item.active ? "#D4AF37" : "#8A8AA8",
+                        background: item.active ? "rgba(0,255,136,0.08)" : "transparent",
+                        color: item.active ? "#00FF88" : "#8A8AA8",
                       }}
                       onMouseEnter={(e) => {
                         if (!item.active) e.currentTarget.style.color = "#C0C0D8";
@@ -193,17 +193,17 @@ export default function FeedPage() {
               <div
                 className="rounded-2xl p-5"
                 style={{
-                  background: "linear-gradient(135deg, rgba(212,175,55,0.06) 0%, rgba(107,79,187,0.06) 100%)",
-                  border: "1px solid rgba(212,175,55,0.15)",
+                  background: "linear-gradient(135deg, rgba(0,255,136,0.06) 0%, rgba(107,79,187,0.06) 100%)",
+                  border: "1px solid rgba(0,255,136,0.15)",
                 }}
               >
-                <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#D4AF37" }}>
+                <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#00FF88" }}>
                   ✨ Verse of the Day
                 </p>
                 <p className="text-sm italic mb-2 leading-relaxed" style={{ color: "#C0C0D8" }}>
                   &ldquo;The Lord your God is with you, the Mighty Warrior who saves.&rdquo;
                 </p>
-                <p className="text-xs font-bold" style={{ color: "#8A6A20" }}>— Zephaniah 3:17</p>
+                <p className="text-xs font-bold" style={{ color: "#007A33" }}>— Zephaniah 3:17</p>
               </div>
             </div>
 
@@ -243,7 +243,7 @@ export default function FeedPage() {
                 <div className="flex gap-3 mb-3">
                   <div
                     className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-black shrink-0"
-                    style={{ background: "rgba(212,175,55,0.2)", color: "#D4AF37" }}
+                    style={{ background: "rgba(0,255,136,0.2)", color: "#00FF88" }}
                   >
                     ME
                   </div>
@@ -271,7 +271,7 @@ export default function FeedPage() {
                   <button
                     className="px-5 py-1.5 rounded-lg text-sm font-bold text-black transition-opacity"
                     style={{
-                      background: "linear-gradient(135deg, #D4AF37, #B8942C)",
+                      background: "linear-gradient(135deg, #00FF88, #00BB55)",
                       opacity: postText.trim() ? 1 : 0.4,
                     }}
                   >
@@ -325,14 +325,14 @@ export default function FeedPage() {
                   {post.verseText && (
                     <div
                       className="p-4 rounded-xl mb-3"
-                      style={{ background: "rgba(212,175,55,0.05)", border: "1px solid rgba(212,175,55,0.15)" }}
+                      style={{ background: "rgba(0,255,136,0.05)", border: "1px solid rgba(0,255,136,0.15)" }}
                     >
-                      <p className="text-sm italic mb-1.5 leading-relaxed" style={{ color: "#C8A84B" }}>{post.verseText}</p>
-                      <p className="text-xs font-bold" style={{ color: "#8A6A20" }}>— {post.verse}</p>
+                      <p className="text-sm italic mb-1.5 leading-relaxed" style={{ color: "#00DD77" }}>{post.verseText}</p>
+                      <p className="text-xs font-bold" style={{ color: "#007A33" }}>— {post.verse}</p>
                     </div>
                   )}
                   {post.verse && !post.verseText && (
-                    <span className="text-xs px-2 py-0.5 rounded-full mb-3 inline-block" style={{ background: "rgba(212,175,55,0.1)", color: "#D4AF37" }}>
+                    <span className="text-xs px-2 py-0.5 rounded-full mb-3 inline-block" style={{ background: "rgba(0,255,136,0.1)", color: "#00FF88" }}>
                       📜 {post.verse}
                     </span>
                   )}
@@ -368,9 +368,9 @@ export default function FeedPage() {
                     <button
                       onClick={() => toggleSave(post.id)}
                       className="flex items-center gap-1.5 text-sm ml-auto transition-colors"
-                      style={{ color: savedPosts[post.id] ? "#D4AF37" : "#6A6A88" }}
+                      style={{ color: savedPosts[post.id] ? "#00FF88" : "#6A6A88" }}
                     >
-                      <Bookmark size={15} fill={savedPosts[post.id] ? "#D4AF37" : "none"} />
+                      <Bookmark size={15} fill={savedPosts[post.id] ? "#00FF88" : "none"} />
                     </button>
                   </div>
                 </div>

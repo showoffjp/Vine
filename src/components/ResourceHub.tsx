@@ -15,7 +15,7 @@ const categories = [
 
 const featured = {
   tag: "Featured Guide",
-  tagColor: "#D4AF37",
+  tagColor: "#00FF88",
   title: "The Complete Christian Guide to Mental Health",
   subtitle:
     "A comprehensive, faith-informed resource covering anxiety, depression, trauma, and inner healing — with practical steps, Scripture, and professional insights.",
@@ -90,7 +90,7 @@ export default function ResourceHub() {
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse 60% 40% at 80% 30%, rgba(212,175,55,0.04) 0%, transparent 70%)",
+            "radial-gradient(ellipse 60% 40% at 80% 30%, rgba(0,255,136,0.04) 0%, transparent 70%)",
         }}
       />
 
@@ -110,7 +110,7 @@ export default function ResourceHub() {
           <a
             href="#"
             className="flex items-center gap-1 text-sm font-semibold whitespace-nowrap"
-            style={{ color: "#D4AF37" }}
+            style={{ color: "#00FF88" }}
           >
             Browse Library <ChevronRight size={14} />
           </a>
@@ -125,7 +125,7 @@ export default function ResourceHub() {
               style={
                 c.active
                   ? {
-                      background: "#D4AF37",
+                      background: "#00FF88",
                       color: "#07070F",
                     }
                   : {
@@ -145,8 +145,8 @@ export default function ResourceHub() {
           className="card-glow rounded-3xl p-6 sm:p-8 mb-6 cursor-pointer group relative overflow-hidden"
           style={{
             background:
-              "linear-gradient(135deg, rgba(212,175,55,0.06) 0%, rgba(107,79,187,0.04) 100%)",
-            border: "1px solid rgba(212,175,55,0.15)",
+              "linear-gradient(135deg, rgba(0,255,136,0.06) 0%, rgba(107,79,187,0.04) 100%)",
+            border: "1px solid rgba(0,255,136,0.15)",
           }}
         >
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
@@ -181,9 +181,9 @@ export default function ResourceHub() {
                 </span>
                 <span
                   className="flex items-center gap-1"
-                  style={{ color: "#D4AF37" }}
+                  style={{ color: "#00FF88" }}
                 >
-                  <Star size={12} fill="#D4AF37" /> {featured.rating}
+                  <Star size={12} fill="#00FF88" /> {featured.rating}
                 </span>
               </div>
               <button className="btn-gold px-5 py-2.5 rounded-xl text-sm">
@@ -195,7 +195,7 @@ export default function ResourceHub() {
               className="p-5 rounded-2xl"
               style={{
                 background: "rgba(7,7,15,0.5)",
-                border: "1px solid rgba(212,175,55,0.1)",
+                border: "1px solid rgba(0,255,136,0.1)",
               }}
             >
               <p className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: "#6A6A88" }}>
@@ -206,7 +206,7 @@ export default function ResourceHub() {
                   <div key={i} className="flex items-start gap-3">
                     <span
                       className="text-xs font-bold mt-0.5 w-5 shrink-0"
-                      style={{ color: "#D4AF37" }}
+                      style={{ color: "#00FF88" }}
                     >
                       {String(i + 1).padStart(2, "0")}
                     </span>

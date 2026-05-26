@@ -69,7 +69,7 @@ export default function TermsPage() {
       <div className="page-body pb-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-12">
-            <span className="text-xs font-bold uppercase tracking-widest mb-3 block" style={{ color: "#D4AF37" }}>
+            <span className="text-xs font-bold uppercase tracking-widest mb-3 block" style={{ color: "#00FF88" }}>
               Legal
             </span>
             <h1 className="text-4xl font-black mb-4" style={{ color: "#F2F2F8" }}>Terms of Service</h1>
@@ -78,10 +78,10 @@ export default function TermsPage() {
             </p>
             <div
               className="mt-6 p-5 rounded-2xl"
-              style={{ background: "rgba(212,175,55,0.06)", border: "1px solid rgba(212,175,55,0.15)" }}
+              style={{ background: "rgba(0,255,136,0.06)", border: "1px solid rgba(0,255,136,0.15)" }}
             >
               <p className="text-sm leading-relaxed" style={{ color: "#C0C0D8" }}>
-                <strong style={{ color: "#D4AF37" }}>The short version:</strong> Be kind, be honest, don&apos;t misuse the platform, and remember that the AI companion is a tool — not a pastor. We reserve the right to remove content or accounts that harm the community.
+                <strong style={{ color: "#00FF88" }}>The short version:</strong> Be kind, be honest, don&apos;t misuse the platform, and remember that the AI companion is a tool — not a pastor. We reserve the right to remove content or accounts that harm the community.
               </p>
             </div>
           </div>
@@ -105,7 +105,7 @@ export default function TermsPage() {
           >
             <p className="text-sm" style={{ color: "#6A6A88" }}>
               Questions? Contact{" "}
-              <a href="mailto:legal@vine.community" style={{ color: "#D4AF37" }}>
+              <a href="mailto:legal@vine.community" style={{ color: "#00FF88" }}>
                 legal@vine.community
               </a>
             </p>

@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { ArrowLeft, MessageSquare, ChevronUp, TrendingUp, Users, Hash } from "lucide-react";
+import TopicFollowButton from "@/components/TopicFollowButton";
+import ReplyUpvote from "@/components/ReplyUpvote";
+import { ArrowLeft, MessageSquare, TrendingUp, Users, Hash } from "lucide-react";
 
 type Post = {
   title: string;
@@ -493,13 +495,7 @@ export default async function TopicPage({ params }: { params: Promise<{ slug: st
                   </span>
                 )}
               </div>
-              <a
-                href="/discussions"
-                className="shrink-0 px-5 py-2.5 rounded-xl font-bold text-sm text-black"
-                style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)" }}
-              >
-                Follow Topic
-              </a>
+              <TopicFollowButton />
             </div>
           </div>
         </div>
@@ -543,9 +539,7 @@ export default async function TopicPage({ params }: { params: Promise<{ slug: st
                       </div>
                       <span className="text-xs font-semibold" style={{ color: "#8A8AA8" }}>{post.author}</span>
                       <div className="flex items-center gap-3 ml-auto">
-                        <button className="flex items-center gap-1 text-xs" style={{ color: "#6A6A88" }}>
-                          <ChevronUp size={12} /> {post.upvotes >= 1000 ? `${(post.upvotes / 1000).toFixed(1)}k` : post.upvotes}
-                        </button>
+                        <ReplyUpvote initialCount={post.upvotes} size={12} />
                         <button className="flex items-center gap-1 text-xs" style={{ color: "#6A6A88" }}>
                           <MessageSquare size={12} /> {post.replies}
                         </button>

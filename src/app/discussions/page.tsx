@@ -250,6 +250,14 @@ export default function DiscussionsPage() {
   const toggleSave = (id: number) => setSavedPosts(prev => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
   const toggleHub = (i: number) => setJoinedHubs(prev => { const n = new Set(prev); n.has(i) ? n.delete(i) : n.add(i); return n; });
 
+  const sortedPosts = [...posts].sort((a, b) => {
+    if (activeSort === "Hot") return (b.votes + b.comments * 2) - (a.votes + a.comments * 2);
+    if (activeSort === "New") return b.id - a.id;
+    if (activeSort === "Top") return b.votes - a.votes;
+    if (activeSort === "Rising") return b.comments - a.comments;
+    return 0;
+  });
+
   return (
     <div className="min-h-screen" style={{ background: "#07070F" }}>
       <Navbar />
@@ -410,7 +418,7 @@ export default function DiscussionsPage() {
 
             {/* Post cards */}
             <div className="space-y-3">
-              {posts.map((post) => (
+              {sortedPosts.map((post) => (
                 <a
                   key={post.id}
                   href={post.slug ? `/discussions/${post.slug}` : undefined}

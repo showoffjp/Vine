@@ -36,6 +36,7 @@ const navLinks = [
       { label: "Reading Plans", href: "/reading-plan" },
       { label: "Worship", href: "/worship" },
       { label: "Live Church", href: "/live" },
+      { label: "My Journal", href: "/journal" },
     ],
   },
   {

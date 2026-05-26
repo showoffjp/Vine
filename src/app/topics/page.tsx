@@ -23,6 +23,7 @@ const trending = [
     hot: true,
     description: "The historical and theological case for the bodily resurrection of Jesus",
     color: "#00FF88",
+    slug: null,
   },
   {
     rank: 2,
@@ -32,6 +33,7 @@ const trending = [
     hot: true,
     description: "Faith, therapy, and the integration of mental health in the Church",
     color: "#6B4FBB",
+    slug: "mental-health-god",
   },
   {
     rank: 3,
@@ -41,6 +43,7 @@ const trending = [
     hot: false,
     description: "Stewardship, tithing, debt freedom, and building generational wealth",
     color: "#10B981",
+    slug: null,
   },
   {
     rank: 4,
@@ -50,6 +53,7 @@ const trending = [
     hot: true,
     description: "How should Christians think about and engage artificial intelligence?",
     color: "#3B82F6",
+    slug: "christian-ai-ethics",
   },
   {
     rank: 5,
@@ -59,6 +63,7 @@ const trending = [
     hot: false,
     description: "Debates around church attendance, online church, and the body of Christ",
     color: "#EC4899",
+    slug: null,
   },
   {
     rank: 6,
@@ -68,6 +73,7 @@ const trending = [
     hot: false,
     description: "Defining Christlike masculinity in a cultural moment of confusion",
     color: "#F59E0B",
+    slug: null,
   },
   {
     rank: 7,
@@ -77,6 +83,7 @@ const trending = [
     hot: true,
     description: "Why young Christians are leaving — and what can bring them back",
     color: "#00FF88",
+    slug: "genz-church",
   },
   {
     rank: 8,
@@ -86,8 +93,18 @@ const trending = [
     hot: false,
     description: "Disciplines, methods, and personal stories about prayer",
     color: "#6B4FBB",
+    slug: "prayer-fasting",
   },
 ];
+
+const topicSlugs: Record<string, string> = {
+  Prayer: "prayer-fasting",
+  Fasting: "prayer-fasting",
+  Marriage: "marriage-faith",
+  Deconstruction: "deconstruction",
+  Depression: "mental-health-god",
+  AI: "christian-ai-ethics",
+};
 
 const topicClusters = [
   {
@@ -136,6 +153,7 @@ const hotDiscussions = [
     views: "12.4k",
     timeAgo: "2h ago",
     hot: true,
+    slug: "free-will-omniscience-003",
   },
   {
     tag: "GenZFaith",
@@ -144,6 +162,7 @@ const hotDiscussions = [
     views: "9.8k",
     timeAgo: "4h ago",
     hot: true,
+    slug: "faith-and-doubt-001",
   },
   {
     tag: "ChristianMentalHealth",
@@ -152,6 +171,7 @@ const hotDiscussions = [
     views: "18.2k",
     timeAgo: "6h ago",
     hot: true,
+    slug: "depression-therapy-faith-005",
   },
   {
     tag: "Resurrection",
@@ -160,6 +180,7 @@ const hotDiscussions = [
     views: "4.2k",
     timeAgo: "1h ago",
     hot: false,
+    slug: "resurrection-evidence-002",
   },
   {
     tag: "BiblicalFinance",
@@ -168,6 +189,7 @@ const hotDiscussions = [
     views: "7.6k",
     timeAgo: "8h ago",
     hot: false,
+    slug: null,
   },
 ];
 
@@ -214,10 +236,11 @@ export default function TopicsPage() {
                 </div>
                 <div className="space-y-3">
                   {trending.map((topic) => (
-                    <div
+                    <a
                       key={topic.tag}
+                      href={topic.slug ? `/topics/${topic.slug}` : `/discussions?tag=${topic.tag}`}
                       className="group flex items-start gap-4 p-4 rounded-xl cursor-pointer transition-all"
-                      style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
+                      style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", textDecoration: "none" }}
                       onMouseEnter={(e) => {
                         e.currentTarget.style.background = "rgba(255,255,255,0.04)";
                         e.currentTarget.style.borderColor = "rgba(0,255,136,0.15)";
@@ -258,16 +281,15 @@ export default function TopicsPage() {
                           <span className="text-xs flex items-center gap-1" style={{ color: "#4A4A68" }}>
                             <MessageSquare size={11} /> {topic.posts.toLocaleString()} posts
                           </span>
-                          <a
-                            href={`/discussions?tag=${topic.tag}`}
+                          <span
                             className="text-xs font-semibold flex items-center gap-1 ml-auto"
                             style={{ color: topic.color }}
                           >
-                            View all <ChevronRight size={12} />
-                          </a>
+                            {topic.slug ? "Explore topic" : "View all"} <ChevronRight size={12} />
+                          </span>
                         </div>
                       </div>
-                    </div>
+                    </a>
                   ))}
                 </div>
               </div>
@@ -282,10 +304,11 @@ export default function TopicsPage() {
                 </div>
                 <div className="space-y-3">
                   {hotDiscussions.map((d, i) => (
-                    <div
+                    <a
                       key={i}
-                      className="group p-5 rounded-xl cursor-pointer transition-all"
-                      style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
+                      href={d.slug ? `/discussions/${d.slug}` : "/discussions"}
+                      className="group p-5 rounded-xl cursor-pointer transition-all block"
+                      style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", textDecoration: "none" }}
                       onMouseEnter={(e) => {
                         e.currentTarget.style.background = "rgba(255,255,255,0.04)";
                         e.currentTarget.style.borderColor = "rgba(0,255,136,0.15)";
@@ -316,7 +339,7 @@ export default function TopicsPage() {
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </a>
                   ))}
                 </div>
                 <div className="mt-4 text-center">
@@ -350,7 +373,7 @@ export default function TopicsPage() {
                     {cluster.topics.map((t) => (
                       <a
                         key={t}
-                        href={`/discussions?tag=${t}`}
+                        href={topicSlugs[t] ? `/topics/${topicSlugs[t]}` : `/discussions?tag=${t}`}
                         className="text-xs px-2.5 py-1 rounded-full transition-all cursor-pointer"
                         style={{
                           background: "rgba(255,255,255,0.04)",

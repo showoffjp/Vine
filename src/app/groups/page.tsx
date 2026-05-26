@@ -96,14 +96,14 @@ const groups = [
   },
   {
     id: "faith-career",
-    name: "Business as Mission",
+    name: "Faith & Career",
     emoji: "💼",
-    color: "#6B4FBB",
-    members: 4830,
+    color: "#4F8FBB",
+    members: 9800,
     online: 67,
     category: "Business",
     privacy: "public",
-    description: "Integrating faith and work. Kingdom entrepreneurship, ethical business, and using commerce as a vehicle for the Gospel.",
+    description: "Integrating faith and work in the secular world. How do you honor God in a high-pressure office? Kingdom entrepreneurship, ethics, and marketplace theology.",
     tags: ["Entrepreneurship", "Marketplace", "Ethics"],
   },
   {
@@ -132,26 +132,26 @@ const groups = [
   },
   {
     id: "christian-parenting",
-    name: "New Parents Circle",
-    emoji: "👶",
-    color: "#10B981",
-    members: 11308,
+    name: "Christian Parenting",
+    emoji: "👨‍👩‍👧",
+    color: "#BB4F7A",
+    members: 12400,
     online: 298,
     category: "Parenting",
     privacy: "public",
-    description: "For parents of newborns through age 5. Baby dedications, sleep deprivation solidarity, biblical parenting foundations.",
-    tags: ["Newborns", "Toddlers", "Christian Home"],
+    description: "Raising children in the faith — from toddlers to teens. Practical wisdom, biblical foundations, and honest conversations about the hardest job in the world.",
+    tags: ["Parenting", "Faith", "Family"],
   },
   {
     id: "mental-health-faith",
-    name: "Addiction Freedom",
-    emoji: "⛓️",
+    name: "Mental Health & Faith",
+    emoji: "💙",
     color: "#00FF88",
-    members: 3891,
-    online: 94,
+    members: 18700,
+    online: 456,
     category: "Recovery",
-    privacy: "private",
-    description: "Confidential support for those fighting addiction — and those who love them. Biblical recovery, accountability, hope.",
+    privacy: "public",
+    description: "A safe space where faith and mental wellness intersect. No toxic positivity, no 'just pray more.' Honest conversations about depression, anxiety, trauma, and healing.",
     tags: ["Recovery", "Accountability", "Freedom"],
   },
   {
@@ -333,10 +333,11 @@ export default function GroupsPage() {
               {/* Group Grid */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {filtered.map((g) => (
-                  <div
+                  <a
                     key={g.name}
-                    className="rounded-2xl p-5 flex flex-col cursor-pointer transition-all"
-                    style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
+                    href={`/groups/${g.id}`}
+                    className="block rounded-2xl p-5 flex flex-col cursor-pointer transition-all"
+                    style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", textDecoration: "none" }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.borderColor = `${g.color}40`;
                       e.currentTarget.style.background = `${g.color}05`;
@@ -396,7 +397,7 @@ export default function GroupsPage() {
                         {joined[g.name] ? "Joined ✓" : "Join"}
                       </button>
                     </div>
-                  </div>
+                  </a>
                 ))}
               </div>
 

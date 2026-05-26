@@ -60,6 +60,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/discussions/depression-therapy-faith-005", priority: 0.7, changeFreq: "daily" as const },
     { path: "/discussions/cancer-free-praise-005", priority: 0.7, changeFreq: "daily" as const },
     { path: "/discussions/christian-dating-apps-007", priority: 0.7, changeFreq: "daily" as const },
+    { path: "/topics/prayer-fasting", priority: 0.8, changeFreq: "daily" as const },
+    { path: "/topics/genz-church", priority: 0.8, changeFreq: "daily" as const },
+    { path: "/topics/marriage-faith", priority: 0.8, changeFreq: "daily" as const },
+    { path: "/topics/mental-health-god", priority: 0.8, changeFreq: "daily" as const },
+    { path: "/topics/christian-ai-ethics", priority: 0.8, changeFreq: "daily" as const },
+    { path: "/topics/deconstruction", priority: 0.8, changeFreq: "daily" as const },
   ];
 
   return routes.map(({ path, priority, changeFreq }) => ({

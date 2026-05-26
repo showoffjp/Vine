@@ -24,7 +24,7 @@
 <br/>
 
 ![Status](https://img.shields.io/badge/Status-LIVE-22c55e?style=flat-square)
-![Routes](https://img.shields.io/badge/Routes-42+-D4AF37?style=flat-square)
+![Routes](https://img.shields.io/badge/Routes-59+-00FF88?style=flat-square)
 ![Countries](https://img.shields.io/badge/Countries-184-6B4FBB?style=flat-square)
 ![License](https://img.shields.io/badge/License-MIT-blue?style=flat-square)
 ![Build](https://img.shields.io/badge/Build-Passing-brightgreen?style=flat-square)
@@ -59,7 +59,7 @@ Vine is a **dark-premium, production-grade Christian platform** where believers 
 
 ---
 
-## 🗺️ Platform Map — 42 Routes
+## 🗺️ Platform Map — 59+ Routes
 
 <table>
 <tr>
@@ -117,6 +117,17 @@ Vine is a **dark-premium, production-grade Christian platform** where believers 
 </tr>
 </table>
 
+### 🔗 Dynamic & Extended Routes
+| Route | Feature |
+|-------|---------|
+| `/search` | Global search |
+| `/leaderboard` | Community leaderboard |
+| `/giving` | Tithing & missions giving |
+| `/missions` | Missions hub |
+| `/blog/[slug]` | Individual blog articles |
+| `/stories/[slug]` | Individual testimony stories |
+| `/discussions/[id]` | Individual discussion threads |
+
 ### ⚙️ API Routes
 | Endpoint | Description |
 |----------|-------------|
@@ -138,7 +149,7 @@ vine/
 │   │   ├── page.tsx              # Landing page (21 sections)
 │   │   ├── layout.tsx            # Root layout + OG metadata + analytics
 │   │   ├── globals.css           # Design system (CSS variables + utilities)
-│   │   ├── sitemap.ts            # 24-route XML sitemap
+│   │   ├── sitemap.ts            # 59-route XML sitemap
 │   │   ├── robots.ts             # Crawl rules
 │   │   ├── api/                  # API routes (Fluid Compute, Node.js)
 │   │   │   ├── ai-companion/     # Streaming AI (streamText + toTextStreamResponse)
@@ -176,7 +187,7 @@ vine/
 | 📊 **Analytics** | `@vercel/analytics` + Speed Insights | Real-time Web Vitals |
 | 🖼️ **OG Images** | `next/og` ImageResponse | Dynamic social share cards |
 | 🔐 **Security** | `vercel.ts` security headers | CSP, HSTS, XFO, nosniff |
-| 🗺️ **SEO** | `sitemap.ts` + `robots.ts` | 24-route sitemap, structured data |
+| 🗺️ **SEO** | `sitemap.ts` + `robots.ts` | 59-route sitemap, structured data |
 | 📱 **PWA** | `public/manifest.json` | Installable, offline-capable |
 | ⚡ **Animations** | IntersectionObserver API | Scroll-triggered fade-ins |
 | ⏰ **Crons** | Vercel Cron Jobs | Daily verse + weekly challenge |
@@ -188,19 +199,19 @@ vine/
 ```css
 /* Core palette */
 --bg-primary:    #07070F   /* near-black — Apple-meets-church */
---gold:          #D4AF37   /* primary brand accent */
+--green:         #00FF88   /* primary brand accent */
 --purple:        #6B4FBB   /* secondary accent */
 --text-primary:  #F2F2F8   /* warm white */
 --text-muted:    #6A6A88   /* subdued text */
---card-border:   rgba(212,175,55,0.08)   /* gold-tinted card edge */
+--card-border:   rgba(0,255,136,0.08)   /* green-tinted card edge */
 
 /* Global utility classes */
-.gold-gradient     → background-clip text, gold→purple
-.card-glow         → box-shadow: 0 0 30px rgba(gold, 0.15)
-.btn-gold          → primary CTA: gold gradient, black text
-.btn-outline-gold  → secondary: transparent, gold border
-.verse-card        → Scripture display with italic + gold accent
-.tag-pill          → Topic chip: translucent gold background
+.green-gradient    → background-clip text, green→purple
+.card-glow         → box-shadow: 0 0 30px rgba(green, 0.15)
+.btn-green         → primary CTA: green gradient, black text
+.btn-outline-green → secondary: transparent, green border
+.verse-card        → Scripture display with italic + green accent
+.tag-pill          → Topic chip: translucent green background
 ```
 
 **Typography:** Geist Sans (Vercel) · **Border radius:** 12–20px cards, 999px pills  
@@ -247,7 +258,7 @@ git push → main
       │
       ├─ TypeScript check (tsc --noEmit)
       ├─ Next.js build (Turbopack)
-      ├─ Static prerender (42 routes → CDN)
+      ├─ Static prerender (59+ routes → CDN)
       ├─ API functions → Fluid Compute
       ├─ OG image function → on-demand
       └─ Cron jobs → registered
@@ -358,7 +369,7 @@ Submit requests, see real-time prayer counts, browse by category (healing, guida
 | 🟡 Med | **i18n** — Full internationalization (47 languages) | Planned |
 | 🟢 Low | **Mobile App** — React Native (shared components) | Future |
 | 🟢 Low | **Church Hubs** — White-label community spaces | Future |
-| 🟢 Low | **Giving** — Integrated tithing & missions support | Future |
+| 🟢 Low | **Giving** — Integrated tithing & missions support | ✅ Shipped |
 
 ---
 
@@ -379,7 +390,7 @@ Submit requests, see real-time prayer counts, browse by category (healing, guida
 
 **Built with faith, for faith. All rights reserved.**
 
-[![vine.community](https://img.shields.io/badge/🌐-vine.community-D4AF37?style=for-the-badge)](https://vine.community)
+[![vine.community](https://img.shields.io/badge/🌐-vine.community-00FF88?style=for-the-badge)](https://vine.community)
 
 *© 2026 Vine*
 

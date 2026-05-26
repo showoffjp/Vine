@@ -20,6 +20,7 @@ import {
 
 
 const featuredPost = {
+  slug: "why-the-resurrection-changes-everything",
   category: "Theology",
   categoryColor: "#6B4FBB",
   title: "Why the Resurrection Changes Everything — Not Just After Death",
@@ -47,21 +48,23 @@ const categories = [
 
 const posts = [
   {
+    slug: "prayer-that-works",
     category: "Life & Faith",
     categoryColor: "#00FF88",
-    title: "The Discipline of Silence: What Contemplative Prayer Is (and Isn't)",
+    title: "Prayer That Actually Works: Moving Beyond the Shopping List",
     excerpt:
-      "Modern Christianity moves fast. But the richest seasons of spiritual growth in my life have come from deliberately slowing down — and shutting up.",
-    author: "Rev. Amara Osei",
-    date: "May 23, 2026",
-    readTime: "6 min read",
-    views: "18.7k",
-    comments: 89,
+      "Most Christians pray like they're placing an order. The ACTS framework and contemplative prayer tradition offer something richer — a conversation, not a transaction.",
+    author: "Bishop Emmanuel Adeyemi",
+    date: "May 20, 2026",
+    readTime: "7 min read",
+    views: "29.4k",
+    comments: 156,
     saved: false,
-    image: "🌿",
-    tags: ["Prayer", "Spiritual Disciplines"],
+    image: "🙏",
+    tags: ["Prayer", "Spiritual Disciplines", "Devotional"],
   },
   {
+    slug: "ai-chatgpt-church",
     category: "Culture",
     categoryColor: "#3B82F6",
     title: "AI, ChatGPT, and the Church: A Faithful Reckoning",
@@ -77,13 +80,46 @@ const posts = [
     tags: ["Technology", "Ethics", "Church"],
   },
   {
+    slug: "digital-sabbath",
+    category: "Life & Faith",
+    categoryColor: "#00FF88",
+    title: "The Digital Sabbath: How to Rest in a Hyper-Connected World",
+    excerpt:
+      "Modern Christianity moves fast. But the richest seasons of spiritual growth come from deliberately slowing down — and shutting off. Here's how a 24-hour phone fast changed everything.",
+    author: "Rachel Kim",
+    date: "May 21, 2026",
+    readTime: "6 min read",
+    views: "41.2k",
+    comments: 389,
+    saved: false,
+    image: "🌿",
+    tags: ["Sabbath", "Tech", "Rest"],
+  },
+  {
+    slug: "problem-of-evil",
+    category: "Apologetics",
+    categoryColor: "#EF4444",
+    title: "The Problem of Evil: Why Suffering Doesn't Disprove God",
+    excerpt:
+      "Epicurus posed the challenge 2,300 years ago. Alvin Plantinga answered it in the 20th century. Here's why the logical problem of evil fails — and what the pastoral problem demands.",
+    author: "Dr. Priya Singh",
+    date: "May 23, 2026",
+    readTime: "10 min read",
+    views: "18.7k",
+    comments: 203,
+    saved: false,
+    image: "📜",
+    tags: ["Theodicy", "Suffering", "Apologetics"],
+  },
+  {
+    slug: null,
     category: "Leadership",
     categoryColor: "#10B981",
     title: "Servant Leadership Isn't Weak — Jesus Proved That",
     excerpt:
       "We've confused servant leadership with spineless management. The washing of feet wasn't a moment of vulnerability — it was a radical act of power exercised with love.",
     author: "Pastor Kwame Asante",
-    date: "May 21, 2026",
+    date: "May 19, 2026",
     readTime: "7 min read",
     views: "14.2k",
     comments: 63,
@@ -92,36 +128,7 @@ const posts = [
     tags: ["Leadership", "Discipleship"],
   },
   {
-    category: "Theology",
-    categoryColor: "#6B4FBB",
-    title: "Does God Actually Speak Today? A Biblical Case for Ongoing Revelation",
-    excerpt:
-      "Cessationism vs continuationism is one of the most divisive debates in modern evangelicalism. Here's why the answer matters more than the argument.",
-    author: "Dr. Sarah Kimani",
-    date: "May 20, 2026",
-    readTime: "11 min read",
-    views: "41.5k",
-    comments: 384,
-    saved: false,
-    image: "📜",
-    tags: ["Holy Spirit", "Theology", "Spiritual Gifts"],
-  },
-  {
-    category: "Family",
-    categoryColor: "#F59E0B",
-    title: "Raising Kids Who Love God When the World Says Otherwise",
-    excerpt:
-      "Statistics on faith retention are brutal. But they're not destiny. Here's what the research — and Scripture — says actually keeps the next generation in the faith.",
-    author: "Naomi & David Park",
-    date: "May 19, 2026",
-    readTime: "8 min read",
-    views: "22.8k",
-    comments: 156,
-    saved: false,
-    image: "👨‍👩‍👧‍👦",
-    tags: ["Parenting", "Family", "Next Gen"],
-  },
-  {
+    slug: null,
     category: "Devotional",
     categoryColor: "#EC4899",
     title: "When the Psalms Feel More Real Than Your Sunday Morning",
@@ -250,12 +257,13 @@ export default function BlogPage() {
                       </span>
                     </div>
                   </div>
-                  <button
-                    className="mt-6 flex items-center gap-2 text-sm font-bold"
+                  <a
+                    href={`/blog/${featuredPost.slug}`}
+                    className="mt-6 inline-flex items-center gap-2 text-sm font-bold hover:underline"
                     style={{ color: "#00FF88" }}
                   >
                     Read Article <ChevronRight size={16} />
-                  </button>
+                  </a>
                 </div>
               </div>
 
@@ -280,12 +288,14 @@ export default function BlogPage() {
               {/* Post Grid */}
               <div className="space-y-4">
                 {posts.map((post, i) => (
-                  <article
+                  <a
                     key={i}
-                    className="group rounded-xl p-5 flex gap-5 cursor-pointer transition-all"
+                    href={post.slug ? `/blog/${post.slug}` : undefined}
+                    className="group block rounded-xl p-5 flex gap-5 cursor-pointer transition-all"
                     style={{
                       background: "rgba(255,255,255,0.02)",
                       border: "1px solid rgba(255,255,255,0.06)",
+                      textDecoration: "none",
                     }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.background = "rgba(255,255,255,0.04)";
@@ -341,7 +351,7 @@ export default function BlogPage() {
                         </span>
                       </div>
                     </div>
-                  </article>
+                  </a>
                 ))}
               </div>
 

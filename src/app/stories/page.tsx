@@ -6,6 +6,7 @@ import { Heart, Share2, Bookmark, ChevronRight, Star, Flame, Globe } from "lucid
 import { useState } from "react";
 
 const featured = {
+  slug: "carlos-mendez-drug-cartel-to-church-planter",
   name: "Carlos Mendez",
   flag: "🇨🇴",
   location: "Bogotá, Colombia",
@@ -21,32 +22,35 @@ const featured = {
 
 const stories = [
   {
+    slug: "amara-osei-widowed-at-28",
     name: "Amara Osei",
     flag: "🇬🇭",
     location: "Accra, Ghana",
     avatar: "AO",
     color: "#F59E0B",
-    title: "How a Brain Tumor Led Me to the Deepest Faith of My Life",
-    preview: "Doctors gave me six months. That was three years ago. What happened in those six months — and what God did after the prognosis — is the most honest thing I have ever witnessed.",
-    readTime: "9 min",
-    category: "Healing",
+    title: "Widowed at 28 with Three Children. How Faith Became My Only Floor.",
+    preview: "When my husband Emmanuel died in a road accident, I had three children under five and no job. What happened next I can only describe as divine provision — not the kind that's comfortable, but the kind that's undeniably real.",
+    readTime: "8 min",
+    category: "Grief & Restoration",
     categoryColor: "#F59E0B",
-    hearts: 4217,
+    hearts: 3241,
   },
   {
+    slug: "ji-woo-park-kpop-idol-to-pastor",
     name: "Ji-Woo Park",
     flag: "🇰🇷",
     location: "Seoul, South Korea",
     avatar: "JP",
     color: "#EC4899",
-    title: "Raised Buddhist, Found Christ at 31 — My Family Still Won't Speak to Me",
-    preview: "Conversion stories usually end with the baptism. Mine is about what comes after — the estrangement, the grief, the unexpected joy, and the hard question: is Jesus worth this cost?",
-    readTime: "14 min",
-    category: "Faith Transition",
+    title: "I Was a K-Pop Trainee Who Found Something More Worth Singing For.",
+    preview: "I spent four years in a K-pop training program — the 5 AM practices, the weight monitoring, the pressure to be perfect. When I washed out at 19, I thought my life was over. I had no idea it was just beginning.",
+    readTime: "7 min",
+    category: "Identity & Calling",
     categoryColor: "#EC4899",
-    hearts: 3891,
+    hearts: 4187,
   },
   {
+    slug: "lydia-bohm-deconstruction",
     name: "Lydia Böhm",
     flag: "🇩🇪",
     location: "Berlin, Germany",
@@ -60,19 +64,21 @@ const stories = [
     hearts: 6104,
   },
   {
+    slug: "samuel-mwangi-from-prosperity-gospel-to-grace",
     name: "Samuel Mwangi",
     flag: "🇰🇪",
     location: "Nairobi, Kenya",
     avatar: "SM",
     color: "#3B82F6",
-    title: "The Night I Prayed to Die — and Why I'm Grateful God Said No",
-    preview: "Mental illness in the African church is still largely taboo. I hit rock bottom at 27. This is the story I wish someone had told me before I got there.",
-    readTime: "10 min",
-    category: "Mental Health",
+    title: "I Gave My Savings to a Faith Preacher. What I Lost — and What God Gave Back.",
+    preview: "For eight years I was fully sold on prosperity theology. I gave until it hurt — and when the blessing didn't come, I nearly walked away from God entirely. Then someone handed me a book that changed everything.",
+    readTime: "9 min",
+    category: "Theology & Transformation",
     categoryColor: "#3B82F6",
-    hearts: 7823,
+    hearts: 2891,
   },
   {
+    slug: null,
     name: "Isabella Ferreira",
     flag: "🇧🇷",
     location: "São Paulo, Brazil",
@@ -86,6 +92,7 @@ const stories = [
     hearts: 2934,
   },
   {
+    slug: null,
     name: "Rev. David Osei",
     flag: "🇬🇭",
     location: "Kumasi, Ghana",
@@ -100,7 +107,7 @@ const stories = [
   },
 ];
 
-const categories = ["All", "Redemption", "Healing", "Faith Transition", "Deconstruction", "Mental Health", "Missions", "Marriage & Restoration"];
+const categories = ["All", "Redemption", "Grief & Restoration", "Identity & Calling", "Deconstruction", "Theology & Transformation", "Mental Health", "Missions", "Marriage & Restoration", "Faith Transition"];
 
 export default function StoriesPage() {
   const [activeCategory, setActiveCategory] = useState("All");
@@ -166,9 +173,9 @@ export default function StoriesPage() {
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
-                  <button className="flex items-center gap-2 px-6 py-2.5 rounded-xl font-bold text-sm text-black" style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)" }}>
+                  <a href={`/stories/${featured.slug}`} className="flex items-center gap-2 px-6 py-2.5 rounded-xl font-bold text-sm text-black" style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)", textDecoration: "none" }}>
                     Read Story <ChevronRight size={14} />
-                  </button>
+                  </a>
                   <div className="flex items-center gap-1 text-sm" style={{ color: "#6A6A88" }}>
                     <Heart size={14} style={{ color: "#EC4899" }} />
                     <span>{featured.hearts.toLocaleString()}</span>
@@ -210,10 +217,11 @@ export default function StoriesPage() {
           {/* Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-10">
             {stories.map((story, i) => (
-              <article
+              <a
                 key={i}
-                className="group rounded-2xl p-6 flex flex-col cursor-pointer transition-all"
-                style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
+                href={story.slug ? `/stories/${story.slug}` : undefined}
+                className="group block rounded-2xl p-6 flex flex-col cursor-pointer transition-all"
+                style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", textDecoration: "none" }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.borderColor = `${story.color}40`;
                   e.currentTarget.style.background = `${story.color}05`;
@@ -265,7 +273,7 @@ export default function StoriesPage() {
                     </span>
                   </div>
                 </div>
-              </article>
+              </a>
             ))}
           </div>
 

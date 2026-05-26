@@ -46,6 +46,7 @@ const suggestedHubs = [
 const posts = [
   {
     id: 1,
+    slug: "free-will-omniscience-003",
     hub: "Theology & Doctrine",
     hubColor: "#6B4FBB",
     time: "2 hours ago",
@@ -61,6 +62,7 @@ const posts = [
   },
   {
     id: 2,
+    slug: "faith-and-doubt-001",
     hub: "Christian Parenting",
     hubColor: "#BB4F7A",
     time: "45 min ago",
@@ -76,6 +78,7 @@ const posts = [
   },
   {
     id: 3,
+    slug: "depression-therapy-faith-005",
     hub: "Mental Health & Faith",
     hubColor: "#00FF88",
     time: "5 hours ago",
@@ -91,6 +94,7 @@ const posts = [
   },
   {
     id: 4,
+    slug: "faith-and-doubt-001",
     hub: "Doubts & Questions",
     hubColor: "#BB7A4F",
     time: "1 day ago",
@@ -106,6 +110,7 @@ const posts = [
   },
   {
     id: 5,
+    slug: "cancer-free-praise-005",
     hub: "Prayer Warriors",
     hubColor: "#4F8FBB",
     time: "3 hours ago",
@@ -121,6 +126,7 @@ const posts = [
   },
   {
     id: 6,
+    slug: null,
     hub: "Faith & Career",
     hubColor: "#4F8FBB",
     time: "8 hours ago",
@@ -136,10 +142,11 @@ const posts = [
   },
   {
     id: 7,
+    slug: "christian-dating-apps-007",
     hub: "Young Adults",
     hubColor: "#4FBBAA",
     time: "12 hours ago",
-    title: "Dating as a Christian in 2025 is genuinely hard. Anyone else feel like the apps are working against you?",
+    title: "Dating as a Christian in 2026 is genuinely hard. Anyone else feel like the apps are working against you?",
     preview: "Hinge, Bumble, Christian Mingle — tried them all. The Christian filters are basically useless. Had one 'Christian' match suggest we skip church to hook up on Sunday morning. Feeling...",
     flair: "Relationships",
     flairColor: "#BB4F7A",
@@ -151,6 +158,7 @@ const posts = [
   },
   {
     id: 8,
+    slug: "resurrection-evidence-002",
     hub: "Theology & Doctrine",
     hubColor: "#6B4FBB",
     time: "2 days ago",
@@ -355,14 +363,16 @@ export default function DiscussionsPage() {
             {/* Post cards */}
             <div className="space-y-3">
               {posts.map((post) => (
-                <article
+                <a
                   key={post.id}
-                  className="rounded-2xl p-4 transition-all duration-200 hover:bg-[#18182A] cursor-pointer"
+                  href={post.slug ? `/discussions/${post.slug}` : undefined}
+                  className="block rounded-2xl p-4 transition-all duration-200 hover:bg-[#18182A] cursor-pointer"
                   style={{
                     background: "#12121F",
                     border: post.pinned
                       ? "1px solid rgba(0,255,136,0.3)"
                       : "1px solid #1E1E32",
+                    textDecoration: "none",
                   }}
                 >
                   {post.pinned && (
@@ -439,7 +449,7 @@ export default function DiscussionsPage() {
                       Share
                     </button>
                   </div>
-                </article>
+                </a>
               ))}
             </div>
           </div>

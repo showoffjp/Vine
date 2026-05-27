@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -297,7 +297,13 @@ function filterMatches(n: Notification, filter: string, readSet: Set<number>): b
 
 export default function NotificationsPage() {
   const [activeFilter, setActiveFilter] = useState("All");
-  const [readSet, setReadSet] = useState<Set<number>>(new Set());
+  const [readSet, setReadSet] = useState<Set<number>>(() => {
+    try { const s = localStorage.getItem("vine_notif_read"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
+  });
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_notif_read", JSON.stringify([...readSet])); } catch {}
+  }, [readSet]);
 
   const markRead = (id: number) => {
     setReadSet((prev) => new Set([...prev, id]));

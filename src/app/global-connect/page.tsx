@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
@@ -107,13 +107,32 @@ const stats = [
 ];
 
 export default function GlobalConnectPage() {
-  const [joinedCircles, setJoinedCircles] = useState<Set<number>>(new Set());
-  const [prayedRequests, setPrayedRequests] = useState<Set<number>>(new Set());
-  const [prayCounts, setPrayCounts] = useState<Record<number, number>>(
-    Object.fromEntries(prayerRequests.map((p) => [p.id, p.count]))
-  );
-  const [connectedMembers, setConnectedMembers] = useState<Set<string>>(new Set());
+  const [joinedCircles, setJoinedCircles] = useState<Set<number>>(() => {
+    try { const s = localStorage.getItem("vine_gc_circles"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
+  });
+  const [prayedRequests, setPrayedRequests] = useState<Set<number>>(() => {
+    try { const s = localStorage.getItem("vine_gc_prayed"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
+  });
+  const [prayCounts, setPrayCounts] = useState<Record<number, number>>(() => {
+    try { const s = localStorage.getItem("vine_gc_counts"); return s ? JSON.parse(s) : Object.fromEntries(prayerRequests.map((p) => [p.id, p.count])); } catch { return Object.fromEntries(prayerRequests.map((p) => [p.id, p.count])); }
+  });
+  const [connectedMembers, setConnectedMembers] = useState<Set<string>>(() => {
+    try { const s = localStorage.getItem("vine_gc_connected"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
+  });
   const [locationSet, setLocationSet] = useState(false);
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_gc_circles", JSON.stringify([...joinedCircles])); } catch {}
+  }, [joinedCircles]);
+  useEffect(() => {
+    try { localStorage.setItem("vine_gc_prayed", JSON.stringify([...prayedRequests])); } catch {}
+  }, [prayedRequests]);
+  useEffect(() => {
+    try { localStorage.setItem("vine_gc_counts", JSON.stringify(prayCounts)); } catch {}
+  }, [prayCounts]);
+  useEffect(() => {
+    try { localStorage.setItem("vine_gc_connected", JSON.stringify([...connectedMembers])); } catch {}
+  }, [connectedMembers]);
 
   const toggleCircle = (i: number) => {
     setJoinedCircles((prev) => {

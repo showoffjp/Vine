@@ -257,7 +257,16 @@ function MessageBubble({ message }: { message: Message }) {
 
 export default function AICompanionPage() {
   const router = useRouter();
-  const [messages, setMessages] = useState<Message[]>([WELCOME_MESSAGE]);
+  const [messages, setMessages] = useState<Message[]>(() => {
+    try {
+      const s = localStorage.getItem("vine_ai_history");
+      if (s) {
+        const parsed = JSON.parse(s) as Message[];
+        return parsed.map((m) => ({ ...m, timestamp: new Date(m.timestamp), streaming: false }));
+      }
+    } catch {}
+    return [WELCOME_MESSAGE];
+  });
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -266,6 +275,12 @@ export default function AICompanionPage() {
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const userMessages = messages.filter((m) => m.role === "user");
+
+  // Persist conversation history (skip streaming messages)
+  useEffect(() => {
+    const done = messages.filter((m) => !m.streaming);
+    try { localStorage.setItem("vine_ai_history", JSON.stringify(done.slice(-40))); } catch {}
+  }, [messages]);
 
   // Auto-scroll
   useEffect(() => {
@@ -463,6 +478,28 @@ export default function AICompanionPage() {
               Always online · Grounded in Scripture
             </div>
           </div>
+
+          {/* Clear history */}
+          {messages.length > 1 && (
+            <button
+              onClick={() => {
+                setMessages([WELCOME_MESSAGE]);
+                try { localStorage.removeItem("vine_ai_history"); } catch {}
+              }}
+              style={{
+                fontSize: 11,
+                color: "#6A6A88",
+                background: "transparent",
+                border: "1px solid #1E1E32",
+                borderRadius: 8,
+                padding: "6px 10px",
+                cursor: "pointer",
+                whiteSpace: "nowrap",
+              }}
+            >
+              Clear
+            </button>
+          )}
 
           {/* Dropdown button */}
           <div ref={dropdownRef} style={{ position: "relative" }}>

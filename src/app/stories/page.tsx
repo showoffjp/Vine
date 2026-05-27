@@ -3,7 +3,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Heart, Share2, Bookmark, ChevronRight, Star, Flame, Globe } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const featured = {
   slug: "carlos-mendez-drug-cartel-to-church-planter",
@@ -111,7 +111,13 @@ const categories = ["All", "Redemption", "Grief & Restoration", "Identity & Call
 
 export default function StoriesPage() {
   const [activeCategory, setActiveCategory] = useState("All");
-  const [saved, setSaved] = useState<Record<string, boolean>>({});
+  const [saved, setSaved] = useState<Record<string, boolean>>(() => {
+    try { const s = localStorage.getItem("vine_stories_saved"); return s ? JSON.parse(s) : {}; } catch { return {}; }
+  });
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_stories_saved", JSON.stringify(saved)); } catch {}
+  }, [saved]);
 
   const filteredStories = activeCategory === "All"
     ? stories

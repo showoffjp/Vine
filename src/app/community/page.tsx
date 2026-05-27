@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
@@ -116,11 +116,27 @@ const activeCircles = [
 ];
 
 export default function CommunityPage() {
-  const [joinedFeatured, setJoinedFeatured] = useState<Set<number>>(new Set());
-  const [joinedActive, setJoinedActive] = useState<Set<number>>(new Set());
-  const [joinedNearby, setJoinedNearby] = useState<Set<number>>(new Set());
+  const [joinedFeatured, setJoinedFeatured] = useState<Set<number>>(() => {
+    try { const s = localStorage.getItem("vine_comm_featured"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
+  });
+  const [joinedActive, setJoinedActive] = useState<Set<number>>(() => {
+    try { const s = localStorage.getItem("vine_comm_active"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
+  });
+  const [joinedNearby, setJoinedNearby] = useState<Set<number>>(() => {
+    try { const s = localStorage.getItem("vine_comm_nearby"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
+  });
   const [inviteEmail, setInviteEmail] = useState("");
   const [inviteSent, setInviteSent] = useState(false);
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_comm_featured", JSON.stringify([...joinedFeatured])); } catch {}
+  }, [joinedFeatured]);
+  useEffect(() => {
+    try { localStorage.setItem("vine_comm_active", JSON.stringify([...joinedActive])); } catch {}
+  }, [joinedActive]);
+  useEffect(() => {
+    try { localStorage.setItem("vine_comm_nearby", JSON.stringify([...joinedNearby])); } catch {}
+  }, [joinedNearby]);
 
   const toggleFeatured = (i: number) => setJoinedFeatured(prev => { const n = new Set(prev); n.has(i) ? n.delete(i) : n.add(i); return n; });
   const toggleActive = (i: number) => setJoinedActive(prev => { const n = new Set(prev); n.has(i) ? n.delete(i) : n.add(i); return n; });

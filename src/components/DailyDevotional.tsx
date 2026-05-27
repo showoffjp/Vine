@@ -265,6 +265,9 @@ export default function DailyDevotional() {
   const d = devotionals[dayIndex];
 
   const handleShare = () => {
+    try {
+      navigator.clipboard.writeText(`${d.verse}\n— ${d.verseRef}\n\n${window.location.href}`);
+    } catch {}
     setShared(true);
     setTimeout(() => setShared(false), 2000);
   };

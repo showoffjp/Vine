@@ -182,16 +182,28 @@ const allResultsExtra = [
   },
 ];
 
-const recentSearches = ["Philippians 4:13", "prayer for anxiety", "C.S. Lewis Mere Christianity"];
+const DEFAULT_RECENT = ["Philippians 4:13", "prayer for anxiety", "C.S. Lewis Mere Christianity"];
 
 export default function SearchPage() {
   const [query, setQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
+  const [recentSearches, setRecentSearches] = useState<string[]>(() => {
+    try { const s = localStorage.getItem("vine_search_recent"); return s ? JSON.parse(s) : DEFAULT_RECENT; } catch { return DEFAULT_RECENT; }
+  });
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     setTimeout(() => inputRef.current?.focus(), 100);
   }, []);
+
+  const submitSearch = (q: string) => {
+    if (!q.trim()) return;
+    setRecentSearches((prev) => {
+      const updated = [q, ...prev.filter((r) => r !== q)].slice(0, 8);
+      try { localStorage.setItem("vine_search_recent", JSON.stringify(updated)); } catch {}
+      return updated;
+    });
+  };
 
   const allResultsCombined = [...allResults, ...allResultsExtra];
   const filtered = allResultsCombined.filter((r) => {
@@ -217,6 +229,7 @@ export default function SearchPage() {
                 ref={inputRef}
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
+                onKeyDown={(e) => { if (e.key === "Enter") submitSearch(query); }}
                 placeholder="Search articles, scripture, discussions, people..."
                 className="w-full pl-14 pr-12 py-4 rounded-2xl text-base outline-none"
                 style={{
@@ -240,7 +253,7 @@ export default function SearchPage() {
                 {recentSearches.map((s) => (
                   <button
                     key={s}
-                    onClick={() => setQuery(s)}
+                    onClick={() => { setQuery(s); submitSearch(s); }}
                     className="flex items-center gap-1 text-xs px-3 py-1 rounded-full transition-all"
                     style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#8A8AA8" }}
                   >

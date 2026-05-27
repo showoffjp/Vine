@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
@@ -169,14 +169,23 @@ export default function PrayerPage() {
   const [activeTab, setActiveTab] = useState("All");
   const [showForm, setShowForm] = useState(false);
   const [isAnonymous, setIsAnonymous] = useState(false);
-  const [prayedCards, setPrayedCards] = useState<Set<number>>(new Set());
-  const [prayCounts, setPrayCounts] = useState<Record<number, number>>(
-    Object.fromEntries(prayerCards.map((c) => [c.id, c.prayCount]))
-  );
+  const [prayedCards, setPrayedCards] = useState<Set<number>>(() => {
+    try { const s = localStorage.getItem("vine_prayed_cards"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
+  });
+  const [prayCounts, setPrayCounts] = useState<Record<number, number>>(() => {
+    try { const s = localStorage.getItem("vine_pray_counts"); return s ? JSON.parse(s) : Object.fromEntries(prayerCards.map((c) => [c.id, c.prayCount])); } catch { return Object.fromEntries(prayerCards.map((c) => [c.id, c.prayCount])); }
+  });
   const [prayingAnimation, setPrayingAnimation] = useState<Set<number>>(new Set());
   const [requestText, setRequestText] = useState("");
   const [selectedTopic, setSelectedTopic] = useState("");
   const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_prayed_cards", JSON.stringify([...prayedCards])); } catch {}
+  }, [prayedCards]);
+  useEffect(() => {
+    try { localStorage.setItem("vine_pray_counts", JSON.stringify(prayCounts)); } catch {}
+  }, [prayCounts]);
 
   const handleSubmitPrayer = () => {
     if (!requestText.trim()) return;

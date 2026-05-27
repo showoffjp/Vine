@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
@@ -142,8 +142,19 @@ const supportGroups = [
 ];
 
 export default function MentalHealthPage() {
-  const [bookedSessions, setBookedSessions] = useState<Set<number>>(new Set());
-  const [joinedGroups, setJoinedGroups] = useState<Set<number>>(new Set());
+  const [bookedSessions, setBookedSessions] = useState<Set<number>>(() => {
+    try { const s = localStorage.getItem("vine_mh_booked"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
+  });
+  const [joinedGroups, setJoinedGroups] = useState<Set<number>>(() => {
+    try { const s = localStorage.getItem("vine_mh_groups"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
+  });
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_mh_booked", JSON.stringify([...bookedSessions])); } catch {}
+  }, [bookedSessions]);
+  useEffect(() => {
+    try { localStorage.setItem("vine_mh_groups", JSON.stringify([...joinedGroups])); } catch {}
+  }, [joinedGroups]);
 
   const toggleBook = (i: number) => setBookedSessions(prev => { const n = new Set(prev); n.has(i) ? n.delete(i) : n.add(i); return n; });
   const toggleJoinGroup = (i: number) => setJoinedGroups(prev => { const n = new Set(prev); n.has(i) ? n.delete(i) : n.add(i); return n; });

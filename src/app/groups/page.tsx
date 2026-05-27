@@ -3,7 +3,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Users, ChevronRight, Search, Lock, Globe, Flame, Star, Plus } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const categories = ["All", "Theology", "Prayer", "Parenting", "Men", "Women", "Students", "Marriage", "Missions", "Creative Arts", "Business", "Recovery"];
 
@@ -213,11 +213,16 @@ const myGroups = [
 export default function GroupsPage() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [search, setSearch] = useState("");
-  const [joined, setJoined] = useState<Record<string, boolean>>({
-    "Reformed Theology Discussion": true,
-    "Global Prayer Warriors": true,
-    "College Faith Network": true,
+  const [joined, setJoined] = useState<Record<string, boolean>>(() => {
+    try {
+      const s = localStorage.getItem("vine_groups_joined");
+      return s ? JSON.parse(s) : { "Reformed Theology Discussion": true, "Global Prayer Warriors": true, "College Faith Network": true };
+    } catch { return { "Reformed Theology Discussion": true, "Global Prayer Warriors": true, "College Faith Network": true }; }
   });
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_groups_joined", JSON.stringify(joined)); } catch {}
+  }, [joined]);
 
   const filtered = groups.filter((g) => {
     const matchCat = activeCategory === "All" || g.category === activeCategory;

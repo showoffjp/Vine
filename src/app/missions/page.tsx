@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Globe, Heart, Users, ChevronRight, MapPin, Flame, BookOpen, CheckCircle2 } from "lucide-react";
@@ -128,9 +128,25 @@ const spotlights = [
 ];
 
 export default function MissionsPage() {
-  const [prayedRegions, setPrayedRegions] = useState<Set<number>>(new Set());
-  const [followedMissionaries, setFollowedMissionaries] = useState<Set<number>>(new Set());
-  const [prayedMissionaries, setPrayedMissionaries] = useState<Set<number>>(new Set());
+  const [prayedRegions, setPrayedRegions] = useState<Set<number>>(() => {
+    try { const s = localStorage.getItem("vine_missions_regions"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
+  });
+  const [followedMissionaries, setFollowedMissionaries] = useState<Set<number>>(() => {
+    try { const s = localStorage.getItem("vine_missions_followed"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
+  });
+  const [prayedMissionaries, setPrayedMissionaries] = useState<Set<number>>(() => {
+    try { const s = localStorage.getItem("vine_missions_prayed"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
+  });
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_missions_regions", JSON.stringify([...prayedRegions])); } catch {}
+  }, [prayedRegions]);
+  useEffect(() => {
+    try { localStorage.setItem("vine_missions_followed", JSON.stringify([...followedMissionaries])); } catch {}
+  }, [followedMissionaries]);
+  useEffect(() => {
+    try { localStorage.setItem("vine_missions_prayed", JSON.stringify([...prayedMissionaries])); } catch {}
+  }, [prayedMissionaries]);
 
   const toggleRegionPrayer = (i: number) => {
     setPrayedRegions((prev) => {

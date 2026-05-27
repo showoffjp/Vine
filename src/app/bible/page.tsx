@@ -342,14 +342,22 @@ export default function BiblePage() {
   const [selectedTranslation, setSelectedTranslation] = useState("NIV");
   const [studyMode, setStudyMode] = useState(false);
   const [selectedVerse, setSelectedVerse] = useState<number | null>(null);
-  const [highlightedVerses, setHighlightedVerses] = useState<Record<number, { bg: string; border: string }>>({});
+  const [highlightedVerses, setHighlightedVerses] = useState<Record<number, { bg: string; border: string }>>(() => {
+    try { const s = localStorage.getItem("vine_bible_highlights"); return s ? JSON.parse(s) : {}; } catch { return {}; }
+  });
   const [hoveredVerse, setHoveredVerse] = useState<number | null>(null);
   const [sidePanelOpen, setSidePanelOpen] = useState(true);
   const [fontSize, setFontSize] = useState(17);
   const [activeHighlightColor, setActiveHighlightColor] = useState(highlightColors[0]);
-  const [bookmarkedVerses, setBookmarkedVerses] = useState<Set<number>>(new Set());
-  const [selectedBook, setSelectedBook] = useState("John");
-  const [selectedChapter, setSelectedChapter] = useState(3);
+  const [bookmarkedVerses, setBookmarkedVerses] = useState<Set<number>>(() => {
+    try { const s = localStorage.getItem("vine_bible_bookmarks"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
+  });
+  const [selectedBook, setSelectedBook] = useState(() => {
+    try { return localStorage.getItem("vine_bible_book") || "John"; } catch { return "John"; }
+  });
+  const [selectedChapter, setSelectedChapter] = useState(() => {
+    try { return Number(localStorage.getItem("vine_bible_chapter")) || 3; } catch { return 3; }
+  });
   const [bookDropOpen, setBookDropOpen] = useState(false);
   const [chapterDropOpen, setChapterDropOpen] = useState(false);
   const [verseSearch, setVerseSearch] = useState("");
@@ -381,6 +389,19 @@ export default function BiblePage() {
       return () => document.removeEventListener("click", handleClickOutside);
     }
   }, [bookDropOpen, chapterDropOpen]);
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_bible_highlights", JSON.stringify(highlightedVerses)); } catch {}
+  }, [highlightedVerses]);
+  useEffect(() => {
+    try { localStorage.setItem("vine_bible_bookmarks", JSON.stringify([...bookmarkedVerses])); } catch {}
+  }, [bookmarkedVerses]);
+  useEffect(() => {
+    try { localStorage.setItem("vine_bible_book", selectedBook); } catch {}
+  }, [selectedBook]);
+  useEffect(() => {
+    try { localStorage.setItem("vine_bible_chapter", String(selectedChapter)); } catch {}
+  }, [selectedChapter]);
 
   const currentVerses = bibleData[selectedBook]?.[selectedChapter] ?? genesisVerses;
   const currentChapters = bookChapters[selectedBook] ?? [1];

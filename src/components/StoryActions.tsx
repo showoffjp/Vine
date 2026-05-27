@@ -43,7 +43,11 @@ export default function StoryActions({ initialHearts }: { initialHearts: number 
         <Bookmark size={14} fill={saved ? "#00FF88" : "none"} /> {saved ? "Saved" : "Save"}
       </button>
       <button
-        onClick={() => { setShared(true); setTimeout(() => setShared(false), 2000); }}
+        onClick={() => {
+          try { navigator.clipboard.writeText(window.location.href); } catch {}
+          setShared(true);
+          setTimeout(() => setShared(false), 2000);
+        }}
         className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all"
         style={{
           background: shared ? "rgba(0,255,136,0.08)" : "rgba(255,255,255,0.04)",

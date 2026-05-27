@@ -14,7 +14,7 @@ import {
   Search,
   Volume2,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const categories = [
   { name: "All", active: true },
@@ -149,10 +149,26 @@ const channels = [
 export default function VideoPage() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [search, setSearch] = useState("");
-  const [likedVideos, setLikedVideos] = useState<Set<number>>(new Set([1]));
-  const [savedVideos, setSavedVideos] = useState<Set<number>>(new Set());
-  const [followedChannels, setFollowedChannels] = useState<Set<string>>(new Set());
+  const [likedVideos, setLikedVideos] = useState<Set<number>>(() => {
+    try { const s = localStorage.getItem("vine_video_liked"); return s ? new Set(JSON.parse(s)) : new Set([1]); } catch { return new Set([1]); }
+  });
+  const [savedVideos, setSavedVideos] = useState<Set<number>>(() => {
+    try { const s = localStorage.getItem("vine_video_saved"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
+  });
+  const [followedChannels, setFollowedChannels] = useState<Set<string>>(() => {
+    try { const s = localStorage.getItem("vine_video_followed"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
+  });
   const [featuredSaved, setFeaturedSaved] = useState(false);
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_video_liked", JSON.stringify([...likedVideos])); } catch {}
+  }, [likedVideos]);
+  useEffect(() => {
+    try { localStorage.setItem("vine_video_saved", JSON.stringify([...savedVideos])); } catch {}
+  }, [savedVideos]);
+  useEffect(() => {
+    try { localStorage.setItem("vine_video_followed", JSON.stringify([...followedChannels])); } catch {}
+  }, [followedChannels]);
 
   const filteredVideos = videos.filter((v) => {
     const matchCat = activeCategory === "All" || v.tag === activeCategory;

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
@@ -217,10 +217,21 @@ const genreColors: Record<string, string> = {
 
 export default function WorshipPage() {
   const [playingSong, setPlayingSong] = useState<number | null>(null);
-  const [joinedCircles, setJoinedCircles] = useState<Set<number>>(new Set());
-  const [followedCreators, setFollowedCreators] = useState<Set<number>>(new Set());
+  const [joinedCircles, setJoinedCircles] = useState<Set<number>>(() => {
+    try { const s = localStorage.getItem("vine_worship_circles"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
+  });
+  const [followedCreators, setFollowedCreators] = useState<Set<number>>(() => {
+    try { const s = localStorage.getItem("vine_worship_creators"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
+  });
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [viewChord, setViewChord] = useState<number | null>(null);
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_worship_circles", JSON.stringify([...joinedCircles])); } catch {}
+  }, [joinedCircles]);
+  useEffect(() => {
+    try { localStorage.setItem("vine_worship_creators", JSON.stringify([...followedCreators])); } catch {}
+  }, [followedCreators]);
 
   const togglePlay = (i: number) => setPlayingSong(playingSong === i ? null : i);
   const toggleJoin = (i: number) => setJoinedCircles(prev => {

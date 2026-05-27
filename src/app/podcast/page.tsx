@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
@@ -200,11 +200,22 @@ const featuredEpisodes = [
 export default function PodcastPage() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [search, setSearch] = useState("");
-  const [subscribedShows, setSubscribedShows] = useState<Set<string>>(new Set());
-  const [savedEpisodes, setSavedEpisodes] = useState<Set<number>>(new Set());
+  const [subscribedShows, setSubscribedShows] = useState<Set<string>>(() => {
+    try { const s = localStorage.getItem("vine_podcast_subscribed"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
+  });
+  const [savedEpisodes, setSavedEpisodes] = useState<Set<number>>(() => {
+    try { const s = localStorage.getItem("vine_podcast_saved"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
+  });
   const [playingEp, setPlayingEp] = useState<number | null>(null);
   const [progress, setProgress] = useState(38);
   const [globalPlaying, setGlobalPlaying] = useState(false);
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_podcast_subscribed", JSON.stringify([...subscribedShows])); } catch {}
+  }, [subscribedShows]);
+  useEffect(() => {
+    try { localStorage.setItem("vine_podcast_saved", JSON.stringify([...savedEpisodes])); } catch {}
+  }, [savedEpisodes]);
 
   const toggleSubscribe = (id: string) => {
     setSubscribedShows((prev) => {

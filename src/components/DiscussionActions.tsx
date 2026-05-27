@@ -23,6 +23,9 @@ export default function DiscussionActions({
   };
 
   const handleShare = () => {
+    try {
+      navigator.clipboard.writeText(window.location.href);
+    } catch {}
     setShared(true);
     setTimeout(() => setShared(false), 2000);
   };
@@ -50,11 +53,12 @@ export default function DiscussionActions({
       </button>
       <button
         onClick={handleShare}
-        className="p-1.5 rounded-lg transition-all"
+        className="flex items-center gap-1 p-1.5 rounded-lg transition-all text-xs font-semibold"
         style={{ color: shared ? "#00FF88" : "#4A4A68" }}
-        title="Share"
+        title={shared ? "Link copied!" : "Copy link"}
       >
         <Share2 size={14} />
+        {shared && <span style={{ fontSize: "10px" }}>Copied!</span>}
       </button>
     </div>
   );

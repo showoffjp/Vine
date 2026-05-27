@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CreatePostModal from "@/components/CreatePostModal";
@@ -453,10 +453,26 @@ const rules = [
 ];
 
 export default function DiscussionsPage() {
-  const [upvotedPosts, setUpvotedPosts] = useState<Set<number>>(new Set());
-  const [savedPosts, setSavedPosts] = useState<Set<number>>(new Set());
-  const [joinedHubs, setJoinedHubs] = useState<Set<number>>(new Set());
+  const [upvotedPosts, setUpvotedPosts] = useState<Set<number>>(() => {
+    try { const s = localStorage.getItem("vine_disc_upvoted"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
+  });
+  const [savedPosts, setSavedPosts] = useState<Set<number>>(() => {
+    try { const s = localStorage.getItem("vine_disc_saved"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
+  });
+  const [joinedHubs, setJoinedHubs] = useState<Set<number>>(() => {
+    try { const s = localStorage.getItem("vine_disc_hubs"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
+  });
   const [activeSort, setActiveSort] = useState("Hot");
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_disc_upvoted", JSON.stringify([...upvotedPosts])); } catch {}
+  }, [upvotedPosts]);
+  useEffect(() => {
+    try { localStorage.setItem("vine_disc_saved", JSON.stringify([...savedPosts])); } catch {}
+  }, [savedPosts]);
+  useEffect(() => {
+    try { localStorage.setItem("vine_disc_hubs", JSON.stringify([...joinedHubs])); } catch {}
+  }, [joinedHubs]);
 
   const toggleUpvote = (id: number) => setUpvotedPosts(prev => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
   const toggleSave = (id: number) => setSavedPosts(prev => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });

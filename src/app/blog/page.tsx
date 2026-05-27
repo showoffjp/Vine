@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
@@ -369,10 +369,21 @@ const editors = [
 
 export default function BlogPage() {
   const [activeCategory, setActiveCategory] = useState("All");
-  const [savedPosts, setSavedPosts] = useState<Set<number>>(new Set());
-  const [followedEditors, setFollowedEditors] = useState<Set<string>>(new Set());
+  const [savedPosts, setSavedPosts] = useState<Set<number>>(() => {
+    try { const s = localStorage.getItem("vine_blog_saved"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
+  });
+  const [followedEditors, setFollowedEditors] = useState<Set<string>>(() => {
+    try { const s = localStorage.getItem("vine_blog_editors"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
+  });
   const [newsletterEmail, setNewsletterEmail] = useState("");
   const [newsletterDone, setNewsletterDone] = useState(false);
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_blog_saved", JSON.stringify([...savedPosts])); } catch {}
+  }, [savedPosts]);
+  useEffect(() => {
+    try { localStorage.setItem("vine_blog_editors", JSON.stringify([...followedEditors])); } catch {}
+  }, [followedEditors]);
 
   const toggleSave = (i: number) => setSavedPosts(prev => { const n = new Set(prev); n.has(i) ? n.delete(i) : n.add(i); return n; });
   const toggleFollow = (name: string) => setFollowedEditors(prev => { const n = new Set(prev); n.has(name) ? n.delete(name) : n.add(name); return n; });

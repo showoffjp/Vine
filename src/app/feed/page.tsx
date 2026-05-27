@@ -514,7 +514,14 @@ export default function FeedPage() {
                       <MessageSquare size={15} />
                       <span className="text-xs">{post.comments}</span>
                     </a>
-                    <button className="flex items-center gap-1.5 text-sm" style={{ color: "#6A6A88" }}>
+                    <button
+                      onClick={() => {
+                        try { navigator.clipboard.writeText(window.location.origin + post.link); } catch {}
+                      }}
+                      className="flex items-center gap-1.5 text-sm transition-colors hover:text-[#00FF88]"
+                      style={{ color: "#6A6A88" }}
+                      title="Copy link"
+                    >
                       <Share2 size={15} />
                     </button>
                     <button

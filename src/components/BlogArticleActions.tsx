@@ -9,6 +9,7 @@ export default function BlogArticleActions() {
   const [shared, setShared] = useState(false);
 
   const handleShare = () => {
+    try { navigator.clipboard.writeText(window.location.href); } catch {}
     setShared(true);
     setTimeout(() => setShared(false), 2000);
   };

@@ -18,7 +18,7 @@
 [![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)](https://typescriptlang.org)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-06B6D4?logo=tailwindcss)](https://tailwindcss.com)
-[![Pages](https://img.shields.io/badge/Static%20Pages-177-00FF88)](https://vine.app)
+[![Pages](https://img.shields.io/badge/Static%20Pages-186-00FF88)](https://vine.app)
 
 </div>
 
@@ -345,13 +345,22 @@ The `.page-body` CSS utility class applies header-aware top padding (`padding-to
   - Category filter (Prayer, Scripture, Community, Rest, Generosity)
   - Hall of Fame section showing top completers
 
-### Community Features (new)
+### Community Features
 - **Prayer Wall** (`/prayer-wall`) — global prayer board with persistent "I'll Pray" state
 - **Testimony Wall** (`/testimony`) — faith stories with like/encourage persistence
 - **Faith Journey** (`/faith-journey`) — personal spiritual milestone timeline
 - **Accountability** (`/accountability`) — partner-based goal tracking with daily check-ins
 - **Bible Study** (`/bible-study`) — OIA structured study workspace
 - **Reading List** (`/reading-list`) — Christian book tracker with ratings and notes
+- **Prayer Partners** (`/prayer-partner`) — find & connect with global prayer partners; log sessions with duration, topic, Scripture, and notes; track total minutes prayed
+- **Mentorship** (`/mentorship`) — 8 verified mentor profiles across 8 countries; filter by expertise/availability; request modal with topic, message, format, and frequency; "My Requests" tab with status tracking
+- **Youth & Students** (`/youth`) — faith challenges (6 categories, difficulty levels, step-by-step guides), curated resources with age-group filter, real discussion topics; all with localStorage persistence
+- **Grief & Loss** (`/grief`) — 5 real-story testimonies across loss types (Spouse, Child, Parent, Miscarriage, Community Tragedy); private reflection journal with prompts and mood selector; resource library + crisis resources
+- **Devotional Creator** (`/devotional-creator`) — 4-step write flow (Verse → Body → Prayer/Application → Preview); 5 seed devotionals; browse with theme/audience filter; full CRUD with edit/delete; like/save per devotional
+- **Christian Quotes** (`/quotes`) — 50 curated quotes from Augustine, C.S. Lewis, Corrie ten Boom, Spurgeon, Keller, and more; masonry grid; filter by category (19) and era (9); sort by likes/author; save, like, copy-to-clipboard
+- **Sermon Archive** (`/sermon-archive`) — 12 curated sermons from Keller, Caine, Giglio, Piper, and more; filter by topic/type; save, like; built-in note-taking with key point extraction; persists to localStorage
+- **Church Finder** (`/church-finder`) — 15 seed churches across 8 countries; denomination/country/size/online filters; heart/save
+- **Spiritual Disciplines** (`/disciplines`) — 12 discipline guides with full how-to steps, teachers, verse; commit-to and log-practice tracking
 
 ### AI & Tools
 - **`/ai-companion`** — AI Bible Companion chat interface with conversation history

@@ -31,6 +31,7 @@ const navLinks = [
       { label: "Podcasts", href: "/podcast" },
       { label: "Bible Tools", href: "/bible" },
       { label: "Bible Study", href: "/bible-study" },
+      { label: "Character Studies", href: "/character-study" },
       { label: "Reading Plan", href: "/reading-plan" },
       { label: "Reading List", href: "/reading-list" },
       { label: "Apologetics", href: "/apologetics" },

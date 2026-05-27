@@ -44,6 +44,7 @@ const navLinks = [
       { label: "Bible Reader", href: "/bible" },
       { label: "Reading Plans", href: "/reading-plan" },
       { label: "Verse Memory", href: "/verse-memory" },
+      { label: "Scripture Game", href: "/scripture-game" },
       { label: "Spiritual Gifts", href: "/spiritual-gifts" },
       { label: "Worship", href: "/worship" },
       { label: "Live Church", href: "/live" },

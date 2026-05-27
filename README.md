@@ -18,7 +18,7 @@
 [![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)](https://typescriptlang.org)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-06B6D4?logo=tailwindcss)](https://tailwindcss.com)
-[![Pages](https://img.shields.io/badge/Static%20Pages-152-00FF88)](https://vine.app)
+[![Pages](https://img.shields.io/badge/Static%20Pages-157-00FF88)](https://vine.app)
 
 </div>
 
@@ -92,8 +92,8 @@ The `.page-body` CSS utility class applies header-aware top padding (`padding-to
   - Upvote with live count increment
   - Save posts with count update
   - Join/leave hubs
-  - 18 posts across Faith & Career, Theology, Young Adults, Parenting, Mental Health
-- **`/discussions/[slug]`** — 18 individual discussion threads with nested comment replies and upvoting:
+  - 21 posts across Faith & Career, Theology, Young Adults, Parenting, Mental Health, Church Life, Relationships
+- **`/discussions/[slug]`** — 22 individual discussion threads with nested comment replies and upvoting:
   - *Faith & Doubt* — questioning God's existence
   - *Free Will & Omniscience* — deep theological dive
   - *Depression + Therapy* — mental health integration
@@ -112,6 +112,10 @@ The `.page-body` CSS utility class applies header-aware top padding (`padding-to
   - *Faith at Work* — workplace witness without being weird
   - *Sunday Church Attendance* — mandatory or cultural?
   - *Biblical Manhood in 2026* — Christlike masculinity
+  - *Theodicy for Teenagers* — explaining why God allows suffering
+  - *Baptism Debate* — infant vs. believer's baptism as secondary doctrine
+  - *LGBTQ+ and Church* — gracious pastoral care without culture war
+  - *Interracial Marriage* — Scripture's clear answer on race and covenant
 - **`/community`** — Community circles with join/leave, featured circles, nearby groups, member invite by email
 - **`/prayer`** — Live prayer wall with:
   - Animated "Live" indicator
@@ -299,11 +303,11 @@ All data is realistic and written in the voice of the global Protestant Christia
 
 **Authors & Voices**: Dr. Marcus Webb, Rev. Sarah Okonkwo, Tim Challies, David Platt, Amara Osei (Ghana), Ji-Woo Park (South Korea), Carlos Mendez (Colombia), Lydia Böhm (Germany), Samuel Mwangi (Kenya), Dr. Naomi Park (Korea/USA), Rev. Josephine Kamau (Kenya), Dr. Grace Mbeki (South Africa), James Okafor (Nigeria/UK), Bishop Emmanuel Adeyemi (Nigeria), Dr. Rachel Osei (Ghana), Rev. David Osei (Ghana), Pastor Marcus Webb (USA)
 
-**Discussions**: 18 fully realized threads covering faith doubts, mental health, marriage crisis, job loss, prodigal children, church attendance debates, biblical manhood, workplace faith, tithing, resurrection evidence, and more
+**Discussions**: 22 fully realized threads covering faith doubts, mental health, marriage crisis, job loss, prodigal children, church attendance debates, biblical manhood, workplace faith, tithing, resurrection evidence, theodicy, baptism debates, LGBTQ+ pastoral care, interracial marriage, and more
 
-**Blog**: 16 long-form articles with full content, verse blocks, pull quotes, and related article recommendations
+**Blog**: 20 long-form articles with full content, verse blocks, pull quotes, and related article recommendations
 
-**Topics**: 9 topic pages with 4 real discussion entries each, related topic suggestions, and scripture references
+**Topics**: 10 topic pages with 4 real discussion entries each, related topic suggestions, and scripture references
 
 **Global Reach**: Content from Sub-Saharan Africa (Ghana, Kenya, Nigeria, South Africa), East Asia (South Korea), Latin America (Colombia, Brazil), North America, Europe (Germany, UK) — 184 countries represented
 

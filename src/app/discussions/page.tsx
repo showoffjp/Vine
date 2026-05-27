@@ -64,7 +64,7 @@ const posts = [
   },
   {
     id: 2,
-    slug: "faith-and-doubt-001",
+    slug: "theodicy-suffering-021",
     hub: "Christian Parenting",
     hubColor: "#BB4F7A",
     time: "45 min ago",

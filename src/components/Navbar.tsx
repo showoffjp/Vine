@@ -26,6 +26,7 @@ const navLinks = [
       { label: "Video Library", href: "/video" },
       { label: "Podcasts", href: "/podcast" },
       { label: "Bible Tools", href: "/bible" },
+      { label: "Bible Study", href: "/bible-study" },
       { label: "Reading Plan", href: "/reading-plan" },
       { label: "Apologetics", href: "/apologetics" },
     ],

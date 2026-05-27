@@ -6,6 +6,18 @@ import { Search, Hash } from "lucide-react";
 type Topic = {
   label: string;
   color: string;
+  slug?: string;
+};
+
+const TOPIC_SLUGS: Record<string, string> = {
+  Prayer: "prayer-fasting",
+  Fasting: "prayer-fasting",
+  Marriage: "marriage-faith",
+  Deconstruction: "deconstruction",
+  Depression: "mental-health-god",
+  "Mental Health": "mental-health-god",
+  Resurrection: "resurrection",
+  "Gen Z": "genz-church",
 };
 
 const ALL_TOPICS: Topic[] = [
@@ -310,43 +322,50 @@ export default function TopicBrowser() {
             justifyContent: "center",
           }}
         >
-          {filtered.map((topic) => (
-            <button
-              key={topic.label}
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "6px",
-                padding: "9px 18px",
-                borderRadius: "999px",
-                background: `${topic.color}14`,
-                border: `1px solid ${topic.color}35`,
-                color: topic.color,
-                fontSize: "0.85rem",
-                fontWeight: 600,
-                cursor: "pointer",
-                transition: "all 0.2s",
-                letterSpacing: "0.01em",
-              }}
-              onMouseEnter={(e) => {
-                const btn = e.currentTarget as HTMLButtonElement;
-                btn.style.background = `${topic.color}28`;
-                btn.style.borderColor = `${topic.color}60`;
-                btn.style.transform = "translateY(-1px)";
-                btn.style.boxShadow = `0 4px 12px ${topic.color}30`;
-              }}
-              onMouseLeave={(e) => {
-                const btn = e.currentTarget as HTMLButtonElement;
-                btn.style.background = `${topic.color}14`;
-                btn.style.borderColor = `${topic.color}35`;
-                btn.style.transform = "translateY(0)";
-                btn.style.boxShadow = "none";
-              }}
-            >
-              <Hash size={12} />
-              {topic.label}
-            </button>
-          ))}
+          {filtered.map((topic) => {
+            const href = TOPIC_SLUGS[topic.label]
+              ? `/topics/${TOPIC_SLUGS[topic.label]}`
+              : `/discussions?tag=${encodeURIComponent(topic.label)}`;
+            return (
+              <a
+                key={topic.label}
+                href={href}
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  padding: "9px 18px",
+                  borderRadius: "999px",
+                  background: `${topic.color}14`,
+                  border: `1px solid ${topic.color}35`,
+                  color: topic.color,
+                  fontSize: "0.85rem",
+                  fontWeight: 600,
+                  cursor: "pointer",
+                  transition: "all 0.2s",
+                  letterSpacing: "0.01em",
+                  textDecoration: "none",
+                }}
+                onMouseEnter={(e) => {
+                  const el = e.currentTarget as HTMLAnchorElement;
+                  el.style.background = `${topic.color}28`;
+                  el.style.borderColor = `${topic.color}60`;
+                  el.style.transform = "translateY(-1px)";
+                  el.style.boxShadow = `0 4px 12px ${topic.color}30`;
+                }}
+                onMouseLeave={(e) => {
+                  const el = e.currentTarget as HTMLAnchorElement;
+                  el.style.background = `${topic.color}14`;
+                  el.style.borderColor = `${topic.color}35`;
+                  el.style.transform = "translateY(0)";
+                  el.style.boxShadow = "none";
+                }}
+              >
+                <Hash size={12} />
+                {topic.label}
+              </a>
+            );
+          })}
         </div>
 
         {/* Empty state */}

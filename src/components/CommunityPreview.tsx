@@ -98,10 +98,11 @@ export default function CommunityPreview() {
           {/* Left: Discussion Feed */}
           <div className="lg:col-span-2 space-y-4">
             {discussions.map((post, i) => (
-              <div
+              <a
                 key={i}
-                className="card-glow rounded-2xl p-5 cursor-pointer group"
-                style={{ background: "var(--bg-card)" }}
+                href="/discussions"
+                className="card-glow rounded-2xl p-5 cursor-pointer group block"
+                style={{ background: "var(--bg-card)", textDecoration: "none" }}
               >
                 {/* Hub + time */}
                 <div className="flex items-center gap-2 mb-3">
@@ -177,12 +178,12 @@ export default function CommunityPreview() {
                     Share
                   </button>
                 </div>
-              </div>
+              </a>
             ))}
 
-            <button className="w-full py-3 rounded-xl text-sm font-semibold btn-outline-gold">
+            <a href="/discussions" className="w-full py-3 rounded-xl text-sm font-semibold btn-outline-gold block text-center" style={{ textDecoration: "none" }}>
               View All Discussions
-            </button>
+            </a>
           </div>
 
           {/* Right: Sidebar */}

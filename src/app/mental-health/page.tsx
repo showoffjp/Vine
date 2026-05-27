@@ -76,14 +76,14 @@ const faithBasics = [
 ];
 
 const resources = [
-  { topic: "Anxiety", type: "Article", title: "When Prayer Feels Like It Isn't Working", time: "8 min read", color: "#6B4FBB" },
-  { topic: "Depression", type: "Video", title: "My Journey Through the Dark Night of the Soul", time: "22 min watch", color: "#00FF88" },
-  { topic: "Grief", type: "Article", title: "God, Grief, and the Permission to Mourn", time: "12 min read", color: "#4F8FBB" },
-  { topic: "Trauma", type: "Audio", title: "Healing the Wounds We Don't Show Anyone", time: "38 min listen", color: "#4FBBAA" },
-  { topic: "Loneliness", type: "Article", title: "The Lonely Christian: You Are Not Abandoned", time: "6 min read", color: "#BB7A4F" },
-  { topic: "Burnout", type: "Video", title: "Sabbath Is Not Optional — It's Medicine", time: "18 min watch", color: "#BB4F7A" },
-  { topic: "Addiction", type: "Article", title: "Breaking Chains: Faith & Recovery Programs That Work", time: "15 min read", color: "#8A5FBB" },
-  { topic: "Relationships", type: "Audio", title: "Healthy Boundaries: A Biblical Perspective", time: "45 min listen", color: "#4FBBAA" },
+  { topic: "Anxiety", type: "Article", title: "When Prayer Feels Like It Isn't Working", time: "8 min read", color: "#6B4FBB", href: "/discussions/prayer-doesnt-feel-real-009" },
+  { topic: "Depression", type: "Discussion", title: "My Journey Through the Dark Night of the Soul", time: "Community", color: "#00FF88", href: "/discussions/worship-feels-empty-011" },
+  { topic: "Grief", type: "Article", title: "God, Grief, and the Permission to Mourn", time: "12 min read", color: "#4F8FBB", href: "/blog/psalms-permission-to-lament" },
+  { topic: "Trauma", type: "Discussion", title: "Healing the Wounds We Don't Show Anyone", time: "Community", color: "#4FBBAA", href: "/discussions/depression-therapy-faith-005" },
+  { topic: "Loneliness", type: "Article", title: "The Lonely Christian: You Are Not Abandoned", time: "6 min read", color: "#BB7A4F", href: "/topics/mental-health-god" },
+  { topic: "Burnout", type: "Article", title: "Sabbath Is Not Optional — It's Medicine", time: "8 min read", color: "#BB4F7A", href: "/blog/digital-sabbath" },
+  { topic: "Addiction", type: "Groups", title: "Breaking Chains: Faith & Recovery Programs", time: "Community", color: "#8A5FBB", href: "/groups/mental-health-faith" },
+  { topic: "Relationships", type: "Article", title: "Healthy Boundaries: A Biblical Perspective", time: "8 min read", color: "#4FBBAA", href: "/discussions/marriage-hard-church-silent-013" },
 ];
 
 const therapists = [
@@ -309,15 +309,21 @@ export default function MentalHealthPage() {
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: "14px" }}>
               {resources.map((res, i) => (
-                <div
+                <a
                   key={i}
+                  href={res.href}
                   style={{
                     background: "#12121F",
                     border: "1px solid #1E1E32",
                     borderRadius: "16px",
                     padding: "20px",
                     cursor: "pointer",
+                    display: "block",
+                    textDecoration: "none",
+                    transition: "border-color 0.2s, background 0.2s",
                   }}
+                  onMouseEnter={(e) => { e.currentTarget.style.borderColor = `${res.color}40`; e.currentTarget.style.background = `${res.color}06`; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.borderColor = "#1E1E32"; e.currentTarget.style.background = "#12121F"; }}
                 >
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "12px" }}>
                     <span
@@ -338,7 +344,7 @@ export default function MentalHealthPage() {
                     {res.title}
                   </h3>
                   <p style={{ color: "#6A6A88", fontSize: "12px" }}>{res.time}</p>
-                </div>
+                </a>
               ))}
             </div>
           </section>

@@ -363,6 +363,11 @@ export default function BiblePage() {
   const [verseSearch, setVerseSearch] = useState("");
   const [searchResults, setSearchResults] = useState<Array<{ book: string; chapter: number; verse: VerseData }>>([]);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [verseNotes, setVerseNotes] = useState<Record<string, string>>(() => {
+    try { const s = localStorage.getItem("vine_bible_notes"); return s ? JSON.parse(s) : {}; } catch { return {}; }
+  });
+  const [notingVerseKey, setNotingVerseKey] = useState<string | null>(null);
+  const [noteInput, setNoteInput] = useState("");
 
   const handleVerseSearch = (q: string) => {
     setVerseSearch(q);
@@ -402,6 +407,26 @@ export default function BiblePage() {
   useEffect(() => {
     try { localStorage.setItem("vine_bible_chapter", String(selectedChapter)); } catch {}
   }, [selectedChapter]);
+  useEffect(() => {
+    try { localStorage.setItem("vine_bible_notes", JSON.stringify(verseNotes)); } catch {}
+  }, [verseNotes]);
+
+  const getNoteKey = (verseNum: number) => `${selectedBook}-${selectedChapter}-${verseNum}`;
+
+  const saveNote = () => {
+    if (!notingVerseKey) return;
+    if (noteInput.trim()) {
+      setVerseNotes((prev) => ({ ...prev, [notingVerseKey]: noteInput.trim() }));
+    } else {
+      setVerseNotes((prev) => {
+        const next = { ...prev };
+        delete next[notingVerseKey];
+        return next;
+      });
+    }
+    setNotingVerseKey(null);
+    setNoteInput("");
+  };
 
   const currentVerses = bibleData[selectedBook]?.[selectedChapter] ?? genesisVerses;
   const currentChapters = bookChapters[selectedBook] ?? [1];
@@ -774,11 +799,16 @@ export default function BiblePage() {
                           ))}
                           <div className="w-px h-4" style={{ background: "#1E1E32" }} />
                           <button
+                            onClick={() => {
+                              const key = getNoteKey(verse.num);
+                              setNotingVerseKey(key);
+                              setNoteInput(verseNotes[key] || "");
+                            }}
                             className="flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-medium transition-all hover:bg-[#1E1E32]"
-                            style={{ color: "#8A8AA8" }}
+                            style={{ color: verseNotes[getNoteKey(verse.num)] ? "#F59E0B" : "#8A8AA8" }}
                           >
                             <StickyNote size={12} />
-                            Note
+                            {verseNotes[getNoteKey(verse.num)] ? "Edit Note" : "Note"}
                           </button>
                           <button
                             className="flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-medium transition-all hover:bg-[#1E1E32]"
@@ -831,6 +861,47 @@ export default function BiblePage() {
                           <Bookmark size={13} className="mt-1 flex-shrink-0" fill="#00FF88" style={{ color: "#00FF88" }} />
                         )}
                       </div>
+
+                      {/* Existing note display */}
+                      {verseNotes[getNoteKey(verse.num)] && notingVerseKey !== getNoteKey(verse.num) && (
+                        <div className="mx-4 mb-2 px-3 py-2 rounded-lg flex items-start gap-2" style={{ background: "rgba(245,158,11,0.06)", border: "1px solid rgba(245,158,11,0.2)" }}>
+                          <StickyNote size={11} className="mt-0.5 shrink-0" style={{ color: "#F59E0B" }} />
+                          <p className="text-xs leading-relaxed flex-1" style={{ color: "#C0A060" }}>{verseNotes[getNoteKey(verse.num)]}</p>
+                        </div>
+                      )}
+
+                      {/* Inline note editor */}
+                      {notingVerseKey === getNoteKey(verse.num) && (
+                        <div className="mx-4 mb-3 rounded-xl p-3" style={{ background: "rgba(245,158,11,0.06)", border: "1px solid rgba(245,158,11,0.25)" }}>
+                          <p className="text-xs font-bold mb-2" style={{ color: "#F59E0B" }}>Note for verse {verse.num}</p>
+                          <textarea
+                            value={noteInput}
+                            onChange={(e) => setNoteInput(e.target.value)}
+                            placeholder="Type your note or reflection..."
+                            rows={3}
+                            autoFocus
+                            className="w-full bg-transparent text-xs outline-none resize-none"
+                            style={{ color: "#F2F2F8", lineHeight: "1.7" }}
+                          />
+                          <div className="flex gap-2 mt-2">
+                            <button onClick={saveNote} className="px-3 py-1 rounded-lg text-xs font-bold" style={{ background: "rgba(245,158,11,0.2)", color: "#F59E0B", border: "1px solid rgba(245,158,11,0.4)" }}>
+                              Save Note
+                            </button>
+                            <button onClick={() => { setNotingVerseKey(null); setNoteInput(""); }} className="px-3 py-1 rounded-lg text-xs" style={{ color: "#6A6A88" }}>
+                              Cancel
+                            </button>
+                            {verseNotes[getNoteKey(verse.num)] && (
+                              <button
+                                onClick={() => { setNoteInput(""); saveNote(); }}
+                                className="px-3 py-1 rounded-lg text-xs"
+                                style={{ color: "#EF4444" }}
+                              >
+                                Delete
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   );
                 })}

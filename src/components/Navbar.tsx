@@ -22,6 +22,7 @@ const navLinks = [
   {
     label: "Resources",
     children: [
+      { label: "Devotional Creator", href: "/devotional-creator" },
       { label: "Guides & Articles", href: "/resources" },
       { label: "Video Library", href: "/video" },
       { label: "Podcasts", href: "/podcast" },

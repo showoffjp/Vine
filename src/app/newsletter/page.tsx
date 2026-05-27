@@ -13,7 +13,7 @@ import {
   Flame,
   Users,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const pastIssues = [
   {
@@ -96,9 +96,32 @@ const testimonials = [
 ];
 
 export default function NewsletterPage() {
-  const [email, setEmail] = useState("");
-  const [selected, setSelected] = useState<string[]>(["The Weekly Vine"]);
-  const [submitted, setSubmitted] = useState(false);
+  const [email, setEmail] = useState(() => {
+    try { return localStorage.getItem("vine_newsletter_email") ?? ""; } catch { return ""; }
+  });
+  const [selected, setSelected] = useState<string[]>(() => {
+    try {
+      const s = localStorage.getItem("vine_newsletter_editions");
+      return s ? (JSON.parse(s) as string[]) : ["The Weekly Vine"];
+    } catch { return ["The Weekly Vine"]; }
+  });
+  const [submitted, setSubmitted] = useState(() => {
+    try { return localStorage.getItem("vine_newsletter_subscribed") === "true"; } catch { return false; }
+  });
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_newsletter_editions", JSON.stringify(selected)); } catch {}
+  }, [selected]);
+
+  const handleSubscribe = () => {
+    if (email && selected.length) {
+      try {
+        localStorage.setItem("vine_newsletter_email", email);
+        localStorage.setItem("vine_newsletter_subscribed", "true");
+      } catch {}
+      setSubmitted(true);
+    }
+  };
 
   const toggleEdition = (name: string) => {
     setSelected((prev) =>
@@ -222,7 +245,7 @@ export default function NewsletterPage() {
                   }}
                 />
                 <button
-                  onClick={() => email && selected.length && setSubmitted(true)}
+                  onClick={handleSubscribe}
                   className="px-6 py-3 rounded-xl font-bold text-sm text-black transition-opacity"
                   style={{
                     background: "linear-gradient(135deg, #00FF88, #00BB55)",
@@ -246,8 +269,21 @@ export default function NewsletterPage() {
             >
               <CheckCircle size={40} style={{ color: "#10B981" }} className="mx-auto mb-4" />
               <h3 className="text-xl font-black mb-2" style={{ color: "#F2F2F8" }}>You&apos;re in!</h3>
-              <p className="text-sm" style={{ color: "#6A6A88" }}>
+              <p className="text-sm mb-4" style={{ color: "#6A6A88" }}>
                 Check your inbox for a confirmation email. Your first issue arrives Sunday morning.
+              </p>
+              <p className="text-xs" style={{ color: "#4A4A68" }}>
+                Subscribed as <span style={{ color: "#8A8AA8" }}>{email}</span> ·{" "}
+                <button
+                  onClick={() => {
+                    try { localStorage.removeItem("vine_newsletter_subscribed"); } catch {}
+                    setSubmitted(false);
+                  }}
+                  className="underline"
+                  style={{ color: "#6A6A88" }}
+                >
+                  Unsubscribe
+                </button>
               </p>
             </div>
           )}

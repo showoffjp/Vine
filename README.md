@@ -18,7 +18,7 @@
 [![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)](https://typescriptlang.org)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-06B6D4?logo=tailwindcss)](https://tailwindcss.com)
-[![Pages](https://img.shields.io/badge/Static%20Pages-163-00FF88)](https://vine.app)
+[![Pages](https://img.shields.io/badge/Static%20Pages-164-00FF88)](https://vine.app)
 
 </div>
 
@@ -74,6 +74,7 @@ The `.page-body` CSS utility class applies header-aware top padding (`padding-to
 - **`/onboarding`** — Multi-step signup flow (name → denomination → interests → goals → profile photo) persisted to `localStorage` as `vine_user`
 - **`/profile`** — User profile page reading from `vine_user` localStorage, with post/prayer/community tabs
 - **`/dashboard`** — Personal progress dashboard aggregating all localStorage activity (Bible reading, prayer, challenges, groups, media, missions) with a level/badge system
+- **`/saved`** — Aggregated "My Library" page that reads every `vine_*` localStorage key and shows a categorized count of saved content (Feed Posts, Discussions, Articles, Stories, Podcasts, Videos, Verse Memory, Life Hacks, Journal, Apologetics, Events, Bible Bookmarks, Bible Notes, Reading Plan). Includes empty-state CTA and a "Find More to Save" quick links grid. Loads via `useEffect` to prevent SSR mismatch.
 
 ### Scripture & Devotions
 - **`/bible`** — Interactive Bible reader with book/chapter navigation, verse highlighting, and cross-references

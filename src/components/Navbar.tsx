@@ -35,6 +35,7 @@ const navLinks = [
       { label: "Bible Reader", href: "/bible" },
       { label: "Reading Plans", href: "/reading-plan" },
       { label: "Verse Memory", href: "/verse-memory" },
+      { label: "Spiritual Gifts", href: "/spiritual-gifts" },
       { label: "Worship", href: "/worship" },
       { label: "Live Church", href: "/live" },
       { label: "My Journal", href: "/journal" },
@@ -368,6 +369,7 @@ export default function Navbar() {
                         { label: "My Feed", href: "/feed" },
                         { label: "My Profile", href: "/profile" },
                         { label: "My Journal", href: "/journal" },
+                        { label: "My Saved", href: "/saved" },
                         { label: "My Groups", href: "/groups" },
                         { label: "Notifications", href: "/notifications" },
                         { label: "Settings", href: "/settings" },
@@ -461,6 +463,7 @@ export default function Navbar() {
                   <>
                     <a href="/dashboard" className="btn-gold w-full py-2.5 rounded-lg text-sm text-center" onClick={() => setMobileOpen(false)}>My Dashboard</a>
                     <a href="/feed" className="btn-outline-gold w-full py-2.5 rounded-lg text-sm text-center" onClick={() => setMobileOpen(false)}>My Feed</a>
+                    <a href="/saved" className="btn-outline-gold w-full py-2.5 rounded-lg text-sm text-center" onClick={() => setMobileOpen(false)}>My Saved</a>
                     <a href="/profile" className="btn-outline-gold w-full py-2.5 rounded-lg text-sm text-center" onClick={() => setMobileOpen(false)}>My Profile</a>
                     <button className="w-full py-2.5 rounded-lg text-sm font-semibold" style={{ color: "#EF4444", border: "1px solid rgba(239,68,68,0.2)" }} onClick={handleSignOut}>Sign Out</button>
                   </>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
@@ -210,12 +210,27 @@ export default function ResourcesPage() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedTopic, setSelectedTopic] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
-  const [savedResources, setSavedResources] = useState<Set<number>>(new Set());
-  const [featuredSaved, setFeaturedSaved] = useState(false);
+  const [savedResources, setSavedResources] = useState<Set<string>>(() => {
+    try {
+      const s = localStorage.getItem("vine_resources_saved");
+      return s ? new Set(JSON.parse(s) as string[]) : new Set();
+    } catch { return new Set(); }
+  });
+  const [featuredSaved, setFeaturedSaved] = useState(() => {
+    try { return localStorage.getItem("vine_resources_featured") === "true"; } catch { return false; }
+  });
 
-  const toggleSave = (i: number) => setSavedResources(prev => {
+  useEffect(() => {
+    try { localStorage.setItem("vine_resources_saved", JSON.stringify([...savedResources])); } catch {}
+  }, [savedResources]);
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_resources_featured", String(featuredSaved)); } catch {}
+  }, [featuredSaved]);
+
+  const toggleSave = (title: string) => setSavedResources(prev => {
     const next = new Set(prev);
-    if (next.has(i)) next.delete(i); else next.add(i);
+    if (next.has(title)) next.delete(title); else next.add(title);
     return next;
   });
 
@@ -567,11 +582,11 @@ export default function ResourcesPage() {
                       </div>
                       <div className="flex items-center gap-1">
                         <button
-                          onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleSave(i); }}
+                          onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleSave(r.title); }}
                           className="p-1.5 rounded-lg transition hover:bg-[#1E1E32]"
-                          style={{ color: savedResources.has(i) ? "#00FF88" : "#4A4A68" }}
+                          style={{ color: savedResources.has(r.title) ? "#00FF88" : "#4A4A68" }}
                         >
-                          <Bookmark size={13} fill={savedResources.has(i) ? "#00FF88" : "none"} />
+                          <Bookmark size={13} fill={savedResources.has(r.title) ? "#00FF88" : "none"} />
                         </button>
                         <button
                           onClick={(e) => e.preventDefault()}

@@ -14,6 +14,7 @@ const navLinks = [
       { label: "Groups", href: "/groups" },
       { label: "Prayer Wall", href: "/prayer-wall" },
       { label: "Testimony Wall", href: "/testimony" },
+      { label: "Faith Journey", href: "/faith-journey" },
       { label: "Global Connect", href: "/global-connect" },
       { label: "Stories", href: "/stories" },
     ],

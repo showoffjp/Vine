@@ -172,8 +172,10 @@ export default function DashboardPage() {
     { label: "Reading Plan", icon: BookOpen, color: "#00FF88", href: "/reading-plan" },
     { label: "Prayer Wall", icon: Heart, color: "#EC4899", href: "/prayer" },
     { label: "Journal", icon: MessageSquare, color: "#6B4FBB", href: "/journal" },
-    { label: "Challenges", icon: Target, color: "#10B981", href: "/challenges" },
+    { label: "Faith Goals", icon: Target, color: "#10B981", href: "/goals" },
     { label: "Verse Memory", icon: Brain, color: "#3B82F6", href: "/verse-memory" },
+    { label: "Sermon Notes", icon: BookOpen, color: "#F59E0B", href: "/sermon-notes" },
+    { label: "Spiritual Gifts", icon: Zap, color: "#8B5CF6", href: "/spiritual-gifts" },
     { label: "Groups", icon: Users, color: "#F59E0B", href: "/groups" },
     { label: "AI Companion", icon: Zap, color: "#8B9BCC", href: "/ai-companion" },
   ];

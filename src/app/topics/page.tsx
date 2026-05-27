@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
@@ -11,6 +12,8 @@ import {
   ChevronRight,
   Hash,
   Star,
+  Bell,
+  BellOff,
 } from "lucide-react";
 
 
@@ -197,6 +200,27 @@ const hotDiscussions = [
 ];
 
 export default function TopicsPage() {
+  const [followedTopics, setFollowedTopics] = useState<Set<string>>(() => {
+    try {
+      const s = localStorage.getItem("vine_topics_followed");
+      return s ? new Set(JSON.parse(s) as string[]) : new Set();
+    } catch { return new Set(); }
+  });
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_topics_followed", JSON.stringify([...followedTopics])); } catch {}
+  }, [followedTopics]);
+
+  const toggleFollow = (tag: string, e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setFollowedTopics((prev) => {
+      const next = new Set(prev);
+      if (next.has(tag)) next.delete(tag); else next.add(tag);
+      return next;
+    });
+  };
+
   return (
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
       <Navbar />
@@ -284,11 +308,23 @@ export default function TopicsPage() {
                           <span className="text-xs flex items-center gap-1" style={{ color: "#4A4A68" }}>
                             <MessageSquare size={11} /> {topic.posts.toLocaleString()} posts
                           </span>
+                          <button
+                            onClick={(e) => toggleFollow(topic.tag, e)}
+                            className="flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full transition-all ml-auto"
+                            style={{
+                              background: followedTopics.has(topic.tag) ? "rgba(0,255,136,0.1)" : "rgba(255,255,255,0.04)",
+                              border: followedTopics.has(topic.tag) ? "1px solid rgba(0,255,136,0.3)" : "1px solid rgba(255,255,255,0.08)",
+                              color: followedTopics.has(topic.tag) ? "#00FF88" : "#6A6A88",
+                            }}
+                          >
+                            {followedTopics.has(topic.tag) ? <BellOff size={11} /> : <Bell size={11} />}
+                            {followedTopics.has(topic.tag) ? "Following" : "Follow"}
+                          </button>
                           <span
-                            className="text-xs font-semibold flex items-center gap-1 ml-auto"
+                            className="text-xs font-semibold flex items-center gap-1"
                             style={{ color: topic.color }}
                           >
-                            {topic.slug ? "Explore topic" : "View all"} <ChevronRight size={12} />
+                            {topic.slug ? "Explore" : "View all"} <ChevronRight size={12} />
                           </span>
                         </div>
                       </div>
@@ -359,6 +395,36 @@ export default function TopicsPage() {
 
             {/* Sidebar */}
             <div className="space-y-6">
+              {/* Followed Topics */}
+              {followedTopics.size > 0 && (
+                <div
+                  className="rounded-2xl p-5"
+                  style={{ background: "rgba(0,255,136,0.04)", border: "1px solid rgba(0,255,136,0.15)" }}
+                >
+                  <div className="flex items-center gap-2 mb-3">
+                    <Bell size={14} style={{ color: "#00FF88" }} />
+                    <h3 className="text-sm font-bold" style={{ color: "#00FF88" }}>
+                      Following ({followedTopics.size})
+                    </h3>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {[...followedTopics].map((tag) => (
+                      <div
+                        key={tag}
+                        className="flex items-center gap-1 text-xs px-2.5 py-1 rounded-full"
+                        style={{ background: "rgba(0,255,136,0.1)", border: "1px solid rgba(0,255,136,0.2)", color: "#00FF88" }}
+                      >
+                        #{tag}
+                        <button
+                          onClick={(e) => toggleFollow(tag, e)}
+                          className="ml-1 opacity-60 hover:opacity-100"
+                        >×</button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {/* Topic Clusters */}
               {topicClusters.map((cluster) => (
                 <div

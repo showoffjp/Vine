@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
@@ -11,6 +12,7 @@ import {
   Users,
   ChevronRight,
   Sunrise,
+  Bookmark,
 } from "lucide-react";
 
 
@@ -130,6 +132,26 @@ const verseBlock = {
 };
 
 export default function ParentingPage() {
+  const [savedStages, setSavedStages] = useState<Set<string>>(() => {
+    try {
+      const s = localStorage.getItem("vine_parenting_stages");
+      return s ? new Set(JSON.parse(s) as string[]) : new Set();
+    } catch { return new Set(); }
+  });
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_parenting_stages", JSON.stringify([...savedStages])); } catch {}
+  }, [savedStages]);
+
+  const toggleStage = (age: string) => {
+    setSavedStages((prev) => {
+      const next = new Set(prev);
+      if (next.has(age)) next.delete(age);
+      else next.add(age);
+      return next;
+    });
+  };
+
   return (
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
       <Navbar />
@@ -188,22 +210,27 @@ export default function ParentingPage() {
             {stages.map((s) => (
               <div
                 key={s.age}
-                className="rounded-2xl p-6 transition-all cursor-pointer"
-                style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = `${s.color}40`;
-                  e.currentTarget.style.background = `${s.color}06`;
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)";
-                  e.currentTarget.style.background = "rgba(255,255,255,0.02)";
+                className="rounded-2xl p-6 transition-all"
+                style={{
+                  background: savedStages.has(s.age) ? `${s.color}06` : "rgba(255,255,255,0.02)",
+                  border: `1px solid ${savedStages.has(s.age) ? `${s.color}30` : "rgba(255,255,255,0.06)"}`,
                 }}
               >
-                <div
-                  className="inline-block px-3 py-1 rounded-full text-xs font-black mb-3"
-                  style={{ background: `${s.color}20`, color: s.color }}
-                >
-                  Ages {s.age}
+                <div className="flex items-start justify-between mb-3">
+                  <div
+                    className="inline-block px-3 py-1 rounded-full text-xs font-black"
+                    style={{ background: `${s.color}20`, color: s.color }}
+                  >
+                    Ages {s.age}
+                  </div>
+                  <button
+                    onClick={() => toggleStage(s.age)}
+                    className="p-1 rounded-lg"
+                    style={{ color: savedStages.has(s.age) ? s.color : "#4A4A68" }}
+                    title={savedStages.has(s.age) ? "Saved" : "Save stage tips"}
+                  >
+                    <Bookmark size={13} fill={savedStages.has(s.age) ? s.color : "none"} />
+                  </button>
                 </div>
                 <h3 className="font-black text-xl mb-4" style={{ color: "#F2F2F8" }}>{s.label}</h3>
                 <ul className="space-y-2 mb-4">

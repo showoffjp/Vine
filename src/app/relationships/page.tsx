@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
@@ -11,6 +12,7 @@ import {
   BookOpen,
   Shield,
   Compass,
+  Bookmark,
 } from "lucide-react";
 
 
@@ -114,6 +116,26 @@ const verseCard = {
 };
 
 export default function RelationshipsPage() {
+  const [savedArticles, setSavedArticles] = useState<Set<number>>(() => {
+    try {
+      const s = localStorage.getItem("vine_relationships_saved");
+      return s ? new Set(JSON.parse(s) as number[]) : new Set();
+    } catch { return new Set(); }
+  });
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_relationships_saved", JSON.stringify([...savedArticles])); } catch {}
+  }, [savedArticles]);
+
+  const toggleArticle = (i: number) => {
+    setSavedArticles((prev) => {
+      const next = new Set(prev);
+      if (next.has(i)) next.delete(i);
+      else next.add(i);
+      return next;
+    });
+  };
+
   return (
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
       <Navbar />
@@ -219,22 +241,12 @@ export default function RelationshipsPage() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             {featured.map((art, i) => (
-              <a
+              <div
                 key={i}
-                href={art.href}
-                className="group rounded-2xl p-6 cursor-pointer transition-all flex gap-4"
+                className="rounded-2xl p-6 flex gap-4"
                 style={{
-                  background: "rgba(255,255,255,0.02)",
-                  border: "1px solid rgba(255,255,255,0.06)",
-                  textDecoration: "none",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "rgba(255,255,255,0.04)";
-                  e.currentTarget.style.borderColor = "rgba(0,255,136,0.15)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "rgba(255,255,255,0.02)";
-                  e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)";
+                  background: savedArticles.has(i) ? "rgba(0,255,136,0.03)" : "rgba(255,255,255,0.02)",
+                  border: `1px solid ${savedArticles.has(i) ? "rgba(0,255,136,0.2)" : "rgba(255,255,255,0.06)"}`,
                 }}
               >
                 <div
@@ -243,16 +255,28 @@ export default function RelationshipsPage() {
                 >
                   {art.emoji}
                 </div>
-                <div>
-                  <span
-                    className="text-xs font-bold px-2 py-0.5 rounded-full mb-2 inline-block"
-                    style={{ background: `${art.tagColor}15`, color: art.tagColor }}
-                  >
-                    {art.tag}
-                  </span>
-                  <h3 className="font-bold text-base mb-1.5 leading-snug group-hover:text-[#00FF88] transition-colors" style={{ color: "#F2F2F8" }}>
-                    {art.title}
-                  </h3>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-start justify-between gap-2 mb-2">
+                    <span
+                      className="text-xs font-bold px-2 py-0.5 rounded-full inline-block"
+                      style={{ background: `${art.tagColor}15`, color: art.tagColor }}
+                    >
+                      {art.tag}
+                    </span>
+                    <button
+                      onClick={() => toggleArticle(i)}
+                      className="shrink-0 p-1 rounded-lg"
+                      style={{ color: savedArticles.has(i) ? "#00FF88" : "#4A4A68" }}
+                      title={savedArticles.has(i) ? "Saved" : "Save article"}
+                    >
+                      <Bookmark size={13} fill={savedArticles.has(i) ? "#00FF88" : "none"} />
+                    </button>
+                  </div>
+                  <a href={art.href} style={{ textDecoration: "none" }}>
+                    <h3 className="font-bold text-base mb-1.5 leading-snug hover:text-[#00FF88] transition-colors" style={{ color: "#F2F2F8" }}>
+                      {art.title}
+                    </h3>
+                  </a>
                   <p className="text-sm mb-3" style={{ color: "#6A6A88" }}>{art.excerpt}</p>
                   <div className="flex items-center gap-3 text-xs" style={{ color: "#4A4A68" }}>
                     <span>{art.author}</span>
@@ -260,7 +284,7 @@ export default function RelationshipsPage() {
                     <span>{art.readTime} read</span>
                   </div>
                 </div>
-              </a>
+              </div>
             ))}
           </div>
         </div>

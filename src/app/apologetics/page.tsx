@@ -1,8 +1,9 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Shield, ChevronRight, Lightbulb } from "lucide-react";
+import { Shield, ChevronRight, Lightbulb, Bookmark } from "lucide-react";
 
 const tracks = [
   {
@@ -94,6 +95,45 @@ const commonObjections = [
 ];
 
 export default function ApologeticsPage() {
+  const [savedObjections, setSavedObjections] = useState<Set<number>>(() => {
+    try {
+      const s = localStorage.getItem("vine_apologetics_saved");
+      return s ? new Set(JSON.parse(s) as number[]) : new Set();
+    } catch { return new Set(); }
+  });
+  const [savedTracks, setSavedTracks] = useState<Set<string>>(() => {
+    try {
+      const s = localStorage.getItem("vine_apologetics_tracks");
+      return s ? new Set(JSON.parse(s) as string[]) : new Set();
+    } catch { return new Set(); }
+  });
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_apologetics_saved", JSON.stringify([...savedObjections])); } catch {}
+  }, [savedObjections]);
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_apologetics_tracks", JSON.stringify([...savedTracks])); } catch {}
+  }, [savedTracks]);
+
+  const toggleObjection = (i: number) => {
+    setSavedObjections((prev) => {
+      const next = new Set(prev);
+      if (next.has(i)) next.delete(i);
+      else next.add(i);
+      return next;
+    });
+  };
+
+  const toggleTrack = (title: string) => {
+    setSavedTracks((prev) => {
+      const next = new Set(prev);
+      if (next.has(title)) next.delete(title);
+      else next.add(title);
+      return next;
+    });
+  };
+
   return (
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
       <Navbar />
@@ -129,31 +169,28 @@ export default function ApologeticsPage() {
           <h2 className="text-2xl font-black mb-8" style={{ color: "#F2F2F8" }}>Topic Tracks</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {tracks.map((t) => (
-              <a
-                key={t.title}
-                href={t.href}
-                className="group rounded-2xl p-6 cursor-pointer transition-all block"
-                style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", textDecoration: "none" }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = `${t.color}40`;
-                  e.currentTarget.style.background = `${t.color}05`;
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)";
-                  e.currentTarget.style.background = "rgba(255,255,255,0.02)";
-                }}
-              >
-                <span className="text-3xl mb-3 block">{t.icon}</span>
-                <h3 className="font-black text-lg mb-2 group-hover:text-[#00FF88] transition-colors" style={{ color: "#F2F2F8" }}>{t.title}</h3>
+              <div key={t.title} className="rounded-2xl p-6" style={{ background: savedTracks.has(t.title) ? `${t.color}06` : "rgba(255,255,255,0.02)", border: `1px solid ${savedTracks.has(t.title) ? `${t.color}30` : "rgba(255,255,255,0.06)"}` }}>
+                <div className="flex items-start justify-between mb-3">
+                  <span className="text-3xl">{t.icon}</span>
+                  <button
+                    onClick={() => toggleTrack(t.title)}
+                    className="p-1.5 rounded-lg transition-all"
+                    style={{ color: savedTracks.has(t.title) ? t.color : "#4A4A68" }}
+                    title={savedTracks.has(t.title) ? "Saved" : "Save track"}
+                  >
+                    <Bookmark size={14} fill={savedTracks.has(t.title) ? t.color : "none"} />
+                  </button>
+                </div>
+                <h3 className="font-black text-lg mb-2" style={{ color: "#F2F2F8" }}>{t.title}</h3>
                 <p className="text-sm mb-4 leading-relaxed" style={{ color: "#6A6A88" }}>{t.description}</p>
                 <p className="text-xs mb-4 font-semibold" style={{ color: t.color }}>📌 {t.featured}</p>
                 <div className="flex items-center justify-between">
                   <span className="text-xs" style={{ color: "#4A4A68" }}>{t.articles} articles</span>
-                  <span className="text-xs font-bold flex items-center gap-1" style={{ color: t.color }}>
+                  <a href={t.href} className="text-xs font-bold flex items-center gap-1" style={{ color: t.color, textDecoration: "none" }}>
                     Explore <ChevronRight size={12} />
-                  </span>
+                  </a>
                 </div>
-              </a>
+              </div>
             ))}
           </div>
         </div>
@@ -164,8 +201,18 @@ export default function ApologeticsPage() {
           <p className="text-base mb-8" style={{ color: "#6A6A88" }}>Not final answers — starting points for deeper engagement.</p>
           <div className="space-y-4">
             {commonObjections.map((obj, i) => (
-              <div key={i} className="rounded-2xl p-6" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
-                <h3 className="font-bold text-base mb-3" style={{ color: "#EF4444" }}>{obj.objection}</h3>
+              <div key={i} className="rounded-2xl p-6" style={{ background: savedObjections.has(i) ? "rgba(0,255,136,0.03)" : "rgba(255,255,255,0.02)", border: `1px solid ${savedObjections.has(i) ? "rgba(0,255,136,0.2)" : "rgba(255,255,255,0.06)"}` }}>
+                <div className="flex items-start justify-between gap-4 mb-3">
+                  <h3 className="font-bold text-base" style={{ color: "#EF4444" }}>{obj.objection}</h3>
+                  <button
+                    onClick={() => toggleObjection(i)}
+                    className="shrink-0 p-1.5 rounded-lg transition-all"
+                    style={{ color: savedObjections.has(i) ? "#00FF88" : "#4A4A68" }}
+                    title={savedObjections.has(i) ? "Remove bookmark" : "Bookmark response"}
+                  >
+                    <Bookmark size={14} fill={savedObjections.has(i) ? "#00FF88" : "none"} />
+                  </button>
+                </div>
                 <p className="text-sm leading-relaxed mb-3" style={{ color: "#8A8AA8" }}>{obj.response}</p>
                 <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "rgba(0,255,136,0.1)", color: "#00FF88" }}>
                   📜 See also: {obj.verse}

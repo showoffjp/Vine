@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
@@ -136,8 +136,30 @@ const stats = [
 ];
 
 export default function FinancesPage() {
-  const [income, setIncome] = useState("");
-  const [period, setPeriod] = useState<"monthly" | "annual">("monthly");
+  const [income, setIncome] = useState(() => {
+    try { return localStorage.getItem("vine_finances_income") ?? ""; } catch { return ""; }
+  });
+  const [period, setPeriod] = useState<"monthly" | "annual">(() => {
+    try { return (localStorage.getItem("vine_finances_period") as "monthly" | "annual") ?? "monthly"; } catch { return "monthly"; }
+  });
+  const [savedPrinciples, setSavedPrinciples] = useState<Set<number>>(() => {
+    try {
+      const s = localStorage.getItem("vine_finances_saved");
+      return s ? new Set(JSON.parse(s) as number[]) : new Set();
+    } catch { return new Set(); }
+  });
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_finances_income", income); } catch {}
+  }, [income]);
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_finances_period", period); } catch {}
+  }, [period]);
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_finances_saved", JSON.stringify([...savedPrinciples])); } catch {}
+  }, [savedPrinciples]);
 
   const monthly = period === "monthly" ? parseFloat(income) || 0 : (parseFloat(income) || 0) / 12;
   const give = monthly * 0.10;

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
@@ -228,6 +228,32 @@ export default function LifeHacksPage() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [submitted, setSubmitted] = useState(false);
   const [hackTitle, setHackTitle] = useState("");
+  const [savedHacks, setSavedHacks] = useState<Set<string>>(() => {
+    try {
+      const s = localStorage.getItem("vine_lifehacks_saved");
+      return s ? new Set(JSON.parse(s) as string[]) : new Set();
+    } catch { return new Set(); }
+  });
+  const [featuredSaved, setFeaturedSaved] = useState(() => {
+    try { return localStorage.getItem("vine_lifehacks_featured") === "1"; } catch { return false; }
+  });
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_lifehacks_saved", JSON.stringify([...savedHacks])); } catch {}
+  }, [savedHacks]);
+
+  useEffect(() => {
+    try { if (featuredSaved) localStorage.setItem("vine_lifehacks_featured", "1"); else localStorage.removeItem("vine_lifehacks_featured"); } catch {}
+  }, [featuredSaved]);
+
+  const toggleSaveHack = (title: string) => {
+    setSavedHacks((prev) => {
+      const next = new Set(prev);
+      if (next.has(title)) next.delete(title);
+      else next.add(title);
+      return next;
+    });
+  };
 
   const filteredHacks = activeCategory === "All"
     ? hacks
@@ -547,10 +573,20 @@ export default function LifeHacksPage() {
                         />
                       ))}
                     </div>
-                    <span style={{ color: "#6A6A88", fontSize: "12px" }}>
-                      <Bookmark size={11} style={{ display: "inline", verticalAlign: "middle", marginRight: "4px" }} />
-                      {hack.saves.toLocaleString()} saves
-                    </span>
+                    <button
+                      onClick={() => toggleSaveHack(hack.title)}
+                      style={{
+                        display: "flex", alignItems: "center", gap: "5px",
+                        background: savedHacks.has(hack.title) ? "rgba(0,255,136,0.1)" : "transparent",
+                        border: savedHacks.has(hack.title) ? "1px solid rgba(0,255,136,0.3)" : "1px solid rgba(255,255,255,0.08)",
+                        borderRadius: "8px", padding: "4px 10px", cursor: "pointer",
+                        color: savedHacks.has(hack.title) ? "#00FF88" : "#6A6A88", fontSize: "12px", fontWeight: 600,
+                        transition: "all 0.15s",
+                      }}
+                    >
+                      <Bookmark size={11} fill={savedHacks.has(hack.title) ? "#00FF88" : "none"} />
+                      {savedHacks.has(hack.title) ? "Saved" : `${hack.saves.toLocaleString()}`}
+                    </button>
                   </div>
                 </div>
               ))}

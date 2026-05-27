@@ -23,7 +23,7 @@ const trending = [
     hot: true,
     description: "The historical and theological case for the bodily resurrection of Jesus",
     color: "#00FF88",
-    slug: null,
+    slug: "resurrection",
   },
   {
     rank: 2,
@@ -43,7 +43,7 @@ const trending = [
     hot: false,
     description: "Stewardship, tithing, debt freedom, and building generational wealth",
     color: "#10B981",
-    slug: null,
+    slug: "biblical-finance",
   },
   {
     rank: 4,
@@ -63,7 +63,7 @@ const trending = [
     hot: false,
     description: "Debates around church attendance, online church, and the body of Christ",
     color: "#EC4899",
-    slug: null,
+    slug: "biblical-manhood",
   },
   {
     rank: 6,
@@ -73,7 +73,7 @@ const trending = [
     hot: false,
     description: "Defining Christlike masculinity in a cultural moment of confusion",
     color: "#F59E0B",
-    slug: null,
+    slug: "biblical-manhood",
   },
   {
     rank: 7,

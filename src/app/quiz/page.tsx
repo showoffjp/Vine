@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
@@ -719,6 +719,13 @@ export default function QuizPage() {
   const [answers, setAnswers] = useState<string[]>([]);
   const [result, setResult] = useState<string | null>(null);
   const [selected, setSelected] = useState<number | null>(null);
+  const [savedResults, setSavedResults] = useState<Record<string, string>>(() => {
+    try { const s = localStorage.getItem("vine_quiz_results"); return s ? JSON.parse(s) : {}; } catch { return {}; }
+  });
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_quiz_results", JSON.stringify(savedResults)); } catch {}
+  }, [savedResults]);
 
   function startQuiz(id: string) {
     setActiveQuiz(id);
@@ -734,7 +741,9 @@ export default function QuizPage() {
       const newAnswers = [...answers, tag];
       const quizData = allQuizData[activeQuiz!];
       if (currentQ + 1 >= quizData.questions.length) {
-        setResult(quizData.scorer(newAnswers));
+        const r = quizData.scorer(newAnswers);
+        setResult(r);
+        setSavedResults((prev) => ({ ...prev, [activeQuiz!]: r }));
       } else {
         setCurrentQ(currentQ + 1);
         setAnswers(newAnswers);
@@ -848,6 +857,13 @@ export default function QuizPage() {
                     {quiz.title}
                   </h3>
                   <p style={{ color: "#8A8AA8", fontSize: "13px", marginBottom: "16px" }}>{quiz.subtitle}</p>
+                  {savedResults[quiz.id] && (
+                    <div style={{ background: `${quiz.color}10`, border: `1px solid ${quiz.color}25`, borderRadius: "10px", padding: "8px 12px", marginBottom: "12px", display: "flex", alignItems: "center", gap: "6px" }}>
+                      <span style={{ fontSize: "11px", color: quiz.color, fontWeight: 700 }}>
+                        Previous result: {savedResults[quiz.id]}
+                      </span>
+                    </div>
+                  )}
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                     <div style={{ display: "flex", gap: "12px" }}>
                       <span style={{ color: "#6A6A88", fontSize: "12px" }}>

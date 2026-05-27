@@ -207,6 +207,40 @@ const posts = [
     saved: false,
     tags: ["Testimony", "Identity", "Fame & Faith"],
   },
+  {
+    id: 11,
+    link: "/discussions/antidepressants-faith-022",
+    author: "Dr. Grace Winters",
+    avatar: "GW",
+    color: "#4FBBAA",
+    role: "Nurse Practitioner · Nashville, USA 🇺🇸",
+    time: "5 days ago",
+    type: "text",
+    content:
+      "I've been on antidepressants for 3 years as a Christian. I still feel God. I still pray. I still worship. The medication didn't fix my relationship with God — it just leveled the playing field enough for me to show up for it. Taking care of your brain IS taking care of the temple. Stop letting shame keep you from getting help. 💙",
+    likes: 7214,
+    comments: 943,
+    liked: false,
+    saved: false,
+    tags: ["Mental Health", "Faith", "Stigma"],
+  },
+  {
+    id: 12,
+    link: "/discussions/biblical-finances-stewardship-007",
+    author: "Naomi Adeyemi",
+    avatar: "NA",
+    color: "#10B981",
+    role: "Financial Coach · Lagos, Nigeria 🇳🇬",
+    time: "5 days ago",
+    type: "text",
+    content:
+      "Proverbs 3:9 says honor God with your firstfruits. Not your leftovers. We applied that principle 4 years ago when we were $40K in debt. We gave first and God provided ways I can't explain rationally. We paid it off in 18 months. I'm not preaching prosperity gospel — I'm testifying to the supernatural math of obedience. 🙏",
+    likes: 4103,
+    comments: 521,
+    liked: false,
+    saved: false,
+    tags: ["Finances", "Testimony", "Stewardship"],
+  },
 ];
 
 const suggestedPeople = [

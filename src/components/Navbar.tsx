@@ -13,6 +13,7 @@ const navLinks = [
       { label: "Discussions", href: "/discussions" },
       { label: "Groups", href: "/groups" },
       { label: "Prayer Wall", href: "/prayer-wall" },
+      { label: "Prayer Partners", href: "/prayer-partner" },
       { label: "Testimony Wall", href: "/testimony" },
       { label: "Faith Journey", href: "/faith-journey" },
       { label: "Global Connect", href: "/global-connect" },

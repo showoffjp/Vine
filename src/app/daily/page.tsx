@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import DailyDevotional from "@/components/DailyDevotional";
@@ -57,8 +57,19 @@ const moreDevotionals = [
 ];
 
 export default function DailyPage() {
-  const [completedDays, setCompletedDays] = useState<Set<number>>(new Set([0]));
+  const [completedDays, setCompletedDays] = useState<Set<number>>(() => {
+    try {
+      const s = localStorage.getItem("vine_daily_completed");
+      return s ? new Set(JSON.parse(s) as number[]) : new Set([0]);
+    } catch { return new Set([0]); }
+  });
   const streakDays = Array.from({ length: 21 }, (_, i) => i + 1);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("vine_daily_completed", JSON.stringify([...completedDays]));
+    } catch {}
+  }, [completedDays]);
 
   const toggleDay = (idx: number) => {
     setCompletedDays((prev) => {

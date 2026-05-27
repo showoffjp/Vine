@@ -226,8 +226,18 @@ type PostLikes = { [key: number]: boolean };
 type PostSaved = { [key: number]: boolean };
 
 export default function FeedPage() {
-  const [likedPosts, setLikedPosts] = useState<PostLikes>({ 2: true, 5: true });
-  const [savedPosts, setSavedPosts] = useState<PostSaved>({ 3: true, 5: true });
+  const [likedPosts, setLikedPosts] = useState<PostLikes>(() => {
+    try {
+      const s = localStorage.getItem("vine_feed_likes");
+      return s ? JSON.parse(s) : { 2: true, 5: true };
+    } catch { return { 2: true, 5: true }; }
+  });
+  const [savedPosts, setSavedPosts] = useState<PostSaved>(() => {
+    try {
+      const s = localStorage.getItem("vine_feed_saves");
+      return s ? JSON.parse(s) : { 3: true, 5: true };
+    } catch { return { 3: true, 5: true }; }
+  });
   const [postText, setPostText] = useState("");
   const [postShared, setPostShared] = useState(false);
   const [feedSort, setFeedSort] = useState("Latest");
@@ -242,6 +252,14 @@ export default function FeedPage() {
       }
     } catch {}
   }, []);
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_feed_likes", JSON.stringify(likedPosts)); } catch {}
+  }, [likedPosts]);
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_feed_saves", JSON.stringify(savedPosts)); } catch {}
+  }, [savedPosts]);
 
   const toggleLike = (id: number) =>
     setLikedPosts((p) => ({ ...p, [id]: !p[id] }));

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { BookOpen, Plus, Search, Tag, Calendar, ChevronRight, X, Save, Sparkles } from "lucide-react";
@@ -103,7 +103,12 @@ const moods = ["Thankful", "Hopeful", "Reflective", "Peaceful", "Wrestling", "Jo
 const tagSuggestions = ["prayer", "gratitude", "scripture", "sermon", "worship", "trials", "faith", "family", "work", "healing"];
 
 export default function JournalPage() {
-  const [entries, setEntries] = useState<JournalEntry[]>(sampleEntries);
+  const [entries, setEntries] = useState<JournalEntry[]>(() => {
+    try {
+      const s = localStorage.getItem("vine_journal_entries");
+      return s ? (JSON.parse(s) as JournalEntry[]) : sampleEntries;
+    } catch { return sampleEntries; }
+  });
   const [search, setSearch] = useState("");
   const [activeTag, setActiveTag] = useState<string | null>(null);
   const [composing, setComposing] = useState(false);
@@ -137,6 +142,12 @@ export default function JournalPage() {
   const removeTag = (tag: string) => {
     setNewEntry((prev) => ({ ...prev, tags: prev.tags.filter((t) => t !== tag) }));
   };
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("vine_journal_entries", JSON.stringify(entries));
+    } catch {}
+  }, [entries]);
 
   const handleSave = () => {
     if (!newEntry.title.trim() || !newEntry.body.trim()) return;

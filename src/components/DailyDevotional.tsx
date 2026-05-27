@@ -256,7 +256,7 @@ const devotionals = [
 ];
 
 export default function DailyDevotional() {
-  const [dayIndex, setDayIndex] = useState(0);
+  const [dayIndex, setDayIndex] = useState(() => (new Date().getDay() + 6) % 7);
   const [liked, setLiked] = useState(false);
   const [saved, setSaved] = useState(false);
   const [shared, setShared] = useState(false);

@@ -18,7 +18,7 @@
 [![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)](https://typescriptlang.org)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-06B6D4?logo=tailwindcss)](https://tailwindcss.com)
-[![Pages](https://img.shields.io/badge/Static%20Pages-157-00FF88)](https://vine.app)
+[![Pages](https://img.shields.io/badge/Static%20Pages-159-00FF88)](https://vine.app)
 
 </div>
 
@@ -36,7 +36,7 @@ Every page is fully interactive. Every button provides visual feedback. All cont
 
 | Layer | Technology |
 |---|---|
-| Framework | Next.js 15 (App Router) |
+| Framework | Next.js 16 (App Router) |
 | Styling | Tailwind CSS v4 + inline styles |
 | Language | TypeScript |
 | Icons | Lucide React |
@@ -92,8 +92,8 @@ The `.page-body` CSS utility class applies header-aware top padding (`padding-to
   - Upvote with live count increment
   - Save posts with count update
   - Join/leave hubs
-  - 21 posts across Faith & Career, Theology, Young Adults, Parenting, Mental Health, Church Life, Relationships
-- **`/discussions/[slug]`** — 22 individual discussion threads with nested comment replies and upvoting:
+  - 24 posts across Faith & Career, Theology, Young Adults, Parenting, Mental Health, Church Life, Relationships, Women of Faith, Men of Faith
+- **`/discussions/[slug]`** — 24 individual discussion threads with nested comment replies and upvoting:
   - *Faith & Doubt* — questioning God's existence
   - *Free Will & Omniscience* — deep theological dive
   - *Depression + Therapy* — mental health integration
@@ -103,7 +103,7 @@ The `.page-body` CSS utility class applies header-aware top padding (`padding-to
   - *Deconstruction Journey* — finding faith after doubt
   - *Tithing Debate* — Old Covenant vs. New Covenant
   - *Prayer Doesn't Feel Real* — authenticity in spiritual practice
-  - *Finances Stewardship* — debt freedom journey
+  - *Finances Stewardship* — debt freedom journey (Proverbs 3:9)
   - *Lunch Break Devotional* — integrating faith into work
   - *Worship Feels Empty* — dark night of the soul
   - *Job Loss at 47* — trusting God's provision
@@ -116,6 +116,8 @@ The `.page-body` CSS utility class applies header-aware top padding (`padding-to
   - *Baptism Debate* — infant vs. believer's baptism as secondary doctrine
   - *LGBTQ+ and Church* — gracious pastoral care without culture war
   - *Interracial Marriage* — Scripture's clear answer on race and covenant
+  - *Antidepressants & Faith* — dismantling the stigma of medication in the church
+  - *Women in Ministry* — the full biblical case for women in ministry leadership
 - **`/community`** — Community circles with join/leave, featured circles, nearby groups, member invite by email
 - **`/prayer`** — Live prayer wall with:
   - Animated "Live" indicator
@@ -156,7 +158,8 @@ The `.page-body` CSS utility class applies header-aware top padding (`padding-to
   - *Carlos Mendez — From Drug Cartel to Church Planter*
   - *Lydia Böhm — Deconstruction and Back*
   - *Samuel Mwangi — From Prosperity Gospel to Grace*
-  - *Marcus Thompson — Cancer Free Praise Report*
+  - *Isabella Ferreira — Mozambique Missions*
+  - *David Osei — Marriage Breakdown and Grace*
 - **`/video`** — Video library with category filters, like/bookmark buttons, featured video
 - **`/newsletter`** — Newsletter subscriptions:
   - The Weekly Vine (124K subscribers)
@@ -274,7 +277,7 @@ Every action across the entire app provides visual feedback. Key patterns:
 | Worship playback | Play/pause toggle + fixed Now Playing bar |
 | Chord charts | Expand/collapse inline per song |
 | Budget Calculator | Live calculation on keypress |
-| Reading Plan | Mark chapters read, real-time progress |
+| Reading Plan | Mark chapters read, real-time progress, **persists to localStorage** |
 | Events filters | Instant filtering across type + month + search |
 | Join/Follow | Filled border + checkmark confirmation |
 | All 4 Spiritual Quizzes | Timed answer reveal → scored result screen with verse + biblical example |
@@ -287,8 +290,10 @@ Every action across the entire app provides visual feedback. Key patterns:
 | Blog | Bookmark posts + follow editors |
 | Settings | All toggles functional with visual state |
 | Live Streams | Join/watch toggle + live viewer count + in-stream chat |
-| Journal | Create/browse/search entries with mood and tag system |
-| Challenges | Join challenges + 30-day grid streak tracker |
+| Journal | Create/browse/search entries with mood and tag system, **persists to localStorage** |
+| Challenges | Join challenges + 30-day grid streak tracker, **persists to localStorage** |
+| Daily Devotional | Shows current day's devotional automatically; day progress **persists to localStorage** |
+| Feed | Like/save posts **persists to localStorage** |
 | Giving (monthly) | Start monthly giving with confirmation state |
 | Story Actions | Heart story with live count + save + share |
 | Discussion Actions | Upvote OP + save + share in discussion thread |

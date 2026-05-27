@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import {
   Flame,
   Share2,
@@ -179,10 +179,29 @@ function CircularProgress({ percent }: { percent: number }) {
 
 export default function ReadingPlanPage() {
   const [books, setBooks] = useState<Book[]>(buildBooks);
-  const [completedChapters, setCompletedChapters] = useState<Set<string>>(
-    () => new Set(buildBooks()[0].chapters.filter((c) => c.status === "done").map((c) => c.id))
-  );
-  const [todayMarked, setTodayMarked] = useState(false);
+  const [completedChapters, setCompletedChapters] = useState<Set<string>>(() => {
+    const defaultDone = new Set(buildBooks()[0].chapters.filter((c) => c.status === "done").map((c) => c.id));
+    try {
+      const stored = localStorage.getItem("vine_reading_plan");
+      if (stored) {
+        const arr = JSON.parse(stored) as string[];
+        return new Set(arr);
+      }
+    } catch {}
+    return defaultDone;
+  });
+  const [todayMarked, setTodayMarked] = useState(() => {
+    try {
+      const d = localStorage.getItem("vine_reading_today");
+      return d === new Date().toDateString();
+    } catch { return false; }
+  });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("vine_reading_plan", JSON.stringify([...completedChapters]));
+    } catch {}
+  }, [completedChapters]);
 
   const toggleChapter = useCallback((id: string) => {
     setCompletedChapters((prev) => {
@@ -361,7 +380,14 @@ export default function ReadingPlanPage() {
                   </div>
                   <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
                     <button
-                      onClick={() => setTodayMarked((v) => !v)}
+                      onClick={() => {
+                        const next = !todayMarked;
+                        setTodayMarked(next);
+                        try {
+                          if (next) localStorage.setItem("vine_reading_today", new Date().toDateString());
+                          else localStorage.removeItem("vine_reading_today");
+                        } catch {}
+                      }}
                       style={{
                         display: "flex",
                         alignItems: "center",

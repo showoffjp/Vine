@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Target, CheckCircle2, Users, Flame, ChevronRight, Trophy, Star, Calendar } from "lucide-react";
@@ -103,9 +103,31 @@ const completedChallenges = [
 const categories = ["All", "Prayer", "Scripture", "Community", "Rest", "Generosity"];
 
 export default function ChallengesPage() {
-  const [joined, setJoined] = useState<Set<number>>(new Set([1]));
+  const [joined, setJoined] = useState<Set<number>>(() => {
+    try {
+      const s = localStorage.getItem("vine_challenges_joined");
+      return s ? new Set(JSON.parse(s) as number[]) : new Set([1]);
+    } catch { return new Set([1]); }
+  });
   const [activeCategory, setActiveCategory] = useState("All");
-  const [completedDays, setCompletedDays] = useState<Set<number>>(new Set([1, 2, 3, 4, 5, 6, 7, 8]));
+  const [completedDays, setCompletedDays] = useState<Set<number>>(() => {
+    try {
+      const s = localStorage.getItem("vine_prayer_streak");
+      return s ? new Set(JSON.parse(s) as number[]) : new Set([1, 2, 3, 4, 5, 6, 7, 8]);
+    } catch { return new Set([1, 2, 3, 4, 5, 6, 7, 8]); }
+  });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("vine_challenges_joined", JSON.stringify([...joined]));
+    } catch {}
+  }, [joined]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("vine_prayer_streak", JSON.stringify([...completedDays]));
+    } catch {}
+  }, [completedDays]);
 
   const toggleJoin = (id: number) => {
     setJoined((prev) => {

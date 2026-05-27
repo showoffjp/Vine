@@ -844,7 +844,7 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
           </div>
 
           {/* Actions */}
-          <BlogArticleActions />
+          <BlogArticleActions slug={slug} />
 
           {/* Author Card */}
           <div className="rounded-2xl p-6 mb-10" style={{ background: `${article.avatarColor}08`, border: `1px solid ${article.avatarColor}20` }}>

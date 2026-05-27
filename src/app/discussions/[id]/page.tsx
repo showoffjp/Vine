@@ -1573,7 +1573,7 @@ export default async function DiscussionPage({ params }: { params: Promise<{ id:
               <p className="text-xs" style={{ color: "#4A4A68" }}>{thread.date}</p>
             </div>
             <div className="ml-auto">
-              <DiscussionActions initialUpvotes={thread.upvotes} />
+              <DiscussionActions initialUpvotes={thread.upvotes} id={id} />
             </div>
           </div>
 

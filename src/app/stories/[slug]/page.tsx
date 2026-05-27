@@ -319,7 +319,7 @@ export default async function StoryDetailPage({ params }: { params: Promise<{ sl
           </div>
 
           {/* Actions */}
-          <StoryActions initialHearts={story.hearts} />
+          <StoryActions initialHearts={story.hearts} slug={slug} />
 
           {/* Submit your own */}
           <div className="rounded-2xl p-6 mb-10 text-center"

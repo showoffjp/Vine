@@ -1,12 +1,65 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Heart, Bookmark, Share2 } from "lucide-react";
 
-export default function BlogArticleActions() {
+interface Props {
+  slug?: string;
+}
+
+export default function BlogArticleActions({ slug }: Props) {
+  const likeKey = slug ? `vine_blog_likes_${slug}` : null;
+  const saveKey = slug ? `vine_blog_saves_${slug}` : null;
+
   const [liked, setLiked] = useState(false);
   const [saved, setSaved] = useState(false);
   const [shared, setShared] = useState(false);
+
+  useEffect(() => {
+    if (likeKey) {
+      try { setLiked(localStorage.getItem(likeKey) === "1"); } catch {}
+    }
+    if (saveKey) {
+      try { setSaved(localStorage.getItem(saveKey) === "1"); } catch {}
+    }
+  }, [likeKey, saveKey]);
+
+  const toggleLike = () => {
+    const next = !liked;
+    setLiked(next);
+    if (likeKey) {
+      try {
+        if (next) localStorage.setItem(likeKey, "1");
+        else localStorage.removeItem(likeKey);
+      } catch {}
+    }
+    // Also track in the vine_blog_article_likes set for /saved aggregation
+    try {
+      const likes: string[] = JSON.parse(localStorage.getItem("vine_blog_article_likes") ?? "[]");
+      const updated = next ? [...new Set([...likes, slug ?? ""])] : likes.filter((s) => s !== slug);
+      localStorage.setItem("vine_blog_article_likes", JSON.stringify(updated.filter(Boolean)));
+    } catch {}
+  };
+
+  const toggleSave = () => {
+    const next = !saved;
+    setSaved(next);
+    if (saveKey) {
+      try {
+        if (next) localStorage.setItem(saveKey, "1");
+        else localStorage.removeItem(saveKey);
+      } catch {}
+    }
+    // Update vine_blog_saved Set used by /saved page
+    try {
+      const existing: Record<string, boolean> = JSON.parse(localStorage.getItem("vine_blog_saved") ?? "{}");
+      if (slug) {
+        if (next) existing[slug] = true;
+        else delete existing[slug];
+        localStorage.setItem("vine_blog_saved", JSON.stringify(existing));
+      }
+    } catch {}
+  };
 
   const handleShare = () => {
     try { navigator.clipboard.writeText(window.location.href); } catch {}
@@ -17,7 +70,7 @@ export default function BlogArticleActions() {
   return (
     <div className="flex items-center gap-4 py-6 mb-10" style={{ borderTop: "1px solid rgba(255,255,255,0.06)", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
       <button
-        onClick={() => setLiked((v) => !v)}
+        onClick={toggleLike}
         className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all"
         style={{
           background: liked ? "rgba(236,72,153,0.18)" : "rgba(236,72,153,0.1)",
@@ -28,7 +81,7 @@ export default function BlogArticleActions() {
         <Heart size={14} fill={liked ? "#EC4899" : "none"} /> {liked ? "Liked" : "Like"}
       </button>
       <button
-        onClick={() => setSaved((v) => !v)}
+        onClick={toggleSave}
         className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all"
         style={{
           background: saved ? "rgba(0,255,136,0.15)" : "rgba(0,255,136,0.08)",

@@ -51,6 +51,11 @@ interface Stats {
   sermonNotes: number;
   spiritualGiftsPrimary: string;
   sermonSaved: number;
+  habitsCount: number;
+  habitStreak: number;
+  gratitudeEntries: number;
+  prayerListActive: number;
+  fastingCompleted: number;
 }
 
 function loadStats(): Stats {
@@ -110,6 +115,26 @@ function loadStats(): Stats {
       } catch { return ""; }
     })(),
     sermonSaved: 0,
+    habitsCount: parseArr("vine_habits"),
+    habitStreak: (() => {
+      try {
+        const habits = JSON.parse(get("vine_habits", "[]"));
+        if (!habits.length) return 0;
+        const today = new Date();
+        let streak = 0;
+        for (let i = 0; i < 365; i++) {
+          const d = new Date(today); d.setDate(today.getDate() - i);
+          const key = d.toISOString().split("T")[0];
+          const anyDone = habits.some((h: { completions: string[] }) => h.completions.includes(key));
+          if (anyDone) streak++;
+          else if (i > 0) break;
+        }
+        return streak;
+      } catch { return 0; }
+    })(),
+    gratitudeEntries: parseArr("vine_gratitude"),
+    prayerListActive: (() => { try { const p = JSON.parse(get("vine_prayer_list", "[]")); return p.filter((x: { answered: boolean }) => !x.answered).length; } catch { return 0; } })(),
+    fastingCompleted: (() => { try { const f = JSON.parse(get("vine_fasting_records", "[]")); return f.filter((x: { completed: boolean }) => x.completed).length; } catch { return 0; } })(),
   };
 }
 
@@ -124,7 +149,8 @@ export default function DashboardPage() {
 
   const totalEngagements = stats
     ? stats.prayerCards + stats.feedLikes + stats.feedSaves + stats.dailyCompleted +
-      stats.challengesJoined + stats.readingChapters + stats.bibleHighlights + stats.bibleBookmarks
+      stats.challengesJoined + stats.readingChapters + stats.bibleHighlights + stats.bibleBookmarks +
+      stats.goalsCompleted + stats.verseMemory + stats.gratitudeEntries + stats.sermonNotes
     : 0;
 
   const level = totalEngagements < 10 ? "Seedling" :
@@ -203,6 +229,11 @@ export default function DashboardPage() {
         { label: "Active Goals", value: stats?.goalsActive ?? 0, href: "/goals" },
         { label: "Completed Goals", value: stats?.goalsCompleted ?? 0, href: "/goals" },
         { label: "Primary Spiritual Gift", value: stats?.spiritualGiftsPrimary ? stats.spiritualGiftsPrimary.charAt(0).toUpperCase() + stats.spiritualGiftsPrimary.slice(1) : "Not taken", href: "/spiritual-gifts" },
+        { label: "Habits Tracked", value: stats?.habitsCount ?? 0, href: "/habits" },
+        { label: "Habit Streak (days)", value: stats?.habitStreak ?? 0, href: "/habits" },
+        { label: "Gratitude Entries", value: stats?.gratitudeEntries ?? 0, href: "/gratitude" },
+        { label: "Active Prayer Requests", value: stats?.prayerListActive ?? 0, href: "/prayer-list" },
+        { label: "Fasts Completed", value: stats?.fastingCompleted ?? 0, href: "/fasting" },
       ],
     },
   ];

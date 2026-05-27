@@ -28,6 +28,7 @@ const navLinks = [
       { label: "Bible Tools", href: "/bible" },
       { label: "Bible Study", href: "/bible-study" },
       { label: "Reading Plan", href: "/reading-plan" },
+      { label: "Reading List", href: "/reading-list" },
       { label: "Apologetics", href: "/apologetics" },
     ],
   },

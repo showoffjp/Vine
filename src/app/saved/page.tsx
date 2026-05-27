@@ -259,6 +259,22 @@ function loadSavedItems(): SavedItem[] {
     }
   } catch {}
 
+  // Gratitude journal
+  try {
+    const gratitude = JSON.parse(tryGet("vine_gratitude", "[]"));
+    if (Array.isArray(gratitude) && gratitude.length > 0) {
+      const total = gratitude.reduce((s: number, e: { items: string[] }) => s + e.items.length, 0);
+      items.push({
+        type: "Gratitude",
+        title: `${gratitude.length} entr${gratitude.length !== 1 ? "ies" : "y"}`,
+        subtitle: `${total} gratitudes recorded`,
+        href: "/gratitude",
+        color: "#F59E0B",
+        icon: "🙌",
+      });
+    }
+  } catch {}
+
   // Bible bookmarks
   try {
     const bibleBookmarks = JSON.parse(tryGet("vine_bible_bookmarks", "[]"));

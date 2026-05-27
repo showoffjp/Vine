@@ -43,6 +43,8 @@ const navLinks = [
       { label: "Faith Goals", href: "/goals" },
       { label: "Fasting Tracker", href: "/fasting" },
       { label: "Prayer List", href: "/prayer-list" },
+      { label: "Gratitude Journal", href: "/gratitude" },
+      { label: "Habit Tracker", href: "/habits" },
     ],
   },
   {

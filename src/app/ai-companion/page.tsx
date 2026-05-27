@@ -32,15 +32,19 @@ const SUGGESTED_QUESTIONS = [
     "Explain Romans 8:28 in depth",
     "What is the meaning of John 3:16?",
     "Walk me through the Sermon on the Mount",
+    "What is 1 Corinthians 13 about?",
   ]},
   { category: "Life & Faith", icon: Heart, questions: [
     "What does the Bible say about anxiety?",
     "How do I forgive someone who hurt me?",
     "What does Scripture say about purpose?",
+    "What does the Bible say about fasting?",
   ]},
   { category: "Theology", icon: Cross, questions: [
     "Who was the Apostle Paul?",
     "What is the Trinity?",
+    "What is the evidence for the resurrection?",
+    "What is the armor of God in Ephesians 6?",
   ]},
 ];
 
@@ -60,6 +64,10 @@ const DROPDOWN_QUESTIONS = [
   "How do I pray effectively?",
   "What does the Bible say about forgiveness?",
   "Who wrote the book of Psalms?",
+  "What is the evidence for the resurrection?",
+  "What does the armor of God mean?",
+  "What does the Bible say about fasting?",
+  "Explain 1 Corinthians 13 on love",
 ];
 
 const WELCOME_MESSAGE: Message = {

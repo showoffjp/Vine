@@ -18,7 +18,7 @@
 [![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)](https://typescriptlang.org)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-06B6D4?logo=tailwindcss)](https://tailwindcss.com)
-[![Pages](https://img.shields.io/badge/Static%20Pages-139-00FF88)](https://vine.app)
+[![Pages](https://img.shields.io/badge/Static%20Pages-152-00FF88)](https://vine.app)
 
 </div>
 
@@ -123,8 +123,8 @@ The `.page-body` CSS utility class applies header-aware top padding (`padding-to
   - Prayer Tip of the Day
 
 ### Content
-- **`/blog`** — Blog with category filtering (All, Theology, Life & Faith, Culture, Leadership, Family, Work & Faith, Devotional), post bookmarking, editor following, newsletter subscribe
-- **`/blog/[slug]`** — 16 full blog articles:
+- **`/blog`** — Blog with category filtering (All, Theology, Life & Faith, Apologetics, Culture, Leadership, Family, Work & Faith, Devotional), post bookmarking, editor following, newsletter subscribe
+- **`/blog/[slug]`** — 20 full blog articles:
   - *Why the Resurrection Changes Everything* — Dr. Marcus Webb
   - *AI, ChatGPT, and the Church: A Faithful Reckoning* — James Okafor
   - *The Problem of Evil* — Dr. Marcus Webb
@@ -141,6 +141,10 @@ The `.page-body` CSS utility class applies header-aware top padding (`padding-to
   - *The Theology of Monday* — Rev. Marcus Webb
   - *Is Christian Ambition an Oxymoron?* — Dr. Grace Mbeki
   - *How to Talk About Faith at Work Without Being Weird* — James Okafor
+  - *N.T. Wright's Resurrection Case — A Summary* — Dr. Marcus Webb
+  - *Historical Evidence for the Empty Tomb* — Dr. Marcus Webb
+  - *Can an AI Have a Soul? Biblical Anthropology* — James Okafor
+  - *How Do You Handle Doubt Without Losing Faith?* — Rev. Sarah Okonkwo
 - **`/stories`** — Testimony story hub
 - **`/stories/[slug]`** — Full testimonies:
   - *Amara Osei — Widowed at 28*
@@ -200,7 +204,8 @@ The `.page-body` CSS utility class applies header-aware top padding (`padding-to
 - **`/events/[slug]`** — Individual event detail pages
 
 ### Discovery & Growth
-- **`/creators`** — Creator directory with role filters and Follow buttons (CreatorCard sub-component with own state)
+- **`/creators`** — Creator directory with role filters and Follow buttons (CreatorCard sub-component with own state); all 12 creators have full detail pages
+- **`/creators/[slug]`** — 12 creator profiles: Ama Christabel, Marcus Osei, Tunde Coker, Eva van der Berg, Ruth Adeyemi, Sarah Jennings, Ji-Yeon Park, Luiz Figueiredo, Grace Wanjiku, Carlos Mendoza, Priya Rajan, Ben Harrison, Joel Pastrana
 - **`/leaderboard`** — Community champions:
   - Period selector (This Week / This Month / All Time)
   - Category tabs (Overall, Prayer Warriors, Top Teachers, Missional)

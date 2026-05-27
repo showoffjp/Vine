@@ -700,6 +700,26 @@ const groups: Record<string, Group> = {
     relatedGroups: [{ name: "Mental Health & Faith", emoji: "💙", id: "mental-health-faith" }, { name: "Doubts & Questions", emoji: "❓", id: "doubts-questions" }, { name: "Global Prayer Warriors", emoji: "🙏", id: "global-prayer-warriors" }],
   },
 
+  "apologetics-lab": {
+    id: "apologetics-lab",
+    name: "Apologetics Lab",
+    emoji: "🧠",
+    color: "#3B82F6",
+    members: 7102,
+    description: "Practicing answers to hard questions. Debate, discuss, and refine your defense of the faith in a supportive environment. From the existence of God to the reliability of Scripture.",
+    founded: "2024",
+    moderators: ["Dr. Marcus Webb", "James Okafor"],
+    pinnedDiscussion: "The Kalam Cosmological Argument: still the best opening for the existence of God?",
+    posts: [
+      { title: "The Kalam Cosmological Argument: still the best opening for the existence of God?", author: "Dr. Marcus Webb", avatar: "MW", avatarColor: "#6B4FBB", upvotes: 2891, replies: 312, time: "3h ago", flair: "Cosmological", flairColor: "#6B4FBB", pinned: true },
+      { title: "How do you respond when someone says 'you can't prove God exists'?", author: "James Okafor", avatar: "JO", avatarColor: "#3B82F6", upvotes: 1834, replies: 289, time: "5h ago", flair: "Practical", flairColor: "#3B82F6" },
+      { title: "The Moral Argument explained simply — my best conversation-starter", author: "AnonymousApologist", avatar: "AA", avatarColor: "#10B981", upvotes: 1412, replies: 198, time: "1d ago", flair: "Moral Argument", flairColor: "#10B981" },
+      { title: "My most challenging conversation with an atheist professor — and what I learned", author: "Lydia Böhm", avatar: "LB", avatarColor: "#F59E0B", upvotes: 3102, replies: 412, time: "2d ago", flair: "Experience", flairColor: "#F59E0B" },
+    ],
+    rules: ["Engage ideas not people", "Cite sources where possible", "Bad-faith arguments will be removed", "Intellectual humility is a virtue here"],
+    relatedGroups: [{ name: "Theology & Doctrine", emoji: "📜", id: "theology-doctrine" }, { name: "Doubts & Questions", emoji: "❓", id: "doubts-questions" }, { name: "College Faith Network", emoji: "🎓", id: "college-faith-network" }],
+  },
+
   "frontier-missions-network": {
     id: "frontier-missions-network",
     name: "Frontier Missions Network",

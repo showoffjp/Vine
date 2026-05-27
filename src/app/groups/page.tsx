@@ -155,7 +155,7 @@ const groups = [
     tags: ["Recovery", "Accountability", "Freedom"],
   },
   {
-    id: "theology-doctrine",
+    id: "apologetics-lab",
     name: "Apologetics Lab",
     emoji: "🧠",
     color: "#3B82F6",

@@ -91,7 +91,7 @@ const creators: Creator[] = [
     bio: "Leading hearts into the presence of God through prophetic worship.",
     verified: true,
     avatarGradient: "linear-gradient(135deg, #6B4FBB 0%, #BB4F7A 100%)",
-    slug: null,
+    slug: "sarah-jennings",
   },
   {
     initials: "TC",
@@ -117,7 +117,7 @@ const creators: Creator[] = [
     bio: "Writing devotionals that bridge Eastern thought and biblical truth.",
     verified: false,
     avatarGradient: "linear-gradient(135deg, #4F8FBB 0%, #1A1A60 100%)",
-    slug: null,
+    slug: "ji-yeon-park",
   },
   {
     initials: "LF",
@@ -130,7 +130,7 @@ const creators: Creator[] = [
     bio: "Equipping the next generation of Brazilian believers for mission.",
     verified: false,
     avatarGradient: "linear-gradient(135deg, #2A8A2A 0%, #00FF88 100%)",
-    slug: null,
+    slug: "luiz-figueiredo",
   },
   {
     initials: "EV",
@@ -156,7 +156,7 @@ const creators: Creator[] = [
     bio: "Pouring out the faithfulness of God one story at a time.",
     verified: false,
     avatarGradient: "linear-gradient(135deg, #BB4F7A 0%, #4A1A1A 100%)",
-    slug: null,
+    slug: "grace-wanjiku",
   },
   {
     initials: "CM",
@@ -169,7 +169,7 @@ const creators: Creator[] = [
     bio: "Helping couples build Christ-centered, lasting covenant marriages.",
     verified: false,
     avatarGradient: "linear-gradient(135deg, #00FF88 0%, #BB4F4F 100%)",
-    slug: null,
+    slug: "carlos-mendoza",
   },
   {
     initials: "PR",
@@ -182,7 +182,7 @@ const creators: Creator[] = [
     bio: "Bringing the light of Christ to the subcontinent through the Word.",
     verified: false,
     avatarGradient: "linear-gradient(135deg, #E07030 0%, #6B4FBB 100%)",
-    slug: null,
+    slug: "priya-rajan",
   },
   {
     initials: "BH",
@@ -195,7 +195,7 @@ const creators: Creator[] = [
     bio: "Showing that Christianity is not only livable — it's intellectually compelling.",
     verified: true,
     avatarGradient: "linear-gradient(135deg, #4F8FBB 0%, #1A3A1A 100%)",
-    slug: null,
+    slug: "ben-harrison",
   },
   {
     initials: "RA",
@@ -221,7 +221,7 @@ const creators: Creator[] = [
     bio: "Planting churches across the unreached islands of Southeast Asia.",
     verified: false,
     avatarGradient: "linear-gradient(135deg, #4FBBAA 0%, #4F8FBB 100%)",
-    slug: null,
+    slug: "joel-pastrana",
   },
 ];
 

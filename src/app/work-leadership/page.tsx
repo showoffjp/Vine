@@ -120,12 +120,12 @@ const models = [
 ];
 
 const articles = [
-  { emoji: "🏢", title: "How to Talk About Faith at Work Without Being Weird", time: "7 min", tag: "Integration" },
-  { emoji: "📈", title: "Is Ambition a Sin? What Scripture Actually Says", time: "8 min", tag: "Ambition" },
-  { emoji: "😓", title: "Burned Out and Faithful: How to Rest Without Guilt", time: "9 min", tag: "Burnout" },
-  { emoji: "🤝", title: "When Your Boss Is Unethical: A Biblical Response", time: "10 min", tag: "Ethics" },
-  { emoji: "💼", title: "The Theology of Monday: Reclaiming Secular Work", time: "6 min", tag: "Theology" },
-  { emoji: "🌍", title: "Using Your Influence for Kingdom Impact", time: "8 min", tag: "Impact" },
+  { emoji: "🏢", title: "How to Talk About Faith at Work Without Being Weird", time: "7 min", tag: "Integration", href: "/blog/faith-at-work" },
+  { emoji: "📈", title: "Is Ambition a Sin? What Scripture Actually Says", time: "9 min", tag: "Ambition", href: "/blog/biblical-ambition" },
+  { emoji: "😓", title: "Burned Out and Faithful: How to Rest Without Guilt", time: "9 min", tag: "Burnout", href: "/blog/digital-sabbath" },
+  { emoji: "🤝", title: "When Your Boss Is Unethical: A Biblical Response", time: "8 min", tag: "Ethics", href: "/blog/servant-leadership-jesus" },
+  { emoji: "💼", title: "The Theology of Monday: Reclaiming Secular Work", time: "8 min", tag: "Theology", href: "/blog/theology-of-monday" },
+  { emoji: "🌍", title: "Using Your Influence for Kingdom Impact", time: "8 min", tag: "Impact", href: "/blog/servant-leadership-jesus" },
 ];
 
 export default function WorkLeadershipPage() {
@@ -267,10 +267,11 @@ export default function WorkLeadershipPage() {
           <h2 className="text-2xl font-black mb-8" style={{ color: "#F2F2F8" }}>Top Articles</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {articles.map((art, i) => (
-              <div
+              <a
                 key={i}
-                className="group rounded-xl p-5 cursor-pointer transition-all flex gap-4"
-                style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
+                href={art.href}
+                className="group rounded-xl p-5 cursor-pointer transition-all flex gap-4 block"
+                style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", textDecoration: "none" }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.background = "rgba(255,255,255,0.04)";
                   e.currentTarget.style.borderColor = "rgba(0,255,136,0.15)";
@@ -293,7 +294,7 @@ export default function WorkLeadershipPage() {
                   </h3>
                   <p className="text-xs mt-1" style={{ color: "#4A4A68" }}>{art.time} read</p>
                 </div>
-              </div>
+              </a>
             ))}
           </div>
         </div>

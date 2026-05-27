@@ -8,12 +8,12 @@ import {
   BookOpen,
   MessageSquare,
   Heart,
-  Music,
   Headphones,
   PlayCircle,
   Brain,
   Zap,
   Users,
+  Music,
   ChevronRight,
   Calendar,
 } from "lucide-react";
@@ -274,12 +274,12 @@ export default function SavedPage() {
   const quickLinks = [
     { label: "Journal", href: "/journal", icon: BookOpen, color: "#EC4899" },
     { label: "Verse Memory", href: "/verse-memory", icon: Brain, color: "#6B4FBB" },
+    { label: "Faith Goals", href: "/goals", icon: Zap, color: "#00FF88" },
+    { label: "Gifts Quiz", href: "/spiritual-gifts", icon: Music, color: "#8B5CF6" },
     { label: "Bible Reader", href: "/bible", icon: BookOpen, color: "#00FF88" },
     { label: "Discussion Hubs", href: "/discussions", icon: MessageSquare, color: "#8B9BCC" },
     { label: "Video Library", href: "/video", icon: PlayCircle, color: "#BB4F7A" },
-    { label: "Podcasts", href: "/podcast", icon: Headphones, color: "#4FBBAA" },
-    { label: "Stories", href: "/stories", icon: Heart, color: "#F59E0B" },
-    { label: "Life Hacks", href: "/life-hacks", icon: Zap, color: "#10B981" },
+    { label: "Life Hacks", href: "/life-hacks", icon: Heart, color: "#10B981" },
   ];
 
   return (

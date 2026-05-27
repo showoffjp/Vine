@@ -18,7 +18,7 @@
 [![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)](https://typescriptlang.org)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-06B6D4?logo=tailwindcss)](https://tailwindcss.com)
-[![Pages](https://img.shields.io/badge/Static%20Pages-164-00FF88)](https://vine.app)
+[![Pages](https://img.shields.io/badge/Static%20Pages-166-00FF88)](https://vine.app)
 
 </div>
 
@@ -74,6 +74,17 @@ The `.page-body` CSS utility class applies header-aware top padding (`padding-to
 - **`/onboarding`** — Multi-step signup flow (name → denomination → interests → goals → profile photo) persisted to `localStorage` as `vine_user`
 - **`/profile`** — User profile page reading from `vine_user` localStorage, with post/prayer/community tabs
 - **`/dashboard`** — Personal progress dashboard aggregating all localStorage activity (Bible reading, prayer, challenges, groups, media, missions) with a level/badge system
+- **`/spiritual-gifts`** — 20-question spiritual gifts assessment with:
+  - Likert scale (1–5) responses to statements mapped to 9 gift categories
+  - Scores computed across Teaching, Mercy, Evangelism, Leadership, Prophecy, Helps, Wisdom, Worship, and Apostleship
+  - Results page with primary gift hero card, top-3 bar chart, full gift profile, and deployment ideas
+  - Persists answers and results to `vine_sg_*` localStorage keys; retake any time
+- **`/goals`** — Faith Goals tracker with:
+  - Custom goals with category, target count, unit, and optional deadline
+  - One-click log (+1 / +5 / Complete) with progress bar
+  - 8 preset goals (Read Bible chapters, Memorize verses, Fast days, etc.)
+  - Stats: Total goals, Completed count, Average progress
+  - Active vs Completed tabs; all persisted to `vine_goals` localStorage
 - **`/saved`** — Aggregated "My Library" page that reads every `vine_*` localStorage key and shows a categorized count of saved content (Feed Posts, Discussions, Articles, Stories, Podcasts, Videos, Verse Memory, Life Hacks, Journal, Apologetics, Events, Bible Bookmarks, Bible Notes, Reading Plan). Includes empty-state CTA and a "Find More to Save" quick links grid. Loads via `useEffect` to prevent SSR mismatch.
 
 ### Scripture & Devotions

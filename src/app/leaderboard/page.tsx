@@ -3,7 +3,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Trophy, Flame, Star, Heart, BookOpen, MessageSquare, Globe, Shield, ChevronRight, Crown } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const periods = ["This Week", "This Month", "All Time"];
 
@@ -86,8 +86,20 @@ const changeIcon: Record<string, string> = { up: "↑", down: "↓", same: "—"
 const changeColor: Record<string, string> = { up: "#10B981", down: "#EF4444", same: "#4A4A68" };
 
 export default function LeaderboardPage() {
-  const [activePeriod, setActivePeriod] = useState("This Week");
-  const [activeCategory, setActiveCategory] = useState("Overall");
+  const [activePeriod, setActivePeriod] = useState(() => {
+    try { return localStorage.getItem("vine_lb_period") ?? "This Week"; } catch { return "This Week"; }
+  });
+  const [activeCategory, setActiveCategory] = useState(() => {
+    try { return localStorage.getItem("vine_lb_category") ?? "Overall"; } catch { return "Overall"; }
+  });
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_lb_period", activePeriod); } catch {}
+  }, [activePeriod]);
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_lb_category", activeCategory); } catch {}
+  }, [activeCategory]);
 
   const board = leaderboards[activeCategory] ?? leaderboards.Overall;
 

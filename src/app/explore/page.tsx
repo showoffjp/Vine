@@ -195,8 +195,25 @@ const categories = [
   { name: "Trending Now", icon: TrendingUp, posts: "Live", color: "#FF6B6B", link: "/topics", gradient: "linear-gradient(135deg, rgba(255,107,107,0.2), rgba(187,79,122,0.1))" },
 ];
 
+const allSearchable = [
+  ...forYouContent.map((i) => ({ title: i.title, desc: i.meta, type: i.type, link: i.link, color: i.typeColor })),
+  ...popularPosts.map((p) => ({ title: p.title, desc: `${p.hub} · ${p.votes.toLocaleString()} upvotes`, type: "Discussion", link: "/discussions", color: p.hubColor })),
+  ...trendingTopics.map((t) => ({ title: t.name, desc: t.posts, type: "Topic", link: t.href, color: "#00FF88" })),
+  ...categories.map((c) => ({ title: c.name, desc: `${c.posts} posts`, type: "Category", link: c.link, color: c.color })),
+  ...creators.map((c) => ({ title: c.name, desc: `${c.role} · ${c.followers} followers`, type: "Creator", link: "/creators", color: c.color })),
+];
+
 export default function ExplorePage() {
   const [searchQuery, setSearchQuery] = useState("");
+
+  const searchResults = searchQuery.trim()
+    ? allSearchable.filter(
+        (item) =>
+          item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          item.desc.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          item.type.toLowerCase().includes(searchQuery.toLowerCase())
+      ).slice(0, 12)
+    : [];
 
   return (
     <div className="min-h-screen" style={{ background: "#07070F" }}>
@@ -264,7 +281,43 @@ export default function ExplorePage() {
           </div>
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-14">
+        {/* Search results */}
+        {searchQuery.trim() && (
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <p className="text-sm mb-4 font-semibold" style={{ color: "#6A6A88" }}>
+              {searchResults.length} results for &ldquo;{searchQuery}&rdquo;
+            </p>
+            {searchResults.length === 0 ? (
+              <div className="text-center py-12">
+                <p className="text-2xl mb-2">🔍</p>
+                <p className="font-bold" style={{ color: "#F2F2F8" }}>No results found</p>
+                <p className="text-sm mt-1" style={{ color: "#6A6A88" }}>Try a different search term</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {searchResults.map((item, i) => (
+                  <a
+                    key={i}
+                    href={item.link}
+                    className="block rounded-2xl p-4 transition-all hover:bg-[#18182A]"
+                    style={{ background: "#12121F", border: "1px solid #1E1E32", textDecoration: "none" }}
+                  >
+                    <span
+                      className="text-xs font-bold px-2 py-0.5 rounded-full mb-2 inline-block"
+                      style={{ background: `${item.color}15`, color: item.color }}
+                    >
+                      {item.type}
+                    </span>
+                    <h3 className="font-bold text-sm leading-snug mb-1" style={{ color: "#F2F2F8" }}>{item.title}</h3>
+                    <p className="text-xs" style={{ color: "#6A6A88" }}>{item.desc}</p>
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-14" style={{ display: searchQuery.trim() ? "none" : undefined }}>
 
           {/* TRENDING TOPICS — horizontal scroll */}
           <section>

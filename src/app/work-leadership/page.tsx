@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
@@ -13,6 +14,7 @@ import {
   Lightbulb,
   Award,
   Compass,
+  Bookmark,
 } from "lucide-react";
 
 
@@ -129,6 +131,26 @@ const articles = [
 ];
 
 export default function WorkLeadershipPage() {
+  const [savedPrinciples, setSavedPrinciples] = useState<Set<string>>(() => {
+    try {
+      const s = localStorage.getItem("vine_work_principles");
+      return s ? new Set(JSON.parse(s) as string[]) : new Set();
+    } catch { return new Set(); }
+  });
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_work_principles", JSON.stringify([...savedPrinciples])); } catch {}
+  }, [savedPrinciples]);
+
+  const togglePrinciple = (title: string) => {
+    setSavedPrinciples((prev) => {
+      const next = new Set(prev);
+      if (next.has(title)) next.delete(title);
+      else next.add(title);
+      return next;
+    });
+  };
+
   return (
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
       <Navbar />
@@ -173,9 +195,22 @@ export default function WorkLeadershipPage() {
               <div
                 key={p.title}
                 className="rounded-2xl p-6"
-                style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(0,255,136,0.08)" }}
+                style={{
+                  background: savedPrinciples.has(p.title) ? "rgba(0,255,136,0.04)" : "rgba(255,255,255,0.02)",
+                  border: `1px solid ${savedPrinciples.has(p.title) ? "rgba(0,255,136,0.2)" : "rgba(0,255,136,0.08)"}`,
+                }}
               >
-                <span className="text-3xl mb-3 block">{p.icon}</span>
+                <div className="flex items-start justify-between mb-3">
+                  <span className="text-3xl">{p.icon}</span>
+                  <button
+                    onClick={() => togglePrinciple(p.title)}
+                    className="p-1.5 rounded-lg transition-all"
+                    style={{ color: savedPrinciples.has(p.title) ? "#00FF88" : "#4A4A68" }}
+                    title={savedPrinciples.has(p.title) ? "Saved" : "Save principle"}
+                  >
+                    <Bookmark size={14} fill={savedPrinciples.has(p.title) ? "#00FF88" : "none"} />
+                  </button>
+                </div>
                 <h3 className="font-bold text-xl mb-2" style={{ color: "#F2F2F8" }}>{p.title}</h3>
                 <p className="text-sm mb-3 leading-relaxed" style={{ color: "#6A6A88" }}>{p.body}</p>
                 <span

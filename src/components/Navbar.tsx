@@ -69,6 +69,7 @@ const navLinks = [
       { label: "Discover", href: "/explore" },
       { label: "Challenges", href: "/challenges" },
       { label: "Youth & Students", href: "/youth" },
+      { label: "Mentorship", href: "/mentorship" },
       { label: "Church Finder", href: "/church-finder" },
       { label: "Missions", href: "/missions" },
       { label: "Events", href: "/events" },

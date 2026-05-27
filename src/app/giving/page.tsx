@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import GiveButton from "@/components/GiveButton";
@@ -114,8 +114,19 @@ function ProgressBar({ raised, goal, color }: { raised: number; goal: number; co
 }
 
 export default function GivingPage() {
-  const [selectedMonthly, setSelectedMonthly] = useState<number | null>(null);
-  const [monthlyConfirmed, setMonthlyConfirmed] = useState(false);
+  const [selectedMonthly, setSelectedMonthly] = useState<number | null>(() => {
+    try { const s = localStorage.getItem("vine_giving_monthly"); return s ? Number(s) : null; } catch { return null; }
+  });
+  const [monthlyConfirmed, setMonthlyConfirmed] = useState(() => {
+    try { return localStorage.getItem("vine_giving_confirmed") === "1"; } catch { return false; }
+  });
+
+  useEffect(() => {
+    try { if (selectedMonthly !== null) localStorage.setItem("vine_giving_monthly", String(selectedMonthly)); } catch {}
+  }, [selectedMonthly]);
+  useEffect(() => {
+    try { if (monthlyConfirmed) localStorage.setItem("vine_giving_confirmed", "1"); else localStorage.removeItem("vine_giving_confirmed"); } catch {}
+  }, [monthlyConfirmed]);
 
   const handleStartGiving = () => {
     if (selectedMonthly) setMonthlyConfirmed(true);

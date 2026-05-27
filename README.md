@@ -18,7 +18,7 @@
 [![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)](https://typescriptlang.org)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-06B6D4?logo=tailwindcss)](https://tailwindcss.com)
-[![Pages](https://img.shields.io/badge/Static%20Pages-159-00FF88)](https://vine.app)
+[![Pages](https://img.shields.io/badge/Static%20Pages-160-00FF88)](https://vine.app)
 
 </div>
 
@@ -73,6 +73,7 @@ The `.page-body` CSS utility class applies header-aware top padding (`padding-to
 ### Auth & Profile
 - **`/onboarding`** — Multi-step signup flow (name → denomination → interests → goals → profile photo) persisted to `localStorage` as `vine_user`
 - **`/profile`** — User profile page reading from `vine_user` localStorage, with post/prayer/community tabs
+- **`/dashboard`** — Personal progress dashboard aggregating all localStorage activity (Bible reading, prayer, challenges, groups, media, missions) with a level/badge system
 
 ### Scripture & Devotions
 - **`/bible`** — Interactive Bible reader with book/chapter navigation, verse highlighting, and cross-references

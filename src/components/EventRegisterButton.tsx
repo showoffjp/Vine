@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CheckCircle2 } from "lucide-react";
 
 export default function EventRegisterButton({
@@ -12,7 +12,14 @@ export default function EventRegisterButton({
   price: string;
   eventTitle: string;
 }) {
-  const [registered, setRegistered] = useState(false);
+  const key = `vine_event_${eventTitle.replace(/[^a-z0-9]/gi, "_").toLowerCase()}`;
+  const [registered, setRegistered] = useState(() => {
+    try { return localStorage.getItem(key) === "1"; } catch { return false; }
+  });
+
+  useEffect(() => {
+    try { if (registered) localStorage.setItem(key, "1"); else localStorage.removeItem(key); } catch {}
+  }, [registered, key]);
 
   if (registered) {
     return (

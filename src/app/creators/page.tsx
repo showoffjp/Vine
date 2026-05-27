@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
@@ -238,8 +238,20 @@ const roleIcons: Record<string, React.ComponentType<{ size?: number; style?: Rea
 
 export default function CreatorsPage() {
   const [activeFilter, setActiveFilter] = useState("All");
-  const [followingFeatured, setFollowingFeatured] = useState(false);
+  const [followingFeatured, setFollowingFeatured] = useState(() => {
+    try { return localStorage.getItem("vine_creators_featured") === "1"; } catch { return false; }
+  });
+  const [followedCreators, setFollowedCreators] = useState<Set<string>>(() => {
+    try { const s = localStorage.getItem("vine_creators_followed"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
+  });
   const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    try { if (followingFeatured) localStorage.setItem("vine_creators_featured", "1"); else localStorage.removeItem("vine_creators_featured"); } catch {}
+  }, [followingFeatured]);
+  useEffect(() => {
+    try { localStorage.setItem("vine_creators_followed", JSON.stringify([...followedCreators])); } catch {}
+  }, [followedCreators]);
 
   const filteredCreators = creators.filter(c => {
     const matchFilter = activeFilter === "All" ||
@@ -611,7 +623,14 @@ function CreatorCard({
   creator: Creator;
   RoleIcon: React.ComponentType<{ size?: number; style?: React.CSSProperties }>;
 }) {
-  const [following, setFollowing] = useState(false);
+  const key = `vine_creator_${creator.name.replace(/[^a-z0-9]/gi, "_").toLowerCase()}`;
+  const [following, setFollowing] = useState(() => {
+    try { return localStorage.getItem(key) === "1"; } catch { return false; }
+  });
+
+  useEffect(() => {
+    try { if (following) localStorage.setItem(key, "1"); else localStorage.removeItem(key); } catch {}
+  }, [following, key]);
 
   return (
     <div

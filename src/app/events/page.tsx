@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import EventRegisterButton from "@/components/EventRegisterButton";
@@ -258,6 +258,22 @@ export default function EventsPage() {
   const [activeMonth, setActiveMonth] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [nearMe, setNearMe] = useState(false);
+  const [goingEvents, setGoingEvents] = useState<Set<number>>(() => {
+    try { const s = localStorage.getItem("vine_events_going"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
+  });
+  const [savedEvents, setSavedEvents] = useState<Set<number>>(() => {
+    try { const s = localStorage.getItem("vine_events_saved"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
+  });
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_events_going", JSON.stringify([...goingEvents])); } catch {}
+  }, [goingEvents]);
+  useEffect(() => {
+    try { localStorage.setItem("vine_events_saved", JSON.stringify([...savedEvents])); } catch {}
+  }, [savedEvents]);
+
+  const toggleGoing = (id: number) => setGoingEvents(prev => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
+  const toggleSaved = (id: number) => setSavedEvents(prev => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
 
   const filtered = events.filter((e) => {
     const matchType = activeType === "All" || e.type === activeType;

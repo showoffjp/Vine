@@ -238,7 +238,7 @@ export default function ProfilePage() {
               </div>
 
               {/* Buttons */}
-              <div className="flex gap-2 w-full">
+              <div className="flex gap-2 w-full mb-3">
                 <button className="btn-gold flex-1 py-2 rounded-xl text-sm font-bold flex items-center justify-center gap-1.5">
                   <Edit3 size={13} />
                   Edit Profile
@@ -249,6 +249,14 @@ export default function ProfilePage() {
                   <Share2 size={14} />
                 </button>
               </div>
+              <a
+                href="/dashboard"
+                className="w-full py-2 rounded-xl text-sm font-bold flex items-center justify-center gap-2"
+                style={{ background: "rgba(107,79,187,0.12)", color: "#9B7FEB", border: "1px solid rgba(107,79,187,0.25)", textDecoration: "none" }}
+              >
+                <TrendingUp size={13} />
+                My Progress Dashboard
+              </a>
             </div>
 
             {/* Badges */}

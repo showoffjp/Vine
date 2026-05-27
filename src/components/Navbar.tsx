@@ -79,6 +79,7 @@ export default function Navbar() {
   const [authMode, setAuthMode] = useState<"signin" | "signup">("signup");
   const [bannerVisible, setBannerVisible] = useState(true);
   const [user, setUser] = useState<VineUser | null>(null);
+  const [hasUnread, setHasUnread] = useState(true);
   const headerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -86,6 +87,11 @@ export default function Navbar() {
     if (stored) {
       try { setUser(JSON.parse(stored)); } catch { /* ignore */ }
     }
+    try {
+      const readSet: number[] = JSON.parse(localStorage.getItem("vine_notif_read") || "[]");
+      const totalNotifs = 20;
+      setHasUnread(readSet.length < totalNotifs);
+    } catch { setHasUnread(true); }
   }, []);
 
   const handleSignOut = () => {
@@ -277,10 +283,12 @@ export default function Navbar() {
                   onClick={() => setActiveDropdown(activeDropdown === "notifs" ? null : "notifs")}
                 >
                   <Bell size={16} />
-                  <span
-                    className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full"
-                    style={{ background: "#00FF88", boxShadow: "0 0 5px #00FF88" }}
-                  />
+                  {hasUnread && (
+                    <span
+                      className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full"
+                      style={{ background: "#00FF88", boxShadow: "0 0 5px #00FF88" }}
+                    />
+                  )}
                 </button>
 
                 {activeDropdown === "notifs" && (
@@ -355,6 +363,7 @@ export default function Navbar() {
                         <p className="text-xs mt-0.5" style={{ color: "#6A6A88" }}>{user.email}</p>
                       </div>
                       {[
+                        { label: "My Dashboard", href: "/dashboard" },
                         { label: "My Feed", href: "/feed" },
                         { label: "My Profile", href: "/profile" },
                         { label: "My Journal", href: "/journal" },
@@ -449,7 +458,8 @@ export default function Navbar() {
               <div className="pt-3 pb-2 flex flex-col gap-2">
                 {user ? (
                   <>
-                    <a href="/feed" className="btn-gold w-full py-2.5 rounded-lg text-sm text-center" onClick={() => setMobileOpen(false)}>My Feed</a>
+                    <a href="/dashboard" className="btn-gold w-full py-2.5 rounded-lg text-sm text-center" onClick={() => setMobileOpen(false)}>My Dashboard</a>
+                    <a href="/feed" className="btn-outline-gold w-full py-2.5 rounded-lg text-sm text-center" onClick={() => setMobileOpen(false)}>My Feed</a>
                     <a href="/profile" className="btn-outline-gold w-full py-2.5 rounded-lg text-sm text-center" onClick={() => setMobileOpen(false)}>My Profile</a>
                     <button className="w-full py-2.5 rounded-lg text-sm font-semibold" style={{ color: "#EF4444", border: "1px solid rgba(239,68,68,0.2)" }} onClick={handleSignOut}>Sign Out</button>
                   </>

@@ -36,6 +36,7 @@ const navLinks = [
     label: "Daily Bread",
     children: [
       { label: "Today's Devotional", href: "/daily" },
+      { label: "Spiritual Disciplines", href: "/disciplines" },
       { label: "Bible Reader", href: "/bible" },
       { label: "Reading Plans", href: "/reading-plan" },
       { label: "Verse Memory", href: "/verse-memory" },

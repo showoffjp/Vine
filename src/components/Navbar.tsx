@@ -47,6 +47,8 @@ const navLinks = [
       { label: "Prayer List", href: "/prayer-list" },
       { label: "Gratitude Journal", href: "/gratitude" },
       { label: "Habit Tracker", href: "/habits" },
+      { label: "Accountability", href: "/accountability" },
+      { label: "Faith Journey", href: "/faith-journey" },
     ],
   },
   {

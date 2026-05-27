@@ -65,6 +65,7 @@ const navLinks = [
       { label: "Life Hacks", href: "/life-hacks" },
       { label: "Mental Health", href: "/mental-health" },
       { label: "Grief & Loss", href: "/grief" },
+      { label: "Couples Devotional", href: "/couples-devotional" },
       { label: "Relationships", href: "/relationships" },
       { label: "Work & Leadership", href: "/work-leadership" },
     ],

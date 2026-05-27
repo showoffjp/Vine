@@ -34,6 +34,7 @@ const navLinks = [
       { label: "Today's Devotional", href: "/daily" },
       { label: "Bible Reader", href: "/bible" },
       { label: "Reading Plans", href: "/reading-plan" },
+      { label: "Verse Memory", href: "/verse-memory" },
       { label: "Worship", href: "/worship" },
       { label: "Live Church", href: "/live" },
       { label: "My Journal", href: "/journal" },

@@ -21,6 +21,7 @@ import {
   Calendar,
   Award,
   Zap,
+  Brain,
 } from "lucide-react";
 
 interface Stats {
@@ -172,7 +173,7 @@ export default function DashboardPage() {
     { label: "Prayer Wall", icon: Heart, color: "#EC4899", href: "/prayer" },
     { label: "Journal", icon: MessageSquare, color: "#6B4FBB", href: "/journal" },
     { label: "Challenges", icon: Target, color: "#10B981", href: "/challenges" },
-    { label: "Bible Reader", icon: BookOpen, color: "#3B82F6", href: "/bible" },
+    { label: "Verse Memory", icon: Brain, color: "#3B82F6", href: "/verse-memory" },
     { label: "Groups", icon: Users, color: "#F59E0B", href: "/groups" },
     { label: "AI Companion", icon: Zap, color: "#8B9BCC", href: "/ai-companion" },
   ];

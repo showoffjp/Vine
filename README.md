@@ -18,7 +18,7 @@
 [![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)](https://typescriptlang.org)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-06B6D4?logo=tailwindcss)](https://tailwindcss.com)
-[![Pages](https://img.shields.io/badge/Static%20Pages-160-00FF88)](https://vine.app)
+[![Pages](https://img.shields.io/badge/Static%20Pages-163-00FF88)](https://vine.app)
 
 </div>
 
@@ -78,6 +78,15 @@ The `.page-body` CSS utility class applies header-aware top padding (`padding-to
 ### Scripture & Devotions
 - **`/bible`** — Interactive Bible reader with book/chapter navigation, verse highlighting, and cross-references
 - **`/daily`** — Daily devotional with verse of the day, reflection, prayer prompt, and community discussion
+- **`/verse-memory`** — Scripture memory tracker with:
+  - Add custom verses with category tags
+  - Quick-add popular memory verses (Matthew 11:28, Jeremiah 29:11, etc.)
+  - Interactive typing-practice quiz with % accuracy scoring (Excellent / Very Close / Keep Practicing)
+  - Toggle verses between "In Review" and "Mastered" status
+  - Review count + last reviewed date tracking
+  - Progress sidebar with mastered/reviewing stats
+  - Memory tips panel
+  - All verses **persist to localStorage** as `vine_verse_memory`
 - **`/reading-plan`** — New Testament in 90 Days tracker with:
   - Circular SVG progress indicator
   - Weekly view with done/today/upcoming states
@@ -93,8 +102,8 @@ The `.page-body` CSS utility class applies header-aware top padding (`padding-to
   - Upvote with live count increment
   - Save posts with count update
   - Join/leave hubs
-  - 24 posts across Faith & Career, Theology, Young Adults, Parenting, Mental Health, Church Life, Relationships, Women of Faith, Men of Faith
-- **`/discussions/[slug]`** — 24 individual discussion threads with nested comment replies and upvoting:
+  - 26 posts across Faith & Career, Theology, Young Adults, Parenting, Mental Health, Church Life, Relationships, Women of Faith, Men of Faith, Grief & Loss
+- **`/discussions/[slug]`** — 26 individual discussion threads with nested comment replies and upvoting:
   - *Faith & Doubt* — questioning God's existence
   - *Free Will & Omniscience* — deep theological dive
   - *Depression + Therapy* — mental health integration
@@ -119,6 +128,8 @@ The `.page-body` CSS utility class applies header-aware top padding (`padding-to
   - *Interracial Marriage* — Scripture's clear answer on race and covenant
   - *Antidepressants & Faith* — dismantling the stigma of medication in the church
   - *Women in Ministry* — the full biblical case for women in ministry leadership
+  - *Grief & Belief* — grieving while holding faith (Margaret Holloway, retired teacher; 4 replies)
+  - *Church Hurt & Healing* — spiritual abuse recovery, finding God without institutional church (Anonymous; 4 replies)
 - **`/community`** — Community circles with join/leave, featured circles, nearby groups, member invite by email
 - **`/prayer`** — Live prayer wall with:
   - Animated "Live" indicator
@@ -185,7 +196,7 @@ The `.page-body` CSS utility class applies header-aware top padding (`padding-to
   - Live splits: Give (10%), Save (10%), Live (80%)
   - Monthly/annual view toggle
   - Annual summary when income entered
-- **`/life-hacks`** — 15+ practical Christian life hacks with category filtering (Sleep, Parenting, Money, Relationships, etc.) and save counts
+- **`/life-hacks`** — 15+ practical Christian life hacks with category filtering (Sleep, Parenting, Money, Relationships, etc.) and interactive **Save buttons per hack** that persist to `vine_lifehacks_saved`
 - **`/parenting`** — Stage-by-stage wisdom (0–5, 6–12, teens, adult children) with Scripture references and feature articles
 - **`/relationships`** — Dating, marriage, singleness, and friendship content with resource pillars
 - **`/work-leadership`** — Biblical work theology, leadership frameworks, biblical models (Daniel, Nehemiah, Joseph, Deborah), article grid with real links to blog posts
@@ -293,6 +304,10 @@ Every action across the entire app provides visual feedback. Key patterns:
 | Live Streams | Join/watch toggle + live viewer count + in-stream chat |
 | Journal | Create/browse/search entries with mood and tag system, **persists to localStorage** |
 | Challenges | Join challenges + 30-day grid streak tracker, **persists to localStorage** |
+| Verse Memory | Add verses, typing quiz with accuracy scoring, mastered/review toggle, **persists to localStorage** |
+| Life Hacks | Save individual hack cards, **persists to localStorage** |
+| Apologetics | Bookmark objection responses and topic tracks, **persists to localStorage** |
+| Settings | Notification preferences, privacy settings, appearance — all **persist to localStorage** |
 | Daily Devotional | Shows current day's devotional automatically; day progress **persists to localStorage** |
 | Feed | Like/save posts **persists to localStorage** |
 | Giving (monthly) | Start monthly giving with confirmation state |
@@ -309,7 +324,7 @@ All data is realistic and written in the voice of the global Protestant Christia
 
 **Authors & Voices**: Dr. Marcus Webb, Rev. Sarah Okonkwo, Tim Challies, David Platt, Amara Osei (Ghana), Ji-Woo Park (South Korea), Carlos Mendez (Colombia), Lydia Böhm (Germany), Samuel Mwangi (Kenya), Dr. Naomi Park (Korea/USA), Rev. Josephine Kamau (Kenya), Dr. Grace Mbeki (South Africa), James Okafor (Nigeria/UK), Bishop Emmanuel Adeyemi (Nigeria), Dr. Rachel Osei (Ghana), Rev. David Osei (Ghana), Pastor Marcus Webb (USA)
 
-**Discussions**: 22 fully realized threads covering faith doubts, mental health, marriage crisis, job loss, prodigal children, church attendance debates, biblical manhood, workplace faith, tithing, resurrection evidence, theodicy, baptism debates, LGBTQ+ pastoral care, interracial marriage, and more
+**Discussions**: 26 fully realized threads covering faith doubts, mental health, marriage crisis, job loss, prodigal children, church attendance debates, biblical manhood, workplace faith, tithing, resurrection evidence, theodicy, baptism debates, LGBTQ+ pastoral care, interracial marriage, grief while believing, and spiritual abuse recovery
 
 **Blog**: 20 long-form articles with full content, verse blocks, pull quotes, and related article recommendations
 

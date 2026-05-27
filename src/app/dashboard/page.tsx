@@ -64,6 +64,17 @@ interface Stats {
   bibleStudyPlans: number;
   disciplinesCommitted: number;
   churchesSaved: number;
+  prayerPartnerConnected: number;
+  prayerSessions: number;
+  worldPrayerNations: number;
+  sermonArchiveSaved: number;
+  quotesLiked: number;
+  devotionalCreated: number;
+  griefJournalEntries: number;
+  scriptureGamePlayed: number;
+  couplesDevoDays: number;
+  mentorRequests: number;
+  youthChallengesJoined: number;
 }
 
 function loadStats(): Stats {
@@ -151,6 +162,17 @@ function loadStats(): Stats {
     bibleStudyPlans: parseArr("vine_bible_study_plans"),
     disciplinesCommitted: (() => { try { const d = JSON.parse(get("vine_disciplines", "{}")); return Object.values(d).filter((v: unknown) => (v as { committed?: boolean }).committed).length; } catch { return 0; } })(),
     churchesSaved: parseSet("vine_church_saved"),
+    prayerPartnerConnected: parseSet("vine_prayer_partner_connected"),
+    prayerSessions: parseArr("vine_prayer_sessions"),
+    worldPrayerNations: parseSet("vine_world_prayer_prayed"),
+    sermonArchiveSaved: parseSet("vine_sermons_saved"),
+    quotesLiked: parseSet("vine_quotes_liked"),
+    devotionalCreated: (() => { try { const d = JSON.parse(get("vine_devotionals", "[]")); return Array.isArray(d) ? d.length : 0; } catch { return 0; } })(),
+    griefJournalEntries: parseArr("vine_grief_journal"),
+    scriptureGamePlayed: (() => { try { const s = JSON.parse(get("vine_scripture_game_stats", "{}")); return (s as { totalPlayed?: number }).totalPlayed ?? 0; } catch { return 0; } })(),
+    couplesDevoDays: (() => { try { const c = JSON.parse(get("vine_couples_devotional", "{}")); return ((c as { completedDays?: number[] }).completedDays ?? []).length; } catch { return 0; } })(),
+    mentorRequests: parseArr("vine_mentorship_requests"),
+    youthChallengesJoined: parseSet("vine_youth_challenges"),
   };
 }
 
@@ -258,6 +280,17 @@ export default function DashboardPage() {
         { label: "Prayer Wall Prayers", value: stats?.prayerWallPrayed ?? 0, href: "/prayer-wall" },
         { label: "Testimonies Encouraged", value: stats?.testimoniesLiked ?? 0, href: "/testimony" },
         { label: "Churches Saved", value: stats?.churchesSaved ?? 0, href: "/church-finder" },
+        { label: "Prayer Partners", value: stats?.prayerPartnerConnected ?? 0, href: "/prayer-partner" },
+        { label: "Prayer Sessions Logged", value: stats?.prayerSessions ?? 0, href: "/prayer-partner" },
+        { label: "Nations Prayed For", value: stats?.worldPrayerNations ?? 0, href: "/world-prayer" },
+        { label: "Sermons Saved", value: stats?.sermonArchiveSaved ?? 0, href: "/sermon-archive" },
+        { label: "Quotes Liked", value: stats?.quotesLiked ?? 0, href: "/quotes" },
+        { label: "Devotionals Written", value: stats?.devotionalCreated ?? 0, href: "/devotional-creator" },
+        { label: "Grief Journal Entries", value: stats?.griefJournalEntries ?? 0, href: "/grief" },
+        { label: "Scripture Game Questions", value: stats?.scriptureGamePlayed ?? 0, href: "/scripture-game" },
+        { label: "Couples Devo Days", value: stats?.couplesDevoDays ?? 0, href: "/couples-devotional" },
+        { label: "Mentors Requested", value: stats?.mentorRequests ?? 0, href: "/mentorship" },
+        { label: "Youth Challenges Joined", value: stats?.youthChallengesJoined ?? 0, href: "/youth" },
       ],
     },
   ];
@@ -276,6 +309,9 @@ export default function DashboardPage() {
     { label: "Disciplines", icon: Star, color: "#F59E0B", href: "/disciplines" },
     { label: "Faith Journey", icon: Globe, color: "#6B4FBB", href: "/faith-journey" },
     { label: "Groups", icon: Users, color: "#F59E0B", href: "/groups" },
+    { label: "World Prayer", icon: Globe, color: "#EF4444", href: "/world-prayer" },
+    { label: "Scripture Game", icon: Zap, color: "#00FF88", href: "/scripture-game" },
+    { label: "Mentorship", icon: Users, color: "#6B4FBB", href: "/mentorship" },
     { label: "AI Companion", icon: Zap, color: "#8B9BCC", href: "/ai-companion" },
   ];
 

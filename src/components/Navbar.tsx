@@ -26,6 +26,7 @@ const navLinks = [
       { label: "Devotional Creator", href: "/devotional-creator" },
       { label: "Guides & Articles", href: "/resources" },
       { label: "Christian Quotes", href: "/quotes" },
+      { label: "Sermon Archive", href: "/sermon-archive" },
       { label: "Video Library", href: "/video" },
       { label: "Podcasts", href: "/podcast" },
       { label: "Bible Tools", href: "/bible" },

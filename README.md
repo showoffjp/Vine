@@ -18,7 +18,7 @@
 [![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)](https://typescriptlang.org)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-06B6D4?logo=tailwindcss)](https://tailwindcss.com)
-[![Pages](https://img.shields.io/badge/Static%20Pages-167-00FF88)](https://vine.app)
+[![Pages](https://img.shields.io/badge/Static%20Pages-169-00FF88)](https://vine.app)
 
 </div>
 
@@ -85,6 +85,12 @@ The `.page-body` CSS utility class applies header-aware top padding (`padding-to
   - 8 preset goals (Read Bible chapters, Memorize verses, Fast days, etc.)
   - Stats: Total goals, Completed count, Average progress
   - Active vs Completed tabs; all persisted to `vine_goals` localStorage
+- **`/prayer-list`** — Private personal prayer list with:
+  - Add requests with category (Personal, Family, Friend, Health, Work, Ministry, World, Praise), person, and scripture
+  - "Prayed" counter per request (tap to log each time you pray it)
+  - Mark as Answered with testimony note; answered prayers archived separately
+  - Category filter pills; 4 sample requests pre-loaded
+  - All data persisted to `vine_prayer_list` localStorage
 - **`/sermon-notes`** — Full sermon notes app with:
   - Left-panel note list with search (filter by title, speaker, scripture, tags)
   - Editor with fields: title, speaker, date, scripture, church, body, key points, tags

@@ -42,6 +42,7 @@ const navLinks = [
       { label: "Sermon Notes", href: "/sermon-notes" },
       { label: "Faith Goals", href: "/goals" },
       { label: "Fasting Tracker", href: "/fasting" },
+      { label: "Prayer List", href: "/prayer-list" },
     ],
   },
   {

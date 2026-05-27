@@ -196,6 +196,69 @@ function loadSavedItems(): SavedItem[] {
     }
   } catch {}
 
+  // Prayer list
+  try {
+    const prayerList = JSON.parse(tryGet("vine_prayer_list", "[]"));
+    if (Array.isArray(prayerList) && prayerList.length > 0) {
+      const answered = prayerList.filter((p: { answered: boolean }) => p.answered).length;
+      const active = prayerList.length - answered;
+      items.push({
+        type: "Prayer List",
+        title: `${active} active request${active !== 1 ? "s" : ""}`,
+        subtitle: `${answered} answered`,
+        href: "/prayer-list",
+        color: "#6B4FBB",
+        icon: "🙏",
+      });
+    }
+  } catch {}
+
+  // Fasting
+  try {
+    const fastingRecords = JSON.parse(tryGet("vine_fasting_records", "[]"));
+    if (Array.isArray(fastingRecords) && fastingRecords.length > 0) {
+      const completed = fastingRecords.filter((f: { completed: boolean }) => f.completed).length;
+      items.push({
+        type: "Fasting",
+        title: `${fastingRecords.length} fast${fastingRecords.length !== 1 ? "s" : ""} logged`,
+        subtitle: `${completed} completed`,
+        href: "/fasting",
+        color: "#F59E0B",
+        icon: "🔥",
+      });
+    }
+  } catch {}
+
+  // Sermon Notes
+  try {
+    const sermonNotes = JSON.parse(tryGet("vine_sermon_notes", "[]"));
+    if (Array.isArray(sermonNotes) && sermonNotes.length > 0) {
+      items.push({
+        type: "Sermon Notes",
+        title: `${sermonNotes.length} sermon note${sermonNotes.length !== 1 ? "s" : ""}`,
+        href: "/sermon-notes",
+        color: "#F59E0B",
+        icon: "📝",
+      });
+    }
+  } catch {}
+
+  // Faith Goals
+  try {
+    const goals = JSON.parse(tryGet("vine_goals", "[]"));
+    if (Array.isArray(goals) && goals.length > 0) {
+      const completed = goals.filter((g: { completedAt?: string; current: number; target: number }) => g.completedAt && g.current >= g.target).length;
+      items.push({
+        type: "Faith Goals",
+        title: `${goals.length} goal${goals.length !== 1 ? "s" : ""}`,
+        subtitle: `${completed} completed`,
+        href: "/goals",
+        color: "#10B981",
+        icon: "🎯",
+      });
+    }
+  } catch {}
+
   // Bible bookmarks
   try {
     const bibleBookmarks = JSON.parse(tryGet("vine_bible_bookmarks", "[]"));

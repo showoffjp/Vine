@@ -67,6 +67,7 @@ const navLinks = [
     children: [
       { label: "Discover", href: "/explore" },
       { label: "Challenges", href: "/challenges" },
+      { label: "Church Finder", href: "/church-finder" },
       { label: "Missions", href: "/missions" },
       { label: "Events", href: "/events" },
       { label: "Leaderboard", href: "/leaderboard" },

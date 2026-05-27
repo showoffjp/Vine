@@ -15,9 +15,10 @@
 
 *"I am the vine; you are the branches." — John 15:5*
 
-[![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js)](https://nextjs.org)
+[![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)](https://typescriptlang.org)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-06B6D4?logo=tailwindcss)](https://tailwindcss.com)
+[![Pages](https://img.shields.io/badge/Static%20Pages-139-00FF88)](https://vine.app)
 
 </div>
 
@@ -82,8 +83,8 @@ The `.page-body` CSS utility class applies header-aware top padding (`padding-to
   - Expandable chapter accordion with mark-as-read toggles
   - Real-time streak counter and pace bar
   - Plan switcher with 4 alternate plans
-- **`/topics`** — Topic hub landing page
-- **`/topics/[slug]`** — Individual topic pages (prayer-fasting, genz-church, marriage-faith, deconstruction, anxiety-faith, christian-ai-ethics)
+- **`/topics`** — Topic hub landing page with trending topic rankings and cluster browsing
+- **`/topics/[slug]`** — 9 individual topic pages: prayer-fasting, genz-church, marriage-faith, deconstruction, mental-health-god, christian-ai-ethics, resurrection, biblical-finance, biblical-manhood
 
 ### Community & Discussions
 - **`/discussions`** — Community forum with:
@@ -91,7 +92,26 @@ The `.page-body` CSS utility class applies header-aware top padding (`padding-to
   - Upvote with live count increment
   - Save posts with count update
   - Join/leave hubs
-- **`/discussions/[slug]`** — Individual discussion threads with nested comment replies and upvoting
+  - 18 posts across Faith & Career, Theology, Young Adults, Parenting, Mental Health
+- **`/discussions/[slug]`** — 18 individual discussion threads with nested comment replies and upvoting:
+  - *Faith & Doubt* — questioning God's existence
+  - *Free Will & Omniscience* — deep theological dive
+  - *Depression + Therapy* — mental health integration
+  - *Cancer Free Praise Report* — community answered prayer
+  - *Christian Dating Apps* — navigating modern romance
+  - *Resurrection Evidence* — faith + science (evolution/Genesis)
+  - *Deconstruction Journey* — finding faith after doubt
+  - *Tithing Debate* — Old Covenant vs. New Covenant
+  - *Prayer Doesn't Feel Real* — authenticity in spiritual practice
+  - *Finances Stewardship* — debt freedom journey
+  - *Lunch Break Devotional* — integrating faith into work
+  - *Worship Feels Empty* — dark night of the soul
+  - *Job Loss at 47* — trusting God's provision
+  - *Marriage Falling Apart* — vulnerability and church shame
+  - *Prodigal Child* — long-season intercessory prayer
+  - *Faith at Work* — workplace witness without being weird
+  - *Sunday Church Attendance* — mandatory or cultural?
+  - *Biblical Manhood in 2026* — Christlike masculinity
 - **`/community`** — Community circles with join/leave, featured circles, nearby groups, member invite by email
 - **`/prayer`** — Live prayer wall with:
   - Animated "Live" indicator
@@ -103,16 +123,24 @@ The `.page-body` CSS utility class applies header-aware top padding (`padding-to
   - Prayer Tip of the Day
 
 ### Content
-- **`/blog`** — Blog with category filtering, post bookmarking, editor following, newsletter subscribe
-- **`/blog/[slug]`** — Full blog articles including:
-  - *Why the Resurrection Changes Everything* (Dr. Marcus Webb)
-  - *Deconstruction Doesn't Have to Mean Destruction* (Rev. Sarah Okonkwo)
-  - *The Problem of Evil* (Tim Challies)
-  - *When Anxiety Meets Faith* (Dr. Priya Singh)
-  - *Why Gen Z Is Leaving — and Returning to — Church*
-  - *Biblical Finance Isn't a Sermon, It's a System*
-  - *What Silence Can Do That Words Cannot*
-  - *How to Talk to Your Kids About God Without Pushing Them Away*
+- **`/blog`** — Blog with category filtering (All, Theology, Life & Faith, Culture, Leadership, Family, Work & Faith, Devotional), post bookmarking, editor following, newsletter subscribe
+- **`/blog/[slug]`** — 16 full blog articles:
+  - *Why the Resurrection Changes Everything* — Dr. Marcus Webb
+  - *AI, ChatGPT, and the Church: A Faithful Reckoning* — James Okafor
+  - *The Problem of Evil* — Dr. Marcus Webb
+  - *The Digital Sabbath* — Rev. Sarah Okonkwo
+  - *Prayer That Actually Works* — Bishop Emmanuel Adeyemi
+  - *Marriage: Covenant, Not Contract* — Rev. David & Naomi Park
+  - *Why Jesus Assumed You Would Fast* — Rev. Josephine Kamau
+  - *Deconstruction Isn't the Enemy* — Lydia Böhm
+  - *God Talks About Money More Than Heaven* — Pastor Emmanuel Nkemdirim
+  - *Servant Leadership: What Jesus Actually Taught* — Dr. Grace Mbeki
+  - *The Psalms as Permission to Lament* — Rev. Amara Osei
+  - *When Marriage Is Hard* — Dr. Naomi Park
+  - *Raising Faith-Filled Children* — Dr. Sarah Kimani
+  - *The Theology of Monday* — Rev. Marcus Webb
+  - *Is Christian Ambition an Oxymoron?* — Dr. Grace Mbeki
+  - *How to Talk About Faith at Work Without Being Weird* — James Okafor
 - **`/stories`** — Testimony story hub
 - **`/stories/[slug]`** — Full testimonies:
   - *Amara Osei — Widowed at 28*
@@ -148,7 +176,7 @@ The `.page-body` CSS utility class applies header-aware top padding (`padding-to
 - **`/life-hacks`** — 15+ practical Christian life hacks with category filtering (Sleep, Parenting, Money, Relationships, etc.) and save counts
 - **`/parenting`** — Stage-by-stage wisdom (0–5, 6–12, teens, adult children) with Scripture references and feature articles
 - **`/relationships`** — Dating, marriage, singleness, and friendship content with resource pillars
-- **`/work-leadership`** — Biblical work theology, leadership frameworks, biblical models (Daniel, Nehemiah, Joseph, Deborah), article grid
+- **`/work-leadership`** — Biblical work theology, leadership frameworks, biblical models (Daniel, Nehemiah, Joseph, Deborah), article grid with real links to blog posts
 
 ### Global & Missions
 - **`/global-connect`** — Global church community hub:
@@ -178,11 +206,13 @@ The `.page-body` CSS utility class applies header-aware top padding (`padding-to
   - Category tabs (Overall, Prayer Warriors, Top Teachers, Missional)
   - Podium view for top 3 + full rankings list
   - Badges legend
-- **`/quiz`** — Spiritual Gifts Assessment:
-  - 10-question flow (Romans 12, 1 Corinthians 12 based)
-  - 7 possible results: Teaching, Encouragement, Giving, Leadership, Mercy, Service, Prophecy
-  - Each result includes description, key verse, biblical example, and "How to use this on Vine"
-  - Coming-soon quiz previews for 3 additional quizzes
+- **`/quiz`** — 4 fully functional spiritual quizzes:
+  - *What Is Your Spiritual Gift?* — 10 questions, 7 results (Teaching, Encouragement, Giving, Leadership, Mercy, Service, Prophecy)
+  - *Which Biblical Character Are You?* — 8 questions, 9 results (Joseph, David, Paul, Ruth, Moses, Esther, Peter, Deborah, Jacob)
+  - *How Strong Is Your Faith Muscle?* — 12 questions, 4 levels (Seedling, Sapling, Flourishing, Mighty Oak) — scored numerically
+  - *What's Your Prayer Style?* — 8 questions, 4 types (Warrior, Contemplative, Prophetic, Conversationalist)
+  - Each result includes full description, key verse, biblical example, and "How to use this on Vine"
+  - Animated progress bar + 380ms answer reveal + share button
 - **`/apologetics`** — Christian apologetics hub with topic tracks, common objections with responses, key thinkers (C.S. Lewis, Alvin Plantinga, N.T. Wright, William Lane Craig, Francis Collins)
 - **`/resources`** — Resource library with category + topic filtering, bookmark/save toggles, empty state
 
@@ -238,7 +268,7 @@ Every action across the entire app provides visual feedback. Key patterns:
 | Reading Plan | Mark chapters read, real-time progress |
 | Events filters | Instant filtering across type + month + search |
 | Join/Follow | Filled border + checkmark confirmation |
-| Spiritual Gifts Quiz | Timed answer reveal → result screen |
+| All 4 Spiritual Quizzes | Timed answer reveal → scored result screen with verse + biblical example |
 | Give Button | Amount → confirm → success flow |
 | Event Register | Toggle confirmed state |
 | Newsletter | Edition multi-select + subscribe confirm |
@@ -262,11 +292,15 @@ Every action across the entire app provides visual feedback. Key patterns:
 
 All data is realistic and written in the voice of the global Protestant Christian community:
 
-**Authors & Voices**: Dr. Marcus Webb, Rev. Sarah Okonkwo, Tim Challies, David Platt, John Piper references, Amara Osei (Ghana), Ji-Woo Park (South Korea), Carlos Mendez (Colombia), Lydia Böhm (Germany), Samuel Mwangi (Kenya), Dr. Priya Singh (India)
+**Authors & Voices**: Dr. Marcus Webb, Rev. Sarah Okonkwo, Tim Challies, David Platt, Amara Osei (Ghana), Ji-Woo Park (South Korea), Carlos Mendez (Colombia), Lydia Böhm (Germany), Samuel Mwangi (Kenya), Dr. Naomi Park (Korea/USA), Rev. Josephine Kamau (Kenya), Dr. Grace Mbeki (South Africa), James Okafor (Nigeria/UK), Bishop Emmanuel Adeyemi (Nigeria), Dr. Rachel Osei (Ghana), Rev. David Osei (Ghana), Pastor Marcus Webb (USA)
 
-**Discussions**: Faith & Doubt, Resurrection Evidence, Free Will & God's Omniscience, Deconstruction, Mental Health & Therapy, Praise Reports
+**Discussions**: 18 fully realized threads covering faith doubts, mental health, marriage crisis, job loss, prodigal children, church attendance debates, biblical manhood, workplace faith, tithing, resurrection evidence, and more
 
-**Global Reach**: Content from Sub-Saharan Africa, East Asia, Latin America, North America, Europe, Middle East — 184 countries represented
+**Blog**: 16 long-form articles with full content, verse blocks, pull quotes, and related article recommendations
+
+**Topics**: 9 topic pages with 4 real discussion entries each, related topic suggestions, and scripture references
+
+**Global Reach**: Content from Sub-Saharan Africa (Ghana, Kenya, Nigeria, South Africa), East Asia (South Korea), Latin America (Colombia, Brazil), North America, Europe (Germany, UK) — 184 countries represented
 
 ---
 

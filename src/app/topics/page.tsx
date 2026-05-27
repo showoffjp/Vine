@@ -63,7 +63,7 @@ const trending = [
     hot: false,
     description: "Debates around church attendance, online church, and the body of Christ",
     color: "#EC4899",
-    slug: "biblical-manhood",
+    slug: "church-attendance",
   },
   {
     rank: 6,
@@ -104,6 +104,9 @@ const topicSlugs: Record<string, string> = {
   Deconstruction: "deconstruction",
   Depression: "mental-health-god",
   AI: "christian-ai-ethics",
+  "Mental Health": "mental-health-god",
+  "Gen Z": "genz-church",
+  Resurrection: "resurrection",
 };
 
 const topicClusters = [

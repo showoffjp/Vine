@@ -605,6 +605,70 @@ const topics: Record<string, Topic> = {
       },
     ],
   },
+  "church-attendance": {
+    name: "#SundayChurch",
+    color: "#EC4899",
+    posts: "2.1k",
+    description:
+      "Honest conversations about church attendance, the rise of online church, what the body of Christ actually means in the digital age, and why some Christians are choosing to stay — or leave.",
+    scripture: "Hebrews 10:24-25",
+    relatedTopics: ["genz-church", "deconstruction", "mental-health-god", "prayer-fasting"],
+    discussions: [
+      {
+        title: "I dread Sunday mornings but still love God — am I broken?",
+        author: "Anonymous",
+        avatar: "?",
+        avatarColor: "#4A4A68",
+        hub: "r/ChurchLife",
+        hubColor: "#EC4899",
+        upvotes: 6241,
+        replies: 489,
+        time: "2 days ago",
+        flair: "Vulnerable Share",
+        flairColor: "#BB4F7A",
+        slug: "sunday-church-attendance-016",
+      },
+      {
+        title: "Online church is real church — change my mind",
+        author: "Marcus Chen",
+        avatar: "MC",
+        avatarColor: "#3B82F6",
+        hub: "r/ChurchDebate",
+        hubColor: "#3B82F6",
+        upvotes: 2891,
+        replies: 412,
+        time: "4 days ago",
+        flair: "Hot Take",
+        flairColor: "#EF4444",
+      },
+      {
+        title: "Why I left a church of 3,000 for a house church of 12 — and haven't looked back",
+        author: "Sarah Jennings",
+        avatar: "SJ",
+        avatarColor: "#BB4F7A",
+        hub: "r/HouseChurch",
+        hubColor: "#BB4F7A",
+        upvotes: 3412,
+        replies: 287,
+        time: "1 week ago",
+        flair: "Testimony",
+        flairColor: "#4FBBAA",
+      },
+      {
+        title: "Hebrews 10:25 — what does 'not forsaking the assembly' actually require in 2026?",
+        author: "Dr. Samuel Owusu",
+        avatar: "SO",
+        avatarColor: "#6B4FBB",
+        hub: "r/Theology&Doctrine",
+        hubColor: "#6B4FBB",
+        upvotes: 1823,
+        replies: 234,
+        time: "10 days ago",
+        flair: "Bible Study",
+        flairColor: "#6B4FBB",
+      },
+    ],
+  },
 };
 
 const topicSlugs: Record<string, string> = {
@@ -617,6 +681,7 @@ const topicSlugs: Record<string, string> = {
   "resurrection": "#ResurrectionEvidence",
   "biblical-finance": "#BiblicalFinance",
   "biblical-manhood": "#BiblicalManhood",
+  "church-attendance": "#SundayChurch",
 };
 
 export async function generateStaticParams() {

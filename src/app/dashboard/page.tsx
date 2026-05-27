@@ -56,6 +56,14 @@ interface Stats {
   gratitudeEntries: number;
   prayerListActive: number;
   fastingCompleted: number;
+  faithMilestones: number;
+  accountabilityGoals: number;
+  readingListCompleted: number;
+  prayerWallPrayed: number;
+  testimoniesLiked: number;
+  bibleStudyPlans: number;
+  disciplinesCommitted: number;
+  churchesSaved: number;
 }
 
 function loadStats(): Stats {
@@ -135,6 +143,14 @@ function loadStats(): Stats {
     gratitudeEntries: parseArr("vine_gratitude"),
     prayerListActive: (() => { try { const p = JSON.parse(get("vine_prayer_list", "[]")); return p.filter((x: { answered: boolean }) => !x.answered).length; } catch { return 0; } })(),
     fastingCompleted: (() => { try { const f = JSON.parse(get("vine_fasting_records", "[]")); return f.filter((x: { completed: boolean }) => x.completed).length; } catch { return 0; } })(),
+    faithMilestones: parseArr("vine_faith_journey"),
+    accountabilityGoals: (() => { try { const a = JSON.parse(get("vine_accountability", "[]")); return a.filter((x: { active: boolean }) => x.active).length; } catch { return 0; } })(),
+    readingListCompleted: (() => { try { const r = JSON.parse(get("vine_reading_list", "[]")); return r.filter((x: { status: string }) => x.status === "completed").length; } catch { return 0; } })(),
+    prayerWallPrayed: parseSet("vine_prayer_wall_prayed"),
+    testimoniesLiked: parseSet("vine_testimonies_liked"),
+    bibleStudyPlans: parseArr("vine_bible_study_plans"),
+    disciplinesCommitted: (() => { try { const d = JSON.parse(get("vine_disciplines", "{}")); return Object.values(d).filter((v: unknown) => (v as { committed?: boolean }).committed).length; } catch { return 0; } })(),
+    churchesSaved: parseSet("vine_church_saved"),
   };
 }
 
@@ -234,6 +250,14 @@ export default function DashboardPage() {
         { label: "Gratitude Entries", value: stats?.gratitudeEntries ?? 0, href: "/gratitude" },
         { label: "Active Prayer Requests", value: stats?.prayerListActive ?? 0, href: "/prayer-list" },
         { label: "Fasts Completed", value: stats?.fastingCompleted ?? 0, href: "/fasting" },
+        { label: "Faith Milestones", value: stats?.faithMilestones ?? 0, href: "/faith-journey" },
+        { label: "Accountability Goals", value: stats?.accountabilityGoals ?? 0, href: "/accountability" },
+        { label: "Books Read", value: stats?.readingListCompleted ?? 0, href: "/reading-list" },
+        { label: "Bible Studies", value: stats?.bibleStudyPlans ?? 0, href: "/bible-study" },
+        { label: "Disciplines Committed", value: stats?.disciplinesCommitted ?? 0, href: "/disciplines" },
+        { label: "Prayer Wall Prayers", value: stats?.prayerWallPrayed ?? 0, href: "/prayer-wall" },
+        { label: "Testimonies Encouraged", value: stats?.testimoniesLiked ?? 0, href: "/testimony" },
+        { label: "Churches Saved", value: stats?.churchesSaved ?? 0, href: "/church-finder" },
       ],
     },
   ];
@@ -241,12 +265,16 @@ export default function DashboardPage() {
   const quickLinks = [
     { label: "Daily Devotional", icon: Flame, color: "#E07030", href: "/daily" },
     { label: "Reading Plan", icon: BookOpen, color: "#00FF88", href: "/reading-plan" },
-    { label: "Prayer Wall", icon: Heart, color: "#EC4899", href: "/prayer" },
+    { label: "Prayer Wall", icon: Heart, color: "#EC4899", href: "/prayer-wall" },
     { label: "Journal", icon: MessageSquare, color: "#6B4FBB", href: "/journal" },
     { label: "Faith Goals", icon: Target, color: "#10B981", href: "/goals" },
     { label: "Verse Memory", icon: Brain, color: "#3B82F6", href: "/verse-memory" },
     { label: "Sermon Notes", icon: BookOpen, color: "#F59E0B", href: "/sermon-notes" },
     { label: "Spiritual Gifts", icon: Zap, color: "#8B5CF6", href: "/spiritual-gifts" },
+    { label: "Bible Study", icon: BookOpen, color: "#10B981", href: "/bible-study" },
+    { label: "Accountability", icon: Shield, color: "#00FF88", href: "/accountability" },
+    { label: "Disciplines", icon: Star, color: "#F59E0B", href: "/disciplines" },
+    { label: "Faith Journey", icon: Globe, color: "#6B4FBB", href: "/faith-journey" },
     { label: "Groups", icon: Users, color: "#F59E0B", href: "/groups" },
     { label: "AI Companion", icon: Zap, color: "#8B9BCC", href: "/ai-companion" },
   ];

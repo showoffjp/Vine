@@ -45,6 +45,12 @@ interface Stats {
   missionsFollowed: number;
   gcCircles: number;
   eventsGoing: number;
+  verseMemory: number;
+  goalsActive: number;
+  goalsCompleted: number;
+  sermonNotes: number;
+  spiritualGiftsPrimary: string;
+  sermonSaved: number;
 }
 
 function loadStats(): Stats {
@@ -82,6 +88,28 @@ function loadStats(): Stats {
     missionsFollowed: parseSet("vine_missions_followed"),
     gcCircles: parseSet("vine_gc_circles"),
     eventsGoing: parseSet("vine_events_going"),
+    verseMemory: parseArr("vine_verse_memory"),
+    goalsActive: (() => { try { const g = JSON.parse(get("vine_goals", "[]")); return g.filter((x: { completedAt?: string; current: number; target: number }) => !x.completedAt || x.current < x.target).length; } catch { return 0; } })(),
+    goalsCompleted: (() => { try { const g = JSON.parse(get("vine_goals", "[]")); return g.filter((x: { completedAt?: string; current: number; target: number }) => x.completedAt && x.current >= x.target).length; } catch { return 0; } })(),
+    sermonNotes: parseArr("vine_sermon_notes"),
+    spiritualGiftsPrimary: (() => {
+      try {
+        const done = get("vine_sg_done", "false") === "true";
+        if (!done) return "";
+        const answers: (number | null)[] = JSON.parse(get("vine_sg_answers", "[]"));
+        const GIFT_QUESTIONS: Record<string, string[]> = {
+          teaching: ["0","9","18"], mercy: ["1","10","19"], evangelism: ["2","11"],
+          leadership: ["3","12"], prophecy: ["4","13"], helps: ["5","14"],
+          wisdom: ["6","15","18"], worship: ["7","16"], missions: ["8","17","3"],
+        };
+        const scores: Record<string, number> = {};
+        Object.entries(GIFT_QUESTIONS).forEach(([gid, qIdxs]) => {
+          scores[gid] = qIdxs.reduce((s, qi) => s + (answers[Number(qi)] ?? 0), 0);
+        });
+        return Object.entries(scores).sort((a, b) => b[1] - a[1])[0]?.[0] ?? "";
+      } catch { return ""; }
+    })(),
+    sermonSaved: 0,
   };
 }
 
@@ -131,6 +159,7 @@ export default function DashboardPage() {
         { label: "Daily Devotionals Completed", value: stats?.dailyCompleted ?? 0, href: "/daily" },
         { label: "Challenges Joined", value: stats?.challengesJoined ?? 0, href: "/challenges" },
         { label: "Journal Entries", value: stats?.journalEntries ?? 0, href: "/journal" },
+        { label: "Sermon Notes Taken", value: stats?.sermonNotes ?? 0, href: "/sermon-notes" },
       ],
     },
     {
@@ -163,6 +192,17 @@ export default function DashboardPage() {
         { label: "Missionaries Followed", value: stats?.missionsFollowed ?? 0, href: "/missions" },
         { label: "Events Going To", value: stats?.eventsGoing ?? 0, href: "/events" },
         { label: "AI Companion Questions Asked", value: stats?.aiMessages ?? 0, href: "/ai-companion" },
+      ],
+    },
+    {
+      title: "Growth & Goals",
+      icon: Target,
+      color: "#8B5CF6",
+      items: [
+        { label: "Verses in Memory", value: stats?.verseMemory ?? 0, href: "/verse-memory" },
+        { label: "Active Goals", value: stats?.goalsActive ?? 0, href: "/goals" },
+        { label: "Completed Goals", value: stats?.goalsCompleted ?? 0, href: "/goals" },
+        { label: "Primary Spiritual Gift", value: stats?.spiritualGiftsPrimary ? stats.spiritualGiftsPrimary.charAt(0).toUpperCase() + stats.spiritualGiftsPrimary.slice(1) : "Not taken", href: "/spiritual-gifts" },
       ],
     },
   ];

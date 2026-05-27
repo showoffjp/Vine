@@ -123,8 +123,18 @@ const categories = ["All", "Worship", "Prayer", "Bible Study", "Youth", "Mental 
 
 export default function LivePage() {
   const [activeCategory, setActiveCategory] = useState("All");
-  const [joinedStreams, setJoinedStreams] = useState<Set<number>>(new Set([1]));
-  const [remindedStreams, setRemindedStreams] = useState<Set<number>>(new Set());
+  const [joinedStreams, setJoinedStreams] = useState<Set<number>>(() => {
+    try {
+      const s = localStorage.getItem("vine_live_joined");
+      return s ? new Set(JSON.parse(s) as number[]) : new Set([1]);
+    } catch { return new Set([1]); }
+  });
+  const [remindedStreams, setRemindedStreams] = useState<Set<number>>(() => {
+    try {
+      const s = localStorage.getItem("vine_live_reminded");
+      return s ? new Set(JSON.parse(s) as number[]) : new Set();
+    } catch { return new Set(); }
+  });
   const [chatMessages, setChatMessages] = useState<{ user: string; msg: string; color: string }[]>([
     { user: "Amara K.", msg: "🙏 Blessing from Ghana!", color: "#00FF88" },
     { user: "Ji-Woo P.", msg: "This worship is incredible", color: "#6B4FBB" },
@@ -141,6 +151,14 @@ export default function LivePage() {
     }, 3000);
     return () => clearInterval(iv);
   }, []);
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_live_joined", JSON.stringify([...joinedStreams])); } catch {}
+  }, [joinedStreams]);
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_live_reminded", JSON.stringify([...remindedStreams])); } catch {}
+  }, [remindedStreams]);
 
   const filteredStreams = liveStreams.filter(
     (s) => activeCategory === "All" || s.category === activeCategory

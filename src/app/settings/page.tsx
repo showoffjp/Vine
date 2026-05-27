@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
@@ -427,20 +427,31 @@ function AccountTab() {
 // ─── Notifications Tab ────────────────────────────────────────────────────────
 
 function NotificationsTab() {
-  const [notifs, setNotifs] = useState({
-    discussionReplies: true,
-    prayerResponses: true,
-    newFollowers: false,
-    weeklyNewsletter: true,
-    dailyVerse: true,
-    devotionalReminders: true,
-    communityActivity: false,
-    eventReminders: true,
-    creatorUpdates: false,
+  const [notifs, setNotifs] = useState(() => {
+    const defaults = {
+      discussionReplies: true,
+      prayerResponses: true,
+      newFollowers: false,
+      weeklyNewsletter: true,
+      dailyVerse: true,
+      devotionalReminders: true,
+      communityActivity: false,
+      eventReminders: true,
+      creatorUpdates: false,
+    };
+    try {
+      const s = localStorage.getItem("vine_settings_notifs");
+      return s ? { ...defaults, ...JSON.parse(s) } : defaults;
+    } catch { return defaults; }
   });
 
-  const set = (key: keyof typeof notifs) => (v: boolean) =>
-    setNotifs((prev) => ({ ...prev, [key]: v }));
+  useEffect(() => {
+    try { localStorage.setItem("vine_settings_notifs", JSON.stringify(notifs)); } catch {}
+  }, [notifs]);
+
+  type Notifs = typeof notifs;
+  const set = (key: keyof Notifs) => (v: boolean) =>
+    setNotifs((prev: Notifs) => ({ ...prev, [key]: v }));
 
   return (
     <div>
@@ -585,10 +596,31 @@ function RadioGroup({
 }
 
 function PrivacyTab() {
-  const [profileVis, setProfileVis] = useState<Visibility>("everyone");
-  const [messageVis, setMessageVis] = useState<Visibility>("members");
-  const [showInConnect, setShowInConnect] = useState(true);
-  const [indexable, setIndexable] = useState(false);
+  const [profileVis, setProfileVis] = useState<Visibility>(() => {
+    try { return (localStorage.getItem("vine_privacy_profile") as Visibility) || "everyone"; } catch { return "everyone"; }
+  });
+  const [messageVis, setMessageVis] = useState<Visibility>(() => {
+    try { return (localStorage.getItem("vine_privacy_messages") as Visibility) || "members"; } catch { return "members"; }
+  });
+  const [showInConnect, setShowInConnect] = useState(() => {
+    try { return localStorage.getItem("vine_privacy_connect") !== "0"; } catch { return true; }
+  });
+  const [indexable, setIndexable] = useState(() => {
+    try { return localStorage.getItem("vine_privacy_indexable") === "1"; } catch { return false; }
+  });
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_privacy_profile", profileVis); } catch {}
+  }, [profileVis]);
+  useEffect(() => {
+    try { localStorage.setItem("vine_privacy_messages", messageVis); } catch {}
+  }, [messageVis]);
+  useEffect(() => {
+    try { localStorage.setItem("vine_privacy_connect", showInConnect ? "1" : "0"); } catch {}
+  }, [showInConnect]);
+  useEffect(() => {
+    try { localStorage.setItem("vine_privacy_indexable", indexable ? "1" : "0"); } catch {}
+  }, [indexable]);
 
   const visibilityOptions = [
     { value: "everyone", label: "Everyone" },
@@ -703,9 +735,25 @@ function PrivacyTab() {
 // ─── Appearance Tab ───────────────────────────────────────────────────────────
 
 function AppearanceTab() {
-  const [fontSize, setFontSize] = useState<"Small" | "Medium" | "Large">("Medium");
-  const [compact, setCompact] = useState(false);
-  const [reduceAnim, setReduceAnim] = useState(false);
+  const [fontSize, setFontSize] = useState<"Small" | "Medium" | "Large">(() => {
+    try { return (localStorage.getItem("vine_appear_fontsize") as "Small" | "Medium" | "Large") || "Medium"; } catch { return "Medium"; }
+  });
+  const [compact, setCompact] = useState(() => {
+    try { return localStorage.getItem("vine_appear_compact") === "1"; } catch { return false; }
+  });
+  const [reduceAnim, setReduceAnim] = useState(() => {
+    try { return localStorage.getItem("vine_appear_anim") === "1"; } catch { return false; }
+  });
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_appear_fontsize", fontSize); } catch {}
+  }, [fontSize]);
+  useEffect(() => {
+    try { localStorage.setItem("vine_appear_compact", compact ? "1" : "0"); } catch {}
+  }, [compact]);
+  useEffect(() => {
+    try { localStorage.setItem("vine_appear_anim", reduceAnim ? "1" : "0"); } catch {}
+  }, [reduceAnim]);
 
   const themes = [
     { id: "dark", label: "Dark", available: true },

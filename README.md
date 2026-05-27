@@ -18,7 +18,7 @@
 [![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)](https://typescriptlang.org)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-06B6D4?logo=tailwindcss)](https://tailwindcss.com)
-[![Pages](https://img.shields.io/badge/Static%20Pages-171-00FF88)](https://vine.app)
+[![Pages](https://img.shields.io/badge/Static%20Pages-177-00FF88)](https://vine.app)
 
 </div>
 
@@ -109,6 +109,53 @@ The `.page-body` CSS utility class applies header-aware top padding (`padding-to
   - View mode: clean formatted display with quick links to Bible Reader and Journal
   - 2 sample notes pre-loaded; all notes persisted to `vine_sermon_notes` localStorage
 - **`/saved`** — Aggregated "My Library" page that reads every `vine_*` localStorage key and shows a categorized count of saved content (Feed Posts, Discussions, Articles, Stories, Podcasts, Videos, Verse Memory, Life Hacks, Journal, Apologetics, Events, Bible Bookmarks, Bible Notes, Reading Plan). Includes empty-state CTA and a "Find More to Save" quick links grid. Loads via `useEffect` to prevent SSR mismatch.
+- **`/prayer-wall`** — Global community prayer board with:
+  - 12 seed requests across Health, Family, Salvation, Ministry, World, Personal, Finances, Grief, Relationships, Protection categories
+  - "I'll Pray" button persists to `vine_prayer_wall_prayed`; count increments live
+  - Anonymous or public request submission with location and category
+  - Answered prayers with testimony panel highlighted in green
+  - Filter by category, sort by Recent/Most Prayed/Answered
+  - Stats: total prayers offered, answered count, active requests
+- **`/testimony`** — Global testimony wall with:
+  - 10 featured real-world-style stories (Healing, Freedom, Salvation, Marriage, Provision, Protection, Career)
+  - Like/encourage button per testimony (persists to `vine_testimonies_liked`)
+  - Share-to-clipboard per story
+  - Compose modal with title, body, verse reference, location
+  - Filter by category, featured-only toggle, search
+  - Persists to `vine_testimonies` localStorage
+- **`/faith-journey`** — Interactive spiritual milestone timeline with:
+  - 12 milestone categories: Salvation, Baptism, Calling, Trial, Breakthrough, Community, Scripture, Marriage, Serving, Missions, Prayer, Other
+  - 3-star significance system with visual glow for major milestones
+  - Full CRUD: add, edit, delete with hover-reveal controls and confirm dialog
+  - Year-grouped vertical timeline with gradient line
+  - Stats grid: total milestones, major milestones, years of journey, categories
+  - 10 seeded milestones spanning 2012–2024; persists to `vine_faith_journey`
+- **`/accountability`** — Accountability partner tracking with:
+  - 10 goal categories (Prayer, Scripture, Purity, Sobriety, Fitness, Finances, Relationships, Work, Fasting, Other)
+  - Daily/weekly/monthly check-in frequency options
+  - Partner name, initials, and color picker
+  - Check-in flow: add note, mark Complete or Missed, streak tracking
+  - Week completions counter, total completions stat
+  - 3 seeded goals with realistic partner check-in notes; persists to `vine_accountability`
+- **`/bible-study`** — Structured OIA study workspace with:
+  - Book-by-book study plans (47 books selectable)
+  - Chapter grid: click to select, double-click to toggle completion
+  - 5 note types: Observation 👁️, Interpretation 🧠, Application ⚡, Question ❓, Cross-Reference 🔗
+  - Per-chapter note panel with Add Note CTA
+  - Full notes view with search and type filter
+  - Purple dot indicator on chapter cells with existing notes
+  - 3 seed studies (Romans 75%, Philippians 100%, John 24%) with 8 sample OIA notes
+  - Persists to `vine_bible_study_plans` and `vine_bible_study_notes`
+- **`/reading-list`** — Christian book tracker with:
+  - 4 read statuses: Reading, Want to Read, Completed, Abandoned
+  - 11 genre categories with color coding
+  - Star ratings (1–5) for completed books
+  - Reading progress bar with page counters for in-progress books
+  - Cover emoji picker, publication year field
+  - Notes/review field with expandable card view
+  - Full CRUD with hover-reveal edit/delete controls
+  - 12 seeded classics (Lewis, Packer, Tozer, Bonhoeffer, Keller, N.T. Wright, etc.) with substantive reading notes
+  - Persists to `vine_reading_list`
 
 ### Scripture & Devotions
 - **`/bible`** — Interactive Bible reader with book/chapter navigation, verse highlighting, and cross-references
@@ -297,6 +344,14 @@ The `.page-body` CSS utility class applies header-aware top padding (`padding-to
   - 5 active challenges with join/leave toggles
   - Category filter (Prayer, Scripture, Community, Rest, Generosity)
   - Hall of Fame section showing top completers
+
+### Community Features (new)
+- **Prayer Wall** (`/prayer-wall`) — global prayer board with persistent "I'll Pray" state
+- **Testimony Wall** (`/testimony`) — faith stories with like/encourage persistence
+- **Faith Journey** (`/faith-journey`) — personal spiritual milestone timeline
+- **Accountability** (`/accountability`) — partner-based goal tracking with daily check-ins
+- **Bible Study** (`/bible-study`) — OIA structured study workspace
+- **Reading List** (`/reading-list`) — Christian book tracker with ratings and notes
 
 ### AI & Tools
 - **`/ai-companion`** — AI Bible Companion chat interface with conversation history

@@ -114,6 +114,8 @@ const navLinks = [
       { label: "End Times & Eschatology", href: "/end-times" },
       { label: "Covenant Theology", href: "/covenant" },
       { label: "Creation Care", href: "/creation-care" },
+      { label: "The Practice of Forgiveness", href: "/forgiveness" },
+      { label: "Spiritual Direction", href: "/spiritual-direction" },
       { label: "Work & Leadership", href: "/work-leadership" },
     ],
   },

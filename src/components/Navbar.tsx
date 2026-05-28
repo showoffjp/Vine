@@ -71,6 +71,8 @@ const navLinks = [
       { label: "Church History", href: "/church-history" },
       { label: "The Church Fathers", href: "/church-fathers" },
       { label: "Church Fathers Guide", href: "/church-fathers-guide" },
+      { label: "Attributes of God", href: "/attributes-of-god" },
+      { label: "Famous Conversions", href: "/conversion-stories" },
       { label: "Creeds & Historic Prayers", href: "/creeds" },
       { label: "Historic Confessions", href: "/confessions" },
       { label: "Faith & Science", href: "/faith-science" },

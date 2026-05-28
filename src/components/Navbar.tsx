@@ -85,6 +85,7 @@ const navLinks = [
     children: [
       { label: "Life Hacks", href: "/life-hacks" },
       { label: "Mental Health", href: "/mental-health" },
+      { label: "Biblical Counseling", href: "/biblical-counseling" },
       { label: "Grief & Loss", href: "/grief" },
       { label: "Healing & Wholeness", href: "/healing" },
       { label: "Couples Devotional", href: "/couples-devotional" },
@@ -93,6 +94,7 @@ const navLinks = [
       { label: "Relationships", href: "/relationships" },
       { label: "Spiritual Warfare", href: "/spiritual-warfare" },
       { label: "Stewardship & Finances", href: "/stewardship" },
+      { label: "Discipleship Pathways", href: "/discipleship" },
       { label: "Evangelism Training", href: "/evangelism" },
       { label: "House Church Guide", href: "/house-church" },
       { label: "Christian Parenting", href: "/parenting" },

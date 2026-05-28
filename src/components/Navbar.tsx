@@ -112,6 +112,8 @@ const navLinks = [
       { label: "Loving Your Neighbor", href: "/neighbor" },
       { label: "Justice & the Gospel", href: "/justice" },
       { label: "End Times & Eschatology", href: "/end-times" },
+      { label: "Covenant Theology", href: "/covenant" },
+      { label: "Creation Care", href: "/creation-care" },
       { label: "Work & Leadership", href: "/work-leadership" },
     ],
   },

@@ -44,6 +44,7 @@ const navLinks = [
       { label: "Church Calendar", href: "/church-calendar" },
       { label: "Advent Guide", href: "/advent" },
       { label: "Lent Guide", href: "/lent" },
+      { label: "Holy Week Guide", href: "/holy-week" },
       { label: "Parables Study", href: "/parables" },
       { label: "Church History", href: "/church-history" },
       { label: "The Church Fathers", href: "/church-fathers" },
@@ -52,6 +53,7 @@ const navLinks = [
       { label: "Reading Plan", href: "/reading-plan" },
       { label: "Reading List", href: "/reading-list" },
       { label: "Apologetics", href: "/apologetics" },
+      { label: "Apologetics 101", href: "/apologetics-101" },
     ],
   },
   {

@@ -1,8 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import { BookOpen, Plus, Search, Tag, Calendar, ChevronRight, X, Save, Sparkles } from "lucide-react";
 
 interface JournalEntry {
@@ -169,8 +167,7 @@ export default function JournalPage() {
 
   return (
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
-      <Navbar />
-      <div className="page-body pb-20">
+      <div className="pb-20" style={{ paddingTop: 40 }}>
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="flex items-center justify-between mb-8">
@@ -443,7 +440,6 @@ export default function JournalPage() {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 }

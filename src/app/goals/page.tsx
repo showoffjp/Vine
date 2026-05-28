@@ -1,8 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import {
   Target,
   Plus,
@@ -138,8 +136,7 @@ export default function GoalsPage() {
 
   return (
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
-      <Navbar />
-      <div className="page-body pb-24">
+      <div className="pb-24" style={{ paddingTop: 40 }}>
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
 
           {/* Header */}
@@ -491,7 +488,6 @@ export default function GoalsPage() {
 
         </div>
       </div>
-      <Footer />
     </div>
   );
 }

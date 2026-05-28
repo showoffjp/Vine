@@ -55,6 +55,8 @@ const navLinks = [
       { label: "Sanctification", href: "/sanctification" },
       { label: "Predestination & Election", href: "/predestination" },
       { label: "Faith and Works", href: "/faith-and-works" },
+      { label: "The Incarnation", href: "/incarnation" },
+      { label: "Angels and Demons", href: "/angels-demons" },
       { label: "Church Calendar", href: "/church-calendar" },
       { label: "Advent Guide", href: "/advent" },
       { label: "Lent Guide", href: "/lent" },

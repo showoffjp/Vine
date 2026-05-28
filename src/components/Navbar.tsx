@@ -37,6 +37,7 @@ const navLinks = [
       { label: "Theology Glossary", href: "/theology-glossary" },
       { label: "Parables Study", href: "/parables" },
       { label: "Church History", href: "/church-history" },
+      { label: "Creeds & Historic Prayers", href: "/creeds" },
       { label: "Faith & Science", href: "/faith-science" },
       { label: "Reading Plan", href: "/reading-plan" },
       { label: "Reading List", href: "/reading-list" },

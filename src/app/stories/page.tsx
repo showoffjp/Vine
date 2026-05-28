@@ -1,7 +1,5 @@
 "use client";
 
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import { Heart, Share2, Bookmark, ChevronRight, Star, Flame, Globe } from "lucide-react";
 import { useState, useEffect } from "react";
 
@@ -125,8 +123,7 @@ export default function StoriesPage() {
 
   return (
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
-      <Navbar />
-      <div className="page-body pb-20">
+      <div className="pb-20" style={{ paddingTop: 40 }}>
         {/* Header */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
           <div className="text-center max-w-3xl mx-auto">
@@ -309,7 +306,6 @@ export default function StoriesPage() {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 }

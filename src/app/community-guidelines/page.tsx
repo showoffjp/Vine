@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import { CheckCircle, XCircle, AlertTriangle, Shield } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -57,8 +55,7 @@ const theologyNote = `Vine is an orthodox Christian platform. We welcome believe
 export default function CommunityGuidelinesPage() {
   return (
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
-      <Navbar />
-      <div className="page-body pb-20">
+      <div className="pb-20" style={{ paddingTop: 40 }}>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="mb-12">
@@ -178,7 +175,6 @@ export default function CommunityGuidelinesPage() {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 }

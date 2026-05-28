@@ -1,7 +1,5 @@
 "use client";
 
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import { Search, X, BookOpen, MessageSquare, Users, Flame, Globe, Star, ChevronRight, Clock, Heart, Shield, Video } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 
@@ -214,8 +212,7 @@ export default function SearchPage() {
 
   return (
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
-      <Navbar />
-      <div className="page-body pb-20">
+      <div className="pb-20" style={{ paddingTop: 40 }}>
         {/* Search Header */}
         <div
           className="py-12 px-4"
@@ -411,7 +408,6 @@ export default function SearchPage() {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 }

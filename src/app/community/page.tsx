@@ -1,8 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import {
   Search,
   Users,
@@ -150,7 +148,6 @@ export default function CommunityPage() {
 
   return (
     <div className="min-h-screen" style={{ background: "#07070F" }}>
-      <Navbar />
 
       <main className="pt-16">
         {/* Hero */}
@@ -478,7 +475,6 @@ export default function CommunityPage() {
         </div>
       </main>
 
-      <Footer />
     </div>
   );
 }

@@ -145,6 +145,8 @@ const navLinks = [
       { label: "Creation Care", href: "/creation-care" },
       { label: "The Practice of Forgiveness", href: "/forgiveness" },
       { label: "Spiritual Direction", href: "/spiritual-direction" },
+      { label: "Women in the Bible", href: "/biblical-womanhood" },
+      { label: "Sermon Preparation", href: "/sermon-prep" },
       { label: "Faith & Technology", href: "/technology" },
       { label: "Work & Leadership", href: "/work-leadership" },
     ],

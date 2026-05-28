@@ -60,6 +60,8 @@ const navLinks = [
       { label: "Daily Examen", href: "/daily-examen" },
       { label: "The Sabbath", href: "/sabbath" },
       { label: "Lectio Divina", href: "/lectio-divina" },
+      { label: "Spiritual Formation", href: "/spiritual-formation" },
+      { label: "The Practice of Lament", href: "/lament" },
       { label: "Biblical Meditation", href: "/meditation" },
       { label: "Bible Reader", href: "/bible" },
       { label: "Reading Plans", href: "/reading-plan" },

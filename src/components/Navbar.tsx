@@ -108,6 +108,8 @@ const navLinks = [
       { label: "Christian Creativity", href: "/creativity" },
       { label: "Vocation & Calling", href: "/vocation" },
       { label: "Doubt & Honest Faith", href: "/doubt" },
+      { label: "Theology of Suffering", href: "/suffering" },
+      { label: "Loving Your Neighbor", href: "/neighbor" },
       { label: "Work & Leadership", href: "/work-leadership" },
     ],
   },

@@ -55,6 +55,8 @@ const navLinks = [
       { label: "Prayer Methods", href: "/prayer-methods" },
       { label: "Prayer Walking", href: "/prayer-walking" },
       { label: "Confession Guide", href: "/confession" },
+      { label: "Daily Examen", href: "/daily-examen" },
+      { label: "The Sabbath", href: "/sabbath" },
       { label: "Biblical Meditation", href: "/meditation" },
       { label: "Bible Reader", href: "/bible" },
       { label: "Reading Plans", href: "/reading-plan" },

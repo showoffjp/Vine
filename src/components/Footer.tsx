@@ -7,13 +7,15 @@ const footerLinks: Record<string, LinkEntry[]> = {
     { label: "Discussions", href: "/discussions" },
     { label: "Bible Tools", href: "/bible" },
     { label: "Daily Devotionals", href: "/daily" },
-    { label: "Resource Library", href: "/resources" },
     { label: "Video Library", href: "/video" },
+    { label: "Podcasts", href: "/podcast" },
     { label: "Prayer Wall", href: "/prayer" },
+    { label: "Live Church", href: "/live" },
     { label: "AI Companion", href: "/ai-companion" },
     { label: "Reading Plan", href: "/reading-plan" },
+    { label: "Worship", href: "/worship" },
     { label: "Events", href: "/events" },
-    { label: "Creators", href: "/creators" },
+    { label: "Search", href: "/search" },
   ],
   "Life & Faith": [
     { label: "Life Hacks", href: "/life-hacks" },
@@ -22,22 +24,26 @@ const footerLinks: Record<string, LinkEntry[]> = {
     { label: "Finances", href: "/finances" },
     { label: "Parenting", href: "/parenting" },
     { label: "Work & Leadership", href: "/work-leadership" },
+    { label: "Missions", href: "/missions" },
+    { label: "Apologetics", href: "/apologetics" },
   ],
   Community: [
     { label: "My Feed", href: "/feed" },
+    { label: "Groups", href: "/groups" },
+    { label: "Stories", href: "/stories" },
     { label: "Global Connect", href: "/global-connect" },
-    { label: "Events", href: "/events" },
-    { label: "Creators", href: "/creators" },
+    { label: "Leaderboard", href: "/leaderboard" },
     { label: "Trending Topics", href: "/topics" },
     { label: "Blog", href: "/blog" },
+    { label: "Creators", href: "/creators" },
+    { label: "Challenges", href: "/challenges" },
+    { label: "My Journal", href: "/journal" },
   ],
   Company: [
     { label: "About Vine", href: "/about" },
-    { label: "Our Mission", href: "/about" },
-    { label: "Blog", href: "/blog" },
     { label: "Newsletter", href: "/newsletter" },
     { label: "Contact", href: "/contact" },
-    { label: "Notifications", href: "/notifications" },
+    { label: "Give", href: "/giving" },
     { label: "Settings", href: "/settings" },
   ],
 };
@@ -46,7 +52,7 @@ export default function Footer() {
   return (
     <footer
       className="relative border-t"
-      style={{ borderColor: "rgba(212,175,55,0.08)" }}
+      style={{ borderColor: "rgba(0,255,136,0.08)" }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
@@ -57,7 +63,7 @@ export default function Footer() {
                 className="w-9 h-9 rounded-xl flex items-center justify-center"
                 style={{
                   background:
-                    "linear-gradient(135deg, #D4AF37 0%, #8B6FDB 100%)",
+                    "linear-gradient(135deg, #00FF88 0%, #8B6FDB 100%)",
                 }}
               >
                 <span className="text-black font-black text-base">V</span>
@@ -73,7 +79,7 @@ export default function Footer() {
               The world&apos;s first all-in-one platform for Christians everywhere.
               Grow. Connect. Thrive in faith.
             </p>
-            <p className="text-xs italic" style={{ color: "rgba(212,175,55,0.5)" }}>
+            <p className="text-xs italic" style={{ color: "rgba(0,255,136,0.5)" }}>
               &ldquo;I am the vine; you are the branches.&rdquo;<br />— John 15:5
             </p>
           </div>
@@ -83,7 +89,7 @@ export default function Footer() {
             <div key={section}>
               <h4
                 className="text-xs font-bold uppercase tracking-widest mb-4"
-                style={{ color: "#D4AF37" }}
+                style={{ color: "#00FF88" }}
               >
                 {section}
               </h4>
@@ -116,14 +122,17 @@ export default function Footer() {
           style={{ borderColor: "rgba(255,255,255,0.04)" }}
         >
           <p className="text-xs" style={{ color: "#4A4A68" }}>
-            © 2025 Vine. Built with faith, for faith. All rights reserved.
+            © 2026 Vine. Built with faith, for faith. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
-            {["Privacy Policy", "Terms of Service", "Community Guidelines"].map(
-              (l) => (
+            {[
+              { label: "Privacy Policy", href: "/privacy" },
+              { label: "Terms of Service", href: "/terms" },
+              { label: "Community Guidelines", href: "/community-guidelines" },
+            ].map(({ label, href }) => (
                 <a
-                  key={l}
-                  href="#"
+                  key={label}
+                  href={href}
                   className="text-xs transition-colors"
                   style={{ color: "#4A4A68" }}
                   onMouseEnter={(e) =>
@@ -133,7 +142,7 @@ export default function Footer() {
                     (e.currentTarget.style.color = "#4A4A68")
                   }
                 >
-                  {l}
+                  {label}
                 </a>
               )
             )}

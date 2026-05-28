@@ -8,7 +8,7 @@ const benefits = [
     icon: <BookOpen size={18} />,
     title: "Verse of the Week",
     desc: "A carefully chosen Scripture with reflection to anchor your week.",
-    color: "#D4AF37",
+    color: "#00FF88",
   },
   {
     icon: <Flame size={18} />,
@@ -30,7 +30,7 @@ const benefits = [
   },
 ];
 
-const avatarColors = ["#6B4FBB", "#D4AF37", "#2E7D52", "#B71C1C", "#1565C0"];
+const avatarColors = ["#6B4FBB", "#00FF88", "#2E7D52", "#B71C1C", "#1565C0"];
 const avatarInitials = ["JR", "AK", "ML", "ST", "PO"];
 
 export default function NewsletterSignup() {
@@ -63,7 +63,7 @@ export default function NewsletterSignup() {
           position: "absolute",
           inset: 0,
           background:
-            "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(212,175,55,0.06) 0%, transparent 60%)",
+            "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(0,255,136,0.06) 0%, transparent 60%)",
           pointerEvents: "none",
         }}
       />
@@ -96,9 +96,9 @@ export default function NewsletterSignup() {
             width: "64px",
             height: "64px",
             borderRadius: "18px",
-            background: "linear-gradient(135deg, #C9A227 0%, #E8C840 100%)",
+            background: "linear-gradient(135deg, #00CC66 0%, #00FF88 100%)",
             marginBottom: "24px",
-            boxShadow: "0 0 40px rgba(212,175,55,0.3)",
+            boxShadow: "0 0 40px rgba(0,255,136,0.3)",
           }}
         >
           <Mail size={28} style={{ color: "#07070F" }} />
@@ -107,7 +107,7 @@ export default function NewsletterSignup() {
         {/* Eyebrow */}
         <p
           style={{
-            color: "#D4AF37",
+            color: "#00FF88",
             fontSize: "0.75rem",
             fontWeight: 700,
             letterSpacing: "0.2em",
@@ -276,7 +276,7 @@ export default function NewsletterSignup() {
                   transition: "border-color 0.2s",
                 }}
                 onFocus={(e) => {
-                  e.target.style.borderColor = "rgba(212,175,55,0.5)";
+                  e.target.style.borderColor = "rgba(0,255,136,0.5)";
                 }}
                 onBlur={(e) => {
                   e.target.style.borderColor = "rgba(255,255,255,0.1)";
@@ -355,7 +355,7 @@ export default function NewsletterSignup() {
             background: "#12121F",
             borderRadius: "20px",
             padding: "28px 32px",
-            border: "1px solid rgba(212,175,55,0.12)",
+            border: "1px solid rgba(0,255,136,0.12)",
             textAlign: "left",
             maxWidth: "520px",
             margin: "0 auto 36px",
@@ -369,12 +369,12 @@ export default function NewsletterSignup() {
               position: "absolute",
               top: "-1px",
               right: "20px",
-              background: "rgba(212,175,55,0.12)",
-              border: "1px solid rgba(212,175,55,0.25)",
+              background: "rgba(0,255,136,0.12)",
+              border: "1px solid rgba(0,255,136,0.25)",
               borderTop: "none",
               borderRadius: "0 0 8px 8px",
               padding: "3px 12px",
-              color: "#D4AF37",
+              color: "#00FF88",
               fontSize: "0.6rem",
               fontWeight: 700,
               letterSpacing: "0.1em",
@@ -400,7 +400,7 @@ export default function NewsletterSignup() {
                 width: "36px",
                 height: "36px",
                 borderRadius: "8px",
-                background: "linear-gradient(135deg, #C9A227 0%, #E8C840 100%)",
+                background: "linear-gradient(135deg, #00CC66 0%, #00FF88 100%)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -427,7 +427,7 @@ export default function NewsletterSignup() {
 
           {/* Mock content rows */}
           {[
-            { label: "THIS WEEK'S VERSE", value: "Philippians 4:13 — I can do all things through Christ who strengthens me.", color: "#D4AF37" },
+            { label: "THIS WEEK'S VERSE", value: "Philippians 4:13 — I can do all things through Christ who strengthens me.", color: "#00FF88" },
             { label: "TOP DISCUSSION", value: "\"How do you pray when God feels silent?\" — 1,240 replies", color: "#6B4FBB" },
             { label: "LIFE HACK", value: "Schedule your quiet time before your phone time. It changes everything.", color: "#2E7D52" },
             { label: "CHALLENGE", value: "Day 4 of 7 Days of Intentional Prayer — Intercession for Others", color: "#B71C1C" },

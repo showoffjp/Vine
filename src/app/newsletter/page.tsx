@@ -13,7 +13,7 @@ import {
   Flame,
   Users,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const pastIssues = [
   {
@@ -56,7 +56,7 @@ const editions = [
     frequency: "Every Sunday morning",
     description: "The 5 best articles, top discussion, verse of the week, and global prayer spotlight. Curated, not algorithmic.",
     icon: Star,
-    color: "#D4AF37",
+    color: "#00FF88",
     subscribers: "124K",
     popular: true,
   },
@@ -96,9 +96,32 @@ const testimonials = [
 ];
 
 export default function NewsletterPage() {
-  const [email, setEmail] = useState("");
-  const [selected, setSelected] = useState<string[]>(["The Weekly Vine"]);
-  const [submitted, setSubmitted] = useState(false);
+  const [email, setEmail] = useState(() => {
+    try { return localStorage.getItem("vine_newsletter_email") ?? ""; } catch { return ""; }
+  });
+  const [selected, setSelected] = useState<string[]>(() => {
+    try {
+      const s = localStorage.getItem("vine_newsletter_editions");
+      return s ? (JSON.parse(s) as string[]) : ["The Weekly Vine"];
+    } catch { return ["The Weekly Vine"]; }
+  });
+  const [submitted, setSubmitted] = useState(() => {
+    try { return localStorage.getItem("vine_newsletter_subscribed") === "true"; } catch { return false; }
+  });
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_newsletter_editions", JSON.stringify(selected)); } catch {}
+  }, [selected]);
+
+  const handleSubscribe = () => {
+    if (email && selected.length) {
+      try {
+        localStorage.setItem("vine_newsletter_email", email);
+        localStorage.setItem("vine_newsletter_subscribed", "true");
+      } catch {}
+      setSubmitted(true);
+    }
+  };
 
   const toggleEdition = (name: string) => {
     setSelected((prev) =>
@@ -109,13 +132,13 @@ export default function NewsletterPage() {
   return (
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
       <Navbar />
-      <div className="pt-24 pb-20">
+      <div className="page-body pb-20">
         {/* Hero */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
           <div className="text-center max-w-2xl mx-auto">
             <div className="flex items-center justify-center gap-2 mb-4">
-              <Mail size={22} style={{ color: "#D4AF37" }} />
-              <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#D4AF37" }}>
+              <Mail size={22} style={{ color: "#00FF88" }} />
+              <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#00FF88" }}>
                 Newsletters
               </span>
             </div>
@@ -123,7 +146,7 @@ export default function NewsletterPage() {
               Faith in your{" "}
               <span
                 style={{
-                  background: "linear-gradient(135deg, #D4AF37, #6B4FBB)",
+                  background: "linear-gradient(135deg, #00FF88, #6B4FBB)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                 }}
@@ -164,7 +187,7 @@ export default function NewsletterPage() {
                   {ed.popular && (
                     <div
                       className="absolute top-4 right-4 text-xs font-bold px-2 py-0.5 rounded-full"
-                      style={{ background: "rgba(212,175,55,0.15)", color: "#D4AF37" }}
+                      style={{ background: "rgba(0,255,136,0.15)", color: "#00FF88" }}
                     >
                       Most Popular
                     </div>
@@ -196,8 +219,8 @@ export default function NewsletterPage() {
             <div
               className="max-w-xl mx-auto rounded-2xl p-8"
               style={{
-                background: "linear-gradient(135deg, rgba(212,175,55,0.06) 0%, rgba(107,79,187,0.06) 100%)",
-                border: "1px solid rgba(212,175,55,0.15)",
+                background: "linear-gradient(135deg, rgba(0,255,136,0.06) 0%, rgba(107,79,187,0.06) 100%)",
+                border: "1px solid rgba(0,255,136,0.15)",
               }}
             >
               <h3 className="text-xl font-black mb-2 text-center" style={{ color: "#F2F2F8" }}>
@@ -222,10 +245,10 @@ export default function NewsletterPage() {
                   }}
                 />
                 <button
-                  onClick={() => email && selected.length && setSubmitted(true)}
+                  onClick={handleSubscribe}
                   className="px-6 py-3 rounded-xl font-bold text-sm text-black transition-opacity"
                   style={{
-                    background: "linear-gradient(135deg, #D4AF37, #B8942C)",
+                    background: "linear-gradient(135deg, #00FF88, #00BB55)",
                     opacity: email && selected.length ? 1 : 0.5,
                   }}
                 >
@@ -246,8 +269,21 @@ export default function NewsletterPage() {
             >
               <CheckCircle size={40} style={{ color: "#10B981" }} className="mx-auto mb-4" />
               <h3 className="text-xl font-black mb-2" style={{ color: "#F2F2F8" }}>You&apos;re in!</h3>
-              <p className="text-sm" style={{ color: "#6A6A88" }}>
+              <p className="text-sm mb-4" style={{ color: "#6A6A88" }}>
                 Check your inbox for a confirmation email. Your first issue arrives Sunday morning.
+              </p>
+              <p className="text-xs" style={{ color: "#4A4A68" }}>
+                Subscribed as <span style={{ color: "#8A8AA8" }}>{email}</span> ·{" "}
+                <button
+                  onClick={() => {
+                    try { localStorage.removeItem("vine_newsletter_subscribed"); } catch {}
+                    setSubmitted(false);
+                  }}
+                  className="underline"
+                  style={{ color: "#6A6A88" }}
+                >
+                  Unsubscribe
+                </button>
               </p>
             </div>
           )}
@@ -271,7 +307,7 @@ export default function NewsletterPage() {
                 style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.background = "rgba(255,255,255,0.04)";
-                  e.currentTarget.style.borderColor = "rgba(212,175,55,0.15)";
+                  e.currentTarget.style.borderColor = "rgba(0,255,136,0.15)";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.background = "rgba(255,255,255,0.02)";
@@ -281,7 +317,7 @@ export default function NewsletterPage() {
                 <div className="flex items-start gap-4">
                   <div
                     className="w-12 h-12 rounded-xl flex items-center justify-center text-sm font-black shrink-0"
-                    style={{ background: "rgba(212,175,55,0.1)", color: "#D4AF37" }}
+                    style={{ background: "rgba(0,255,136,0.1)", color: "#00FF88" }}
                   >
                     {issue.issue}
                   </div>
@@ -295,7 +331,7 @@ export default function NewsletterPage() {
                         {issue.opens} open rate
                       </span>
                     </div>
-                    <h3 className="font-bold text-base mb-1.5 group-hover:text-[#D4AF37] transition-colors" style={{ color: "#F2F2F8" }}>
+                    <h3 className="font-bold text-base mb-1.5 group-hover:text-[#00FF88] transition-colors" style={{ color: "#F2F2F8" }}>
                       {issue.title}
                     </h3>
                     <p className="text-sm mb-3" style={{ color: "#6A6A88" }}>{issue.preview}</p>
@@ -311,7 +347,7 @@ export default function NewsletterPage() {
                       ))}
                     </div>
                   </div>
-                  <ChevronRight size={16} className="shrink-0 mt-1 group-hover:text-[#D4AF37] transition-colors" style={{ color: "#4A4A68" }} />
+                  <ChevronRight size={16} className="shrink-0 mt-1 group-hover:text-[#00FF88] transition-colors" style={{ color: "#4A4A68" }} />
                 </div>
               </div>
             ))}
@@ -330,7 +366,7 @@ export default function NewsletterPage() {
               >
                 <div className="flex mb-3">
                   {[...Array(5)].map((_, j) => (
-                    <Star key={j} size={14} style={{ color: "#D4AF37" }} />
+                    <Star key={j} size={14} style={{ color: "#00FF88" }} />
                   ))}
                 </div>
                 <p className="text-sm italic mb-4 leading-relaxed" style={{ color: "#C0C0D8" }}>

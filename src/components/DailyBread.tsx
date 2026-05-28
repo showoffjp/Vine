@@ -59,16 +59,16 @@ export default function DailyBread() {
               {/* Decorative quote marks */}
               <div
                 className="absolute top-4 right-6 text-8xl font-black leading-none pointer-events-none select-none"
-                style={{ color: "rgba(212,175,55,0.06)", fontFamily: "serif" }}
+                style={{ color: "rgba(0,255,136,0.06)", fontFamily: "serif" }}
               >
                 &ldquo;
               </div>
 
               <div className="flex items-center gap-2 mb-6">
-                <BookOpen size={16} style={{ color: "#D4AF37" }} />
+                <BookOpen size={16} style={{ color: "#00FF88" }} />
                 <span
                   className="text-xs font-bold uppercase tracking-widest"
-                  style={{ color: "#D4AF37" }}
+                  style={{ color: "#00FF88" }}
                 >
                   Verse of the Day
                 </span>
@@ -85,7 +85,7 @@ export default function DailyBread() {
                 <div>
                   <p
                     className="text-base font-semibold"
-                    style={{ color: "#D4AF37" }}
+                    style={{ color: "#00FF88" }}
                   >
                     {verse.reference}
                   </p>
@@ -133,13 +133,13 @@ export default function DailyBread() {
                 border: "1px solid var(--border)",
               }}
             >
-              <BookOpen size={18} style={{ color: "#D4AF37" }} />
+              <BookOpen size={18} style={{ color: "#00FF88" }} />
               <span style={{ color: "#6A6A88" }} className="text-sm flex-1">
                 Search any verse, chapter, or topic...
               </span>
               <ChevronRight
                 size={16}
-                style={{ color: "#D4AF37" }}
+                style={{ color: "#00FF88" }}
                 className="group-hover:translate-x-1 transition-transform"
               />
             </div>
@@ -152,9 +152,9 @@ export default function DailyBread() {
                 Today&apos;s Devotionals
               </h3>
               <a
-                href="#"
+                href="/daily"
                 className="text-sm font-semibold flex items-center gap-1"
-                style={{ color: "#D4AF37" }}
+                style={{ color: "#00FF88" }}
               >
                 View All <ChevronRight size={14} />
               </a>
@@ -185,7 +185,7 @@ export default function DailyBread() {
                         className="w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold"
                         style={{
                           background:
-                            "linear-gradient(135deg, #D4AF37, #6B4FBB)",
+                            "linear-gradient(135deg, #00FF88, #6B4FBB)",
                           color: "#fff",
                         }}
                       >

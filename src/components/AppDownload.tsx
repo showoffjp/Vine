@@ -10,7 +10,7 @@ const features = [
 ];
 
 const screens = [
-  { bg: "linear-gradient(160deg, #1A1A2E, #12122A)", label: "Home Feed", color: "#D4AF37" },
+  { bg: "linear-gradient(160deg, #1A1A2E, #12122A)", label: "Home Feed", color: "#00FF88" },
   { bg: "linear-gradient(160deg, #0A1A12, #081A10)", label: "Daily Bread", color: "#3A9E72" },
   { bg: "linear-gradient(160deg, #1A0E2A, #120A22)", label: "Bible", color: "#6B4FBB" },
 ];
@@ -48,8 +48,8 @@ export default function AppDownload() {
               {features.map(({ icon: Icon, text }) => (
                 <div key={text} className="flex items-center gap-3">
                   <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
-                    style={{ background: "rgba(212,175,55,0.1)", border: "1px solid rgba(212,175,55,0.15)" }}>
-                    <Icon size={15} style={{ color: "#D4AF37" }} />
+                    style={{ background: "rgba(0,255,136,0.1)", border: "1px solid rgba(0,255,136,0.15)" }}>
+                    <Icon size={15} style={{ color: "#00FF88" }} />
                   </div>
                   <span className="text-sm" style={{ color: "#A0A0C0" }}>{text}</span>
                 </div>
@@ -69,7 +69,7 @@ export default function AppDownload() {
                     background: "rgba(255,255,255,0.04)",
                     border: "1px solid rgba(255,255,255,0.1)",
                   }}
-                  onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(212,175,55,0.3)"; e.currentTarget.style.background = "rgba(212,175,55,0.04)"; }}
+                  onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(0,255,136,0.3)"; e.currentTarget.style.background = "rgba(0,255,136,0.04)"; }}
                   onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)"; e.currentTarget.style.background = "rgba(255,255,255,0.04)"; }}
                 >
                   <span className="text-2xl">{s.icon}</span>
@@ -85,7 +85,7 @@ export default function AppDownload() {
             <div className="flex items-center gap-3">
               <div className="flex">
                 {[1, 2, 3, 4, 5].map((i) => (
-                  <Star key={i} size={14} fill="#D4AF37" style={{ color: "#D4AF37" }} />
+                  <Star key={i} size={14} fill="#00FF88" style={{ color: "#00FF88" }} />
                 ))}
               </div>
               <span className="text-sm font-bold" style={{ color: "#F2F2F8" }}>4.9</span>
@@ -139,12 +139,12 @@ export default function AppDownload() {
             <div
               className="absolute -top-4 -right-4 px-3 py-2 rounded-2xl flex items-center gap-2"
               style={{
-                background: "rgba(212,175,55,0.1)",
-                border: "1px solid rgba(212,175,55,0.2)",
+                background: "rgba(0,255,136,0.1)",
+                border: "1px solid rgba(0,255,136,0.2)",
               }}
             >
-              <Download size={14} style={{ color: "#D4AF37" }} />
-              <span className="text-xs font-bold" style={{ color: "#D4AF37" }}>50K+ downloads</span>
+              <Download size={14} style={{ color: "#00FF88" }} />
+              <span className="text-xs font-bold" style={{ color: "#00FF88" }}>50K+ downloads</span>
             </div>
           </div>
         </div>

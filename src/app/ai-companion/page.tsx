@@ -32,15 +32,19 @@ const SUGGESTED_QUESTIONS = [
     "Explain Romans 8:28 in depth",
     "What is the meaning of John 3:16?",
     "Walk me through the Sermon on the Mount",
+    "What is 1 Corinthians 13 about?",
   ]},
   { category: "Life & Faith", icon: Heart, questions: [
     "What does the Bible say about anxiety?",
     "How do I forgive someone who hurt me?",
     "What does Scripture say about purpose?",
+    "What does the Bible say about fasting?",
   ]},
   { category: "Theology", icon: Cross, questions: [
     "Who was the Apostle Paul?",
     "What is the Trinity?",
+    "What is the evidence for the resurrection?",
+    "What is the armor of God in Ephesians 6?",
   ]},
 ];
 
@@ -60,6 +64,10 @@ const DROPDOWN_QUESTIONS = [
   "How do I pray effectively?",
   "What does the Bible say about forgiveness?",
   "Who wrote the book of Psalms?",
+  "What is the evidence for the resurrection?",
+  "What does the armor of God mean?",
+  "What does the Bible say about fasting?",
+  "Explain 1 Corinthians 13 on love",
 ];
 
 const WELCOME_MESSAGE: Message = {
@@ -91,7 +99,7 @@ function TypingIndicator() {
           width: 36,
           height: 36,
           borderRadius: "50%",
-          background: "linear-gradient(135deg, #D4AF37, #6B4FBB)",
+          background: "linear-gradient(135deg, #00FF88, #6B4FBB)",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -122,7 +130,7 @@ function TypingIndicator() {
               width: 8,
               height: 8,
               borderRadius: "50%",
-              background: "#D4AF37",
+              background: "#00FF88",
               animation: "dot-bounce 1.2s ease-in-out infinite",
               animationDelay: `${i * 0.2}s`,
             }}
@@ -173,7 +181,7 @@ function MessageBubble({ message }: { message: Message }) {
             width: 36,
             height: 36,
             borderRadius: "50%",
-            background: "linear-gradient(135deg, #D4AF37, #6B4FBB)",
+            background: "linear-gradient(135deg, #00FF88, #6B4FBB)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -197,10 +205,10 @@ function MessageBubble({ message }: { message: Message }) {
         <div
           style={{
             background: isUser
-              ? "linear-gradient(135deg, rgba(212,175,55,0.12), rgba(107,79,187,0.08))"
+              ? "linear-gradient(135deg, rgba(0,255,136,0.12), rgba(107,79,187,0.08))"
               : "#12121F",
             border: isUser
-              ? "1px solid rgba(212,175,55,0.25)"
+              ? "1px solid rgba(0,255,136,0.25)"
               : "1px solid #1E1E32",
             borderRadius: 18,
             borderBottomRightRadius: isUser ? 4 : 18,
@@ -220,7 +228,7 @@ function MessageBubble({ message }: { message: Message }) {
                 display: "inline-block",
                 width: 2,
                 height: 16,
-                background: "#D4AF37",
+                background: "#00FF88",
                 marginLeft: 2,
                 verticalAlign: "text-bottom",
                 animation: "cursor-blink 0.8s step-end infinite",
@@ -249,7 +257,16 @@ function MessageBubble({ message }: { message: Message }) {
 
 export default function AICompanionPage() {
   const router = useRouter();
-  const [messages, setMessages] = useState<Message[]>([WELCOME_MESSAGE]);
+  const [messages, setMessages] = useState<Message[]>(() => {
+    try {
+      const s = localStorage.getItem("vine_ai_history");
+      if (s) {
+        const parsed = JSON.parse(s) as Message[];
+        return parsed.map((m) => ({ ...m, timestamp: new Date(m.timestamp), streaming: false }));
+      }
+    } catch {}
+    return [WELCOME_MESSAGE];
+  });
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -258,6 +275,12 @@ export default function AICompanionPage() {
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const userMessages = messages.filter((m) => m.role === "user");
+
+  // Persist conversation history (skip streaming messages)
+  useEffect(() => {
+    const done = messages.filter((m) => !m.streaming);
+    try { localStorage.setItem("vine_ai_history", JSON.stringify(done.slice(-40))); } catch {}
+  }, [messages]);
 
   // Auto-scroll
   useEffect(() => {
@@ -387,8 +410,8 @@ export default function AICompanionPage() {
           to { opacity: 1; transform: translateY(0); }
         }
         @keyframes pulse-ring {
-          0%, 100% { box-shadow: 0 0 0 0 rgba(212,175,55,0.3); }
-          50% { box-shadow: 0 0 0 6px rgba(212,175,55,0); }
+          0%, 100% { box-shadow: 0 0 0 0 rgba(0,255,136,0.3); }
+          50% { box-shadow: 0 0 0 6px rgba(0,255,136,0); }
         }
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #07070F; }
@@ -442,7 +465,7 @@ export default function AICompanionPage() {
                   fontSize: 11,
                   fontWeight: 600,
                   color: "#07070F",
-                  background: "linear-gradient(135deg, #D4AF37, #c9a227)",
+                  background: "linear-gradient(135deg, #00FF88, #00cc66)",
                   borderRadius: 20,
                   padding: "2px 10px",
                   letterSpacing: 0.3,
@@ -455,6 +478,28 @@ export default function AICompanionPage() {
               Always online · Grounded in Scripture
             </div>
           </div>
+
+          {/* Clear history */}
+          {messages.length > 1 && (
+            <button
+              onClick={() => {
+                setMessages([WELCOME_MESSAGE]);
+                try { localStorage.removeItem("vine_ai_history"); } catch {}
+              }}
+              style={{
+                fontSize: 11,
+                color: "#6A6A88",
+                background: "transparent",
+                border: "1px solid #1E1E32",
+                borderRadius: 8,
+                padding: "6px 10px",
+                cursor: "pointer",
+                whiteSpace: "nowrap",
+              }}
+            >
+              Clear
+            </button>
+          )}
 
           {/* Dropdown button */}
           <div ref={dropdownRef} style={{ position: "relative" }}>
@@ -474,7 +519,7 @@ export default function AICompanionPage() {
                 whiteSpace: "nowrap",
               }}
             >
-              <HelpCircle size={15} style={{ color: "#D4AF37" }} />
+              <HelpCircle size={15} style={{ color: "#00FF88" }} />
               Suggested Questions
               {showDropdown ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
             </button>
@@ -577,7 +622,7 @@ export default function AICompanionPage() {
                           transition: "border-color 0.2s",
                         }}
                         onMouseEnter={(e) => {
-                          (e.currentTarget as HTMLButtonElement).style.borderColor = "#D4AF37";
+                          (e.currentTarget as HTMLButtonElement).style.borderColor = "#00FF88";
                         }}
                         onMouseLeave={(e) => {
                           (e.currentTarget as HTMLButtonElement).style.borderColor = "#1E1E32";
@@ -609,7 +654,7 @@ export default function AICompanionPage() {
             }}
             className="vine-sidebar"
           >
-            <div style={{ fontSize: 13, fontWeight: 600, color: "#D4AF37", marginBottom: 16, letterSpacing: 0.5, textTransform: "uppercase" }}>
+            <div style={{ fontSize: 13, fontWeight: 600, color: "#00FF88", marginBottom: 16, letterSpacing: 0.5, textTransform: "uppercase" }}>
               Try asking...
             </div>
             {SUGGESTED_QUESTIONS.map((cat) => (
@@ -640,7 +685,7 @@ export default function AICompanionPage() {
                       onMouseEnter={(e) => {
                         const btn = e.currentTarget as HTMLButtonElement;
                         btn.style.color = "#F2F2F8";
-                        btn.style.borderColor = "rgba(212,175,55,0.4)";
+                        btn.style.borderColor = "rgba(0,255,136,0.4)";
                       }}
                       onMouseLeave={(e) => {
                         const btn = e.currentTarget as HTMLButtonElement;
@@ -679,7 +724,7 @@ export default function AICompanionPage() {
                 transition: "border-color 0.2s",
               }}
               onFocusCapture={(e) => {
-                (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(212,175,55,0.4)";
+                (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(0,255,136,0.4)";
               }}
               onBlurCapture={(e) => {
                 (e.currentTarget as HTMLDivElement).style.borderColor = "#1E1E32";
@@ -718,7 +763,7 @@ export default function AICompanionPage() {
                   background:
                     isLoading || !input.trim()
                       ? "#1E1E32"
-                      : "linear-gradient(135deg, #D4AF37, #c9a227)",
+                      : "linear-gradient(135deg, #00FF88, #00cc66)",
                   border: "none",
                   color: isLoading || !input.trim() ? "#6A6A88" : "#07070F",
                   display: "flex",

@@ -18,10 +18,10 @@ import {
   ChevronRight,
   Feather,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const stories = [
-  { name: "You", avatar: "ME", color: "#D4AF37", hasStory: false, isYou: true },
+  { name: "You", avatar: "ME", color: "#00FF88", hasStory: false, isYou: true },
   { name: "Amara", avatar: "AO", color: "#F59E0B", hasStory: true },
   { name: "Ji-Woo", avatar: "JP", color: "#EC4899", hasStory: true },
   { name: "Carlos", avatar: "CM", color: "#10B981", hasStory: true },
@@ -33,6 +33,7 @@ const stories = [
 const posts = [
   {
     id: 1,
+    link: "/discussions/faith-and-doubt-001",
     author: "Amara Osei",
     avatar: "AO",
     color: "#F59E0B",
@@ -50,6 +51,7 @@ const posts = [
   },
   {
     id: 2,
+    link: "/discussions/faith-and-doubt-001",
     author: "Ji-Woo Park",
     avatar: "JP",
     color: "#EC4899",
@@ -66,6 +68,7 @@ const posts = [
   },
   {
     id: 3,
+    link: "/blog/why-the-resurrection-changes-everything",
     author: "Pastor Marcus Webb",
     avatar: "MW",
     color: "#6B4FBB",
@@ -85,6 +88,7 @@ const posts = [
   },
   {
     id: 4,
+    link: "/stories/carlos-mendez-drug-cartel-to-church-planter",
     author: "Carlos Mendez",
     avatar: "CM",
     color: "#10B981",
@@ -101,9 +105,10 @@ const posts = [
   },
   {
     id: 5,
+    link: "/discussions/depression-therapy-faith-005",
     author: "Dr. Sarah Kimani",
     avatar: "SK",
-    color: "#D4AF37",
+    color: "#00FF88",
     role: "Biblical Counselor · Nairobi, Kenya 🇰🇪",
     time: "Yesterday",
     type: "text",
@@ -115,10 +120,131 @@ const posts = [
     saved: true,
     tags: ["Mental Health", "Grief", "Psalms"],
   },
+  {
+    id: 6,
+    link: "/blog/servant-leadership-jesus",
+    author: "Pastor Kwame Asante",
+    avatar: "KA",
+    color: "#F59E0B",
+    role: "Lead Pastor · Kumasi, Ghana 🇬🇭",
+    time: "2 days ago",
+    type: "text",
+    content:
+      "Leadership without servanthood is just management. Jesus redefined greatness in Mark 10:44 — 'whoever wants to be first must be slave of all.' I've been in ministry 22 years and only recently understood: the leader's greatest work is often invisible. It's washing feet, not giving speeches. 🙏",
+    likes: 2847,
+    comments: 193,
+    liked: false,
+    saved: false,
+    tags: ["Leadership", "Service", "Ministry"],
+  },
+  {
+    id: 7,
+    link: "/discussions/deconstruction-faith-008",
+    author: "Lydia Böhm",
+    avatar: "LB",
+    color: "#EC4899",
+    role: "Pastor's Daughter · Berlin, Germany 🇩🇪",
+    time: "2 days ago",
+    type: "question",
+    content:
+      "I grew up in the church, went to Bible school, led worship for 8 years. And then everything I thought I knew started to unravel. Two years later I'm still in the middle of it — not fully in, not fully out. Has anyone else navigated deconstruction and found their way back? What did that look like?",
+    likes: 4201,
+    comments: 647,
+    liked: false,
+    saved: false,
+    tags: ["Deconstruction", "Faith Journey", "Doubt"],
+  },
+  {
+    id: 8,
+    link: "/topics/prayer-fasting",
+    author: "Bishop James Nkosi",
+    avatar: "JN",
+    color: "#E07030",
+    role: "Bishop · Johannesburg, South Africa 🇿🇦",
+    time: "3 days ago",
+    type: "verse",
+    content: "The verse that changed how I pray:",
+    verse: "Isaiah 40:31",
+    verseText:
+      '"But those who wait on the Lord shall renew their strength; they shall mount up with wings like eagles, they shall run and not be weary, they shall walk and not faint."',
+    likes: 1923,
+    comments: 84,
+    liked: false,
+    saved: false,
+    tags: ["Prayer", "Isaiah", "Strength"],
+  },
+  {
+    id: 9,
+    link: "/blog/psalms-permission-to-lament",
+    author: "Lydia Mbeki",
+    avatar: "LM",
+    color: "#6B4FBB",
+    role: "Author & Theologian · Cape Town, South Africa 🇿🇦",
+    time: "3 days ago",
+    type: "text",
+    content:
+      "We've created a Christianity that doesn't know what to do with sadness. We rush people out of grief, tell them to 'trust God,' and wonder why they feel unheard. Psalm 22 opens with 'My God, my God, why have you forsaken me?' Jesus quoted it from the cross. If lament was good enough for the Son of God, it's good enough for us. Let your people cry.",
+    likes: 6741,
+    comments: 892,
+    liked: false,
+    saved: false,
+    tags: ["Psalms", "Lament", "Mental Health"],
+  },
+  {
+    id: 10,
+    link: "/stories/ji-woo-park-kpop-idol-to-pastor",
+    author: "Ji-Woo Park",
+    avatar: "JP",
+    color: "#EC4899",
+    role: "Pastor · Seoul, South Korea 🇰🇷",
+    time: "4 days ago",
+    type: "testimony",
+    content:
+      "People ask me what I miss most about my old life. The honest answer? Nothing. Not the fame, not the lights, not the money. I traded the applause of 50,000 people for something better: the quiet 'well done' of a Father who knows me by name. Matthew 6:6 is the most radical verse in the Sermon on the Mount. 🙌",
+    likes: 8932,
+    comments: 1204,
+    liked: false,
+    saved: false,
+    tags: ["Testimony", "Identity", "Fame & Faith"],
+  },
+  {
+    id: 11,
+    link: "/discussions/antidepressants-faith-022",
+    author: "Dr. Grace Winters",
+    avatar: "GW",
+    color: "#4FBBAA",
+    role: "Nurse Practitioner · Nashville, USA 🇺🇸",
+    time: "5 days ago",
+    type: "text",
+    content:
+      "I've been on antidepressants for 3 years as a Christian. I still feel God. I still pray. I still worship. The medication didn't fix my relationship with God — it just leveled the playing field enough for me to show up for it. Taking care of your brain IS taking care of the temple. Stop letting shame keep you from getting help. 💙",
+    likes: 7214,
+    comments: 943,
+    liked: false,
+    saved: false,
+    tags: ["Mental Health", "Faith", "Stigma"],
+  },
+  {
+    id: 12,
+    link: "/discussions/biblical-finances-stewardship-007",
+    author: "Naomi Adeyemi",
+    avatar: "NA",
+    color: "#10B981",
+    role: "Financial Coach · Lagos, Nigeria 🇳🇬",
+    time: "5 days ago",
+    type: "text",
+    content:
+      "Proverbs 3:9 says honor God with your firstfruits. Not your leftovers. We applied that principle 4 years ago when we were $40K in debt. We gave first and God provided ways I can't explain rationally. We paid it off in 18 months. I'm not preaching prosperity gospel — I'm testifying to the supernatural math of obedience. 🙏",
+    likes: 4103,
+    comments: 521,
+    liked: false,
+    saved: false,
+    tags: ["Finances", "Testimony", "Stewardship"],
+  },
 ];
 
 const suggestedPeople = [
-  { name: "Rev. David Osei", role: "Theologian", avatar: "DO", color: "#D4AF37", mutual: 12 },
+  { name: "Rev. David Osei", role: "Theologian", avatar: "DO", color: "#00FF88", mutual: 12 },
   { name: "Isabella Ferreira", role: "Missionary · Brazil", avatar: "IF", color: "#EC4899", mutual: 7 },
   { name: "James Okafor", role: "Christian Writer", avatar: "JO", color: "#3B82F6", mutual: 24 },
 ];
@@ -134,14 +260,52 @@ type PostLikes = { [key: number]: boolean };
 type PostSaved = { [key: number]: boolean };
 
 export default function FeedPage() {
-  const [likedPosts, setLikedPosts] = useState<PostLikes>({ 2: true, 5: true });
-  const [savedPosts, setSavedPosts] = useState<PostSaved>({ 3: true, 5: true });
+  const [likedPosts, setLikedPosts] = useState<PostLikes>(() => {
+    try {
+      const s = localStorage.getItem("vine_feed_likes");
+      return s ? JSON.parse(s) : { 2: true, 5: true };
+    } catch { return { 2: true, 5: true }; }
+  });
+  const [savedPosts, setSavedPosts] = useState<PostSaved>(() => {
+    try {
+      const s = localStorage.getItem("vine_feed_saves");
+      return s ? JSON.parse(s) : { 3: true, 5: true };
+    } catch { return { 3: true, 5: true }; }
+  });
   const [postText, setPostText] = useState("");
+  const [postShared, setPostShared] = useState(false);
+  const [feedSort, setFeedSort] = useState("Latest");
+  const [userName, setUserName] = useState("Friend");
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem("vine_user");
+      if (stored) {
+        const u = JSON.parse(stored);
+        if (u.firstName) setUserName(u.firstName);
+      }
+    } catch {}
+  }, []);
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_feed_likes", JSON.stringify(likedPosts)); } catch {}
+  }, [likedPosts]);
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_feed_saves", JSON.stringify(savedPosts)); } catch {}
+  }, [savedPosts]);
 
   const toggleLike = (id: number) =>
     setLikedPosts((p) => ({ ...p, [id]: !p[id] }));
   const toggleSave = (id: number) =>
     setSavedPosts((p) => ({ ...p, [id]: !p[id] }));
+
+  const handleShare = () => {
+    if (!postText.trim()) return;
+    setPostShared(true);
+    setPostText("");
+    setTimeout(() => setPostShared(false), 3000);
+  };
 
   return (
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
@@ -172,8 +336,8 @@ export default function FeedPage() {
                       href={item.href}
                       className="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all"
                       style={{
-                        background: item.active ? "rgba(212,175,55,0.08)" : "transparent",
-                        color: item.active ? "#D4AF37" : "#8A8AA8",
+                        background: item.active ? "rgba(0,255,136,0.08)" : "transparent",
+                        color: item.active ? "#00FF88" : "#8A8AA8",
                       }}
                       onMouseEnter={(e) => {
                         if (!item.active) e.currentTarget.style.color = "#C0C0D8";
@@ -193,17 +357,17 @@ export default function FeedPage() {
               <div
                 className="rounded-2xl p-5"
                 style={{
-                  background: "linear-gradient(135deg, rgba(212,175,55,0.06) 0%, rgba(107,79,187,0.06) 100%)",
-                  border: "1px solid rgba(212,175,55,0.15)",
+                  background: "linear-gradient(135deg, rgba(0,255,136,0.06) 0%, rgba(107,79,187,0.06) 100%)",
+                  border: "1px solid rgba(0,255,136,0.15)",
                 }}
               >
-                <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#D4AF37" }}>
+                <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#00FF88" }}>
                   ✨ Verse of the Day
                 </p>
                 <p className="text-sm italic mb-2 leading-relaxed" style={{ color: "#C0C0D8" }}>
                   &ldquo;The Lord your God is with you, the Mighty Warrior who saves.&rdquo;
                 </p>
-                <p className="text-xs font-bold" style={{ color: "#8A6A20" }}>— Zephaniah 3:17</p>
+                <p className="text-xs font-bold" style={{ color: "#007A33" }}>— Zephaniah 3:17</p>
               </div>
             </div>
 
@@ -243,12 +407,12 @@ export default function FeedPage() {
                 <div className="flex gap-3 mb-3">
                   <div
                     className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-black shrink-0"
-                    style={{ background: "rgba(212,175,55,0.2)", color: "#D4AF37" }}
+                    style={{ background: "rgba(0,255,136,0.2)", color: "#00FF88" }}
                   >
                     ME
                   </div>
                   <textarea
-                    placeholder="Share what God is doing in your life..."
+                    placeholder={`What's on your heart, ${userName}?`}
                     value={postText}
                     onChange={(e) => setPostText(e.target.value)}
                     rows={2}
@@ -269,19 +433,41 @@ export default function FeedPage() {
                     </button>
                   </div>
                   <button
+                    onClick={handleShare}
                     className="px-5 py-1.5 rounded-lg text-sm font-bold text-black transition-opacity"
                     style={{
-                      background: "linear-gradient(135deg, #D4AF37, #B8942C)",
-                      opacity: postText.trim() ? 1 : 0.4,
+                      background: postShared ? "linear-gradient(135deg, #6B4FBB, #8B6FDB)" : "linear-gradient(135deg, #00FF88, #00BB55)",
+                      opacity: postText.trim() || postShared ? 1 : 0.4,
                     }}
                   >
-                    Share
+                    {postShared ? "Shared! ✓" : "Share"}
                   </button>
                 </div>
               </div>
 
+              {/* Sort bar */}
+              <div className="flex items-center gap-2">
+                {["Latest", "Popular", "Prayers"].map((s) => (
+                  <button
+                    key={s}
+                    onClick={() => setFeedSort(s)}
+                    className="px-3 py-1.5 rounded-full text-xs font-semibold transition-all"
+                    style={{
+                      background: feedSort === s ? "rgba(0,255,136,0.12)" : "transparent",
+                      border: `1px solid ${feedSort === s ? "rgba(0,255,136,0.3)" : "rgba(255,255,255,0.06)"}`,
+                      color: feedSort === s ? "#00FF88" : "#6A6A88",
+                    }}
+                  >
+                    {s}
+                  </button>
+                ))}
+              </div>
+
               {/* Posts */}
-              {posts.map((post) => (
+              {[...posts]
+                .filter((p) => feedSort !== "Prayers" || p.type === "prayer")
+                .sort((a, b) => feedSort === "Popular" ? b.likes - a.likes : 0)
+                .map((post) => (
                 <div
                   key={post.id}
                   className="rounded-2xl p-5"
@@ -325,14 +511,14 @@ export default function FeedPage() {
                   {post.verseText && (
                     <div
                       className="p-4 rounded-xl mb-3"
-                      style={{ background: "rgba(212,175,55,0.05)", border: "1px solid rgba(212,175,55,0.15)" }}
+                      style={{ background: "rgba(0,255,136,0.05)", border: "1px solid rgba(0,255,136,0.15)" }}
                     >
-                      <p className="text-sm italic mb-1.5 leading-relaxed" style={{ color: "#C8A84B" }}>{post.verseText}</p>
-                      <p className="text-xs font-bold" style={{ color: "#8A6A20" }}>— {post.verse}</p>
+                      <p className="text-sm italic mb-1.5 leading-relaxed" style={{ color: "#00DD77" }}>{post.verseText}</p>
+                      <p className="text-xs font-bold" style={{ color: "#007A33" }}>— {post.verse}</p>
                     </div>
                   )}
                   {post.verse && !post.verseText && (
-                    <span className="text-xs px-2 py-0.5 rounded-full mb-3 inline-block" style={{ background: "rgba(212,175,55,0.1)", color: "#D4AF37" }}>
+                    <span className="text-xs px-2 py-0.5 rounded-full mb-3 inline-block" style={{ background: "rgba(0,255,136,0.1)", color: "#00FF88" }}>
                       📜 {post.verse}
                     </span>
                   )}
@@ -358,19 +544,26 @@ export default function FeedPage() {
                       <Heart size={15} fill={likedPosts[post.id] ? "#EC4899" : "none"} />
                       <span className="text-xs">{likedPosts[post.id] ? post.likes + 1 : post.likes}</span>
                     </button>
-                    <button className="flex items-center gap-1.5 text-sm transition-colors" style={{ color: "#6A6A88" }}>
+                    <a href={post.link} className="flex items-center gap-1.5 text-sm transition-colors hover:text-[#00FF88]" style={{ color: "#6A6A88", textDecoration: "none" }}>
                       <MessageSquare size={15} />
                       <span className="text-xs">{post.comments}</span>
-                    </button>
-                    <button className="flex items-center gap-1.5 text-sm" style={{ color: "#6A6A88" }}>
+                    </a>
+                    <button
+                      onClick={() => {
+                        try { navigator.clipboard.writeText(window.location.origin + post.link); } catch {}
+                      }}
+                      className="flex items-center gap-1.5 text-sm transition-colors hover:text-[#00FF88]"
+                      style={{ color: "#6A6A88" }}
+                      title="Copy link"
+                    >
                       <Share2 size={15} />
                     </button>
                     <button
                       onClick={() => toggleSave(post.id)}
                       className="flex items-center gap-1.5 text-sm ml-auto transition-colors"
-                      style={{ color: savedPosts[post.id] ? "#D4AF37" : "#6A6A88" }}
+                      style={{ color: savedPosts[post.id] ? "#00FF88" : "#6A6A88" }}
                     >
-                      <Bookmark size={15} fill={savedPosts[post.id] ? "#D4AF37" : "none"} />
+                      <Bookmark size={15} fill={savedPosts[post.id] ? "#00FF88" : "none"} />
                     </button>
                   </div>
                 </div>

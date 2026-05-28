@@ -1,6 +1,9 @@
-import type { Metadata } from "next";
+"use client";
+
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import EventRegisterButton from "@/components/EventRegisterButton";
 import {
   Search,
   MapPin,
@@ -10,19 +13,15 @@ import {
   Radio,
   ChevronDown,
   ArrowRight,
+  X,
 } from "lucide-react";
-
-export const metadata: Metadata = {
-  title: "Events Worldwide — Vine",
-  description:
-    "Connect with believers in person and online at conferences, retreats, workshops, and gatherings around the globe.",
-};
 
 /* ------------------------------------------------------------------ */
 /* Data                                                                  */
 /* ------------------------------------------------------------------ */
 
 const featuredEvent = {
+  id: "global-prayer-summit-2026",
   title: "Global Prayer & Worship Summit 2026",
   dates: "July 18–20, 2026",
   location: "Houston, TX",
@@ -36,7 +35,9 @@ const featuredEvent = {
 };
 
 type EventItem = {
+  id: string;
   month: string;
+  monthFull: string;
   day: string;
   title: string;
   location: string;
@@ -52,7 +53,9 @@ type EventItem = {
 
 const events: EventItem[] = [
   {
+    id: "womens-gathering-rooted-rising",
     month: "JUN",
+    monthFull: "Jun",
     day: "7",
     title: "Women's Gathering: Rooted & Rising",
     location: "Atlanta, GA",
@@ -66,7 +69,9 @@ const events: EventItem[] = [
     accentColor: "#BB4F7A",
   },
   {
+    id: "online-bible-study-gospel-john",
     month: "JUN",
+    monthFull: "Jun",
     day: "14",
     title: "Online Bible Study: The Gospel of John",
     location: "Online",
@@ -80,12 +85,14 @@ const events: EventItem[] = [
     accentColor: "#4FBBAA",
   },
   {
+    id: "apologetics-symposium-faith-reason",
     month: "JUN",
+    monthFull: "Jun",
     day: "21",
     title: "Apologetics Symposium: Faith & Reason",
     location: "Dallas, TX",
     online: false,
-    type: "Apologetics Symposium",
+    type: "Conference",
     host: "Reasonable Faith Dallas",
     description: "A full-day symposium on defending the Christian faith in a secular age, with Q&A sessions.",
     attendees: "412",
@@ -94,26 +101,30 @@ const events: EventItem[] = [
     accentColor: "#6B4FBB",
   },
   {
+    id: "worship-night-heavens-frequency",
     month: "JUL",
+    monthFull: "Jul",
     day: "4",
     title: "Worship Night: Heaven's Frequency",
     location: "London, UK",
     online: false,
-    type: "Worship Night",
+    type: "Retreat",
     host: "All Nations Church London",
     description: "An evening of uninterrupted worship and intercession for the nations of the earth.",
     attendees: "1,820",
     price: "Free",
     cta: "Register",
-    accentColor: "#D4AF37",
+    accentColor: "#00FF88",
   },
   {
+    id: "young-adults-retreat-wild-faith",
     month: "JUL",
+    monthFull: "Jul",
     day: "11",
     title: "Young Adults Retreat: Wild Faith",
     location: "Toronto, Canada",
     online: false,
-    type: "Young Adults Retreat",
+    type: "Retreat",
     host: "Alpha Canada",
     description: "A weekend retreat for 18–30s to deepen faith, forge friendships, and answer the big questions.",
     attendees: "280",
@@ -122,12 +133,14 @@ const events: EventItem[] = [
     accentColor: "#E07030",
   },
   {
+    id: "online-leadership-conference-jul",
     month: "JUL",
+    monthFull: "Jul",
     day: "25",
     title: "Online Leadership Conference",
     location: "Online",
     online: true,
-    type: "Conference",
+    type: "Online",
     host: "Vine Leadership Network",
     description: "Equipping pastors, elders, and ministry leaders for faithful, Spirit-led church leadership.",
     attendees: "5,400",
@@ -136,12 +149,14 @@ const events: EventItem[] = [
     accentColor: "#4F8FBB",
   },
   {
+    id: "marriage-enrichment-weekend-nairobi",
     month: "AUG",
+    monthFull: "Aug",
     day: "8",
     title: "Marriage Enrichment Weekend",
     location: "Nairobi, Kenya",
     online: false,
-    type: "Marriage Enrichment",
+    type: "Workshop",
     host: "Family Life Africa",
     description: "A restorative weekend helping married couples reconnect, communicate, and covenant anew.",
     attendees: "190",
@@ -150,12 +165,14 @@ const events: EventItem[] = [
     accentColor: "#4FBBAA",
   },
   {
+    id: "youth-camp-be-bold-brazil",
     month: "AUG",
+    monthFull: "Aug",
     day: "22",
     title: "Youth Camp: Be Bold",
     location: "São Paulo, Brazil",
     online: false,
-    type: "Youth Camp",
+    type: "Retreat",
     host: "JOCUM Brasil",
     description: "Five-day immersive camp for teens aged 13–18 — worship, games, missions training, and discipleship.",
     attendees: "450",
@@ -164,12 +181,14 @@ const events: EventItem[] = [
     accentColor: "#BB4F7A",
   },
   {
+    id: "seoul-christian-leadership-forum",
     month: "SEP",
+    monthFull: "Sep",
     day: "5",
     title: "Seoul Christian Leadership Forum",
     location: "Seoul, South Korea",
     online: false,
-    type: "Leadership Conference",
+    type: "Conference",
     host: "Korean Church Alliance",
     description: "East Asia's premier Christian leadership forum with speakers from the global church.",
     attendees: "1,200",
@@ -178,21 +197,25 @@ const events: EventItem[] = [
     accentColor: "#6B4FBB",
   },
   {
+    id: "online-prayer-summit-24hr",
     month: "SEP",
+    monthFull: "Sep",
     day: "19",
     title: "Online Prayer Summit: 24-Hour Watch",
     location: "Online",
     online: true,
-    type: "Prayer Summit",
+    type: "Online",
     host: "Vine Global Prayer",
     description: "A continuous 24-hour prayer event with live segments hosted from every inhabited continent.",
     attendees: "12,000",
     price: "Free",
     cta: "Register",
-    accentColor: "#D4AF37",
+    accentColor: "#00FF88",
   },
   {
+    id: "sydney-evangelism-conference",
     month: "OCT",
+    monthFull: "Oct",
     day: "3",
     title: "Sydney Evangelism Conference",
     location: "Sydney, Australia",
@@ -206,12 +229,14 @@ const events: EventItem[] = [
     accentColor: "#E07030",
   },
   {
+    id: "lagos-gospel-arts-festival",
     month: "NOV",
+    monthFull: "Nov",
     day: "14",
     title: "Lagos Gospel Arts Festival",
     location: "Lagos, Nigeria",
     online: false,
-    type: "Worship Night",
+    type: "Local Church",
     host: "Gospel Arts Nigeria",
     description: "A two-day outdoor festival celebrating Christian music, film, visual arts, and spoken word.",
     attendees: "8,500",
@@ -229,18 +254,51 @@ const monthFilters = ["Jun", "Jul", "Aug", "Sep", "Oct", "Nov"];
 /* ------------------------------------------------------------------ */
 
 export default function EventsPage() {
+  const [activeType, setActiveType] = useState("All");
+  const [activeMonth, setActiveMonth] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [nearMe, setNearMe] = useState(false);
+  const [goingEvents, setGoingEvents] = useState<Set<number>>(() => {
+    try { const s = localStorage.getItem("vine_events_going"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
+  });
+  const [savedEvents, setSavedEvents] = useState<Set<number>>(() => {
+    try { const s = localStorage.getItem("vine_events_saved"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
+  });
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_events_going", JSON.stringify([...goingEvents])); } catch {}
+  }, [goingEvents]);
+  useEffect(() => {
+    try { localStorage.setItem("vine_events_saved", JSON.stringify([...savedEvents])); } catch {}
+  }, [savedEvents]);
+
+  const toggleGoing = (id: number) => setGoingEvents(prev => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
+  const toggleSaved = (id: number) => setSavedEvents(prev => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
+
+  const filtered = events.filter((e) => {
+    const matchType = activeType === "All" || e.type === activeType;
+    const matchMonth = !activeMonth || e.monthFull === activeMonth;
+    const matchSearch =
+      !searchQuery ||
+      e.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      e.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      e.host.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchNear = !nearMe || !e.online;
+    return matchType && matchMonth && matchSearch && matchNear;
+  });
+
   return (
     <div className="min-h-screen" style={{ background: "#07070F" }}>
       <Navbar />
 
-      <main className="pt-16">
+      <main className="page-body">
         {/* Hero */}
         <section className="relative py-20 px-4 text-center overflow-hidden">
           <div
             className="absolute inset-0"
             style={{
               background:
-                "radial-gradient(ellipse 80% 60% at 50% 0%, rgba(107,79,187,0.12) 0%, rgba(212,175,55,0.06) 40%, transparent 70%)",
+                "radial-gradient(ellipse 80% 60% at 50% 0%, rgba(107,79,187,0.12) 0%, rgba(0,255,136,0.06) 40%, transparent 70%)",
             }}
           />
           <div className="relative max-w-3xl mx-auto">
@@ -258,7 +316,7 @@ export default function EventsPage() {
               Events{" "}
               <span
                 style={{
-                  backgroundImage: "linear-gradient(90deg, #D4AF37 0%, #F0D060 50%, #D4AF37 100%)",
+                  backgroundImage: "linear-gradient(90deg, #00FF88 0%, #44FFAA 50%, #00FF88 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
@@ -279,7 +337,10 @@ export default function EventsPage() {
             {/* Search */}
             <div
               className="flex items-center gap-3 px-4 py-3 rounded-xl mb-4"
-              style={{ background: "#12121F", border: "1px solid #1E1E32" }}
+              style={{
+                background: "#12121F",
+                border: `1px solid ${searchQuery ? "rgba(0,255,136,0.3)" : "#1E1E32"}`,
+              }}
             >
               <Search size={16} style={{ color: "#6A6A88" }} />
               <input
@@ -287,20 +348,28 @@ export default function EventsPage() {
                 placeholder="Search events by name, location, or topic..."
                 className="flex-1 bg-transparent text-sm outline-none"
                 style={{ color: "#F2F2F8" }}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
+              {searchQuery && (
+                <button onClick={() => setSearchQuery("")} style={{ color: "#6A6A88" }}>
+                  <X size={14} />
+                </button>
+              )}
             </div>
 
             {/* Filter rows */}
             <div className="flex flex-wrap gap-y-3 gap-x-2 items-center">
               {/* Type filters */}
               <div className="flex flex-wrap gap-2">
-                {typeFilters.map((f, i) => (
+                {typeFilters.map((f) => (
                   <button
                     key={f}
+                    onClick={() => setActiveType(f)}
                     className="text-xs font-semibold px-4 py-2 rounded-full transition-all duration-150"
                     style={
-                      i === 0
-                        ? { background: "linear-gradient(135deg, #D4AF37 0%, #B8960C 100%)", color: "#07070F" }
+                      activeType === f
+                        ? { background: "linear-gradient(135deg, #00FF88 0%, #B8960C 100%)", color: "#07070F" }
                         : { background: "#12121F", color: "#8A8AA8", border: "1px solid #1E1E32" }
                     }
                   >
@@ -317,8 +386,13 @@ export default function EventsPage() {
                 {monthFilters.map((m) => (
                   <button
                     key={m}
-                    className="text-xs font-semibold px-3 py-2 rounded-full"
-                    style={{ background: "#12121F", color: "#8A8AA8", border: "1px solid #1E1E32" }}
+                    onClick={() => setActiveMonth(activeMonth === m ? null : m)}
+                    className="text-xs font-semibold px-3 py-2 rounded-full transition-all"
+                    style={
+                      activeMonth === m
+                        ? { background: "rgba(107,79,187,0.25)", color: "#9B7FEB", border: "1px solid rgba(107,79,187,0.4)" }
+                        : { background: "#12121F", color: "#8A8AA8", border: "1px solid #1E1E32" }
+                    }
                   >
                     {m}
                   </button>
@@ -330,13 +404,34 @@ export default function EventsPage() {
 
               {/* Near Me toggle */}
               <button
-                className="flex items-center gap-2 text-xs font-semibold px-4 py-2 rounded-full"
-                style={{ background: "rgba(212,175,55,0.1)", color: "#D4AF37", border: "1px solid rgba(212,175,55,0.25)" }}
+                onClick={() => setNearMe(!nearMe)}
+                className="flex items-center gap-2 text-xs font-semibold px-4 py-2 rounded-full transition-all"
+                style={{
+                  background: nearMe ? "rgba(0,255,136,0.2)" : "rgba(0,255,136,0.1)",
+                  color: "#00FF88",
+                  border: `1px solid ${nearMe ? "rgba(0,255,136,0.5)" : "rgba(0,255,136,0.25)"}`,
+                }}
               >
                 <MapPin size={12} />
-                Near Me
+                {nearMe ? "In-Person Only ✓" : "Near Me"}
               </button>
             </div>
+
+            {/* Active filter summary */}
+            {(activeType !== "All" || activeMonth || searchQuery || nearMe) && (
+              <div className="flex items-center gap-2 mt-3 flex-wrap">
+                <span className="text-xs" style={{ color: "#6A6A88" }}>
+                  {filtered.length} {filtered.length === 1 ? "event" : "events"} found
+                </span>
+                <button
+                  onClick={() => { setActiveType("All"); setActiveMonth(null); setSearchQuery(""); setNearMe(false); }}
+                  className="text-xs px-3 py-1 rounded-full font-semibold"
+                  style={{ background: "rgba(239,68,68,0.1)", color: "#EF4444", border: "1px solid rgba(239,68,68,0.2)" }}
+                >
+                  Clear all filters
+                </button>
+              </div>
+            )}
           </section>
 
           {/* Featured Event */}
@@ -347,7 +442,7 @@ export default function EventsPage() {
               </h2>
               <span
                 className="text-xs font-bold px-2.5 py-1 rounded-full"
-                style={{ background: "rgba(212,175,55,0.1)", color: "#D4AF37", border: "1px solid rgba(212,175,55,0.25)" }}
+                style={{ background: "rgba(0,255,136,0.1)", color: "#00FF88", border: "1px solid rgba(0,255,136,0.25)" }}
               >
                 Editor&apos;s Pick
               </span>
@@ -366,7 +461,7 @@ export default function EventsPage() {
                   className="absolute inset-0"
                   style={{
                     background:
-                      "radial-gradient(ellipse 50% 70% at 10% 50%, rgba(212,175,55,0.12) 0%, transparent 60%)",
+                      "radial-gradient(ellipse 50% 70% at 10% 50%, rgba(0,255,136,0.12) 0%, transparent 60%)",
                   }}
                 />
                 <div className="relative flex flex-wrap items-end gap-4">
@@ -374,9 +469,9 @@ export default function EventsPage() {
                     <span
                       className="inline-block text-[10px] font-bold px-2.5 py-0.5 rounded-full mb-2"
                       style={{
-                        background: "rgba(212,175,55,0.2)",
-                        color: "#D4AF37",
-                        border: "1px solid rgba(212,175,55,0.35)",
+                        background: "rgba(0,255,136,0.2)",
+                        color: "#00FF88",
+                        border: "1px solid rgba(0,255,136,0.35)",
                       }}
                     >
                       {featuredEvent.type}
@@ -392,11 +487,11 @@ export default function EventsPage() {
               <div className="p-6 sm:p-8">
                 <div className="flex flex-wrap gap-x-6 gap-y-2 mb-4">
                   <div className="flex items-center gap-2 text-sm" style={{ color: "#8A8AA8" }}>
-                    <Calendar size={14} style={{ color: "#D4AF37" }} />
+                    <Calendar size={14} style={{ color: "#00FF88" }} />
                     {featuredEvent.dates}
                   </div>
                   <div className="flex items-center gap-2 text-sm" style={{ color: "#8A8AA8" }}>
-                    <MapPin size={14} style={{ color: "#D4AF37" }} />
+                    <MapPin size={14} style={{ color: "#00FF88" }} />
                     {featuredEvent.location}
                   </div>
                   {featuredEvent.livestreamed && (
@@ -416,12 +511,13 @@ export default function EventsPage() {
                 </p>
 
                 <div className="flex flex-wrap items-center gap-3">
-                  <button
-                    className="px-7 py-3 rounded-xl text-sm font-black"
-                    style={{ background: "linear-gradient(135deg, #D4AF37 0%, #B8960C 100%)", color: "#07070F" }}
+                  <a
+                    href={`/events/${featuredEvent.id}`}
+                    className="px-7 py-3 rounded-xl text-sm font-black inline-block"
+                    style={{ background: "linear-gradient(135deg, #00FF88 0%, #44FFAA 100%)", color: "#07070F", textDecoration: "none" }}
                   >
                     Register Free
-                  </button>
+                  </a>
                   <span className="text-sm" style={{ color: "#6A6A88" }}>
                     By{" "}
                     <span style={{ color: "#8A8AA8" }}>{featuredEvent.organizer}</span>
@@ -435,13 +531,13 @@ export default function EventsPage() {
           <section className="mb-10">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-black" style={{ color: "#F2F2F8" }}>
-                All Events
+                {filtered.length === events.length ? "All Events" : `${filtered.length} Events Found`}
               </h2>
               <div className="flex items-center gap-2">
                 <span className="text-sm" style={{ color: "#6A6A88" }}>Sort by:</span>
                 <button
                   className="flex items-center gap-1 text-sm font-semibold"
-                  style={{ color: "#D4AF37" }}
+                  style={{ color: "#00FF88" }}
                 >
                   Date
                   <ChevronDown size={14} />
@@ -449,34 +545,54 @@ export default function EventsPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              {events.map((event) => (
-                <EventCard key={event.title} event={event} />
-              ))}
-            </div>
+            {filtered.length === 0 ? (
+              <div
+                className="rounded-2xl p-12 text-center"
+                style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
+              >
+                <p className="text-4xl mb-4">🔍</p>
+                <p className="font-bold text-lg mb-2" style={{ color: "#F2F2F8" }}>No events match your filters</p>
+                <p className="text-sm mb-4" style={{ color: "#6A6A88" }}>Try adjusting your search or clearing some filters.</p>
+                <button
+                  onClick={() => { setActiveType("All"); setActiveMonth(null); setSearchQuery(""); setNearMe(false); }}
+                  className="px-6 py-2.5 rounded-xl text-sm font-bold text-black"
+                  style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)" }}
+                >
+                  Clear Filters
+                </button>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                {filtered.map((event) => (
+                  <EventCard key={event.title} event={event} />
+                ))}
+              </div>
+            )}
           </section>
 
           {/* Pagination */}
-          <div className="flex flex-col items-center gap-4">
-            <p className="text-sm" style={{ color: "#6A6A88" }}>
-              Showing{" "}
-              <span style={{ color: "#F2F2F8" }}>12</span>{" "}
-              of{" "}
-              <span style={{ color: "#F2F2F8" }}>87</span>{" "}
-              events
-            </p>
-            <button
-              className="flex items-center gap-2 px-8 py-3 rounded-xl text-sm font-bold"
-              style={{
-                background: "transparent",
-                color: "#D4AF37",
-                border: "1px solid rgba(212,175,55,0.35)",
-              }}
-            >
-              Load More Events
-              <ArrowRight size={15} />
-            </button>
-          </div>
+          {filtered.length > 0 && (
+            <div className="flex flex-col items-center gap-4">
+              <p className="text-sm" style={{ color: "#6A6A88" }}>
+                Showing{" "}
+                <span style={{ color: "#F2F2F8" }}>{filtered.length}</span>{" "}
+                of{" "}
+                <span style={{ color: "#F2F2F8" }}>87</span>{" "}
+                events
+              </p>
+              <button
+                className="flex items-center gap-2 px-8 py-3 rounded-xl text-sm font-bold"
+                style={{
+                  background: "transparent",
+                  color: "#00FF88",
+                  border: "1px solid rgba(0,255,136,0.35)",
+                }}
+              >
+                Load More Events
+                <ArrowRight size={15} />
+              </button>
+            </div>
+          )}
         </div>
       </main>
 
@@ -490,9 +606,11 @@ export default function EventsPage() {
 /* ------------------------------------------------------------------ */
 
 function EventCard({ event }: { event: EventItem }) {
+  const Wrapper = event.id ? "a" : "div";
   return (
-    <div
-      className="rounded-2xl overflow-hidden flex flex-col"
+    <Wrapper
+      {...(event.id ? { href: `/events/${event.id}`, style: { textDecoration: "none" } } : {})}
+      className="rounded-2xl overflow-hidden flex flex-col group cursor-pointer transition-all hover:border-[rgba(0,255,136,0.2)]"
       style={{ background: "#12121F", border: "1px solid #1E1E32" }}
     >
       {/* Date badge + type */}
@@ -569,25 +687,13 @@ function EventCard({ event }: { event: EventItem }) {
           </div>
           <p
             className="text-xs font-bold"
-            style={{ color: event.price === "Free" ? "#4FBBAA" : "#D4AF37" }}
+            style={{ color: event.price === "Free" ? "#4FBBAA" : "#00FF88" }}
           >
             {event.price}
           </p>
         </div>
-        <button
-          className="px-4 py-2 rounded-xl text-xs font-bold"
-          style={{
-            background:
-              event.price === "Free"
-                ? "linear-gradient(135deg, #D4AF37 0%, #B8960C 100%)"
-                : "transparent",
-            color: event.price === "Free" ? "#07070F" : "#D4AF37",
-            border: event.price === "Free" ? "none" : "1px solid rgba(212,175,55,0.35)",
-          }}
-        >
-          {event.cta}
-        </button>
+        <EventRegisterButton cta={event.cta} price={event.price} eventTitle={event.title} />
       </div>
-    </div>
+    </Wrapper>
   );
 }

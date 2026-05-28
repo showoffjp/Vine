@@ -1,0 +1,310 @@
+"use client";
+import { useState, useEffect } from "react";
+
+const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
+const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+
+interface PrayerItem {
+  id: string;
+  name: string;
+  category: string;
+  request: string;
+  dateAdded: string;
+  answered: boolean;
+  answeredNote: string;
+  priority: "high" | "medium" | "low";
+}
+
+const CATEGORIES = ["Family", "Friends", "Church", "Nation", "World", "Healing", "Salvation", "Missions", "Personal"];
+const CATEGORY_COLORS: Record<string, string> = {
+  Family: "#F59E0B", Friends: "#10B981", Church: "#8B5CF6", Nation: "#3B82F6",
+  World: "#EC4899", Healing: "#EF4444", Salvation: "#00FF88", Missions: "#F97316", Personal: "#6B7280"
+};
+
+const SEED_ITEMS: PrayerItem[] = [
+  { id: "1", name: "Mom & Dad", category: "Family", request: "Health, peace in their marriage, and their continued walk with God through this season of life.", dateAdded: "2026-05-01", answered: false, answeredNote: "", priority: "high" },
+  { id: "2", name: "James (coworker)", category: "Salvation", request: "He's open to conversations about faith. Pray for an opportunity and that his heart would be receptive.", dateAdded: "2026-04-15", answered: false, answeredNote: "", priority: "high" },
+  { id: "3", name: "Pastor David", category: "Church", request: "Wisdom and protection as he leads through a season of transition. That he would not grow weary.", dateAdded: "2026-04-20", answered: false, answeredNote: "", priority: "medium" },
+  { id: "4", name: "Ukraine / Gaza", category: "World", request: "Peace in conflict zones. Protection of civilians. That the gospel would advance even in suffering.", dateAdded: "2026-03-10", answered: false, answeredNote: "", priority: "medium" },
+  { id: "5", name: "Sarah's cancer diagnosis", category: "Healing", request: "Miraculous healing. Peace that passes understanding. That she would experience God's presence powerfully.", dateAdded: "2026-05-10", answered: false, answeredNote: "", priority: "high" },
+  { id: "6", name: "Job search - Michael", category: "Personal", request: "He's been out of work 3 months. Financial provision, open doors, and peace through the uncertainty.", dateAdded: "2026-04-01", answered: true, answeredNote: "Got a great offer — better than his previous job! God is faithful.", priority: "medium" },
+];
+
+const MODELS = [
+  {
+    name: "The Daniel Model",
+    icon: "🦁",
+    color: "#F59E0B",
+    basis: "Daniel 9 — Daniel's great intercession for Israel",
+    structure: [
+      { step: "Confession", desc: "Daniel confessed the sins of his people before interceding — not just his own sins but corporate sin. Corporate intercession requires corporate honesty." },
+      { step: "Appeal to God's Character", desc: "He didn't appeal to Israel's righteousness but to God's mercy: 'We do not present our pleas before you because of our righteousness, but because of your great mercy' (Dan 9:18)." },
+      { step: "Specific Request", desc: "Daniel prayed specifically: for the restoration of Jerusalem, the end of exile, the return of God's favor to the sanctuary." },
+      { step: "Urgency Without Presumption", desc: "He ended with 'do not delay, for your own sake' — passionate without being manipulative. He cared about God's reputation and purposes, not merely Israel's comfort." },
+    ],
+  },
+  {
+    name: "The Persistent Widow",
+    icon: "⚖️",
+    color: "#8B5CF6",
+    basis: "Luke 18:1-8 — Jesus' parable on persistent prayer",
+    structure: [
+      { step: "Pray and Not Give Up", desc: "Jesus told this parable specifically so that his disciples 'should always pray and not give up' (Luke 18:1). Persistence is the point." },
+      { step: "God Is Not the Unjust Judge", desc: "If an unjust judge grants justice to a persistent widow, how much more will a just and loving God answer his chosen ones? The parable argues from lesser to greater." },
+      { step: "Return Again and Again", desc: "Write the prayer request down. Return to it. Keep bringing it to God. Mark the dates. Don't abandon what you've started interceding for." },
+      { step: "Watch for Faith at His Return", desc: "Jesus ends with a question: 'When the Son of Man comes, will he find faith on earth?' Persistent prayer is an expression of faith that God hears and acts." },
+    ],
+  },
+  {
+    name: "Identified Intercession",
+    icon: "🔗",
+    color: "#10B981",
+    basis: "Numbers 14; Nehemiah 1 — intercession that identifies with the one being prayed for",
+    structure: [
+      { step: "Enter Their Situation", desc: "Moses prayed: 'Lord, your people...' — he didn't separate himself from Israel's sin but stood with them. Nehemiah wept, fasted, and confessed 'we have sinned' — though he was personally righteous." },
+      { step: "Intercede With Full Heart Investment", desc: "This is not casual petition but agonizing on behalf of others. Paul 'could wish that I myself were accursed' for his people (Rom 9:3). Intercession has emotional weight." },
+      { step: "Ask for What They Need, Not What Is Easy", desc: "Don't settle for comfort prayers. Ask for healing, salvation, breakthrough, transformation — specific and bold outcomes that would require God to act." },
+      { step: "Sustain Over Time", desc: "Identified intercession is sustained — Nehemiah prayed for four months before acting. Build a list. Return to it. Watch what God does over weeks and months." },
+    ],
+  },
+];
+
+export default function IntercessionPage() {
+  const [activeTab, setActiveTab] = useState<"list" | "models" | "howto">("list");
+  const [items, setItems] = useState<PrayerItem[]>(() => {
+    try { const s = localStorage.getItem("vine_intercession_items"); return s ? JSON.parse(s) : SEED_ITEMS; } catch { return SEED_ITEMS; }
+  });
+  const [showForm, setShowForm] = useState(false);
+  const [filterCat, setFilterCat] = useState("All");
+  const [filterAnswered, setFilterAnswered] = useState<"all" | "active" | "answered">("active");
+  const [expandedModel, setExpandedModel] = useState<string | null>("The Daniel Model");
+  const [form, setForm] = useState({ name: "", category: "Family", request: "", priority: "medium" as "high" | "medium" | "low" });
+
+  useEffect(() => { try { localStorage.setItem("vine_intercession_items", JSON.stringify(items)); } catch {} }, [items]);
+
+  const addItem = () => {
+    if (!form.name || !form.request) return;
+    const newItem: PrayerItem = {
+      id: Date.now().toString(),
+      name: form.name,
+      category: form.category,
+      request: form.request,
+      dateAdded: new Date().toISOString().split("T")[0],
+      answered: false,
+      answeredNote: "",
+      priority: form.priority,
+    };
+    setItems(prev => [newItem, ...prev]);
+    setForm({ name: "", category: "Family", request: "", priority: "medium" });
+    setShowForm(false);
+  };
+
+  const markAnswered = (id: string, note: string) => {
+    setItems(prev => prev.map(item => item.id === id ? { ...item, answered: true, answeredNote: note } : item));
+  };
+
+  const deleteItem = (id: string) => {
+    setItems(prev => prev.filter(item => item.id !== id));
+  };
+
+  const filtered = items.filter(item => {
+    if (filterCat !== "All" && item.category !== filterCat) return false;
+    if (filterAnswered === "active" && item.answered) return false;
+    if (filterAnswered === "answered" && !item.answered) return false;
+    return true;
+  });
+
+  const highCount = items.filter(i => i.priority === "high" && !i.answered).length;
+  const answeredCount = items.filter(i => i.answered).length;
+
+  return (
+    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 40 }}>
+      <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 20px 60px" }}>
+        <div style={{ textAlign: "center", marginBottom: 36 }}>
+          <div style={{ fontSize: 48, marginBottom: 10 }}>🕊️</div>
+          <h1 style={{ fontSize: 32, fontWeight: 900, marginBottom: 8 }}>Intercession</h1>
+          <p style={{ color: MUTED, fontSize: 16, maxWidth: 540, margin: "0 auto" }}>
+            Standing in the gap for others — intercession is one of the most powerful and least practiced forms of prayer.
+          </p>
+          <div style={{ display: "flex", justifyContent: "center", gap: 16, marginTop: 20 }}>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "12px 20px", textAlign: "center" }}>
+              <div style={{ color: "#EF4444", fontWeight: 900, fontSize: 24 }}>{highCount}</div>
+              <div style={{ color: MUTED, fontSize: 12 }}>High Priority</div>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "12px 20px", textAlign: "center" }}>
+              <div style={{ color: GREEN, fontWeight: 900, fontSize: 24 }}>{answeredCount}</div>
+              <div style={{ color: MUTED, fontSize: 12 }}>Answered Prayers</div>
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "12px 20px", textAlign: "center" }}>
+              <div style={{ color: PURPLE, fontWeight: 900, fontSize: 24 }}>{items.length}</div>
+              <div style={{ color: MUTED, fontSize: 12 }}>Total Intercessions</div>
+            </div>
+          </div>
+        </div>
+
+        <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
+          {[
+            { id: "list" as const, label: "Prayer List", icon: "📋" },
+            { id: "models" as const, label: "Biblical Models", icon: "📖" },
+            { id: "howto" as const, label: "How to Intercede", icon: "🗺️" },
+          ].map(t => (
+            <button key={t.id} onClick={() => setActiveTab(t.id)}
+              style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+              {t.icon} {t.label}
+            </button>
+          ))}
+        </div>
+
+        {activeTab === "list" && (
+          <div>
+            {/* Filters */}
+            <div style={{ display: "flex", gap: 8, marginBottom: 16, flexWrap: "wrap", alignItems: "center" }}>
+              <div style={{ display: "flex", gap: 6 }}>
+                {(["active", "answered", "all"] as const).map(f => (
+                  <button key={f} onClick={() => setFilterAnswered(f)}
+                    style={{ padding: "5px 12px", borderRadius: 20, border: `1px solid ${filterAnswered === f ? GREEN : BORDER}`, background: filterAnswered === f ? `${GREEN}15` : "transparent", color: filterAnswered === f ? GREEN : MUTED, fontSize: 12, fontWeight: 700, cursor: "pointer" }}>
+                    {f === "active" ? "Active" : f === "answered" ? "Answered ✓" : "All"}
+                  </button>
+                ))}
+              </div>
+              <select value={filterCat} onChange={e => setFilterCat(e.target.value)}
+                style={{ padding: "5px 10px", borderRadius: 8, border: `1px solid ${BORDER}`, background: CARD, color: TEXT, fontSize: 12, cursor: "pointer" }}>
+                <option value="All">All Categories</option>
+                {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
+              </select>
+              <button onClick={() => setShowForm(!showForm)}
+                style={{ marginLeft: "auto", padding: "8px 16px", background: PURPLE, border: "none", borderRadius: 8, color: "#fff", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+                + Add
+              </button>
+            </div>
+
+            {showForm && (
+              <div style={{ background: CARD, border: `1px solid ${PURPLE}50`, borderRadius: 12, padding: 20, marginBottom: 16 }}>
+                <h4 style={{ color: PURPLE, fontWeight: 700, marginBottom: 14 }}>New Intercession</h4>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12 }}>
+                  <input value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
+                    placeholder="Person / situation name"
+                    style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14 }} />
+                  <select value={form.category} onChange={e => setForm(f => ({ ...f, category: e.target.value }))}
+                    style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14 }}>
+                    {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
+                  </select>
+                </div>
+                <textarea value={form.request} onChange={e => setForm(f => ({ ...f, request: e.target.value }))}
+                  placeholder="Specific prayer request..."
+                  style={{ width: "100%", minHeight: 80, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box", fontFamily: "inherit", marginBottom: 12 }} />
+                <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
+                  <button onClick={() => setShowForm(false)} style={{ padding: "8px 16px", borderRadius: 8, border: `1px solid ${BORDER}`, background: "transparent", color: MUTED, cursor: "pointer", fontWeight: 600 }}>Cancel</button>
+                  <button onClick={addItem} style={{ padding: "8px 18px", borderRadius: 8, border: "none", background: GREEN, color: BG, fontWeight: 800, cursor: "pointer" }}>Add Prayer</button>
+                </div>
+              </div>
+            )}
+
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              {filtered.length === 0 && (
+                <div style={{ textAlign: "center", padding: 40, color: MUTED }}>No items in this filter. Add your first intercession above.</div>
+              )}
+              {filtered.map(item => {
+                const catColor = CATEGORY_COLORS[item.category] || MUTED;
+                return (
+                  <div key={item.id} style={{ background: CARD, border: `1px solid ${item.answered ? GREEN + "30" : item.priority === "high" ? "#EF444430" : BORDER}`, borderRadius: 12, padding: 18 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 8 }}>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                          <span style={{ color: item.answered ? GREEN : TEXT, fontWeight: 800, fontSize: 15 }}>{item.name}</span>
+                          <span style={{ background: catColor + "20", color: catColor, padding: "2px 8px", borderRadius: 10, fontSize: 11, fontWeight: 700 }}>{item.category}</span>
+                          {item.priority === "high" && <span style={{ background: "#EF444420", color: "#EF4444", padding: "2px 8px", borderRadius: 10, fontSize: 11, fontWeight: 700 }}>High Priority</span>}
+                          {item.answered && <span style={{ background: `${GREEN}20`, color: GREEN, padding: "2px 8px", borderRadius: 10, fontSize: 11, fontWeight: 700 }}>✓ Answered</span>}
+                        </div>
+                        <p style={{ color: MUTED, fontSize: 13, margin: "6px 0 0", lineHeight: 1.55 }}>{item.request}</p>
+                        {item.answered && item.answeredNote && (
+                          <div style={{ marginTop: 8, background: `${GREEN}10`, borderRadius: 6, padding: "6px 10px" }}>
+                            <p style={{ color: GREEN, fontSize: 12, margin: 0 }}>🙏 {item.answeredNote}</p>
+                          </div>
+                        )}
+                      </div>
+                      <div style={{ display: "flex", gap: 6, flexShrink: 0, marginLeft: 10 }}>
+                        {!item.answered && (
+                          <button onClick={() => {
+                            const note = prompt("How did God answer this prayer?") || "";
+                            markAnswered(item.id, note);
+                          }} style={{ padding: "5px 10px", borderRadius: 6, border: `1px solid ${GREEN}50`, background: `${GREEN}15`, color: GREEN, fontSize: 11, fontWeight: 700, cursor: "pointer" }}>
+                            Answered ✓
+                          </button>
+                        )}
+                        <button onClick={() => deleteItem(item.id)} style={{ padding: "5px 8px", borderRadius: 6, border: `1px solid ${BORDER}`, background: "transparent", color: MUTED, fontSize: 12, cursor: "pointer" }}>✕</button>
+                      </div>
+                    </div>
+                    <div style={{ color: MUTED, fontSize: 11, marginTop: 8 }}>Added {new Date(item.dateAdded + "T12:00:00").toLocaleDateString()}</div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {activeTab === "models" && (
+          <div>
+            {MODELS.map(model => {
+              const open = expandedModel === model.name;
+              return (
+                <div key={model.name} style={{ background: CARD, border: `1px solid ${open ? model.color + "50" : BORDER}`, borderRadius: 12, marginBottom: 12, overflow: "hidden" }}>
+                  <button onClick={() => setExpandedModel(open ? null : model.name)}
+                    style={{ width: "100%", padding: "18px 22px", background: "none", border: "none", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 12, textAlign: "left" }}>
+                      <span style={{ fontSize: 28 }}>{model.icon}</span>
+                      <div>
+                        <div style={{ color: model.color, fontWeight: 800, fontSize: 17 }}>{model.name}</div>
+                        <div style={{ color: MUTED, fontSize: 12 }}>{model.basis}</div>
+                      </div>
+                    </div>
+                    <span style={{ color: MUTED, fontSize: 20 }}>{open ? "−" : "+"}</span>
+                  </button>
+                  {open && (
+                    <div style={{ padding: "0 22px 22px" }}>
+                      {model.structure.map((s, i) => (
+                        <div key={i} style={{ display: "flex", gap: 14, marginBottom: 16 }}>
+                          <div style={{ width: 26, height: 26, borderRadius: "50%", background: `${model.color}20`, border: `1px solid ${model.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: model.color, fontWeight: 900, fontSize: 12, flexShrink: 0 }}>{i + 1}</div>
+                          <div>
+                            <div style={{ color: model.color, fontWeight: 700, fontSize: 14, marginBottom: 4 }}>{s.step}</div>
+                            <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.65, margin: 0 }}>{s.desc}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        {activeTab === "howto" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 26, marginBottom: 20 }}>
+              <h3 style={{ color: GREEN, fontWeight: 900, fontSize: 20, marginBottom: 14 }}>What Makes Intercession Different?</h3>
+              <p style={{ color: TEXT, lineHeight: 1.75, fontSize: 15, marginBottom: 12 }}>
+                Intercession is standing between God and another person — coming before the throne on their behalf. Unlike personal petition (asking for yourself), intercession requires love and attention directed outward. It is an act of priestly ministry: every believer is a priest (1 Peter 2:9) with access to bring others before God.
+              </p>
+              <p style={{ color: TEXT, lineHeight: 1.75, fontSize: 15 }}>
+                The most powerful intercessors in Scripture were those who cared deeply: Moses interceded so passionately he offered to be blotted from God's book (Exod 32:32). Paul experienced "great sorrow and unceasing anguish" for his people (Rom 9:2). Intercession is not passive — it is warfare waged through prayer.
+              </p>
+            </div>
+            {[
+              { title: "Practical Intercession Habits", icon: "⏰", tips: ["Set aside a dedicated time — 15 minutes daily or a longer session weekly", "Keep a written list (the Prayer List tab) — vague intentions die, written ones survive", "Pray specifically — names, situations, outcomes. 'Lord, bless everyone' is barely prayer", "Return to the same requests consistently — not once but weekly, monthly", "Track answers — written evidence of God's faithfulness fuels future faith"] },
+              { title: "What to Pray For", icon: "🎯", tips: ["Salvation of specific people — name them, pray for open hearts and divine appointments", "The sick — healing, peace, the presence of Christ in suffering", "Leaders — church leaders, government officials, community influencers", "The persecuted church — brothers and sisters in danger globally", "Your city — its spiritual atmosphere, its leaders, its poor and forgotten"] },
+              { title: "When Answers Are Delayed", icon: "⏳", tips: ["Daniel prayed for 21 days before an angel arrived — there was a battle in progress (Dan 10:12-13)", "Don't confuse delayed with denied — God's timing is not ours", "Continue to pray even when you don't see change — faith sustains intercession across months and years", "Ask God to show you how to pray — sometimes the Spirit redirects our intercession (Romans 8:26)", "Record the date you started — when the breakthrough comes, you'll want the full story"] },
+            ].map(section => (
+              <div key={section.title} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 14 }}>
+                <h3 style={{ color: PURPLE, fontWeight: 800, fontSize: 17, marginBottom: 12 }}>{section.icon} {section.title}</h3>
+                <ul style={{ margin: 0, paddingLeft: 20 }}>
+                  {section.tips.map((tip, i) => <li key={i} style={{ color: TEXT, fontSize: 14, lineHeight: 1.65, marginBottom: 8 }}>{tip}</li>)}
+                </ul>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}

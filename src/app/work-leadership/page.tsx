@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
@@ -13,6 +14,7 @@ import {
   Lightbulb,
   Award,
   Compass,
+  Bookmark,
 } from "lucide-react";
 
 
@@ -49,7 +51,7 @@ const frameworks = [
     title: "Faith Integration Map",
     description: "How to authentically bring your faith into work without being preachy or fake.",
     level: "Foundational",
-    color: "#D4AF37",
+    color: "#00FF88",
   },
   {
     icon: Users,
@@ -93,7 +95,7 @@ const models = [
     name: "Daniel",
     role: "Government Official",
     takeaway: "Excellence and integrity in a hostile system — without compromise on core convictions.",
-    color: "#D4AF37",
+    color: "#00FF88",
     avatar: "DA",
   },
   {
@@ -120,28 +122,48 @@ const models = [
 ];
 
 const articles = [
-  { emoji: "🏢", title: "How to Talk About Faith at Work Without Being Weird", time: "7 min", tag: "Integration" },
-  { emoji: "📈", title: "Is Ambition a Sin? What Scripture Actually Says", time: "8 min", tag: "Ambition" },
-  { emoji: "😓", title: "Burned Out and Faithful: How to Rest Without Guilt", time: "9 min", tag: "Burnout" },
-  { emoji: "🤝", title: "When Your Boss Is Unethical: A Biblical Response", time: "10 min", tag: "Ethics" },
-  { emoji: "💼", title: "The Theology of Monday: Reclaiming Secular Work", time: "6 min", tag: "Theology" },
-  { emoji: "🌍", title: "Using Your Influence for Kingdom Impact", time: "8 min", tag: "Impact" },
+  { emoji: "🏢", title: "How to Talk About Faith at Work Without Being Weird", time: "7 min", tag: "Integration", href: "/blog/faith-at-work" },
+  { emoji: "📈", title: "Is Ambition a Sin? What Scripture Actually Says", time: "9 min", tag: "Ambition", href: "/blog/biblical-ambition" },
+  { emoji: "😓", title: "Burned Out and Faithful: How to Rest Without Guilt", time: "9 min", tag: "Burnout", href: "/blog/digital-sabbath" },
+  { emoji: "🤝", title: "When Your Boss Is Unethical: A Biblical Response", time: "8 min", tag: "Ethics", href: "/blog/servant-leadership-jesus" },
+  { emoji: "💼", title: "The Theology of Monday: Reclaiming Secular Work", time: "8 min", tag: "Theology", href: "/blog/theology-of-monday" },
+  { emoji: "🌍", title: "Using Your Influence for Kingdom Impact", time: "8 min", tag: "Impact", href: "/blog/servant-leadership-jesus" },
 ];
 
 export default function WorkLeadershipPage() {
+  const [savedPrinciples, setSavedPrinciples] = useState<Set<string>>(() => {
+    try {
+      const s = localStorage.getItem("vine_work_principles");
+      return s ? new Set(JSON.parse(s) as string[]) : new Set();
+    } catch { return new Set(); }
+  });
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_work_principles", JSON.stringify([...savedPrinciples])); } catch {}
+  }, [savedPrinciples]);
+
+  const togglePrinciple = (title: string) => {
+    setSavedPrinciples((prev) => {
+      const next = new Set(prev);
+      if (next.has(title)) next.delete(title);
+      else next.add(title);
+      return next;
+    });
+  };
+
   return (
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
       <Navbar />
-      <div className="pt-24 pb-20">
+      <div className="page-body pb-20">
         {/* Hero */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
           <div className="text-center max-w-3xl mx-auto">
-            <span className="text-xs font-bold uppercase tracking-widest mb-4 block" style={{ color: "#D4AF37" }}>
+            <span className="text-xs font-bold uppercase tracking-widest mb-4 block" style={{ color: "#00FF88" }}>
               Life & Faith · Work & Leadership
             </span>
             <h1 className="text-4xl sm:text-5xl font-black mb-6 leading-tight">
               Monday matters{" "}
-              <span style={{ background: "linear-gradient(135deg, #D4AF37, #6B4FBB)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+              <span style={{ background: "linear-gradient(135deg, #00FF88, #6B4FBB)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
                 as much as Sunday.
               </span>
             </h1>
@@ -151,14 +173,14 @@ export default function WorkLeadershipPage() {
             <div
               className="inline-block px-6 py-4 rounded-2xl text-sm italic"
               style={{
-                background: "rgba(212,175,55,0.06)",
-                border: "1px solid rgba(212,175,55,0.15)",
-                color: "#C8A84B",
+                background: "rgba(0,255,136,0.06)",
+                border: "1px solid rgba(0,255,136,0.15)",
+                color: "#00DD77",
                 maxWidth: "520px",
               }}
             >
               <p className="mb-1">&ldquo;Whatever you do, work at it with all your heart, as working for the Lord, not for human masters.&rdquo;</p>
-              <p className="text-xs not-italic font-bold" style={{ color: "#8A6A20" }}>— Colossians 3:23</p>
+              <p className="text-xs not-italic font-bold" style={{ color: "#007A33" }}>— Colossians 3:23</p>
             </div>
           </div>
         </div>
@@ -173,14 +195,27 @@ export default function WorkLeadershipPage() {
               <div
                 key={p.title}
                 className="rounded-2xl p-6"
-                style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(212,175,55,0.08)" }}
+                style={{
+                  background: savedPrinciples.has(p.title) ? "rgba(0,255,136,0.04)" : "rgba(255,255,255,0.02)",
+                  border: `1px solid ${savedPrinciples.has(p.title) ? "rgba(0,255,136,0.2)" : "rgba(0,255,136,0.08)"}`,
+                }}
               >
-                <span className="text-3xl mb-3 block">{p.icon}</span>
+                <div className="flex items-start justify-between mb-3">
+                  <span className="text-3xl">{p.icon}</span>
+                  <button
+                    onClick={() => togglePrinciple(p.title)}
+                    className="p-1.5 rounded-lg transition-all"
+                    style={{ color: savedPrinciples.has(p.title) ? "#00FF88" : "#4A4A68" }}
+                    title={savedPrinciples.has(p.title) ? "Saved" : "Save principle"}
+                  >
+                    <Bookmark size={14} fill={savedPrinciples.has(p.title) ? "#00FF88" : "none"} />
+                  </button>
+                </div>
                 <h3 className="font-bold text-xl mb-2" style={{ color: "#F2F2F8" }}>{p.title}</h3>
                 <p className="text-sm mb-3 leading-relaxed" style={{ color: "#6A6A88" }}>{p.body}</p>
                 <span
                   className="text-xs px-2 py-0.5 rounded-full"
-                  style={{ background: "rgba(212,175,55,0.1)", color: "#D4AF37" }}
+                  style={{ background: "rgba(0,255,136,0.1)", color: "#00FF88" }}
                 >
                   📜 {p.verse}
                 </span>
@@ -223,7 +258,7 @@ export default function WorkLeadershipPage() {
                   >
                     {f.level}
                   </span>
-                  <h3 className="font-bold text-base mb-1.5 group-hover:text-[#D4AF37] transition-colors" style={{ color: "#F2F2F8" }}>
+                  <h3 className="font-bold text-base mb-1.5 group-hover:text-[#00FF88] transition-colors" style={{ color: "#F2F2F8" }}>
                     {f.title}
                   </h3>
                   <p className="text-sm leading-relaxed" style={{ color: "#6A6A88" }}>{f.description}</p>
@@ -267,13 +302,14 @@ export default function WorkLeadershipPage() {
           <h2 className="text-2xl font-black mb-8" style={{ color: "#F2F2F8" }}>Top Articles</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {articles.map((art, i) => (
-              <div
+              <a
                 key={i}
-                className="group rounded-xl p-5 cursor-pointer transition-all flex gap-4"
-                style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
+                href={art.href}
+                className="group rounded-xl p-5 cursor-pointer transition-all flex gap-4 block"
+                style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", textDecoration: "none" }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.background = "rgba(255,255,255,0.04)";
-                  e.currentTarget.style.borderColor = "rgba(212,175,55,0.15)";
+                  e.currentTarget.style.borderColor = "rgba(0,255,136,0.15)";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.background = "rgba(255,255,255,0.02)";
@@ -284,16 +320,16 @@ export default function WorkLeadershipPage() {
                 <div>
                   <span
                     className="text-xs font-bold px-2 py-0.5 rounded-full mb-1.5 inline-block"
-                    style={{ background: "rgba(212,175,55,0.1)", color: "#D4AF37" }}
+                    style={{ background: "rgba(0,255,136,0.1)", color: "#00FF88" }}
                   >
                     {art.tag}
                   </span>
-                  <h3 className="font-bold text-sm leading-snug group-hover:text-[#D4AF37] transition-colors" style={{ color: "#F2F2F8" }}>
+                  <h3 className="font-bold text-sm leading-snug group-hover:text-[#00FF88] transition-colors" style={{ color: "#F2F2F8" }}>
                     {art.title}
                   </h3>
                   <p className="text-xs mt-1" style={{ color: "#4A4A68" }}>{art.time} read</p>
                 </div>
-              </div>
+              </a>
             ))}
           </div>
         </div>
@@ -303,11 +339,11 @@ export default function WorkLeadershipPage() {
           <div
             className="rounded-2xl p-10 text-center"
             style={{
-              background: "linear-gradient(135deg, rgba(212,175,55,0.06) 0%, rgba(107,79,187,0.06) 100%)",
-              border: "1px solid rgba(212,175,55,0.12)",
+              background: "linear-gradient(135deg, rgba(0,255,136,0.06) 0%, rgba(107,79,187,0.06) 100%)",
+              border: "1px solid rgba(0,255,136,0.12)",
             }}
           >
-            <Briefcase size={32} style={{ color: "#D4AF37" }} className="mx-auto mb-4" />
+            <Briefcase size={32} style={{ color: "#00FF88" }} className="mx-auto mb-4" />
             <h3 className="text-2xl font-black mb-3" style={{ color: "#F2F2F8" }}>
               Join the Work & Leadership Circle
             </h3>
@@ -318,7 +354,7 @@ export default function WorkLeadershipPage() {
               <a
                 href="/community"
                 className="inline-flex items-center gap-2 px-8 py-3 rounded-xl font-bold text-black"
-                style={{ background: "linear-gradient(135deg, #D4AF37, #B8942C)" }}
+                style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)" }}
               >
                 Join the Community <ChevronRight size={16} />
               </a>

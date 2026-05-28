@@ -7,8 +7,8 @@ const publications = [
 ];
 
 const stats = [
-  { emoji: "🌍", value: "84 countries", label: "believers reached" },
-  { emoji: "🙏", value: "2.3M prayers", label: "submitted worldwide" },
+  { emoji: "🌍", value: "184 countries", label: "believers reached" },
+  { emoji: "🙏", value: "4.8M prayers", label: "submitted worldwide" },
   { emoji: "⭐", value: "4.9/5 rating", label: "from our community" },
 ];
 
@@ -57,7 +57,7 @@ export default function TrustBar() {
             {stats.map((stat, i) => (
               <div key={stat.value} className="flex items-center gap-1.5">
                 <span className="text-sm">{stat.emoji}</span>
-                <span className="text-xs font-black" style={{ color: "#D4AF37" }}>
+                <span className="text-xs font-black" style={{ color: "#00FF88" }}>
                   {stat.value}
                 </span>
                 {i < stats.length - 1 && (

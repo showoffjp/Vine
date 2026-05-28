@@ -1,8 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import { useState, useEffect } from "react";
 import {
   MapPin,
   Calendar,
@@ -32,7 +30,7 @@ const badges = [
     icon: Star,
     name: "Early Adopter",
     desc: "Joined Vine in its founding year",
-    color: "#D4AF37",
+    color: "#00FF88",
   },
   {
     icon: Heart,
@@ -79,24 +77,27 @@ const activityFeed = [
     detail: '"The Case for the Resurrection: 5 Historical Arguments That Changed My Faith"',
     time: "2 hours ago",
     meta: "247 upvotes · 38 comments",
+    href: "/discussions/resurrection-evidence-002",
   },
   {
     type: "save",
     icon: Bookmark,
-    color: "#D4AF37",
+    color: "#00FF88",
     text: "Saved an article",
-    detail: '"10 Biblical Principles for Getting Out of Debt — Dave Ramsey\'s Method vs. Scripture"',
+    detail: '"Why the Resurrection Changes Everything"',
     time: "5 hours ago",
-    meta: "Resource · 8 min read",
+    meta: "Blog · 6 min read",
+    href: "/blog/why-the-resurrection-changes-everything",
   },
   {
     type: "devotional",
     icon: BookOpen,
     color: "#4FBBAA",
-    text: "Completed a devotional",
+    text: "Completed today's devotional",
     detail: '"Mercies New Every Morning — Lamentations 3:22-23"',
     time: "Yesterday",
     meta: "Day 21 of 30-day plan",
+    href: "/daily",
   },
   {
     type: "streak",
@@ -106,6 +107,7 @@ const activityFeed = [
     detail: "30 consecutive days of prayer — a personal milestone!",
     time: "2 days ago",
     meta: "Achievement unlocked 🔥",
+    href: "/prayer",
   },
   {
     type: "prayer",
@@ -115,6 +117,7 @@ const activityFeed = [
     detail: "Prayed for Marcus W. who is going through a difficult season in his marriage",
     time: "3 days ago",
     meta: "Prayer Wall",
+    href: "/prayer",
   },
   {
     type: "comment",
@@ -124,25 +127,49 @@ const activityFeed = [
     detail: '"This is exactly what I needed to hear. The point about sovereignty vs. free will really helped me..."',
     time: "4 days ago",
     meta: "In: Does free will exist if God is omniscient?",
+    href: "/discussions/free-will-omniscience-003",
   },
 ];
 
 const savedItems = [
-  { title: "How to Study the Bible: 7 Methods for Deeper Understanding", type: "Article", time: "1 day ago" },
-  { title: "Financial Freedom Through Biblical Stewardship", type: "Resource", time: "3 days ago" },
-  { title: "When God Feels Silent — Walking Through Spiritual Dryness", type: "Devotional", time: "1 week ago" },
-  { title: "Raising Children Who Love God in a Digital World", type: "Discussion", time: "2 weeks ago" },
+  { title: "Why the Resurrection Changes Everything", type: "Article", time: "1 day ago", href: "/blog/why-the-resurrection-changes-everything" },
+  { title: "The Problem of Evil — A Christian Response", type: "Article", time: "3 days ago", href: "/blog/problem-of-evil" },
+  { title: "Does free will exist if God is omniscient?", type: "Discussion", time: "1 week ago", href: "/discussions/free-will-omniscience-003" },
+  { title: "Depression, Therapy, and the Church", type: "Discussion", time: "2 weeks ago", href: "/discussions/depression-therapy-faith-005" },
 ];
+
+interface VineUser {
+  name: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  avatar: string;
+  interests: string[];
+  joinedAt: string;
+}
 
 export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState("Activity");
   const [hoveredBadge, setHoveredBadge] = useState<string | null>(null);
+  const [user, setUser] = useState<VineUser | null>(null);
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem("vine_user");
+      if (raw) setUser(JSON.parse(raw));
+    } catch {}
+  }, []);
+
+  const displayName = user?.name || "Jason Harper";
+  const displayHandle = user ? `@${(user.firstName || "jason").toLowerCase()}${(user.lastName || "harper").toLowerCase()}` : "@jasonharper";
+  const displayAvatar = user?.avatar || "JH";
+  const displayInterests = user?.interests?.length ? user.interests : interests;
+  const joinedYear = user?.joinedAt ? new Date(user.joinedAt).getFullYear() : 2025;
 
   return (
     <div className="min-h-screen" style={{ background: "#07070F" }}>
-      <Navbar />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 page-body pb-16">
         <div className="flex flex-col lg:flex-row gap-6">
           {/* LEFT SIDEBAR */}
           <aside className="w-full lg:w-72 flex-shrink-0 flex flex-col gap-4">
@@ -155,19 +182,19 @@ export default function ProfilePage() {
               <div
                 className="w-24 h-24 rounded-full flex items-center justify-center mb-4 text-2xl font-black"
                 style={{
-                  background: "linear-gradient(135deg, #D4AF37 0%, #6B4FBB 100%)",
+                  background: "linear-gradient(135deg, #00FF88 0%, #6B4FBB 100%)",
                   color: "#07070F",
-                  boxShadow: "0 0 0 4px rgba(212,175,55,0.15)",
+                  boxShadow: "0 0 0 4px rgba(0,255,136,0.15)",
                 }}
               >
-                JH
+                {displayAvatar}
               </div>
 
               <h2 className="text-xl font-black mb-0.5" style={{ color: "#F2F2F8" }}>
-                Jason Harper
+                {displayName}
               </h2>
               <p className="text-sm mb-3" style={{ color: "#8A8AA8" }}>
-                @jasonharper
+                {displayHandle}
               </p>
 
               <div className="flex items-center gap-1.5 text-xs mb-1" style={{ color: "#6A6A88" }}>
@@ -176,13 +203,13 @@ export default function ProfilePage() {
               </div>
               <div className="flex items-center gap-1.5 text-xs mb-4" style={{ color: "#6A6A88" }}>
                 <Calendar size={12} />
-                Member since Jan 2025
+                Member since Jan {joinedYear}
               </div>
 
               <p className="text-sm leading-relaxed mb-5 text-left" style={{ color: "#8A8AA8" }}>
                 Husband. Father of 3. Passionate about apologetics, biblical finance, and helping men grow in their
                 faith.{" "}
-                <span style={{ color: "#D4AF37" }}>Philippians 4:13.</span>
+                <span style={{ color: "#00FF88" }}>Philippians 4:13.</span>
               </p>
 
               {/* Stats */}
@@ -208,7 +235,7 @@ export default function ProfilePage() {
               </div>
 
               {/* Buttons */}
-              <div className="flex gap-2 w-full">
+              <div className="flex gap-2 w-full mb-3">
                 <button className="btn-gold flex-1 py-2 rounded-xl text-sm font-bold flex items-center justify-center gap-1.5">
                   <Edit3 size={13} />
                   Edit Profile
@@ -219,6 +246,14 @@ export default function ProfilePage() {
                   <Share2 size={14} />
                 </button>
               </div>
+              <a
+                href="/dashboard"
+                className="w-full py-2 rounded-xl text-sm font-bold flex items-center justify-center gap-2"
+                style={{ background: "rgba(107,79,187,0.12)", color: "#9B7FEB", border: "1px solid rgba(107,79,187,0.25)", textDecoration: "none" }}
+              >
+                <TrendingUp size={13} />
+                My Progress Dashboard
+              </a>
             </div>
 
             {/* Badges */}
@@ -226,7 +261,7 @@ export default function ProfilePage() {
               className="rounded-2xl p-4"
               style={{ background: "#12121F", border: "1px solid #1E1E32" }}
             >
-              <h4 className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#D4AF37" }}>
+              <h4 className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#00FF88" }}>
                 Badges
               </h4>
               <div className="flex flex-wrap gap-2">
@@ -270,11 +305,11 @@ export default function ProfilePage() {
               className="rounded-2xl p-4"
               style={{ background: "#12121F", border: "1px solid #1E1E32" }}
             >
-              <h4 className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#D4AF37" }}>
+              <h4 className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#00FF88" }}>
                 Interests
               </h4>
               <div className="flex flex-wrap gap-1.5">
-                {interests.map((tag) => (
+                {displayInterests.map((tag) => (
                   <span key={tag} className="tag-pill">
                     {tag}
                   </span>
@@ -287,7 +322,7 @@ export default function ProfilePage() {
               className="rounded-2xl p-4"
               style={{ background: "#12121F", border: "1px solid #1E1E32" }}
             >
-              <h4 className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#D4AF37" }}>
+              <h4 className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#00FF88" }}>
                 Currently Reading
               </h4>
               <div className="flex gap-3 items-start">
@@ -295,7 +330,7 @@ export default function ProfilePage() {
                   className="w-10 h-14 rounded-lg flex items-center justify-center flex-shrink-0"
                   style={{ background: "linear-gradient(135deg, #6B4FBB, #4F3A8A)" }}
                 >
-                  <BookOpen size={16} style={{ color: "#D4AF37" }} />
+                  <BookOpen size={16} style={{ color: "#00FF88" }} />
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-bold leading-snug mb-0.5" style={{ color: "#F2F2F8" }}>
@@ -307,7 +342,7 @@ export default function ProfilePage() {
                   <div className="w-full h-1.5 rounded-full" style={{ background: "#1E1E32" }}>
                     <div
                       className="h-full rounded-full"
-                      style={{ width: "67%", background: "linear-gradient(90deg, #D4AF37, #F0D060)" }}
+                      style={{ width: "67%", background: "linear-gradient(90deg, #00FF88, #44FFAA)" }}
                     />
                   </div>
                   <p className="text-[10px] mt-1" style={{ color: "#6A6A88" }}>
@@ -321,11 +356,11 @@ export default function ProfilePage() {
             <div
               className="rounded-2xl p-4"
               style={{
-                background: "linear-gradient(135deg, rgba(212,175,55,0.06) 0%, rgba(107,79,187,0.04) 100%)",
-                border: "1px solid rgba(212,175,55,0.15)",
+                background: "linear-gradient(135deg, rgba(0,255,136,0.06) 0%, rgba(107,79,187,0.04) 100%)",
+                border: "1px solid rgba(0,255,136,0.15)",
               }}
             >
-              <h4 className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#D4AF37" }}>
+              <h4 className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#00FF88" }}>
                 Faith Stats
               </h4>
               <div className="space-y-3">
@@ -365,8 +400,8 @@ export default function ProfilePage() {
                     onClick={() => setActiveTab(tab)}
                     className="flex-shrink-0 px-6 py-4 text-sm font-semibold transition-all duration-200"
                     style={{
-                      color: activeTab === tab ? "#D4AF37" : "#6A6A88",
-                      borderBottom: activeTab === tab ? "2px solid #D4AF37" : "2px solid transparent",
+                      color: activeTab === tab ? "#00FF88" : "#6A6A88",
+                      borderBottom: activeTab === tab ? "2px solid #00FF88" : "2px solid transparent",
                     }}
                   >
                     {tab}
@@ -379,10 +414,11 @@ export default function ProfilePage() {
             {activeTab === "Activity" && (
               <div className="space-y-3">
                 {activityFeed.map((item, i) => (
-                  <div
+                  <a
                     key={i}
-                    className="rounded-2xl p-4 cursor-pointer transition-all duration-200 hover:bg-[#18182A]"
-                    style={{ background: "#12121F", border: "1px solid #1E1E32" }}
+                    href={item.href}
+                    className="block rounded-2xl p-4 cursor-pointer transition-all duration-200 hover:bg-[#18182A]"
+                    style={{ background: "#12121F", border: "1px solid #1E1E32", textDecoration: "none" }}
                   >
                     <div className="flex items-start gap-3">
                       <div
@@ -408,7 +444,7 @@ export default function ProfilePage() {
                         </p>
                       </div>
                     </div>
-                  </div>
+                  </a>
                 ))}
               </div>
             )}
@@ -417,12 +453,13 @@ export default function ProfilePage() {
             {activeTab === "Saved" && (
               <div className="space-y-3">
                 {savedItems.map((item, i) => (
-                  <div
+                  <a
                     key={i}
-                    className="rounded-2xl p-4 cursor-pointer transition-all duration-200 hover:bg-[#18182A] flex items-center gap-4"
-                    style={{ background: "#12121F", border: "1px solid #1E1E32" }}
+                    href={item.href}
+                    className="block rounded-2xl p-4 cursor-pointer transition-all duration-200 hover:bg-[#18182A] flex items-center gap-4"
+                    style={{ background: "#12121F", border: "1px solid #1E1E32", textDecoration: "none" }}
                   >
-                    <Bookmark size={18} style={{ color: "#D4AF37" }} />
+                    <Bookmark size={18} style={{ color: "#00FF88" }} />
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-semibold leading-snug mb-0.5" style={{ color: "#F2F2F8" }}>
                         {item.title}
@@ -435,7 +472,7 @@ export default function ProfilePage() {
                       </div>
                     </div>
                     <ChevronRight size={16} style={{ color: "#6A6A88" }} />
-                  </div>
+                  </a>
                 ))}
               </div>
             )}
@@ -505,13 +542,13 @@ export default function ProfilePage() {
                 <div
                   className="rounded-2xl p-6 verse-card"
                 >
-                  <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: "#D4AF37" }}>
+                  <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: "#00FF88" }}>
                     Favourite Verse
                   </p>
                   <p className="text-base italic font-medium leading-relaxed mb-2" style={{ color: "#F2F2F8" }}>
                     &ldquo;I can do all things through Christ who strengthens me.&rdquo;
                   </p>
-                  <p className="text-sm font-semibold" style={{ color: "#D4AF37" }}>
+                  <p className="text-sm font-semibold" style={{ color: "#00FF88" }}>
                     — Philippians 4:13
                   </p>
                 </div>
@@ -521,7 +558,6 @@ export default function ProfilePage() {
         </div>
       </main>
 
-      <Footer />
     </div>
   );
 }

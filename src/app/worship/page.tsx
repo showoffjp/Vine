@@ -1,8 +1,11 @@
-import type { Metadata } from "next";
+"use client";
+
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
   Play,
+  Pause,
   Music,
   Search,
   Users,
@@ -16,13 +19,10 @@ import {
   Upload,
   Headphones,
   ListMusic,
+  CheckCircle2,
+  X,
+  Volume2,
 } from "lucide-react";
-
-export const metadata: Metadata = {
-  title: "Worship — Vine",
-  description:
-    "Stream worship music, explore chord libraries, join worship circles, and discover global worship creators on Vine.",
-};
 
 const songs = [
   {
@@ -30,7 +30,7 @@ const songs = [
     artist: "Sinach",
     plays: "4.2M",
     genre: "Contemporary",
-    gradient: "linear-gradient(135deg, #6B4FBB 0%, #D4AF37 100%)",
+    gradient: "linear-gradient(135deg, #6B4FBB 0%, #00FF88 100%)",
   },
   {
     title: "Goodness of God",
@@ -44,7 +44,7 @@ const songs = [
     artist: "Hillsong Worship",
     plays: "5.1M",
     genre: "Hillsong",
-    gradient: "linear-gradient(135deg, #D4AF37 0%, #BB7A4F 100%)",
+    gradient: "linear-gradient(135deg, #00FF88 0%, #BB7A4F 100%)",
   },
   {
     title: "Total Praise",
@@ -75,7 +75,7 @@ const playlists = [
     songs: 24,
     duration: "1h 42m",
     contributors: 8,
-    color: "#D4AF37",
+    color: "#00FF88",
     emoji: "☀️",
   },
   {
@@ -124,14 +124,14 @@ const chords = [
     artist: "Cory Asbury",
     key: "D",
     difficulty: "Intermediate",
-    diffColor: "#D4AF37",
+    diffColor: "#00FF88",
   },
   {
     song: "Gratitude",
     artist: "Brandon Lake",
     key: "A",
     difficulty: "Intermediate",
-    diffColor: "#D4AF37",
+    diffColor: "#00FF88",
   },
   {
     song: "The Stand",
@@ -154,7 +154,7 @@ const circles = [
     name: "Acoustic Worship Collective",
     members: "3.4k",
     description: "Acoustic guitar-led worship discussions, tutorials, and community.",
-    color: "#D4AF37",
+    color: "#00FF88",
   },
   {
     name: "Gospel Choir Network",
@@ -182,7 +182,7 @@ const creators = [
     location: "Accra, Ghana",
     followers: "28.4k",
     specialty: "Contemporary Gospel",
-    gradient: "linear-gradient(135deg, #D4AF37, #BB7A4F)",
+    gradient: "linear-gradient(135deg, #00FF88, #BB7A4F)",
     initials: "AC",
     bio: "Bringing the sound of West African worship to the global church. Known for her powerful vocal arrangements and original compositions.",
   },
@@ -212,10 +212,43 @@ const genreColors: Record<string, string> = {
   Gospel: "#BB4F7A",
   Hymn: "#4F8FBB",
   Hillsong: "#4FBBAA",
-  Bethel: "#D4AF37",
+  Bethel: "#00FF88",
 };
 
 export default function WorshipPage() {
+  const [playingSong, setPlayingSong] = useState<number | null>(null);
+  const [joinedCircles, setJoinedCircles] = useState<Set<number>>(() => {
+    try { const s = localStorage.getItem("vine_worship_circles"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
+  });
+  const [followedCreators, setFollowedCreators] = useState<Set<number>>(() => {
+    try { const s = localStorage.getItem("vine_worship_creators"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
+  });
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [viewChord, setViewChord] = useState<number | null>(null);
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_worship_circles", JSON.stringify([...joinedCircles])); } catch {}
+  }, [joinedCircles]);
+  useEffect(() => {
+    try { localStorage.setItem("vine_worship_creators", JSON.stringify([...followedCreators])); } catch {}
+  }, [followedCreators]);
+
+  const togglePlay = (i: number) => setPlayingSong(playingSong === i ? null : i);
+  const toggleJoin = (i: number) => setJoinedCircles(prev => {
+    const next = new Set(prev);
+    if (next.has(i)) next.delete(i); else next.add(i);
+    return next;
+  });
+  const toggleFollow = (i: number) => setFollowedCreators(prev => {
+    const next = new Set(prev);
+    if (next.has(i)) next.delete(i); else next.add(i);
+    return next;
+  });
+  const handleSubmit = () => {
+    setSubmitSuccess(true);
+    setTimeout(() => setSubmitSuccess(false), 3500);
+  };
+
   return (
     <div style={{ background: "#07070F", minHeight: "100vh" }}>
       <Navbar />
@@ -225,7 +258,7 @@ export default function WorshipPage() {
         <section
           style={{
             background:
-              "linear-gradient(180deg, rgba(107,79,187,0.18) 0%, rgba(212,175,55,0.06) 60%, transparent 100%)",
+              "linear-gradient(180deg, rgba(107,79,187,0.18) 0%, rgba(0,255,136,0.06) 60%, transparent 100%)",
             padding: "80px 0 60px",
             textAlign: "center",
           }}
@@ -236,15 +269,15 @@ export default function WorshipPage() {
                 display: "inline-flex",
                 alignItems: "center",
                 gap: "8px",
-                background: "rgba(212,175,55,0.1)",
-                border: "1px solid rgba(212,175,55,0.25)",
+                background: "rgba(0,255,136,0.1)",
+                border: "1px solid rgba(0,255,136,0.25)",
                 borderRadius: "100px",
                 padding: "6px 16px",
                 marginBottom: "24px",
               }}
             >
-              <Music size={14} style={{ color: "#D4AF37" }} />
-              <span style={{ color: "#D4AF37", fontSize: "12px", fontWeight: 700, letterSpacing: "0.08em" }}>
+              <Music size={14} style={{ color: "#00FF88" }} />
+              <span style={{ color: "#00FF88", fontSize: "12px", fontWeight: 700, letterSpacing: "0.08em" }}>
                 WORSHIP HUB
               </span>
             </div>
@@ -254,7 +287,7 @@ export default function WorshipPage() {
                 fontWeight: 900,
                 lineHeight: 1.05,
                 marginBottom: "20px",
-                background: "linear-gradient(135deg, #FFFFFF 0%, #D4AF37 50%, #F2F2F8 100%)",
+                background: "linear-gradient(135deg, #FFFFFF 0%, #00FF88 50%, #F2F2F8 100%)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
@@ -267,11 +300,12 @@ export default function WorshipPage() {
             </p>
             <div style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
               <button
+                onClick={() => togglePlay(0)}
                 style={{
                   display: "flex",
                   alignItems: "center",
                   gap: "8px",
-                  background: "linear-gradient(135deg, #D4AF37, #B8922A)",
+                  background: "linear-gradient(135deg, #00FF88, #B8922A)",
                   color: "#07070F",
                   border: "none",
                   borderRadius: "12px",
@@ -282,7 +316,7 @@ export default function WorshipPage() {
                 }}
               >
                 <Headphones size={16} />
-                Start Listening
+                {playingSong === 0 ? "Now Playing..." : "Start Listening"}
               </button>
               <button
                 style={{
@@ -314,7 +348,7 @@ export default function WorshipPage() {
               <h2 style={{ fontSize: "24px", fontWeight: 800, color: "#F2F2F8" }}>
                 Now Trending in Worship
               </h2>
-              <button style={{ display: "flex", alignItems: "center", gap: "6px", color: "#D4AF37", fontSize: "14px", fontWeight: 600, background: "none", border: "none", cursor: "pointer" }}>
+              <button style={{ display: "flex", alignItems: "center", gap: "6px", color: "#00FF88", fontSize: "14px", fontWeight: 600, background: "none", border: "none", cursor: "pointer" }}>
                 See all <ChevronRight size={16} />
               </button>
             </div>
@@ -328,9 +362,10 @@ export default function WorshipPage() {
               {songs.map((song, i) => (
                 <div
                   key={i}
+                  onClick={() => togglePlay(i)}
                   style={{
                     background: "#12121F",
-                    border: "1px solid #1E1E32",
+                    border: `1px solid ${playingSong === i ? "rgba(0,255,136,0.4)" : "#1E1E32"}`,
                     borderRadius: "16px",
                     padding: "16px",
                     cursor: "pointer",
@@ -356,16 +391,20 @@ export default function WorshipPage() {
                         position: "absolute",
                         bottom: "8px",
                         right: "8px",
-                        background: "rgba(0,0,0,0.5)",
+                        background: playingSong === i ? "#00FF88" : "rgba(0,0,0,0.5)",
                         borderRadius: "50%",
                         width: "32px",
                         height: "32px",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
+                        transition: "background 0.2s",
                       }}
                     >
-                      <Play size={14} fill="white" style={{ color: "white", marginLeft: "2px" }} />
+                      {playingSong === i
+                        ? <Pause size={14} fill="#07070F" style={{ color: "#07070F" }} />
+                        : <Play size={14} fill="white" style={{ color: "white", marginLeft: "2px" }} />
+                      }
                     </div>
                   </div>
                   <p style={{ color: "#F2F2F8", fontWeight: 700, fontSize: "14px", marginBottom: "4px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
@@ -440,6 +479,7 @@ export default function WorshipPage() {
                       {pl.contributors} contributors
                     </span>
                     <button
+                      onClick={(e) => { e.stopPropagation(); togglePlay(songs.length + i); }}
                       style={{
                         background: pl.color,
                         color: "#07070F",
@@ -454,7 +494,10 @@ export default function WorshipPage() {
                         gap: "5px",
                       }}
                     >
-                      <Play size={11} fill="#07070F" /> Play
+                      {playingSong === songs.length + i
+                        ? <><Pause size={11} fill="#07070F" /> Pause</>
+                        : <><Play size={11} fill="#07070F" /> Play</>
+                      }
                     </button>
                   </div>
                 </div>
@@ -501,12 +544,12 @@ export default function WorshipPage() {
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "14px" }}>
               {chords.map((chord, i) => (
+                <div key={i}>
                 <div
-                  key={i}
                   style={{
                     background: "#12121F",
-                    border: "1px solid #1E1E32",
-                    borderRadius: "16px",
+                    border: `1px solid ${viewChord === i ? "rgba(0,255,136,0.3)" : "#1E1E32"}`,
+                    borderRadius: viewChord === i ? "16px 16px 0 0" : "16px",
                     padding: "20px",
                     display: "flex",
                     alignItems: "center",
@@ -522,8 +565,8 @@ export default function WorshipPage() {
                     <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                       <span
                         style={{
-                          background: "rgba(212,175,55,0.12)",
-                          color: "#D4AF37",
+                          background: "rgba(0,255,136,0.12)",
+                          color: "#00FF88",
                           borderRadius: "6px",
                           padding: "2px 8px",
                           fontSize: "11px",
@@ -547,11 +590,12 @@ export default function WorshipPage() {
                     </div>
                   </div>
                   <button
+                    onClick={() => setViewChord(viewChord === i ? null : i)}
                     style={{
                       flexShrink: 0,
-                      background: "transparent",
-                      border: "1px solid rgba(212,175,55,0.3)",
-                      color: "#D4AF37",
+                      background: viewChord === i ? "rgba(0,255,136,0.15)" : "transparent",
+                      border: "1px solid rgba(0,255,136,0.3)",
+                      color: "#00FF88",
                       borderRadius: "10px",
                       padding: "8px 14px",
                       fontSize: "12px",
@@ -563,8 +607,23 @@ export default function WorshipPage() {
                       whiteSpace: "nowrap",
                     }}
                   >
-                    <BookOpen size={12} /> View Chords
+                    <BookOpen size={12} /> {viewChord === i ? "Hide Chords" : "View Chords"}
                   </button>
+                </div>
+                {viewChord === i && (
+                  <div style={{ padding: "16px", borderTop: "1px solid rgba(0,255,136,0.15)", background: "rgba(0,255,136,0.04)", borderRadius: "0 0 16px 16px", border: "1px solid rgba(0,255,136,0.3)", borderTopWidth: 0 }}>
+                    <p style={{ color: "#00FF88", fontWeight: 700, fontSize: "13px", marginBottom: "8px" }}>
+                      Key of {chord.key} — Basic Progression
+                    </p>
+                    <p style={{ color: "#8A8AA8", fontSize: "12px", lineHeight: 1.7 }}>
+                      <strong style={{ color: "#F2F2F8" }}>Verse:</strong> {chord.key === "G" ? "G · Em · C · D" : chord.key === "C" ? "C · Am · F · G" : chord.key === "D" ? "D · Bm · G · A" : chord.key === "A" ? "A · F#m · D · E" : chord.key === "E" ? "E · C#m · A · B" : "G · Em · C · D"}
+                    </p>
+                    <p style={{ color: "#8A8AA8", fontSize: "12px", lineHeight: 1.7 }}>
+                      <strong style={{ color: "#F2F2F8" }}>Chorus:</strong> {chord.key === "G" ? "C · G · Em · D" : chord.key === "C" ? "F · C · Am · G" : chord.key === "D" ? "G · D · Bm · A" : chord.key === "A" ? "D · A · F#m · E" : chord.key === "E" ? "A · E · C#m · B" : "C · G · Em · D"}
+                    </p>
+                    <p style={{ color: "#6A6A88", fontSize: "11px", marginTop: "8px" }}>Full chord charts available in the Vine chord library →</p>
+                  </div>
+                )}
                 </div>
               ))}
             </div>
@@ -613,18 +672,23 @@ export default function WorshipPage() {
                       {circle.members} members
                     </span>
                     <button
+                      onClick={() => toggleJoin(i)}
                       style={{
-                        background: `${circle.color}18`,
-                        color: circle.color,
+                        background: joinedCircles.has(i) ? circle.color : `${circle.color}18`,
+                        color: joinedCircles.has(i) ? "#07070F" : circle.color,
                         border: `1px solid ${circle.color}30`,
                         borderRadius: "8px",
                         padding: "6px 14px",
                         fontWeight: 700,
                         fontSize: "12px",
                         cursor: "pointer",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "5px",
+                        transition: "all 0.2s",
                       }}
                     >
-                      Join Circle
+                      {joinedCircles.has(i) ? <><CheckCircle2 size={11} /> Joined!</> : "Join Circle"}
                     </button>
                   </div>
                 </div>
@@ -643,16 +707,16 @@ export default function WorshipPage() {
                   display: "inline-flex",
                   alignItems: "center",
                   gap: "6px",
-                  background: "rgba(212,175,55,0.1)",
-                  border: "1px solid rgba(212,175,55,0.2)",
+                  background: "rgba(0,255,136,0.1)",
+                  border: "1px solid rgba(0,255,136,0.2)",
                   borderRadius: "100px",
                   padding: "4px 12px",
-                  color: "#D4AF37",
+                  color: "#00FF88",
                   fontSize: "11px",
                   fontWeight: 700,
                 }}
               >
-                <Star size={11} fill="#D4AF37" /> Featured This Week
+                <Star size={11} fill="#00FF88" /> Featured This Week
               </span>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: "20px" }}>
@@ -705,19 +769,25 @@ export default function WorshipPage() {
                       {creator.bio}
                     </p>
                     <button
+                      onClick={() => toggleFollow(i)}
                       style={{
                         width: "100%",
-                        background: "rgba(212,175,55,0.08)",
-                        border: "1px solid rgba(212,175,55,0.25)",
-                        color: "#D4AF37",
+                        background: followedCreators.has(i) ? "rgba(0,255,136,0.2)" : "rgba(0,255,136,0.08)",
+                        border: "1px solid rgba(0,255,136,0.25)",
+                        color: "#00FF88",
                         borderRadius: "10px",
                         padding: "10px",
                         fontWeight: 700,
                         fontSize: "13px",
                         cursor: "pointer",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: "6px",
+                        transition: "all 0.2s",
                       }}
                     >
-                      Follow Creator
+                      {followedCreators.has(i) ? <><CheckCircle2 size={14} /> Following</> : "Follow Creator"}
                     </button>
                   </div>
                 </div>
@@ -729,8 +799,8 @@ export default function WorshipPage() {
           <section>
             <div
               style={{
-                background: "linear-gradient(135deg, rgba(107,79,187,0.2) 0%, rgba(212,175,55,0.1) 100%)",
-                border: "1px solid rgba(212,175,55,0.2)",
+                background: "linear-gradient(135deg, rgba(107,79,187,0.2) 0%, rgba(0,255,136,0.1) 100%)",
+                border: "1px solid rgba(0,255,136,0.2)",
                 borderRadius: "24px",
                 padding: "48px",
                 textAlign: "center",
@@ -741,15 +811,15 @@ export default function WorshipPage() {
                   width: "64px",
                   height: "64px",
                   borderRadius: "20px",
-                  background: "rgba(212,175,55,0.15)",
-                  border: "1px solid rgba(212,175,55,0.3)",
+                  background: "rgba(0,255,136,0.15)",
+                  border: "1px solid rgba(0,255,136,0.3)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   margin: "0 auto 20px",
                 }}
               >
-                <Upload size={28} style={{ color: "#D4AF37" }} />
+                <Upload size={28} style={{ color: "#00FF88" }} />
               </div>
               <h2 style={{ fontSize: "28px", fontWeight: 800, color: "#F2F2F8", marginBottom: "12px" }}>
                 Submit Your Music
@@ -757,46 +827,114 @@ export default function WorshipPage() {
               <p style={{ color: "#8A8AA8", fontSize: "16px", lineHeight: 1.7, maxWidth: "480px", margin: "0 auto 28px" }}>
                 Are you a worship creator? Share your original songs, chord sheets, and arrangements with the global Vine community.
               </p>
-              <div style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
-                <button
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "8px",
-                    background: "linear-gradient(135deg, #D4AF37, #B8922A)",
-                    color: "#07070F",
-                    border: "none",
-                    borderRadius: "12px",
-                    padding: "14px 28px",
-                    fontWeight: 800,
-                    fontSize: "15px",
-                    cursor: "pointer",
-                  }}
-                >
-                  <Upload size={16} /> Submit Music
-                </button>
-                <button
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "8px",
-                    background: "transparent",
-                    color: "#F2F2F8",
-                    border: "1px solid #1E1E32",
-                    borderRadius: "12px",
-                    padding: "14px 28px",
-                    fontWeight: 600,
-                    fontSize: "15px",
-                    cursor: "pointer",
-                  }}
-                >
-                  <Heart size={16} /> Creator Guidelines
-                </button>
-              </div>
+              {submitSuccess ? (
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "10px", padding: "16px 24px", background: "rgba(0,255,136,0.12)", border: "1px solid rgba(0,255,136,0.3)", borderRadius: "16px", maxWidth: "360px", margin: "0 auto" }}>
+                  <CheckCircle2 size={20} style={{ color: "#00FF88" }} />
+                  <div style={{ textAlign: "left" }}>
+                    <p style={{ color: "#00FF88", fontWeight: 700, fontSize: "15px", marginBottom: "2px" }}>Music Submitted!</p>
+                    <p style={{ color: "#8A8AA8", fontSize: "12px" }}>The Vine team will review and be in touch within 3 business days.</p>
+                  </div>
+                </div>
+              ) : (
+                <div style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
+                  <button
+                    onClick={handleSubmit}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "8px",
+                      background: "linear-gradient(135deg, #00FF88, #B8922A)",
+                      color: "#07070F",
+                      border: "none",
+                      borderRadius: "12px",
+                      padding: "14px 28px",
+                      fontWeight: 800,
+                      fontSize: "15px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <Upload size={16} /> Submit Music
+                  </button>
+                  <a
+                    href="/about"
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "8px",
+                      background: "transparent",
+                      color: "#F2F2F8",
+                      border: "1px solid #1E1E32",
+                      borderRadius: "12px",
+                      padding: "14px 28px",
+                      fontWeight: 600,
+                      fontSize: "15px",
+                      cursor: "pointer",
+                      textDecoration: "none",
+                    }}
+                  >
+                    <Heart size={16} /> Creator Guidelines
+                  </a>
+                </div>
+              )}
             </div>
           </section>
         </div>
       </main>
+
+      {/* Now Playing Bar */}
+      {playingSong !== null && (
+        <div
+          style={{
+            position: "fixed",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            background: "rgba(7,7,15,0.95)",
+            backdropFilter: "blur(20px)",
+            borderTop: "1px solid rgba(0,255,136,0.25)",
+            padding: "12px 24px",
+            display: "flex",
+            alignItems: "center",
+            gap: "16px",
+            zIndex: 100,
+          }}
+        >
+          <div
+            style={{
+              width: "40px",
+              height: "40px",
+              borderRadius: "8px",
+              background: playingSong < songs.length ? songs[playingSong].gradient : "linear-gradient(135deg,#00FF88,#6B4FBB)",
+              flexShrink: 0,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Music size={16} style={{ color: "rgba(255,255,255,0.7)" }} />
+          </div>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <p style={{ color: "#F2F2F8", fontWeight: 700, fontSize: "14px", marginBottom: "1px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+              {playingSong < songs.length ? songs[playingSong].title : playlists[playingSong - songs.length].title}
+            </p>
+            <p style={{ color: "#8A8AA8", fontSize: "12px" }}>
+              {playingSong < songs.length ? songs[playingSong].artist : `${playlists[playingSong - songs.length].songs} songs`}
+            </p>
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <Volume2 size={14} style={{ color: "#6A6A88" }} />
+            <div style={{ width: "80px", height: "3px", background: "#1E1E32", borderRadius: "2px" }}>
+              <div style={{ width: "60%", height: "100%", background: "#00FF88", borderRadius: "2px" }} />
+            </div>
+          </div>
+          <button
+            onClick={() => setPlayingSong(null)}
+            style={{ background: "none", border: "none", color: "#6A6A88", cursor: "pointer", padding: "4px" }}
+          >
+            <X size={16} />
+          </button>
+        </div>
+      )}
 
       <Footer />
     </div>

@@ -69,7 +69,7 @@ const events = [
     description:
       "A live-streamed 3-hour worship experience with artists from 6 countries. Open to all — no registration required.",
     attendees: "34,000",
-    color: "#D4AF37",
+    color: "#00FF88",
   },
   {
     id: 5,
@@ -165,10 +165,10 @@ export default function EventsSection() {
                 marginBottom: "8px",
               }}
             >
-              <Calendar size={16} style={{ color: "#D4AF37" }} />
+              <Calendar size={16} style={{ color: "#00FF88" }} />
               <span
                 style={{
-                  color: "#D4AF37",
+                  color: "#00FF88",
                   fontSize: "0.75rem",
                   fontWeight: 700,
                   letterSpacing: "0.15em",
@@ -190,12 +190,12 @@ export default function EventsSection() {
             </h2>
           </div>
           <a
-            href="#"
+            href="/events"
             style={{
               display: "flex",
               alignItems: "center",
               gap: "6px",
-              color: "#D4AF37",
+              color: "#00FF88",
               fontWeight: 600,
               fontSize: "0.9rem",
               textDecoration: "none",
@@ -224,12 +224,12 @@ export default function EventsSection() {
                   padding: "8px 18px",
                   borderRadius: "999px",
                   border: active
-                    ? "1px solid rgba(212,175,55,0.6)"
+                    ? "1px solid rgba(0,255,136,0.6)"
                     : "1px solid rgba(255,255,255,0.08)",
                   background: active
-                    ? "rgba(212,175,55,0.12)"
+                    ? "rgba(0,255,136,0.12)"
                     : "transparent",
-                  color: active ? "#D4AF37" : "#8A8AA8",
+                  color: active ? "#00FF88" : "#8A8AA8",
                   fontSize: "0.82rem",
                   fontWeight: active ? 700 : 500,
                   cursor: "pointer",

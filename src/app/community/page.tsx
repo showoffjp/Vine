@@ -1,6 +1,6 @@
-import type { Metadata } from "next";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+"use client";
+
+import { useState, useEffect } from "react";
 import {
   Search,
   Users,
@@ -22,10 +22,6 @@ import {
   DollarSign,
 } from "lucide-react";
 
-export const metadata: Metadata = {
-  title: "Community — Vine",
-  description: "Find your people. Join circles of Christians who share your passions.",
-};
 
 const featuredCircles = [
   {
@@ -65,7 +61,7 @@ const featuredCircles = [
     members: "15.9K",
     posts: "6.7K",
     gradient: "linear-gradient(135deg, #2A2A1A 0%, #4D4D1B 100%)",
-    accent: "#D4AF37",
+    accent: "#00FF88",
     tag: "Growing Fast",
   },
 ];
@@ -74,13 +70,13 @@ const categories = [
   { icon: BookOpen, name: "Theology", members: "85K+", color: "#6B4FBB" },
   { icon: Baby, name: "Parenting", members: "42K+", color: "#BB4F7A" },
   { icon: Heart, name: "Mental Health", members: "56K+", color: "#4FBBAA" },
-  { icon: DollarSign, name: "Finance", members: "32K+", color: "#D4AF37" },
+  { icon: DollarSign, name: "Finance", members: "32K+", color: "#00FF88" },
   { icon: Music, name: "Music & Worship", members: "71K+", color: "#E07030" },
   { icon: Users, name: "Youth", members: "48K+", color: "#4F8FBB" },
   { icon: Star, name: "Women of Faith", members: "98K+", color: "#BB4F7A" },
   { icon: Zap, name: "Men of God", members: "76K+", color: "#6B4FBB" },
   { icon: Globe, name: "International", members: "124K+", color: "#4FBBAA" },
-  { icon: Briefcase, name: "Professionals", members: "28K+", color: "#D4AF37" },
+  { icon: Briefcase, name: "Professionals", members: "28K+", color: "#00FF88" },
   { icon: GraduationCap, name: "Students", members: "39K+", color: "#4F8FBB" },
   { icon: Headphones, name: "Prayer", members: "112K+", color: "#E07030" },
 ];
@@ -111,16 +107,47 @@ const nearbyCircles = [
 
 const activeCircles = [
   { name: "Prayer Warriors", activity: "38 praying right now", color: "#E07030", members: "112K" },
-  { name: "Sunday Sermon Discussion", activity: "247 discussing", color: "#D4AF37", members: "23K" },
+  { name: "Sunday Sermon Discussion", activity: "247 discussing", color: "#00FF88", members: "23K" },
   { name: "Mental Health & Faith", activity: "91 sharing right now", color: "#4FBBAA", members: "56K" },
   { name: "Daily Verse Chat", activity: "182 in conversation", color: "#6B4FBB", members: "78K" },
   { name: "Worship & Praise", activity: "64 worshipping together", color: "#BB4F7A", members: "71K" },
 ];
 
 export default function CommunityPage() {
+  const [joinedFeatured, setJoinedFeatured] = useState<Set<number>>(() => {
+    try { const s = localStorage.getItem("vine_comm_featured"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
+  });
+  const [joinedActive, setJoinedActive] = useState<Set<number>>(() => {
+    try { const s = localStorage.getItem("vine_comm_active"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
+  });
+  const [joinedNearby, setJoinedNearby] = useState<Set<number>>(() => {
+    try { const s = localStorage.getItem("vine_comm_nearby"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
+  });
+  const [inviteEmail, setInviteEmail] = useState("");
+  const [inviteSent, setInviteSent] = useState(false);
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_comm_featured", JSON.stringify([...joinedFeatured])); } catch {}
+  }, [joinedFeatured]);
+  useEffect(() => {
+    try { localStorage.setItem("vine_comm_active", JSON.stringify([...joinedActive])); } catch {}
+  }, [joinedActive]);
+  useEffect(() => {
+    try { localStorage.setItem("vine_comm_nearby", JSON.stringify([...joinedNearby])); } catch {}
+  }, [joinedNearby]);
+
+  const toggleFeatured = (i: number) => setJoinedFeatured(prev => { const n = new Set(prev); n.has(i) ? n.delete(i) : n.add(i); return n; });
+  const toggleActive = (i: number) => setJoinedActive(prev => { const n = new Set(prev); n.has(i) ? n.delete(i) : n.add(i); return n; });
+  const toggleNearby = (i: number) => setJoinedNearby(prev => { const n = new Set(prev); n.has(i) ? n.delete(i) : n.add(i); return n; });
+  const handleInvite = () => {
+    if (!inviteEmail.trim()) return;
+    setInviteSent(true);
+    setInviteEmail("");
+    setTimeout(() => setInviteSent(false), 3000);
+  };
+
   return (
     <div className="min-h-screen" style={{ background: "#07070F" }}>
-      <Navbar />
 
       <main className="pt-16">
         {/* Hero */}
@@ -168,12 +195,12 @@ export default function CommunityPage() {
               <h2 className="text-xl font-black" style={{ color: "#F2F2F8" }}>
                 Featured Circles
               </h2>
-              <button className="text-sm font-semibold" style={{ color: "#D4AF37" }}>
+              <button className="text-sm font-semibold" style={{ color: "#00FF88" }}>
                 View all →
               </button>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {featuredCircles.map((circle) => (
+              {featuredCircles.map((circle, i) => (
                 <div
                   key={circle.name}
                   className="rounded-2xl overflow-hidden card-glow cursor-pointer"
@@ -214,14 +241,15 @@ export default function CommunityPage() {
                       </div>
                     </div>
                     <button
-                      className="w-full py-2 rounded-xl text-xs font-bold transition-all duration-200"
+                      onClick={() => toggleFeatured(i)}
+                      className="w-full py-2 rounded-xl text-xs font-bold transition-all duration-200 flex items-center justify-center gap-1.5"
                       style={{
-                        background: `${circle.accent}18`,
-                        color: circle.accent,
+                        background: joinedFeatured.has(i) ? circle.accent : `${circle.accent}18`,
+                        color: joinedFeatured.has(i) ? "#07070F" : circle.accent,
                         border: `1px solid ${circle.accent}40`,
                       }}
                     >
-                      Join Circle
+                      {joinedFeatured.has(i) ? "✓ Joined!" : "Join Circle"}
                     </button>
                   </div>
                 </div>
@@ -261,16 +289,16 @@ export default function CommunityPage() {
           {/* Near You */}
           <section className="mb-14">
             <div className="flex items-center gap-2 mb-6">
-              <MapPin size={18} style={{ color: "#D4AF37" }} />
+              <MapPin size={18} style={{ color: "#00FF88" }} />
               <h2 className="text-xl font-black" style={{ color: "#F2F2F8" }}>
                 Near You
               </h2>
-              <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "rgba(212,175,55,0.1)", color: "#D4AF37", border: "1px solid rgba(212,175,55,0.2)" }}>
+              <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "rgba(0,255,136,0.1)", color: "#00FF88", border: "1px solid rgba(0,255,136,0.2)" }}>
                 Houston, TX
               </span>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {nearbyCircles.map((circle) => (
+              {nearbyCircles.map((circle, i) => (
                 <div
                   key={circle.name}
                   className="rounded-2xl p-5 card-glow cursor-pointer"
@@ -302,9 +330,15 @@ export default function CommunityPage() {
                     {circle.description}
                   </p>
                   <button
-                    className="btn-outline-gold text-xs px-4 py-1.5 rounded-xl font-semibold"
+                    onClick={() => toggleNearby(i)}
+                    className="text-xs px-4 py-1.5 rounded-xl font-semibold transition-all"
+                    style={{
+                      background: joinedNearby.has(i) ? "#00FF88" : "transparent",
+                      color: joinedNearby.has(i) ? "#07070F" : "#00FF88",
+                      border: "1px solid rgba(0,255,136,0.35)",
+                    }}
                   >
-                    View Circle
+                    {joinedNearby.has(i) ? "✓ Joined!" : "Join Circle"}
                   </button>
                 </div>
               ))}
@@ -320,7 +354,7 @@ export default function CommunityPage() {
               </h2>
             </div>
             <div className="space-y-3">
-              {activeCircles.map((circle) => (
+              {activeCircles.map((circle, i) => (
                 <div
                   key={circle.name}
                   className="rounded-2xl p-4 flex items-center gap-4 cursor-pointer transition-all duration-200 hover:bg-[#18182A]"
@@ -352,9 +386,15 @@ export default function CommunityPage() {
                     </p>
                   </div>
                   <button
-                    className="btn-outline-gold text-xs px-3 py-1.5 rounded-xl font-semibold flex-shrink-0"
+                    onClick={() => toggleActive(i)}
+                    className="text-xs px-3 py-1.5 rounded-xl font-semibold flex-shrink-0 transition-all"
+                    style={{
+                      background: joinedActive.has(i) ? "#00FF88" : "transparent",
+                      color: joinedActive.has(i) ? "#07070F" : "#00FF88",
+                      border: "1px solid rgba(0,255,136,0.35)",
+                    }}
                   >
-                    Join
+                    {joinedActive.has(i) ? "✓ Joined" : "Join"}
                   </button>
                 </div>
               ))}
@@ -366,8 +406,8 @@ export default function CommunityPage() {
             <div
               className="rounded-2xl p-8 text-center"
               style={{
-                background: "linear-gradient(135deg, rgba(107,79,187,0.12) 0%, rgba(212,175,55,0.06) 100%)",
-                border: "1px solid rgba(212,175,55,0.15)",
+                background: "linear-gradient(135deg, rgba(107,79,187,0.12) 0%, rgba(0,255,136,0.06) 100%)",
+                border: "1px solid rgba(0,255,136,0.15)",
               }}
             >
               <h2 className="text-2xl font-black mb-2" style={{ color: "#F2F2F8" }}>
@@ -376,22 +416,28 @@ export default function CommunityPage() {
               <p className="text-sm mb-6" style={{ color: "#8A8AA8" }}>
                 Know someone who would love Vine? Invite them to join the community.
               </p>
-              <div className="flex gap-3 max-w-sm mx-auto">
-                <input
-                  type="email"
-                  placeholder="friend@email.com"
-                  className="flex-1 px-4 py-3 rounded-xl text-sm outline-none"
-                  style={{
-                    background: "#12121F",
-                    border: "1px solid #1E1E32",
-                    color: "#F2F2F8",
-                  }}
-                />
-                <button className="btn-gold px-5 py-3 rounded-xl text-sm font-bold flex items-center gap-2">
-                  <Send size={14} />
-                  Send
-                </button>
-              </div>
+              {inviteSent ? (
+                <div className="flex items-center justify-center gap-2 max-w-sm mx-auto py-3 px-5 rounded-xl" style={{ background: "rgba(0,255,136,0.1)", border: "1px solid rgba(0,255,136,0.25)" }}>
+                  <span style={{ color: "#00FF88", fontWeight: 700 }}>✓ Invite sent!</span>
+                  <span style={{ color: "#8A8AA8", fontSize: "13px" }}>They'll love it here.</span>
+                </div>
+              ) : (
+                <div className="flex gap-3 max-w-sm mx-auto">
+                  <input
+                    type="email"
+                    placeholder="friend@email.com"
+                    value={inviteEmail}
+                    onChange={(e) => setInviteEmail(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && handleInvite()}
+                    className="flex-1 px-4 py-3 rounded-xl text-sm outline-none"
+                    style={{ background: "#12121F", border: "1px solid #1E1E32", color: "#F2F2F8" }}
+                  />
+                  <button onClick={handleInvite} className="btn-gold px-5 py-3 rounded-xl text-sm font-bold flex items-center gap-2">
+                    <Send size={14} />
+                    Send
+                  </button>
+                </div>
+              )}
             </div>
           </section>
 
@@ -399,7 +445,7 @@ export default function CommunityPage() {
           <section>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {[
-                { icon: Globe, value: "12,847", label: "Circles worldwide", color: "#D4AF37" },
+                { icon: Globe, value: "12,847", label: "Circles worldwide", color: "#00FF88" },
                 { icon: MapPin, value: "184", label: "Countries represented", color: "#6B4FBB" },
                 { icon: TrendingUp, value: "3.2M", label: "Conversations", color: "#4FBBAA" },
               ].map((stat) => (
@@ -429,7 +475,6 @@ export default function CommunityPage() {
         </div>
       </main>
 
-      <Footer />
     </div>
   );
 }

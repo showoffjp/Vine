@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
@@ -53,7 +54,7 @@ const steps = [
     title: "Know Your Numbers",
     description: "You can't steward what you don't track. Start with a brutally honest budget.",
     icon: BarChart3,
-    color: "#D4AF37",
+    color: "#00FF88",
   },
   {
     step: "02",
@@ -115,7 +116,7 @@ const resources = [
     author: "Vicki Robin",
     description: "A secular book with principles that align remarkably well with biblical stewardship.",
     emoji: "💡",
-    tagColor: "#D4AF37",
+    tagColor: "#00FF88",
   },
   {
     title: "Jesus on Money — Matthew 6:19-34",
@@ -135,19 +136,51 @@ const stats = [
 ];
 
 export default function FinancesPage() {
+  const [income, setIncome] = useState(() => {
+    try { return localStorage.getItem("vine_finances_income") ?? ""; } catch { return ""; }
+  });
+  const [period, setPeriod] = useState<"monthly" | "annual">(() => {
+    try { return (localStorage.getItem("vine_finances_period") as "monthly" | "annual") ?? "monthly"; } catch { return "monthly"; }
+  });
+  const [savedPrinciples, setSavedPrinciples] = useState<Set<number>>(() => {
+    try {
+      const s = localStorage.getItem("vine_finances_saved");
+      return s ? new Set(JSON.parse(s) as number[]) : new Set();
+    } catch { return new Set(); }
+  });
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_finances_income", income); } catch {}
+  }, [income]);
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_finances_period", period); } catch {}
+  }, [period]);
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_finances_saved", JSON.stringify([...savedPrinciples])); } catch {}
+  }, [savedPrinciples]);
+
+  const monthly = period === "monthly" ? parseFloat(income) || 0 : (parseFloat(income) || 0) / 12;
+  const give = monthly * 0.10;
+  const save = monthly * 0.10;
+  const live = monthly * 0.80;
+
+  const fmt = (n: number) => n.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
+
   return (
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
       <Navbar />
-      <div className="pt-24 pb-20">
+      <div className="page-body pb-20">
         {/* Hero */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
           <div className="text-center max-w-3xl mx-auto">
-            <span className="text-xs font-bold uppercase tracking-widest mb-4 block" style={{ color: "#D4AF37" }}>
+            <span className="text-xs font-bold uppercase tracking-widest mb-4 block" style={{ color: "#00FF88" }}>
               Life & Faith · Finances
             </span>
             <h1 className="text-4xl sm:text-5xl font-black mb-6">
               Stewardship, not{" "}
-              <span style={{ background: "linear-gradient(135deg, #D4AF37, #10B981)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+              <span style={{ background: "linear-gradient(135deg, #00FF88, #10B981)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
                 stress.
               </span>
             </h1>
@@ -164,7 +197,7 @@ export default function FinancesPage() {
                 className="rounded-2xl p-5 text-center"
                 style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
               >
-                <p className="text-3xl font-black mb-1" style={{ color: "#D4AF37" }}>{s.value}</p>
+                <p className="text-3xl font-black mb-1" style={{ color: "#00FF88" }}>{s.value}</p>
                 <p className="text-sm font-semibold mb-1" style={{ color: "#F2F2F8" }}>{s.label}</p>
                 <p className="text-xs" style={{ color: "#4A4A68" }}>{s.note}</p>
               </div>
@@ -182,14 +215,14 @@ export default function FinancesPage() {
               <div
                 key={p.title}
                 className="rounded-2xl p-6"
-                style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(212,175,55,0.08)" }}
+                style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(0,255,136,0.08)" }}
               >
                 <div className="flex items-start gap-4">
                   <span className="text-3xl">{p.icon}</span>
                   <div>
                     <h3 className="font-bold text-lg mb-2" style={{ color: "#F2F2F8" }}>{p.title}</h3>
-                    <p className="text-sm italic mb-3 leading-relaxed" style={{ color: "#C8A84B" }}>
-                      {p.verse} <span className="not-italic font-bold" style={{ color: "#8A6A20" }}>— {p.ref}</span>
+                    <p className="text-sm italic mb-3 leading-relaxed" style={{ color: "#00DD77" }}>
+                      {p.verse} <span className="not-italic font-bold" style={{ color: "#007A33" }}>— {p.ref}</span>
                     </p>
                     <p className="text-sm leading-relaxed" style={{ color: "#6A6A88" }}>{p.body}</p>
                   </div>
@@ -224,7 +257,7 @@ export default function FinancesPage() {
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-1.5">
-                      <span className="text-xs font-black" style={{ color: "rgba(212,175,55,0.3)" }}>{step.step}</span>
+                      <span className="text-xs font-black" style={{ color: "rgba(0,255,136,0.3)" }}>{step.step}</span>
                       <h3 className="font-bold text-base" style={{ color: "#F2F2F8" }}>{step.title}</h3>
                     </div>
                     <p className="text-sm leading-relaxed" style={{ color: "#6A6A88" }}>{step.description}</p>
@@ -248,7 +281,7 @@ export default function FinancesPage() {
                 style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.background = "rgba(255,255,255,0.04)";
-                  e.currentTarget.style.borderColor = "rgba(212,175,55,0.15)";
+                  e.currentTarget.style.borderColor = "rgba(0,255,136,0.15)";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.background = "rgba(255,255,255,0.02)";
@@ -266,7 +299,7 @@ export default function FinancesPage() {
                     </span>
                     <span className="text-xs" style={{ color: "#4A4A68" }}>by {r.author}</span>
                   </div>
-                  <h3 className="font-bold text-base mb-1 group-hover:text-[#D4AF37] transition-colors" style={{ color: "#F2F2F8" }}>
+                  <h3 className="font-bold text-base mb-1 group-hover:text-[#00FF88] transition-colors" style={{ color: "#F2F2F8" }}>
                     {r.title}
                   </h3>
                   <p className="text-sm" style={{ color: "#6A6A88" }}>{r.description}</p>
@@ -276,16 +309,72 @@ export default function FinancesPage() {
           </div>
         </div>
 
+        {/* 10-10-80 Calculator */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
+          <div className="rounded-2xl p-8" style={{ background: "rgba(0,255,136,0.04)", border: "1px solid rgba(0,255,136,0.15)" }}>
+            <div className="flex items-center gap-3 mb-2">
+              <Coins size={20} style={{ color: "#00FF88" }} />
+              <h2 className="text-xl font-black" style={{ color: "#F2F2F8" }}>10-10-80 Budget Calculator</h2>
+            </div>
+            <p className="text-sm mb-6" style={{ color: "#6A6A88" }}>Enter your income and see how the biblical 10-10-80 method divides it.</p>
+            <div className="flex flex-col sm:flex-row gap-4 mb-6">
+              <div className="flex-1">
+                <label className="text-xs font-bold uppercase tracking-widest block mb-2" style={{ color: "#8A8AA8" }}>Your Income</label>
+                <div className="flex items-center gap-2 px-4 py-3 rounded-xl" style={{ background: "#12121F", border: "1px solid #1E1E32" }}>
+                  <DollarSign size={14} style={{ color: "#6A6A88" }} />
+                  <input
+                    type="number"
+                    value={income}
+                    onChange={(e) => setIncome(e.target.value)}
+                    placeholder="5000"
+                    className="flex-1 bg-transparent text-sm outline-none"
+                    style={{ color: "#F2F2F8" }}
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="text-xs font-bold uppercase tracking-widest block mb-2" style={{ color: "#8A8AA8" }}>Period</label>
+                <div className="flex rounded-xl overflow-hidden" style={{ border: "1px solid #1E1E32" }}>
+                  {(["monthly", "annual"] as const).map((p) => (
+                    <button key={p} onClick={() => setPeriod(p)} className="px-4 py-3 text-xs font-bold capitalize transition-all" style={{ background: period === p ? "#00FF88" : "#12121F", color: period === p ? "#07070F" : "#8A8AA8" }}>
+                      {p}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              {[
+                { label: "Give (10%)", value: give, color: "#00FF88", verse: "Malachi 3:10", icon: "🎁" },
+                { label: "Save (10%)", value: save, color: "#6B4FBB", verse: "Proverbs 13:11", icon: "🏦" },
+                { label: "Live (80%)", value: live, color: "#4FBBAA", verse: "Matthew 6:33", icon: "🏠" },
+              ].map((item) => (
+                <div key={item.label} className="rounded-xl p-5 text-center" style={{ background: `${item.color}10`, border: `1px solid ${item.color}25` }}>
+                  <div className="text-2xl mb-2">{item.icon}</div>
+                  <p className="text-xs font-bold uppercase tracking-wider mb-1" style={{ color: item.color }}>{item.label}</p>
+                  <p className="text-2xl font-black mb-1" style={{ color: "#F2F2F8" }}>{income ? fmt(item.value) : "—"}</p>
+                  <p className="text-[10px]" style={{ color: "#6A6A88" }}>per month · {item.verse}</p>
+                </div>
+              ))}
+            </div>
+            {monthly > 0 && (
+              <p className="text-center text-xs mt-4" style={{ color: "#6A6A88" }}>
+                Annual income: <strong style={{ color: "#F2F2F8" }}>{fmt(monthly * 12)}</strong> → Give {fmt(monthly * 12 * 0.10)}/yr · Save {fmt(monthly * 12 * 0.10)}/yr · Live on {fmt(monthly * 12 * 0.80)}/yr
+              </p>
+            )}
+          </div>
+        </div>
+
         {/* CTA */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div
             className="rounded-2xl p-10 text-center"
             style={{
-              background: "linear-gradient(135deg, rgba(212,175,55,0.06) 0%, rgba(16,185,129,0.06) 100%)",
-              border: "1px solid rgba(212,175,55,0.12)",
+              background: "linear-gradient(135deg, rgba(0,255,136,0.06) 0%, rgba(16,185,129,0.06) 100%)",
+              border: "1px solid rgba(0,255,136,0.12)",
             }}
           >
-            <DollarSign size={32} style={{ color: "#D4AF37" }} className="mx-auto mb-4" />
+            <DollarSign size={32} style={{ color: "#00FF88" }} className="mx-auto mb-4" />
             <h3 className="text-2xl font-black mb-3" style={{ color: "#F2F2F8" }}>
               Ask a Financial Stewardship Question
             </h3>
@@ -295,7 +384,7 @@ export default function FinancesPage() {
             <a
               href="/ai-companion"
               className="inline-flex items-center gap-2 px-8 py-3 rounded-xl font-bold text-black"
-              style={{ background: "linear-gradient(135deg, #D4AF37, #B8942C)" }}
+              style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)" }}
             >
               Ask Now <ChevronRight size={16} />
             </a>

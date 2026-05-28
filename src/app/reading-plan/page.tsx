@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import {
   Flame,
   Share2,
@@ -166,7 +166,7 @@ function CircularProgress({ percent }: { percent: number }) {
         cy={65}
         r={r}
         fill="none"
-        stroke="#D4AF37"
+        stroke="#00FF88"
         strokeWidth={10}
         strokeDasharray={`${dash} ${circ}`}
         strokeLinecap="round"
@@ -179,10 +179,29 @@ function CircularProgress({ percent }: { percent: number }) {
 
 export default function ReadingPlanPage() {
   const [books, setBooks] = useState<Book[]>(buildBooks);
-  const [completedChapters, setCompletedChapters] = useState<Set<string>>(
-    () => new Set(buildBooks()[0].chapters.filter((c) => c.status === "done").map((c) => c.id))
-  );
-  const [todayMarked, setTodayMarked] = useState(false);
+  const [completedChapters, setCompletedChapters] = useState<Set<string>>(() => {
+    const defaultDone = new Set(buildBooks()[0].chapters.filter((c) => c.status === "done").map((c) => c.id));
+    try {
+      const stored = localStorage.getItem("vine_reading_plan");
+      if (stored) {
+        const arr = JSON.parse(stored) as string[];
+        return new Set(arr);
+      }
+    } catch {}
+    return defaultDone;
+  });
+  const [todayMarked, setTodayMarked] = useState(() => {
+    try {
+      const d = localStorage.getItem("vine_reading_today");
+      return d === new Date().toDateString();
+    } catch { return false; }
+  });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("vine_reading_plan", JSON.stringify([...completedChapters]));
+    } catch {}
+  }, [completedChapters]);
 
   const toggleChapter = useCallback((id: string) => {
     setCompletedChapters((prev) => {
@@ -211,8 +230,8 @@ export default function ReadingPlanPage() {
     <>
       <style>{`
         @keyframes pulse-border {
-          0%, 100% { box-shadow: 0 0 0 0 rgba(212,175,55,0.3); }
-          50% { box-shadow: 0 0 0 6px rgba(212,175,55,0); }
+          0%, 100% { box-shadow: 0 0 0 0 rgba(0,255,136,0.3); }
+          50% { box-shadow: 0 0 0 6px rgba(0,255,136,0); }
         }
         @keyframes dot-pulse {
           0%, 100% { opacity: 1; transform: scale(1); }
@@ -242,15 +261,15 @@ export default function ReadingPlanPage() {
                   display: "flex",
                   alignItems: "center",
                   gap: 8,
-                  background: "linear-gradient(135deg, rgba(212,175,55,0.15), rgba(107,79,187,0.1))",
-                  border: "1px solid rgba(212,175,55,0.3)",
+                  background: "linear-gradient(135deg, rgba(0,255,136,0.15), rgba(107,79,187,0.1))",
+                  border: "1px solid rgba(0,255,136,0.3)",
                   borderRadius: 14,
                   padding: "10px 18px",
                 }}
               >
                 <Flame size={22} style={{ color: "#f97316" }} />
                 <div>
-                  <div style={{ fontSize: 22, fontWeight: 800, color: "#D4AF37", lineHeight: 1 }}>22</div>
+                  <div style={{ fontSize: 22, fontWeight: 800, color: "#00FF88", lineHeight: 1 }}>22</div>
                   <div style={{ fontSize: 11, color: "#8A8AA8" }}>day streak</div>
                 </div>
               </div>
@@ -286,7 +305,7 @@ export default function ReadingPlanPage() {
                 style={{
                   flex: "1 1 360px",
                   background: "#12121F",
-                  border: "1px solid rgba(212,175,55,0.2)",
+                  border: "1px solid rgba(0,255,136,0.2)",
                   borderRadius: 20,
                   padding: "28px",
                   position: "relative",
@@ -302,14 +321,14 @@ export default function ReadingPlanPage() {
                     width: 220,
                     height: 220,
                     borderRadius: "50%",
-                    background: "radial-gradient(circle, rgba(212,175,55,0.06) 0%, transparent 70%)",
+                    background: "radial-gradient(circle, rgba(0,255,136,0.06) 0%, transparent 70%)",
                     pointerEvents: "none",
                   }}
                 />
 
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 24 }}>
                   <div>
-                    <div style={{ fontSize: 11, color: "#D4AF37", fontWeight: 600, textTransform: "uppercase", letterSpacing: 0.7, marginBottom: 6 }}>
+                    <div style={{ fontSize: 11, color: "#00FF88", fontWeight: 600, textTransform: "uppercase", letterSpacing: 0.7, marginBottom: 6 }}>
                       Active Plan
                     </div>
                     <h2 style={{ margin: 0, fontSize: 22, fontWeight: 800 }}>
@@ -334,7 +353,7 @@ export default function ReadingPlanPage() {
                         transform: "none",
                       }}
                     >
-                      <div style={{ fontSize: 22, fontWeight: 800, color: "#D4AF37" }}>{progress}%</div>
+                      <div style={{ fontSize: 22, fontWeight: 800, color: "#00FF88" }}>{progress}%</div>
                       <div style={{ fontSize: 10, color: "#6A6A88" }}>complete</div>
                     </div>
                   </div>
@@ -361,14 +380,21 @@ export default function ReadingPlanPage() {
                   </div>
                   <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
                     <button
-                      onClick={() => setTodayMarked((v) => !v)}
+                      onClick={() => {
+                        const next = !todayMarked;
+                        setTodayMarked(next);
+                        try {
+                          if (next) localStorage.setItem("vine_reading_today", new Date().toDateString());
+                          else localStorage.removeItem("vine_reading_today");
+                        } catch {}
+                      }}
                       style={{
                         display: "flex",
                         alignItems: "center",
                         gap: 7,
                         background: todayMarked
                           ? "rgba(34,197,94,0.15)"
-                          : "linear-gradient(135deg, #D4AF37, #c9a227)",
+                          : "linear-gradient(135deg, #00FF88, #00cc66)",
                         border: todayMarked ? "1px solid rgba(34,197,94,0.4)" : "none",
                         borderRadius: 10,
                         padding: "10px 20px",
@@ -445,7 +471,7 @@ export default function ReadingPlanPage() {
                       <div style={{ fontSize: 12, color: "#6A6A88" }}>{stat.label}</div>
                       <div style={{ fontSize: 11, color: "#6A6A88", marginTop: 1 }}>{stat.sub}</div>
                     </div>
-                    <div style={{ fontSize: 24, fontWeight: 800, color: "#D4AF37" }}>{stat.value}</div>
+                    <div style={{ fontSize: 24, fontWeight: 800, color: "#00FF88" }}>{stat.value}</div>
                   </div>
                 ))}
 
@@ -500,15 +526,15 @@ export default function ReadingPlanPage() {
                   <div
                     key={day.label}
                     style={{
-                      background: day.today ? "rgba(212,175,55,0.07)" : "#07070F",
-                      border: day.today ? "1px solid rgba(212,175,55,0.5)" : "1px solid #1E1E32",
+                      background: day.today ? "rgba(0,255,136,0.07)" : "#07070F",
+                      border: day.today ? "1px solid rgba(0,255,136,0.5)" : "1px solid #1E1E32",
                       borderRadius: 12,
                       padding: "12px 8px",
                       textAlign: "center",
                       animation: day.today ? "pulse-border 2.5s ease-in-out infinite" : "none",
                     }}
                   >
-                    <div style={{ fontSize: 11, color: day.today ? "#D4AF37" : "#6A6A88", fontWeight: 600, marginBottom: 6 }}>
+                    <div style={{ fontSize: 11, color: day.today ? "#00FF88" : "#6A6A88", fontWeight: 600, marginBottom: 6 }}>
                       {day.label}
                     </div>
 
@@ -519,7 +545,7 @@ export default function ReadingPlanPage() {
                             width: 8,
                             height: 8,
                             borderRadius: "50%",
-                            background: "#D4AF37",
+                            background: "#00FF88",
                             animation: "dot-pulse 1.5s ease-in-out infinite",
                           }}
                         />
@@ -605,7 +631,7 @@ export default function ReadingPlanPage() {
                     }}
                   >
                     <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                      <BookOpen size={18} style={{ color: "#D4AF37" }} />
+                      <BookOpen size={18} style={{ color: "#00FF88" }} />
                       <div>
                         <div style={{ fontWeight: 700, fontSize: 16 }}>{book.name}</div>
                         <div style={{ fontSize: 12, color: "#6A6A88" }}>
@@ -647,14 +673,14 @@ export default function ReadingPlanPage() {
                                     width: 24,
                                     height: 24,
                                     borderRadius: "50%",
-                                    background: "rgba(212,175,55,0.15)",
-                                    border: "1px solid rgba(212,175,55,0.4)",
+                                    background: "rgba(0,255,136,0.15)",
+                                    border: "1px solid rgba(0,255,136,0.4)",
                                     display: "flex",
                                     alignItems: "center",
                                     justifyContent: "center",
                                   }}
                                 >
-                                  <Check size={13} style={{ color: "#D4AF37" }} />
+                                  <Check size={13} style={{ color: "#00FF88" }} />
                                 </div>
                               ) : isToday ? (
                                 <div
@@ -662,7 +688,7 @@ export default function ReadingPlanPage() {
                                     width: 10,
                                     height: 10,
                                     borderRadius: "50%",
-                                    background: "#D4AF37",
+                                    background: "#00FF88",
                                     animation: "dot-pulse 1.5s ease-in-out infinite",
                                     marginTop: 2,
                                   }}
@@ -687,7 +713,7 @@ export default function ReadingPlanPage() {
                                 style={{
                                   fontSize: 14,
                                   fontWeight: isToday ? 700 : 500,
-                                  color: isDone ? "#6A6A88" : isToday ? "#D4AF37" : "#F2F2F8",
+                                  color: isDone ? "#6A6A88" : isToday ? "#00FF88" : "#F2F2F8",
                                   textDecoration: isDone ? "line-through" : "none",
                                 }}
                               >
@@ -705,7 +731,7 @@ export default function ReadingPlanPage() {
                                   fontSize: 10,
                                   fontWeight: 700,
                                   color: "#07070F",
-                                  background: "#D4AF37",
+                                  background: "#00FF88",
                                   borderRadius: 20,
                                   padding: "2px 8px",
                                   flexShrink: 0,
@@ -719,14 +745,14 @@ export default function ReadingPlanPage() {
                             <button
                               onClick={() => toggleChapter(ch.id)}
                               style={{
-                                background: isDone ? "rgba(212,175,55,0.08)" : "#07070F",
+                                background: isDone ? "rgba(0,255,136,0.08)" : "#07070F",
                                 border: isDone
-                                  ? "1px solid rgba(212,175,55,0.2)"
+                                  ? "1px solid rgba(0,255,136,0.2)"
                                   : isToday
-                                  ? "1px solid rgba(212,175,55,0.4)"
+                                  ? "1px solid rgba(0,255,136,0.4)"
                                   : "1px solid #1E1E32",
                                 borderRadius: 8,
-                                color: isDone ? "#D4AF37" : "#8A8AA8",
+                                color: isDone ? "#00FF88" : "#8A8AA8",
                                 fontSize: 12,
                                 fontWeight: 600,
                                 padding: "5px 12px",
@@ -772,7 +798,7 @@ export default function ReadingPlanPage() {
                       cursor: "pointer",
                     }}
                     onMouseEnter={(e) => {
-                      (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(212,175,55,0.3)";
+                      (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(0,255,136,0.3)";
                     }}
                     onMouseLeave={(e) => {
                       (e.currentTarget as HTMLDivElement).style.borderColor = "#1E1E32";
@@ -819,9 +845,9 @@ export default function ReadingPlanPage() {
                       }}
                       onMouseEnter={(e) => {
                         const btn = e.currentTarget as HTMLButtonElement;
-                        btn.style.background = "rgba(212,175,55,0.1)";
-                        btn.style.borderColor = "rgba(212,175,55,0.3)";
-                        btn.style.color = "#D4AF37";
+                        btn.style.background = "rgba(0,255,136,0.1)";
+                        btn.style.borderColor = "rgba(0,255,136,0.3)";
+                        btn.style.color = "#00FF88";
                       }}
                       onMouseLeave={(e) => {
                         const btn = e.currentTarget as HTMLButtonElement;

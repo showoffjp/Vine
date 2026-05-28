@@ -22,7 +22,7 @@ const creators = [
     title: "Preacher & Podcaster",
     followers: "118K",
     initials: "MW",
-    color: "#D4AF37",
+    color: "#00FF88",
     types: ["Video", "Podcast"],
     bio: "Senior pastor turned digital minister. His Sunday sermons reach over 100K listeners weekly across 40 countries.",
   },
@@ -81,7 +81,7 @@ const typeIcons: Record<string, React.ReactNode> = {
 const typeColors: Record<string, string> = {
   Video: "#6B4FBB",
   Articles: "#2E7D52",
-  Podcast: "#D4AF37",
+  Podcast: "#00FF88",
 };
 
 export default function CreatorSpotlight() {
@@ -115,7 +115,7 @@ export default function CreatorSpotlight() {
           position: "absolute",
           inset: 0,
           background:
-            "radial-gradient(ellipse 60% 50% at 80% 50%, rgba(212,175,55,0.04) 0%, transparent 70%)",
+            "radial-gradient(ellipse 60% 50% at 80% 50%, rgba(0,255,136,0.04) 0%, transparent 70%)",
           pointerEvents: "none",
         }}
       />
@@ -149,10 +149,10 @@ export default function CreatorSpotlight() {
                 marginBottom: "8px",
               }}
             >
-              <Star size={16} style={{ color: "#D4AF37" }} />
+              <Star size={16} style={{ color: "#00FF88" }} />
               <span
                 style={{
-                  color: "#D4AF37",
+                  color: "#00FF88",
                   fontSize: "0.75rem",
                   fontWeight: 700,
                   letterSpacing: "0.15em",
@@ -182,9 +182,9 @@ export default function CreatorSpotlight() {
                 width: "40px",
                 height: "40px",
                 borderRadius: "50%",
-                border: "1px solid rgba(212,175,55,0.3)",
+                border: "1px solid rgba(0,255,136,0.3)",
                 background: "transparent",
-                color: "#D4AF37",
+                color: "#00FF88",
                 cursor: "pointer",
                 display: "flex",
                 alignItems: "center",
@@ -193,7 +193,7 @@ export default function CreatorSpotlight() {
               }}
               onMouseEnter={(e) => {
                 (e.currentTarget as HTMLButtonElement).style.background =
-                  "rgba(212,175,55,0.1)";
+                  "rgba(0,255,136,0.1)";
               }}
               onMouseLeave={(e) => {
                 (e.currentTarget as HTMLButtonElement).style.background =
@@ -209,9 +209,9 @@ export default function CreatorSpotlight() {
                 width: "40px",
                 height: "40px",
                 borderRadius: "50%",
-                border: "1px solid rgba(212,175,55,0.3)",
+                border: "1px solid rgba(0,255,136,0.3)",
                 background: "transparent",
-                color: "#D4AF37",
+                color: "#00FF88",
                 cursor: "pointer",
                 display: "flex",
                 alignItems: "center",
@@ -220,7 +220,7 @@ export default function CreatorSpotlight() {
               }}
               onMouseEnter={(e) => {
                 (e.currentTarget as HTMLButtonElement).style.background =
-                  "rgba(212,175,55,0.1)";
+                  "rgba(0,255,136,0.1)";
               }}
               onMouseLeave={(e) => {
                 (e.currentTarget as HTMLButtonElement).style.background =
@@ -340,7 +340,7 @@ export default function CreatorSpotlight() {
                     alignItems: "center",
                     gap: "6px",
                     marginBottom: "14px",
-                    color: "#D4AF37",
+                    color: "#00FF88",
                   }}
                 >
                   <Users size={13} />
@@ -348,7 +348,7 @@ export default function CreatorSpotlight() {
                     style={{
                       fontSize: "0.8rem",
                       fontWeight: 700,
-                      color: "#D4AF37",
+                      color: "#00FF88",
                     }}
                   >
                     {creator.followers}
@@ -433,7 +433,7 @@ export default function CreatorSpotlight() {
             background: "#12121F",
             borderRadius: "20px",
             padding: "40px 48px",
-            border: "1px solid rgba(212,175,55,0.15)",
+            border: "1px solid rgba(0,255,136,0.15)",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
@@ -452,7 +452,7 @@ export default function CreatorSpotlight() {
               bottom: "0",
               width: "40%",
               background:
-                "radial-gradient(ellipse 80% 80% at 100% 50%, rgba(212,175,55,0.06) 0%, transparent 70%)",
+                "radial-gradient(ellipse 80% 80% at 100% 50%, rgba(0,255,136,0.06) 0%, transparent 70%)",
               pointerEvents: "none",
             }}
           />
@@ -465,9 +465,9 @@ export default function CreatorSpotlight() {
                 gap: "6px",
                 padding: "4px 12px",
                 borderRadius: "999px",
-                background: "rgba(212,175,55,0.1)",
-                border: "1px solid rgba(212,175,55,0.25)",
-                color: "#D4AF37",
+                background: "rgba(0,255,136,0.1)",
+                border: "1px solid rgba(0,255,136,0.25)",
+                color: "#00FF88",
                 fontSize: "0.65rem",
                 fontWeight: 700,
                 letterSpacing: "0.1em",

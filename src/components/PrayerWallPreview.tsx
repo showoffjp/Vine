@@ -8,7 +8,7 @@ const tagColors: Record<string, string> = {
   Family: "#1565C0",
   Work: "#2E7D52",
   Strength: "#6B4FBB",
-  Guidance: "#D4AF37",
+  Guidance: "#00FF88",
   Anxiety: "#7B2FBE",
 };
 
@@ -53,7 +53,7 @@ const prayers = [
     id: 4,
     poster: "Blessing A.",
     initials: "BA",
-    avatarColor: "#D4AF37",
+    avatarColor: "#00FF88",
     anonymous: false,
     timeAgo: "2 hrs ago",
     tag: "Family",
@@ -141,10 +141,10 @@ export default function PrayerWallPreview() {
                 marginBottom: "8px",
               }}
             >
-              <Heart size={16} style={{ color: "#D4AF37" }} />
+              <Heart size={16} style={{ color: "#00FF88" }} />
               <span
                 style={{
-                  color: "#D4AF37",
+                  color: "#00FF88",
                   fontSize: "0.75rem",
                   fontWeight: 700,
                   letterSpacing: "0.15em",
@@ -193,7 +193,7 @@ export default function PrayerWallPreview() {
               alignItems: "center",
               gap: "10px",
               background: "#12121F",
-              border: "1px solid rgba(212,175,55,0.15)",
+              border: "1px solid rgba(0,255,136,0.15)",
               borderRadius: "12px",
               padding: "12px 20px",
             }}
@@ -381,12 +381,12 @@ export default function PrayerWallPreview() {
                       padding: "8px 18px",
                       borderRadius: "999px",
                       background: hasPrayed
-                        ? "rgba(212,175,55,0.15)"
-                        : "rgba(212,175,55,0.07)",
+                        ? "rgba(0,255,136,0.15)"
+                        : "rgba(0,255,136,0.07)",
                       border: hasPrayed
-                        ? "1px solid rgba(212,175,55,0.5)"
-                        : "1px solid rgba(212,175,55,0.2)",
-                      color: hasPrayed ? "#D4AF37" : "#8A8AA8",
+                        ? "1px solid rgba(0,255,136,0.5)"
+                        : "1px solid rgba(0,255,136,0.2)",
+                      color: hasPrayed ? "#00FF88" : "#8A8AA8",
                       fontSize: "0.78rem",
                       fontWeight: 700,
                       cursor: "pointer",

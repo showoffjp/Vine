@@ -97,6 +97,7 @@ const navLinks = [
       { label: "House Church Guide", href: "/house-church" },
       { label: "Christian Parenting", href: "/parenting" },
       { label: "Small Groups Guide", href: "/small-groups" },
+      { label: "Simplicity & Detox", href: "/simplicity" },
       { label: "Work & Leadership", href: "/work-leadership" },
     ],
   },

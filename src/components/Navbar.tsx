@@ -31,6 +31,8 @@ const navLinks = [
       { label: "Video Library", href: "/video" },
       { label: "Podcasts", href: "/podcast" },
       { label: "Bible Tools", href: "/bible" },
+      { label: "Old Testament Survey", href: "/old-testament-survey" },
+      { label: "New Testament Survey", href: "/new-testament-survey" },
       { label: "Bible Study", href: "/bible-study" },
       { label: "Bible Book Overview", href: "/bible-overview" },
       { label: "Character Studies", href: "/character-study" },

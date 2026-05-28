@@ -43,6 +43,8 @@ const navLinks = [
       { label: "Christian Ethics", href: "/christian-ethics" },
       { label: "The Beatitudes", href: "/beatitudes" },
       { label: "The Holy Trinity", href: "/trinity" },
+      { label: "Theology of Scripture", href: "/scripture-theology" },
+      { label: "The Problem of Evil", href: "/theodicy" },
       { label: "The Resurrection", href: "/resurrection" },
       { label: "The New Creation", href: "/new-creation" },
       { label: "Theories of Atonement", href: "/atonement" },

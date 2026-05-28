@@ -53,6 +53,8 @@ const navLinks = [
       { label: "The Holy Spirit", href: "/holy-spirit" },
       { label: "The Kingdom of God", href: "/kingdom-of-god" },
       { label: "Sanctification", href: "/sanctification" },
+      { label: "Predestination & Election", href: "/predestination" },
+      { label: "Faith and Works", href: "/faith-and-works" },
       { label: "Church Calendar", href: "/church-calendar" },
       { label: "Advent Guide", href: "/advent" },
       { label: "Lent Guide", href: "/lent" },

@@ -126,6 +126,8 @@ const navLinks = [
       { label: "Theology of Suffering", href: "/suffering" },
       { label: "Loving Your Neighbor", href: "/neighbor" },
       { label: "Justice & the Gospel", href: "/justice" },
+      { label: "Race & Reconciliation", href: "/race-reconciliation" },
+      { label: "Money & Debt", href: "/money-debt" },
       { label: "End Times & Eschatology", href: "/end-times" },
       { label: "Covenant Theology", href: "/covenant" },
       { label: "Creation Care", href: "/creation-care" },

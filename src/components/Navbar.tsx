@@ -35,6 +35,7 @@ const navLinks = [
       { label: "Bible Book Overview", href: "/bible-overview" },
       { label: "Character Studies", href: "/character-study" },
       { label: "Theology Glossary", href: "/theology-glossary" },
+      { label: "The Ten Commandments", href: "/ten-commandments" },
       { label: "Theology in Plain English", href: "/theology" },
       { label: "The Holy Trinity", href: "/trinity" },
       { label: "Theology of Grace", href: "/grace" },
@@ -93,6 +94,7 @@ const navLinks = [
     children: [
       { label: "Life Hacks", href: "/life-hacks" },
       { label: "Mental Health", href: "/mental-health" },
+      { label: "Addiction & Recovery", href: "/addiction-recovery" },
       { label: "Anxiety & Faith", href: "/anxiety" },
       { label: "Anger: A Christian Guide", href: "/anger" },
       { label: "Biblical Counseling", href: "/biblical-counseling" },

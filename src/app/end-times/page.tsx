@@ -1,0 +1,182 @@
+"use client";
+import { useState } from "react";
+
+const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
+const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+
+const VIEWS = [
+  {
+    id: "amillennial",
+    name: "Amillennialism",
+    icon: "♾️",
+    color: "#3B82F6",
+    short: "The 1000 years is symbolic; we are in the millennial age now.",
+    desc: "The millennium of Revelation 20 is symbolic, representing the current age between Christ's first and second comings. Satan is currently 'bound' in the sense that the gospel is advancing globally. Christ will return once, the dead will be raised simultaneously, and the new heavens and earth will begin. Held by Augustine, Calvin, most Reformed tradition, many Lutherans.",
+    strengths: "Takes Revelation's genre seriously as apocalyptic literature. Avoids complex speculative timelines. Consistent with how the rest of the NT treats prophecy.",
+    cautions: "Requires reading 'thousand years' symbolically when many want a more literal reading.",
+    proponents: "Augustine, John Calvin, Louis Berkhof, G.K. Beale, Kim Riddlebarger",
+  },
+  {
+    id: "postmillennial",
+    name: "Postmillennialism",
+    icon: "🌅",
+    color: "#10B981",
+    short: "The gospel will Christianize much of the world before Christ returns.",
+    desc: "Through the advance of the gospel, the world will be substantially Christianized — there will be a long era of gospel triumph — before Christ returns. Christ returns after (post-) this millennial period of gospel flourishing. The church's mission is to extend the kingdom until this goal is substantially reached. Optimistic about the gospel's transforming power in history.",
+    strengths: "High view of the gospel's power. Motivates sustained cultural engagement and mission.",
+    cautions: "Must account for global suffering and the persistence of evil. History has moderated earlier postmillennial optimism.",
+    proponents: "Jonathan Edwards (in some forms), Rousas Rushdoony, Gary DeMar, Douglas Wilson",
+  },
+  {
+    id: "historic-premillennial",
+    name: "Historic Premillennialism",
+    icon: "🌿",
+    color: "#F59E0B",
+    short: "Christ returns before a literal 1000-year earthly reign.",
+    desc: "Christ returns visibly and bodily (pre-millennium), raises the righteous dead, and reigns on earth for a literal thousand years. At the end of this period, Satan is released, a final rebellion occurs, and the final judgment and new creation follow. The church goes through the tribulation before the return. An early church view held by Papias, Irenaeus, Justin Martyr, and others.",
+    strengths: "Takes Revelation 20 at face value. Well-attested in early Christian writings. Does not require a rapture distinct from the return.",
+    cautions: "Must explain why Christ reigns on a currently unredeemed earth for a limited period before the final state.",
+    proponents: "George Ladd, Craig Blomberg, Wayne Grudem (broadly), N.T. Wright (modified)",
+  },
+  {
+    id: "dispensational",
+    name: "Dispensational Premillennialism",
+    icon: "📅",
+    color: "#EF4444",
+    short: "A secret rapture, 7-year tribulation, then Christ's reign.",
+    desc: "The most popular view in American evangelicalism. Distinguishes between God's program for Israel and for the church. A secret 'rapture' removes the church before a 7-year great tribulation. Christ then returns visibly, Israel is restored, and he reigns for 1000 years from Jerusalem. Associated with the Scofield Bible, Dallas Seminary, Tim LaHaye's Left Behind series, and much of the Baptist and charismatic tradition.",
+    strengths: "Produces a detailed interpretive system. Takes OT promises to Israel as literally future. Widespread popular influence.",
+    cautions: "The pre-tribulation rapture is not found before the 19th century (Darby). The strict Israel/church distinction is challenged by texts like Romans 11, Galatians 3.",
+    proponents: "John Darby, C.I. Scofield, Charles Ryrie, Tim LaHaye, John MacArthur",
+  },
+];
+
+const WHAT_MATTERS = [
+  { title: "Christ Will Return Visibly and Bodily", verse: "Acts 1:11", desc: "All Christian traditions affirm this. The same Jesus who ascended will return. The return is not metaphorical, not simply death or Pentecost — it is a future, physical, visible event." },
+  { title: "The Dead Will Be Raised", verse: "1 Cor 15:52", desc: "Bodily resurrection — not merely spiritual survival — is the Christian hope. The resurrection of Jesus is the prototype and guarantee of our own." },
+  { title: "There Will Be a Final Judgment", verse: "Rev 20:11–13", desc: "Every person will give account. This judgment is just, complete, and final. Both death and hell are cast into the lake of fire; the book of life determines the final destiny of every soul." },
+  { title: "New Creation Will Renew the Cosmos", verse: "Rev 21:1–5", desc: "The final state is not disembodied heaven floating in the clouds — it is a renewed, physical new creation. God will dwell with his people. The tears, death, and mourning of the old order will be permanently gone." },
+  { title: "Every Knee Will Bow", verse: "Phil 2:10–11", desc: "Christ's lordship will be openly acknowledged by all creation. The hidden reality of his reign will be made manifest. Justice will be seen to have been done." },
+];
+
+const PRACTICAL = [
+  { q: "How should eschatology affect daily life?", a: "Every decision should be made in light of the coming judgment and new creation. What is worth doing? What is worth keeping? How do I treat people who will stand before God as I will? Eschatology is not an intellectual puzzle — it is the motivating horizon of Christian action." },
+  { q: "Should I be anxious about the end times?", a: "No. Jesus said 'Watch' — but not 'worry.' The consistent posture of the NT is readiness, not anxiety. 'He who is coming will come and will not delay' (Hebrews 10:37). We live in alert expectation, not fearful dread." },
+  { q: "What do I do with news about 'signs of the times'?", a: "Every generation has seen what looked like fulfillment of end-times prophecy — plagues, wars, rulers, apostasy. Be epistemically humble. Jesus said even he did not know the day or hour (Mark 13:32). Interpret the present age carefully; don't build doctrines on newspaper headlines." },
+  { q: "Should Christians care about the world if it's ending?", a: "Yes. The coming new creation vindicates creation — it is not destroyed but renewed. Our care for the earth, for people, for culture is anticipatory of the coming restoration. The final state is not escapism; it is the world made right." },
+];
+
+export default function EndTimesPage() {
+  const [activeTab, setActiveTab] = useState<"views" | "essentials" | "practical">("essentials");
+  const [selectedView, setSelectedView] = useState("amillennial");
+  const [expanded, setExpanded] = useState<string | null>(null);
+
+  const view = VIEWS.find(v => v.id === selectedView)!;
+
+  return (
+    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 40 }}>
+      <div style={{ maxWidth: 880, margin: "0 auto", padding: "0 20px 60px" }}>
+        <div style={{ textAlign: "center", marginBottom: 40 }}>
+          <div style={{ fontSize: 48, marginBottom: 12 }}>🌅</div>
+          <h1 style={{ fontSize: 32, fontWeight: 900, marginBottom: 8 }}>End Times & Eschatology</h1>
+          <p style={{ color: MUTED, fontSize: 16, maxWidth: 560, margin: "0 auto" }}>
+            What Christians believe about Christ's return, resurrection, judgment, and new creation — the theological essentials that unite all traditions, and the views that divide them.
+          </p>
+        </div>
+
+        <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
+          {[
+            { id: "essentials" as const, label: "What All Agree On", icon: "✝️" },
+            { id: "views" as const, label: "Millennial Views", icon: "📖" },
+            { id: "practical" as const, label: "Practical Questions", icon: "❓" },
+          ].map(t => (
+            <button key={t.id} onClick={() => setActiveTab(t.id)}
+              style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+              {t.icon} {t.label}
+            </button>
+          ))}
+        </div>
+
+        {activeTab === "essentials" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 16 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                The details of end-times sequences divide Christians. The essentials unite them. All major Christian traditions — Catholic, Orthodox, Reformed, Lutheran, Baptist, Pentecostal — affirm what follows. These are not denominational opinions; they are creedal Christianity.
+              </p>
+            </div>
+            {WHAT_MATTERS.map((w, i) => (
+              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 12 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+                  <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 17, margin: 0 }}>{w.title}</h3>
+                  <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700 }}>{w.verse}</span>
+                </div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, margin: 0 }}>{w.desc}</p>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {activeTab === "views" && (
+          <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 8, minWidth: 160 }}>
+              {VIEWS.map(v => (
+                <button key={v.id} onClick={() => setSelectedView(v.id)}
+                  style={{ padding: "10px 14px", borderRadius: 10, border: `1px solid ${selectedView === v.id ? v.color : BORDER}`, background: selectedView === v.id ? `${v.color}18` : CARD, color: selectedView === v.id ? v.color : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer", textAlign: "left" }}>
+                  {v.icon} {v.name}
+                </button>
+              ))}
+              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 12, marginTop: 8 }}>
+                <div style={{ color: MUTED, fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 }}>Note</div>
+                <p style={{ color: MUTED, fontSize: 12, lineHeight: 1.6, margin: 0 }}>These are all views held by orthodox, Bible-believing Christians. Hold the essentials firmly; the rest with humility.</p>
+              </div>
+            </div>
+            <div style={{ flex: 1, minWidth: 280 }}>
+              <div style={{ background: CARD, border: `1px solid ${view.color}40`, borderRadius: 14, padding: 26 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}>
+                  <span style={{ fontSize: 32 }}>{view.icon}</span>
+                  <h2 style={{ color: view.color, fontWeight: 900, fontSize: 22, margin: 0 }}>{view.name}</h2>
+                </div>
+                <div style={{ background: `${view.color}15`, border: `1px solid ${view.color}30`, borderRadius: 8, padding: "8px 12px", marginBottom: 14 }}>
+                  <p style={{ color: view.color, fontSize: 14, fontStyle: "italic", margin: 0 }}>{view.short}</p>
+                </div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, marginBottom: 14 }}>{view.desc}</p>
+                <div style={{ background: BG, borderRadius: 10, padding: 14, marginBottom: 10 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 12, marginBottom: 4 }}>Strengths</div>
+                  <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{view.strengths}</p>
+                </div>
+                <div style={{ background: BG, borderRadius: 10, padding: 14, marginBottom: 10 }}>
+                  <div style={{ color: "#F59E0B", fontWeight: 700, fontSize: 12, marginBottom: 4 }}>Cautions</div>
+                  <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{view.cautions}</p>
+                </div>
+                <div style={{ background: BG, borderRadius: 10, padding: 14 }}>
+                  <div style={{ color: MUTED, fontWeight: 700, fontSize: 12, marginBottom: 4 }}>Notable Proponents</div>
+                  <p style={{ color: MUTED, fontSize: 13, margin: 0 }}>{view.proponents}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "practical" && (
+          <div>
+            {PRACTICAL.map((p, i) => (
+              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, marginBottom: 12, overflow: "hidden" }}>
+                <button
+                  onClick={() => setExpanded(expanded === p.q ? null : p.q)}
+                  style={{ width: "100%", padding: "18px 22px", background: "transparent", border: "none", color: TEXT, fontWeight: 700, fontSize: 15, cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center", textAlign: "left" }}>
+                  <span style={{ color: GREEN }}>{p.q}</span>
+                  <span style={{ color: MUTED, fontSize: 18 }}>{expanded === p.q ? "−" : "+"}</span>
+                </button>
+                {expanded === p.q && (
+                  <div style={{ padding: "0 22px 20px" }}>
+                    <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{p.a}</p>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}

@@ -1,8 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import {
   Zap,
   TrendingUp,
@@ -268,7 +266,6 @@ export default function LifeHacksPage() {
 
   return (
     <div style={{ background: "#07070F", minHeight: "100vh" }}>
-      <Navbar />
 
       <main style={{ paddingTop: "80px" }}>
         {/* HERO */}
@@ -845,7 +842,6 @@ export default function LifeHacksPage() {
         </div>
       </main>
 
-      <Footer />
     </div>
   );
 }

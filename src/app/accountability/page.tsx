@@ -1,8 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import { Users, Plus, X, CheckCircle2, Circle, MessageSquare, Flame, Shield, ChevronRight, Clock } from "lucide-react";
 
 interface CheckIn {
@@ -195,8 +193,7 @@ export default function AccountabilityPage() {
 
   return (
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
-      <Navbar />
-      <div className="page-body pb-20">
+      <div className="pb-20" style={{ paddingTop: 40 }}>
 
         {/* Header */}
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-8 pt-2">
@@ -540,7 +537,6 @@ export default function AccountabilityPage() {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 }

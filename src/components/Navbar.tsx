@@ -36,6 +36,7 @@ const navLinks = [
       { label: "Character Studies", href: "/character-study" },
       { label: "Theology Glossary", href: "/theology-glossary" },
       { label: "Theology in Plain English", href: "/theology" },
+      { label: "The Holy Spirit", href: "/holy-spirit" },
       { label: "Church Calendar", href: "/church-calendar" },
       { label: "Parables Study", href: "/parables" },
       { label: "Church History", href: "/church-history" },

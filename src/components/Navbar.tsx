@@ -57,6 +57,7 @@ const navLinks = [
       { label: "Church History", href: "/church-history" },
       { label: "The Church Fathers", href: "/church-fathers" },
       { label: "Creeds & Historic Prayers", href: "/creeds" },
+      { label: "Historic Confessions", href: "/confessions" },
       { label: "Faith & Science", href: "/faith-science" },
       { label: "Reading Plan", href: "/reading-plan" },
       { label: "Reading List", href: "/reading-list" },
@@ -111,6 +112,7 @@ const navLinks = [
     children: [
       { label: "Life Hacks", href: "/life-hacks" },
       { label: "Mental Health", href: "/mental-health" },
+      { label: "Body Image & Faith", href: "/body-image" },
       { label: "Addiction & Recovery", href: "/addiction-recovery" },
       { label: "Anxiety & Faith", href: "/anxiety" },
       { label: "Anger: A Christian Guide", href: "/anger" },

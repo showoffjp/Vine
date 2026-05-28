@@ -87,6 +87,7 @@ const navLinks = [
     label: "Explore",
     children: [
       { label: "Discover", href: "/explore" },
+      { label: "The Gospel / Salvation", href: "/salvation" },
       { label: "Challenges", href: "/challenges" },
       { label: "Youth & Students", href: "/youth" },
       { label: "Mentorship", href: "/mentorship" },

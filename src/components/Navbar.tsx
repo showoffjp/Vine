@@ -85,6 +85,7 @@ const navLinks = [
       { label: "Spiritual Warfare", href: "/spiritual-warfare" },
       { label: "Stewardship & Finances", href: "/stewardship" },
       { label: "Evangelism Training", href: "/evangelism" },
+      { label: "House Church Guide", href: "/house-church" },
       { label: "Work & Leadership", href: "/work-leadership" },
     ],
   },

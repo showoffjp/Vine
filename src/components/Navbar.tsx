@@ -74,6 +74,7 @@ const navLinks = [
       { label: "Reading List", href: "/reading-list" },
       { label: "Apologetics", href: "/apologetics" },
       { label: "Apologetics 101", href: "/apologetics-101" },
+      { label: "Arguments for God", href: "/apologetics-arguments" },
     ],
   },
   {
@@ -169,6 +170,7 @@ const navLinks = [
       { label: "Small Groups Guide", href: "/small-groups" },
       { label: "Building Community", href: "/community-formation" },
       { label: "Church Membership", href: "/church-membership" },
+      { label: "Church Discipline", href: "/church-discipline" },
       { label: "Simplicity & Detox", href: "/simplicity" },
       { label: "Christian Creativity", href: "/creativity" },
       { label: "Vocation & Calling", href: "/vocation" },

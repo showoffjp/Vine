@@ -84,6 +84,8 @@ const navLinks = [
       { label: "Must-Read Articles", href: "/must-read-articles" },
       { label: "Systematic Theology 101", href: "/systematic-theology-101" },
       { label: "Devotional Classics", href: "/christian-devotional-classics" },
+      { label: "Reformed Theology", href: "/reformed-theology" },
+      { label: "Essential Christian Films", href: "/christian-movies" },
       { label: "Arguments for God", href: "/apologetics-arguments" },
       { label: "Providence of God", href: "/providence-of-god" },
       { label: "The New Birth", href: "/new-birth" },

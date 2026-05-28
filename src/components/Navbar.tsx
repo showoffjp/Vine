@@ -79,6 +79,7 @@ const navLinks = [
       { label: "Healing & Wholeness", href: "/healing" },
       { label: "Couples Devotional", href: "/couples-devotional" },
       { label: "Baptism Guide", href: "/baptism" },
+      { label: "Lord's Supper", href: "/communion" },
       { label: "Relationships", href: "/relationships" },
       { label: "Spiritual Warfare", href: "/spiritual-warfare" },
       { label: "Stewardship & Finances", href: "/stewardship" },

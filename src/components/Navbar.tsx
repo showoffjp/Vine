@@ -50,6 +50,7 @@ const navLinks = [
       { label: "Today's Devotional", href: "/daily" },
       { label: "Spiritual Disciplines", href: "/disciplines" },
       { label: "Prayer Methods", href: "/prayer-methods" },
+      { label: "Biblical Meditation", href: "/meditation" },
       { label: "Bible Reader", href: "/bible" },
       { label: "Reading Plans", href: "/reading-plan" },
       { label: "Verse Memory", href: "/verse-memory" },

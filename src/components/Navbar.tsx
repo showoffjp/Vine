@@ -108,6 +108,8 @@ const navLinks = [
       { label: "Who I Am in Christ", href: "/identity-in-christ" },
       { label: "The Virtue of Humility", href: "/humility" },
       { label: "The Practice of Contentment", href: "/contentment" },
+      { label: "The Practice of Joy", href: "/joy" },
+      { label: "Christian Friendship", href: "/friendship" },
       { label: "Evangelism Training", href: "/evangelism" },
       { label: "House Church Guide", href: "/house-church" },
       { label: "Christian Parenting", href: "/parenting" },

@@ -106,6 +106,8 @@ const navLinks = [
       { label: "Small Groups Guide", href: "/small-groups" },
       { label: "Simplicity & Detox", href: "/simplicity" },
       { label: "Christian Creativity", href: "/creativity" },
+      { label: "Vocation & Calling", href: "/vocation" },
+      { label: "Doubt & Honest Faith", href: "/doubt" },
       { label: "Work & Leadership", href: "/work-leadership" },
     ],
   },

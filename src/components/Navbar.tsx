@@ -148,6 +148,7 @@ const navLinks = [
     children: [
       { label: "Life Hacks", href: "/life-hacks" },
       { label: "Mental Health", href: "/mental-health" },
+      { label: "Mental Health Resources", href: "/christian-mental-health-resources" },
       { label: "Body Image & Faith", href: "/body-image" },
       { label: "Addiction & Recovery", href: "/addiction-recovery" },
       { label: "Anxiety & Faith", href: "/anxiety" },
@@ -168,6 +169,7 @@ const navLinks = [
       { label: "Christian Dating", href: "/christian-dating" },
       { label: "Spiritual Warfare", href: "/spiritual-warfare" },
       { label: "Stewardship & Finances", href: "/stewardship" },
+      { label: "Christian Financial Guide", href: "/christian-financial-guide" },
       { label: "Money & Christian Life", href: "/christian-money" },
       { label: "Christian Giving", href: "/church-giving" },
       { label: "The Practice of Generosity", href: "/generosity" },

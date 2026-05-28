@@ -1,8 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import GiveButton from "@/components/GiveButton";
 import { Heart, Globe, Shield, ChevronRight, Users } from "lucide-react";
 
@@ -134,8 +132,7 @@ export default function GivingPage() {
 
   return (
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
-      <Navbar />
-      <div className="page-body pb-20">
+      <div className="pb-20" style={{ paddingTop: 40 }}>
         {/* Hero */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-14">
           <div className="text-center max-w-3xl mx-auto">
@@ -300,7 +297,6 @@ export default function GivingPage() {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 }

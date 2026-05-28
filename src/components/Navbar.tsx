@@ -35,6 +35,7 @@ const navLinks = [
       { label: "Bible Book Overview", href: "/bible-overview" },
       { label: "Character Studies", href: "/character-study" },
       { label: "Theology Glossary", href: "/theology-glossary" },
+      { label: "Theology in Plain English", href: "/theology" },
       { label: "Parables Study", href: "/parables" },
       { label: "Church History", href: "/church-history" },
       { label: "Creeds & Historic Prayers", href: "/creeds" },

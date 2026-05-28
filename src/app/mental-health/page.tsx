@@ -1,8 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import {
   Heart,
   Phone,
@@ -161,7 +159,6 @@ export default function MentalHealthPage() {
 
   return (
     <div style={{ background: "#07070F", minHeight: "100vh" }}>
-      <Navbar />
 
       <main style={{ paddingTop: "80px" }}>
         {/* CRISIS BANNER */}
@@ -679,7 +676,6 @@ export default function MentalHealthPage() {
         </div>
       </main>
 
-      <Footer />
     </div>
   );
 }

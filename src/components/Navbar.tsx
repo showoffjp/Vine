@@ -115,6 +115,7 @@ const navLinks = [
       { label: "Mentorship", href: "/mentorship" },
       { label: "Church Finder", href: "/church-finder" },
       { label: "Missions", href: "/missions" },
+      { label: "Church Planting", href: "/church-planting" },
       { label: "World Prayer", href: "/world-prayer" },
       { label: "Events", href: "/events" },
       { label: "Leaderboard", href: "/leaderboard" },

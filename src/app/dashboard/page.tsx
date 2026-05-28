@@ -1,8 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import {
   BookOpen,
   Flame,
@@ -75,6 +73,14 @@ interface Stats {
   couplesDevoDays: number;
   mentorRequests: number;
   youthChallengesJoined: number;
+  evangelismPracticed: number;
+  apologeticsCases: number;
+  theologyStudied: number;
+  meditationSessions: number;
+  votdJournalEntries: number;
+  prayerJournalEntries: number;
+  promisesClaimed: number;
+  healingPathsStarted: number;
 }
 
 function loadStats(): Stats {
@@ -173,6 +179,14 @@ function loadStats(): Stats {
     couplesDevoDays: (() => { try { const c = JSON.parse(get("vine_couples_devotional", "{}")); return ((c as { completedDays?: number[] }).completedDays ?? []).length; } catch { return 0; } })(),
     mentorRequests: parseArr("vine_mentorship_requests"),
     youthChallengesJoined: parseSet("vine_youth_challenges"),
+    evangelismPracticed: parseSet("vine_evangelism_practiced"),
+    apologeticsCases: parseSet("vine_apologetics_studied"),
+    theologyStudied: parseSet("vine_theology_studied"),
+    meditationSessions: parseArr("vine_meditation_log"),
+    votdJournalEntries: parseArr("vine_votd_journal"),
+    prayerJournalEntries: parseArr("vine_prayer_journal_entries"),
+    promisesClaimed: parseSet("vine_promises_claimed"),
+    healingPathsStarted: parseSet("vine_healing_paths_started"),
   };
 }
 
@@ -317,8 +331,7 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
-      <Navbar />
-      <div className="page-body pb-20">
+      <div className="pb-20" style={{ paddingTop: 40 }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
           {/* Header */}
@@ -526,7 +539,6 @@ export default function DashboardPage() {
 
         </div>
       </div>
-      <Footer />
     </div>
   );
 }

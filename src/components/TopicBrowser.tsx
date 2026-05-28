@@ -6,6 +6,18 @@ import { Search, Hash } from "lucide-react";
 type Topic = {
   label: string;
   color: string;
+  slug?: string;
+};
+
+const TOPIC_SLUGS: Record<string, string> = {
+  Prayer: "prayer-fasting",
+  Fasting: "prayer-fasting",
+  Marriage: "marriage-faith",
+  Deconstruction: "deconstruction",
+  Depression: "mental-health-god",
+  "Mental Health": "mental-health-god",
+  Resurrection: "resurrection",
+  "Gen Z": "genz-church",
 };
 
 const ALL_TOPICS: Topic[] = [
@@ -13,52 +25,52 @@ const ALL_TOPICS: Topic[] = [
   { label: "Anxiety", color: "#6B4FBB" },
   { label: "Apologetics", color: "#1565C0" },
   { label: "Baptism", color: "#2E7D52" },
-  { label: "Bible Study", color: "#D4AF37" },
+  { label: "Bible Study", color: "#00FF88" },
   { label: "Career", color: "#2E7D52" },
   { label: "Community", color: "#6B4FBB" },
   { label: "Creation", color: "#1565C0" },
   { label: "Dating", color: "#B71C1C" },
   { label: "Depression", color: "#6B4FBB" },
-  { label: "Devotionals", color: "#D4AF37" },
+  { label: "Devotionals", color: "#00FF88" },
   { label: "Doubt", color: "#8A8AA8" },
   { label: "End Times", color: "#B71C1C" },
-  { label: "Evangelism", color: "#D4AF37" },
+  { label: "Evangelism", color: "#00FF88" },
   { label: "Family", color: "#1565C0" },
   { label: "Fasting", color: "#6B4FBB" },
   { label: "Finance", color: "#2E7D52" },
-  { label: "Forgiveness", color: "#D4AF37" },
+  { label: "Forgiveness", color: "#00FF88" },
   { label: "Grief", color: "#8A8AA8" },
-  { label: "Grace", color: "#D4AF37" },
+  { label: "Grace", color: "#00FF88" },
   { label: "Holy Spirit", color: "#6B4FBB" },
   { label: "Hope", color: "#2E7D52" },
   { label: "Identity", color: "#1565C0" },
   { label: "Integrity", color: "#2E7D52" },
-  { label: "Jesus", color: "#D4AF37" },
+  { label: "Jesus", color: "#00FF88" },
   { label: "Leadership", color: "#1565C0" },
   { label: "Love", color: "#B71C1C" },
   { label: "Marriage", color: "#B71C1C" },
   { label: "Mental Health", color: "#6B4FBB" },
-  { label: "Ministry", color: "#D4AF37" },
+  { label: "Ministry", color: "#00FF88" },
   { label: "Miracles", color: "#2E7D52" },
   { label: "Missions", color: "#1565C0" },
   { label: "Parenting", color: "#1565C0" },
   { label: "Prayer", color: "#6B4FBB" },
   { label: "Prophecy", color: "#B71C1C" },
-  { label: "Purpose", color: "#D4AF37" },
+  { label: "Purpose", color: "#00FF88" },
   { label: "Relationships", color: "#B71C1C" },
   { label: "Repentance", color: "#8A8AA8" },
-  { label: "Resurrection", color: "#D4AF37" },
+  { label: "Resurrection", color: "#00FF88" },
   { label: "Salvation", color: "#2E7D52" },
   { label: "Sanctification", color: "#6B4FBB" },
-  { label: "Scripture", color: "#D4AF37" },
+  { label: "Scripture", color: "#00FF88" },
   { label: "Serving", color: "#2E7D52" },
   { label: "Sexuality", color: "#8A8AA8" },
   { label: "Suffering", color: "#8A8AA8" },
   { label: "Theology", color: "#1565C0" },
-  { label: "Trinity", color: "#D4AF37" },
+  { label: "Trinity", color: "#00FF88" },
   { label: "Trust", color: "#6B4FBB" },
   { label: "Unity", color: "#2E7D52" },
-  { label: "Worship", color: "#D4AF37" },
+  { label: "Worship", color: "#00FF88" },
   { label: "Youth", color: "#6B4FBB" },
 ];
 
@@ -101,7 +113,7 @@ export default function TopicBrowser() {
           position: "absolute",
           inset: 0,
           background:
-            "radial-gradient(ellipse 50% 50% at 50% 50%, rgba(212,175,55,0.04) 0%, transparent 70%)",
+            "radial-gradient(ellipse 50% 50% at 50% 50%, rgba(0,255,136,0.04) 0%, transparent 70%)",
           pointerEvents: "none",
         }}
       />
@@ -125,14 +137,14 @@ export default function TopicBrowser() {
               marginBottom: "12px",
               padding: "5px 14px",
               borderRadius: "999px",
-              background: "rgba(212,175,55,0.08)",
-              border: "1px solid rgba(212,175,55,0.2)",
+              background: "rgba(0,255,136,0.08)",
+              border: "1px solid rgba(0,255,136,0.2)",
             }}
           >
-            <Hash size={13} style={{ color: "#D4AF37" }} />
+            <Hash size={13} style={{ color: "#00FF88" }} />
             <span
               style={{
-                color: "#D4AF37",
+                color: "#00FF88",
                 fontSize: "0.7rem",
                 fontWeight: 700,
                 letterSpacing: "0.15em",
@@ -205,7 +217,7 @@ export default function TopicBrowser() {
               transition: "border-color 0.2s",
             }}
             onFocus={(e) => {
-              e.target.style.borderColor = "rgba(212,175,55,0.4)";
+              e.target.style.borderColor = "rgba(0,255,136,0.4)";
             }}
             onBlur={(e) => {
               e.target.style.borderColor = "rgba(255,255,255,0.08)";
@@ -231,14 +243,14 @@ export default function TopicBrowser() {
               borderRadius: "8px",
               border:
                 activeLetter === "All" && !searchQuery
-                  ? "1px solid rgba(212,175,55,0.6)"
+                  ? "1px solid rgba(0,255,136,0.6)"
                   : "1px solid rgba(255,255,255,0.06)",
               background:
                 activeLetter === "All" && !searchQuery
-                  ? "rgba(212,175,55,0.12)"
+                  ? "rgba(0,255,136,0.12)"
                   : "transparent",
               color:
-                activeLetter === "All" && !searchQuery ? "#D4AF37" : "#6A6A88",
+                activeLetter === "All" && !searchQuery ? "#00FF88" : "#6A6A88",
               fontSize: "0.75rem",
               fontWeight: 700,
               cursor: "pointer",
@@ -263,13 +275,13 @@ export default function TopicBrowser() {
                   height: "34px",
                   borderRadius: "8px",
                   border: isActive
-                    ? "1px solid rgba(212,175,55,0.6)"
+                    ? "1px solid rgba(0,255,136,0.6)"
                     : "1px solid rgba(255,255,255,0.06)",
                   background: isActive
-                    ? "rgba(212,175,55,0.12)"
+                    ? "rgba(0,255,136,0.12)"
                     : "transparent",
                   color: isActive
-                    ? "#D4AF37"
+                    ? "#00FF88"
                     : hasTopics
                     ? "#8A8AA8"
                     : "#2A2A3A",
@@ -310,43 +322,50 @@ export default function TopicBrowser() {
             justifyContent: "center",
           }}
         >
-          {filtered.map((topic) => (
-            <button
-              key={topic.label}
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "6px",
-                padding: "9px 18px",
-                borderRadius: "999px",
-                background: `${topic.color}14`,
-                border: `1px solid ${topic.color}35`,
-                color: topic.color,
-                fontSize: "0.85rem",
-                fontWeight: 600,
-                cursor: "pointer",
-                transition: "all 0.2s",
-                letterSpacing: "0.01em",
-              }}
-              onMouseEnter={(e) => {
-                const btn = e.currentTarget as HTMLButtonElement;
-                btn.style.background = `${topic.color}28`;
-                btn.style.borderColor = `${topic.color}60`;
-                btn.style.transform = "translateY(-1px)";
-                btn.style.boxShadow = `0 4px 12px ${topic.color}30`;
-              }}
-              onMouseLeave={(e) => {
-                const btn = e.currentTarget as HTMLButtonElement;
-                btn.style.background = `${topic.color}14`;
-                btn.style.borderColor = `${topic.color}35`;
-                btn.style.transform = "translateY(0)";
-                btn.style.boxShadow = "none";
-              }}
-            >
-              <Hash size={12} />
-              {topic.label}
-            </button>
-          ))}
+          {filtered.map((topic) => {
+            const href = TOPIC_SLUGS[topic.label]
+              ? `/topics/${TOPIC_SLUGS[topic.label]}`
+              : `/discussions?tag=${encodeURIComponent(topic.label)}`;
+            return (
+              <a
+                key={topic.label}
+                href={href}
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  padding: "9px 18px",
+                  borderRadius: "999px",
+                  background: `${topic.color}14`,
+                  border: `1px solid ${topic.color}35`,
+                  color: topic.color,
+                  fontSize: "0.85rem",
+                  fontWeight: 600,
+                  cursor: "pointer",
+                  transition: "all 0.2s",
+                  letterSpacing: "0.01em",
+                  textDecoration: "none",
+                }}
+                onMouseEnter={(e) => {
+                  const el = e.currentTarget as HTMLAnchorElement;
+                  el.style.background = `${topic.color}28`;
+                  el.style.borderColor = `${topic.color}60`;
+                  el.style.transform = "translateY(-1px)";
+                  el.style.boxShadow = `0 4px 12px ${topic.color}30`;
+                }}
+                onMouseLeave={(e) => {
+                  const el = e.currentTarget as HTMLAnchorElement;
+                  el.style.background = `${topic.color}14`;
+                  el.style.borderColor = `${topic.color}35`;
+                  el.style.transform = "translateY(0)";
+                  el.style.boxShadow = "none";
+                }}
+              >
+                <Hash size={12} />
+                {topic.label}
+              </a>
+            );
+          })}
         </div>
 
         {/* Empty state */}

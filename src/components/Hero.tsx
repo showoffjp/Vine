@@ -3,15 +3,15 @@
 import { ArrowRight, Users, BookOpen, Flame, Globe } from "lucide-react";
 
 const stats = [
-  { icon: Users, value: "12K+", label: "Christians Connected" },
-  { icon: BookOpen, value: "5,000+", label: "Resources & Guides" },
-  { icon: Flame, value: "200+", label: "Daily Devotionals" },
-  { icon: Globe, value: "80+", label: "Countries Represented" },
+  { icon: Users, value: "2.1M+", label: "Christians Connected" },
+  { icon: Globe, value: "184", label: "Countries Represented" },
+  { icon: BookOpen, value: "18,400+", label: "Videos & Resources" },
+  { icon: Flame, value: "12,000", label: "Daily Prayer Requests" },
 ];
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-16">
+    <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden" style={{ paddingTop: "var(--header-height, 64px)" }}>
       {/* Background radial glow */}
       <div className="absolute inset-0 hero-glow pointer-events-none" />
       <div
@@ -27,7 +27,7 @@ export default function Hero() {
         className="absolute inset-0 pointer-events-none opacity-[0.03]"
         style={{
           backgroundImage:
-            "linear-gradient(rgba(212,175,55,1) 1px, transparent 1px), linear-gradient(90deg, rgba(212,175,55,1) 1px, transparent 1px)",
+            "linear-gradient(rgba(0,255,136,1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,255,136,1) 1px, transparent 1px)",
           backgroundSize: "80px 80px",
         }}
       />
@@ -38,14 +38,14 @@ export default function Hero() {
           <div
             className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold"
             style={{
-              background: "rgba(212,175,55,0.08)",
-              border: "1px solid rgba(212,175,55,0.2)",
-              color: "#D4AF37",
+              background: "rgba(0,255,136,0.08)",
+              border: "1px solid rgba(0,255,136,0.2)",
+              color: "#00FF88",
             }}
           >
             <span
               className="w-2 h-2 rounded-full"
-              style={{ background: "#D4AF37", boxShadow: "0 0 8px #D4AF37" }}
+              style={{ background: "#00FF88", boxShadow: "0 0 8px #00FF88" }}
             />
             The World&apos;s First All-In-One Christian Platform
           </div>
@@ -74,23 +74,23 @@ export default function Hero() {
         {/* Verse */}
         <p
           className="text-sm mb-10 italic"
-          style={{ color: "rgba(212,175,55,0.6)" }}
+          style={{ color: "rgba(0,255,136,0.6)" }}
         >
           &ldquo;I am the vine; you are the branches.&rdquo; — John 15:5
         </p>
 
         {/* CTAs */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
-          <button className="btn-gold px-8 py-4 rounded-xl text-base flex items-center gap-2 group">
+          <a href="/feed" className="btn-gold px-8 py-4 rounded-xl text-base flex items-center gap-2 group" style={{ textDecoration: "none" }}>
             Join the Community — It&apos;s Free
             <ArrowRight
               size={18}
               className="transition-transform group-hover:translate-x-1"
             />
-          </button>
-          <button className="btn-outline-gold px-8 py-4 rounded-xl text-base font-semibold">
+          </a>
+          <a href="/explore" className="btn-outline-gold px-8 py-4 rounded-xl text-base font-semibold" style={{ textDecoration: "none" }}>
             Explore Vine
-          </button>
+          </a>
         </div>
 
         {/* Stats */}
@@ -101,10 +101,10 @@ export default function Hero() {
               className="flex flex-col items-center gap-2 p-4 rounded-2xl"
               style={{
                 background: "rgba(18,18,31,0.8)",
-                border: "1px solid rgba(212,175,55,0.08)",
+                border: "1px solid rgba(0,255,136,0.08)",
               }}
             >
-              <Icon size={20} style={{ color: "#D4AF37" }} />
+              <Icon size={20} style={{ color: "#00FF88" }} />
               <span
                 className="text-2xl font-black"
                 style={{ color: "#F2F2F8" }}
@@ -122,14 +122,14 @@ export default function Hero() {
       {/* Scroll hint */}
       <div
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-        style={{ color: "rgba(212,175,55,0.3)" }}
+        style={{ color: "rgba(0,255,136,0.3)" }}
       >
         <span className="text-xs tracking-widest uppercase">Scroll</span>
         <div
           className="w-px h-8"
           style={{
             background:
-              "linear-gradient(to bottom, rgba(212,175,55,0.4), transparent)",
+              "linear-gradient(to bottom, rgba(0,255,136,0.4), transparent)",
           }}
         />
       </div>

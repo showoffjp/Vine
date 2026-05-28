@@ -1,4 +1,6 @@
-import type { Metadata } from "next";
+"use client";
+
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
@@ -18,14 +20,9 @@ import {
   Trophy,
 } from "lucide-react";
 
-export const metadata: Metadata = {
-  title: "Life Hacks — Vine",
-  description:
-    "Biblical life hacks for modern living. Practical faith meets real life — money, relationships, productivity, health, and more.",
-};
 
 const trending = [
-  { title: "The 10-10-80 Money Method", saves: "4.2k", category: "Money", color: "#D4AF37" },
+  { title: "The 10-10-80 Money Method", saves: "4.2k", category: "Money", color: "#00FF88" },
   { title: "Phone-Free Sabbath Challenge", saves: "3.1k", category: "Digital Life", color: "#6B4FBB" },
   { title: "The 5AM Prayer Walk Habit", saves: "2.8k", category: "Health", color: "#4FBBAA" },
   { title: "Biblical Conflict Resolution Framework", saves: "2.1k", category: "Relationships", color: "#BB4F7A" },
@@ -59,7 +56,7 @@ const hacks = [
     title: "The Sabbath Rest Protocol",
     verse: "Exodus 20:8 — 'Remember the Sabbath day, to keep it holy.'",
     difficulty: "Life-changing",
-    diffColor: "#D4AF37",
+    diffColor: "#00FF88",
     impact: 5,
     category: "Productivity",
     catColor: "#4F8FBB",
@@ -95,7 +92,7 @@ const hacks = [
     diffColor: "#BB7A4F",
     impact: 4,
     category: "Money",
-    catColor: "#D4AF37",
+    catColor: "#00FF88",
     saves: 1870,
     description: "Pay minimum on all debts, attack the smallest one aggressively. Keep tithing while doing it — watch the supernatural provision.",
   },
@@ -114,7 +111,7 @@ const hacks = [
     title: "The Digital Detox Weekend",
     verse: "Romans 12:2 — 'Do not conform to the pattern of this world.'",
     difficulty: "Life-changing",
-    diffColor: "#D4AF37",
+    diffColor: "#00FF88",
     impact: 5,
     category: "Digital Life",
     catColor: "#6B4FBB",
@@ -142,6 +139,61 @@ const hacks = [
     catColor: "#BB7A4F",
     saves: 3340,
     description: "One verse, one question, one prayer around the dinner table. 10 minutes max. Kids remember these for decades.",
+  },
+  {
+    title: "The Sleep Sabbath",
+    verse: "Psalm 127:2 — 'He grants sleep to those he loves.'",
+    difficulty: "Medium",
+    diffColor: "#BB7A4F",
+    impact: 5,
+    category: "Sleep",
+    catColor: "#6B4FBB",
+    saves: 2760,
+    description: "One night per week with zero screens after 8PM. Replace scrolling with Scripture reading, journaling, or light stretching. Quality sleep is an act of trust in God.",
+  },
+  {
+    title: "The 10-Minute Wind-Down Prayer",
+    verse: "Psalm 4:8 — 'In peace I will lie down and sleep.'",
+    difficulty: "Easy",
+    diffColor: "#4FBBAA",
+    impact: 4,
+    category: "Sleep",
+    catColor: "#6B4FBB",
+    saves: 1890,
+    description: "Before bed: write down three things that happened today, one thing you're anxious about (give it to God), and one thing you're grateful for. Brain-dump to clear the mental queue.",
+  },
+  {
+    title: "Biblical Parenting Cheat Sheet",
+    verse: "Proverbs 22:6 — 'Train up a child in the way he should go.'",
+    difficulty: "Medium",
+    diffColor: "#BB7A4F",
+    impact: 5,
+    category: "Parenting",
+    catColor: "#BB7A4F",
+    saves: 4120,
+    description: "Three frameworks in one: (1) Connect before you correct. (2) Discipline addresses the heart, not just the behavior. (3) Your child needs to see your faith, not just hear about it.",
+  },
+  {
+    title: "The 10-10-80 Giving Method",
+    verse: "Malachi 3:10 — 'Bring the whole tithe into the storehouse.'",
+    difficulty: "Life-changing",
+    diffColor: "#00FF88",
+    impact: 5,
+    category: "Money",
+    catColor: "#00FF88",
+    saves: 4790,
+    description: "Give 10% to God first. Save 10% next. Live on 80%. This single discipline rewires your relationship with money more than any budget app. Try it for 90 days.",
+  },
+  {
+    title: "The Relationship Health Check",
+    verse: "Proverbs 27:17 — 'As iron sharpens iron, so one person sharpens another.'",
+    difficulty: "Medium",
+    diffColor: "#BB7A4F",
+    impact: 4,
+    category: "Relationships",
+    catColor: "#BB4F7A",
+    saves: 1650,
+    description: "Monthly 5-minute review of your 5 closest relationships: Are you listening more than talking? Are you serving or being served? Who needs a phone call this week?",
   },
 ];
 
@@ -173,6 +225,47 @@ const mostSaved = [
 ];
 
 export default function LifeHacksPage() {
+  const [activeCategory, setActiveCategory] = useState("All");
+  const [submitted, setSubmitted] = useState(false);
+  const [hackTitle, setHackTitle] = useState("");
+  const [savedHacks, setSavedHacks] = useState<Set<string>>(() => {
+    try {
+      const s = localStorage.getItem("vine_lifehacks_saved");
+      return s ? new Set(JSON.parse(s) as string[]) : new Set();
+    } catch { return new Set(); }
+  });
+  const [featuredSaved, setFeaturedSaved] = useState(() => {
+    try { return localStorage.getItem("vine_lifehacks_featured") === "1"; } catch { return false; }
+  });
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_lifehacks_saved", JSON.stringify([...savedHacks])); } catch {}
+  }, [savedHacks]);
+
+  useEffect(() => {
+    try { if (featuredSaved) localStorage.setItem("vine_lifehacks_featured", "1"); else localStorage.removeItem("vine_lifehacks_featured"); } catch {}
+  }, [featuredSaved]);
+
+  const toggleSaveHack = (title: string) => {
+    setSavedHacks((prev) => {
+      const next = new Set(prev);
+      if (next.has(title)) next.delete(title);
+      else next.add(title);
+      return next;
+    });
+  };
+
+  const filteredHacks = activeCategory === "All"
+    ? hacks
+    : hacks.filter((h) => h.category === activeCategory);
+
+  const handleSubmit = () => {
+    if (!hackTitle.trim()) return;
+    setSubmitted(true);
+    setHackTitle("");
+    setTimeout(() => setSubmitted(false), 3000);
+  };
+
   return (
     <div style={{ background: "#07070F", minHeight: "100vh" }}>
       <Navbar />
@@ -181,7 +274,7 @@ export default function LifeHacksPage() {
         {/* HERO */}
         <section
           style={{
-            background: "linear-gradient(180deg, rgba(212,175,55,0.14) 0%, rgba(107,79,187,0.06) 60%, transparent 100%)",
+            background: "linear-gradient(180deg, rgba(0,255,136,0.14) 0%, rgba(107,79,187,0.06) 60%, transparent 100%)",
             padding: "72px 0 56px",
             textAlign: "center",
           }}
@@ -192,15 +285,15 @@ export default function LifeHacksPage() {
                 display: "inline-flex",
                 alignItems: "center",
                 gap: "8px",
-                background: "rgba(212,175,55,0.1)",
-                border: "1px solid rgba(212,175,55,0.25)",
+                background: "rgba(0,255,136,0.1)",
+                border: "1px solid rgba(0,255,136,0.25)",
                 borderRadius: "100px",
                 padding: "6px 16px",
                 marginBottom: "24px",
               }}
             >
-              <Zap size={14} style={{ color: "#D4AF37" }} />
-              <span style={{ color: "#D4AF37", fontSize: "12px", fontWeight: 700, letterSpacing: "0.08em" }}>
+              <Zap size={14} style={{ color: "#00FF88" }} />
+              <span style={{ color: "#00FF88", fontSize: "12px", fontWeight: 700, letterSpacing: "0.08em" }}>
                 BIBLICAL LIFE HACKS
               </span>
             </div>
@@ -210,7 +303,7 @@ export default function LifeHacksPage() {
                 fontWeight: 900,
                 lineHeight: 1.05,
                 marginBottom: "20px",
-                background: "linear-gradient(135deg, #D4AF37 0%, #FFFFFF 50%, #D4AF37 100%)",
+                background: "linear-gradient(135deg, #00FF88 0%, #FFFFFF 50%, #00FF88 100%)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
@@ -227,7 +320,7 @@ export default function LifeHacksPage() {
         {/* HOT RIGHT NOW — HORIZONTAL SCROLL */}
         <div style={{ padding: "32px 0 0", borderBottom: "1px solid #1E1E32" }}>
           <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 24px" }}>
-            <p style={{ color: "#D4AF37", fontSize: "11px", fontWeight: 700, letterSpacing: "0.1em", marginBottom: "12px" }}>
+            <p style={{ color: "#00FF88", fontSize: "11px", fontWeight: 700, letterSpacing: "0.1em", marginBottom: "12px" }}>
               🔥 HOT RIGHT NOW
             </p>
           </div>
@@ -292,36 +385,46 @@ export default function LifeHacksPage() {
               flexWrap: "wrap",
             }}
           >
-            {categories.map((cat, i) => (
-              <button
-                key={i}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "6px",
-                  padding: "8px 16px",
-                  borderRadius: "100px",
-                  border: i === 0 ? "1px solid rgba(212,175,55,0.5)" : "1px solid #1E1E32",
-                  background: i === 0 ? "rgba(212,175,55,0.12)" : "transparent",
-                  color: i === 0 ? "#D4AF37" : "#8A8AA8",
-                  fontSize: "13px",
-                  fontWeight: 600,
-                  cursor: "pointer",
-                  flexShrink: 0,
-                }}
-              >
-                <cat.icon size={13} />
-                {cat.label}
-              </button>
-            ))}
+            {categories.map((cat, i) => {
+              const isActive = activeCategory === cat.label;
+              return (
+                <button
+                  key={i}
+                  onClick={() => setActiveCategory(cat.label)}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "6px",
+                    padding: "8px 16px",
+                    borderRadius: "100px",
+                    border: isActive ? "1px solid rgba(0,255,136,0.5)" : "1px solid #1E1E32",
+                    background: isActive ? "rgba(0,255,136,0.12)" : "transparent",
+                    color: isActive ? "#00FF88" : "#8A8AA8",
+                    fontSize: "13px",
+                    fontWeight: 600,
+                    cursor: "pointer",
+                    flexShrink: 0,
+                    transition: "all 0.15s",
+                  }}
+                >
+                  <cat.icon size={13} />
+                  {cat.label}
+                  {isActive && activeCategory !== "All" && (
+                    <span style={{ fontSize: "10px", background: "rgba(0,255,136,0.2)", borderRadius: "10px", padding: "1px 6px" }}>
+                      {filteredHacks.length}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
           </div>
 
           {/* FEATURED HACK */}
           <section style={{ marginBottom: "56px" }}>
             <div
               style={{
-                background: "linear-gradient(135deg, rgba(212,175,55,0.12) 0%, rgba(107,79,187,0.08) 100%)",
-                border: "1px solid rgba(212,175,55,0.25)",
+                background: "linear-gradient(135deg, rgba(0,255,136,0.12) 0%, rgba(107,79,187,0.08) 100%)",
+                border: "1px solid rgba(0,255,136,0.25)",
                 borderRadius: "24px",
                 padding: "40px",
               }}
@@ -329,9 +432,9 @@ export default function LifeHacksPage() {
               <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "20px", flexWrap: "wrap" }}>
                 <span
                   style={{
-                    background: "rgba(212,175,55,0.15)",
-                    border: "1px solid rgba(212,175,55,0.35)",
-                    color: "#D4AF37",
+                    background: "rgba(0,255,136,0.15)",
+                    border: "1px solid rgba(0,255,136,0.35)",
+                    color: "#00FF88",
                     borderRadius: "100px",
                     padding: "4px 12px",
                     fontSize: "11px",
@@ -367,7 +470,7 @@ export default function LifeHacksPage() {
                       textAlign: "center",
                     }}
                   >
-                    <p style={{ fontSize: "32px", fontWeight: 900, color: "#D4AF37", marginBottom: "4px" }}>{step.pct}</p>
+                    <p style={{ fontSize: "32px", fontWeight: 900, color: "#00FF88", marginBottom: "4px" }}>{step.pct}</p>
                     <p style={{ color: "#F2F2F8", fontWeight: 700, fontSize: "15px", marginBottom: "8px" }}>{step.label}</p>
                     <p style={{ color: "#8A8AA8", fontSize: "12px", lineHeight: 1.6 }}>{step.detail}</p>
                   </div>
@@ -390,7 +493,7 @@ export default function LifeHacksPage() {
                     <p style={{ color: "#C0C0D8", fontSize: "13px", fontStyle: "italic", lineHeight: 1.6, marginBottom: "8px" }}>
                       &ldquo;{t.quote}&rdquo;
                     </p>
-                    <p style={{ color: "#D4AF37", fontSize: "12px", fontWeight: 700 }}>— {t.name}</p>
+                    <p style={{ color: "#00FF88", fontSize: "12px", fontWeight: 700 }}>— {t.name}</p>
                   </div>
                 ))}
               </div>
@@ -403,7 +506,13 @@ export default function LifeHacksPage() {
               All Hacks
             </h2>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: "16px" }}>
-              {hacks.map((hack, i) => (
+              {filteredHacks.length === 0 ? (
+                <div style={{ gridColumn: "1 / -1", padding: "40px", textAlign: "center", color: "#6A6A88" }}>
+                  <p style={{ fontSize: "32px", marginBottom: "12px" }}>🔍</p>
+                  <p style={{ fontWeight: 700, color: "#F2F2F8", marginBottom: "4px" }}>No hacks in this category yet</p>
+                  <p style={{ fontSize: "14px" }}>Be the first to submit one!</p>
+                </div>
+              ) : filteredHacks.map((hack, i) => (
                 <div
                   key={i}
                   style={{
@@ -459,15 +568,25 @@ export default function LifeHacksPage() {
                         <Star
                           key={si}
                           size={13}
-                          fill={si < hack.impact ? "#D4AF37" : "transparent"}
-                          style={{ color: si < hack.impact ? "#D4AF37" : "#1E1E32" }}
+                          fill={si < hack.impact ? "#00FF88" : "transparent"}
+                          style={{ color: si < hack.impact ? "#00FF88" : "#1E1E32" }}
                         />
                       ))}
                     </div>
-                    <span style={{ color: "#6A6A88", fontSize: "12px" }}>
-                      <Bookmark size={11} style={{ display: "inline", verticalAlign: "middle", marginRight: "4px" }} />
-                      {hack.saves.toLocaleString()} saves
-                    </span>
+                    <button
+                      onClick={() => toggleSaveHack(hack.title)}
+                      style={{
+                        display: "flex", alignItems: "center", gap: "5px",
+                        background: savedHacks.has(hack.title) ? "rgba(0,255,136,0.1)" : "transparent",
+                        border: savedHacks.has(hack.title) ? "1px solid rgba(0,255,136,0.3)" : "1px solid rgba(255,255,255,0.08)",
+                        borderRadius: "8px", padding: "4px 10px", cursor: "pointer",
+                        color: savedHacks.has(hack.title) ? "#00FF88" : "#6A6A88", fontSize: "12px", fontWeight: 600,
+                        transition: "all 0.15s",
+                      }}
+                    >
+                      <Bookmark size={11} fill={savedHacks.has(hack.title) ? "#00FF88" : "none"} />
+                      {savedHacks.has(hack.title) ? "Saved" : `${hack.saves.toLocaleString()}`}
+                    </button>
                   </div>
                 </div>
               ))}
@@ -477,7 +596,7 @@ export default function LifeHacksPage() {
           {/* HACK OF THE WEEK */}
           <section style={{ marginBottom: "56px" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "24px" }}>
-              <Trophy size={22} style={{ color: "#D4AF37" }} />
+              <Trophy size={22} style={{ color: "#00FF88" }} />
               <h2 style={{ fontSize: "24px", fontWeight: 800, color: "#F2F2F8" }}>Hack of the Week</h2>
             </div>
             <div
@@ -532,8 +651,8 @@ export default function LifeHacksPage() {
                         width: "32px",
                         height: "32px",
                         borderRadius: "50%",
-                        background: "rgba(212,175,55,0.15)",
-                        color: "#D4AF37",
+                        background: "rgba(0,255,136,0.15)",
+                        color: "#00FF88",
                         fontSize: "14px",
                         fontWeight: 800,
                         display: "flex",
@@ -563,7 +682,7 @@ export default function LifeHacksPage() {
                     <p style={{ color: "#C0C0D8", fontSize: "13px", fontStyle: "italic", lineHeight: 1.6, marginBottom: "8px" }}>
                       &ldquo;{t.quote}&rdquo;
                     </p>
-                    <p style={{ color: "#D4AF37", fontSize: "12px", fontWeight: 700 }}>— {t.name}</p>
+                    <p style={{ color: "#00FF88", fontSize: "12px", fontWeight: 700 }}>— {t.name}</p>
                   </div>
                 ))}
               </div>
@@ -574,8 +693,8 @@ export default function LifeHacksPage() {
           <section style={{ marginBottom: "56px" }}>
             <div
               style={{
-                background: "linear-gradient(135deg, rgba(107,79,187,0.14) 0%, rgba(212,175,55,0.07) 100%)",
-                border: "1px solid rgba(212,175,55,0.2)",
+                background: "linear-gradient(135deg, rgba(107,79,187,0.14) 0%, rgba(0,255,136,0.07) 100%)",
+                border: "1px solid rgba(0,255,136,0.2)",
                 borderRadius: "24px",
                 padding: "40px",
               }}
@@ -589,7 +708,8 @@ export default function LifeHacksPage() {
                 </p>
                 <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
                   <input
-                    readOnly
+                    value={hackTitle}
+                    onChange={(e) => setHackTitle(e.target.value)}
                     placeholder="Hack title (e.g. 'The 2-Minute Evening Prayer Reset')"
                     style={{
                       background: "#12121F",
@@ -632,25 +752,33 @@ export default function LifeHacksPage() {
                       width: "100%",
                     }}
                   />
-                  <button
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      gap: "8px",
-                      background: "linear-gradient(135deg, #D4AF37, #B8922A)",
-                      color: "#07070F",
-                      border: "none",
-                      borderRadius: "12px",
-                      padding: "14px 28px",
-                      fontWeight: 800,
-                      fontSize: "15px",
-                      cursor: "pointer",
-                      alignSelf: "flex-start",
-                    }}
-                  >
-                    <Send size={15} /> Submit Hack
-                  </button>
+                  {submitted ? (
+                    <div style={{ background: "rgba(0,255,136,0.1)", border: "1px solid rgba(0,255,136,0.25)", borderRadius: "12px", padding: "14px 28px", color: "#00FF88", fontWeight: 700, fontSize: "15px", textAlign: "center" }}>
+                      ✓ Hack submitted! We&apos;ll review it shortly.
+                    </div>
+                  ) : (
+                    <button
+                      onClick={handleSubmit}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: "8px",
+                        background: hackTitle.trim() ? "linear-gradient(135deg, #00FF88, #B8922A)" : "#1E1E32",
+                        color: hackTitle.trim() ? "#07070F" : "#4A4A68",
+                        border: "none",
+                        borderRadius: "12px",
+                        padding: "14px 28px",
+                        fontWeight: 800,
+                        fontSize: "15px",
+                        cursor: hackTitle.trim() ? "pointer" : "not-allowed",
+                        alignSelf: "flex-start",
+                        transition: "all 0.2s",
+                      }}
+                    >
+                      <Send size={15} /> Submit Hack
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
@@ -659,7 +787,7 @@ export default function LifeHacksPage() {
           {/* MOST SAVED THIS MONTH */}
           <section>
             <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "24px" }}>
-              <TrendingUp size={22} style={{ color: "#D4AF37" }} />
+              <TrendingUp size={22} style={{ color: "#00FF88" }} />
               <h2 style={{ fontSize: "24px", fontWeight: 800, color: "#F2F2F8" }}>Most Saved This Month</h2>
             </div>
             <div
@@ -687,13 +815,13 @@ export default function LifeHacksPage() {
                       width: "32px",
                       height: "32px",
                       borderRadius: "50%",
-                      background: i === 0 ? "rgba(212,175,55,0.2)" : "rgba(255,255,255,0.04)",
+                      background: i === 0 ? "rgba(0,255,136,0.2)" : "rgba(255,255,255,0.04)",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
                       fontSize: "14px",
                       fontWeight: 800,
-                      color: i === 0 ? "#D4AF37" : "#6A6A88",
+                      color: i === 0 ? "#00FF88" : "#6A6A88",
                       flexShrink: 0,
                     }}
                   >
@@ -706,8 +834,8 @@ export default function LifeHacksPage() {
                     <p style={{ color: "#6A6A88", fontSize: "12px" }}>{item.category}</p>
                   </div>
                   <div style={{ display: "flex", alignItems: "center", gap: "6px", flexShrink: 0 }}>
-                    <Bookmark size={14} style={{ color: "#D4AF37" }} />
-                    <span style={{ color: "#D4AF37", fontSize: "14px", fontWeight: 700 }}>{item.saves}</span>
+                    <Bookmark size={14} style={{ color: "#00FF88" }} />
+                    <span style={{ color: "#00FF88", fontSize: "14px", fontWeight: 700 }}>{item.saves}</span>
                   </div>
                   <ChevronRight size={16} style={{ color: "#6A6A88", flexShrink: 0 }} />
                 </div>

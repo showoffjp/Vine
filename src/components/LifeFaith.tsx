@@ -45,7 +45,7 @@ const lifehacks = [
   },
   {
     icon: Briefcase,
-    color: "#D4AF37",
+    color: "#00FF88",
     title: "Work as Worship",
     hack: "Before each task, ask: 'Can I do this excellently, as unto the Lord?' It transforms your motivation and your output.",
     verse: "Colossians 3:23",
@@ -60,7 +60,7 @@ export default function LifeFaith() {
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse 60% 50% at 30% 50%, rgba(212,175,55,0.03) 0%, transparent 70%)",
+            "radial-gradient(ellipse 60% 50% at 30% 50%, rgba(0,255,136,0.03) 0%, transparent 70%)",
         }}
       />
 

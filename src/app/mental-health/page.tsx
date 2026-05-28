@@ -1,6 +1,6 @@
-import type { Metadata } from "next";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+"use client";
+
+import { useState, useEffect } from "react";
 import {
   Heart,
   Phone,
@@ -19,11 +19,6 @@ import {
   Quote,
 } from "lucide-react";
 
-export const metadata: Metadata = {
-  title: "Mental Health & Inner Healing — Vine",
-  description:
-    "Faith-based mental health resources, Christian therapist directory, and peer support — because God meets us in our pain.",
-};
 
 const entryPoints = [
   {
@@ -37,8 +32,8 @@ const entryPoints = [
   {
     title: "I'm Going Through Depression",
     icon: Sun,
-    color: "#D4AF37",
-    gradient: "linear-gradient(135deg, rgba(212,175,55,0.2), rgba(212,175,55,0.05))",
+    color: "#00FF88",
+    gradient: "linear-gradient(135deg, rgba(0,255,136,0.2), rgba(0,255,136,0.05))",
     desc: "You're not alone and this is not weakness. Explore stories, resources, and professional support paths.",
     count: "28 resources",
   },
@@ -79,14 +74,14 @@ const faithBasics = [
 ];
 
 const resources = [
-  { topic: "Anxiety", type: "Article", title: "When Prayer Feels Like It Isn't Working", time: "8 min read", color: "#6B4FBB" },
-  { topic: "Depression", type: "Video", title: "My Journey Through the Dark Night of the Soul", time: "22 min watch", color: "#D4AF37" },
-  { topic: "Grief", type: "Article", title: "God, Grief, and the Permission to Mourn", time: "12 min read", color: "#4F8FBB" },
-  { topic: "Trauma", type: "Audio", title: "Healing the Wounds We Don't Show Anyone", time: "38 min listen", color: "#4FBBAA" },
-  { topic: "Loneliness", type: "Article", title: "The Lonely Christian: You Are Not Abandoned", time: "6 min read", color: "#BB7A4F" },
-  { topic: "Burnout", type: "Video", title: "Sabbath Is Not Optional — It's Medicine", time: "18 min watch", color: "#BB4F7A" },
-  { topic: "Addiction", type: "Article", title: "Breaking Chains: Faith & Recovery Programs That Work", time: "15 min read", color: "#8A5FBB" },
-  { topic: "Relationships", type: "Audio", title: "Healthy Boundaries: A Biblical Perspective", time: "45 min listen", color: "#4FBBAA" },
+  { topic: "Anxiety", type: "Article", title: "When Prayer Feels Like It Isn't Working", time: "8 min read", color: "#6B4FBB", href: "/discussions/prayer-doesnt-feel-real-009" },
+  { topic: "Depression", type: "Discussion", title: "My Journey Through the Dark Night of the Soul", time: "Community", color: "#00FF88", href: "/discussions/worship-feels-empty-011" },
+  { topic: "Grief", type: "Article", title: "God, Grief, and the Permission to Mourn", time: "12 min read", color: "#4F8FBB", href: "/blog/psalms-permission-to-lament" },
+  { topic: "Trauma", type: "Discussion", title: "Healing the Wounds We Don't Show Anyone", time: "Community", color: "#4FBBAA", href: "/discussions/depression-therapy-faith-005" },
+  { topic: "Loneliness", type: "Article", title: "The Lonely Christian: You Are Not Abandoned", time: "6 min read", color: "#BB7A4F", href: "/topics/mental-health-god" },
+  { topic: "Burnout", type: "Article", title: "Sabbath Is Not Optional — It's Medicine", time: "8 min read", color: "#BB4F7A", href: "/blog/digital-sabbath" },
+  { topic: "Addiction", type: "Groups", title: "Breaking Chains: Faith & Recovery Programs", time: "Community", color: "#8A5FBB", href: "/groups/mental-health-faith" },
+  { topic: "Relationships", type: "Article", title: "Healthy Boundaries: A Biblical Perspective", time: "8 min read", color: "#4FBBAA", href: "/discussions/marriage-hard-church-silent-013" },
 ];
 
 const therapists = [
@@ -110,7 +105,7 @@ const therapists = [
     rating: 4.8,
     reviews: 62,
     initials: "JW",
-    color: "#D4AF37",
+    color: "#00FF88",
   },
   {
     name: "Maria Elena Reyes",
@@ -139,15 +134,31 @@ const therapists = [
 const supportGroups = [
   { name: "Anxiety & Faith Circle", members: "2.1k", meets: "Tuesdays 7PM ET", color: "#6B4FBB" },
   { name: "Grief & Loss Support", members: "1.4k", meets: "Sundays 3PM ET", color: "#4F8FBB" },
-  { name: "Recovery & Restoration", members: "987", meets: "Mondays 8PM ET", color: "#D4AF37" },
+  { name: "Recovery & Restoration", members: "987", meets: "Mondays 8PM ET", color: "#00FF88" },
   { name: "Women Healing Together", members: "3.2k", meets: "Thursdays 6PM ET", color: "#BB4F7A" },
   { name: "Men's Mental Health Space", members: "1.8k", meets: "Fridays 7PM ET", color: "#4FBBAA" },
 ];
 
 export default function MentalHealthPage() {
+  const [bookedSessions, setBookedSessions] = useState<Set<number>>(() => {
+    try { const s = localStorage.getItem("vine_mh_booked"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
+  });
+  const [joinedGroups, setJoinedGroups] = useState<Set<number>>(() => {
+    try { const s = localStorage.getItem("vine_mh_groups"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
+  });
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_mh_booked", JSON.stringify([...bookedSessions])); } catch {}
+  }, [bookedSessions]);
+  useEffect(() => {
+    try { localStorage.setItem("vine_mh_groups", JSON.stringify([...joinedGroups])); } catch {}
+  }, [joinedGroups]);
+
+  const toggleBook = (i: number) => setBookedSessions(prev => { const n = new Set(prev); n.has(i) ? n.delete(i) : n.add(i); return n; });
+  const toggleJoinGroup = (i: number) => setJoinedGroups(prev => { const n = new Set(prev); n.has(i) ? n.delete(i) : n.add(i); return n; });
+
   return (
     <div style={{ background: "#07070F", minHeight: "100vh" }}>
-      <Navbar />
 
       <main style={{ paddingTop: "80px" }}>
         {/* CRISIS BANNER */}
@@ -160,9 +171,9 @@ export default function MentalHealthPage() {
           }}
         >
           <p style={{ color: "#C0C0D8", fontSize: "14px" }}>
-            <AlertTriangle size={14} style={{ display: "inline", verticalAlign: "middle", marginRight: "6px", color: "#D4AF37" }} />
+            <AlertTriangle size={14} style={{ display: "inline", verticalAlign: "middle", marginRight: "6px", color: "#00FF88" }} />
             <strong style={{ color: "#F2F2F8" }}>If you're in crisis, please call or text </strong>
-            <strong style={{ color: "#D4AF37" }}>988</strong>
+            <strong style={{ color: "#00FF88" }}>988</strong>
             <span style={{ color: "#8A8AA8" }}> (Suicide & Crisis Lifeline) — available 24/7.</span>
           </p>
         </div>
@@ -170,7 +181,7 @@ export default function MentalHealthPage() {
         {/* HERO */}
         <section
           style={{
-            background: "linear-gradient(180deg, rgba(107,79,187,0.12) 0%, rgba(212,175,55,0.04) 60%, transparent 100%)",
+            background: "linear-gradient(180deg, rgba(107,79,187,0.12) 0%, rgba(0,255,136,0.04) 60%, transparent 100%)",
             padding: "72px 24px 60px",
             textAlign: "center",
           }}
@@ -181,15 +192,15 @@ export default function MentalHealthPage() {
                 display: "inline-flex",
                 alignItems: "center",
                 gap: "8px",
-                background: "rgba(212,175,55,0.1)",
-                border: "1px solid rgba(212,175,55,0.25)",
+                background: "rgba(0,255,136,0.1)",
+                border: "1px solid rgba(0,255,136,0.25)",
                 borderRadius: "100px",
                 padding: "6px 16px",
                 marginBottom: "24px",
               }}
             >
-              <Heart size={14} style={{ color: "#D4AF37" }} />
-              <span style={{ color: "#D4AF37", fontSize: "12px", fontWeight: 700, letterSpacing: "0.08em" }}>
+              <Heart size={14} style={{ color: "#00FF88" }} />
+              <span style={{ color: "#00FF88", fontSize: "12px", fontWeight: 700, letterSpacing: "0.08em" }}>
                 MENTAL HEALTH & INNER HEALING
               </span>
             </div>
@@ -300,21 +311,27 @@ export default function MentalHealthPage() {
           <section style={{ marginBottom: "64px" }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "24px" }}>
               <h2 style={{ fontSize: "24px", fontWeight: 800, color: "#F2F2F8" }}>Resource Library</h2>
-              <button style={{ display: "flex", alignItems: "center", gap: "6px", color: "#D4AF37", fontSize: "14px", fontWeight: 600, background: "none", border: "none", cursor: "pointer" }}>
+              <button style={{ display: "flex", alignItems: "center", gap: "6px", color: "#00FF88", fontSize: "14px", fontWeight: 600, background: "none", border: "none", cursor: "pointer" }}>
                 View All <ChevronRight size={16} />
               </button>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: "14px" }}>
               {resources.map((res, i) => (
-                <div
+                <a
                   key={i}
+                  href={res.href}
                   style={{
                     background: "#12121F",
                     border: "1px solid #1E1E32",
                     borderRadius: "16px",
                     padding: "20px",
                     cursor: "pointer",
+                    display: "block",
+                    textDecoration: "none",
+                    transition: "border-color 0.2s, background 0.2s",
                   }}
+                  onMouseEnter={(e) => { e.currentTarget.style.borderColor = `${res.color}40`; e.currentTarget.style.background = `${res.color}06`; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.borderColor = "#1E1E32"; e.currentTarget.style.background = "#12121F"; }}
                 >
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "12px" }}>
                     <span
@@ -335,7 +352,7 @@ export default function MentalHealthPage() {
                     {res.title}
                   </h3>
                   <p style={{ color: "#6A6A88", fontSize: "12px" }}>{res.time}</p>
-                </div>
+                </a>
               ))}
             </div>
           </section>
@@ -414,17 +431,18 @@ export default function MentalHealthPage() {
                     </p>
                   </div>
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "16px" }}>
-                    <span style={{ display: "flex", alignItems: "center", gap: "4px", color: "#D4AF37", fontSize: "13px", fontWeight: 700 }}>
-                      <Star size={13} fill="#D4AF37" /> {t.rating}
+                    <span style={{ display: "flex", alignItems: "center", gap: "4px", color: "#00FF88", fontSize: "13px", fontWeight: 700 }}>
+                      <Star size={13} fill="#00FF88" /> {t.rating}
                       <span style={{ color: "#6A6A88", fontWeight: 400 }}>({t.reviews})</span>
                     </span>
                   </div>
                   <button
+                    onClick={() => toggleBook(i)}
                     style={{
                       width: "100%",
-                      background: "linear-gradient(135deg, #D4AF37, #B8922A)",
-                      color: "#07070F",
-                      border: "none",
+                      background: bookedSessions.has(i) ? "rgba(0,255,136,0.15)" : "linear-gradient(135deg, #00FF88, #B8922A)",
+                      color: bookedSessions.has(i) ? "#00FF88" : "#07070F",
+                      border: bookedSessions.has(i) ? "1px solid rgba(0,255,136,0.3)" : "none",
                       borderRadius: "10px",
                       padding: "10px",
                       fontWeight: 700,
@@ -434,9 +452,10 @@ export default function MentalHealthPage() {
                       alignItems: "center",
                       justifyContent: "center",
                       gap: "6px",
+                      transition: "all 0.2s",
                     }}
                   >
-                    <Calendar size={13} /> Book Session
+                    <Calendar size={13} /> {bookedSessions.has(i) ? "✓ Session Requested!" : "Book Session"}
                   </button>
                 </div>
               ))}
@@ -472,19 +491,21 @@ export default function MentalHealthPage() {
                     {group.meets}
                   </p>
                   <button
+                    onClick={() => toggleJoinGroup(i)}
                     style={{
                       width: "100%",
-                      background: `${group.color}15`,
+                      background: joinedGroups.has(i) ? group.color : `${group.color}15`,
                       border: `1px solid ${group.color}30`,
-                      color: group.color,
+                      color: joinedGroups.has(i) ? "#07070F" : group.color,
                       borderRadius: "8px",
                       padding: "8px",
                       fontWeight: 700,
                       fontSize: "12px",
                       cursor: "pointer",
+                      transition: "all 0.2s",
                     }}
                   >
-                    Join Group
+                    {joinedGroups.has(i) ? "✓ Joined!" : "Join Group"}
                   </button>
                 </div>
               ))}
@@ -505,25 +526,25 @@ export default function MentalHealthPage() {
                   padding: "32px",
                 }}
               >
-                <p style={{ color: "#D4AF37", fontSize: "11px", fontWeight: 700, letterSpacing: "0.1em", marginBottom: "16px" }}>
+                <p style={{ color: "#00FF88", fontSize: "11px", fontWeight: 700, letterSpacing: "0.1em", marginBottom: "16px" }}>
                   TODAY&apos;S VERSE
                 </p>
                 <p style={{ color: "#F2F2F8", fontSize: "18px", fontStyle: "italic", lineHeight: 1.7, marginBottom: "16px" }}>
                   &ldquo;He heals the brokenhearted and binds up their wounds.&rdquo;
                 </p>
-                <p style={{ color: "#D4AF37", fontWeight: 700, fontSize: "14px" }}>— Psalm 147:3</p>
+                <p style={{ color: "#00FF88", fontWeight: 700, fontSize: "14px" }}>— Psalm 147:3</p>
               </div>
               <div
                 style={{
-                  background: "linear-gradient(135deg, rgba(212,175,55,0.12) 0%, rgba(212,175,55,0.03) 100%)",
-                  border: "1px solid rgba(212,175,55,0.2)",
+                  background: "linear-gradient(135deg, rgba(0,255,136,0.12) 0%, rgba(0,255,136,0.03) 100%)",
+                  border: "1px solid rgba(0,255,136,0.2)",
                   borderRadius: "20px",
                   padding: "32px",
                 }}
               >
                 <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "16px" }}>
-                  <Quote size={16} style={{ color: "#D4AF37" }} />
-                  <p style={{ color: "#D4AF37", fontSize: "11px", fontWeight: 700, letterSpacing: "0.1em" }}>
+                  <Quote size={16} style={{ color: "#00FF88" }} />
+                  <p style={{ color: "#00FF88", fontSize: "11px", fontWeight: 700, letterSpacing: "0.1em" }}>
                     FROM SPURGEON ON SUFFERING
                   </p>
                 </div>
@@ -574,8 +595,8 @@ export default function MentalHealthPage() {
               </div>
               <div>
                 <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "16px" }}>
-                  <div style={{ width: "36px", height: "36px", borderRadius: "10px", background: "rgba(212,175,55,0.15)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <Users size={18} style={{ color: "#D4AF37" }} />
+                  <div style={{ width: "36px", height: "36px", borderRadius: "10px", background: "rgba(0,255,136,0.15)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <Users size={18} style={{ color: "#00FF88" }} />
                   </div>
                   <h3 style={{ color: "#F2F2F8", fontWeight: 700, fontSize: "17px" }}>Community Support</h3>
                 </div>
@@ -587,7 +608,7 @@ export default function MentalHealthPage() {
                     "Available 24/7, no appointment needed",
                     "Best for: loneliness, everyday struggles, faith questions",
                   ].map((item, i) => (
-                    <li key={i} style={{ color: "#8A8AA8", fontSize: "14px", lineHeight: 1.6, padding: "4px 0", paddingLeft: "16px", borderLeft: "2px solid rgba(212,175,55,0.4)", marginBottom: "4px" }}>
+                    <li key={i} style={{ color: "#8A8AA8", fontSize: "14px", lineHeight: 1.6, padding: "4px 0", paddingLeft: "16px", borderLeft: "2px solid rgba(0,255,136,0.4)", marginBottom: "4px" }}>
                       {item}
                     </li>
                   ))}
@@ -600,7 +621,7 @@ export default function MentalHealthPage() {
           <section>
             <div
               style={{
-                background: "linear-gradient(135deg, rgba(107,79,187,0.18) 0%, rgba(212,175,55,0.08) 100%)",
+                background: "linear-gradient(135deg, rgba(107,79,187,0.18) 0%, rgba(0,255,136,0.08) 100%)",
                 border: "1px solid rgba(107,79,187,0.25)",
                 borderRadius: "24px",
                 padding: "56px",
@@ -620,7 +641,7 @@ export default function MentalHealthPage() {
                     display: "flex",
                     alignItems: "center",
                     gap: "8px",
-                    background: "linear-gradient(135deg, #D4AF37, #B8922A)",
+                    background: "linear-gradient(135deg, #00FF88, #B8922A)",
                     color: "#07070F",
                     border: "none",
                     borderRadius: "12px",
@@ -655,7 +676,6 @@ export default function MentalHealthPage() {
         </div>
       </main>
 
-      <Footer />
     </div>
   );
 }

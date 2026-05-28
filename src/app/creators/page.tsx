@@ -1,4 +1,6 @@
-import type { Metadata } from "next";
+"use client";
+
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
@@ -18,11 +20,6 @@ import {
   ArrowRight,
 } from "lucide-react";
 
-export const metadata: Metadata = {
-  title: "Creators — Vine",
-  description:
-    "Discover teachers, worship leaders, devotional writers, apologists, and voices of faith from around the world.",
-};
 
 const featuredCreator = {
   name: "Ama Christabel",
@@ -32,6 +29,7 @@ const featuredCreator = {
   followers: "84,200",
   posts: 847,
   videos: 124,
+  slug: "ama-christabel",
   bio: "Teaching the unchanging Word in a changing world. From Accra to the global church, I help believers go deeper into Scripture with joy and clarity.",
   tags: ["Bible Study", "Devotionals", "Women's Ministry"],
   gradient: "linear-gradient(135deg, #1A1430 0%, #2D1B69 50%, #1A2A0A 100%)",
@@ -54,7 +52,21 @@ const filterPills: FilterPill[] = [
   "Youth",
 ];
 
-const creators = [
+type Creator = {
+  initials: string;
+  name: string;
+  country: string;
+  flag: string;
+  role: string;
+  followers: string;
+  badges: string[];
+  bio: string;
+  verified: boolean;
+  avatarGradient: string;
+  slug: string | null;
+};
+
+const creators: Creator[] = [
   {
     initials: "MO",
     name: "Marcus Osei",
@@ -65,7 +77,8 @@ const creators = [
     badges: ["Theology", "Expository Preaching", "Men's Ministry"],
     bio: "Making deep theology accessible to everyday believers.",
     verified: true,
-    avatarGradient: "linear-gradient(135deg, #D4AF37 0%, #8B4513 100%)",
+    avatarGradient: "linear-gradient(135deg, #00FF88 0%, #8B4513 100%)",
+    slug: "marcus-osei",
   },
   {
     initials: "SJ",
@@ -78,6 +91,7 @@ const creators = [
     bio: "Leading hearts into the presence of God through prophetic worship.",
     verified: true,
     avatarGradient: "linear-gradient(135deg, #6B4FBB 0%, #BB4F7A 100%)",
+    slug: "sarah-jennings",
   },
   {
     initials: "TC",
@@ -90,6 +104,7 @@ const creators = [
     bio: "Defending the faith with grace and intellectual rigor.",
     verified: true,
     avatarGradient: "linear-gradient(135deg, #1A6B2A 0%, #4FBBAA 100%)",
+    slug: "tunde-coker",
   },
   {
     initials: "JY",
@@ -102,6 +117,7 @@ const creators = [
     bio: "Writing devotionals that bridge Eastern thought and biblical truth.",
     verified: false,
     avatarGradient: "linear-gradient(135deg, #4F8FBB 0%, #1A1A60 100%)",
+    slug: "ji-yeon-park",
   },
   {
     initials: "LF",
@@ -113,7 +129,8 @@ const creators = [
     badges: ["Youth Ministry", "Evangelism", "Discipleship"],
     bio: "Equipping the next generation of Brazilian believers for mission.",
     verified: false,
-    avatarGradient: "linear-gradient(135deg, #2A8A2A 0%, #D4AF37 100%)",
+    avatarGradient: "linear-gradient(135deg, #2A8A2A 0%, #00FF88 100%)",
+    slug: "luiz-figueiredo",
   },
   {
     initials: "EV",
@@ -126,6 +143,7 @@ const creators = [
     bio: "Integrating psychology and Scripture for whole-person healing.",
     verified: true,
     avatarGradient: "linear-gradient(135deg, #4FBBAA 0%, #1A4A6B 100%)",
+    slug: "eva-van-der-berg",
   },
   {
     initials: "GW",
@@ -138,6 +156,7 @@ const creators = [
     bio: "Pouring out the faithfulness of God one story at a time.",
     verified: false,
     avatarGradient: "linear-gradient(135deg, #BB4F7A 0%, #4A1A1A 100%)",
+    slug: "grace-wanjiku",
   },
   {
     initials: "CM",
@@ -149,7 +168,8 @@ const creators = [
     badges: ["Marriage", "Family", "Biblical Counseling"],
     bio: "Helping couples build Christ-centered, lasting covenant marriages.",
     verified: false,
-    avatarGradient: "linear-gradient(135deg, #D4AF37 0%, #BB4F4F 100%)",
+    avatarGradient: "linear-gradient(135deg, #00FF88 0%, #BB4F4F 100%)",
+    slug: "carlos-mendoza",
   },
   {
     initials: "PR",
@@ -162,6 +182,7 @@ const creators = [
     bio: "Bringing the light of Christ to the subcontinent through the Word.",
     verified: false,
     avatarGradient: "linear-gradient(135deg, #E07030 0%, #6B4FBB 100%)",
+    slug: "priya-rajan",
   },
   {
     initials: "BH",
@@ -174,6 +195,7 @@ const creators = [
     bio: "Showing that Christianity is not only livable — it's intellectually compelling.",
     verified: true,
     avatarGradient: "linear-gradient(135deg, #4F8FBB 0%, #1A3A1A 100%)",
+    slug: "ben-harrison",
   },
   {
     initials: "RA",
@@ -185,7 +207,8 @@ const creators = [
     badges: ["Worship", "Gospel", "African Diaspora"],
     bio: "Crafting anthems of praise that move both heaven and earth.",
     verified: true,
-    avatarGradient: "linear-gradient(135deg, #6B4FBB 0%, #D4AF37 100%)",
+    avatarGradient: "linear-gradient(135deg, #6B4FBB 0%, #00FF88 100%)",
+    slug: "ruth-adeyemi",
   },
   {
     initials: "JP",
@@ -198,6 +221,7 @@ const creators = [
     bio: "Planting churches across the unreached islands of Southeast Asia.",
     verified: false,
     avatarGradient: "linear-gradient(135deg, #4FBBAA 0%, #4F8FBB 100%)",
+    slug: "joel-pastrana",
   },
 ];
 
@@ -213,27 +237,56 @@ const roleIcons: Record<string, React.ComponentType<{ size?: number; style?: Rea
 };
 
 export default function CreatorsPage() {
+  const [activeFilter, setActiveFilter] = useState("All");
+  const [followingFeatured, setFollowingFeatured] = useState(() => {
+    try { return localStorage.getItem("vine_creators_featured") === "1"; } catch { return false; }
+  });
+  const [followedCreators, setFollowedCreators] = useState<Set<string>>(() => {
+    try { const s = localStorage.getItem("vine_creators_followed"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
+  });
+  const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    try { if (followingFeatured) localStorage.setItem("vine_creators_featured", "1"); else localStorage.removeItem("vine_creators_featured"); } catch {}
+  }, [followingFeatured]);
+  useEffect(() => {
+    try { localStorage.setItem("vine_creators_followed", JSON.stringify([...followedCreators])); } catch {}
+  }, [followedCreators]);
+
+  const filteredCreators = creators.filter(c => {
+    const matchFilter = activeFilter === "All" ||
+      (activeFilter === "Teachers" && c.role === "Bible Teacher") ||
+      (activeFilter === "Worship Leaders" && c.role === "Worship Leader") ||
+      (activeFilter === "Writers" && c.role === "Devotional Writer") ||
+      (activeFilter === "Therapists" && c.role === "Christian Therapist") ||
+      (activeFilter === "Pastors" && (c.role === "Youth Pastor" || c.role.includes("Pastor"))) ||
+      (activeFilter === "Apologists" && c.role === "Apologist") ||
+      (activeFilter === "Youth" && c.role === "Youth Pastor");
+    const matchSearch = !search || c.name.toLowerCase().includes(search.toLowerCase()) || c.role.toLowerCase().includes(search.toLowerCase());
+    return matchFilter && matchSearch;
+  });
+
   return (
     <div className="min-h-screen" style={{ background: "#07070F" }}>
       <Navbar />
 
-      <main className="pt-16">
+      <main className="page-body">
         {/* Hero */}
         <section className="relative py-20 px-4 text-center overflow-hidden">
           <div
             className="absolute inset-0"
             style={{
               background:
-                "radial-gradient(ellipse 80% 60% at 50% 0%, rgba(212,175,55,0.1) 0%, rgba(107,79,187,0.08) 40%, transparent 70%)",
+                "radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0,255,136,0.1) 0%, rgba(107,79,187,0.08) 40%, transparent 70%)",
             }}
           />
           <div className="relative max-w-3xl mx-auto">
             <span
               className="inline-block mb-4 text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-full"
               style={{
-                background: "rgba(212,175,55,0.1)",
-                color: "#D4AF37",
-                border: "1px solid rgba(212,175,55,0.2)",
+                background: "rgba(0,255,136,0.1)",
+                color: "#00FF88",
+                border: "1px solid rgba(0,255,136,0.2)",
               }}
             >
               1,240+ Verified Creators
@@ -242,7 +295,7 @@ export default function CreatorsPage() {
               Vine{" "}
               <span
                 style={{
-                  backgroundImage: "linear-gradient(90deg, #D4AF37 0%, #F0D060 50%, #D4AF37 100%)",
+                  backgroundImage: "linear-gradient(90deg, #00FF88 0%, #44FFAA 50%, #00FF88 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
@@ -266,7 +319,7 @@ export default function CreatorsPage() {
               </h2>
               <span
                 className="text-xs font-bold px-2.5 py-1 rounded-full"
-                style={{ background: "rgba(212,175,55,0.1)", color: "#D4AF37", border: "1px solid rgba(212,175,55,0.25)" }}
+                style={{ background: "rgba(0,255,136,0.1)", color: "#00FF88", border: "1px solid rgba(0,255,136,0.25)" }}
               >
                 Creator of the Month
               </span>
@@ -284,7 +337,7 @@ export default function CreatorsPage() {
                 <div
                   className="absolute inset-0"
                   style={{
-                    background: "radial-gradient(ellipse 60% 80% at 20% 50%, rgba(212,175,55,0.15) 0%, transparent 60%)",
+                    background: "radial-gradient(ellipse 60% 80% at 20% 50%, rgba(0,255,136,0.15) 0%, transparent 60%)",
                   }}
                 />
                 <div
@@ -299,7 +352,7 @@ export default function CreatorsPage() {
                   <div
                     className="w-24 h-24 rounded-2xl flex items-center justify-center text-3xl font-black flex-shrink-0"
                     style={{
-                      background: "linear-gradient(135deg, #D4AF37 0%, #6B4FBB 100%)",
+                      background: "linear-gradient(135deg, #00FF88 0%, #6B4FBB 100%)",
                       border: "3px solid #12121F",
                       color: "#07070F",
                     }}
@@ -317,7 +370,7 @@ export default function CreatorsPage() {
                       <span className="text-xs" style={{ color: "#8A8AA8" }}>
                         {featuredCreator.country}
                       </span>
-                      <CheckCircle size={16} style={{ color: "#D4AF37" }} />
+                      <CheckCircle size={16} style={{ color: "#00FF88" }} />
                     </div>
                     <p className="text-sm mb-3" style={{ color: "#8A8AA8" }}>
                       {featuredCreator.role}
@@ -345,24 +398,29 @@ export default function CreatorsPage() {
                   {/* Buttons */}
                   <div className="flex gap-3 flex-shrink-0">
                     <button
-                      className="px-5 py-2.5 rounded-xl text-sm font-bold"
+                      onClick={() => setFollowingFeatured(!followingFeatured)}
+                      className="px-5 py-2.5 rounded-xl text-sm font-bold transition-all"
                       style={{
-                        background: "linear-gradient(135deg, #D4AF37 0%, #B8960C 100%)",
-                        color: "#07070F",
+                        background: followingFeatured ? "rgba(0,255,136,0.2)" : "linear-gradient(135deg, #00FF88 0%, #B8960C 100%)",
+                        color: followingFeatured ? "#00FF88" : "#07070F",
+                        border: followingFeatured ? "1px solid rgba(0,255,136,0.4)" : "none",
                       }}
                     >
-                      Follow
+                      {followingFeatured ? "✓ Following" : "Follow"}
                     </button>
-                    <button
+                    <a
+                      href={`/creators/${featuredCreator.slug}`}
                       className="px-5 py-2.5 rounded-xl text-sm font-bold"
                       style={{
                         background: "transparent",
-                        color: "#D4AF37",
-                        border: "1px solid rgba(212,175,55,0.4)",
+                        color: "#00FF88",
+                        border: "1px solid rgba(0,255,136,0.4)",
+                        textDecoration: "none",
+                        display: "inline-block",
                       }}
                     >
                       View Profile
-                    </button>
+                    </a>
                   </div>
                 </div>
 
@@ -400,9 +458,9 @@ export default function CreatorsPage() {
                         >
                           <div
                             className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
-                            style={{ background: "rgba(212,175,55,0.12)" }}
+                            style={{ background: "rgba(0,255,136,0.12)" }}
                           >
-                            <Icon size={16} style={{ color: "#D4AF37" }} />
+                            <Icon size={16} style={{ color: "#00FF88" }} />
                           </div>
                           <div className="min-w-0">
                             <p className="text-xs font-semibold truncate" style={{ color: "#E0E0F0" }}>
@@ -432,39 +490,44 @@ export default function CreatorsPage() {
                 <input
                   type="text"
                   placeholder="Search creators by name or topic..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
                   className="flex-1 bg-transparent text-sm outline-none"
                   style={{ color: "#F2F2F8" }}
                 />
               </div>
             </div>
             <div className="flex flex-wrap gap-2">
-              {filterPills.map((pill, i) => (
-                <button
-                  key={pill}
-                  className="text-xs font-semibold px-4 py-2 rounded-full transition-all duration-150"
-                  style={
-                    i === 0
-                      ? {
-                          background: "linear-gradient(135deg, #D4AF37 0%, #B8960C 100%)",
-                          color: "#07070F",
-                        }
-                      : {
-                          background: "#12121F",
-                          color: "#8A8AA8",
-                          border: "1px solid #1E1E32",
-                        }
-                  }
-                >
-                  {pill}
-                </button>
-              ))}
+              {filterPills.map((pill) => {
+                const active = activeFilter === pill;
+                return (
+                  <button
+                    key={pill}
+                    onClick={() => setActiveFilter(pill)}
+                    className="text-xs font-semibold px-4 py-2 rounded-full transition-all duration-150"
+                    style={
+                      active
+                        ? { background: "linear-gradient(135deg, #00FF88 0%, #B8960C 100%)", color: "#07070F" }
+                        : { background: "#12121F", color: "#8A8AA8", border: "1px solid #1E1E32" }
+                    }
+                  >
+                    {pill}
+                  </button>
+                );
+              })}
             </div>
           </section>
 
           {/* Creator Grid */}
           <section className="mb-16">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-              {creators.map((creator) => {
+              {filteredCreators.length === 0 && (
+                <div className="col-span-full text-center py-12">
+                  <p style={{ color: "#8A8AA8" }}>No creators match your filter.</p>
+                  <button onClick={() => { setActiveFilter("All"); setSearch(""); }} className="mt-2 text-sm font-semibold" style={{ color: "#00FF88" }}>Clear filters</button>
+                </div>
+              )}
+              {filteredCreators.map((creator) => {
                 const RoleIcon = roleIcons[creator.role] ?? BookOpen;
                 return (
                   <CreatorCard key={creator.name} creator={creator} RoleIcon={RoleIcon} />
@@ -478,8 +541,8 @@ export default function CreatorsPage() {
             <div
               className="rounded-3xl p-10 text-center relative overflow-hidden"
               style={{
-                background: "linear-gradient(135deg, rgba(212,175,55,0.08) 0%, rgba(107,79,187,0.12) 100%)",
-                border: "1px solid rgba(212,175,55,0.2)",
+                background: "linear-gradient(135deg, rgba(0,255,136,0.08) 0%, rgba(107,79,187,0.12) 100%)",
+                border: "1px solid rgba(0,255,136,0.2)",
               }}
             >
               <div
@@ -492,9 +555,9 @@ export default function CreatorsPage() {
               <div className="relative">
                 <div
                   className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-5"
-                  style={{ background: "rgba(212,175,55,0.15)", border: "1px solid rgba(212,175,55,0.25)" }}
+                  style={{ background: "rgba(0,255,136,0.15)", border: "1px solid rgba(0,255,136,0.25)" }}
                 >
-                  <Mic size={26} style={{ color: "#D4AF37" }} />
+                  <Mic size={26} style={{ color: "#00FF88" }} />
                 </div>
                 <h2 className="text-3xl font-black mb-3" style={{ color: "#F2F2F8" }}>
                   Share Your Gift
@@ -516,7 +579,7 @@ export default function CreatorsPage() {
                         className="rounded-2xl p-5 text-left"
                         style={{ background: "rgba(18,18,31,0.6)", border: "1px solid rgba(255,255,255,0.06)" }}
                       >
-                        <BIcon size={20} style={{ color: "#D4AF37" }} className="mb-3" />
+                        <BIcon size={20} style={{ color: "#00FF88" }} className="mb-3" />
                         <p className="text-sm font-bold mb-1" style={{ color: "#F2F2F8" }}>
                           {benefit.title}
                         </p>
@@ -531,7 +594,7 @@ export default function CreatorsPage() {
                 <button
                   className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl text-sm font-black"
                   style={{
-                    background: "linear-gradient(135deg, #D4AF37 0%, #B8960C 100%)",
+                    background: "linear-gradient(135deg, #00FF88 0%, #B8960C 100%)",
                     color: "#07070F",
                   }}
                 >
@@ -553,8 +616,6 @@ export default function CreatorsPage() {
 /* Creator Card — extracted to keep JSX readable                         */
 /* ------------------------------------------------------------------ */
 
-type Creator = (typeof creators)[number];
-
 function CreatorCard({
   creator,
   RoleIcon,
@@ -562,6 +623,15 @@ function CreatorCard({
   creator: Creator;
   RoleIcon: React.ComponentType<{ size?: number; style?: React.CSSProperties }>;
 }) {
+  const key = `vine_creator_${creator.name.replace(/[^a-z0-9]/gi, "_").toLowerCase()}`;
+  const [following, setFollowing] = useState(() => {
+    try { return localStorage.getItem(key) === "1"; } catch { return false; }
+  });
+
+  useEffect(() => {
+    try { if (following) localStorage.setItem(key, "1"); else localStorage.removeItem(key); } catch {}
+  }, [following, key]);
+
   return (
     <div
       className="rounded-2xl overflow-hidden flex flex-col"
@@ -577,7 +647,7 @@ function CreatorCard({
             {creator.initials}
           </div>
           {creator.verified && (
-            <CheckCircle size={16} style={{ color: "#D4AF37" }} />
+            <CheckCircle size={16} style={{ color: "#00FF88" }} />
           )}
         </div>
 
@@ -636,14 +706,15 @@ function CreatorCard({
       {/* Follow button */}
       <div className="px-5 pb-5 mt-auto">
         <button
+          onClick={() => setFollowing(!following)}
           className="w-full py-2.5 rounded-xl text-xs font-bold transition-all duration-150"
           style={{
-            background: "rgba(212,175,55,0.1)",
-            color: "#D4AF37",
-            border: "1px solid rgba(212,175,55,0.25)",
+            background: following ? "#00FF88" : "rgba(0,255,136,0.1)",
+            color: following ? "#07070F" : "#00FF88",
+            border: "1px solid rgba(0,255,136,0.25)",
           }}
         >
-          Follow
+          {following ? "✓ Following" : "Follow"}
         </button>
       </div>
     </div>

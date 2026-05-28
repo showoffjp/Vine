@@ -52,8 +52,8 @@ export default function TrendingTicker() {
     <div
       style={{
         background: "rgba(12,12,20,0.95)",
-        borderTop: "1px solid rgba(212,175,55,0.12)",
-        borderBottom: "1px solid rgba(212,175,55,0.12)",
+        borderTop: "1px solid rgba(0,255,136,0.12)",
+        borderBottom: "1px solid rgba(0,255,136,0.12)",
         overflow: "hidden",
         position: "relative",
       }}
@@ -67,7 +67,7 @@ export default function TrendingTicker() {
             alignItems: "center",
             gap: "6px",
             padding: "10px 18px",
-            background: "linear-gradient(135deg, #C9A227 0%, #E8C840 100%)",
+            background: "linear-gradient(135deg, #00CC66 0%, #00FF88 100%)",
             color: "#07070F",
             fontWeight: 800,
             fontSize: "0.65rem",
@@ -108,9 +108,9 @@ export default function TrendingTicker() {
                   marginRight: "12px",
                   padding: "4px 14px",
                   borderRadius: "999px",
-                  background: "rgba(212,175,55,0.07)",
-                  border: "1px solid rgba(212,175,55,0.18)",
-                  color: "#D4AF37",
+                  background: "rgba(0,255,136,0.07)",
+                  border: "1px solid rgba(0,255,136,0.18)",
+                  color: "#00FF88",
                   fontSize: "0.78rem",
                   fontWeight: 600,
                   whiteSpace: "nowrap",
@@ -120,15 +120,15 @@ export default function TrendingTicker() {
                 }}
                 onMouseEnter={(e) => {
                   (e.currentTarget as HTMLButtonElement).style.background =
-                    "rgba(212,175,55,0.15)";
+                    "rgba(0,255,136,0.15)";
                   (e.currentTarget as HTMLButtonElement).style.borderColor =
-                    "rgba(212,175,55,0.4)";
+                    "rgba(0,255,136,0.4)";
                 }}
                 onMouseLeave={(e) => {
                   (e.currentTarget as HTMLButtonElement).style.background =
-                    "rgba(212,175,55,0.07)";
+                    "rgba(0,255,136,0.07)";
                   (e.currentTarget as HTMLButtonElement).style.borderColor =
-                    "rgba(212,175,55,0.18)";
+                    "rgba(0,255,136,0.18)";
                 }}
               >
                 {topic}

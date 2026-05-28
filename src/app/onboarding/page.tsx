@@ -89,9 +89,9 @@ const readingPlans = [
     duration: "45 days",
     chaptersPerDay: "~2 chapters/day",
     difficulty: "Moderate",
-    difficultyColor: "#D4AF37",
+    difficultyColor: "#00FF88",
     description: "A slow, reflective journey through Matthew, Mark, Luke, and John.",
-    color: "#D4AF37",
+    color: "#00FF88",
   },
   {
     name: "The Full Bible in a Year",
@@ -134,6 +134,26 @@ export default function OnboardingPage() {
     return true;
   }
 
+  function handleFinishSetup() {
+    const userData = {
+      name: `${form.firstName} ${form.lastName}`.trim() || form.firstName,
+      firstName: form.firstName,
+      lastName: form.lastName,
+      email: `${form.username}@vine.community`,
+      avatar: (form.firstName[0] || "V").toUpperCase() + (form.lastName[0] || "M").toUpperCase(),
+      interests: selectedInterests,
+      denomination: form.denomination,
+      faithDuration: form.faithDuration,
+      location: form.location,
+      readingPlan: selectedPlan,
+      joinedAt: new Date().toISOString(),
+    };
+    try {
+      localStorage.setItem("vine_user", JSON.stringify(userData));
+    } catch {}
+    setStep((s) => s + 1);
+  }
+
   return (
     <div
       className="min-h-screen flex flex-col items-center justify-center px-4 py-12 relative overflow-hidden"
@@ -153,7 +173,7 @@ export default function OnboardingPage() {
         <div className="flex items-center justify-center gap-2 mb-8">
           <div
             className="w-8 h-8 rounded-lg flex items-center justify-center"
-            style={{ background: "linear-gradient(135deg, #D4AF37 0%, #8B6FDB 100%)" }}
+            style={{ background: "linear-gradient(135deg, #00FF88 0%, #8B6FDB 100%)" }}
           >
             <span className="text-black font-black text-sm">V</span>
           </div>
@@ -173,7 +193,7 @@ export default function OnboardingPage() {
                 className="h-full rounded-full transition-all duration-500"
                 style={{
                   width: `${progress}%`,
-                  background: "linear-gradient(90deg, #D4AF37, #F0D060)",
+                  background: "linear-gradient(90deg, #00FF88, #44FFAA)",
                 }}
               />
             </div>
@@ -189,7 +209,7 @@ export default function OnboardingPage() {
           <div className="text-center">
             <div
               className="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6"
-              style={{ background: "linear-gradient(135deg, #D4AF37 0%, #8B6FDB 100%)" }}
+              style={{ background: "linear-gradient(135deg, #00FF88 0%, #8B6FDB 100%)" }}
             >
               <span className="text-4xl font-black text-black">V</span>
             </div>
@@ -241,7 +261,7 @@ export default function OnboardingPage() {
                     placeholder="Jason"
                     value={form.firstName}
                     onChange={(e) => setForm((f) => ({ ...f, firstName: e.target.value }))}
-                    className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all duration-200 focus:border-[rgba(212,175,55,0.5)]"
+                    className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all duration-200 focus:border-[rgba(0,255,136,0.5)]"
                     style={{ background: "#12121F", border: "1px solid #1E1E32", color: "#F2F2F8" }}
                   />
                 </div>
@@ -321,9 +341,9 @@ export default function OnboardingPage() {
                       onClick={() => setForm((f) => ({ ...f, faithDuration: d }))}
                       className="px-4 py-2 rounded-xl text-xs font-semibold transition-all duration-200"
                       style={{
-                        background: form.faithDuration === d ? "rgba(212,175,55,0.15)" : "#12121F",
-                        border: form.faithDuration === d ? "1px solid rgba(212,175,55,0.4)" : "1px solid #1E1E32",
-                        color: form.faithDuration === d ? "#D4AF37" : "#8A8AA8",
+                        background: form.faithDuration === d ? "rgba(0,255,136,0.15)" : "#12121F",
+                        border: form.faithDuration === d ? "1px solid rgba(0,255,136,0.4)" : "1px solid #1E1E32",
+                        color: form.faithDuration === d ? "#00FF88" : "#8A8AA8",
                       }}
                     >
                       {d}
@@ -344,7 +364,7 @@ export default function OnboardingPage() {
             <p className="text-sm text-center mb-2" style={{ color: "#8A8AA8" }}>
               Select at least 3 interests to personalize your feed
             </p>
-            <p className="text-xs text-center mb-6" style={{ color: selectedInterests.length >= 3 ? "#4FBBAA" : "#D4AF37" }}>
+            <p className="text-xs text-center mb-6" style={{ color: selectedInterests.length >= 3 ? "#4FBBAA" : "#00FF88" }}>
               {selectedInterests.length} selected {selectedInterests.length >= 3 ? "✓" : `(need ${3 - selectedInterests.length} more)`}
             </p>
 
@@ -357,15 +377,15 @@ export default function OnboardingPage() {
                     onClick={() => toggleInterest(interest.label)}
                     className="flex items-center gap-3 p-3.5 rounded-xl text-sm font-semibold text-left transition-all duration-200"
                     style={{
-                      background: selected ? "rgba(212,175,55,0.10)" : "#12121F",
-                      border: selected ? "1px solid rgba(212,175,55,0.4)" : "1px solid #1E1E32",
-                      color: selected ? "#D4AF37" : "#8A8AA8",
+                      background: selected ? "rgba(0,255,136,0.10)" : "#12121F",
+                      border: selected ? "1px solid rgba(0,255,136,0.4)" : "1px solid #1E1E32",
+                      color: selected ? "#00FF88" : "#8A8AA8",
                       transform: selected ? "scale(1.02)" : "scale(1)",
                     }}
                   >
-                    <interest.icon size={16} style={{ color: selected ? "#D4AF37" : "#6A6A88", flexShrink: 0 }} />
+                    <interest.icon size={16} style={{ color: selected ? "#00FF88" : "#6A6A88", flexShrink: 0 }} />
                     <span className="truncate">{interest.label}</span>
-                    {selected && <Check size={14} className="ml-auto flex-shrink-0" style={{ color: "#D4AF37" }} />}
+                    {selected && <Check size={14} className="ml-auto flex-shrink-0" style={{ color: "#00FF88" }} />}
                   </button>
                 );
               })}
@@ -448,15 +468,15 @@ export default function OnboardingPage() {
               <div
                 className="w-20 h-20 rounded-full flex items-center justify-center"
                 style={{
-                  background: "linear-gradient(135deg, #D4AF37 0%, #F0D060 100%)",
-                  boxShadow: "0 0 60px rgba(212,175,55,0.3)",
+                  background: "linear-gradient(135deg, #00FF88 0%, #44FFAA 100%)",
+                  boxShadow: "0 0 60px rgba(0,255,136,0.3)",
                 }}
               >
                 <CheckCircle size={40} style={{ color: "#07070F" }} />
               </div>
               <div
                 className="absolute w-32 h-32 rounded-full animate-ping opacity-20"
-                style={{ background: "rgba(212,175,55,0.3)" }}
+                style={{ background: "rgba(0,255,136,0.3)" }}
               />
             </div>
 
@@ -473,7 +493,7 @@ export default function OnboardingPage() {
               className="rounded-2xl p-5 mb-7 text-left space-y-3"
               style={{ background: "#12121F", border: "1px solid #1E1E32" }}
             >
-              <h3 className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#D4AF37" }}>
+              <h3 className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#00FF88" }}>
                 Your Setup
               </h3>
               {form.denomination && (
@@ -519,9 +539,9 @@ export default function OnboardingPage() {
               )}
             </div>
 
-            <Link href="/" className="block">
+            <Link href="/feed" className="block">
               <button className="btn-gold w-full py-4 rounded-2xl text-base font-black flex items-center justify-center gap-2">
-                Enter Vine
+                Enter Vine →
                 <ChevronRight size={18} />
               </button>
             </Link>
@@ -542,12 +562,12 @@ export default function OnboardingPage() {
               Back
             </button>
             <button
-              onClick={() => setStep((s) => s + 1)}
+              onClick={step === 4 ? handleFinishSetup : () => setStep((s) => s + 1)}
               disabled={!canAdvance()}
               className="flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold transition-all duration-200"
               style={{
                 background: canAdvance()
-                  ? "linear-gradient(135deg, #C9A227 0%, #E8C840 50%, #C9A227 100%)"
+                  ? "linear-gradient(135deg, #00CC66 0%, #00FF88 50%, #00CC66 100%)"
                   : "#1E1E32",
                 color: canAdvance() ? "#07070F" : "#6A6A88",
                 cursor: canAdvance() ? "pointer" : "not-allowed",

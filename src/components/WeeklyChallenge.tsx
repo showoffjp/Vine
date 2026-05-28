@@ -38,9 +38,9 @@ const otherChallenges = [
     title: "21-Day Gratitude Journal",
     description: "Daily written gratitude rewires your heart toward joy.",
     participants: "22,113",
-    color: "#D4AF37",
-    accentBg: "rgba(212,175,55,0.12)",
-    accentBorder: "rgba(212,175,55,0.3)",
+    color: "#00FF88",
+    accentBg: "rgba(0,255,136,0.12)",
+    accentBorder: "rgba(0,255,136,0.3)",
   },
   {
     icon: <Trophy size={20} />,
@@ -71,7 +71,7 @@ export default function WeeklyChallenge() {
           position: "absolute",
           inset: 0,
           background:
-            "radial-gradient(ellipse 60% 50% at 50% 50%, rgba(212,175,55,0.05) 0%, transparent 70%)",
+            "radial-gradient(ellipse 60% 50% at 50% 50%, rgba(0,255,136,0.05) 0%, transparent 70%)",
           pointerEvents: "none",
         }}
       />
@@ -95,10 +95,10 @@ export default function WeeklyChallenge() {
               marginBottom: "8px",
             }}
           >
-            <Flame size={16} style={{ color: "#D4AF37" }} />
+            <Flame size={16} style={{ color: "#00FF88" }} />
             <span
               style={{
-                color: "#D4AF37",
+                color: "#00FF88",
                 fontSize: "0.75rem",
                 fontWeight: 700,
                 letterSpacing: "0.15em",
@@ -126,8 +126,8 @@ export default function WeeklyChallenge() {
             background: "#12121F",
             borderRadius: "24px",
             padding: "40px 44px",
-            border: "1px solid rgba(212,175,55,0.18)",
-            boxShadow: "0 0 60px rgba(212,175,55,0.05)",
+            border: "1px solid rgba(0,255,136,0.18)",
+            boxShadow: "0 0 60px rgba(0,255,136,0.05)",
             marginBottom: "32px",
             position: "relative",
             overflow: "hidden",
@@ -143,7 +143,7 @@ export default function WeeklyChallenge() {
               height: "280px",
               borderRadius: "50%",
               background:
-                "radial-gradient(circle, rgba(212,175,55,0.06) 0%, transparent 70%)",
+                "radial-gradient(circle, rgba(0,255,136,0.06) 0%, transparent 70%)",
               pointerEvents: "none",
             }}
           />
@@ -166,9 +166,9 @@ export default function WeeklyChallenge() {
                   gap: "6px",
                   padding: "4px 12px",
                   borderRadius: "999px",
-                  background: "rgba(212,175,55,0.1)",
-                  border: "1px solid rgba(212,175,55,0.25)",
-                  color: "#D4AF37",
+                  background: "rgba(0,255,136,0.1)",
+                  border: "1px solid rgba(0,255,136,0.25)",
+                  color: "#00FF88",
                   fontSize: "0.65rem",
                   fontWeight: 700,
                   letterSpacing: "0.1em",
@@ -210,7 +210,7 @@ export default function WeeklyChallenge() {
                 }}
               >
                 <Users size={14} />
-                <strong style={{ color: "#D4AF37" }}>
+                <strong style={{ color: "#00FF88" }}>
                   {mainChallenge.participants}
                 </strong>{" "}
                 participants joined
@@ -224,7 +224,7 @@ export default function WeeklyChallenge() {
                   width: "100px",
                   height: "100px",
                   borderRadius: "50%",
-                  background: `conic-gradient(#D4AF37 ${(mainChallenge.completedDays / mainChallenge.totalDays) * 360}deg, rgba(212,175,55,0.1) 0deg)`,
+                  background: `conic-gradient(#00FF88 ${(mainChallenge.completedDays / mainChallenge.totalDays) * 360}deg, rgba(0,255,136,0.1) 0deg)`,
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -246,7 +246,7 @@ export default function WeeklyChallenge() {
                 >
                   <span
                     style={{
-                      color: "#D4AF37",
+                      color: "#00FF88",
                       fontWeight: 900,
                       fontSize: "1.5rem",
                       lineHeight: 1,
@@ -283,7 +283,7 @@ export default function WeeklyChallenge() {
               <span style={{ color: "#8A8AA8", fontSize: "0.75rem" }}>
                 Progress
               </span>
-              <span style={{ color: "#D4AF37", fontSize: "0.75rem", fontWeight: 700 }}>
+              <span style={{ color: "#00FF88", fontSize: "0.75rem", fontWeight: 700 }}>
                 {Math.round(
                   (mainChallenge.completedDays / mainChallenge.totalDays) * 100
                 )}
@@ -304,7 +304,7 @@ export default function WeeklyChallenge() {
                   width: `${(mainChallenge.completedDays / mainChallenge.totalDays) * 100}%`,
                   borderRadius: "999px",
                   background:
-                    "linear-gradient(90deg, #C9A227 0%, #F0D060 100%)",
+                    "linear-gradient(90deg, #00CC66 0%, #44FFAA 100%)",
                   transition: "width 0.6s ease",
                 }}
               />
@@ -327,10 +327,10 @@ export default function WeeklyChallenge() {
                   title={d.desc}
                   style={{
                     background: complete
-                      ? "rgba(212,175,55,0.08)"
+                      ? "rgba(0,255,136,0.08)"
                       : "rgba(255,255,255,0.02)",
                     border: complete
-                      ? "1px solid rgba(212,175,55,0.3)"
+                      ? "1px solid rgba(0,255,136,0.3)"
                       : "1px solid rgba(255,255,255,0.06)",
                     borderRadius: "12px",
                     padding: "12px 8px",
@@ -343,7 +343,7 @@ export default function WeeklyChallenge() {
                     {complete ? (
                       <CheckCircle2
                         size={20}
-                        style={{ color: "#D4AF37", margin: "0 auto" }}
+                        style={{ color: "#00FF88", margin: "0 auto" }}
                       />
                     ) : (
                       <Circle
@@ -354,7 +354,7 @@ export default function WeeklyChallenge() {
                   </div>
                   <p
                     style={{
-                      color: "#D4AF37",
+                      color: "#00FF88",
                       fontSize: "0.6rem",
                       fontWeight: 800,
                       letterSpacing: "0.05em",

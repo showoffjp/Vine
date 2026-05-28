@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
@@ -49,7 +49,7 @@ function Toggle({
         height: 26,
         borderRadius: 13,
         background: value
-          ? "linear-gradient(135deg, #C9A227, #E8C840)"
+          ? "linear-gradient(135deg, #00CC66, #00FF88)"
           : "#2A2A44",
         border: "none",
         cursor: "pointer",
@@ -196,6 +196,45 @@ function NotifRow({
 
 function AccountTab() {
   const [denomination, setDenomination] = useState("Non-denominational");
+  const [saved, setSaved] = useState(false);
+  const [displayName, setDisplayName] = useState("Jason Doe");
+  const [username, setUsername] = useState("jasondoe");
+  const [email, setEmail] = useState("jason@pharrgo.com");
+  const [bio, setBio] = useState("Follower of Christ | Husband | Father | Proverbs 3:5-6");
+  const [location, setLocation] = useState("Atlanta, GA");
+
+  useState(() => {
+    try {
+      const stored = localStorage.getItem("vine_user");
+      if (stored) {
+        const u = JSON.parse(stored);
+        if (u.firstName || u.lastName) setDisplayName(`${u.firstName || ""} ${u.lastName || ""}`.trim());
+        if (u.email) setEmail(u.email);
+        if (u.denomination) setDenomination(u.denomination);
+        if (u.bio) setBio(u.bio);
+        if (u.location) setLocation(u.location);
+        if (u.username) setUsername(u.username);
+      }
+    } catch {}
+  });
+
+  const handleSave = () => {
+    try {
+      const stored = localStorage.getItem("vine_user");
+      const u = stored ? JSON.parse(stored) : {};
+      const parts = displayName.split(" ");
+      u.firstName = parts[0] || u.firstName;
+      u.lastName = parts.slice(1).join(" ") || u.lastName;
+      u.email = email;
+      u.denomination = denomination;
+      u.bio = bio;
+      u.location = location;
+      u.username = username;
+      localStorage.setItem("vine_user", JSON.stringify(u));
+    } catch {}
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2500);
+  };
 
   const denoms = [
     "Non-denominational",
@@ -231,7 +270,7 @@ function AccountTab() {
                 width: 80,
                 height: 80,
                 borderRadius: "50%",
-                background: "linear-gradient(135deg, #6B4FBB, #D4AF37)",
+                background: "linear-gradient(135deg, #6B4FBB, #00FF88)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -269,7 +308,7 @@ function AccountTab() {
             </div>
             <button
               style={{
-                background: "linear-gradient(135deg, #C9A227, #E8C840)",
+                background: "linear-gradient(135deg, #00CC66, #00FF88)",
                 color: "#07070F",
                 fontWeight: 700,
                 fontSize: 12,
@@ -288,7 +327,7 @@ function AccountTab() {
       {/* Form Fields */}
       <Section title="Profile Information">
         <Field label="Display Name">
-          <input style={inputStyle} defaultValue="Jason Doe" />
+          <input style={inputStyle} value={displayName} onChange={(e) => setDisplayName(e.target.value)} />
         </Field>
         <Field label="Username">
           <div style={{ position: "relative" }}>
@@ -306,7 +345,8 @@ function AccountTab() {
             </span>
             <input
               style={{ ...inputStyle, paddingLeft: 28 }}
-              defaultValue="jasondoe"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
             />
           </div>
         </Field>
@@ -314,7 +354,8 @@ function AccountTab() {
           <input
             style={inputStyle}
             type="email"
-            defaultValue="jason@pharrgo.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </Field>
         <Field label="Bio">
@@ -325,11 +366,12 @@ function AccountTab() {
               minHeight: 90,
               fontFamily: "inherit",
             }}
-            defaultValue="Follower of Christ | Husband | Father | Proverbs 3:5-6"
+            value={bio}
+            onChange={(e) => setBio(e.target.value)}
           />
         </Field>
         <Field label="Location">
-          <input style={inputStyle} defaultValue="Atlanta, GA" />
+          <input style={inputStyle} value={location} onChange={(e) => setLocation(e.target.value)} />
         </Field>
         <Field label="Website">
           <input style={inputStyle} placeholder="https://yoursite.com" />
@@ -354,21 +396,30 @@ function AccountTab() {
         </Field>
       </Section>
 
-      <button
-        style={{
-          background: "linear-gradient(135deg, #C9A227, #E8C840)",
-          color: "#07070F",
-          fontWeight: 700,
-          fontSize: 15,
-          border: "none",
-          borderRadius: 10,
-          padding: "13px 32px",
-          cursor: "pointer",
-          display: "block",
-        }}
-      >
-        Save Changes
-      </button>
+      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+        <button
+          onClick={handleSave}
+          style={{
+            background: saved ? "linear-gradient(135deg, #00AA55, #00CC66)" : "linear-gradient(135deg, #00CC66, #00FF88)",
+            color: "#07070F",
+            fontWeight: 700,
+            fontSize: 15,
+            border: "none",
+            borderRadius: 10,
+            padding: "13px 32px",
+            cursor: "pointer",
+            display: "block",
+            transition: "all 0.2s",
+          }}
+        >
+          {saved ? "✓ Saved!" : "Save Changes"}
+        </button>
+        {saved && (
+          <span style={{ color: "#00FF88", fontSize: 13, fontWeight: 600 }}>
+            Your profile has been updated.
+          </span>
+        )}
+      </div>
     </div>
   );
 }
@@ -376,20 +427,31 @@ function AccountTab() {
 // ─── Notifications Tab ────────────────────────────────────────────────────────
 
 function NotificationsTab() {
-  const [notifs, setNotifs] = useState({
-    discussionReplies: true,
-    prayerResponses: true,
-    newFollowers: false,
-    weeklyNewsletter: true,
-    dailyVerse: true,
-    devotionalReminders: true,
-    communityActivity: false,
-    eventReminders: true,
-    creatorUpdates: false,
+  const [notifs, setNotifs] = useState(() => {
+    const defaults = {
+      discussionReplies: true,
+      prayerResponses: true,
+      newFollowers: false,
+      weeklyNewsletter: true,
+      dailyVerse: true,
+      devotionalReminders: true,
+      communityActivity: false,
+      eventReminders: true,
+      creatorUpdates: false,
+    };
+    try {
+      const s = localStorage.getItem("vine_settings_notifs");
+      return s ? { ...defaults, ...JSON.parse(s) } : defaults;
+    } catch { return defaults; }
   });
 
-  const set = (key: keyof typeof notifs) => (v: boolean) =>
-    setNotifs((prev) => ({ ...prev, [key]: v }));
+  useEffect(() => {
+    try { localStorage.setItem("vine_settings_notifs", JSON.stringify(notifs)); } catch {}
+  }, [notifs]);
+
+  type Notifs = typeof notifs;
+  const set = (key: keyof Notifs) => (v: boolean) =>
+    setNotifs((prev: Notifs) => ({ ...prev, [key]: v }));
 
   return (
     <div>
@@ -500,7 +562,7 @@ function RadioGroup({
                 width: 18,
                 height: 18,
                 borderRadius: "50%",
-                border: `2px solid ${value === opt.value ? "#D4AF37" : "#2A2A44"}`,
+                border: `2px solid ${value === opt.value ? "#00FF88" : "#2A2A44"}`,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -513,7 +575,7 @@ function RadioGroup({
                     width: 8,
                     height: 8,
                     borderRadius: "50%",
-                    background: "#D4AF37",
+                    background: "#00FF88",
                   }}
                 />
               )}
@@ -534,10 +596,31 @@ function RadioGroup({
 }
 
 function PrivacyTab() {
-  const [profileVis, setProfileVis] = useState<Visibility>("everyone");
-  const [messageVis, setMessageVis] = useState<Visibility>("members");
-  const [showInConnect, setShowInConnect] = useState(true);
-  const [indexable, setIndexable] = useState(false);
+  const [profileVis, setProfileVis] = useState<Visibility>(() => {
+    try { return (localStorage.getItem("vine_privacy_profile") as Visibility) || "everyone"; } catch { return "everyone"; }
+  });
+  const [messageVis, setMessageVis] = useState<Visibility>(() => {
+    try { return (localStorage.getItem("vine_privacy_messages") as Visibility) || "members"; } catch { return "members"; }
+  });
+  const [showInConnect, setShowInConnect] = useState(() => {
+    try { return localStorage.getItem("vine_privacy_connect") !== "0"; } catch { return true; }
+  });
+  const [indexable, setIndexable] = useState(() => {
+    try { return localStorage.getItem("vine_privacy_indexable") === "1"; } catch { return false; }
+  });
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_privacy_profile", profileVis); } catch {}
+  }, [profileVis]);
+  useEffect(() => {
+    try { localStorage.setItem("vine_privacy_messages", messageVis); } catch {}
+  }, [messageVis]);
+  useEffect(() => {
+    try { localStorage.setItem("vine_privacy_connect", showInConnect ? "1" : "0"); } catch {}
+  }, [showInConnect]);
+  useEffect(() => {
+    try { localStorage.setItem("vine_privacy_indexable", indexable ? "1" : "0"); } catch {}
+  }, [indexable]);
 
   const visibilityOptions = [
     { value: "everyone", label: "Everyone" },
@@ -652,9 +735,25 @@ function PrivacyTab() {
 // ─── Appearance Tab ───────────────────────────────────────────────────────────
 
 function AppearanceTab() {
-  const [fontSize, setFontSize] = useState<"Small" | "Medium" | "Large">("Medium");
-  const [compact, setCompact] = useState(false);
-  const [reduceAnim, setReduceAnim] = useState(false);
+  const [fontSize, setFontSize] = useState<"Small" | "Medium" | "Large">(() => {
+    try { return (localStorage.getItem("vine_appear_fontsize") as "Small" | "Medium" | "Large") || "Medium"; } catch { return "Medium"; }
+  });
+  const [compact, setCompact] = useState(() => {
+    try { return localStorage.getItem("vine_appear_compact") === "1"; } catch { return false; }
+  });
+  const [reduceAnim, setReduceAnim] = useState(() => {
+    try { return localStorage.getItem("vine_appear_anim") === "1"; } catch { return false; }
+  });
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_appear_fontsize", fontSize); } catch {}
+  }, [fontSize]);
+  useEffect(() => {
+    try { localStorage.setItem("vine_appear_compact", compact ? "1" : "0"); } catch {}
+  }, [compact]);
+  useEffect(() => {
+    try { localStorage.setItem("vine_appear_anim", reduceAnim ? "1" : "0"); } catch {}
+  }, [reduceAnim]);
 
   const themes = [
     { id: "dark", label: "Dark", available: true },
@@ -673,7 +772,7 @@ function AppearanceTab() {
               key={t.id}
               style={{
                 flex: 1,
-                border: `2px solid ${!t.available ? "#1E1E32" : t.id === "dark" ? "#D4AF37" : "#1E1E32"}`,
+                border: `2px solid ${!t.available ? "#1E1E32" : t.id === "dark" ? "#00FF88" : "#1E1E32"}`,
                 borderRadius: 12,
                 padding: "16px 12px",
                 textAlign: "center",
@@ -714,7 +813,7 @@ function AppearanceTab() {
                     width: 20,
                     height: 20,
                     borderRadius: "50%",
-                    background: "#D4AF37",
+                    background: "#00FF88",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -755,7 +854,7 @@ function AppearanceTab() {
                   cursor: "pointer",
                   background:
                     fontSize === size
-                      ? "linear-gradient(135deg, #C9A227, #E8C840)"
+                      ? "linear-gradient(135deg, #00CC66, #00FF88)"
                       : "transparent",
                   color: fontSize === size ? "#07070F" : "#8A8AA8",
                   transition: "all 0.2s",
@@ -869,13 +968,13 @@ function FaithProfileTab() {
               max={50}
               value={years}
               onChange={(e) => setYears(Number(e.target.value))}
-              style={{ flex: 1, accentColor: "#D4AF37" }}
+              style={{ flex: 1, accentColor: "#00FF88" }}
             />
             <span
               style={{
                 fontSize: 15,
                 fontWeight: 700,
-                color: "#D4AF37",
+                color: "#00FF88",
                 minWidth: 40,
                 textAlign: "right",
               }}
@@ -916,9 +1015,9 @@ function FaithProfileTab() {
                   style={{
                     padding: "7px 14px",
                     borderRadius: 20,
-                    border: `1px solid ${selected ? "#D4AF37" : "#1E1E32"}`,
-                    background: selected ? "rgba(212,175,55,0.12)" : "transparent",
-                    color: selected ? "#D4AF37" : "#8A8AA8",
+                    border: `1px solid ${selected ? "#00FF88" : "#1E1E32"}`,
+                    background: selected ? "rgba(0,255,136,0.12)" : "transparent",
+                    color: selected ? "#00FF88" : "#8A8AA8",
                     fontSize: 13,
                     fontWeight: 600,
                     cursor: "pointer",
@@ -966,7 +1065,7 @@ function ReadingPlansTab() {
           <div
             style={{
               background:
-                "linear-gradient(135deg, rgba(107,79,187,0.2), rgba(212,175,55,0.1))",
+                "linear-gradient(135deg, rgba(107,79,187,0.2), rgba(0,255,136,0.1))",
               border: "1px solid #2A2A44",
               borderRadius: 12,
               padding: 18,
@@ -988,13 +1087,13 @@ function ReadingPlansTab() {
               </div>
               <div
                 style={{
-                  background: "rgba(212,175,55,0.15)",
-                  border: "1px solid rgba(212,175,55,0.3)",
+                  background: "rgba(0,255,136,0.15)",
+                  border: "1px solid rgba(0,255,136,0.3)",
                   borderRadius: 6,
                   padding: "4px 10px",
                   fontSize: 12,
                   fontWeight: 700,
-                  color: "#D4AF37",
+                  color: "#00FF88",
                 }}
               >
                 🔥 14-day streak
@@ -1013,7 +1112,7 @@ function ReadingPlansTab() {
                 style={{
                   height: "100%",
                   width: `${(22 / 90) * 100}%`,
-                  background: "linear-gradient(90deg, #6B4FBB, #D4AF37)",
+                  background: "linear-gradient(90deg, #6B4FBB, #00FF88)",
                   borderRadius: 6,
                 }}
               />
@@ -1038,7 +1137,7 @@ function ReadingPlansTab() {
               width: "auto",
               fontWeight: 700,
               fontSize: 16,
-              color: "#D4AF37",
+              color: "#00FF88",
             }}
           />
         </div>
@@ -1054,9 +1153,9 @@ function ReadingPlansTab() {
                 style={{
                   padding: "8px 18px",
                   borderRadius: 8,
-                  border: `1px solid ${translation === t ? "#D4AF37" : "#1E1E32"}`,
-                  background: translation === t ? "rgba(212,175,55,0.12)" : "transparent",
-                  color: translation === t ? "#D4AF37" : "#8A8AA8",
+                  border: `1px solid ${translation === t ? "#00FF88" : "#1E1E32"}`,
+                  background: translation === t ? "rgba(0,255,136,0.12)" : "transparent",
+                  color: translation === t ? "#00FF88" : "#8A8AA8",
                   fontSize: 13,
                   fontWeight: 700,
                   cursor: "pointer",
@@ -1201,7 +1300,7 @@ function ConnectionsTab() {
         <div style={{ padding: "16px 20px" }}>
           <button
             style={{
-              background: "linear-gradient(135deg, #C9A227, #E8C840)",
+              background: "linear-gradient(135deg, #00CC66, #00FF88)",
               color: "#07070F",
               fontWeight: 700,
               fontSize: 13,
@@ -1285,8 +1384,8 @@ function BillingTab() {
       <div
         style={{
           background:
-            "linear-gradient(135deg, rgba(212,175,55,0.08), rgba(107,79,187,0.12))",
-          border: "1px solid rgba(212,175,55,0.25)",
+            "linear-gradient(135deg, rgba(0,255,136,0.08), rgba(107,79,187,0.12))",
+          border: "1px solid rgba(0,255,136,0.25)",
           borderRadius: 16,
           padding: 24,
           position: "relative",
@@ -1299,7 +1398,7 @@ function BillingTab() {
             position: "absolute",
             top: 16,
             right: -24,
-            background: "linear-gradient(135deg, #C9A227, #E8C840)",
+            background: "linear-gradient(135deg, #00CC66, #00FF88)",
             color: "#07070F",
             fontSize: 10,
             fontWeight: 900,
@@ -1318,7 +1417,7 @@ function BillingTab() {
               fontSize: 11,
               fontWeight: 700,
               letterSpacing: "0.1em",
-              color: "#D4AF37",
+              color: "#00FF88",
               textTransform: "uppercase",
             }}
           >
@@ -1339,7 +1438,7 @@ function BillingTab() {
           {proFeatures.map((f) => (
             <div
               key={f}
-              style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "#D4AF37" }}
+              style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "#00FF88" }}
             >
               <Check size={14} />
               {f}
@@ -1350,7 +1449,7 @@ function BillingTab() {
         <button
           disabled
           style={{
-            background: "linear-gradient(135deg, #C9A227, #E8C840)",
+            background: "linear-gradient(135deg, #00CC66, #00FF88)",
             color: "#07070F",
             fontWeight: 700,
             fontSize: 14,
@@ -1448,10 +1547,10 @@ export default function SettingsPage() {
                     gap: 10,
                     width: "100%",
                     padding: "11px 18px",
-                    background: active ? "rgba(212,175,55,0.08)" : "transparent",
+                    background: active ? "rgba(0,255,136,0.08)" : "transparent",
                     border: "none",
-                    borderLeft: `3px solid ${active ? "#D4AF37" : "transparent"}`,
-                    color: active ? "#D4AF37" : "#8A8AA8",
+                    borderLeft: `3px solid ${active ? "#00FF88" : "transparent"}`,
+                    color: active ? "#00FF88" : "#8A8AA8",
                     fontSize: 14,
                     fontWeight: active ? 700 : 500,
                     cursor: "pointer",

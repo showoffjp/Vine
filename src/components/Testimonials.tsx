@@ -7,7 +7,7 @@ const testimonials = [
     name: "Amara Diallo",
     location: "Dakar, Senegal",
     role: "Worship Leader",
-    avatar: "#D4AF37",
+    avatar: "#00FF88",
     initials: "AD",
     stars: 5,
     text: "Vine is the first platform that actually gets the breadth of Christian life. I found a community for worship, resources for mental health, and daily devotionals — all in one place. It changed my mornings.",
@@ -66,7 +66,7 @@ export default function Testimonials() {
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse 80% 60% at 50% 100%, rgba(212,175,55,0.04) 0%, transparent 70%)",
+            "radial-gradient(ellipse 80% 60% at 50% 100%, rgba(0,255,136,0.04) 0%, transparent 70%)",
         }}
       />
 
@@ -94,7 +94,7 @@ export default function Testimonials() {
               <Quote
                 size={20}
                 className="absolute top-5 right-5 opacity-20"
-                style={{ color: "#D4AF37" }}
+                style={{ color: "#00FF88" }}
               />
 
               {/* Stars */}
@@ -103,8 +103,8 @@ export default function Testimonials() {
                   <Star
                     key={si}
                     size={12}
-                    fill="#D4AF37"
-                    style={{ color: "#D4AF37" }}
+                    fill="#00FF88"
+                    style={{ color: "#00FF88" }}
                   />
                 ))}
               </div>

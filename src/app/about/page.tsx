@@ -24,7 +24,7 @@ const pillars = [
   {
     icon: BookOpen,
     title: "Truth",
-    color: "#D4AF37",
+    color: "#00FF88",
     desc: "We never compromise biblical truth for popularity. The Word of God is the foundation of everything on Vine.",
   },
   {
@@ -51,7 +51,7 @@ const values = [
   {
     icon: BookOpen,
     title: "Biblical Authority",
-    color: "#D4AF37",
+    color: "#00FF88",
     desc: "Scripture is our final word. Every feature, policy, and piece of content is measured against it.",
   },
   {
@@ -134,7 +134,7 @@ const team = [
     initials: "KO",
     name: "Kwame Osei-Mensah",
     role: "Co-Founder & CEO",
-    color: "#D4AF37",
+    color: "#00FF88",
     fact: "Grew up singing hymns in Accra and still memorizes one new Psalm every month.",
   },
   {
@@ -199,7 +199,7 @@ export default function AboutPage() {
         <section
           style={{
             background:
-              "linear-gradient(180deg, rgba(212,175,55,0.13) 0%, rgba(107,79,187,0.07) 55%, transparent 100%)",
+              "linear-gradient(180deg, rgba(0,255,136,0.13) 0%, rgba(107,79,187,0.07) 55%, transparent 100%)",
             padding: "96px 24px 72px",
             textAlign: "center",
           }}
@@ -209,8 +209,8 @@ export default function AboutPage() {
               display: "inline-flex",
               alignItems: "center",
               gap: "8px",
-              background: "rgba(212,175,55,0.1)",
-              border: "1px solid rgba(212,175,55,0.25)",
+              background: "rgba(0,255,136,0.1)",
+              border: "1px solid rgba(0,255,136,0.25)",
               borderRadius: "100px",
               padding: "6px 18px",
               marginBottom: "28px",
@@ -218,7 +218,7 @@ export default function AboutPage() {
           >
             <span
               style={{
-                color: "#D4AF37",
+                color: "#00FF88",
                 fontSize: "12px",
                 fontWeight: 700,
                 letterSpacing: "0.1em",
@@ -234,7 +234,7 @@ export default function AboutPage() {
               fontWeight: 900,
               lineHeight: 1.0,
               marginBottom: "24px",
-              background: "linear-gradient(135deg, #D4AF37 0%, #F0D060 40%, #D4AF37 100%)",
+              background: "linear-gradient(135deg, #00FF88 0%, #44FFAA 40%, #00FF88 100%)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundClip: "text",
@@ -270,7 +270,7 @@ export default function AboutPage() {
                 display: "inline-flex",
                 alignItems: "center",
                 gap: "8px",
-                background: "linear-gradient(135deg, #D4AF37, #B8922A)",
+                background: "linear-gradient(135deg, #00FF88, #B8922A)",
                 color: "#07070F",
                 borderRadius: "14px",
                 padding: "14px 28px",
@@ -310,7 +310,7 @@ export default function AboutPage() {
               style={{
                 background: "#12121F",
                 borderRadius: "24px",
-                borderLeft: "4px solid #D4AF37",
+                borderLeft: "4px solid #00FF88",
                 padding: "48px 48px 48px 44px",
                 position: "relative",
                 overflow: "hidden",
@@ -324,13 +324,13 @@ export default function AboutPage() {
                   width: "320px",
                   height: "320px",
                   background:
-                    "radial-gradient(circle, rgba(212,175,55,0.06) 0%, transparent 70%)",
+                    "radial-gradient(circle, rgba(0,255,136,0.06) 0%, transparent 70%)",
                   pointerEvents: "none",
                 }}
               />
               <p
                 style={{
-                  color: "#D4AF37",
+                  color: "#00FF88",
                   fontSize: "11px",
                   fontWeight: 700,
                   letterSpacing: "0.12em",
@@ -373,15 +373,15 @@ export default function AboutPage() {
                 style={{
                   marginTop: "36px",
                   padding: "20px 24px",
-                  background: "rgba(212,175,55,0.07)",
-                  border: "1px solid rgba(212,175,55,0.15)",
+                  background: "rgba(0,255,136,0.07)",
+                  border: "1px solid rgba(0,255,136,0.15)",
                   borderRadius: "14px",
                   display: "inline-block",
                 }}
               >
                 <p
                   style={{
-                    color: "#D4AF37",
+                    color: "#00FF88",
                     fontSize: "16px",
                     fontStyle: "italic",
                     lineHeight: 1.6,
@@ -401,7 +401,7 @@ export default function AboutPage() {
             <div style={{ textAlign: "center", marginBottom: "48px" }}>
               <p
                 style={{
-                  color: "#D4AF37",
+                  color: "#00FF88",
                   fontSize: "11px",
                   fontWeight: 700,
                   letterSpacing: "0.12em",
@@ -480,7 +480,7 @@ export default function AboutPage() {
             <div style={{ textAlign: "center", marginBottom: "48px" }}>
               <p
                 style={{
-                  color: "#D4AF37",
+                  color: "#00FF88",
                   fontSize: "11px",
                   fontWeight: 700,
                   letterSpacing: "0.12em",
@@ -563,7 +563,7 @@ export default function AboutPage() {
             <div style={{ textAlign: "center", marginBottom: "40px" }}>
               <p
                 style={{
-                  color: "#D4AF37",
+                  color: "#00FF88",
                   fontSize: "11px",
                   fontWeight: 700,
                   letterSpacing: "0.12em",
@@ -631,7 +631,7 @@ export default function AboutPage() {
             <div style={{ textAlign: "center", marginBottom: "48px" }}>
               <p
                 style={{
-                  color: "#D4AF37",
+                  color: "#00FF88",
                   fontSize: "11px",
                   fontWeight: 700,
                   letterSpacing: "0.12em",
@@ -742,8 +742,8 @@ export default function AboutPage() {
             <div
               style={{
                 background:
-                  "linear-gradient(135deg, rgba(212,175,55,0.10) 0%, rgba(107,79,187,0.08) 100%)",
-                border: "1px solid rgba(212,175,55,0.2)",
+                  "linear-gradient(135deg, rgba(0,255,136,0.10) 0%, rgba(107,79,187,0.08) 100%)",
+                border: "1px solid rgba(0,255,136,0.2)",
                 borderRadius: "28px",
                 padding: "56px 40px",
                 textAlign: "center",
@@ -751,7 +751,7 @@ export default function AboutPage() {
             >
               <p
                 style={{
-                  color: "#D4AF37",
+                  color: "#00FF88",
                   fontSize: "11px",
                   fontWeight: 700,
                   letterSpacing: "0.12em",
@@ -786,7 +786,7 @@ export default function AboutPage() {
                         fontWeight: 900,
                         lineHeight: 1,
                         marginBottom: "8px",
-                        background: "linear-gradient(135deg, #D4AF37, #F0D060)",
+                        background: "linear-gradient(135deg, #00FF88, #44FFAA)",
                         WebkitBackgroundClip: "text",
                         WebkitTextFillColor: "transparent",
                         backgroundClip: "text",
@@ -876,7 +876,7 @@ export default function AboutPage() {
                   width: "600px",
                   height: "320px",
                   background:
-                    "radial-gradient(ellipse, rgba(212,175,55,0.07) 0%, transparent 65%)",
+                    "radial-gradient(ellipse, rgba(0,255,136,0.07) 0%, transparent 65%)",
                   pointerEvents: "none",
                 }}
               />
@@ -920,7 +920,7 @@ export default function AboutPage() {
                     display: "inline-flex",
                     alignItems: "center",
                     gap: "8px",
-                    background: "linear-gradient(135deg, #D4AF37, #B8922A)",
+                    background: "linear-gradient(135deg, #00FF88, #B8922A)",
                     color: "#07070F",
                     borderRadius: "14px",
                     padding: "16px 36px",
@@ -932,7 +932,7 @@ export default function AboutPage() {
                   Join Free <ChevronRight size={17} />
                 </a>
                 <a
-                  href="#"
+                  href="/feed"
                   style={{
                     display: "inline-flex",
                     alignItems: "center",

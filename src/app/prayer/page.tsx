@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
@@ -68,11 +68,11 @@ const prayerCards = [
     id: 3,
     name: "PRAISE REPORT — Marcus T.",
     initials: "MT",
-    avatarColor: "#D4AF37",
+    avatarColor: "#00FF88",
     location: "Houston, TX",
     time: "2 hours ago",
     topic: "Praise",
-    topicColor: "#D4AF37",
+    topicColor: "#00FF88",
     text: "SIX MONTHS AGO I posted here asking for prayer about my job situation. I had just been laid off, had $200 in my bank account, and a family to feed. 312 of you prayed with me. I want you to know: I just signed a contract for a position that DOUBLES my previous salary. God is not slow. He is FAITHFUL. Thank you, Vine family. 🙏✨",
     prayCount: 4821,
     amenCount: 3201,
@@ -151,7 +151,7 @@ const prayerCards = [
 ];
 
 const prayerChampions = [
-  { name: "Ruth W.", count: 847, initials: "RW", color: "#D4AF37" },
+  { name: "Ruth W.", count: 847, initials: "RW", color: "#00FF88" },
   { name: "Jonathan M.", count: 734, initials: "JM", color: "#6B4FBB" },
   { name: "Esther K.", count: 621, initials: "EK", color: "#4FBBAA" },
   { name: "Abraham L.", count: 589, initials: "AL", color: "#BB4F7A" },
@@ -169,13 +169,34 @@ export default function PrayerPage() {
   const [activeTab, setActiveTab] = useState("All");
   const [showForm, setShowForm] = useState(false);
   const [isAnonymous, setIsAnonymous] = useState(false);
-  const [prayedCards, setPrayedCards] = useState<Set<number>>(new Set());
-  const [prayCounts, setPrayCounts] = useState<Record<number, number>>(
-    Object.fromEntries(prayerCards.map((c) => [c.id, c.prayCount]))
-  );
+  const [prayedCards, setPrayedCards] = useState<Set<number>>(() => {
+    try { const s = localStorage.getItem("vine_prayed_cards"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
+  });
+  const [prayCounts, setPrayCounts] = useState<Record<number, number>>(() => {
+    try { const s = localStorage.getItem("vine_pray_counts"); return s ? JSON.parse(s) : Object.fromEntries(prayerCards.map((c) => [c.id, c.prayCount])); } catch { return Object.fromEntries(prayerCards.map((c) => [c.id, c.prayCount])); }
+  });
   const [prayingAnimation, setPrayingAnimation] = useState<Set<number>>(new Set());
   const [requestText, setRequestText] = useState("");
   const [selectedTopic, setSelectedTopic] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_prayed_cards", JSON.stringify([...prayedCards])); } catch {}
+  }, [prayedCards]);
+  useEffect(() => {
+    try { localStorage.setItem("vine_pray_counts", JSON.stringify(prayCounts)); } catch {}
+  }, [prayCounts]);
+
+  const handleSubmitPrayer = () => {
+    if (!requestText.trim()) return;
+    setSubmitted(true);
+    setRequestText("");
+    setSelectedTopic("");
+    setTimeout(() => {
+      setSubmitted(false);
+      setShowForm(false);
+    }, 3000);
+  };
 
   const handlePray = (cardId: number) => {
     if (prayedCards.has(cardId)) return;
@@ -197,14 +218,14 @@ export default function PrayerPage() {
     <div className="min-h-screen" style={{ background: "#07070F" }}>
       <Navbar />
 
-      <main className="pt-24 pb-16">
+      <main className="page-body pb-16">
         {/* Hero Section */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
           <div
             className="rounded-3xl p-8 relative overflow-hidden"
             style={{
-              background: "linear-gradient(135deg, rgba(107,79,187,0.15) 0%, rgba(212,175,55,0.08) 100%)",
-              border: "1px solid rgba(212,175,55,0.15)",
+              background: "linear-gradient(135deg, rgba(107,79,187,0.15) 0%, rgba(0,255,136,0.08) 100%)",
+              border: "1px solid rgba(0,255,136,0.15)",
             }}
           >
             {/* Background decoration */}
@@ -237,7 +258,7 @@ export default function PrayerPage() {
                   { num: "8,847", label: "active pray-ers" },
                 ].map((stat) => (
                   <div key={stat.label}>
-                    <p className="text-2xl font-black" style={{ color: "#D4AF37" }}>{stat.num}</p>
+                    <p className="text-2xl font-black" style={{ color: "#00FF88" }}>{stat.num}</p>
                     <p className="text-xs" style={{ color: "#6A6A88" }}>{stat.label}</p>
                   </div>
                 ))}
@@ -257,7 +278,7 @@ export default function PrayerPage() {
           {showForm && (
             <div
               className="mt-4 rounded-2xl p-6"
-              style={{ background: "#12121F", border: "1px solid rgba(212,175,55,0.2)" }}
+              style={{ background: "#12121F", border: "1px solid rgba(0,255,136,0.2)" }}
             >
               <div className="flex items-center justify-between mb-5">
                 <h3 className="font-bold" style={{ color: "#F2F2F8" }}>Share Your Prayer Request</h3>
@@ -317,7 +338,7 @@ export default function PrayerPage() {
                 <button
                   onClick={() => setIsAnonymous(!isAnonymous)}
                   className="relative w-10 h-5 rounded-full transition-all duration-200 flex-shrink-0"
-                  style={{ background: isAnonymous ? "#D4AF37" : "#1E1E32" }}
+                  style={{ background: isAnonymous ? "#00FF88" : "#1E1E32" }}
                 >
                   <span
                     className="absolute top-0.5 w-4 h-4 rounded-full transition-all duration-200"
@@ -350,19 +371,26 @@ export default function PrayerPage() {
                 </p>
               </div>
 
-              <div className="flex items-center gap-3">
-                <button className="btn-gold px-6 py-2.5 rounded-xl text-sm font-bold flex items-center gap-2">
-                  <Send size={14} />
-                  Submit Prayer Request
-                </button>
-                <button
-                  onClick={() => setShowForm(false)}
-                  className="px-4 py-2.5 rounded-xl text-sm font-semibold transition hover:bg-[#18182A]"
-                  style={{ border: "1px solid #1E1E32", color: "#8A8AA8" }}
-                >
-                  Cancel
-                </button>
-              </div>
+              {submitted ? (
+                <div className="rounded-xl p-4 text-center" style={{ background: "rgba(0,255,136,0.08)", border: "1px solid rgba(0,255,136,0.2)" }}>
+                  <p className="text-sm font-bold" style={{ color: "#00FF88" }}>🙏 Your prayer request has been shared with the community.</p>
+                  <p className="text-xs mt-1" style={{ color: "#6A6A88" }}>Believers around the world are already lifting you up.</p>
+                </div>
+              ) : (
+                <div className="flex items-center gap-3">
+                  <button onClick={handleSubmitPrayer} className="btn-gold px-6 py-2.5 rounded-xl text-sm font-bold flex items-center gap-2">
+                    <Send size={14} />
+                    Submit Prayer Request
+                  </button>
+                  <button
+                    onClick={() => setShowForm(false)}
+                    className="px-4 py-2.5 rounded-xl text-sm font-semibold transition hover:bg-[#18182A]"
+                    style={{ border: "1px solid #1E1E32", color: "#8A8AA8" }}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -381,9 +409,9 @@ export default function PrayerPage() {
                     onClick={() => setActiveTab(tab)}
                     className="flex-shrink-0 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200"
                     style={{
-                      background: activeTab === tab ? "rgba(212,175,55,0.12)" : "transparent",
-                      border: activeTab === tab ? "1px solid rgba(212,175,55,0.3)" : "1px solid #1E1E32",
-                      color: activeTab === tab ? "#D4AF37" : "#6A6A88",
+                      background: activeTab === tab ? "rgba(0,255,136,0.12)" : "transparent",
+                      border: activeTab === tab ? "1px solid rgba(0,255,136,0.3)" : "1px solid #1E1E32",
+                      color: activeTab === tab ? "#00FF88" : "#6A6A88",
                     }}
                   >
                     {tab}
@@ -405,20 +433,20 @@ export default function PrayerPage() {
                       style={{
                         background: "#12121F",
                         border: card.isPraiseReport
-                          ? "1px solid rgba(212,175,55,0.4)"
+                          ? "1px solid rgba(0,255,136,0.4)"
                           : "1px solid #1E1E32",
                         boxShadow: card.isPraiseReport
-                          ? "0 0 30px rgba(212,175,55,0.08)"
+                          ? "0 0 30px rgba(0,255,136,0.08)"
                           : "none",
                       }}
                     >
                       {card.isPraiseReport && (
                         <div
                           className="flex items-center gap-2 mb-3 px-3 py-2 rounded-xl"
-                          style={{ background: "rgba(212,175,55,0.08)", border: "1px solid rgba(212,175,55,0.2)" }}
+                          style={{ background: "rgba(0,255,136,0.08)", border: "1px solid rgba(0,255,136,0.2)" }}
                         >
-                          <CheckCircle2 size={14} style={{ color: "#D4AF37" }} />
-                          <span className="text-xs font-black uppercase tracking-wider" style={{ color: "#D4AF37" }}>
+                          <CheckCircle2 size={14} style={{ color: "#00FF88" }} />
+                          <span className="text-xs font-black uppercase tracking-wider" style={{ color: "#00FF88" }}>
                             🎉 Praise Report — Prayer Answered!
                           </span>
                         </div>
@@ -473,10 +501,10 @@ export default function PrayerPage() {
                           className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-all duration-300"
                           style={{
                             background: hasPrayed
-                              ? "rgba(212,175,55,0.15)"
-                              : "rgba(212,175,55,0.08)",
-                            border: `1px solid ${hasPrayed ? "rgba(212,175,55,0.4)" : "rgba(212,175,55,0.2)"}`,
-                            color: hasPrayed ? "#D4AF37" : "#8A8AA8",
+                              ? "rgba(0,255,136,0.15)"
+                              : "rgba(0,255,136,0.08)",
+                            border: `1px solid ${hasPrayed ? "rgba(0,255,136,0.4)" : "rgba(0,255,136,0.2)"}`,
+                            color: hasPrayed ? "#00FF88" : "#8A8AA8",
                             transform: isAnimating ? "scale(0.95)" : "scale(1)",
                           }}
                         >
@@ -493,7 +521,7 @@ export default function PrayerPage() {
                             className="text-xs font-mono px-1.5 py-0.5 rounded-md"
                             style={{
                               background: "rgba(0,0,0,0.3)",
-                              color: hasPrayed ? "#D4AF37" : "#6A6A88",
+                              color: hasPrayed ? "#00FF88" : "#6A6A88",
                             }}
                           >
                             {count >= 1000 ? `${(count / 1000).toFixed(1)}k` : count}
@@ -539,8 +567,8 @@ export default function PrayerPage() {
                 style={{ background: "#12121F", border: "1px solid #1E1E32" }}
               >
                 <div className="flex items-center gap-2 mb-4">
-                  <Trophy size={15} style={{ color: "#D4AF37" }} />
-                  <h4 className="text-xs font-bold uppercase tracking-widest" style={{ color: "#D4AF37" }}>
+                  <Trophy size={15} style={{ color: "#00FF88" }} />
+                  <h4 className="text-xs font-bold uppercase tracking-widest" style={{ color: "#00FF88" }}>
                     Prayer Champions
                   </h4>
                 </div>
@@ -550,7 +578,7 @@ export default function PrayerPage() {
                     <div key={champ.name} className="flex items-center gap-3">
                       <span
                         className="text-sm font-black w-5 flex-shrink-0 text-center"
-                        style={{ color: i === 0 ? "#D4AF37" : i === 1 ? "#C0C0D8" : "#8A8AA8" }}
+                        style={{ color: i === 0 ? "#00FF88" : i === 1 ? "#C0C0D8" : "#8A8AA8" }}
                       >
                         {i + 1}
                       </span>
@@ -583,7 +611,7 @@ export default function PrayerPage() {
               >
                 <div className="flex items-center gap-2 mb-4">
                   <CheckCircle2 size={15} style={{ color: "#4FBBAA" }} />
-                  <h4 className="text-xs font-bold uppercase tracking-widest" style={{ color: "#D4AF37" }}>
+                  <h4 className="text-xs font-bold uppercase tracking-widest" style={{ color: "#00FF88" }}>
                     Recently Answered
                   </h4>
                 </div>
@@ -612,8 +640,8 @@ export default function PrayerPage() {
                 className="rounded-2xl p-4 verse-card"
               >
                 <div className="flex items-center gap-2 mb-3">
-                  <BookOpen size={14} style={{ color: "#D4AF37" }} />
-                  <h4 className="text-xs font-bold uppercase tracking-widest" style={{ color: "#D4AF37" }}>
+                  <BookOpen size={14} style={{ color: "#00FF88" }} />
+                  <h4 className="text-xs font-bold uppercase tracking-widest" style={{ color: "#00FF88" }}>
                     Prayer Tip of the Day
                   </h4>
                 </div>
@@ -622,10 +650,10 @@ export default function PrayerPage() {
                 </p>
                 <div
                   className="p-3 rounded-xl italic text-xs leading-relaxed"
-                  style={{ background: "rgba(212,175,55,0.06)", border: "1px solid rgba(212,175,55,0.12)", color: "#8A8AA8" }}
+                  style={{ background: "rgba(0,255,136,0.06)", border: "1px solid rgba(0,255,136,0.12)", color: "#8A8AA8" }}
                 >
                   &ldquo;Do not be anxious about anything, but in every situation, by prayer and petition, with thanksgiving, present your requests to God.&rdquo;
-                  <span className="block mt-1 font-bold not-italic" style={{ color: "#D4AF37" }}>
+                  <span className="block mt-1 font-bold not-italic" style={{ color: "#00FF88" }}>
                     — Philippians 4:6
                   </span>
                 </div>
@@ -635,8 +663,8 @@ export default function PrayerPage() {
               <div
                 className="rounded-2xl p-4 text-center"
                 style={{
-                  background: "linear-gradient(135deg, rgba(107,79,187,0.15) 0%, rgba(212,175,55,0.08) 100%)",
-                  border: "1px solid rgba(212,175,55,0.2)",
+                  background: "linear-gradient(135deg, rgba(107,79,187,0.15) 0%, rgba(0,255,136,0.08) 100%)",
+                  border: "1px solid rgba(0,255,136,0.2)",
                 }}
               >
                 <p className="text-2xl mb-2">🙏</p>

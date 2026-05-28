@@ -1,4 +1,6 @@
-import type { Metadata } from "next";
+"use client";
+
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
@@ -22,7 +24,6 @@ import {
   Square,
 } from "lucide-react";
 
-export const metadata: Metadata = { title: "Resources — Vine" };
 
 const categories = [
   { name: "All", icon: Filter, count: 2847 },
@@ -68,6 +69,7 @@ const resources = [
     saves: 3241,
     topic: "Mental Health",
     topicColor: "#4FBBAA",
+    href: "/discussions/depression-therapy-faith-005",
   },
   {
     type: "Video",
@@ -79,11 +81,12 @@ const resources = [
     rating: 4.9,
     saves: 8109,
     topic: "Faith Basics",
-    topicColor: "#D4AF37",
+    topicColor: "#00FF88",
+    href: "/video",
   },
   {
     type: "Audio",
-    typeColor: "#D4AF37",
+    typeColor: "#00FF88",
     title: "Financially Faithful: Managing Money God's Way",
     excerpt: "A podcast series covering tithing, budgeting, debt freedom, and investing from a biblically grounded perspective...",
     author: "Marcus & Joy Williams",
@@ -92,6 +95,7 @@ const resources = [
     saves: 2876,
     topic: "Finance",
     topicColor: "#4F8FBB",
+    href: "/blog/biblical-finances-stewardship",
   },
   {
     type: "Study Guide",
@@ -104,6 +108,7 @@ const resources = [
     saves: 6543,
     topic: "Theology",
     topicColor: "#6B4FBB",
+    href: "/reading-plan",
   },
   {
     type: "Article",
@@ -116,6 +121,7 @@ const resources = [
     saves: 4312,
     topic: "Relationships",
     topicColor: "#BB4F7A",
+    href: "/relationships",
   },
   {
     type: "Video",
@@ -128,6 +134,7 @@ const resources = [
     saves: 7201,
     topic: "Apologetics",
     topicColor: "#BB7A4F",
+    href: "/blog/why-the-resurrection-changes-everything",
   },
   {
     type: "Article",
@@ -140,6 +147,7 @@ const resources = [
     saves: 3890,
     topic: "Parenting",
     topicColor: "#BB4F7A",
+    href: "/parenting",
   },
   {
     type: "eBook",
@@ -152,6 +160,7 @@ const resources = [
     saves: 2134,
     topic: "Life & Productivity",
     topicColor: "#4FBBAA",
+    href: "/work-leadership",
   },
   {
     type: "Study Guide",
@@ -163,7 +172,8 @@ const resources = [
     rating: 4.8,
     saves: 5670,
     topic: "Faith Basics",
-    topicColor: "#D4AF37",
+    topicColor: "#00FF88",
+    href: "/prayer",
   },
 ];
 
@@ -174,11 +184,11 @@ function StarRating({ rating }: { rating: number }) {
         <Star
           key={s}
           size={11}
-          fill={s <= Math.floor(rating) ? "#D4AF37" : "none"}
-          style={{ color: s <= Math.floor(rating) ? "#D4AF37" : "#3A3A58" }}
+          fill={s <= Math.floor(rating) ? "#00FF88" : "none"}
+          style={{ color: s <= Math.floor(rating) ? "#00FF88" : "#3A3A58" }}
         />
       ))}
-      <span className="text-xs ml-1 font-semibold" style={{ color: "#D4AF37" }}>
+      <span className="text-xs ml-1 font-semibold" style={{ color: "#00FF88" }}>
         {rating}
       </span>
     </div>
@@ -188,7 +198,7 @@ function StarRating({ rating }: { rating: number }) {
 function FilterSection({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div className="mb-5">
-      <h4 className="text-[10px] font-black uppercase tracking-widest mb-2.5" style={{ color: "#D4AF37" }}>
+      <h4 className="text-[10px] font-black uppercase tracking-widest mb-2.5" style={{ color: "#00FF88" }}>
         {title}
       </h4>
       {children}
@@ -197,16 +207,50 @@ function FilterSection({ title, children }: { title: string; children: React.Rea
 }
 
 export default function ResourcesPage() {
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedTopic, setSelectedTopic] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [savedResources, setSavedResources] = useState<Set<string>>(() => {
+    try {
+      const s = localStorage.getItem("vine_resources_saved");
+      return s ? new Set(JSON.parse(s) as string[]) : new Set();
+    } catch { return new Set(); }
+  });
+  const [featuredSaved, setFeaturedSaved] = useState(() => {
+    try { return localStorage.getItem("vine_resources_featured") === "true"; } catch { return false; }
+  });
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_resources_saved", JSON.stringify([...savedResources])); } catch {}
+  }, [savedResources]);
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_resources_featured", String(featuredSaved)); } catch {}
+  }, [featuredSaved]);
+
+  const toggleSave = (title: string) => setSavedResources(prev => {
+    const next = new Set(prev);
+    if (next.has(title)) next.delete(title); else next.add(title);
+    return next;
+  });
+
+  const filteredResources = resources.filter(r => {
+    const matchCat = selectedCategory === "All" || r.type === selectedCategory;
+    const matchTopic = !selectedTopic || r.topic === selectedTopic;
+    const matchSearch = !searchQuery || r.title.toLowerCase().includes(searchQuery.toLowerCase()) || r.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchCat && matchTopic && matchSearch;
+  });
+
   return (
     <div className="min-h-screen" style={{ background: "#07070F" }}>
       <Navbar />
 
-      <main className="pt-24 pb-16">
+      <main className="page-body pb-16">
         {/* Page Header */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
             <div>
-              <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: "#D4AF37" }}>
+              <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: "#00FF88" }}>
                 Resource Library
               </p>
               <h1 className="text-3xl sm:text-4xl font-black" style={{ color: "#F2F2F8" }}>
@@ -222,6 +266,8 @@ export default function ResourcesPage() {
                 <input
                   type="text"
                   placeholder="Search resources..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                   className="pl-9 pr-4 py-2.5 rounded-xl text-sm outline-none w-64"
                   style={{
                     background: "#12121F",
@@ -244,7 +290,7 @@ export default function ResourcesPage() {
               >
                 <div className="flex items-center justify-between mb-5">
                   <span className="text-sm font-bold" style={{ color: "#F2F2F8" }}>Filters</span>
-                  <button className="text-xs font-semibold" style={{ color: "#D4AF37" }}>
+                  <button className="text-xs font-semibold" style={{ color: "#00FF88" }}>
                     Clear all
                   </button>
                 </div>
@@ -252,49 +298,52 @@ export default function ResourcesPage() {
                 {/* Category */}
                 <FilterSection title="Category">
                   <div className="space-y-1">
-                    {categories.map((cat, i) => (
+                    {categories.map((cat) => {
+                    const active = selectedCategory === cat.name;
+                    return (
                       <button
                         key={cat.name}
+                        onClick={() => setSelectedCategory(cat.name)}
                         className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-left transition-all duration-150 hover:bg-[#18182A]"
-                        style={{
-                          background: i === 0 ? "rgba(212,175,55,0.08)" : "transparent",
-                        }}
+                        style={{ background: active ? "rgba(0,255,136,0.08)" : "transparent" }}
                       >
-                        {i === 0 ? (
-                          <CheckSquare size={13} style={{ color: "#D4AF37" }} />
+                        {active ? (
+                          <CheckSquare size={13} style={{ color: "#00FF88" }} />
                         ) : (
                           <Square size={13} style={{ color: "#4A4A68" }} />
                         )}
-                        <span
-                          className="text-xs flex-1"
-                          style={{ color: i === 0 ? "#D4AF37" : "#8A8AA8" }}
-                        >
+                        <span className="text-xs flex-1" style={{ color: active ? "#00FF88" : "#8A8AA8" }}>
                           {cat.name}
                         </span>
                         <span className="text-[10px]" style={{ color: "#4A4A68" }}>
                           {cat.count.toLocaleString()}
                         </span>
                       </button>
-                    ))}
+                    );
+                  })}
                   </div>
                 </FilterSection>
 
                 {/* Topic */}
                 <FilterSection title="Topic">
                   <div className="flex flex-wrap gap-1.5">
-                    {topics.map((topic, i) => (
-                      <button
-                        key={topic}
-                        className="text-[10px] font-semibold px-2.5 py-1 rounded-full transition-all duration-150"
-                        style={{
-                          background: i === 1 ? "rgba(212,175,55,0.12)" : "rgba(255,255,255,0.04)",
-                          border: i === 1 ? "1px solid rgba(212,175,55,0.3)" : "1px solid #1E1E32",
-                          color: i === 1 ? "#D4AF37" : "#6A6A88",
-                        }}
-                      >
-                        {topic}
-                      </button>
-                    ))}
+                    {topics.map((topic) => {
+                      const active = selectedTopic === topic;
+                      return (
+                        <button
+                          key={topic}
+                          onClick={() => setSelectedTopic(active ? null : topic)}
+                          className="text-[10px] font-semibold px-2.5 py-1 rounded-full transition-all duration-150"
+                          style={{
+                            background: active ? "rgba(0,255,136,0.12)" : "rgba(255,255,255,0.04)",
+                            border: active ? "1px solid rgba(0,255,136,0.3)" : "1px solid #1E1E32",
+                            color: active ? "#00FF88" : "#6A6A88",
+                          }}
+                        >
+                          {topic}
+                        </button>
+                      );
+                    })}
                   </div>
                 </FilterSection>
 
@@ -337,11 +386,11 @@ export default function ResourcesPage() {
                         className="w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-left transition hover:bg-[#18182A]"
                       >
                         {i === 0 ? (
-                          <CheckSquare size={13} style={{ color: "#D4AF37" }} />
+                          <CheckSquare size={13} style={{ color: "#00FF88" }} />
                         ) : (
                           <Square size={13} style={{ color: "#4A4A68" }} />
                         )}
-                        <span className="text-xs" style={{ color: i === 0 ? "#D4AF37" : "#8A8AA8" }}>{s}</span>
+                        <span className="text-xs" style={{ color: i === 0 ? "#00FF88" : "#8A8AA8" }}>{s}</span>
                       </button>
                     ))}
                   </div>
@@ -355,23 +404,27 @@ export default function ResourcesPage() {
               <div className="flex flex-wrap items-center gap-3 mb-5">
                 <span className="text-sm font-semibold" style={{ color: "#F2F2F8" }}>
                   Showing{" "}
-                  <span style={{ color: "#D4AF37" }}>2,847</span> resources
+                  <span style={{ color: "#00FF88" }}>{filteredResources.length}</span> resources
                 </span>
                 <div className="flex items-center gap-2 flex-wrap">
-                  {["Mental Health", "Articles"].map((pill) => (
-                    <span
-                      key={pill}
+                  {selectedCategory !== "All" && (
+                    <button
+                      onClick={() => setSelectedCategory("All")}
                       className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full"
-                      style={{
-                        background: "rgba(212,175,55,0.08)",
-                        border: "1px solid rgba(212,175,55,0.2)",
-                        color: "#D4AF37",
-                      }}
+                      style={{ background: "rgba(0,255,136,0.08)", border: "1px solid rgba(0,255,136,0.2)", color: "#00FF88" }}
                     >
-                      {pill}
-                      <X size={11} />
-                    </span>
-                  ))}
+                      {selectedCategory} <X size={11} />
+                    </button>
+                  )}
+                  {selectedTopic && (
+                    <button
+                      onClick={() => setSelectedTopic(null)}
+                      className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full"
+                      style={{ background: "rgba(0,255,136,0.08)", border: "1px solid rgba(0,255,136,0.2)", color: "#00FF88" }}
+                    >
+                      {selectedTopic} <X size={11} />
+                    </button>
+                  )}
                 </div>
                 <div className="ml-auto flex items-center gap-2">
                   <TrendingUp size={14} style={{ color: "#6A6A88" }} />
@@ -390,7 +443,7 @@ export default function ResourcesPage() {
               <div
                 className="rounded-2xl p-6 mb-6 relative overflow-hidden"
                 style={{
-                  background: "linear-gradient(135deg, rgba(107,79,187,0.18) 0%, rgba(212,175,55,0.08) 100%)",
+                  background: "linear-gradient(135deg, rgba(107,79,187,0.18) 0%, rgba(0,255,136,0.08) 100%)",
                   border: "1px solid rgba(107,79,187,0.3)",
                 }}
               >
@@ -442,15 +495,16 @@ export default function ResourcesPage() {
                       </span>
                     </div>
                     <div className="flex items-center gap-3 mt-4">
-                      <button className="btn-gold px-5 py-2.5 rounded-xl text-sm font-bold">
+                      <a href="/resources" className="btn-gold px-5 py-2.5 rounded-xl text-sm font-bold" style={{ textDecoration: "none" }}>
                         Read Now — Free
-                      </button>
+                      </a>
                       <button
+                        onClick={() => setFeaturedSaved(!featuredSaved)}
                         className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 hover:bg-[#18182A]"
-                        style={{ border: "1px solid #1E1E32", color: "#8A8AA8" }}
+                        style={{ border: `1px solid ${featuredSaved ? "rgba(0,255,136,0.3)" : "#1E1E32"}`, color: featuredSaved ? "#00FF88" : "#8A8AA8" }}
                       >
-                        <Bookmark size={14} />
-                        Save
+                        <Bookmark size={14} fill={featuredSaved ? "#00FF88" : "none"} />
+                        {featuredSaved ? "Saved!" : "Save"}
                       </button>
                     </div>
                   </div>
@@ -459,11 +513,18 @@ export default function ResourcesPage() {
 
               {/* Resource Grid */}
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 mb-8">
-                {resources.map((r, i) => (
-                  <article
+                {filteredResources.length === 0 && (
+                  <div className="col-span-full text-center py-16">
+                    <p style={{ color: "#8A8AA8" }}>No resources match your filters.</p>
+                    <button onClick={() => { setSelectedCategory("All"); setSelectedTopic(null); setSearchQuery(""); }} className="mt-3 text-sm font-semibold" style={{ color: "#00FF88" }}>Clear all filters</button>
+                  </div>
+                )}
+                {filteredResources.map((r, i) => (
+                  <a
                     key={i}
+                    href={r.href}
                     className="rounded-2xl p-4 flex flex-col cursor-pointer transition-all duration-200 hover:bg-[#18182A] group"
-                    style={{ background: "#12121F", border: "1px solid #1E1E32" }}
+                    style={{ background: "#12121F", border: "1px solid #1E1E32", textDecoration: "none" }}
                   >
                     {/* Type + Topic */}
                     <div className="flex items-center justify-between mb-3">
@@ -485,7 +546,7 @@ export default function ResourcesPage() {
                       </span>
                     </div>
 
-                    <h3 className="text-sm font-bold leading-snug mb-2 flex-1 group-hover:text-[#D4AF37] transition-colors" style={{ color: "#F2F2F8" }}>
+                    <h3 className="text-sm font-bold leading-snug mb-2 flex-1 group-hover:text-[#00FF88] transition-colors" style={{ color: "#F2F2F8" }}>
                       {r.title}
                     </h3>
                     <p className="text-xs leading-relaxed mb-3 line-clamp-2" style={{ color: "#6A6A88" }}>
@@ -521,12 +582,14 @@ export default function ResourcesPage() {
                       </div>
                       <div className="flex items-center gap-1">
                         <button
+                          onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleSave(r.title); }}
                           className="p-1.5 rounded-lg transition hover:bg-[#1E1E32]"
-                          style={{ color: "#4A4A68" }}
+                          style={{ color: savedResources.has(r.title) ? "#00FF88" : "#4A4A68" }}
                         >
-                          <Bookmark size={13} />
+                          <Bookmark size={13} fill={savedResources.has(r.title) ? "#00FF88" : "none"} />
                         </button>
                         <button
+                          onClick={(e) => e.preventDefault()}
                           className="p-1.5 rounded-lg transition hover:bg-[#1E1E32]"
                           style={{ color: "#4A4A68" }}
                         >
@@ -534,7 +597,7 @@ export default function ResourcesPage() {
                         </button>
                       </div>
                     </div>
-                  </article>
+                  </a>
                 ))}
               </div>
 
@@ -545,9 +608,9 @@ export default function ResourcesPage() {
                     key={i}
                     className="w-9 h-9 rounded-lg text-sm font-semibold transition-all duration-150"
                     style={{
-                      background: page === 1 ? "rgba(212,175,55,0.15)" : "transparent",
-                      border: page === 1 ? "1px solid rgba(212,175,55,0.3)" : "1px solid #1E1E32",
-                      color: page === 1 ? "#D4AF37" : page === "..." ? "#4A4A68" : "#8A8AA8",
+                      background: page === 1 ? "rgba(0,255,136,0.15)" : "transparent",
+                      border: page === 1 ? "1px solid rgba(0,255,136,0.3)" : "1px solid #1E1E32",
+                      color: page === 1 ? "#00FF88" : page === "..." ? "#4A4A68" : "#8A8AA8",
                     }}
                   >
                     {page}

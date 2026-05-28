@@ -98,10 +98,11 @@ export default function CommunityPreview() {
           {/* Left: Discussion Feed */}
           <div className="lg:col-span-2 space-y-4">
             {discussions.map((post, i) => (
-              <div
+              <a
                 key={i}
-                className="card-glow rounded-2xl p-5 cursor-pointer group"
-                style={{ background: "var(--bg-card)" }}
+                href="/discussions"
+                className="card-glow rounded-2xl p-5 cursor-pointer group block"
+                style={{ background: "var(--bg-card)", textDecoration: "none" }}
               >
                 {/* Hub + time */}
                 <div className="flex items-center gap-2 mb-3">
@@ -148,8 +149,8 @@ export default function CommunityPreview() {
                   <button
                     className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-semibold transition-colors"
                     style={{
-                      color: "#D4AF37",
-                      background: "rgba(212,175,55,0.08)",
+                      color: "#00FF88",
+                      background: "rgba(0,255,136,0.08)",
                     }}
                   >
                     <ArrowUp size={13} />
@@ -177,12 +178,12 @@ export default function CommunityPreview() {
                     Share
                   </button>
                 </div>
-              </div>
+              </a>
             ))}
 
-            <button className="w-full py-3 rounded-xl text-sm font-semibold btn-outline-gold">
+            <a href="/discussions" className="w-full py-3 rounded-xl text-sm font-semibold btn-outline-gold block text-center" style={{ textDecoration: "none" }}>
               View All Discussions
-            </button>
+            </a>
           </div>
 
           {/* Right: Sidebar */}
@@ -196,7 +197,7 @@ export default function CommunityPreview() {
               }}
             >
               <div className="flex items-center gap-2 mb-4">
-                <TrendingUp size={16} style={{ color: "#D4AF37" }} />
+                <TrendingUp size={16} style={{ color: "#00FF88" }} />
                 <h3 className="font-bold text-sm" style={{ color: "#F2F2F8" }}>
                   Trending Hubs
                 </h3>
@@ -236,11 +237,11 @@ export default function CommunityPreview() {
               className="p-5 rounded-2xl text-center"
               style={{
                 background:
-                  "linear-gradient(135deg, rgba(212,175,55,0.08), rgba(107,79,187,0.06))",
-                border: "1px solid rgba(212,175,55,0.15)",
+                  "linear-gradient(135deg, rgba(0,255,136,0.08), rgba(107,79,187,0.06))",
+                border: "1px solid rgba(0,255,136,0.15)",
               }}
             >
-              <Flame size={24} style={{ color: "#D4AF37" }} className="mx-auto mb-3" />
+              <Flame size={24} style={{ color: "#00FF88" }} className="mx-auto mb-3" />
               <h3 className="font-bold mb-1" style={{ color: "#F2F2F8" }}>
                 Join the Conversation
               </h3>
@@ -269,7 +270,7 @@ export default function CommunityPreview() {
               </div>
               <div className="flex items-center gap-2">
                 <div className="flex -space-x-2">
-                  {["#D4AF37", "#6B4FBB", "#3A9E72", "#C0506A", "#4A80D4"].map(
+                  {["#00FF88", "#6B4FBB", "#3A9E72", "#C0506A", "#4A80D4"].map(
                     (c, i) => (
                       <div
                         key={i}

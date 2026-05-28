@@ -12,15 +12,15 @@ export default function AnnouncementBanner() {
     <div
       className="relative flex items-center justify-center gap-3 px-4 py-2.5 text-sm"
       style={{
-        background: "linear-gradient(90deg, rgba(107,79,187,0.3) 0%, rgba(212,175,55,0.15) 50%, rgba(107,79,187,0.3) 100%)",
-        borderBottom: "1px solid rgba(212,175,55,0.12)",
+        background: "linear-gradient(90deg, rgba(107,79,187,0.3) 0%, rgba(0,255,136,0.15) 50%, rgba(107,79,187,0.3) 100%)",
+        borderBottom: "1px solid rgba(0,255,136,0.12)",
       }}
     >
-      <Sparkles size={14} style={{ color: "#D4AF37" }} />
+      <Sparkles size={14} style={{ color: "#00FF88" }} />
       <span style={{ color: "#C0C0D8" }}>
-        <span className="font-bold" style={{ color: "#D4AF37" }}>Vine Beta is live.</span>{" "}
+        <span className="font-bold" style={{ color: "#00FF88" }}>Vine Beta is live.</span>{" "}
         Join early and shape the future of Christian community online.{" "}
-        <a href="#join" className="underline font-semibold" style={{ color: "#F0D060" }}>
+        <a href="/feed" className="underline font-semibold" style={{ color: "#44FFAA" }}>
           Join free →
         </a>
       </span>

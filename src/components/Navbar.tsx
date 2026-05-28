@@ -51,6 +51,8 @@ const navLinks = [
       { label: "Guide to the Psalms", href: "/psalms-guide" },
       { label: "Theology of Grace", href: "/grace" },
       { label: "The Holy Spirit", href: "/holy-spirit" },
+      { label: "The Kingdom of God", href: "/kingdom-of-god" },
+      { label: "Sanctification", href: "/sanctification" },
       { label: "Church Calendar", href: "/church-calendar" },
       { label: "Advent Guide", href: "/advent" },
       { label: "Lent Guide", href: "/lent" },

@@ -106,6 +106,7 @@ const navLinks = [
       { label: "Discipleship Pathways", href: "/discipleship" },
       { label: "Who I Am in Christ", href: "/identity-in-christ" },
       { label: "The Virtue of Humility", href: "/humility" },
+      { label: "The Practice of Contentment", href: "/contentment" },
       { label: "Evangelism Training", href: "/evangelism" },
       { label: "House Church Guide", href: "/house-church" },
       { label: "Christian Parenting", href: "/parenting" },
@@ -132,6 +133,7 @@ const navLinks = [
     children: [
       { label: "Discover", href: "/explore" },
       { label: "The Gospel / Salvation", href: "/salvation" },
+      { label: "First Steps of Faith", href: "/new-believer" },
       { label: "Challenges", href: "/challenges" },
       { label: "Youth & Students", href: "/youth" },
       { label: "Mentorship", href: "/mentorship" },

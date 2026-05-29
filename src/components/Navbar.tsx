@@ -280,6 +280,7 @@ const navLinks = [
       { label: "Women in the Bible", href: "/biblical-womanhood" },
       { label: "Women in Ministry", href: "/women-in-ministry" },
       { label: "Men in the Bible", href: "/biblical-manhood" },
+      { label: "Men's Ministry Guide", href: "/mens-ministry-guide" },
       { label: "Sermon Preparation", href: "/sermon-prep" },
       { label: "Expository Preaching", href: "/expository-preaching" },
       { label: "Christian Fiction Guide", href: "/christian-fiction" },

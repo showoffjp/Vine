@@ -80,6 +80,7 @@ const navLinks = [
       { label: "Bible Reading Challenges", href: "/bible-reading-challenges" },
       { label: "Reading List", href: "/reading-list" },
       { label: "Essential Christian Books", href: "/christian-books-guide" },
+      { label: "Bible Commentary Guide", href: "/commentary-guide" },
       { label: "Apologetics", href: "/apologetics" },
       { label: "Apologetics 101", href: "/apologetics-101" },
       { label: "Tough Questions Answered", href: "/apologetics-questions" },

@@ -74,6 +74,8 @@ const navLinks = [
       { label: "The Church Fathers", href: "/church-fathers" },
       { label: "Church Fathers Guide", href: "/church-fathers-guide" },
       { label: "Church Fathers Writings", href: "/church-fathers-writings" },
+      { label: "Saints & Martyrs", href: "/saints-martyrs" },
+      { label: "Christian Art Guide", href: "/christian-art-guide" },
       { label: "Attributes of God", href: "/attributes-of-god" },
       { label: "Famous Conversions", href: "/conversion-stories" },
       { label: "Creeds & Historic Prayers", href: "/creeds" },

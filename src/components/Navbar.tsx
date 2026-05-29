@@ -81,6 +81,8 @@ const navLinks = [
       { label: "Reading List", href: "/reading-list" },
       { label: "Essential Christian Books", href: "/christian-books-guide" },
       { label: "Bible Commentary Guide", href: "/commentary-guide" },
+      { label: "Catechism Guide", href: "/catechism-guide" },
+      { label: "Christian Philosophy", href: "/christian-philosophy" },
       { label: "Apologetics", href: "/apologetics" },
       { label: "Apologetics 101", href: "/apologetics-101" },
       { label: "Tough Questions Answered", href: "/apologetics-questions" },

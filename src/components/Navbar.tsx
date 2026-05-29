@@ -279,6 +279,7 @@ const navLinks = [
       { label: "Spiritual Dryness", href: "/spiritual-dryness" },
       { label: "Women in the Bible", href: "/biblical-womanhood" },
       { label: "Women in Ministry", href: "/women-in-ministry" },
+      { label: "Women's Ministry Guide", href: "/womens-ministry-guide" },
       { label: "Men in the Bible", href: "/biblical-manhood" },
       { label: "Men's Ministry Guide", href: "/mens-ministry-guide" },
       { label: "Sermon Preparation", href: "/sermon-prep" },

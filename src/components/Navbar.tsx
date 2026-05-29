@@ -81,6 +81,8 @@ const navLinks = [
       { label: "Creeds & Historic Prayers", href: "/creeds" },
       { label: "Historic Confessions", href: "/confessions" },
       { label: "Faith & Science", href: "/faith-science" },
+      { label: "Christian Political Theology", href: "/political-theology" },
+      { label: "Theology of the Body", href: "/theology-of-body" },
       { label: "Reading Plan", href: "/reading-plan" },
       { label: "Bible Reading Challenges", href: "/bible-reading-challenges" },
       { label: "Reading List", href: "/reading-list" },

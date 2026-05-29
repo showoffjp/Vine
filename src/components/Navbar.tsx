@@ -204,6 +204,7 @@ const navLinks = [
       { label: "Money & Christian Life", href: "/christian-money" },
       { label: "Christian Giving", href: "/church-giving" },
       { label: "Christian Giving Guide", href: "/christian-giving-guide" },
+      { label: "Theology of Money", href: "/theology-of-money" },
       { label: "The Practice of Generosity", href: "/generosity" },
       { label: "Theology of Generosity", href: "/theology-of-generosity" },
       { label: "Discipleship Pathways", href: "/discipleship" },

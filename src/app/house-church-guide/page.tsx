@@ -1,0 +1,645 @@
+"use client";
+import { useState } from "react";
+
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const GREEN = "#00FF88";
+const PURPLE = "#6B4FBB";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
+type Tab = "theology" | "howto" | "movements" | "faq";
+
+// ─── Theology Data ────────────────────────────────────────────────────────────
+
+type AccordionItem = {
+  title: string;
+  content: string;
+};
+
+const theologyItems: AccordionItem[] = [
+  {
+    title: "The Household Church in the New Testament",
+    content:
+      "The New Testament documents assume the household as the basic unit of church life. Paul's letters are addressed to churches meeting in specific homes: 'the church in your house' (Philemon 1:2, to Philemon); 'Aquila and Priscilla greet you, along with the church that meets at their house' (1 Cor 16:19); 'Greet the church that meets at their house' (Rom 16:5, Priscilla and Aquila). The household (oikos) was not a temporary arrangement until something better could be built — it was the New Testament's normative ecclesiology for its first 300 years. Constantine's legalization of Christianity in 313 AD and the subsequent basilica-building program changed this dramatically.",
+  },
+  {
+    title: "The New Testament Pattern of Gathering",
+    content:
+      "Acts 2:42-47 describes the early Jerusalem church: devoted to the apostles' teaching, fellowship (koinonia), breaking of bread, and prayer. They broke bread house to house (kat' oikon). This is a picture of Word-centered, sacrament-observing, prayer-saturated, mutually accountable community in ordinary domestic spaces. There were also large gatherings in the temple courts — but the small household gathering was the organic unit. The ekklesia (assembly) was inherently participatory: 'When you come together, each of you has a hymn, or a word of instruction, a revelation, a tongue, or an interpretation' (1 Cor 14:26).",
+  },
+  {
+    title: "What Makes a House Church a Church?",
+    content:
+      "A house church is a church, not a Bible study or fellowship group. It holds the marks of the church: (1) the Word of God is preached and taught; (2) the sacraments are rightly administered (Baptism and the Lord's Supper); (3) church discipline is practiced. Location is not a mark of the church — a borrowed school gymnasium, a strip mall, or a living room all qualify. A house church should not be confused with a para-church small group, a Bible study attached to a larger congregation, or an unaccountable gathering of friends with no mutual commitment.",
+  },
+  {
+    title: "House Church vs. Institutional Church",
+    content:
+      "House churches offer genuine advantages: lower cost, higher participation, greater pastoral intimacy, easier multiplication, natural hospitality evangelism, and reduced hierarchy. But they also face genuine challenges: theological drift without accountability to the wider church, limited teaching gifts in a small pool, lack of children's programming, the difficulty of administering church discipline among close friends, and the tendency toward cliquishness or insularity. A house church that remains connected to a network of churches avoids many of these pitfalls without losing its intimacy.",
+  },
+  {
+    title: "The Global House Church Movement",
+    content:
+      "The house church movement is arguably the largest unreported revival in history. China's underground church — estimated at 60-100 million believers since the 1950s — is entirely organized in house churches. Iran's church, growing rapidly since the 1979 revolution, is almost entirely house churches. The global South's explosive growth in Ethiopia, India, Indonesia, and elsewhere follows house church patterns. In the West, house churches are growing as an alternative to institutional Christianity, particularly among millennials and post-evangelicals. Neil Cole, Wolfgang Simson, Frank Viola, and Alan Hirsch are key Western house church thinkers.",
+  },
+  {
+    title: "The Kingdom of God and Ordinary Spaces",
+    content:
+      "The house church movement represents a theological conviction: the Kingdom of God advances through ordinary, everyday, incarnational presence — not primarily through institutional excellence or programmatic professionalism. Jesus ate with tax collectors and sinners in their homes. The early church 'had favor with all the people' (Acts 2:47) because they were genuinely in the neighborhood. A house church that is truly present in its neighborhood — hosting, welcoming, caring, praying — is a sign and foretaste of the Kingdom even before a single 'program' is launched.",
+  },
+];
+
+const faqItems: AccordionItem[] = [
+  {
+    title: "Is a House Church a Real Church?",
+    content:
+      "Yes — if it holds the marks of the church: the Word preached, sacraments rightly administered, and discipline practiced. Location is not a mark of the church. The New Testament church was a house church for 300 years.",
+  },
+  {
+    title: "Do We Need an Ordained Pastor?",
+    content:
+      "This varies by tradition. Presbyterian and Anglican polity require ordained elders for administration of sacraments. Congregational/Baptist polity allows the congregation to call and recognize leaders. Many house churches operate with non-ordained elders who are recognized by the congregation and accountable to a network. The key questions are: Is there qualified leadership (1 Tim 3/Titus 1)? Is there accountability to the wider church?",
+  },
+  {
+    title: "How Do We Handle the Lord's Supper and Baptism?",
+    content:
+      "The Lord's Supper: most house churches celebrate Communion as part of the weekly meal — restoring the 'feast' character of the Lord's Supper. Baptism: house churches typically baptize in backyard pools, bathtubs, lakes, or community pools. Both sacraments are fully possible outside a traditional church building.",
+  },
+  {
+    title: "What About Children's Ministry?",
+    content:
+      "Options range from full inclusion (all ages together) to age-appropriate breakout during the teaching. Many house churches favor full inclusion because it trains children in worship and community from birth. For families with many young children, a rotating childcare arrangement during the teaching portion works well.",
+  },
+  {
+    title: "How Do We Handle Conflict?",
+    content:
+      "More honestly and directly than in larger churches — which is both the blessing and the challenge. House churches benefit from a defined process: private conversation first (Matt 18), then with a witness, then before the community. Having a clear 'constitution' about how decisions are made and what warrants discipline prevents improvised governance during crises. Connection to a network provides outside mediation when needed.",
+  },
+  {
+    title: "Is This Just for People Burned by the Institutional Church?",
+    content:
+      "House churches can be a gracious landing place for the wounded. But they are not merely reactionary — they are a positive ecclesiological choice. The question to ask is not 'Am I leaving something?' but 'Am I joining a community that practices genuine covenant life together?' House churches that define themselves primarily by what they reject rather than what they practice tend to be unhealthy.",
+  },
+];
+
+// ─── How-To Steps ─────────────────────────────────────────────────────────────
+
+type HowToStep = {
+  number: string;
+  title: string;
+  content: string;
+};
+
+const howToSteps: HowToStep[] = [
+  {
+    number: "01",
+    title: "Clarify Your Ecclesiology First",
+    content:
+      "Before starting anything, ask: What is a church? Do we hold to the marks of the church (Word, Sacrament, Discipline)? Are we planting a church or forming a fellowship group? The answer shapes everything: accountability structures, baptism practice, Lord's Supper, discipline, relationship to other churches. Read: Frank Viola's Pagan Christianity (provocative, not the final word but forces good questions); Wolfgang Simson's Houses That Change the World.",
+  },
+  {
+    number: "02",
+    title: "Find Your Core Group (5-12 People)",
+    content:
+      "A house church needs a committed core — people who are in for the long haul and share the ecclesiological vision. This is not a consumer group ('I come if I like it') but a covenant community. Ideal starting size is 5-12 adults. Smaller is less stable; larger becomes logistically complicated in a home. The core group needs: at least one gifted teacher, one or more people gifted in pastoral care, and a hosting home with enough space.",
+  },
+  {
+    number: "03",
+    title: "Establish Meeting Structure",
+    content:
+      "A simple meeting pattern: (1) Meal together — house churches historically ate together; the Lord's Supper emerged from a real meal; (2) Corporate prayer and worship — singing, lament, intercession; (3) The Word — one person teaches or you study a passage together using discussion; (4) Sharing, exhortation, testimony — 1 Cor 14:26 participation; (5) The Lord's Supper — brief, reverent, at the table; (6) Practical matters, prayer for one another. Duration: 2-3 hours. The meal component is not optional — it is ecclesiologically significant.",
+  },
+  {
+    number: "04",
+    title: "Develop Mutual Accountability",
+    content:
+      "House churches live or die by honest relationship. Establish early: How will we handle it if someone is living in unrepentant sin? Who has authority to speak? Is there an elder/pastor structure, or are decisions made by consensus? These are not bureaucratic questions — they are pastoral ones. A house church without accountability structures will either tolerate serious sin or fragment when conflict arises. Connect with a house church network (Soma Family, ACNA house church network, or a local network) for accountability.",
+  },
+  {
+    number: "05",
+    title: "Children and Youth",
+    content:
+      "House churches must think intentionally about children and youth. Options: (1) Full inclusion — children participate in the entire gathering (this is the default in many global house church models); (2) Age-appropriate breakout — children go with an adult for age-appropriate teaching during the teaching portion; (3) Rotation — parents take turns with children while others are in the meeting; (4) Partnering with other house churches — occasional combined youth gatherings across several small churches. Don't default to 'children are a problem to be solved' — help them be participants.",
+  },
+  {
+    number: "06",
+    title: "When to Multiply",
+    content:
+      "A house church that grows to 25-35 is at a tipping point: it can become a conventional small church or multiply. Multiplication is the New Testament pattern — Paul planted and moved on; leaders were trained and sent. Plan for multiplication from the beginning: 'We will multiply when we reach X people or Y years.' Identify potential leaders early and invest in them. Multiplication is a sign of health, not failure.",
+  },
+  {
+    number: "07",
+    title: "Staying Accountable to the Wider Church",
+    content:
+      "An isolated house church is an ecclesiological anomaly. The New Testament churches were in relationship — Paul circulated letters among them, sent emissaries, called councils (Acts 15). Join a house church network, maintain relationships with other churches in your area, practice mutual submission, and be willing to be corrected. Insular house churches that consider themselves accountable to no one outside their group are dangerous.",
+  },
+];
+
+// ─── Movement Cards ────────────────────────────────────────────────────────────
+
+type Movement = {
+  name: string;
+  location: string;
+  description: string;
+  keyFigures: string;
+  estimatedSize: string;
+};
+
+const movements: Movement[] = [
+  {
+    name: "Underground Church in China",
+    location: "China",
+    description:
+      "Began after Mao's suppression of Christianity (1950s). Illegal gathering in homes, led by laypeople, trained informally. The government's Three-Self Patriotic Movement represents the official church; underground house churches refused state control. Under Xi Jinping's crackdowns (2018+), house churches face increasing persecution.",
+    keyFigures: "Wang Mingdao, Watchman Nee, more recently Wang Yi (imprisoned 2019)",
+    estimatedSize: "60–100 million",
+  },
+  {
+    name: "Iranian Underground Church",
+    location: "Iran",
+    description:
+      "Since the 1979 Islamic Revolution, Christianity has been illegal for Muslim-background converts. The church has grown from ~500 known converts to an estimated 3-4 million believers, almost entirely in house churches. Farsi Christian media (SAT-7 PARS, Iran Alive Ministries) feeds the movement.",
+    keyFigures: "Naghmeh Panahi, Maryam Rostampour and Marziyeh Amirizadeh",
+    estimatedSize: "2–4 million (est.)",
+  },
+  {
+    name: "Indian House Church Networks",
+    location: "India",
+    description:
+      "Massive house church networks operate particularly in Andhra Pradesh, Tamil Nadu, and among Dalit communities. Many were catalyzed by Western missions organizations in the 1990s-2000s using Church Planting Movements (CPM) methodology.",
+    keyFigures: "Victor Choudhrie, T.E. Koshy",
+    estimatedSize: "Unknown, in the tens of millions",
+  },
+  {
+    name: "The Simple Church Network (USA/UK)",
+    location: "USA, UK",
+    description:
+      "Neil Cole's CMA Resources and the Simple Church movement have trained thousands of house church planters in the US and UK. Focus: organic, relational, multiplication-oriented. Strongly influenced by NT patterns.",
+    keyFigures: "Neil Cole (Organic Church, Organic Leadership), Alan Hirsch (The Forgotten Ways)",
+    estimatedSize: "10,000+ churches in network",
+  },
+  {
+    name: "The Soma Family of Churches",
+    location: "USA",
+    description:
+      "Soma is a network of missional communities and house churches based on a 'being family on mission' model. Led from Tacoma, WA; planted globally. Not strictly house churches but organically structured around small 'microchurches' that gather in homes.",
+    keyFigures: "Jeff Vanderstelt (Saturate, Gospel Fluency)",
+    estimatedSize: "300+ churches in network",
+  },
+  {
+    name: "New Monasticism (USA)",
+    location: "USA",
+    description:
+      "The New Monasticism movement (influenced by Dietrich Bonhoeffer's Life Together and Dorothy Day's Catholic Worker movement) plants intentional communities in 'abandoned places of empire' — inner cities, impoverished neighborhoods. House-based worship is central.",
+    keyFigures:
+      "Shane Claiborne (The Simple Way, Philadelphia), Jonathan Wilson-Hartgrove (Rutba House, Durham NC)",
+    estimatedSize: "50+ communities",
+  },
+];
+
+// ─── Stats ─────────────────────────────────────────────────────────────────────
+
+const stats: string[] = [
+  "The NT church met primarily in homes for 300 years",
+  "50-100 million Christians meet in house churches today (est.)",
+  "House churches are the fastest-growing movement in China",
+  "The average house church has 10-30 members",
+];
+
+// ─── Sub-Components ────────────────────────────────────────────────────────────
+
+function Accordion({ items }: { items: AccordionItem[] }) {
+  const [open, setOpen] = useState<number | undefined>(undefined);
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+      {items.map((item, i) => {
+        const isOpen = open === i;
+        return (
+          <div
+            key={i}
+            style={{
+              background: CARD,
+              border: `1px solid ${isOpen ? PURPLE : BORDER}`,
+              borderRadius: 10,
+              overflow: "hidden",
+              transition: "border-color 0.2s",
+            }}
+          >
+            <button
+              onClick={() => setOpen(isOpen ? undefined : i)}
+              style={{
+                width: "100%",
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                padding: "16px 20px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                gap: 12,
+                textAlign: "left",
+              }}
+            >
+              <span
+                style={{
+                  color: isOpen ? GREEN : TEXT,
+                  fontWeight: 600,
+                  fontSize: 15,
+                  lineHeight: 1.4,
+                  transition: "color 0.2s",
+                }}
+              >
+                {item.title}
+              </span>
+              <span
+                style={{
+                  color: MUTED,
+                  fontSize: 18,
+                  flexShrink: 0,
+                  transform: isOpen ? "rotate(45deg)" : "rotate(0deg)",
+                  transition: "transform 0.2s",
+                  lineHeight: 1,
+                }}
+              >
+                +
+              </span>
+            </button>
+            {isOpen && (
+              <div
+                style={{
+                  padding: "0 20px 18px",
+                  color: MUTED,
+                  fontSize: 14,
+                  lineHeight: 1.75,
+                  borderTop: `1px solid ${BORDER}`,
+                  paddingTop: 14,
+                }}
+              >
+                {item.content}
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function HowToTimeline() {
+  return (
+    <div style={{ position: "relative" }}>
+      {/* Vertical line */}
+      <div
+        style={{
+          position: "absolute",
+          left: 23,
+          top: 0,
+          bottom: 0,
+          width: 2,
+          background: BORDER,
+          zIndex: 0,
+        }}
+      />
+      <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+        {howToSteps.map((step, i) => (
+          <div
+            key={i}
+            style={{
+              display: "flex",
+              gap: 20,
+              position: "relative",
+              zIndex: 1,
+            }}
+          >
+            {/* Number bubble */}
+            <div
+              style={{
+                width: 48,
+                height: 48,
+                borderRadius: "50%",
+                background: CARD,
+                border: `2px solid ${PURPLE}`,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexShrink: 0,
+                color: GREEN,
+                fontWeight: 700,
+                fontSize: 13,
+                zIndex: 2,
+              }}
+            >
+              {step.number}
+            </div>
+            {/* Content */}
+            <div
+              style={{
+                background: CARD,
+                border: `1px solid ${BORDER}`,
+                borderRadius: 10,
+                padding: "16px 20px",
+                flex: 1,
+              }}
+            >
+              <div
+                style={{
+                  color: TEXT,
+                  fontWeight: 600,
+                  fontSize: 15,
+                  marginBottom: 8,
+                }}
+              >
+                {step.title}
+              </div>
+              <div style={{ color: MUTED, fontSize: 14, lineHeight: 1.75 }}>
+                {step.content}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function MovementsGrid() {
+  return (
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
+        gap: 20,
+      }}
+    >
+      {movements.map((m, i) => (
+        <div
+          key={i}
+          style={{
+            background: CARD,
+            border: `1px solid ${BORDER}`,
+            borderRadius: 12,
+            padding: "20px 22px",
+            display: "flex",
+            flexDirection: "column",
+            gap: 12,
+          }}
+        >
+          <div>
+            <div style={{ color: TEXT, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>
+              {m.name}
+            </div>
+            <div
+              style={{
+                display: "inline-block",
+                background: PURPLE + "33",
+                color: PURPLE,
+                borderRadius: 6,
+                padding: "2px 10px",
+                fontSize: 12,
+                fontWeight: 600,
+                letterSpacing: "0.03em",
+              }}
+            >
+              {m.location}
+            </div>
+          </div>
+          <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.7, margin: 0 }}>
+            {m.description}
+          </p>
+          <div
+            style={{
+              borderTop: `1px solid ${BORDER}`,
+              paddingTop: 12,
+              display: "flex",
+              flexDirection: "column",
+              gap: 6,
+            }}
+          >
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+              <span style={{ color: MUTED, fontSize: 12, fontWeight: 600, minWidth: 90 }}>
+                Key figures:
+              </span>
+              <span style={{ color: TEXT, fontSize: 12, flex: 1 }}>{m.keyFigures}</span>
+            </div>
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+              <span style={{ color: MUTED, fontSize: 12, fontWeight: 600, minWidth: 90 }}>
+                Est. size:
+              </span>
+              <span style={{ color: GREEN, fontSize: 12, fontWeight: 700 }}>
+                {m.estimatedSize}
+              </span>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ─── Main Component ────────────────────────────────────────────────────────────
+
+const TABS: { id: Tab; label: string }[] = [
+  { id: "theology", label: "Biblical & Theological Foundation" },
+  { id: "howto", label: "How to Start a House Church" },
+  { id: "movements", label: "Movements Worldwide" },
+  { id: "faq", label: "FAQ" },
+];
+
+export default function HouseChurchGuidePage() {
+  const [tab, setTab] = useState<Tab>("theology");
+
+  return (
+    <div
+      style={{
+        background: BG,
+        minHeight: "100vh",
+        color: TEXT,
+        paddingTop: 40,
+        fontFamily: "system-ui, -apple-system, sans-serif",
+      }}
+    >
+      <div style={{ maxWidth: 860, margin: "0 auto", padding: "0 20px 80px" }}>
+        {/* ── Header ── */}
+        <div style={{ marginBottom: 40, textAlign: "center" }}>
+          <h1
+            style={{
+              color: TEXT,
+              fontSize: "clamp(26px, 5vw, 40px)",
+              fontWeight: 800,
+              margin: "0 0 14px",
+              lineHeight: 1.2,
+            }}
+          >
+            The House Church: A Guide
+          </h1>
+          <p
+            style={{
+              color: MUTED,
+              fontSize: 16,
+              lineHeight: 1.7,
+              maxWidth: 680,
+              margin: "0 auto",
+            }}
+          >
+            The church met in homes for its first 300 years. House churches are not a novelty or a
+            reaction — they are a recovery of the New Testament&apos;s baseline pattern of Christian
+            community.
+          </p>
+          <div
+            style={{
+              width: 48,
+              height: 3,
+              background: GREEN,
+              margin: "22px auto 0",
+              borderRadius: 2,
+            }}
+          />
+        </div>
+
+        {/* ── Stats Banner ── */}
+        <div
+          style={{
+            background: CARD,
+            border: `1px solid ${BORDER}`,
+            borderRadius: 12,
+            padding: "20px 24px",
+            marginBottom: 40,
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))",
+            gap: 16,
+          }}
+        >
+          {stats.map((stat, i) => (
+            <div
+              key={i}
+              style={{
+                display: "flex",
+                alignItems: "flex-start",
+                gap: 10,
+              }}
+            >
+              <div
+                style={{
+                  width: 6,
+                  height: 6,
+                  borderRadius: "50%",
+                  background: GREEN,
+                  marginTop: 6,
+                  flexShrink: 0,
+                }}
+              />
+              <span style={{ color: MUTED, fontSize: 13, lineHeight: 1.55 }}>{stat}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* ── Tabs ── */}
+        <div
+          style={{
+            display: "flex",
+            gap: 6,
+            overflowX: "auto",
+            marginBottom: 32,
+            paddingBottom: 4,
+          }}
+        >
+          {TABS.map((t) => {
+            const isActive = tab === t.id;
+            return (
+              <button
+                key={t.id}
+                onClick={() => setTab(t.id)}
+                style={{
+                  background: isActive ? PURPLE : CARD,
+                  border: `1px solid ${isActive ? PURPLE : BORDER}`,
+                  borderRadius: 8,
+                  padding: "9px 16px",
+                  color: isActive ? "#FFFFFF" : MUTED,
+                  fontWeight: isActive ? 700 : 500,
+                  fontSize: 13,
+                  cursor: "pointer",
+                  whiteSpace: "nowrap",
+                  transition: "all 0.2s",
+                }}
+              >
+                {t.label}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* ── Tab Content ── */}
+        {tab === "theology" && (
+          <div>
+            <h2
+              style={{
+                color: TEXT,
+                fontSize: 20,
+                fontWeight: 700,
+                marginBottom: 20,
+                marginTop: 0,
+              }}
+            >
+              Biblical and Theological Foundation
+            </h2>
+            <Accordion items={theologyItems} />
+          </div>
+        )}
+
+        {tab === "howto" && (
+          <div>
+            <h2
+              style={{
+                color: TEXT,
+                fontSize: 20,
+                fontWeight: 700,
+                marginBottom: 24,
+                marginTop: 0,
+              }}
+            >
+              How to Start and Run a House Church
+            </h2>
+            <HowToTimeline />
+          </div>
+        )}
+
+        {tab === "movements" && (
+          <div>
+            <h2
+              style={{
+                color: TEXT,
+                fontSize: 20,
+                fontWeight: 700,
+                marginBottom: 24,
+                marginTop: 0,
+              }}
+            >
+              House Church Movements Worldwide
+            </h2>
+            <MovementsGrid />
+          </div>
+        )}
+
+        {tab === "faq" && (
+          <div>
+            <h2
+              style={{
+                color: TEXT,
+                fontSize: 20,
+                fontWeight: 700,
+                marginBottom: 20,
+                marginTop: 0,
+              }}
+            >
+              Frequently Asked Questions
+            </h2>
+            <Accordion items={faqItems} />
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}

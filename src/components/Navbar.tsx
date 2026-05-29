@@ -81,6 +81,8 @@ const navLinks = [
       { label: "Bible Reading Challenges", href: "/bible-reading-challenges" },
       { label: "Reading List", href: "/reading-list" },
       { label: "Essential Christian Books", href: "/christian-books-guide" },
+      { label: "Books for Every Season", href: "/books-for-seasons" },
+      { label: "Essential Christian Podcasts", href: "/christian-podcasts-guide" },
       { label: "Bible Commentary Guide", href: "/commentary-guide" },
       { label: "Catechism Guide", href: "/catechism-guide" },
       { label: "Christian Philosophy", href: "/christian-philosophy" },

@@ -269,6 +269,8 @@ const navLinks = [
       { label: "Global Missions Guide", href: "/global-missions" },
       { label: "Missions Organizations", href: "/global-missions-orgs" },
       { label: "Christian Pilgrimage Sites", href: "/christian-pilgrimage-sites" },
+      { label: "Spiritual Retreats", href: "/spiritual-retreats" },
+      { label: "Global Prayer Movements", href: "/prayer-movements" },
       { label: "Modern Missionaries", href: "/modern-missionaries" },
       { label: "Church Planting", href: "/church-planting" },
       { label: "World Prayer", href: "/world-prayer" },

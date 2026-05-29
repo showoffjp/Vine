@@ -1,6 +1,6 @@
 # Vine — Feature Tracker
 
-> Last updated: 2026-05-29 | Branch: `claude/vibrant-pascal-eOo9I` | Total static pages: **420+**
+> Last updated: 2026-05-29 | Branch: `claude/vibrant-pascal-eOo9I` | Total static pages: **438+**
 
 ---
 
@@ -42,6 +42,7 @@
 | Theology of Prayer | `/theology-of-prayer` | ✅ | Existing page |
 | Theology of Work | `/theology-of-work` | ✅ | Existing page |
 | Theology of Israel | `/theology-of-israel` | ✅ | 4 tabs: Biblical Overview, 5 Positions (Supersessionism→Postmill), Romans 9-11 Guide, Jewish Evangelism orgs |
+| Theology of the Sabbath | `/theology-of-sabbath` | ✅ | 4 tabs: Theology, 4 Historical Positions (sticky detail), 6-step Practice Guide, 5 Objections Answered |
 | Theology of the Body | `/theology-of-body` | ✅ | 4 tabs: Body Theology, Embodied Practices, Illness & Disability, Resources |
 | Christian Political Theology | `/political-theology` | ✅ | 4 tabs: Biblical Foundations, Engagement Models, Key Issues (two-column), Faithful Engagement |
 | Atonement Deep Dive | `/atonement-theories` | ✅ | 4 tabs: 6 Theories (PSA→Girard), Biblical Images, Objections Answered, Devotional Reflections |
@@ -132,6 +133,9 @@
 | Sermon on the Mount | `/sermon-on-the-mount` | ✅ | |
 | Ten Commandments | `/ten-commandments` | ✅ | |
 | Prophecy Today | `/prophecy-today` | ✅ | |
+| Reading the Prophets | `/reading-prophets` | ✅ | 4 tabs: How to Read (6 accordion), 5 Major Prophets (sticky detail w/ outline/Christology/commentaries), 12 Minor Prophets grid, 6 Major Themes accordion |
+| Psalms Deep Dive | `/psalms-deep-dive` | 🔨 | In progress — 4 tabs: Types filter/grid, How to Read (6 accordion), 5 Books sticky detail, Praying the Psalms |
+| Advent Devotional | `/advent-devotional` | 🔨 | In progress — 4 tabs: Theology, 4 Weeks sticky detail, Advent Practices, Resources |
 | Biblical Archaeology | `/biblical-archaeology` | ✅ | |
 | Scripture Theology | `/scripture-theology` | ✅ | |
 | Verse of the Day | `/verse-of-the-day` | ✅ | |
@@ -182,6 +186,7 @@
 | Homeschool Guide | `/homeschool-guide` | ✅ | 4 tabs: Why Homeschool, Approaches (5), Curriculum Guide (8), Community & Legal |
 | Christian Dating | `/christian-dating` | ✅ | |
 | Relationships | `/relationships` | ✅ | |
+| Christian Friendship Guide | `/christian-friendship-guide` | ✅ | 4 tabs: Theology (6 accordion), 5 Enemies of Friendship, 6 Practices, 6 Historical Models (Inklings, Newton/Cowper, etc.) |
 | Christian Friendship Theology | `/christian-friendship-theology` | ✅ | |
 | Singleness | `/singles` | ✅ | |
 
@@ -189,6 +194,8 @@
 
 | Page | Route | Status | Content Summary |
 |------|-------|--------|----------------|
+| New Members Class | `/new-members-class` | ✅ | 4 tabs: Why Membership, 5-session Outline (sticky detail), 6 Covenant Elements + sample covenant, Resources |
+| Elder & Deacon Training | `/elder-deacon-training` | ✅ | 4 tabs: Elder Qualifications (sticky detail), Deacon Ministry (4 cards), 8-step Training Pathway timeline, Resources |
 | Small Group Leader Guide | `/small-group-leader` | ✅ | 4 tabs: Theology of Community, 6 Leading Skills (sticky detail), 5 Common Problems (expandable), Resources |
 | Small Groups Guide | `/small-groups` | ✅ | Existing page |
 | Youth Ministry Guide | `/youth-ministry-guide` | ✅ | 4 tabs: Theology, 6 Core Practices, Curriculum Guide (6 curricula), Resources (Almost Christian, Sticky Faith, etc.) |
@@ -199,6 +206,8 @@
 | Church Calendar | `/church-calendar` | ✅ | |
 | Ecclesiology | `/ecclesiology` | ✅ | |
 | Women in Ministry | `/women-in-ministry` | ✅ | |
+| Men's Ministry Guide | `/mens-ministry-guide` | ✅ | 4 tabs: Theology, 6 Core Practices, Curriculum Guide (sticky detail), Resources |
+| Women's Ministry Guide | `/womens-ministry-guide` | ✅ | 4 tabs: Theology, 6 Practices, 8 Women Teachers (sticky detail), Resources |
 | Biblical Manhood | `/biblical-manhood` | ✅ | |
 | Biblical Womanhood | `/biblical-womanhood` | ✅ | |
 | Christian Leadership | `/christian-leadership` | ✅ | |
@@ -323,29 +332,33 @@
 
 | Page | Route | Content Plan |
 |------|-------|-------------|
-| Christian Funeral Guide | `/christian-funeral-guide` | Theology of death, service elements, eulogy vs. homily, graveside committal, pastoral care for bereaved |
-| Elder & Deacon Training | `/elder-deacon-training` | Qualifications (1 Tim 3/Titus 1), role distinctions, ordination, training tracks, accountability |
-| New Members Class | `/new-members-class` | 5-session outline: What We Believe, Who We Are, How We Live, How We Serve, How We Give |
-| Theology of Rest & Sabbath | `/theology-of-sabbath` | Creation sabbath, OT sabbath law, Christ as our rest (Heb 4), Christian Sunday, sabbath in a workaholic culture |
+| Christian Funeral Guide | `/christian-funeral-guide` | ✅ DONE — 4 tabs: Theology, 6 Service Elements (sticky detail), 5 Pastoral Situations, Resources |
+| Elder & Deacon Training | `/elder-deacon-training` | ✅ DONE |
+| New Members Class | `/new-members-class` | ✅ DONE |
+| Theology of Rest & Sabbath | `/theology-of-sabbath` | ✅ DONE |
 | Lectionary Preaching Guide | `/lectionary-guide` | RCL explained, 3-year cycle overview, Year A/B/C themes, using lectionary for sermon planning |
-| Men's Ministry Guide | `/mens-ministry-guide` | Theology of brotherhood, accountability structures, key books (Wild at Heart, Disciplines of a Godly Man), men-specific discipleship |
-| Women's Ministry Guide | `/womens-ministry-guide` | Theology of women's community, Titus 2 model, practical programming, curriculum, key writers (Jen Wilkin, Lydia Brownback) |
+| Men's Ministry Guide | `/mens-ministry-guide` | ✅ DONE |
+| Women's Ministry Guide | `/womens-ministry-guide` | ✅ DONE |
 
 ### Medium Priority
 
 | Page | Route | Content Plan |
 |------|-------|-------------|
-| Christian Friendship Guide | `/christian-friendship-guide` | Jonathan & David, friendship as means of grace, accountability, C.S. Lewis on friendship |
+| Christian Friendship Guide | `/christian-friendship-guide` | ✅ DONE |
 | Theology of Emotions | `/theology-of-emotions` | Are emotions reliable? Jesus's emotional life, emotional intelligence as sanctification, healing emotions |
 | House Church Guide | `/house-church-guide` | NT household church, pros/cons vs. institutional church, practical how-to, movements worldwide |
 | Creation Care Guide | `/creation-care-guide` | Genesis 1-2 stewardship mandate, climate theology, practical Christian environmentalism, key voices |
 | Christian Simplicity Guide | `/christian-simplicity-guide` | Theology of simplicity (Richard Foster), consumerism vs. contentment, 30 practices |
-| Reading the Prophets | `/reading-prophets` | How to read OT prophecy: types (forth-telling vs. foretelling), fulfillment categories, major themes, book-by-book intro |
-| Understanding the Psalms | `/psalms-deep-dive` | Psalm types (lament, praise, royal, wisdom), poetic structure, Christological reading, the imprecatory psalms |
-| Advent Devotional Guide | `/advent-devotional` | Daily reflections for all 4 weeks of Advent — Isaiah passages, Gospel texts, prayer prompts |
+| Reading the Prophets | `/reading-prophets` | ✅ DONE |
+| Understanding the Psalms | `/psalms-deep-dive` | 🔨 IN PROGRESS |
+| Advent Devotional Guide | `/advent-devotional` | 🔨 IN PROGRESS |
 | Lent Devotional Guide | `/lent-devotional` | Daily reflections for Lent, with fasting suggestions, lament psalms, Holy Week guide |
 | Theology of Money (Expanded) | `/stewardship-theology` | Deeper dive: tithing debate (10% NT?), prosperity gospel refutation, theology of contentment |
 | Christian Parenting Teens | `/parenting-teens` | Adolescent development, faith transmission, dating conversations, screen time, leaving well |
+| Lectionary Preaching Guide | `/lectionary-guide` | RCL explained, 3-year cycle overview, Year A/B/C themes |
+| Theology of Emotions | `/theology-of-emotions` | Jesus's emotional life, emotional intelligence as sanctification |
+| Creation Care Guide | `/creation-care-guide` | Genesis stewardship mandate, climate theology, practical steps |
+| House Church Guide | `/house-church-guide` | NT household church model, practical how-to, movements worldwide |
 
 ### Future / Lower Priority
 

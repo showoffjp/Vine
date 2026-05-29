@@ -264,6 +264,8 @@ const navLinks = [
       { label: "Women in Ministry", href: "/women-in-ministry" },
       { label: "Men in the Bible", href: "/biblical-manhood" },
       { label: "Sermon Preparation", href: "/sermon-prep" },
+      { label: "Expository Preaching", href: "/expository-preaching" },
+      { label: "Christian Fiction Guide", href: "/christian-fiction" },
       { label: "Faith & Technology", href: "/technology" },
       { label: "Work & Leadership", href: "/work-leadership" },
       { label: "Theology of Work", href: "/theology-of-work" },

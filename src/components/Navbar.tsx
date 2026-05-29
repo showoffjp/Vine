@@ -103,6 +103,7 @@ const navLinks = [
       { label: "Sermons That Moved History", href: "/featured-sermons" },
       { label: "Prophecy Today", href: "/prophecy-today" },
       { label: "Theology of Israel", href: "/theology-of-israel" },
+      { label: "Reading the Prophets", href: "/reading-prophets" },
       { label: "Biblical Archaeology", href: "/biblical-archaeology" },
       { label: "Christian Conferences", href: "/christian-conferences" },
       { label: "Must-Read Articles", href: "/must-read-articles" },

@@ -102,6 +102,8 @@ const navLinks = [
       { label: "Must-Read Articles", href: "/must-read-articles" },
       { label: "Christian News Sources", href: "/christian-news-sources" },
       { label: "Systematic Theology 101", href: "/systematic-theology-101" },
+      { label: "Biblical Theology Primer", href: "/biblical-theology-primer" },
+      { label: "Seminary Guide", href: "/seminary-guide" },
       { label: "Devotional Classics", href: "/christian-devotional-classics" },
       { label: "Reformed Theology", href: "/reformed-theology" },
       { label: "Essential Christian Films", href: "/christian-movies" },

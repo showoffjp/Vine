@@ -20,6 +20,59 @@ const MYTHS = [
   { myth: "The cost is just Sunday morning plus tithing", truth: "Bonhoeffer's 'cheap grace' names this error: 'grace without discipleship, grace without the cross, grace without Jesus Christ.' Discipleship makes total claims on every area of life — time, money, relationships, vocational decisions, and political allegiances." },
 ];
 
+const LIVES = [
+  {
+    id: "bonhoeffer",
+    name: "Dietrich Bonhoeffer",
+    era: "1906-1945, Germany",
+    color: "#EF4444",
+    cost: "Executed by the Nazis",
+    bio: "German Lutheran pastor and theologian who founded the underground Finkenwalde seminary under the Nazi regime, wrote 'The Cost of Discipleship' and 'Life Together,' and participated in the conspiracy to assassinate Hitler. He was arrested in 1943, held in Flossenburg concentration camp, and executed by hanging on April 9, 1945 — three weeks before Germany's surrender. He was 39 years old.",
+    quote: "When Christ calls a man, he bids him come and die.",
+    legacy: "Bonhoeffer's life collapsed the distinction between theology and action. He had every opportunity to remain safely in America (he was there in 1939 on a lecture tour) but returned to Germany because he believed he could not share in the reconstruction of the church if he had not shared in the suffering. His death gave his theology weight that no amount of scholarship alone could have provided.",
+  },
+  {
+    id: "elliot",
+    name: "Jim Elliot",
+    era: "1927-1956, Ecuador",
+    color: "#F59E0B",
+    cost: "Speared by the Huaorani people he sought to reach",
+    bio: "Wheaton College graduate who, with four other missionaries, attempted to make peaceful contact with the Huaorani (then called Auca) people of Ecuador's jungle — an isolated tribe with a history of extreme violence toward outsiders. On January 8, 1956, all five missionaries were killed by Huaorani warriors on a sandbar beside the Curaray River. Elliot was 28. His wife Elisabeth later returned to live among the Huaorani and led many to faith, including some of Jim's killers.",
+    quote: "He is no fool who gives what he cannot keep to gain what he cannot lose.",
+    legacy: "Elliot's journals and the subsequent story — including Elisabeth's return to the tribe — became one of the most widely read missionary accounts of the 20th century. The story turned the question of sacrifice from abstract to concrete: five young men, with families and futures, chose proximity to danger for love of people they had never met. The subsequent conversion of Huaorani warriors, including those who killed them, became one of the most striking illustrations of the gospel's power.",
+  },
+  {
+    id: "perpetua",
+    name: "Perpetua of Carthage",
+    era: "c.181-203 AD, North Africa",
+    color: PURPLE,
+    cost: "Martyred in the arena at Carthage",
+    bio: "A young noblewoman, nursing mother, and recent convert who was arrested in Carthage during the persecution of Septimius Severus. While awaiting execution, she kept a diary — one of the earliest Christian documents written by a woman. Her father pleaded with her repeatedly to recant for the sake of her infant son. She refused. On March 7, 203 AD, she and her companions were thrown to wild animals and then killed by gladiators in the arena. She was approximately 22 years old.",
+    quote: "I cannot be called anything other than what I am — a Christian.",
+    legacy: "Perpetua's diary preserves the voice of an early martyr in her own words — rare in the ancient world. Her refusal to prioritize even her infant son's welfare above her confession has challenged and disturbed Christians across centuries. The church has never resolved the tension she embodies: was her choice heroic faithfulness or tragic stubbornness? Most have concluded: she understood what she was doing, counted the cost, and paid it.",
+  },
+  {
+    id: "andrew",
+    name: "Brother Andrew",
+    era: "1928-2022, Netherlands/Eastern Europe",
+    color: "#3B82F6",
+    cost: "Decades of covert work in closed countries",
+    bio: "Andrew van der Bijl, a Dutch missionary, began smuggling Bibles into Eastern Europe in the 1950s during the height of the Cold War, praying at each border crossing that God would make the guards' eyes 'blind' to the Bibles in his vehicle. His autobiography 'God's Smuggler' (1967) sold over 10 million copies. He went on to work in the Soviet Union, China, Cuba, and the Muslim world — often at significant personal risk. He founded Open Doors, which continues to serve persecuted Christians globally.",
+    quote: "God's work done in God's way will never lack God's supply.",
+    legacy: "Brother Andrew embodies the discipleship cost of radical availability — not martyrdom but the sustained, unglamorous sacrifice of safety, comfort, and normal life in service of the persecuted church. His life demonstrated that the cost of discipleship can take the form of decades of quiet obedience rather than a single dramatic moment. He also gave Western Christians a window into the persecuted church, making abstract global suffering personally real.",
+  },
+  {
+    id: "moon",
+    name: "Lottie Moon",
+    era: "1840-1912, China",
+    color: GREEN,
+    cost: "Gave her food to famine victims; died of starvation",
+    bio: "A Virginia-born scholar (one of the first women to earn a master's degree in the American South) who sailed for China in 1873 and spent nearly 40 years as a missionary. During the Boxer Rebellion and subsequent famines, she gave away her food and money to starving Chinese neighbors until she herself was dying of starvation and malnutrition. Colleagues sent her home; she died on Christmas Eve, 1912, aboard a ship in Kobe Harbor, Japan. She weighed 50 pounds.",
+    quote: "I would I could lie down the burden of my life.",
+    legacy: "Moon's letters home, which described the depth of Chinese need and called for more workers and resources, transformed Southern Baptist missions. The annual Lottie Moon Christmas Offering (now raising over $100 million annually) bears her name. Her death — not in a dramatic confrontation but in the gradual self-giving of a woman who could not stop caring more for others than herself — is one of the most searching illustrations of Luke 14's language about losing one's life.",
+  },
+];
+
 const PRACTICES = [
   { title: "Name What You Hold Back", desc: "Discipleship requires identifying the thing you are unwilling to surrender — and bringing that specific thing to God. For the rich young man it was wealth. For others it is reputation, control, romantic relationship, or a particular sin. The unarticulated cost is still cost; naming it is the beginning of dealing with it.", icon: "🪞" },
   { title: "Find a Costly Community", desc: "Cheap grace is easy to maintain in isolation. Discipleship requires community that will ask the hard question, name the inconsistency, and keep you accountable to what you professed. Look for community that costs you something — time, transparency, vulnerability.", icon: "👥" },
@@ -29,9 +82,14 @@ const PRACTICES = [
   { title: "Sit with Luke 14 Regularly", desc: "Return to the counting-the-cost passage (Luke 14:25-33) annually. What was the cost you assessed when you first committed to following Christ? Has that cost remained, grown, or been subtly reduced to something more comfortable? Renewal begins with honest assessment.", icon: "🔄" },
 ];
 
+type Tab = "passages" | "myths" | "lives" | "practices";
+
 export default function DiscipleshipCostPage() {
-  const [activeTab, setActiveTab] = useState<"passages" | "myths" | "practices">("passages");
+  const [tab, setTab] = useState<Tab>("passages");
   const [expanded, setExpanded] = useState<string | null>(null);
+  const [selectedLife, setSelectedLife] = useState("bonhoeffer");
+
+  const life = LIVES.find(l => l.id === selectedLife)!;
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 40 }}>
@@ -46,7 +104,7 @@ export default function DiscipleshipCostPage() {
 
         <div style={{ background: CARD, border: `1px solid #EF444420`, borderRadius: 12, padding: 18, marginBottom: 28, textAlign: "center" }}>
           <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0, fontStyle: "italic" }}>
-            'Cheap grace is the grace we bestow on ourselves... Cheap grace is grace without discipleship, grace without the cross, grace without Jesus Christ.' — Dietrich Bonhoeffer, <em>The Cost of Discipleship</em>
+            'Cheap grace is the grace we bestow on ourselves... Cheap grace is grace without discipleship, grace without the cross, grace without Jesus Christ.' — Dietrich Bonhoeffer, The Cost of Discipleship
           </p>
         </div>
 
@@ -54,16 +112,17 @@ export default function DiscipleshipCostPage() {
           {[
             { id: "passages" as const, label: "Key Passages", icon: "📖" },
             { id: "myths" as const, label: "Common Myths", icon: "⚠️" },
+            { id: "lives" as const, label: "Lives of Cost", icon: "🕊️" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
-              style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+            <button key={t.id} onClick={() => setTab(t.id)}
+              style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
           ))}
         </div>
 
-        {activeTab === "passages" && (
+        {tab === "passages" && (
           <div>
             {PASSAGES.map((p, i) => (
               <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 16 }}>
@@ -77,7 +136,7 @@ export default function DiscipleshipCostPage() {
           </div>
         )}
 
-        {activeTab === "myths" && (
+        {tab === "myths" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 16 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
@@ -101,7 +160,38 @@ export default function DiscipleshipCostPage() {
           </div>
         )}
 
-        {activeTab === "practices" && (
+        {tab === "lives" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 210, flexShrink: 0 }}>
+              {LIVES.map(l => (
+                <button key={l.id} onClick={() => setSelectedLife(l.id)}
+                  style={{ width: "100%", textAlign: "left", background: selectedLife === l.id ? `${l.color}18` : CARD, border: `1px solid ${selectedLife === l.id ? l.color : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 8, cursor: "pointer" }}>
+                  <div style={{ color: selectedLife === l.id ? l.color : TEXT, fontWeight: 700, fontSize: 13, marginBottom: 3 }}>{l.name}</div>
+                  <div style={{ color: MUTED, fontSize: 11 }}>{l.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1, background: CARD, border: `1px solid ${life.color}40`, borderRadius: 12, padding: 24 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 }}>
+                <h2 style={{ color: life.color, fontWeight: 900, fontSize: 20, margin: 0 }}>{life.name}</h2>
+                <span style={{ background: `${life.color}18`, color: life.color, padding: "3px 10px", borderRadius: 8, fontSize: 11, fontWeight: 700, marginLeft: 12, whiteSpace: "nowrap" }}>{life.era}</span>
+              </div>
+              <div style={{ background: `#EF444415`, border: `1px solid #EF444430`, borderRadius: 8, padding: "7px 12px", marginBottom: 14, display: "inline-block" }}>
+                <span style={{ color: "#EF4444", fontSize: 12, fontWeight: 700 }}>COST: {life.cost}</span>
+              </div>
+              <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, marginBottom: 14 }}>{life.bio}</p>
+              <blockquote style={{ borderLeft: `3px solid ${life.color}`, paddingLeft: 16, marginBottom: 14 }}>
+                <p style={{ color: TEXT, fontSize: 14, fontStyle: "italic", lineHeight: 1.7, margin: 0 }}>"{life.quote}"</p>
+              </blockquote>
+              <div style={{ background: BG, borderRadius: 10, padding: 16, borderLeft: `3px solid ${life.color}` }}>
+                <div style={{ color: MUTED, fontSize: 11, fontWeight: 700, letterSpacing: 1, marginBottom: 6 }}>LEGACY</div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>{life.legacy}</p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {tab === "practices" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>

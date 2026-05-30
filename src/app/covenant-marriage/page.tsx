@@ -20,6 +20,54 @@ const HARD_SEASONS = [
   { season: "Empty Nest", desc: "When children leave, couples often discover they have organized their lives around parenting rather than marriage. The marriage that worked as co-parenting may not work as companionship.", response: "Begin investing in companionship and shared life before the children leave. Identify shared interests, shared mission, and what you enjoy together apart from parenting. The empty nest can be a second marriage." },
 ];
 
+const PORTRAITS = [
+  {
+    id: "priscilla",
+    name: "Priscilla & Aquila",
+    ref: "Acts 18; Romans 16:3-4",
+    color: GREEN,
+    tagline: "Co-laborers in faith and work",
+    portrait: "Priscilla and Aquila appear six times in the NT — always together, always in ministry. They were tent-makers who opened their home as a church, who risked their lives for Paul ('risked their own necks for my life,' Romans 16:4), and who privately corrected Apollos' incomplete theology (Acts 18:26). Notably, Priscilla is mentioned first in four of the six references — unusual in the ancient world and likely indicating her prominence in ministry.",
+    lesson: "Their marriage was a unit of mission. They were not merely domestically compatible but vocationally aligned — their work, their home, and their faith were all integrated. The pattern invites couples to ask not just 'Are we happy together?' but 'Are we building something together that matters beyond ourselves?'",
+  },
+  {
+    id: "hosea",
+    name: "Hosea & Gomer",
+    ref: "Hosea 1-3",
+    color: "#EF4444",
+    tagline: "Covenant love against all deserving",
+    portrait: "God commanded the prophet Hosea to marry Gomer, a woman who would prove unfaithful. She left, bore children likely not his, and eventually ended up as a slave. God then commanded Hosea to buy her back and restore her. 'Go, show your love to your wife again, though she is loved by another man and is an adulteress. Love her as the Lord loves the Israelites, though they turn to other gods' (Hosea 3:1). Hosea obeyed.",
+    lesson: "The marriage of Hosea and Gomer is explicitly theological: it is a living parable of God's covenant love for an unfaithful Israel. It does not romanticize infidelity or deny the devastation of betrayal. It shows that covenant commitment can persist even after the covenant is broken — because the covenant is finally held by the faithful party's love, not the unfaithful party's performance. The theology is radical: God's love is not contingent on being deserved.",
+  },
+  {
+    id: "ruth-boaz",
+    name: "Ruth & Boaz",
+    ref: "Ruth 2-4",
+    color: "#F59E0B",
+    tagline: "Loyalty, redemption, and unexpected grace",
+    portrait: "Ruth's marriage to Boaz was not a romantic beginning but a redemption. She was a Moabite widow, outside the covenant, gleaning grain at the margins of society. Boaz was a kinsman-redeemer with the legal and financial capacity to restore her situation. He noticed her character before her appearance ('all the people of my town know that you are a woman of noble character,' Ruth 3:11), instructed his workers to protect her, and eventually exercised the full right of redemption — marrying her and restoring Naomi's family line.",
+    lesson: "Ruth and Boaz model a marriage built on character, loyalty, and the grace of redemption rather than romantic passion. Boaz acted sacrificially — he paid the full price of redemption without being obligated to. The story is woven into the lineage of David and ultimately of Jesus (Matthew 1:5), suggesting that marriages shaped by covenant loyalty and sacrificial care participate in the purposes of God in ways far beyond what the couple can see.",
+  },
+  {
+    id: "isaac-rebekah",
+    name: "Isaac & Rebekah",
+    ref: "Genesis 24; 25:28; 27",
+    color: PURPLE,
+    tagline: "Beautiful beginning, flawed journey",
+    portrait: "Their marriage began with one of Scripture's most tender scenes: Isaac went out to meditate in the field, lifted his eyes, and saw the camels coming. He brought Rebekah into his mother's tent and married her, and he loved her (Genesis 24:67). But by Genesis 25, the marriage is already fractured by favoritism: Isaac loved Esau; Rebekah loved Jacob. This favoritism produced the deception of chapter 27 — Rebekah coaching Jacob to deceive his dying father — with consequences that scattered the family for decades.",
+    lesson: "Isaac and Rebekah are a study in a marriage that began beautifully and was damaged by unaddressed division. Their story does not have a simple lesson about communication or conflict resolution — it is a warning about the slow drift that comes when spouses develop separate loyalties and agendas within the same household. The favoritism of each parent divided the children and eventually the family. Marriage requires sustained shared orientation, not just shared address.",
+  },
+  {
+    id: "mary-joseph",
+    name: "Mary & Joseph",
+    ref: "Matthew 1:18-25; Luke 1-2",
+    color: "#3B82F6",
+    tagline: "Faithfulness in the extraordinary",
+    portrait: "Mary and Joseph's betrothal was interrupted by the announcement that Mary was pregnant by the Holy Spirit before they had come together. Joseph, described as 'a righteous man' who did not want to disgrace her publicly, resolved to divorce her quietly — until the angel appeared in a dream and he took her as his wife. Joseph then protected the family through the flight to Egypt, the years in Nazareth, and all that followed. He is a nearly silent figure in the Gospels — but present, faithful, and protective throughout.",
+    lesson: "Joseph's character defines the pattern: he was righteous, he listened, and he acted. His decision to stay — when every social instinct said to leave — was an act of extraordinary covenant faithfulness. His care for a child not biologically his mirrors God's adoption of his people. Their marriage models what it looks like to subordinate personal agenda to a larger, God-given calling: sometimes being faithful means the story is not about you.",
+  },
+];
+
 const PRACTICES = [
   { title: "Weekly Marriage Meeting", desc: "15-30 minutes weekly: what went well, what was hard, any logistics to address. Keeps the relationship maintained rather than letting issues accumulate. Not a gripe session but a regular maintenance check.", icon: "📅" },
   { title: "Pray Together Daily", desc: "The couple that prays together is statistically the couple that stays together. Even a brief prayer — thirty seconds — at the end of the day maintains spiritual intimacy and mutual dependence on God. It is almost impossible to maintain contempt toward the person you are praying for.", icon: "🙏" },
@@ -29,9 +77,14 @@ const PRACTICES = [
   { title: "Get Counseling Prophylactically", desc: "Counseling is not only for crisis — it is for maintenance and growth. Annual or semi-annual sessions with a skilled marriage counselor can address minor issues before they calcify and keep the marriage growing rather than merely surviving.", icon: "🧭" },
 ];
 
+type Tab = "theology" | "seasons" | "portraits" | "practices";
+
 export default function CovenantMarriagePage() {
-  const [activeTab, setActiveTab] = useState<"theology" | "seasons" | "practices">("theology");
+  const [tab, setTab] = useState<Tab>("theology");
   const [expanded, setExpanded] = useState<string | null>(null);
+  const [selectedPortrait, setSelectedPortrait] = useState("priscilla");
+
+  const portrait = PORTRAITS.find(p => p.id === selectedPortrait)!;
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 40 }}>
@@ -48,16 +101,17 @@ export default function CovenantMarriagePage() {
           {[
             { id: "theology" as const, label: "Theology", icon: "📖" },
             { id: "seasons" as const, label: "Hard Seasons", icon: "⛈️" },
+            { id: "portraits" as const, label: "Scripture Portraits", icon: "📜" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
-              style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+            <button key={t.id} onClick={() => setTab(t.id)}
+              style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
           ))}
         </div>
 
-        {activeTab === "theology" && (
+        {tab === "theology" && (
           <div>
             {THEOLOGY.map((t, i) => (
               <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 16 }}>
@@ -71,7 +125,7 @@ export default function CovenantMarriagePage() {
           </div>
         )}
 
-        {activeTab === "seasons" && (
+        {tab === "seasons" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 16 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
@@ -99,7 +153,36 @@ export default function CovenantMarriagePage() {
           </div>
         )}
 
-        {activeTab === "practices" && (
+        {tab === "portraits" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 210, flexShrink: 0 }}>
+              {PORTRAITS.map(p => (
+                <button key={p.id} onClick={() => setSelectedPortrait(p.id)}
+                  style={{ width: "100%", textAlign: "left", background: selectedPortrait === p.id ? `${p.color}18` : CARD, border: `1px solid ${selectedPortrait === p.id ? p.color : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 8, cursor: "pointer" }}>
+                  <div style={{ color: selectedPortrait === p.id ? p.color : TEXT, fontWeight: 700, fontSize: 13, marginBottom: 3 }}>{p.name}</div>
+                  <div style={{ color: MUTED, fontSize: 11 }}>{p.ref}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1, background: CARD, border: `1px solid ${portrait.color}40`, borderRadius: 12, padding: 24 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 6 }}>
+                <h2 style={{ color: portrait.color, fontWeight: 900, fontSize: 20, margin: 0 }}>{portrait.name}</h2>
+                <span style={{ background: `${PURPLE}18`, color: PURPLE, padding: "3px 10px", borderRadius: 8, fontSize: 11, fontWeight: 700, marginLeft: 12, whiteSpace: "nowrap" }}>{portrait.ref}</span>
+              </div>
+              <div style={{ color: MUTED, fontSize: 13, fontStyle: "italic", marginBottom: 16 }}>{portrait.tagline}</div>
+              <div style={{ marginBottom: 16 }}>
+                <div style={{ color: MUTED, fontSize: 11, fontWeight: 700, letterSpacing: 1, marginBottom: 6 }}>THEIR STORY</div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>{portrait.portrait}</p>
+              </div>
+              <div style={{ background: BG, borderRadius: 10, padding: 16, borderLeft: `3px solid ${portrait.color}` }}>
+                <div style={{ color: MUTED, fontSize: 11, fontWeight: 700, letterSpacing: 1, marginBottom: 6 }}>WHAT THEIR MARRIAGE TEACHES</div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>{portrait.lesson}</p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {tab === "practices" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>

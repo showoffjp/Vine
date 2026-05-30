@@ -17,37 +17,37 @@ const theologyItems = [
     id: "institution",
     title: "The Night of Institution",
     content:
-      "Four Gospel accounts bear witness to the same sacred night: Matthew 26:26-28, Mark 14:22-24, Luke 22:19-20, and Paul's received tradition in 1 Corinthians 11:23-26. Each preserves distinct emphases — Matthew includes 'for the forgiveness of sins,' Luke's account carries the explicit command 'do this in remembrance of me,' and Paul frames it within the context of the Lord's Supper as proclamation. The fourfold witness establishes that the command to remember was not incidental but central: Jesus himself instituted the meal as an ongoing covenant practice for his people.",
+      'Four Gospel accounts bear witness to the same sacred night: Matthew 26:26-28, Mark 14:22-24, Luke 22:19-20, and Paul\'s received tradition in 1 Corinthians 11:23-26. Each preserves distinct emphases — Matthew includes "for the forgiveness of sins," Luke\'s account carries the explicit command "do this in remembrance of me," and Paul frames it within the context of the Lord\'s Supper as proclamation. The fourfold witness establishes that the command to remember was not incidental but central: Jesus himself instituted the meal as an ongoing covenant practice for his people.',
   },
   {
     id: "eucharistia",
     title: "The Eucharist as Eucharistia",
     content:
-      "The word 'Eucharist' derives from the Greek eucharistia, meaning thanksgiving. At the heart of Luke 22:19, Jesus says 'this is my body given FOR YOU' — a startling particularity. The meal is the church's great act of thanksgiving: not offering something to God to earn favor, but receiving what has already been given. The offertory moment in liturgical tradition reflects this: the bread and wine are brought forward as an act of grateful acknowledgment that all things come from God and are returned to him. The Eucharist is not primarily what we do for God, but what we receive from him with gratitude.",
+      'The word "Eucharist" derives from the Greek eucharistia, meaning thanksgiving. At the heart of Luke 22:19, Jesus says "this is my body given FOR YOU" — a startling particularity. The meal is the church\'s great act of thanksgiving: not offering something to God to earn favor, but receiving what has already been given. The offertory moment in liturgical tradition reflects this: the bread and wine are brought forward as an act of grateful acknowledgment that all things come from God and are returned to him. The Eucharist is not primarily what we do for God, but what we receive from him with gratitude.',
   },
   {
     id: "anamnesis",
     title: "Remembrance (Anamnesis)",
     content:
-      "The Greek anamnesis (Luke 22:19; 1 Cor 11:24-25) is not mere mental recollection. Rooted in the Hebrew zikkaron, it carries the weight of covenant re-presentation — making the past event present and effective. The Jewish Passover Seder shaped this understanding profoundly: Israel did not merely remember the Exodus; every generation was commanded to understand itself as having come out of Egypt. Paul draws this trajectory forward: \'as often as you eat this bread and drink the cup, you proclaim the Lord's death until he comes\' (1 Cor 11:26). Proclamation, not nostalgia — the death and resurrection are made present at the table.",
+      'The Greek anamnesis (Luke 22:19; 1 Cor 11:24-25) is not mere mental recollection. Rooted in the Hebrew zikkaron, it carries the weight of covenant re-presentation — making the past event present and effective. The Jewish Passover Seder shaped this understanding profoundly: Israel did not merely remember the Exodus; every generation was commanded to understand itself as having come out of Egypt. Paul draws this trajectory forward: "as often as you eat this bread and drink the cup, you proclaim the Lord\'s death until he comes" (1 Cor 11:26). Proclamation, not nostalgia — the death and resurrection are made present at the table.',
   },
   {
     id: "koinonia",
     title: "Koinonia at the Table",
     content:
-      "In 1 Corinthians 10:16-17, Paul makes a stunning claim: \'The cup of blessing that we bless, is it not a participation (koinonia) in the blood of Christ? The bread that we break, is it not a participation in the body of Christ?\' Then immediately: \'Because there is one bread, we who are many are one body, for we all partake of the one bread.\' The communion creates community. Paul cannot separate the eucharistic body (the bread) from the ecclesial body (the church). To receive Communion is to be constituted as the body of Christ — which is precisely why the Corinthian abuse was so devastating: it contradicted the very thing the meal was meant to signify.",
+      'In 1 Corinthians 10:16-17, Paul makes a stunning claim: "The cup of blessing that we bless, is it not a participation (koinonia) in the blood of Christ? The bread that we break, is it not a participation in the body of Christ?" Then immediately: "Because there is one bread, we who are many are one body, for we all partake of the one bread." The communion creates community. Paul cannot separate the eucharistic body (the bread) from the ecclesial body (the church). To receive Communion is to be constituted as the body of Christ — which is precisely why the Corinthian abuse was so devastating: it contradicted the very thing the meal was meant to signify.',
   },
   {
     id: "judgment",
     title: "Eating and Drinking Judgment",
     content:
-      "First Corinthians 11:27-32 contains one of the most sobering passages in the New Testament: \'Whoever eats the bread or drinks the cup of the Lord in an unworthy manner will be guilty of sinning against the body and blood of the Lord.\' The phrase \'without discerning the body\' (v. 29) must be read in context: the Corinthian sin was that wealthier members ate ahead of the poor, humiliating them (v. 21-22). \'Unworthy manner\' refers not to personal moral imperfection — if that were the standard, no one could commune — but to the communal ethics of the meal. To eat while despising the poor members is to contradict the body of Christ you claim to celebrate. The judgment is social, not merely spiritual.",
+      'First Corinthians 11:27-32 contains one of the most sobering passages in the New Testament: "Whoever eats the bread or drinks the cup of the Lord in an unworthy manner will be guilty of sinning against the body and blood of the Lord." The phrase "without discerning the body" (v. 29) must be read in context: the Corinthian sin was that wealthier members ate ahead of the poor, humiliating them (v. 21-22). "Unworthy manner" refers not to personal moral imperfection — if that were the standard, no one could commune — but to the communal ethics of the meal. To eat while despising the poor members is to contradict the body of Christ you claim to celebrate. The judgment is social, not merely spiritual.',
   },
   {
     id: "eschatological",
     title: "The Eschatological Dimension",
     content:
-      "Jesus declares in Luke 22:16 and 18 that he will not eat the Passover or drink of the fruit of the vine again \'until the kingdom of God comes.\' Paul echoes this forward gaze: \'you proclaim the Lord's death until he comes\' (1 Cor 11:26). Every Communion service is therefore an eschatological act — a foretaste of the Marriage Supper of the Lamb (Revelation 19:9). The church eats between the times: the meal is a memorial of what has been accomplished and an anticipation of what is yet to come. To gather at the table is to declare that history is moving toward a banquet, and this broken bread is its down payment.",
+      'Jesus declares in Luke 22:16 and 18 that he will not eat the Passover or drink of the fruit of the vine again "until the kingdom of God comes." Paul echoes this forward gaze: "you proclaim the Lord\'s death until he comes" (1 Cor 11:26). Every Communion service is therefore an eschatological act — a foretaste of the Marriage Supper of the Lamb (Revelation 19:9). The church eats between the times: the meal is a memorial of what has been accomplished and an anticipation of what is yet to come. To gather at the table is to declare that history is moving toward a banquet, and this broken bread is its down payment.',
   },
 ];
 
@@ -70,7 +70,7 @@ const viewsList = [
     label: "Consubstantiation",
     subtitle: "Lutheran",
     claim:
-      "Christ is \'in, with, and under\' the elements — the bread remains bread, the wine remains wine, but Christ's body and blood are truly and substantially present alongside them. Luther coined the term \'sacramental union.\'",
+      'Christ is "in, with, and under" the elements — the bread remains bread, the wine remains wine, but Christ\'s body and blood are truly and substantially present alongside them. Luther coined the term "sacramental union."',
     proponent: "Martin Luther (The Babylonian Captivity of the Church, 1520)",
     scripture: '"The cup of blessing that we bless, is it not a participation in the blood of Christ?" (1 Cor 10:16)',
     strength:
@@ -83,7 +83,7 @@ const viewsList = [
     label: "Reformed / Calvin's View",
     subtitle: "Reformed / Presbyterian",
     claim:
-      "Christ is spiritually but truly present at the Supper through faith and the agency of the Holy Spirit. The elements do not change, but the believer genuinely feeds on Christ — \'the third way\' between Rome and Zurich.",
+      'Christ is spiritually but truly present at the Supper through faith and the agency of the Holy Spirit. The elements do not change, but the believer genuinely feeds on Christ — "the third way" between Rome and Zurich.',
     proponent: "John Calvin (Institutes, IV.17)",
     scripture: '"The cup of blessing that we bless, is it not a participation in the blood of Christ?" (1 Cor 10:16)',
     strength:
@@ -96,7 +96,7 @@ const viewsList = [
     label: "Memorialism",
     subtitle: "Zwinglian / Baptist",
     claim:
-      "The bread and cup are signs or symbols of Christ's sacrifice; they represent his body and blood but do not convey or contain his presence. \'This is my body\' means \'this signifies my body.\'",
+      'The bread and cup are signs or symbols of Christ\'s sacrifice; they represent his body and blood but do not convey or contain his presence. "This is my body" means "this signifies my body."',
     proponent: "Ulrich Zwingli (On the Lord's Supper, 1526)",
     scripture: '"Do this in remembrance of me" (Luke 22:19)',
     strength:
@@ -117,7 +117,7 @@ const practiceItems = [
     id: "open-closed",
     title: "Open vs. Closed Table",
     content:
-      "Who may receive? This question cuts to the heart of ecclesiology. A closed table restricts Communion to members of a specific congregation or denomination. A close(d) table (common Baptist usage) restricts it to baptized believers. An open table welcomes all who confess faith in Christ. The practice of \'fencing the table\' — explicitly warning unworthy recipients before serving — derives from 1 Corinthians 11:27-29 and was standard in Reformed and Puritan practice. Paedo-communion (children of believing parents receiving the elements) is practiced in some Reformed traditions, arguing from the Passover's inclusion of children and covenant theology. The tension is between hospitality (the gospel is for all) and integrity (the meal signifies covenant membership).",
+      'Who may receive? This question cuts to the heart of ecclesiology. A closed table restricts Communion to members of a specific congregation or denomination. A close(d) table (common Baptist usage) restricts it to baptized believers. An open table welcomes all who confess faith in Christ. The practice of "fencing the table" — explicitly warning unworthy recipients before serving — derives from 1 Corinthians 11:27-29 and was standard in Reformed and Puritan practice. Paedo-communion (children of believing parents receiving the elements) is practiced in some Reformed traditions, arguing from the Passover\'s inclusion of children and covenant theology. The tension is between hospitality (the gospel is for all) and integrity (the meal signifies covenant membership).',
   },
   {
     id: "four-actions",
@@ -141,7 +141,7 @@ const practiceItems = [
     id: "examination",
     title: "Preparation and Self-Examination",
     content:
-      "Paul commands in 1 Corinthians 11:28: \'Let a person examine himself, then, and so eat of the bread and drink of the cup.\' This has sometimes been interpreted as a barrier: \'I am not worthy, therefore I should not come.\' But this misreads the text. Self-examination is preparation for coming, not grounds for abstaining. The invitation to examine oneself is followed immediately by the command to eat and drink. The classical practice of the Examen before Communion — developed in Ignatian and Puritan devotion alike — involves honest reflection on sin, renewed gratitude for grace, and intentional turning toward the table. The goal is not perfect purity but prepared receptivity. The words of institution already announce that this body is \'given for you\' — the unworthy are precisely those for whom it was given.",
+      'Paul commands in 1 Corinthians 11:28: "Let a person examine himself, then, and so eat of the bread and drink of the cup." This has sometimes been interpreted as a barrier: "I am not worthy, therefore I should not come." But this misreads the text. Self-examination is preparation for coming, not grounds for abstaining. The invitation to examine oneself is followed immediately by the command to eat and drink. The classical practice of the Examen before Communion — developed in Ignatian and Puritan devotion alike — involves honest reflection on sin, renewed gratitude for grace, and intentional turning toward the table. The goal is not perfect purity but prepared receptivity. The words of institution already announce that this body is "given for you" — the unworthy are precisely those for whom it was given.',
   },
 ];
 
@@ -151,7 +151,7 @@ const historyItems = [
     title: "The New Testament Church",
     period: "AD 30–100",
     content:
-      "The earliest Christians broke bread from house to house daily (Acts 2:42-46), interweaving the Eucharist with the Agape feast — a full shared meal. The Didache (c. AD 50-120), one of the earliest non-canonical documents, preserves eucharistic prayers of striking simplicity and beauty: \'As this broken bread was scattered over the mountains, and when brought together became one, so let your Church be brought together from the ends of the earth into your Kingdom.\' The meal was embedded in community life, inseparable from mutual care, prayer, and teaching. Paul's extended treatment in 1 Corinthians 10-11 shows both the theological richness and the practical disorder of these earliest gatherings.",
+      'The earliest Christians broke bread from house to house daily (Acts 2:42-46), interweaving the Eucharist with the Agape feast — a full shared meal. The Didache (c. AD 50-120), one of the earliest non-canonical documents, preserves eucharistic prayers of striking simplicity and beauty: "As this broken bread was scattered over the mountains, and when brought together became one, so let your Church be brought together from the ends of the earth into your Kingdom." The meal was embedded in community life, inseparable from mutual care, prayer, and teaching. Paul\'s extended treatment in 1 Corinthians 10-11 shows both the theological richness and the practical disorder of these earliest gatherings.',
   },
   {
     epoch: "02",
@@ -455,7 +455,7 @@ export default function CommunionTheologyPage() {
                       border:
                         activeView === view.id
                           ? `1px solid ${PURPLE}`
-                          : `1px solid transparent`,
+                          : "1px solid transparent",
                       borderRadius: 8,
                       padding: "12px 14px",
                       marginBottom: 6,

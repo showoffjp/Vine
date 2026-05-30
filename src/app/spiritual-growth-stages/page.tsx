@@ -4,9 +4,18 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
+const VOICES_GROWTH = [
+  { id: "teresa", name: "Teresa of Avila", era: "1515-1582", context: "The Interior Castle (1577); Doctor of the Church; Carmelite reformer", bio: "Teresa of Avila's Interior Castle is the most systematic and experiential account of the stages of contemplative prayer in Christian history. She describes the soul as a castle with seven mansions — seven stages of increasing union with God. The outer mansions are marked by struggle, distraction, and self-preoccupation; the inner mansions by increasing surrender, peace, and union. Teresa writes from personal experience — not abstract theory — having traversed these stages over decades. Her practicality is remarkable: she addresses temptation, dryness, and self-deception with the precision of someone who has encountered them.", quote: "Let nothing disturb you, let nothing frighten you; all things are passing away. God never changes. Patience obtains all things. Whoever has God lacks nothing; God alone suffices.", contribution: "Provided the most detailed map of the interior journey in the history of Christian spirituality. Her work made the contemplative tradition accessible to women and laypeople who had been excluded from formal theological education." },
+  { id: "john-cross", name: "John of the Cross", era: "1542-1591", context: "Dark Night of the Soul; The Ascent of Mount Carmel; Carmelite mystic", bio: "John's Dark Night of the Soul describes the spiritual experience that Teresa alluded to in passing: the period in which God seems absent, prayer feels dead, and all spiritual consolation disappears. Far from being a sign of failure, John argues, the dark night is a purification — God stripping away the soul's attachment to spiritual experiences in order to produce a purer love. His account of active and passive purification — of the senses and then of the spirit — is the most precise theological analysis of this phenomenon in Christian history.", quote: "In the evening of life, we will be judged on love alone.", contribution: "Named and described the experience of spiritual desolation that every serious Christian encounters but most spiritual guides fail to prepare them for. The Dark Night is now the standard reference for anyone pastoring people through spiritual crisis." },
+  { id: "willard-g", name: "Dallas Willard", era: "1935-2013", context: "Renovation of the Heart (2002); The Spirit of the Disciplines (1988); USC philosophy professor", bio: "Willard's contribution to spiritual growth theory is his insistence that formation must involve the whole person: mind, will, body, soul, and social relationships. He identified what he called the 'VIM pattern' — Vision (of who we can be and what life in the kingdom is like), Intention (the decisive choice to actually become that person), and Means (the specific disciplines and practices). Growth does not happen accidentally — it requires intelligent, sustained engagement with the same means Jesus used to train himself and his disciples.", quote: "A person is a spiritual being living in a spiritual world, and that world is as real as the physical world.", contribution: "Recovered the connection between spiritual formation and specific bodily and social practices. His insistence that grace enables effort rather than replacing it gave evangelical Christians permission to practice the disciplines without feeling they were earning their standing with God." },
+  { id: "louf", name: "Andre Louf OCSO", era: "1929-2010", context: "Tuning in to Grace (1992); Abbot of Mount des Cats; Cistercian theologian", bio: "Louf's Tuning in to Grace is one of the most underread accounts of how the Holy Spirit shapes Christian growth — not through a staged program but through a life of receptivity to grace at every moment. Louf draws on the Desert Fathers, Ignatius, and the Cistercian tradition to describe growth as fundamentally about learning to receive rather than achieve: 'Grace is always older than our desire for it.' His account of spiritual growth as the gradual discovery of what was always already present — God's prior love — is one of the most practically liberating frameworks available.", quote: "Grace is always older than our desire for it. We do not find God; we discover that we were found.", contribution: "Brought the Cistercian contemplative tradition's account of growth to a broader Protestant audience. His insistence that all spiritual growth is fundamentally passive — receptive to grace — provides a necessary corrective to activity-focused discipleship programs." },
+  { id: "foster-g", name: "Richard Foster", era: "b. 1942", context: "Celebration of Discipline (1978); Streams of Living Water (1998); Renovare", bio: "Foster's Streams of Living Water identifies six traditions within the church — the contemplative, holiness, charismatic, social justice, evangelical, and incarnational streams — each representing a different emphasis in spiritual growth. His thesis is that a complete Christian is formed by all six streams, not just one. Celebration of Discipline catalogues twelve spiritual disciplines and argues that they are 'the means of grace' by which the Christian is intentionally trained for growth. Foster's vision of spiritual growth is both comprehensive (the whole person) and integrated (all of Christian history).", quote: "Superficiality is the curse of our age. The desperate need today is not for a greater number of intelligent people, or gifted people, but for deep people.", contribution: "Created a comprehensive map of the Christian spiritual tradition that allowed ordinary evangelicals to access centuries of formation wisdom they had largely forgotten. Celebration of Discipline is the most influential single Protestant book on spiritual growth of the past 50 years." },
+];
+
 const FRAMEWORK_TABS = [
   { id: "biblical" as const, label: "Biblical Stages", icon: "📖" },
   { id: "classic" as const, label: "Classic Frameworks", icon: "📜" },
+  { id: "voices" as const, label: "Voices", icon: "💬" },
   { id: "obstacles" as const, label: "Growth Obstacles", icon: "⚠️" },
 ];
 
@@ -159,7 +168,9 @@ const GROWTH_OBSTACLES = [
 ];
 
 export default function SpiritualGrowthStagesPage() {
-  const [activeTab, setActiveTab] = useState<"biblical" | "classic" | "obstacles">("biblical");
+  const [activeTab, setActiveTab] = useState<"biblical" | "classic" | "voices" | "obstacles">("biblical");
+  const [selectedVoice, setSelectedVoice] = useState("teresa");
+  const voiceItem = VOICES_GROWTH.find(v => v.id === selectedVoice)!;
   const [selectedStage, setSelectedStage] = useState<string | null>(null);
   const [selectedFramework, setSelectedFramework] = useState<string | null>(null);
   const [expanded, setExpanded] = useState<string | null>(null);
@@ -278,6 +289,35 @@ export default function SpiritualGrowthStagesPage() {
                 )}
               </div>
             ))}
+          </div>
+        )}
+
+        {activeTab === "voices" && (
+          <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
+            <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
+              {VOICES_GROWTH.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ background: selectedVoice === v.id ? PURPLE : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: TEXT, fontWeight: 700, fontSize: 14 }}>{v.name}</div>
+                  <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{v.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 28 }}>
+                <h2 style={{ color: GREEN, fontWeight: 900, fontSize: 22, margin: "0 0 4px" }}>{voiceItem.name}</h2>
+                <div style={{ color: PURPLE, fontSize: 13, fontWeight: 700, marginBottom: 6 }}>{voiceItem.era}</div>
+                <div style={{ color: MUTED, fontSize: 13, marginBottom: 16 }}>{voiceItem.context}</div>
+                <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 15, marginBottom: 20 }}>{voiceItem.bio}</p>
+                <div style={{ background: BG, borderLeft: `3px solid ${GREEN}`, borderRadius: "0 8px 8px 0", padding: "14px 18px", marginBottom: 20 }}>
+                  <p style={{ color: GREEN, fontStyle: "italic", fontSize: 15, lineHeight: 1.7, margin: 0 }}>&ldquo;{voiceItem.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: `${PURPLE}15`, borderRadius: 10, padding: 16 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>Contribution to Spiritual Growth Theology</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, margin: 0 }}>{voiceItem.contribution}</p>
+                </div>
+              </div>
+            </div>
           </div>
         )}
 

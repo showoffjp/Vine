@@ -147,8 +147,18 @@ const OBSTACLES = [
   { problem: "I miss days and then quit entirely", solution: "When you miss, don't make it worse by quitting. Grace applies to your devotional life too. Come back the next day without self-condemnation or extended guilt. The goal is a lifetime pattern, not a perfect streak." },
 ];
 
+const VOICES_QT = [
+  { id: "murray", name: "Andrew Murray", era: "1828-1917", context: "With Christ in the School of Prayer (1885); Abide in Christ; South African pastor and devotional writer", bio: "Murray is one of the most prolific devotional writers of the 19th century, and his With Christ in the School of Prayer remains one of the most practical and theologically serious books on prayer ever written. His central conviction: prayer is not a technique but a relationship — the relationship between a dependent creature and an all-sufficient God. Every chapter addresses a specific aspect of prayer from a specific Gospel text, making it a devotional commentary on Jesus as teacher of prayer. Murray prayed for hours daily and considered it the most important work of the Christian life.", quote: "The man who mobilizes the Christian church to pray will make the greatest contribution to world evangelization in history.", contribution: "Made sustained, expectant prayer credible and accessible for ordinary Christians. His devotional writing style — warm, practical, and biblical — has shaped the daily prayer lives of millions across 130 years." },
+  { id: "spurgeon-qt", name: "Charles Spurgeon", era: "1834-1892", context: "Morning and Evening (1865); Lectures to My Students; Metropolitan Tabernacle", bio: "Spurgeon preached to 10 million people over his lifetime (before amplification) and maintained a daily devotional life that he considered the secret source of his preaching power. His Morning and Evening — two daily readings with Scripture, meditation, and application — has been in continuous publication for over 150 years. He insisted that the pastor's first congregation was himself, and that the quality of preaching was inseparable from the quality of private devotion. His lectures to his students on prayer, preparation, and life with God are among the most practical on record.", quote: "I would rather teach one man to pray than ten men to preach.", contribution: "Demonstrated by example that massive public ministry is fed by hidden private devotion. Morning and Evening has probably shaped more daily devotional habits than any other book in the English language besides the Bible." },
+  { id: "tozer-qt", name: "A.W. Tozer", era: "1897-1963", context: "The Pursuit of God (1948); The Knowledge of the Holy (1961)", bio: "Tozer was a self-educated Christian Missionary Alliance pastor who became one of the most quoted writers in evangelical Christianity. The Pursuit of God opens with a conviction that drove his entire life: 'The reason why many are still troubled, still seeking, still making little forward progress is because they haven't yet come to the end of themselves.' His vision of quiet time was not methodical but relational — a sustained seeking after God himself, not information about God. He spent long hours in prayer and wrote in the mornings before anyone else was awake.", quote: "An infinite God can give all of Himself to each of His children. He does not distribute Himself that each may have a part, but to each one He gives all of Himself as fully as if there were no others.", contribution: "Recovered the experiential and mystical dimension of Protestant devotion — the direct pursuit of God's presence rather than merely his benefits. The Pursuit of God has introduced more evangelicals to contemplative prayer than any other 20th-century book." },
+  { id: "chambers", name: "Oswald Chambers", era: "1874-1917", context: "My Utmost for His Highest (1927, published posthumously); YMCA minister", bio: "Chambers died at 43 of appendicitis while serving as a YMCA chaplain in Egypt during World War I. My Utmost for His Highest — compiled from his wife's stenographic notes of his lectures at the Bible Training College — has been the best-selling daily devotional in the English language for nearly a century. Its signature is demanding language: Chambers does not offer comfort first but challenge. 'There is nothing thrilling about a laboring man's work, but it is the laboring man who makes the conceptions of the genius possible.' He expected the Christian to give everything, daily, holding nothing back.", quote: "My utmost for His highest is not devotion for devotion's sake; it is total abandonment to God.", contribution: "Created the template for the daily devotional reading that combines theological seriousness with personal challenge. My Utmost for His Highest has shaped the devotional habits of more evangelicals than any other non-biblical daily reading." },
+  { id: "foster-qt", name: "Richard Foster", era: "b. 1942", context: "Celebration of Discipline (1978); Prayer: Finding the Heart's True Home (1992); Renovare", bio: "Foster's Prayer: Finding the Heart's True Home — his follow-up to Celebration of Discipline — is the most comprehensive Protestant treatment of the varieties of prayer. He identifies 21 forms of prayer (simple, prayer of examination, relinquishment, contemplative, healing, etc.), showing that prayer is not a single activity but a family of activities united by orientation toward God. His approach to quiet time is capacious rather than programmatic: the goal is a life saturated with prayer, not a daily appointment kept.", quote: "We must never allow the busyness of our lives to cause us to fail to hear the gentle blowing of the Holy Spirit.", contribution: "Expanded the evangelical imagination for what prayer can be and do. By cataloguing and commending forms of prayer that Protestant culture had forgotten (contemplative, centering, healing), he gave a generation of Christians permission to diversify their devotional practice." },
+];
+
 export default function QuietTimeGuidePage() {
-  const [activeTab, setActiveTab] = useState<"methods" | "schedules" | "obstacles">("methods");
+  const [activeTab, setActiveTab] = useState<"methods" | "voices" | "schedules" | "obstacles">("methods");
+  const [selectedVoice, setSelectedVoice] = useState("murray");
+  const voiceItem = VOICES_QT.find(v => v.id === selectedVoice)!;
   const [selectedMethod, setSelectedMethod] = useState<string | null>(null);
   const method = METHODS.find(m => m.name === selectedMethod);
 
@@ -166,6 +176,7 @@ export default function QuietTimeGuidePage() {
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
             { id: "methods" as const, label: "Methods", icon: "📖" },
+            { id: "voices" as const, label: "Voices", icon: "💬" },
             { id: "schedules" as const, label: "Schedules", icon: "⏰" },
             { id: "obstacles" as const, label: "Obstacles", icon: "⚠️" },
           ].map(t => (
@@ -232,6 +243,35 @@ export default function QuietTimeGuidePage() {
                 ))}
               </div>
             )}
+          </div>
+        )}
+
+        {activeTab === "voices" && (
+          <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
+            <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
+              {VOICES_QT.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ background: selectedVoice === v.id ? PURPLE : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: TEXT, fontWeight: 700, fontSize: 14 }}>{v.name}</div>
+                  <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{v.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 28 }}>
+                <h2 style={{ color: GREEN, fontWeight: 900, fontSize: 22, margin: "0 0 4px" }}>{voiceItem.name}</h2>
+                <div style={{ color: PURPLE, fontSize: 13, fontWeight: 700, marginBottom: 6 }}>{voiceItem.era}</div>
+                <div style={{ color: MUTED, fontSize: 13, marginBottom: 16 }}>{voiceItem.context}</div>
+                <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 15, marginBottom: 20 }}>{voiceItem.bio}</p>
+                <div style={{ background: BG, borderLeft: `3px solid ${GREEN}`, borderRadius: "0 8px 8px 0", padding: "14px 18px", marginBottom: 20 }}>
+                  <p style={{ color: GREEN, fontStyle: "italic", fontSize: 15, lineHeight: 1.7, margin: 0 }}>&ldquo;{voiceItem.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: `${PURPLE}15`, borderRadius: 10, padding: 16 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>Contribution to Devotional Practice</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, margin: 0 }}>{voiceItem.contribution}</p>
+                </div>
+              </div>
+            </div>
           </div>
         )}
 

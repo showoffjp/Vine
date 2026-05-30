@@ -64,9 +64,61 @@ const PRACTICES = [
   { title: "Let Hope Shape Present Action", desc: "The coming kingdom is not only a future comfort but a present summons. Because there will be new creation, creation care matters now. Because there will be justice, the pursuit of justice matters now. Eschatology is not escapism but motivation — 'your labor in the Lord is not in vain' (1 Corinthians 15:58).", icon: "🌍" },
 ];
 
+type Tab = "theology" | "thinkers" | "views" | "practices";
+
+const THINKERS = [
+  {
+    id: "wright",
+    name: "N.T. Wright",
+    era: "1948-present",
+    context: "Anglican Bishop; NT scholar, St. Andrews; Surprised by Hope",
+    bio: "Wright's 'Surprised by Hope' (2008) is the most influential contemporary evangelical treatment of eschatology. His central argument: the church has fundamentally misunderstood the Christian hope — not escape to heaven but the resurrection of the body and the renewal of the creation. 'Heaven' in NT language is where God is present now, not the permanent final home of the saved. The final destination is the new heavens and new earth. This shift from 'going to heaven when you die' to 'the renewal of all things' has reshaped evangelical eschatology.",
+    quote: "The point of the resurrection is not that Jesus went to heaven, but that the future of the whole world has broken into the present. The new creation has begun, and Christians are its advance guard.",
+    contribution: "Wright restored the cosmic and material dimensions of Christian hope that had been eclipsed by a spiritualized, heavenly eschatology. His distinction between 'life after death' (intermediate state) and 'life after life after death' (bodily resurrection to new creation) has become standard in evangelical biblical theology. He also gave intellectual credibility to the claim that Jesus's resurrection is historically defensible — not an article of faith in spite of evidence but in response to it.",
+  },
+  {
+    id: "hoekema",
+    name: "Anthony Hoekema",
+    era: "1913-1988",
+    context: "Reformed theologian; Calvin Theological Seminary; The Bible and the Future",
+    bio: "Hoekema's 'The Bible and the Future' (1979) is the definitive Reformed amillennial treatment of eschatology. His framework: the already/not yet tension — the kingdom has been inaugurated in Christ's first coming and will be consummated at his return. Hoekema also wrote the best modern treatment of the new earth: not a disembodied spiritual state but a material, physical, glorified creation that is this creation transformed. His emphasis on the goodness of the physical new earth has been enormously influential.",
+    quote: "We should not think of the new earth as some ethereal place where we float about as disembodied spirits. The new earth will be as real and as physical as this earth — only free from sin and its effects.",
+    contribution: "Hoekema gave amillennialists their most rigorous modern treatment of the end times, demonstrating that the amillennial view can be as physically concrete and materially robust as premillennialism. His treatment of the new earth — drawing on Isaiah, Romans 8, and Revelation 21-22 — showed that Reformed eschatology does not collapse into Gnosticism. His book remains the standard starting point for Reformed eschatology students.",
+  },
+  {
+    id: "ladd",
+    name: "George Eldon Ladd",
+    era: "1911-1982",
+    context: "NT scholar; Fuller Seminary; A Theology of the New Testament",
+    bio: "Ladd is the father of historic premillennialism in modern evangelical scholarship. His 'The Gospel of the Kingdom' (1959) and 'A Theology of the New Testament' (1974) established the kingdom-of-God framework that underlies most evangelical biblical theology. His central contribution: the kingdom is both present (inaugurated in Jesus's ministry) and future (consummated at his return). This 'already/not yet' hermeneutic — which Ladd developed in dialogue with Oscar Cullmann — became the dominant framework in evangelical NT scholarship.",
+    quote: "The Kingdom of God is the redemptive reign of God dynamically active to establish his rule among men. This Kingdom, which will appear as an apocalyptic act at the end of the age, has already come into human history in the person and mission of Jesus.",
+    contribution: "Ladd gave evangelical scholarship a coherent alternative to dispensationalism that takes seriously both the OT prophetic tradition and the NT's inaugurated eschatology. His framework — that the kingdom comes in phases rather than all at once, with the cross/resurrection as the decisive first moment — allowed evangelicals to hold a high view of OT prophecy without requiring the two-stage return and Israel-distinction of dispensationalism. His influence on Fuller Seminary shaped a generation of evangelical scholars.",
+  },
+  {
+    id: "middleton",
+    name: "J. Richard Middleton",
+    era: "1955-present",
+    context: "Biblical theologian; Northeastern Seminary; A New Heaven and a New Earth",
+    bio: "Middleton's 'A New Heaven and a New Earth' (2014) is the most thorough recent biblical case for cosmic renewal — the transformation of this creation, not its replacement. Challenging both the escape-to-heaven popular theology and the 'rapture and destruction' dispensational framework, he shows from Genesis to Revelation that Scripture's narrative is about the redemption of this creation, not escape from it. His reading of 2 Peter 3:10-12 — often cited for destruction — argues for purification rather than annihilation.",
+    quote: "The biblical vision is not escape from earth to heaven, but the redemption and transformation of earth. God's project is not to rescue souls from a doomed world, but to renew the world itself.",
+    contribution: "Middleton provided the most comprehensive exegetical case for new creation as transformed continuation rather than replacement. This matters because it determines whether creation care, embodied life, and cultural engagement have eternal significance — or are ultimately futile. If this creation is renewed rather than discarded, then what we do with it now matters eschatologically. His work gave evangelical creation care theology its strongest eschatological footing.",
+  },
+  {
+    id: "storms",
+    name: "Sam Storms",
+    era: "1951-present",
+    context: "Reformed charismatic pastor; Bridgeway Church Oklahoma City",
+    bio: "Storms represents an unusual combination: Reformed amillennialism plus continuationist theology (belief that all spiritual gifts continue today). His 'Kingdom Come: The Amillennial Alternative' (2013) is the most practical and accessible modern defense of amillennialism for evangelical lay readers. He engages directly with dispensational premillennialism, responds to its strongest arguments, and shows why amillennialism is not a failure of biblical seriousness but a more internally consistent reading of Revelation 20 in its literary context.",
+    quote: "The millennium is not a future political kingdom on earth. It is the present reign of Christ in heaven, into which all believers enter at death. It began at the resurrection and will end at his return.",
+    contribution: "Storms demonstrated that a thoroughgoing evangelical could hold amillennialism without being theologically liberal or dismissive of OT prophecy. His responses to dispensationalist arguments — especially on Revelation 20 and the binding of Satan — are the most accessible in contemporary literature. He also showed that charismatic experience and Reformed eschatology are compatible, challenging the assumption in some circles that continuationism requires premillennialism.",
+  },
+];
+
 export default function EschatologyViewsPage() {
-  const [activeTab, setActiveTab] = useState<"theology" | "views" | "practices">("theology");
+  const [activeTab, setActiveTab] = useState<Tab>("theology");
   const [selectedView, setSelectedView] = useState("Historic Premillennialism");
+  const [selectedThinker, setSelectedThinker] = useState("wright");
+  const thinker = THINKERS.find(t => t.id === selectedThinker)!;
 
   const view = VIEWS.find(v => v.name === selectedView)!;
 
@@ -84,6 +136,7 @@ export default function EschatologyViewsPage() {
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
             { id: "theology" as const, label: "Core Beliefs", icon: "📖" },
+            { id: "thinkers" as const, label: "Thinkers", icon: "💡" },
             { id: "views" as const, label: "The Views", icon: "🗺️" },
             { id: "practices" as const, label: "Implications", icon: "🛠️" },
           ].map(t => (
@@ -105,6 +158,38 @@ export default function EschatologyViewsPage() {
                 <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 15, margin: 0 }}>{t.body}</p>
               </div>
             ))}
+          </div>
+        )}
+
+        {activeTab === "thinkers" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 210, flexShrink: 0 }}>
+              {THINKERS.map(t => (
+                <button key={t.id} onClick={() => setSelectedThinker(t.id)}
+                  style={{ width: "100%", background: selectedThinker === t.id ? `${PURPLE}18` : "transparent", border: `1px solid ${selectedThinker === t.id ? PURPLE + "70" : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 6, cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: selectedThinker === t.id ? PURPLE : TEXT, fontWeight: 800, fontSize: 13, marginBottom: 2 }}>{t.name}</div>
+                  <div style={{ color: MUTED, fontSize: 11 }}>{t.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ background: CARD, border: `1px solid ${PURPLE}30`, borderRadius: 14, padding: 28 }}>
+                <div style={{ marginBottom: 20 }}>
+                  <div style={{ color: MUTED, fontWeight: 700, fontSize: 11, marginBottom: 4 }}>{thinker.era}</div>
+                  <h2 style={{ color: PURPLE, fontWeight: 900, fontSize: 24, marginBottom: 4 }}>{thinker.name}</h2>
+                  <div style={{ color: MUTED, fontSize: 13 }}>{thinker.context}</div>
+                </div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, marginBottom: 20 }}>{thinker.bio}</p>
+                <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 10, padding: 18, marginBottom: 16 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 11, marginBottom: 10 }}>IN THEIR OWN WORDS</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0, fontStyle: "italic" }}>&ldquo;{thinker.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: BG, borderRadius: 10, padding: 16 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>KEY CONTRIBUTION</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{thinker.contribution}</p>
+                </div>
+              </div>
+            </div>
           </div>
         )}
 

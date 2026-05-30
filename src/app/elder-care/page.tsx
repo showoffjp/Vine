@@ -21,6 +21,54 @@ const CHALLENGES = [
   { challenge: "End-of-Life Decisions", desc: "When treatment decisions, hospice enrollment, or withdrawal of life support arise, families are often underprepared — and the decisions carry both practical and theological weight.", response: "Document advance directives while your parent can communicate their wishes. Engage a chaplain or pastor in end-of-life conversations. Death is not the enemy for Christians (1 Corinthians 15:55) — but the dying should be honored and accompanied." },
 ];
 
+const VOICES = [
+  {
+    id: "gawande",
+    name: "Atul Gawande",
+    era: "21st century",
+    context: "Being Mortal: Medicine and What Matters in the End (2014); surgeon and writer",
+    bio: "Atul Gawande is a surgeon who became one of the most important voices on how modern medicine fails the dying. Being Mortal is a careful, compassionate examination of what good dying looks like — and how the medical system systematically undermines it in favor of treatment-at-all-costs. Gawande interviewed hospice workers, nursing home residents, and his own father (a physician facing terminal illness) to describe what people actually want at the end of life: autonomy, comfort, presence, and meaning. Not necessarily more time.",
+    quote: "Our most cruel failure in how we treat the sick and the aged is the failure to recognize that they have priorities beyond merely being safe and living longer.",
+    lesson: "Gawande writes as a secular surgeon, not a pastor — which makes his conclusions all the more striking. His book confirms what Scripture teaches: the elderly are not problems to be managed but persons with desires, preferences, and dignity. The Christian reader will add what Gawande cannot: the dying are not merely looking for comfort but for the One who said 'I am the resurrection and the life.'",
+  },
+  {
+    id: "nouwen",
+    name: "Henri Nouwen",
+    era: "20th century",
+    context: "Our Greatest Gift: A Meditation on Dying and Caring (1994); A Letter of Consolation (1982)",
+    bio: "Henri Nouwen wrote A Letter of Consolation in 1982 after his mother's death — a six-month journal addressed to his father, reflecting on grief, absence, and hope. Twelve years later, watching friends at L'Arche Daybreak die, he wrote Our Greatest Gift: a meditation on how the dying teach the living. For Nouwen, dying well is not a failure but a final act of trust — the last form of surrender to the God who holds all of life.",
+    quote: "The great spiritual task facing me is to so fully trust that I belong to God that I can be free from the compulsion of clinging to life.",
+    lesson: "Nouwen recovered the ancient Christian understanding that how we accompany the dying — and how we ourselves face death — is one of the most formative spiritual practices available. He also gave caregivers permission to receive from those they care for, not only to give. The one who is dying often has something to teach the one who is watching.",
+  },
+  {
+    id: "tournier",
+    name: "Paul Tournier",
+    era: "20th century",
+    context: "Learning to Grow Old (1972); Swiss physician and Christian thinker",
+    bio: "Paul Tournier was a Swiss doctor who integrated Christian faith and medicine in ways that influenced generations of physicians and counselors. Learning to Grow Old was written late in his life and addresses the psychology and spirituality of aging with unusual honesty. He argues that old age, received as God's gift rather than resisted as an enemy, becomes a season of liberation — from ambition, from performance, from the need to prove oneself. It is the season in which a person can finally become who they truly are.",
+    quote: "Old age is not a defeat — it is a victory, the last and greatest of life, if we have learned how to live.",
+    lesson: "Tournier's insight is countercultural: aging is not primarily a problem requiring solution (medical, financial, social) but an invitation requiring a response. The response Scripture and Tournier both commend is trust — a progressive release of what cannot be held, into the hands of the One who holds everything.",
+  },
+  {
+    id: "smedes",
+    name: "Lewis Smedes",
+    era: "20th century",
+    context: "My God and I: A Spiritual Memoir (2003); theologian; author of Forgive and Forget",
+    bio: "Lewis Smedes wrote his spiritual memoir in his late seventies as a kind of reckoning with what a long life of faith had produced and left unresolved. His honesty about doubt, disappointment, and the continuing struggle of belief in old age gave permission to older Christians to be honest about their own experience. He died in 2002, having spent his final years reflecting on what it means to hold on to faith while releasing certainty.",
+    quote: "The older I get, the less sure I am about many things. But the more certain I am that grace is real and that God is good.",
+    lesson: "Smedes modeled something the elderly need permission to do: admit that a long faith life does not resolve all the questions. The great gift of accompanying aging parents is often not answering their questions but sitting in them. The honest elder and the attentive child can, together, wait for the God who promised to be faithful to the end.",
+  },
+  {
+    id: "taylor",
+    name: "Barbara Brown Taylor",
+    era: "21st century",
+    context: "Learning to Walk in the Dark (2014); When God is Silent (1998); Episcopal priest and theologian",
+    bio: "Barbara Brown Taylor's Learning to Walk in the Dark is not specifically about elder care but has become a companion for those navigating the darkness of late life — their own or their parents'. Taylor argues against the Christian reflex of equating darkness with bad and light with good. Some of the most profound human experiences — dying, grieving, waiting, suffering — happen in darkness, and God is present in those spaces as fully as in moments of clarity and joy.",
+    quote: "'Full solar spirituality' — always looking for the bright light of God's presence — 'can leave you unable to sit with someone in the dark.'",
+    lesson: "Taylor gives caregivers a theology of presence in suffering. The instinct to fix, cheer up, or reassure a dying or grieving person can be a form of abandonment masquerading as love. The discipline of accompanying someone through darkness — without needing to make it light — is one of the most demanding and necessary forms of Christian love.",
+  },
+];
+
 const PRACTICES = [
   { title: "Regular, Consistent Contact", desc: "Weekly phone calls, monthly visits (if local), quarterly visits (if distant). Not just checking in — genuine conversation: 'How are you feeling? What are you thinking about? What are you afraid of?' Presence and attention are the most powerful forms of honor.", icon: "📞" },
   { title: "The Legacy Interview", desc: "Record your parent or grandparent telling their life story. Their childhood, their faith journey, their most difficult moments, their proudest moments, their regrets, their hopes for you. This is invaluable after they are gone and a gift to them now — being heard is deeply honoring.", icon: "🎙️" },
@@ -30,9 +78,14 @@ const PRACTICES = [
   { title: "Celebrate Who They Are", desc: "Birthday calls, anniversary recognition, notes of appreciation for specific things they did for you. The elderly often feel invisible — seen only when they are a problem. Being celebrated as people, not managed as burdens, is profoundly dignifying.", icon: "🎂" },
 ];
 
+type Tab = "theology" | "challenges" | "voices" | "practices";
+
 export default function ElderCarePage() {
-  const [activeTab, setActiveTab] = useState<"theology" | "challenges" | "practices">("theology");
+  const [activeTab, setActiveTab] = useState<Tab>("theology");
   const [expanded, setExpanded] = useState<string | null>(null);
+  const [selectedVoice, setSelectedVoice] = useState("gawande");
+
+  const voice = VOICES.find(v => v.id === selectedVoice)!;
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 40 }}>
@@ -41,14 +94,15 @@ export default function ElderCarePage() {
           <div style={{ fontSize: 48, marginBottom: 12 }}>👴</div>
           <h1 style={{ fontSize: 32, fontWeight: 900, marginBottom: 8 }}>Caring for Aging Parents</h1>
           <p style={{ color: MUTED, fontSize: 16, maxWidth: 560, margin: "0 auto" }}>
-            'Honor your father and your mother' doesn't expire when you turn 18. From the cross, Jesus ensured his mother's care. Caring for aging parents is not a distraction from discipleship — it is discipleship.
+            Honor your father and your mother does not expire when you turn 18. From the cross, Jesus ensured his mother's care. Caring for aging parents is not a distraction from discipleship — it is discipleship.
           </p>
         </div>
 
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
             { id: "theology" as const, label: "Theology", icon: "📖" },
-            { id: "challenges" as const, label: "Real Challenges", icon: "⚠️" },
+            { id: "challenges" as const, label: "Challenges", icon: "⚠️" },
+            { id: "voices" as const, label: "Voices", icon: "📚" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
@@ -92,6 +146,35 @@ export default function ElderCarePage() {
                 )}
               </div>
             ))}
+          </div>
+        )}
+
+        {activeTab === "voices" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 210, flexShrink: 0 }}>
+              {VOICES.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ width: "100%", background: selectedVoice === v.id ? `${PURPLE}20` : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 8, cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: selectedVoice === v.id ? GREEN : TEXT, fontWeight: 700, fontSize: 13, marginBottom: 2 }}>{v.name}</div>
+                  <div style={{ color: MUTED, fontSize: 11 }}>{v.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 6, flexWrap: "wrap" }}>
+                <h2 style={{ color: GREEN, fontWeight: 900, fontSize: 22, margin: 0 }}>{voice.name}</h2>
+                <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "3px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700, flexShrink: 0 }}>{voice.era}</span>
+              </div>
+              <p style={{ color: MUTED, fontSize: 13, fontStyle: "italic", marginBottom: 16 }}>{voice.context}</p>
+              <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, marginBottom: 20 }}>{voice.bio}</p>
+              <blockquote style={{ margin: "0 0 20px", padding: "12px 16px", borderLeft: `3px solid ${GREEN}`, background: `${GREEN}08`, borderRadius: "0 8px 8px 0" }}>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, margin: 0, fontStyle: "italic" }}>"{voice.quote}"</p>
+              </blockquote>
+              <div style={{ background: `${PURPLE}08`, border: `1px solid ${PURPLE}20`, borderRadius: 10, padding: 16 }}>
+                <div style={{ color: PURPLE, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>THE LESSON</div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{voice.lesson}</p>
+              </div>
+            </div>
           </div>
         )}
 

@@ -9,261 +9,416 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "history" | "practice" | "objections";
+type Tab = "theology" | "history" | "practice" | "rest";
 
-const theologyPoints = [
+const theologyItems = [
   {
-    title: "Sabbath Is Woven Into Creation",
-    content: "Genesis 2:2-3: God rested on the seventh day and declared it holy. This is not a concession to divine fatigue — it is a pattern embedded in the structure of creation itself. The rhythm of six-and-one is woven into reality before the Fall, before Sinai, before Israel. Sabbath is not primarily a law; it is a gift. The Creator himself stopped and declared cessation holy."
+    title: "Creation Sabbath",
+    content:
+      "Genesis 2:1-3 records that on the seventh day God 'rested' (Hebrew: shabbat/shabat) from all his work. The seventh day was blessed and hallowed — set apart as holy. This divine rest does not imply fatigue; God does not grow weary (Isaiah 40:28). Instead, the rest is an act of royal completion: the sovereign surveys the finished work and delights in it. The profound implication is that rest is not remedial — it is not something creation needs because it broke. Rest is architecturally embedded in creation's structure. Before sin, before law, before Israel: the rhythm of six-and-one was woven into the fabric of reality. Sabbath is not a burden added later; it is a gift present at the foundation.",
   },
   {
-    title: "The Fourth Commandment Has Two Rationales",
-    content: "Exodus 20:11 grounds sabbath in creation: 'For in six days the Lord made the heavens and the earth... therefore the Lord blessed the Sabbath day and made it holy.' Deuteronomy 5:15 grounds it in redemption: 'Remember that you were slaves in Egypt and that the Lord your God brought you out.' Both are true for the Christian: we rest because God rested at creation, and we rest because we are no longer slaves — to work, to productivity, to anxiety."
+    title: "The Fourth Commandment",
+    content:
+      "The Sabbath commandment appears in two forms with strikingly different rationales. Exodus 20:8-11 grounds it in creation: 'For in six days the Lord made the heavens and the earth... therefore the Lord blessed the Sabbath day and made it holy.' Rest mirrors the Creator's own rest at the foundation of the world. Deuteronomy 5:12-15, given to the same people a generation later, grounds the same commandment in liberation: 'Remember that you were slaves in Egypt and the Lord your God brought you out with a mighty hand.' Slaves cannot rest; free people can. The same commandment, the same practice, but two entirely different rationales — creation and exodus, cosmology and redemption. Both rationales are available to the Christian: we rest because God rested in creation, and we rest because we are no longer slaves to work, to productivity, or to the anxiety of earning our standing.",
   },
   {
-    title: "Jesus Is Lord of the Sabbath",
-    content: "Mark 2:27-28: 'The Sabbath was made for man, not man for the Sabbath. So the Son of Man is Lord even of the Sabbath.' Jesus does not abolish sabbath — he fulfills and reframes it. He heals on the Sabbath (John 5, Mark 3) to show that sabbath is about restoration, not mere cessation. Colossians 2:16-17 teaches that the Jewish sabbath regulations were 'a shadow of things to come; but the substance belongs to Christ.' Christ is our true rest."
+    title: "Sabbath as Covenant Sign",
+    content:
+      "Exodus 31:16-17 establishes the Sabbath not merely as a moral practice but as the sign of the Mosaic covenant: 'The Israelites are to observe the Sabbath, celebrating it for the generations to come as a lasting covenant. It will be a sign between me and the Israelites forever.' Just as circumcision was the sign of the Abrahamic covenant, the Sabbath was the sign of the Sinai covenant — the weekly marker of Israel's distinctive identity as God's people. This gives the Sabbath an identity-forming function: to keep the Sabbath was to say publicly 'I am Israel's God's person.' When Paul addresses Sabbath regulations in Colossians 2:16-17 and Galatians 4:10-11, he is engaging precisely this identity-boundary function — and saying that Gentile believers in Christ are not bound to Sabbath-keeping as a covenant boundary marker in the same way. The practice of rest, however, is older than Sinai.",
   },
   {
-    title: "Hebrews 4: The Deeper Sabbath",
-    content: "Hebrews 4:9-11: 'There remains, then, a Sabbath-rest for the people of God; for anyone who enters God's rest also rests from their own work, just as God did from his. Let us, therefore, make every effort to enter that rest.' The sabbath points beyond itself to the eschatological rest — the final new creation. Christians who observe a day of rest are practicing eschatology: tasting in time the rest that is coming eternally."
+    title: "Jesus and the Sabbath",
+    content:
+      "Jesus's relationship to the Sabbath is among the most disputed aspects of his ministry. His healings on the Sabbath (Mark 3:1-6; John 5:1-18; Luke 13:10-17) were deliberate provocations: he performed restorative acts precisely on the day the religious leaders guarded most zealously. His rationale: 'The Sabbath was made for man, not man for the Sabbath. So the Son of Man is Lord even of the Sabbath' (Mark 2:27-28). The Sabbath is a gift, not a cage. And the giver of the Sabbath now stands before them. Matthew 12:8 reinforces the claim: 'the Son of Man is Lord of the Sabbath.' Jesus does not abolish the Sabbath; he reclaims it from the burden of 39 categories of prohibited work that had transformed a gift into a minefield. His healings show that Sabbath is the day for restoration — for undoing the curse, not merely ceasing from labor. The question of Sabbath fulfillment vs. abolition turns on whether Christ's lordship over the Sabbath ends it or transforms it.",
   },
   {
-    title: "The Christian Sunday Is Not Identical to the Jewish Sabbath",
-    content: "The New Testament church gathered on the first day of the week (Acts 20:7; 1 Corinthians 16:2; Revelation 1:10 — 'the Lord's Day') in celebration of the resurrection. Sunday is not 'the Christian Sabbath' in a strict sense — but it carries sabbath resonance: cease from ordinary labor, gather with the community, worship, rest. The Westminster Confession (XXI.7-8) argues for Sunday as the Christian Sabbath; others (Continental Reformed, Lutherans) distinguish the day of worship from the sabbath principle."
+    title: "Hebrews 4 and the Sabbath Rest",
+    content:
+      "Hebrews 4 offers the most explicitly theological treatment of Sabbath in the New Testament. The author argues that the 'rest' God promised his people points beyond Canaan (Joshua's rest was not the final rest — Psalm 95 was still calling people into rest after the conquest) to an eschatological rest: 'There remains, then, a Sabbath-rest (sabbatismos) for the people of God; for anyone who enters God's rest also rests from their own work, just as God did from his. Let us, therefore, make every effort to enter that rest' (Hebrews 4:9-11). The weekly Sabbath was a foretaste — a temporal sign pointing to the eternal reality. The Christian who observes a day of rest is not simply resting; they are practicing eschatology, tasting in ordinary time the rest that awaits in new creation. The Sabbath becomes a sacramental act: the visible, bodily practice of trusting God's future.",
   },
   {
-    title: "Rest Is an Act of Faith and Defiance",
-    content: "In a productivity-obsessed culture, stopping is radical. The person who rests on the Sabbath is confessing: the world does not depend on me. God does not need my frantic labor to sustain reality. I trust that enough work was done in six days. Abraham Joshua Heschel (The Sabbath): 'The Sabbath is a day of rest, not of withdrawal from the world, but of elevation above it.' The sabbath-keeper is a living protest against the lie that we are what we produce."
-  }
+    title: "The Sabbath Debate",
+    content:
+      "Three major Christian positions have emerged across church history. Sabbatarianism (Westminster Confession, Chapter XXI) holds that the fourth commandment's moral core transfers to Sunday: one day in seven is set apart for worship and rest, now observed on the Lord's Day in honor of the resurrection. The Lord's Day view (favored by many Continental Reformed and Lutheran theologians) distinguishes the Jewish Sabbath (fulfilled in Christ) from the Lord's Day (a new day for new creation celebration), maintaining Sunday worship without the full weight of Sabbath regulations. The every-day view (drawing on Romans 14:5-6) holds that in Christ all days are sanctified alike and Christians should not regard one day above another. Each position carries pastoral weight: Sabbatarianism provides a robust weekly structure but risks legalism; the Lord's Day view honors resurrection while risking Sunday drifting into an ordinary day; the every-day view liberates from rules but in practice often means no Sabbath at all.",
+  },
 ];
 
-const historicalDebate = [
+const historyItems = [
   {
-    position: "Seventh-Day Sabbatarianism",
-    color: "#6B7280",
-    tradition: "Seventh-Day Adventists, some messianic Jewish groups",
-    claim: "The fourth commandment requires Saturday observance and has never been abrogated. Sunday observance is a human tradition, not biblical.",
-    strength: "Takes the continuity of moral law seriously; aligns with the explicit OT commandment day.",
-    weakness: "Does not fully reckon with the Hebrews 4 trajectory and the NT pattern of first-day resurrection-celebration.",
-    keyText: "Exodus 20:8-11, Deuteronomy 5:15"
+    id: "second-temple",
+    title: "Second Temple Judaism",
+    content:
+      "By the Second Temple period, Sabbath observance had developed a vast body of interpretive tradition. The Mishnah tractate Shabbat catalogued 39 categories of prohibited work (avot melachah), derived from the types of labor used to build the Tabernacle: sowing, plowing, reaping, binding, threshing, winnowing, selecting, grinding, sifting, kneading, baking — and 29 more. The Talmudic discussions extended these into thousands of sub-rulings. When Jesus debated Sabbath practice with the Pharisees, he was not arguing with the Torah itself — he was engaging with this tradition, which had in some cases become more binding than the text it interpreted. Understanding this context is essential to reading the Gospels: Jesus's healings were not lawless provocations but deliberate challenges to the tradition's application, a reclaiming of the Sabbath's original purpose as rest and restoration rather than a minefield of prohibitions.",
   },
   {
-    position: "Strict Sabbatarianism (Westminster)",
-    color: "#8B5CF6",
-    tradition: "Westminster Confession (1647), Scottish Presbyterian, many conservative Reformed",
-    claim: "Sunday is the Christian Sabbath, and the fourth commandment applies to it in its moral essence: one day in seven is set apart for worship and rest.",
-    strength: "Maintains the moral permanence of the fourth commandment while applying it to the resurrection day. Produces a robust weekly rhythm of rest.",
-    weakness: "The explicit NT evidence for treating Sunday as the Sabbath is indirect; relies on the continuity of moral law argument.",
-    keyText: "Hebrews 4:9-11, Acts 20:7, Revelation 1:10"
+    id: "early-church",
+    title: "The Early Church",
+    content:
+      "The earliest Christians, most of whom were Jewish, initially observed both the Sabbath (Saturday synagogue) and gathered on the first day of the week to celebrate the resurrection. Gradually the Lord's Day (kyriake hemera, Revelation 1:10) became the primary Christian assembly. Justin Martyr's First Apology (c. 155 AD) provides the earliest detailed description of Sunday worship: readings, sermon, prayers, Eucharist, and collection. He grounds the choice of Sunday in both the first day of creation and the resurrection day. The shift from Saturday to Sunday was not sudden or uniform — Jewish-Christian communities maintained Saturday observance longer — but by the 4th century Sunday had become the standard. Constantine's Sunday law (321 AD) gave civil weight to what had become widespread church practice, though this also began the problematic fusion of civic and religious obligation.",
   },
   {
-    position: "Continental / Lutheran View",
-    color: "#3B82F6",
-    tradition: "Luther, Calvin (partially), Westminster Larger Catechism tension",
-    claim: "The ceremonial aspects of the Sabbath are fulfilled in Christ; the moral principle of periodic rest remains. Sunday worship is commanded; strict sabbath regulations are not binding in the same way.",
-    strength: "Distinguishes between ceremonial law (fulfilled) and the creation pattern of rest (enduring); avoids legalism while honoring rhythm.",
-    weakness: "Can slide into treating Sunday as a day of no special obligation if the moral principle is not taken seriously.",
-    keyText: "Colossians 2:16-17, Romans 14:5-6, Mark 2:27"
+    id: "medieval",
+    title: "Medieval Sabbath",
+    content:
+      "In medieval Christendom, Sunday rest became both religious duty and civic law. The monastic tradition structured daily life around the Divine Office — seven fixed hours of prayer from Matins to Compline — creating a rhythm of work and rest throughout each day, not just one day a week. Sunday was enforced as a day of rest from labor, with markets, courts, and most commerce closed. The fusion of civic and religious obligation meant that Sunday rest was simultaneously an act of worship and a social expectation, enforced by both church and state. This Christendom arrangement had mixed effects: it created a genuine culture of rest that protected the poor from endless labor, but it also blurred the distinction between social conformity and genuine Sabbath observance, and laid the groundwork for the Sunday laws that would later be debated in Reformation and Enlightenment contexts.",
   },
   {
-    position: "Every Day as Sacred",
-    color: "#F59E0B",
-    tradition: "Some Anabaptist streams, certain evangelical approaches",
-    claim: "Romans 14:5 ('One person considers one day more sacred than another; another considers every day alike') supports treating every day as holy rather than one day as special.",
-    strength: "Emphasizes the permeation of all life by grace; avoids compartmentalization.",
-    weakness: "In practice, 'every day is sacred' often becomes 'no day is sacred.' The absence of structured sabbath tends to produce exhaustion, not holiness.",
-    keyText: "Romans 14:5-6, Galatians 4:10-11"
-  }
+    id: "puritan",
+    title: "Puritan Sabbatarianism",
+    content:
+      "The Westminster Confession of Faith (1647), Chapter XXI, gave the most systematic Protestant defense of Sabbatarianism: 'the Sabbath is then kept holy unto the Lord, when men... rest the whole time from their own works, words, and thoughts about their worldly employments and recreations.' The Puritan Sabbath was strict: no recreation, no travel, no unnecessary conversation about worldly affairs, no work of any kind except works of necessity and mercy. Sunday was a day of worship, Scripture reading, prayer, catechizing children, and rest — nothing else. This discipline shaped the texture of English and American public life for centuries. Blue laws (Sunday closing laws) in America are the direct legislative legacy of Puritan Sabbatarianism. The argument was not mere moralism: the Puritans believed that without structure, the Sabbath would simply collapse into another workday, and that the soul needed the protection of clear external boundaries to actually rest.",
+  },
+  {
+    id: "modern",
+    title: "Modern Sabbath Renewal",
+    content:
+      "The late 20th and early 21st centuries have seen a significant scholarly and pastoral renewal of Sabbath theology, largely as a response to the 24/7 consumer economy. Walter Brueggemann's Sabbath as Resistance (2014) argues that Sabbath is a political act of resistance against the pharaonic system of endless productivity — a theological refusal to be defined by output. Marva Dawn's Keeping the Sabbath Wholly (1989) offers a practical theology of cessation, rest, embrace, and feast. Abraham Joshua Heschel's The Sabbath (1951), though Jewish, has deeply influenced Christian Sabbath theology with its vision of Sabbath as a 'cathedral in time.' These voices share a common argument: the contemporary church's loss of Sabbath practice is not a sign of maturity beyond legalism, but a symptom of cultural captivity to the very productivity idolatry that Sabbath was designed to resist.",
+  },
 ];
 
-const practiceSteps = [
+const practiceItems = [
   {
-    step: "1. Decide When Your Sabbath Begins",
-    desc: "Jewish practice begins at sundown. Many Christians use Sunday from morning through evening. Others take Saturday as their rest day (for those in ministry, whose Sunday is the most demanding day). The day matters less than the practice — pick one day and protect it."
+    title: "A 24-Hour Practice",
+    content:
+      "Jewish Sabbath observance runs from sundown Friday to the appearance of three stars Saturday night — approximately 25 hours. The sundown-to-sundown pattern follows the Genesis creation account ('there was evening and there was morning'). Many Christians observe Sunday from the morning gathering to Sunday evening, or from Saturday evening to Sunday evening. The exact timing matters less than establishing a clear container: a defined beginning and end that marks the Sabbath as different from ordinary time. The beginning might be marked by lighting candles, a special meal, or a prayer; the end by a brief review of the day's graces. Without clear boundaries, the Sabbath evaporates into the week.",
   },
   {
-    step: "2. Define What You Will Stop",
-    desc: "Cessation is the core of sabbath. Make a list: paid work, email, social media, errands, anything that feels like labor or anxiety-management. The list will be different for everyone. The question is: what do you need to put down to actually rest?"
+    title: "What to Stop",
+    content:
+      "Cessation is the theological core of Sabbath. The question is not 'what am I allowed to do?' but 'what do I need to put down?' For most people in the modern economy, the list includes: paid work and work email, productivity metrics and to-do lists, social media and news consumption, shopping and errands, anxious planning and problem-solving about the coming week. The test is whether an activity is driven by the anxiety of production or the delight of rest. Some people need to stop cooking; others find cooking deeply restorative. The list should be specific and honest: what, for you, represents the Pharaoh's demand for bricks? What does your Egypt look like? Sabbath requires naming and then stopping those specific things.",
   },
   {
-    step: "3. Worship First",
-    desc: "Corporate worship anchors the day. The sabbath is not primarily private rest — it begins with gathering with the people of God. The resurrection is celebrated communally. Worship before leisure; community before entertainment."
+    title: "What to Begin",
+    content:
+      "Sabbath is not only cessation; it is embrace. The tradition distinguishes between stopping (shabbat) and delighting (oneg Shabbat — the joy of the Sabbath). What restores you? Rest includes sleep and naps — the body's Sabbath. It includes delight in food, beauty, music, and play. It includes worship with the gathered community. It includes unhurried time with the people you love. It includes creation enjoyment: walking slowly, noticing what is growing, sitting in a garden. The test of Sabbath delight is whether the activity leaves you more alive and more present — more human — than you were before. Sabbath rest is not the exhausted collapse at the end of a hard week; it is the feast that renews.",
   },
   {
-    step: "4. Do What Restores You",
-    desc: "Rest is not identical to sleep or inactivity. For some people, cooking restores; for others, walking in nature; for others, reading. The question is: what activities leave you more alive, more present, more ready for the week? Sabbath is for life, not for productivity guilt."
+    title: "Sabbath for Families",
+    content:
+      "A family Sabbath, practiced consistently, becomes one of the most powerful formative practices a household can have. The challenge is making it a feast rather than a law — a day children associate with delight, not restriction. The Jewish tradition models this well: the Sabbath begins with candlelighting, blessing, a special meal, and singing — it is the best day of the week, not the most constrained. For families with children, the Friday/Saturday/Sunday question is practical: families in ministry may need to observe Sabbath on a different day. What matters is the weekly anchor: the day when the family's posture is rest, togetherness, and delight rather than efficiency. Children who grow up with a family Sabbath carry a template for rest that will sustain them for life.",
   },
   {
-    step: "5. Involve Your Family",
-    desc: "A family sabbath creates shared memory, shared rhythm, and a weekly anchor. Light candles. Read Scripture. Share a meal. Create rituals that children will carry with them. The family that rests together builds something against the current culture of relentless busyness."
+    title: "Sabbath Economics",
+    content:
+      "Walter Brueggemann argues in Sabbath as Resistance that the Sabbath is inherently political — an act of economic resistance. The 24/7 consumer economy requires constant availability: buy, produce, consume, respond. Sabbath says no. It insists that one day in seven the market does not command us, the notification does not summon us, the metric does not judge us. This is not withdrawal from the world; it is refusal to be defined by its demands. The political theology of stopping is especially important for the poor: the Sabbath commandment in Exodus explicitly includes servants and animals — it is an equity measure, ensuring that the most vulnerable in the household also rest. Sabbath-keeping is not only personal spirituality; it is a public statement about what human beings are for.",
   },
   {
-    step: "6. End with Gratitude",
-    desc: "Jewish Havdalah (separation) marks the end of sabbath with prayer and candle. Christians can end the day by reviewing: what did I receive today? What will I carry into the week? A brief gratitude prayer closes the sabbath and re-enters ordinary time with thankfulness rather than dread."
-  }
+    title: "When Work Is Worship",
+    content:
+      "The Sabbath commandment in Exodus explicitly permits 'works of necessity and mercy' — and Jesus made this explicit by healing on the Sabbath and defending his disciples eating grain (a work of necessity). Nurses, emergency responders, parents of infants, and pastors whose Sunday is their most demanding day face a genuine challenge. The pastoral answer is not to abandon Sabbath but to take it on another day. Jesus's healings on the Sabbath also suggest a principle: work that is itself rest-giving for others — that undoes the curse, restores the suffering, feeds the hungry — participates in Sabbath's spirit even when it cannot observe its letter. The question for those in mercy vocations is not 'am I exempt from Sabbath?' but 'how do I take my Sabbath, and what does it look like for the specific shape of my work?'",
+  },
 ];
 
-const objections = [
+const restItems = [
   {
-    objection: "I Can't Afford to Take a Day Off",
-    answer: "This is precisely the faith question sabbath poses. The person who cannot rest because the work won't survive without them is confessing that God is not sufficient — that their labor, not God's providence, sustains their life. Sabbath is a weekly act of trust: 'You are enough without me working today.' Every generation has said this is impossible; every generation of sabbath-keepers has found it was not."
+    title: "Restlessness as Spiritual Symptom",
+    content:
+      "Augustine's confession in the opening of his Confessions — 'our heart is restless until it repose in Thee' — locates restlessness not primarily as a psychological problem but as a theological one. The frantic, overscheduled, perpetually busy person is not simply overcommitted; they are displaced. They are seeking in activity what can only be found in God. The inability to stop, to sit quietly, to rest without guilt or anxiety, is a spiritual symptom: it reveals what we actually trust. If the world will fall apart without my constant attention, I am playing God. If I cannot enjoy a day without being productive, I have confused my value with my output. Restlessness is not cured by better time management; it is cured by encountering the God in whom the soul finally rests.",
   },
   {
-    objection: "Colossians 2:16 Says No One Should Judge Us on Sabbath",
-    answer: "Paul's instruction in Colossians 2:16-17 addresses the Colossian's heretical insistence on specific Jewish feast days and sabbath regulations as requirements for Christian standing. He is not abolishing the practice of rest — he is refusing to make the specific Jewish sabbath regulations binding on Gentile believers. The principle of one-in-seven rest embedded in creation is not what Paul is setting aside."
+    title: "The Neuroscience of Rest",
+    content:
+      "Contemporary neuroscience has begun to catch up with what Genesis already knew. The brain's default mode network (DMN), long dismissed as the 'resting state,' is now understood to be one of the most metabolically active regions of the brain — engaged in memory consolidation, social cognition, self-reflection, and creative incubation. The insights that arrive in the shower, on the walk, in the half-waking state before sleep: these are not interruptions to thinking, they are the completion of it. Rest is not the absence of mental activity; it is a different mode of mental activity, one that integrates, consolidates, and generates what focused work cannot. The science of rest vindicates the ancient wisdom: the mind needs silence and unhurried time to do its deepest work. Sabbath is not inefficiency; it is the condition for genuine fruitfulness.",
   },
   {
-    objection: "Sunday Is Just Another Day for Modern People",
-    answer: "This is descriptively true and prescriptively wrong. That Sunday has been stripped of its distinctiveness by consumer culture does not mean it should be. The Christian practice of Sunday rest is countercultural by design — it refuses the 7-day productivity culture and insists that one day in seven belongs differently. The church's job is not to conform to cultural scheduling but to model a different way of inhabiting time."
+    title: "Play as Theology",
+    content:
+      "Josef Pieper's Leisure: The Basis of Culture (1948) argues that the capacity for genuine leisure — play, celebration, festival — is not a luxury or a reward for productivity but the foundation of culture and the mark of human dignity. Play is the act of doing something for its own intrinsic worth, not for any external end. It is, in this sense, the purest form of anti-instrumentalism: the refusal to reduce every activity to its utility. Pieper grounds this in theology: we can play because we are loved beings in a creation that is fundamentally good, not merely useful. Delight is a theological act — it is the creature participating in the Creator's own delight in what he made. The person who cannot play, who cannot enjoy a meal or a walk or a game without calculating its productivity value, has internalized a lie about what human beings are for.",
   },
   {
-    objection: "I Work in Ministry — Sunday Is My Most Strenuous Day",
-    answer: "This is a real problem that deserves a real answer. Those who serve on Sunday (pastors, musicians, nursery workers) should take their sabbath on another day — Friday, Saturday, or Monday. The principle is the practice, not the specific day. A pastor who takes no sabbath is modeling unsustainability and will eventually burn out. Pastors of all people need to model the rest they preach."
+    title: "Sleep as Spiritual Practice",
+    content:
+      "Psalm 127:2 offers one of Scripture's most counterintuitive claims: 'He grants sleep to those he loves.' Sleep is not the passive absence of waking activity; it is a gift from God to his beloved. To sleep is to trust — to release control of the world for eight hours and believe that God's watch does not depend on yours. Jesus's sleeping in the storm (Mark 4:38) is not indifference; it is perfect trust in the Father. The disciples' panic and Jesus's rest are a study in contrasting theologies. Many people's inability to sleep adequately is not merely a health problem; it is a spiritual one: the anxious mind that cannot let go of tomorrow, the driven person who sees sleep as a weakness. The spiritual discipline of adequate, regular sleep is an act of faith: the world will continue without your oversight through the night.",
   },
   {
-    objection: "Isn't Sabbath Works-Based Religion?",
-    answer: "The opposite is true. Sabbath is the anti-works-based practice: it insists that we are more than our output, that the world does not depend on our effort, that rest is a gift not a reward. The person who cannot stop working because their identity is wrapped in productivity is the one under a works-based system. Sabbath breaks the idolatry of achievement, not creates it."
-  }
+    title: "Sabbath and Anxiety",
+    content:
+      "There is a direct connection between the collapse of Sabbath practice and the epidemic of anxiety in contemporary culture. The prayerless person, as the tradition notes, tends toward anxiety: when we do not bring our fears and needs to God, they accumulate. The perpetually busy person has no space for the quiet in which anxiety can be named, examined, and surrendered. Sabbath creates the conditions for honest self-examination and genuine prayer — the unhurried time in which we can actually hear ourselves and bring what we find to God. More fundamentally, Sabbath is itself an act of anti-anxiety: it is the weekly practice of trusting that the world runs without you for one day. The person who cannot stop because everything will fall apart has an anxiety problem that is also a theology problem — they have not yet entrusted the world to God.",
+  },
+  {
+    title: "Eternal Rest",
+    content:
+      "Revelation 14:13 promises that the saints who die in the Lord 'will rest from their labor, for their deeds will follow them.' The final destination of the people of God is not exhausted cessation but the fullness of life — the new creation in which work and rest are no longer in tension, in which the curse of toil is undone, and in which the Sabbath that creation always pointed to is finally realized. Hebrews 4:9-11 describes the eschatological goal as 'Sabbath-rest for the people of God.' Every weekly Sabbath is a rehearsal: a small, provisional, imperfect foretaste of the great rest. When we stop, we are not simply managing our energy; we are practicing eternity. The Sabbath is sacramental — an outward, bodily act that signifies and participates in an inward and coming reality. All rest, rightly understood, is a preview of the rest that has no end.",
+  },
 ];
+
+function Accordion({
+  items,
+  prefix,
+  expanded,
+  onToggle,
+}: {
+  items: { title: string; content: string }[];
+  prefix: string;
+  expanded: Record<string, boolean>;
+  onToggle: (k: string) => void;
+}) {
+  return (
+    <div style={{ maxWidth: 720 }}>
+      {items.map((item, i) => {
+        const key = `${prefix}-${i}`;
+        const open = !!expanded[key];
+        return (
+          <div
+            key={key}
+            style={{
+              background: CARD,
+              border: `1px solid ${BORDER}`,
+              borderRadius: 10,
+              marginBottom: 12,
+            }}
+          >
+            <button
+              onClick={() => onToggle(key)}
+              style={{
+                width: "100%",
+                background: "none",
+                border: "none",
+                color: TEXT,
+                padding: "16px 20px",
+                textAlign: "left",
+                cursor: "pointer",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                fontWeight: 700,
+                fontSize: 15,
+                gap: 12,
+              }}
+            >
+              <span>{item.title}</span>
+              <span style={{ color: MUTED, flexShrink: 0 }}>{open ? "−" : "+"}</span>
+            </button>
+            {open && (
+              <div
+                style={{
+                  padding: "0 20px 18px",
+                  color: MUTED,
+                  lineHeight: 1.75,
+                  fontSize: 14,
+                }}
+              >
+                {item.content}
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
 
 export default function TheologyOfSabbathPage() {
   const [activeTab, setActiveTab] = useState<Tab>("theology");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
-  const [selectedPosition, setSelectedPosition] = useState(historicalDebate[0]);
+  const [selectedHistory, setSelectedHistory] = useState<string>("second-temple");
 
-  const toggle = (k: string) => setExpanded(p => ({ ...p, [k]: !p[k] }));
+  const toggle = (k: string) =>
+    setExpanded((prev) => ({ ...prev, [k]: !prev[k] }));
 
   const tabs: { id: Tab; label: string }[] = [
-    { id: "theology", label: "Biblical Theology" },
-    { id: "history", label: "Historical Debate" },
-    { id: "practice", label: "How to Sabbath" },
-    { id: "objections", label: "Common Objections" }
+    { id: "theology", label: "Theology of Sabbath" },
+    { id: "history", label: "History of Sabbath Practice" },
+    { id: "practice", label: "Sabbath Practice" },
+    { id: "rest", label: "Rest and the Soul" },
   ];
 
-  return (
-    <div style={{ background: BG, minHeight: "100vh", color: TEXT, paddingTop: 40, fontFamily: "system-ui, sans-serif" }}>
-      <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 20px 60px" }}>
+  const selectedHistoryItem =
+    historyItems.find((h) => h.id === selectedHistory) ?? historyItems[0];
 
-        <div style={{ textAlign: "center", marginBottom: 32 }}>
-          <div style={{ display: "inline-block", background: GREEN, color: "#000", padding: "4px 16px", borderRadius: 20, fontSize: 12, fontWeight: 700, letterSpacing: 2, marginBottom: 16 }}>
-            REST & RHYTHM
+  return (
+    <div
+      style={{
+        background: BG,
+        minHeight: "100vh",
+        color: TEXT,
+        paddingTop: 40,
+        fontFamily: "system-ui, -apple-system, sans-serif",
+      }}
+    >
+      <div
+        style={{
+          maxWidth: 1120,
+          margin: "0 auto",
+          padding: "0 20px 80px",
+        }}
+      >
+        {/* Header */}
+        <div style={{ textAlign: "center", marginBottom: 36 }}>
+          <div
+            style={{
+              display: "inline-block",
+              background: GREEN,
+              color: "#000",
+              padding: "4px 18px",
+              borderRadius: 20,
+              fontSize: 11,
+              fontWeight: 700,
+              letterSpacing: 2,
+              marginBottom: 18,
+              textTransform: "uppercase",
+            }}
+          >
+            Rest &amp; Rhythm
           </div>
-          <h1 style={{ fontSize: "clamp(28px,5vw,48px)", fontWeight: 900, margin: "0 0 12px" }}>
+          <h1
+            style={{
+              fontSize: "clamp(28px, 5vw, 52px)",
+              fontWeight: 900,
+              margin: "0 0 14px",
+              lineHeight: 1.15,
+            }}
+          >
             Theology of the Sabbath
           </h1>
-          <p style={{ color: MUTED, maxWidth: 620, margin: "0 auto", lineHeight: 1.7 }}>
-            In a world that never stops, one day in seven is an act of defiance and trust. Sabbath is not legalism — it is the rhythm God wove into creation and the rest that Christ fulfills and invites.
+          <p
+            style={{
+              color: MUTED,
+              maxWidth: 640,
+              margin: "0 auto",
+              lineHeight: 1.75,
+              fontSize: 16,
+            }}
+          >
+            In a world that never stops, one day in seven is an act of defiance
+            and trust. Sabbath is not legalism — it is the rhythm God wove into
+            creation and the rest that Christ fulfills and invites.
           </p>
         </div>
 
-        <div style={{ background: GREEN + "22", border: `1px solid ${GREEN}44`, borderRadius: 12, padding: "14px 24px", marginBottom: 32, textAlign: "center" }}>
-          <p style={{ margin: 0, fontStyle: "italic", fontWeight: 600 }}>
-            "Remember the Sabbath day, to keep it holy." — Exodus 20:8 &nbsp;|&nbsp; "Come to me, all who are weary and burdened, and I will give you rest." — Matthew 11:28
+        {/* Pull quote */}
+        <div
+          style={{
+            background: GREEN + "18",
+            border: `1px solid ${GREEN}44`,
+            borderRadius: 12,
+            padding: "14px 24px",
+            marginBottom: 36,
+            textAlign: "center",
+          }}
+        >
+          <p style={{ margin: 0, fontStyle: "italic", fontWeight: 600, fontSize: 15 }}>
+            "Remember the Sabbath day, to keep it holy." — Exodus 20:8&nbsp;&nbsp;|&nbsp;&nbsp;"Come to
+            me, all who are weary and burdened, and I will give you rest." — Matthew 11:28
           </p>
         </div>
 
-        <div style={{ display: "flex", gap: 8, marginBottom: 32, flexWrap: "wrap" }}>
-          {tabs.map(t => (
+        {/* Tab bar */}
+        <div style={{ display: "flex", gap: 8, marginBottom: 36, flexWrap: "wrap" }}>
+          {tabs.map((t) => (
             <button
               key={t.id}
               onClick={() => setActiveTab(t.id)}
-              style={{ background: activeTab === t.id ? GREEN : CARD, color: activeTab === t.id ? "#000" : TEXT, border: `1px solid ${activeTab === t.id ? GREEN : BORDER}`, borderRadius: 8, padding: "8px 18px", cursor: "pointer", fontWeight: 600, fontSize: 14 }}
+              style={{
+                background: activeTab === t.id ? GREEN : CARD,
+                color: activeTab === t.id ? "#000" : TEXT,
+                border: `1px solid ${activeTab === t.id ? GREEN : BORDER}`,
+                borderRadius: 8,
+                padding: "9px 20px",
+                cursor: "pointer",
+                fontWeight: 600,
+                fontSize: 14,
+                transition: "background 0.15s",
+              }}
             >
               {t.label}
             </button>
           ))}
         </div>
 
+        {/* Tab 1: Theology */}
         {activeTab === "theology" && (
-          <div style={{ maxWidth: 720 }}>
-            {theologyPoints.map((pt, i) => (
-              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, marginBottom: 12 }}>
-                <button
-                  onClick={() => toggle(`pt-${i}`)}
-                  style={{ width: "100%", background: "none", border: "none", color: TEXT, padding: "16px 20px", textAlign: "left", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center", fontWeight: 700, fontSize: 15 }}
-                >
-                  {pt.title}
-                  <span style={{ color: MUTED }}>{expanded[`pt-${i}`] ? "−" : "+"}</span>
-                </button>
-                {expanded[`pt-${i}`] && (
-                  <div style={{ padding: "0 20px 16px", color: MUTED, lineHeight: 1.7, fontSize: 14 }}>{pt.content}</div>
-                )}
-              </div>
-            ))}
-          </div>
+          <Accordion
+            items={theologyItems}
+            prefix="theo"
+            expanded={expanded}
+            onToggle={toggle}
+          />
         )}
 
+        {/* Tab 2: History — sticky detail panel */}
         {activeTab === "history" && (
-          <div style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
-            <div style={{ flex: 1 }}>
-              {historicalDebate.map(p => (
-                <div
-                  key={p.position}
-                  onClick={() => setSelectedPosition(p)}
-                  style={{ background: selectedPosition.position === p.position ? p.color + "22" : CARD, border: `2px solid ${selectedPosition.position === p.position ? p.color : BORDER}`, borderRadius: 10, padding: 16, cursor: "pointer", marginBottom: 10 }}
-                >
-                  <div style={{ fontWeight: 700, marginBottom: 4 }}>{p.position}</div>
-                  <div style={{ fontSize: 12, color: MUTED }}>{p.tradition}</div>
-                </div>
-              ))}
+          <div style={{ display: "flex", gap: 28, alignItems: "flex-start" }}>
+            {/* Left list */}
+            <div style={{ flex: 1, minWidth: 0 }}>
+              {historyItems.map((h) => {
+                const active = selectedHistory === h.id;
+                return (
+                  <div
+                    key={h.id}
+                    onClick={() => setSelectedHistory(h.id)}
+                    style={{
+                      background: active ? PURPLE + "22" : CARD,
+                      border: `2px solid ${active ? PURPLE : BORDER}`,
+                      borderRadius: 10,
+                      padding: "16px 20px",
+                      cursor: "pointer",
+                      marginBottom: 10,
+                      transition: "border-color 0.15s",
+                    }}
+                  >
+                    <div style={{ fontWeight: 700, fontSize: 15 }}>{h.title}</div>
+                  </div>
+                );
+              })}
             </div>
-            <div style={{ width: 360, flexShrink: 0, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, position: "sticky", top: 20 }}>
-              <h3 style={{ margin: "0 0 4px", fontSize: 18, fontWeight: 800, color: selectedPosition.color }}>{selectedPosition.position}</h3>
-              <div style={{ fontSize: 12, color: MUTED, marginBottom: 12 }}>{selectedPosition.tradition}</div>
-              <p style={{ fontSize: 13, color: MUTED, lineHeight: 1.6, marginBottom: 12 }}>{selectedPosition.claim}</p>
-              <div style={{ marginBottom: 10 }}>
-                <div style={{ fontSize: 11, color: GREEN, fontWeight: 700, marginBottom: 4 }}>STRENGTH</div>
-                <p style={{ fontSize: 12, color: MUTED, margin: 0, lineHeight: 1.5 }}>{selectedPosition.strength}</p>
-              </div>
-              <div style={{ marginBottom: 10, borderTop: `1px solid ${BORDER}`, paddingTop: 10 }}>
-                <div style={{ fontSize: 11, color: "#EF4444", fontWeight: 700, marginBottom: 4 }}>WEAKNESS</div>
-                <p style={{ fontSize: 12, color: MUTED, margin: 0, lineHeight: 1.5 }}>{selectedPosition.weakness}</p>
-              </div>
-              <div style={{ borderTop: `1px solid ${BORDER}`, paddingTop: 10 }}>
-                <div style={{ fontSize: 11, color: PURPLE, fontWeight: 700, marginBottom: 4 }}>KEY TEXT</div>
-                <p style={{ fontSize: 12, color: MUTED, margin: 0 }}>{selectedPosition.keyText}</p>
-              </div>
+
+            {/* Right sticky detail */}
+            <div
+              style={{
+                width: 400,
+                flexShrink: 0,
+                background: CARD,
+                border: `1px solid ${BORDER}`,
+                borderRadius: 14,
+                padding: 28,
+                position: "sticky",
+                top: 24,
+              }}
+            >
+              <h3
+                style={{
+                  margin: "0 0 6px",
+                  fontSize: 20,
+                  fontWeight: 800,
+                  color: PURPLE,
+                }}
+              >
+                {selectedHistoryItem.title}
+              </h3>
+              <p
+                style={{
+                  color: MUTED,
+                  fontSize: 14,
+                  lineHeight: 1.75,
+                  margin: 0,
+                }}
+              >
+                {selectedHistoryItem.content}
+              </p>
             </div>
           </div>
         )}
 
+        {/* Tab 3: Practice */}
         {activeTab === "practice" && (
-          <div style={{ maxWidth: 720 }}>
-            <p style={{ color: MUTED, lineHeight: 1.7, marginBottom: 28 }}>
-              Sabbath is a practice, not just a principle. These six steps give you a starting framework — adapt them to your life, vocation, and season.
-            </p>
-            {practiceSteps.map((s, i) => (
-              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 20, marginBottom: 12, display: "flex", gap: 16 }}>
-                <div style={{ width: 36, height: 36, borderRadius: "50%", background: GREEN, color: "#000", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 900, fontSize: 14, flexShrink: 0 }}>
-                  {i + 1}
-                </div>
-                <div>
-                  <div style={{ fontWeight: 700, marginBottom: 6, fontSize: 15 }}>{s.step.replace(`${i + 1}. `, "")}</div>
-                  <p style={{ color: MUTED, fontSize: 13, margin: 0, lineHeight: 1.6 }}>{s.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+          <Accordion
+            items={practiceItems}
+            prefix="prac"
+            expanded={expanded}
+            onToggle={toggle}
+          />
         )}
 
-        {activeTab === "objections" && (
-          <div style={{ maxWidth: 720 }}>
-            {objections.map((o, i) => (
-              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, marginBottom: 12 }}>
-                <button
-                  onClick={() => toggle(`obj-${i}`)}
-                  style={{ width: "100%", background: "none", border: "none", color: TEXT, padding: "16px 20px", textAlign: "left", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center", fontWeight: 700, fontSize: 15 }}
-                >
-                  <span>"{o.objection}"</span>
-                  <span style={{ color: MUTED, flexShrink: 0, marginLeft: 12 }}>{expanded[`obj-${i}`] ? "−" : "+"}</span>
-                </button>
-                {expanded[`obj-${i}`] && (
-                  <div style={{ padding: "0 20px 16px", color: MUTED, lineHeight: 1.7, fontSize: 14 }}>{o.answer}</div>
-                )}
-              </div>
-            ))}
-          </div>
+        {/* Tab 4: Rest and the Soul */}
+        {activeTab === "rest" && (
+          <Accordion
+            items={restItems}
+            prefix="rest"
+            expanded={expanded}
+            onToggle={toggle}
+          />
         )}
       </div>
     </div>

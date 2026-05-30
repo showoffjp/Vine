@@ -24,6 +24,56 @@ const IDENTITY_STATEMENTS = [
 
 const CATEGORIES = ["All", "Belonging", "Position", "Purpose", "Security", "Future"];
 
+type Tab = "statements" | "voices" | "lies" | "practice";
+
+const VOICES_IDENTITY_GUIDE = [
+  {
+    id: "ferguson",
+    name: "Sinclair Ferguson",
+    era: "1948-present",
+    context: "Scottish theologian; Children of the Living God (1989)",
+    bio: "Ferguson's 'Children of the Living God' (1989) is the most focused evangelical treatment of the doctrine of adoption in Christ. His argument: adoption is not a secondary benefit of salvation but the framework within which all other benefits are received. Justification tells us we are acquitted; adoption tells us we have been brought into the family. The difference matters enormously for daily experience: the justified person lives before a Judge; the adopted person lives before a Father. Ferguson shows how Paul's Trinitarian theology of adoption — the Spirit of adoption by whom we cry 'Abba, Father' — transforms the texture of ordinary Christian life.",
+    quote: "Adoption is the highest privilege the gospel offers. Higher than justification — for while a criminal can be pardoned and acquitted, only a son can come home to the Father. In Christ, you are not merely pardoned. You are welcomed home.",
+    contribution: "Ferguson recovered adoption as a central category of the Christian life at a time when evangelical theology had focused so heavily on justification (especially in debates with Rome) that the relational dimension of salvation had receded. His work helped a generation of pastors and Christians understand that the question 'what is my status before God?' has a fuller answer than 'justified' — the answer is 'beloved child.'",
+  },
+  {
+    id: "murray",
+    name: "John Murray",
+    era: "1898-1975",
+    context: "Westminster Seminary; Redemption Accomplished and Applied (1955)",
+    bio: "Murray's 'Redemption Accomplished and Applied' (1955) gave evangelical Calvinism its most rigorous account of union with Christ as the framework for all of salvation. Murray's argument: union with Christ is not one of the benefits of salvation — it is the ground from which all benefits flow. Justification, adoption, sanctification, and glorification are all aspects of what it means to be in Christ. This means that Christian identity is not built on a collection of separate blessings but on a single, comprehensive reality: the believer has been united with Christ in his death and resurrection.",
+    quote: "Union with Christ is the central truth of the whole doctrine of salvation. It is not an isolated datum of the gospel — it is the ground and source of all that God does for us and in us in the application of redemption.",
+    contribution: "Murray's insistence on union with Christ as the organizing category of salvation gave pastoral theology a framework for preventing the fragmentation of Christian identity into disconnected doctrines. The person who understands their identity as 'in Christ' rather than 'the recipient of various benefits' has a more coherent and stable foundation for self-understanding. His theological precision provided the backbone for the later pastoral identity literature.",
+  },
+  {
+    id: "lloyd_jones",
+    name: "Martyn Lloyd-Jones",
+    era: "1899-1981",
+    context: "Westminster Chapel, London; Spiritual Depression (1965)",
+    bio: "Lloyd-Jones's 'Spiritual Depression' (1965) addressed what he saw as the central pastoral problem of his ministry: Christians who intellectually believed the right things about their identity in Christ but had not allowed those truths to penetrate from head to heart. His diagnosis: spiritual depression results not from lack of doctrine but from failure to preach the doctrine to oneself. His prescription: talk to yourself rather than listening to yourself. Instead of listening to the anxious thoughts that arise spontaneously, deliberately preach truth to yourself. This is the practice of identity renewal applied to the will and emotions.",
+    quote: "Have you realized that most of your unhappiness in life is due to the fact that you are listening to yourself instead of talking to yourself? Take those thoughts that come to you the moment you wake up in the morning. You have not originated them, but they start talking to you, they bring back the problems of yesterday. Remind yourself of who you are.",
+    contribution: "Lloyd-Jones gave the practice of identity renewal its most memorable formulation. His distinction between 'listening to yourself' (passive reception of anxiety and shame) and 'talking to yourself' (active proclamation of truth) has shaped generations of preachers and counselors. His clinical background (he was a physician before becoming a minister) gave his analysis of spiritual depression a precision that purely theological treatments lacked.",
+  },
+  {
+    id: "packer",
+    name: "J.I. Packer",
+    era: "1926-2020",
+    context: "Oxford; Regent College; Knowing God (1973)",
+    bio: "The chapter 'Sons of God' in Packer's 'Knowing God' remains one of the most influential brief treatments of adoption in evangelical literature. Packer's claim: if you want to judge how well a person understands Christianity, find out how much they make of the thought of being God's child and having God as their Father. This is the criterion of Christian understanding — not knowledge of systematic theology, not sophistication in apologetics, but the practical, felt reality of being a child before a Father. The simplicity and directness of this criterion has made it permanently quotable and practically challenging.",
+    quote: "If you want to judge how well a person understands Christianity, find out how much they make of the thought of being God's child and having God as their Father. If this is not the thought that prompts and controls their worship and prayers and whole outlook on life, it means they do not yet know what it is to be a Christian.",
+    contribution: "Packer gave the doctrine of adoption its most widely-quoted modern formulation. His framing — adoption as the criterion of Christian understanding — elevated the relational dimension of salvation to the test of theological maturity rather than a peripheral comfort. His integration of the forensic (justification) and the relational (adoption) gave pastors a way to teach both without losing either.",
+  },
+  {
+    id: "chalmers",
+    name: "Thomas Chalmers",
+    era: "1780-1847",
+    context: "Scottish Reformed preacher; The Expulsive Power of a New Affection (1817)",
+    bio: "Chalmers's single sermon 'The Expulsive Power of a New Affection' (1817) is one of the most important insights in the history of practical theology. His argument: the way to free the heart from a false identity or a disordered love is not to try to expel it by sheer force of will, but to introduce a superior affection that displaces it. The heart is not emptied by negation — it is emptied by filling it with something better. Applied to identity: you cannot free yourself from a false identity (I am my performance, I am my past, I am what others think) by mere effort. The false identity is displaced when the identity given in Christ becomes more real, more compelling, more satisfying.",
+    quote: "The heart cannot be vacated of all its affections by a simple act of resignation. But it can be made to feel the power of an expulsive affection — a new and mightier affection that drives out the old. This is how the heart is transformed.",
+    contribution: "Chalmers gave identity transformation its psychological mechanism. Rather than a willpower model (try harder to believe the right things), he proposed a delight model: cultivate the delight in who you are in Christ until it becomes more compelling than the competing false identities. This has influenced everything from C.S. Lewis's account of joy to John Piper's Christian Hedonism — the idea that desire, rightly directed, is the engine of transformation.",
+  },
+];
+
 const LIES = [
   { lie: "I am what I do — my identity is my performance", truth: "You are what God says you are, not what you produce. Identity precedes activity: God declared his approval of Jesus before his ministry began (Matthew 3:17). Your standing before God is not performance-conditional." },
   { lie: "I am my worst failure — my past defines me", truth: "2 Corinthians 5:17: the old has gone. The power of sin over your identity — the way it defines you, accuses you, tags you — is broken in Christ. Forgiveness is not just legal; it is identity-changing." },
@@ -33,9 +83,11 @@ const LIES = [
 ];
 
 export default function ChristianIdentityGuidePage() {
-  const [activeTab, setActiveTab] = useState<"statements" | "lies" | "practice">("statements");
+  const [activeTab, setActiveTab] = useState<Tab>("statements");
   const [category, setCategory] = useState("All");
   const [expanded, setExpanded] = useState<string | null>(null);
+  const [selectedVoice, setSelectedVoice] = useState("ferguson");
+  const voiceItem = VOICES_IDENTITY_GUIDE.find(v => v.id === selectedVoice)!;
 
   const filtered = IDENTITY_STATEMENTS.filter(s => category === "All" || s.category === category);
 
@@ -53,6 +105,7 @@ export default function ChristianIdentityGuidePage() {
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
             { id: "statements" as const, label: "Identity Truths", icon: "✨" },
+            { id: "voices" as const, label: "Teachers", icon: "💬" },
             { id: "lies" as const, label: "Common Lies", icon: "❌" },
             { id: "practice" as const, label: "Apply It", icon: "🙏" },
           ].map(t => (
@@ -93,6 +146,38 @@ export default function ChristianIdentityGuidePage() {
                 )}
               </div>
             ))}
+          </div>
+        )}
+
+        {activeTab === "voices" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8 }}>
+              {VOICES_IDENTITY_GUIDE.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ background: selectedVoice === v.id ? `${PURPLE}20` : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", textAlign: "left", cursor: "pointer" }}>
+                  <div style={{ color: TEXT, fontWeight: 700, fontSize: 13 }}>{v.name}</div>
+                  <div style={{ color: MUTED, fontSize: 11, marginTop: 2 }}>{v.era}</div>
+                  <div style={{ color: MUTED, fontSize: 11 }}>{v.context}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28 }}>
+                <div style={{ marginBottom: 20 }}>
+                  <div style={{ color: TEXT, fontWeight: 900, fontSize: 20, marginBottom: 4 }}>{voiceItem.name}</div>
+                  <div style={{ color: MUTED, fontSize: 13 }}>{voiceItem.era} &middot; {voiceItem.context}</div>
+                </div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, marginBottom: 20 }}>{voiceItem.bio}</p>
+                <div style={{ background: BG, border: `1px solid ${PURPLE}40`, borderRadius: 10, padding: 20, marginBottom: 20 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>KEY QUOTE</div>
+                  <p style={{ color: TEXT, fontSize: 14, fontStyle: "italic", lineHeight: 1.7, margin: 0 }}>&ldquo;{voiceItem.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: BG, borderRadius: 10, padding: 20 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>CONTRIBUTION</div>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.7, margin: 0 }}>{voiceItem.contribution}</p>
+                </div>
+              </div>
+            </div>
           </div>
         )}
 

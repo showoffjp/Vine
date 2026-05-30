@@ -40,11 +40,120 @@ const BOOKS = [
   { title: "Spiritual Leadership", author: "J. Oswald Sanders", year: 1967, category: "Leadership", color: GREEN, rating: 5, desc: "The classic text on Christian leadership — what makes a person fit to lead the people of God. Sanders works through biblical, historical, and practical dimensions of spiritual leadership with the directness and wisdom of a man who spent a lifetime in Christian ministry. Particularly strong on the relationship between personal holiness and leadership effectiveness.", buy: "https://www.amazon.com/Spiritual-Leadership-Principles-Excellence-Christian/dp/0802416136", initials: "SL" },
 ];
 
+type Tab = "books" | "readers" | "plans" | "tips";
+
+const READERS = [
+  {
+    id: "edwards",
+    name: "Jonathan Edwards",
+    era: "1703-1758",
+    context: "Puritan pastor; Northampton, MA; America's greatest theologian",
+    bio: "Edwards was one of the most disciplined and systematic readers in Christian history. He kept extensive notebooks — the 'Miscellanies' run to 1,400 entries — where he recorded and developed ideas drawn from his reading. He read natural philosophy alongside theology, Newton alongside Calvin, and integrated the best intellectual work of his age into a Reformed theological framework. His reading was not accumulation but formation: every book was brought to bear on the question of how to know and glorify God more fully. He read by candlelight on horseback, pinning observations to his coat for transcription later.",
+    quote: "I resolve to study the Scriptures so steadily, constantly, and frequently, as that I may find, and plainly perceive, myself to grow in the knowledge of the same. And I resolve to study other books as tools for understanding Scripture better.",
+    contribution: "Edwards modeled the integration of reading across disciplines — theology, natural philosophy, psychology, rhetoric — in service of knowing God. His notebooks showed generations of pastors how to read not merely for information but for formation, developing ideas slowly across years of reflection. His example is especially relevant for Christian thinkers who want to engage seriously with both faith and the intellectual life of their age.",
+  },
+  {
+    id: "spurgeon",
+    name: "C.H. Spurgeon",
+    era: "1834-1892",
+    context: "Metropolitan Tabernacle, London; Prince of Preachers",
+    bio: "Spurgeon owned 12,000 volumes and read voraciously — reportedly 6 books per week at his peak. He read the Puritans above all: 'I find the Puritans are rich, and I find that they are mine.' His 'Commenting and Commentaries' (1876) reviewed 1,400 books for ministers, demonstrating not just breadth but critical discernment. He read Owen and Bunyan and Goodwin and Sibbes with the kind of affection that only comes from deep familiarity. His preaching was saturated with the fruit of this reading — not as displayed erudition but as digested nourishment. He called reading 'the second furnace in which the sermon is prepared; prayer is the first.'",
+    quote: "Visit many good books, but live in the Bible. A little book read carefully, prayerfully, repeatedly, is worth more than a hundred books skimmed. But a preacher who is not a reader is not preparing his people for eternity — he is entertaining them for an hour.",
+    contribution: "Spurgeon demonstrated that breadth of reading and depth of Scripture are not in competition but mutually reinforcing. His 'Treasury of David' (Psalms commentary) distilled hundreds of other commentators into one work, showing what a life of reading produces when brought to bear on a single text. His recommendation of Puritan literature helped preserve it for future generations who might otherwise have neglected it as outdated.",
+  },
+  {
+    id: "stott",
+    name: "John Stott",
+    era: "1921-2011",
+    context: "All Souls, London; Between Two Worlds; prolific author",
+    bio: "Stott read in two worlds simultaneously: the ancient world of Scripture and the contemporary world of his congregation's questions. His method, described in 'Between Two Worlds' (1982), required reading in both directions: deep reading of the biblical text and serious engagement with contemporary culture, science, literature, and philosophy. He read broadly to understand the questions people were actually asking — not to find proof texts for predetermined answers. His personal library was a working library: books annotated, cross-referenced, and read more than once. He believed that a preacher who did not read was like a surgeon who did not know anatomy.",
+    quote: "The basic model of all Christian preaching is a bridge. One end of the bridge is planted in the ancient text; the other in the contemporary world. The preacher's job is to walk that bridge — and you cannot walk it unless you have read both worlds seriously.",
+    contribution: "Stott made disciplined, broad reading a non-negotiable component of faithful preaching. His integration of Scripture and culture required real intellectual engagement rather than superficial illustration-hunting. His own output — 50+ books, all carefully researched and clearly written — modeled what reading in two worlds produces when sustained over a lifetime of ministry.",
+  },
+  {
+    id: "lewis_reader",
+    name: "C.S. Lewis",
+    era: "1898-1963",
+    context: "Oxford and Cambridge; Mere Christianity; The Chronicles of Narnia",
+    bio: "Lewis was among the most widely-read Christian writers of the 20th century — and his breadth of reading in medieval literature, mythology, science fiction, and philosophy gave his apologetics an unusual richness and range. His 'An Experiment in Criticism' (1961) argued that we read literature not primarily to get information from it but to enter into other modes of experience. He believed reading great books was a form of spiritual and intellectual formation — an escape not from reality but from the narrow prison of the present moment. His famous introduction to Athanasius's 'On the Incarnation' argued that every Christian should read at least one old book for every new one.",
+    quote: "It is a good rule, after reading a new book, never to allow yourself another new one till you have read an old one in between. Every age has its own outlook. It is specially good at seeing certain truths and specially liable to make certain mistakes. We all, therefore, need the books that will correct the characteristic mistakes of our own period.",
+    contribution: "Lewis gave the Christian reader permission — and reason — to read widely, imaginatively, and across centuries. His practice of reading old books to correct the blindspots of the contemporary moment is one of the most practically useful pieces of advice for any Christian reader. His integration of pagan mythology, medieval allegory, and Christian theology in his own work demonstrated what happens when a Christian reads without fear of ideas he does not yet agree with.",
+  },
+  {
+    id: "willard",
+    name: "Dallas Willard",
+    era: "1935-2013",
+    context: "USC Philosophy; Spirit of the Disciplines; Divine Conspiracy",
+    bio: "Willard approached reading as one of the 'disciplines of engagement' in Christian formation. His argument in 'The Spirit of the Disciplines' (1988): reading trains the mind to inhabit the world that Scripture describes — to think, perceive, and respond from within a biblical framework rather than merely agreeing with it intellectually. He read philosophy professionally (he was a USC professor) and theology devotionally, refusing the split between intellectual and spiritual life. His 'The Divine Conspiracy' is dense with philosophical argument alongside pastoral wisdom — the product of a mind that read broadly across the boundaries that usually separate academic and popular Christian literature.",
+    quote: "Reading is not information acquisition. It is the formation of the mind in a world — a way of seeing, responding, valuing. If you read what the world reads, you will see what the world sees. If you read what the saints read, you will begin to see what the saints saw.",
+    contribution: "Willard made reading a spiritual discipline rather than an intellectual exercise — an act of formation rather than information. His integration of academic philosophy with spiritual theology modeled a kind of reading that refused to compartmentalize faith and intellect. His own extensive reading across traditions (Protestant, Catholic, Orthodox, secular philosophy) gave his work an unusual breadth and made his spiritual direction credible to academics who might otherwise dismiss popular Christianity.",
+  },
+];
+
+const READING_PLANS = [
+  {
+    id: "new_believer",
+    name: "New Believer (Year 1)",
+    desc: "Start here. These books build the foundation without overwhelming.",
+    books: [
+      { title: "Mere Christianity", author: "C.S. Lewis", why: "The clearest intellectual introduction to Christianity's core claims. Read first." },
+      { title: "The Pursuit of God", author: "A.W. Tozer", why: "Cultivates the devotional life alongside theological understanding. Short but transforming." },
+      { title: "The Practice of the Presence of God", author: "Brother Lawrence", why: "One sitting, one life changed. The simplest book on prayer ever written." },
+      { title: "Knowing God", author: "J.I. Packer", why: "Once you have the foundation, meet the God you now know. Foundational theology done with warmth." },
+    ],
+  },
+  {
+    id: "apologetics",
+    name: "Apologetics Track",
+    desc: "For Christians who want to think and speak well about their faith with skeptics.",
+    books: [
+      { title: "Mere Christianity", author: "C.S. Lewis", why: "The classic — moral argument, the problem of evil, the nature of Christ." },
+      { title: "The Reason for God", author: "Tim Keller", why: "Addresses contemporary objections with grace, precision, and cultural intelligence." },
+      { title: "Making Sense of God", author: "Tim Keller", why: "The positive case for Christianity — makes secular assumptions explicit." },
+      { title: "The Language of God", author: "Francis Collins", why: "A world-class scientist explains why he believes. Addresses faith/science tension." },
+    ],
+  },
+  {
+    id: "formation",
+    name: "Spiritual Formation Track",
+    desc: "For Christians who want to actually become different, not just know more.",
+    books: [
+      { title: "The Spirit of the Disciplines", author: "Dallas Willard", why: "The philosophical and theological case for why disciplines work. Read this first." },
+      { title: "Celebration of Discipline", author: "Richard Foster", why: "The practical guide to the classical disciplines. Complements Willard perfectly." },
+      { title: "The Practice of the Presence of God", author: "Brother Lawrence", why: "The simplest and most radical model of the practiced presence of God." },
+      { title: "The Pursuit of God", author: "A.W. Tozer", why: "The interior life at its most direct. Read slowly and often." },
+    ],
+  },
+  {
+    id: "theology",
+    name: "Theology Track",
+    desc: "For Christians ready to think hard about what they believe and why.",
+    books: [
+      { title: "Knowing God", author: "J.I. Packer", why: "The best starting point — attributes of God, warm and precise." },
+      { title: "Desiring God", author: "John Piper", why: "Rethinks the goal of the Christian life around joy in God." },
+      { title: "The Holiness of God", author: "R.C. Sproul", why: "The most important book for recovering a biblical sense of who God is." },
+      { title: "The Cost of Discipleship", author: "Dietrich Bonhoeffer", why: "Costly grace vs. cheap grace — essential for understanding what following Jesus requires." },
+    ],
+  },
+];
+
+const READING_TIPS = [
+  { title: "Read old books", desc: "C.S. Lewis recommended reading one old book for every new one. Every era has its characteristic blindspots; old books correct the blindspots of the present age, and present books correct those of the past. A steady diet of only contemporary Christian books produces a Christianity that sounds exactly like the present moment." },
+  { title: "Read slowly and mark your books", desc: "A book read once, quickly, without marking, leaves almost nothing. A book read slowly, with a pencil, with passages marked and ideas noted, becomes part of you. Mortimer Adler's 'How to Read a Book' is the best guide to this approach. The goal is not to finish books but to inhabit them." },
+  { title: "Keep a reading notebook", desc: "Jonathan Edwards pinned notes to his coat while riding; Spurgeon kept commonplace books; Lewis filled his margins. A reading notebook where you record the best quotes and ideas from each book serves two purposes: it forces digestion of what you read, and it becomes a personal theology reference over time." },
+  { title: "Read in community", desc: "The accountability and amplification of shared reading is underestimated. A small group reading the same book creates conversation that deepens understanding far beyond what private reading alone produces. Book clubs, reading partners, and Sunday school classes that read together are some of the most effective formation environments." },
+  { title: "Pray before reading theology", desc: "Reading about God is not the same as reading with God. The Puritans refused to read theology without first asking the Holy Spirit to illuminate their understanding. A brief prayer before opening a theological book — even a sentence — reorients the act from information acquisition to encounter. This changes what you receive from the same text." },
+  { title: "Let great books beget greater reading", desc: "The best books point beyond themselves. Every time a book quotes another book appreciatively, follow the reference. Spurgeon's recommendation of the Puritans sent him deeper into Owen and Goodwin; Lewis's enthusiasm for MacDonald changed his life. The canon of great Christian reading is not a list to complete but a network to explore — every node leads to others." },
+];
+
 export default function ChristianBooksGuidePage() {
+  const [activeTab, setActiveTab] = useState<Tab>("books");
   const [activeCategory, setActiveCategory] = useState("All");
   const [search, setSearch] = useState("");
   const [expanded, setExpanded] = useState<string | null>(null);
+  const [selectedReader, setSelectedReader] = useState("edwards");
 
+  const reader = READERS.find(r => r.id === selectedReader)!;
   const filtered = BOOKS.filter(b => {
     const matchCat = activeCategory === "All" || b.category === activeCategory;
     const matchSearch = !search || b.title.toLowerCase().includes(search.toLowerCase()) || b.author.toLowerCase().includes(search.toLowerCase());
@@ -72,7 +181,21 @@ export default function ChristianBooksGuidePage() {
           </div>
         </div>
 
-        <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 28 }}>
+        <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
+          {[
+            { id: "books" as const, label: "Book Catalog", icon: "📚" },
+            { id: "readers" as const, label: "Great Readers", icon: "💬" },
+            { id: "plans" as const, label: "Reading Plans", icon: "📋" },
+            { id: "tips" as const, label: "How to Read", icon: "🧠" },
+          ].map(t => (
+            <button key={t.id} onClick={() => setActiveTab(t.id)}
+              style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+              {t.icon} {t.label}
+            </button>
+          ))}
+        </div>
+
+        {activeTab === "books" && (<><div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 28 }}>
           {CATEGORIES.map(cat => (
             <button key={cat} onClick={() => setActiveCategory(cat)}
               style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${activeCategory === cat ? GREEN : BORDER}`, background: activeCategory === cat ? `${GREEN}15` : "transparent", color: activeCategory === cat ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
@@ -132,7 +255,75 @@ export default function ChristianBooksGuidePage() {
           <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.7, margin: 0 }}>
             Most of these books are available free or very cheaply — Desiring God offers all John Piper books free as PDF downloads. Brother Lawrence, A.W. Tozer, and other older works are often available free through Project Gutenberg or Christian Classics Ethereal Library (ccel.org).
           </p>
-        </div>
+        </div></>)}
+
+        {activeTab === "readers" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8 }}>
+              {READERS.map(r => (
+                <button key={r.id} onClick={() => setSelectedReader(r.id)}
+                  style={{ background: selectedReader === r.id ? `${PURPLE}20` : CARD, border: `1px solid ${selectedReader === r.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", textAlign: "left", cursor: "pointer" }}>
+                  <div style={{ color: TEXT, fontWeight: 700, fontSize: 13 }}>{r.name}</div>
+                  <div style={{ color: MUTED, fontSize: 11, marginTop: 2 }}>{r.era}</div>
+                  <div style={{ color: MUTED, fontSize: 11 }}>{r.context}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28 }}>
+                <div style={{ marginBottom: 20 }}>
+                  <div style={{ color: TEXT, fontWeight: 900, fontSize: 20, marginBottom: 4 }}>{reader.name}</div>
+                  <div style={{ color: MUTED, fontSize: 13 }}>{reader.era} &middot; {reader.context}</div>
+                </div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, marginBottom: 20 }}>{reader.bio}</p>
+                <div style={{ background: BG, border: `1px solid ${PURPLE}40`, borderRadius: 10, padding: 20, marginBottom: 20 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>ON READING</div>
+                  <p style={{ color: TEXT, fontSize: 14, fontStyle: "italic", lineHeight: 1.7, margin: 0 }}>&ldquo;{reader.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: BG, borderRadius: 10, padding: 20 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>CONTRIBUTION</div>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.7, margin: 0 }}>{reader.contribution}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "plans" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+            {READING_PLANS.map(plan => (
+              <div key={plan.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24 }}>
+                <div style={{ color: GREEN, fontWeight: 900, fontSize: 18, marginBottom: 4 }}>{plan.name}</div>
+                <div style={{ color: MUTED, fontSize: 13, marginBottom: 20 }}>{plan.desc}</div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                  {plan.books.map((b, i) => (
+                    <div key={i} style={{ display: "flex", gap: 14, background: BG, borderRadius: 10, padding: 16 }}>
+                      <div style={{ width: 28, height: 28, borderRadius: 6, background: `${PURPLE}20`, border: `1px solid ${PURPLE}40`, display: "flex", alignItems: "center", justifyContent: "center", color: PURPLE, fontWeight: 900, fontSize: 13, flexShrink: 0 }}>{i + 1}</div>
+                      <div>
+                        <div style={{ color: TEXT, fontWeight: 700, fontSize: 14 }}>{b.title} <span style={{ color: MUTED, fontWeight: 400 }}>— {b.author}</span></div>
+                        <div style={{ color: MUTED, fontSize: 13, marginTop: 3 }}>{b.why}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {activeTab === "tips" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+            {READING_TIPS.map((tip, i) => (
+              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}>
+                  <div style={{ width: 32, height: 32, borderRadius: 8, background: `${GREEN}20`, border: `1px solid ${GREEN}40`, display: "flex", alignItems: "center", justifyContent: "center", color: GREEN, fontWeight: 900, fontSize: 14, flexShrink: 0 }}>{i + 1}</div>
+                  <div style={{ color: GREEN, fontWeight: 800, fontSize: 16 }}>{tip.title}</div>
+                </div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{tip.desc}</p>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

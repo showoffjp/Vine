@@ -60,11 +60,72 @@ const THEMES = [
   { theme: "The Holy Spirit", desc: "The gift of the Spirit at Pentecost marks the beginning of the new covenant era. The Spirit is not a force but the third person of the Trinity — the one who convicts, regenerates, indwells, sanctifies, gifts, and seals. The Christian life is life in the Spirit.", refs: "John 14-16; Acts 2; Romans 8; Galatians 5:16-25; Ephesians 1:13-14" },
 ];
 
+const SCHOLARS = [
+  {
+    id: "bruce",
+    name: "F.F. Bruce",
+    era: "1910 – 1990",
+    context: "British NT scholar, The New Testament Documents: Are They Reliable?",
+    bio: "Frederick Fyvie Bruce was the most widely read evangelical NT scholar of the twentieth century — a man who combined rigorous historical scholarship with unwavering evangelical conviction. His The New Testament Documents: Are They Reliable? (1943) remains the standard popular introduction to the historical case for the NT's reliability, covering manuscript evidence, the date of the documents, the authorship of the Gospels, and the external evidence from non-Christian sources. His commentaries on Acts, Romans, 1-2 Corinthians, Galatians, Hebrews, and Colossians shaped a generation of evangelical students. He held chairs at Sheffield and Manchester and was simultaneously known for his extraordinary linguistic range and his personal humility.",
+    quote: "The earliest propagators of Christianity welcomed the fullest examination of the credentials of their message. The historical 'once-for-all-ness' of Christianity was both its strength and its vulnerability.",
+    contribution: "Bruce gave evangelical NT scholarship its intellectual credibility in the mid-twentieth century at a time when many academics assumed that rigorous historical work required abandoning evangelical conclusions. His work demonstrated that the NT documents could bear the full weight of historical scrutiny and emerge more, not less, trustworthy. His willingness to engage critical scholarship without capitulating to its methodological naturalism showed that faith and evidence were allies, not enemies.",
+  },
+  {
+    id: "fee",
+    name: "Gordon Fee",
+    era: "1934 – 2022",
+    context: "American Pentecostal NT scholar, How to Read the Bible for All Its Worth",
+    bio: "Gordon Fee was a rigorous NT scholar and a committed Pentecostal Christian whose unusual combination shaped both his scholarship and his pedagogy. His How to Read the Bible for All Its Worth (co-authored with Douglas Stuart, 1982) became the standard introduction to hermeneutics in evangelical colleges and seminaries worldwide — accessible without being simplistic. His massive 1 Corinthians commentary (NICNT, 1987) remains the standard evangelical treatment. His Paul, the Spirit, and the People of God (1996) made his technical pneumatology accessible to non-specialists. He was known for insisting that exegesis required both the Spirit and the intellect — that the same Spirit who inspired the text illumines the reader.",
+    quote: "The aim of good Bible reading is not to read more of the Bible but to read it better — to let the text in its own context say what it means to say, and then to let that word address us in our own context.",
+    contribution: "Fee's How to Read the Bible remains the most widely assigned hermeneutics text in evangelical education, having shaped millions of Christians in the basic principles of contextual, genre-sensitive biblical interpretation. His insistence that the same Spirit who inspired Scripture illumines its readers — combined with his rigorous attention to the human, historical, and cultural dimensions of the text — modeled an evangelical scholarship that took both the divine and human aspects of Scripture with equal seriousness.",
+  },
+  {
+    id: "wright",
+    name: "N.T. Wright",
+    era: "Born 1948",
+    context: "British NT scholar and bishop, Christian Origins and the Question of God series",
+    bio: "N.T. Wright is the most prolific and influential NT scholar of his generation — with an unusual ability to move between technical scholarship and popular communication. His five-volume Christian Origins and the Question of God series (The New Testament and the People of God, Jesus and the Victory of God, The Resurrection of the Son of God, Paul and the Faithfulness of God, and Paul and His Recent Interpreters) constitutes the most comprehensive attempt in decades to read the NT in its first-century Jewish context. His central argument: Jesus and Paul must be read against the backdrop of Second Temple Judaism and its hopes for Israel's restoration — not abstracted into timeless spiritual principles. His popular books (Surprised by Hope, Simply Christian, The Day the Revolution Began) have made his technical conclusions accessible to millions.",
+    quote: "Jesus announced the kingdom of God and the early church announced Jesus — and the connection between these two proclamations is not obvious. My life's work has been to show that it is, in fact, the same proclamation.",
+    contribution: "Wright recovered the Jewish context of the NT in a way that has transformed evangelical reading of both Jesus and Paul. His rereading of Paul's 'justification by faith' — not as the doctrine that individuals are declared righteous (though it includes that) but as the declaration that Jews and Gentiles together are members of the one covenant family — sparked the New Perspective on Paul controversy and forced a generation of scholars to re-examine their assumptions. His work on the resurrection is the most comprehensive apologetic case for the bodily resurrection of Jesus in modern scholarship.",
+  },
+  {
+    id: "bauckham",
+    name: "Richard Bauckham",
+    era: "Born 1946",
+    context: "British NT scholar, Jesus and the Eyewitnesses (2006)",
+    bio: "Richard Bauckham's Jesus and the Eyewitnesses (2006) challenged the form-critical consensus that the Gospels preserve anonymous community traditions rather than eyewitness testimony. Drawing on ancient historiography, the names embedded in the Gospel texts, and the pattern of named individuals, Bauckham argued that the Gospels are grounded in the testimony of specific eyewitnesses — many of whom were alive when the Gospels were written and could be consulted or challenged. His work on Revelation (The Theology of the Book of Revelation) showed how the book's rich OT tapestry creates a vision of God's justice and ultimate victory for persecuted churches. His God Crucified (1998) traced the 'divine identity Christology' in the NT — Jesus is included within the identity of the one God of Israel from the earliest layers of the tradition.",
+    quote: "The Gospels are not community documents that happened to be attributed to eyewitnesses. They are eyewitness testimony that happens to have been preserved in community — testimony by those who were there.",
+    contribution: "Bauckham's eyewitness argument has been the most significant challenge to form-critical assumptions in decades. By demonstrating that ancient historiography expected authors to cite specific named sources — and that the Gospels do exactly this — he provided a historically grounded case for the Gospels' reliability that does not require theological presuppositions. His divine identity Christology has also reshaped NT Christological scholarship, showing that the highest views of Jesus's identity are not late developments but are embedded in the earliest tradition.",
+  },
+  {
+    id: "mcknight",
+    name: "Scot McKnight",
+    era: "Born 1953",
+    context: "American NT scholar, The King Jesus Gospel (2011)",
+    bio: "Scot McKnight teaches at Northern Seminary and has spent his career at the intersection of rigorous NT scholarship and accessible Christian education. His The King Jesus Gospel (2011) made a simple but consequential argument: the evangelical church has confused the gospel with the plan of salvation. The gospel in the NT (1 Corinthians 15:1-5, Romans 1:1-4) is the announcement of the story of Jesus — his life, death, resurrection, and lordship as the fulfillment of Israel's story — not a formula for individual salvation. Salvation is what happens when people respond to the gospel. Getting this distinction right changes how we preach, how we evangelize, and how we understand discipleship. His The Jesus Creed recovered love of God and neighbor as the organizing center of the Christian life.",
+    quote: "We have taken the gospel and reduced it to a mechanism that pops individuals into salvation — when the gospel in the NT is the royal announcement that Jesus is Lord, and that announcement calls for allegiance, not just a decision.",
+    contribution: "McKnight has reshaped evangelical thinking about both the gospel and discipleship. His distinction between gospel and plan of salvation clarified why so many evangelical churches produce converts who don't become disciples: if the gospel is only about getting saved rather than the announcement of a king who demands allegiance, discipleship will always feel like an optional extra. His accessible writing on the historical Jesus, the Sermon on the Mount, and the atonement has made serious NT scholarship available to pastors and lay people who would not read academic volumes.",
+  },
+];
+
+const READING_GUIDE = [
+  { section: "Start with Luke and Acts", icon: "🌅", desc: "Luke and Acts form a single two-volume work — the only NT author who tells the story from Jesus's birth to Paul's arrival in Rome. Reading them together gives you the best narrative arc of the whole NT story: the life of Jesus, the birth of the church, the spread of the gospel. Read Luke slowly, then move directly into Acts." },
+  { section: "Read Mark Next", icon: "⚡", desc: "Mark's Gospel is the shortest (16 chapters) and the most action-packed — the word 'immediately' appears 41 times. Reading it in one or two sittings gives you the kinetic, urgent feel of the earliest Gospel account. Notice what gets emphasized (healings, exorcisms, misunderstanding disciples) and what's absent (birth narrative, Sermon on the Mount)." },
+  { section: "Then John, Then Matthew", icon: "✝️", desc: "After the Synoptic Gospels, read John — the most theological, the most distinctive. John covers only 20 days of Jesus's ministry in detail, with long discourses and seven 'I am' statements. Then read Matthew for the fullest teaching collection (Sermon on the Mount, parables, mission discourse) and the strongest Jewish-Christian connections." },
+  { section: "Paul: Start Small, Then Romans", icon: "📝", desc: "Don't start Pauline reading with Romans — it's his densest letter. Start with Galatians (his most passionate), then Philippians (his most joyful), then 1 Corinthians (his most practical). After those three, you'll have the vocabulary to read Romans, which synthesizes his theology most completely." },
+  { section: "Read Hebrews With the OT", icon: "🔗", desc: "Hebrews is incomprehensible without knowledge of Leviticus, Psalms, and the OT sacrificial system. Read Leviticus 16 (Day of Atonement), then Psalm 110 and Psalm 2, then Hebrews. The argument — that Christ is the superior high priest who offers the superior sacrifice — suddenly becomes luminous." },
+  { section: "Revelation Last — And Slowly", icon: "🌅", desc: "Read Revelation after you know the OT prophets (Ezekiel, Daniel, Zechariah) and after you understand the historical context (Roman imperial persecution of Christians, ~95 AD). Come to it expecting vision and symbol, not literal prediction. The central question is: who is sovereign — Caesar or the Lamb? The answer is already decided; the book invites you to live from that certainty." },
+];
+
+type Tab = "sections" | "themes" | "scholars" | "reading";
+
 export default function NewTestamentSurveyPage() {
-  const [activeTab, setActiveTab] = useState<"sections" | "themes">("sections");
+  const [activeTab, setActiveTab] = useState<Tab>("sections");
   const [selected, setSelected] = useState("Gospels");
+  const [selectedScholar, setSelectedScholar] = useState("bruce");
 
   const section = SECTIONS.find(s => s.name === selected)!;
+  const scholar = SCHOLARS.find(s => s.id === selectedScholar)!;
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 40 }}>
@@ -79,8 +140,10 @@ export default function NewTestamentSurveyPage() {
 
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
-            { id: "sections" as const, label: "The Sections", icon: "📚" },
-            { id: "themes" as const, label: "Major Themes", icon: "🧵" },
+            { id: "sections" as const, label: "Sections", icon: "📚" },
+            { id: "themes" as const, label: "Themes", icon: "🧵" },
+            { id: "scholars" as const, label: "Scholars", icon: "🧠" },
+            { id: "reading" as const, label: "Reading Guide", icon: "🗺️" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -141,6 +204,53 @@ export default function NewTestamentSurveyPage() {
                 <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 14, margin: 0 }}>{t.desc}</p>
               </div>
             ))}
+          </div>
+        )}
+
+        {activeTab === "scholars" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 6 }}>
+              {SCHOLARS.map(s => (
+                <button key={s.id} onClick={() => setSelectedScholar(s.id)}
+                  style={{ width: "100%", background: selectedScholar === s.id ? `${PURPLE}20` : CARD, border: `1px solid ${selectedScholar === s.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", textAlign: "left", cursor: "pointer" }}>
+                  <div style={{ color: selectedScholar === s.id ? GREEN : TEXT, fontWeight: 700, fontSize: 13, marginBottom: 2 }}>{s.name}</div>
+                  <div style={{ color: MUTED, fontSize: 11 }}>{s.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 26 }}>
+              <h2 style={{ color: GREEN, fontWeight: 900, fontSize: 22, margin: 0 }}>{scholar.name}</h2>
+              <p style={{ color: MUTED, fontSize: 13, fontStyle: "italic", marginBottom: 16 }}>{scholar.context}</p>
+              <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, marginBottom: 20 }}>{scholar.bio}</p>
+              <blockquote style={{ margin: "0 0 20px", padding: "12px 16px", borderLeft: `3px solid ${GREEN}`, background: `${GREEN}08`, borderRadius: "0 8px 8px 0" }}>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, margin: 0, fontStyle: "italic" }}>"{scholar.quote}"</p>
+              </blockquote>
+              <div style={{ background: `${PURPLE}08`, border: `1px solid ${PURPLE}20`, borderRadius: 10, padding: 16 }}>
+                <div style={{ color: PURPLE, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>CONTRIBUTION</div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{scholar.contribution}</p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "reading" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                The order you read the NT matters. These six principles will help you read with more context, more connection, and more depth — rather than plowing through from Matthew to Revelation and missing the logic of each book.
+              </p>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(270px, 1fr))", gap: 14 }}>
+              {READING_GUIDE.map((r, i) => (
+                <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+                    <span style={{ fontSize: 20 }}>{r.icon}</span>
+                    <div style={{ color: GREEN, fontWeight: 800, fontSize: 14 }}>{r.section}</div>
+                  </div>
+                  <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{r.desc}</p>
+                </div>
+              ))}
+            </div>
           </div>
         )}
       </div>

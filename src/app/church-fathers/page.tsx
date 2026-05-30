@@ -4,6 +4,26 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
+type Tab = "fathers" | "theology" | "legacy";
+
+const THEOLOGY_DEVELOPMENTS = [
+  { title: "The Canon of Scripture", era: "2nd-4th centuries", body: "The church did not invent the canon in 381 — it recognized it. The 27 books of the NT were already functioning as authoritative in most churches before formal councils. Athanasius's Easter letter (367 AD) is the first to list all 27 books exactly as we have them. The criteria: apostolic origin, universal use, and doctrinal consistency with the rule of faith. The canon reflects what the church was already reading, not what bishops invented." },
+  { title: "The Rule of Faith", era: "2nd century (Irenaeus)", body: "Irenaeus developed the 'rule of faith' (regula fidei) — a summary of the Christian narrative used to interpret Scripture. Not a creed in the formal sense but a framework: creation, fall, redemption through Christ, eschatological hope. This narrative structure prevented the Gnostic use of individual proof-texts divorced from the whole story. The Apostles' Creed grew from this tradition." },
+  { title: "The Nicene Creed (325, 381)", era: "4th century", body: "The Council of Nicaea (325) affirmed that the Son is homoousios (same substance) as the Father, decisively rejecting Arianism. Constantinople (381) completed the Creed with the clause on the Holy Spirit as 'Lord and Giver of Life, who proceeds from the Father, who with the Father and the Son together is worshiped and glorified.' The Nicene Creed is the ecumenical consensus of Eastern and Western Christianity." },
+  { title: "The Two Natures of Christ (Chalcedon, 451)", era: "5th century", body: "The Council of Chalcedon (451) defined that Christ is 'truly God and truly man, of one substance with the Father according to the Godhead, and of one substance with us according to humanity.' These two natures exist 'without confusion, without change, without division, without separation.' Chalcedonian Christology is accepted by Catholic, Orthodox, and Protestant Christianity, though rejected by some Oriental Orthodox churches." },
+  { title: "Grace and Free Will (Augustine vs. Pelagius)", era: "Early 5th century", body: "Augustine's anti-Pelagian writings addressed whether human beings can initiate their own salvation (Pelagius: yes, through free will) or whether God's grace must act first (Augustine: yes, because the will is in bondage to sin). Augustine won the official debate at the Council of Carthage (418), though the practical implications continued to be debated for centuries and are still the central divide between Catholic-Orthodox and Reformed Protestant soteriology." },
+];
+
+const LEGACY_ITEMS = [
+  { title: "The Creeds", icon: "📜", color: "#3B82F6", body: "The Apostles' Creed, Nicene Creed, and Chalcedonian Definition are the church fathers' most lasting gift. Every Sunday when a congregation recites 'I believe in God the Father Almighty, maker of heaven and earth...' they are speaking words forged in the fires of 4th-century controversy. These creeds are ecumenical consensus across Catholic, Orthodox, and Protestant Christianity — the minimum of Christian orthodoxy." },
+  { title: "Scriptural Interpretation", icon: "📖", color: "#10B981", body: "The Patristic interpretive tradition — allegorical (Origen), typological (Irenaeus, Augustine), and historical-grammatical — provides resources for contemporary biblical interpretation. The church's best hermeneutics have always been responsive to the fathers. The Reformation, which could seem to break with tradition, was actually a return to Patristic exegesis: Calvin frequently cited Augustine, Chrysostom, and Jerome." },
+  { title: "Christian Worship", icon: "🕯️", color: PURPLE, body: "The shape of Christian worship — gathering, Word, Table, sending — was developed by the church fathers and described in documents like the Didache (c. 100 AD), Justin Martyr's First Apology (c. 155 AD), and the Apostolic Tradition (c. 215 AD). The liturgical traditions of Catholic, Orthodox, Anglican, and Lutheran Christianity are direct inheritances. Even free-church evangelicalism follows a shape it doesn't always know came from the fathers." },
+  { title: "Monasticism and Spiritual Disciplines", icon: "🏔️", color: "#F59E0B", body: "The desert fathers (Anthony, Pachomius, the Cappadocians) developed the spiritual disciplines that have shaped Christian formation for 1700 years: fasting, silence, lectio divina, regular prayer, confession, and community. Benedict's Rule (6th century) structured this inheritance into a sustainable form. The modern spiritual formation movement — Dallas Willard, Richard Foster, Henri Nouwen — is largely a rediscovery of Patristic practice." },
+  { title: "Apologetics and Public Theology", icon: "🎓", color: "#EF4444", body: "Justin Martyr, Tertullian, Clement, and Origen developed the model of Christian intellectual engagement with secular philosophy and public life. Their approach — taking the best of the surrounding culture seriously, exposing its incoherence, and showing how Christianity answers what the culture asks — remains the template for Christian apologetics. Kuyper, Lewis, Schaeffer, and Keller are all, in different ways, practicing Justin's method." },
+  { title: "The Church as Community", icon: "⛪", color: "#0EA5E9", body: "Ignatius of Antioch, Cyprian of Carthage, and Augustine developed a robust theology of the church as a visible, episcopal, sacramental community — not merely an invisible fellowship of those who believe correctly. This ecclesiology — its structures, its discipline, its sacramental life — is the ancestor of both Catholic-Orthodox ecclesiology and (via the Reformation's response) Protestant ecclesiology. The argument about the nature of the church never ended; it was forged in the Patristic era." },
+];
+
+
 const FATHERS = [
   {
     name: "Ignatius of Antioch",
@@ -100,6 +120,7 @@ const PERIODS = ["All", "Apostolic", "Apologist", "Anti-Gnostic", "Nicene", "Lat
 export default function ChurchFathersPage() {
   const [selected, setSelected] = useState<string | null>("Athanasius of Alexandria");
   const [period, setPeriod] = useState("All");
+  const [activeTab, setActiveTab] = useState<Tab>("fathers");
 
   const filtered = period === "All" ? FATHERS : FATHERS.filter(f => f.period === period);
   const father = FATHERS.find(f => f.name === selected);
@@ -115,6 +136,58 @@ export default function ChurchFathersPage() {
           </p>
         </div>
 
+        <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
+          {[
+            { id: "fathers" as const, label: "The Fathers", icon: "📜" },
+            { id: "theology" as const, label: "Theology", icon: "📖" },
+            { id: "legacy" as const, label: "Legacy", icon: "🏛️" },
+          ].map(t => (
+            <button key={t.id} onClick={() => setActiveTab(t.id)}
+              style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+              {t.icon} {t.label}
+            </button>
+          ))}
+        </div>
+
+        {activeTab === "theology" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 24 }}>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>
+                The church fathers did not invent Christian theology — they clarified and defended it under the pressure of heresy and controversy. These are the five most consequential theological developments of the Patristic era.
+              </p>
+            </div>
+            {THEOLOGY_DEVELOPMENTS.map((t, i) => (
+              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 16 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                  <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, margin: 0 }}>{t.title}</h3>
+                  <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700, flexShrink: 0, marginLeft: 12 }}>{t.era}</span>
+                </div>
+                <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 15, margin: 0 }}>{t.body}</p>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {activeTab === "legacy" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 24 }}>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>
+                The church fathers are not museum pieces. Their theology, their practices, and their forms of community are still operating in every Christian church — whether or not the congregation knows it. Here is where their legacy is most visible.
+              </p>
+            </div>
+            {LEGACY_ITEMS.map((l, i) => (
+              <div key={i} style={{ background: CARD, border: `1px solid ${l.color}30`, borderRadius: 12, padding: 22, marginBottom: 12 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
+                  <span style={{ fontSize: 22 }}>{l.icon}</span>
+                  <h3 style={{ color: l.color, fontWeight: 800, fontSize: 17, margin: 0 }}>{l.title}</h3>
+                </div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{l.body}</p>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {activeTab === "fathers" && <div>
         <div style={{ display: "flex", gap: 6, marginBottom: 20, flexWrap: "wrap", justifyContent: "center" }}>
           {PERIODS.map(p => (
             <button key={p} onClick={() => setPeriod(p)}
@@ -167,6 +240,7 @@ export default function ChurchFathersPage() {
             </div>
           )}
         </div>
+        </div>}
       </div>
     </div>
   );

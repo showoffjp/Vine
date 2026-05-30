@@ -28,6 +28,56 @@ const SCRIPTURE_REMEDIES = [
   { verse: "Isaiah 26:3", text: "You will keep in perfect peace those whose minds are steadfast, because they trust in you.", focus: "Trust produces peace" },
 ];
 
+type Tab = "foundations" | "voices" | "practices" | "journal";
+
+const VOICES = [
+  {
+    id: "welch",
+    name: "Ed Welch",
+    era: "1953-present",
+    context: "Biblical counselor; CCEF (Christian Counseling and Educational Foundation)",
+    bio: "Welch's 'Running Scared: Fear, Worry, and the God of Rest' (2007) is the most thorough biblical counseling treatment of anxiety. His framework: we are anxious because we want things we cannot control — security, love, physical safety, reputation. The cure is not getting those things but having our wants reoriented by a deeper want: God himself. Welch takes both the spiritual and physiological dimensions of anxiety seriously, resisting the reductionism that treats anxiety as either purely spiritual or purely medical.",
+    quote: "Anxiety is not primarily about what we fear losing. It is about what we love. Show me what you are anxious about, and I will show you what you love. And the answer to misplaced love is not the suppression of love but the redirection of it.",
+    contribution: "Welch helped evangelical Christians move beyond the simplistic 'just trust God' response to anxiety by showing that anxiety is diagnostic of loves — it reveals what we have made most important. This reframe moves the solution from willpower to worship: the cure for anxiety is not trying harder to trust but actually treasuring God more. His work also provided a framework for integrating medical treatment of anxiety with spiritual formation.",
+  },
+  {
+    id: "ortlund",
+    name: "Dane Ortlund",
+    era: "1978-present",
+    context: "Reformed pastor; author of Gentle and Lowly",
+    bio: "Ortlund's 'Gentle and Lowly: The Heart of Christ for Sinners and Sufferers' (2020) addresses anxiety through the lens of Christ's disposition — his tender approachability — rather than through techniques or theology of anxiety itself. His argument: the primary reason anxious Christians remain anxious is that they have a distorted picture of Christ's heart toward them. They imagine a disappointed, impatient, or distant Christ. The healing begins when they encounter the one who says 'Come to me, all who are weary and burdened' — not reluctantly but eagerly.",
+    quote: "Christ is not trigger-happy. He is the safest person in the universe for the anxious soul to approach. He has already seen the worst about you and decided to draw near, not pull away.",
+    contribution: "Ortlund provided a Christological rather than primarily behavioral or cognitive approach to anxiety: the foundation of peace is not better coping mechanisms but a truer vision of who Christ is. His work resonated widely because it addressed the shame that often accompanies anxiety in evangelical contexts — the feeling that anxiety itself is evidence of spiritual failure. Ortlund's response: it is evidence of need, and Christ meets need with gentleness, not rebuke.",
+  },
+  {
+    id: "hart",
+    name: "Archibald Hart",
+    era: "1940-present",
+    context: "Clinical psychologist; Fuller Seminary; Adrenaline and Stress",
+    bio: "Hart's 'The Anxiety Cure' and 'Adrenaline and Stress' are the most widely-read Christian psychological treatments of anxiety. A clinical psychologist and professor at Fuller Seminary, Hart's distinctives: anxiety has a strong physiological component (driven by the adrenal system) that requires embodied interventions — sleep, exercise, slowing down — not merely spiritual ones. He critiques the tendency in Christian culture to spiritualize anxiety in ways that prevent people from getting appropriate medical care.",
+    quote: "God created our adrenal system. Anxiety is not a spiritual failure — it is often a physiological alarm system that has gotten stuck in the 'on' position. Addressing it requires attending to the body, not just the soul.",
+    contribution: "Hart gave Christian clinicians and pastors a framework for integrating physiological and spiritual dimensions of anxiety care. His insistence that the body matters — that sleep deprivation, chronic adrenaline activation, and physical health directly affect anxiety levels — provided a corrective to purely spiritual approaches. He helped countless pastors refer church members appropriately to medical care without treating this as a failure of faith.",
+  },
+  {
+    id: "keller",
+    name: "Tim Keller",
+    era: "1950-2023",
+    context: "Presbyterian pastor; Redeemer NYC; author of Walking with God through Pain and Suffering",
+    bio: "Keller addressed anxiety most directly in his sermon series on Psalms and his book 'Walking with God through Pain and Suffering' (2013). His approach: anxiety is a species of unbelief — not intellectual atheism but practical unbelief, the functional assumption that God is not as present, as powerful, or as good as Scripture says. The cure is not positive thinking but the slow, deliberate work of preaching the gospel to yourself — reminding the anxious soul of truths it has intellectually accepted but emotionally forgotten.",
+    quote: "Anxiety is not a character flaw. It is a failure of the imagination to hold God's promises as more real than the circumstances that terrify us. The cure is not willpower — it is imagination retrained by the gospel.",
+    contribution: "Keller developed the concept of 'preaching the gospel to yourself' as the primary spiritual discipline for managing anxiety. He made the distinction between belief-that (intellectual assent) and belief-in (experiential trust) — and showed that anxiety often arises from the gap between them. His pastoral approach was non-shaming: he took anxiety seriously as a real struggle rather than a spiritual embarrassment, while refusing to reduce it to purely physiological or psychological causes.",
+  },
+  {
+    id: "robinson",
+    name: "Marilynne Robinson",
+    era: "1943-present",
+    context: "Pulitzer Prize-winning novelist; Gilead; essayist",
+    bio: "Robinson does not write directly about anxiety but about fear — particularly the cultural fear that drives so much of Western political and social life. Her essays in 'When I Was a Child I Read Books' and 'The Givenness of Things' argue that a culture shaped by fear is a culture that has lost its theological imagination. The antidote to fear, in Robinson's vision, is the recovery of wonder — of the staggering beauty and gratuity of existence. She makes the case that Christian faith, properly understood, produces not anxiety but an almost reckless generosity and openness.",
+    quote: "Fear is not a Christian virtue. We are to be people of hope, and hope is always about what we cannot see or control. The anxious soul has forgotten that it is held by something larger than what it can manage.",
+    contribution: "Robinson gave literary and cultural expression to what theologians argue about anxiety: that it is ultimately a failure of wonder, an inability to receive the present moment as gift. Her essays are not self-help resources but they do something that self-help cannot: they create a vision of a way of being in the world that is genuinely free from anxiety because it is genuinely open to God. She is the most important prose stylist in contemporary American Christian literature.",
+  },
+];
+
 interface AnxietyEntry {
   id: string;
   date: string;
@@ -36,7 +86,9 @@ interface AnxietyEntry {
 }
 
 export default function AnxietyPage() {
-  const [activeTab, setActiveTab] = useState<"foundations" | "practices" | "journal">("foundations");
+  const [activeTab, setActiveTab] = useState<Tab>("foundations");
+  const [selectedVoice, setSelectedVoice] = useState("welch");
+  const voice = VOICES.find(v => v.id === selectedVoice)!;
   const [entries, setEntries] = useState<AnxietyEntry[]>(() => {
     try { const s = localStorage.getItem("vine_anxiety_journal"); return s ? JSON.parse(s) : []; } catch { return []; }
   });
@@ -67,6 +119,7 @@ export default function AnxietyPage() {
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
             { id: "foundations" as const, label: "Foundations", icon: "📖" },
+            { id: "voices" as const, label: "Voices", icon: "💬" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
             { id: "journal" as const, label: "Fear Journal", icon: "✍️" },
           ].map(t => (
@@ -100,6 +153,38 @@ export default function AnxietyPage() {
                     <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.6, fontStyle: "italic", margin: 0 }}>"{s.text}"</p>
                   </div>
                 ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "voices" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 210, flexShrink: 0 }}>
+              {VOICES.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ width: "100%", background: selectedVoice === v.id ? `${PURPLE}18` : "transparent", border: `1px solid ${selectedVoice === v.id ? PURPLE + "70" : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 6, cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: selectedVoice === v.id ? PURPLE : TEXT, fontWeight: 800, fontSize: 13, marginBottom: 2 }}>{v.name}</div>
+                  <div style={{ color: MUTED, fontSize: 11 }}>{v.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ background: CARD, border: `1px solid ${PURPLE}30`, borderRadius: 14, padding: 28 }}>
+                <div style={{ marginBottom: 20 }}>
+                  <div style={{ color: MUTED, fontWeight: 700, fontSize: 11, marginBottom: 4 }}>{voice.era}</div>
+                  <h2 style={{ color: PURPLE, fontWeight: 900, fontSize: 24, marginBottom: 4 }}>{voice.name}</h2>
+                  <div style={{ color: MUTED, fontSize: 13 }}>{voice.context}</div>
+                </div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, marginBottom: 20 }}>{voice.bio}</p>
+                <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 10, padding: 18, marginBottom: 16 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 11, marginBottom: 10 }}>IN THEIR OWN WORDS</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0, fontStyle: "italic" }}>&ldquo;{voice.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: BG, borderRadius: 10, padding: 16 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>KEY CONTRIBUTION</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{voice.contribution}</p>
+                </div>
               </div>
             </div>
           </div>

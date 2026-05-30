@@ -47,6 +47,14 @@ const WEEKS = [
   },
 ];
 
+const VOICES_ADVENT = [
+  { id: "rutledge", name: "Fleming Rutledge", era: "b. 1937", context: "Episcopal priest; Advent: The Once and Future Coming of Jesus Christ (2018)", bio: "Rutledge's magisterial Advent is the definitive contemporary theological treatment of the season. She argues that Advent is the most radical season of the Christian year because it refuses to let the church avoid the darkness — the darkness of history, of human violence, of judgment, and of the long waiting for redemption. The season does not begin with a baby in a manger; it begins with apocalyptic expectation. She rescues Advent from sentimentality and relocates it in eschatological urgency.", quote: "Advent begins in the dark. That is its proper setting. We do not begin by looking at the manger scene.", contribution: "Recovered Advent's eschatological dimension for mainline Protestants who had domesticated the season into pre-Christmas nostalgia. Her insistence that Advent begins with the Second Coming before the First is theologically decisive." },
+  { id: "bonhoeffer", name: "Dietrich Bonhoeffer", era: "1906-1945", context: "Confessing Church theologian; Letters and Papers from Prison", bio: "Bonhoeffer's Advent sermons and letters were written under conditions of genuine waiting — imprisonment, uncertainty, and the threat of death. His reflections on waiting for God, on the silence between promise and fulfillment, carry an authority no comfortable preacher can replicate. He wrote: 'We must learn to wait, as Abraham and Moses and the whole Bible teaches us to wait.' Waiting, for Bonhoeffer, was not passivity but active faith in a God who acts in his own time.", quote: "The celebration of Advent is possible only to those who are troubled in soul, who know themselves to be poor and imperfect, and who look forward to something greater to come.", contribution: "Made Advent theology credible under conditions of real suffering. His writing showed that waiting for God's justice and redemption is not pietistic escapism — it is the form faith takes when it refuses to pretend the world is fixed." },
+  { id: "barth", name: "Karl Barth", era: "1886-1968", context: "Reformed theologian; Church Dogmatics; Advent sermons in Basel Prison", bio: "Barth preached Advent sermons regularly to prisoners in Basel from 1954 to 1964 — men who had reason to know what it meant to wait in darkness. His theological framework placed Advent at the center of all Christian existence: the whole of Christian life is a form of waiting for the Lord who has come and will come again. The 'already' and 'not yet' of eschatology is Barth's fundamental structure for understanding history and hope.", quote: "To be a Christian is to be a human being on the way — always on the way toward the One who comes.", contribution: "Grounded Advent's waiting in the full sweep of Reformed eschatology. His prison sermons demonstrated that the hope of Christ's coming is not for the comfortable but for those for whom the world's systems have already failed." },
+  { id: "wright", name: "N.T. Wright", era: "b. 1948", context: "Surprised by Hope (2008); For All the Saints; Bishop of Durham", bio: "Wright's contribution to Advent theology comes primarily through his work on resurrection and eschatology. He argues that Christian hope is not about escaping the world but about God's new creation breaking into and renewing the present one. This is decisive for Advent: we are not waiting for rescue from earth but for the coming King who will make all things new. Advent, properly understood, is about the renewal of creation rather than its abandonment.", quote: "Christian hope is not about escaping the present world but about God's new creation — the joining of heaven and earth — which has already begun in Jesus's resurrection.", contribution: "Corrected a Gnostic drift in Protestant Advent piety — the idea that Christ's coming will evacuate the world. Wright's new creation eschatology gives Advent both urgency and groundedness." },
+  { id: "alexander", name: "Cecil Frances Alexander", era: "1818-1895", context: "Hymn writer; 'Once in Royal David's City'; 'There Is a Green Hill Far Away'", bio: "Alexander wrote some of the most enduring Advent and Christmas hymns in the English language. 'Once in Royal David's City' — with its opening line linking Bethlehem's stable to the heavenly throne room — is sung every year as the processional at the Festival of Nine Lessons and Carols at King's College, Cambridge. Her gift was for making the theology of Advent and Christmas concrete and accessible without reducing it to sentiment. She wrote hymns to teach doctrine to children, and the doctrine stuck.", quote: "Once in royal David's city stood a lowly cattle shed, where a mother laid her baby in a manger for his bed: Mary was that mother mild, Jesus Christ her little child.", contribution: "Demonstrated that Advent and Christmas theology can be carried by congregational song. Her hymns have shaped the theological formation of millions who could not read systematic theology but could sing it." },
+];
+
 const TRADITIONS = [
   { title: "The Advent Wreath", desc: "Four candles on a circular wreath, one lit each Sunday, representing the four weeks of Advent. The circle represents eternity; the evergreen represents life that does not die; the candles represent the growing light of Christ coming into the world. The Christ candle in the center is lit on Christmas Day.", origin: "German Lutheran, 16th century" },
   { title: "The Jesse Tree", desc: "A tree (or branch) on which ornaments are hung daily throughout Advent, each representing a person or story in the genealogy of Jesus — from Adam to Mary. It traces the entire storyline of Scripture that culminates in the Incarnation.", origin: "Medieval, based on Isaiah 11:1" },
@@ -60,7 +68,9 @@ interface AdventDone {
 }
 
 export default function AdventPage() {
-  const [activeTab, setActiveTab] = useState<"guide" | "traditions" | "tracker">("guide");
+  const [activeTab, setActiveTab] = useState<"guide" | "voices" | "traditions" | "tracker">("guide");
+  const [selectedVoice, setSelectedVoice] = useState("rutledge");
+  const voiceItem = VOICES_ADVENT.find(v => v.id === selectedVoice)!;
   const [selectedWeek, setSelectedWeek] = useState(1);
   const [done, setDone] = useState<AdventDone>(() => {
     try { const s = localStorage.getItem("vine_advent_done"); return s ? JSON.parse(s) : {}; } catch { return {}; }
@@ -87,6 +97,7 @@ export default function AdventPage() {
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
             { id: "guide" as const, label: "Week Guide", icon: "📖" },
+            { id: "voices" as const, label: "Voices", icon: "💬" },
             { id: "traditions" as const, label: "Traditions", icon: "⛪" },
             { id: "tracker" as const, label: "Reading Tracker", icon: "✅" },
           ].map(t => (
@@ -138,6 +149,35 @@ export default function AdventPage() {
                 <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 10, padding: 16 }}>
                   <div style={{ color: GREEN, fontWeight: 700, fontSize: 12, marginBottom: 6 }}>PRACTICE</div>
                   <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, margin: 0 }}>{week.practice}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "voices" && (
+          <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
+            <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
+              {VOICES_ADVENT.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ background: selectedVoice === v.id ? PURPLE : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: TEXT, fontWeight: 700, fontSize: 14 }}>{v.name}</div>
+                  <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{v.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 28 }}>
+                <h2 style={{ color: GREEN, fontWeight: 900, fontSize: 22, margin: "0 0 4px" }}>{voiceItem.name}</h2>
+                <div style={{ color: PURPLE, fontSize: 13, fontWeight: 700, marginBottom: 6 }}>{voiceItem.era}</div>
+                <div style={{ color: MUTED, fontSize: 13, marginBottom: 16 }}>{voiceItem.context}</div>
+                <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 15, marginBottom: 20 }}>{voiceItem.bio}</p>
+                <div style={{ background: BG, borderLeft: `3px solid ${GREEN}`, borderRadius: "0 8px 8px 0", padding: "14px 18px", marginBottom: 20 }}>
+                  <p style={{ color: GREEN, fontStyle: "italic", fontSize: 15, lineHeight: 1.7, margin: 0 }}>&ldquo;{voiceItem.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: `${PURPLE}15`, borderRadius: 10, padding: 16 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>Contribution to Advent Theology</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, margin: 0 }}>{voiceItem.contribution}</p>
                 </div>
               </div>
             </div>

@@ -33,6 +33,54 @@ const PRACTICES = [
   "Commit to at least one friendship long-term through all transitions",
 ];
 
+const VOICES_FRIENDSHIP = [
+  {
+    id: "lewis",
+    name: "C.S. Lewis",
+    era: "1898-1963",
+    context: "Oxford don, author; The Four Loves (1960)",
+    bio: "Lewis's The Four Loves devotes an entire chapter to friendship (philia) — arguing it is the least biological and most spiritual of the loves. He describes it as born in the moment when two people discover a shared insight or passion: 'What! You too?' He laments that modernity undervalues friendship because it produces nothing economically useful. For Lewis, a good friendship enlarges the soul in ways no other relationship can, because each friend sees aspects of the others that no one else sees.",
+    quote: "Friendship is unnecessary, like philosophy, like art, like the universe itself (for God did not need to create). It has no survival value; rather it is one of those things which give value to survival.",
+    contribution: "Made friendship philosophically and spiritually serious at a time when modern culture had reduced it to networking. The Four Loves remains the definitive Christian account of friendship and the one text most likely to make a reader pursue deeper friendship."
+  },
+  {
+    id: "bonhoeffer",
+    name: "Dietrich Bonhoeffer",
+    era: "1906-1945",
+    context: "German pastor; Life Together (1939); martyred by the Nazis",
+    bio: "Life Together was written out of Bonhoeffer's experience leading the illegal Finkenwalde seminary, where pastors lived in intentional community under the Nazi regime. The book describes what genuine Christian community requires: common prayer, shared meals, confession, silence, service. Bonhoeffer was clear that Christian community is based not on human affinity or personality but on the fact that Christ stands between each member. We love each other not for who we are but because of who Christ is.",
+    quote: "He who loves his dream of a community more than the Christian community itself becomes a destroyer of the latter, even though his personal intentions may be ever so honest and earnest and sacrificial.",
+    contribution: "Grounded Christian community in Christology rather than sentimentality. His warning against 'the dream of community' — the fantasy of what friendship should be — that destroys actual community is the most important caution for anyone who has been hurt by church or friendship."
+  },
+  {
+    id: "hill",
+    name: "Wesley Hill",
+    era: "b. 1981",
+    context: "Anglican scholar; Spiritual Friendship (2015); professor at Trinity School for Ministry",
+    bio: "Wesley Hill writes as a gay celibate Christian who has thought more carefully about friendship than almost anyone in contemporary evangelical scholarship. Spiritual Friendship argues that the church has impoverished itself by treating friendship as a lesser relationship — inferior to marriage and family — when the historic church and Scripture itself treated deep covenantal friendship as one of the highest goods. He recovers figures like Aelred of Rievaulx who wrote about the spirituality of same-sex Christian friendship.",
+    quote: "The church's task is not to make gay people straight but to make all people holy — and that includes fostering the kinds of deep, covenantal friendships that give gay Christians (and many straight ones) a real home.",
+    contribution: "Recovered spiritual friendship as a theological category, drawing on patristic and medieval sources that modern evangelicalism had ignored. His work has been especially important for gay Christians navigating celibacy, but its implications reach every Christian who wants deeper community."
+  },
+  {
+    id: "tripp",
+    name: "Paul David Tripp",
+    era: "b. 1950",
+    context: "Pastor; Instruments in the Redeemer's Hands (2002)",
+    bio: "Tripp's Instruments in the Redeemer's Hands reframes friendship as a vehicle for God's sanctifying work. His argument: everyone is being shaped by something, and the people closest to you are God's primary instruments for your transformation. This means biblical friendship is intentional about speaking truth — not just enjoying each other but helping each other become who God calls them to be. The biblical language he uses is 'speaking the truth in love' (Ephesians 4:15): friendship that has enough love to be honest and enough honesty to be truly loving.",
+    quote: "We are all in the middle of our own stories. None of us have arrived. We all need people who love us enough to get in our faces and refuse to let us settle for less than God intends.",
+    contribution: "Made friendship missional — not merely pleasant but purposefully formative. His framework of 'speaking truth in love' gives ordinary Christians language for the kind of honest, accountable friendship that produces genuine change."
+  },
+  {
+    id: "aelred",
+    name: "Aelred of Rievaulx",
+    era: "1110-1167",
+    context: "Cistercian abbot; Spiritual Friendship (c. 1160)",
+    bio: "Aelred's Spiritual Friendship, modeled on Cicero's De Amicitia, is the most sophisticated treatment of Christian friendship in the medieval tradition. Writing from a monastic community, he argues that spiritual friendship — rooted in virtue and oriented toward God — is not merely a human good but a path to union with Christ. His famous line: 'God is friendship.' The ascent from human friendship to friendship with God is not a distraction from spiritual life but one of its primary pathways.",
+    quote: "What more sublime can be said of friendship, what more true, what more profitable, than that it ought to begin in Christ, continue in Christ, and be perfected in Christ?",
+    contribution: "Established the theological framework for understanding deep friendship as a path to God rather than a distraction from him. His work, recovered by Wesley Hill and others, is reshaping how evangelicals think about Christian community."
+  }
+];
+
 interface Friend {
   id: string;
   name: string;
@@ -47,7 +95,9 @@ const SEED: Friend[] = [
 ];
 
 export default function FriendshipPage() {
-  const [activeTab, setActiveTab] = useState<"theology" | "obstacles" | "practice">("theology");
+  const [activeTab, setActiveTab] = useState<"theology" | "voices" | "obstacles" | "practice">("theology");
+  const [selectedVoice, setSelectedVoice] = useState("lewis");
+  const voiceItem = VOICES_FRIENDSHIP.find(v => v.id === selectedVoice)!;
   const [friends, setFriends] = useState<Friend[]>(() => {
     try { const s = localStorage.getItem("vine_friendship_list"); return s ? JSON.parse(s) : SEED; } catch { return SEED; }
   });
@@ -83,6 +133,7 @@ export default function FriendshipPage() {
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
             { id: "theology" as const, label: "Theology", icon: "📖" },
+            { id: "voices" as const, label: "Voices", icon: "💬" },
             { id: "obstacles" as const, label: "Obstacles", icon: "🚧" },
             { id: "practice" as const, label: "My Friends", icon: "🤝" },
           ].map(t => (
@@ -104,6 +155,43 @@ export default function FriendshipPage() {
                 <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 15, margin: 0 }}>{t.body}</p>
               </div>
             ))}
+          </div>
+        )}
+
+        {activeTab === "voices" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 210, flexShrink: 0 }}>
+              {VOICES_FRIENDSHIP.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ width: "100%", background: selectedVoice === v.id ? `${PURPLE}18` : "transparent", border: `1px solid ${selectedVoice === v.id ? PURPLE + "80" : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 6, cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: selectedVoice === v.id ? TEXT : MUTED, fontWeight: 700, fontSize: 13 }}>{v.name}</div>
+                  <div style={{ color: MUTED, fontSize: 11, marginTop: 2 }}>{v.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ background: CARD, border: `1px solid ${PURPLE}30`, borderRadius: 14, padding: 28 }}>
+                <div style={{ marginBottom: 18 }}>
+                  <h2 style={{ color: TEXT, fontWeight: 900, fontSize: 22, marginBottom: 4 }}>{voiceItem.name}</h2>
+                  <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                    <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700 }}>{voiceItem.era}</span>
+                    <span style={{ background: `${GREEN}15`, color: GREEN, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700 }}>{voiceItem.context}</span>
+                  </div>
+                </div>
+                <div style={{ marginBottom: 18 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>LIFE & TEACHING</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>{voiceItem.bio}</p>
+                </div>
+                <div style={{ background: BG, borderLeft: `3px solid ${PURPLE}`, borderRadius: "0 10px 10px 0", padding: 18, marginBottom: 18 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 11, marginBottom: 8 }}>CHARACTERISTIC QUOTE</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0, fontStyle: "italic" }}>&ldquo;{voiceItem.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 10, padding: 16 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>CONTRIBUTION</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{voiceItem.contribution}</p>
+                </div>
+              </div>
+            </div>
           </div>
         )}
 

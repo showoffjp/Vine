@@ -12,6 +12,56 @@ const THEOLOGY = [
   { title: "Generous and Content", verse: "Philippians 4:11-12", body: "Paul's testimony from prison: 'I have learned, in whatever state I am, to be content. I know how to be brought low, and I know how to abound. In any and every circumstance, I have learned the secret of facing plenty and hunger' (Philippians 4:11-12). Contentment is learned — it is a practiced skill, not a passive feeling. The secret Paul discovered is Christ as the source of sufficiency (4:13). Contentment and generosity are the double fruit of a life secured in God rather than money." },
 ];
 
+type Tab = "theology" | "voices" | "pitfalls" | "practices";
+
+const VOICES_MONEY = [
+  {
+    id: "chrysostom",
+    name: "John Chrysostom",
+    era: "c. 347-407",
+    context: "Archbishop of Constantinople; prolific homilist",
+    bio: "Chrysostom (Greek for 'golden-mouthed') was the most prolific and pointed preacher on wealth in the early church. Archbishop of Constantinople from 398, he preached in the capital of the Roman Empire to congregations that included both the extremely wealthy and the destitute poor. His homilies on Matthew, on Romans, and specifically on 1 Timothy 6 are devastating indictments of wealth hoarded while the poor suffer. He did not merely moralize — he argued that the surplus wealth of the rich already belongs, in justice, to the poor who lack necessities. He was eventually exiled after offending the Empress Eudoxia with his preaching.",
+    quote: "Not to share what we have with others is to steal from them and to take away their livelihood. The wealth you hold back belongs not to you but to the poor. The bread you store up belongs to the hungry; the coat in your closet belongs to the naked; the shoes rotting in your attic belong to those who have none.",
+    contribution: "Chrysostom established the patristic consensus that wealth is not neutral — excess wealth held while others lack necessities is a form of injustice, not merely a missed opportunity for generosity. This is a stronger claim than most evangelical financial teaching makes. His homilies remain the strongest prophetic challenge to comfortable Christianity about wealth, and his exile for preaching them demonstrates the cost of fidelity on this subject.",
+  },
+  {
+    id: "francis",
+    name: "Francis of Assisi",
+    era: "1181-1226",
+    context: "Founder of the Franciscans; son of a wealthy merchant",
+    bio: "Francis was the son of a wealthy cloth merchant who, following a dramatic conversion experience, stripped himself naked in the public square, returned his father's clothes, and embraced radical poverty as a vocation. His order — the Friars Minor — was constituted around the poverty of Jesus: owning nothing, working with hands, begging when necessary, serving the poor and the lepers. Francis did not merely counsel moderation with wealth; he believed the imitation of Christ required the literal renunciation of property. His life was a living sermon on the incompatibility of accumulated wealth and the following of Jesus — and his influence on Christian moral imagination about money has been enormous.",
+    quote: "It is no use walking anywhere to preach unless our walking is our preaching. I have been all things unholy. If God can work through me, he can work through anyone.",
+    contribution: "Francis made voluntary poverty a prophetic sign rather than a private spiritual discipline. By embodying the poverty of Christ before wealthy medieval society, he demonstrated that Christian love for money is a contradiction in terms. His influence on later reform movements (including the Protestant Reformation's critique of ecclesial wealth) was significant. Even for Christians who do not embrace his literal poverty, his life poses the question that wealth tends to suppress: what does following Jesus actually cost?",
+  },
+  {
+    id: "luther",
+    name: "Martin Luther",
+    era: "1483-1546",
+    context: "Reformer; professor of theology; Large Catechism (1529)",
+    bio: "Luther's treatment of the Seventh Commandment in the Large Catechism (1529) contains some of the most direct teaching on economic justice in the Reformation. He condemned usury (lending at interest), price-gouging, market manipulation, and the various ways the wealthy extract money from the poor through commerce. His theology of vocation — that all legitimate work is a form of service to the neighbor — provided the foundation for a Protestant work ethic that was emphatically not about personal accumulation but about service. The Reformation critique of indulgences was partly economic: money paid for spiritual benefit was the quintessential example of treating God's grace as a commodity.",
+    quote: "Let each person serve his neighbor through his vocation. This is how love works in the world — not through mystical elevation above ordinary life, but through the daily bread given and received, the shoe made and paid for, the sick cared for.",
+    contribution: "Luther's theology of vocation desacralized the economy without secularizing it — all work is holy service to the neighbor, which means all economic exchange is subject to moral evaluation. His condemnation of usury and market manipulation challenged the emerging commercial capitalism of his day with the same directness as his challenge to indulgences. This economic theology provided a framework for Protestants to evaluate not just their giving but their entire economic life.",
+  },
+  {
+    id: "wesley_m",
+    name: "John Wesley",
+    era: "1703-1791",
+    context: "Methodist founder; preacher to the poor; social reformer",
+    bio: "Wesley's three-word financial ethic — gain all you can, save all you can, give all you can — was not abstract theology but a direct response to the economic conditions of eighteenth-century England. He preached primarily to the poor and working class, and his movement produced widespread economic transformation: alcoholism decreased, savings increased, financial responsibility spread. He opposed slavery as an economic system, warned against the corrupting effects of Methodist prosperity (as Methodists became prosperous through their virtues, they faced the temptation to hoard), and kept his personal spending fixed while directing all additional income to the poor.",
+    quote: "When I have money, I get rid of it quickly, lest it find a way into my heart. I earn much, but I give away more. And the more I give, the more I seem to receive.",
+    contribution: "Wesley demonstrated that financial transformation follows spiritual transformation — the Methodist movement's social impact was measurable in economic terms. His concern about success-produced complacency ('wherever riches have increased, the essence of religion has decreased in the same proportion') anticipates the dilemma of every affluent Western Christian: how to be prosperous without being captured by prosperity. His own practice of fixed personal expenses with escalating generosity remains one of the most practical financial models in Christian history.",
+  },
+  {
+    id: "piper",
+    name: "John Piper",
+    era: "1946-present",
+    context: "Pastor; Desiring God Ministries; Battling Unbelief",
+    bio: "Piper's 'Desiring God' (1986) reframed Christian ethics including financial ethics around the concept of Christian Hedonism: God is most glorified in us when we are most satisfied in him. Applied to money, this means that the satisfaction available in God makes the satisfaction promised by money look cheap. The desire for wealth is not wrong — it is misdirected. Redirect that desire to God, and money loses its power. Piper's 'Battling Unbelief' extends this: anxiety about money is a form of unbelief, because it treats future provision as dependent on our management rather than God's faithfulness. He himself took a modest salary and declined royalties from many speaking engagements.",
+    quote: "The battle against the love of money is not the battle to be indifferent to wealth. It is the battle to find in God a satisfaction so superior to wealth that the compulsive power of money is broken.",
+    contribution: "Piper integrated financial ethics into his larger theology of desire and satisfaction in God. His framework shifted the question from 'how much should I give?' to 'what am I ultimately seeking?' The person who has found in God a satisfaction greater than money gives freely because money has lost its power to promise what God actually provides. This approach addressed the heart rather than the wallet — which is why Jesus addressed it at the level of treasure ('where your treasure is, there your heart will be').",
+  },
+];
+
 const PITFALLS = [
   { pitfall: "Lifestyle Inflation", desc: "Every pay raise is consumed by higher spending rather than increased giving or saving. The standard of living rises in lockstep with income, leaving the same percentage available for giving and the same sense of scarcity despite more.", response: "Decide in advance that a set percentage of any income increase goes to giving and savings before lifestyle adjusts. The time to decide is before the money arrives, not after you've built new expectations." },
   { pitfall: "Debt as Normal Life", desc: "Consumer debt — car loans, credit cards, student loans, mortgages — is so normalized that carrying significant interest-bearing debt feels like ordinary financial life rather than a constraint on freedom and generosity.", response: "Debt is not neutral; it is future servitude. Pay off consumer debt aggressively and avoid new debt outside of carefully considered mortgage decisions. Freedom from debt creates margin for generosity." },
@@ -30,8 +80,10 @@ const PRACTICES = [
 ];
 
 export default function ChristianMoneyPage() {
-  const [activeTab, setActiveTab] = useState<"theology" | "pitfalls" | "practices">("theology");
+  const [activeTab, setActiveTab] = useState<Tab>("theology");
   const [expanded, setExpanded] = useState<string | null>(null);
+  const [selectedVoice, setSelectedVoice] = useState("chrysostom");
+  const voiceItem = VOICES_MONEY.find(v => v.id === selectedVoice)!;
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 40 }}>
@@ -47,6 +99,7 @@ export default function ChristianMoneyPage() {
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
             { id: "theology" as const, label: "Theology", icon: "📖" },
+            { id: "voices" as const, label: "Voices", icon: "💬" },
             { id: "pitfalls" as const, label: "Common Pitfalls", icon: "⚠️" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
           ].map(t => (
@@ -68,6 +121,38 @@ export default function ChristianMoneyPage() {
                 <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 15, margin: 0 }}>{t.body}</p>
               </div>
             ))}
+          </div>
+        )}
+
+        {activeTab === "voices" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8 }}>
+              {VOICES_MONEY.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ background: selectedVoice === v.id ? `${PURPLE}20` : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", textAlign: "left", cursor: "pointer" }}>
+                  <div style={{ color: TEXT, fontWeight: 700, fontSize: 13 }}>{v.name}</div>
+                  <div style={{ color: MUTED, fontSize: 11, marginTop: 2 }}>{v.era}</div>
+                  <div style={{ color: MUTED, fontSize: 11 }}>{v.context}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28 }}>
+                <div style={{ marginBottom: 20 }}>
+                  <div style={{ color: TEXT, fontWeight: 900, fontSize: 20, marginBottom: 4 }}>{voiceItem.name}</div>
+                  <div style={{ color: MUTED, fontSize: 13 }}>{voiceItem.era} &middot; {voiceItem.context}</div>
+                </div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, marginBottom: 20 }}>{voiceItem.bio}</p>
+                <div style={{ background: BG, border: `1px solid ${PURPLE}40`, borderRadius: 10, padding: 20, marginBottom: 20 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>KEY QUOTE</div>
+                  <p style={{ color: TEXT, fontSize: 14, fontStyle: "italic", lineHeight: 1.7, margin: 0 }}>&ldquo;{voiceItem.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: BG, borderRadius: 10, padding: 20 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>CONTRIBUTION</div>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.7, margin: 0 }}>{voiceItem.contribution}</p>
+                </div>
+              </div>
+            </div>
           </div>
         )}
 

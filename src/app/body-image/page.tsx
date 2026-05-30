@@ -12,6 +12,56 @@ const THEOLOGY = [
   { title: "The Renewal of the Mind", verse: "Romans 12:2", body: "Body image is primarily a mind issue. 'Be transformed by the renewing of your mind' (Romans 12:2). The patterns of thought about the body — comparison, shame, disgust, obsession — are formed by the world and must be renewed by the Spirit. This is not positive thinking but a genuine reorientation of perception toward what God declares true about the body." },
 ];
 
+type Tab = "theology" | "voices" | "struggles" | "practices";
+
+const VOICES_BODY = [
+  {
+    id: "pearcey",
+    name: "Nancy Pearcey",
+    era: "1952-present",
+    context: "Author; Love Thy Body; Houston Baptist University",
+    bio: "Pearcey's 'Love Thy Body' (2018) diagnosed the crisis of body image as rooted in a secular philosophy that separates the person from the body — where the 'real self' is the autonomous will and the body is merely raw material for self-expression. Against this, she argues for a Christian anthropology that identifies the person with the body: you are not a self who has a body; you are an embodied self. This reintegration of person and body has direct implications for gender, sexuality, and body image: the body is not an obstacle to authentic selfhood but the very medium of it.",
+    quote: "The body is not a machine for the self to use. It is the self. To reject or reshape the body according to the sovereign will is to reject and reshape yourself — and there is a Creator whose image you bear in that body.",
+    contribution: "Pearcey gave the evangelical body-image conversation a philosophical foundation. She traced the self/body split to Cartesian dualism and showed how this secular philosophy — not Christian theology — produces both the cosmetic surgery culture and the gender ideology movement. Her analysis equipped Christians to engage body-image questions not just with Bible verses but with an account of why the secular alternatives are incoherent.",
+  },
+  {
+    id: "west",
+    name: "Christopher West",
+    era: "1969-present",
+    context: "Theologian of the Body Institute; popularizer of John Paul II",
+    bio: "West popularized Pope John Paul II's 'Theology of the Body' — a dense series of 129 Wednesday audiences (1979-1984) in which the pope developed a comprehensive theology of human embodiment, sexuality, and the body's meaning. John Paul II's central claim: the body is a theology, a visible sign of invisible realities. The male and female body, in their complementarity and their capacity for union, image the inner life of the Trinity. This means the body has intrinsic dignity, meaning, and purpose — it is not raw material but a revelation. West's accessible presentations made this framework available to lay audiences.",
+    quote: "The body, and it alone, is capable of making visible what is invisible — the spiritual and the divine. It was created to transfer into the visible reality of the world the mystery hidden since time immemorial in God.",
+    contribution: "West introduced Catholic sacramental body theology to a broad Protestant audience. His presentations of the body as a 'sign' of divine realities gave Christians a positive theology of embodiment — not just 'the body is not evil' but 'the body is a revelation.' This framework provided a way to honor the body that went beyond mere damage control (resisting shame) to genuine celebration.",
+  },
+  {
+    id: "lewis_cs",
+    name: "C.S. Lewis",
+    era: "1898-1963",
+    context: "Apologist; The Screwtape Letters; Miracles",
+    bio: "Lewis's treatment of the body is scattered across multiple works, but his consistent position was a robust rejection of the dualism that treats the body as a lower or inferior reality. In 'Miracles,' he argued that the Christian doctrine of resurrection — a resurrected, glorified physical body — represents a more body-affirming view than either Greek dualism (escape from the body) or secular materialism (the body is all there is). The Screwtape Letters shows the senior demon advising his subordinate to prevent humans from enjoying the body properly — because enjoyment of created goods can become a path to the Creator. For Lewis, the body is a gift to be received with gratitude.",
+    quote: "There is no good trying to be more spiritual than God. God never meant man to be a purely spiritual creature. That is why He uses material things like bread and wine to put new life into us. We may think this rather crude and unspiritual. God does not.",
+    contribution: "Lewis normalized a fully embodied spirituality for a wide Protestant audience unfamiliar with sacramental theology. His argument that physical pleasure — food, rest, beauty — experienced with gratitude leads toward rather than away from God gave Christians permission to enjoy embodied life without guilt. His insistence on the resurrection as physically real prevented any retreat into spiritualized Christianity that treats the body as temporary or unimportant.",
+  },
+  {
+    id: "warren",
+    name: "Tish Harrison Warren",
+    era: "1980-present",
+    context: "Anglican priest; Liturgy of the Ordinary (2016)",
+    bio: "Warren's 'Liturgy of the Ordinary' traces the spiritual significance of the most ordinary embodied acts: waking up, brushing teeth, eating breakfast, getting stuck in traffic. Her argument is that the body is the primary location of spiritual formation — not the abstract mind or the disembodied soul. The hours of the day that are most bodily (morning routines, meals, physical work) are where character is actually formed. She draws on Anglican liturgical theology to argue that embodied repetition — not just mental assent — is how human beings become what they believe.",
+    quote: "Holiness is not found in escaping the body and its limitations. It is found in the ordinary, embodied moments of the day — in how we eat, rest, work, and move through our hours.",
+    contribution: "Warren reconnected body image to liturgical formation. She showed that the problem of alienation from the body is not solved by better self-esteem or theological information alone, but by practices that inhabit the body differently. Her liturgical approach gave people a concrete alternative to shame-based or cosmetic-surgery approaches to the body: attend to the body with care and gratitude in the ordinary rhythms of daily life.",
+  },
+  {
+    id: "coakley",
+    name: "Sarah Coakley",
+    era: "1951-present",
+    context: "Anglican theologian; Harvard, Cambridge; God, Sexuality and the Self",
+    bio: "Coakley is the most rigorous academic theologian working on the body, gender, and desire in contemporary theology. Her project, 'On Desiring God,' argues that desire — including bodily desire — is not first of all a problem to be controlled but a clue to the structure of the soul's orientation toward God. Against both puritanical suspicion of the body and secular celebration of unordered desire, she proposes a 'theologie totale' in which ascetic practice (fasting, silence, celibacy in appropriate contexts) trains desire toward its ultimate object. The body's desires are not the enemy of the spiritual life; they are its raw material.",
+    quote: "Desire is not the enemy of the spiritual life. It is its very medium. The question is not whether to desire, but what and how — and whether the body's longings are being patiently oriented toward their deepest Source.",
+    contribution: "Coakley gave the academic theology of embodiment a depth and rigor that popular treatments lack. Her integration of ascetic practice, contemplative prayer, and systematic theology provided a framework in which the body's desires — including problematic ones — are addressed not by suppression but by reorientation. Her work has influenced a generation of younger theologians to think more carefully about embodiment, gender, and desire.",
+  },
+];
+
 const STRUGGLES = [
   { struggle: "Eating Disorders", desc: "Anorexia, bulimia, binge eating, and orthorexia are serious mental health conditions with physical consequences. They are often rooted in control, shame, trauma, or cultural pressure.", response: "Professional treatment is necessary — eating disorders have the highest mortality rate of any mental health condition. Spiritual care supplements but does not replace professional support. The church's role is acceptance without enabling, presence without judgment, and prayer alongside treatment." },
   { struggle: "Comparison and Social Media", desc: "Constant exposure to curated, filtered, and professionally lit bodies creates an impossible standard against which real bodies are constantly compared and found lacking.", response: "Audit your social media. Unfollow accounts that produce shame. Follow accounts that represent body diversity. Limit time on platforms that trigger comparison. Name the comparison when it happens: 'I am comparing myself to an image designed to make me feel inadequate.' This naming reduces the comparison's power." },
@@ -30,8 +80,10 @@ const PRACTICES = [
 ];
 
 export default function BodyImagePage() {
-  const [activeTab, setActiveTab] = useState<"theology" | "struggles" | "practices">("theology");
+  const [activeTab, setActiveTab] = useState<Tab>("theology");
   const [expanded, setExpanded] = useState<string | null>(null);
+  const [selectedVoice, setSelectedVoice] = useState("pearcey");
+  const voiceItem = VOICES_BODY.find(v => v.id === selectedVoice)!;
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 40 }}>
@@ -47,6 +99,7 @@ export default function BodyImagePage() {
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
             { id: "theology" as const, label: "Theology", icon: "📖" },
+            { id: "voices" as const, label: "Voices", icon: "💬" },
             { id: "struggles" as const, label: "Common Struggles", icon: "⚠️" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
           ].map(t => (
@@ -68,6 +121,38 @@ export default function BodyImagePage() {
                 <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 15, margin: 0 }}>{t.body}</p>
               </div>
             ))}
+          </div>
+        )}
+
+        {activeTab === "voices" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8 }}>
+              {VOICES_BODY.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ background: selectedVoice === v.id ? `${PURPLE}20` : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", textAlign: "left", cursor: "pointer" }}>
+                  <div style={{ color: TEXT, fontWeight: 700, fontSize: 13 }}>{v.name}</div>
+                  <div style={{ color: MUTED, fontSize: 11, marginTop: 2 }}>{v.era}</div>
+                  <div style={{ color: MUTED, fontSize: 11 }}>{v.context}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28 }}>
+                <div style={{ marginBottom: 20 }}>
+                  <div style={{ color: TEXT, fontWeight: 900, fontSize: 20, marginBottom: 4 }}>{voiceItem.name}</div>
+                  <div style={{ color: MUTED, fontSize: 13 }}>{voiceItem.era} &middot; {voiceItem.context}</div>
+                </div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, marginBottom: 20 }}>{voiceItem.bio}</p>
+                <div style={{ background: BG, border: `1px solid ${PURPLE}40`, borderRadius: 10, padding: 20, marginBottom: 20 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>KEY QUOTE</div>
+                  <p style={{ color: TEXT, fontSize: 14, fontStyle: "italic", lineHeight: 1.7, margin: 0 }}>&ldquo;{voiceItem.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: BG, borderRadius: 10, padding: 20 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>CONTRIBUTION</div>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.7, margin: 0 }}>{voiceItem.contribution}</p>
+                </div>
+              </div>
+            </div>
           </div>
         )}
 

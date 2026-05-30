@@ -52,10 +52,62 @@ const QUESTIONS = [
   { q: "When did I last read a book, sit in silence, or create something without a screen?", cat: "Embodiment" },
 ];
 
+type Tab = "theology" | "thinkers" | "practices" | "audit";
+
+const THINKERS = [
+  {
+    id: "mcluhan",
+    name: "Marshall McLuhan",
+    era: "1911-1980",
+    context: "Canadian philosopher of communication; 'the medium is the message'",
+    bio: "McLuhan is the foundational theorist of media and technology. A Catholic convert, his analysis was deeply shaped by a sacramental understanding of matter — that physical forms carry meaning. His famous aphorism 'the medium is the message' means that the form of a communication technology shapes consciousness more profoundly than any content transmitted through it. Television didn't just carry content — it rewired how people processed information. The internet didn't just deliver text — it restructured attention, identity, and community.",
+    quote: "The medium is the message. We shape our tools, and thereafter our tools shape us. We are becoming what we behold.",
+    contribution: "McLuhan gave Christians the conceptual vocabulary to ask not just 'what am I using technology for?' but 'what is technology doing to me through use?' His analysis of how media forms shape consciousness is directly applicable to smartphones, social media, and digital culture. His insight that each new medium creates new environments of sense (and destroys old ones) warns against the naive assumption that digital tools are neutral containers for Christian content.",
+  },
+  {
+    id: "crouch",
+    name: "Andy Crouch",
+    era: "1968-present",
+    context: "Former executive editor of Christianity Today; author of Culture Making and The Tech-Wise Family",
+    bio: "Crouch is the most important Christian thinker on technology and culture for the evangelical world. 'Culture Making' (2008) argued that Christians are called to make culture, not merely critique or consume it. 'The Tech-Wise Family' (2017) brought the analysis to practical home life: ten commitments for a household that uses technology rather than being used by it. His 'The Life We're Looking For' (2022) examines how technology undermines the embodied, personal life we were made for.",
+    quote: "The defining question is not 'what does technology allow us to do?' but 'what kind of people are we becoming through its use?' Device-free zones and times are not restrictions but invitations to the life we actually want.",
+    contribution: "Crouch gave the evangelical world a positive, constructive account of engagement with technology — not mere resistance but active cultural making. His Tech-Wise Family commitments (devices in public spaces only, no phones at meals, no technology in bedrooms) have been practically influential in Christian households. His concept of 'effortlessness' — the danger of technology that removes productive resistance from human life — is one of the most penetrating critiques of contemporary digital culture.",
+  },
+  {
+    id: "carr",
+    name: "Nicholas Carr",
+    era: "1959-present",
+    context: "American technology writer; The Shallows, The Glass Cage",
+    bio: "Carr's 'The Shallows: What the Internet Is Doing to Our Brains' (2010) made the case, grounded in neuroscience, that sustained internet use physically rewires the brain — reducing the capacity for deep reading, sustained attention, and contemplative thinking. A secular writer, Carr was prescient about what digital Christianity had failed to notice: that the medium of screen-based, hyperlinked, notification-driven information fundamentally works against the kind of attention required for spiritual formation. 'The Glass Cage' (2014) extended the analysis to automation.",
+    quote: "The net is designed to be an interruption system, a machine geared to dividing attention. It undermines the quiet, attentive mind that is the ground of deep thought.",
+    contribution: "Carr's neuroscientific analysis gives Christians empirical ground for what contemplative tradition has always known: that the quality of attention is the quality of the soul. If sustained internet use reduces the capacity for deep attention, it reduces the capacity for prayer, lectio divina, and any practice that requires sustained contemplative focus. Carr is not a Christian writer, but his work is more useful for spiritual formation than most Christian technology books because it takes the physiological reality seriously.",
+  },
+  {
+    id: "reinke",
+    name: "Tony Reinke",
+    era: "1977-present",
+    context: "Author; staff writer at Desiring God",
+    bio: "Reinke's '12 Ways Your Phone Is Changing You' (2017) and 'Competing Spectacles' (2019) are the most widely-read evangelical treatments of digital technology and the soul. Drawing on John Piper's theology of desire — that we were made to be satisfied by the glory of God and are constantly distracted from it — Reinke analyzes how smartphones reconfigure desire, attention, and identity. 'Competing Spectacles' argues that the fundamental human question is what we behold, and that spectacular digital images compete directly with the spectacle of the gospel.",
+    quote: "Your smartphone is a mirror — it shows you exactly what you crave. What you see will tell you what you love. And what you love will tell you what kind of person you are becoming.",
+    contribution: "Reinke gave evangelical Christians a pastoral framework for engaging technology that is rooted in a theology of desire, not merely a technology of boundaries. His framing — that the spectacle of digital culture and the spectacle of the cross are in direct competition for the gaze of the soul — makes the technology question fundamentally a worship question. This integration of Augustinian desire-theology with media analysis is his distinctive contribution.",
+  },
+  {
+    id: "turkle",
+    name: "Sherry Turkle",
+    era: "1948-present",
+    context: "MIT psychologist; Alone Together, Reclaiming Conversation",
+    bio: "Turkle's 'Alone Together: Why We Expect More from Technology and Less from Each Other' (2011) and 'Reclaiming Conversation' (2015) document the relational and psychological cost of perpetual connectivity. Based on decades of research, she shows that smartphone use during conversations communicates to the other person that they are not fully valued, that teenagers are losing the capacity for empathy through reduced face-to-face interaction, and that 'always-on' connectivity produces loneliness rather than curing it.",
+    quote: "We are being shaped by technology to prefer connection over conversation — and we are losing the ability to be alone with ourselves. These are not merely social changes; they are changes to the self.",
+    contribution: "Turkle's empirical documentation of technology's relational costs gives Christians concrete evidence for what the theology of embodiment implies: that digital substitutes for embodied presence are impoverished, and that the incapacity for solitude is directly related to the incapacity for authentic relationship. Her work is particularly relevant for understanding youth formation — and for asking what discipleship looks like in a generation that has grown up without the development of deep conversational capacity.",
+  },
+];
+
 interface CheckItem { id: string; text: string; cat: string; done: boolean; }
 
 export default function TechnologyPage() {
-  const [activeTab, setActiveTab] = useState<"theology" | "practices" | "audit">("theology");
+  const [activeTab, setActiveTab] = useState<Tab>("theology");
+  const [selectedThinker, setSelectedThinker] = useState("mcluhan");
+  const thinker = THINKERS.find(t => t.id === selectedThinker)!;
   const [checks, setChecks] = useState<CheckItem[]>(() => {
     try {
       const s = localStorage.getItem("vine_tech_checks");
@@ -87,6 +139,7 @@ export default function TechnologyPage() {
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
             { id: "theology" as const, label: "Theology", icon: "📖" },
+            { id: "thinkers" as const, label: "Thinkers", icon: "💡" },
             { id: "practices" as const, label: "Practices", icon: "✅" },
             { id: "audit" as const, label: "Self-Audit", icon: "🔍" },
           ].map(t => (
@@ -105,6 +158,38 @@ export default function TechnologyPage() {
                 <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 15, margin: 0 }}>{f.body}</p>
               </div>
             ))}
+          </div>
+        )}
+
+        {activeTab === "thinkers" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 210, flexShrink: 0 }}>
+              {THINKERS.map(t => (
+                <button key={t.id} onClick={() => setSelectedThinker(t.id)}
+                  style={{ width: "100%", background: selectedThinker === t.id ? `${PURPLE}18` : "transparent", border: `1px solid ${selectedThinker === t.id ? PURPLE + "70" : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 6, cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: selectedThinker === t.id ? PURPLE : TEXT, fontWeight: 800, fontSize: 13, marginBottom: 2 }}>{t.name}</div>
+                  <div style={{ color: MUTED, fontSize: 11 }}>{t.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ background: CARD, border: `1px solid ${PURPLE}30`, borderRadius: 14, padding: 28 }}>
+                <div style={{ marginBottom: 20 }}>
+                  <div style={{ color: MUTED, fontWeight: 700, fontSize: 11, marginBottom: 4 }}>{thinker.era}</div>
+                  <h2 style={{ color: PURPLE, fontWeight: 900, fontSize: 24, marginBottom: 4 }}>{thinker.name}</h2>
+                  <div style={{ color: MUTED, fontSize: 13 }}>{thinker.context}</div>
+                </div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, marginBottom: 20 }}>{thinker.bio}</p>
+                <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 10, padding: 18, marginBottom: 16 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 11, marginBottom: 10 }}>IN THEIR OWN WORDS</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0, fontStyle: "italic" }}>&ldquo;{thinker.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: BG, borderRadius: 10, padding: 16 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>KEY CONTRIBUTION</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{thinker.contribution}</p>
+                </div>
+              </div>
+            </div>
           </div>
         )}
 

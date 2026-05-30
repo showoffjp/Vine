@@ -4,6 +4,57 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
+type Tab = "theology" | "scholars" | "positions" | "practices";
+
+const SCHOLARS = [
+  {
+    id: "grudem",
+    name: "Wayne Grudem",
+    era: "1948-present",
+    context: "Complementarian; professor at Phoenix Seminary",
+    bio: "Grudem is the leading complementarian scholar. His 'Recovering Biblical Manhood and Womanhood' (co-edited with John Piper, 1991, 2006) is the definitive complementarian academic text. His 'Systematic Theology' treats the topic extensively. Grudem argues that male headship is grounded in creation order (not the fall), that 1 Timothy 2:12 is a universal principle rather than a contextual ruling, and that the Greek word authentein refers to appropriate authority rather than abuse.",
+    quote: "Complementarianism is not about the superiority of men or the inferiority of women. It is about God's wisdom in designing male and female to complement each other in ways that are for our good and his glory.",
+    contribution: "Grudem's 'Systematic Theology' brought complementarian argumentation into the mainstream evangelical academic discussion and gave it its most rigorous defense. His analysis of authentein in 1 Timothy 2:12 remains the key exegetical battlefield. The Council on Biblical Manhood and Womanhood (CBMW), which he co-founded, has been the primary organizational voice for complementarian scholarship since 1987.",
+  },
+  {
+    id: "fee",
+    name: "Gordon Fee",
+    era: "1934-2022",
+    context: "Egalitarian; NT scholar, Regent College Vancouver",
+    bio: "Fee was one of the most respected NT textual scholars of the 20th century and a committed egalitarian. His commentary on 1 Corinthians is the standard evangelical academic treatment. On the key texts: Fee argued that 1 Corinthians 14:34-35 may be a later interpolation (it is textually displaced in some manuscripts) and that 1 Timothy 2:12 addressed a specific situation in Ephesus where women were spreading false teaching, making the prohibition contextual rather than universal.",
+    quote: "My egalitarianism is not driven by cultural accommodation. It is driven by careful exegesis of texts that have been misread for centuries, and by the NT's own trajectory toward the full inclusion of all Spirit-gifted believers.",
+    contribution: "Fee's 'Discovering Biblical Equality' (co-edited with Ronald Pierce) is the standard egalitarian academic text, directly paralleling Grudem's 'Recovering Biblical Manhood and Womanhood.' His textual work on 1 Corinthians 14:34-35 — arguing for possible interpolation — represents a serious alternative to the contextual interpretation, though it is not universally accepted even among egalitarians.",
+  },
+  {
+    id: "sayers",
+    name: "Dorothy L. Sayers",
+    era: "1893-1957",
+    context: "British author; theologian; mystery novelist",
+    bio: "Sayers addressed the question of women's role not as an academic question but as a practical and spiritual one. Her essay 'Are Women Human?' (1938) is the most elegant short statement of a Christian feminism rooted in the doctrine of creation: women are human beings, and 'human' is not a gendered category. 'A woman is a person first, and a woman second.' She was one of the first women to be awarded an Oxford degree (in 1920), and she consistently challenged the church to stop treating 'the woman question' as a special category.",
+    quote: "I am occasionally asked why Jesus had no women among the twelve Apostles. My answer is that he was not, after all, obliged to follow social custom. The choice was his to make.",
+    contribution: "Sayers approached the question from a perspective neither complementarian nor egalitarian in modern terms — she was interested in the fundamental personhood of women and the church's frequent failure to take it seriously. Her observation that Jesus's treatment of women was consistently subversive of his culture, and that the Resurrection appearances to women were themselves a statement, has been influential in egalitarian thinking. She did not engage in systematic exegesis but asked the prior question: what kind of being is a woman?",
+  },
+  {
+    id: "mcknight",
+    name: "Scot McKnight",
+    era: "1953-present",
+    context: "NT scholar; professor at Northern Seminary",
+    bio: "McKnight's 'The Blue Parakeet' (2008) offers an unusual approach to the women-in-ministry debate: instead of arguing for a particular reading of the key texts, he examines how Christians read the Bible — why we apply some passages universally and treat others as culturally conditioned. He argues that Junia (Romans 16:7) was indeed an apostle, that Priscilla's teaching of Apollos (Acts 18) represents women in teaching authority, and that the NT's trajectory moves toward full inclusion in the Spirit's gifting.",
+    quote: "The question is not whether Paul said women should be quiet. The question is whether we apply that the same way we apply everything else Paul said. Consistency in hermeneutics matters.",
+    contribution: "McKnight's hermeneutical approach — asking why we treat certain texts as timeless and others as culturally conditioned — has been particularly useful for evangelicals who want to engage the question seriously without reducing it to a simple proof-text exchange. His treatment of Junia as a female apostle is the most thorough recent evangelical argument for that position. He also helped evangelicals see that the question of women in ministry is fundamentally a question of how we read Scripture, not just what it says.",
+  },
+  {
+    id: "barr",
+    name: "Beth Allison Barr",
+    era: "1975-present",
+    context: "Medieval historian; professor at Baylor University",
+    bio: "Barr's 'The Making of Biblical Womanhood' (2021) became a landmark in the women-in-ministry debate by approaching it historically rather than exegetically. As a medieval historian, she traced how the idea of 'biblical womanhood' is more shaped by modern American evangelicalism than by the biblical text itself — and showed that women's ministry leadership was far more common in pre-Reformation Christianity than contemporary complementarianism acknowledges. Her personal story — raised as a complementarian pastor's wife who discovered historical scholarship — is embedded throughout.",
+    quote: "Biblical womanhood as practiced in evangelical churches today is not simply the timeless teaching of Scripture. It is a historically specific construction — and understanding that history changes the conversation.",
+    contribution: "Barr's historical approach gave egalitarian evangelicals a new kind of argument: not just exegetical but historical. She documented the women who preached, administered sacraments, and held church authority in medieval Christianity — evidence that complementarian assumptions about what is 'traditional' are often anachronistic. Her book was criticized by complementarians for selective history and by some egalitarians for conflating correlation with causation, but it moved the conversation forward by changing the terrain.",
+  },
+];
+
+
 const THEOLOGY = [
   { title: "The Galatians 3:28 Foundation", verse: "Galatians 3:28", body: "'There is neither Jew nor Gentile, neither slave nor free, nor is there male and female, for you are all one in Christ Jesus' (Galatians 3:28). Egalitarians cite this as the Magna Carta of Christian equality — abolishing all hierarchies in Christ. Complementarians respond that the verse addresses soteriological equality (equal standing before God in salvation) rather than functional differentiation (different roles and responsibilities). The debate partly turns on how broadly to apply the verse's equalizing work." },
   { title: "Women in the New Testament", verse: "Romans 16:7", body: "The NT records women in significant roles: Phoebe is called a 'deacon' (Romans 16:1-2); Junia is 'outstanding among the apostles' (Romans 16:7, though the translation is debated); Priscilla taught Apollos (Acts 18:26); Philip's daughters prophesied (Acts 21:9); Mary Magdalene was the first witness to the resurrection. These examples complicate simple readings of the restrictive texts and suggest that women's ministry was more prominent and diverse in the early church than later traditions sometimes recognized." },
@@ -55,8 +106,10 @@ const PRACTICES = [
 ];
 
 export default function WomenInMinistryPage() {
-  const [activeTab, setActiveTab] = useState<"theology" | "positions" | "practices">("theology");
+  const [activeTab, setActiveTab] = useState<Tab>("theology");
   const [selectedPos, setSelectedPos] = useState("Complementarian");
+  const [selectedScholar, setSelectedScholar] = useState("grudem");
+  const scholar = SCHOLARS.find(s => s.id === selectedScholar)!;
 
   const pos = POSITIONS.find(p => p.name === selectedPos)!;
 
@@ -74,6 +127,7 @@ export default function WomenInMinistryPage() {
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
             { id: "theology" as const, label: "Key Texts", icon: "📖" },
+            { id: "scholars" as const, label: "Scholars", icon: "🎓" },
             { id: "positions" as const, label: "Positions", icon: "⚖️" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
           ].map(t => (
@@ -95,6 +149,38 @@ export default function WomenInMinistryPage() {
                 <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 15, margin: 0 }}>{t.body}</p>
               </div>
             ))}
+          </div>
+        )}
+
+        {activeTab === "scholars" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 210, flexShrink: 0 }}>
+              {SCHOLARS.map(s => (
+                <button key={s.id} onClick={() => setSelectedScholar(s.id)}
+                  style={{ width: "100%", background: selectedScholar === s.id ? `${PURPLE}18` : "transparent", border: `1px solid ${selectedScholar === s.id ? PURPLE + "70" : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 6, cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: selectedScholar === s.id ? PURPLE : TEXT, fontWeight: 800, fontSize: 13, marginBottom: 2 }}>{s.name}</div>
+                  <div style={{ color: MUTED, fontSize: 11 }}>{s.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ background: CARD, border: `1px solid ${PURPLE}30`, borderRadius: 14, padding: 28 }}>
+                <div style={{ marginBottom: 20 }}>
+                  <div style={{ color: MUTED, fontWeight: 700, fontSize: 11, marginBottom: 4 }}>{scholar.era}</div>
+                  <h2 style={{ color: PURPLE, fontWeight: 900, fontSize: 24, marginBottom: 4 }}>{scholar.name}</h2>
+                  <div style={{ color: MUTED, fontSize: 13 }}>{scholar.context}</div>
+                </div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, marginBottom: 20 }}>{scholar.bio}</p>
+                <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 10, padding: 18, marginBottom: 16 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 11, marginBottom: 10 }}>IN THEIR OWN WORDS</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0, fontStyle: "italic" }}>&ldquo;{scholar.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: BG, borderRadius: 10, padding: 16 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>KEY CONTRIBUTION</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{scholar.contribution}</p>
+                </div>
+              </div>
+            </div>
           </div>
         )}
 

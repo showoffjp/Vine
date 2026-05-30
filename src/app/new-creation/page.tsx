@@ -20,6 +20,54 @@ const CONTRASTS = [
   { wrong: "Evangelism is all that matters — culture, art, and justice are distractions", right: "Everything done for God's glory participates in his purposes. The new creation includes the nations' glory", verse: "Revelation 21:24-26" },
 ];
 
+const VOICES = [
+  {
+    id: "wright",
+    name: "N.T. Wright",
+    era: "21st century",
+    context: "Surprised by Hope (2008); Bishop of Durham, NT scholar",
+    bio: "N.T. Wright's Surprised by Hope is the most widely-read modern account of the new creation, directed at a popular audience. Wright argues that mainstream Christianity has largely absorbed a Greek platonic eschatology — disembodied souls floating to heaven — rather than the Jewish-rooted NT vision of bodily resurrection and renewed earth. His corrective: the final Christian hope is not going to heaven when you die but the resurrection of the body and the renewal of all things. What happens after death is important but penultimate.",
+    quote: "The resurrection of Jesus is the beginning of God's new project, not to snatch people away from earth to heaven, but to colonize earth with the life of heaven.",
+    contribution: "Wright gave millions of Christians a substantially different eschatological framework — one that makes creation care, social justice, and cultural engagement a theological imperative rather than a distraction. If the earth is being redeemed rather than abandoned, then working for its flourishing now is an act of Christian hope, not compromise.",
+  },
+  {
+    id: "moltmann",
+    name: "Jurgen Moltmann",
+    era: "20th century",
+    context: "Theology of Hope (1964); The Coming of God (1996); German Reformed theologian",
+    bio: "Jurgen Moltmann survived World War II as a prisoner of war, an experience that made questions of genuine hope theologically urgent. Theology of Hope (1964) made hope the central category of Christian theology, grounded in the resurrection of Christ as God's promise of the world's future. The resurrection is not merely a past event but a promissory note on what God will do for all of creation. The church lives in the tension between the resurrection-promise and the not-yet-redeemed world.",
+    quote: "Those who hope in Christ can no longer put up with reality as it is, but begin to suffer under it, to contradict it.",
+    contribution: "Moltmann gave the new creation political and social urgency. If the coming kingdom is the standard by which all present reality is measured, then Christian hope is inherently restless and prophetic — it refuses to accept the present order as final. His theology fueled liberation theology and Christian social engagement across denominations.",
+  },
+  {
+    id: "kuyper",
+    name: "Abraham Kuyper",
+    era: "19th-20th century",
+    context: "Lectures on Calvinism (1898); Prime Minister of the Netherlands (1901-1905); theologian and statesman",
+    bio: "Abraham Kuyper was simultaneously a pastor, theologian, journalist, educator, and Prime Minister of the Netherlands. His theology of common grace and the lordship of Christ over every domain of life laid the foundation for a vision of cultural engagement rooted in eschatological hope. If Christ is Lord of all, then no square inch of creation is outside his redemptive concern — which means Christian engagement with art, science, politics, and culture is an expression of the gospel, not a distraction from it.",
+    quote: "There is not a square inch in the whole domain of our human existence over which Christ, who is Sovereign over all, does not cry: 'Mine!'",
+    contribution: "Kuyper gave the new creation comprehensive cultural implications. Because God is redeeming creation rather than abandoning it, every domain of human activity participates in God's purposes. His doctrine of sphere sovereignty — each area of life has its own God-given authority and logic — provided a framework for Christian engagement that is neither theocratic nor withdrawn.",
+  },
+  {
+    id: "berry",
+    name: "Wendell Berry",
+    era: "20th-21st century",
+    context: "The Unsettling of America (1977); Jayber Crow (2000); Kentucky farmer, poet, and essayist",
+    bio: "Wendell Berry is not a theologian but a Kentucky farmer, novelist, and essayist whose work is saturated with the theology of creation and renewal. His essays on land, farming, community, and culture are among the most theologically serious popular writing on what it means to care for a world that belongs to God. Berry insists that how we treat the earth is how we treat God's property — and that the industrialization of agriculture is both an economic and a spiritual catastrophe.",
+    quote: "The care of the earth is our most ancient and most worthy, and after all our most pleasing responsibility. To cherish what remains of it, and to foster its renewal, is our only legitimate hope.",
+    contribution: "Berry made new creation theology tangible, local, and non-ideological. Rather than grand environmental politics, he commends attention to the specific place where you live — the soil under your feet, the watershed you drink from, the neighbors you depend on. His vision is not abstract eschatology but the renewal of the actual, particular earth we inhabit.",
+  },
+  {
+    id: "rutledge",
+    name: "Fleming Rutledge",
+    era: "20th-21st century",
+    context: "And God Spoke to Abraham (2011); The Crucifixion (2015); Episcopal priest and preacher",
+    bio: "Fleming Rutledge is one of the finest English-language preachers of the 20th and 21st centuries. Her writing on eschatology and the new creation is shaped by Karl Barth's apocalyptic — the sense that the final victory of God over sin and death is not a gradual improvement of the present order but an irruptive, dramatic, divine act. The new creation does not emerge from the old; it is brought by God from outside history into history, as the resurrection was.",
+    quote: "The new age has broken in upon the old. The powers of the old age are already defeated, though they continue to rage. The church lives in the overlap.",
+    contribution: "Rutledge holds eschatological hope and present suffering in tension without resolving it prematurely. The church lives in the overlap of the ages — the old passing, the new arriving — and its vocation is witness and suffering in that contested space. Neither naive optimism nor passive fatalism, but costly faithfulness in the between-time.",
+  },
+];
+
 const PRACTICES = [
   { title: "Live Now as if Then", desc: "The resurrection tells us what the end looks like. Work backward from that end. Every act of love, justice, beauty, and truth is a foretaste of the new creation — which means it is worth doing now.", icon: "🌅" },
   { title: "Treat Bodies as Significant", desc: "If the future is bodily resurrection, bodies matter now. Care for your body, care for others' bodies, resist anything that treats human bodies as disposable. Healthcare, food, shelter, and physical dignity are eschatologically loaded.", icon: "💪" },
@@ -29,8 +77,13 @@ const PRACTICES = [
   { title: "Pray with Eschatological Hope", desc: "Jesus taught us to pray: 'Your kingdom come, your will be done, on earth as it is in heaven' (Matthew 6:10). This is not resignation but petition — calling on God to bring his new creation reality into the present.", icon: "🙏" },
 ];
 
+type Tab = "theology" | "contrasts" | "voices" | "practices";
+
 export default function NewCreationPage() {
-  const [activeTab, setActiveTab] = useState<"theology" | "contrasts" | "practices">("theology");
+  const [activeTab, setActiveTab] = useState<Tab>("theology");
+  const [selectedVoice, setSelectedVoice] = useState("wright");
+
+  const voice = VOICES.find(v => v.id === selectedVoice)!;
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 40 }}>
@@ -46,7 +99,8 @@ export default function NewCreationPage() {
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
             { id: "theology" as const, label: "Theology", icon: "📖" },
-            { id: "contrasts" as const, label: "Common Misunderstandings", icon: "⚖️" },
+            { id: "contrasts" as const, label: "Misunderstandings", icon: "⚖️" },
+            { id: "voices" as const, label: "Key Voices", icon: "💡" },
             { id: "practices" as const, label: "Living It Now", icon: "🌱" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
@@ -97,6 +151,35 @@ export default function NewCreationPage() {
           </div>
         )}
 
+        {activeTab === "voices" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 210, flexShrink: 0 }}>
+              {VOICES.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ width: "100%", background: selectedVoice === v.id ? `${PURPLE}20` : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 8, cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: selectedVoice === v.id ? GREEN : TEXT, fontWeight: 700, fontSize: 13, marginBottom: 2 }}>{v.name}</div>
+                  <div style={{ color: MUTED, fontSize: 11 }}>{v.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 6, flexWrap: "wrap" }}>
+                <h2 style={{ color: GREEN, fontWeight: 900, fontSize: 22, margin: 0 }}>{voice.name}</h2>
+                <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "3px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700, flexShrink: 0 }}>{voice.era}</span>
+              </div>
+              <p style={{ color: MUTED, fontSize: 13, fontStyle: "italic", marginBottom: 16 }}>{voice.context}</p>
+              <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, marginBottom: 20 }}>{voice.bio}</p>
+              <blockquote style={{ margin: "0 0 20px", padding: "12px 16px", borderLeft: `3px solid ${GREEN}`, background: `${GREEN}08`, borderRadius: "0 8px 8px 0" }}>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, margin: 0, fontStyle: "italic" }}>"{voice.quote}"</p>
+              </blockquote>
+              <div style={{ background: `${PURPLE}08`, border: `1px solid ${PURPLE}20`, borderRadius: 10, padding: 16 }}>
+                <div style={{ color: PURPLE, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>CONTRIBUTION</div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{voice.contribution}</p>
+              </div>
+            </div>
+          </div>
+        )}
+
         {activeTab === "practices" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
@@ -115,15 +198,14 @@ export default function NewCreationPage() {
                 </div>
               ))}
             </div>
+            <div style={{ background: CARD, border: `1px solid ${GREEN}20`, borderRadius: 12, padding: 22, marginTop: 16 }}>
+              <div style={{ color: GREEN, fontWeight: 700, fontSize: 14, marginBottom: 10 }}>THE RIVER AND THE TREE</div>
+              <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>
+                Revelation 22 ends with a river of life flowing through the city, the tree of life bearing fruit for the healing of the nations, and the face of God seen at last without mediation. This is the telos — the goal toward which all of history moves. The Christian life is not treading water until this arrives; it is participating in its arrival. Every prayer, every act of love, every moment of justice is a stitch in the tapestry of the new creation that God is weaving.
+              </p>
+            </div>
           </div>
         )}
-
-        <div style={{ background: CARD, border: `1px solid ${GREEN}20`, borderRadius: 12, padding: 22, marginTop: 24 }}>
-          <div style={{ color: GREEN, fontWeight: 700, fontSize: 14, marginBottom: 10 }}>THE RIVER AND THE TREE</div>
-          <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>
-            Revelation 22 ends with a river of life flowing through the city, the tree of life bearing fruit for the healing of the nations, and the face of God seen at last without mediation. This is the telos — the goal toward which all of history moves. The Christian life is not treading water until this arrives; it is participating in its arrival. Every prayer, every act of love, every moment of justice is a stitch in the tapestry of the new creation that God is weaving.
-          </p>
-        </div>
       </div>
     </div>
   );

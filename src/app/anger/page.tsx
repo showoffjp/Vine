@@ -28,9 +28,62 @@ const PRACTICES = [
   { title: "Identify the Root", desc: "Most anger is a secondary emotion covering something primary: fear, grief, humiliation, or powerlessness. Ask: 'What am I really feeling under the anger?' The root is where healing happens.", verse: "Proverbs 19:11" },
 ];
 
+const STORIES = [
+  {
+    id: "moses",
+    name: "Moses Breaks the Tablets",
+    ref: "Exodus 32 / Numbers 20",
+    color: "#F59E0B",
+    emotion: "Righteous anger turned to loss",
+    what: "Coming down from Sinai with the law of God in his hands, Moses saw Israel dancing around the golden calf. In an explosion of grief and fury, he shattered the stone tablets (Exodus 32:19). Decades later, at Meribah, a second burst of anger caused him to strike the rock twice instead of speaking to it as God commanded — and this cost him entrance to the Promised Land (Numbers 20:10-12).",
+    lesson: "Even anger that begins as righteous can, if not carefully governed, overflow into actions that grieve God and carry real consequences. Moses paid for one unguarded moment with the fulfillment of his life's work. The story is not a condemnation of anger, but a warning that anger, even when warranted, must be submitted to God's specific direction — not simply unleashed.",
+  },
+  {
+    id: "jonah",
+    name: "Jonah's Rage at Grace",
+    ref: "Jonah 4",
+    color: "#EF4444",
+    emotion: "Anger at God's mercy",
+    what: "Jonah preached judgment to Nineveh — and Nineveh repented. God relented from destruction. Jonah was furious: 'I knew you were a gracious and compassionate God, slow to anger and abounding in love, a God who relents from sending calamity. Now, Lord, take away my life, for it is better for me to die than to live' (Jonah 4:2-3). He sat outside the city, sulking, hoping to watch it burn.",
+    lesson: "Jonah reveals a form of anger that is rarely named: anger at God's mercy toward people we believe don't deserve it. His rage was not at injustice but at grace — he was angrier about a withered plant than about 120,000 souls. God's gentle question, 'Is it right for you to be angry?' is not rhetorical — it is an invitation to examine the roots. Jonah's anger exposed his theology: he believed some people were beyond God's reach. God disagreed.",
+  },
+  {
+    id: "nehemiah",
+    name: "Nehemiah Against Oppressors",
+    ref: "Nehemiah 5",
+    color: GREEN,
+    emotion: "Righteous anger as reform",
+    what: "While rebuilding Jerusalem's walls, Nehemiah learned that wealthy Jews were charging interest to poor Jewish neighbors, forcing them to sell children into slavery to pay the debt. Nehemiah writes: 'I was very angry when I heard their outcry and these charges. I pondered them in my mind and then accused the nobles and officials' (Neh. 5:6-7). He called a public assembly, confronted the oppressors, and demanded restitution — which they granted.",
+    lesson: "Nehemiah models righteous anger as a form of social reform. Three things are notable: First, he paused — he 'pondered' before acting. Second, he confronted directly and publicly, not through gossip or passive resistance. Third, his anger was resolved through action that restored justice, not through punishment or revenge. His anger was in service of the vulnerable, aimed at the oppressive system, and resolved when the wrong was made right.",
+  },
+  {
+    id: "psalm137",
+    name: "The Psalmist's Bitter Lament",
+    ref: "Psalm 137",
+    color: PURPLE,
+    emotion: "Grief and rage in exile",
+    what: "Psalm 137 is one of Scripture's most difficult texts. Exiled Jews wept by the rivers of Babylon while their captors mockingly asked them to sing. The psalm ends in one of the most disturbing verses in the Bible: 'Happy is the one who seizes your infants and dashes them against the rocks' (Psalm 137:9). The psalmist did not act on this rage — he brought it to God in prayer, in raw, unfiltered form.",
+    lesson: "Psalm 137 does not endorse revenge. What it does is model honest prayer: the psalmist brings his unprocessed rage to God rather than repressing it or acting on it. This is an ancient practice of what therapists now call 'titrating' trauma — exposing the wound to God in prayer rather than letting it fester into something worse. The psalm teaches that God can handle our rage, our grief, our most disturbing feelings — and that bringing them to him is far safer than keeping them locked inside.",
+  },
+  {
+    id: "naomi",
+    name: "Naomi's Bitter Grief",
+    ref: "Ruth 1:20-21",
+    color: "#EC4899",
+    emotion: "Grief that became identity",
+    what: "Returning to Bethlehem after losing her husband and both sons in Moab, Naomi told the women of the town: 'Don't call me Naomi [pleasant]. Call me Mara [bitter], because the Almighty has made my life very bitter. I went away full, but the Lord has brought me back empty. Why call me Naomi? The Lord has afflicted me; the Almighty has brought misfortune upon me' (Ruth 1:20-21). She named her anger at God openly and publicly.",
+    lesson: "Naomi's grief-anger is instructive in several ways. She does not pretend to be fine. She does not use spiritual language to paper over devastation. She is angry at God — and she says so. What is remarkable is that God does not rebuke her. The book of Ruth then shows God providing for her through Ruth's faithfulness, and Naomi's bitterness is eventually replaced by joy (Ruth 4:14-16). She kept living, she stayed in community, and the story was not yet over. Anger at God, honestly expressed, is not the end of faith.",
+  },
+];
+
+type Tab = "theology" | "types" | "stories" | "practices";
+
 export default function AngerPage() {
-  const [activeTab, setActiveTab] = useState<"theology" | "types" | "practices">("theology");
+  const [tab, setTab] = useState<Tab>("theology");
   const [expanded, setExpanded] = useState<string | null>(null);
+  const [selectedStory, setSelectedStory] = useState("moses");
+
+  const story = STORIES.find(s => s.id === selectedStory)!;
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 40 }}>
@@ -47,16 +100,17 @@ export default function AngerPage() {
           {[
             { id: "theology" as const, label: "Theology of Anger", icon: "📖" },
             { id: "types" as const, label: "Types of Anger", icon: "🔍" },
+            { id: "stories" as const, label: "Scripture Stories", icon: "📜" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
-              style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+            <button key={t.id} onClick={() => setTab(t.id)}
+              style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
           ))}
         </div>
 
-        {activeTab === "theology" && (
+        {tab === "theology" && (
           <div>
             {THEOLOGY.map((t, i) => (
               <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 16 }}>
@@ -70,7 +124,7 @@ export default function AngerPage() {
           </div>
         )}
 
-        {activeTab === "types" && (
+        {tab === "types" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
@@ -102,7 +156,38 @@ export default function AngerPage() {
           </div>
         )}
 
-        {activeTab === "practices" && (
+        {tab === "stories" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 220, flexShrink: 0 }}>
+              {STORIES.map(s => (
+                <button key={s.id} onClick={() => setSelectedStory(s.id)}
+                  style={{ width: "100%", textAlign: "left", background: selectedStory === s.id ? `${s.color}18` : CARD, border: `1px solid ${selectedStory === s.id ? s.color : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 8, cursor: "pointer" }}>
+                  <div style={{ color: selectedStory === s.id ? s.color : TEXT, fontWeight: 700, fontSize: 13, marginBottom: 3 }}>{s.name}</div>
+                  <div style={{ color: MUTED, fontSize: 11 }}>{s.ref}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1, background: CARD, border: `1px solid ${story.color}40`, borderRadius: 12, padding: 24 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 14 }}>
+                <h2 style={{ color: story.color, fontWeight: 900, fontSize: 20, margin: 0 }}>{story.name}</h2>
+                <span style={{ background: `${story.color}18`, color: story.color, padding: "3px 10px", borderRadius: 8, fontSize: 12, fontWeight: 700, whiteSpace: "nowrap", marginLeft: 12 }}>{story.ref}</span>
+              </div>
+              <div style={{ background: `${story.color}10`, border: `1px solid ${story.color}25`, borderRadius: 8, padding: "8px 14px", marginBottom: 16, display: "inline-block" }}>
+                <span style={{ color: story.color, fontSize: 13, fontWeight: 700 }}>{story.emotion}</span>
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <div style={{ color: MUTED, fontSize: 11, fontWeight: 700, letterSpacing: 1, marginBottom: 6 }}>WHAT HAPPENED</div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>{story.what}</p>
+              </div>
+              <div style={{ background: BG, borderRadius: 10, padding: 16, borderLeft: `3px solid ${story.color}` }}>
+                <div style={{ color: MUTED, fontSize: 11, fontWeight: 700, letterSpacing: 1, marginBottom: 6 }}>WHAT WE LEARN</div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>{story.lesson}</p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {tab === "practices" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>

@@ -4,6 +4,8 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
+type Tab = "theology" | "hard" | "stories" | "practices";
+
 const THEOLOGY = [
   { title: "Forgiveness is Not Optional", verse: "Matthew 6:14-15", body: "'If you forgive other people when they sin against you, your heavenly Father will also forgive you. But if you do not forgive others their sins, your Father will not forgive your sins' (Matthew 6:14-15). Jesus's language is stark. The Lord's Prayer ties divine forgiveness and human forgiveness together in a single breath. The person who refuses to forgive has not yet understood what they themselves have been forgiven." },
   { title: "Forgiveness is Not the Same as Reconciliation", verse: "Romans 12:18", body: "Forgiveness is unilateral — you can forgive someone who has not apologized, is not present, or is dead. Reconciliation is bilateral — it requires both parties and cannot be forced. 'As far as it depends on you, live at peace with everyone' (Romans 12:18) — the qualifier 'as far as it depends on you' acknowledges that some relationships cannot be reconciled. You can forgive without restoring the relationship, especially where safety is at risk." },
@@ -14,10 +16,53 @@ const THEOLOGY = [
 
 const HARD_CASES = [
   { case: "Forgiving Abuse", desc: "One of the most pastorally fraught applications. Biblical forgiveness does not require returning to an abusive situation or pretending the harm was not real.", response: "Forgiveness releases the debt; it does not require continued exposure to harm. Forgiving an abusive parent does not require maintaining a relationship with them. Safety is a legitimate consideration that is separate from the spiritual work of forgiveness. Seek pastoral and professional support for this work." },
-  { case: "Forgiving When the Person Is Unrepentant", desc: "The hardest case: the person who harmed you shows no remorse, no acknowledgment, and no change.", response: "Forgiveness does not require the other person's participation. It is a transaction between you and God. You release the debt; God handles the account. Waiting for repentance before forgiving gives the offender continued control over your healing. Forgive for your own sake and God's command — not for theirs." },
+  { case: "Forgiving the Unrepentant", desc: "The hardest case: the person who harmed you shows no remorse, no acknowledgment, and no change.", response: "Forgiveness does not require the other person's participation. It is a transaction between you and God. You release the debt; God handles the account. Waiting for repentance before forgiving gives the offender continued control over your healing. Forgive for your own sake and God's command — not for theirs." },
   { case: "Forgiving God", desc: "Many people carry anger toward God for unanswered prayer, tragedy, or perceived abandonment. This is not a category the Bible technically recognizes (God does not sin) — but the emotional reality is common.", response: "Bring the anger directly to God. The lament psalms model this: honest, even accusatory speech to God. God is not threatened by anger; he is present to it. The 'forgiveness of God' is better understood as releasing the expectation of how God should have acted and receiving the relationship again as it actually is." },
   { case: "Forgiving Yourself", desc: "Self-forgiveness is not a biblical category — but self-condemnation after genuine repentance is a spiritual problem. 'There is now no condemnation for those who are in Christ Jesus' (Romans 8:1).", response: "The solution to self-condemnation is not self-forgiveness but receiving divine forgiveness. If God has forgiven the sin, refusing to accept that forgiveness is a form of pride — placing your judgment above God's. Receive the forgiveness that has already been given. Act in accordance with forgiven status, not condemned status." },
   { case: "When Forgiveness Doesn't Feel Real", desc: "Forgiveness is a choice, not a feeling. It is possible to decide to forgive and still experience waves of anger, grief, or resentment.", response: "Forgiveness is not a single moment but often a process — especially for deep wounds. The decision is made; the feelings are processed over time. Each time resentment resurfaces, re-choose forgiveness. This is what C.S. Lewis called forgiving 'again' — not that the first forgiveness failed, but that the wound requires repeated release." },
+];
+
+const STORIES = [
+  {
+    id: "corrie",
+    name: "Corrie Ten Boom",
+    context: "Post-WWII Germany",
+    color: "#3B82F6",
+    story: "Corrie Ten Boom survived Ravensbruck concentration camp. Her sister Betsie died there. After the war she lectured on forgiveness across Germany. At one of her talks, a man approached her and extended his hand — he had been one of the cruelest guards at Ravensbruck. 'I became a Christian,' he said. 'I know God has forgiven me, but I would like to hear it from you as well.' She describes feeling nothing — a woodenness and coldness. She prayed silently: 'Jesus, I cannot forgive this man. Give me your forgiveness.' As she reached out to shake his hand, she felt a warmth running through her arm and shoulder. 'I forgive you, brother,' she said with all her heart.",
+    lesson: "Forgiveness is often not a feeling that precedes action but a grace that follows it. The act of extending the hand drew the grace that the emotion had not yet produced. Corrie's account is perhaps the most cited illustration of forgiveness in 20th-century Christian literature.",
+  },
+  {
+    id: "amish",
+    name: "The Amish of Nickel Mines",
+    context: "Lancaster County, PA, 2006",
+    color: "#EC4899",
+    story: "On October 2, 2006, a man entered an Amish schoolhouse in Nickel Mines, Pennsylvania, and shot ten girls, killing five, before killing himself. Hours after the shooting, Amish community members visited the shooter's family to offer comfort and forgiveness. They attended his funeral. They established a fund for the shooter's widow and children. The world watched in astonishment. An Amish grandfather, explaining to a child why they must not hate the shooter, said: 'We must not think evil of this man.'",
+    lesson: "The Amish response shocked the secular world because it was incomprehensible within a purely human framework of justice and proportionality. Their forgiveness was not excusing the act or denying the grief — they were devastated. It was the living expression of a theology practiced for generations. Forgiveness is a communal practice before it is an individual achievement.",
+  },
+  {
+    id: "tutu",
+    name: "Desmond Tutu & Truth and Reconciliation",
+    context: "Post-Apartheid South Africa, 1996-1998",
+    color: "#F59E0B",
+    story: "After the end of apartheid, the Truth and Reconciliation Commission (TRC) under Archbishop Desmond Tutu created a process where perpetrators of human rights violations could confess their crimes publicly and receive amnesty in exchange for full disclosure. Victims could speak publicly about what happened to them and their families. The aim was not impunity but the acknowledgment of truth as the precondition for genuine reconciliation. Tutu's theology: forgiveness does not deny the past — it refuses to let the past define the future.",
+    lesson: "Tutu's contribution to the theology of forgiveness: 'Ubuntu' — I am because you are. Forgiveness restores the humanity of both victim and perpetrator. The TRC was imperfect — many perpetrators did not participate, many victims felt justice had been compromised. But it demonstrated that structured forgiveness can operate at a national scale and that truth-telling is the foundation, not the enemy, of reconciliation.",
+  },
+  {
+    id: "smedes",
+    name: "Lewis Smedes",
+    context: "Theological Framework",
+    color: PURPLE,
+    story: "Lewis Smedes was a Reformed theologian whose book Forgive and Forget (1984) made the theology of forgiveness accessible to ordinary Christians. He famously described forgiveness: 'When you forgive, you set a prisoner free and discover that the prisoner was you.' He was careful to distinguish forgiving (releasing the debt) from excusing (pretending no wrong was done), forgetting (which is neither possible nor required), and reconciling (which requires the other party). His framework: forgiveness is a gift you give yourself in obedience to God.",
+    lesson: "Smedes gave the church precise language for a reality that had been practiced without being fully understood. His distinction between forgiving and reconciling has pastoral significance: people who were told to forgive and restore a dangerous relationship were doing more than Scripture required. Forgiving is complete; reconciling is separate.",
+  },
+  {
+    id: "joseph",
+    name: "Joseph and His Brothers",
+    context: "Genesis 45, 50",
+    color: GREEN,
+    story: "Joseph's brothers sold him into slavery out of jealousy. He spent years in slavery and prison. When he finally revealed himself to them in Egypt, he wept so loudly that the Egyptians heard him. 'I am Joseph. Is my father still living?' He was not emotionally detached; the forgiveness cost him something. He provided for his brothers and their families. When their father Jacob died, the brothers feared Joseph would finally take revenge. Joseph's response: 'You intended to harm me, but God intended it for good.' He did not minimize what they did. He did not pretend the harm was not real. But he held it within a providential frame that freed him to continue providing for them.",
+    lesson: "Joseph's forgiveness was processed over years, not a single dramatic moment. The weeping suggests he was still processing pain even as he forgave. Forgiveness is not the absence of pain — it is the refusal to repay it. And it enables continued relationship without requiring the pretense that the wound never happened.",
+  },
 ];
 
 const PRACTICES = [
@@ -30,8 +75,11 @@ const PRACTICES = [
 ];
 
 export default function ForgivenessGuidePage() {
-  const [activeTab, setActiveTab] = useState<"theology" | "hard" | "practices">("theology");
+  const [tab, setTab] = useState<Tab>("theology");
   const [expanded, setExpanded] = useState<string | null>(null);
+  const [selectedStory, setSelectedStory] = useState("corrie");
+
+  const story = STORIES.find(s => s.id === selectedStory)!;
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 40 }}>
@@ -46,18 +94,19 @@ export default function ForgivenessGuidePage() {
 
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
-            { id: "theology" as const, label: "Theology", icon: "📖" },
-            { id: "hard" as const, label: "Hard Cases", icon: "⚠️" },
-            { id: "practices" as const, label: "Practices", icon: "🛠️" },
+            { id: "theology" as Tab, label: "Theology", icon: "📖" },
+            { id: "hard" as Tab, label: "Hard Cases", icon: "⚠️" },
+            { id: "stories" as Tab, label: "Stories", icon: "📜" },
+            { id: "practices" as Tab, label: "Practices", icon: "🛠️" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
-              style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+            <button key={t.id} onClick={() => setTab(t.id)}
+              style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
           ))}
         </div>
 
-        {activeTab === "theology" && (
+        {tab === "theology" && (
           <div>
             {THEOLOGY.map((t, i) => (
               <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 16 }}>
@@ -71,7 +120,7 @@ export default function ForgivenessGuidePage() {
           </div>
         )}
 
-        {activeTab === "hard" && (
+        {tab === "hard" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 16 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
@@ -99,7 +148,33 @@ export default function ForgivenessGuidePage() {
           </div>
         )}
 
-        {activeTab === "practices" && (
+        {tab === "stories" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 190, flexShrink: 0 }}>
+              {STORIES.map(s => (
+                <button key={s.id} onClick={() => setSelectedStory(s.id)}
+                  style={{ width: "100%", padding: "12px 14px", borderRadius: 10, border: `1px solid ${selectedStory === s.id ? s.color : BORDER}`, background: selectedStory === s.id ? `${s.color}12` : "transparent", color: selectedStory === s.id ? s.color : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", marginBottom: 6, textAlign: "left" }}>
+                  {s.name.split(" &")[0]}
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ background: CARD, border: `1px solid ${story.color}30`, borderRadius: 14, padding: 26 }}>
+                <div style={{ marginBottom: 16 }}>
+                  <h2 style={{ color: story.color, fontWeight: 900, fontSize: 20, margin: "0 0 4px" }}>{story.name}</h2>
+                  <div style={{ color: MUTED, fontSize: 13 }}>{story.context}</div>
+                </div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.85, marginBottom: 18 }}>{story.story}</p>
+                <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 10, padding: 14 }}>
+                  <div style={{ color: GREEN, fontSize: 11, fontWeight: 700, letterSpacing: 1, marginBottom: 6 }}>THE LESSON</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, margin: 0 }}>{story.lesson}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {tab === "practices" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>

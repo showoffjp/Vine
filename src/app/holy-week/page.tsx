@@ -4,6 +4,76 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
+type Tab = "days" | "theology" | "observance";
+
+const THEOLOGY_BLOCKS = [
+  {
+    title: "The Kingdom Confrontation",
+    verse: "Luke 19:41-44",
+    body: "Holy Week is the decisive confrontation between the kingdom of God and the kingdoms of this world. Jesus rides into Jerusalem as its rightful king — and the city does not receive him. The same week, both Rome (in Pilate) and the religious establishment (in the Sanhedrin) align against him. The cross is not a tragedy that interrupts Jesus' mission; it is the mission. The king lays down his life precisely where and how the kingdoms of this world exercise their power.",
+  },
+  {
+    title: "Substitutionary Atonement",
+    verse: "Isaiah 53:5-6; Mark 10:45",
+    body: "The theological center of Holy Week is substitution: 'The Lord has laid on him the iniquity of us all' (Isaiah 53:6). Jesus gave his life 'as a ransom for many' (Mark 10:45). The Passover context is deliberate — Jesus is the Passover Lamb, whose blood causes death to pass over those sheltered by it. His death is not an example of self-sacrifice (though it is that); it is the payment of a debt he did not owe, covering the debt owed by those he came to save.",
+  },
+  {
+    title: "The New Covenant in His Blood",
+    verse: "Luke 22:20; Jeremiah 31:31-34",
+    body: "At the Last Supper, Jesus takes the cup and says: 'This cup is the new covenant in my blood.' He is fulfilling Jeremiah's prophecy of a new covenant — one in which the law would be written on hearts, not tablets; in which God would be their God and they his people; in which sin would be forgiven and remembered no more. The entire Old Testament covenant history — Abraham, Moses, David — reaches its fulfillment in the Passover supper and the cross.",
+  },
+  {
+    title: "The Resurrection as Vindication",
+    verse: "Romans 1:4; Acts 2:24",
+    body: "The resurrection is not simply 'the happy ending.' It is God's verdict on Jesus's life, death, and claims. By raising him from the dead, God declares that Jesus is indeed 'the Son of God in power' (Romans 1:4) — that his death was accepted as the ransom he claimed it to be, that death could not hold the one through whom life itself entered the world (Acts 2:24). The resurrection vindicates every claim Jesus made and grounds every promise he offered.",
+  },
+  {
+    title: "The Torn Veil",
+    verse: "Matthew 27:51; Hebrews 10:19-22",
+    body: "At the moment of Jesus' death, 'the curtain of the temple was torn in two from top to bottom' (Matthew 27:51). The veil separated the Holy of Holies — the place of God's presence — from the rest of the temple. Only the High Priest could enter, once a year. God tears it open. The way to his presence is now open — not through the Levitical priesthood but through the great High Priest who has passed through the heavens (Hebrews 4:14). Holy Week ends with access: the veil is gone.",
+  },
+];
+
+const OBSERVANCE_ITEMS = [
+  {
+    tradition: "Palm Sunday Procession",
+    era: "Ancient-Medieval (recorded from 4th century)",
+    icon: "🌿",
+    desc: "The Jerusalem church reenacted the Triumphal Entry beginning in the 4th century — a procession with palm branches from the Mount of Olives into the city. The practice spread to the Western church by the 9th century and became a universal feature of Christian worship. Today it is observed in Catholic, Orthodox, Anglican, Lutheran, and many evangelical churches. The procession embodies what worship is: movement toward Jesus.",
+  },
+  {
+    tradition: "Maundy Thursday Foot-Washing",
+    era: "Ancient; widespread in the medieval church",
+    icon: "💧",
+    desc: "Many traditions observe foot-washing as part of Maundy Thursday liturgy, following Jesus's example in John 13. The word 'Maundy' (from Latin mandatum, 'command') refers to the new commandment Jesus gave: 'Love one another as I have loved you.' The Pope washes the feet of twelve people annually on Maundy Thursday as a public act of servant-leadership. In many evangelical churches, foot-washing has been recovered as a counter-cultural practice of humility.",
+  },
+  {
+    tradition: "Good Friday Three Hours' Service",
+    era: "Latin American origin, 17th century; spread worldwide",
+    icon: "✝️",
+    desc: "The 'Three Hours' service — noon to 3pm on Good Friday, corresponding to the hours of Jesus' crucifixion — originated with the Jesuits in 17th-century Lima. It involves meditations on the Seven Last Words of Christ. The service spread globally through Anglican and other traditions and remains one of the most powerful forms of Holy Week worship: three hours of deliberate, silent attention to the cross at the exact time of year and day when Jesus died.",
+  },
+  {
+    tradition: "The Easter Vigil",
+    era: "Ancient; the oldest Christian liturgy",
+    icon: "🕯️",
+    desc: "The Easter Vigil — held on Holy Saturday night, concluding at dawn Easter Sunday — is the oldest continuous Christian liturgy. It includes lighting the Paschal Candle from a new fire, the Exsultet (a great hymn of praise for Christ's resurrection), extensive Scripture readings tracing the whole story of salvation, and the baptism of catechumens who have been preparing all year. The Vigil moves from darkness to light, from death to resurrection, in real time. Many Protestant churches are recovering it.",
+  },
+  {
+    tradition: "Sunrise Services",
+    era: "18th-century Moravian origin; widely adopted",
+    icon: "☀️",
+    desc: "Sunrise Easter services began with the Moravian Brethren in Herrnhut, Germany in 1732 — gathering outdoors before dawn to meet the risen Christ as the sun rises. The Moravian service at Salem, North Carolina (begun 1772) is the oldest continuous Easter sunrise service in America. The practice spread through evangelical and mainline Protestant churches worldwide. It embodies the eschatological hope of Easter: as the sun rises, so the Son has risen.",
+  },
+  {
+    tradition: "Ecumenical Good Friday Walk",
+    era: "20th century; rapidly spreading",
+    icon: "🌍",
+    desc: "Good Friday walks of witness — where Christians from multiple denominations carry a cross through city streets — began in the 20th century as an act of public proclamation and ecumenical unity. They are now held in hundreds of cities worldwide. The walks make visible what would otherwise remain internal: the Christian community's corporate identification with the crucified Christ. They also provide a form of public evangelism that is embodied and communal rather than merely verbal.",
+  },
+];
+
+
 const DAYS = [
   {
     day: "Palm Sunday",
@@ -97,6 +167,7 @@ const DAYS = [
 
 export default function HolyWeekPage() {
   const [selected, setSelected] = useState("Palm Sunday");
+  const [activeTab, setActiveTab] = useState<Tab>("days");
 
   const day = DAYS.find(d => d.day === selected)!;
 
@@ -111,7 +182,20 @@ export default function HolyWeekPage() {
           </p>
         </div>
 
-        <div style={{ display: "flex", gap: 20 }}>
+        <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
+          {[
+            { id: "days" as const, label: "The Days", icon: "📅" },
+            { id: "theology" as const, label: "Theology", icon: "📖" },
+            { id: "observance" as const, label: "Observance", icon: "🕯️" },
+          ].map(t => (
+            <button key={t.id} onClick={() => setActiveTab(t.id)}
+              style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+              {t.icon} {t.label}
+            </button>
+          ))}
+        </div>
+
+        {activeTab === "days" && <div style={{ display: "flex", gap: 20 }}>
           <div style={{ width: 190, flexShrink: 0 }}>
             {DAYS.map(d => (
               <button key={d.day} onClick={() => setSelected(d.day)}
@@ -157,7 +241,46 @@ export default function HolyWeekPage() {
               </div>
             </div>
           </div>
-        </div>
+        </div>}
+
+        {activeTab === "theology" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 24 }}>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>
+                Holy Week is not primarily a sequence of historical events — it is the hinge of all history. These are the theological pillars that give the week its weight and make the events more than biography.
+              </p>
+            </div>
+            {THEOLOGY_BLOCKS.map((b, i) => (
+              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 16 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                  <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, margin: 0 }}>{b.title}</h3>
+                  <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700, flexShrink: 0, marginLeft: 12 }}>{b.verse}</span>
+                </div>
+                <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 15, margin: 0 }}>{b.body}</p>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {activeTab === "observance" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 24 }}>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>
+                Holy Week has been observed by the church in every generation since the first century. These are the primary ways Christians have marked the week — practices that connect us to the body of Christ across time and space.
+              </p>
+            </div>
+            {OBSERVANCE_ITEMS.map((o, i) => (
+              <div key={i} style={{ display: "flex", gap: 16, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 12 }}>
+                <div style={{ fontSize: 28, flexShrink: 0, marginTop: 2 }}>{o.icon}</div>
+                <div>
+                  <div style={{ color: GREEN, fontWeight: 800, fontSize: 15, marginBottom: 4 }}>{o.tradition}</div>
+                  <div style={{ color: MUTED, fontSize: 12, fontWeight: 600, marginBottom: 10 }}>{o.era}</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{o.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

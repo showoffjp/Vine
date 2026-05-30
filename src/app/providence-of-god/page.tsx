@@ -4,6 +4,8 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
+type Tab = "theology" | "aspects" | "stories" | "practices";
+
 const THEOLOGY = [
   { title: "What Is Providence?", verse: "Colossians 1:17", body: "Providence is God's ongoing governance of creation — not only that he made the world but that he continually sustains, directs, and orders it toward his purposes. The word comes from the Latin providere (to foresee, to provide). In Christ all things hold together (Colossians 1:17); the creation does not run on its own momentum but is upheld moment by moment by God's power. Providence distinguishes the living God of Scripture from both the deist's absent watchmaker and the pagan's capricious fate." },
   { title: "General and Special Providence", verse: "Matthew 5:45", body: "General providence refers to God's care for all creation: the regularity of seasons, the rain that falls on the just and unjust alike (Matthew 5:45), the sustaining of biological life, the ordering of human history. Special providence refers to God's particular care for his people — the specific providences by which he works out his purposes in the lives of the elect and in the history of redemption. Both are real; special providence does not exclude general, nor does general diminish special." },
@@ -21,6 +23,54 @@ const ASPECTS = [
   { title: "Direction", icon: "🧭", verse: "Proverbs 21:1", desc: "God directs events toward his purposes. Even the king's heart is like a watercourse in God's hand (Proverbs 21:1) — he turns it where he will. History is not an accident; it is a story with an Author. The final chapter has been written: all things will be gathered under Christ (Ephesians 1:10).", color: "#10B981" },
 ];
 
+const STORIES = [
+  {
+    id: "joseph",
+    name: "Joseph in Egypt",
+    ref: "Genesis 37-50",
+    color: "#F59E0B",
+    events: "Joseph's brothers sold him into slavery out of jealousy. He was falsely accused by Potiphar's wife and imprisoned. He interpreted Pharaoh's dreams and was appointed second-in-command of Egypt. When famine struck, his brothers came to Egypt for food and Joseph revealed himself to them.",
+    verdict: "What his brothers intended as destruction God intended for salvation. 'You intended to harm me, but God intended it for good to accomplish what is now being done, the saving of many lives' (Genesis 50:20). The same event — the sale of Joseph — was simultaneously a sin (his brothers' evil act) and a providence (God's sovereign direction). Providence works through, not despite, human agency.",
+    lesson: "The thread of providence is often invisible from within events and only visible looking back. Joseph could not see the whole during the pit, the slavery, or the prison. He saw only what was immediately before him — and he remained faithful at each point. Providence rewards faithfulness, not clarity.",
+  },
+  {
+    id: "ruth",
+    name: "Ruth and Boaz",
+    ref: "Ruth 1-4",
+    color: "#EC4899",
+    events: "Naomi's husband and sons died in Moab. Naomi returned to Bethlehem with Ruth, her Moabite daughter-in-law. Ruth 'happened to' glean in the field of Boaz, a kinsman-redeemer of Naomi. Boaz noticed Ruth, protected her, and eventually married her. Their son Obed was the grandfather of King David.",
+    verdict: "The book of Ruth uses the language of 'happening' and 'chance' (2:3 — 'her chance led her to the part of the field belonging to Boaz') while operating in a world where nothing is truly accidental. A Moabite widow ends up in the lineage of David and of Jesus Christ through a series of events that look like coincidence and read like providence.",
+    lesson: "Providence is often invisible because it works through the ordinary — a gleaner in a field, a farmer's generosity, a night-time encounter at a threshing floor. The extraordinary outcomes (a Moabite in the Messiah's lineage) emerge from faithfulness in ordinary moments.",
+  },
+  {
+    id: "esther",
+    name: "Esther and the Jews",
+    ref: "Esther 1-10",
+    color: PURPLE,
+    events: "The Jewish exile Esther became queen of Persia. Haman, an official, obtained a royal decree to exterminate all Jews in the empire. Mordecai persuaded Esther to approach the king on the people's behalf. The king's favor, a sleepless night, and a series of reversals saved the Jews and destroyed Haman.",
+    verdict: "God's name does not appear once in the book of Esther — yet his governance is visible on every page. The king's sleepless night, Haman's inadvertent self-condemnation, the reading of the chronicles at the exact moment — these are what providence looks like when it is not announced. Mordecai's word to Esther captures it: 'If you remain silent at this time, relief and deliverance for the Jews will arise from another place' (Esther 4:14).",
+    lesson: "God's absence from the text of Esther is a theological statement, not an oversight. Providence is often most visible precisely in its hiddenness — working through natural events, human choices, and historical contingency without supernatural announcement.",
+  },
+  {
+    id: "paul",
+    name: "Paul's Shipwreck",
+    ref: "Acts 27",
+    color: "#3B82F6",
+    events: "Paul, a prisoner being transported to Rome, warned the ship's officers that the voyage would be disastrous. They ignored him. The ship encountered a catastrophic storm for two weeks. The sailors planned to abandon ship; Paul told everyone to stay, eat, and trust that no lives would be lost. The ship ran aground, everyone survived, and Paul reached Rome.",
+    verdict: "The shipwreck narrative is a concentrated study in the relationship between providence and human responsibility. God declared the outcome (no lives lost), but Paul still had to warn about the sailors escaping, still had to urge everyone to eat, still had to act faithfully within the providential frame. Providence does not make human effort unnecessary — it works through human effort and makes it meaningful.",
+    lesson: "Paul's confidence in the outcome did not produce passivity but active, courageous engagement with the immediate situation. Trusting providence is not quietism; it is the ground of purposeful action.",
+  },
+  {
+    id: "reformation",
+    name: "Luther's Hidden Years",
+    ref: "Wartburg Castle, 1521-22",
+    color: GREEN,
+    events: "After the Diet of Worms (1521), Martin Luther was 'kidnapped' by his protector, Elector Frederick, and hidden in Wartburg Castle for almost a year while he was declared an outlaw by the Emperor. During this time, Luther translated the New Testament into German — a work that would transform European Christianity.",
+    verdict: "The political circumstances that appeared to be Luther's greatest danger became the protection that enabled his greatest work. The hidden year at Wartburg produced the German New Testament that put the Scriptures in the hands of millions of ordinary people. The Emperor's edict that drove him into hiding gave him the time to do it.",
+    lesson: "Forced hiddenness is sometimes providential preparation. The season that looks like interruption may be the season of the most important work. Luther did not choose the Wartburg; providence placed him there.",
+  },
+];
+
 const PRACTICES = [
   { title: "Review Your Week for Providence", desc: "At the end of each week, look back over what happened — the unexpected, the providential, the hard. Ask: where was God active here? What was he doing? The practice of noticing providence trains the eye to see it more readily.", icon: "🔍" },
   { title: "Pray With Confidence", desc: "Providence makes prayer coherent rather than futile. You are not informing an uninvolved God or attempting to change a fixed fate — you are speaking to the One who actively governs history and who has built prayer into the means by which he accomplishes his purposes. Pray expectantly.", icon: "🙏" },
@@ -31,10 +81,12 @@ const PRACTICES = [
 ];
 
 export default function ProvidenceOfGodPage() {
-  const [activeTab, setActiveTab] = useState<"theology" | "aspects" | "practices">("theology");
+  const [tab, setTab] = useState<Tab>("theology");
   const [selectedAspect, setSelectedAspect] = useState("Preservation");
+  const [selectedStory, setSelectedStory] = useState("joseph");
 
   const aspect = ASPECTS.find(a => a.title === selectedAspect)!;
+  const story = STORIES.find(s => s.id === selectedStory)!;
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 40 }}>
@@ -49,18 +101,19 @@ export default function ProvidenceOfGodPage() {
 
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
-            { id: "theology" as const, label: "Theology", icon: "📖" },
-            { id: "aspects" as const, label: "Six Aspects", icon: "⚙️" },
-            { id: "practices" as const, label: "Practices", icon: "🛠️" },
+            { id: "theology" as Tab, label: "Theology", icon: "📖" },
+            { id: "aspects" as Tab, label: "Six Aspects", icon: "⚙️" },
+            { id: "stories" as Tab, label: "Stories", icon: "📜" },
+            { id: "practices" as Tab, label: "Practices", icon: "🛠️" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
-              style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+            <button key={t.id} onClick={() => setTab(t.id)}
+              style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
           ))}
         </div>
 
-        {activeTab === "theology" && (
+        {tab === "theology" && (
           <div>
             {THEOLOGY.map((t, i) => (
               <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 16 }}>
@@ -74,7 +127,7 @@ export default function ProvidenceOfGodPage() {
           </div>
         )}
 
-        {activeTab === "aspects" && (
+        {tab === "aspects" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
@@ -102,7 +155,40 @@ export default function ProvidenceOfGodPage() {
           </div>
         )}
 
-        {activeTab === "practices" && (
+        {tab === "stories" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 185, flexShrink: 0 }}>
+              {STORIES.map(s => (
+                <button key={s.id} onClick={() => setSelectedStory(s.id)}
+                  style={{ width: "100%", padding: "12px 14px", borderRadius: 10, border: `1px solid ${selectedStory === s.id ? s.color : BORDER}`, background: selectedStory === s.id ? `${s.color}12` : "transparent", color: selectedStory === s.id ? s.color : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", marginBottom: 6, textAlign: "left" }}>
+                  {s.name}
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ background: CARD, border: `1px solid ${story.color}30`, borderRadius: 14, padding: 26 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+                  <h2 style={{ color: story.color, fontWeight: 900, fontSize: 20, margin: 0 }}>{story.name}</h2>
+                  <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "3px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700, flexShrink: 0, marginLeft: 12 }}>{story.ref}</span>
+                </div>
+                <div style={{ marginBottom: 16 }}>
+                  <div style={{ color: MUTED, fontSize: 11, fontWeight: 700, letterSpacing: 1, marginBottom: 8 }}>WHAT HAPPENED</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>{story.events}</p>
+                </div>
+                <div style={{ marginBottom: 16 }}>
+                  <div style={{ color: MUTED, fontSize: 11, fontWeight: 700, letterSpacing: 1, marginBottom: 8 }}>THE PROVIDENTIAL VERDICT</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>{story.verdict}</p>
+                </div>
+                <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 10, padding: 14 }}>
+                  <div style={{ color: GREEN, fontSize: 11, fontWeight: 700, letterSpacing: 1, marginBottom: 6 }}>THE LESSON</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, margin: 0 }}>{story.lesson}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {tab === "practices" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>

@@ -65,8 +65,18 @@ const TRADITIONS_COMPARED = [
   { tradition: "Third Wave/Vineyard", view: "All gifts continue today but without the classical Pentecostal requirement of tongues as initial evidence. Signs, wonders, and healing are normal Christian ministry.", emphasis: "Power evangelism and healing ministry" },
 ];
 
+const SCHOLARS_HS = [
+  { id: "fee", name: "Gordon Fee", era: "1934-2022", context: "Assemblies of God; New Testament scholar; Regent College", bio: "Fee's God's Empowering Presence (1994) is the most comprehensive study of the Holy Spirit in Paul's letters. His scholarship is both academically rigorous and personally charismatic — he argues from the text that Paul's communities experienced the Spirit in ways that included tongues, prophecy, and other gifts, and that the New Testament does not provide grounds for cessationism. His smaller work Paul, the Spirit, and the People of God makes the argument accessible.", quote: "The Spirit is the fulfillment of the new covenant promise — the life of the future present in the midst of the present age.", contribution: "Established the exegetical case for continuationism from Paul's letters. His work has given charismatic and Pentecostal scholars the scholarly foundation their tradition needed." },
+  { id: "packer", name: "J.I. Packer", era: "1926-2020", context: "Regent College; Reformed Anglican; Keep in Step with the Spirit (1984)", bio: "Packer approached the Holy Spirit from a Reformed perspective, emphasizing the Spirit's work in illuminating Scripture, effecting regeneration, producing the fruit of the Spirit, and guiding the church. He was cautious about charismatic practice — arguing that the experience-centered orientation of the charismatic movement was prone to subjectivism — while acknowledging the Spirit's ongoing work in prayer and sanctification. Keep in Step with the Spirit remains the best Reformed treatment of pneumatology.", quote: "Spiritual gifts are given for building up the body, not for impressing observers or satisfying the recipient.", contribution: "Provided the Reformed tradition's most careful and irenic engagement with charismatic Christianity. His balance — taking spiritual experience seriously while anchoring it to Scripture — models the kind of theological engagement the church needs." },
+  { id: "grudem", name: "Wayne Grudem", era: "b. 1948", context: "Phoenix Seminary; Systematic Theology; open but cautious continuationist", bio: "Grudem's chapter on the Holy Spirit in Systematic Theology (1994) is the most widely used evangelical treatment of pneumatology. His position is 'open but cautious' continuationism: all gifts continue today, but they should be exercised with discernment and within the authority of Scripture. His The Gift of Prophecy in the New Testament and Today argues that NT prophecy is not infallible and can be tested — which makes contemporary prophecy practices theologically defensible without claiming Sripts-level authority.", quote: "The Holy Spirit is given to every believer at the moment of conversion and is never said in the New Testament to be a second, subsequent blessing distinct from salvation.", contribution: "Provided evangelical churches with a nuanced middle position between cessationism and full-charismatic theology. His treatment of NT prophecy as fallible-but-genuine has been particularly influential in Third Wave and Vineyard contexts." },
+  { id: "macarthur", name: "John MacArthur", era: "b. 1939", context: "Grace Community Church; The Master's Seminary; cessationist", bio: "MacArthur is the most prominent contemporary advocate of cessationism — the view that the miraculous sign gifts (tongues, prophecy, healing) ceased with the death of the apostles. His Charismatic Chaos (1992) and Strange Fire (2013) argue that the charismatic movement has produced massive spiritual confusion by attributing to the Holy Spirit experiences that Scripture does not warrant. His positive pneumatology emphasizes the Spirit's work in illuminating Scripture, convicting of sin, regenerating, and sanctifying.", quote: "The Holy Spirit wrote the Bible. Does it not stand to reason that he would lead you to interpret the Bible, not to have new revelations beyond the Bible?", contribution: "Articulated the most thoroughgoing cessationist case in the contemporary evangelical world. Regardless of whether one agrees with his conclusions, his challenge to the charismatic movement forces continuationists to ground their practice more carefully in Scripture." },
+  { id: "storms", name: "Sam Storms", era: "b. 1951", context: "Bridgeway Church, Oklahoma City; former cessationist converted to continuationism", bio: "Storms is unusual: a rigorously Reformed theologian who practices the gifts of the Spirit. His Practicing the Power (2017) is a practical guide to charismata within a theologically careful framework. His journey from cessationism to continuationism — detailed in his writings — gives his work unusual credibility with skeptical readers. He argues that the New Testament provides no exegetical warrant for cessationism and that the gifts are given for the strengthening of the church until Christ returns.", quote: "I believe that all spiritual gifts are still operative today and that all of us should ask God to manifest them through us for the building up of the church.", contribution: "Models how a theologically conservative, exegetically rigorous Reformed pastor can hold continuationist convictions. His work has helped many cessationist-background evangelicals reconsider their position without abandoning doctrinal seriousness." }
+];
+
 export default function HolySpiritPage() {
-  const [activeTab, setActiveTab] = useState<"doctrines" | "traditions" | "practice">("doctrines");
+  const [activeTab, setActiveTab] = useState<"doctrines" | "scholars" | "traditions" | "practice">("doctrines");
+  const [selectedScholar, setSelectedScholar] = useState("fee");
+  const scholar = SCHOLARS_HS.find(s => s.id === selectedScholar)!;
   const [selectedDoc, setSelectedDoc] = useState("person");
   const [expandedDoc, setExpandedDoc] = useState<string | null>(null);
   const [journalText, setJournalText] = useState(() => {
@@ -90,8 +100,9 @@ export default function HolySpiritPage() {
 
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
-            { id: "doctrines" as const, label: "Who He Is & What He Does", icon: "📖" },
-            { id: "traditions" as const, label: "Traditions Compared", icon: "⚖️" },
+            { id: "doctrines" as const, label: "Doctrines", icon: "📖" },
+            { id: "scholars" as const, label: "Scholars", icon: "🏛️" },
+            { id: "traditions" as const, label: "Traditions", icon: "⚖️" },
             { id: "practice" as const, label: "Walking in the Spirit", icon: "🚶" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
@@ -127,6 +138,43 @@ export default function HolySpiritPage() {
                 <div style={{ background: BG, borderRadius: 8, padding: 14 }}>
                   <p style={{ color: MUTED, fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 }}>Application</p>
                   <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.65, margin: 0 }}>{doc.application}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "scholars" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 210, flexShrink: 0 }}>
+              {SCHOLARS_HS.map(s => (
+                <button key={s.id} onClick={() => setSelectedScholar(s.id)}
+                  style={{ width: "100%", background: selectedScholar === s.id ? `${PURPLE}18` : "transparent", border: `1px solid ${selectedScholar === s.id ? PURPLE + "80" : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 6, cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: selectedScholar === s.id ? TEXT : MUTED, fontWeight: 700, fontSize: 13 }}>{s.name}</div>
+                  <div style={{ color: MUTED, fontSize: 11, marginTop: 2 }}>{s.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ background: CARD, border: `1px solid ${PURPLE}30`, borderRadius: 14, padding: 28 }}>
+                <div style={{ marginBottom: 18 }}>
+                  <h2 style={{ color: TEXT, fontWeight: 900, fontSize: 22, marginBottom: 4 }}>{scholar.name}</h2>
+                  <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                    <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700 }}>{scholar.era}</span>
+                    <span style={{ background: `${GREEN}15`, color: GREEN, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700 }}>{scholar.context}</span>
+                  </div>
+                </div>
+                <div style={{ marginBottom: 18 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>LIFE & TEACHING</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>{scholar.bio}</p>
+                </div>
+                <div style={{ background: BG, borderLeft: `3px solid ${PURPLE}`, borderRadius: "0 10px 10px 0", padding: 18, marginBottom: 18 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 11, marginBottom: 8 }}>CHARACTERISTIC QUOTE</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0, fontStyle: "italic" }}>&ldquo;{scholar.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 10, padding: 16 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>CONTRIBUTION</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{scholar.contribution}</p>
                 </div>
               </div>
             </div>

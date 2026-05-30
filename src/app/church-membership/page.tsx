@@ -41,8 +41,61 @@ const HEALTH_MARKS = [
   { mark: "Genuine Community", desc: "Members know each other. There is real care, accountability, and belonging — not just attendance." },
 ];
 
+const TRADITIONS = [
+  {
+    id: "earlychurch",
+    name: "Early Church Covenants",
+    era: "1st-3rd centuries",
+    color: GREEN,
+    description: "The early church practiced a catechumenate — a period of instruction and testing before baptism and full membership. The Didache (c.90 AD) prescribed fasting and instruction before baptism. Ignatius of Antioch (c.110 AD) wrote that nothing should happen in the church apart from the bishop — reflecting a defined, committed community structure. Justin Martyr describes the two-stage entrance: instruction, followed by communal prayer and Eucharist, admitted only to those who 'believe our teaching to be true and have been washed in the washing.'",
+    significance: "The early church treated membership as weighty — a covenant commitment requiring preparation, accountability, and public profession. It was not easily entered or lightly held. The persecution context made clear that formal membership had real costs.",
+    example: "Didache 7: 'Before baptism, let the one baptizing and the one to be baptized fast, as well as any others who are able. You shall require the one to be baptized to fast one or two days beforehand.'",
+  },
+  {
+    id: "reformed",
+    name: "Reformed / Presbyterian",
+    era: "16th century onward",
+    color: "#3B82F6",
+    description: "The Reformed tradition grounded church membership in the covenant of grace and the visible church. Calvin argued that the church is both invisible (all who are truly elect) and visible (the defined community of professing believers and their children who practice Word and sacrament). Presbyterian polity organizes the visible church into local congregations with ruling elders who know and shepherd defined members. Church discipline is both a mark of the true church and a function requiring known membership.",
+    significance: "The Reformed tradition produced detailed confessional standards (Westminster Confession, Heidelberg Catechism) that shaped what membership meant — doctrinal commitment, submission to oversight, regular participation in Word and sacrament. This tradition has historically had the most developed theology of the visible church.",
+    example: "Westminster Confession 25.2: 'The visible church... consists of all those throughout the world that profess the true religion; and of their children: and is the kingdom of the Lord Jesus Christ, the house and family of God, out of which there is no ordinary possibility of salvation.'",
+  },
+  {
+    id: "baptist",
+    name: "Baptist Covenant Tradition",
+    era: "17th century onward",
+    color: PURPLE,
+    description: "Baptist polity places unique emphasis on the local church as a covenanted community of regenerate believers. The 1689 London Baptist Confession and the subsequent Baptist covenant tradition produce written membership covenants — documents that members sign, pledging specific commitments to each other and to the Lord. These covenants typically address: mutual encouragement, attendance, giving, prayer, accountability, and submission to church discipline.",
+    significance: "Baptist church covenants are among the most explicit expressions of what membership means. They treat joining a church as making specific promises to specific people — not just a transaction with a denomination or a doctrinal agreement, but a personal commitment to identifiable brothers and sisters. Many Reformed Baptist churches still use a version of the 1833 New Hampshire Baptist Confession covenant.",
+    example: "Baptist Covenant (typical): 'We engage to walk together in Christian love, to strive for the advancement of this church, to sustain its worship, ordinances, discipline, and doctrines; to contribute cheerfully and regularly to the support of the ministry...'",
+  },
+  {
+    id: "anabaptist",
+    name: "Anabaptist / Believers Church",
+    era: "16th century onward",
+    color: "#F59E0B",
+    description: "The Anabaptist wing of the Reformation — including Mennonites, Hutterites, and later Brethren — took the most radical view of the church as a gathered community of committed disciples. They rejected infant baptism, insisting that membership required adult confession of faith and voluntary commitment. The ban (Meidung, or shunning) functioned as church discipline — exclusion from the community for unrepentant sin. Community (Gemeinschaft) was central: the church was a brotherhood, not a territorial institution.",
+    significance: "The Anabaptist tradition pushed membership toward its most costly form: joining a church community was joining a way of life, not a religious association. Their descendants — Mennonite, Amish, Brethren — continue to practice forms of community that outsiders often find either inspiring or shocking. Their insight: if membership has no cost and no consequence, it has no meaning.",
+    example: "Schleitheim Confession (1527): 'Baptism shall be given to all those who have learned repentance and amendment of life, and who believe truly that their sins are taken away by Christ... All those who wish to break bread in remembrance of the broken body of Christ... shall beforehand be united by baptism in one body of Christ which is the church of God.'",
+  },
+  {
+    id: "modern",
+    name: "9Marks / Modern Evangelical",
+    era: "Late 20th century onward",
+    color: "#EC4899",
+    description: "Mark Dever and the 9Marks movement (Capitol Hill Baptist Church, Washington DC) represent a late-20th-century recovery of robust church membership in the broader evangelical world. Dever's book 'The Deliberate Church' (with Paul Alexander) and his work on ecclesiology systematized marks of a healthy church that include meaningful membership, regular church discipline, and biblical church government. The movement has influenced hundreds of churches globally toward more intentional membership practices.",
+    significance: "The 9Marks recovery came in reaction to the megachurch and seeker-sensitive movements that had often minimized committed membership in favor of broad accessibility. Dever's contribution was arguing that meaningful membership is not a barrier to growth but its prerequisite — that a church with no clear 'who' can have no clear 'what.' The movement restored the language of church covenants and discipline in many otherwise informal evangelical contexts.",
+    example: "9Marks definition: 'A church member is someone who has publicly committed to a local body. The church affirms his or her profession of faith, and both parties — the member and the church — commit to care for and oversee each other.'",
+  },
+];
+
+type Tab = "why" | "objections" | "traditions" | "how";
+
 export default function ChurchMembershipPage() {
-  const [activeTab, setActiveTab] = useState<"why" | "objections" | "how">("why");
+  const [tab, setTab] = useState<Tab>("why");
+  const [selectedTradition, setSelectedTradition] = useState("earlychurch");
+
+  const trad = TRADITIONS.find(t => t.id === selectedTradition)!;
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 40 }}>
@@ -59,16 +112,17 @@ export default function ChurchMembershipPage() {
           {[
             { id: "why" as const, label: "Why It Matters", icon: "📖" },
             { id: "objections" as const, label: "Objections", icon: "❓" },
+            { id: "traditions" as const, label: "Traditions", icon: "🏛️" },
             { id: "how" as const, label: "How to Join", icon: "🛠️" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
-              style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+            <button key={t.id} onClick={() => setTab(t.id)}
+              style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
           ))}
         </div>
 
-        {activeTab === "why" && (
+        {tab === "why" && (
           <div>
             {WHY_IT_MATTERS.map((w, i) => (
               <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 16 }}>
@@ -82,7 +136,7 @@ export default function ChurchMembershipPage() {
           </div>
         )}
 
-        {activeTab === "objections" && (
+        {tab === "objections" && (
           <div>
             {OBJECTIONS.map((o, i) => (
               <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, marginBottom: 12 }}>
@@ -104,7 +158,36 @@ export default function ChurchMembershipPage() {
           </div>
         )}
 
-        {activeTab === "how" && (
+        {tab === "traditions" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 210, flexShrink: 0 }}>
+              {TRADITIONS.map(t => (
+                <button key={t.id} onClick={() => setSelectedTradition(t.id)}
+                  style={{ width: "100%", textAlign: "left", background: selectedTradition === t.id ? `${t.color}18` : CARD, border: `1px solid ${selectedTradition === t.id ? t.color : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 8, cursor: "pointer" }}>
+                  <div style={{ color: selectedTradition === t.id ? t.color : TEXT, fontWeight: 700, fontSize: 13, marginBottom: 3 }}>{t.name}</div>
+                  <div style={{ color: MUTED, fontSize: 11 }}>{t.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1, background: CARD, border: `1px solid ${trad.color}40`, borderRadius: 12, padding: 24 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 14 }}>
+                <h2 style={{ color: trad.color, fontWeight: 900, fontSize: 20, margin: 0 }}>{trad.name}</h2>
+                <span style={{ background: `${trad.color}18`, color: trad.color, padding: "3px 10px", borderRadius: 8, fontSize: 11, fontWeight: 700, marginLeft: 12, whiteSpace: "nowrap" }}>{trad.era}</span>
+              </div>
+              <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, marginBottom: 14 }}>{trad.description}</p>
+              <div style={{ background: BG, borderRadius: 10, padding: 14, marginBottom: 14 }}>
+                <div style={{ color: MUTED, fontSize: 11, fontWeight: 700, letterSpacing: 1, marginBottom: 6 }}>SIGNIFICANCE</div>
+                <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.75, margin: 0 }}>{trad.significance}</p>
+              </div>
+              <div style={{ background: `${trad.color}08`, border: `1px solid ${trad.color}20`, borderRadius: 10, padding: 14 }}>
+                <div style={{ color: trad.color, fontSize: 11, fontWeight: 700, letterSpacing: 1, marginBottom: 6 }}>EXAMPLE TEXT</div>
+                <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.75, margin: 0, fontStyle: "italic" }}>{trad.example}</p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {tab === "how" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>

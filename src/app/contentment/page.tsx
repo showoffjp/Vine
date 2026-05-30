@@ -19,6 +19,54 @@ const DISCONTENTMENT_SOURCES = [
   { source: "Fear of Missing Out", sign: "You feel you must have every experience, opportunity, or relationship or you will have wasted your life.", remedy: "Your finite life is a gift, not a constraint. You cannot have everything, and trying to will exhaust and fragment you. Choose your 'yeses' carefully; they are the real measure of a life." },
 ];
 
+const TEACHERS = [
+  {
+    id: "burroughs",
+    name: "Jeremiah Burroughs",
+    work: "The Rare Jewel of Christian Contentment (1648)",
+    color: GREEN,
+    bio: "English Puritan pastor. One of the most popular preachers of his era. Preached to the Westminster Assembly.",
+    quote: "Christian contentment is that sweet, inward, quiet, gracious frame of spirit, which freely submits to and delights in God's wise and fatherly disposal in every condition.",
+    insight: "Burroughs's book is the most thorough treatment of contentment in the Christian tradition. His central insight is that contentment is not the absence of desire but the proper ordering of desire under the will of God. He teaches contentment by distinguishing it from its counterfeits: stoic indifference (not caring), resignation (defeated acceptance), and pretend peace (suppressed discontentment). True contentment, he says, is learned through a series of exercises that bring the heart to align its wants with God's provision. Key among them: seeing what you have rather than what you lack, and recalling that the Christian's inheritance is in heaven, not in present circumstances.",
+  },
+  {
+    id: "lewis",
+    name: "C.S. Lewis",
+    work: "The Screwtape Letters (1942); Mere Christianity",
+    color: PURPLE,
+    bio: "Oxford and Cambridge scholar, Christian apologist, novelist. Converted from atheism to Christianity in his early 30s.",
+    quote: "If I find in myself a desire which no experience in this world can satisfy, the most probable explanation is that I was made for another world.",
+    insight: "Lewis approaches contentment through desire — and specifically through the argument that the scale of human longing exceeds anything on earth. He calls this longing 'Joy' (Sehnsucht in German) — a yearning for something that no earthly object fully satisfies. His argument: the very fact that nothing in this world fully contents us is evidence that we are made for more. This reframes discontentment: instead of being a problem to be managed, it is a signpost pointing toward God. In Screwtape Letters, his demon Screwtape describes how the Enemy (God) wants humans to be genuinely hungry and to find that hunger genuinely fed — not the shallow satisfaction of substitutes.",
+  },
+  {
+    id: "aquinas",
+    name: "Thomas Aquinas",
+    work: "Summa Theologiae (1265-1274)",
+    color: "#3B82F6",
+    bio: "Dominican friar, theologian, and philosopher. Synthesized Aristotelian philosophy with Christian theology. Doctor of the Church.",
+    quote: "Greed is not a defect in the earthly goods themselves, but in the man who loves them inordinately.",
+    insight: "Aquinas frames contentment through the virtue of temperance — the proper ordering of desire toward its fitting object. Discontentment is, for Aquinas, a form of disordered love: not wrong to want things, but wrong to want the wrong things, in the wrong quantity, in the wrong priority. His key concept is ordinatio — the right ordering of goods under the greatest good (God). Contentment is not the suppression of desire but its proper direction. He also distinguishes poverty of spirit (a voluntary detachment from goods that Aquinas advocates) from material poverty (not required of all). The person who possesses much but holds it lightly is more content than the person who possesses little but clings to it.",
+  },
+  {
+    id: "willard",
+    name: "Dallas Willard",
+    work: "The Spirit of the Disciplines (1988)",
+    color: "#F59E0B",
+    bio: "Philosophy professor at USC and spiritual formation author. Shaped a generation's thinking on discipleship and the spiritual life.",
+    quote: "Simplicity is a freedom from anxiety over the possession or the loss of things.",
+    insight: "Willard grounds contentment in the discipline of simplicity — a deliberate structuring of life to need less and want less. His argument is that spiritual disciplines are not ways to earn God's favor but training for the kind of life Jesus lived. Simplicity trains contentment just as fasting trains hunger: by voluntarily going without, the grip of want is loosened. He also addresses the root: the 'spirit of accumulation' that drives discontentment is not merely a personal failing but a cultural formation. Consumer society actively trains discontentment — it is its business model. Counter-formation requires intentional counter-practices.",
+  },
+  {
+    id: "pieper",
+    name: "Josef Pieper",
+    work: "Leisure: The Basis of Culture (1948)",
+    color: "#EC4899",
+    bio: "German Catholic philosopher. Wrote against the spirit of Nazi and postwar productivity ideology.",
+    quote: "Leisure is a form of silence, of that silence which is the prerequisite of the apprehension of reality.",
+    insight: "Pieper's contribution to contentment is his recovery of the classical concept of leisure (schole in Greek) as the contemplative orientation toward reality that makes genuine satisfaction possible. He argues that the modern world has replaced leisure with idleness on one side and work on the other — neither of which produces contentment. True leisure is the posture of receiving reality as gift, being present to what is rather than anxiously projecting onto what might be. This receptivity is the foundation of contentment: the ability to be where you are, with what you have, attending to it with full gratitude. Pieper's argument is that a society organized entirely around production cannot produce contentment — only consumption, which is appetite, not satisfaction.",
+  },
+];
+
 const PRACTICES = [
   { title: "Gratitude List", desc: "Write three specific things you are grateful for each morning before your mind fills with the day's demands. Specificity matters: not 'my family' but 'the conversation I had with my daughter last night.'", verse: "1 Thessalonians 5:18" },
   { title: "Content-Enough Audit", desc: "Ask the question: 'Do I have enough food, shelter, and clothing today?' If yes — by the biblical standard (1 Tim. 6:8) — you are wealthy. The rest is bonus.", verse: "1 Timothy 6:8" },
@@ -28,16 +76,13 @@ const PRACTICES = [
   { title: "Delight in What You Have", desc: "Identify one thing you already own that you have stopped noticing. Use it this week with full attention and gratitude, as if it were new. Familiarity breeds contempt; intentionality reverses it.", verse: "Ecclesiastes 9:9" },
 ];
 
-const QUOTES = [
-  { text: "Contentment is not the fulfillment of what you want, but the realization of how much you already have.", author: "Unknown" },
-  { text: "The secret of contentment is the realization that life is a gift, not a right.", author: "Rich Warren" },
-  { text: "Man is the only creature who refuses to be what he is.", author: "Albert Camus" },
-  { text: "The greatest wealth is to live content with little.", author: "Plato" },
-  { text: "Godliness with contentment is great gain.", author: "The Apostle Paul (1 Timothy 6:6)" },
-];
+type Tab = "theology" | "discontentment" | "teachers" | "practices";
 
 export default function ContentmentPage() {
-  const [activeTab, setActiveTab] = useState<"theology" | "discontentment" | "practices">("theology");
+  const [tab, setTab] = useState<Tab>("theology");
+  const [selectedTeacher, setSelectedTeacher] = useState("burroughs");
+
+  const teacher = TEACHERS.find(t => t.id === selectedTeacher)!;
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 40 }}>
@@ -53,17 +98,18 @@ export default function ContentmentPage() {
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
             { id: "theology" as const, label: "Theology", icon: "📖" },
-            { id: "discontentment" as const, label: "Sources of Discontentment", icon: "🔍" },
+            { id: "discontentment" as const, label: "Discontentment", icon: "🔍" },
+            { id: "teachers" as const, label: "Great Teachers", icon: "📚" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
-              style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+            <button key={t.id} onClick={() => setTab(t.id)}
+              style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
           ))}
         </div>
 
-        {activeTab === "theology" && (
+        {tab === "theology" && (
           <div>
             {THEOLOGY.map((t, i) => (
               <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 16 }}>
@@ -74,21 +120,10 @@ export default function ContentmentPage() {
                 <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 15, margin: 0 }}>{t.body}</p>
               </div>
             ))}
-            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22 }}>
-              <h3 style={{ color: PURPLE, fontWeight: 800, fontSize: 17, marginBottom: 14 }}>Wisdom on Contentment</h3>
-              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                {QUOTES.map((q, i) => (
-                  <div key={i} style={{ background: BG, borderRadius: 10, padding: 16 }}>
-                    <p style={{ color: TEXT, fontSize: 14, fontStyle: "italic", lineHeight: 1.65, marginBottom: 6 }}>"{q.text}"</p>
-                    <div style={{ color: MUTED, fontSize: 12, fontWeight: 700 }}>— {q.author}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
           </div>
         )}
 
-        {activeTab === "discontentment" && (
+        {tab === "discontentment" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 16 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
@@ -111,7 +146,35 @@ export default function ContentmentPage() {
           </div>
         )}
 
-        {activeTab === "practices" && (
+        {tab === "teachers" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 210, flexShrink: 0 }}>
+              {TEACHERS.map(t => (
+                <button key={t.id} onClick={() => setSelectedTeacher(t.id)}
+                  style={{ width: "100%", textAlign: "left", background: selectedTeacher === t.id ? `${t.color}18` : CARD, border: `1px solid ${selectedTeacher === t.id ? t.color : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 8, cursor: "pointer" }}>
+                  <div style={{ color: selectedTeacher === t.id ? t.color : TEXT, fontWeight: 700, fontSize: 13, marginBottom: 3 }}>{t.name}</div>
+                  <div style={{ color: MUTED, fontSize: 11 }}>{t.work}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1, background: CARD, border: `1px solid ${teacher.color}40`, borderRadius: 12, padding: 24 }}>
+              <h2 style={{ color: teacher.color, fontWeight: 900, fontSize: 20, marginBottom: 4 }}>{teacher.name}</h2>
+              <div style={{ color: MUTED, fontSize: 13, marginBottom: 14 }}>{teacher.work}</div>
+              <div style={{ background: BG, borderRadius: 8, padding: "8px 14px", marginBottom: 14 }}>
+                <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0 }}>{teacher.bio}</p>
+              </div>
+              <blockquote style={{ borderLeft: `3px solid ${teacher.color}`, paddingLeft: 16, marginBottom: 14 }}>
+                <p style={{ color: TEXT, fontSize: 15, fontStyle: "italic", lineHeight: 1.75, margin: 0 }}>"{teacher.quote}"</p>
+              </blockquote>
+              <div style={{ background: `${teacher.color}08`, border: `1px solid ${teacher.color}20`, borderRadius: 10, padding: 16 }}>
+                <div style={{ color: teacher.color, fontSize: 11, fontWeight: 700, letterSpacing: 1, marginBottom: 8 }}>THEIR CONTRIBUTION</div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>{teacher.insight}</p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {tab === "practices" && (
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 14 }}>
             {PRACTICES.map((p, i) => (
               <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>

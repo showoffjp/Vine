@@ -8,7 +8,7 @@ const FOUNDATIONS = [
   { title: "Justice Is God's Character", verse: "Psalm 89:14", body: "Justice and righteousness are the foundation of God's throne (Psalm 89:14). This is not a political statement — it is a theological one. God is not neutral about injustice. He hates oppression because it violates the dignity of people made in his image. His covenant repeatedly commands care for the widow, orphan, foreigner, and poor — those without social power to protect themselves." },
   { title: "The Prophets Preached Justice", verse: "Amos 5:24", body: "'Let justice roll on like a river, righteousness like a never-failing stream' (Amos 5:24). Amos, Micah, Isaiah, and Jeremiah were not social activists importing foreign categories — they were covenant enforcers. When Israel exploited the poor, ignored the widow, and bribed the court, the prophets declared this a covenant violation as serious as idolatry. Social justice was not peripheral to their message; it was central." },
   { title: "Jesus and the Poor", verse: "Luke 4:18", body: "Jesus opened his public ministry by reading Isaiah 61 in the synagogue: 'The Spirit of the Lord is on me, because he has anointed me to proclaim good news to the poor.' His ministry was marked by attention to the marginalized — the sick, the outsider, the ritually unclean, women, Samaritans, tax collectors. Not as a social program but as the in-breaking of the kingdom of God." },
-  { title: "The Gospel and the Whole Person", verse: "James 2:14–17", body: "'What good is it, if someone claims to have faith but has no deeds? Suppose a brother or sister is without clothes and daily food. If one of you says to them, \'Go in peace; keep warm and well fed,\' but does nothing about their physical needs, what good is it?' (James 2:14-16). The gospel is not only about spiritual salvation — it concerns the whole person in their concrete situation." },
+  { title: "The Gospel and the Whole Person", verse: "James 2:14-17", body: "James asks: what good is it if someone claims faith but does nothing about a neighbor's hunger and cold? 'In the same way, faith by itself, if it is not accompanied by action, is dead' (James 2:17). The gospel is not only about spiritual salvation — it concerns the whole person in their concrete situation. Separating evangelism from care for the body is a modern split that Scripture does not support." },
   { title: "Already and Not Yet", verse: "Revelation 21:4", body: "Justice work is an expression of hope in God's coming kingdom — 'He will wipe every tear from their eyes. There will be no more death or mourning or crying or pain' (Rev. 21:4). We work for justice now not because we believe we can build the kingdom ourselves, but because our action is a sign of what God has promised. It is prophetic, anticipatory — a foretaste of shalom." },
 ];
 
@@ -18,6 +18,54 @@ const TENSIONS = [
   { tension: "Which issues count as 'justice issues'?", answer: "Consistently apply biblical criteria: Who bears the image of God? Who lacks power or voice? What does Scripture say about this group? Consistent pro-life ethics covers abortion, poverty, racism, and capital punishment — not left or right platforms." },
   { tension: "Engaging vs. becoming the political system", answer: "The church's loyalty is to the kingdom of God, not to any party or nation. Christians should be comfortable making both parties uncomfortable. Political engagement without prophetic independence is captured advocacy." },
   { tension: "Charity vs. systemic change", answer: "Both are necessary. Direct service addresses immediate need; advocacy and systemic reform address patterns that reproduce need. Feeding the poor is essential; asking why people are hungry is also essential." },
+];
+
+const VOICES = [
+  {
+    id: "mlk",
+    name: "Martin Luther King Jr.",
+    work: "Letter from Birmingham Jail (1963); Strength to Love (1963)",
+    color: "#EF4444",
+    bio: "Baptist pastor, civil rights leader, Nobel Peace Prize laureate. Assassinated in Memphis, 1968, at age 39.",
+    quote: "Injustice anywhere is a threat to justice everywhere. We are caught in an inescapable network of mutuality, tied in a single garment of destiny. Whatever affects one directly, affects all indirectly.",
+    contribution: "King's unique contribution was grounding the civil rights movement in explicit Christian theology — not in secular rights discourse alone. He drew on Augustine's distinction between just and unjust laws, on Aquinas's concept of natural law, and on the prophetic tradition to argue that segregation was a theological as much as a political offense. His Letter from Birmingham Jail, written to white moderate clergy who counseled patience, remains the most powerful Christian argument for urgent justice action in the American tradition. He also named the church's failure directly: 'The white church must acknowledge its complicity in the system of segregation.'",
+  },
+  {
+    id: "perkins",
+    name: "John Perkins",
+    work: "Let Justice Roll Down (1976); With Justice for All (1982)",
+    color: GREEN,
+    bio: "Founder of the Christian Community Development Association (CCDA). Born in Mississippi, 1930. Justice advocate and community developer for 60+ years.",
+    quote: "The most radical thing you can do is to love your enemy. That was the most radical thing Jesus did, and we are called to do the same.",
+    contribution: "Perkins developed the '3 Rs' of Christian Community Development: Relocation (live among the people you serve), Reconciliation (across racial and economic lines), and Redistribution (share skills, resources, and power). His model is distinguished from both charity (distant giving without relationship) and activism (political without community). His own story — beaten nearly to death by Mississippi police in 1970 and choosing reconciliation over retaliation — embodies his theology. He is widely considered the most practically significant Christian justice thinker in American evangelical history.",
+  },
+  {
+    id: "keller",
+    name: "Tim Keller",
+    work: "Generous Justice (2010); Ministries of Mercy (1989)",
+    color: PURPLE,
+    bio: "Presbyterian pastor and author, founder of Redeemer Presbyterian Church in New York City.",
+    quote: "If you are a Christian, and you are not generous with your time, money, and life for the poor and marginalized, you need to ask yourself whether you have understood the gospel at all.",
+    contribution: "Keller's contribution is theological precision in a field prone to either complete reduction to social action (losing evangelism) or complete avoidance of social concern (losing obedience). In 'Generous Justice,' he argues that justice (mishpat) and righteousness (tzedakah) appear together 36 times in the Old Testament — and that separating them distorts both. His key distinction: mercy is meeting needs, but justice addresses the structures that create needs. Both are mandatory for Christians who understand the gospel. His work has made serious engagement with justice credible in Reformed and evangelical circles that had previously avoided it.",
+  },
+  {
+    id: "gutierrez",
+    name: "Gustavo Gutierrez",
+    work: "A Theology of Liberation (1971)",
+    color: "#F59E0B",
+    bio: "Peruvian Dominican priest, theologian, and professor. Born 1928 in Lima. Pioneer of liberation theology.",
+    quote: "The preferential option for the poor is not exclusive or excluding. The poor are the first, but never the only ones, that the gospel calls us to serve.",
+    contribution: "Gutierrez's theology — developed from proximity to the extreme poverty of Lima's slums — argues that the gospel has a 'preferential option for the poor' grounded in the Exodus, the prophets, and Jesus's proclamation of the kingdom. His contribution is the insistence that doing theology from the underside of history produces different readings of Scripture than theology done from positions of comfort. He has been criticized for uncritical use of Marxist categories; he has responded by distinguishing his framework from ideological Marxism. His lasting contribution is forcing all Christian theology to ask: whose perspective is this theology written from, and whose is it for?",
+  },
+  {
+    id: "wolterstorff",
+    name: "Nicholas Wolterstorff",
+    work: "Justice: Rights and Wrongs (2008); Until Justice and Peace Embrace (1983)",
+    color: "#3B82F6",
+    bio: "Reformed philosopher at Yale and Calvin College. Engaged with justice through both academic philosophy and activism in South Africa and Palestine.",
+    quote: "Shalom is the flourishing of the human person in all dimensions of his or her existence: in one's relation to God, in one's relation to one's fellow human beings, in one's relation to the natural world, and in one's relation to oneself.",
+    contribution: "Wolterstorff's philosophical contribution is a rigorous grounding of justice in rights that are grounded in what he calls 'worth' — the inherent dignity that each person has as an image-bearer of God. He argues against the view that justice is about maximizing welfare or enforcing contracts, and for the view that justice is about respecting the worth of persons as such. This framework provides a theologically grounded account of rights that does not depend on secular foundations. His concept of shalom — comprehensive human flourishing — has been widely adopted as a more robust vision than rights discourse alone.",
+  },
 ];
 
 const ACTION_STEPS = [
@@ -47,8 +95,13 @@ const ACTION_STEPS = [
   ]},
 ];
 
+type Tab = "foundations" | "tensions" | "voices" | "action";
+
 export default function JusticePage() {
-  const [activeTab, setActiveTab] = useState<"foundations" | "tensions" | "action">("foundations");
+  const [tab, setTab] = useState<Tab>("foundations");
+  const [selectedVoice, setSelectedVoice] = useState("mlk");
+
+  const voice = VOICES.find(v => v.id === selectedVoice)!;
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 40 }}>
@@ -65,16 +118,17 @@ export default function JusticePage() {
           {[
             { id: "foundations" as const, label: "Biblical Foundation", icon: "📖" },
             { id: "tensions" as const, label: "Key Tensions", icon: "⚖️" },
+            { id: "voices" as const, label: "Key Voices", icon: "🗣️" },
             { id: "action" as const, label: "How to Act", icon: "✊" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
-              style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+            <button key={t.id} onClick={() => setTab(t.id)}
+              style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
           ))}
         </div>
 
-        {activeTab === "foundations" && (
+        {tab === "foundations" && (
           <div>
             {FOUNDATIONS.map((f, i) => (
               <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 16 }}>
@@ -88,7 +142,7 @@ export default function JusticePage() {
           </div>
         )}
 
-        {activeTab === "tensions" && (
+        {tab === "tensions" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 16 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
@@ -104,7 +158,32 @@ export default function JusticePage() {
           </div>
         )}
 
-        {activeTab === "action" && (
+        {tab === "voices" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 210, flexShrink: 0 }}>
+              {VOICES.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ width: "100%", textAlign: "left", background: selectedVoice === v.id ? `${v.color}18` : CARD, border: `1px solid ${selectedVoice === v.id ? v.color : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 8, cursor: "pointer" }}>
+                  <div style={{ color: selectedVoice === v.id ? v.color : TEXT, fontWeight: 700, fontSize: 13, marginBottom: 3 }}>{v.name}</div>
+                  <div style={{ color: MUTED, fontSize: 11 }}>{v.work}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1, background: CARD, border: `1px solid ${voice.color}40`, borderRadius: 12, padding: 24 }}>
+              <h2 style={{ color: voice.color, fontWeight: 900, fontSize: 20, marginBottom: 4 }}>{voice.name}</h2>
+              <div style={{ color: MUTED, fontSize: 13, marginBottom: 14 }}>{voice.bio}</div>
+              <blockquote style={{ borderLeft: `3px solid ${voice.color}`, paddingLeft: 16, marginBottom: 14 }}>
+                <p style={{ color: TEXT, fontSize: 14, fontStyle: "italic", lineHeight: 1.75, margin: 0 }}>"{voice.quote}"</p>
+              </blockquote>
+              <div style={{ background: `${voice.color}08`, border: `1px solid ${voice.color}20`, borderRadius: 10, padding: 16 }}>
+                <div style={{ color: voice.color, fontSize: 11, fontWeight: 700, letterSpacing: 1, marginBottom: 8 }}>CONTRIBUTION</div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>{voice.contribution}</p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {tab === "action" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 16 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>

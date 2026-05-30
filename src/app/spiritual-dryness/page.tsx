@@ -19,6 +19,54 @@ const SAINTS = [
   { name: "John of the Cross", quote: "To reach what you know not, you must go by a way you know not. To reach what you possess not, you must go by a way you possess not.", context: "The 16th-century Spanish mystic who named and mapped the 'dark night of the soul' in his classic works. He understood spiritual dryness as a purgative process — God stripping away the soul's dependence on spiritual consolation so that it can love God for God's sake alone." },
 ];
 
+const LAMENT_PSALMS = [
+  {
+    id: "psalm22",
+    name: "Psalm 22",
+    heading: "My God, My God, Why Have You Forsaken Me?",
+    color: "#EF4444",
+    openingVerses: "My God, my God, why have you forsaken me? Why are you so far from saving me, so far from my cries of anguish? I cry out by day, but you do not answer, by night, but I find no rest. (Psalm 22:1-2)",
+    structure: "The psalm moves through three phases: deep lament and accusation (vv.1-21), then a pivot point of memory ('Yet you are enthroned as the Holy One,' v.3), and finally a burst of trust and praise that comes before any change in circumstances (vv.22-31).",
+    how: "This psalm teaches that lament can be addressed directly to God — not about him but to him. 'My God' is still a form of address, still a relationship claim. The pivot in verse 22 comes without any explanation of the dryness — the trust is not based on resolution but on character. Jesus's use of this psalm from the cross (Matthew 27:46) sanctifies the experience of divine abandonment as something the Son of God himself entered.",
+  },
+  {
+    id: "psalm42",
+    name: "Psalm 42-43",
+    heading: "As the Deer Pants for Water",
+    color: "#3B82F6",
+    openingVerses: "As the deer pants for streams of water, so my soul pants for you, my God. My soul thirsts for God, for the living God. When can I go and meet with God? My tears have been my food day and night. (Psalm 42:1-3)",
+    structure: "Psalms 42 and 43 are a single lament poem with a recurring refrain that functions as a self-coaching device: 'Why, my soul, are you downcast? Why so disturbed within me? Put your hope in God, for I will yet praise him, my Savior and my God' (42:5, 11; 43:5). The psalmist repeats this refrain three times — talking to himself, preaching to himself.",
+    how: "The repeated refrain reveals the spiritual practice at the heart of the psalm: preaching the gospel to yourself. The psalmist feels forsaken; he tells himself to hope anyway. He does not wait for the feeling to align with the theological truth — he speaks the truth to the feeling. Martyn Lloyd-Jones famously took this pattern as the key to addressing depression and dryness: stop listening to yourself and start talking to yourself.",
+  },
+  {
+    id: "psalm88",
+    name: "Psalm 88",
+    heading: "The Darkest Psalm — No Resolution",
+    color: "#8B5CF6",
+    openingVerses: "Lord, you are the God who saves me; day and night I cry out to you. May my prayer come before you; turn your ear to my cry. I am overwhelmed with troubles and my life draws near to death. (Psalm 88:1-3)",
+    structure: "Psalm 88 is unique in the Psalter: it begins in darkness and ends in darkness. There is no pivot, no resolution, no final trust statement. The last line is: 'Darkness is my closest friend' (v.18). Unlike nearly every other lament psalm, this one does not move from lament to praise.",
+    how: "The presence of Psalm 88 in the canon is itself the answer to those who wonder if their darkness is too dark. God included a psalm with no resolution. The psalm begins 'Lord, you are the God who saves me' — but the speaker never feels saved during the psalm. The prayer throughout is addressed to God even when God seems absent. Psalm 88 says: you can be faithful, praying, addressing God — and still feel nothing. That is still faith. The act of address is itself the act of trust.",
+  },
+  {
+    id: "psalm13",
+    name: "Psalm 13",
+    heading: "How Long, O Lord?",
+    color: "#F59E0B",
+    openingVerses: "How long, Lord? Will you forget me forever? How long will you hide your face from me? How long must I wrestle with my thoughts and day after day have sorrow in my heart? (Psalm 13:1-2)",
+    structure: "Psalm 13 is brief (6 verses) and moves quickly: two verses of accusation ('How long?'), two verses of petition ('Look on me and answer'), two verses of trust and praise. The pivot in verse 5 is not preceded by a changed circumstance — it is chosen. 'But I trust in your unfailing love; my heart rejoices in your salvation' (v.5) comes before any answer.",
+    how: "The 'How long?' questions are among the most honest words in Scripture — and they are addressed to God. The fourfold repetition in verses 1-2 is not careful rhetoric; it is the repetition of genuine distress. The psalm gives permission to be honest about duration: dryness can feel forever. But the pivot in verse 5 demonstrates that trust is an act — something chosen — not a feeling that emerges. The dryness is not resolved; the trust is chosen anyway.",
+  },
+  {
+    id: "psalm77",
+    name: "Psalm 77",
+    heading: "I Remember the Deeds of the Lord",
+    color: GREEN,
+    openingVerses: "I cried out to God for help; I cried out to God to hear me. When I was in distress, I sought the Lord; at night I stretched out untiring hands, and I would not be comforted. (Psalm 77:1-2)",
+    structure: "Psalm 77 pivots on the word 'Then I thought' (v.10) — a deliberate act of memory. The psalmist asks five questions about God's absence (vv.7-9), then decides to remember God's past deeds rather than stay in the present darkness. The psalm moves from lament to meditation on the Exodus — the defining past act of God's faithfulness.",
+    how: "The spiritual practice in Psalm 77 is memory — deliberate recall of what God has done. The psalmist is not feeling God's presence in the moment. He is choosing to remember what God was like historically — the parting of the Red Sea, the leading through the wilderness — and allowing that memory to anchor present trust. The practice translates directly: when the present feels dry, remember. Keep a record of God's past faithfulness. In the darkness, read it back.",
+  },
+];
+
 const PRACTICES = [
   { title: "Stay Faithful in Practice", desc: "The most important thing to do in spiritual dryness is to maintain practice even without feeling. Show up to prayer, Scripture, and worship not because you feel something but because you trust Someone. Feelings follow obedience; they rarely precede it.", icon: "⚓" },
   { title: "Lament Rather Than Fake", desc: "Bring your dryness to God explicitly. Pray Psalm 42, 22, or 88 — psalms that name the absence of God's felt presence to God himself. Naming the problem to God is not faithlessness; it is the first act of faith in the darkness.", icon: "😔" },
@@ -28,13 +76,17 @@ const PRACTICES = [
   { title: "Trust the Long Arc", desc: "No spiritual season lasts forever. The Psalms that begin in darkness do not (usually) end there. Trust the testimony of Christians across two thousand years who have described dryness, endured it faithfully, and found themselves in a different place. The ending of dryness is often quiet — not dramatic restoration but a gradual return of warmth.", icon: "🌅" },
 ];
 
+type Tab = "causes" | "saints" | "psalms" | "practices";
+
 export default function SpiritualDrynessPage() {
-  const [activeTab, setActiveTab] = useState<"causes" | "saints" | "practices">("causes");
+  const [tab, setTab] = useState<Tab>("causes");
   const [selectedCause, setSelectedCause] = useState("Sin Blocking the Way");
   const [selectedSaint, setSelectedSaint] = useState("Mother Teresa");
+  const [selectedPsalm, setSelectedPsalm] = useState("psalm22");
 
   const cause = CAUSES.find(c => c.cause === selectedCause)!;
   const saint = SAINTS.find(s => s.name === selectedSaint)!;
+  const psalm = LAMENT_PSALMS.find(p => p.id === selectedPsalm)!;
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 40 }}>
@@ -49,18 +101,19 @@ export default function SpiritualDrynessPage() {
 
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
-            { id: "causes" as const, label: "Causes & Responses", icon: "🔍" },
+            { id: "causes" as const, label: "Causes", icon: "🔍" },
             { id: "saints" as const, label: "You Are Not Alone", icon: "👁️" },
+            { id: "psalms" as const, label: "Lament Psalms", icon: "📜" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
-              style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+            <button key={t.id} onClick={() => setTab(t.id)}
+              style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
           ))}
         </div>
 
-        {activeTab === "causes" && (
+        {tab === "causes" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 20 }}>
               <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>
@@ -86,7 +139,7 @@ export default function SpiritualDrynessPage() {
           </div>
         )}
 
-        {activeTab === "saints" && (
+        {tab === "saints" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 20 }}>
               <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>
@@ -111,7 +164,36 @@ export default function SpiritualDrynessPage() {
           </div>
         )}
 
-        {activeTab === "practices" && (
+        {tab === "psalms" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 210, flexShrink: 0 }}>
+              {LAMENT_PSALMS.map(p => (
+                <button key={p.id} onClick={() => setSelectedPsalm(p.id)}
+                  style={{ width: "100%", textAlign: "left", background: selectedPsalm === p.id ? `${p.color}18` : CARD, border: `1px solid ${selectedPsalm === p.id ? p.color : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 8, cursor: "pointer" }}>
+                  <div style={{ color: selectedPsalm === p.id ? p.color : TEXT, fontWeight: 700, fontSize: 13, marginBottom: 3 }}>{p.name}</div>
+                  <div style={{ color: MUTED, fontSize: 11 }}>{p.heading}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1, background: CARD, border: `1px solid ${psalm.color}40`, borderRadius: 12, padding: 24 }}>
+              <h2 style={{ color: psalm.color, fontWeight: 900, fontSize: 20, marginBottom: 4 }}>{psalm.name}</h2>
+              <div style={{ color: MUTED, fontSize: 13, fontStyle: "italic", marginBottom: 16 }}>{psalm.heading}</div>
+              <blockquote style={{ borderLeft: `3px solid ${psalm.color}`, paddingLeft: 16, marginBottom: 16 }}>
+                <p style={{ color: TEXT, fontSize: 14, fontStyle: "italic", lineHeight: 1.8, margin: 0 }}>{psalm.openingVerses}</p>
+              </blockquote>
+              <div style={{ background: BG, borderRadius: 8, padding: "10px 14px", marginBottom: 14 }}>
+                <div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 6 }}>STRUCTURE OF THE PSALM</div>
+                <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.75, margin: 0 }}>{psalm.structure}</p>
+              </div>
+              <div style={{ background: `${psalm.color}08`, border: `1px solid ${psalm.color}20`, borderRadius: 10, padding: 16 }}>
+                <div style={{ color: psalm.color, fontSize: 11, fontWeight: 700, letterSpacing: 1, marginBottom: 8 }}>HOW TO PRAY THIS PSALM IN DRYNESS</div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>{psalm.how}</p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {tab === "practices" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>

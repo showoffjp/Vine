@@ -20,13 +20,52 @@ const TRAPS = [
   { trap: "Protecting the Institution Over Truth", desc: "When an institution becomes more important than the truth it exists to serve, it has already begun to die. Leaders who cover up failure, silence whistleblowers, or manage reputation over addressing sin have lost the plot.", sign: "You find yourself saying 'we shouldn't make this public' about things that should be addressed." },
 ];
 
-const PRACTICES = [
-  { title: "Build a Board of Honest Critics", desc: "Identify 2-3 people who have full permission to tell you hard truths. Meet with them regularly. Ask: 'Where do you see me going wrong?' The answer will be more valuable than any leadership book.", icon: "🪞" },
-  { title: "Lead from Rest", desc: "The leader who does not Sabbath cannot sustain the pace the work requires. Rest is not a reward for finishing — it is a discipline that makes sustained fruitfulness possible.", icon: "🛌" },
-  { title: "Develop Others, Not Just Systems", desc: "Your primary leadership contribution is the people you develop, not the programs you build. Programs outlast you only if people outlast you. Invest your best time in people, not processes.", icon: "🌱" },
-  { title: "Decide Slowly on People", desc: "Hire slowly, fire quickly (when necessary). The right people on the team are the most important leadership decision you make. The wrong people in the wrong roles — or people without character — will undo years of work.", icon: "🎯" },
-  { title: "Practice Confession in Public", desc: "Leaders who admit failure model the culture they want to create. When you are wrong, say so specifically. When you have hurt someone, repair it publicly if the harm was public. This builds the trust that makes leading possible.", icon: "🙏" },
-  { title: "Read Widely and Across Traditions", desc: "Christian leaders who read only within their own tradition produce a narrow, in-bred leadership culture. Read theology, history, psychology, business, and biography. The breadth of your reading shapes the depth of your leadership.", icon: "📚" },
+const VOICES = [
+  {
+    id: "nouwen",
+    name: "Henri Nouwen",
+    era: "1932 – 1996",
+    context: "Dutch Catholic priest, professor at Harvard, Yale, and Notre Dame; community member at L'Arche",
+    bio: "Henri Nouwen spent decades teaching pastoral theology at elite universities and writing more than 40 books on the spiritual life — then, at the height of his academic success, moved to L'Arche Daybreak near Toronto to live with people with severe intellectual disabilities as their pastor. His In the Name of Jesus (1989), a meditation on Jesus's temptation in the desert, became his most important word on leadership. He argued that Christian leaders face three temptations identical to Jesus's: to be relevant (turning stones to bread), to be spectacular (throwing yourself from the temple), and to be powerful (ruling all the kingdoms of the world). The antidote to each is equally specific: from relevance to prayer, from popularity to ministry, from leading to being led.",
+    quote: "The great challenge of the Christian leader is not to do many things, or to do them with great success, but to do them in the name of Jesus.",
+    contribution: "Nouwen's downward mobility — the Harvard professor who moved to work with people with severe disabilities — embodied his theology of leadership. He showed that the leader's primary task is not to accumulate influence but to empty themselves for others. His concept of the 'wounded healer' — that leaders lead from their wounds, not from above them — has shaped a generation of pastors who felt their brokenness disqualified them. He taught that vulnerability is a leadership asset, not a liability.",
+  },
+  {
+    id: "sanders",
+    name: "J. Oswald Sanders",
+    era: "1902 – 1992",
+    context: "New Zealand pastor, General Director of Overseas Missionary Fellowship, Spiritual Leadership (1967)",
+    bio: "J. Oswald Sanders's Spiritual Leadership (1967) became the standard text in Christian leadership formation for half a century — assigned in seminaries, missionary training programs, and church leader development courses worldwide. Sanders wrote from deep practical experience: he served as General Director of the China Inland Mission/Overseas Missionary Fellowship and traveled internationally until shortly before his death at age 89. His central argument: spiritual leadership cannot be separated from spiritual formation. The leader's prayer life is not one item among many on the leader's agenda — it is the foundation of everything else. Without it, all leadership is merely human effort dressed in religious language.",
+    quote: "The spiritual leader influences others not by the power of his own personality alone but by that personality irradiated, interpenetrated, and empowered by the Holy Spirit.",
+    contribution: "Sanders gave evangelical and missionary Christianity its most comprehensive theology of spiritual leadership. His treatment of the qualities of a spiritual leader — discipline, vision, decision, courage, humility, integrity, sincerity — became the template for how churches thought about developing leaders. His insistence that prayer is the leader's most important activity (not strategy, not administration, not communication) challenged every generation's tendency to substitute busyness for depth.",
+  },
+  {
+    id: "peterson",
+    name: "Eugene Peterson",
+    era: "1932 – 2018",
+    context: "American pastor and professor, The Contemplative Pastor (1989), The Message",
+    bio: "Eugene Peterson spent 30 years as the pastor of Christ Our King Presbyterian Church in Maryland, living what he described in The Contemplative Pastor as the vocation of working the angles. The three angles he worked — prayer, Scripture, and spiritual direction — were, in his analysis, the most important things a pastor does and the most consistently abandoned. The pressure on pastors from their congregations is to be busy, productive, relevant, and administrative. Peterson argued that this pressure must be resisted: the pastor's calling is to be the person in the community who takes the interior life seriously, who refuses to be hurried, who models unhurried attention to God. His message translation of the Bible and his many books on the spiritual life flowed from this pastoral practice.",
+    quote: "The pastor's primary task is to keep the community attentive to God. That is not a program. It is a way of being. Busyness is the enemy of that way of being.",
+    contribution: "Peterson saved many pastors from what he called the three American pastoral sins: being busy, being relevant, and being successful. His description of the contemplative pastor — who chooses attention over activity, depth over breadth, formation over program — gave permission to pastors who sensed that the church's metrics were wrong but did not have the language to say why. His Working the Angles is among the most important books on pastoral ministry in the twentieth century.",
+  },
+  {
+    id: "crouch",
+    name: "Andy Crouch",
+    era: "Born 1966",
+    context: "Writer and cultural commentator, Playing God: Redeeming the Gift of Power (2013)",
+    bio: "Andy Crouch's Playing God is the most rigorous theological treatment of power in recent evangelical literature. Crouch begins with an observation that most Christian thinking about power gets backwards: the problem is not that we have power but that we misuse it. Power — the capacity to make something of the world — is inherent in bearing the image of God. The question is not whether to have power but whether it is exercised in ways that create flourishing or in ways that diminish it. Crouch's analysis of institutional power — how it accumulates, how it corrupts, how it can be redeemed — is essential for anyone leading an organization. His subsequent Strong and Weak (2016) introduced a two-axis framework (authority and vulnerability) that gives leaders a map for understanding both healthy and abusive power dynamics.",
+    quote: "The way Jesus exercised power was always to create more flourishing for the people around him — not to extract from them, not to bind them, but to release them into greater capacity for life.",
+    contribution: "Crouch gave evangelical leadership a sophisticated framework for thinking about power — not as inherently corrupting but as inherently responsibility-laden. His distinction between power that creates flourishing and power that extracts value helped many leaders identify specific patterns in their own leadership. His writing on how institutions accumulate power and lose accountability is particularly urgent for church leaders, who often assume that Christian organizations are immune to the dynamics that corrupt secular ones.",
+  },
+  {
+    id: "ford",
+    name: "Leighton Ford",
+    era: "Born 1931",
+    context: "Canadian evangelist, brother-in-law of Billy Graham, Transforming Leadership (1991)",
+    bio: "Leighton Ford spent decades as an international evangelist and associate to Billy Graham before turning his primary attention to leadership development through the Arrow Leadership Program, which he founded in 1992. His Transforming Leadership (1991) makes a distinctive argument: the world needs not more leaders with better skills but transformed leaders — people who are being conformed to the character of Christ and whose leadership flows from that transformation rather than from technique. Ford draws heavily on the leadership of Jesus: the way he called disciples, formed community, exercised authority, washed feet, and ultimately gave his life. Ford's later reflections on his son Sandy's death from congenital heart disease at 21 — and how suffering shaped his own leadership — gave his work a depth of pastoral wisdom that purely theoretical treatments lack.",
+    quote: "The world does not need more savvy, sophisticated leaders who know how to work the system. It needs transformed leaders — people who have been changed by the encounter with Jesus and who lead from that change.",
+    contribution: "Ford's Arrow Leadership Program has developed hundreds of Christian leaders across North America and internationally, forming them in a model that integrates character, competence, and call. His insistence that leadership formation is primarily spiritual formation — that you cannot separate the leader's effectiveness from the leader's interior life — shaped a generation of leaders who might otherwise have pursued skill-based development at the expense of soul-based formation.",
+  },
 ];
 
 const MODELS = [
@@ -36,9 +75,23 @@ const MODELS = [
   { name: "David", lesson: "David is the cautionary tale: gifted, anointed, successful — and catastrophically compromised by unchecked power. His failure with Bathsheba and Uriah shows that leadership without accountability is leadership waiting to fail.", verse: "2 Samuel 11" },
 ];
 
+const PRACTICES = [
+  { title: "Build a Board of Honest Critics", desc: "Identify 2-3 people who have full permission to tell you hard truths. Meet with them regularly. Ask: 'Where do you see me going wrong?' The answer will be more valuable than any leadership book.", icon: "🪞" },
+  { title: "Lead from Rest", desc: "The leader who does not Sabbath cannot sustain the pace the work requires. Rest is not a reward for finishing — it is a discipline that makes sustained fruitfulness possible.", icon: "🛌" },
+  { title: "Develop Others, Not Just Systems", desc: "Your primary leadership contribution is the people you develop, not the programs you build. Programs outlast you only if people outlast you. Invest your best time in people, not processes.", icon: "🌱" },
+  { title: "Decide Slowly on People", desc: "Hire slowly, fire quickly (when necessary). The right people on the team are the most important leadership decision you make. The wrong people in the wrong roles — or people without character — will undo years of work.", icon: "🎯" },
+  { title: "Practice Confession in Public", desc: "Leaders who admit failure model the culture they want to create. When you are wrong, say so specifically. When you have hurt someone, repair it publicly if the harm was public. This builds the trust that makes leading possible.", icon: "🙏" },
+  { title: "Read Widely and Across Traditions", desc: "Christian leaders who read only within their own tradition produce a narrow, in-bred leadership culture. Read theology, history, psychology, business, and biography. The breadth of your reading shapes the depth of your leadership.", icon: "📚" },
+];
+
+type Tab = "theology" | "traps" | "voices" | "practices";
+
 export default function ChristianLeadershipPage() {
-  const [activeTab, setActiveTab] = useState<"theology" | "traps" | "practices">("theology");
+  const [activeTab, setActiveTab] = useState<Tab>("theology");
   const [expanded, setExpanded] = useState<string | null>(null);
+  const [selectedVoice, setSelectedVoice] = useState("nouwen");
+
+  const voice = VOICES.find(v => v.id === selectedVoice)!;
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 40 }}>
@@ -54,7 +107,8 @@ export default function ChristianLeadershipPage() {
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
             { id: "theology" as const, label: "Theology", icon: "📖" },
-            { id: "traps" as const, label: "Leadership Traps", icon: "⚠️" },
+            { id: "traps" as const, label: "Traps", icon: "⚠️" },
+            { id: "voices" as const, label: "Voices", icon: "💡" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
@@ -102,7 +156,7 @@ export default function ChristianLeadershipPage() {
                 <button onClick={() => setExpanded(expanded === t.trap ? null : t.trap)}
                   style={{ width: "100%", background: CARD, border: `1px solid ${BORDER}`, borderRadius: expanded === t.trap ? "10px 10px 0 0" : 10, padding: "14px 18px", color: TEXT, fontWeight: 700, fontSize: 14, cursor: "pointer", display: "flex", justifyContent: "space-between", textAlign: "left" }}>
                   <span>{t.trap}</span>
-                  <span style={{ color: MUTED, flexShrink: 0 }}>{expanded === t.trap ? "−" : "+"}</span>
+                  <span style={{ color: MUTED, flexShrink: 0 }}>{expanded === t.trap ? "-" : "+"}</span>
                 </button>
                 {expanded === t.trap && (
                   <div style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: "0 0 10px 10px", borderTop: "none", padding: 18 }}>
@@ -115,6 +169,32 @@ export default function ChristianLeadershipPage() {
                 )}
               </div>
             ))}
+          </div>
+        )}
+
+        {activeTab === "voices" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 6 }}>
+              {VOICES.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ width: "100%", background: selectedVoice === v.id ? `${PURPLE}20` : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", textAlign: "left", cursor: "pointer" }}>
+                  <div style={{ color: selectedVoice === v.id ? GREEN : TEXT, fontWeight: 700, fontSize: 13, marginBottom: 2 }}>{v.name}</div>
+                  <div style={{ color: MUTED, fontSize: 11 }}>{v.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 26 }}>
+              <h2 style={{ color: GREEN, fontWeight: 900, fontSize: 22, margin: 0 }}>{voice.name}</h2>
+              <p style={{ color: MUTED, fontSize: 13, fontStyle: "italic", marginBottom: 16 }}>{voice.context}</p>
+              <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, marginBottom: 20 }}>{voice.bio}</p>
+              <blockquote style={{ margin: "0 0 20px", padding: "12px 16px", borderLeft: `3px solid ${GREEN}`, background: `${GREEN}08`, borderRadius: "0 8px 8px 0" }}>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, margin: 0, fontStyle: "italic" }}>"{voice.quote}"</p>
+              </blockquote>
+              <div style={{ background: `${PURPLE}08`, border: `1px solid ${PURPLE}20`, borderRadius: 10, padding: 16 }}>
+                <div style={{ color: PURPLE, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>CONTRIBUTION</div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{voice.contribution}</p>
+              </div>
+            </div>
           </div>
         )}
 

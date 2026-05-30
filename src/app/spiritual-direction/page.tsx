@@ -1,160 +1,564 @@
 "use client";
 import { useState } from "react";
 
-const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const GREEN = "#00FF88";
+const PURPLE = "#6B4FBB";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
 
-const WHAT_IS = {
-  definition: "Spiritual direction is a one-on-one relationship in which a trained guide — a 'spiritual director' — helps a person notice and respond to God's movement in their life. It is not counseling, coaching, or mentorship, though it may share elements of each. The focus is specifically on the spiritual life: prayer, discernment, growth in holiness, relationship with God.",
-  history: "Spiritual direction is one of the oldest practices in the church. The Desert Fathers and Mothers in 3rd–5th century Egypt served as spiritual guides to those seeking them. The tradition continued through monasteries, through Ignatius of Loyola's Spiritual Exercises (16th c.), through the Protestant Puritan practice of 'spiritual friendship,' and into the contemporary renewal of interest across all traditions.",
-  who: "While often associated with Catholic and Anglican traditions, evangelical Christians are increasingly embracing spiritual direction. Directors today come from across the theological spectrum — Reformed, Wesleyan, charismatic, mainline. What matters most is their depth of prayer life, their theology, and their training.",
-};
+type Tab = "what" | "tradition" | "finding" | "session";
 
-const HOW_DIFFERENT = [
-  { from: "Counseling / Therapy", focus: "Mental and emotional health, trauma, behavior patterns", different: "Spiritual direction focuses specifically on relationship with God and spiritual growth. It is not treatment." },
-  { from: "Mentoring", focus: "Skills, knowledge, life wisdom, career guidance", different: "Spiritual direction is less about transferring knowledge and more about creating space for the directee to hear God themselves." },
-  { from: "Pastoral Care", focus: "Addressing needs, crises, and practical ministry", different: "Spiritual direction is typically a regular, extended conversation — not problem-solving or pastoral support in the moment of crisis." },
-  { from: "Accountability", focus: "Behavioral consistency, commitments, goals", different: "Spiritual direction is not primarily about behavior compliance but about interior transformation and listening to God." },
+const TABS: { id: Tab; label: string }[] = [
+  { id: "what", label: "What Is Spiritual Direction?" },
+  { id: "tradition", label: "The Tradition" },
+  { id: "finding", label: "Finding a Director" },
+  { id: "session", label: "What Happens in a Session?" },
 ];
 
-const SESSION = [
-  { phase: "Opening Prayer", desc: "The session begins with silence or prayer, inviting the Holy Spirit to guide. This distinguishes it from a coaching conversation — both parties are listening for God, not just discussing ideas." },
-  { phase: "Sharing", desc: "The directee speaks about their prayer life, what has been happening in their relationship with God, what they notice — movements of consolation or desolation, questions, resistances, graces." },
-  { phase: "Attentive Listening", desc: "The director listens not just to content but to what seems most alive or resistant. They ask questions not to gather information but to help the directee go deeper into their own experience of God." },
-  { phase: "Reflection", desc: "Together, they explore what God may be saying through the directee's experiences. The director offers observations, reflections, or gentle challenges — never imposing an interpretation." },
-  { phase: "Closing Prayer", desc: "The session typically ends with prayer. The director may suggest a simple prayer practice for the coming weeks — not homework, but an invitation." },
+const WHAT_ITEMS = [
+  {
+    id: "definition",
+    title: "Definition",
+    body: "Spiritual direction is, in Gerald May's words, 'the art of helping a person notice and respond to God.' It is distinct from counseling, therapy, mentoring, or preaching. The director is primarily a listener — not a teacher, therapist, or advice-giver. The goal is to help the directee pay attention to God's presence and movement in their own life.",
+  },
+  {
+    id: "holyspirit",
+    title: "The Holy Spirit Directs",
+    body: "The spiritual director is a 'mid-wife,' not the source. Ignatius of Loyola taught that the director's role is to help the directee perceive what God is already doing — not to impose a spiritual program or project their own experience. The Holy Spirit is the true director; the human director simply creates space for the directee to hear.",
+  },
+  {
+    id: "history",
+    title: "History",
+    body: "Spiritual direction is one of the oldest practices in the church. It begins with the Desert Fathers and Mothers (3rd–4th centuries), whose 'abba' and 'amma' sayings were records of their guidance. The tradition passed through monastic communities, was systematized by Ignatius of Loyola in the 16th century, cultivated by Francis de Sales for lay people, and is now experiencing a widespread Protestant rediscovery.",
+  },
+  {
+    id: "whoneeds",
+    title: "Who Needs a Spiritual Director?",
+    body: "Spiritual direction is not just for mystics, clergy, or those in religious life. It is for any ordinary Christian in a season of seeking, transition, spiritual aridity, or deepening. If you long to grow in prayer, to understand your own soul better, or to discern God's direction in a particular season — direction may be exactly what you need.",
+  },
+  {
+    id: "soulcare",
+    title: "Spiritual Direction vs. Soul Care",
+    body: "Spiritual direction focuses specifically on God's movement in one's life — the interior spiritual journey. Counseling focuses on psychological health, trauma, and emotional wellbeing. They are complementary, not competing. Many people benefit from both simultaneously. A good director knows the difference and refers when appropriate.",
+  },
+  {
+    id: "protestant",
+    title: "Finding Direction in Protestant Contexts",
+    body: "The tradition of spiritual direction is primarily Catholic and Orthodox in its historical roots. However, it has been actively recovered by Protestant renewal movements — notably Renovaré (founded by Richard Foster), Spiritual Directors International, and an increasing number of Protestant seminaries. Evangelicals are finding that the tradition, carefully received, is deeply consistent with Scripture.",
+  },
 ];
 
-const HOW_TO_FIND = [
-  { step: "Ask your pastor or church", desc: "Many pastors know of trained directors in your area or tradition. This is often the most trusted path." },
-  { step: "Use a spiritual direction network", desc: "Spiritual Directors International (SDIworld.org) maintains a global directory. Sustainable Faith and other networks provide evangelical-specific referrals." },
-  { step: "Consider denominational resources", desc: "Many denominations have retreat centers or formation ministries that offer spiritual direction." },
-  { step: "Ask for a sample session", desc: "Many directors offer a complimentary first meeting. This helps you discern fit — personality, theological tradition, and approach matter." },
-  { step: "Trust the fit", desc: "Spiritual direction is not effective without trust and safety. If after a few sessions something feels consistently off, it is appropriate to seek a different director." },
+const TRADITION_ITEMS = [
+  {
+    id: "desert",
+    name: "The Desert Fathers and Mothers",
+    period: "3rd–4th Century",
+    context:
+      "Beginning in the Egyptian desert around 270 AD, men and women fled to the wilderness seeking God away from a Christianized empire. Around these abbas and ammas gathered disciples seeking a 'word' — a brief, potent piece of spiritual counsel.",
+    contribution:
+      "The foundational model of spiritual accompaniment: a brief, humble word from one who has gone deeper into prayer, given to help the seeker find their own way. The 'apophthegmata patrum' (Sayings of the Desert Fathers) record hundreds of these exchanges.",
+    writings: "Sayings of the Desert Fathers (Apophthegmata Patrum), The Conferences of John Cassian",
+    quote:
+      "Abba Moses said: 'A man who lives apart from other men is like a ripe grape. And one who lives among men is like a sour grape.' The sayings were not systematic teaching but Spirit-prompted words for a specific person in a specific moment.",
+  },
+  {
+    id: "ignatius",
+    name: "Ignatius of Loyola",
+    period: "1491–1556",
+    context:
+      "A Spanish soldier converted through illness, Ignatius became the founder of the Jesuits and the systematizer of spiritual direction. His Spiritual Exercises created a 30-day retreat framework that remains in use today.",
+    contribution:
+      "The formal structure of directed prayer and discernment of spirits. Ignatius distinguished consolation (interior movements toward God — peace, love, joy) from desolation (movements away — confusion, dryness, anxiety). He taught directors to help directees read their interior weather.",
+    writings: "The Spiritual Exercises, Autobiography, Letters",
+    quote:
+      "'The director of the Exercises ought not to urge the exercitant more to poverty or any promise than to the contrary, nor to one state of life or way of living more than to another… it belongs to the Creator to communicate Himself to the devout soul.' — Ignatius, Annotation 15",
+  },
+  {
+    id: "desales",
+    name: "Francis de Sales",
+    period: "1567–1622",
+    context:
+      "Bishop of Geneva and Counter-Reformation preacher, Francis de Sales was unusual for his era in extending the spiritual life — and spiritual direction — to lay people, not just clergy and monastics.",
+    contribution:
+      "The democratization of spiritual direction. His 'Introduction to the Devout Life' was written for an ordinary lay woman (his cousin Madame de Charmoisy) and argued that all Christians, whatever their vocation, are called to devout life and can benefit from a director.",
+    writings: "Introduction to the Devout Life, Treatise on the Love of God",
+    quote:
+      "'Tell me, Philothea, our heart is tender and frail, and temptation is very powerful. How shall we stand unless we have someone to lead us by the hand?' — Francis de Sales, Introduction to the Devout Life",
+  },
+  {
+    id: "merton",
+    name: "Thomas Merton",
+    period: "1915–1968",
+    context:
+      "A Trappist monk at Gethsemani Abbey in Kentucky, Merton became the most widely read spiritual writer of the 20th century — a bridge between the ancient contemplative tradition and modern seekers across all traditions.",
+    contribution:
+      "Bringing the contemplative tradition of spiritual direction to a modern, ecumenical audience. Merton wrote explicitly on the theory and practice of direction, and his autobiographical work modeled what interior transformation under guidance looks like.",
+    writings: "Spiritual Direction and Meditation, The Climate of Monastic Prayer, The Seven Storey Mountain, New Seeds of Contemplation",
+    quote:
+      "'The whole purpose of spiritual direction is to penetrate beneath the surface of a man's life, to get behind the fagade of conventional gestures and attitudes which he presents to the world, and to bring out his inner spiritual freedom.' — Thomas Merton",
+  },
+  {
+    id: "may",
+    name: "Gerald May",
+    period: "1940–2005",
+    context:
+      "A psychiatrist and theologian at the Shalem Institute for Spiritual Formation in Washington D.C., Gerald May was a pioneer in integrating psychological insight with classical spiritual direction — making the tradition accessible to Protestants.",
+    contribution:
+      "The integration of spiritual direction and psychology without collapsing one into the other. May argued that spiritual direction and therapy are complementary disciplines, and that directors need to understand psychology without becoming therapists. He helped make the tradition welcoming to evangelicals and mainline Protestants.",
+    writings: "Care of Mind, Care of Spirit; Addiction and Grace; The Awakened Heart; Will and Spirit",
+    quote:
+      "'The spiritual director does not direct. The director simply helps the directee to notice and to respond to what God is doing.' — Gerald May, Care of Mind, Care of Spirit",
+  },
 ];
 
-const QUESTIONS = [
-  "Where have I noticed God most clearly in the past month?",
-  "What has my prayer life actually looked like — not what I intend, but what it's been?",
-  "Where am I resisting God right now? What am I avoiding?",
-  "Where do I feel consolation — peace, life, joy, rightness?",
-  "Where do I feel desolation — distance, dryness, restlessness, confusion?",
-  "What is the quality of my attention to God in daily life?",
-  "Where do I feel drawn that I haven't been willing to go?",
-  "What is God's invitation to me in this season?",
+const FINDING_STEPS = [
+  {
+    num: 1,
+    title: "Pray First",
+    body: "Ask the Holy Spirit to guide the search. This is a spiritual relationship, not merely a professional engagement. Begin with openness and trust that God can provide the right person at the right time.",
+  },
+  {
+    num: 2,
+    title: "Know What You're Looking For",
+    body: "A good director listens far more than they speak. They have an active prayer life, know their own spiritual tradition well, and have supervision from another director or peer group. They hold what you share with care and confidentiality.",
+  },
+  {
+    num: 3,
+    title: "Where to Look",
+    body: "Spiritual Directors International (sdiworld.org) maintains a global directory. Renovaré has trained directors across Protestant traditions. Your denomination's retreat centers, seminary professors, and experienced pastors are also good starting points.",
+  },
+  {
+    num: 4,
+    title: "Interview Before Committing",
+    body: "Most directors offer a trial session or initial conversation. Ask: What tradition do you come from? Do you have a supervisor? How do you understand your role? What does a typical session look like? Their answers will tell you much.",
+  },
+  {
+    num: 5,
+    title: "Red Flags",
+    body: "Be cautious of directors who give too much advice, who project their own spiritual experience onto you, who blur appropriate boundaries, or who lack supervision themselves. A good director holds the space without filling it.",
+  },
+  {
+    num: 6,
+    title: "The First Few Sessions",
+    body: "Early sessions are about building trust and sharing your spiritual history. You and your director begin to notice patterns together — in your prayer life, in your interior movements, in how God seems to be at work.",
+  },
+  {
+    num: 7,
+    title: "How Long Does Direction Last?",
+    body: "Monthly sessions are typical. Seasons of one to three years are common, though direction can be lifelong. There is no fixed end — some people continue with the same director for decades; others move on when a season concludes.",
+  },
 ];
 
-export default function SpiritualDirectionPage() {
-  const [activeTab, setActiveTab] = useState<"what" | "session" | "find" | "questions">("what");
+const SESSION_ITEMS = [
+  {
+    id: "format",
+    title: "Frequency and Format",
+    body: "Sessions are typically one hour and occur monthly. They may be in person or via video call. Most directors begin with a period of silence — a deliberate slowing down before conversation begins. The pace is unhurried.",
+  },
+  {
+    id: "directeerole",
+    title: "The Directee's Role",
+    body: "You share what has been happening in your prayer, your life, and your relationship with God since the last session. You come with honesty, not performance. You do not need to have had dramatic spiritual experiences — dryness and confusion are as welcome as consolation.",
+  },
+  {
+    id: "directorrole",
+    title: "The Director's Role",
+    body: "The director listens more than they speak. They ask gentle, open questions. They reflect back what they hear. Occasionally they may offer a Scripture passage, an image, or an observation. They pray — silently and often aloud at the close of the session.",
+  },
+  {
+    id: "discernment",
+    title: "Discernment of Consolation and Desolation",
+    body: "Drawing on Ignatian vocabulary: consolation describes interior movements toward God — peace, love, joy, increased faith. Desolation describes movements away — darkness, confusion, restlessness, decreased faith. Learning to read your interior weather, and to respond wisely, is a core skill direction develops.",
+  },
+  {
+    id: "bring",
+    title: "What to Bring",
+    body: "Your prayer journal if you keep one. Significant dreams or images that have stayed with you. Periods of dryness or spiritual confusion. Moments of unexpected clarity or peace. Decisions you are facing. There is no wrong thing to bring.",
+  },
+  {
+    id: "notdirection",
+    title: "What Direction Is NOT",
+    body: "Spiritual direction is not confession, though it may include moments of honest acknowledgment. It is not therapy or counseling. It is not advice-giving or problem-solving. It is not Bible study or discipleship training. It is attending — together — to God's presence and movement in your life.",
+  },
+];
 
+function Accordion({
+  items,
+  expanded,
+  toggle,
+}: {
+  items: { id: string; title: string; body: string }[];
+  expanded: Record<string, boolean>;
+  toggle: (id: string) => void;
+}) {
   return (
-    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 40 }}>
-      <div style={{ maxWidth: 880, margin: "0 auto", padding: "0 20px 60px" }}>
-        <div style={{ textAlign: "center", marginBottom: 40 }}>
-          <div style={{ fontSize: 48, marginBottom: 12 }}>🧭</div>
-          <h1 style={{ fontSize: 32, fontWeight: 900, marginBottom: 8 }}>Spiritual Direction</h1>
-          <p style={{ color: MUTED, fontSize: 16, maxWidth: 560, margin: "0 auto" }}>
-            One of the oldest practices in the church — a trusted guide who helps you notice where God is moving in your life, and how to respond. Not counseling. Not coaching. Something different.
-          </p>
-        </div>
+    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+      {items.map((item) => {
+        const open = !!expanded[item.id];
+        return (
+          <div
+            key={item.id}
+            style={{
+              background: CARD,
+              border: `1px solid ${open ? PURPLE : BORDER}`,
+              borderRadius: 10,
+              overflow: "hidden",
+              transition: "border-color 0.2s",
+            }}
+          >
+            <button
+              onClick={() => toggle(item.id)}
+              style={{
+                width: "100%",
+                background: "none",
+                border: "none",
+                padding: "18px 24px",
+                textAlign: "left",
+                cursor: "pointer",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                gap: 16,
+              }}
+            >
+              <span style={{ color: TEXT, fontWeight: 600, fontSize: 16 }}>{item.title}</span>
+              <span
+                style={{
+                  color: PURPLE,
+                  fontSize: 20,
+                  fontWeight: 300,
+                  lineHeight: 1,
+                  flexShrink: 0,
+                  transform: open ? "rotate(45deg)" : "rotate(0deg)",
+                  transition: "transform 0.2s",
+                }}
+              >
+                +
+              </span>
+            </button>
+            {open && (
+              <div
+                style={{
+                  padding: "0 24px 20px",
+                  color: MUTED,
+                  fontSize: 15,
+                  lineHeight: 1.75,
+                }}
+              >
+                {item.body}
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
 
-        <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
-          {[
-            { id: "what" as const, label: "What It Is", icon: "📖" },
-            { id: "session" as const, label: "A Session", icon: "🕐" },
-            { id: "find" as const, label: "How to Find One", icon: "🔍" },
-            { id: "questions" as const, label: "Session Questions", icon: "❓" },
-          ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
-              style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
-              {t.icon} {t.label}
+function TabWhat({
+  expanded,
+  toggle,
+}: {
+  expanded: Record<string, boolean>;
+  toggle: (id: string) => void;
+}) {
+  return (
+    <div>
+      <h2 style={{ color: TEXT, fontSize: 26, fontWeight: 700, marginBottom: 8 }}>
+        What Is Spiritual Direction?
+      </h2>
+      <p style={{ color: MUTED, fontSize: 15, lineHeight: 1.7, marginBottom: 32, maxWidth: 680 }}>
+        Spiritual direction is an ancient Christian practice of holy conversation — one person helping another pay
+        attention to God. Explore the accordion sections below to understand what it is, where it came from, and
+        whether it might be right for you.
+      </p>
+      <Accordion items={WHAT_ITEMS} expanded={expanded} toggle={toggle} />
+    </div>
+  );
+}
+
+function TabTradition({ selected, setSelected }: { selected: string; setSelected: (id: string) => void }) {
+  const director = TRADITION_ITEMS.find((t) => t.id === selected) ?? TRADITION_ITEMS[0];
+  return (
+    <div>
+      <h2 style={{ color: TEXT, fontSize: 26, fontWeight: 700, marginBottom: 8 }}>
+        The Tradition
+      </h2>
+      <p style={{ color: MUTED, fontSize: 15, lineHeight: 1.7, marginBottom: 32, maxWidth: 680 }}>
+        Spiritual direction has a rich history spanning nearly two millennia. Select a figure to explore their
+        context, contribution, and key writings.
+      </p>
+      <div style={{ display: "flex", gap: 28, alignItems: "flex-start" }}>
+        {/* Left list */}
+        <div
+          style={{
+            minWidth: 220,
+            flexShrink: 0,
+            display: "flex",
+            flexDirection: "column",
+            gap: 8,
+            position: "sticky",
+            top: 24,
+          }}
+        >
+          {TRADITION_ITEMS.map((t) => (
+            <button
+              key={t.id}
+              onClick={() => setSelected(t.id)}
+              style={{
+                background: selected === t.id ? PURPLE + "22" : "transparent",
+                border: `1px solid ${selected === t.id ? PURPLE : BORDER}`,
+                borderRadius: 8,
+                padding: "12px 16px",
+                textAlign: "left",
+                cursor: "pointer",
+                color: selected === t.id ? TEXT : MUTED,
+                fontWeight: selected === t.id ? 600 : 400,
+                fontSize: 14,
+                lineHeight: 1.4,
+                transition: "all 0.15s",
+              }}
+            >
+              <div>{t.name}</div>
+              <div style={{ color: PURPLE, fontSize: 12, marginTop: 2 }}>{t.period}</div>
             </button>
           ))}
         </div>
 
+        {/* Right detail */}
+        <div
+          style={{
+            flex: 1,
+            background: CARD,
+            border: `1px solid ${BORDER}`,
+            borderRadius: 12,
+            padding: "28px 32px",
+          }}
+        >
+          <div style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 4, letterSpacing: "0.08em", textTransform: "uppercase" }}>
+            {director.period}
+          </div>
+          <h3 style={{ color: TEXT, fontSize: 22, fontWeight: 700, marginBottom: 20 }}>{director.name}</h3>
+
+          <div style={{ marginBottom: 20 }}>
+            <div style={{ color: GREEN, fontSize: 12, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 6 }}>
+              Context
+            </div>
+            <p style={{ color: MUTED, fontSize: 15, lineHeight: 1.75, margin: 0 }}>{director.context}</p>
+          </div>
+
+          <div style={{ marginBottom: 20 }}>
+            <div style={{ color: GREEN, fontSize: 12, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 6 }}>
+              Key Contribution
+            </div>
+            <p style={{ color: MUTED, fontSize: 15, lineHeight: 1.75, margin: 0 }}>{director.contribution}</p>
+          </div>
+
+          <div style={{ marginBottom: 20 }}>
+            <div style={{ color: GREEN, fontSize: 12, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 6 }}>
+              Key Writings
+            </div>
+            <p style={{ color: MUTED, fontSize: 15, lineHeight: 1.75, margin: 0 }}>{director.writings}</p>
+          </div>
+
+          <div
+            style={{
+              background: PURPLE + "18",
+              border: `1px solid ${PURPLE}40`,
+              borderLeft: `3px solid ${PURPLE}`,
+              borderRadius: 6,
+              padding: "14px 18px",
+            }}
+          >
+            <div style={{ color: PURPLE, fontSize: 12, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 6 }}>
+              Representative Approach / Quote
+            </div>
+            <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0, fontStyle: "italic" }}>{director.quote}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function TabFinding() {
+  return (
+    <div>
+      <h2 style={{ color: TEXT, fontSize: 26, fontWeight: 700, marginBottom: 8 }}>
+        Finding a Director
+      </h2>
+      <p style={{ color: MUTED, fontSize: 15, lineHeight: 1.7, marginBottom: 40, maxWidth: 680 }}>
+        Finding the right spiritual director takes patience and discernment. Follow these seven steps as a
+        practical guide for beginning your search.
+      </p>
+
+      <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
+        {FINDING_STEPS.map((step, idx) => (
+          <div key={step.num} style={{ display: "flex", gap: 24, position: "relative" }}>
+            {/* Timeline line */}
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: 40, flexShrink: 0 }}>
+              <div
+                style={{
+                  width: 40,
+                  height: 40,
+                  borderRadius: "50%",
+                  background: PURPLE,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "#fff",
+                  fontWeight: 700,
+                  fontSize: 16,
+                  flexShrink: 0,
+                  zIndex: 1,
+                  position: "relative",
+                }}
+              >
+                {step.num}
+              </div>
+              {idx < FINDING_STEPS.length - 1 && (
+                <div
+                  style={{
+                    width: 2,
+                    flex: 1,
+                    background: BORDER,
+                    minHeight: 32,
+                  }}
+                />
+              )}
+            </div>
+
+            {/* Content */}
+            <div style={{ paddingBottom: idx < FINDING_STEPS.length - 1 ? 32 : 0, paddingTop: 6, flex: 1 }}>
+              <div style={{ color: TEXT, fontWeight: 700, fontSize: 17, marginBottom: 6 }}>{step.title}</div>
+              <div style={{ color: MUTED, fontSize: 15, lineHeight: 1.75 }}>{step.body}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function TabSession({
+  expanded,
+  toggle,
+}: {
+  expanded: Record<string, boolean>;
+  toggle: (id: string) => void;
+}) {
+  return (
+    <div>
+      <h2 style={{ color: TEXT, fontSize: 26, fontWeight: 700, marginBottom: 8 }}>
+        What Happens in a Session?
+      </h2>
+      <p style={{ color: MUTED, fontSize: 15, lineHeight: 1.7, marginBottom: 32, maxWidth: 680 }}>
+        Many people wonder what a spiritual direction session actually looks and feels like. These accordion items
+        walk through the format, the roles, and what to expect.
+      </p>
+      <Accordion items={SESSION_ITEMS} expanded={expanded} toggle={toggle} />
+    </div>
+  );
+}
+
+export default function SpiritualDirectionPage() {
+  const [activeTab, setActiveTab] = useState<Tab>("what");
+  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
+  const [selectedDirector, setSelectedDirector] = useState<string>("desert");
+
+  function toggle(id: string) {
+    setExpanded((prev) => ({ ...prev, [id]: !prev[id] }));
+  }
+
+  return (
+    <div
+      style={{
+        background: BG,
+        minHeight: "100vh",
+        paddingTop: 40,
+        paddingBottom: 80,
+        color: TEXT,
+        fontFamily: "system-ui, -apple-system, sans-serif",
+      }}
+    >
+      <div style={{ maxWidth: 960, margin: "0 auto", padding: "0 24px" }}>
+        {/* Header */}
+        <div style={{ marginBottom: 40 }}>
+          <div
+            style={{
+              display: "inline-block",
+              background: GREEN + "18",
+              border: `1px solid ${GREEN}40`,
+              color: GREEN,
+              fontSize: 12,
+              fontWeight: 700,
+              letterSpacing: "0.12em",
+              textTransform: "uppercase",
+              padding: "4px 12px",
+              borderRadius: 20,
+              marginBottom: 16,
+            }}
+          >
+            Contemplative Practice
+          </div>
+          <h1 style={{ color: TEXT, fontSize: 36, fontWeight: 800, marginBottom: 12, lineHeight: 1.2 }}>
+            Spiritual Direction
+          </h1>
+          <p style={{ color: MUTED, fontSize: 17, lineHeight: 1.7, maxWidth: 640, margin: 0 }}>
+            One of the oldest practices in Christian history — helping a person notice and respond to God. Explore
+            the what, the history, how to find a director, and what a session actually involves.
+          </p>
+        </div>
+
+        {/* Tabs */}
+        <div
+          style={{
+            display: "flex",
+            gap: 4,
+            background: CARD,
+            border: `1px solid ${BORDER}`,
+            borderRadius: 12,
+            padding: 6,
+            marginBottom: 40,
+            flexWrap: "wrap",
+          }}
+        >
+          {TABS.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              style={{
+                flex: "1 1 auto",
+                background: activeTab === tab.id ? PURPLE : "transparent",
+                border: "none",
+                borderRadius: 8,
+                padding: "10px 18px",
+                color: activeTab === tab.id ? "#fff" : MUTED,
+                fontWeight: activeTab === tab.id ? 600 : 400,
+                fontSize: 14,
+                cursor: "pointer",
+                transition: "all 0.15s",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Tab content */}
         {activeTab === "what" && (
-          <div>
-            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 16 }}>
-              <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, marginBottom: 12 }}>What Is Spiritual Direction?</h3>
-              <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 15, marginBottom: 14 }}>{WHAT_IS.definition}</p>
-              <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 15, marginBottom: 14 }}>{WHAT_IS.history}</p>
-              <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 15, margin: 0 }}>{WHAT_IS.who}</p>
-            </div>
-            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24 }}>
-              <h3 style={{ color: PURPLE, fontWeight: 800, fontSize: 18, marginBottom: 16 }}>How Is It Different From...?</h3>
-              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                {HOW_DIFFERENT.map((h, i) => (
-                  <div key={i} style={{ background: BG, borderRadius: 10, padding: 16 }}>
-                    <div style={{ color: "#F59E0B", fontWeight: 700, fontSize: 14, marginBottom: 4 }}>vs. {h.from}</div>
-                    <div style={{ color: MUTED, fontSize: 13, marginBottom: 6, fontStyle: "italic" }}>Focus: {h.focus}</div>
-                    <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{h.different}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+          <TabWhat expanded={expanded} toggle={toggle} />
         )}
-
+        {activeTab === "tradition" && (
+          <TabTradition selected={selectedDirector} setSelected={setSelectedDirector} />
+        )}
+        {activeTab === "finding" && <TabFinding />}
         {activeTab === "session" && (
-          <div>
-            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 16 }}>
-              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
-                A typical session lasts 45–60 minutes and meets monthly. Unlike therapy (which may be weekly and crisis-focused), spiritual direction benefits from the space between meetings — time to live, pray, and notice before returning to reflect.
-              </p>
-            </div>
-            {SESSION.map((s, i) => (
-              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, marginBottom: 12, display: "flex", gap: 16 }}>
-                <div style={{ width: 32, height: 32, borderRadius: "50%", background: `${PURPLE}20`, border: `1px solid ${PURPLE}40`, display: "flex", alignItems: "center", justifyContent: "center", color: PURPLE, fontWeight: 800, fontSize: 13, flexShrink: 0 }}>{i + 1}</div>
-                <div>
-                  <div style={{ color: GREEN, fontWeight: 800, fontSize: 15, marginBottom: 6 }}>{s.phase}</div>
-                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, margin: 0 }}>{s.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {activeTab === "find" && (
-          <div>
-            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 16 }}>
-              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
-                Finding a spiritual director is itself a form of discernment. The relationship must have trust, theological compatibility, and a sense that the director is genuinely attentive to you rather than performing expertise. Take your time.
-              </p>
-            </div>
-            {HOW_TO_FIND.map((h, i) => (
-              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, marginBottom: 12, display: "flex", gap: 16 }}>
-                <div style={{ width: 28, height: 28, borderRadius: "50%", background: `${GREEN}20`, border: `1px solid ${GREEN}40`, display: "flex", alignItems: "center", justifyContent: "center", color: GREEN, fontWeight: 800, fontSize: 13, flexShrink: 0 }}>{i + 1}</div>
-                <div>
-                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 15, marginBottom: 6 }}>{h.step}</div>
-                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, margin: 0 }}>{h.desc}</p>
-                </div>
-              </div>
-            ))}
-            <div style={{ background: CARD, border: `1px solid ${PURPLE}40`, borderRadius: 12, padding: 22 }}>
-              <h3 style={{ color: PURPLE, fontWeight: 700, fontSize: 16, marginBottom: 10 }}>What to Expect on Cost</h3>
-              <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, margin: 0 }}>
-                Many spiritual directors offer direction on a sliding-scale or donation basis, particularly those who are clergy or serve in a ministry context. Others charge a fee similar to counseling. Some offer direction without charge as a ministry of the church. It is always appropriate to ask about financial arrangements in the initial meeting.
-              </p>
-            </div>
-          </div>
-        )}
-
-        {activeTab === "questions" && (
-          <div>
-            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 16 }}>
-              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
-                These are questions a spiritual director might ask — or that you might bring to a session yourself. They can also be used for personal reflection before or after prayer. They are not a formula; they are invitations.
-              </p>
-            </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-              {QUESTIONS.map((q, i) => (
-                <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, display: "flex", gap: 14, alignItems: "flex-start" }}>
-                  <div style={{ width: 28, height: 28, borderRadius: "50%", background: `${PURPLE}20`, border: `1px solid ${PURPLE}40`, display: "flex", alignItems: "center", justifyContent: "center", color: PURPLE, fontWeight: 800, fontSize: 13, flexShrink: 0 }}>{i + 1}</div>
-                  <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.65, margin: 0 }}>{q}</p>
-                </div>
-              ))}
-            </div>
-          </div>
+          <TabSession expanded={expanded} toggle={toggle} />
         )}
       </div>
     </div>

@@ -111,7 +111,36 @@ const HERESIES = [
   },
 ];
 
+type Tab = "heresies" | "defenders" | "councils" | "patterns";
+
+const DEFENDERS = [
+  { id: "athanasius", name: "Athanasius of Alexandria", era: "c. 296-373", context: "Bishop of Alexandria; 'Athanasius contra mundum'", bio: "Athanasius devoted his entire ministry to defending the full divinity of Christ against Arianism, which had gained imperial favor after Nicaea. He was exiled five times for refusing to compromise — three times by emperors who favored the Arian cause — and returned each time more resolute. His De Incarnatione remains one of the greatest Christological texts ever written. His slogan: 'Whatever is true of the Father is true of the Son, except being the Father.' He died as bishop of Alexandria after a career of unparalleled theological courage.", quote: "The Son of God became man so that we might become God. He was not made man and then became God, but being God he became man to deify us.", contribution: "Held the Trinitarian faith against the full weight of imperial power and theological confusion for decades. Without Athanasius, Arianism might have become the orthodox position of the Western church. He is the paradigm of faithful orthodoxy under pressure." },
+  { id: "irenaeus", name: "Irenaeus of Lyons", era: "c. 130-202", context: "Bishop of Lyons; Against Heresies", bio: "Irenaeus is the first systematic theologian of the Christian tradition and the most important early opponent of Gnosticism. His Against Heresies is the definitive refutation of the major Gnostic systems — he describes them in detail, then dismantles them from Scripture and apostolic tradition. His positive contribution: the doctrine of recapitulation (anakephalaiosis) — Christ recapitulates and restores everything Adam lost, redeeming the full human person. He was also the first to give clear articulation to the role of apostolic succession in doctrinal stability.", quote: "The glory of God is man fully alive; the life of man is the vision of God.", contribution: "Established the method of orthodox theological refutation: describe the heresy accurately, then answer it from Scripture and apostolic tradition. His rule of faith as interpretive principle and his doctrine of recapitulation shaped orthodox Christology for centuries." },
+  { id: "cyril", name: "Cyril of Alexandria", era: "c. 376-444", context: "Archbishop of Alexandria; led the Council of Ephesus", bio: "Cyril led the orthodox response to Nestorianism at the Council of Ephesus (431 AD). His insistence on the communicatio idiomatum — the communication of attributes between Christ's two natures in the one person — established the technical Christological vocabulary still used today. He also vigorously defended the title Theotokos for Mary as a Christological claim: she bore the one person who is both divine and human, so she can rightly be called the God-bearer. His polemical methods were sometimes harsh, but his theological precision was essential.", quote: "We do not speak of the natures being confused or mingled, but united to one another. The one Son, the Lord Jesus Christ, is both God and man.", contribution: "Established the technical vocabulary for Chalcedonian Christology — one person, two natures. The formula of Ephesus and Chalcedon is largely Cyril's achievement, and it remains the touchstone for orthodox Christology in Catholic, Protestant, and Orthodox traditions." },
+  { id: "augustine", name: "Augustine of Hippo", era: "354-430", context: "Bishop of Hippo; opposed Pelagianism and Donatism", bio: "Augustine's battles against Pelagianism produced his mature doctrine of grace — one of the most significant theological developments in Christian history. His anti-Pelagian writings (On the Spirit and the Letter, On Grace and Free Will, On the Predestination of the Saints) established the Reformed tradition's understanding of original sin, total depravity, and sovereign grace. Against the Donatists (who insisted the church must be composed only of the pure), he developed the doctrine of the visible and invisible church and sacramental validity.", quote: "Our heart is restless until it rests in Thee. Thou hast made us for Thyself.", contribution: "Established the theological framework that Reformed and Lutheran Christianity draws on — especially original sin, the bondage of the will, and sovereign grace. His anti-Pelagian theology was ratified at Carthage (418), Orange (529), and became the foundation of Western soteriology." },
+  { id: "tertullian", name: "Tertullian", era: "c. 155-240", context: "Carthage; first major Latin theologian", bio: "Tertullian was the first Christian writer to develop Trinitarian vocabulary in Latin — inventing the terms trinitas (Trinity), substantia (substance), and persona (person) to describe the one-in-three nature of God. He opposed Modalism (Sabellianism) with the formulation that became standard: one substance, three persons. His Against Praxeas is the foundational text in Trinitarian theology. Despite his later association with the Montanist sect, his Trinitarian contribution was preserved and became the bedrock of Latin orthodox theology.", quote: "What has Athens to do with Jerusalem? What has the Academy to do with the Church? What have heretics to do with Christians?", contribution: "Created the Latin vocabulary for Trinitarian theology that shaped all subsequent Western Christian thought. His formula — una substantia, tres personae — remains the standard definition of the Trinity in Western Christianity." }
+];
+
+const COUNCILS = [
+  { name: "Council of Nicaea", year: "325 AD", color: "#EF4444", trigger: "Arianism — Arius claimed the Son is a created being, not fully God.", outcome: "Formulated the Nicene Creed. Declared the Son homoousios (of the same substance) as the Father. Condemned Arianism. Emperor Constantine presided but the theological work was done by Alexander of Alexandria and Athanasius.", creed: "We believe in one Lord Jesus Christ, the Son of God, begotten of the Father, only-begotten, that is, of the substance of the Father, God of God, Light of Light, very God of very God, begotten, not made, of one substance with the Father.", significance: "Established the full divinity of the Son as the non-negotiable center of Trinitarian faith. The Nicene Creed is still recited weekly in churches across Catholic, Orthodox, Anglican, Lutheran, and many Reformed traditions." },
+  { name: "Council of Constantinople", year: "381 AD", color: PURPLE, trigger: "Semi-Arianism and Pneumatomachian (Spirit-fighters) denial of the Holy Spirit's full divinity.", outcome: "Confirmed and expanded the Nicene Creed. Added the pneumatological section: 'We believe in the Holy Spirit, the Lord and Giver of Life, who proceeds from the Father, who with the Father and the Son is worshipped and glorified.' Condemned Apollinarianism (which denied Christ's full human mind).", creed: "We believe in the Holy Spirit, the Lord, the Giver of Life, who proceeds from the Father, who with the Father and the Son is worshipped and glorified, who has spoken through the prophets.", significance: "Completed the Trinitarian settlement of Nicaea by establishing the full divinity of the Holy Spirit. The Nicene-Constantinopolitan Creed (which is what churches today usually call the Nicene Creed) is the product of this council." },
+  { name: "Council of Ephesus", year: "431 AD", color: "#3B82F6", trigger: "Nestorianism — Nestorius's apparent teaching of two persons in Christ and his refusal to call Mary Theotokos.", outcome: "Declared Mary Theotokos (God-bearer) as a Christological (not Mariological) claim. Affirmed the union of natures in one person. Condemned Nestorius. Cyril of Alexandria's twelve anathemas shaped the outcome.", creed: "Mary is Theotokos — not because the divine nature had a beginning in her womb, but because the one person who is eternally divine was born of her as man.", significance: "Established the personal unity of Christ — two natures, one person — against any teaching that divides Christ into two subjects. The Theotokos title remains one of the most important Christological affirmations in the church's history." },
+  { name: "Council of Chalcedon", year: "451 AD", color: GREEN, trigger: "Eutychianism (Monophysitism) — the view that Christ has only one nature, his humanity absorbed into divinity.", outcome: "Formulated the Chalcedonian Definition: Christ is one person in two natures (divine and human) without confusion, change, division, or separation. The four famous negatives eliminate both Nestorian separation and Eutychian confusion. Accepted by Catholics, most Protestants, and Reformed and Lutheran traditions. The Oriental Orthodox churches (Coptic, Ethiopian, Armenian, Syriac) rejected it.", creed: "One and the same Christ, Son, Lord, Only-begotten, recognized in two natures, without confusion, without change, without division, without separation.", significance: "The definitive Christological formulation of the ancient church. The Chalcedonian definition established the boundaries within which all orthodox Christology has been done ever since. Its four negatives are still the touchstone for Christological orthodoxy." }
+];
+
+const HERESY_PATTERNS = [
+  { title: "Heresies Always Begin with a Valid Concern", icon: "⚠️", color: "#F59E0B", desc: "Arius wanted to protect monotheism. Nestorius wanted to protect the distinction of natures. Pelagius wanted to preserve human responsibility. Every heresy begins with a genuine theological intuition pressed too far or defended by excluding another truth. This is why heresy is not stupidity — it is oversimplification in the service of a partial truth." },
+  { title: "Heresy is Always Christological at its Core", icon: "✝️", color: "#EF4444", desc: "Nearly every major heresy in church history touches Christology — either denying Christ's full divinity (Arianism, Socinianism), denying his full humanity (Docetism, Apollinarianism), or dividing what must be held together (Nestorianism) or confusing what must be distinguished (Eutychianism, Modalism). The person of Christ is the pressure point of theological controversy because he is the center of the Christian gospel." },
+  { title: "Heresies Simplify What Must Be Complex", icon: "🧩", color: "#8B5CF6", desc: "Orthodox Christianity insists on paradoxes: one God in three persons; Christ fully divine and fully human; humans both totally depraved and genuinely responsible; salvation both totally by grace and genuinely involving human faith. Heresies resolve the paradox prematurely. Arianism made the Son less than the Father to make the math easier. Modalism made the three persons identical. Monophysitism merged the natures. Heresy is always easier to explain — and that is part of its appeal." },
+  { title: "Heresies Always Return", icon: "🔄", color: "#3B82F6", desc: "The ancient heresies are not merely historical. Arianism returns in every generation as the commonsense position: surely Jesus can't be fully God. Docetism returns whenever Christianity becomes purely spiritual and disembodied. Pelagianism returns whenever the church emphasizes human decision without divine initiative. Gnosticism returns in any spirituality that treats matter as inferior and salvation as escape rather than transformation. Knowing the ancient heresies is essential for recognizing their modern forms." },
+  { title: "The Church's Boundaries Were Forged in Battle", icon: "🛡️", color: "#10B981", desc: "The creeds are not bureaucratic documents — they are the scars of theological warfare. Every phrase in the Nicene Creed was chosen to exclude a specific heresy. 'Very God of very God' excludes Arianism. 'Begotten, not made' excludes the Arian view that the Son is a creature. 'Of one substance with the Father' is the decisive line. The church learned what to say by first confronting what could not be said." },
+  { title: "Heresy Destroys Soteriology", icon: "🔑", color: GREEN, desc: "The Fathers consistently argued that false Christology destroys salvation. Athanasius: if the Son is not truly God, he cannot deify us. Gregory of Nazianzus: 'That which is not assumed is not healed' — if Christ did not take on a full human nature, he did not redeem it. Anselm: only one who is both fully God (to make the satisfaction infinite) and fully human (to represent humanity) can make atonement. Every Christological error affects soteriology — who saves us and how." }
+];
+
 export default function ClassicHeresiesPage() {
+  const [activeTab, setActiveTab] = useState<Tab>("heresies");
+  const [selectedDefender, setSelectedDefender] = useState("athanasius");
+  const defender = DEFENDERS.find(d => d.id === selectedDefender)!;
   const [selected, setSelected] = useState<string | null>(null);
   const [expanded, setExpanded] = useState<string | null>(null);
 
@@ -128,6 +157,21 @@ export default function ClassicHeresiesPage() {
           </p>
         </div>
 
+        <div style={{ display: "flex", gap: 8, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
+          {([
+            { id: "heresies" as Tab, label: "The Heresies", icon: "⚠️" },
+            { id: "defenders" as Tab, label: "Defenders", icon: "🛡️" },
+            { id: "councils" as Tab, label: "Councils", icon: "📜" },
+            { id: "patterns" as Tab, label: "Patterns", icon: "🔄" },
+          ]).map(t => (
+            <button key={t.id} onClick={() => setActiveTab(t.id)}
+              style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", cursor: "pointer", fontWeight: 700, fontSize: 13, background: activeTab === t.id ? GREEN : "transparent", color: activeTab === t.id ? BG : MUTED, transition: "all 0.15s" }}>
+              {t.icon} {t.label}
+            </button>
+          ))}
+        </div>
+
+        {activeTab === "heresies" && (
         <div style={{ display: "grid", gridTemplateColumns: heresy ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {HERESIES.map((h, i) => (
@@ -189,6 +233,89 @@ export default function ClassicHeresiesPage() {
             </div>
           )}
         </div>
+        )}
+
+        {activeTab === "defenders" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 210, flexShrink: 0 }}>
+              {DEFENDERS.map(d => (
+                <button key={d.id} onClick={() => setSelectedDefender(d.id)}
+                  style={{ width: "100%", background: selectedDefender === d.id ? `${PURPLE}18` : "transparent", border: `1px solid ${selectedDefender === d.id ? PURPLE + "80" : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 6, cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: selectedDefender === d.id ? TEXT : MUTED, fontWeight: 700, fontSize: 13 }}>{d.name}</div>
+                  <div style={{ color: MUTED, fontSize: 11, marginTop: 2 }}>{d.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ background: CARD, border: `1px solid ${PURPLE}30`, borderRadius: 14, padding: 28 }}>
+                <div style={{ marginBottom: 18 }}>
+                  <h2 style={{ color: TEXT, fontWeight: 900, fontSize: 22, marginBottom: 4 }}>{defender.name}</h2>
+                  <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                    <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700 }}>{defender.era}</span>
+                    <span style={{ background: `${GREEN}15`, color: GREEN, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700 }}>{defender.context}</span>
+                  </div>
+                </div>
+                <div style={{ marginBottom: 18 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>LIFE & BATTLE</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>{defender.bio}</p>
+                </div>
+                <div style={{ background: BG, borderLeft: `3px solid ${PURPLE}`, borderRadius: "0 10px 10px 0", padding: 18, marginBottom: 18 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 11, marginBottom: 8 }}>CHARACTERISTIC QUOTE</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0, fontStyle: "italic" }}>&ldquo;{defender.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 10, padding: 16 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>CONTRIBUTION TO ORTHODOXY</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{defender.contribution}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "councils" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            {COUNCILS.map(c => (
+              <div key={c.name} style={{ background: CARD, border: `1px solid ${c.color}30`, borderRadius: 14, padding: 26 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 14 }}>
+                  <div>
+                    <h3 style={{ color: c.color, fontWeight: 900, fontSize: 18, margin: "0 0 4px" }}>{c.name}</h3>
+                    <span style={{ background: `${c.color}15`, color: c.color, padding: "1px 8px", borderRadius: 6, fontSize: 11, fontWeight: 700 }}>{c.year}</span>
+                  </div>
+                </div>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 14 }}>
+                  <div style={{ background: "#EF444410", border: "1px solid #EF444420", borderRadius: 8, padding: 12 }}>
+                    <div style={{ color: "#EF4444", fontWeight: 700, fontSize: 11, marginBottom: 4 }}>TRIGGERED BY</div>
+                    <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{c.trigger}</p>
+                  </div>
+                  <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 8, padding: 12 }}>
+                    <div style={{ color: GREEN, fontWeight: 700, fontSize: 11, marginBottom: 4 }}>OUTCOME</div>
+                    <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{c.outcome}</p>
+                  </div>
+                </div>
+                <div style={{ background: BG, borderLeft: `3px solid ${c.color}`, borderRadius: "0 8px 8px 0", padding: 12, marginBottom: 12 }}>
+                  <div style={{ color: c.color, fontWeight: 700, fontSize: 11, marginBottom: 4 }}>KEY FORMULA</div>
+                  <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0, fontStyle: "italic" }}>&ldquo;{c.creed}&rdquo;</p>
+                </div>
+                <div style={{ background: `${PURPLE}08`, border: `1px solid ${PURPLE}20`, borderRadius: 8, padding: 12 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 11, marginBottom: 4 }}>WHY IT STILL MATTERS</div>
+                  <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{c.significance}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {activeTab === "patterns" && (
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+            {HERESY_PATTERNS.map(p => (
+              <div key={p.title} style={{ background: CARD, border: `1px solid ${p.color}30`, borderRadius: 14, padding: 22 }}>
+                <div style={{ fontSize: 28, marginBottom: 10 }}>{p.icon}</div>
+                <h3 style={{ color: p.color, fontWeight: 900, fontSize: 15, marginBottom: 10 }}>{p.title}</h3>
+                <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.75, margin: 0 }}>{p.desc}</p>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

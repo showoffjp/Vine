@@ -46,6 +46,14 @@ const BARRIERS = [
   { b: "I give my time, not my money.", r: "Time-giving and money-giving are both valid, but they are not interchangeable. Jesus spoke specifically about the heart and money as rivals. Most people who claim to give time instead find they are giving neither consistently." },
 ];
 
+const VOICES_GENEROSITY = [
+  { id: "muller", name: "George Müller", era: "1805-1898", context: "Bristol orphanages; funded entirely by prayer and faith", bio: "Müller ran orphanages for 2,000 children in Bristol without ever making the need publicly known — only praying and recording the answers. Over his lifetime he received and disbursed the equivalent of tens of millions of dollars, all given by people who heard about the need through his prayer reports rather than fundraising appeals. His journals are a record of extraordinary generosity — both his own and others' — and of a faith that expected God to meet specific needs in specific ways.", quote: "I never remember, in all my Christian course, a period now (in 1861) of about 36 years and 4 months, that I ever sincerely and patiently sought to know the will of God by the teaching of the Holy Ghost, through the instrumentality of the word of God, but I have been always directed rightly.", contribution: "Modeled sacrificial generosity and transparency at a scale that inspired worldwide Christian giving. His practice of need-reporting without direct appeals influenced mission fundraising models for a century." },
+  { id: "carmichael", name: "Amy Carmichael", era: "1867-1951", context: "Dohnavur Fellowship, India; 55 years of ministry without furlough", bio: "Carmichael went to India in 1895 and never returned home — 55 years of ministry to rescued children, eventually leading the Dohnavur Fellowship. She refused to raise money through conventional appeals and trusted entirely in God's provision. She rescued hundreds of children from temple prostitution and built a community that was both self-sustaining and lavishly generous. She wrote 35 books from the room in which she was bedbound the last 20 years of her life.", quote: "You can give without loving, but you cannot love without giving.", contribution: "Demonstrated that generosity sustained by prayer rather than fundraising could build institutions of lasting impact. Her refusal to compromise — on both the children's welfare and the financial practices — made Dohnavur a model of mission integrity." },
+  { id: "taylor", name: "Hudson Taylor", era: "1832-1905", context: "China Inland Mission; Faith missions pioneer", bio: "Taylor founded the China Inland Mission on the principle of making needs known only to God — not to the public. He identified the needs of inland China (where no missionary had gone) and recruited workers willing to go without guaranteed salary. His personal generosity was extraordinary: he frequently gave away his own food and money to people in greater need. The CIM (now OMF International) still operates on the financial principles he established.", quote: "God's work done in God's way will never lack God's supply.", contribution: "Pioneered the faith mission model — a system of donor-supported Christian mission that avoids public begging while maintaining radical financial transparency. His financial principles have shaped hundreds of mission organizations worldwide." },
+  { id: "alcorn", name: "Randy Alcorn", era: "b. 1951", context: "Eternal Perspective Ministries; The Treasure Principle", bio: "Alcorn's The Treasure Principle distills his larger Money, Possessions, and Eternity into a short, accessible call to radical generosity rooted in Jesus's teaching on treasure in heaven (Matthew 6:19-21). His six keys to generosity begin with the recognition that God owns everything and we are stewards, and build toward the conclusion that giving is the antidote to materialism: you cannot serve both God and money, and the way to free yourself from money's grip is to give it away. He lives what he preaches — donating all royalties to charity.", quote: "You can't take it with you, but you can send it ahead. And whatever you invest in God's kingdom yields eternal dividends.", contribution: "Made radical generosity accessible and theologically grounded for ordinary evangelical Christians. The Treasure Principle has sold over a million copies and has initiated the giving practices of countless families who had not considered generosity as a spiritual discipline." },
+  { id: "platt", name: "David Platt", era: "b. 1979", context: "Radical (2010); McLean Bible Church; International Mission Board", bio: "Platt's Radical became one of the most controversial evangelical books of the decade it was published — arguing that the American Dream and Christianity are fundamentally incompatible, and that any gospel that does not cost us everything has not been understood. His challenge: if you have more than enough and the majority of the world is without the gospel, what is your obligation? He led McLean Bible Church and the International Mission Board before returning to pastoral ministry, and he lives with unusual simplicity for a figure of his platform.", quote: "In a world where more than a billion people live on less than a dollar a day, what does it say about us when we spend $10 on a latte and think nothing of it?", contribution: "Forced a generation of evangelicals to question the compatibility of material comfort with Christian discipleship. Radical reopened the conversation about sacrifice, generosity, and global mission for churches that had domesticated the gospel." }
+];
+
 interface GivingGoal {
   id: string;
   label: string;
@@ -60,7 +68,9 @@ const SEED_GOALS: GivingGoal[] = [
 ];
 
 export default function GenerosityPage() {
-  const [activeTab, setActiveTab] = useState<"theology" | "practical" | "goals">("theology");
+  const [activeTab, setActiveTab] = useState<"theology" | "voices" | "practical" | "goals">("theology");
+  const [selectedVoice, setSelectedVoice] = useState("muller");
+  const voiceItem = VOICES_GENEROSITY.find(v => v.id === selectedVoice)!;
   const [goals, setGoals] = useState<GivingGoal[]>(() => {
     try { const s = localStorage.getItem("vine_giving_goals"); return s ? JSON.parse(s) : SEED_GOALS; } catch { return SEED_GOALS; }
   });
@@ -88,6 +98,7 @@ export default function GenerosityPage() {
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
             { id: "theology" as const, label: "Theology", icon: "📖" },
+            { id: "voices" as const, label: "Voices", icon: "💬" },
             { id: "practical" as const, label: "Practical Guide", icon: "🛠️" },
             { id: "goals" as const, label: "Giving Goals", icon: "🎯" },
           ].map(t => (
@@ -117,6 +128,35 @@ export default function GenerosityPage() {
                   <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, margin: 0 }}>{bar.r}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {activeTab === "voices" && (
+          <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
+            <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
+              {VOICES_GENEROSITY.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ background: selectedVoice === v.id ? PURPLE : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: TEXT, fontWeight: 700, fontSize: 14 }}>{v.name}</div>
+                  <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{v.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 28 }}>
+                <h2 style={{ color: GREEN, fontWeight: 900, fontSize: 22, margin: "0 0 4px" }}>{voiceItem.name}</h2>
+                <div style={{ color: PURPLE, fontSize: 13, fontWeight: 700, marginBottom: 6 }}>{voiceItem.era}</div>
+                <div style={{ color: MUTED, fontSize: 13, marginBottom: 16 }}>{voiceItem.context}</div>
+                <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 15, marginBottom: 20 }}>{voiceItem.bio}</p>
+                <div style={{ background: BG, borderLeft: `3px solid ${GREEN}`, borderRadius: "0 8px 8px 0", padding: "14px 18px", marginBottom: 20 }}>
+                  <p style={{ color: GREEN, fontStyle: "italic", fontSize: 15, lineHeight: 1.7, margin: 0 }}>&ldquo;{voiceItem.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: `${PURPLE}15`, borderRadius: 10, padding: 16 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>Contribution to Generosity Theology</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, margin: 0 }}>{voiceItem.contribution}</p>
+                </div>
+              </div>
             </div>
           </div>
         )}

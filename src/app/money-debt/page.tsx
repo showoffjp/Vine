@@ -21,6 +21,14 @@ const PRINCIPLES = [
   { title: "Plan Your Spending", desc: "A budget is not a punishment — it is a plan. Without a plan, money flows to the loudest demand. With a plan, you decide in advance what matters. Zero-based budgeting (every dollar has a job) and the envelope system are proven methods for those who struggle with overspending.", color: "#F59E0B" },
 ];
 
+const VOICES_DEBT = [
+  { id: "wesley", name: "John Wesley", era: "1703-1791", context: "Methodist founder; Sermon: The Use of Money", bio: "Wesley's sermon The Use of Money contains his famous three rules: 'Gain all you can, save all you can, give all you can.' He preached to working-class people who were building wealth for the first time and insisted that economic life is a spiritual matter. He himself died with little money — he gave away thousands of pounds over his lifetime. He was deeply practical: don't borrow money if you can avoid it; live within your means; your income is a stewardship.", quote: "Gain all you can, save all you can, give all you can. The more you gain, the more you will be able to save and give. But if you do not give in proportion to what you have gained, you rob God.", contribution: "Made economic behavior a central concern of evangelical Christianity. Wesley's three rules remain the clearest summary of a Christian approach to money — and his own example of lavish generosity against a background of methodical earning and saving made the rules credible." },
+  { id: "spurgeon", name: "Charles Spurgeon", era: "1834-1892", context: "Metropolitan Tabernacle, London; Victorian England's leading preacher", bio: "Spurgeon preached to Victorian working-class people navigating debt, poverty, and the emerging industrial economy. His counsel was consistent: debt is slavery; avoid it where possible; if you have it, attack it systematically; the Christian's yes must mean yes (Matthew 5:37), which means paying what you owe. He was also honest about the spiritual dimension: money anxiety is often a faith problem, not merely a math problem.", quote: "Beware of no debt but the debt of love. Get out of debt as quickly as you can, for the debtor is servant to the lender, and no servant can truly serve two masters.", contribution: "Made financial integrity a matter of Christian testimony for ordinary people. His insistence that debt is bondage and that Christians' word should be their bond connected personal finance to the credibility of the gospel." },
+  { id: "alcorn", name: "Randy Alcorn", era: "b. 1951", context: "Eternal Perspective Ministries; Money, Possessions, and Eternity", bio: "Alcorn's Money, Possessions, and Eternity is the most comprehensive biblical treatment of personal finance in the evangelical tradition — covering over 2,000 Bible passages related to money. His controlling conviction: every financial decision is a spiritual decision, because money is a proxy for values. His chapter on debt is both theologically serious and practically detailed. He himself gave away all royalties from his books after a legal judgment for anti-abortion advocacy — modeling what he preached.", quote: "We are not owners but stewards. God owns everything; we manage it. The question is not 'How much of my money will I give to God?' but 'How much of God's money will I keep for myself?'", contribution: "Produced the definitive evangelical systematic theology of money and possessions. His treatment of debt, giving, lifestyle, and eternal perspective has shaped how evangelical Christians think about financial discipleship." },
+  { id: "ramsey", name: "Dave Ramsey", era: "b. 1960", context: "Financial Peace University; Nashville, Tennessee", bio: "Ramsey is the most influential Christian financial advisor of the current era. His seven Baby Steps — starting with a $1,000 emergency fund and ending with wealth-building and generosity — have helped millions of ordinary families eliminate debt. His method is behavioral as much as financial: the debt snowball (smallest balance first, not highest rate) works because momentum motivates better than mathematics. He is transparent about his own bankruptcy in his 20s and the faith journey that shaped his approach.", quote: "We buy things we don't need with money we don't have to impress people we don't like. The financial peace we seek comes only from a relationship with the Prince of Peace.", contribution: "Made debt elimination practically achievable for ordinary families through a behavioral system that works with human psychology rather than against it. Financial Peace University has been adopted by churches as a discipleship tool, bridging financial education and spiritual formation." },
+  { id: "blue", name: "Ron Blue", era: "b. 1942", context: "Kingdom Advisors; Master Your Money; Crown Financial Ministries", bio: "Ron Blue is one of the founding figures of Christian financial planning. His Master Your Money laid out a systematic approach to budgeting, saving, debt elimination, and giving that was explicitly theological — rooted in the conviction that financial decisions are primarily spiritual decisions. His work with Kingdom Advisors has trained thousands of financial planners to integrate biblical principles with professional financial planning, creating an entire profession of Christ-centered financial counsel.", quote: "There is no such thing as a personal financial problem. Every financial problem is a spiritual problem that manifests financially.", contribution: "Founded the field of biblically-based financial planning as a profession. His integration of theology and financial practice has given Christians a way to seek professional financial counsel that takes their spiritual commitments seriously." }
+];
+
 interface DebtEntry {
   id: number;
   name: string;
@@ -36,7 +44,9 @@ const SEED_DEBTS: DebtEntry[] = [
 ];
 
 export default function MoneyDebtPage() {
-  const [activeTab, setActiveTab] = useState<"theology" | "principles" | "tracker">("theology");
+  const [activeTab, setActiveTab] = useState<"theology" | "voices" | "principles" | "tracker">("theology");
+  const [selectedVoice, setSelectedVoice] = useState("wesley");
+  const voiceItem = VOICES_DEBT.find(v => v.id === selectedVoice)!;
   const [debts, setDebts] = useState<DebtEntry[]>(() => {
     try { const s = localStorage.getItem("vine_debts"); return s ? JSON.parse(s) : SEED_DEBTS; } catch { return SEED_DEBTS; }
   });
@@ -72,9 +82,10 @@ export default function MoneyDebtPage() {
 
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
-            { id: "theology" as const, label: "Theology of Money", icon: "📖" },
+            { id: "theology" as const, label: "Theology", icon: "📖" },
+            { id: "voices" as const, label: "Voices", icon: "💬" },
             { id: "principles" as const, label: "Principles", icon: "📊" },
-            { id: "tracker" as const, label: "Debt Tracker", icon: "📉" },
+            { id: "tracker" as const, label: "Tracker", icon: "📉" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -94,6 +105,43 @@ export default function MoneyDebtPage() {
                 <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 15, margin: 0 }}>{t.body}</p>
               </div>
             ))}
+          </div>
+        )}
+
+        {activeTab === "voices" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 210, flexShrink: 0 }}>
+              {VOICES_DEBT.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ width: "100%", background: selectedVoice === v.id ? `${PURPLE}18` : "transparent", border: `1px solid ${selectedVoice === v.id ? PURPLE + "80" : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 6, cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: selectedVoice === v.id ? TEXT : MUTED, fontWeight: 700, fontSize: 13 }}>{v.name}</div>
+                  <div style={{ color: MUTED, fontSize: 11, marginTop: 2 }}>{v.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ background: CARD, border: `1px solid ${PURPLE}30`, borderRadius: 14, padding: 28 }}>
+                <div style={{ marginBottom: 18 }}>
+                  <h2 style={{ color: TEXT, fontWeight: 900, fontSize: 22, marginBottom: 4 }}>{voiceItem.name}</h2>
+                  <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                    <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700 }}>{voiceItem.era}</span>
+                    <span style={{ background: `${GREEN}15`, color: GREEN, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700 }}>{voiceItem.context}</span>
+                  </div>
+                </div>
+                <div style={{ marginBottom: 18 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>LIFE & TEACHING</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>{voiceItem.bio}</p>
+                </div>
+                <div style={{ background: BG, borderLeft: `3px solid ${PURPLE}`, borderRadius: "0 10px 10px 0", padding: 18, marginBottom: 18 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 11, marginBottom: 8 }}>CHARACTERISTIC QUOTE</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0, fontStyle: "italic" }}>&ldquo;{voiceItem.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 10, padding: 16 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>CONTRIBUTION</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{voiceItem.contribution}</p>
+                </div>
+              </div>
+            </div>
           </div>
         )}
 

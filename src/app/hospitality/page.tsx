@@ -23,7 +23,7 @@ const OBSTACLES = [
 const PRACTICES = [
   { title: "The Weekly Table", desc: "Commit to having at least one non-family person at your table each week. It can be a quick lunch or a lingering dinner. The regularity matters more than the scale.", icon: "🍽️" },
   { title: "The Standing Invitation", desc: "Identify two or three people in your life — single people, those who are new, those who struggle — and give them a standing invitation: 'We eat at 6:30 on Sundays. You are always welcome.' Then hold the standing invitation when they come.", icon: "📬" },
-  { title: "Learn One Person's Story", desc: "The most hospitable thing you can do at a table is ask the right questions and then listen. Ask: 'What was your family like growing up?' 'What are you most afraid of right now?' 'What's something you've always wanted to do?' Hospitality is interest in the actual human across from you.", icon: "👂" },
+  { title: "Learn One Person's Story", desc: "The most hospitable thing you can do at a table is ask the right questions and then listen. Ask: 'What was your family like growing up?' 'What are you most afraid of right now?' Hospitality is interest in the actual human across from you.", icon: "👂" },
   { title: "Host When It's Inconvenient", desc: "The best hospitality happens when it is not convenient. When a friend's evening falls apart, when a neighbor is in crisis, when someone needs a place to sleep. These moments cannot be planned — only responded to with an open door.", icon: "🚪" },
   { title: "The Neighborhood Meal", desc: "Once or twice a year, host something for your immediate neighbors — a block party, a back yard meal, a holiday gathering. You don't need a budget. You need an invitation and a willingness to be surprised by who shows up.", icon: "🏘️" },
   { title: "Follow the Example of Christ", desc: "Before you set a table, remember that you sit at one. The Lord's Supper is the ultimate act of hospitality: broken body and poured-out blood shared freely with the unworthy. Every table you set is a small echo of the one he has set.", icon: "🍷" },
@@ -36,9 +36,57 @@ const FIGURES = [
   { name: "Priscilla and Aquila", desc: "Acts 18:1-3, Romans 16:3-5. This couple opened their home repeatedly — to Paul (who lived and worked with them), to Apollos (whom they mentored), and to a church that met in their home. Their home was the infrastructure of the early church in multiple cities.", ref: "Romans 16:3-5" },
 ];
 
+const HISTORY = [
+  {
+    id: "desert",
+    name: "Desert Fathers and Mothers",
+    era: "4th-5th century",
+    desc: "The Desert Fathers and Mothers of Egypt, Syria, and Palestine lived as solitaries, yet their compounds became places of constant pilgrimage. When a visitor arrived, they would break their fast to eat with the guest — a significant sacrifice in a tradition of rigorous fasting. Abba Moses famously said: receive every stranger as you would receive the Lord himself. The paradox was striking: the hermit was simultaneously a host.",
+    features: ["Break fasting immediately when a guest arrives", "No penance takes precedence over welcoming the pilgrim", "Receive every stranger as bearing the image of Christ", "Welcome creates the conditions for the guest's own encounter with God"],
+    lesson: "For the Desert Fathers, hospitality was not in tension with their solitary vocation — it was part of it. The discipline of the cell formed the capacity to truly welcome. The person who could be alone could also be fully present. Genuine hospitality requires an interior stability that is built in solitude, not despite it.",
+  },
+  {
+    id: "benedict",
+    name: "Rule of St. Benedict",
+    era: "6th century",
+    desc: "Benedict of Nursia wrote his Rule around 530 AD to govern monastic life. Chapter 53 is devoted entirely to hospitality: 'All guests who present themselves are to be welcomed as Christ, for he himself will say: I was a stranger and you welcomed me.' Monasteries following the Rule maintained a dedicated guest house and guest master. The poor and pilgrims received a preferential welcome over the wealthy.",
+    features: ["Dedicated guest house and guest master in every monastery", "Reading of Scripture and prayer upon the arrival of each guest", "Feet washing for arriving guests, echoing John 13", "Preferential welcome for the poor over wealthy visitors", "Special honor shown to monks and fellow pilgrims"],
+    lesson: "The Benedictine tradition institutionalized hospitality — it built welcoming into the architecture, the schedule, and the leadership of the community. You cannot rely on individual impulse alone; structures must embody the value. A guest room built into the floor plan is more likely to be used than a vague intention to have people over someday.",
+  },
+  {
+    id: "celtic",
+    name: "Celtic Monasticism",
+    era: "5th-8th century",
+    desc: "Irish and Scottish monasteries became way stations along pilgrimage routes, hosting travelers across Britain and the Continent. Celtic monks saw hospitality as a form of mission: strangers brought the gospel to new places and carried it forward. Patrick himself began as a slave and stranger, and his experience shaped a spirituality uniquely attuned to the outsider. The figure of the peregrini — the holy wanderer — was central to Celtic Christianity.",
+    features: ["Open table for pilgrims and missionaries along the routes", "The peregrini: holy wanderers who carried the gospel as they received welcome", "See every stranger as a potential bearer of Christ to you", "Hospitality and mission as inseparable — the open door is itself proclamation"],
+    lesson: "Celtic Christianity recovered the mobile, at-home-in-the-world character of Abraham's hospitality. They were rooted enough to offer home to others, but also genuinely at home in the world as it was. The hospitable community is never fully settled — it remains open because it understands itself as also passing through, on the way to a city whose builder and maker is God.",
+  },
+  {
+    id: "dorothy",
+    name: "Dorothy Day and the Catholic Worker",
+    era: "20th century - present",
+    desc: "Dorothy Day and Peter Maurin founded the Catholic Worker Movement in 1933, establishing Houses of Hospitality in cities across America to provide food, shelter, and community to the poor without conditions or cost. Day explicitly linked hospitality to the Eucharist: the same body of Christ broken and shared at the altar was to be broken and shared in the soup kitchen. At its height the movement ran over 200 houses worldwide.",
+    features: ["Houses of Hospitality opened in every major city — no conditions attached", "No distinction between server and guest: all ate together at the same table", "Voluntary poverty as prerequisite to genuine welcome", "Explicitly connected to the Eucharist: the broken body shared at Mass and at table"],
+    lesson: "Dorothy Day demonstrated that radical hospitality requires radical identification. You cannot genuinely welcome the hungry if you live at a comfortable remove from hunger. The Houses of Hospitality were not charity organizations — they were communities in which the workers and the guests lived together. Genuine welcome costs something; it cannot be outsourced from a distance.",
+  },
+  {
+    id: "luther",
+    name: "The Reformation Household",
+    era: "16th century",
+    desc: "The Reformation transformed the pastor's household into a model of Christian community. Martin Luther's home in Wittenberg — the former Black Cloister — became famous for its open table, where students, reformers, travelers, and refugees gathered for meals and conversation. Luther's wife Katharina von Bora managed a household that included up to 40 people at times. These conversations were later collected as the Table Talks (Tischreden).",
+    features: ["The pastor's home as gathering place for theological formation", "Katharina von Bora as model of household administration and hospitality", "Welcome of religious refugees fleeing persecution across Europe", "Ordinary domestic life — cooking, conversation, children — as the context for discipleship"],
+    lesson: "The Reformation household recovered a specifically Protestant form of hospitality rooted not in monastic rules but in family life. The home became a small church; the family meal became a form of discipleship. Luther's recovery of marriage and the household as a legitimate spiritual vocation created a new vision: ordinary domestic life, well-lived and generously opened, is itself a form of ministry.",
+  },
+];
+
+type Tab = "theology" | "obstacles" | "history" | "practices";
+
 export default function HospitalityPage() {
-  const [activeTab, setActiveTab] = useState<"theology" | "obstacles" | "practices">("theology");
+  const [activeTab, setActiveTab] = useState<Tab>("theology");
   const [expanded, setExpanded] = useState<string | null>(null);
+  const [selectedHistory, setSelectedHistory] = useState("desert");
+
+  const history = HISTORY.find(h => h.id === selectedHistory)!;
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 40 }}>
@@ -55,6 +103,7 @@ export default function HospitalityPage() {
           {[
             { id: "theology" as const, label: "Theology", icon: "📖" },
             { id: "obstacles" as const, label: "Obstacles", icon: "🚧" },
+            { id: "history" as const, label: "Through History", icon: "🕰️" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
@@ -111,6 +160,40 @@ export default function HospitalityPage() {
                 )}
               </div>
             ))}
+          </div>
+        )}
+
+        {activeTab === "history" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 220, flexShrink: 0 }}>
+              {HISTORY.map(h => (
+                <button key={h.id} onClick={() => setSelectedHistory(h.id)}
+                  style={{ width: "100%", background: selectedHistory === h.id ? `${PURPLE}20` : CARD, border: `1px solid ${selectedHistory === h.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 8, cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: selectedHistory === h.id ? GREEN : TEXT, fontWeight: 700, fontSize: 13, marginBottom: 2 }}>{h.name}</div>
+                  <div style={{ color: MUTED, fontSize: 11 }}>{h.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16, flexWrap: "wrap" }}>
+                <h2 style={{ color: GREEN, fontWeight: 900, fontSize: 20, margin: 0 }}>{history.name}</h2>
+                <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "3px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700, flexShrink: 0 }}>{history.era}</span>
+              </div>
+              <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, marginBottom: 20 }}>{history.desc}</p>
+              <div style={{ background: BG, borderRadius: 10, padding: 16, marginBottom: 16 }}>
+                <div style={{ color: GREEN, fontWeight: 700, fontSize: 12, marginBottom: 10 }}>DEFINING FEATURES</div>
+                {history.features.map((f, i) => (
+                  <div key={i} style={{ display: "flex", gap: 8, marginBottom: 8 }}>
+                    <span style={{ color: GREEN, flexShrink: 0, marginTop: 2 }}>›</span>
+                    <span style={{ color: TEXT, fontSize: 13, lineHeight: 1.6 }}>{f}</span>
+                  </div>
+                ))}
+              </div>
+              <div style={{ background: `${PURPLE}08`, border: `1px solid ${PURPLE}20`, borderRadius: 10, padding: 16 }}>
+                <div style={{ color: PURPLE, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>LESSON FOR TODAY</div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{history.lesson}</p>
+              </div>
+            </div>
           </div>
         )}
 

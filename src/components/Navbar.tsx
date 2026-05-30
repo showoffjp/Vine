@@ -5,123 +5,461 @@ import { Menu, X, Search, Bell, ChevronDown, Sparkles } from "lucide-react";
 import SearchOverlay from "./SearchOverlay";
 import AuthModal from "./AuthModal";
 
-const navLinks = [
+type NavItem = { label: string; href: string };
+type NavSection = { title: string; items: NavItem[] };
+type NavLink = { label: string; wide?: boolean; sections: NavSection[] };
+
+const navLinks: NavLink[] = [
   {
     label: "Community",
-    children: [
-      { label: "My Feed", href: "/feed" },
-      { label: "Discussions", href: "/discussions" },
-      { label: "Groups", href: "/groups" },
-      { label: "Prayer Wall", href: "/prayer-wall" },
-      { label: "Prayer Partners", href: "/prayer-partner" },
-      { label: "Testimony Wall", href: "/testimony" },
-      { label: "Faith Journey", href: "/faith-journey" },
-      { label: "Global Connect", href: "/global-connect" },
-      { label: "Stories", href: "/stories" },
+    sections: [
+      {
+        title: "Social Hub",
+        items: [
+          { label: "My Feed", href: "/feed" },
+          { label: "Discussions", href: "/discussions" },
+          { label: "Groups", href: "/groups" },
+          { label: "Stories", href: "/stories" },
+          { label: "Global Connect", href: "/global-connect" },
+        ],
+      },
+      {
+        title: "Prayer & Sharing",
+        items: [
+          { label: "Prayer Wall", href: "/prayer-wall" },
+          { label: "Prayer Partners", href: "/prayer-partner" },
+          { label: "Testimony Wall", href: "/testimony" },
+          { label: "Faith Journey", href: "/faith-journey" },
+        ],
+      },
     ],
   },
   {
     label: "Resources",
-    children: [
-      { label: "Devotional Creator", href: "/devotional-creator" },
-      { label: "Guides & Articles", href: "/resources" },
-      { label: "Christian Quotes", href: "/quotes" },
-      { label: "Sermon Archive", href: "/sermon-archive" },
-      { label: "Bible Promises", href: "/promises" },
-      { label: "Video Library", href: "/video" },
-      { label: "Podcasts", href: "/podcast" },
-      { label: "Bible Tools", href: "/bible" },
-      { label: "Bible Study", href: "/bible-study" },
-      { label: "Bible Book Overview", href: "/bible-overview" },
-      { label: "Character Studies", href: "/character-study" },
-      { label: "Theology Glossary", href: "/theology-glossary" },
-      { label: "Theology in Plain English", href: "/theology" },
-      { label: "The Holy Spirit", href: "/holy-spirit" },
-      { label: "Church Calendar", href: "/church-calendar" },
-      { label: "Parables Study", href: "/parables" },
-      { label: "Church History", href: "/church-history" },
-      { label: "Creeds & Historic Prayers", href: "/creeds" },
-      { label: "Faith & Science", href: "/faith-science" },
-      { label: "Reading Plan", href: "/reading-plan" },
-      { label: "Reading List", href: "/reading-list" },
-      { label: "Apologetics", href: "/apologetics" },
+    wide: true,
+    sections: [
+      {
+        title: "Bible & Scripture",
+        items: [
+          { label: "Bible Tools", href: "/bible" },
+          { label: "Old Testament Survey", href: "/old-testament-survey" },
+          { label: "New Testament Survey", href: "/new-testament-survey" },
+          { label: "Bible Study", href: "/bible-study" },
+          { label: "Bible Book Overview", href: "/bible-overview" },
+          { label: "Character Studies", href: "/character-study" },
+          { label: "Bible Characters", href: "/bible-characters" },
+          { label: "Biblical Archaeology", href: "/biblical-archaeology" },
+          { label: "The Prophets", href: "/prophets" },
+          { label: "Reading the Prophets", href: "/reading-prophets" },
+          { label: "Guide to the Psalms", href: "/psalms-guide" },
+          { label: "Psalms Deep Dive", href: "/psalms-deep-dive" },
+          { label: "Psalms as Prayer", href: "/psalms-as-prayer" },
+          { label: "Bible Promises", href: "/promises" },
+          { label: "Bible Reading Challenges", href: "/bible-reading-challenges" },
+          { label: "Bible Commentary Guide", href: "/commentary-guide" },
+        ],
+      },
+      {
+        title: "Theology & Doctrine",
+        items: [
+          { label: "Theology Glossary", href: "/theology-glossary" },
+          { label: "Theology in Plain English", href: "/theology" },
+          { label: "The Holy Trinity", href: "/trinity" },
+          { label: "Fatherhood of God", href: "/fatherhood-of-god" },
+          { label: "The Resurrection", href: "/resurrection" },
+          { label: "Resurrection Evidence", href: "/resurrection-evidence" },
+          { label: "Theories of Atonement", href: "/atonement" },
+          { label: "Atonement Deep Dive", href: "/atonement-theories" },
+          { label: "Heaven & Eternal Life", href: "/heaven" },
+          { label: "The New Creation", href: "/new-creation" },
+          { label: "Theology of Grace", href: "/grace" },
+          { label: "The Holy Spirit", href: "/holy-spirit" },
+          { label: "The Kingdom of God", href: "/kingdom-of-god" },
+          { label: "Sanctification", href: "/sanctification" },
+          { label: "Predestination & Election", href: "/predestination" },
+          { label: "Faith and Works", href: "/faith-and-works" },
+          { label: "The Incarnation", href: "/incarnation" },
+          { label: "Angels and Demons", href: "/angels-demons" },
+          { label: "Attributes of God", href: "/attributes-of-god" },
+          { label: "Providence of God", href: "/providence-of-god" },
+          { label: "The New Birth", href: "/new-birth" },
+          { label: "The Image of God", href: "/image-of-god" },
+          { label: "Theology of the Church", href: "/ecclesiology" },
+          { label: "Gifts of the Spirit", href: "/charismatic-gifts-theology" },
+          { label: "The Ten Commandments", href: "/ten-commandments" },
+          { label: "The Beatitudes", href: "/beatitudes" },
+          { label: "Theology of Scripture", href: "/scripture-theology" },
+          { label: "The Problem of Evil", href: "/theodicy" },
+          { label: "Christian Ethics", href: "/christian-ethics" },
+          { label: "Christian Bioethics", href: "/christian-bioethics" },
+          { label: "Theology of the Body", href: "/theology-of-body" },
+          { label: "Theology of Emotions", href: "/theology-of-emotions" },
+          { label: "Theology of Israel", href: "/theology-of-israel" },
+          { label: "Systematic Theology 101", href: "/systematic-theology-101" },
+          { label: "Biblical Theology Primer", href: "/biblical-theology-primer" },
+          { label: "Catechism Guide", href: "/catechism-guide" },
+        ],
+      },
+      {
+        title: "Church History",
+        items: [
+          { label: "Church History", href: "/church-history" },
+          { label: "Great Revivals", href: "/great-revivals" },
+          { label: "The Church Fathers", href: "/church-fathers" },
+          { label: "Church Fathers Guide", href: "/church-fathers-guide" },
+          { label: "Church Fathers Writings", href: "/church-fathers-writings" },
+          { label: "Saints & Martyrs", href: "/saints-martyrs" },
+          { label: "Famous Conversions", href: "/conversion-stories" },
+          { label: "Christians Who Changed History", href: "/christians-who-changed-history" },
+          { label: "Creeds & Historic Prayers", href: "/creeds" },
+          { label: "Historic Confessions", href: "/confessions" },
+          { label: "Classic Heresies Explained", href: "/classic-heresies" },
+          { label: "Protestant Denominations", href: "/protestant-denominations" },
+          { label: "Reformed Theology", href: "/reformed-theology" },
+          { label: "Christian Art Guide", href: "/christian-art-guide" },
+        ],
+      },
+      {
+        title: "Calendar & Liturgy",
+        items: [
+          { label: "Church Calendar", href: "/church-calendar" },
+          { label: "Liturgical Year", href: "/liturgical-year" },
+          { label: "Advent Guide", href: "/advent" },
+          { label: "Advent Devotional", href: "/advent-devotional" },
+          { label: "Lent Guide", href: "/lent" },
+          { label: "Lent Devotional", href: "/lent-devotional" },
+          { label: "Holy Week Guide", href: "/holy-week" },
+          { label: "Lectionary Guide", href: "/lectionary-guide" },
+          { label: "Sermon on the Mount", href: "/sermon-on-the-mount" },
+          { label: "Parables Study", href: "/parables" },
+        ],
+      },
+      {
+        title: "Apologetics & Philosophy",
+        items: [
+          { label: "Apologetics", href: "/apologetics" },
+          { label: "Apologetics 101", href: "/apologetics-101" },
+          { label: "Tough Questions Answered", href: "/apologetics-questions" },
+          { label: "Arguments for God", href: "/apologetics-arguments" },
+          { label: "Christian Philosophy", href: "/christian-philosophy" },
+          { label: "Faith & Science", href: "/faith-science" },
+          { label: "Christian Worldview", href: "/christian-worldview" },
+          { label: "Christian Political Theology", href: "/political-theology" },
+          { label: "Seminary Guide", href: "/seminary-guide" },
+        ],
+      },
+      {
+        title: "Preaching & Media",
+        items: [
+          { label: "Featured Preachers", href: "/featured-preachers" },
+          { label: "Landmark Sermons", href: "/landmark-sermons" },
+          { label: "Sermons That Moved History", href: "/featured-sermons" },
+          { label: "Sermon Archive", href: "/sermon-archive" },
+          { label: "Prophecy Today", href: "/prophecy-today" },
+          { label: "Devotional Creator", href: "/devotional-creator" },
+          { label: "Guides & Articles", href: "/resources" },
+          { label: "Christian Quotes", href: "/quotes" },
+          { label: "Video Library", href: "/video" },
+          { label: "Podcasts", href: "/podcast" },
+          { label: "Top Christian Podcasts", href: "/top-christian-podcasts" },
+          { label: "Christian Media Hub", href: "/christian-media-hub" },
+          { label: "Essential Christian Books", href: "/christian-books-guide" },
+          { label: "Books for Every Season", href: "/books-for-seasons" },
+          { label: "Devotional Classics", href: "/christian-devotional-classics" },
+          { label: "Essential Christian Podcasts", href: "/christian-podcasts-guide" },
+          { label: "Essential Christian Films", href: "/christian-movies" },
+          { label: "Christian Documentaries", href: "/christian-documentaries" },
+          { label: "Top YouTube Channels", href: "/christian-youtube-channels" },
+          { label: "Great Hymns Explained", href: "/great-hymns-explained" },
+          { label: "Must-Read Articles", href: "/must-read-articles" },
+          { label: "Christian News Sources", href: "/christian-news-sources" },
+          { label: "Christian Conferences", href: "/christian-conferences" },
+          { label: "Reading List", href: "/reading-list" },
+          { label: "Christian Fiction Guide", href: "/christian-fiction" },
+        ],
+      },
     ],
   },
   {
     label: "Daily Bread",
-    children: [
-      { label: "Today's Devotional", href: "/daily" },
-      { label: "Verse of the Day", href: "/verse-of-the-day" },
-      { label: "Spiritual Disciplines", href: "/disciplines" },
-      { label: "Prayer Methods", href: "/prayer-methods" },
-      { label: "Intercession Guide", href: "/intercession" },
-      { label: "Prayer Walking", href: "/prayer-walking" },
-      { label: "Confession Guide", href: "/confession" },
-      { label: "Daily Examen", href: "/daily-examen" },
-      { label: "The Sabbath", href: "/sabbath" },
-      { label: "Lectio Divina", href: "/lectio-divina" },
-      { label: "Biblical Meditation", href: "/meditation" },
-      { label: "Bible Reader", href: "/bible" },
-      { label: "Reading Plans", href: "/reading-plan" },
-      { label: "Verse Memory", href: "/verse-memory" },
-      { label: "Scripture Game", href: "/scripture-game" },
-      { label: "Christian Music", href: "/christian-music" },
-      { label: "Spiritual Gifts", href: "/spiritual-gifts" },
-      { label: "Worship", href: "/worship" },
-      { label: "Live Church", href: "/live" },
-      { label: "My Journal", href: "/journal" },
-      { label: "Prayer Journal", href: "/prayer-journal" },
-      { label: "Sermon Notes", href: "/sermon-notes" },
-      { label: "Faith Goals", href: "/goals" },
-      { label: "Fasting Tracker", href: "/fasting" },
-      { label: "Prayer List", href: "/prayer-list" },
-      { label: "Gratitude Journal", href: "/gratitude" },
-      { label: "Habit Tracker", href: "/habits" },
-      { label: "Accountability", href: "/accountability" },
-      { label: "Faith Journey", href: "/faith-journey" },
+    sections: [
+      {
+        title: "Daily Practice",
+        items: [
+          { label: "Today's Devotional", href: "/daily" },
+          { label: "Verse of the Day", href: "/verse-of-the-day" },
+          { label: "Daily Office", href: "/daily-office" },
+          { label: "Quiet Time Guide", href: "/quiet-time-guide" },
+          { label: "Daily Christian Habits", href: "/daily-christian-habits" },
+          { label: "Daily Examen", href: "/daily-examen" },
+          { label: "Lectio Divina", href: "/lectio-divina" },
+          { label: "Biblical Meditation", href: "/meditation" },
+          { label: "The Sabbath", href: "/sabbath" },
+          { label: "Rest & the Sabbath", href: "/christian-rest" },
+          { label: "Theology of the Sabbath", href: "/theology-of-sabbath" },
+        ],
+      },
+      {
+        title: "Prayer",
+        items: [
+          { label: "Theology of Prayer", href: "/theology-of-prayer" },
+          { label: "Prayer Methods", href: "/prayer-methods" },
+          { label: "Building a Prayer Life", href: "/prayer-life" },
+          { label: "The Lord's Prayer", href: "/prayer-of-jesus" },
+          { label: "Weekly Prayer Guide", href: "/weekly-prayer-guide" },
+          { label: "Prayer Warriors of History", href: "/prayer-warrior-history" },
+          { label: "Unanswered Prayer", href: "/unanswered-prayer" },
+          { label: "Intercession Guide", href: "/intercession" },
+          { label: "Prayer Walking", href: "/prayer-walking" },
+          { label: "Prayer Postures", href: "/prayer-postures" },
+          { label: "Christian Meditation", href: "/christian-meditation" },
+          { label: "Confession Guide", href: "/confession" },
+        ],
+      },
+      {
+        title: "Spiritual Disciplines",
+        items: [
+          { label: "Spiritual Disciplines", href: "/disciplines" },
+          { label: "Disciplines Practical Guide", href: "/spiritual-disciplines-guide" },
+          { label: "Prayer & Fasting", href: "/prayer-fasting" },
+          { label: "Complete Fasting Guide", href: "/fasting-guide" },
+          { label: "Spiritual Formation", href: "/spiritual-formation" },
+          { label: "Spiritual Growth", href: "/spiritual-growth" },
+          { label: "Stages of Spiritual Growth", href: "/spiritual-growth-stages" },
+          { label: "The Practice of Lament", href: "/lament" },
+          { label: "Spiritual Gifts", href: "/spiritual-gifts" },
+          { label: "Fruit of the Spirit", href: "/fruit-of-spirit" },
+        ],
+      },
+      {
+        title: "Worship & Music",
+        items: [
+          { label: "Worship", href: "/worship" },
+          { label: "Theology of Worship", href: "/worship-theology" },
+          { label: "Essential Worship Songs", href: "/christian-worship-songs" },
+          { label: "Christian Music", href: "/christian-music" },
+          { label: "Essential Christian Albums", href: "/christian-albums" },
+          { label: "Live Church", href: "/live" },
+        ],
+      },
+      {
+        title: "Personal Tools",
+        items: [
+          { label: "My Journal", href: "/journal" },
+          { label: "Prayer Journal", href: "/prayer-journal" },
+          { label: "Sermon Notes", href: "/sermon-notes" },
+          { label: "Faith Goals", href: "/goals" },
+          { label: "Fasting Tracker", href: "/fasting" },
+          { label: "Prayer List", href: "/prayer-list" },
+          { label: "Gratitude Journal", href: "/gratitude" },
+          { label: "Habit Tracker", href: "/habits" },
+          { label: "Accountability", href: "/accountability" },
+          { label: "Verse Memory", href: "/verse-memory" },
+          { label: "Scripture Game", href: "/scripture-game" },
+          { label: "Reading Plans", href: "/reading-plan" },
+          { label: "Bible & Prayer Apps", href: "/bible-study-apps" },
+        ],
+      },
     ],
   },
   {
     label: "Life & Faith",
-    children: [
-      { label: "Life Hacks", href: "/life-hacks" },
-      { label: "Mental Health", href: "/mental-health" },
-      { label: "Biblical Counseling", href: "/biblical-counseling" },
-      { label: "Grief & Loss", href: "/grief" },
-      { label: "Healing & Wholeness", href: "/healing" },
-      { label: "Couples Devotional", href: "/couples-devotional" },
-      { label: "Christian Marriage", href: "/marriage" },
-      { label: "The Single Life", href: "/singles" },
-      { label: "Baptism Guide", href: "/baptism" },
-      { label: "Lord's Supper", href: "/communion" },
-      { label: "Relationships", href: "/relationships" },
-      { label: "Spiritual Warfare", href: "/spiritual-warfare" },
-      { label: "Stewardship & Finances", href: "/stewardship" },
-      { label: "Discipleship Pathways", href: "/discipleship" },
-      { label: "Evangelism Training", href: "/evangelism" },
-      { label: "House Church Guide", href: "/house-church" },
-      { label: "Christian Parenting", href: "/parenting" },
-      { label: "Small Groups Guide", href: "/small-groups" },
-      { label: "Simplicity & Detox", href: "/simplicity" },
-      { label: "Work & Leadership", href: "/work-leadership" },
+    wide: true,
+    sections: [
+      {
+        title: "Health & Healing",
+        items: [
+          { label: "Life Hacks", href: "/life-hacks" },
+          { label: "Mental Health", href: "/mental-health" },
+          { label: "Mental Health Guide", href: "/mental-health-guide" },
+          { label: "Mental Health Resources", href: "/christian-mental-health-resources" },
+          { label: "Anxiety & Faith", href: "/anxiety" },
+          { label: "Anger: A Christian Guide", href: "/anger" },
+          { label: "Body Image & Faith", href: "/body-image" },
+          { label: "Addiction & Recovery", href: "/addiction-recovery" },
+          { label: "Christian Recovery Guide", href: "/christian-recovery" },
+          { label: "Grief & Loss", href: "/grief" },
+          { label: "Christian Grief Guide", href: "/christian-grief-guide" },
+          { label: "Christian Funeral Guide", href: "/christian-funeral-guide" },
+          { label: "Healing & Wholeness", href: "/healing" },
+          { label: "Biblical Counseling", href: "/biblical-counseling" },
+          { label: "Disability Ministry", href: "/disability-ministry" },
+        ],
+      },
+      {
+        title: "Relationships & Family",
+        items: [
+          { label: "Christian Marriage", href: "/marriage" },
+          { label: "Covenant Marriage", href: "/covenant-marriage" },
+          { label: "Marriage: Seasons Guide", href: "/christian-marriage" },
+          { label: "Marriage Resources", href: "/marriage-resources" },
+          { label: "Couples Devotional", href: "/couples-devotional" },
+          { label: "Christian Wedding Guide", href: "/christian-wedding-guide" },
+          { label: "Christian Dating", href: "/christian-dating" },
+          { label: "Relationships", href: "/relationships" },
+          { label: "The Single Life", href: "/singles" },
+          { label: "Sexuality & Purity", href: "/purity" },
+          { label: "Christian Sexuality", href: "/christian-sexuality" },
+          { label: "Christian Parenting", href: "/parenting" },
+          { label: "Parenting Guide", href: "/parenting-guide" },
+          { label: "Parenting Teenagers", href: "/parenting-teens" },
+          { label: "Theology of Parenting", href: "/christian-parenting-theology" },
+          { label: "Homeschool Guide", href: "/homeschool-guide" },
+          { label: "Family Devotions", href: "/family-devotions" },
+          { label: "Caring for Aging Parents", href: "/elder-care" },
+          { label: "Christian Retirement Guide", href: "/christian-retirement" },
+        ],
+      },
+      {
+        title: "Money & Work",
+        items: [
+          { label: "Stewardship & Finances", href: "/stewardship" },
+          { label: "Christian Financial Guide", href: "/christian-financial-guide" },
+          { label: "Money & Christian Life", href: "/christian-money" },
+          { label: "Money & Debt", href: "/money-debt" },
+          { label: "Christian Giving", href: "/church-giving" },
+          { label: "Christian Giving Guide", href: "/christian-giving-guide" },
+          { label: "Theology of Money", href: "/theology-of-money" },
+          { label: "The Practice of Generosity", href: "/generosity" },
+          { label: "Theology of Generosity", href: "/theology-of-generosity" },
+          { label: "Christian Simplicity", href: "/christian-simplicity" },
+          { label: "Stewardship Theology", href: "/stewardship-theology" },
+          { label: "Vocation & Calling", href: "/vocation" },
+          { label: "Theology of Work", href: "/theology-of-work" },
+          { label: "Work & Leadership", href: "/work-leadership" },
+          { label: "Faith in the Marketplace", href: "/faith-in-marketplace" },
+          { label: "Christian Leadership", href: "/christian-leadership" },
+        ],
+      },
+      {
+        title: "Church & Community",
+        items: [
+          { label: "Small Groups Guide", href: "/small-groups" },
+          { label: "Small Group Leader", href: "/small-group-leader" },
+          { label: "Building Community", href: "/community-formation" },
+          { label: "Church Membership", href: "/church-membership" },
+          { label: "New Members Class", href: "/new-members-class" },
+          { label: "Church for Skeptics", href: "/church-for-skeptics" },
+          { label: "Baptism Guide", href: "/baptism" },
+          { label: "Theology of Baptism", href: "/baptism-theology" },
+          { label: "Lord's Supper", href: "/communion" },
+          { label: "Theology of Communion", href: "/communion-theology" },
+          { label: "Evangelism Training", href: "/evangelism" },
+          { label: "Evangelism Methods", href: "/evangelism-methods" },
+          { label: "Gospel Conversations", href: "/gospel-conversations" },
+          { label: "Interfaith Conversations", href: "/interfaith-conversations" },
+          { label: "House Church Guide", href: "/house-church" },
+          { label: "Sermon Preparation", href: "/sermon-prep" },
+          { label: "Expository Preaching", href: "/expository-preaching" },
+          { label: "Elder & Deacon Training", href: "/elder-deacon-training" },
+          { label: "Church Discipline", href: "/church-discipline" },
+          { label: "Church Polity Guide", href: "/church-polity-guide" },
+        ],
+      },
+      {
+        title: "Justice & Society",
+        items: [
+          { label: "Justice & the Gospel", href: "/justice" },
+          { label: "Biblical Justice", href: "/biblical-justice-theology" },
+          { label: "Race & Reconciliation", href: "/race-reconciliation" },
+          { label: "Loving Your Neighbor", href: "/neighbor" },
+          { label: "Refugee Ministry", href: "/refugee-ministry" },
+          { label: "Creation Care", href: "/creation-care" },
+          { label: "Creation Care Action Guide", href: "/creation-care-action" },
+          { label: "Spiritual Warfare", href: "/spiritual-warfare" },
+          { label: "End Times & Eschatology", href: "/end-times" },
+          { label: "End Times Views Compared", href: "/eschatology-views" },
+          { label: "End Times Study Guide", href: "/end-times-guide" },
+          { label: "Covenant Theology", href: "/covenant" },
+          { label: "Faith & Technology", href: "/technology" },
+          { label: "Theology of Technology", href: "/theology-of-technology" },
+          { label: "Theology of Sports", href: "/theology-of-sports" },
+        ],
+      },
+      {
+        title: "Discipleship & Character",
+        items: [
+          { label: "Discipleship Pathways", href: "/discipleship" },
+          { label: "The Cost of Discipleship", href: "/discipleship-cost" },
+          { label: "Who I Am in Christ", href: "/identity-in-christ" },
+          { label: "Christian Identity Guide", href: "/christian-identity-guide" },
+          { label: "The Virtue of Humility", href: "/humility" },
+          { label: "Christian Virtue", href: "/christian-virtue" },
+          { label: "The Practice of Joy", href: "/joy" },
+          { label: "The Practice of Contentment", href: "/contentment" },
+          { label: "Christian Friendship", href: "/friendship" },
+          { label: "Theology of Friendship", href: "/christian-friendship-theology" },
+          { label: "Christian Friendship Guide", href: "/christian-friendship-guide" },
+          { label: "The Practice of Hospitality", href: "/hospitality" },
+          { label: "Loneliness & Community", href: "/loneliness" },
+          { label: "Theology of Suffering", href: "/suffering" },
+          { label: "Suffering and the Cross", href: "/christian-suffering" },
+          { label: "The Practice of Forgiveness", href: "/forgiveness" },
+          { label: "Forgiveness Guide", href: "/forgiveness-guide" },
+          { label: "Theology of Forgiveness", href: "/theology-of-forgiveness" },
+          { label: "Spiritual Direction", href: "/spiritual-direction" },
+          { label: "Spiritual Dryness", href: "/spiritual-dryness" },
+          { label: "Doubt & Honest Faith", href: "/doubt" },
+          { label: "Faith Deconstruction", href: "/deconstruction" },
+          { label: "Women in the Bible", href: "/biblical-womanhood" },
+          { label: "Women in Ministry", href: "/women-in-ministry" },
+          { label: "Women's Ministry Guide", href: "/womens-ministry-guide" },
+          { label: "Men in the Bible", href: "/biblical-manhood" },
+          { label: "Men's Ministry Guide", href: "/mens-ministry-guide" },
+          { label: "Simplicity & Detox", href: "/simplicity" },
+          { label: "Christian Creativity", href: "/creativity" },
+        ],
+      },
     ],
   },
   {
     label: "Explore",
-    children: [
-      { label: "Discover", href: "/explore" },
-      { label: "The Gospel / Salvation", href: "/salvation" },
-      { label: "Challenges", href: "/challenges" },
-      { label: "Youth & Students", href: "/youth" },
-      { label: "Mentorship", href: "/mentorship" },
-      { label: "Church Finder", href: "/church-finder" },
-      { label: "Missions", href: "/missions" },
-      { label: "Church Planting", href: "/church-planting" },
-      { label: "World Prayer", href: "/world-prayer" },
-      { label: "Events", href: "/events" },
-      { label: "Leaderboard", href: "/leaderboard" },
-      { label: "Creators", href: "/creators" },
-      { label: "About Vine", href: "/about" },
+    sections: [
+      {
+        title: "Getting Started",
+        items: [
+          { label: "Discover", href: "/explore" },
+          { label: "The Gospel / Salvation", href: "/salvation" },
+          { label: "First Steps of Faith", href: "/new-believer" },
+          { label: "Write Your Testimony", href: "/testimony-writing" },
+          { label: "Church Finder", href: "/church-finder" },
+          { label: "Church for Skeptics", href: "/church-for-skeptics" },
+          { label: "Mentorship", href: "/mentorship" },
+          { label: "Youth & Students", href: "/youth" },
+          { label: "Youth Ministry Guide", href: "/youth-ministry-guide" },
+          { label: "Challenges", href: "/challenges" },
+        ],
+      },
+      {
+        title: "Missions & Global Church",
+        items: [
+          { label: "Missions", href: "/missions" },
+          { label: "Theology of Missions", href: "/missions-theology" },
+          { label: "Global Missions Guide", href: "/global-missions" },
+          { label: "Missions Organizations", href: "/global-missions-orgs" },
+          { label: "Missions Org Directory", href: "/missions-organizations" },
+          { label: "Modern Missionaries", href: "/modern-missionaries" },
+          { label: "Global Prayer Movements", href: "/prayer-movements" },
+          { label: "World Prayer", href: "/world-prayer" },
+          { label: "The Persecuted Church", href: "/persecuted-church" },
+          { label: "Prison Ministry", href: "/prison-ministry" },
+          { label: "Refugee Ministry", href: "/refugee-ministry" },
+          { label: "Church Planting", href: "/church-planting" },
+          { label: "Church Planting Guide", href: "/church-planting-guide" },
+          { label: "House Church Guide", href: "/house-church-guide" },
+          { label: "Christian Pilgrimage Sites", href: "/christian-pilgrimage-sites" },
+          { label: "Spiritual Retreats", href: "/spiritual-retreats" },
+        ],
+      },
+      {
+        title: "Community Features",
+        items: [
+          { label: "Events", href: "/events" },
+          { label: "Leaderboard", href: "/leaderboard" },
+          { label: "Creators", href: "/creators" },
+          { label: "About Vine", href: "/about" },
+        ],
+      },
     ],
   },
 ];
@@ -164,7 +502,6 @@ export default function Navbar() {
     window.location.href = "/";
   };
 
-  // Keep --header-height CSS var in sync with actual rendered height
   useEffect(() => {
     const update = () => {
       if (headerRef.current) {
@@ -180,7 +517,6 @@ export default function Navbar() {
     return () => ro.disconnect();
   }, [bannerVisible]);
 
-  // Keyboard shortcut ⌘K
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === "k") {
@@ -192,7 +528,6 @@ export default function Navbar() {
     return () => window.removeEventListener("keydown", handler);
   }, []);
 
-  // Scroll detection
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 10);
     window.addEventListener("scroll", handler, { passive: true });
@@ -294,32 +629,103 @@ export default function Navbar() {
                   {/* Dropdown */}
                   {activeDropdown === link.label && (
                     <div
-                      className="absolute top-full left-0 mt-1.5 py-1.5 rounded-xl min-w-[190px] z-50"
+                      className="absolute top-full mt-1.5 py-3 rounded-xl z-50"
                       style={{
+                        left: link.wide ? "50%" : "0",
+                        transform: link.wide ? "translateX(-50%)" : "none",
+                        width: link.wide ? "min(760px, 90vw)" : "220px",
+                        maxHeight: "80vh",
+                        overflowY: "auto",
                         background: "rgba(11,11,22,0.98)",
                         border: "1px solid rgba(0,255,136,0.12)",
                         backdropFilter: "blur(24px)",
                         boxShadow: "0 24px 64px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.03)",
                       }}
                     >
-                      {link.children.map((child) => (
-                        <a
-                          key={child.label}
-                          href={child.href}
-                          className="flex items-center px-4 py-2.5 text-sm transition-colors"
-                          style={{ color: "#8A8AA8" }}
-                          onMouseEnter={(e) => {
-                            e.currentTarget.style.color = "#F2F2F8";
-                            e.currentTarget.style.background = "rgba(0,255,136,0.06)";
-                          }}
-                          onMouseLeave={(e) => {
-                            e.currentTarget.style.color = "#8A8AA8";
-                            e.currentTarget.style.background = "transparent";
+                      {link.wide ? (
+                        /* Multi-column layout for wide menus */
+                        <div
+                          style={{
+                            display: "grid",
+                            gridTemplateColumns: "repeat(3, 1fr)",
+                            gap: "0",
                           }}
                         >
-                          {child.label}
-                        </a>
-                      ))}
+                          {link.sections.map((section, si) => (
+                            <div
+                              key={section.title}
+                              style={{
+                                padding: "4px 0",
+                                borderRight: (si + 1) % 3 !== 0 ? "1px solid rgba(255,255,255,0.04)" : "none",
+                              }}
+                            >
+                              <div
+                                className="px-4 py-1.5 text-[10px] font-bold uppercase tracking-wider"
+                                style={{ color: "#00FF88", opacity: 0.7 }}
+                              >
+                                {section.title}
+                              </div>
+                              {section.items.map((item) => (
+                                <a
+                                  key={item.label}
+                                  href={item.href}
+                                  className="flex items-center px-4 py-1.5 text-sm transition-colors"
+                                  style={{ color: "#8A8AA8" }}
+                                  onMouseEnter={(e) => {
+                                    e.currentTarget.style.color = "#F2F2F8";
+                                    e.currentTarget.style.background = "rgba(0,255,136,0.06)";
+                                  }}
+                                  onMouseLeave={(e) => {
+                                    e.currentTarget.style.color = "#8A8AA8";
+                                    e.currentTarget.style.background = "transparent";
+                                  }}
+                                >
+                                  {item.label}
+                                </a>
+                              ))}
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        /* Single-column layout with section headers */
+                        link.sections.map((section, si) => (
+                          <div key={section.title}>
+                            {si > 0 && (
+                              <div
+                                style={{
+                                  height: "1px",
+                                  background: "rgba(255,255,255,0.04)",
+                                  margin: "4px 0",
+                                }}
+                              />
+                            )}
+                            <div
+                              className="px-4 py-1 text-[10px] font-bold uppercase tracking-wider"
+                              style={{ color: "#00FF88", opacity: 0.6 }}
+                            >
+                              {section.title}
+                            </div>
+                            {section.items.map((item) => (
+                              <a
+                                key={item.label}
+                                href={item.href}
+                                className="flex items-center px-4 py-2 text-sm transition-colors"
+                                style={{ color: "#8A8AA8" }}
+                                onMouseEnter={(e) => {
+                                  e.currentTarget.style.color = "#F2F2F8";
+                                  e.currentTarget.style.background = "rgba(0,255,136,0.06)";
+                                }}
+                                onMouseLeave={(e) => {
+                                  e.currentTarget.style.color = "#8A8AA8";
+                                  e.currentTarget.style.background = "transparent";
+                                }}
+                              >
+                                {item.label}
+                              </a>
+                            ))}
+                          </div>
+                        ))
+                      )}
                     </div>
                   )}
                 </div>
@@ -504,17 +910,25 @@ export default function Navbar() {
                     />
                   </button>
                   {activeDropdown === link.label && (
-                    <div className="ml-3 mb-1 space-y-0.5" style={{ borderLeft: "2px solid rgba(0,255,136,0.15)", paddingLeft: "12px" }}>
-                      {link.children.map((child) => (
-                        <a
-                          key={child.label}
-                          href={child.href}
-                          className="block px-2 py-2 text-sm rounded"
-                          style={{ color: "#6A6A88" }}
-                          onClick={() => setMobileOpen(false)}
-                        >
-                          {child.label}
-                        </a>
+                    <div className="ml-3 mb-1" style={{ borderLeft: "2px solid rgba(0,255,136,0.15)", paddingLeft: "12px" }}>
+                      {link.sections.map((section, si) => (
+                        <div key={section.title}>
+                          {si > 0 && <div style={{ height: "1px", background: "rgba(255,255,255,0.04)", margin: "4px 0" }} />}
+                          <div className="px-2 py-1 text-[10px] font-bold uppercase tracking-wider" style={{ color: "#00FF88", opacity: 0.6 }}>
+                            {section.title}
+                          </div>
+                          {section.items.map((item) => (
+                            <a
+                              key={item.label}
+                              href={item.href}
+                              className="block px-2 py-1.5 text-sm rounded"
+                              style={{ color: "#6A6A88" }}
+                              onClick={() => setMobileOpen(false)}
+                            >
+                              {item.label}
+                            </a>
+                          ))}
+                        </div>
                       ))}
                     </div>
                   )}

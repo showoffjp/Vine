@@ -1,0 +1,289 @@
+"use client";
+import { useState } from "react";
+
+const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
+const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+
+type Tab = "centers" | "howto" | "traditions";
+
+const CENTERS = [
+  {
+    name: "Laity Lodge",
+    location: "Leakey, Texas (Hill Country)",
+    tradition: "Broadly Evangelical",
+    color: GREEN,
+    description: "Nestled in a canyon on the Frio River in the Texas Hill Country, Laity Lodge is one of the premier retreat centers in America. Founded by Howard Butt Jr. in 1961, it hosts family camps, couples retreats, leadership gatherings, artists conferences, and silent retreats throughout the year. The setting — river canyons, cypress trees, stone chapel — is extraordinary. Used by figures from Billy Graham to Madeleine L'Engle to Eugene Peterson.",
+    programs: "Family camps, couples weekends, arts retreats, silence and solitude retreats, ministry leader conferences",
+    cost: "Varies by program; some scholarships available",
+    url: "laitylodge.org",
+    best_for: "Families, leaders, artists, evangelical Christians wanting quality retreat experiences",
+    initials: "LL",
+  },
+  {
+    name: "Renovare Retreat Centers",
+    location: "Multiple locations (headquartered in Denver, CO)",
+    tradition: "Broadly Evangelical / Spiritual Formation",
+    color: PURPLE,
+    description: "Founded by Richard Foster (author of Celebration of Discipline), Renovare is a spiritual formation ministry that operates retreats, conferences, and formation programs around the integration of spiritual disciplines across the Christian traditions. Their retreats draw from contemplative, holiness, charismatic, social justice, evangelical, and incarnational streams of Christianity.",
+    programs: "Spiritual formation conferences, retreat weekends, Soul Care programs, online courses",
+    cost: "Varies; scholarships available for full programs",
+    url: "renovare.org",
+    best_for: "Christians wanting to go deeper in spiritual disciplines; formation across traditions",
+    initials: "REN",
+  },
+  {
+    name: "The Hermitage (Three Rivers, MI)",
+    location: "Three Rivers, Michigan",
+    tradition: "Broadly Christian (ecumenical)",
+    color: "#3B82F6",
+    description: "A 400-acre retreat center in rural Michigan offering guided and unguided silent retreats, hermitage stays (individual cabins in the woods), directed retreats, and spiritual direction. Run by a community of Servants of Christ, the Hermitage has been hosting seekers for personal retreat since 1961. The silent hermitages — small individual cabins with kitchen and chapel — are among the finest in the country.",
+    programs: "Private hermitage stays (3-8 days), guided silent retreats, 8-day Ignatian retreats, directed retreats, day visitors",
+    cost: "Suggested donation basis; hermitage stays approximately $65-95/day",
+    url: "thehermitage.com",
+    best_for: "Anyone wanting genuine solitude; directed retreats; those exploring contemplative prayer",
+    initials: "HRM",
+  },
+  {
+    name: "L'Abri Fellowship",
+    location: "Huemoz, Switzerland; also England, Netherlands, USA, Korea, Australia, Canada",
+    tradition: "Reformed Evangelical",
+    color: "#F59E0B",
+    description: "Founded by Francis and Edith Schaeffer in 1955 in the Swiss Alps, L'Abri is a community where people can come with serious intellectual and spiritual questions and live alongside Christians who will engage honestly. It is not a program retreat but a community stay — guests eat, work, and study alongside community members. Famous alumni include thousands of skeptics who became Christians and future leaders of the Western church.",
+    programs: "Term study (1-3 months), short visits, work-study program; lectures, tutorials, discussions",
+    cost: "Suggested contribution; reduced rates for longer stays",
+    url: "labri.org",
+    best_for: "Seekers; intellectually restless Christians; those wrestling with faith, doubt, or calling; artists",
+    initials: "LAB",
+  },
+  {
+    name: "Taize Community",
+    location: "Taize, Burgundy, France",
+    tradition: "Ecumenical Monastic",
+    color: "#EF4444",
+    description: "One of the most remarkable Christian communities in the modern world. Founded in 1940 by Brother Roger Schutz as a community of celibate brothers committed to reconciliation between divided Christians. Over 100,000 young adults (mostly 18-30) make pilgrimage to Taize each year for one-week retreats of prayer, silence, Bible study, and song. Taize worship — repetitive, meditative sung prayer — has influenced millions of churches worldwide.",
+    programs: "Weekly youth meetings (year-round), Meetings of Young Adults, European Meetings (New Year), intercession, Bible introductions",
+    cost: "Minimal (work exchange basis); transportation is main cost",
+    url: "taize.fr",
+    best_for: "Young adults (18-35); those seeking ecumenical community; anyone wanting to experience Taize prayer in its original context",
+    initials: "TZE",
+  },
+  {
+    name: "Iona Community",
+    location: "Isle of Iona, Scotland (and Glasgow mainland)",
+    tradition: "Celtic / Ecumenical Protestant",
+    color: "#10B981",
+    description: "Located on the sacred isle off the west coast of Scotland where Columba brought Christianity to Scotland in 563 AD, the Iona Community is a dispersed Christian community based in the Abbey on Iona. The island hosts week-long residential programs from spring through autumn — combining worship, justice, ecology, community, and Celtic spirituality. The wild island setting is extraordinary.",
+    programs: "Week-long island programs on themes of justice, faith, healing, ecology, youth; day visitor access",
+    cost: "Week programs approximately 500-700 GBP (full board); scholarships available",
+    url: "iona.org.uk",
+    best_for: "Celtic spirituality; justice-oriented Christians; ecumenical community; UK/European retreatants",
+    initials: "ION",
+  },
+  {
+    name: "Ignatius House (Atlanta)",
+    location: "Atlanta, Georgia",
+    tradition: "Jesuit / Ignatian",
+    color: PURPLE,
+    description: "A Jesuit retreat house in Atlanta offering individually directed retreats, the full 30-day Ignatian Spiritual Exercises (once in a lifetime retreat), preached retreats, and day programs. The Ignatian tradition of retreats is the most developed and psychologically sophisticated retreat system in Christian history — the 30-day Exercises have formed thousands of saints, pastors, and missionaries since 1548.",
+    programs: "8-day directed retreats, 30-day Spiritual Exercises, weekend retreats, Ignatian Spirituality programs, spiritual direction training",
+    cost: "8-day retreat approximately $1,200 (all inclusive); financial assistance available",
+    url: "ignatiushouse.org",
+    best_for: "Those wanting deep Ignatian formation; discernment retreats; spiritual direction; Catholics and spiritually-open Protestants",
+    initials: "IGN",
+  },
+  {
+    name: "Kanuga Conference Center",
+    location: "Hendersonville, North Carolina (Blue Ridge Mountains)",
+    tradition: "Episcopal / Broadly Christian",
+    color: "#6366F1",
+    description: "A 1,400-acre mountain conference and retreat center owned by the Episcopal Diocese of Western North Carolina. Set in the Blue Ridge Mountains at 2,200 feet elevation, Kanuga hosts hundreds of programs each year for churches, denominational groups, family camps, youth groups, and individuals. Its facilities include a lake, hiking trails, and a chapel. The setting is among the most beautiful in the Eastern United States.",
+    programs: "Family camps, youth camps, clergy conferences, parish retreats, quiet days, individual pilgrim stays",
+    cost: "Varies widely by program; individual stays from $90-160/night",
+    url: "kanuga.org",
+    best_for: "Families; youth groups; Episcopal and mainline Protestant churches; anyone wanting mountain retreat setting",
+    initials: "KAN",
+  },
+];
+
+const HOW_TO_STEPS = [
+  {
+    step: 1,
+    title: "Clarify Your Purpose",
+    color: GREEN,
+    content: "Not all retreats are the same. Are you seeking rest, direction, healing, deepened prayer, a specific decision, or time with God after a season of spiritual dryness? Your purpose determines the type of retreat (silent vs. guided, individual vs. group, 1 day vs. 8 days). Being clear on purpose prevents disappointment.",
+    tip: "Write down in one sentence what you hope to bring before God on this retreat.",
+  },
+  {
+    step: 2,
+    title: "Choose Your Format",
+    color: PURPLE,
+    content: "Major formats: (1) Day retreat — 6-8 hours of solitude, prayer, and Scripture, often at a retreat center or outdoor setting near home. (2) Weekend retreat — Friday evening to Sunday afternoon. (3) Silent retreat — 3-8 days of structured silence with optional spiritual direction. (4) Directed retreat — daily meetings with a spiritual director who guides your prayer. (5) 30-day Ignatian Exercises — the deepest retreat experience in Christian history.",
+    tip: "First-timers: start with a day retreat before committing to longer formats.",
+  },
+  {
+    step: 3,
+    title: "Prepare Practically",
+    color: "#3B82F6",
+    content: "Pack minimally. Bring: Bible, journal, a few books maximum (better: none, or one), comfortable clothes, walking shoes, and as little technology as possible. Many retreat centers ask you to leave phones in your room during prayer times. The goal is reducing input, not adding more.",
+    tip: "Tell people in your life you will be unreachable for the duration. This boundary is itself a spiritual act.",
+  },
+  {
+    step: 4,
+    title: "Arrive and Settle",
+    color: "#F59E0B",
+    content: "Give yourself the first two to four hours simply to decompress. Most people are so accustomed to constant stimulation that the first day of a retreat feels like withdrawal — restlessness, boredom, the urge to check the phone. This is normal. The desert fathers called it acedia. Do not try to pray intensely immediately; simply sit, breathe, walk, and let the noise of normal life drain out.",
+    tip: "Eugene Peterson: The first day of every retreat is mostly about getting quiet enough to hear.",
+  },
+  {
+    step: 5,
+    title: "Structure Your Days",
+    color: "#EF4444",
+    content: "A basic structure: Morning prayer (30-60 min), Scripture reading and lectio divina (30-45 min), slow walk or outdoor time, journaling, afternoon rest or reading, Evening prayer. Directed retreats will give you scripture passages and points for prayer. If self-directed, follow a psalm, a Gospel chapter, or a classical text slowly.",
+    tip: "Do not try to read through a book. Read slowly. Read one passage until something resonates, then stop and be with it.",
+  },
+  {
+    step: 6,
+    title: "The Gift of Spiritual Direction",
+    color: "#10B981",
+    content: "Many retreat centers offer spiritual direction — a 45-60 minute conversation with a trained director who listens to how you are experiencing God and asks questions that help you pay attention. Spiritual direction is not therapy or pastoral counseling. It is specifically attending to where God is present and moving in your interior life. Even one session of good spiritual direction on a retreat can be transformative.",
+    tip: "Find a trained spiritual director at sdworld.org — the Spiritual Directors International directory.",
+  },
+  {
+    step: 7,
+    title: "Integrate What You Receive",
+    color: GREEN,
+    content: "The best retreat gives you two or three things to carry home — not a complete overhaul plan. Write down: one thing you heard, one thing you want to stop, one thing you want to begin. Share it with a spiritual director, pastor, or trusted friend. The desert fathers said: the test of a retreat is what changes six months later.",
+    tip: "Book your next retreat before you leave. Retreating regularly — at minimum once a year — is one of the most transformative spiritual habits possible.",
+  },
+];
+
+const TRADITIONS_DATA = [
+  { name: "Ignatian (Jesuit)", color: PURPLE, summary: "The 30-day Spiritual Exercises of Ignatius of Loyola (1548) are the most sophisticated retreat system in Christian history. Based on imaginative prayer with Gospel scenes, examination of conscience, discernment of spirits, and structured movement through sin, Incarnation, Passion, and Resurrection. Available in 30-day intensive form or 9-month daily life version.", url: "ignatianspirituality.com" },
+  { name: "Benedictine", color: GREEN, summary: "The Rule of St. Benedict (530 AD) gave the Western church its rhythmic structure: Ora et Labora (pray and work), seven daily prayer offices (Liturgy of the Hours), lectio divina, and community life. Benedictine retreats emphasize stability, silence, liturgical prayer, and the slow reformation of the soul over decades.", url: "americancatholic.org/Messenger/Jun2002/Feature1.asp" },
+  { name: "Quaker (Friends) Retreat", color: "#F59E0B", summary: "Quaker retreat centers emphasize unprogrammed silence, waiting on the Spirit together, and corporate discernment. The tradition of centering prayer (popularized by Quakers and then by Thomas Keating OCSO) involves releasing thoughts and resting in God's presence with a sacred word as anchor.", url: "fgcquaker.org" },
+  { name: "Celtic Pilgrimage", color: "#10B981", summary: "The ancient Celtic Christian practice of peregrinatio — wandering for God, seeking thin places where the veil between heaven and earth seems thin. Classic Celtic pilgrimage sites: Iona, Lindisfarne (Holy Island), Skellig Michael, Clonmacnoise. Modern Celtic retreats emphasize creation spirituality, poetry, and place.", url: "iona.org.uk" },
+  { name: "Evangelical Silent Retreat", color: "#3B82F6", summary: "Growing across evangelical Protestantism since the 1990s. Typically 2-5 days of structured silence with extended Bible meditation, journaling, nature walks, and optional spiritual direction. Drawing from the evangelical tradition of personal Bible study while incorporating silence and solitude from the broader Christian tradition.", url: "renovare.org" },
+  { name: "Charismatic Renewal Retreat", color: "#EF4444", summary: "Drawing from the Catholic Charismatic Renewal (post-1967) and Pentecostal traditions. Emphasis on extended worship, prayer ministry, healing prayer, inner healing, prophetic words, and baptism in the Spirit. Major centers include Franciscan University of Steubenville and IHOPKC.", url: "charismaticconferences.com" },
+];
+
+export default function SpiritualRetreatsPage() {
+  const [tab, setTab] = useState<Tab>("centers");
+  const [selected, setSelected] = useState<string | null>(null);
+  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
+
+  const center = CENTERS.find(c => c.name === selected);
+
+  return (
+    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 40 }}>
+      <div style={{ maxWidth: 1000, margin: "0 auto", padding: "0 20px 60px" }}>
+
+        <div style={{ textAlign: "center", marginBottom: 40 }}>
+          <div style={{ fontSize: 48, marginBottom: 12 }}>🌲</div>
+          <h1 style={{ fontSize: 32, fontWeight: 900, marginBottom: 8 }}>Spiritual Retreats</h1>
+          <p style={{ color: MUTED, fontSize: 16, maxWidth: 640, margin: "0 auto" }}>
+            Jesus withdrew. The desert fathers withdrew. Every great Christian has known that sustained encounter with God requires intentional withdrawal from the normal pace of life. Here is how — and where.
+          </p>
+        </div>
+
+        <div style={{ display: "flex", gap: 4, marginBottom: 28, background: CARD, borderRadius: 10, padding: 4, width: "fit-content" }}>
+          {(["centers", "howto", "traditions"] as Tab[]).map(t => (
+            <button key={t} onClick={() => { setTab(t); setSelected(null); }}
+              style={{ padding: "8px 18px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+              {t === "centers" ? "Retreat Centers" : t === "howto" ? "How to Retreat" : "Traditions"}
+            </button>
+          ))}
+        </div>
+
+        {tab === "centers" && (
+          <div style={{ display: "grid", gridTemplateColumns: center ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              {CENTERS.map((c, i) => (
+                <button key={i} onClick={() => setSelected(selected === c.name ? null : c.name)}
+                  style={{ background: selected === c.name ? `${c.color}12` : CARD, border: `1px solid ${selected === c.name ? c.color + "50" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                    <div style={{ width: 44, height: 44, borderRadius: 10, background: `${c.color}20`, border: `1px solid ${c.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: c.color, fontWeight: 900, fontSize: 9, flexShrink: 0 }}>
+                      {c.initials}
+                    </div>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
+                        <span style={{ color: TEXT, fontWeight: 800, fontSize: 15 }}>{c.name}</span>
+                        <span style={{ background: `${c.color}15`, color: c.color, padding: "1px 8px", borderRadius: 8, fontSize: 10, fontWeight: 700 }}>{c.tradition}</span>
+                      </div>
+                      <div style={{ color: MUTED, fontSize: 12, marginTop: 3 }}>{c.location}</div>
+                    </div>
+                  </div>
+                </button>
+              ))}
+            </div>
+
+            {center && (
+              <div style={{ background: CARD, border: `1px solid ${center.color}30`, borderRadius: 14, padding: 28, position: "sticky", top: 100 }}>
+                <h2 style={{ color: center.color, fontWeight: 900, fontSize: 18, margin: "0 0 2px" }}>{center.name}</h2>
+                <div style={{ color: MUTED, fontSize: 13, marginBottom: 14 }}>{center.location} · {center.tradition}</div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, marginBottom: 14 }}>{center.description}</p>
+                <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}15`, borderRadius: 8, padding: 12, marginBottom: 10 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>PROGRAMS</div>
+                  <p style={{ color: TEXT, fontSize: 12, margin: 0 }}>{center.programs}</p>
+                </div>
+                <div style={{ background: `${PURPLE}08`, border: `1px solid ${PURPLE}15`, borderRadius: 8, padding: 10, marginBottom: 10 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>BEST FOR</div>
+                  <p style={{ color: TEXT, fontSize: 12, margin: 0 }}>{center.best_for}</p>
+                </div>
+                <div style={{ display: "flex", gap: 10 }}>
+                  <div style={{ flex: 1, background: "#3B82F608", border: "1px solid #3B82F615", borderRadius: 8, padding: 10 }}>
+                    <div style={{ color: "#3B82F6", fontWeight: 700, fontSize: 10, marginBottom: 4 }}>COST</div>
+                    <p style={{ color: TEXT, fontSize: 12, margin: 0 }}>{center.cost}</p>
+                  </div>
+                  <div style={{ flex: 1, background: `${center.color}08`, border: `1px solid ${center.color}20`, borderRadius: 8, padding: 10 }}>
+                    <div style={{ color: center.color, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>WEBSITE</div>
+                    <p style={{ color: TEXT, fontSize: 12, margin: 0 }}>{center.url}</p>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {tab === "howto" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            {HOW_TO_STEPS.map((step, i) => (
+              <div key={i} style={{ background: CARD, border: `1px solid ${expanded[step.title] ? step.color + "40" : BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                <button onClick={() => setExpanded(e => ({ ...e, [step.title]: !e[step.title] }))}
+                  style={{ width: "100%", padding: "16px 20px", cursor: "pointer", textAlign: "left", background: "transparent", border: "none", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                    <div style={{ width: 28, height: 28, borderRadius: 8, background: `${step.color}20`, border: `1px solid ${step.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: step.color, fontWeight: 900, fontSize: 13, flexShrink: 0 }}>
+                      {step.step}
+                    </div>
+                    <span style={{ color: TEXT, fontWeight: 800, fontSize: 15 }}>{step.title}</span>
+                  </div>
+                  <span style={{ color: MUTED, fontSize: 18 }}>{expanded[step.title] ? "−" : "+"}</span>
+                </button>
+                {expanded[step.title] && (
+                  <div style={{ padding: "0 20px 20px", borderTop: `1px solid ${BORDER}` }}>
+                    <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: "16px 0 10px" }}>{step.content}</p>
+                    <div style={{ background: `${step.color}08`, border: `1px solid ${step.color}20`, borderRadius: 8, padding: "8px 12px" }}>
+                      <span style={{ color: step.color, fontWeight: 700, fontSize: 11 }}>Practical tip: </span>
+                      <span style={{ color: TEXT, fontSize: 13 }}>{step.tip}</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {tab === "traditions" && (
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 14 }}>
+            {TRADITIONS_DATA.map((t, i) => (
+              <div key={i} style={{ background: CARD, border: `1px solid ${t.color}25`, borderRadius: 12, padding: 20 }}>
+                <div style={{ color: t.color, fontWeight: 800, fontSize: 15, marginBottom: 10 }}>{t.name}</div>
+                <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: "0 0 10px" }}>{t.summary}</p>
+                <div style={{ color: MUTED, fontSize: 11 }}>Learn more: {t.url}</div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}

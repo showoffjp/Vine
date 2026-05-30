@@ -4,6 +4,57 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
+type Tab = "theology" | "models" | "voices" | "practices";
+
+const VOICES = [
+  {
+    id: "augustine",
+    name: "Augustine of Hippo",
+    era: "354-430",
+    context: "Bishop of Hippo; foundational theologian for Western Christianity",
+    bio: "Augustine's 'Confessions' is the greatest first-person account of the new birth in Christian literature. His description of his own regeneration — the years of resistance, the weeping in the garden, the voice saying 'Take up and read' — shaped all subsequent evangelical conversion narrative. For Augustine, the new birth was not a decision but a rescue: God pursuing and capturing a will that would not and could not find its way to him unaided.",
+    quote: "Our heart is restless until it rests in You. You called me; You cried aloud to me; You broke open my deafness. You enlightened me; You shone upon me; You put to flight my blindness.",
+    contribution: "Augustine established that regeneration is God's act from start to finish — that the will that is born again could not have initiated its own birth. His anti-Pelagian writings gave the church its most rigorous account of human spiritual inability and divine grace. His conversion narrative in the Confessions set the template for testimony as a genre: honest about sin, specific about the crisis, clear about the transformation.",
+  },
+  {
+    id: "whitefield",
+    name: "George Whitefield",
+    era: "1714-1770",
+    context: "English evangelist; central figure in the First Great Awakening",
+    bio: "Whitefield was the greatest evangelist of the 18th century, preaching the new birth to crowds of tens of thousands across Britain and America. His theology was Calvinist — regeneration is God's sovereign act — but his preaching was passionate, urgent, and emotionally direct. He did not merely explain the new birth; he called for it. His open-air preaching broke the assumption that spiritual renewal could only happen in church buildings, and the conversions that followed changed the spiritual landscape of the English-speaking world.",
+    quote: "You must be born again. It is not enough to be baptized, confirmed, or to take the Lord's Supper. You must experience the new birth for yourself.",
+    contribution: "Whitefield popularized the experience of the new birth as the defining mark of authentic Christianity. He created the template for evangelical preaching: clear exposition of human lostness, urgent call to the new birth, and invitation to immediate response. His partnership and theological debate with John Wesley about the nature of regeneration (Calvinist vs. Arminian) produced a rich tradition of evangelical reflection on exactly what happens in conversion.",
+  },
+  {
+    id: "spurgeon",
+    name: "C.H. Spurgeon",
+    era: "1834-1892",
+    context: "Victorian Baptist preacher; pastor of Metropolitan Tabernacle, London",
+    bio: "Spurgeon preached more than 600 sermons on regeneration, the new birth, and conversion over his 38-year ministry. He had a gift for making abstract theological categories feel existentially urgent and personally accessible. A committed Calvinist, he nonetheless preached the free offer of the gospel with emotional intensity — holding together the sovereignty of God in regeneration and the genuine responsibility of every person to believe. His sermon 'The Warrant of Faith' is a classic treatment of how an unconditional offer of Christ can be genuine even if regeneration is God's act.",
+    quote: "The new birth is not a reformation of your life. It is not taking the old clay and fashioning it into a new shape. It is a new creation altogether — old things have passed away; behold, all things have become new.",
+    contribution: "Spurgeon made regeneration pastoral: he preached it to give assurance to the converted and urgency to the unconverted, not merely to display theological sophistication. His collected sermons remain one of the richest devotional libraries on the nature, evidence, and assurance of the new birth. He also demonstrated that a thoroughgoing Calvinist could preach free and urgent gospel invitations without contradiction.",
+  },
+  {
+    id: "packer",
+    name: "J.I. Packer",
+    era: "1926-2020",
+    context: "Anglican theologian; professor at Regent College Vancouver",
+    bio: "Packer's 'Knowing God' (1973) brought the doctrine of regeneration into the mainstream of evangelical spirituality. His chapter 'Sons of God' argues that adoption — being made children of God — is the highest privilege of the gospel, and that the new birth is the event by which this relationship begins. Packer also made a decisive contribution through his introduction to John Owen's 'The Death of Death,' which revived Calvinist soteriology (including its account of regeneration) for 20th century evangelicalism.",
+    quote: "Regeneration is a birth. You cannot bring it about by your own efforts. Nor can you repeat it. Nor can you grow out of it. You are simply born into a new family and a new life.",
+    contribution: "Packer provided the doctrinal clarity and pastoral warmth that made the Reformed account of regeneration accessible to ordinary evangelicals. His treatment of adoption — the relational consequence of regeneration — moved the doctrine from abstraction to lived experience. He also helped evangelicals recover Owen, Bunyan, and the Puritan tradition of reflection on regeneration, which has had an enormous influence on Reformed evangelical spirituality since the 1970s.",
+  },
+  {
+    id: "chan",
+    name: "Francis Chan",
+    era: "1967-present",
+    context: "American pastor and author; founded Cornerstone Community Church",
+    bio: "Chan represents the contemporary evangelical recovery of the Spirit's role in regeneration. His 'Forgotten God' (2009) called the American church to recognize how completely the Holy Spirit had been sidelined — producing a Christianity that looked functional without any supernatural life. Chan's concern was that professing Christians might have intellectual knowledge about the new birth while lacking its experiential reality. His willingness to ask uncomfortable questions about nominal Christianity put regeneration back at the center of pastoral concern.",
+    quote: "Are you the same person you were before you came to faith? Then something is wrong. The Spirit of God does not leave people unchanged. New birth means new life.",
+    contribution: "Chan raised the diagnostic question that the doctrine of regeneration is always supposed to raise: Has it actually happened? His pastoral work challenged the assumption — common in revivalist Christianity — that praying a prayer guarantees new birth regardless of subsequent evidence. He helped a generation of younger evangelicals take seriously the 1 John markers of genuine regeneration and wrestle honestly with the difference between nominal Christianity and the new life Jesus describes.",
+  },
+];
+
+
 const THEOLOGY = [
   { title: "Born Again: What It Means", verse: "John 3:3", body: "You must be born again (John 3:3) — Jesus's words to Nicodemus establish that entry into God's kingdom requires a radical new beginning, not moral improvement or religious effort. The Greek anothen means both again and from above, capturing both the newness and the divine origin of the regeneration Jesus describes. Like physical birth, spiritual birth is not something you accomplish — it is something that happens to you, by another's agency, giving you a life you did not previously have." },
   { title: "Regeneration by the Spirit", verse: "John 3:8", body: "The Spirit blows where it wills (John 3:8) — regeneration is the sovereign, mysterious act of God's Spirit giving new life to spiritually dead souls. Ezekiel anticipated this: God would give his people a new heart, remove the heart of stone, and put his Spirit within them (Ezekiel 36:26-27). In regeneration, the person who was dead in transgressions (Ephesians 2:1) receives new spiritual life — the capacity and desire to believe, repent, and follow Christ. The Spirit precedes and produces faith, not the reverse." },
@@ -57,8 +108,10 @@ const PRACTICES = [
 ];
 
 export default function NewBirthPage() {
-  const [activeTab, setActiveTab] = useState<"theology" | "models" | "practices">("theology");
+  const [activeTab, setActiveTab] = useState<Tab>("theology");
   const [selectedModel, setSelectedModel] = useState("Reformed / Calvinist");
+  const [selectedVoice, setSelectedVoice] = useState("augustine");
+  const voice = VOICES.find(v => v.id === selectedVoice)!;
 
   const model = MODELS.find(m => m.name === selectedModel)!;
 
@@ -77,6 +130,7 @@ export default function NewBirthPage() {
           {[
             { id: "theology" as const, label: "Theology", icon: "📖" },
             { id: "models" as const, label: "Views", icon: "⚖️" },
+            { id: "voices" as const, label: "Voices", icon: "💬" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
@@ -126,6 +180,38 @@ export default function NewBirthPage() {
               <div style={{ background: "#EF444408", border: "1px solid #EF444415", borderRadius: 8, padding: 12 }}>
                 <div style={{ color: "#EF4444", fontWeight: 700, fontSize: 11, marginBottom: 4 }}>CHALLENGES</div>
                 <p style={{ color: TEXT, fontSize: 13, margin: 0 }}>{model.challenges}</p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "voices" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 210, flexShrink: 0 }}>
+              {VOICES.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ width: "100%", background: selectedVoice === v.id ? `${PURPLE}18` : "transparent", border: `1px solid ${selectedVoice === v.id ? PURPLE + "70" : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 6, cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: selectedVoice === v.id ? PURPLE : TEXT, fontWeight: 800, fontSize: 13, marginBottom: 2 }}>{v.name}</div>
+                  <div style={{ color: MUTED, fontSize: 11 }}>{v.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ background: CARD, border: `1px solid ${PURPLE}30`, borderRadius: 14, padding: 28 }}>
+                <div style={{ marginBottom: 20 }}>
+                  <div style={{ color: MUTED, fontWeight: 700, fontSize: 11, marginBottom: 4 }}>{voice.era}</div>
+                  <h2 style={{ color: PURPLE, fontWeight: 900, fontSize: 24, marginBottom: 4 }}>{voice.name}</h2>
+                  <div style={{ color: MUTED, fontSize: 13 }}>{voice.context}</div>
+                </div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, marginBottom: 20 }}>{voice.bio}</p>
+                <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 10, padding: 18, marginBottom: 16 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 11, marginBottom: 10 }}>IN THEIR OWN WORDS</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0, fontStyle: "italic" }}>&ldquo;{voice.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: BG, borderRadius: 10, padding: 16 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>KEY CONTRIBUTION</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{voice.contribution}</p>
+                </div>
               </div>
             </div>
           </div>

@@ -4,6 +4,137 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
+type Tab = "commands" | "theologians" | "jesus" | "purpose";
+
+const THEOLOGIANS = [
+  {
+    id: "augustine",
+    name: "Augustine of Hippo",
+    era: "354-430",
+    context: "Bishop of Hippo, North Africa",
+    bio: "Augustine gave the Western church its primary framework for reading the commandments. He grouped them as 3 + 7 (three commandments concerning God, seven concerning neighbor) and embedded them within his theology of love. For Augustine, the commandments summarize what it means to love God with all one's being and neighbor as oneself. No one keeps the law by external compliance; the commandments expose the poverty of the will and drive us to grace.",
+    quote: "Our heart is restless until it rests in Thee. The commandments show us what rest looks like in practice — and how far we are from it.",
+    contribution: "Established the two-table structure (duties to God / duties to neighbor), linked law to love, and grounded obedience in grace rather than willpower. His moral theology shaped Western Christianity for a millennium."
+  },
+  {
+    id: "aquinas",
+    name: "Thomas Aquinas",
+    era: "1225-1274",
+    context: "Dominican friar, scholastic theologian",
+    bio: "Aquinas situated the Decalogue within his threefold category of law: eternal law (God's reason), natural law (human participation in divine reason), and positive law (specific commands). The commandments, he argued, are an explicit expression of what natural law already implies — which is why all humans are morally accountable even without the Sinai revelation. For Aquinas, the commandments are not arbitrary divine decrees but rational norms that accord with human nature as God created it.",
+    quote: "The precepts of the Decalogue are such as the reason of every man readily assents to as soon as they are proposed.",
+    contribution: "Grounded the commandments in natural law, making them accessible to all people and cultures. His Summa Theologiae remains the definitive Catholic treatment and profoundly shaped Protestant moral theology as well."
+  },
+  {
+    id: "luther",
+    name: "Martin Luther",
+    era: "1483-1546",
+    context: "Augustinian monk, Reformer",
+    bio: "Luther placed the Ten Commandments at the center of his catechetical program — the Large and Small Catechisms both open with the Decalogue. For Luther, the law has a primarily accusatory function: it reveals sin, shatters self-righteousness, and drives the sinner to Christ. He famously insisted that keeping the commandments perfectly is impossible, which is precisely their point. Yet for the Christian, the law also serves as a guide to thankful living in the freedom of the gospel.",
+    quote: "The law was given not to make us righteous but to reveal to us our unrighteousness, that we might be humbled before God and cry out for mercy.",
+    contribution: "Articulated two uses of the law (civil and spiritual) later expanded to three. Made the Decalogue central to Protestant education. His explanation of each commandment in the Small Catechism remains the standard Lutheran summary."
+  },
+  {
+    id: "calvin",
+    name: "John Calvin",
+    era: "1509-1564",
+    context: "French Reformer, pastor in Geneva",
+    bio: "Calvin developed the most comprehensive Protestant treatment of the commandments in the Institutes of the Christian Religion and his Genevan Catechism. He emphasized the threefold use of the law: civil (restraining evil in society), pedagogical (revealing sin and driving to Christ), and normative (guiding the regenerate). The third use was Calvin's distinctive emphasis: the Christian uses the law as a lamp for the path of grateful obedience. Calvin's exposition reads each commandment as demanding not just outward compliance but inward transformation.",
+    quote: "The law requires perfect love to God and our neighbors; therefore it condemns whatever we have that is not consistent with perfect love.",
+    contribution: "Developed the three-fold use of the law, especially the third use as guide for Christian living. His expository method — reading each commandment both as prohibition and positive command — became standard in Reformed catechesis."
+  },
+  {
+    id: "westminster",
+    name: "Westminster Divines",
+    era: "1643-1649",
+    context: "Assembly of English and Scottish theologians",
+    bio: "The Westminster Assembly produced the Larger and Shorter Catechisms (1647-1648), which contain the most detailed Protestant exposition of the Ten Commandments ever written. Each commandment is analyzed for duties required, sins forbidden, and the spiritual scope of the command — inner life as much as outward act. The Larger Catechism's treatment runs to dozens of questions per commandment. Their principle: 'where a duty is commanded, the contrary sin is forbidden; and where a sin is forbidden, the contrary duty is commanded.'",
+    quote: "Where a duty is commanded, the contrary sin is forbidden; where a sin is forbidden, the contrary duty is commanded.",
+    contribution: "Produced the most thorough systematic exposition of the commandments in Protestant history. The Westminster Standards remain the constitutional documents of Presbyterian and Reformed churches worldwide."
+  }
+];
+
+const JESUS_ON_LAW = [
+  {
+    cmd: "You shall not murder",
+    ref: "Matthew 5:21-26",
+    color: "#DC2626",
+    jesus_teaching: "Jesus extended the prohibition from the act of killing to the attitude of contempt. Anger harbored against a brother puts one 'in danger of the judgment.' Insults and contemptuous speech are not preliminary to murder — they share the same root. The commandment is not about behavior management but about the orientation of the heart toward others as image-bearers of God.",
+    application: "Where do you treat people as less than human — in private thought, online speech, or political rhetoric? Jesus traces murder back to contempt, which means dehumanizing language is already a violation."
+  },
+  {
+    cmd: "You shall not commit adultery",
+    ref: "Matthew 5:27-30",
+    color: "#7C3AED",
+    jesus_teaching: "Jesus located the violation not in the act but in the desire: 'anyone who looks at a woman with lustful intent has already committed adultery with her in his heart.' The person who avoids the act while feeding the desire has not kept the commandment — they have merely managed its outer expression. The radical surgery Jesus prescribes ('if your eye causes you to sin, tear it out') is not literal but conveys the severity: cut off what feeds the desire.",
+    application: "In a pornography-saturated culture, the heart-level nature of this commandment is both more condemning and more clarifying. Lust is not a victimless thought — it treats a person as an object, which is already the essence of the violation."
+  },
+  {
+    cmd: "You shall not swear falsely",
+    ref: "Matthew 5:33-37",
+    color: "#0EA5E9",
+    jesus_teaching: "The Jewish tradition had developed elaborate oath systems to signal when someone was really telling the truth — implying that ordinary speech could be less than truthful. Jesus cut through it: 'Let what you say be simply yes or no.' The need for oaths is itself evidence of a truthfulness deficit. A person of total integrity needs no oath because every word can be trusted equally.",
+    application: "When do you use religious or formal language to add weight to statements that should simply be true? 'I promise' and 'I swear to God' often signal that ordinary speech is unreliable — which is the problem Jesus is addressing."
+  },
+  {
+    cmd: "An eye for an eye",
+    ref: "Matthew 5:38-42",
+    color: "#F59E0B",
+    jesus_teaching: "Lex talionis (eye for an eye) was originally a limiting principle — it prevented disproportionate revenge. Jesus pushed past limitation to renunciation: do not resist the evil person, turn the other cheek, go the extra mile. This is not passivity in the face of injustice — it is the refusal to let the other person's evil define your response. It requires something harder than retaliation: the willingness to absorb cost rather than escalate.",
+    application: "The instinct to get even, match insult with insult, or 'defend yourself' online is precisely what Jesus forbids. Retaliation feels like justice; Jesus says it is the path of the world, not the kingdom."
+  },
+  {
+    cmd: "Love your neighbor",
+    ref: "Matthew 5:43-48",
+    color: "#10B981",
+    jesus_teaching: "The common tradition had added 'hate your enemy' to 'love your neighbor' — a natural extension if neighbor means 'those like me.' Jesus rejected the addition entirely. The Father sends rain on the just and the unjust; his children are to love with the same impartiality. Loving those who love you back is no achievement — even tax collectors do that. The standard is perfection: being as indiscriminate in love as God is.",
+    application: "Who counts as your enemy — the political opponent, the difficult family member, the person who wronged you, the outgroup? Jesus says your posture toward them is the actual test of whether you have understood the law."
+  }
+];
+
+const LAW_PURPOSES = [
+  {
+    id: "civil",
+    title: "Civil / Curbing Use",
+    latin: "Usus civilis",
+    icon: "⚖️",
+    color: "#3B82F6",
+    description: "The law functions as a restraint on evil in society — not because it changes hearts, but because the threat of consequences curbs sinful behavior. Even those who do not believe in God are restrained by laws that reflect the commandments' moral framework. This is the law as external fence rather than internal transformation.",
+    theologians: "Luther emphasized this use; it is shared by Reformed and Lutheran traditions.",
+    implication: "Civil law and public order derive their moral foundation from the Decalogue. Even secular societies that reject God implicitly legislate many of the commandments' prohibitions because they correspond to natural law."
+  },
+  {
+    id: "pedagogical",
+    title: "Pedagogical / Mirror Use",
+    latin: "Usus elenchticus",
+    icon: "🪞",
+    color: "#EF4444",
+    description: "The law functions as a mirror that reveals sin and drives the sinner to Christ. Paul says 'through the law comes knowledge of sin' (Romans 3:20) and 'the law was our guardian until Christ came' (Galatians 3:24). The commandments do not produce righteousness — they produce consciousness of its absence. This is the law's most vital theological function in justification.",
+    theologians: "Central for Luther; acknowledged in all Reformed confessions. The Heidelberg Catechism opens with three things: knowledge of sin, knowledge of redemption, knowledge of gratitude.",
+    implication: "No one can be saved without the law's crushing verdict. Preaching that omits the law's demands produces a gospel without weight — people who accept Jesus as life improvement rather than rescue from condemnation."
+  },
+  {
+    id: "normative",
+    title: "Normative / Guide Use",
+    latin: "Usus tertius",
+    icon: "🧭",
+    color: GREEN,
+    description: "The third use — distinctive to Reformed theology, emphasized by Calvin — is the law as a guide for the regenerate Christian. After justification, the Christian uses the commandments not as a ladder to earn favor but as a lamp on the path of thankful obedience. The law tells the saved person what loving God and neighbor looks like in practice.",
+    theologians: "Calvin's distinctive contribution; central to Reformed/Presbyterian ethics. Luther acknowledged it but de-emphasized it. The Westminster Larger Catechism is largely an extended meditation on this use.",
+    implication: "Antinomianism (the idea that Christians are free from the law entirely) mistakes the abrogation of the law as a covenant of works for abrogation of the law as a rule of life. The Christian is free from law's condemnation but not from its guidance."
+  },
+  {
+    id: "summary",
+    title: "Jesus' Summary",
+    latin: "Matthew 22:37-40",
+    icon: "❤️",
+    color: PURPLE,
+    description: "When asked for the greatest commandment, Jesus did not recite one of the Ten — he synthesized all of them: Love the Lord your God with all your heart, soul, and mind. And love your neighbor as yourself. 'On these two commandments depend all the Law and the Prophets.' The commandments are not an arbitrary list of rules; they are a structured description of what it means to love God and neighbor in every domain of life.",
+    theologians: "The Augustinian two-table structure is rooted here: the first four commandments concern love of God; the last six concern love of neighbor.",
+    implication: "The question for each commandment is not 'what am I forbidden from doing?' but 'what would love of God and neighbor require here?' This transforms the commandments from restrictions into invitations."
+  }
+];
+
 const COMMANDMENTS = [
   {
     n: 1,
@@ -109,67 +240,199 @@ const COMMANDMENTS = [
 
 export default function TenCommandmentsPage() {
   const [selected, setSelected] = useState(1);
+  const [activeTab, setActiveTab] = useState<Tab>("commands");
+  const [selectedTheologian, setSelectedTheologian] = useState("augustine");
+  const [selectedJesus, setSelectedJesus] = useState(0);
 
   const cmd = COMMANDMENTS.find(c => c.n === selected)!;
+  const theologian = THEOLOGIANS.find(t => t.id === selectedTheologian)!;
+  const jesusItem = JESUS_ON_LAW[selectedJesus];
+
+  const TABS: { id: Tab; label: string; icon: string }[] = [
+    { id: "commands", label: "The Commands", icon: "📜" },
+    { id: "theologians", label: "Theologians", icon: "🏛️" },
+    { id: "jesus", label: "Jesus on the Law", icon: "✝️" },
+    { id: "purpose", label: "Purpose of Law", icon: "⚖️" },
+  ];
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 40 }}>
       <div style={{ maxWidth: 920, margin: "0 auto", padding: "0 20px 60px" }}>
-        <div style={{ textAlign: "center", marginBottom: 40 }}>
+        <div style={{ textAlign: "center", marginBottom: 32 }}>
           <div style={{ fontSize: 48, marginBottom: 12 }}>📜</div>
           <h1 style={{ fontSize: 32, fontWeight: 900, marginBottom: 8 }}>The Ten Commandments</h1>
           <p style={{ color: MUTED, fontSize: 16, maxWidth: 560, margin: "0 auto" }}>
-            Not a ladder to earn God's favor — a charter for the liberated. God gave these commandments to people he had already redeemed, as a pattern for living in the freedom he had given them.
+            Not a ladder to earn God&apos;s favor &mdash; a charter for the liberated. God gave these commandments to people he had already redeemed, as a pattern for living in the freedom he had given them.
           </p>
         </div>
 
-        <div style={{ display: "flex", gap: 20 }}>
-          <div style={{ width: 220, flexShrink: 0 }}>
-            {COMMANDMENTS.map(c => (
-              <button key={c.n} onClick={() => setSelected(c.n)}
-                style={{ width: "100%", background: selected === c.n ? `${c.color}15` : "transparent", border: `1px solid ${selected === c.n ? c.color + "60" : BORDER}`, borderRadius: 10, padding: "10px 14px", marginBottom: 6, cursor: "pointer", textAlign: "left", display: "flex", gap: 10, alignItems: "center" }}>
-                <div style={{ width: 24, height: 24, borderRadius: "50%", background: selected === c.n ? `${c.color}25` : "transparent", border: `1px solid ${selected === c.n ? c.color : BORDER}`, display: "flex", alignItems: "center", justifyContent: "center", color: selected === c.n ? c.color : MUTED, fontWeight: 800, fontSize: 12, flexShrink: 0 }}>{c.n}</div>
-                <span style={{ color: selected === c.n ? c.color : MUTED, fontWeight: 600, fontSize: 12, lineHeight: 1.4 }}>{c.cmd.split(' ').slice(0, 5).join(' ')}...</span>
-              </button>
-            ))}
-          </div>
+        <div style={{ display: "flex", gap: 8, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
+          {TABS.map(tab => (
+            <button key={tab.id} onClick={() => setActiveTab(tab.id)}
+              style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", cursor: "pointer", fontWeight: 700, fontSize: 13, background: activeTab === tab.id ? GREEN : "transparent", color: activeTab === tab.id ? BG : MUTED, transition: "all 0.15s" }}>
+              {tab.icon} {tab.label}
+            </button>
+          ))}
+        </div>
 
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ background: CARD, border: `1px solid ${cmd.color}30`, borderRadius: 14, padding: 28 }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
-                <div style={{ width: 40, height: 40, borderRadius: "50%", background: `${cmd.color}20`, border: `2px solid ${cmd.color}`, display: "flex", alignItems: "center", justifyContent: "center", color: cmd.color, fontWeight: 900, fontSize: 16, flexShrink: 0 }}>{cmd.n}</div>
-                <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700 }}>{cmd.ref}</span>
-              </div>
-              <h2 style={{ color: cmd.color, fontWeight: 900, fontSize: 20, marginBottom: 20, lineHeight: 1.4 }}>{cmd.cmd}</h2>
+        {activeTab === "commands" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 220, flexShrink: 0 }}>
+              {COMMANDMENTS.map(c => (
+                <button key={c.n} onClick={() => setSelected(c.n)}
+                  style={{ width: "100%", background: selected === c.n ? `${c.color}15` : "transparent", border: `1px solid ${selected === c.n ? c.color + "60" : BORDER}`, borderRadius: 10, padding: "10px 14px", marginBottom: 6, cursor: "pointer", textAlign: "left", display: "flex", gap: 10, alignItems: "center" }}>
+                  <div style={{ width: 24, height: 24, borderRadius: "50%", background: selected === c.n ? `${c.color}25` : "transparent", border: `1px solid ${selected === c.n ? c.color : BORDER}`, display: "flex", alignItems: "center", justifyContent: "center", color: selected === c.n ? c.color : MUTED, fontWeight: 800, fontSize: 12, flexShrink: 0 }}>{c.n}</div>
+                  <span style={{ color: selected === c.n ? c.color : MUTED, fontWeight: 600, fontSize: 12, lineHeight: 1.4 }}>{c.cmd.split(' ').slice(0, 5).join(' ')}...</span>
+                </button>
+              ))}
+            </div>
 
-              <div style={{ marginBottom: 18 }}>
-                <div style={{ color: GREEN, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>MEANING</div>
-                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>{cmd.meaning}</p>
-              </div>
-
-              <div style={{ background: BG, borderRadius: 10, padding: 18, marginBottom: 18 }}>
-                <div style={{ color: MUTED, fontWeight: 700, fontSize: 12, marginBottom: 10 }}>MODERN APPLICATIONS</div>
-                {cmd.applications.map((a, i) => (
-                  <div key={i} style={{ display: "flex", gap: 10, marginBottom: i < cmd.applications.length - 1 ? 12 : 0 }}>
-                    <div style={{ width: 6, height: 6, borderRadius: "50%", background: cmd.color, flexShrink: 0, marginTop: 7 }} />
-                    <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0 }}>{a}</p>
-                  </div>
-                ))}
-              </div>
-
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-                <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 10, padding: 14 }}>
-                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 11, marginBottom: 6 }}>POSITIVE FORM</div>
-                  <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{cmd.positiveForm}</p>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ background: CARD, border: `1px solid ${cmd.color}30`, borderRadius: 14, padding: 28 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+                  <div style={{ width: 40, height: 40, borderRadius: "50%", background: `${cmd.color}20`, border: `2px solid ${cmd.color}`, display: "flex", alignItems: "center", justifyContent: "center", color: cmd.color, fontWeight: 900, fontSize: 16, flexShrink: 0 }}>{cmd.n}</div>
+                  <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700 }}>{cmd.ref}</span>
                 </div>
-                <div style={{ background: `${PURPLE}08`, border: `1px solid ${PURPLE}20`, borderRadius: 10, padding: 14 }}>
-                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 11, marginBottom: 6 }}>CATECHISM</div>
-                  <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{cmd.catechism}</p>
+                <h2 style={{ color: cmd.color, fontWeight: 900, fontSize: 20, marginBottom: 20, lineHeight: 1.4 }}>{cmd.cmd}</h2>
+
+                <div style={{ marginBottom: 18 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>MEANING</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>{cmd.meaning}</p>
+                </div>
+
+                <div style={{ background: BG, borderRadius: 10, padding: 18, marginBottom: 18 }}>
+                  <div style={{ color: MUTED, fontWeight: 700, fontSize: 12, marginBottom: 10 }}>MODERN APPLICATIONS</div>
+                  {cmd.applications.map((a, i) => (
+                    <div key={i} style={{ display: "flex", gap: 10, marginBottom: i < cmd.applications.length - 1 ? 12 : 0 }}>
+                      <div style={{ width: 6, height: 6, borderRadius: "50%", background: cmd.color, flexShrink: 0, marginTop: 7 }} />
+                      <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0 }}>{a}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                  <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 10, padding: 14 }}>
+                    <div style={{ color: GREEN, fontWeight: 700, fontSize: 11, marginBottom: 6 }}>POSITIVE FORM</div>
+                    <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{cmd.positiveForm}</p>
+                  </div>
+                  <div style={{ background: `${PURPLE}08`, border: `1px solid ${PURPLE}20`, borderRadius: 10, padding: 14 }}>
+                    <div style={{ color: PURPLE, fontWeight: 700, fontSize: 11, marginBottom: 6 }}>CATECHISM</div>
+                    <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{cmd.catechism}</p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
+
+        {activeTab === "theologians" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 210, flexShrink: 0 }}>
+              {THEOLOGIANS.map(t => (
+                <button key={t.id} onClick={() => setSelectedTheologian(t.id)}
+                  style={{ width: "100%", background: selectedTheologian === t.id ? `${PURPLE}18` : "transparent", border: `1px solid ${selectedTheologian === t.id ? PURPLE + "80" : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 6, cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: selectedTheologian === t.id ? TEXT : MUTED, fontWeight: 700, fontSize: 13 }}>{t.name}</div>
+                  <div style={{ color: MUTED, fontSize: 11, marginTop: 2 }}>{t.era}</div>
+                </button>
+              ))}
+            </div>
+
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ background: CARD, border: `1px solid ${PURPLE}30`, borderRadius: 14, padding: 28 }}>
+                <div style={{ marginBottom: 20 }}>
+                  <h2 style={{ color: TEXT, fontWeight: 900, fontSize: 22, marginBottom: 4 }}>{theologian.name}</h2>
+                  <div style={{ display: "flex", gap: 10 }}>
+                    <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700 }}>{theologian.era}</span>
+                    <span style={{ background: `${GREEN}15`, color: GREEN, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700 }}>{theologian.context}</span>
+                  </div>
+                </div>
+
+                <div style={{ marginBottom: 18 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>BIOGRAPHY</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>{theologian.bio}</p>
+                </div>
+
+                <div style={{ background: BG, borderLeft: `3px solid ${PURPLE}`, borderRadius: "0 10px 10px 0", padding: 18, marginBottom: 18 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 11, marginBottom: 8 }}>CHARACTERISTIC QUOTE</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0, fontStyle: "italic" }}>&ldquo;{theologian.quote}&rdquo;</p>
+                </div>
+
+                <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 10, padding: 16 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>CONTRIBUTION TO DECALOGUE INTERPRETATION</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{theologian.contribution}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "jesus" && (
+          <>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, marginBottom: 24 }}>
+              <h2 style={{ color: TEXT, fontWeight: 900, fontSize: 18, marginBottom: 8 }}>The Sermon on the Mount: &ldquo;You Have Heard...But I Say&rdquo;</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>In Matthew 5:21-48, Jesus did not abolish the law but fulfilled it by showing its true interior demand. Each antithesis (&ldquo;You have heard it was said...but I say to you&rdquo;) penetrates past external compliance to the heart from which behavior flows.</p>
+            </div>
+            <div style={{ display: "flex", gap: 20 }}>
+              <div style={{ width: 210, flexShrink: 0 }}>
+                {JESUS_ON_LAW.map((item, i) => (
+                  <button key={i} onClick={() => setSelectedJesus(i)}
+                    style={{ width: "100%", background: selectedJesus === i ? `${item.color}18` : "transparent", border: `1px solid ${selectedJesus === i ? item.color + "70" : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 6, cursor: "pointer", textAlign: "left" }}>
+                    <div style={{ color: selectedJesus === i ? item.color : MUTED, fontWeight: 700, fontSize: 13, lineHeight: 1.4 }}>{item.cmd}</div>
+                    <div style={{ color: MUTED, fontSize: 11, marginTop: 3 }}>{item.ref}</div>
+                  </button>
+                ))}
+              </div>
+
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ background: CARD, border: `1px solid ${jesusItem.color}30`, borderRadius: 14, padding: 28 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16 }}>
+                    <h2 style={{ color: jesusItem.color, fontWeight: 900, fontSize: 20, margin: 0 }}>{jesusItem.cmd}</h2>
+                    <span style={{ background: `${jesusItem.color}20`, color: jesusItem.color, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700, flexShrink: 0, marginLeft: 12 }}>{jesusItem.ref}</span>
+                  </div>
+
+                  <div style={{ marginBottom: 20 }}>
+                    <div style={{ color: GREEN, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>WHAT JESUS TAUGHT</div>
+                    <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>{jesusItem.jesus_teaching}</p>
+                  </div>
+
+                  <div style={{ background: BG, border: `1px solid ${jesusItem.color}25`, borderRadius: 10, padding: 16 }}>
+                    <div style={{ color: jesusItem.color, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>APPLICATION</div>
+                    <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{jesusItem.application}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+
+        {activeTab === "purpose" && (
+          <>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, marginBottom: 24 }}>
+              <h2 style={{ color: TEXT, fontWeight: 900, fontSize: 18, marginBottom: 8 }}>Why Did God Give the Law?</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Reformed and Lutheran theology identify multiple functions the law serves. Understanding these purposes prevents two equal errors: legalism (earning salvation through obedience) and antinomianism (dismissing the law as irrelevant to Christians).</p>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+              {LAW_PURPOSES.map(p => (
+                <div key={p.id} style={{ background: CARD, border: `1px solid ${p.color}30`, borderRadius: 14, padding: 24 }}>
+                  <div style={{ fontSize: 28, marginBottom: 12 }}>{p.icon}</div>
+                  <div style={{ marginBottom: 8 }}>
+                    <h3 style={{ color: p.color, fontWeight: 900, fontSize: 16, margin: "0 0 4px" }}>{p.title}</h3>
+                    <span style={{ background: `${p.color}15`, color: p.color, padding: "1px 8px", borderRadius: 6, fontSize: 11, fontWeight: 700 }}>{p.latin}</span>
+                  </div>
+                  <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.75, margin: "12px 0" }}>{p.description}</p>
+                  <div style={{ background: BG, borderRadius: 8, padding: 12, marginBottom: 12 }}>
+                    <div style={{ color: MUTED, fontWeight: 700, fontSize: 11, marginBottom: 4 }}>THEOLOGIANS</div>
+                    <p style={{ color: MUTED, fontSize: 12, lineHeight: 1.6, margin: 0 }}>{p.theologians}</p>
+                  </div>
+                  <div style={{ background: `${p.color}08`, border: `1px solid ${p.color}20`, borderRadius: 8, padding: 12 }}>
+                    <div style={{ color: p.color, fontWeight: 700, fontSize: 11, marginBottom: 4 }}>IMPLICATION</div>
+                    <p style={{ color: TEXT, fontSize: 12, lineHeight: 1.65, margin: 0 }}>{p.implication}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

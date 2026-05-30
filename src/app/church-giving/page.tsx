@@ -30,9 +30,62 @@ const PRACTICES = [
   { title: "Track It and Review It", desc: "At year end, look at what you gave — the total, to whom, and why. Did your giving reflect your actual values? Were there opportunities you missed? Does the amount represent genuine sacrifice or trivial rounding? Annual review prevents giving from going on autopilot.", icon: "📊" },
 ];
 
+const GENEROUS_LIVES = [
+  {
+    id: "wesley",
+    name: "John Wesley",
+    era: "18th century",
+    context: "Founder of the Methodist movement; preacher to the poor and prolific writer",
+    story: "Wesley resolved never to spend more money on himself than what was needed for basic necessities. When he began earning, he set a fixed personal budget — roughly what a poor Oxford student spent — and gave away everything above it for the rest of his life. As his income grew dramatically through book royalties and speaking, his giving grew accordingly. He taught what he called a three-part rule: earn all you can, save all you can, give all you can. He died with almost no money — his estate consisted of a few coins, a preaching gown, and two silver spoons he had given away before death.",
+    quote: "Earn all you can. Save all you can. Give all you can.",
+    lesson: "Wesley demonstrated that giving is a discipline that scales with income. The question is not whether you can afford to give more — it is whether you will resolve, before abundance arrives, to give rather than upgrade your lifestyle.",
+  },
+  {
+    id: "letourneau",
+    name: "R.G. LeTourneau",
+    era: "20th century",
+    context: "Industrial entrepreneur; inventor of earth-moving equipment used in World War II",
+    story: "LeTourneau started with almost nothing and built a manufacturing empire producing 70% of the earthmoving machinery used by the Allies in WWII. As his income grew, he and his wife Evelyn made a series of commitments to give increasing proportions away. Eventually he settled into giving 90% of his income and living on 10%. He was vice president of the Gideons International and funded missions worldwide. He liked to say he was not a businessman who happened to be a giver, but a giver who happened to be a businessman.",
+    quote: "I shovel money into God's work and God shovels it back — and God has a bigger shovel.",
+    lesson: "LeTourneau's life challenges the assumption that generosity has a ceiling. His testimony is that giving is not the end of wealth but often accompanies it — and that the posture of surrender, not the percentage, is the point.",
+  },
+  {
+    id: "muller",
+    name: "George Muller",
+    era: "19th century",
+    context: "Founder of orphanages in Bristol, England; supported entirely by prayer without public fundraising",
+    story: "Muller deliberately refused to ask any human being for financial support, wanting to demonstrate that God answers prayer. He fed, clothed, and educated over 10,000 orphans across five large houses in Bristol without ever publicly stating a need or making a financial appeal. He kept meticulous prayer journals tracking tens of thousands of specific requests and answers. Accounts multiply of food arriving at mealtimes for hundreds of hungry children with empty kitchens. He gave away everything he received above subsistence level and died with almost nothing.",
+    quote: "The greater the difficulty, the easier it is for God to show his power.",
+    lesson: "Muller's generosity was inseparable from his prayer life. He gave because he had learned, through years of specific documented answers to prayer, that God is reliable. Generosity is the fruit of trust, and trust is built through a history of tested faithfulness.",
+  },
+  {
+    id: "francis",
+    name: "Francis of Assisi",
+    era: "13th century",
+    context: "Son of a wealthy cloth merchant in Assisi; founder of the Franciscan order",
+    story: "Francis heard Christ's call in Matthew 10:9 — 'Take no gold or silver or copper in your belts' — and responded with complete renunciation. He returned his clothes to his father in the public square, gave away everything, and began a life of radical poverty and itinerant preaching. He welcomed lepers, preached to birds, and saw voluntary poverty as a form of freedom. The movement he started spread across Europe and became one of the most transformative in church history. He died owning nothing, having given himself away entirely.",
+    quote: "It is in giving that we receive.",
+    lesson: "Francis represents the most radical end of Christian generosity — total renunciation for the sake of total availability. Not everyone is called to Franciscan poverty. But his life asks a question everyone must answer: what do I own that actually owns me?",
+  },
+  {
+    id: "zacchaeus",
+    name: "Zacchaeus",
+    era: "1st century",
+    context: "Chief tax collector in Jericho; both wealthy and despised as a Roman collaborator",
+    story: "Zacchaeus was wealthy by taking from the vulnerable and keeping the excess. When Jesus invited himself to Zacchaeus's house, something broke open. Without being asked, without a sermon on tithing, without a pledge card, Zacchaeus stood and said: 'Here and now I give half of my possessions to the poor, and if I have cheated anybody out of anything, I will pay back four times the amount' (Luke 19:8). Jesus said: 'Today salvation has come to this house.' The generosity was immediate, spontaneous, and extravagant.",
+    quote: "Here and now I give half of my possessions to the poor. — Luke 19:8",
+    lesson: "Zacchaeus's radical generosity was not a condition of salvation — it was the evidence of it. He was not performing to earn Jesus's favor; Jesus had already given himself. The encounter with Christ produced the generosity spontaneously. This is the proper order: the gospel produces generosity; generosity does not produce the gospel.",
+  },
+];
+
+type Tab = "theology" | "questions" | "givers" | "practices";
+
 export default function ChurchGivingPage() {
-  const [activeTab, setActiveTab] = useState<"theology" | "questions" | "practices">("theology");
+  const [activeTab, setActiveTab] = useState<Tab>("theology");
   const [expanded, setExpanded] = useState<string | null>(null);
+  const [selectedGiver, setSelectedGiver] = useState("wesley");
+
+  const giver = GENEROUS_LIVES.find(g => g.id === selectedGiver)!;
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 40 }}>
@@ -48,7 +101,8 @@ export default function ChurchGivingPage() {
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
             { id: "theology" as const, label: "Theology", icon: "📖" },
-            { id: "questions" as const, label: "Common Questions", icon: "❓" },
+            { id: "questions" as const, label: "Questions", icon: "❓" },
+            { id: "givers" as const, label: "Generous Lives", icon: "💎" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
@@ -88,6 +142,35 @@ export default function ChurchGivingPage() {
                 )}
               </div>
             ))}
+          </div>
+        )}
+
+        {activeTab === "givers" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 210, flexShrink: 0 }}>
+              {GENEROUS_LIVES.map(g => (
+                <button key={g.id} onClick={() => setSelectedGiver(g.id)}
+                  style={{ width: "100%", background: selectedGiver === g.id ? `${PURPLE}20` : CARD, border: `1px solid ${selectedGiver === g.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 8, cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: selectedGiver === g.id ? GREEN : TEXT, fontWeight: 700, fontSize: 13, marginBottom: 2 }}>{g.name}</div>
+                  <div style={{ color: MUTED, fontSize: 11 }}>{g.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 6, flexWrap: "wrap" }}>
+                <h2 style={{ color: GREEN, fontWeight: 900, fontSize: 22, margin: 0 }}>{giver.name}</h2>
+                <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "3px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700, flexShrink: 0 }}>{giver.era}</span>
+              </div>
+              <p style={{ color: MUTED, fontSize: 13, fontStyle: "italic", marginBottom: 16 }}>{giver.context}</p>
+              <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, marginBottom: 20 }}>{giver.story}</p>
+              <blockquote style={{ margin: "0 0 20px", padding: "12px 16px", borderLeft: `3px solid ${GREEN}`, background: `${GREEN}08`, borderRadius: "0 8px 8px 0" }}>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, margin: 0, fontStyle: "italic" }}>"{giver.quote}"</p>
+              </blockquote>
+              <div style={{ background: `${PURPLE}08`, border: `1px solid ${PURPLE}20`, borderRadius: 10, padding: 16 }}>
+                <div style={{ color: PURPLE, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>THE LESSON</div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{giver.lesson}</p>
+              </div>
+            </div>
           </div>
         )}
 

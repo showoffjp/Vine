@@ -88,7 +88,30 @@ const FRUITS = [
   },
 ];
 
+const THEOLOGY = [
+  { title: "Galatians 5 in Context", verse: "Galatians 5:16-26", body: "Paul's list of the fruit of the Spirit comes at the climax of his letter's ethical section. The backdrop is the conflict between flesh and Spirit (vv. 16-17): 'For the flesh desires what is contrary to the Spirit, and the Spirit what is contrary to the flesh. They are in conflict with each other, so that you are not to do whatever you want.' The contrast with the 'works of the flesh' (sexual immorality, idolatry, hatred, discord, jealousy, fits of rage... vv. 19-21) shows what a life not governed by the Spirit produces. The fruit of the Spirit is the alternative: what a life genuinely yielded to God's Spirit looks like." },
+  { title: "Singular Fruit, Nine Qualities", verse: "Galatians 5:22-23", body: "Paul uses the singular: fruit, not fruits. The nine qualities are not nine separate optional extras that different Christians may or may not possess — they are one integrated character portrait of Jesus himself. You cannot have genuine love without patience; you cannot have peace without self-control; you cannot have goodness without faithfulness. The fruit of the Spirit is a unified whole. This means that growth in one quality is growth in all, and that a character marked by these qualities together is what it looks like to be conformed to the image of Christ (Romans 8:29)." },
+  { title: "Spirit-Produced, Not Self-Produced", verse: "John 15:4-5", body: "'Remain in me, as I also remain in you. No branch can bear fruit by itself; it must remain in the vine. Neither can you bear fruit unless you remain in me... apart from me you can do nothing' (John 15:4-5). The fruit of the Spirit is not the fruit of human moral effort — it is the fruit of the Spirit. The critical distinction: we cooperate with God's transforming work; we do not produce the transformation ourselves. This prevents both passivity (waiting for God to do it all) and self-improvement (trying to produce love, joy, and peace through willpower). The path is participation: stay connected to the vine." },
+  { title: "Works vs. Fruit", verse: "Galatians 5:19-21", body: "Notice the contrast: the text speaks of 'works' (erga) of the flesh but 'fruit' (karpos) of the Spirit. Works are what you manufacture through effort; fruit is what grows naturally from a healthy tree. The deeds of the flesh require effort and cultivation in sinful patterns — the addictive cycles, the practiced selfishness, the cultivated resentments. The fruit of the Spirit, by contrast, is the natural overflow of a life connected to God. This does not mean spiritual formation requires no effort — tending a vineyard requires constant work. But the effort is in remaining connected, not in producing the fruit directly." },
+  { title: "Against Such Things, No Law", verse: "Galatians 5:23", body: "Paul's comment that 'against such things there is no law' (v. 23) is more than an aside — it is a theological claim. The fruit of the Spirit transcends legal categories. No law can command love, joy, and peace into existence; no legal system can produce faithfulness and gentleness by external regulation. The law can restrain the worst manifestations of the flesh; it cannot produce the fruit of the Spirit. Only the Spirit does that — which is why Paul's argument throughout Galatians is that the law cannot save and that the Spirit cannot be received by works of the law but by faith (Galatians 3:2)." },
+];
+
+const PRACTICES = [
+  { fruit: "Love", discipline: "Intentional service", desc: "Choose one difficult relationship and make a specific, costly act of service this week — not because you feel like it but as a practice of the will. Love as an act of will, repeated over time, reshapes the affections until feeling follows.", icon: "❤️" },
+  { fruit: "Joy", discipline: "Gratitude journaling", desc: "Write three specific things you are grateful for each morning — not general blessings but specific people, moments, and gifts. Gratitude is the spiritual practice most directly connected to joy. Name what you actually received, not what you think you should be thankful for.", icon: "🌞" },
+  { fruit: "Peace", discipline: "Surrender prayer", desc: "Identify your primary anxiety and practice a daily prayer of surrender: name the thing, give it to God explicitly, and ask for the peace that passes understanding (Phil 4:6-7). Peace is not the absence of trouble but the presence of God in the trouble.", icon: "🕊️" },
+  { fruit: "Patience", discipline: "Fasting", desc: "Fasting — intentionally delaying satisfaction of a physical appetite — is the most direct training in patience. Choose one fast per week (a meal, social media, entertainment) as practice in saying 'not now' to an immediate desire. This trains the patience needed for relationships and ministry.", icon: "⏳" },
+  { fruit: "Kindness", discipline: "Noticing people", desc: "For one week, set an intention to notice the specific needs of every person you interact with — not just 'how are you?' but 'what does this person actually need today?' Kindness begins with attention. Practice being curious about others' actual situations.", icon: "🤍" },
+  { fruit: "Goodness", discipline: "Moral examination", desc: "The Ignatian Examen — reviewing your day in God's presence, noticing where you were drawn toward good and where you compromised — cultivates moral sensitivity. Do it nightly for a month. What patterns do you notice? Where is moral cowardice habitual?", icon: "🌿" },
+  { fruit: "Faithfulness", discipline: "Accountability", desc: "Choose one commitment — to a person, a practice, a discipline — and ask one other person to check in with you weekly. The external accountability trains internal faithfulness. Start small: show up consistently where you said you would.", icon: "🔗" },
+  { fruit: "Gentleness", discipline: "Silence practice", desc: "Spend 10 minutes per day in silence — no input, no output, no agenda. Gentleness is undermined by constant reactivity and the need to fill every space with response. Silence creates the internal space that allows you to choose your response rather than simply react.", icon: "🌊" },
+  { fruit: "Self-Control", discipline: "Digital fast", desc: "Choose one digital platform or entertainment source and abstain from it entirely for 30 days. This is not primarily about that thing but about training the capacity to say no to appetite generally. Self-control in small appetites builds the muscle for larger ones.", icon: "🎯" },
+];
+
+type Tab = "fruit" | "theology" | "practices";
+
 export default function FruitOfSpiritPage() {
+  const [activeTab, setActiveTab] = useState<Tab>("fruit");
   const [selected, setSelected] = useState("Love");
 
   const fruit = FRUITS.find(f => f.fruit === selected)!;
@@ -104,44 +127,99 @@ export default function FruitOfSpiritPage() {
           </p>
         </div>
 
-        <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 16, marginBottom: 24, display: "flex", flexWrap: "wrap", gap: 8 }}>
-          {FRUITS.map(f => (
-            <button key={f.fruit} onClick={() => setSelected(f.fruit)}
-              style={{ flex: "0 0 auto", padding: "8px 16px", borderRadius: 20, border: `1px solid ${selected === f.fruit ? f.color : BORDER}`, background: selected === f.fruit ? `${f.color}20` : "transparent", color: selected === f.fruit ? f.color : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-              {f.fruit}
+        <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
+          {[
+            { id: "fruit" as const, label: "The Fruit", icon: "🌿" },
+            { id: "theology" as const, label: "Theology", icon: "📖" },
+            { id: "practices" as const, label: "Practices", icon: "🛠️" },
+          ].map(t => (
+            <button key={t.id} onClick={() => setActiveTab(t.id)}
+              style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+              {t.icon} {t.label}
             </button>
           ))}
         </div>
 
-        <div style={{ background: CARD, border: `1px solid ${fruit.color}30`, borderRadius: 14, padding: 28 }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20 }}>
-            <div>
-              <h2 style={{ color: fruit.color, fontWeight: 900, fontSize: 28, margin: 0, marginBottom: 4 }}>{fruit.fruit}</h2>
-              <div style={{ color: MUTED, fontSize: 14, fontStyle: "italic" }}>Greek: {fruit.greek}</div>
+        {activeTab === "fruit" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 16, marginBottom: 24, display: "flex", flexWrap: "wrap", gap: 8 }}>
+              {FRUITS.map(f => (
+                <button key={f.fruit} onClick={() => setSelected(f.fruit)}
+                  style={{ flex: "0 0 auto", padding: "8px 16px", borderRadius: 20, border: `1px solid ${selected === f.fruit ? f.color : BORDER}`, background: selected === f.fruit ? `${f.color}20` : "transparent", color: selected === f.fruit ? f.color : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+                  {f.fruit}
+                </button>
+              ))}
             </div>
-            <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "3px 12px", borderRadius: 10, fontSize: 12, fontWeight: 700, flexShrink: 0 }}>{fruit.verse}</span>
+
+            <div style={{ background: CARD, border: `1px solid ${fruit.color}30`, borderRadius: 14, padding: 28 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20 }}>
+                <div>
+                  <h2 style={{ color: fruit.color, fontWeight: 900, fontSize: 28, margin: 0, marginBottom: 4 }}>{fruit.fruit}</h2>
+                  <div style={{ color: MUTED, fontSize: 14, fontStyle: "italic" }}>Greek: {fruit.greek}</div>
+                </div>
+                <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "3px 12px", borderRadius: 10, fontSize: 12, fontWeight: 700, flexShrink: 0 }}>{fruit.verse}</span>
+              </div>
+
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.8, marginBottom: 24 }}>{fruit.desc}</p>
+
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+                <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 10, padding: 18 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 12, marginBottom: 10 }}>HOW IT GROWS</div>
+                  <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.75, margin: 0 }}>{fruit.how_it_grows}</p>
+                </div>
+                <div style={{ background: `#EF444408`, border: `1px solid #EF444420`, borderRadius: 10, padding: 18 }}>
+                  <div style={{ color: "#EF4444", fontWeight: 700, fontSize: 12, marginBottom: 10 }}>WHAT THREATENS IT</div>
+                  <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.75, margin: 0 }}>{fruit.threatens}</p>
+                </div>
+              </div>
+            </div>
+
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginTop: 20 }}>
+              <div style={{ color: PURPLE, fontWeight: 700, fontSize: 14, marginBottom: 12 }}>THE SINGULAR FRUIT</div>
+              <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>
+                Paul uses the singular: fruit, not fruits. The nine qualities are not nine separate optional extras — they are one integrated character produced by one Spirit. You cannot have genuine love without patience; you cannot have peace without self-control; you cannot have goodness without faithfulness. The fruit of the Spirit is a unified character portrait of Jesus himself — and the Spirit's work is conforming us to that portrait (Romans 8:29).
+              </p>
+            </div>
           </div>
+        )}
 
-          <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.8, marginBottom: 24 }}>{fruit.desc}</p>
+        {activeTab === "theology" && (
+          <div>
+            {THEOLOGY.map((t, i) => (
+              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 16 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                  <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, margin: 0 }}>{t.title}</h3>
+                  <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700, flexShrink: 0, marginLeft: 12 }}>{t.verse}</span>
+                </div>
+                <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 15, margin: 0 }}>{t.body}</p>
+              </div>
+            ))}
+          </div>
+        )}
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
-            <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 10, padding: 18 }}>
-              <div style={{ color: GREEN, fontWeight: 700, fontSize: 12, marginBottom: 10 }}>HOW IT GROWS</div>
-              <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.75, margin: 0 }}>{fruit.how_it_grows}</p>
+        {activeTab === "practices" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                Each fruit is cultivated through specific spiritual disciplines and practices. These are not ways to produce the fruit by self-effort — they are ways to remain connected to the Vine, creating the conditions in which the Spirit can do his formative work.
+              </p>
             </div>
-            <div style={{ background: `#EF444408`, border: `1px solid #EF444420`, borderRadius: 10, padding: 18 }}>
-              <div style={{ color: "#EF4444", fontWeight: 700, fontSize: 12, marginBottom: 10 }}>WHAT THREATENS IT</div>
-              <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.75, margin: 0 }}>{fruit.threatens}</p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(270px, 1fr))", gap: 14 }}>
+              {PRACTICES.map((p, i) => (
+                <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
+                    <span style={{ fontSize: 20 }}>{p.icon}</span>
+                    <div>
+                      <div style={{ color: GREEN, fontWeight: 800, fontSize: 14 }}>{p.fruit}</div>
+                      <div style={{ color: MUTED, fontSize: 11, fontWeight: 600 }}>{p.discipline}</div>
+                    </div>
+                  </div>
+                  <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{p.desc}</p>
+                </div>
+              ))}
             </div>
           </div>
-        </div>
-
-        <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginTop: 20 }}>
-          <div style={{ color: PURPLE, fontWeight: 700, fontSize: 14, marginBottom: 12 }}>THE SINGULAR FRUIT</div>
-          <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>
-            Paul uses the singular: fruit, not fruits. The nine qualities are not nine separate optional extras — they are one integrated character produced by one Spirit. You cannot have genuine love without patience; you cannot have peace without self-control; you cannot have goodness without faithfulness. The fruit of the Spirit is a unified character portrait of Jesus himself — and the Spirit's work is conforming us to that portrait (Romans 8:29).
-          </p>
-        </div>
+        )}
       </div>
     </div>
   );

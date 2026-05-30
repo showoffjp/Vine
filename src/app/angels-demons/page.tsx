@@ -4,6 +4,8 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
+type Tab = "angels" | "theology" | "warfare" | "practices";
+
 const ANGELS = [
   { name: "Ordinary Angels", color: GREEN, role: "Messengers and servants", desc: "The word 'angel' (Hebrew: malak; Greek: angelos) simply means 'messenger.' Angels are created spiritual beings who serve God and minister to his people. They delivered divine messages (Luke 1:26-38), protected (Psalm 91:11-12), guided (Acts 8:26), and strengthened (Matthew 4:11). Scripture is restrained about their nature — they are neither human nor divine but serve as agents of God's purposes." },
   { name: "Archangels", color: PURPLE, role: "Chief angels", desc: "Only Michael is explicitly called an archangel in the NT (Jude 9). Gabriel appears in both Testaments as a special messenger (Daniel 8-9; Luke 1). Jewish tradition names seven archangels but Scripture names only Michael and Gabriel. Michael is specifically associated with Israel's protection (Daniel 12:1) and spiritual warfare (Revelation 12:7)." },
@@ -20,9 +22,44 @@ const THEOLOGY = [
   { title: "The Decisive Victory", verse: "Colossians 2:15", body: "'Having disarmed the powers and authorities, he made a public spectacle of them, triumphing over them by the cross' (Colossians 2:15). Christ's death and resurrection were the decisive defeat of the powers of darkness. Satan is not yet eliminated but is already defeated — the final destruction is certain (Revelation 20:10). The Christian fights from a position of victory, not in hope of it: 'the one who is in you is greater than the one who is in the world' (1 John 4:4)." },
 ];
 
+const WARFARE = [
+  {
+    id: "armor",
+    title: "The Armor of God",
+    verse: "Ephesians 6:10-18",
+    color: "#3B82F6",
+    body: "Paul's spiritual warfare passage is surprisingly ordinary: the armor consists of truth, righteousness, the gospel, faith, salvation, Scripture, and prayer. There is no exotic technique here — every piece is a core component of ordinary discipleship. The belt of truth: grounded in what is real, resistant to lies. The breastplate of righteousness: living rightly closes the gap through which accusation enters. The shoes of the gospel: mobile readiness to proclaim. The shield of faith: taking God at his word against every doubt. The helmet of salvation: certainty about your standing. The sword of the Spirit (Scripture): the offensive weapon. Prayer: constant, for all the saints.",
+    lessons: ["The armor is not a ritual — it is the normal Christian life lived consistently.", "Put it on daily in prayer: name each piece deliberately.", "Note that only one piece is offensive — Scripture. The rest are defensive.", "The armor protects against the devil's schemes (v.11), not his raw power."],
+  },
+  {
+    id: "daniel",
+    title: "Spiritual Battle in Daniel 10",
+    verse: "Daniel 10:12-14",
+    color: "#F59E0B",
+    body: "Daniel prayed and fasted for three weeks with no answer. Then an angel arrived with an extraordinary explanation: 'Since the first day that you set your mind to gain understanding and to humble yourself before your God, your words were heard, and I have come in response to them. But the prince of the Persian kingdom resisted me twenty-one days' (10:12-13). There is a realm of spiritual conflict operating behind earthly political realities. Michael had to assist before the angel could break through. This passage is one of the few places in Scripture that shows the unseen dimension of prayer — the answer was dispatched immediately but was delayed by spiritual opposition.",
+    lessons: ["Delay in answered prayer is not necessarily silence — the answer may already be in motion.", "Persistent prayer is cooperation with heavenly processes we cannot see.", "Spiritual forces are correlated with earthly kingdoms and powers (the 'prince of Persia').", "Daniel did not receive the vision by force of will — he persisted in humility and fasting."],
+  },
+  {
+    id: "myths",
+    title: "Myths vs. Reality",
+    verse: "1 John 4:4",
+    color: "#EF4444",
+    body: "Popular Christianity often imports ideas about spiritual warfare from sources other than Scripture: naming and claiming territory, binding and loosing demons through incantations, seeing demonic activity as the primary explanation for sin and difficulty. The NT is notably restrained about demonic causation — Jesus and Paul attribute most sin to the flesh and the world, not direct demonic activity. Galatians 5:19-21 lists the works of the flesh with no reference to demons. Spiritual warfare is real, but the NT framework is simpler than popular practice suggests: submit to God, resist the devil, and he will flee (James 4:7). The primary weapons are righteousness and truth, not technique.",
+    lessons: ["Don't see a demon behind every struggle — the flesh is also a real enemy.", "Resist the devil through submission to God, not through specialized formulas.", "The NT gives no examples of Christians conducting elaborate deliverance rituals.", "'Greater is he who is in you than he who is in the world' — live from that reality."],
+  },
+  {
+    id: "revelation",
+    title: "The War Already Won",
+    verse: "Revelation 12:10-12",
+    color: GREEN,
+    body: "'Now have come the salvation and the power and the kingdom of our God, and the authority of his Messiah. For the accuser of our brothers and sisters, who accuses them before our God day and night, has been hurled down. They triumphed over him by the blood of the Lamb and by the word of their testimony; they did not love their lives so much as to shrink from death' (Revelation 12:10-12). The weapons given in Revelation are not power or technique — they are the blood of the Lamb and the word of testimony, held with willingness to die. The war is won by sacrifice and truth, not by spiritual aggression.",
+    lessons: ["The cross is the decisive spiritual warfare event — live from its victory.", "Your testimony (truth-telling) is a weapon against the accuser.", "The willingness to lose everything for the truth is the posture that overcomes.", "Satan's final defeat is certain — Revelation 20:10 ends the story."],
+  },
+];
+
 const PRACTICES = [
   { title: "Neither Obsess Nor Ignore", desc: "Two errors: (1) obsessing over demonic activity, seeing spiritual warfare everywhere, attributing every struggle to demonic opposition. (2) ignoring the spiritual dimension entirely. Scripture assumes real spiritual opposition while maintaining Christ's decisive victory and the normal means of grace as the primary weapons.", icon: "⚖️" },
-  { title: "The Armor of God", desc: "Ephesians 6:10-18 gives the spiritual warfare toolkit: truth, righteousness, the gospel, faith, salvation, Scripture, and prayer. Significantly, these are all ordinary means of grace — not specialized spiritual warfare techniques. The armor of God is not esoteric; it is the normal Christian life lived consistently.", icon: "🛡️" },
+  { title: "The Armor of God Daily", desc: "Ephesians 6:10-18 gives the spiritual warfare toolkit: truth, righteousness, the gospel, faith, salvation, Scripture, and prayer. These are all ordinary means of grace — not specialized spiritual warfare techniques. The armor of God is not esoteric; it is the normal Christian life lived consistently.", icon: "🛡️" },
   { title: "Resist the Devil", desc: "'Resist the devil, and he will flee from you' (James 4:7) — preceded by 'submit to God.' Resistance is possible because of position (submitted to God) not technique. The primary weapon against satanic opposition is not confrontation but righteous living, faith, and closeness to God.", icon: "✝️" },
   { title: "Don't Attribute Everything to Demons", desc: "The flesh (Galatians 5:19-21) and the world (1 John 2:15-17) are also sources of temptation and sin, independent of demonic activity. The Christian life involves mortification of the flesh (Romans 8:13) and non-conformity to the world (Romans 12:2) — neither of which requires identifying a demon as the cause.", icon: "🔍" },
   { title: "Receive Angelic Ministry Humbly", desc: "'Are not all angels ministering spirits sent to serve those who will inherit salvation?' (Hebrews 1:14). Angels are real and active on behalf of believers. The appropriate response is not fascination with angels but gratitude to God who sends them. Don't worship them; don't ignore them; receive their ministry as God's provision.", icon: "🙏" },
@@ -30,10 +67,13 @@ const PRACTICES = [
 ];
 
 export default function AngelsDemonsPage() {
-  const [activeTab, setActiveTab] = useState<"angels" | "theology" | "practices">("angels");
+  const [tab, setTab] = useState<Tab>("angels");
   const [selectedAngel, setSelectedAngel] = useState("Ordinary Angels");
+  const [selectedWarfare, setSelectedWarfare] = useState("armor");
+  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
   const angel = ANGELS.find(a => a.name === selectedAngel)!;
+  const warfare = WARFARE.find(w => w.id === selectedWarfare)!;
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 40 }}>
@@ -48,18 +88,19 @@ export default function AngelsDemonsPage() {
 
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
-            { id: "angels" as const, label: "Angelic Beings", icon: "✨" },
-            { id: "theology" as const, label: "Theology", icon: "📖" },
-            { id: "practices" as const, label: "Practices", icon: "🛡️" },
+            { id: "angels" as Tab, label: "Angelic Beings", icon: "✨" },
+            { id: "theology" as Tab, label: "Theology", icon: "📖" },
+            { id: "warfare" as Tab, label: "Spiritual Warfare", icon: "⚔️" },
+            { id: "practices" as Tab, label: "Practices", icon: "🛡️" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
-              style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+            <button key={t.id} onClick={() => setTab(t.id)}
+              style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
           ))}
         </div>
 
-        {activeTab === "angels" && (
+        {tab === "angels" && (
           <div>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 20 }}>
               {ANGELS.map(a => (
@@ -79,7 +120,7 @@ export default function AngelsDemonsPage() {
           </div>
         )}
 
-        {activeTab === "theology" && (
+        {tab === "theology" && (
           <div>
             {THEOLOGY.map((t, i) => (
               <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 16 }}>
@@ -93,7 +134,38 @@ export default function AngelsDemonsPage() {
           </div>
         )}
 
-        {activeTab === "practices" && (
+        {tab === "warfare" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 185, flexShrink: 0 }}>
+              {WARFARE.map(w => (
+                <button key={w.id} onClick={() => setSelectedWarfare(w.id)}
+                  style={{ width: "100%", padding: "12px 14px", borderRadius: 10, border: `1px solid ${selectedWarfare === w.id ? w.color : BORDER}`, background: selectedWarfare === w.id ? `${w.color}12` : "transparent", color: selectedWarfare === w.id ? w.color : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", marginBottom: 6, textAlign: "left" }}>
+                  {w.title}
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ background: CARD, border: `1px solid ${warfare.color}30`, borderRadius: 14, padding: 26 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+                  <h2 style={{ color: warfare.color, fontWeight: 900, fontSize: 20, margin: 0 }}>{warfare.title}</h2>
+                  <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "3px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700, flexShrink: 0, marginLeft: 12 }}>{warfare.verse}</span>
+                </div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.85, marginBottom: 18 }}>{warfare.body}</p>
+                <div style={{ background: `${warfare.color}08`, border: `1px solid ${warfare.color}20`, borderRadius: 10, padding: 16 }}>
+                  <div style={{ color: warfare.color, fontSize: 11, fontWeight: 700, letterSpacing: 1, marginBottom: 10 }}>KEY LESSONS</div>
+                  {warfare.lessons.map((l, i) => (
+                    <div key={i} style={{ display: "flex", gap: 8, marginBottom: 8, alignItems: "flex-start" }}>
+                      <span style={{ color: warfare.color, fontWeight: 700, flexShrink: 0, marginTop: 1 }}>→</span>
+                      <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{l}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {tab === "practices" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>

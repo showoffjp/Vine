@@ -4,6 +4,8 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
+type Tab = "theology" | "reasons" | "voices" | "practices";
+
 const THEOLOGY = [
   { title: "God Hears Every Prayer", verse: "Psalm 34:15", body: "The eyes of the LORD are on the righteous and his ears are attentive to their cry (Psalm 34:15). The starting point for understanding unanswered prayer is that no prayer is unheard. The question is not whether God hears but how he responds — and the answers are more complex than yes or no. Every prayer receives a response; it is not always the response we expected or wanted." },
   { title: "Three Possible Answers", verse: "2 Corinthians 12:8-9", body: "Paul prayed three times for the thorn to be removed. The answer was not yes or even wait — it was no, with a reason: 'My grace is sufficient for you, for my power is made perfect in weakness' (2 Corinthians 12:9). The three classic answers: yes (granted), no (the answer is the refusal), and wait (the timing is not yet). All three are real answers. The no is often the most theologically significant." },
@@ -13,11 +15,54 @@ const THEOLOGY = [
 ];
 
 const REASONS = [
-  { reason: "The Request Is Against God's Will", color: "#EF4444", body: "Some prayers are not answered yes because they are requests for things that are contrary to God's revealed will or character. The prayer for an unethical success, the prayer for a relationship that violates covenant — these are not likely to be granted, because God does not work against himself. 'According to his will' is the governing condition." },
-  { reason: "The Timing Is Not Yet", color: "#F59E0B", body: "Many answered prayers required long waiting. Abraham prayed 25 years before Isaac was born. Hannah prayed for years before Samuel. The disciples prayed 10 days in the upper room before Pentecost. Wait is a real answer that honors the request. The question is whether we will continue to pray through the waiting." },
-  { reason: "The Answer Is No for Our Good", color: "#8B5CF6", body: "Sometimes God withholds what we ask for because granting it would harm us — or because the refusal itself is the gift. Paul's thorn produced dependence on grace that a painless life might not have. The answer no is not always a disappointment; sometimes, seen later, it is the mercy." },
-  { reason: "The Prayer Is Hindered by Sin", color: "#3B82F6", body: "Peter warns husbands that treating their wives poorly will hinder their prayers (1 Peter 3:7). The psalmist: 'If I had cherished sin in my heart, the Lord would not have listened' (Psalm 66:18). Unconfessed sin, unresolved conflict, and unrepentant patterns create relational static that affects prayer. This is not a mechanical obstacle but a relational one." },
-  { reason: "The Answer Requires Longer Time", color: GREEN, body: "Daniel prayed, and the angel was dispatched — but was delayed by spiritual opposition for three weeks (Daniel 10:12-13). Some answers to prayer are not instantaneous because they involve complex realities in both physical and spiritual dimensions that we cannot see. Persisting in prayer is not lack of faith; it is cooperation with divine purposes." },
+  { reason: "Against God's Will", color: "#EF4444", body: "Some prayers are not answered yes because they are requests for things that are contrary to God's revealed will or character. The prayer for an unethical success, the prayer for a relationship that violates covenant — these are not likely to be granted, because God does not work against himself. 'According to his will' is the governing condition." },
+  { reason: "Not Yet — Waiting", color: "#F59E0B", body: "Many answered prayers required long waiting. Abraham prayed 25 years before Isaac was born. Hannah prayed for years before Samuel. The disciples prayed 10 days in the upper room before Pentecost. Wait is a real answer that honors the request. The question is whether we will continue to pray through the waiting." },
+  { reason: "No for Our Good", color: "#8B5CF6", body: "Sometimes God withholds what we ask for because granting it would harm us — or because the refusal itself is the gift. Paul's thorn produced dependence on grace that a painless life might not have. The answer no is not always a disappointment; sometimes, seen later, it is the mercy." },
+  { reason: "Hindered by Sin", color: "#3B82F6", body: "Peter warns husbands that treating their wives poorly will hinder their prayers (1 Peter 3:7). The psalmist: 'If I had cherished sin in my heart, the Lord would not have listened' (Psalm 66:18). Unconfessed sin, unresolved conflict, and unrepentant patterns create relational static that affects prayer. This is not a mechanical obstacle but a relational one." },
+  { reason: "Complex Spiritual Delays", color: GREEN, body: "Daniel prayed, and the angel was dispatched — but was delayed by spiritual opposition for three weeks (Daniel 10:12-13). Some answers to prayer are not instantaneous because they involve complex realities in both physical and spiritual dimensions that we cannot see. Persisting in prayer is not lack of faith; it is cooperation with divine purposes." },
+];
+
+const VOICES = [
+  {
+    id: "yancey",
+    name: "Philip Yancey",
+    work: "Disappointment with God (1988)",
+    color: "#3B82F6",
+    quote: "I have learned to trace the thread of his purposes through what seems like a tangled skein of suffering. Whether I succeed depends on whether I trust the heart of the weaver.",
+    contribution: "Yancey's honest book emerged from pastoral encounters with people whose faith had collapsed under unanswered prayer. He identifies three questions everyone eventually asks: Is God hidden? Is God silent? Is God unfair? His answer is not philosophical but biographical — tracing the arc of Scripture from the visible God of Exodus to the 'hidden' God of today. His key insight: the absence of the miraculous does not mean the absence of God. Yancey gave a generation permission to ask honest questions and still remain Christian.",
+  },
+  {
+    id: "lewis",
+    name: "C.S. Lewis",
+    work: "A Grief Observed (1961)",
+    color: "#F59E0B",
+    quote: "When you are happy, so happy you have no sense of needing Him, if you remember yourself and turn to Him with gratitude and praise, you will be welcomed with open arms. But go to Him when your need is desperate, when all other help is vain, and what do you find? A door slammed in your face.",
+    contribution: "Lewis wrote this after the death of his wife Joy from cancer, for which he had prayed fervently. The fury and bewilderment of the early pages feel like heresy; the slow recovery of trust in the later pages shows a faith tested and refined. His conclusion: God was not absent, but Lewis's image of God was being dismantled and rebuilt. The door that felt slammed was the door of his own inadequate conceptions. A Grief Observed is the most honest account of unanswered prayer by any major theologian — precisely because it is not theological but confessional.",
+  },
+  {
+    id: "carmichael",
+    name: "Amy Carmichael",
+    work: "Roses from Brier (1933)",
+    color: "#EC4899",
+    quote: "In acceptance lieth peace. But this does not mean that we shall never ask 'Why?' of God. Of course we shall — and he will not be offended. The psalms are full of such questions.",
+    contribution: "Carmichael spent 55 years in India, most of it in chronic pain that kept her bedridden. She prayed to be healed; she was not. Out of that unanswered petition came some of the most pastoral writing on suffering in Christian history. Her approach was not resignation but transformation: the unanswered prayer became the occasion for depth of relationship with God that answered prayer might not have created. She wrote 35 books from her sickbed — the most productive years of her life were the years of her greatest limitation.",
+  },
+  {
+    id: "barth",
+    name: "Karl Barth",
+    work: "Prayer (1952)",
+    color: PURPLE,
+    quote: "To pray is to ask. We need not be ashamed to ask. Asking is the soul of prayer. God is not frightened by our asking, no matter how bold the request.",
+    contribution: "Barth brought rigorous theological analysis to the problem of unanswered prayer without softening its difficulty. His framework: prayer is participation in Christ's own intercession before the Father. When we pray, we are not presenting our requests to a distant God — we are praying with and through Christ who always prays the Father's will perfectly. The 'unanswered' prayer is therefore not rejected but redirected: our petition enters Christ's intercession and is transformed by it. The answer we receive may not be the answer we requested, but it is the answer Christ's intercession produces.",
+  },
+  {
+    id: "willard",
+    name: "Dallas Willard",
+    work: "The Divine Conspiracy (1998)",
+    color: GREEN,
+    quote: "Prayer is a matter of interactive relationship with a God who is intelligent, personal, caring, and active. If that is what God is like, then prayer — talking with him, listening to him, responding to him — is exactly what we should expect.",
+    contribution: "Willard resisted both the mechanical approach (follow the formula and receive the result) and the passive approach (just accept whatever God does). His framework: prayer is the arena of genuine cooperative relationship with a real Person. God genuinely responds to prayer — which means he genuinely withholds some requests, grants others, and moves the timing of others. The difficulty of unanswered prayer is evidence of the reality of the relationship, not its absence: real relationships involve real negotiation, real disappointment, and real surprise.",
+  },
 ];
 
 const PRACTICES = [
@@ -30,10 +75,12 @@ const PRACTICES = [
 ];
 
 export default function UnansweredPrayerPage() {
-  const [activeTab, setActiveTab] = useState<"theology" | "reasons" | "practices">("theology");
-  const [selectedReason, setSelectedReason] = useState("The Request Is Against God's Will");
+  const [tab, setTab] = useState<Tab>("theology");
+  const [selectedReason, setSelectedReason] = useState("Against God's Will");
+  const [selectedVoice, setSelectedVoice] = useState("yancey");
 
   const reason = REASONS.find(r => r.reason === selectedReason)!;
+  const voice = VOICES.find(v => v.id === selectedVoice)!;
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 40 }}>
@@ -48,18 +95,19 @@ export default function UnansweredPrayerPage() {
 
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
-            { id: "theology" as const, label: "Theology", icon: "📖" },
-            { id: "reasons" as const, label: "Why Prayers Go Unanswered", icon: "🔍" },
-            { id: "practices" as const, label: "Practices", icon: "🛠️" },
+            { id: "theology" as Tab, label: "Theology", icon: "📖" },
+            { id: "reasons" as Tab, label: "Why Unanswered", icon: "🔍" },
+            { id: "voices" as Tab, label: "Voices", icon: "💬" },
+            { id: "practices" as Tab, label: "Practices", icon: "🛠️" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
-              style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+            <button key={t.id} onClick={() => setTab(t.id)}
+              style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
           ))}
         </div>
 
-        {activeTab === "theology" && (
+        {tab === "theology" && (
           <div>
             {THEOLOGY.map((t, i) => (
               <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 16 }}>
@@ -73,7 +121,7 @@ export default function UnansweredPrayerPage() {
           </div>
         )}
 
-        {activeTab === "reasons" && (
+        {tab === "reasons" && (
           <div>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 20 }}>
               {REASONS.map(r => (
@@ -90,7 +138,32 @@ export default function UnansweredPrayerPage() {
           </div>
         )}
 
-        {activeTab === "practices" && (
+        {tab === "voices" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 190, flexShrink: 0 }}>
+              {VOICES.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ width: "100%", padding: "12px 14px", borderRadius: 10, border: `1px solid ${selectedVoice === v.id ? v.color : BORDER}`, background: selectedVoice === v.id ? `${v.color}12` : "transparent", color: selectedVoice === v.id ? v.color : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", marginBottom: 6, textAlign: "left" }}>
+                  {v.name}
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ background: CARD, border: `1px solid ${voice.color}30`, borderRadius: 14, padding: 26 }}>
+                <div style={{ marginBottom: 16 }}>
+                  <h2 style={{ color: voice.color, fontWeight: 900, fontSize: 20, margin: "0 0 4px" }}>{voice.name}</h2>
+                  <div style={{ color: MUTED, fontSize: 13 }}>{voice.work}</div>
+                </div>
+                <blockquote style={{ borderLeft: `3px solid ${voice.color}`, paddingLeft: 16, marginBottom: 20, margin: "0 0 20px 0" }}>
+                  <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.8, fontStyle: "italic", margin: 0 }}>"{voice.quote}"</p>
+                </blockquote>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.85, margin: 0 }}>{voice.contribution}</p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {tab === "practices" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>

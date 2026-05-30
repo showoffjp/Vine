@@ -4,7 +4,55 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "theology" | "organizations" | "practical";
+type Tab = "theology" | "givers" | "organizations" | "practical";
+
+const GIVERS = [
+  {
+    id: "muller",
+    name: "George Müller",
+    era: "1805-1898",
+    context: "Bristol orphanages; faith missions pioneer",
+    bio: "Müller cared for over 10,000 orphans in Bristol without ever soliciting funds from human sources. His method was prayer — specific, detailed, expectant prayer to God as the only one he would ask for provision. He kept meticulous records of every prayer and every provision. His goal was not to run an orphanage but to demonstrate to a skeptical Victorian world that the God of the Bible still answers prayer. His two volumes of 'Narratives' document thousands of specific answered prayers, many of them involving food arriving moments before meals when there was literally nothing to feed hundreds of children. He gave away all his personal estate at death.",
+    quote: "The beginning of anxiety is the end of faith, and the beginning of true faith is the end of anxiety. I have joyfully dedicated my whole life to the object of exemplifying how much may be accomplished by prayer and faith.",
+    contribution: "Müller made faith-based giving a documented, verifiable practice rather than a vague spiritual aspiration. His journals demonstrate the specificity of God's provision — not just that God provides, but how, through what means, at what exact moment. He established a model of Christian ministry that refused to use pressure, guilt, or public fundraising appeals, making need known only to God. His 'Narratives' have inspired generations of faith-mission organizations to operate without guaranteed financial backing.",
+  },
+  {
+    id: "taylor",
+    name: "Hudson Taylor",
+    era: "1832-1905",
+    context: "China Inland Mission; pioneer of faith missions",
+    bio: "Taylor founded the China Inland Mission (1865) — the first faith mission — on the principle that workers would be sent without pledged financial support, dependent entirely on God's provision through prayer. He refused to go into debt for any mission purpose, trusting that God would provide for what God had called into existence. He also adopted Chinese dress and customs at a time when European missionaries considered this beneath their dignity — giving up the financial security and social status that came with cultural distance from the poor. He gave away what he had repeatedly, including his own food and money when Chinese believers were in need.",
+    quote: "God's work done in God's way will never lack God's supply. When we give him what we have — however little — he can multiply it as he multiplied the loaves. The question is not whether we have enough, but whether we have given what we have.",
+    contribution: "Taylor made faith-financing a structure, not just an attitude — he built an entire mission organization on the principle of trusting God's provision through prayer rather than guaranteed salary. The China Inland Mission's model (no personal solicitation of funds, all workers on equal support, no debt) has been replicated by hundreds of missions organizations worldwide. His integration of cultural humility with financial generosity showed that giving up privilege and giving up money are often the same act.",
+  },
+  {
+    id: "studd",
+    name: "C.T. Studd",
+    era: "1860-1931",
+    context: "England cricket star; WEC International; 'Only one life' poem",
+    bio: "Charles Thomas Studd was one of England's greatest cricketers when he inherited £29,000 — a fortune — at age 25. He gave virtually all of it away: £5,000 to D.L. Moody, £5,000 to George Müller, £5,000 to other missions work, and the rest to various Christian causes, keeping only a small amount for his own passage to China as a missionary. He went on to serve in China, India, and Africa, founding the Heart of Africa Mission (later WEC International) in his 50s despite seriously deteriorating health. His poem 'Only one life, 'twill soon be past; only what's done for Christ will last' became one of the most quoted Christian verses of the 20th century.",
+    quote: "Only one life, 'twill soon be past; only what's done for Christ will last. And when I am dying, how happy I'll be, if the lamp of my life has been burned out for Thee.",
+    contribution: "Studd demonstrated that radical financial giving and radical missionary calling are not competing alternatives but mutually reinforcing expressions of the same conviction. His inheritance giveaway was not impulsive but deliberate — an act of theological reasoning about what money is for when you believe in eternity. His example has challenged generations of wealthy Christians to ask what extraordinary provision they might be holding for ordinary purposes.",
+  },
+  {
+    id: "carmichael",
+    name: "Amy Carmichael",
+    era: "1867-1951",
+    context: "Dohnavur Fellowship, India; author; missionary for 55 years without furlough",
+    bio: "Carmichael served in India for 55 years without a single furlough home. She founded the Dohnavur Fellowship to rescue children from temple prostitution — girls who had been given to Hindu temples as young children and faced a lifetime of religious sexual slavery. She refused to accept a salary, and the Fellowship operated on the same faith principles as Müller's orphanages: need made known only to God. She wrote 35 books and continued writing throughout a 20-year illness when she was largely confined to her room. She is buried in India — at her own request, her grave is marked not with her name but with a birdbath.",
+    quote: "You can give without loving. But you cannot love without giving. Love pours itself out. It cannot help it. When it finds a need, it empties itself. This is what God did in the Incarnation. This is what he calls his people to do in every generation.",
+    contribution: "Carmichael made the connection between giving and love concrete and practical. Her refusal of a salary, her giving of herself, and her 55 years of uninterrupted service demonstrated that financial generosity is not primarily about money but about orientation — toward self or toward others. Her rescue work for the children of Dohnavur showed that radical generosity often means intervening in systems that exploit the vulnerable, not just giving to those who ask.",
+  },
+  {
+    id: "moon",
+    name: "Lottie Moon",
+    era: "1840-1912",
+    context: "Southern Baptist missionary; China; Lottie Moon Christmas Offering",
+    bio: "Lottie Moon served as a Southern Baptist missionary in China for 39 years. During a severe famine in 1912, she distributed her food and money so extensively to starving Chinese neighbors that she herself became severely malnourished. By the time colleagues recognized her condition and arranged her passage home, she weighed only 50 pounds. She died on Christmas Eve 1912 on the ship home, before reaching America. The Lottie Moon Christmas Offering — established after her death — has raised over $4 billion for international missions, making her arguably the most financially impactful person in the history of Christian giving. She gave literally everything she had.",
+    quote: "I wonder how many of us really believe that it is more blessed to give than to receive. A woman who gives all she has, even if only a little, in the service of others, is exercising a faith that does not calculate what it may lose but only what it may give.",
+    contribution: "Lottie Moon demonstrated that generosity at the ultimate scale — giving everything, including one's life — is not heroism but obedience. Her story became the catalyst for what may be the largest annual Christian giving offering in history: billions of dollars raised by Southern Baptists for international missions in her name. She showed that the giving that costs the most — not just money but health, safety, and finally life — can have the longest reach.",
+  },
+];
 
 const THEOLOGY_POINTS = [
   { title: "Tithing: The Foundation", color: GREEN, reference: "Malachi 3:10; Leviticus 27:30; Matthew 23:23", content: "The tithe — 10% of income given to God through the local church — is the biblical baseline for Christian giving. Jesus affirmed tithing (Matthew 23:23) while calling the Pharisees to combine it with justice and mercy. The Malachi 3 passage contains one of the few places God invites His people to test Him: bring the full tithe and see if I do not open the floodgates of heaven. The tithe belongs to God; giving beyond it is an offering." },
@@ -39,6 +87,8 @@ const PRACTICAL_TIPS = [
 export default function ChristianGivingGuidePage() {
   const [tab, setTab] = useState<Tab>("theology");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
+  const [selectedGiver, setSelectedGiver] = useState("muller");
+  const giver = GIVERS.find(g => g.id === selectedGiver)!;
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 40 }}>
@@ -53,10 +103,10 @@ export default function ChristianGivingGuidePage() {
         </div>
 
         <div style={{ display: "flex", gap: 4, marginBottom: 28, background: CARD, borderRadius: 10, padding: 4, width: "fit-content" }}>
-          {(["theology", "organizations", "practical"] as Tab[]).map(t => (
+          {(["theology", "givers", "organizations", "practical"] as Tab[]).map(t => (
             <button key={t} onClick={() => setTab(t)}
               style={{ padding: "8px 18px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", textTransform: "capitalize" }}>
-              {t === "theology" ? "Theology of Giving" : t === "organizations" ? "Where to Give" : "Practical Tips"}
+              {t === "theology" ? "Theology of Giving" : t === "givers" ? "Models of Generosity" : t === "organizations" ? "Where to Give" : "Practical Tips"}
             </button>
           ))}
         </div>
@@ -80,6 +130,38 @@ export default function ChristianGivingGuidePage() {
                 )}
               </div>
             ))}
+          </div>
+        )}
+
+        {tab === "givers" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8 }}>
+              {GIVERS.map(g => (
+                <button key={g.id} onClick={() => setSelectedGiver(g.id)}
+                  style={{ background: selectedGiver === g.id ? `${PURPLE}20` : CARD, border: `1px solid ${selectedGiver === g.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", textAlign: "left", cursor: "pointer" }}>
+                  <div style={{ color: TEXT, fontWeight: 700, fontSize: 13 }}>{g.name}</div>
+                  <div style={{ color: MUTED, fontSize: 11, marginTop: 2 }}>{g.era}</div>
+                  <div style={{ color: MUTED, fontSize: 11 }}>{g.context}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28 }}>
+                <div style={{ marginBottom: 20 }}>
+                  <div style={{ color: TEXT, fontWeight: 900, fontSize: 20, marginBottom: 4 }}>{giver.name}</div>
+                  <div style={{ color: MUTED, fontSize: 13 }}>{giver.era} &middot; {giver.context}</div>
+                </div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, marginBottom: 20 }}>{giver.bio}</p>
+                <div style={{ background: BG, border: `1px solid ${PURPLE}40`, borderRadius: 10, padding: 20, marginBottom: 20 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>KEY QUOTE</div>
+                  <p style={{ color: TEXT, fontSize: 14, fontStyle: "italic", lineHeight: 1.7, margin: 0 }}>&ldquo;{giver.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: BG, borderRadius: 10, padding: 20 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>CONTRIBUTION</div>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.7, margin: 0 }}>{giver.contribution}</p>
+                </div>
+              </div>
+            </div>
           </div>
         )}
 

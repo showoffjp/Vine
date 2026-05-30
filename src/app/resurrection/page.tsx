@@ -28,12 +28,64 @@ const OBJECTIONS = [
   { q: "The resurrection is mythology borrowed from pagan religions.", a: "This argument was popular in the early 20th century and has since been largely abandoned by scholars. The specific dying-and-rising god parallels are either distorted or post-Christian. More importantly, Jewish monotheism had deep reasons to reject such pagan parallels, and the resurrection was proclaimed as a specific historical event — not a myth or annual cycle — by eyewitnesses within living memory of the events." },
 ];
 
+const SCHOLARS = [
+  {
+    id: "wright",
+    name: "N.T. Wright",
+    work: "The Resurrection of the Son of God (2003)",
+    color: GREEN,
+    affiliation: "Bishop of Durham; Professor at St. Andrews and Oxford",
+    quote: "The resurrection of Jesus does not mean simply that a new religious experience was available. It means that the new creation has been launched.",
+    contribution: "Wright's 800-page historical study is widely considered the most comprehensive modern defense of the bodily resurrection. His method is rigorous historical scholarship: he examines Jewish concepts of resurrection, Greek beliefs about death and afterlife, and the NT texts as historical documents. His key argument: the Jewish concept of resurrection was bodily and future; no first-century Jew would have used the word 'resurrection' to describe a vision of a dead person or a spiritual survival. For the early Christians to use resurrection language about Jesus, something unprecedented must have happened. He also argues that the empty tomb and appearances, taken together, explain the emergence of the early church in a way that no alternative theory can.",
+  },
+  {
+    id: "habermas",
+    name: "Gary Habermas",
+    work: "The Risen Jesus and Future Hope (2003)",
+    color: "#F59E0B",
+    affiliation: "Professor of Apologetics at Liberty University; specialized in resurrection research",
+    quote: "The resurrection is the best explanation of the historical facts. I don't say that as a conclusion of faith — I say it as a conclusion of historical method.",
+    contribution: "Habermas developed what he calls the 'minimal facts' approach to resurrection apologetics: focusing only on the historical data that are accepted by the vast majority of critical scholars — including those who are not Christians. His minimal facts include: Jesus died by crucifixion, the disciples believed they saw Jesus risen, Paul's conversion, James's conversion, and the empty tomb. He argues that the resurrection is the only hypothesis that explains all of these facts together. He has catalogued and analyzed over 3,000 scholarly publications on the resurrection, making him the most thorough academic surveyor of the literature.",
+  },
+  {
+    id: "craig",
+    name: "William Lane Craig",
+    work: "Reasonable Faith (1994); The Son Rises (1981)",
+    color: PURPLE,
+    affiliation: "Research Professor of Philosophy at Talbot School of Theology",
+    quote: "The inference to the resurrection is not a leap of faith over a chasm of ignorance. It is a conclusion supported by the available historical evidence.",
+    contribution: "Craig has debated the resurrection against leading skeptics in major academic venues for decades. His contribution is philosophical rigor: he argues that the resurrection is not just historically plausible but the best inference to the best explanation given the evidence. He distinguishes between historical probability (what method can establish) and metaphysical probability (whether miracles are possible) — and argues that ruling out the resurrection on metaphysical grounds is not a historical argument but a philosophical assumption. His debates have introduced resurrection evidence to millions of students and academics.",
+  },
+  {
+    id: "licona",
+    name: "Michael Licona",
+    work: "The Resurrection of Jesus: A New Historiographical Approach (2010)",
+    color: "#3B82F6",
+    affiliation: "Professor of New Testament at Houston Christian University",
+    quote: "The resurrection of Jesus is a strong historical conclusion. The data that support it are of the sort that historians regard as the most reliable.",
+    contribution: "Licona's contribution is methodological: he applies standard historical criteria — multiple independent attestation, embarrassment, dissimilarity, coherence — to the resurrection data. His book establishes the minimal facts approach on rigorous academic ground and then applies a five-hypothesis comparison, arguing that the resurrection hypothesis outperforms all rivals. A controversy over his treatment of Matthew 27:52-53 (the raised saints at the crucifixion) led to academic debate about how genre affects historical reading — which has enriched resurrection scholarship by forcing more careful engagement with ancient historiographical conventions.",
+  },
+  {
+    id: "lewis",
+    name: "C.S. Lewis",
+    work: "Miracles (1947); Mere Christianity (1952)",
+    color: "#EC4899",
+    affiliation: "Oxford and Cambridge scholar; former atheist who converted to Christianity in his early 30s",
+    quote: "The central miracle asserted by Christians is the Incarnation. They say that God became man. Every other miracle prepares for this, or exhibits this, or results from this.",
+    contribution: "Lewis's contribution to resurrection apologetics is philosophical and imaginative rather than strictly historical. In 'Miracles,' he addresses the prior question: can miracles happen? He argues that naturalism is self-refuting (if all thoughts are products of non-rational causes, including the thought that naturalism is true, then no thought — including that one — can be trusted). If miracles are possible, then the resurrection is to be evaluated on historical evidence, not dismissed a priori. In 'Mere Christianity,' he presents the trilemma argument (Lord, liar, or lunatic) that forces a decision about the resurrection claims implicit in Jesus's own words.",
+  },
+];
+
+type Tab = "theology" | "evidence" | "scholars" | "objections";
+
 export default function ResurrectionPage() {
-  const [activeTab, setActiveTab] = useState<"theology" | "evidence" | "objections">("theology");
+  const [tab, setTab] = useState<Tab>("theology");
   const [selectedEvidence, setSelectedEvidence] = useState("The Empty Tomb");
   const [expanded, setExpanded] = useState<string | null>(null);
+  const [selectedScholar, setSelectedScholar] = useState("wright");
 
   const ev = EVIDENCE.find(e => e.title === selectedEvidence)!;
+  const scholar = SCHOLARS.find(s => s.id === selectedScholar)!;
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 40 }}>
@@ -49,17 +101,18 @@ export default function ResurrectionPage() {
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
             { id: "theology" as const, label: "Theology", icon: "📖" },
-            { id: "evidence" as const, label: "Historical Evidence", icon: "🔍" },
+            { id: "evidence" as const, label: "Evidence", icon: "🔍" },
+            { id: "scholars" as const, label: "Scholars", icon: "🎓" },
             { id: "objections" as const, label: "Objections", icon: "❓" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
-              style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+            <button key={t.id} onClick={() => setTab(t.id)}
+              style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
           ))}
         </div>
 
-        {activeTab === "theology" && (
+        {tab === "theology" && (
           <div>
             {THEOLOGY.map((t, i) => (
               <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 16 }}>
@@ -73,7 +126,7 @@ export default function ResurrectionPage() {
           </div>
         )}
 
-        {activeTab === "evidence" && (
+        {tab === "evidence" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
@@ -95,7 +148,36 @@ export default function ResurrectionPage() {
           </div>
         )}
 
-        {activeTab === "objections" && (
+        {tab === "scholars" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 210, flexShrink: 0 }}>
+              {SCHOLARS.map(s => (
+                <button key={s.id} onClick={() => setSelectedScholar(s.id)}
+                  style={{ width: "100%", textAlign: "left", background: selectedScholar === s.id ? `${s.color}18` : CARD, border: `1px solid ${selectedScholar === s.id ? s.color : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 8, cursor: "pointer" }}>
+                  <div style={{ color: selectedScholar === s.id ? s.color : TEXT, fontWeight: 700, fontSize: 13, marginBottom: 3 }}>{s.name}</div>
+                  <div style={{ color: MUTED, fontSize: 11 }}>{s.work}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1, background: CARD, border: `1px solid ${scholar.color}40`, borderRadius: 12, padding: 24 }}>
+              <h2 style={{ color: scholar.color, fontWeight: 900, fontSize: 20, marginBottom: 4 }}>{scholar.name}</h2>
+              <div style={{ color: MUTED, fontSize: 13, marginBottom: 14 }}>{scholar.affiliation}</div>
+              <blockquote style={{ borderLeft: `3px solid ${scholar.color}`, paddingLeft: 16, marginBottom: 14 }}>
+                <p style={{ color: TEXT, fontSize: 14, fontStyle: "italic", lineHeight: 1.75, margin: 0 }}>"{scholar.quote}"</p>
+              </blockquote>
+              <div style={{ background: BG, borderRadius: 8, padding: "8px 14px", marginBottom: 10 }}>
+                <div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 4 }}>KEY WORK</div>
+                <p style={{ color: TEXT, fontSize: 13, fontWeight: 600, margin: 0 }}>{scholar.work}</p>
+              </div>
+              <div style={{ background: `${scholar.color}08`, border: `1px solid ${scholar.color}20`, borderRadius: 10, padding: 16 }}>
+                <div style={{ color: scholar.color, fontSize: 11, fontWeight: 700, letterSpacing: 1, marginBottom: 8 }}>CONTRIBUTION</div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>{scholar.contribution}</p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {tab === "objections" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 16 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
@@ -118,13 +200,6 @@ export default function ResurrectionPage() {
             ))}
           </div>
         )}
-
-        <div style={{ background: CARD, border: `1px solid ${GREEN}20`, borderRadius: 12, padding: 22, marginTop: 24 }}>
-          <div style={{ color: GREEN, fontWeight: 700, fontSize: 14, marginBottom: 10 }}>IF HE IS RISEN</div>
-          <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>
-            C.S. Lewis observed that the resurrection either happened or it did not — and if it did, everything changes. Death is defeated. The future is secured. Suffering has an endpoint. History is moving toward resurrection and new creation. Every Christian practice — prayer, worship, community, mission — is premised on the conviction that the tomb was empty on that Sunday morning. The resurrection is not background doctrine; it is the engine of everything.
-          </p>
-        </div>
       </div>
     </div>
   );

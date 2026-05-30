@@ -20,6 +20,54 @@ const JOY_THIEVES = [
   { thief: "Futurity", how: "Chronic future-orientation — always living toward the next milestone, the next phase, the next thing — prevents enjoyment of the present. This is a form of covetousness directed at time.", practice: "Practice being fully present to one activity each day: a meal, a conversation, a walk." },
 ];
 
+const STORIES = [
+  {
+    id: "prodigal",
+    name: "The Prodigal Son's Return",
+    ref: "Luke 15:11-32",
+    color: GREEN,
+    context: "Jesus's parable — often called the parable of the prodigal father.",
+    story: "The son returns expecting to be made a servant. The father runs — undignified, robe hitched up — while the son is still far off. He doesn't wait for the confession to finish. He calls for the robe, the ring, the sandals, the fatted calf. 'This son of mine was dead and is alive again; he was lost and is found' (Luke 15:24). The house fills with music and dancing. Joy overflows before any accounting is settled.",
+    insight: "The parable's joy is extravagant and not proportional. The father does not celebrate cautiously after the son proves himself reformed. He celebrates the return itself. The elder son's complaint — 'I never even got a goat to celebrate with my friends' — reveals the opposite of joy: a transactional view of relationship in which celebration must be earned. Jesus makes the story a parable of God's own character: this is what the Father is like. Joy in his house is not restrained or rationed.",
+  },
+  {
+    id: "zacchaeus",
+    name: "Zacchaeus in the Tree",
+    ref: "Luke 19:1-10",
+    color: "#F59E0B",
+    context: "Jericho. A wealthy tax collector, hated by his community, climbs a tree to see Jesus.",
+    story: "Zacchaeus had everything and nothing. As a chief tax collector, he had wealth extracted from the oppression of his own people. He had no standing in Jericho — he had to climb a tree just to see over the crowd that despised him. Jesus stopped, looked up, and said: 'Zacchaeus, come down immediately. I must stay at your house today' (Luke 19:5). Zacchaeus 'came down at once and welcomed him gladly.' By evening, he was giving half his possessions to the poor and restoring fourfold to anyone he had cheated.",
+    insight: "The joy in this story is in the initiative — not Zacchaeus climbing toward Jesus, but Jesus stopping and naming him. Zacchaeus expected nothing. The crowd expected Jesus to dine with someone worthy. Jesus's joy was in the seeking: 'The Son of Man came to seek and to save the lost' (Luke 19:10). The transformation of Zacchaeus's economics followed from the joy of being found — not the other way around. Joy that produces generosity, not generosity that produces joy.",
+  },
+  {
+    id: "magdalene",
+    name: "Mary at the Empty Tomb",
+    ref: "John 20:1-18",
+    color: PURPLE,
+    context: "Easter morning. Mary Magdalene, the first to arrive at the tomb.",
+    story: "Mary came to the tomb while it was still dark — not with hope but with grief, bringing spices to anoint a dead body. She found the stone rolled away. She ran to tell the disciples. After Peter and John left, she stood outside weeping. She looked in and saw two angels, then turned to find a man she took for the gardener. 'Mary,' he said. She turned and said: 'Rabboni!' (Teacher). She went to the disciples with a single message: 'I have seen the Lord' (John 20:18).",
+    insight: "The recognition comes with one word — her name. Everything shifts in that moment: from grief to recognition, from loss to encounter. Mary's joy is not the product of argued evidence; it is the overwhelming experience of being personally known and called by the Risen One. The story insists that the resurrection joy is not abstract theological conviction but relational encounter. The disciples who later saw were transformed from fear-hiding to death-defying. Joy grounded in encounter with the living Christ is not fragile.",
+  },
+  {
+    id: "nehemiah8",
+    name: "Nehemiah Reads the Law",
+    ref: "Nehemiah 8:9-12",
+    color: "#3B82F6",
+    context: "Jerusalem, after the wall was rebuilt. The people gathered to hear the Law read aloud — perhaps for the first time in a generation.",
+    story: "Ezra read from the Book of the Law from daybreak until noon. The people stood and listened. They wept when they heard the words — recognizing perhaps how far they had fallen. Nehemiah and the Levites told them: 'Do not mourn or weep. For this day is holy to our Lord. Do not grieve, for the joy of the Lord is your strength' (Neh. 8:9-10). They sent food and drink to those who had nothing, 'because they now understood the words that had been made known to them' (8:12). The people celebrated with great joy.",
+    insight: "The weeping and the joy are both responses to the same thing: understanding the Word of God. The weeping was appropriate — they recognized the gap between what they had been called to and what they had been. But Nehemiah redirected them: do not stay in the weeping. The day is holy; the God who gave the Law is good; the right response to comprehension of Scripture is ultimately joy. The celebration was prompted by understanding, which suggests that intellectual clarity about God's character and purposes is itself a wellspring of joy.",
+  },
+  {
+    id: "disciples",
+    name: "The Disciples See the Risen Lord",
+    ref: "John 20:19-20",
+    color: "#EC4899",
+    context: "Easter evening. The disciples were behind locked doors, afraid.",
+    story: "The disciples were together, with the doors locked for fear of the Jewish leaders. Jesus came and stood among them and said, 'Peace be with you!' After he said this, he showed them his hands and side. The disciples were overjoyed when they saw the Lord (John 20:19-20). Ten men who had scattered, denied, hidden, and despaired were transformed — in one moment — from fear to joy.",
+    insight: "The joy here is explicitly located in seeing the Lord — not in circumstances changing, not in enemies defeated, not in promises made. The wounds are shown, not hidden. The risen Christ still bears the marks of the cross. His peace is not the absence of cost but the presence of himself, wounds and all. The locked doors could not keep him out, and the grief that had seemed final was instantly overturned. This is the prototype of all Christian joy: not the resolution of difficulty, but the presence of the One who passed through death and came out the other side.",
+  },
+];
+
 const PRACTICES = [
   { title: "Sabbath Celebration", desc: "The Sabbath is designed for joy — rest, delight, worship, and celebration. Practice Sabbath not as mere rest from work but as active feasting on what God has given.", verse: "Isaiah 58:13-14" },
   { title: "Deliberate Laughter", desc: "Laughter is a gift of creation. 'A cheerful heart is good medicine' (Proverbs 17:22). Deliberately pursue things that make you laugh — with people you love. Humor is not trivial; it is a way of not taking yourself too seriously.", verse: "Proverbs 17:22" },
@@ -29,16 +77,13 @@ const PRACTICES = [
   { title: "Work with Delight", desc: "Colossians 3:23 transforms work into worship. When you do your work as for the Lord rather than for approval, it is accompanied by the joy of serving the right audience.", verse: "Colossians 3:23" },
 ];
 
-const QUOTES = [
-  { text: "Joy is the serious business of heaven.", author: "C.S. Lewis" },
-  { text: "Rejoicing is clearly a spiritual and moral duty. It is not an option left to our feelings.", author: "Martyn Lloyd-Jones" },
-  { text: "The reason so many people never get anywhere in life is because, when opportunity knocks, they are out back looking for four-leaf clovers.", author: "Walter Chrysler" },
-  { text: "Joy is not the absence of suffering; it is the presence of God.", author: "Robert Schuller" },
-  { text: "The chief end of man is to glorify God and enjoy him forever.", author: "Westminster Catechism" },
-];
+type Tab = "theology" | "thieves" | "stories" | "practices";
 
 export default function JoyPage() {
-  const [activeTab, setActiveTab] = useState<"theology" | "thieves" | "practices">("theology");
+  const [tab, setTab] = useState<Tab>("theology");
+  const [selectedStory, setSelectedStory] = useState("prodigal");
+
+  const story = STORIES.find(s => s.id === selectedStory)!;
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 40 }}>
@@ -55,16 +100,17 @@ export default function JoyPage() {
           {[
             { id: "theology" as const, label: "Theology of Joy", icon: "📖" },
             { id: "thieves" as const, label: "Joy Thieves", icon: "🚨" },
+            { id: "stories" as const, label: "Bible Stories", icon: "📜" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
-              style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+            <button key={t.id} onClick={() => setTab(t.id)}
+              style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
           ))}
         </div>
 
-        {activeTab === "theology" && (
+        {tab === "theology" && (
           <div>
             {THEOLOGY.map((t, i) => (
               <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 16 }}>
@@ -75,19 +121,10 @@ export default function JoyPage() {
                 <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 15, margin: 0 }}>{t.body}</p>
               </div>
             ))}
-            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22 }}>
-              <h3 style={{ color: PURPLE, fontWeight: 800, fontSize: 17, marginBottom: 14 }}>Voices on Joy</h3>
-              {QUOTES.map((q, i) => (
-                <div key={i} style={{ background: BG, borderRadius: 10, padding: 16, marginBottom: 10 }}>
-                  <p style={{ color: TEXT, fontSize: 14, fontStyle: "italic", lineHeight: 1.65, marginBottom: 6 }}>"{q.text}"</p>
-                  <div style={{ color: MUTED, fontSize: 12, fontWeight: 700 }}>— {q.author}</div>
-                </div>
-              ))}
-            </div>
           </div>
         )}
 
-        {activeTab === "thieves" && (
+        {tab === "thieves" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 16 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
@@ -107,7 +144,36 @@ export default function JoyPage() {
           </div>
         )}
 
-        {activeTab === "practices" && (
+        {tab === "stories" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 210, flexShrink: 0 }}>
+              {STORIES.map(s => (
+                <button key={s.id} onClick={() => setSelectedStory(s.id)}
+                  style={{ width: "100%", textAlign: "left", background: selectedStory === s.id ? `${s.color}18` : CARD, border: `1px solid ${selectedStory === s.id ? s.color : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 8, cursor: "pointer" }}>
+                  <div style={{ color: selectedStory === s.id ? s.color : TEXT, fontWeight: 700, fontSize: 13, marginBottom: 3 }}>{s.name}</div>
+                  <div style={{ color: MUTED, fontSize: 11 }}>{s.ref}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1, background: CARD, border: `1px solid ${story.color}40`, borderRadius: 12, padding: 24 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 8 }}>
+                <h2 style={{ color: story.color, fontWeight: 900, fontSize: 20, margin: 0 }}>{story.name}</h2>
+                <span style={{ background: `${PURPLE}18`, color: PURPLE, padding: "3px 10px", borderRadius: 8, fontSize: 11, fontWeight: 700, marginLeft: 12, whiteSpace: "nowrap" }}>{story.ref}</span>
+              </div>
+              <div style={{ color: MUTED, fontSize: 13, fontStyle: "italic", marginBottom: 16 }}>{story.context}</div>
+              <div style={{ marginBottom: 14 }}>
+                <div style={{ color: MUTED, fontSize: 11, fontWeight: 700, letterSpacing: 1, marginBottom: 6 }}>THE STORY</div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>{story.story}</p>
+              </div>
+              <div style={{ background: BG, borderRadius: 10, padding: 16, borderLeft: `3px solid ${story.color}` }}>
+                <div style={{ color: MUTED, fontSize: 11, fontWeight: 700, letterSpacing: 1, marginBottom: 6 }}>WHAT JOY LOOKS LIKE HERE</div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>{story.insight}</p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {tab === "practices" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>

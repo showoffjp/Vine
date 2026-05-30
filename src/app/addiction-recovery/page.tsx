@@ -30,11 +30,63 @@ const STEPS = [
   { n: 6, title: "Address the Root Wound", desc: "Addiction is rarely the primary problem — it is the solution to another problem: loneliness, trauma, shame, anxiety, grief, or the absence of meaning. Recovery that addresses only the behavior and not the wound tends to surface through another addiction. Seek to understand what the substance or behavior was doing for you." },
 ];
 
+const VOICES = [
+  {
+    id: "manning",
+    name: "Brennan Manning",
+    work: "The Ragamuffin Gospel (1990)",
+    color: GREEN,
+    context: "Catholic-turned-Franciscan priest and author who struggled with alcoholism for much of his adult life. His books on grace were written from the inside of broken experience.",
+    quote: "The greatest single cause of atheism in the world today is Christians who acknowledge Jesus with their lips, then walk out the door and deny him by their lifestyle. That is what an unbelieving world simply finds unbelievable.",
+    reflection: "Manning's alcoholism was not a well-kept secret — he wrote and spoke about it directly. His central insight, drawn from lived experience: grace is not for cleaned-up people. The Ragamuffin Gospel begins from the premise that God loves broken people not after they are fixed but in and through their brokenness. His recovery involved repeated hospitalizations and relapses. He died in 2013 having never completely conquered the addiction. His legacy is the message he kept preaching anyway: 'God loves you as you are, not as you should be, because you will never be as you should be.'",
+  },
+  {
+    id: "cash",
+    name: "Johnny Cash",
+    work: "Man in Black (autobiography, 1975)",
+    color: "#F59E0B",
+    context: "Country music icon who struggled with prescription pill addiction and alcohol from the 1950s through multiple decades. His faith was public and turbulent.",
+    quote: "You've got to go down a lot of wrong roads to find the right one.",
+    reflection: "Cash's addiction to amphetamines and barbiturates nearly ended his career and life in the 1960s. He was arrested, crashed cars, set fire to a forest, and experienced multiple hospitalizations. His recovery was gradual, nonlinear, and deeply connected to his Christian faith — though faith did not make recovery clean or quick. His marriage to June Carter, who refused to enable him and insisted on his treatment, was a central grace. Cash eventually became a Christian speaker and recorded two albums with producer Rick Rubin in the final years of his life that are widely regarded as his most theologically searching work. His testimony was consistently: God was present in the worst of it, not just the recovery.",
+  },
+  {
+    id: "augustine",
+    name: "Augustine of Hippo",
+    work: "Confessions (397 AD)",
+    color: PURPLE,
+    context: "4th-century North African theologian and bishop. Before his conversion, he described his life in terms of appetite, compulsion, and the inability to will what he knew was right.",
+    quote: "Lord, make me chaste — but not yet.",
+    reflection: "Augustine's Confessions is the original recovery memoir. His famous prayer captures the interior experience of addiction: knowing what is right, genuinely wanting to stop, but not yet fully willing to. He describes his years of sexual compulsion and philosophical restlessness as a kind of captivity — not imposed from outside but arising from a disordered will that could not free itself. His conversion is sudden, but the years of struggle before it are described with psychological precision: the multiple attempts to change, the rationalizations, the partial commitments, the relapses. His theological contribution to recovery is the concept of disordered love (amor disordered) — addiction as love for something good, pursued in the wrong way and to the wrong degree, displacing the love of God.",
+  },
+  {
+    id: "prodigal",
+    name: "The Prodigal Son",
+    work: "Luke 15:11-32",
+    color: "#3B82F6",
+    context: "Jesus's parable — the paradigmatic biblical story of compulsion, bottoming out, return, and grace.",
+    quote: "When he came to his senses, he said, 'How many of my father's hired servants have food to spare, and here I am starving to death!' (Luke 15:17)",
+    reflection: "The prodigal son's story follows the exact pattern of addiction and recovery: inheritance (access to resources), compulsive consumption ('wild living'), depletion, degradation (feeding pigs, the lowest possible occupation for a Jewish person), a moment of clarity ('came to his senses'), the decision to return, the shame-anticipating walk home, and the father's running embrace before any confession is complete. Jesus's point is not that the son repented correctly — it is that the father ran. The story identifies the hinge of recovery not as a better willpower or a cleaner spiritual life, but as a moment of clarity followed by the decision to return — and the father who treats the return as an occasion for celebration rather than probation.",
+  },
+  {
+    id: "tenboom",
+    name: "The Wesley Class Meetings",
+    work: "Methodist movement, 1740s onward",
+    color: "#EC4899",
+    context: "John Wesley's structured accountability groups were the first systematic Christian recovery communities — predating AA by 200 years.",
+    quote: "Watch over one another in love. How is it with your soul? Have you known any sin since we last met? — Wesley class meeting questions",
+    reflection: "Wesley's class meetings of 12 people, meeting weekly, practiced a form of mutual accountability that directly addressed compulsive sin — including the alcohol abuse that was rampant in 18th-century England. The weekly question 'How is it with your soul?' and its follow-up — 'Have you known temptation this week? Have you sinned?' — created the conditions for honest self-disclosure in a context of communal support. Methodist historians argue that the class meetings, not Wesley's preaching, account for the lasting transformation of England during the Methodist revival. The structure was simple: small group, fixed membership, weekly accountability, no shaming but no hiding. Bill Wilson was familiar with the Oxford Group's similar practices when he founded AA in 1935.",
+  },
+];
+
+type Tab = "theology" | "types" | "voices" | "steps";
+
 export default function AddictionRecoveryPage() {
-  const [activeTab, setActiveTab] = useState<"theology" | "types" | "steps">("theology");
-  const [selected, setSelected] = useState<string | null>("Alcohol");
+  const [tab, setTab] = useState<Tab>("theology");
+  const [selected, setSelected] = useState<string>("Alcohol");
+  const [selectedVoice, setSelectedVoice] = useState("manning");
 
   const type = TYPES.find(t => t.type === selected);
+  const voice = VOICES.find(v => v.id === selectedVoice)!;
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 40 }}>
@@ -51,16 +103,17 @@ export default function AddictionRecoveryPage() {
           {[
             { id: "theology" as const, label: "Theology", icon: "📖" },
             { id: "types" as const, label: "Types", icon: "🔍" },
+            { id: "voices" as const, label: "Voices", icon: "🗣️" },
             { id: "steps" as const, label: "Recovery Steps", icon: "🪜" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
-              style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+            <button key={t.id} onClick={() => setTab(t.id)}
+              style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
           ))}
         </div>
 
-        {activeTab === "theology" && (
+        {tab === "theology" && (
           <div>
             {THEOLOGY.map((t, i) => (
               <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 16 }}>
@@ -74,7 +127,7 @@ export default function AddictionRecoveryPage() {
           </div>
         )}
 
-        {activeTab === "types" && (
+        {tab === "types" && (
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 180, flexShrink: 0 }}>
               {TYPES.map(t => (
@@ -102,7 +155,36 @@ export default function AddictionRecoveryPage() {
           </div>
         )}
 
-        {activeTab === "steps" && (
+        {tab === "voices" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 210, flexShrink: 0 }}>
+              {VOICES.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ width: "100%", textAlign: "left", background: selectedVoice === v.id ? `${v.color}18` : CARD, border: `1px solid ${selectedVoice === v.id ? v.color : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 8, cursor: "pointer" }}>
+                  <div style={{ color: selectedVoice === v.id ? v.color : TEXT, fontWeight: 700, fontSize: 13, marginBottom: 3 }}>{v.name}</div>
+                  <div style={{ color: MUTED, fontSize: 11 }}>{v.work}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1, background: CARD, border: `1px solid ${voice.color}40`, borderRadius: 12, padding: 24 }}>
+              <h2 style={{ color: voice.color, fontWeight: 900, fontSize: 20, marginBottom: 6 }}>{voice.name}</h2>
+              <div style={{ color: MUTED, fontSize: 13, marginBottom: 14 }}>{voice.work}</div>
+              <div style={{ background: BG, borderRadius: 8, padding: "8px 14px", marginBottom: 14 }}>
+                <div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 4 }}>CONTEXT</div>
+                <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0 }}>{voice.context}</p>
+              </div>
+              <blockquote style={{ borderLeft: `3px solid ${voice.color}`, paddingLeft: 16, marginBottom: 14 }}>
+                <p style={{ color: TEXT, fontSize: 14, fontStyle: "italic", lineHeight: 1.75, margin: 0 }}>"{voice.quote}"</p>
+              </blockquote>
+              <div style={{ background: `${voice.color}08`, border: `1px solid ${voice.color}20`, borderRadius: 10, padding: 16 }}>
+                <div style={{ color: voice.color, fontSize: 11, fontWeight: 700, letterSpacing: 1, marginBottom: 8 }}>REFLECTION</div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>{voice.reflection}</p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {tab === "steps" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>

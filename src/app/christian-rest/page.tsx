@@ -7,7 +7,7 @@ const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3"
 const THEOLOGY = [
   { title: "Sabbath as Creation Pattern", verse: "Genesis 2:2-3", body: "'By the seventh day God had finished the work he had been doing; so on the seventh day he rested from all his work. Then God blessed the seventh day and made it holy, because on it he rested from all the work of creating that he had done' (Genesis 2:2-3). God's rest on the seventh day is not a divine nap — it is the completion of creation, the crowning of the week. The Sabbath is written into the structure of time before the Law. It is a creation ordinance, not merely a Mosaic regulation." },
   { title: "Sabbath as Liberation", verse: "Deuteronomy 5:15", body: "'Remember that you were slaves in Egypt and that the Lord your God brought you out of there with a mighty hand and an outstretched arm. Therefore the Lord your God has commanded you to observe the Sabbath day' (Deuteronomy 5:15). In Deuteronomy, the Sabbath is grounded in the Exodus: you are no longer slaves defined by your productivity. Slaves cannot rest; free people can. The weekly Sabbath is an enacted declaration of freedom — a refusal to be defined by economic output." },
-  { title: "Jesus as Lord of the Sabbath", verse: "Mark 2:27-28", body: "'The Sabbath was made for man, not man for the Sabbath. So the Son of Man is Lord even of the Sabbath' (Mark 2:27-28). Jesus does not abolish the Sabbath but fulfills and deepens it. He is himself the rest — 'Come to me, all you who are weary and burdened, and I will give you rest' (Matthew 11:28). The Hebrews letter builds on this: 'There remains, then, a Sabbath-rest for the people of God' (4:9) — a rest both present (entered by faith) and future (eschatological consummation).' " },
+  { title: "Jesus as Lord of the Sabbath", verse: "Mark 2:27-28", body: "'The Sabbath was made for man, not man for the Sabbath. So the Son of Man is Lord even of the Sabbath' (Mark 2:27-28). Jesus does not abolish the Sabbath but fulfills and deepens it. He is himself the rest — 'Come to me, all you who are weary and burdened, and I will give you rest' (Matthew 11:28). The Hebrews letter builds on this: 'There remains, then, a Sabbath-rest for the people of God' (4:9) — a rest both present (entered by faith) and future (eschatological consummation)." },
   { title: "The Sabbath and the New Covenant", verse: "Colossians 2:16-17", body: "'Therefore do not let anyone judge you by what you eat or drink, or with regard to a religious festival, a New Moon celebration or a Sabbath day. These are a shadow of the things that were to come; the reality, however, is found in Christ' (Colossians 2:16-17). The Mosaic Sabbath was a shadow pointing to Christ. Christians are divided on whether weekly rest is still required: some hold that Sunday worship is the new covenant Sabbath (Lord's Day theology); others hold that every day is equally holy; most agree that rhythmic rest is a creation gift that remains wise and good." },
   { title: "Rest as Resistance", verse: "Matthew 6:25", body: "'Therefore I tell you, do not worry about your life' (Matthew 6:25). In a culture of productivity, busyness, and overwork, Sabbath is a countercultural act. It refuses the identity that says worth is produced. It challenges the anxiety that says if I stop, something will unravel. It protests the idolatry of achievement that can find no peace outside work. True rest is not merely physical cessation — it is an act of trust: God holds the world while I sleep." },
 ];
@@ -29,9 +29,62 @@ const OBSTACLES = [
   { o: "The Guilt of Enjoyment", desc: "Some Christians have internalized a version of holiness that treats pleasure as suspect. Sabbath rest that includes genuine pleasure — food, creativity, recreation — feels impious.", response: "The Sabbath is called a 'delight' (Isaiah 58:13). God blessed it. Joy is the appropriate response to rest in the presence of the One who made the world good. Receive pleasure without guilt." },
 ];
 
+const VOICES = [
+  {
+    id: "brueggemann",
+    name: "Walter Brueggemann",
+    work: "Sabbath as Resistance (2014)",
+    color: GREEN,
+    bio: "Old Testament scholar and Reformed pastor. Professor emeritus at Columbia Theological Seminary.",
+    quote: "Sabbath is the dramatic, visible way in which we enact our resistance to the culture of commodity and of anxiety.",
+    insight: "Brueggemann reads the Sabbath command in its original Exodus context: Israel was enslaved by a Pharaoh whose empire ran on endless production. The Sabbath was a direct repudiation of that economy. His central thesis: Sabbath is not a day off but an act of resistance — a refusal to let the market define your identity and schedule. His categories are political as well as spiritual: to Sabbath is to declare that the world is not run by commodity exchange but by the God who rested. This reading makes Sabbath immediately relevant in a 24/7 digital economy.",
+  },
+  {
+    id: "dawn",
+    name: "Marva Dawn",
+    work: "Keeping the Sabbath Wholly (1989)",
+    color: PURPLE,
+    bio: "Christian educator and author. Wrote the most practically comprehensive modern Christian book on Sabbath.",
+    quote: "Sabbath-keeping requires choice — to cease, to rest, to embrace, to feast — and it produces character.",
+    insight: "Dawn structures Sabbath around four verbs: Ceasing (stopping work, productivity, anxiety), Resting (body, mind, and spirit), Embracing (values, people, eternity), and Feasting (music, beauty, food, community). Her approach is comprehensive: she addresses what to stop, what to do, and what posture to take. Her argument is that Sabbath shapes character over time — not just rest but virtue formation. People who Sabbath faithfully become different people than people who do not. The practice is not just recuperative but formative.",
+  },
+  {
+    id: "peterson",
+    name: "Eugene Peterson",
+    work: "Working the Angles (1987); The Pastor (2011)",
+    color: "#F59E0B",
+    bio: "Presbyterian pastor for 29 years, translator of The Message. His Sabbath practice was integral to his ministry.",
+    quote: "I am not on call. The doctrine of Sabbath is the theological basis for not being on call.",
+    insight: "Peterson describes the Sabbath practice he and his wife Jan established during his long pastoral ministry: one day per week — usually Monday — when they were explicitly not available, not working, and not performing. He connected this to pastoral integrity: a pastor who cannot rest cannot lead a congregation toward rest. He frames Sabbath not as a personal preference but as a theological declaration — I am not indispensable; God is. His memoir 'The Pastor' describes the practice as one of the disciplines that preserved his ministry across decades when burnout would have been easy.",
+  },
+  {
+    id: "willard",
+    name: "Dallas Willard",
+    work: "The Spirit of the Disciplines (1988)",
+    color: "#3B82F6",
+    bio: "Philosophy professor at USC and spiritual formation author. Framed spiritual disciplines as 'training for righteousness.'",
+    quote: "Rest is not idleness. It is the cessation of our own activity to allow God to act.",
+    insight: "Willard places rest and sleep among the spiritual disciplines, arguing that they are not interruptions to the spiritual life but practices that form it. His key move is to name rest as trust-in-action: when I sleep and rest, I am enacting belief that God governs the world and that my absence from productivity does not put anything at risk. He also addresses the spiritual disease of drivenness — the compulsion to achieve and produce driven by pride, insecurity, or ambition — as precisely the condition that Sabbath disrupts. Rest is the practice that makes human beings out of human doers.",
+  },
+  {
+    id: "swoboda",
+    name: "A.J. Swoboda",
+    work: "Subversive Sabbath (2018)",
+    color: "#EC4899",
+    bio: "Pastor and theology professor. Argues that Sabbath is the most countercultural Christian practice available today.",
+    quote: "We are the most exhausted, overworked, sleep-deprived generation in human history. Sabbath is the most subversive thing a Christian can do.",
+    insight: "Swoboda wrote Subversive Sabbath after his own experience of burnout and his recovery through a Sabbath practice. His contribution is diagnostic: he names busyness as addiction, overwork as idolatry, and sleep deprivation as a spiritual problem. His argument is that Sabbath is not one spiritual discipline among many — it is the discipline that makes all others possible. A person who is chronically exhausted cannot pray, meditate, fast, or serve with any depth. Sabbath is the necessary foundation of the entire spiritual life. He also addresses the ecological dimension: the land has a Sabbath too (Leviticus 25), and our failure to rest is connected to our failure to let creation rest.",
+  },
+];
+
+type Tab = "theology" | "obstacles" | "voices" | "practices";
+
 export default function ChristianRestPage() {
-  const [activeTab, setActiveTab] = useState<"theology" | "obstacles" | "practices">("theology");
+  const [tab, setTab] = useState<Tab>("theology");
   const [expanded, setExpanded] = useState<string | null>(null);
+  const [selectedVoice, setSelectedVoice] = useState("brueggemann");
+
+  const voice = VOICES.find(v => v.id === selectedVoice)!;
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 40 }}>
@@ -48,16 +101,17 @@ export default function ChristianRestPage() {
           {[
             { id: "theology" as const, label: "Theology", icon: "📖" },
             { id: "obstacles" as const, label: "Obstacles", icon: "⚠️" },
+            { id: "voices" as const, label: "Voices on Rest", icon: "🗣️" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
-              style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+            <button key={t.id} onClick={() => setTab(t.id)}
+              style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
           ))}
         </div>
 
-        {activeTab === "theology" && (
+        {tab === "theology" && (
           <div>
             {THEOLOGY.map((t, i) => (
               <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 16 }}>
@@ -71,7 +125,7 @@ export default function ChristianRestPage() {
           </div>
         )}
 
-        {activeTab === "obstacles" && (
+        {tab === "obstacles" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 16 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
@@ -99,7 +153,36 @@ export default function ChristianRestPage() {
           </div>
         )}
 
-        {activeTab === "practices" && (
+        {tab === "voices" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 210, flexShrink: 0 }}>
+              {VOICES.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ width: "100%", textAlign: "left", background: selectedVoice === v.id ? `${v.color}18` : CARD, border: `1px solid ${selectedVoice === v.id ? v.color : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 8, cursor: "pointer" }}>
+                  <div style={{ color: selectedVoice === v.id ? v.color : TEXT, fontWeight: 700, fontSize: 13, marginBottom: 3 }}>{v.name}</div>
+                  <div style={{ color: MUTED, fontSize: 11 }}>{v.work}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1, background: CARD, border: `1px solid ${voice.color}40`, borderRadius: 12, padding: 24 }}>
+              <h2 style={{ color: voice.color, fontWeight: 900, fontSize: 20, marginBottom: 4 }}>{voice.name}</h2>
+              <div style={{ color: MUTED, fontSize: 13, marginBottom: 14 }}>{voice.work}</div>
+              <div style={{ background: BG, borderRadius: 8, padding: "8px 14px", marginBottom: 16 }}>
+                <div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 4 }}>WHO THEY ARE</div>
+                <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0 }}>{voice.bio}</p>
+              </div>
+              <blockquote style={{ borderLeft: `3px solid ${voice.color}`, paddingLeft: 16, marginBottom: 16 }}>
+                <p style={{ color: TEXT, fontSize: 15, fontStyle: "italic", lineHeight: 1.75, margin: 0 }}>"{voice.quote}"</p>
+              </blockquote>
+              <div style={{ background: `${voice.color}08`, border: `1px solid ${voice.color}20`, borderRadius: 10, padding: 16 }}>
+                <div style={{ color: voice.color, fontSize: 11, fontWeight: 700, letterSpacing: 1, marginBottom: 8 }}>THEIR CONTRIBUTION</div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>{voice.insight}</p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {tab === "practices" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>

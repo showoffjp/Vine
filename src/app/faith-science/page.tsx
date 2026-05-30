@@ -328,7 +328,7 @@ const DIFFICULTIES = ["All", "Beginner", "Intermediate", "Advanced"];
 
 export default function FaithSciencePage() {
   // Tab state
-  const [activeTab, setActiveTab] = useState<"topics" | "thinkers" | "qa">("topics");
+  const [activeTab, setActiveTab] = useState<"topics" | "thinkers" | "qa" | "history">("topics");
 
   // Saved topics (localStorage)
   const [savedTopics, setSavedTopics] = useState<Set<string>>(() => {
@@ -506,8 +506,8 @@ export default function FaithSciencePage() {
       {/* ── Tabs ───────────────────────────────────────────────────────────── */}
       <div style={{ borderBottom: `1px solid ${BORDER}`, position: "sticky", top: 0, background: BG, zIndex: 40 }}>
         <div className="max-w-5xl mx-auto px-4 sm:px-6 flex gap-1">
-          {(["topics", "thinkers", "qa"] as const).map((tab) => {
-            const labels: Record<string, string> = { topics: "Topics", thinkers: "Thinkers", qa: "Q&A" };
+          {(["topics", "thinkers", "qa", "history"] as const).map((tab) => {
+            const labels: Record<string, string> = { topics: "Topics", thinkers: "Thinkers", qa: "Q&A", history: "History" };
             const isActive = activeTab === tab;
             return (
               <button
@@ -941,6 +941,36 @@ export default function FaithSciencePage() {
           </div>
         )}
       </div>
+
+        {activeTab === "history" && (
+          <div>
+            <p style={{ color: "#9898B3", fontSize: "0.9rem", marginBottom: "24px" }}>
+              The relationship between Christianity and science is not one of perpetual warfare — that narrative was largely invented by 19th-century polemicists. The actual history is more interesting.
+            </p>
+            {[
+              { year: "c. 1260", title: "Roger Bacon and the Birth of Experimental Method", figure: "Roger Bacon (c. 1214-1292)", body: "The Franciscan friar Roger Bacon is one of the earliest advocates of empirical observation and experiment as a path to knowledge. His Opus Majus argued for the necessity of mathematics and experimental verification in the pursuit of truth. He did not see this as a departure from theology — he saw it as a way of understanding God's creation more accurately.", tag: "Medieval" },
+              { year: "1543", title: "Copernicus Dedicates His Heliocentric Theory to the Pope", figure: "Nicolaus Copernicus (1473-1543)", body: "Copernicus, a Catholic canon, dedicated De Revolutionibus — his argument that the earth orbits the sun — to Pope Paul III. Far from being suppressed by the church, heliocentrism was initially supported by many church officials. The later conflict with Galileo (1633) was partly theological, partly political, and partly a matter of Galileo's personality — and was condemned by many of Galileo's fellow scientists as well as the church.", tag: "Renaissance" },
+              { year: "1662", title: "The Royal Society Founded on Christian Premises", figure: "Robert Boyle, John Ray, and others", body: "Many founding members of the Royal Society (the world's oldest scientific society) were devout Christians who saw the study of nature as a religious duty. Robert Boyle explicitly described science as a 'priesthood of nature.' The conviction that nature was orderly and rational — because it was created by a rational God — was one of the intellectual conditions that made modern science possible.", tag: "Scientific Revolution" },
+              { year: "1687", title: "Newton's Principia: God as the Ground of Natural Law", figure: "Isaac Newton (1643-1727)", body: "Newton's Principia Mathematica established the laws of universal gravitation and motion — and Newton himself saw this as a description of God's regular activity in creation. He wrote more about theology than about science. He believed the mathematical structure of the universe was evidence of divine intelligence, and he saw his scientific work as reading the mind of God from the book of nature.", tag: "Scientific Revolution" },
+              { year: "1822", title: "The Church Officially Accepts Heliocentrism", figure: "Pope Pius VII", body: "The Catholic Church officially permitted the publication of books teaching heliocentrism — nearly 200 years after Galileo's condemnation. The Galileo affair, long cited as proof of Christianity's hostility to science, turns out to be more complicated: the church's position in 1633 was the scientific consensus of the day (Tycho Brahe's model), and most historians now see the conflict as rooted in personality and politics as much as theology.", tag: "Modern" },
+              { year: "1865", title: "Gregor Mendel Publishes the Laws of Heredity", figure: "Gregor Mendel, O.S.A. (1822-1884)", body: "Augustinian friar Gregor Mendel published the laws of genetic inheritance that would become the foundation of modern genetics. His work was largely ignored during his lifetime and was rediscovered only in 1900 — at which point it became the mechanism that reconciled Darwin's natural selection with a mathematical account of heredity. Mendel was not doing science in spite of being a monk; the monastery gave him the resources, time, and education to do it.", tag: "Modern" },
+              { year: "1927", title: "Georges Lemaître Proposes the Big Bang", figure: "Georges Lemaître (1894-1966)", body: "Belgian Catholic priest and physicist Georges Lemaître proposed that the universe was expanding — and had therefore had a beginning. Einstein initially resisted this ('Your mathematics is correct, but your physics is abominable'). The Big Bang is now scientific consensus. Lemaître was careful to distinguish the scientific account from theological interpretation, but the correspondence is striking: both Scripture and science now agree that the universe had an absolute beginning.", tag: "20th Century" },
+              { year: "1953-2023", title: "Francis Collins: Genome, Faith, and BioLogos", figure: "Francis Collins (b. 1950)", body: "Collins directed the Human Genome Project and served as director of the NIH. His book The Language of God describes his conversion from atheism to Christianity and his conviction that modern genetics strengthens rather than undermines belief in God. He founded BioLogos in 2007 to explore the compatibility of evolutionary science and Christian faith — one of the most productive ongoing conversations in the faith-science dialogue.", tag: "Contemporary" },
+            ].map((item, i) => (
+              <div key={i} style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 14, padding: 22, marginBottom: 14 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 }}>
+                  <div>
+                    <span style={{ color: "#00FF88", fontWeight: 800, fontSize: 13, marginRight: 10 }}>{item.year}</span>
+                    <span style={{ background: "rgba(107,79,187,0.15)", color: "#A080FF", padding: "2px 8px", borderRadius: 8, fontSize: 11, fontWeight: 700 }}>{item.tag}</span>
+                  </div>
+                </div>
+                <h3 style={{ color: "#F2F2F8", fontWeight: 800, fontSize: 16, marginBottom: 6 }}>{item.title}</h3>
+                <div style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 600, marginBottom: 10 }}>{item.figure}</div>
+                <p style={{ color: "#9898B3", fontSize: 14, lineHeight: 1.75, margin: 0 }}>{item.body}</p>
+              </div>
+            ))}
+          </div>
+        )}
 
       {/* ── Thinker Modal ───────────────────────────────────────────────────── */}
       {selectedThinker && (

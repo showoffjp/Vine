@@ -61,6 +61,25 @@ const FIGURES: HistoricalFigure[] = [
 const CATEGORIES = ["All", "Council", "Reformation", "Mission", "Persecution", "Theology", "Split", "Revival", "Modern"];
 const ERAS = ["All", "Early Church", "Medieval", "Reformation", "Modern", "Contemporary"];
 
+const THINKERS_CH = [
+  { id: "origen", name: "Origen of Alexandria", era: "c. 184-253", context: "Head of the Catechetical School of Alexandria; De Principiis; Hexapla", bio: "Origen was the first systematic Christian theologian — the first to attempt a comprehensive account of Christian doctrine in philosophical terms. His De Principiis organized Christian teaching on God, creation, souls, and eschatology into a coherent whole. His allegorical method of biblical interpretation became foundational for medieval exegesis. He was also the most prolific Christian writer of antiquity, producing over 800 works (most of which are lost). His views on universal restoration and the preexistence of souls were later condemned, but his method of theological synthesis endured.", quote: "The Scripture is one perfect harmonious instrument of God, making one symphony out of different voices.", contribution: "Established the discipline of systematic Christian theology. His method of engaging Greek philosophy while maintaining Christian distinctives set the template for every subsequent Christian intellectual engagement with surrounding culture." },
+  { id: "anselm", name: "Anselm of Canterbury", era: "1033-1109", context: "Archbishop of Canterbury; Proslogion; Cur Deus Homo", bio: "Anselm is the father of scholasticism — the medieval project of bringing faith and reason into dialogue. His Proslogion contains the ontological argument for God's existence (the idea that God, as that than which nothing greater can be conceived, must exist in reality as well as in thought). His Cur Deus Homo ('Why the God-Man?') provides the first systematic account of why the Incarnation was necessary — the satisfaction theory of atonement, which would shape Western theology for centuries. He coined the phrase 'faith seeking understanding.'", quote: "I do not seek to understand so that I may believe; but I believe so that I may understand.", contribution: "Established the medieval theological method of beginning with faith and then seeking rational understanding. His satisfaction theory of atonement became the dominant Western account of why Christ had to die." },
+  { id: "aquinas-ch", name: "Thomas Aquinas", era: "1225-1274", context: "Dominican friar; Summa Theologica; Doctor Angelicus", bio: "Aquinas synthesized Aristotelian philosophy with Christian theology in a comprehensive system that the Catholic Church still regards as its official philosophical framework. His Five Ways (five arguments for the existence of God) are still debated by philosophers. His Summa Theologica is the most ambitious theological project in church history — attempting to answer every conceivable question about God, creation, humanity, morality, and salvation. Aquinas held that reason and faith cannot ultimately contradict each other, since both have the same source in God.", quote: "The things that we love tell us what we are.", contribution: "Provided Western Christianity with a permanent philosophical foundation. Thomism gave the Catholic Church intellectual credibility in every subsequent century and produced the most comprehensive account of natural law ethics in Christian history." },
+  { id: "edwards", name: "Jonathan Edwards", era: "1703-1758", context: "Northampton pastor; Sinners in the Hands of an Angry God; Religious Affections", bio: "Edwards was simultaneously America's greatest theologian and one of its greatest revival preachers — a combination that should be impossible but wasn't. His Religious Affections is the most careful analysis of the psychology of genuine conversion ever written, distinguishing authentic spiritual experience from mere emotionalism. His Freedom of the Will is still regarded as the definitive philosophical defense of Calvinist compatibilism. He died as president of Princeton after receiving a smallpox inoculation — one of the most preventable deaths in American theological history.", quote: "God is glorified not only by His glory's being seen, but by its being rejoiced in.", contribution: "Demonstrated that the highest intellectual rigor and genuine spiritual revival are not opposites. His work on the affections shaped evangelical spirituality, and his philosophical theology remains the gold standard of Reformed thought." },
+  { id: "barth-ch", name: "Karl Barth", era: "1886-1968", context: "Reformed theologian; Church Dogmatics (13 volumes); 'Neo-Orthodoxy'", bio: "Barth is the most important Protestant theologian of the 20th century, full stop. His Romans commentary (1919) landed like a bomb in the playground of the theologians — a radical rejection of 19th-century liberal theology's accommodation to culture. His Church Dogmatics (13 volumes, 6 million words — unfinished) is the most ambitious theological project since the Reformation. His Barmen Declaration (1934), written as Hitler rose to power, insisted that the church's only Lord is Jesus Christ — not the state. He was expelled from Germany for refusing to give the Hitler oath.", quote: "The Bible is not a human word about God, but God's word about humanity.", contribution: "Rescued 20th-century Protestant theology from its captivity to liberal culture. His Christocentric method — doing all theology from the center of Jesus Christ — set the agenda for every subsequent Protestant theology." },
+];
+
+const HISTORY_RESOURCES = [
+  { title: "The Story of Christianity", author: "Justo González", type: "Book", desc: "The definitive two-volume survey of church history from the Early Church to the present. Accessible, comprehensive, and written from a global perspective. Required reading in most seminary church history courses.", icon: "📖" },
+  { title: "Church History in Plain Language", author: "Bruce Shelley", type: "Book", desc: "The most accessible single-volume survey of church history. Clear, engaging, and chronologically organized. Best starting point for someone new to the subject.", icon: "📖" },
+  { title: "The Early Church", author: "Henry Chadwick", type: "Book", desc: "The standard scholarly account of Christianity's first 600 years — from Pentecost through Augustine. Pelican History of the Church, Vol. 1.", icon: "📖" },
+  { title: "The Reformation", author: "Diarmaid MacCulloch", type: "Book", desc: "The most comprehensive modern history of the Reformation, covering not just Luther and Calvin but the full sweep of Catholic and radical reform movements.", icon: "📖" },
+  { title: "How Christianity Changed the World", author: "Alvin Schmidt", type: "Book", desc: "Documents the historical impact of Christianity on hospitals, universities, science, women's rights, abolition, and democratic governance.", icon: "📖" },
+  { title: "Christianity: A History (BBC)", author: "BBC Documentary Series", type: "Documentary", desc: "An eight-part BBC documentary tracing 2,000 years of Christian history. Beautifully produced, academically serious, and globally minded.", icon: "🎬" },
+  { title: "The History of Christianity (TTC)", author: "Luke Timothy Johnson", type: "Course", desc: "A 48-lecture course from The Great Courses covering the full history of Christianity. Academic but accessible.", icon: "🎓" },
+  { title: "Reformation 500 Podcast", author: "Westminster Seminary", type: "Podcast", desc: "A series of lectures on the Reformation and its aftermath. Scholarly and free.", icon: "🎙️" },
+];
+
 const ERA_COLORS: Record<string, string> = {
   "Early Church": "#00FF88",
   "Medieval": "#6B4FBB",
@@ -87,7 +106,9 @@ export default function ChurchHistoryPage() {
   const [readIds, setReadIds] = useState<Set<string>>(() => {
     try { const s = localStorage.getItem("vine_church_history_read"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
   });
-  const [tab, setTab] = useState<"timeline" | "figures">("timeline");
+  const [tab, setTab] = useState<"timeline" | "figures" | "thinkers" | "resources">("timeline");
+  const [selectedThinker, setSelectedThinker] = useState("origen");
+  const thinkerItem = THINKERS_CH.find(t => t.id === selectedThinker)!;
   const [catFilter, setCatFilter] = useState("All");
   const [eraFilter, setEraFilter] = useState("All");
   const [search, setSearch] = useState("");
@@ -139,7 +160,7 @@ export default function ChurchHistoryPage() {
 
         {/* Tabs */}
         <div style={{ display: "flex", gap: 4, marginBottom: 24, borderBottom: "1px solid #1E1E32" }}>
-          {([["timeline", "Timeline"], ["figures", "Key Figures"]] as const).map(([t, label]) => (
+          {([["timeline", "Timeline"], ["figures", "Key Figures"], ["thinkers", "Thinkers"], ["resources", "Resources"]] as const).map(([t, label]) => (
             <button key={t} onClick={() => setTab(t)}
               style={{ padding: "10px 20px", fontSize: 14, fontWeight: 600, background: "none", border: "none", cursor: "pointer", color: tab === t ? "#00FF88" : "#6A6A88", borderBottom: `2px solid ${tab === t ? "#00FF88" : "transparent"}`, marginBottom: -1 }}>
               {label}
@@ -218,6 +239,60 @@ export default function ChurchHistoryPage() {
               </div>
             </div>
           </>
+        )}
+
+        {tab === "thinkers" && (
+          <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
+            <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
+              {THINKERS_CH.map(t => (
+                <button key={t.id} onClick={() => setSelectedThinker(t.id)}
+                  style={{ background: selectedThinker === t.id ? "#6B4FBB" : "#12121F", border: `1px solid ${selectedThinker === t.id ? "#6B4FBB" : "#1E1E32"}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: "#F2F2F8", fontWeight: 700, fontSize: 14 }}>{t.name}</div>
+                  <div style={{ color: "#9898B3", fontSize: 12, marginTop: 2 }}>{t.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 28 }}>
+                <h2 style={{ color: "#00FF88", fontWeight: 900, fontSize: 22, margin: "0 0 4px" }}>{thinkerItem.name}</h2>
+                <div style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 700, marginBottom: 6 }}>{thinkerItem.era}</div>
+                <div style={{ color: "#9898B3", fontSize: 13, marginBottom: 16 }}>{thinkerItem.context}</div>
+                <p style={{ color: "#F2F2F8", lineHeight: 1.8, fontSize: 15, marginBottom: 20 }}>{thinkerItem.bio}</p>
+                <div style={{ background: "#07070F", borderLeft: "3px solid #00FF88", borderRadius: "0 8px 8px 0", padding: "14px 18px", marginBottom: 20 }}>
+                  <p style={{ color: "#00FF88", fontStyle: "italic", fontSize: 15, lineHeight: 1.7, margin: 0 }}>&ldquo;{thinkerItem.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: "rgba(107,79,187,0.1)", borderRadius: 10, padding: 16 }}>
+                  <div style={{ color: "#6B4FBB", fontWeight: 700, fontSize: 13, marginBottom: 6 }}>Contribution to Christian Thought</div>
+                  <p style={{ color: "#F2F2F8", fontSize: 14, lineHeight: 1.7, margin: 0 }}>{thinkerItem.contribution}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {tab === "resources" && (
+          <div>
+            <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 20, marginBottom: 20 }}>
+              <p style={{ color: "#9898B3", fontSize: 14, lineHeight: 1.7, margin: 0 }}>
+                The best resources for going deeper into church history — from accessible introductions to scholarly treatments, books, documentaries, and courses.
+              </p>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 16 }}>
+              {HISTORY_RESOURCES.map(r => (
+                <div key={r.title} style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 14, padding: 20 }}>
+                  <div style={{ display: "flex", gap: 12, marginBottom: 12 }}>
+                    <div style={{ fontSize: 28 }}>{r.icon}</div>
+                    <div>
+                      <div style={{ fontSize: 11, color: "#9898B3", marginBottom: 2 }}>{r.type}</div>
+                      <h3 style={{ fontSize: 14, fontWeight: 700, color: "#F2F2F8", margin: 0, lineHeight: 1.3 }}>{r.title}</h3>
+                      <div style={{ fontSize: 12, color: "#9898B3" }}>{r.author}</div>
+                    </div>
+                  </div>
+                  <p style={{ fontSize: 13, color: "#9898B3", lineHeight: 1.6, margin: 0 }}>{r.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
         )}
 
         {tab === "figures" && (

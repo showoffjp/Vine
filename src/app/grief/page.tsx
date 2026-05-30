@@ -152,12 +152,22 @@ const griefResources = [
   },
 ];
 
+const VOICES_GRIEF = [
+  { id: "lewis", name: "C.S. Lewis", era: "1898-1963", context: "A Grief Observed (1961); written after the death of his wife Joy Davidman", bio: "Lewis married Joy Davidman in 1956 — he was 57, a lifelong bachelor, and had been friends with her for years before falling in love. She died of cancer four years later. A Grief Observed is the journal he kept afterward, honest to the point of disturbing his own faith: 'No one ever told me that grief felt so much like fear.' He described God as a door slammed in his face, and he was not ashamed to write it. The book goes on to move through that darkness to a harder, realer faith on the other side.", quote: "No one ever told me that grief felt so much like fear. I am not afraid, but the sensation is like being afraid. The same fluttering in the stomach, the same restlessness, the yawning.", contribution: "A Grief Observed is the most honest book a famous Christian ever wrote about losing faith in the middle of grief — and the most honest about finding his way back. It gave permission to Christians to be honest about what grief actually feels like rather than performing faith they didn't have." },
+  { id: "wolterstorff", name: "Nicholas Wolterstorff", era: "b. 1932", context: "Lament for a Son (1987); written after his 25-year-old son Eric died in a mountain climbing accident", bio: "Wolterstorff is one of the most distinguished Christian philosophers of the 20th century — a man who had spent decades thinking carefully about God, theodicy, and suffering. Lament for a Son was written not as a philosophical treatise but as a raw journal of a father's grief. It contains some of the most precise and devastating sentences about loss ever written by a Christian thinker, including his conviction that God himself grieves — and that in the face of suffering, God's own tears fall alongside ours.", quote: "How is faith to endure, O God, when you allow all this scraping and tearing on us? You could have prevented it... I cannot fit it all together. I can only, with Job, endure.", contribution: "Demonstrated that rigorous philosophical theology and raw emotional grief are not opposites. Lament for a Son gave intellectual believers permission to feel what they feel without resolving it prematurely into systematic explanations." },
+  { id: "keller", name: "Tim Keller", era: "1950-2023", context: "Walking with God through Pain and Suffering (2013); his own pancreatic cancer diagnosis in 2020", bio: "Keller's Walking with God through Pain and Suffering is the most comprehensive evangelical theology of suffering in a generation. He traces how different worldviews handle suffering, why Christianity's answer is uniquely able to give both comfort and meaning, and how grief and praise can coexist. After his own cancer diagnosis in 2020, he wrote and spoke publicly about what it was like to live the theology he had written — particularly the discovery that intellectual understanding of suffering and emotional experience of it are two very different things.", quote: "Christianity does not offer an explanation of suffering. It offers something better: a God who enters into suffering with us.", contribution: "Synthesized the intellectual and pastoral dimensions of a theology of suffering in a way accessible to a broad evangelical audience. His willingness to be publicly honest about his own dying made the theology incarnate." },
+  { id: "nouwen", name: "Henri Nouwen", era: "1932-1996", context: "A Letter of Consolation (1982); Turn My Mourning into Dancing (2001)", bio: "Nouwen wrote A Letter of Consolation after the death of his mother — a letter to his father about grief, love, and the hope of reunion. His approach to grief is shaped by his conviction that all human love is a pale reflection of God's love, and that death is not an ending but a transition into the fullness of what love always pointed toward. He brought a pastoral sensitivity to grief that was both deeply theological and deeply human — shaped by his years as a priest, professor, and community member at L'Arche.", quote: "The pain of loss can become the source of new life — not because loss doesn't hurt, but because the God who created love does not abandon those who have loved.", contribution: "Showed that grief is not a problem to be solved but a form of love that deserves to be honored. His pastoral writings on loss became essential resources for Christians in grief ministry." },
+  { id: "willard", name: "Dallas Willard", era: "1935-2013", context: "Renovation of the Heart (2002); The Divine Conspiracy (1998); longtime friend and collaborator of John Ortberg", bio: "Willard rarely wrote directly about grief, but his entire body of work on spiritual formation has profound implications for how Christians grieve. His conviction that the spiritual disciplines are not for earning merit but for training the whole person — body, mind, soul, will — means that grief is not a spiritual interruption but a spiritual formation event. His death in 2013 from kidney cancer prompted moving accounts from those who observed his remarkable peace as he approached death — peace he had spent his life building through practice.", quote: "Grace is not opposed to effort, it is opposed to earning. Effort is action. Earning is attitude. And grief — if brought into the presence of God — becomes one of the most formative efforts of the Christian life.", contribution: "Provided a framework for understanding grief as spiritual formation — not something to get through, but something to inhabit carefully as God does his work in the soul." },
+];
+
 const moodOptions = ["🌧️ Dark", "😶 Numb", "😢 Sad", "😤 Angry", "🌤️ Cautiously okay", "☀️ Peaceful"];
 
 export default function GriefPage() {
   const [likedStories, setLikedStories] = useState<Set<string>>(new Set());
   const [journalEntries, setJournalEntries] = useState<JournalEntry[]>([]);
-  const [activeTab, setActiveTab] = useState<"stories" | "journal" | "resources">("stories");
+  const [activeTab, setActiveTab] = useState<"stories" | "voices" | "journal" | "resources">("stories");
+  const [selectedVoice, setSelectedVoice] = useState("lewis");
+  const voiceItem = VOICES_GRIEF.find(v => v.id === selectedVoice)!;
   const [selectedStory, setSelectedStory] = useState<GriefStory | null>(null);
   const [todayPrompt] = useState(() => journalPrompts[Math.floor(Math.random() * journalPrompts.length)]);
   const [journalText, setJournalText] = useState("");
@@ -241,7 +251,7 @@ export default function GriefPage() {
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "28px 24px" }}>
         {/* Tabs */}
         <div style={{ display: "flex", background: "#12121F", border: "1px solid #1E1E32", borderRadius: 10, padding: 4, gap: 4, marginBottom: 28 }}>
-          {(["stories", "journal", "resources"] as const).map((tab) => (
+          {(["stories", "voices", "journal", "resources"] as const).map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
@@ -252,7 +262,7 @@ export default function GriefPage() {
                 cursor: "pointer", fontWeight: 600, fontSize: 14,
               }}
             >
-              {tab === "stories" ? "Stories" : tab === "journal" ? `Journal${journalEntries.length ? ` (${journalEntries.length})` : ""}` : "Resources"}
+              {tab === "stories" ? "Stories" : tab === "voices" ? "Voices" : tab === "journal" ? `Journal${journalEntries.length ? ` (${journalEntries.length})` : ""}` : "Resources"}
             </button>
           ))}
         </div>
@@ -322,6 +332,36 @@ export default function GriefPage() {
               })}
             </div>
           </>
+        )}
+
+        {/* VOICES TAB */}
+        {activeTab === "voices" && (
+          <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
+            <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
+              {VOICES_GRIEF.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ background: selectedVoice === v.id ? "#6B4FBB" : "#12121F", border: `1px solid ${selectedVoice === v.id ? "#6B4FBB" : "#1E1E32"}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: "#F2F2F8", fontWeight: 700, fontSize: 14 }}>{v.name}</div>
+                  <div style={{ color: "#9898B3", fontSize: 12, marginTop: 2 }}>{v.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 28 }}>
+                <h2 style={{ color: "#00FF88", fontWeight: 900, fontSize: 22, margin: "0 0 4px" }}>{voiceItem.name}</h2>
+                <div style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 700, marginBottom: 6 }}>{voiceItem.era}</div>
+                <div style={{ color: "#9898B3", fontSize: 13, marginBottom: 16 }}>{voiceItem.context}</div>
+                <p style={{ color: "#F2F2F8", lineHeight: 1.8, fontSize: 15, marginBottom: 20 }}>{voiceItem.bio}</p>
+                <div style={{ background: "#07070F", borderLeft: "3px solid #00FF88", borderRadius: "0 8px 8px 0", padding: "14px 18px", marginBottom: 20 }}>
+                  <p style={{ color: "#00FF88", fontStyle: "italic", fontSize: 15, lineHeight: 1.7, margin: 0 }}>&ldquo;{voiceItem.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: "rgba(107,79,187,0.1)", borderRadius: 10, padding: 16 }}>
+                  <div style={{ color: "#6B4FBB", fontWeight: 700, fontSize: 13, marginBottom: 6 }}>Contribution to Grief Theology</div>
+                  <p style={{ color: "#F2F2F8", fontSize: 14, lineHeight: 1.7, margin: 0 }}>{voiceItem.contribution}</p>
+                </div>
+              </div>
+            </div>
+          </div>
         )}
 
         {/* JOURNAL TAB */}

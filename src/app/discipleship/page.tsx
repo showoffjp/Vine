@@ -92,8 +92,18 @@ const DISCIPLESHIP_QUESTIONS = [
   "What fears or doubts are present in your walk right now?",
 ];
 
+const VOICES_DISC = [
+  { id: "bonhoeffer", name: "Dietrich Bonhoeffer", era: "1906-1945", context: "The Cost of Discipleship (1937); Life Together (1939); Confessing Church", bio: "Bonhoeffer's The Cost of Discipleship opens with one of the most famous sentences in modern theology: 'Cheap grace is the mortal enemy of our church.' He wrote it in Nazi Germany, where the German church had accommodated itself so thoroughly to culture that it could no longer tell the difference between Jesus and Hitler. His call to costly discipleship — obedience that follows Christ regardless of social cost — was not theoretical: he was hanged in April 1945 for participation in the plot to assassinate Hitler. Life Together remains the most practical and beautiful account of intentional Christian community ever written.", quote: "Cheap grace is the mortal enemy of our church. We are fighting today for costly grace. Cheap grace means grace without discipleship.", contribution: "Made the concept of costly discipleship inescapable for modern Christianity. His martyrdom gave the theology moral weight that no amount of writing alone could have provided." },
+  { id: "willard", name: "Dallas Willard", era: "1935-2013", context: "The Divine Conspiracy (1998); Renovation of the Heart (2002); The Spirit of the Disciplines (1988)", bio: "Willard's central conviction was that Jesus was not only savior but teacher — and that his teaching, including his training program for his disciples, was the most practically wise and comprehensive account of human flourishing ever offered. The Divine Conspiracy is a massive re-reading of the Sermon on the Mount that recovers its original force as a description of life in God's kingdom now, not a set of impossible ethical demands. Renovation of the Heart describes how spiritual formation works through the mind, will, body, soul, and social dimensions of the person — the most complete account of Christian formation in recent theology.", quote: "Grace is not opposed to effort, it is opposed to earning. Effort is action. Earning is attitude.", contribution: "Recovered the category of spiritual formation for evangelical Christianity, which had reduced discipleship to conversion and Bible knowledge. His insistence that Jesus is the smartest man who ever lived reframed discipleship as intellectual and practical wisdom, not just spiritual performance." },
+  { id: "peterson", name: "Eugene Peterson", era: "1932-2018", context: "A Long Obedience in the Same Direction (1980); pastor of Christ Our King Church for 29 years", bio: "Peterson's title A Long Obedience in the Same Direction — taken from Nietzsche — captures his entire vision of discipleship: it is not a dramatic crisis experience but a lifetime of steady following in the same direction, through all the ordinary Sundays and Tuesdays of life. His 29 years as pastor of a single church in Maryland were themselves a statement: discipleship happens in one place, over time, with the same people. His Message translation of the Bible was an attempt to make Scripture read the way it would have originally sounded — alive, vernacular, immediate.", quote: "The biblical fact is that there are no successful churches. There are, instead, communities of sinners, gathered before God week after week.", contribution: "Restored the ordinary, slow, unglamorous nature of discipleship to a church culture obsessed with programs, methods, and measurable results. His pastoral theology is a sustained argument for the patient formation of character over time." },
+  { id: "foster", name: "Richard Foster", era: "b. 1942", context: "Celebration of Discipline (1978); Renovare movement", bio: "Foster's Celebration of Discipline arrived in evangelical Christianity like a revelation: here was a systematic account of classical Christian spiritual practices — meditation, prayer, fasting, study, simplicity, solitude, submission, service, confession, worship, guidance, celebration — that ordinary Protestants had largely forgotten. Foster argued that the disciplines are not the means of earning God's favor but the means of training the soul to respond to God's grace. The book has sold over a million copies and is widely credited with recovering the spiritual disciplines for Protestant Christianity.", quote: "The desperate need today is not for a greater number of intelligent people, or gifted people, but for deep people.", contribution: "Single-handedly recovered the classical Christian spiritual disciplines for evangelical Protestantism. Celebration of Discipline gave a generation of Christians a vocabulary and a practice for intentional formation that Protestant churches had largely abandoned since the Reformation." },
+  { id: "comer", name: "John Mark Comer", era: "b. 1980", context: "The Ruthless Elimination of Hurry (2019); Practicing the Way (2024); Bridgetown Church", bio: "Comer is the most influential voice on discipleship for younger evangelicals in the 2020s. His central diagnosis: the greatest threat to spiritual formation in the modern world is not atheism or secularism but hurry — the frantic pace of digital life that makes sustained attention, prayer, and formation nearly impossible. His book on hurry draws on Dallas Willard's conviction that we must ruthlessly eliminate hurry from our lives. His later book Practicing the Way offers the most thorough contemporary account of the Jesus way of life — intentional apprenticeship to Christ through community and practice.", quote: "Hurry is the great enemy of spiritual life in our day. You must ruthlessly eliminate hurry from your life.", contribution: "Translated the classical discipleship tradition into language and practices accessible to Millennials and Gen Z. His diagnosis of hurry as the primary spiritual problem of digital life has resonated across evangelical denominations." },
+];
+
 export default function DiscipleshipPage() {
-  const [activeTab, setActiveTab] = useState<"pathways" | "questions" | "myplan">("pathways");
+  const [activeTab, setActiveTab] = useState<"pathways" | "voices" | "questions" | "myplan">("pathways");
+  const [selectedVoice, setSelectedVoice] = useState("bonhoeffer");
+  const voiceItem = VOICES_DISC.find(v => v.id === selectedVoice)!;
   const [selectedPath, setSelectedPath] = useState("foundation");
   const [completedTopics, setCompletedTopics] = useState<Set<string>>(() => {
     try { const s = localStorage.getItem("vine_disc_completed"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
@@ -125,7 +135,8 @@ export default function DiscipleshipPage() {
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
             { id: "pathways" as const, label: "Pathways", icon: "🗺️" },
-            { id: "questions" as const, label: "1-on-1 Questions", icon: "💬" },
+            { id: "voices" as const, label: "Voices", icon: "💬" },
+            { id: "questions" as const, label: "1-on-1 Questions", icon: "🗣️" },
             { id: "myplan" as const, label: "My Plan", icon: "📝" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
@@ -179,6 +190,35 @@ export default function DiscipleshipPage() {
                 <ul style={{ margin: 0, paddingLeft: 20 }}>
                   {path.resources.map((r, i) => <li key={i} style={{ color: TEXT, fontSize: 13, marginBottom: 6 }}>{r}</li>)}
                 </ul>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "voices" && (
+          <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
+            <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
+              {VOICES_DISC.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ background: selectedVoice === v.id ? PURPLE : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: TEXT, fontWeight: 700, fontSize: 14 }}>{v.name}</div>
+                  <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{v.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 28 }}>
+                <h2 style={{ color: GREEN, fontWeight: 900, fontSize: 22, margin: "0 0 4px" }}>{voiceItem.name}</h2>
+                <div style={{ color: PURPLE, fontSize: 13, fontWeight: 700, marginBottom: 6 }}>{voiceItem.era}</div>
+                <div style={{ color: MUTED, fontSize: 13, marginBottom: 16 }}>{voiceItem.context}</div>
+                <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 15, marginBottom: 20 }}>{voiceItem.bio}</p>
+                <div style={{ background: BG, borderLeft: `3px solid ${GREEN}`, borderRadius: "0 8px 8px 0", padding: "14px 18px", marginBottom: 20 }}>
+                  <p style={{ color: GREEN, fontStyle: "italic", fontSize: 15, lineHeight: 1.7, margin: 0 }}>&ldquo;{voiceItem.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: `${PURPLE}15`, borderRadius: 10, padding: 16 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>Contribution to Discipleship Theology</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, margin: 0 }}>{voiceItem.contribution}</p>
+                </div>
               </div>
             </div>
           </div>

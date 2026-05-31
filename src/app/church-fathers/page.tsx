@@ -4,7 +4,7 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "fathers" | "theology" | "legacy";
+type Tab = "fathers" | "theology" | "legacy" | "writings";
 
 const THEOLOGY_DEVELOPMENTS = [
   { title: "The Canon of Scripture", era: "2nd-4th centuries", body: "The church did not invent the canon in 381 — it recognized it. The 27 books of the NT were already functioning as authoritative in most churches before formal councils. Athanasius's Easter letter (367 AD) is the first to list all 27 books exactly as we have them. The criteria: apostolic origin, universal use, and doctrinal consistency with the rule of faith. The canon reflects what the church was already reading, not what bishops invented." },
@@ -21,6 +21,49 @@ const LEGACY_ITEMS = [
   { title: "Monasticism and Spiritual Disciplines", icon: "🏔️", color: "#F59E0B", body: "The desert fathers (Anthony, Pachomius, the Cappadocians) developed the spiritual disciplines that have shaped Christian formation for 1700 years: fasting, silence, lectio divina, regular prayer, confession, and community. Benedict's Rule (6th century) structured this inheritance into a sustainable form. The modern spiritual formation movement — Dallas Willard, Richard Foster, Henri Nouwen — is largely a rediscovery of Patristic practice." },
   { title: "Apologetics and Public Theology", icon: "🎓", color: "#EF4444", body: "Justin Martyr, Tertullian, Clement, and Origen developed the model of Christian intellectual engagement with secular philosophy and public life. Their approach — taking the best of the surrounding culture seriously, exposing its incoherence, and showing how Christianity answers what the culture asks — remains the template for Christian apologetics. Kuyper, Lewis, Schaeffer, and Keller are all, in different ways, practicing Justin's method." },
   { title: "The Church as Community", icon: "⛪", color: "#0EA5E9", body: "Ignatius of Antioch, Cyprian of Carthage, and Augustine developed a robust theology of the church as a visible, episcopal, sacramental community — not merely an invisible fellowship of those who believe correctly. This ecclesiology — its structures, its discipline, its sacramental life — is the ancestor of both Catholic-Orthodox ecclesiology and (via the Reformation's response) Protestant ecclesiology. The argument about the nature of the church never ended; it was forged in the Patristic era." },
+];
+
+const WRITINGS_DATA = [
+  {
+    id: "didache",
+    author: "Unknown",
+    era: "c. 50–120 AD",
+    work: "The Didache (The Teaching of the Twelve Apostles)",
+    excerpt: "There are two ways, one of life and one of death; and between the two ways there is a great difference. Now the way of life is this: first, thou shalt love the God who made thee; secondly, thy neighbor as thyself.",
+    significance: "The Didache is the earliest surviving manual of Christian practice outside the New Testament. It describes baptism (in running water, or by pouring), the Eucharist, fasting (Wednesdays and Fridays), the Lord's Prayer (said three times daily), and the structure of Christian community. Its portrait of early church life is invaluable and surprisingly recognizable.",
+  },
+  {
+    id: "justin-apology",
+    author: "Justin Martyr",
+    era: "c. 155 AD",
+    work: "First Apology, Chapter 67 (The Weekly Worship)",
+    excerpt: "On the day called Sunday, all who live in cities or in the country gather together to one place, and the memoirs of the apostles or the writings of the prophets are read, as long as time permits. Then we all rise together and pray, and bread and wine and water are brought, and the president in like manner offers prayers and thanksgivings according to his ability.",
+    significance: "Justin Martyr's description of Sunday worship (written around 155 AD for the Roman Emperor) is the earliest detailed account of Christian liturgy outside the Bible. It is remarkably continuous with what Christians still do: reading Scripture, a sermon, intercessory prayer, Communion, and offering. Second-century Christianity looks strikingly familiar.",
+  },
+  {
+    id: "irenaeus-recapitulation",
+    author: "Irenaeus of Lyon",
+    era: "c. 180 AD",
+    work: "Against Heresies, Book III",
+    excerpt: "The Word of God was made flesh in order that He might destroy death and bring man to life; for we were tied and bound by sin, and were born in sinfulness and lived under the dominion of death. Therefore He, the Sinless One, was baptized that He might renew us from our transgression in the water of His baptism.",
+    significance: "Irenaeus developed the doctrine of 'recapitulation' — Christ retracing and redeeming every stage of human life, from birth through death. Against the Gnostics who denied Christ's humanity, Irenaeus insisted that the Incarnation was real and comprehensive. His theology of salvation as the restoration of the image of God remains foundational.",
+  },
+  {
+    id: "athanasius-incarnation",
+    author: "Athanasius of Alexandria",
+    era: "c. 318 AD",
+    work: "On the Incarnation, Chapter 8",
+    excerpt: "For this purpose, then, the incorporeal and incorruptible and immaterial Word of God came into our realm, although He was not far from us before. For no part of creation is left void of Him; He has filled all things everywhere, remaining present with His own Father. But He enters the world in a new way, stooping to our level in His love and self-revealing to us.",
+    significance: "On the Incarnation, written when Athanasius was in his 20s, is the most accessible and profound treatment of why God became human. C.S. Lewis wrote its famous introduction, calling it the single best book of theology he ever read. Its logic — that God became what we are in order to make us what He is — remains the irreplaceable core of Nicene Christianity.",
+  },
+  {
+    id: "augustine-confessions",
+    author: "Augustine of Hippo",
+    era: "c. 400 AD",
+    work: "Confessions, Book I, Chapter 1",
+    excerpt: "Thou madest us for Thyself, and our heart is restless, until it repose in Thee. Grant me, Lord, to know and understand which is first, to call on Thee or to praise Thee? And again, to know Thee or to call on Thee? For who can call on Thee, not knowing Thee?",
+    significance: "Augustine's Confessions is the first autobiography in Western literature — and arguably the greatest. Written in the form of a prayer, it traces his journey from his mother Monica's faith through his intellectual wanderings (Manichaeism, academic skepticism, Neoplatonism) to his conversion in a Milan garden in 386. The opening line — 'our heart is restless until it rests in Thee' — is among the most quoted sentences in Christian literature.",
+  },
 ];
 
 
@@ -121,6 +164,7 @@ export default function ChurchFathersPage() {
   const [selected, setSelected] = useState<string | null>("Athanasius of Alexandria");
   const [period, setPeriod] = useState("All");
   const [activeTab, setActiveTab] = useState<Tab>("fathers");
+  const [selectedWriting, setSelectedWriting] = useState("didache");
 
   const filtered = period === "All" ? FATHERS : FATHERS.filter(f => f.period === period);
   const father = FATHERS.find(f => f.name === selected);
@@ -141,6 +185,7 @@ export default function ChurchFathersPage() {
             { id: "fathers" as const, label: "The Fathers", icon: "📜" },
             { id: "theology" as const, label: "Theology", icon: "📖" },
             { id: "legacy" as const, label: "Legacy", icon: "🏛️" },
+            { id: "writings" as const, label: "Writings", icon: "📜" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -184,6 +229,37 @@ export default function ChurchFathersPage() {
                 <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{l.body}</p>
               </div>
             ))}
+          </div>
+        )}
+
+        {activeTab === "writings" && (
+          <div style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
+            <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 80 }}>
+              {WRITINGS_DATA.map(w => (
+                <button key={w.id} onClick={() => setSelectedWriting(w.id)}
+                  style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedWriting === w.id ? "rgba(0,255,136,0.4)" : BORDER}`, background: selectedWriting === w.id ? "rgba(0,255,136,0.08)" : CARD, cursor: "pointer" }}>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: selectedWriting === w.id ? GREEN : TEXT, marginBottom: 2 }}>{w.author}</div>
+                  <div style={{ fontSize: 10, color: MUTED }}>{w.era}</div>
+                </button>
+              ))}
+            </div>
+            {(() => {
+              const w = WRITINGS_DATA.find(x => x.id === selectedWriting)!;
+              return (
+                <div style={{ flex: 1, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 28 }}>
+                  <div style={{ fontSize: 12, color: MUTED, fontStyle: "italic", marginBottom: 6 }}>{w.era}</div>
+                  <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 4, color: TEXT }}>{w.author}</h2>
+                  <div style={{ fontSize: 13, color: PURPLE, fontWeight: 600, marginBottom: 20 }}>{w.work}</div>
+                  <div style={{ background: BG, borderRadius: 12, padding: 20, borderLeft: `3px solid ${GREEN}`, marginBottom: 24 }}>
+                    <p style={{ fontSize: 14, color: TEXT, lineHeight: 1.8, fontStyle: "italic", margin: 0 }}>&ldquo;{w.excerpt}&rdquo;</p>
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 11, fontWeight: 700, color: PURPLE, textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>Significance</div>
+                    <p style={{ fontSize: 14, color: TEXT, lineHeight: 1.75 }}>{w.significance}</p>
+                  </div>
+                </div>
+              );
+            })()}
           </div>
         )}
 

@@ -100,7 +100,50 @@ const THINKERS = [
   },
 ];
 
-type Tab = "narrative" | "applications" | "thinkers";
+const CHALLENGES_DATA = [
+  {
+    id: "relativism",
+    icon: "🎭",
+    challenge: "Moral Relativism",
+    claim: "There are no objective moral truths. Morality is culturally constructed, and no culture's values are superior to another's.",
+    response: "The claim 'there are no objective moral truths' is itself presented as an objective truth — which is self-defeating. More practically, moral relativism cannot condemn atrocities: if morality is relative, the Holocaust was not objectively wrong but only violated certain cultural preferences. Every person who has ever said 'that was really wrong' or 'that was genuinely unfair' is appealing to a standard beyond their culture. C.S. Lewis's argument from moral experience (Mere Christianity) remains one of the most powerful responses: the universality of moral experience points toward a moral law, and a moral law points toward a Moral Lawgiver.",
+    scripture: "The law of the Lord is perfect, refreshing the soul. — Psalm 19:7",
+  },
+  {
+    id: "materialism",
+    icon: "⚛️",
+    challenge: "Scientific Materialism",
+    claim: "Only physical reality exists. Consciousness, meaning, love, and moral value are ultimately reducible to physical processes. There is no God, soul, or transcendent dimension of reality.",
+    response: "Scientific materialism has two problems: it cannot explain consciousness (the 'hard problem' — why there is subjective experience at all), and it undermines its own foundations. If all thoughts are merely physical events determined by prior physical causes, then the thought 'scientific materialism is true' is not arrived at by reason but by physical necessity — which gives no grounds to trust it. The Christian worldview holds that mind is primary, not derivative: 'In the beginning was the Word' (John 1:1). The rationality of the universe (which makes science possible) is itself evidence for a rational Creator.",
+    scripture: "In him we live and move and have our being. — Acts 17:28",
+  },
+  {
+    id: "pluralism",
+    icon: "🌐",
+    challenge: "Religious Pluralism",
+    claim: "All religions lead to God, or are equally valid paths to ultimate truth. No religion can claim to be exclusively true. Jesus is one savior among many.",
+    response: "The major world religions make contradictory claims — they cannot all be true. Christianity claims Jesus rose from the dead; Islam denies this. Buddhism holds no permanent self exists; Christianity holds the self is created and eternal. These are not complementary perspectives but incompatible truth claims. The pluralist position itself requires truth claims that exclude alternatives. The Christian response is not arrogance but testimony: 'We have seen and testify that the Father has sent his Son to be the Savior of the world' (1 John 4:14). The claim is not that Christians are superior but that Jesus is uniquely who he claimed to be.",
+    scripture: "Salvation is found in no one else, for there is no other name under heaven given to mankind. — Acts 4:12",
+  },
+  {
+    id: "postmodernism",
+    icon: "💬",
+    challenge: "Postmodern Skepticism",
+    claim: "All knowledge claims are shaped by power structures and cultural contexts. There is no neutral 'view from nowhere.' Grand narratives — including Christianity — are tools of power, not truth.",
+    response: "Postmodernism's critique of power and perspective is a valuable corrective to intellectual arrogance — and Christianity, with its emphasis on human fallibility and the danger of self-deception, is more compatible with epistemic humility than many assume. But postmodernism cannot escape its own critique: the claim 'all narratives are power structures' is itself a grand narrative presented as true. Christians can affirm the partiality of human knowing while insisting that this does not preclude genuine knowledge — because a God who reveals himself makes truth accessible to finite, situated creatures. As N.T. Wright argues, the Christian story is not one narrative among many but the true story of the whole world.",
+    scripture: "Then you will know the truth, and the truth will set you free. — John 8:32",
+  },
+  {
+    id: "suffering",
+    icon: "💔",
+    challenge: "The Problem of Evil",
+    claim: "If God is all-powerful and all-good, evil and suffering would not exist. Since evil exists, either God is not all-powerful, not all-good, or does not exist.",
+    response: "This is philosophy's most serious challenge to theism, and honest engagement requires humility. Three main responses: (1) The free will defense — God gave humans genuine freedom, and real freedom entails the capacity for genuine evil. (2) Soul-making theodicy (John Hick) — suffering is the context in which human character develops in ways it cannot in comfort. (3) The eschatological response — the biblical narrative does not promise a comfortable present but a redeemed future. Crucially, Christianity does not merely explain suffering — it enters it. The cross is God's answer to evil: he absorbs it rather than avoiding it. This does not resolve the philosophical problem fully, but it transforms the existential one.",
+    scripture: "For our light and momentary troubles are achieving for us an eternal glory that far outweighs them all. — 2 Corinthians 4:17",
+  },
+];
+
+type Tab = "narrative" | "applications" | "thinkers" | "challenges";
 
 export default function ChristianWorldviewPage() {
   const [activeTab, setActiveTab] = useState<Tab>("narrative");
@@ -126,6 +169,7 @@ export default function ChristianWorldviewPage() {
             { id: "narrative" as const, label: "Four Acts", icon: "📖" },
             { id: "applications" as const, label: "Applications", icon: "🌍" },
             { id: "thinkers" as const, label: "Thinkers", icon: "🧠" },
+            { id: "challenges" as const, label: "Challenges", icon: "⚔️" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -222,6 +266,33 @@ export default function ChristianWorldviewPage() {
                 <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{thinker.contribution}</p>
               </div>
             </div>
+          </div>
+        )}
+
+        {activeTab === "challenges" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 24 }}>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>
+                A Christian worldview must engage the most serious intellectual challenges it faces. These are not strawmen but the strongest objections — and they deserve the strongest responses.
+              </p>
+            </div>
+            {CHALLENGES_DATA.map((c, i) => (
+              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 16 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 14 }}>
+                  <span style={{ fontSize: 28 }}>{c.icon}</span>
+                  <h3 style={{ fontSize: 18, fontWeight: 800, margin: 0, color: GREEN }}>{c.challenge}</h3>
+                </div>
+                <div style={{ background: BG, borderRadius: 10, padding: 14, marginBottom: 14, borderLeft: `3px solid #EF4444` }}>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: "#EF4444", textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 }}>The Claim</div>
+                  <p style={{ fontSize: 13, color: TEXT, lineHeight: 1.7, margin: 0, fontStyle: "italic" }}>{c.claim}</p>
+                </div>
+                <div style={{ background: BG, borderRadius: 10, padding: 14, marginBottom: 14, borderLeft: `3px solid ${GREEN}` }}>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: GREEN, textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 }}>The Response</div>
+                  <p style={{ fontSize: 13, color: TEXT, lineHeight: 1.7, margin: 0 }}>{c.response}</p>
+                </div>
+                <div style={{ fontSize: 12, color: PURPLE, fontStyle: "italic" }}>{c.scripture}</div>
+              </div>
+            ))}
           </div>
         )}
       </div>

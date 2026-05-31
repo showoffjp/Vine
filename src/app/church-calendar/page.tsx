@@ -170,9 +170,19 @@ const CHRISTIAN_HOLIDAYS = [
   { name: "Christ the King Sunday", date: "Last Sunday of liturgical year", description: "The final Sunday before Advent — the liturgical year ends with a declaration: Jesus is Lord. A counter-cultural statement in any age. All earthly kingdoms are temporary; his kingdom has no end." },
 ];
 
+const VOICES_CAL = [
+  { id: "webber-r", name: "Robert Webber", era: "1933-2007", context: "Ancient-Future Faith (1999); The Divine Embrace (2006); pioneer of liturgical renewal in evangelical churches", bio: "Robert Webber spent three decades arguing that evangelical Christianity had impoverished itself by abandoning the liturgical tradition. His 'Ancient-Future' project sought to recover the wisdom of the early church — including the church calendar — for contemporary evangelical practice. He argued that the liturgical year is not Catholic or Orthodox 'stuff' but the universal church's way of telling the whole story of redemption in time. Webber's writing catalyzed a generation of younger evangelicals who found in the church calendar a depth that contemporary worship styles had failed to provide.", quote: "The liturgical calendar is the church's school of prayer — the way the community of faith orders time around the story of Jesus rather than around the story of the world.", contribution: "Webber's 'Ancient-Future' series and his work at Northern Seminary made the recovery of liturgical practice intellectually respectable for evangelical audiences. More than any other 20th-century evangelical theologian, he is responsible for the widespread adoption of Advent, Lent, and the liturgical calendar in non-denominational churches." },
+  { id: "dawn-m", name: "Marva Dawn", era: "1948-2021", context: "Reaching Out Without Dumbing Down (1995); Keeping the Sabbath Wholly (1989); Lutheran theologian of worship", bio: "Marva Dawn was a Lutheran theologian whose work on worship and the church calendar formed generations of pastors and worship leaders. Against the reduction of worship to entertainment and the year to a sequence of marketing seasons, Dawn argued that the church calendar forms people by immersing them in the fullness of God's story. Her treatment of Sabbath — and its relationship to the liturgical calendar — remained essential reading in worship formation. She battled severe illness for decades while producing some of the most theologically rich writing on Christian worship.", quote: "The Church year is not a ladder to be climbed or a journey to be completed — it is a wheel to be inhabited, year after year, until the patterns sink into the bones of the community.", contribution: "Dawn's work provided the theological foundations for liturgical renewal in Lutheran, Reformed, and evangelical circles. Her books on worship and Sabbath are among the most used in seminary worship courses and remain essential reading for pastors grappling with the theology of time." },
+  { id: "de-waal", name: "Esther de Waal", era: "b. 1930", context: "Seeking God: The Way of St. Benedict (1984); Living with Contradiction (1989); Benedictine oblate and retreat leader", bio: "Esther de Waal brought the Benedictine tradition — with its highly structured liturgical day and year — to a wide Protestant and Catholic audience. Her accessible writing on the Rule of St. Benedict showed how the medieval monastic ordering of time around the Divine Office and church calendar offered a counter-cultural alternative to the frenetic pace of modernity. She argued that the hours of prayer and the seasons of the year are not constraints but freedoms — a way of being fully present to time rather than being consumed by it.", quote: "The Benedictine ordering of time is a gift — not a burden. It says: there is time enough. Time for work, time for prayer, time for rest. God inhabits all of it.", contribution: "De Waal's writing made the Benedictine tradition accessible to non-monastics seeking a spirituality of time. Her work has been especially influential among Protestant spiritual directors and retreat leaders who have drawn on the Rule of St. Benedict as a framework for contemporary spiritual formation." },
+  { id: "rutledge-f", name: "Fleming Rutledge", era: "b. 1937", context: "Advent: The Once and Future Coming of Jesus Christ (2018); Episcopal priest and preacher", bio: "Fleming Rutledge's Advent: The Once and Future Coming of Jesus Christ is the finest contemporary theological exposition of the Advent season. Rutledge argues that Advent has been sentimentalized into a 'pre-Christmas' season when it should be the church's annual confrontation with apocalyptic darkness and eschatological hope. The Advent themes — judgment, coming king, the darkness of the world awaiting light — are not warm-up acts for Christmas but the church's counter-witness to secular optimism. Her Advent sermons span three decades and constitute the most theologically rich preaching on the season in contemporary Anglican/Episcopal tradition.", quote: "Advent is not a season of pleasant anticipation. It is a season of confronting the darkness — the world's darkness, our own darkness — and waiting in expectation for the light that no darkness can overcome.", contribution: "Rutledge's Advent volume recovered the eschatological and apocalyptic dimensions of the season that had been lost in contemporary church practice. It has become essential reading for preachers and worship leaders preparing Advent, and her influence on Anglican homiletics has been substantial." },
+  { id: "schmemann-a", name: "Alexander Schmemann", era: "1921-1983", context: "For the Life of the World (1963); Introduction to Liturgical Theology (1966); Orthodox theologian", bio: "Alexander Schmemann was an Orthodox theologian whose work on the liturgical year and sacramental theology has had remarkable influence beyond Orthodoxy. His For the Life of the World argued that the church's liturgy — including the liturgical calendar — is not a retreat from the world but the world's true life restored. The Eucharist and the church year are not religious activities within a secular world but the transformation of time itself. Time, Schmemann argued, is not a container for events but a reality redeemed by Christ — and the liturgical year is how the church lives in redeemed time.", quote: "The purpose of the liturgical year is to transform us — to make us different people. It is not a commemoration of events that happened long ago but the perpetual making-present of what Christ has done for us.", contribution: "Schmemann's liturgical theology has had extraordinary cross-denominational influence. His understanding of the Eucharist and the church year as the church's participation in the Kingdom of God has been adopted by Catholic, Anglican, Lutheran, and evangelical liturgical theologians as a framework for understanding the meaning of Christian time." },
+];
+
 export default function ChurchCalendarPage() {
   const [selectedSeason, setSelectedSeason] = useState<string | null>("advent");
-  const [activeTab, setActiveTab] = useState<"seasons" | "holidays" | "guide">("seasons");
+  const [activeTab, setActiveTab] = useState<"seasons" | "holidays" | "guide" | "voices">("seasons");
+  const [selectedVoice, setSelectedVoice] = useState("webber-r");
+  const voiceItem = VOICES_CAL.find(v => v.id === selectedVoice)!;
 
   const season = SEASONS.find(s => s.id === selectedSeason);
 
@@ -210,6 +220,7 @@ export default function ChurchCalendarPage() {
             { id: "seasons" as const, label: "Liturgical Seasons", icon: "🌿" },
             { id: "holidays" as const, label: "Special Days", icon: "✨" },
             { id: "guide" as const, label: "Living the Year", icon: "📖" },
+            { id: "voices" as const, label: "Voices", icon: "📣" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -309,6 +320,34 @@ export default function ChurchCalendarPage() {
                 </ul>
               </div>
             ))}
+          </div>
+        )}
+        {activeTab === "voices" && (
+          <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
+            <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
+              {VOICES_CAL.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ background: selectedVoice === v.id ? PURPLE : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: TEXT, fontWeight: 700, fontSize: 14 }}>{v.name}</div>
+                  <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{v.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 28 }}>
+                <h2 style={{ color: GREEN, fontWeight: 900, fontSize: 22, margin: "0 0 4px" }}>{voiceItem.name}</h2>
+                <div style={{ color: PURPLE, fontSize: 13, fontWeight: 700, marginBottom: 6 }}>{voiceItem.era}</div>
+                <div style={{ color: MUTED, fontSize: 13, marginBottom: 16 }}>{voiceItem.context}</div>
+                <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 15, marginBottom: 20 }}>{voiceItem.bio}</p>
+                <div style={{ background: BG, borderLeft: `3px solid ${GREEN}`, borderRadius: "0 8px 8px 0", padding: "14px 18px", marginBottom: 20 }}>
+                  <p style={{ color: GREEN, fontStyle: "italic", fontSize: 15, lineHeight: 1.7, margin: 0 }}>&ldquo;{voiceItem.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: `${PURPLE}15`, borderRadius: 10, padding: 16 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>Legacy and Contribution</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, margin: 0 }}>{voiceItem.contribution}</p>
+                </div>
+              </div>
+            </div>
           </div>
         )}
       </div>

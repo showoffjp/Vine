@@ -86,6 +86,14 @@ const INTERPRETATIONS = [
   { view: "Kingdom Ethic for Now (Stott, Wright)", color: GREEN, desc: "The Sermon describes how life in the kingdom of God actually looks — not as an impossible ideal or future program but as the real character of those indwelt by the Spirit. It is demanding but not impossible, especially as the community embodies it together. The majority evangelical view." },
 ];
 
+const SCHOLARS_SOTM = [
+  { id: "stott-jrw", name: "John R.W. Stott", era: "1921-2011", context: "The Message of the Sermon on the Mount (1978) — the defining evangelical exposition", bio: "John Stott's The Message of the Sermon on the Mount remains the most widely read evangelical commentary on the Sermon — precise, pastoral, and theologically grounded. Stott argued that the Sermon describes the character of subjects of the kingdom of God: not a program for earning salvation but a portrait of those who have received it. He wrote against both antinomian dismissals of the Sermon's demands and perfectionist over-readings. His treatment of the Beatitudes as a description of kingdom character (rather than entry requirements) has become the standard evangelical framework.", quote: "The Beatitudes describe the ideal citizen of the kingdom of God. They portray what every Christian is and should be, not what only some Christians are.", contribution: "The Message of the Sermon on the Mount set the terms for evangelical interpretation for two generations. Its structure — carefully exegetical, contextually sensitive, and directly applicational — influenced how evangelical preachers worldwide approach Matthew 5-7." },
+  { id: "willard-dc", name: "Dallas Willard", era: "1935-2013", context: "The Divine Conspiracy (1998) — reframes the Sermon as a description of kingdom life available now", bio: "Dallas Willard's The Divine Conspiracy is the most important late-20th-century treatment of the Sermon on the Mount in evangelical circles. Willard argued that the Sermon has been domesticated — either dismissed as unreachable idealism or reduced to interior attitudes without behavioral consequence. His central claim: Jesus is offering an actual description of what human life looks like when the 'Kingdom of the Heavens' has truly taken hold of a person. The Beatitudes are not commands to achieve but declarations about those who belong to the kingdom. The antitheses are not harder laws but descriptions of life lived from the inside out.", quote: "The Sermon on the Mount is not a list of requirements for the righteous life but a description of what the righteous life actually looks like when God has moved into a person's life.", contribution: "The Divine Conspiracy catalyzed the spiritual formation movement within evangelicalism. Willard's reading gave the Sermon back to ordinary Christians as a practical guide to kingdom living — not a moral ceiling to despair under but a picture of transformation available through discipleship." },
+  { id: "lloyd-jones", name: "D. Martyn Lloyd-Jones", era: "1899-1981", context: "Studies in the Sermon on the Mount (1959-60) — 2-volume Reformed exposition from Westminster Chapel sermons", bio: "Lloyd-Jones preached through the Sermon on the Mount over two years at Westminster Chapel, London. The resulting two volumes are among the most thorough Reformed expositions of Matthew 5-7 ever produced. Against Luther's 'impossible ideal' reading, Lloyd-Jones argued that the Sermon is addressed to Christians and describes genuine Christian character — made possible not by human effort but by the regenerating work of the Holy Spirit. His treatment of the Beatitudes is especially celebrated: eight marks of the Christian who has truly seen himself and his need before God.", quote: "The Sermon on the Mount is addressed to Christians. It is not primarily an appeal to the unconverted. It is describing what every Christian is and is meant to be.", contribution: "Studies in the Sermon on the Mount remains the standard Reformed pastoral commentary on the text. Its influence on British and American Reformed preaching was enormous, establishing the reading that the Sermon describes actual attainable Christian character under the Spirit." },
+  { id: "wright-nt", name: "N.T. Wright", era: "b. 1948", context: "Matthew for Everyone (2002); After You Believe (2010) — virtue ethics reading of the Sermon", bio: "N.T. Wright approaches the Sermon through the lens of virtue ethics and the Kingdom of God. In After You Believe, Wright argues that the Beatitudes describe the habits and character of those who are being fitted for eventual resurrection life — not arbitrary moral demands but the shape of genuine human flourishing. His reading emphasizes the eschatological context: these are not just descriptions of present Christian life but the formation of the character required for the coming kingdom. Wright also stresses the deeply Jewish roots of the Sermon, seeing Jesus as renewing Israel's vocation for the sake of the whole world.", quote: "The Beatitudes describe people who are going to inherit the earth; that is, they describe the character of those who are being shaped for eventual resurrection life and new creation.", contribution: "Wright's reading gave the Sermon an eschatological and virtue-ethical dimension that earlier evangelical readings often missed. His emphasis on the Sermon as character formation rather than law-code has significantly influenced younger evangelical scholars and preachers." },
+  { id: "augustine-sm", name: "Augustine of Hippo", era: "354-430", context: "De Sermone Domini in Monte (c. 394) — the earliest systematic Christian commentary on the Sermon", bio: "Augustine's On the Lord's Sermon on the Mount (c. 394) is the earliest comprehensive Christian commentary on Matthew 5-7, written when he was a newly ordained priest. Augustine read the Sermon Christologically — the Beatitudes correspond to the seven gifts of the Holy Spirit in Isaiah 11, and each stage of the Sermon deepens the soul's movement toward God. He was especially influential on the church's interpretation of 'Blessed are the pure in heart, for they will see God' — connecting the Sermon's ethics to the beatific vision, the soul's ultimate end. His reading dominated Western interpretation for over a millennium.", quote: "The whole pattern of Christian life is presented in this Sermon. It is the perfect standard of the Christian life, compared to which nothing more perfect can be found.", contribution: "Augustine's commentary established the interpretive framework for the Sermon in Western Christianity for a thousand years. His connection of the eight Beatitudes to the seven gifts of the Spirit, and his reading of the Sermon as a path toward the beatific vision, shaped Catholic moral theology and influenced Protestant readings even after the Reformation." },
+];
+
 const PRACTICES = [
   { title: "Read It Weekly for a Month", desc: "Matthew 5-7 takes about 15-20 minutes to read aloud. Do this weekly for a month. Each reading surfaces something new. The familiarity of individual verses often prevents engagement with the whole — reading it in one sitting restores its cumulative force.", icon: "📖" },
   { title: "Choose One Section at a Time", desc: "Take a single paragraph — the Beatitudes, the antitheses on anger, the section on anxiety — and live with it for a week. Ask: what specifically would change in my life if I took this seriously? Don't try to implement the entire Sermon simultaneously.", icon: "🎯" },
@@ -96,7 +104,9 @@ const PRACTICES = [
 ];
 
 export default function SermonOnTheMountPage() {
-  const [activeTab, setActiveTab] = useState<"sections" | "interpretations" | "practices">("sections");
+  const [activeTab, setActiveTab] = useState<"sections" | "interpretations" | "practices" | "scholars">("sections");
+  const [selectedScholar, setSelectedScholar] = useState("stott-jrw");
+  const scholarItem = SCHOLARS_SOTM.find(s => s.id === selectedScholar)!;
   const [selectedSection, setSelectedSection] = useState("The Beatitudes");
 
   const section = SECTIONS.find(s => s.title === selectedSection)!;
@@ -117,6 +127,7 @@ export default function SermonOnTheMountPage() {
             { id: "sections" as const, label: "The Sections", icon: "📜" },
             { id: "interpretations" as const, label: "Interpretations", icon: "🔍" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
+            { id: "scholars" as const, label: "Scholars", icon: "🎓" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -190,6 +201,34 @@ export default function SermonOnTheMountPage() {
                   <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{p.desc}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+        {activeTab === "scholars" && (
+          <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
+            <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
+              {SCHOLARS_SOTM.map(v => (
+                <button key={v.id} onClick={() => setSelectedScholar(v.id)}
+                  style={{ background: selectedScholar === v.id ? PURPLE : CARD, border: `1px solid ${selectedScholar === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: TEXT, fontWeight: 700, fontSize: 14 }}>{v.name}</div>
+                  <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{v.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 28 }}>
+                <h2 style={{ color: GREEN, fontWeight: 900, fontSize: 22, margin: "0 0 4px" }}>{scholarItem.name}</h2>
+                <div style={{ color: PURPLE, fontSize: 13, fontWeight: 700, marginBottom: 6 }}>{scholarItem.era}</div>
+                <div style={{ color: MUTED, fontSize: 13, marginBottom: 16 }}>{scholarItem.context}</div>
+                <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 15, marginBottom: 20 }}>{scholarItem.bio}</p>
+                <div style={{ background: BG, borderLeft: `3px solid ${GREEN}`, borderRadius: "0 8px 8px 0", padding: "14px 18px", marginBottom: 20 }}>
+                  <p style={{ color: GREEN, fontStyle: "italic", fontSize: 15, lineHeight: 1.7, margin: 0 }}>&ldquo;{scholarItem.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: `${PURPLE}15`, borderRadius: 10, padding: 16 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>Legacy and Contribution</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, margin: 0 }}>{scholarItem.contribution}</p>
+                </div>
+              </div>
             </div>
           </div>
         )}

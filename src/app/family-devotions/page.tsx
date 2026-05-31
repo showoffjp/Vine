@@ -85,10 +85,20 @@ const DEVOTIONAL_PLANS = [
   { series: "Fruits of the Spirit (9 weeks)", desc: "One week on each fruit of the Spirit (Galatians 5:22-23) — what it is, how it grows, and how to practice it.", sessions: ["Love", "Joy", "Peace", "Patience", "Kindness", "Goodness", "Faithfulness", "Gentleness", "Self-Control"] },
 ];
 
+const VOICES_FAM = [
+  { id: "tullian-t", name: "Sally Clarkson", era: "b. 1956", context: "The Mission of Motherhood (2003); Educating the WholeHearted Child; pioneer of intentional family discipleship", bio: "Sally Clarkson is among the most influential voices in evangelical home discipleship, having written over twenty books on raising children in faith, creating a home culture of God's presence, and intentional family formation. Her approach is less about structured devotional content and more about creating an environment where faith is caught rather than merely taught — through story, beauty, music, celebration, and the habits of everyday life. Her The Mission of Motherhood and The Ministry of Motherhood developed a theology of home as a discipling environment, and her work has shaped how evangelical homeschooling families and church-going families think about passing faith to the next generation.", quote: "The home is the primary place where faith is formed. Not the church, not the school — the home. Everything else is supplement to what happens around the kitchen table and at bedside.", contribution: "Clarkson's influence on family discipleship in evangelical circles is difficult to overstate. Her books, podcast (At Home with Sally), and conferences have introduced hundreds of thousands of parents to an integrated, whole-life model of family faith formation — one that is as much about atmosphere, beauty, and story as it is about Bible reading and prayer." },
+  { id: "tripp-pt", name: "Paul David Tripp", era: "b. 1950", context: "Parenting (2016); Age of Opportunity (1997) — on the gospel-centered family", bio: "Paul David Tripp's Parenting: 14 Gospel Principles That Can Radically Change Your Family applies the gospel of grace to the daily work of raising children — including family devotionals. Tripp argues that the goal of family devotionals is not behavioral compliance or theological knowledge transfer but gospel transformation: helping children see their need for grace, experience that grace in the family environment, and grow in trust and love for God. His approach specifically warns against two dangers: moralism (using the Bible primarily to produce good behavior) and emotionalism (using devotionals primarily to produce spiritual feelings). Instead, he argues for devotionals that honestly engage with the gospel's diagnosis of the human condition and its provision in Christ.", quote: "The best thing you can do for your children is not teach them Bible facts — it is give them a grace-saturated environment where they see the gospel in action every day in how you live with them.", contribution: "Tripp's gospel-centered approach to parenting and family devotionals has corrected two common errors in evangelical family discipleship: the moralism that uses Scripture primarily to produce obedience, and the sentimentalism that produces emotional experiences without genuine transformation. His Parenting has been widely used in churches as a framework for thinking about family faith formation." },
+  { id: "james-e", name: "James W. Alexander", era: "1804-1859", context: "Thoughts on Family Worship (1847) — the classic 19th-century treatment of family prayer and devotions", bio: "James W. Alexander's Thoughts on Family Worship is the most thorough treatment of family devotional practice from the 19th century and remains deeply practical and theologically rich. Alexander, a Presbyterian pastor and son of Archibald Alexander, addressed every aspect of family worship: the frequency (daily), the time (morning and evening ideally), the content (Scripture reading, singing, prayer), the leadership (the father as priest of the household), and the obstacles (irregular schedules, teenage resistance, and the father's sense of inadequacy). His treatment is historically grounded — drawing on the Reformation and Puritan traditions of household worship — and pastorally sensitive to the difficulty of maintaining consistent practice.", quote: "The Christian family is a little church. The father is the minister of this church. Family worship is the service of this church — and no Christian home is complete without it.", contribution: "Alexander's Thoughts on Family Worship, reprinted numerous times since the 19th century, established the theological and practical framework for Protestant family devotional practice. Its recovery in the 20th century — by Banner of Truth and other Reformed publishers — has significantly influenced the family worship movement among Reformed and Presbyterian churches." },
+  { id: "hughes-k", name: "R. Kent Hughes", era: "b. 1942", context: "Disciplines of a Godly Family (2004); pastor-scholar on family worship", bio: "R. Kent Hughes, former pastor of College Church in Wheaton, wrote Disciplines of a Godly Family as a practical guide to the specific habits that form Christian families — including family worship, prayer, Scripture reading, hospitality, and Sabbath observance. His treatment of family devotionals is grounded in the Puritan tradition but applied practically to contemporary family life. Hughes is honest about the difficulty of consistency in family worship and provides specific strategies for different seasons of family life — young children, adolescents, and adult children in the home. His writing is warm, pastoral, and filled with stories from his own family's experience.", quote: "The family that prays together truly does stay together — not as a magic formula but because the habits of shared prayer and Scripture create the deepest bonds of shared life.", contribution: "Disciplines of a Godly Family has been widely used in Reformed and evangelical churches as a practical resource for families wanting to establish sustainable devotional habits. Hughes's integration of specific practices with theological grounding — and his honesty about the difficulty of consistency — has made the book trustworthy for families at all stages." },
+  { id: "wangerin-w", name: "Walter Wangerin Jr.", era: "1944-2021", context: "The Book of God (1996); Ragman and Other Cries of Faith — the master of Christian storytelling for families", bio: "Walter Wangerin Jr. was one of the most gifted Christian storytellers of the 20th century, and his approach to family devotionals was grounded in narrative: the conviction that faith is best transmitted through story rather than proposition, and that the Bible's stories — told well, with imagination and drama — reach children's hearts in ways that systematic instruction cannot. His The Book of God retells the entire biblical narrative with extraordinary literary power, and his Ragman and Other Cries of Faith contains meditations and stories that families can read together at any stage. Wangerin's work demonstrated what family devotional practice looks like when it is centered on the word as story rather than the word as information.", quote: "Tell the children the Story. Tell it with all the art you have. Tell it with tears and laughter. Tell it slowly and completely. The Story will do the work that lectures never can.", contribution: "Wangerin's work gave Christian families a model for family devotional practice centered on narrative and imagination rather than instruction and memorization. His books have been used as family read-alouds, devotional readings, and narrative Bible curricula by countless families across denominational lines. His influence on the 'story-formed family' approach to Christian education has been substantial." },
+];
+
 interface FavPlan { id: string; name: string; }
 
 export default function FamilyDevotionsPage() {
-  const [activeTab, setActiveTab] = useState<"ages" | "formats" | "plans">("ages");
+  const [activeTab, setActiveTab] = useState<"ages" | "formats" | "plans" | "voices">("ages");
+  const [selectedVoice, setSelectedVoice] = useState("tullian-t");
+  const voiceItem = VOICES_FAM.find(v => v.id === selectedVoice)!;
   const [selectedAge, setSelectedAge] = useState("elementary");
   const [expandedPlan, setExpandedPlan] = useState<string | null>(null);
 
@@ -110,6 +120,7 @@ export default function FamilyDevotionsPage() {
             { id: "ages" as const, label: "By Age Group", icon: "👧" },
             { id: "formats" as const, label: "Formats", icon: "🗓️" },
             { id: "plans" as const, label: "Devotional Plans", icon: "📖" },
+            { id: "voices" as const, label: "Voices", icon: "📣" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -208,6 +219,34 @@ export default function FamilyDevotionsPage() {
                 )}
               </div>
             ))}
+          </div>
+        )}
+        {activeTab === "voices" && (
+          <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
+            <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
+              {VOICES_FAM.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ background: selectedVoice === v.id ? PURPLE : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: TEXT, fontWeight: 700, fontSize: 14 }}>{v.name}</div>
+                  <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{v.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 28 }}>
+                <h2 style={{ color: GREEN, fontWeight: 900, fontSize: 22, margin: "0 0 4px" }}>{voiceItem.name}</h2>
+                <div style={{ color: PURPLE, fontSize: 13, fontWeight: 700, marginBottom: 6 }}>{voiceItem.era}</div>
+                <div style={{ color: MUTED, fontSize: 13, marginBottom: 16 }}>{voiceItem.context}</div>
+                <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 15, marginBottom: 20 }}>{voiceItem.bio}</p>
+                <div style={{ background: BG, borderLeft: `3px solid ${GREEN}`, borderRadius: "0 8px 8px 0", padding: "14px 18px", marginBottom: 20 }}>
+                  <p style={{ color: GREEN, fontStyle: "italic", fontSize: 15, lineHeight: 1.7, margin: 0 }}>&ldquo;{voiceItem.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: `${PURPLE}15`, borderRadius: 10, padding: 16 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>Legacy and Contribution</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, margin: 0 }}>{voiceItem.contribution}</p>
+                </div>
+              </div>
+            </div>
           </div>
         )}
       </div>

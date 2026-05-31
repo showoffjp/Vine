@@ -86,6 +86,54 @@ interface ExamenEntry {
   mood: "1" | "2" | "3" | "4" | "5";
 }
 
+const VOICES_EXAMEN = [
+  {
+    id: "ignatius",
+    name: "Ignatius of Loyola",
+    era: "1491–1556 · Jesuit Founder",
+    context: "Spiritual Exercises",
+    bio: "Ignatius of Loyola developed the Examen as a non-negotiable daily practice within his Spiritual Exercises. A Spanish soldier turned mystic after his conversion during recovery from a battle wound, Ignatius founded the Society of Jesus (Jesuits) and gave the church one of its most enduring spiritual practices. He taught that God communicates through interior movements of consolation and desolation — and that learning to notice and discern these movements is the foundation of a responsive Christian life. The Examen was his tool for cultivating this awareness.",
+    quote: "The Examen is not optional. If a Jesuit must choose between the Examen and any other prayer practice, he chooses the Examen. It is the prayer of finding God in all things.",
+    contribution: "Ignatius gave the church the Examen as a daily spiritual practice that trains believers to notice where God is at work in ordinary life. His teaching that God communicates through consolation and desolation — and that these can be discerned through prayerful review — has shaped 500 years of Catholic and increasingly Protestant spiritual formation.",
+  },
+  {
+    id: "manney-j",
+    name: "Jim Manney",
+    era: "b. 1948 · Jesuit-Formed",
+    context: "A Simple Life-Changing Prayer",
+    bio: "Jim Manney's A Simple Life-Changing Prayer (2011) is the most accessible contemporary guide to the Examen. Written for people with no previous experience of Ignatian spirituality, Manney distills the five-step practice into something any believer can do in 15 minutes. His book has introduced millions to the practice who would never read Ignatius directly, and his emphasis on the Examen as a practice of noticing rather than analysis has made it non-threatening for beginners.",
+    quote: "The Examen is a way of paying attention. You review the day not to judge it but to see it — to find God where you might not have looked, and to understand yourself better than you did this morning.",
+    contribution: "Manney's A Simple Life-Changing Prayer democratized the Examen, making it available to Protestant readers and spiritual beginners who would never approach Ignatius directly. His emphasis on the practice as attentiveness rather than spiritual heroics has made it the most widely recommended introduction to Ignatian prayer.",
+  },
+  {
+    id: "hamm-d",
+    name: "Dennis Hamm, SJ",
+    era: "b. 1936 · Jesuit Scholar",
+    context: "'Rummaging for God' (America Magazine)",
+    bio: "Dennis Hamm's 1994 article 'Rummaging for God: Praying Backward through Your Day' (America Magazine) is perhaps the single most widely read introduction to the Examen in the English language. His metaphor of 'rummaging' — going through the drawers of the day looking for what God tucked there — made the practice vivid and memorable. Hamm also restored the emphasis on gratitude as the starting point: the Examen begins not with guilt or failure review but with thanksgiving for what was given.",
+    quote: "The prayer of examen is rummaging through the stuff of the day — not to organize or evaluate it, but to find God hiding in the drawers. He is there. You have only to look.",
+    contribution: "Hamm's rummaging metaphor has become the standard introduction to the Examen in RCIA programs, retreat workshops, and spiritual direction. His recovery of thanksgiving as the first movement of the Examen corrected an overly penitential reading of the practice that had developed in some traditions.",
+  },
+  {
+    id: "thibodeaux-m",
+    name: "Mark Thibodeaux, SJ",
+    era: "b. 1963 · Jesuit",
+    context: "Reimagining the Ignatian Examen",
+    bio: "Mark Thibodeaux's Reimagining the Ignatian Examen (2015) offers 34 different variations of the Examen for different seasons, situations, and temperaments. His creative adaptations — including the Examen for parents, for people in the workplace, for those experiencing grief, and for those who struggle with guilt — have made the practice more flexible and less formulaic. Thibodeaux recognizes that spiritual practices must meet people where they are, and that one form does not fit all people in all seasons.",
+    quote: "The Examen is not a formula to be executed. It is a conversation to be entered. Some days the conversation is long and rich. Other days it is just a glance at God before sleep — a nod that says, 'I know You were there.'",
+    contribution: "Thibodeaux's variations on the Examen gave spiritual directors and practitioners a toolkit for customizing the practice to different life situations. His creative adaptations made the Examen more sustainable for people who had found the standard five-step formula rigid or hard to maintain long-term.",
+  },
+  {
+    id: "barton-rh",
+    name: "Ruth Haley Barton",
+    era: "b. 1956 · Evangelical",
+    context: "Sacred Rhythms",
+    bio: "Ruth Haley Barton introduced an adapted form of the Examen (which she calls the Prayer of Examen or Review of the Day) to evangelical Protestant readers in Sacred Rhythms (2006) and subsequent writing. Barton's contribution was translating Ignatius's Catholic framework into accessible Protestant language — replacing consolation/desolation with 'life-giving moments / life-draining moments,' and embedding the practice within a broader daily rhythm of spiritual disciplines. Her work made the Examen widely adopted in evangelical spiritual direction contexts.",
+    quote: "At the end of the day, the most important question is not 'What did I accomplish?' but 'Where was God?' — and 'Where was I in relation to Him?' These are the questions the Examen is designed to help you answer.",
+    contribution: "Barton's translation of the Examen into evangelical Protestant vocabulary opened it to millions of readers who might have been put off by Ignatian or Jesuit language. Her Sacred Rhythms is the primary vehicle through which the Examen has entered contemporary evangelical spiritual formation practice.",
+  },
+];
+
 export default function DailyExamenPage() {
   const [activeStep, setActiveStep] = useState(0);
   const [responses, setResponses] = useState<Record<string, string>>({});
@@ -93,7 +141,9 @@ export default function DailyExamenPage() {
   const [history, setHistory] = useState<ExamenEntry[]>(() => {
     try { const s = localStorage.getItem("vine_examen_history"); return s ? JSON.parse(s) : []; } catch { return []; }
   });
-  const [activeTab, setActiveTab] = useState<"practice" | "history" | "about">("about");
+  const [activeTab, setActiveTab] = useState<"practice" | "history" | "about" | "voices">("about");
+  const [selectedVoice, setSelectedVoice] = useState("ignatius");
+  const voiceItem = VOICES_EXAMEN.find(v => v.id === selectedVoice)!;
   const [saved, setSaved] = useState(false);
 
   const todayKey = new Date().toISOString().split("T")[0];
@@ -136,6 +186,7 @@ export default function DailyExamenPage() {
             { id: "about" as const, label: "What Is It", icon: "📖" },
             { id: "practice" as const, label: "Tonight's Examen", icon: "🌙" },
             { id: "history" as const, label: "My History", icon: "📅" },
+            { id: "voices" as const, label: "Voices", icon: "🎓" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -287,6 +338,33 @@ export default function DailyExamenPage() {
                 ))}
               </div>
             )}
+          </div>
+        )}
+
+        {activeTab === "voices" && (
+          <div style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
+            <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 80 }}>
+              {VOICES_EXAMEN.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? "rgba(0,255,136,0.4)" : BORDER}`, background: selectedVoice === v.id ? "rgba(0,255,136,0.08)" : CARD, cursor: "pointer" }}>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: selectedVoice === v.id ? GREEN : TEXT, marginBottom: 2 }}>{v.name}</div>
+                  <div style={{ fontSize: 11, color: MUTED }}>{v.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 28 }}>
+              <div style={{ fontSize: 12, color: MUTED, fontStyle: "italic", marginBottom: 6 }}>{voiceItem.context}</div>
+              <h2 style={{ fontSize: 24, fontWeight: 800, marginBottom: 4, color: TEXT }}>{voiceItem.name}</h2>
+              <div style={{ fontSize: 13, color: MUTED, marginBottom: 20 }}>{voiceItem.era}</div>
+              <p style={{ fontSize: 14, color: TEXT, lineHeight: 1.8, marginBottom: 24 }}>{voiceItem.bio}</p>
+              <div style={{ background: BG, borderRadius: 12, padding: 20, borderLeft: `3px solid ${GREEN}`, marginBottom: 24 }}>
+                <p style={{ fontSize: 15, color: TEXT, lineHeight: 1.75, fontStyle: "italic" }}>&ldquo;{voiceItem.quote}&rdquo;</p>
+              </div>
+              <div>
+                <div style={{ fontSize: 11, fontWeight: 700, color: PURPLE, textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>Contribution</div>
+                <p style={{ fontSize: 14, color: TEXT, lineHeight: 1.75 }}>{voiceItem.contribution}</p>
+              </div>
+            </div>
           </div>
         )}
       </div>

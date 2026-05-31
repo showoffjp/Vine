@@ -121,10 +121,20 @@ const TOPICS = [
   },
 ];
 
+const VOICES_BC = [
+  { id: "adams-j", name: "Jay Adams", era: "b. 1929", context: "Competent to Counsel (1970) — founder of modern biblical counseling movement", bio: "Jay Adams is widely considered the founder of the modern biblical counseling movement. His landmark Competent to Counsel (1970) argued that Scripture, not secular psychology, is the primary and sufficient resource for counseling Christians — a position he called nouthetic counseling (from the Greek noutheo, to admonish). Adams rejected the therapeutic framework of psychiatry for spiritual issues, insisting that the church has all the resources it needs in the Word and the Spirit. His work launched a movement that has produced thousands of trained biblical counselors and dozens of institutions, while also generating significant debate about the relationship between Scripture and psychology.", quote: "The church has been robbing itself of its own resources by sending its members to Freud instead of to the God who created them. The Scriptures are sufficient for counseling because they address the heart — and the heart is the problem.", contribution: "Adams's Competent to Counsel launched the biblical counseling movement and gave the church a framework for pastoral care that took Scripture's authority seriously in the counseling room. His nouthetic approach — confrontational, directive, Scripture-saturated — has been refined by subsequent practitioners, but Adams established the foundational principle that the church need not outsource soul care to secular psychology." },
+  { id: "tripp-p", name: "Paul David Tripp", era: "b. 1950", context: "Instruments in the Redeemer's Hands (2002); Suffering: Gospel Hope When Life Doesn't Make Sense (2018)", bio: "Paul David Tripp has been the most widely read biblical counseling author of the past two decades. His Instruments in the Redeemer's Hands: People in Need of Change Helping People in Need of Change articulated a vision of every-member ministry in which ordinary Christians are equipped to do the work of soul care — not just trained professionals. Tripp's approach is characterized by deep attention to the heart (the inner life of desires, beliefs, and motivations) rather than just behavior modification. His work on suffering, marriage, parenting, and ministry struggle has made biblical counseling resources accessible to laypeople and pastors across all denominations.", quote: "People don't change because you confront their behavior. They change when the gospel reaches the desires and beliefs that are driving the behavior. Change happens at the level of the heart, not the level of the calendar.", contribution: "Tripp's Instruments in the Redeemer's Hands has trained hundreds of thousands of laypeople and pastors in gospel-centered counseling skills. His books on marriage (What Did You Expect?), parenting (Shepherding a Child's Heart), and ministry (Dangerous Calling) have extended biblical counseling principles into every area of Christian life. He is arguably the most influential popularizer of biblical counseling in the English-speaking world." },
+  { id: "welch-e", name: "Edward T. Welch", era: "b. 1953", context: "When People Are Big and God Is Small (1997); Side by Side: Walking with Others in Wisdom and Love (2015)", bio: "Edward Welch has made some of the most significant contributions to biblical counseling's treatment of shame, fear, addiction, and self-esteem. His When People Are Big and God Is Small addressed the fear of people as a spiritual issue — the tendency to give human approval more weight than God's — and offered a biblical framework for breaking free. His work on addiction (Addictions: A Banquet in the Grave) and on depression (Depression: A Stubborn Darkness) demonstrated that biblical counseling could engage the most complex struggles with both theological depth and practical wisdom. Welch is known for his unusual combination of pastoral warmth and intellectual rigor.", quote: "The fear of people is not primarily a psychological problem — it is a theological problem. We fear people because we have a small view of God. The cure is not self-confidence; it is the knowledge of God.", contribution: "Welch's body of work has extended biblical counseling's reach into areas previously dominated by secular psychology: shame, addiction, fear, and depression. His model of coming alongside sufferers (rather than directing them from above) influenced the broader movement toward what practitioners now call 'care before cure.' His accessible writing style has made biblical counseling resources available to struggling Christians who might never see a professional counselor." },
+  { id: "lane-t", name: "Tim Lane", era: "b. 1963", context: "How People Change (2006, with Paul Tripp); Unstuck: A Nine-Step Journey to Change That Lasts (2014)", bio: "Tim Lane's work has focused on the process of gospel-driven change — what it looks like for the gospel to actually transform the way people live, think, and relate. How People Change (co-authored with Paul Tripp) is among the most used texts in biblical counseling training programs, offering a systematic framework for understanding the change process from the inside out: from the heart to behavior, from the gospel to daily life. Lane has also worked to build bridges between biblical counseling and local church ministry, insisting that the counseling room is not separate from the life of the congregation but an extension of it.", quote: "Change is not primarily about trying harder or knowing better. It is about the gospel reaching the real me — the desires, the fears, the beliefs that no one else sees — and replacing them with the reality of who God is.", contribution: "How People Change has become a standard text in biblical counseling certification programs and church-based small group curricula. Lane's work on connecting the counseling ministry to local church life has influenced how churches think about pastoral care, shepherding, and community." },
+  { id: "powlison-d", name: "David Powlison", era: "1949-2019", context: "Seeing with New Eyes (2003); The Biblical Counseling Movement: History and Context (2010)", bio: "David Powlison was the most academically rigorous voice in the biblical counseling movement, and arguably its wisest. As editor of the Journal of Biblical Counseling for more than two decades and faculty member at CCEF, Powlison articulated a vision of biblical counseling that was nuanced, historically aware, and in genuine dialogue with psychology — neither capitulating to it nor dismissing it. His essay on X-ray questions (diagnostic questions that illuminate the heart) has been one of the most influential pieces in biblical counseling practice. Powlison's final years, during his illness from cancer, produced some of his most profound writing on suffering, dying well, and hope.", quote: "The Bible is not a counseling manual. It is a counseling revelation. It does not give you techniques; it gives you a way of seeing — seeing God, seeing yourself, seeing other people, seeing what is really going on.", contribution: "Powlison's academic work gave the biblical counseling movement intellectual credibility and theological depth. His careful engagement with psychology — taking seriously what it observes while challenging its fundamental assumptions — modeled a sophisticated Christian alternative to both wholesale adoption of secular therapy and reflexive rejection of it. His influence on CCEF's approach has shaped the movement's most nuanced practitioners." },
+];
+
 export default function BiblicalCounselingPage() {
-  const [activeTab, setActiveTab] = useState<"overview" | "topics">("overview");
+  const [activeTab, setActiveTab] = useState<"overview" | "topics" | "voices" | "schools">("overview");
   const [selectedTopic, setSelectedTopic] = useState("anxiety");
   const [openSection, setOpenSection] = useState<string>("approach");
+  const [selectedVoice, setSelectedVoice] = useState("adams-j");
+  const voiceItem = VOICES_BC.find(v => v.id === selectedVoice)!;
 
   const topic = TOPICS.find(t => t.id === selectedTopic)!;
 
@@ -146,6 +156,8 @@ export default function BiblicalCounselingPage() {
           {[
             { id: "overview" as const, label: "What Is It", icon: "📖" },
             { id: "topics" as const, label: "Specific Topics", icon: "🔍" },
+            { id: "schools" as const, label: "Approaches", icon: "🏛️" },
+            { id: "voices" as const, label: "Key Voices", icon: "🎓" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 15, cursor: "pointer" }}>
@@ -246,6 +258,53 @@ export default function BiblicalCounselingPage() {
                   )}
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+        {activeTab === "schools" && (
+          <div>
+            <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 8 }}>Schools of Thought</h2>
+            <p style={{ color: MUTED, fontSize: 14, marginBottom: 24, lineHeight: 1.6 }}>
+              Biblical counseling is not monolithic — different practitioners have developed distinct approaches to integrating Scripture and care.
+            </p>
+            {[
+              { name: "Nouthetic Counseling (Jay Adams)", color: "#3B82F6", desc: "The founding approach: confrontational, directive, Scripture-saturated. Adams argued that most emotional and behavioral problems are rooted in sin, and that the counselor's task is to bring Scripture to bear on the counselee's unbiblical patterns. Critics say it underweights suffering and complexity; proponents say it is the only approach that takes sin and grace fully seriously." },
+              { name: "CCEF Approach (Welch, Powlison, Tripp)", color: "#8B5CF6", desc: "The Christian Counseling and Educational Foundation approach is more nuanced than Adams's original nouthetic model. It attends equally to suffering and sin, emphasizes empathy before exhortation, takes psychology's observations seriously (while challenging its framework), and integrates the full range of human experience into its gospel-centered care. The dominant approach in academically trained biblical counseling." },
+              { name: "Christian Psychology (Roberts, Watson)", color: "#10B981", desc: "Distinguished from biblical counseling proper, Christian psychology attempts to develop a distinctly Christian psychological science — drawing on Christian anthropology, virtue theory, and spiritual formation to reconstruct psychology from within rather than replacing it from without. Proponents include Robert Roberts (Spiritual Emotions) and Mark McMinn (Psychology, Theology, and Spirituality in Christian Counseling)." },
+              { name: "Integration Model (Collins, Crabb)", color: "#F59E0B", desc: "The integrationist approach seeks to bring together Christian theology and the best of secular psychology, arguing that all truth is God's truth and that psychology's empirical findings about human behavior are valid observations that can be used in a Christian framework. Larry Crabb's Inside Out and Gary Collins's work represent the evangelical integration tradition. Critics say integration can too easily import secular assumptions under Christian language." },
+              { name: "Transformational Ministry (AACC)", color: "#EF4444", desc: "The American Association of Christian Counselors represents a broader tent of licensed Christian counselors who use both psychological methods and Christian resources, integrating prayer, Scripture, and the therapeutic relationship. This approach is the most common among licensed professional counselors who identify as Christian and work in clinical settings." },
+            ].map((s, i) => (
+              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 22, marginBottom: 14 }}>
+                <h3 style={{ color: s.color, fontWeight: 800, fontSize: 16, marginBottom: 10 }}>{s.name}</h3>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{s.desc}</p>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {activeTab === "voices" && (
+          <div style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
+            <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 80 }}>
+              {VOICES_BC.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? "rgba(0,255,136,0.4)" : BORDER}`, background: selectedVoice === v.id ? "rgba(0,255,136,0.08)" : CARD, cursor: "pointer" }}>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: selectedVoice === v.id ? GREEN : TEXT, marginBottom: 2 }}>{v.name}</div>
+                  <div style={{ fontSize: 11, color: MUTED }}>{v.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 28 }}>
+              <div style={{ fontSize: 12, color: MUTED, fontStyle: "italic", marginBottom: 6 }}>{voiceItem.context}</div>
+              <h2 style={{ fontSize: 24, fontWeight: 800, marginBottom: 4 }}>{voiceItem.name}</h2>
+              <div style={{ fontSize: 13, color: MUTED, marginBottom: 20 }}>{voiceItem.era}</div>
+              <p style={{ fontSize: 14, color: TEXT, lineHeight: 1.8, marginBottom: 24 }}>{voiceItem.bio}</p>
+              <div style={{ background: BG, borderRadius: 12, padding: 20, borderLeft: `3px solid ${GREEN}`, marginBottom: 24 }}>
+                <p style={{ fontSize: 15, color: "#E0E0F0", lineHeight: 1.75, fontStyle: "italic" }}>&ldquo;{voiceItem.quote}&rdquo;</p>
+              </div>
+              <div>
+                <div style={{ fontSize: 11, fontWeight: 700, color: PURPLE, textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>Contribution</div>
+                <p style={{ fontSize: 14, color: TEXT, lineHeight: 1.75 }}>{voiceItem.contribution}</p>
+              </div>
             </div>
           </div>
         )}

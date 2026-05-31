@@ -216,6 +216,14 @@ const availabilityColor: Record<string, string> = {
   Full: "#EF4444",
 };
 
+const VOICES_MENT = [
+  { id: "stanley-p", name: "Paul Stanley & J. Robert Clinton", era: "1992", context: "Connecting: The Mentoring Relationships You Need to Succeed in Life — the foundational modern framework for Christian mentoring", bio: "Paul Stanley and J. Robert Clinton's Connecting is the most cited academic treatment of mentoring in Christian contexts. Drawing on extensive biographical research into the lives of Christian leaders, Clinton and Stanley developed a typology of mentoring relationships — from intensive mentoring (discipleship) to occasional mentoring (a timely counselor) — and argued that every leader needs a constellation of different mentors at different life stages. Their framework distinguished between upward mentors (those ahead of you), peer mentors (co-journeyers), and downward mentors (those you pour into), creating a model for lifelong mentoring relationships that has influenced Christian leadership development worldwide.", quote: "Leaders who finish well are those who have maintained a learning posture throughout their lives — and that posture is sustained by mentoring relationships. No one finishes well alone.", contribution: "Stanley and Clinton's typology of mentoring relationships has shaped how Christian leadership development programs, seminaries, and churches think about mentoring. Their concept of the mentoring constellation — multiple mentors serving different functions — has replaced the older idea that one mentor can meet all of a mentee's needs, and has made mentoring more accessible by lowering the expectation that any single relationship must do everything." },
+  { id: "engstrom-t", name: "Ted Engstrom", era: "1916-2006", context: "The Fine Art of Mentoring (1989) — a pioneering call for intentional Christian mentoring", bio: "Ted Engstrom was president of World Vision and Youth for Christ and one of the earliest voices to call the evangelical church to recover intentional mentoring. His The Fine Art of Mentoring argued that the church had lost the ancient practice of one generation deliberately investing in the next, and that the recovery of mentoring was essential for developing the leaders the church needed. Engstrom drew on his own experience of being mentored and mentoring others to articulate a vision of the mentoring relationship as both strategic and deeply personal — a combination of wisdom-transfer, friendship, and accountability.", quote: "The greatest thing I can do for the next generation is not to give them a program or a curriculum but to give them my life — my failures, my successes, my hard-won wisdom. That is mentoring.", contribution: "Engstrom was among the first evangelical leaders to use the language of mentoring deliberately and to call for its recovery in the church. His work preceded the broader mentoring revival of the 1990s and gave subsequent writers a framework and a vocabulary for the practice." },
+  { id: "biehl-b", name: "Bobb Biehl", era: "b. 1944", context: "Mentoring: Confidence in Finding a Mentor and Becoming One (1996) — practical guide to starting mentoring relationships", bio: "Bobb Biehl has focused on making mentoring practically accessible — removing the mystique and the barriers that prevent people from either seeking or offering mentoring relationships. His work insists that mentoring does not require a formal program or a credentialed professional: it requires one person with more experience being willing to share it with one person with less. Biehl's particular contribution is in helping people identify who their natural mentors are (the people they already turn to), how to formalize those relationships, and how to approach someone about becoming a mentor.", quote: "The biggest barrier to mentoring is not lack of qualified mentors — it is the fear of asking. Most people who could mentor you would be honored if you asked. Most people who need a mentor never ask.", contribution: "Biehl's accessible, practical approach to mentoring has helped thousands of churches and organizations implement mentoring programs. His focus on removing barriers to asking — rather than building complex matching systems — has made mentoring relationships more common in contexts where formal programs have failed." },
+  { id: "crabb-l", name: "Larry Crabb", era: "b. 1944", context: "Connecting: Healing for Ourselves and Our Relationships (1997) — the relational foundation of Christian community and soul care", bio: "Larry Crabb's Connecting argued that the most powerful source of healing for human brokenness is not therapy or programs but genuine Christian community — people who know each other deeply and who speak truth and grace into each other's lives. Crabb's vision of Christian mentoring and community is more than skill transfer; it is the release of what he calls the 'connecting grace' that flows when one person truly sees another with the eyes of Christ. His work challenged both the over-professionalization of care and the superficiality of much church community, calling for the kind of deep relational investment that looks more like the New Testament than a counseling session.", quote: "We were not designed for programs — we were designed for community. The deepest change in human beings happens not in therapy offices but in rooms where people know each other's names and carry each other's burdens.", contribution: "Connecting helped reframe Christian mentoring and care as fundamentally relational rather than professional. Crabb's vision of the 'connecting community' has influenced how churches think about small groups, pastoral care, and the role of ordinary believers in each other's formation — not just what happens in formal mentoring programs." },
+  { id: "coleman-r", name: "Robert Coleman", era: "b. 1928", context: "The Master Plan of Evangelism (1963) — Jesus as the model of discipling/mentoring", bio: "Robert Coleman's The Master Plan of Evangelism is the most read analysis of Jesus's discipleship method, and it has shaped how the evangelical church thinks about mentoring and intentional investment in others. Coleman argued that Jesus's primary strategy for reaching the world was not mass proclamation (though he did preach to crowds) but intensive investment in twelve men who would then reproduce themselves. The eight principles Coleman identified — selection, association, consecration, impartation, demonstration, delegation, supervision, reproduction — constitute a model of Christian mentoring that has influenced millions of pastors, missionaries, and ministry leaders.", quote: "Jesus concentrated himself on a few chosen men. Everything else he did was supplementary to this main objective. He came to train men who would carry his gospel to the ends of the earth.", contribution: "The Master Plan of Evangelism has sold millions of copies and shaped the discipleship and mentoring philosophy of generations of evangelical pastors and missionaries. Its analysis of Jesus's intentional investment in the Twelve has given the church a biblical framework for mentoring that is both theologically grounded and practically imitable." },
+];
+
 export default function MentorshipPage() {
   const [savedMentors, setSavedMentors] = useState<Set<string>>(new Set());
   const [requests, setRequests] = useState<MentorshipRequest[]>([]);
@@ -223,7 +231,9 @@ export default function MentorshipPage() {
   const [requestModal, setRequestModal] = useState<Mentor | null>(null);
   const [filterExpertise, setFilterExpertise] = useState("All");
   const [filterAvailability, setFilterAvailability] = useState("All");
-  const [activeTab, setActiveTab] = useState<"browse" | "my-mentors">("browse");
+  const [activeTab, setActiveTab] = useState<"browse" | "my-mentors" | "voices" | "guide">("browse");
+  const [selectedVoice, setSelectedVoice] = useState("stanley-p");
+  const voiceItem = VOICES_MENT.find(v => v.id === selectedVoice)!;
 
   const [form, setForm] = useState({
     topic: "",
@@ -312,7 +322,7 @@ export default function MentorshipPage() {
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "32px 24px" }}>
         {/* Tabs */}
         <div style={{ display: "flex", gap: 8, marginBottom: 28, background: "#12121F", padding: 6, borderRadius: 12, border: "1px solid #1E1E32" }}>
-          {(["browse", "my-mentors"] as const).map((tab) => (
+          {(["browse", "my-mentors", "guide", "voices"] as const).map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
@@ -328,7 +338,7 @@ export default function MentorshipPage() {
                 color: activeTab === tab ? "#fff" : "#9898B3",
               }}
             >
-              {tab === "browse" ? "Find a Mentor" : `My Requests${requests.length ? ` (${requests.length})` : ""}`}
+              {tab === "browse" ? "Find a Mentor" : tab === "my-mentors" ? `My Requests${requests.length ? ` (${requests.length})` : ""}` : tab === "guide" ? "📖 Guide" : "🎓 Voices"}
             </button>
           ))}
         </div>
@@ -622,6 +632,57 @@ export default function MentorshipPage() {
                 })}
               </div>
             )}
+          </div>
+        )}
+        {activeTab === "guide" && (
+          <div style={{ maxWidth: 800, margin: "0 auto" }}>
+            <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 8, color: "#F2F2F8" }}>How to Be Mentored Well</h2>
+            <p style={{ color: "#9898B3", fontSize: 14, marginBottom: 24, lineHeight: 1.6 }}>
+              Most mentoring fails not because of bad mentors but because mentees don&apos;t know how to use the relationship well.
+            </p>
+            {[
+              { title: "Be Specific About What You Need", icon: "🎯", desc: "The most common mentoring mistake is vagueness. Don't say 'I want to grow.' Say 'I'm stuck in a career decision between X and Y and need someone who has navigated that.' Specific needs attract specific help. Mentors can help you with what they can see — tell them what you're carrying." },
+              { title: "Prepare Before Every Meeting", icon: "📝", desc: "Come with questions. Come with updates on what happened since the last meeting. Come having thought through the issue you're bringing. Nothing communicates disrespect for a mentor's time more than showing up empty-handed. Nothing accelerates mentoring faster than a prepared mentee." },
+              { title: "Apply What You Learn", icon: "⚡", desc: "If you never do anything with what your mentor tells you, you'll exhaust their goodwill and learn nothing. The meeting is not the product — the changed behavior is. Report back on what you tried, what worked, and what didn't. This turns advice into accountability." },
+              { title: "Honor the Relationship", icon: "🤝", desc: "Mentoring is a gift. Write the thank-you note. Show up on time. Don't cancel repeatedly. Keep what's shared confidential. Your mentor is investing something irreplaceable — their time and experience. Honor that investment by taking it seriously." },
+              { title: "Broaden Your Constellation", icon: "⭐", desc: "Don't expect one mentor to meet every need. Stanley and Clinton's research shows that flourishing leaders have a constellation of mentors — a spiritual director, a career guide, a peer, a counselor. Let different people speak into different areas of your life." },
+              { title: "Eventually, Become a Mentor", icon: "🌱", desc: "The best mentees become mentors. What you have received, you pass on. Look for the person five years behind you who needs what you've learned — and give it away freely. This is how the chain of discipleship that Jesus started continues in your generation." },
+            ].map((item, i) => (
+              <div key={i} style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 14, padding: 22, marginBottom: 14 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}>
+                  <span style={{ fontSize: 24 }}>{item.icon}</span>
+                  <h3 style={{ fontSize: 16, fontWeight: 700, color: "#00FF88", margin: 0 }}>{item.title}</h3>
+                </div>
+                <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.75, margin: 0 }}>{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {activeTab === "voices" && (
+          <div style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
+            <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 80 }}>
+              {VOICES_MENT.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? "rgba(0,255,136,0.4)" : "#1E1E32"}`, background: selectedVoice === v.id ? "rgba(0,255,136,0.08)" : "#12121F", cursor: "pointer" }}>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: selectedVoice === v.id ? "#00FF88" : "#F2F2F8", marginBottom: 2 }}>{v.name}</div>
+                  <div style={{ fontSize: 11, color: "#9898B3" }}>{v.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1, background: "#12121F", border: "1px solid #1E1E32", borderRadius: 16, padding: 28 }}>
+              <div style={{ fontSize: 12, color: "#9898B3", fontStyle: "italic", marginBottom: 6 }}>{voiceItem.context}</div>
+              <h2 style={{ fontSize: 24, fontWeight: 800, marginBottom: 4, color: "#F2F2F8" }}>{voiceItem.name}</h2>
+              <div style={{ fontSize: 13, color: "#9898B3", marginBottom: 20 }}>{voiceItem.era}</div>
+              <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.8, marginBottom: 24 }}>{voiceItem.bio}</p>
+              <div style={{ background: "#07070F", borderRadius: 12, padding: 20, borderLeft: "3px solid #00FF88", marginBottom: 24 }}>
+                <p style={{ fontSize: 15, color: "#E0E0F0", lineHeight: 1.75, fontStyle: "italic" }}>&ldquo;{voiceItem.quote}&rdquo;</p>
+              </div>
+              <div>
+                <div style={{ fontSize: 11, fontWeight: 700, color: "#6B4FBB", textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>Contribution</div>
+                <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.75 }}>{voiceItem.contribution}</p>
+              </div>
+            </div>
           </div>
         )}
       </div>

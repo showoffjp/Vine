@@ -111,6 +111,54 @@ const seedGoals: AccountabilityGoal[] = [
   },
 ];
 
+const VOICES_ACCT = [
+  {
+    id: "wesley-j",
+    name: "John Wesley",
+    era: "1703–1791 · Methodist",
+    context: "Founder of Methodist Class Meetings",
+    bio: "John Wesley pioneered one of history's most effective accountability structures: the Methodist class meeting. Small groups of 10–12 believers met weekly, led by a class leader who asked each member searching questions about their spiritual state, sins, and progress. Wesley required attendance for membership. His Bands (more intimate, same-gender groups) gave ordinary people a structured framework for mutual confession and encouragement that drove the 18th-century revival.",
+    quote: "Solitary religion is not to be found in the gospel. The Bible knows nothing of a holy hermit. Christianity is essentially a social religion; to turn it into a solitary one is indeed to destroy it.",
+    contribution: "Wesley's class meetings gave the modern church its foundational model for small-group accountability. The practice of regular, structured, honest examination in community — where specific questions are asked and answered — is traceable directly to his societies. Virtually every accountability structure since owes a debt to Wesley.",
+  },
+  {
+    id: "bonhoeffer-d",
+    name: "Dietrich Bonhoeffer",
+    era: "1906–1945 · Lutheran",
+    context: "Life Together & Confessing Church",
+    bio: "Dietrich Bonhoeffer's Life Together (1939), written from his experience running the underground Finkenwalde seminary, remains the definitive theological account of Christian community. His chapter on confession argues boldly: private confession to a brother breaks the power of secret sin in a way private confession to God alone often does not — because sin loves secrecy, and exposure to a human witness shatters its power.",
+    quote: "The more isolated a person is, the more destructive will be the power of sin over him. Sin wants to remain unknown. In the darkness of what is left unsaid it poisons the whole being.",
+    contribution: "Bonhoeffer gave the modern accountability movement its theological grounding. His argument that sin loses its power when confessed to a trusted brother, and that breakthrough to community happens through confession, is the foundational theology for why one-on-one accountability works.",
+  },
+  {
+    id: "foster-r",
+    name: "Richard Foster",
+    era: "b. 1942 · Quaker",
+    context: "Celebration of Discipline",
+    bio: "Richard Foster's Celebration of Discipline (1978), which has sold over 2 million copies, devoted a full chapter to Confession as a corporate spiritual discipline. Foster emphasized that confession to a trusted, mature Christian is not optional for serious disciples — it breaks patterns of sin that private prayer alone cannot dissolve. He argued that isolated Christianity produces stunted growth.",
+    quote: "To confess our sins to one another is to forsake the illusion that we can handle our own failures in the closet. It is to open ourselves to the community's knowledge of us.",
+    contribution: "Foster's Celebration of Discipline introduced a generation of evangelicals to spiritual disciplines in an accessible form. His treatment of confession and accountability helped Protestant readers recover a practice largely abandoned since the Reformation, making it theologically respectable in non-Catholic contexts.",
+  },
+  {
+    id: "willard-d",
+    name: "Dallas Willard",
+    era: "1935–2013 · Evangelical",
+    context: "The Spirit of the Disciplines",
+    bio: "Dallas Willard's The Spirit of the Disciplines (1988) argued that spiritual transformation requires deliberate training through embodied practices — including fellowship and submission. Willard stressed that accountability structures work because spiritual formation is not merely cognitive: our bodies, habits, and communities must change. He placed accountability within 'disciplines of engagement,' requiring sustained effort within community.",
+    quote: "Grace is not opposed to effort, it is opposed to earning. Effort is action, earning is attitude. Grace requires that we show up to the training.",
+    contribution: "Willard's philosophical framework gave accountability its best answer to the criticism that it is works-based. His distinction between grace and effort, and his argument that disciplines are training rather than earning, freed evangelicals to embrace structured accountability without theological guilt.",
+  },
+  {
+    id: "cloud-h",
+    name: "Henry Cloud",
+    era: "b. 1956 · Evangelical",
+    context: "Boundaries, Integrity",
+    bio: "Henry Cloud, psychologist and Christian author, has written on accountability through Boundaries (with John Townsend), Integrity, and Necessary Endings. Cloud bridges psychological and theological frameworks: healthy accountability requires clear structures, honest feedback, and willingness to face reality about oneself. His work is especially influential in recovery communities, pastoral care, and Christian leadership development.",
+    quote: "We are only as sick as our secrets. The things we hide have power over us. The things we expose and bring into the light lose that power.",
+    contribution: "Cloud brought psychological literature on accountability, honesty, and self-deception into the Christian framework. His Boundaries framework became foundational in Christian counseling and pastoral care, and his accessible writing style made these concepts available to practitioners who might not engage with more academic theology.",
+  },
+];
+
 export default function AccountabilityPage() {
   const [goals, setGoals] = useState<AccountabilityGoal[]>(() => {
     try {
@@ -119,10 +167,13 @@ export default function AccountabilityPage() {
     } catch { return seedGoals; }
   });
 
+  const [mainTab, setMainTab] = useState<"goals" | "guide" | "voices">("goals");
+  const [selectedVoice, setSelectedVoice] = useState("wesley-j");
   const [showCompose, setShowCompose] = useState(false);
   const [selectedGoal, setSelectedGoal] = useState<string | null>(goals[0]?.id ?? null);
   const [checkInNote, setCheckInNote] = useState("");
   const [activeTab, setActiveTab] = useState<"active" | "completed">("active");
+  const voiceItem = VOICES_ACCT.find(v => v.id === selectedVoice)!;
 
   const [form, setForm] = useState({
     title: "",
@@ -340,7 +391,19 @@ export default function AccountabilityPage() {
           </div>
         )}
 
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Main tab bar */}
+        <div style={{ borderBottom: "1px solid #1E1E32", background: "#0A0A16", position: "sticky", top: 0, zIndex: 10, marginBottom: 24 }}>
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8" style={{ display: "flex", gap: 2 }}>
+            {([["goals", "My Goals"], ["guide", "📖 Guide"], ["voices", "🎓 Voices"]] as const).map(([key, label]) => (
+              <button key={key} onClick={() => setMainTab(key)}
+                style={{ background: "none", border: "none", borderBottom: mainTab === key ? "2px solid #00FF88" : "2px solid transparent", color: mainTab === key ? "#F2F2F8" : "#9898B3", fontWeight: mainTab === key ? 700 : 500, fontSize: 14, padding: "14px 18px", cursor: "pointer", whiteSpace: "nowrap" }}>
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {mainTab === "goals" && <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex gap-6">
             {/* Left: Goal list */}
             <div className="w-72 shrink-0">
@@ -535,7 +598,61 @@ export default function AccountabilityPage() {
               </div>
             )}
           </div>
-        </div>
+        </div>}
+
+        {mainTab === "guide" && (
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div style={{ maxWidth: 720 }}>
+              <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 6, color: "#F2F2F8" }}>How Biblical Accountability Works</h2>
+              <p style={{ fontSize: 14, color: "#9898B3", marginBottom: 28, lineHeight: 1.7 }}>Accountability is not surveillance — it is a covenant of mutual encouragement toward holiness. Here are the principles that make it work.</p>
+              {[
+                { icon: "🤝", title: "Choose Wisely", body: "An accountability partner should be someone who is slightly further along than you spiritually, who will tell you the truth even when it is uncomfortable, and who has demonstrated discretion. Avoid choosing someone you are romantically interested in or someone who will always agree with you. James 5:16 calls for mutual confession — which means both parties are vulnerable, not just one." },
+                { icon: "📋", title: "Use Specific Questions", body: "Vague accountability produces vague results. Write out 3–5 specific, concrete questions to ask at each meeting. Wesley's bands asked: 'What known sins have you committed since our last meeting? What temptations have you met with? How were you delivered? What have you thought, said, or done, of which you doubt whether it be sin or not?' Specificity is mercy — it closes the gap where self-deception hides." },
+                { icon: "🔒", title: "Maintain Confidentiality", body: "Nothing destroys accountability faster than broken confidence. What is shared in an accountability relationship stays there, period. Before the relationship begins, be explicit: 'What we share here stays here.' The only exception is an immediate threat of harm to self or others. Proverbs 11:13 says a trustworthy person keeps a confidence — this is the bedrock of the entire relationship." },
+                { icon: "📅", title: "Meet Regularly and Consistently", body: "The value of accountability compounds with regularity. Monthly meetings produce some fruit. Weekly meetings produce real transformation. Whatever frequency you choose, protect it. Cancel rarely. Treat it like a doctor's appointment for your soul. Wesley's class meetings were weekly without exception — their consistency was a feature, not a burden." },
+                { icon: "🌱", title: "Celebrate Progress, Not Just Failure", body: "Accountability is not just about sin management — it is about growth toward Christlikeness. When progress is made, name it and celebrate it. Positive reinforcement of growth is as important as honest confrontation of failure. Hebrews 10:24 says 'spur one another on toward love and good deeds' — the goal is positive trajectory, not just sin elimination." },
+                { icon: "✝️", title: "Anchor It in Grace", body: "The accountability relationship must be saturated in the gospel. When failure is confessed, it should be met with the words of 1 John 1:9 and Romans 8:1 — not condemnation, not minimizing, but gospel-grounded grace that simultaneously takes sin seriously and takes the cross more seriously. Partners who become merely moral scorekeepers will produce shame, not transformation." },
+              ].map(item => (
+                <div key={item.title} style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 16, padding: "20px 24px", marginBottom: 14, display: "flex", gap: 16 }}>
+                  <div style={{ fontSize: 24, flexShrink: 0 }}>{item.icon}</div>
+                  <div>
+                    <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 6, color: "#F2F2F8" }}>{item.title}</div>
+                    <p style={{ fontSize: 13, color: "#C0C0D8", lineHeight: 1.7, margin: 0 }}>{item.body}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {mainTab === "voices" && (
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
+              <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 80 }}>
+                {VOICES_ACCT.map(v => (
+                  <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                    style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? "rgba(0,255,136,0.4)" : "#1E1E32"}`, background: selectedVoice === v.id ? "rgba(0,255,136,0.08)" : "#12121F", cursor: "pointer" }}>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: selectedVoice === v.id ? "#00FF88" : "#F2F2F8", marginBottom: 2 }}>{v.name}</div>
+                    <div style={{ fontSize: 11, color: "#9898B3" }}>{v.era}</div>
+                  </button>
+                ))}
+              </div>
+              <div style={{ flex: 1, background: "#12121F", border: "1px solid #1E1E32", borderRadius: 16, padding: 28 }}>
+                <div style={{ fontSize: 12, color: "#9898B3", fontStyle: "italic", marginBottom: 6 }}>{voiceItem.context}</div>
+                <h2 style={{ fontSize: 24, fontWeight: 800, marginBottom: 4, color: "#F2F2F8" }}>{voiceItem.name}</h2>
+                <div style={{ fontSize: 13, color: "#9898B3", marginBottom: 20 }}>{voiceItem.era}</div>
+                <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.8, marginBottom: 24 }}>{voiceItem.bio}</p>
+                <div style={{ background: "#07070F", borderRadius: 12, padding: 20, borderLeft: "3px solid #00FF88", marginBottom: 24 }}>
+                  <p style={{ fontSize: 15, color: "#E0E0F0", lineHeight: 1.75, fontStyle: "italic" }}>&ldquo;{voiceItem.quote}&rdquo;</p>
+                </div>
+                <div>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: "#6B4FBB", textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>Contribution</div>
+                  <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.75 }}>{voiceItem.contribution}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -343,6 +343,14 @@ const discussions: DiscussionTopic[] = [
   },
 ];
 
+const VOICES_YOUTH = [
+  { id: "smith-jk", name: "James K.A. Smith", era: "b. 1970", context: "You Are What You Love (2016); Desiring the Kingdom (2009) — on formation of young people's loves and desires", bio: "James K.A. Smith is a philosopher at Calvin University whose work on cultural liturgies, desire, and formation has become essential reading for youth workers and educators. His central argument: human beings are not primarily thinking beings but desiring, loving creatures — and what we love is formed by the practices and habits we engage in, not primarily by the beliefs we hold. This has profound implications for youth ministry: if you want to form Christian young people, you must attend to the practices and habits that shape their desires, not merely the doctrines they assent to. You Are What You Love is his accessible translation of the more academic Desiring the Kingdom for church audiences.", quote: "You are not what you think — you are what you love. And what you love is shaped by the habits, practices, and liturgies that you have been shaped by, often without knowing it.", contribution: "Smith's work has reshaped how a generation of youth workers, educators, and parents think about formation. His emphasis on practices over propositions — that what we do together shapes who we become — has influenced the design of youth ministries, Christian schools, and family devotional practices across evangelical traditions." },
+  { id: "kinnaman-d", name: "David Kinnaman", era: "b. 1973", context: "You Lost Me (2011); Faith for Exiles (2019) — on why young people leave the church and what keeps them", bio: "David Kinnaman is president of the Barna Group and has conducted the most extensive sociological research on young people and faith in the United States. His You Lost Me — based on research with thousands of 18-29-year-olds who had left the church — identified six patterns that lead young adults to disengage: the church is overprotective, shallow, anti-science, repressive, exclusive, or doubtless. His subsequent Faith for Exiles, co-authored with Mark Matlock, identified the practices that characterize the small minority of young adults who maintain robust faith: cultural discernment, formative relationships, meaningful community, vocational discipleship, and counter-cultural mission.", quote: "The church isn't losing a generation because young people have stopped believing in God. It's losing them because the faith they received isn't big enough, or deep enough, or honest enough, to carry them through real life.", contribution: "Kinnaman's research has given youth workers, parents, and church leaders empirical data on why young people leave and what keeps them. His work has driven significant changes in how evangelical churches approach youth ministry — moving from programming and entertainment models toward formation, mentorship, and deeper engagement with real questions." },
+  { id: "comer-jm", name: "John Mark Comer", era: "b. 1980", context: "The Ruthless Elimination of Hurry (2019); Live No Lies (2021) — on the spiritual challenges facing young adults", bio: "John Mark Comer, founding pastor of Bridgetown Church in Portland (now Practicing the Way), has become one of the most influential voices for young adult Christians navigating the intersection of digital culture, mental health, and Christian formation. His The Ruthless Elimination of Hurry, drawing on John Ortberg's counsel from Dallas Willard, argues that the primary spiritual challenge for young adults is not lack of conviction but the pace of life that makes deep formation impossible. Live No Lies addresses the three sources of temptation — the devil, the flesh, and the world — through the lens of the cultural moment: the digital information environment, the lies embedded in consumerist and sexual culture.", quote: "The greatest spiritual challenge facing young adults today is not doubt — it is distraction. It is the pace of life that leaves no room for God to form us into who we are meant to be.", contribution: "Comer has reached a generation of young adult Christians who were disengaged from traditional evangelical church culture but hungry for serious discipleship. His podcasts, books, and community have helped create a model for young adult ministry centered on spiritual practices, honest doubt, and counter-cultural formation." },
+  { id: "powell-k", name: "Kara Powell", era: "b. 1970", context: "Sticky Faith (2011); Growing Young (2016) — research-based youth ministry practice", bio: "Kara Powell is executive director of the Fuller Youth Institute and has led some of the most significant research-based studies of youth ministry in the evangelical world. Sticky Faith — the result of a multi-year longitudinal study — identified practices that help faith 'stick' into young adulthood: church-family integration (vs. youth group segregation), meaningful service opportunities, safe spaces for doubt, mentoring relationships, and ownership of faith rather than inherited religion. Growing Young, a study of churches that are effectively reaching and retaining young people, identified six commitments shared by those churches: keychain leadership, empathetic warmth, messaging Jesus, prioritizing young people, focusing on entire families, and fostering best friendships.", quote: "Sticky faith isn't just about getting young people through high school. It's about helping them develop a faith that is their own — that can carry them through the real challenges of adult life.", contribution: "Powell's research-based approach has given youth workers and church leaders empirically grounded tools for thinking about faith formation. Fuller Youth Institute's resources have been used in thousands of churches, and Sticky Faith has become the standard reference for thinking about youth-to-young-adult transition in evangelical contexts." },
+  { id: "root-a", name: "Andrew Root", era: "b. 1974", context: "The End of Youth Ministry? (2020); Ministry in the Digital Age; theologian of youth ministry", bio: "Andrew Root is professor of youth and family ministry at Luther Seminary and the most theologically serious voice in contemporary youth ministry scholarship. His work engages with Charles Taylor's A Secular Age, late-modern culture, and the challenges of formation in a world of expressive individualism. The End of Youth Ministry? is not a pessimistic polemic but a theological argument: the youth ministry model built on events, programming, and entertainment is exhausted — not because young people are less spiritual but because the late-modern self requires something more. Root argues for ministry models built around divine encounter, vulnerability, and genuine theological reflection rather than cultural relevance.", quote: "The challenge of youth ministry in the secular age is not making Christianity cool enough to compete with culture. It is creating spaces where young people can actually encounter the living God.", contribution: "Root's theological depth has given youth ministry scholars and reflective practitioners a framework for understanding why attractional youth ministry models are failing — and what theological resources are available for reimagining the work. His engagement with Taylor, Bonhoeffer, and Luther gives youth ministry a genuinely theological foundation it has often lacked." },
+];
+
 const ageGroups = ["All Ages", "13–15", "16–18", "19–22", "23–25"];
 const categories = ["All", "Mindfulness", "Spiritual Growth", "Service", "Scripture", "Identity", "Prayer"];
 
@@ -358,7 +366,9 @@ export default function YouthPage() {
   const [likedResources, setLikedResources] = useState<Set<string>>(new Set());
   const [selectedChallenge, setSelectedChallenge] = useState<Challenge | null>(null);
   const [selectedResource, setSelectedResource] = useState<Resource | null>(null);
-  const [activeTab, setActiveTab] = useState<"challenges" | "resources" | "discuss">("challenges");
+  const [activeTab, setActiveTab] = useState<"challenges" | "resources" | "discuss" | "voices">("challenges");
+  const [selectedVoice, setSelectedVoice] = useState("smith-jk");
+  const voiceItem = VOICES_YOUTH.find(v => v.id === selectedVoice)!;
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedAgeGroup, setSelectedAgeGroup] = useState("All Ages");
 
@@ -462,7 +472,7 @@ export default function YouthPage() {
             border: "1px solid #1E1E32",
           }}
         >
-          {(["challenges", "resources", "discuss"] as const).map((tab) => (
+          {(["challenges", "resources", "discuss", "voices"] as const).map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
@@ -479,7 +489,7 @@ export default function YouthPage() {
                 color: activeTab === tab ? "#fff" : "#9898B3",
               }}
             >
-              {tab === "challenges" ? "🔥 Challenges" : tab === "resources" ? "📚 Resources" : "💬 Discuss"}
+              {tab === "challenges" ? "🔥 Challenges" : tab === "resources" ? "📚 Resources" : tab === "discuss" ? "💬 Discuss" : "🎓 Voices"}
             </button>
           ))}
         </div>
@@ -871,6 +881,35 @@ export default function YouthPage() {
               >
                 View All Discussions →
               </Link>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "voices" && (
+          <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
+            <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
+              {VOICES_YOUTH.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ background: selectedVoice === v.id ? "#6B4FBB" : "#12121F", border: `1px solid ${selectedVoice === v.id ? "#6B4FBB" : "#1E1E32"}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: "#F2F2F8", fontWeight: 700, fontSize: 14 }}>{v.name}</div>
+                  <div style={{ color: "#9898B3", fontSize: 12, marginTop: 2 }}>{v.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 28 }}>
+                <h2 style={{ color: "#00FF88", fontWeight: 900, fontSize: 22, margin: "0 0 4px" }}>{voiceItem.name}</h2>
+                <div style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 700, marginBottom: 6 }}>{voiceItem.era}</div>
+                <div style={{ color: "#9898B3", fontSize: 13, marginBottom: 16 }}>{voiceItem.context}</div>
+                <p style={{ color: "#F2F2F8", lineHeight: 1.8, fontSize: 15, marginBottom: 20 }}>{voiceItem.bio}</p>
+                <div style={{ background: "#07070F", borderLeft: "3px solid #00FF88", borderRadius: "0 8px 8px 0", padding: "14px 18px", marginBottom: 20 }}>
+                  <p style={{ color: "#00FF88", fontStyle: "italic", fontSize: 15, lineHeight: 1.7, margin: 0 }}>&ldquo;{voiceItem.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: "rgba(107,79,187,0.15)", borderRadius: 10, padding: 16 }}>
+                  <div style={{ color: "#6B4FBB", fontWeight: 700, fontSize: 13, marginBottom: 6 }}>Legacy and Contribution</div>
+                  <p style={{ color: "#F2F2F8", fontSize: 14, lineHeight: 1.7, margin: 0 }}>{voiceItem.contribution}</p>
+                </div>
+              </div>
             </div>
           </div>
         )}

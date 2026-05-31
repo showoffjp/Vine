@@ -159,6 +159,87 @@ const VOICES_ACCT = [
   },
 ];
 
+const QUESTIONS_DATA: { id: string; category: string; icon: string; questions: string[] }[] = [
+  {
+    id: "personal-holiness",
+    category: "Personal Holiness",
+    icon: "🙏",
+    questions: [
+      "Have you been with a woman or man anywhere this week that would embarrass you if your spouse or pastor had seen you?",
+      "Have you exposed yourself to any sexually explicit material this week?",
+      "Have you spent consistent time in Scripture and prayer each day this week?",
+      "Are there any sins you are concealing that you have not confessed to God or to a trusted brother?",
+      "Have you been covetous, proud, envious, or tempted to manipulate someone this week?",
+      "Is there any area of your thought life you would be ashamed to have Jesus observe?",
+    ],
+  },
+  {
+    id: "relationships-marriage",
+    category: "Relationships & Marriage",
+    icon: "❤️",
+    questions: [
+      "Have you invested genuine, undistracted time with your spouse or closest family members this week?",
+      "Have you spoken to your spouse or a family member in a way you regret — critical, dismissive, or harsh?",
+      "Are you harboring bitterness, resentment, or unforgiveness toward anyone?",
+      "Have you prioritized your phone or work over the people who matter most to you?",
+      "Is there a relationship in your life that needs repair, and have you taken any steps toward reconciliation?",
+      "Have you prayed for your spouse, children, or close friends by name this week?",
+    ],
+  },
+  {
+    id: "work-integrity",
+    category: "Work & Integrity",
+    icon: "⚡",
+    questions: [
+      "Have you lied about anything this week — in word, in omission, or by letting a false impression stand?",
+      "Have you been diligent and fully present in your work, or have you been lazy or distracted?",
+      "Have you taken anything that does not belong to you — time, credit, resources?",
+      "Have you treated everyone under your authority with dignity and fairness?",
+      "Is there any professional situation in which you compromised your integrity to protect yourself or advance your interests?",
+      "Would your colleagues describe your conduct this week as consistent with the person you claim to be on Sunday?",
+    ],
+  },
+  {
+    id: "money-stewardship",
+    category: "Money & Stewardship",
+    icon: "💰",
+    questions: [
+      "Have you made any financial decisions this week driven by fear, greed, or status rather than wisdom?",
+      "Are you giving generously and consistently, or have you found reasons to defer it?",
+      "Have you spent money in a way you would be embarrassed to disclose to your accountability partner?",
+      "Is debt, spending, or financial anxiety controlling more of your mental energy than you want to admit?",
+      "Have you been a faithful steward of what God has entrusted to you — time as well as money?",
+      "Is your financial life ordered in a way that reflects your stated values and priorities?",
+    ],
+  },
+  {
+    id: "mind-media",
+    category: "Mind & Media",
+    icon: "🧠",
+    questions: [
+      "What have you been reading, watching, or listening to this week, and is it building you up or tearing you down?",
+      "Have you allowed anger, cynicism, or despair to take root through news or social media consumption?",
+      "Have you been feeding your mind on things that are true, honorable, just, pure, and commendable, as Paul commands in Philippians 4?",
+      "Have you spent more time consuming content than you have spent in prayer and Scripture?",
+      "Is there anything you have been watching or reading in private that you would not want your brothers to know about?",
+      "Have you guarded your imagination and your thought life, or have you let your mind drift into destructive territory?",
+    ],
+  },
+  {
+    id: "faith-mission",
+    category: "Faith & Mission",
+    icon: "🌍",
+    questions: [
+      "Have you had any gospel conversations this week, or have you kept your faith entirely private?",
+      "Are you actively discipling someone, and did you invest in that relationship this week?",
+      "Is there someone in your sphere of influence who needs to hear about Jesus, and are you praying for them by name?",
+      "Have you served anyone this week in a way that cost you something — time, comfort, or resources?",
+      "Is your faith growing, plateauing, or declining right now, and what is the honest reason?",
+      "Are you living as though eternity is real, or are you functionally living for this life only?",
+    ],
+  },
+];
+
 export default function AccountabilityPage() {
   const [goals, setGoals] = useState<AccountabilityGoal[]>(() => {
     try {
@@ -167,7 +248,7 @@ export default function AccountabilityPage() {
     } catch { return seedGoals; }
   });
 
-  const [mainTab, setMainTab] = useState<"goals" | "guide" | "voices">("goals");
+  const [mainTab, setMainTab] = useState<"goals" | "guide" | "voices" | "questions">("goals");
   const [selectedVoice, setSelectedVoice] = useState("wesley-j");
   const [showCompose, setShowCompose] = useState(false);
   const [selectedGoal, setSelectedGoal] = useState<string | null>(goals[0]?.id ?? null);
@@ -394,7 +475,7 @@ export default function AccountabilityPage() {
         {/* Main tab bar */}
         <div style={{ borderBottom: "1px solid #1E1E32", background: "#0A0A16", position: "sticky", top: 0, zIndex: 10, marginBottom: 24 }}>
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8" style={{ display: "flex", gap: 2 }}>
-            {([["goals", "My Goals"], ["guide", "📖 Guide"], ["voices", "🎓 Voices"]] as const).map(([key, label]) => (
+            {([["goals", "My Goals"], ["guide", "📖 Guide"], ["voices", "🎓 Voices"], ["questions", "❓ Questions"]] as const).map(([key, label]) => (
               <button key={key} onClick={() => setMainTab(key)}
                 style={{ background: "none", border: "none", borderBottom: mainTab === key ? "2px solid #00FF88" : "2px solid transparent", color: mainTab === key ? "#F2F2F8" : "#9898B3", fontWeight: mainTab === key ? 700 : 500, fontSize: 14, padding: "14px 18px", cursor: "pointer", whiteSpace: "nowrap" }}>
                 {label}
@@ -651,6 +732,29 @@ export default function AccountabilityPage() {
                 </div>
               </div>
             </div>
+          </div>
+        )}
+
+        {mainTab === "questions" && (
+          <div style={{ maxWidth: 900, margin: "0 auto", padding: "32px 24px" }}>
+            <h2 style={{ fontSize: 26, fontWeight: 800, marginBottom: 10, color: "#F2F2F8" }}>Accountability Questions</h2>
+            <p style={{ color: "#9898B3", marginBottom: 32, fontSize: 15, lineHeight: 1.75, maxWidth: 680 }}>
+              These questions are drawn from the Wesleyan band-meeting tradition and the practice of serious disciples across church history.
+              Bring them to your next meeting. Ask them honestly. Answer them honestly.
+              The goal is not condemnation &mdash; it is the freedom that comes from walking in the light together.
+            </p>
+            {QUESTIONS_DATA.map(cat => (
+              <div key={cat.id} style={{ marginBottom: 28, background: "#12121F", borderRadius: 12, border: "1px solid #1E1E32", padding: 24 }}>
+                <h3 style={{ color: "#00FF88", fontSize: 17, fontWeight: 800, marginBottom: 16, marginTop: 0 }}>{cat.icon} {cat.category}</h3>
+                <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+                  {cat.questions.map((q, i) => (
+                    <li key={i} style={{ padding: "10px 0", borderBottom: i < cat.questions.length - 1 ? "1px solid #1E1E32" : "none", color: "#F2F2F8", fontSize: 15, lineHeight: 1.6 }}>
+                      {q}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
         )}
       </div>

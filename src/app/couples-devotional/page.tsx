@@ -144,6 +144,54 @@ const plans = [
   { id: "crisis", label: "When Marriage Is Hard", description: "Coming soon — for couples in a difficult season" },
 ];
 
+const VOICES_CD = [
+  {
+    id: "keller-t",
+    name: "Timothy & Kathy Keller",
+    era: "b. 1950 / b. 1951 · Presbyterian",
+    context: "The Meaning of Marriage",
+    bio: "Timothy Keller's The Meaning of Marriage (2011), co-written with his wife Kathy, is the most influential contemporary evangelical treatment of marriage theology. Drawing on the creation narrative, Paul's letter to the Ephesians, and decades of pastoral experience in New York City, the Kellers argue that marriage is not fundamentally a romantic partnership but a covenant that mirrors Christ's relationship to the church. Their treatment of love as commitment rather than feeling, and of marriage as the place where two sinners pursue holiness together, has shaped a generation of couples.",
+    quote: "To be loved but not known is comforting but superficial. To be known and not loved is our greatest fear. But to be fully known and truly loved is — well, a lot like being loved by God. It is what we need more than anything.",
+    contribution: "The Meaning of Marriage gave evangelical couples a theological framework that transformed marriage from a personal preference to a covenantal vocation. The Kellers' honest integration of the gospel into the difficulties of actual marriage — not just the ideal — made it the most trusted pastoral resource for engaged and married couples in its generation.",
+  },
+  {
+    id: "thomas-g",
+    name: "Gary Thomas",
+    era: "b. 1958 · Evangelical",
+    context: "Sacred Marriage",
+    bio: "Gary Thomas's Sacred Marriage (2000) asked a transforming question: 'What if God designed marriage to make us holy more than to make us happy?' Thomas argued that the difficulties of marriage — the friction, the disappointment, the exposure of our selfishness — are not failures of the institution but its primary mechanism. Marriage is a spiritual discipline, and the spouse who aggravates you most is often doing the most profound formation work on your soul. His book has been given to millions of couples entering or struggling in marriage.",
+    quote: "What if God didn't design marriage to be easy? What if God actually designed marriage to make you more like Jesus? And what if your marital problems are God's greatest tool for transforming your soul?",
+    contribution: "Thomas's reframing of marriage as spiritual formation rather than romantic fulfillment gave couples in difficult marriages a theologically grounded reason to persevere. His work shifted the question from 'Am I happy?' to 'Am I becoming more Christlike?' — and in doing so, extended the staying power of countless struggling marriages.",
+  },
+  {
+    id: "gottman-j",
+    name: "John & Julie Gottman",
+    era: "b. 1942 · Research-Based",
+    context: "The Seven Principles for Making Marriage Work",
+    bio: "John Gottman, psychologist and researcher at the University of Washington, spent 40 years studying what makes marriages succeed or fail. His ability to predict divorce with 90%+ accuracy from brief observation led to the development of his Seven Principles framework. While not written from a Christian perspective, his research on contempt, criticism, defensiveness, and stonewalling (the 'Four Horsemen of the Apocalypse' for marriage) maps remarkably onto biblical warnings about pride, harsh words, and hardness of heart.",
+    quote: "The antidote to contempt is a culture of appreciation and respect. Couples who regularly express gratitude and admiration for each other build an emotional buffer that weathers the inevitable conflicts.",
+    contribution: "The Gottmans' research-based approach to marriage gave Christian couples and counselors empirical data to accompany theological argument. Their identification of contempt as the single most corrosive force in marriage aligns with the biblical call to honor one another, and their practical repair tools have been integrated into Christian marriage counseling widely.",
+  },
+  {
+    id: "tripp-pd",
+    name: "Paul David Tripp",
+    era: "b. 1950 · Reformed",
+    context: "What Did You Expect?",
+    bio: "Paul David Tripp's What Did You Expect? (2010) is the most theologically honest treatment of marriage in print. Tripp begins with an unflinching admission: every marriage is a union of two sinners, and the most dangerous expectations in marriage are the ones about your spouse's perfection. His gospel-centered approach acknowledges that marriage exposes our own sin as much as our spouse's — and that the cross is the only sufficient foundation for forgiveness, renewal, and sustainable love.",
+    quote: "Your marriage is always being shaped by some kind of theology. The only question is whether that theology is true or false. Marriage requires a bigger theology than romance.",
+    contribution: "Tripp's application of redemptive counseling principles to marriage gave couples and counselors a framework for understanding marital conflict not just as a communication problem but as a gospel problem. His integration of biblical anthropology — particularly the doctrine of indwelling sin — into marital counseling has made What Did You Expect? a standard text in biblical counseling training.",
+  },
+  {
+    id: "chapmant-g",
+    name: "Gary Chapman",
+    era: "b. 1938 · Baptist",
+    context: "The Five Love Languages",
+    bio: "Gary Chapman, pastor and marriage counselor in Winston-Salem, North Carolina, wrote The Five Love Languages (1992) after three decades of marriage counseling. His observation that people express and receive love in different ways — words of affirmation, acts of service, receiving gifts, quality time, physical touch — gave couples a practical vocabulary for understanding why they felt unloved even in intact marriages. The book has sold over 20 million copies and been translated into 50 languages.",
+    quote: "Seldom do a husband and wife have the same primary love language. We tend to speak our own love language — expressing love in the way we would most want to receive it. But we need to learn our spouse's love language.",
+    contribution: "Chapman's Five Love Languages gave ordinary couples a simple, actionable framework for understanding and improving their marriage. While not primarily a theological work, its practical wisdom aligned with the biblical call to know and serve one's spouse, and it has been integrated into virtually every Christian pre-marital counseling curriculum in the English-speaking world.",
+  },
+];
+
 export default function CouplesDevotionalPage() {
   const [progress, setProgress] = useState<Progress>({
     completedDays: [],
@@ -155,6 +203,9 @@ export default function CouplesDevotionalPage() {
   const [editingName, setEditingName] = useState(false);
   const [nameInput, setNameInput] = useState("");
   const [activeSection, setActiveSection] = useState<"husband" | "wife" | "together">("together");
+  const [mainTab, setMainTab] = useState<"devotionals" | "voices">("devotionals");
+  const [selectedVoice, setSelectedVoice] = useState("keller-t");
+  const voiceItem = VOICES_CD.find(v => v.id === selectedVoice)!;
 
   useEffect(() => {
     try {
@@ -229,7 +280,19 @@ export default function CouplesDevotionalPage() {
         )}
       </div>
 
-      <div style={{ maxWidth: 900, margin: "0 auto", padding: "28px 24px" }}>
+      {/* Main tab bar */}
+      <div style={{ borderBottom: "1px solid #1E1E32", background: "#0A0A16", position: "sticky", top: 0, zIndex: 10 }}>
+        <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 24px", display: "flex", gap: 2 }}>
+          {([["devotionals", "📖 Devotionals"], ["voices", "🎓 Marriage Voices"]] as const).map(([key, label]) => (
+            <button key={key} onClick={() => setMainTab(key)}
+              style={{ background: "none", border: "none", borderBottom: mainTab === key ? "2px solid #00FF88" : "2px solid transparent", color: mainTab === key ? "#F2F2F8" : "#9898B3", fontWeight: mainTab === key ? 700 : 500, fontSize: 14, padding: "14px 18px", cursor: "pointer", whiteSpace: "nowrap" }}>
+              {label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {mainTab === "devotionals" && <div style={{ maxWidth: 900, margin: "0 auto", padding: "28px 24px" }}>
         {/* Progress bar */}
         <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 14, padding: 20, marginBottom: 24 }}>
           <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 10 }}>
@@ -309,7 +372,7 @@ export default function CouplesDevotionalPage() {
             );
           })}
         </div>
-      </div>
+      </div>}
 
       {/* Devotional Detail Modal */}
       {selectedDay && (
@@ -383,6 +446,35 @@ export default function CouplesDevotionalPage() {
                 style={{ padding: "12px 16px", borderRadius: 10, border: "1px solid #1E1E32", background: "transparent", color: "#9898B3", cursor: "pointer", fontSize: 15 }}>
                 Close
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {mainTab === "voices" && (
+        <div style={{ maxWidth: 900, margin: "0 auto", padding: "28px 24px" }}>
+          <div style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
+            <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 80 }}>
+              {VOICES_CD.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? "rgba(0,255,136,0.4)" : "#1E1E32"}`, background: selectedVoice === v.id ? "rgba(0,255,136,0.08)" : "#12121F", cursor: "pointer" }}>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: selectedVoice === v.id ? "#00FF88" : "#F2F2F8", marginBottom: 2 }}>{v.name}</div>
+                  <div style={{ fontSize: 11, color: "#9898B3" }}>{v.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1, background: "#12121F", border: "1px solid #1E1E32", borderRadius: 16, padding: 28 }}>
+              <div style={{ fontSize: 12, color: "#9898B3", fontStyle: "italic", marginBottom: 6 }}>{voiceItem.context}</div>
+              <h2 style={{ fontSize: 24, fontWeight: 800, marginBottom: 4, color: "#F2F2F8" }}>{voiceItem.name}</h2>
+              <div style={{ fontSize: 13, color: "#9898B3", marginBottom: 20 }}>{voiceItem.era}</div>
+              <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.8, marginBottom: 24 }}>{voiceItem.bio}</p>
+              <div style={{ background: "#07070F", borderRadius: 12, padding: 20, borderLeft: "3px solid #00FF88", marginBottom: 24 }}>
+                <p style={{ fontSize: 15, color: "#E0E0F0", lineHeight: 1.75, fontStyle: "italic" }}>&ldquo;{voiceItem.quote}&rdquo;</p>
+              </div>
+              <div>
+                <div style={{ fontSize: 11, fontWeight: 700, color: "#6B4FBB", textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>Contribution</div>
+                <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.75 }}>{voiceItem.contribution}</p>
+              </div>
             </div>
           </div>
         </div>

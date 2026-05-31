@@ -88,8 +88,18 @@ const DEFAULT_BUDGET: BudgetCategory[] = [
   { name: "Other", recommended: 8, actual: 5, color: "#78909C" },
 ];
 
+const VOICES_STEW = [
+  { id: "wesley-s", name: "John Wesley", era: "1703-1791", context: "Sermon 50: The Use of Money; Sermon 28: On the Right Use of Money; leader of the Methodist revival", bio: "Wesley's three-part financial maxim is the most quoted Christian financial principle in history: 'Gain all you can, save all you can, give all you can.' But the maxim is often quoted without its qualifications: gain by honest labor, not at the expense of others' health or souls; save by cutting waste and extravagance, not by hoarding; give all you can — and Wesley meant it. He lived on a modest income his entire life despite earning significant royalties, giving away most of what he received. By the time he died, his estate was four silver spoons and a preaching gown. His sermon 'On the Right Use of Money' is the most practically useful piece of financial theology in the evangelical tradition.", quote: "Gain all you can. Save all you can. Give all you can.", contribution: "Established the most memorable and actionable framework for Christian financial stewardship in the English language. Wesley's personal example — living generously throughout his life — gave his financial theology an authority that mere preaching could not." },
+  { id: "alcorn-s", name: "Randy Alcorn", era: "b. 1951", context: "Money, Possessions, and Eternity (1989, revised 2003); The Treasure Principle (2001)", bio: "Alcorn's Money, Possessions, and Eternity is the most comprehensive biblical theology of financial stewardship written for a popular evangelical audience. He systematically addresses every financial question from a biblical perspective: ownership, giving, debt, saving, investing, lifestyle choices, prosperity theology, estate planning. His shorter The Treasure Principle distills the entire project into six 'keys' built around Matthew 6:19-21. Alcorn practices what he preaches: after his publishers sued him for giving royalties to pro-life organizations, he structured his life so that he makes minimum wage and donates all royalties to charity.", quote: "You can't take it with you, but you can send it ahead.", contribution: "Provided the most systematic biblical treatment of money and possessions available to evangelical readers. By giving away all his royalties, Alcorn made his financial theology credible in a way that preaching alone never could." },
+  { id: "letourneau", name: "R.G. LeTourneau", era: "1888-1969", context: "Mover of Men and Mountains (autobiography, 1960); industrial entrepreneur and philanthropist", bio: "LeTourneau was one of America's greatest industrial inventors — creator of the earthmoving equipment used to build highways, dams, and airports worldwide — and one of its most extraordinary Christian philanthropists. At the height of his business success, he reversed the typical tithing formula: instead of giving 10% and keeping 90%, he gave 90% and kept 10%. His autobiography is one of the most compelling accounts of what happens when a Christian takes radical stewardship seriously: he became wealthier the more he gave. He saw his businesses as 'God's factory' and himself as the manager, not the owner.", quote: "I shovel money out, and God shovels it back — and God has a bigger shovel.", contribution: "Demonstrated in one extraordinary life that radical financial generosity — giving 90% — is both financially possible and spiritually transforming. His story has inspired generations of Christian business leaders to rethink the relationship between profit and generosity." },
+  { id: "dayton", name: "Howard Dayton", era: "b. 1943", context: "Your Money Counts (1996); Compass Finances God's Way; Crown Financial Ministries", bio: "Dayton co-founded Crown Financial Ministries (now the world's largest Christian financial organization) after conducting a comprehensive personal study of every biblical passage on money and possessions — discovering more than 2,350 verses on the subject. His Your Money Counts has guided millions of families through a biblically-based approach to budgeting, debt elimination, savings, and giving. His ministry has trained financial counselors in over 50 countries. Dayton's genius is translating theological conviction about stewardship into practical, trackable financial habits.", quote: "The Lord owns it all. Our ownership is an illusion. We are managers, not owners, and one day we will give account for how we managed what he entrusted to us.", contribution: "Built the most successful Christian financial education organization in the world. Crown Financial Ministries has helped millions of families practically apply biblical stewardship principles through structured courses, counseling, and tools." },
+  { id: "bluedorn", name: "Ron Blue", era: "b. 1942", context: "Master Your Money (1986); Splitting Heirs (2004); Kingdom Advisors founder", bio: "Ron Blue is a Certified Financial Planner who spent decades as a secular financial planner before committing his practice to Christian clients. His Master Your Money remains the most practically rigorous and biblically grounded personal finance book in the evangelical market — moving from theology to cash flow management, debt, savings, and estate planning with professional precision. He founded Kingdom Advisors, a professional organization for Christian financial planners. His approach: the biblical principles of financial management are better than secular wisdom, and Christians should understand and apply them with the same rigor they apply to other areas of life.", quote: "Financial freedom is not a function of how much money you have, but of how well you manage what God has entrusted to you.", contribution: "Brought professional-grade financial planning methodology into the Christian stewardship tradition. Master Your Money made sophisticated financial planning accessible to ordinary Christians who could not afford professional advice." },
+];
+
 export default function StewardshipPage() {
-  const [tab, setTab] = useState<"principles" | "budget" | "giving">("principles");
+  const [tab, setTab] = useState<"principles" | "voices" | "budget" | "giving">("principles");
+  const [selectedVoice, setSelectedVoice] = useState("wesley-s");
+  const voiceItem = VOICES_STEW.find(v => v.id === selectedVoice)!;
   const [openPrinciple, setOpenPrinciple] = useState<string | null>(null);
   const [savedIds, setSavedIds] = useState<Set<string>>(() => {
     try { const s = localStorage.getItem("vine_stewardship_saved"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
@@ -124,7 +134,7 @@ export default function StewardshipPage() {
 
         {/* Tabs */}
         <div style={{ display: "flex", gap: 4, marginBottom: 32, borderBottom: "1px solid #1E1E32" }}>
-          {([["principles", "Principles"], ["budget", "Budget Calculator"], ["giving", "Giving & Verses"]] as const).map(([t, label]) => (
+          {([["principles", "Principles"], ["voices", "Voices"], ["budget", "Budget Calculator"], ["giving", "Giving & Verses"]] as const).map(([t, label]) => (
             <button key={t} onClick={() => setTab(t)}
               style={{ padding: "10px 20px", fontSize: 14, fontWeight: 600, background: "none", border: "none", cursor: "pointer", color: tab === t ? "#00FF88" : "#6A6A88", borderBottom: `2px solid ${tab === t ? "#00FF88" : "transparent"}`, marginBottom: -1 }}>
               {label}
@@ -185,6 +195,35 @@ export default function StewardshipPage() {
         )}
 
         {/* Budget Tab */}
+        {tab === "voices" && (
+          <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
+            <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
+              {VOICES_STEW.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ background: selectedVoice === v.id ? "#6B4FBB" : "#12121F", border: `1px solid ${selectedVoice === v.id ? "#6B4FBB" : "#1E1E32"}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: "#F2F2F8", fontWeight: 700, fontSize: 14 }}>{v.name}</div>
+                  <div style={{ color: "#9898B3", fontSize: 12, marginTop: 2 }}>{v.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 28 }}>
+                <h2 style={{ color: "#00FF88", fontWeight: 900, fontSize: 22, margin: "0 0 4px" }}>{voiceItem.name}</h2>
+                <div style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 700, marginBottom: 6 }}>{voiceItem.era}</div>
+                <div style={{ color: "#9898B3", fontSize: 13, marginBottom: 16 }}>{voiceItem.context}</div>
+                <p style={{ color: "#F2F2F8", lineHeight: 1.8, fontSize: 15, marginBottom: 20 }}>{voiceItem.bio}</p>
+                <div style={{ background: "#07070F", borderLeft: "3px solid #00FF88", borderRadius: "0 8px 8px 0", padding: "14px 18px", marginBottom: 20 }}>
+                  <p style={{ color: "#00FF88", fontStyle: "italic", fontSize: 15, lineHeight: 1.7, margin: 0 }}>&ldquo;{voiceItem.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: "rgba(107,79,187,0.1)", borderRadius: 10, padding: 16 }}>
+                  <div style={{ color: "#6B4FBB", fontWeight: 700, fontSize: 13, marginBottom: 6 }}>Contribution to Stewardship Theology</div>
+                  <p style={{ color: "#F2F2F8", fontSize: 14, lineHeight: 1.7, margin: 0 }}>{voiceItem.contribution}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {tab === "budget" && (
           <div style={{ maxWidth: 800, margin: "0 auto" }}>
             <div style={{ background: "#12121F", borderRadius: 20, padding: 28, marginBottom: 28, border: "1px solid #1E1E32" }}>

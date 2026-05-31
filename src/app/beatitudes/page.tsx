@@ -143,7 +143,7 @@ const COMMENTATORS = [
   },
 ];
 
-type Tab = "beatitudes" | "background" | "commentators";
+type Tab = "beatitudes" | "background" | "commentators" | "formation";
 
 export default function BeatitudesPage() {
   const [activeTab, setActiveTab] = useState<Tab>("beatitudes");
@@ -169,6 +169,7 @@ export default function BeatitudesPage() {
             { id: "beatitudes" as const, label: "The Eight", icon: "⛰️" },
             { id: "background" as const, label: "Background", icon: "📜" },
             { id: "commentators" as const, label: "Commentators", icon: "🧠" },
+            { id: "formation" as const, label: "Formation", icon: "🌱" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -254,6 +255,35 @@ export default function BeatitudesPage() {
                 <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{commentator.contribution}</p>
               </div>
             </div>
+          </div>
+        )}
+        {activeTab === "formation" && (
+          <div>
+            <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 8, color: TEXT }}>Living the Beatitudes</h2>
+            <p style={{ color: MUTED, fontSize: 14, marginBottom: 24, lineHeight: 1.6 }}>
+              The Beatitudes are not a checklist — they are a description of a transformed character. How does this transformation happen?
+            </p>
+            {[
+              { blessing: "Poor in Spirit → Humility", icon: "🙏", practice: "Keep a daily examen. End each day asking: where did I rely on my own wisdom or strength instead of God today? Make a specific confession. The discipline of self-examination cultivates poverty of spirit — the accurate knowledge that we are perpetually dependent.", verse: "Matthew 5:3" },
+              { blessing: "Those Who Mourn → Compassion", icon: "💧", practice: "Spend thirty minutes each week reading about suffering you are not personally experiencing — a news story from a conflict zone, a testimony from someone in addiction recovery, a memoir from a grief survivor. Let the suffering of the world in. Mourning is not just personal — it is intercession.", verse: "Matthew 5:4" },
+              { blessing: "The Meek → Gentleness", icon: "🕊️", practice: "Choose one relationship where you regularly exert control or force your opinion. For one month, practice asking questions instead of asserting positions. Practice waiting. Practice saying 'I might be wrong.' Meekness is not weakness — it is power held gently, in service.", verse: "Matthew 5:5" },
+              { blessing: "Hunger for Righteousness → Longing", icon: "⚡", practice: "Feed the longing. Read Scripture looking for glimpses of what God intends for his world. Pray Psalm 85 regularly. Fast once a month as an act of solidarity with your longing — letting your body feel the incompleteness that your spirit already knows.", verse: "Matthew 5:6" },
+              { blessing: "The Merciful → Forgiveness", icon: "🤍", practice: "Name one person you have not fully forgiven. Write what they did and how it hurt you — specifically. Then write, as a prayer: 'I choose to release [name] from the debt they owe me. I do not excuse what they did, but I release my right to demand payment.' Do this every time the bitterness returns.", verse: "Matthew 5:7" },
+              { blessing: "Pure in Heart → Integrity", icon: "💎", practice: "Conduct a 'purity audit' of your interior life. What motives are you hiding from yourself? Where are you performing righteousness for an audience rather than for God? Ruthless interior honesty — not guilt-inducing but clarifying — is the practice of purity.", verse: "Matthew 5:8" },
+              { blessing: "Peacemakers → Reconciliation", icon: "🌿", practice: "Identify one broken relationship in your network — not yours, but one you can help repair. Serve as a go-between, a listener, a truth-teller. Peacemakers are active; peace is not the absence of conflict but the presence of justice and love.", verse: "Matthew 5:9" },
+              { blessing: "The Persecuted → Faithfulness", icon: "🔥", practice: "Take a real stand for the gospel that costs you something small. Say something true that you know will be unpopular. Live visibly enough as a Christian that the world can push back. Prepare for this by meditating on the testimony of those who were persecuted before you.", verse: "Matthew 5:10-12" },
+            ].map((item, i) => (
+              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 22, marginBottom: 14 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}>
+                  <span style={{ fontSize: 24 }}>{item.icon}</span>
+                  <div>
+                    <h3 style={{ fontSize: 16, fontWeight: 700, color: GREEN, margin: 0 }}>{item.blessing}</h3>
+                    <span style={{ fontSize: 12, color: MUTED }}>{item.verse}</span>
+                  </div>
+                </div>
+                <p style={{ fontSize: 14, color: TEXT, lineHeight: 1.75, margin: 0 }}>{item.practice}</p>
+              </div>
+            ))}
           </div>
         )}
       </div>

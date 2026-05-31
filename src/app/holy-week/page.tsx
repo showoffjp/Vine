@@ -4,7 +4,7 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "days" | "theology" | "observance";
+type Tab = "days" | "theology" | "observance" | "voices";
 
 const THEOLOGY_BLOCKS = [
   {
@@ -165,9 +165,59 @@ const DAYS = [
   },
 ];
 
+const VOICES_HW = [
+  {
+    id: "stott-jrw",
+    name: "John R.W. Stott",
+    era: "1921–2011 · Anglican Evangelical",
+    context: "The Cross of Christ",
+    bio: "John Stott's The Cross of Christ (1986) is widely regarded as the definitive evangelical treatment of the atonement — the events of Holy Week seen through the lens of their theological meaning. Stott's meticulous exposition of why the cross was necessary, what it accomplished, and how it should shape the Christian life made it a standard seminary text across denominational lines. He insisted that the cross must be understood as substitution — that Christ bore the penalty we deserved.",
+    quote: "The essence of sin is man substituting himself for God; the essence of salvation is God substituting himself for man. Man asserts himself against God; God sacrifices himself for man.",
+    contribution: "Stott's The Cross of Christ gave the modern evangelical church its most rigorous and accessible account of what happened on Good Friday and why. His integration of biblical, historical, and devotional reflection has made it the primary reference point for preachers and teachers on the atonement.",
+  },
+  {
+    id: "wright-nt",
+    name: "N.T. Wright",
+    era: "b. 1948 · Anglican",
+    context: "The Day the Revolution Began",
+    bio: "N.T. Wright's The Day the Revolution Began (2016) argues that the standard evangelical account of the cross — focusing primarily on individual sin-payment — misses the larger narrative of covenant, vocation, and new creation. Wright reads Holy Week through Second Temple Jewish categories, arguing that Jesus understood his death as the moment when the Exile of Israel (and all humanity) finally ended and the new creation began. His historical Jesus scholarship has made the Gospels' passion narratives newly intelligible.",
+    quote: "The revolution that began in the upper room and culminated on the first Easter morning was not about private spiritual transactions. It was the launching of God's new creation into the midst of the old.",
+    contribution: "Wright's historical-theological reading of Holy Week has reshaped how a generation of preachers and scholars reads the Passion narratives. His attention to Jewish context, covenant theology, and the new creation framework has enriched evangelical accounts of the cross that had become too narrowly individualistic.",
+  },
+  {
+    id: "ortberg-j",
+    name: "John Ortberg",
+    era: "b. 1957 · Evangelical",
+    context: "Know Doubt & Holy Week Formation",
+    bio: "John Ortberg's pastoral writing on Holy Week has emphasized it as a week of formation as much as commemoration. His approach connects the events of each day to the reader's own journey — the Monday Temple-clearing as an invitation to audit one's own worship, the Last Supper as a model of servant-leadership, Gethsemane as the paradigm for praying through one's own cross. Ortberg's populist pastoral approach makes Holy Week accessible without domesticating it.",
+    quote: "Gethsemane is the answer to every prayer that has not been answered the way you wanted. Jesus modeled what it means to submit to the Father's will when the Father's will is the last thing you want.",
+    contribution: "Ortberg's devotional treatment of Holy Week has helped millions of ordinary believers engage with the passion narrative not as spectators but as participants. His ability to translate the theological freight of Holy Week into lived application has made him one of the primary pastoral guides for congregational Holy Week observance.",
+  },
+  {
+    id: "mcgrath-a",
+    name: "Alister McGrath",
+    era: "b. 1953 · Anglican Evangelical",
+    context: "The Mystery of the Cross",
+    bio: "Alister McGrath, Professor of Theology at Oxford and King's College London, has written a comprehensive historical and theological survey of how the church has understood the cross across twenty centuries. His book The Mystery of the Cross traces how each era read Holy Week through its own cultural and theological lens — from the early church's cosmic liberation imagery to Anselm's satisfaction theory to the Reformers' penal substitution. McGrath argues that multiple theories are needed to do justice to the cross's multi-dimensionality.",
+    quote: "No single theory of the atonement exhausts the meaning of the cross. Each captures a facet of what was accomplished at Calvary, and we do violence to the whole when we insist that one angle of vision is the whole picture.",
+    contribution: "McGrath's survey work gave the church permission to hold multiple atonement models simultaneously without feeling theologically inconsistent. His historical perspective showed that the church has always been theologically rich on the cross, and that modern debates often replay ancient arguments with new vocabulary.",
+  },
+  {
+    id: "chester-t",
+    name: "Tim Chester",
+    era: "b. 1967 · Reformed",
+    context: "A Meal with Jesus",
+    bio: "Tim Chester's work on the Last Supper — particularly in A Meal with Jesus (2011) — explores how the meal on the night Jesus was betrayed was the culmination of a ministry defined by table fellowship. Chester reads the Thursday of Holy Week through Jesus' entire table ministry: the meals with sinners, the feeding of the multitudes, the parable of the great banquet. The Last Supper is not an isolated sacramental event but the final and definitive expression of who Jesus is and why he came.",
+    quote: "Every time we eat the Lord's Supper, we are saying: this table is open to anyone. The same grace that covered Judas at the table covers us. We are all the Judas at this meal.",
+    contribution: "Chester's table-fellowship hermeneutic for Holy Week has given preachers and congregations a fresh way to understand the Passover meal and Communion. His reading of the Last Supper within the broader context of Jesus' meals has enriched both preaching and Communion practice across evangelical traditions.",
+  },
+];
+
 export default function HolyWeekPage() {
   const [selected, setSelected] = useState("Palm Sunday");
   const [activeTab, setActiveTab] = useState<Tab>("days");
+  const [selectedVoice, setSelectedVoice] = useState("stott-jrw");
+  const voiceItem = VOICES_HW.find(v => v.id === selectedVoice)!;
 
   const day = DAYS.find(d => d.day === selected)!;
 
@@ -187,6 +237,7 @@ export default function HolyWeekPage() {
             { id: "days" as const, label: "The Days", icon: "📅" },
             { id: "theology" as const, label: "Theology", icon: "📖" },
             { id: "observance" as const, label: "Observance", icon: "🕯️" },
+            { id: "voices" as const, label: "Voices", icon: "🎓" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -279,6 +330,33 @@ export default function HolyWeekPage() {
                 </div>
               </div>
             ))}
+          </div>
+        )}
+
+        {activeTab === "voices" && (
+          <div style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
+            <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 80 }}>
+              {VOICES_HW.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? "rgba(0,255,136,0.4)" : BORDER}`, background: selectedVoice === v.id ? "rgba(0,255,136,0.08)" : CARD, cursor: "pointer" }}>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: selectedVoice === v.id ? GREEN : TEXT, marginBottom: 2 }}>{v.name}</div>
+                  <div style={{ fontSize: 11, color: MUTED }}>{v.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 28 }}>
+              <div style={{ fontSize: 12, color: MUTED, fontStyle: "italic", marginBottom: 6 }}>{voiceItem.context}</div>
+              <h2 style={{ fontSize: 24, fontWeight: 800, marginBottom: 4, color: TEXT }}>{voiceItem.name}</h2>
+              <div style={{ fontSize: 13, color: MUTED, marginBottom: 20 }}>{voiceItem.era}</div>
+              <p style={{ fontSize: 14, color: TEXT, lineHeight: 1.8, marginBottom: 24 }}>{voiceItem.bio}</p>
+              <div style={{ background: BG, borderRadius: 12, padding: 20, borderLeft: `3px solid ${GREEN}`, marginBottom: 24 }}>
+                <p style={{ fontSize: 15, color: TEXT, lineHeight: 1.75, fontStyle: "italic" }}>&ldquo;{voiceItem.quote}&rdquo;</p>
+              </div>
+              <div>
+                <div style={{ fontSize: 11, fontWeight: 700, color: PURPLE, textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>Contribution</div>
+                <p style={{ fontSize: 14, color: TEXT, lineHeight: 1.75 }}>{voiceItem.contribution}</p>
+              </div>
+            </div>
           </div>
         )}
       </div>

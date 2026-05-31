@@ -4,7 +4,7 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "disciplines" | "rhythms" | "resources";
+type Tab = "disciplines" | "rhythms" | "resources" | "voices";
 
 const DISCIPLINES = [
   {
@@ -184,8 +184,58 @@ const RESOURCE_LIST = [
   { title: "Transforming Center (Ruth Haley Barton)", note: "The premier evangelical spiritual formation training center. Online courses, retreats, and resources. transformingcenter.org", author: "", color: "#10B981" },
 ];
 
+const VOICES_SDG = [
+  {
+    id: "foster-r",
+    name: "Richard Foster",
+    era: "b. 1942 · Quaker",
+    context: "Celebration of Discipline",
+    bio: "Richard Foster's Celebration of Discipline (1978) is the book that introduced the modern evangelical church to the classical spiritual disciplines. Foster organized twelve disciplines into three categories — inward (meditation, prayer, fasting, study), outward (simplicity, solitude, submission, service), and corporate (confession, worship, guidance, celebration). His work recovered practices that had been largely dormant in Protestant contexts since the Reformation, drawing from the deep wells of Catholic and Orthodox spirituality.",
+    quote: "Superficiality is the curse of our age. The desperate need today is not for a greater number of intelligent people, or gifted people, but for deep people.",
+    contribution: "Foster's Celebration of Discipline is the single most influential book on Protestant spiritual formation in the 20th century. By making the disciplines accessible, practical, and theologically grounded, he opened an entire generation to the classical tradition of Christian spirituality — and the book remains in print nearly 50 years later.",
+  },
+  {
+    id: "willard-d",
+    name: "Dallas Willard",
+    era: "1935–2013 · Evangelical",
+    context: "The Spirit of the Disciplines",
+    bio: "Dallas Willard's The Spirit of the Disciplines (1988) is the theological companion to Foster's practical handbook. Willard argued that the disciplines are not optional extras for spiritual specialists but the ordinary means by which disciples become like their Master. His central insight: Jesus did not merely teach the Sermon on the Mount as an ethical code — he lived out of a disciplined spiritual life that made those teachings natural. The disciplines train us into the same kind of life.",
+    quote: "The disciplines are activities of mind and body purposefully undertaken to bring our whole selves into effective cooperation with the divine order of things.",
+    contribution: "Willard gave spiritual disciplines their best theological defense. His argument that the disciplines are a form of training (not earning) freed evangelicals to engage them without fear of works-righteousness, and his insistence that Jesus himself practiced the disciplines provided the strongest possible model for disciples to follow.",
+  },
+  {
+    id: "barton-rh",
+    name: "Ruth Haley Barton",
+    era: "b. 1956 · Evangelical",
+    context: "Sacred Rhythms",
+    bio: "Ruth Haley Barton, co-founder of the Transforming Center, has written extensively on integrating spiritual disciplines into the rhythms of actual life. Her book Sacred Rhythms (2006) takes Foster's and Willard's frameworks and applies them to the particular challenges of contemporary ministry and leadership. Barton emphasizes solitude as the foundation discipline — the one practice without which the others cannot function properly — and provides remarkably practical guidance on establishing sustainable rhythms.",
+    quote: "Solitude is not merely the absence of people. It is the practice of being present to God when there is nothing and no one else demanding our attention.",
+    contribution: "Barton's work filled the gap between the theology of disciplines (Willard) and the practice of disciplines in real, busy lives. Her emphasis on sustainable rhythms, honest self-knowledge, and communal accountability has made her work especially valuable for ministry leaders and spiritual directors.",
+  },
+  {
+    id: "demarist-g",
+    name: "Gary Thomas",
+    era: "b. 1958 · Evangelical",
+    context: "Sacred Pathways",
+    bio: "Gary Thomas's Sacred Pathways (1996) made a crucial observation that is often missing from standard treatments of the disciplines: different people encounter God in fundamentally different ways. Thomas identified nine spiritual temperaments — naturalist, sensate, traditionalist, ascetic, activist, caregiver, enthusiast, contemplative, intellectual — and argued that disciplines should be customized to one's pathway rather than applied identically to everyone. The disciplines are means, not ends, and the means must fit the person.",
+    quote: "The spiritual life is not one-size-fits-all. God has made us different, and He meets each of us in the way He designed us to be met.",
+    contribution: "Thomas's Sacred Pathways gave the disciplines a much-needed pastoral flexibility. His temperament framework helped individuals and spiritual directors understand why certain disciplines produce life in one person and legalism in another, and gave permission for a more personalized approach to formation.",
+  },
+  {
+    id: "comer-jm",
+    name: "John Mark Comer",
+    era: "b. 1980 · Evangelical",
+    context: "The Ruthless Elimination of Hurry",
+    bio: "John Mark Comer's The Ruthless Elimination of Hurry (2019) is the most-read contemporary treatment of spiritual disciplines for a digital-age audience. Comer argues that the greatest obstacle to practicing the disciplines today is not laziness or unbelief but hurry — the acceleration of modern life that makes deep attention nearly impossible. His book applies Willard's framework to the specific conditions of smartphone culture, social media, and constant connectivity.",
+    quote: "Hurry is not just a problem of time management. It is a spiritual disorder. Jesus was never in a hurry, and we cannot follow a Jesus we are too busy to be with.",
+    contribution: "Comer's work has introduced the classical disciplines to a generation that was largely unreached by Foster and Willard. His diagnosis of hurry as the primary spiritual disease of the digital age, and his application of the disciplines as the cure, has made him the most influential voice on formation for millennials and Gen Z.",
+  },
+];
+
 export default function SpiritualDisciplinesGuidePage() {
   const [tab, setTab] = useState<Tab>("disciplines");
+  const [selectedVoice, setSelectedVoice] = useState("foster-r");
+  const voiceItem = VOICES_SDG.find(v => v.id === selectedVoice)!;
   const [selected, setSelected] = useState<string | null>(null);
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
@@ -204,10 +254,10 @@ export default function SpiritualDisciplinesGuidePage() {
         </div>
 
         <div style={{ display: "flex", gap: 4, marginBottom: 28, background: CARD, borderRadius: 10, padding: 4, width: "fit-content" }}>
-          {(["disciplines", "rhythms", "resources"] as Tab[]).map(t => (
+          {(["disciplines", "rhythms", "resources", "voices"] as Tab[]).map(t => (
             <button key={t} onClick={() => { setTab(t); setSelected(null); }}
               style={{ padding: "8px 18px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", textTransform: "capitalize" }}>
-              {t === "disciplines" ? "The Disciplines" : t === "rhythms" ? "Sample Rhythms" : "Best Resources"}
+              {t === "disciplines" ? "The Disciplines" : t === "rhythms" ? "Sample Rhythms" : t === "resources" ? "Best Resources" : "Voices"}
             </button>
           ))}
         </div>
@@ -295,6 +345,33 @@ export default function SpiritualDisciplinesGuidePage() {
                 <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{r.note}</p>
               </div>
             ))}
+          </div>
+        )}
+
+        {tab === "voices" && (
+          <div style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
+            <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 80 }}>
+              {VOICES_SDG.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? "rgba(0,255,136,0.4)" : BORDER}`, background: selectedVoice === v.id ? "rgba(0,255,136,0.08)" : CARD, cursor: "pointer" }}>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: selectedVoice === v.id ? GREEN : TEXT, marginBottom: 2 }}>{v.name}</div>
+                  <div style={{ fontSize: 11, color: MUTED }}>{v.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 28 }}>
+              <div style={{ fontSize: 12, color: MUTED, fontStyle: "italic", marginBottom: 6 }}>{voiceItem.context}</div>
+              <h2 style={{ fontSize: 24, fontWeight: 800, marginBottom: 4, color: TEXT }}>{voiceItem.name}</h2>
+              <div style={{ fontSize: 13, color: MUTED, marginBottom: 20 }}>{voiceItem.era}</div>
+              <p style={{ fontSize: 14, color: TEXT, lineHeight: 1.8, marginBottom: 24 }}>{voiceItem.bio}</p>
+              <div style={{ background: BG, borderRadius: 12, padding: 20, borderLeft: `3px solid ${GREEN}`, marginBottom: 24 }}>
+                <p style={{ fontSize: 15, color: TEXT, lineHeight: 1.75, fontStyle: "italic" }}>&ldquo;{voiceItem.quote}&rdquo;</p>
+              </div>
+              <div>
+                <div style={{ fontSize: 11, fontWeight: 700, color: PURPLE, textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>Contribution</div>
+                <p style={{ fontSize: 14, color: TEXT, lineHeight: 1.75 }}>{voiceItem.contribution}</p>
+              </div>
+            </div>
           </div>
         )}
       </div>

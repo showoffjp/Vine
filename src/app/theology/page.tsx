@@ -168,8 +168,18 @@ const diffColors: Record<string, string> = {
   "Deep Dive": "#EF4444"
 };
 
+const THINKERS_THEOL = [
+  { id: "calvin-j", name: "John Calvin", era: "1509-1564", context: "Institutes of the Christian Religion (1536/1559) — the most comprehensive systematic theology of the Reformation", bio: "John Calvin's Institutes of the Christian Religion, first published in 1536 and expanded through five editions to its definitive 1559 form, is the most comprehensive and influential systematic theology produced by the Reformation. Calvin organized theology around the knowledge of God and the knowledge of humanity — arguing that they are inseparable: we cannot know ourselves rightly without knowing God, and we cannot know God rightly without knowing ourselves. The Institutes covers Scripture, the Trinity, the person of Christ, salvation, the church, and the sacraments with extraordinary logical rigor and pastoral warmth. Calvin's influence on Protestant theology — especially Reformed, Presbyterian, and Baptist traditions — is incalculable.", quote: "Nearly all the wisdom we possess, that is to say, true and sound wisdom, consists of two parts: the knowledge of God and of ourselves.", contribution: "The Institutes established Reformed theology as a comprehensive, intellectually coherent alternative to Catholic scholasticism. Calvin's doctrine of sovereign grace, covenant theology, and the authority of Scripture have shaped Presbyterian, Reformed, and Baptist traditions for five centuries. His theological method — anchored in Scripture, organized systematically, and applied pastorally — remains the template for Reformed systematic theology." },
+  { id: "barth-k", name: "Karl Barth", era: "1886-1968", context: "Church Dogmatics (1932-1967) — the greatest theological achievement of the 20th century; 13 volumes", bio: "Karl Barth's Church Dogmatics is the most ambitious and comprehensive theological work of the 20th century — thirteen massive volumes covering the doctrine of the Word of God, the doctrine of God, creation, reconciliation, and (incomplete) eschatology. Barth began as a liberal Protestant, trained under the leading liberal theologians of his era. The outbreak of World War One — and his horror at watching his teachers sign a declaration supporting the Kaiser's war — drove him back to Scripture and to a wholly other God who cannot be derived from human experience or culture. His Epistle to the Romans (1919) announced a theological revolution. The Church Dogmatics is its systematic development.", quote: "God is who he is in the act of his revelation. There is no God behind the back of Jesus Christ. The Father is exactly like the Son.", contribution: "Barth's Church Dogmatics reinvigorated Protestant theology after decades of liberal accommodation to culture and Enlightenment rationalism. His Christocentric method — reading all of theology through the lens of Jesus Christ — has been the dominant influence in 20th-century Protestant systematics. Even theologians who disagree with Barth define themselves in relation to him." },
+  { id: "bavinck-h", name: "Herman Bavinck", era: "1854-1921", context: "Reformed Dogmatics (1895-1901) — the greatest Reformed systematic theology; recently translated into English", bio: "Herman Bavinck's four-volume Reformed Dogmatics is the most thorough and sophisticated systematic theology in the Reformed tradition — surpassing even Calvin's Institutes in its scope and engagement with the history of doctrine. Bavinck engaged seriously with modern philosophy, biblical scholarship, and natural science, producing a Reformed theology that was intellectually rigorous without being culturally defensive. His organizing theme was the 'organic unity' of creation and redemption: grace does not destroy nature but restores and perfects it. This motif — captured in his famous phrase 'grace restores nature' — has become the foundation of neo-Calvinist cultural theology in the tradition of Abraham Kuyper.", quote: "Grace restores nature. The goal of grace is not to take us out of creation but to transform us within it — to make us fully human as God intended.", contribution: "Bavinck's Reformed Dogmatics, only fully translated into English in the early 2000s, has had a remarkable renaissance among Reformed evangelicals in the 21st century. His synthesis of orthodox Reformed theology with deep engagement with modern thought has given a generation of pastors and scholars a model for serious, culturally engaged Reformed theology." },
+  { id: "aquinas-t", name: "Thomas Aquinas", era: "1225-1274", context: "Summa Theologica (1265-1274) — the most comprehensive theological synthesis of the medieval church", bio: "Thomas Aquinas's Summa Theologica is the greatest achievement of medieval Christian theology — a comprehensive synthesis of Christian revelation and Aristotelian philosophy that structured Catholic theology for seven centuries and continues to shape it today. Aquinas organized theology as a science proceeding from God as its primary subject. He addressed the existence and nature of God (the Five Ways), creation, anthropology, the virtues, Christ, and the sacraments with extraordinary precision and comprehensiveness. His method — stating objections, replying to each, then giving the positive answer — became the model for systematic theology across traditions. His natural theology (the Five Ways) remains the standard formulation of cosmological, teleological, and ontological arguments.", quote: "All that I have written seems to me like straw compared to what I have seen and what has been revealed to me. I can write no more.", contribution: "Aquinas established the framework for Catholic systematic theology that persists to this day. His synthesis of faith and reason, grace and nature, Scripture and philosophy, has been the standard for Catholic theology since the Council of Trent. His Five Ways for God's existence remain the most cited philosophical arguments for theism in academic philosophy." },
+  { id: "wright-nt2", name: "N.T. Wright", era: "b. 1948", context: "Christian Origins and the Question of God series (5 vols.); Paul and the Faithfulness of God (2013)", bio: "N.T. Wright is the most prolific and influential New Testament scholar of the late 20th and early 21st century, with a particular focus on historical Jesus research, Pauline theology, and the relationship between the New Testament and the Old. His five-volume Christian Origins series — The New Testament and the People of God, Jesus and the Victory of God, The Resurrection of the Son of God, Paul and the Faithfulness of God, and The Day the Revolution Began — constitutes the most ambitious attempt in modern scholarship to read the entire New Testament within its Jewish and Roman historical context. His 'New Perspective on Paul' has reshaped how scholars and pastors understand justification, the law, and the mission of Israel.", quote: "The resurrection is not a happy ending to a sad story. It is the beginning of God's new world — the first eruption of the coming Kingdom into the present age.", contribution: "Wright's work has given pastors, scholars, and educated laypeople access to the most significant developments in New Testament scholarship in a form that is readable and theologically serious. His emphasis on the Kingdom of God, new creation, and the continuity between the Testaments has reshaped preaching and theological education across evangelical traditions." },
+];
+
 export default function TheologyPage() {
-  const [tab, setTab] = useState<"doctrines" | "compare" | "glossary">("doctrines");
+  const [tab, setTab] = useState<"doctrines" | "compare" | "glossary" | "thinkers">("doctrines");
+  const [selectedThinker, setSelectedThinker] = useState("calvin-j");
+  const thinkerItem = THINKERS_THEOL.find(t => t.id === selectedThinker)!;
   const [catFilter, setCatFilter] = useState("All");
   const [diffFilter, setDiffFilter] = useState("All");
   const [expandedDoc, setExpandedDoc] = useState<string | null>(null);
@@ -304,6 +314,7 @@ export default function TheologyPage() {
             { id: "doctrines", label: "📋 Doctrines" },
             { id: "compare", label: "⚖️ Traditions Compared" },
             { id: "glossary", label: "📖 Glossary" },
+            { id: "thinkers", label: "🎓 Thinkers" },
           ].map(t => (
             <button key={t.id} onClick={() => setTab(t.id as typeof tab)}
               style={{ padding: "10px 20px", borderRadius: "10px 10px 0 0", border: "none", cursor: "pointer", fontWeight: 700, fontSize: 14, background: tab === t.id ? CARD : "transparent", color: tab === t.id ? TEXT : MUTED, borderBottom: tab === t.id ? `2px solid ${GREEN}` : "2px solid transparent" }}>
@@ -509,6 +520,34 @@ export default function TheologyPage() {
                   <p style={{ fontSize: 13, color: MUTED, margin: 0, lineHeight: 1.6 }}>{term.def}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+        {tab === "thinkers" && (
+          <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
+            <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
+              {THINKERS_THEOL.map(v => (
+                <button key={v.id} onClick={() => setSelectedThinker(v.id)}
+                  style={{ background: selectedThinker === v.id ? PURPLE : CARD, border: `1px solid ${selectedThinker === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: TEXT, fontWeight: 700, fontSize: 14 }}>{v.name}</div>
+                  <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{v.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 28 }}>
+                <h2 style={{ color: GREEN, fontWeight: 900, fontSize: 22, margin: "0 0 4px" }}>{thinkerItem.name}</h2>
+                <div style={{ color: PURPLE, fontSize: 13, fontWeight: 700, marginBottom: 6 }}>{thinkerItem.era}</div>
+                <div style={{ color: MUTED, fontSize: 13, marginBottom: 16 }}>{thinkerItem.context}</div>
+                <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 15, marginBottom: 20 }}>{thinkerItem.bio}</p>
+                <div style={{ background: BG, borderLeft: `3px solid ${GREEN}`, borderRadius: "0 8px 8px 0", padding: "14px 18px", marginBottom: 20 }}>
+                  <p style={{ color: GREEN, fontStyle: "italic", fontSize: 15, lineHeight: 1.7, margin: 0 }}>&ldquo;{thinkerItem.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: `${PURPLE}15`, borderRadius: 10, padding: 16 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>Legacy and Contribution</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, margin: 0 }}>{thinkerItem.contribution}</p>
+                </div>
+              </div>
             </div>
           </div>
         )}

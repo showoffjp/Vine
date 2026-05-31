@@ -262,8 +262,18 @@ const PLANS = [
   { id: "psalms-30", title: "Praying Through the Psalms", description: "30 days with one psalm per day — read, reflect, and respond in prayer. From lament to praise.", days: 30, dailyTime: "12 min", icon: "📖" },
 ];
 
+const VOICES_PM = [
+  { id: "bounds-em", name: "E.M. Bounds", era: "1835-1913", context: "Power Through Prayer (1907); The Necessity of Prayer; spent four hours in prayer every morning", bio: "Edward McKendree Bounds was a Civil War chaplain who spent the last seventeen years of his life rising at 4am to pray until 7am before beginning his day's work. He wrote eleven books on prayer, all posthumously published, that constitute the most intense advocacy for prayer as the central work of the Christian minister in the English language. Bounds argued that the church's weakness is primarily a prayer weakness — that all the organization, education, and technique in the world will not substitute for the power that comes from protracted, earnest prayer. His books on prayer are among the most demanding and convicting in the entire devotional tradition.", quote: "Prayer is not preparation for the battle — prayer is the battle. The real work of the church is done on our knees. Everything else is just follow-through.", contribution: "Bounds's books on prayer, particularly Power Through Prayer, have been in continuous print for over a century and have formed generations of ministers who take prayer seriously as a discipline. His intensity and demands are excessive for many readers — but his core conviction, that prayer is primary and everything else is secondary, has never been successfully refuted." },
+  { id: "murray-a", name: "Andrew Murray", era: "1828-1917", context: "With Christ in the School of Prayer (1885); The Ministry of Intercession (1898); South African Reformed pastor", bio: "Andrew Murray was a South African Dutch Reformed pastor who wrote over 200 books and pamphlets on the Christian life, with prayer as the central theme of his life's work. With Christ in the School of Prayer, structured around the Lord's Prayer and the disciples' request 'Lord, teach us to pray,' remains the most systematic devotional treatment of prayer as a discipline to be learned. Murray argued that prayer is not natural to fallen humanity — it must be taught, practiced, and developed through faithful discipline, just as a musician develops through practice. His chapter on intercession and his treatment of faith in prayer have been particularly influential.", quote: "The man who kneels before God can stand before anything. Prayer is not preparation for battle — prayer is the mightiest weapon in battle.", contribution: "Murray's With Christ in the School of Prayer has guided more Christians into structured, disciplined prayer than almost any other 19th-century devotional book. It remains in print, has been translated into dozens of languages, and continues to form the prayer lives of Christians around the world." },
+  { id: "hallesby-o", name: "Ole Hallesby", era: "1879-1961", context: "Prayer (1931) — possibly the most widely read systematic treatment of prayer in Scandinavian Christianity", bio: "Ole Hallesby was a Norwegian Lutheran theologian whose book Prayer remains one of the most beloved treatments of the subject in the 20th century. Where Bounds emphasizes intensity and Murray emphasizes discipline, Hallesby emphasizes helplessness: prayer, he argues, is the cry of the helpless to the all-sufficient God, and it is precisely our helplessness — rightly understood — that is the primary qualification for prayer. His famous definition: 'To pray is to let Jesus come into our helplessness.' Hallesby was imprisoned during the Nazi occupation of Norway for his public Christian witness and emerged from prison with an even deeper prayer life.", quote: "To pray is to let Jesus come into our helplessness. It is the cry of the needy to the one who has all we need. Prayer is not our strength — it is our surrender.", contribution: "Prayer has guided generations of Norwegian, Scandinavian, and globally translated readers into a prayer life grounded in grace rather than effort. Its emphasis on helplessness as a prayer qualification — rather than a disqualification — has given permission to many struggling Christians to pray without pretense." },
+  { id: "foster-rf", name: "Richard Foster", era: "b. 1942", context: "Prayer: Finding the Heart's True Home (1992); Celebration of Discipline (1978)", bio: "Richard Foster's Prayer: Finding the Heart's True Home is the most comprehensive survey of Christian prayer forms in contemporary evangelical literature — covering adoration, simple prayer, prayer of the forsaken, sacramental prayer, healing prayer, contemplative prayer, and intercessory prayer, among many others. Where most books on prayer focus on one method or tradition, Foster drew on the full breadth of Christian history to show that prayer is a many-roomed house. No single form exhausts what prayer can be. His Celebration of Discipline, with its chapter on prayer, first introduced millions of evangelicals to the broader Christian tradition of spiritual disciplines.", quote: "Prayer catapults us onto the frontier of the spiritual life. Of all the spiritual disciplines, prayer is the most central because it ushers us into perpetual communion with the Father.", contribution: "Foster's Prayer gave evangelicals permission to explore the full range of Christian prayer traditions — including contemplative and charismatic forms — without abandoning their evangelical commitments. It remains the standard introductory text for survey courses on Christian spirituality and prayer in evangelical seminaries." },
+  { id: "willard-dpr", name: "Dallas Willard", era: "1935-2013", context: "Hearing God (1984); The Spirit of the Disciplines (1988) — prayer as conversational relationship with God", bio: "Dallas Willard approached prayer primarily as conversation — the two-way communication that constitutes a genuine relationship with God. Where many prayer books focus on what we say to God, Willard argued that the transforming dimension of prayer is hearing God speak. His Hearing God explored the ways God speaks to those who are listening — through Scripture, through the inner voice, through others — and gave Christians a framework for discerning God's communication in prayer. His Spirit of the Disciplines placed prayer within a comprehensive account of how the spiritual disciplines transform human character by putting us in the presence and under the influence of the Kingdom of God.", quote: "Prayer is not performance — it is conversation. And God's part of the conversation is as important as ours. The person who learns to hear God speak has discovered the secret of prayer.", contribution: "Willard's conversational model of prayer, developed across multiple books, gave Christians a framework that was simultaneously relational (it's dialogue, not monologue), practical (he addressed how to discern God's voice), and theologically grounded (prayer as Kingdom participation). It has been especially influential among younger evangelical readers drawn to the spiritual formation tradition." },
+];
+
 export default function PrayerMethodsPage() {
-  const [tab, setTab] = useState<"methods" | "guided" | "plans">("methods");
+  const [tab, setTab] = useState<"methods" | "guided" | "plans" | "voices">("methods");
+  const [selectedVoice, setSelectedVoice] = useState("bounds-em");
+  const voiceItem = VOICES_PM.find(v => v.id === selectedVoice)!;
   const [practiced, setPracticed] = useState<Set<string>>(() => {
     try { const s = localStorage.getItem("vine_prayer_methods_practiced"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
   });
@@ -326,7 +336,7 @@ export default function PrayerMethodsPage() {
 
         {/* Tabs */}
         <div style={{ display: "flex", gap: 4, marginBottom: 28, borderBottom: "1px solid #1E1E32" }}>
-          {([["methods", "Methods"], ["guided", "Guided Prayer"], ["plans", "Prayer Plans"]] as const).map(([t, label]) => (
+          {([["methods", "Methods"], ["guided", "Guided Prayer"], ["plans", "Prayer Plans"], ["voices", "Voices"]] as const).map(([t, label]) => (
             <button key={t} onClick={() => setTab(t)}
               style={{ padding: "10px 20px", fontSize: 14, fontWeight: 600, background: "none", border: "none", cursor: "pointer", color: tab === t ? "#00FF88" : "#6A6A88", borderBottom: `2px solid ${tab === t ? "#00FF88" : "transparent"}`, marginBottom: -1 }}>
               {label}
@@ -512,6 +522,34 @@ export default function PrayerMethodsPage() {
                 </div>
               </div>
             ))}
+          </div>
+        )}
+        {tab === "voices" && (
+          <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
+            <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
+              {VOICES_PM.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ background: selectedVoice === v.id ? "#6B4FBB" : "#12121F", border: `1px solid ${selectedVoice === v.id ? "#6B4FBB" : "#1E1E32"}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: "#F2F2F8", fontWeight: 700, fontSize: 14 }}>{v.name}</div>
+                  <div style={{ color: "#9898B3", fontSize: 12, marginTop: 2 }}>{v.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 28 }}>
+                <h2 style={{ color: "#00FF88", fontWeight: 900, fontSize: 22, margin: "0 0 4px" }}>{voiceItem.name}</h2>
+                <div style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 700, marginBottom: 6 }}>{voiceItem.era}</div>
+                <div style={{ color: "#9898B3", fontSize: 13, marginBottom: 16 }}>{voiceItem.context}</div>
+                <p style={{ color: "#F2F2F8", lineHeight: 1.8, fontSize: 15, marginBottom: 20 }}>{voiceItem.bio}</p>
+                <div style={{ background: "#07070F", borderLeft: "3px solid #00FF88", borderRadius: "0 8px 8px 0", padding: "14px 18px", marginBottom: 20 }}>
+                  <p style={{ color: "#00FF88", fontStyle: "italic", fontSize: 15, lineHeight: 1.7, margin: 0 }}>&ldquo;{voiceItem.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: "rgba(107,79,187,0.15)", borderRadius: 10, padding: 16 }}>
+                  <div style={{ color: "#6B4FBB", fontWeight: 700, fontSize: 13, marginBottom: 6 }}>Legacy and Contribution</div>
+                  <p style={{ color: "#F2F2F8", fontSize: 14, lineHeight: 1.7, margin: 0 }}>{voiceItem.contribution}</p>
+                </div>
+              </div>
+            </div>
           </div>
         )}
       </div>

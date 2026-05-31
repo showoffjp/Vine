@@ -39,11 +39,21 @@ const categoryColors: Record<string, string> = {
   "Provision": "#10B981", "Peace": "#3B82F6", "Identity": "#EC4899", "Love": "#F43F5E"
 };
 
+const VOICES_VM = [
+  { id: "davis-a", name: "Andrew Davis", era: "b. 1960", context: "An Approach to Extended Memorization of Scripture (2014) — practical guide to memorizing entire books of the Bible", bio: "Andrew Davis, senior pastor of First Baptist Church Durham, North Carolina, developed a systematic method for memorizing entire books of the Bible that he has practiced for decades. His An Approach to Extended Memorization of Scripture is a simple, practical booklet explaining a daily incremental method: add one verse per day while reviewing all previous verses. Using this method, Davis has memorized entire books including Romans, Ephesians, Hebrews, James, and many others. His method is distinguished by its emphasis on sustained review rather than initial memorization — the discovery that the challenge is not learning a verse but keeping it through months and years of practice.", quote: "The goal of Scripture memorization is not a performance — it is transformation. You are not memorizing to recite. You are memorizing because the Word of God living inside you changes you from the inside out.", contribution: "Davis's booklet has introduced thousands of Christians to extended Scripture memorization as a practical possibility. His method's simplicity — one verse per day, consistent review — has given ordinary believers confidence that memorizing significant portions of Scripture is achievable. Many Christians point to his approach as the catalyst for their own memorization practice." },
+  { id: "whitney-d", name: "Don Whitney", era: "b. 1955", context: "Spiritual Disciplines for the Christian Life (1991) — the standard evangelical treatment of spiritual disciplines including memorization", bio: "Don Whitney's Spiritual Disciplines for the Christian Life is the most widely used evangelical introduction to the classical spiritual disciplines, with Scripture memorization occupying a central place. Whitney argues that Scripture memorization is not an advanced spiritual practice for exceptional Christians but a basic discipline for every believer — as basic as Bible reading or prayer. His treatment is thoroughly practical: he addresses why memory seems harder as we age, which verses to memorize first, and how to maintain verses once memorized. His chapter on memorization has introduced more evangelicals to the practice than any other single text.", quote: "Memorizing Scripture is one of the most life-changing disciplines a Christian can practice. There is no other discipline that puts the Word of God so immediately available for every circumstance of life.", contribution: "Whitney's Spiritual Disciplines for the Christian Life is used in evangelical seminaries, small groups, and discipleship programs worldwide. Its practical, motivating treatment of Scripture memorization — grounded in biblical warrant and filled with practical method — has been the standard introduction to the discipline for thirty years." },
+  { id: "willard-sdvm", name: "Dallas Willard", era: "1935-2013", context: "The Spirit of the Disciplines (1988) — memory as furnishing the mind for Kingdom living", bio: "Dallas Willard's treatment of Scripture memory in The Spirit of the Disciplines is philosophically the richest account of the practice: he argued that memorizing Scripture furnishes the mind with the materials through which God can speak at any moment. Willard's broader account of how the disciplines work — by placing us in circumstances where God works change in us — gives memorization a theological rationale that transcends technique. The person who has committed vast portions of Scripture to memory has provided God with a vocabulary from which the Spirit can draw at any moment.", quote: "The person who has hidden God's word in their heart has given God an instrument that he can use at any moment. The mind furnished with Scripture is a mind available to God.", contribution: "Willard's Spirit of the Disciplines gave the practice of Scripture memorization a philosophical and theological depth that purely technique-oriented treatments lacked. His account of how the disciplines work — including memorization — has influenced how a generation of evangelical thinkers and pastors understand the spiritual disciplines as a whole." },
+  { id: "bridges-j", name: "Jerry Bridges", era: "1929-2016", context: "The Navigators; The Pursuit of Holiness (1978) — on Scripture memory as the tool for transformation", bio: "Jerry Bridges was a staff member of The Navigators for over sixty years, an organization that has done more than any other in modern evangelical history to promote systematic Scripture memorization. His books — The Pursuit of Holiness, Trusting God, The Discipline of Grace — are saturated with specific biblical texts that Bridges had memorized and applied to every area of Christian living. The Navigators' Topical Memory System, which Bridges promoted and used, has helped millions of Christians develop systematic memorization practices.", quote: "The promises of God are the currency of faith. But to spend them, you must carry them with you — stored in your memory and ready at the moment of need.", contribution: "Bridges and The Navigators represent the most sustained institutional commitment to Scripture memorization in 20th-century American evangelicalism. The Navigators' Topical Memory System, developed in the 1930s and refined over decades, has introduced systematic memorization to millions of Christians worldwide." },
+  { id: "packer-jip", name: "J.I. Packer", era: "1926-2020", context: "Knowing God (1973) — on internalizing God's word as the foundation of knowing God himself", bio: "J.I. Packer's Knowing God, while not specifically a book about Scripture memorization, contains the most compelling theological argument for why every Christian should invest in deep knowledge of Scripture — including memorization. Packer argued that knowing God requires knowing what God has said about himself, and that this knowledge must be internalized rather than merely encountered. Packer himself was known for his extraordinary recall of Scripture and the ease with which he drew on biblical texts in extemporaneous speech and writing — the fruit of a lifetime of memorization and meditation.", quote: "Ignorance of God — ignorance both of his ways and of the practice of communion with him — lies at the root of much of the church's weakness today.", contribution: "Knowing God's enduring popularity — still one of the best-selling Christian books fifty years after publication — has kept before millions of Christians the conviction that deep, internalized knowledge of God and his word is the foundation of Christian maturity. Its implicit argument for Scripture memory has been as influential as any explicit treatment of the practice." },
+];
+
 export default function VerseMemoryPage() {
   const [verses, setVerses] = useState<MemoryVerse[]>(() => {
     try { const s = localStorage.getItem("vine_verse_memory"); return s ? JSON.parse(s) : seedVerses; } catch { return seedVerses; }
   });
-  const [tab, setTab] = useState<"library" | "practice" | "stats">("library");
+  const [tab, setTab] = useState<"library" | "practice" | "stats" | "voices">("library");
+  const [selectedVoice, setSelectedVoice] = useState("davis-a");
+  const voiceItem = VOICES_VM.find(v => v.id === selectedVoice)!;
   const [activeCategory, setActiveCategory] = useState("All");
   const [addingVerse, setAddingVerse] = useState(false);
   const [reviewingId, setReviewingId] = useState<number | null>(null);
@@ -166,6 +176,7 @@ export default function VerseMemoryPage() {
             { id: "library", label: "📚 Library" },
             { id: "practice", label: "✏️ Practice" },
             { id: "stats", label: "📊 Stats & Suggestions" },
+            { id: "voices", label: "🎓 Voices" },
           ].map(t => (
             <button key={t.id} onClick={() => setTab(t.id as typeof tab)}
               style={{ padding: "10px 20px", borderRadius: "10px 10px 0 0", border: "none", cursor: "pointer", fontWeight: 700, fontSize: 14, background: tab === t.id ? CARD : "transparent", color: tab === t.id ? TEXT : MUTED, borderBottom: tab === t.id ? `2px solid ${GREEN}` : "2px solid transparent" }}>
@@ -408,6 +419,34 @@ export default function VerseMemoryPage() {
                     <p style={{ fontSize: 14, color: MUTED, margin: 0, lineHeight: 1.6 }}>{item.tip}</p>
                   </div>
                 ))}
+              </div>
+            </div>
+          </div>
+        )}
+        {tab === "voices" && (
+          <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
+            <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
+              {VOICES_VM.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ background: selectedVoice === v.id ? PURPLE : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: TEXT, fontWeight: 700, fontSize: 14 }}>{v.name}</div>
+                  <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{v.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 28 }}>
+                <h2 style={{ color: GREEN, fontWeight: 900, fontSize: 22, margin: "0 0 4px" }}>{voiceItem.name}</h2>
+                <div style={{ color: PURPLE, fontSize: 13, fontWeight: 700, marginBottom: 6 }}>{voiceItem.era}</div>
+                <div style={{ color: MUTED, fontSize: 13, marginBottom: 16 }}>{voiceItem.context}</div>
+                <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 15, marginBottom: 20 }}>{voiceItem.bio}</p>
+                <div style={{ background: BG, borderLeft: `3px solid ${GREEN}`, borderRadius: "0 8px 8px 0", padding: "14px 18px", marginBottom: 20 }}>
+                  <p style={{ color: GREEN, fontStyle: "italic", fontSize: 15, lineHeight: 1.7, margin: 0 }}>&ldquo;{voiceItem.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: `${PURPLE}15`, borderRadius: 10, padding: 16 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>Legacy and Contribution</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, margin: 0 }}>{voiceItem.contribution}</p>
+                </div>
               </div>
             </div>
           </div>

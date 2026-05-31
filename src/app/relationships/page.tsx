@@ -99,7 +99,16 @@ const STORIES = [
 const CATEGORIES = ["All", "Dating", "Marriage", "Boundaries", "Singleness", "Healing"];
 
 export default function RelationshipsPage() {
-  const [tab, setTab] = useState<"guidance" | "articles" | "stories">("guidance");
+  const [tab, setTab] = useState<"guidance" | "articles" | "stories" | "voices">("guidance");
+  const [selectedVoice, setSelectedVoice] = useState("keller-rel");
+  const VOICES_REL = [
+    { id: "keller-rel", name: "Tim & Kathy Keller", era: "The Meaning of Marriage (2011)", context: "The theological cornerstone of evangelical marriage literature — God-centered, honest, and enduring", bio: "Tim Keller's The Meaning of Marriage, co-written with his wife Kathy, is the most theologically rigorous and practically honest marriage book in contemporary evangelical literature. Written from the Reformed tradition, it grounds marriage not in romantic compatibility or emotional fulfillment but in the covenant relationship between God and his people, and ultimately in the relationship between Christ and the church (Ephesians 5). Keller's central argument: marriage is hard precisely because it is designed to make you holy, not merely happy. The book is unflinching about the selfishness, conflict, and disappointment that every marriage encounters, while maintaining a high and beautiful vision of what marriage can be.", quote: "To be loved but not known is comforting but superficial. To be known and not loved is our greatest fear. But to be fully known and truly loved is, well, a lot like being loved by God.", contribution: "The Meaning of Marriage became the standard evangelical marriage reference text for a generation of pastors, premarital counselors, and couples. Its combination of theological depth, honest assessment of marriage's difficulty, and practical guidance has made it the book most recommended in evangelical premarital counseling contexts." },
+    { id: "thomas-g", name: "Gary Thomas", era: "b. 1961", context: "Sacred Marriage (2000) — what if marriage is designed to make you holy rather than happy?", bio: "Gary Thomas's Sacred Marriage reoriented evangelical marriage literature with a single provocative question: What if God designed marriage to make us holy more than to make us happy? Thomas argues that the difficulties of marriage — the friction, the exposure of character, the demands of unconditional love — are precisely the tools God uses to form Christlike character. His treatment of marriage as a spiritual discipline rather than a romantic fulfillment shifted the conversation from 'how do I have a better marriage?' to 'who is God making me through this marriage?' This reorientation has been enormously influential in how churches approach marriage ministry.", quote: "What if God didn't design marriage to be easy? What if God has a higher purpose for your marriage than your happiness? What if marriage is designed to make you holy?", contribution: "Sacred Marriage is one of the most widely used evangelical marriage books in small group and marriage enrichment contexts. Thomas's reframing of marriage difficulties as spiritual formation opportunities has given couples a theological framework for persisting through conflict and disappointment without giving up." },
+    { id: "gottman-j", name: "John & Julie Gottman", era: "b. 1942/1948", context: "The Seven Principles for Making Marriage Work (1999) — research-based marriage wisdom", bio: "John Gottman's research at the University of Washington's 'Love Lab' produced the most empirically robust account of what distinguishes stable marriages from those heading for divorce. His concept of the 'Four Horsemen' (criticism, contempt, defensiveness, stonewalling) as predictors of relationship failure, and his model of the 'Sound Relationship House' (trust, commitment, knowledge of your partner, shared meaning) have been widely adopted in Christian marriage counseling alongside theological frameworks. Christian counselors have found Gottman's research complements theological perspectives on marriage: his findings about contempt, for instance, map well onto biblical teachings on pride and honor.", quote: "Contempt — feeling or showing disgust — is the single greatest predictor of relationship failure. It treats the other person as inferior or unworthy. No marriage can survive large doses of contempt. And contempt thrives in the absence of gratitude.", contribution: "Gottman's research gave marriage counselors — including Christian ones — empirical tools for identifying troubled marriages and evidence-based practices for strengthening them. His Four Horsemen model has become a standard diagnostic framework in both secular and Christian marriage therapy, and his emphasis on friendship, gratitude, and shared meaning resonates with theological accounts of covenant love." },
+    { id: "tripp-paul-m", name: "Paul David Tripp", era: "b. 1950", context: "What Did You Expect? (2010) — a gospel-centered approach to marriage's hardest moments", bio: "Paul David Tripp's What Did You Expect? Redeeming the Realities of Marriage addresses the gap between what couples expect marriage to be and what it actually is. Tripp argues that the disappointment and conflict most couples experience in marriage is not a sign that they chose the wrong person but that they have underestimated how comprehensively sin affects two sinners trying to build a life together. His gospel-centered framework — grace, forgiveness, mutual service — provides a basis for hope in the hardest seasons. The book's distinctive contribution is its honesty about how idolatrous expectations (expecting a spouse to provide what only God can provide) create the very disappointments that kill marriages.", quote: "Struggling marriages are not the result of marrying the wrong person. They are the result of two sinners who have forgotten what they need to bring to their marriage: not rights, but grace.", contribution: "What Did You Expect? gave evangelical couples a gospel-centered framework for understanding and working through marital conflict. Tripp's honest account of how sin distorts expectations and creates conflict, combined with his clear articulation of grace as the resource for change, has made the book a standard text in evangelical premarital and marriage counseling." },
+    { id: "eldredge-j", name: "John Eldredge", era: "b. 1960", context: "Wild at Heart (2001); Captivating (2005, with Stasi Eldredge) — gender, identity, and relationship", bio: "John Eldredge's Wild at Heart and its companion Captivating (co-written with his wife Stasi) have been among the most widely read and most debated evangelical books on gender and relationships in the past two decades. Wild at Heart argues that men are created for adventure, battle, and beauty, and that the core wounds of masculinity distort all their relationships — especially romantic ones. Captivating makes a parallel argument about femininity. The books have been criticized for their gender essentialism and their cultural assumptions, but their influence on how millions of evangelical Christians think about gender and relationship has been enormous — particularly in young adult and men's ministry contexts.", quote: "A man's deepest fear is that he is, at the core, not what a woman needs. A woman's deepest fear is that she is, at the core, not what a man wants. Both fears point to the same wound: 'Do I have what it takes? Am I enough?' The answer the gospel gives is: in Christ, yes.", contribution: "Wild at Heart and Captivating gave evangelical men and women a language for understanding gender, desire, and relationship wound that resonated with millions. The books' influence on men's ministry, marriage conferences, and young adult discipleship has been enormous, even as their gender essentialism has been debated. They remain among the most discussed evangelical books on relationships of the past generation." },
+  ];
+  const voiceItem = VOICES_REL.find(v => v.id === selectedVoice)!;
   const [openGuidance, setOpenGuidance] = useState<string | null>(null);
   const [savedIds, setSavedIds] = useState<Set<string>>(() => {
     try { const s = localStorage.getItem("vine_relationships_saved"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
@@ -137,7 +146,7 @@ export default function RelationshipsPage() {
 
         {/* Tabs */}
         <div style={{ display: "flex", gap: 4, marginBottom: 32, borderBottom: "1px solid #1E1E32" }}>
-          {([["guidance", "Guidance"], ["articles", "Topics"], ["stories", "Stories"]] as const).map(([t, label]) => (
+          {([["guidance", "Guidance"], ["articles", "Topics"], ["stories", "Stories"], ["voices", "🎓 Voices"]] as const).map(([t, label]) => (
             <button key={t} onClick={() => setTab(t)}
               style={{ padding: "10px 20px", fontSize: 14, fontWeight: 600, background: "none", border: "none", cursor: "pointer", color: tab === t ? "#00FF88" : "#6A6A88", borderBottom: `2px solid ${tab === t ? "#00FF88" : "transparent"}`, marginBottom: -1 }}>
               {label}
@@ -242,6 +251,33 @@ export default function RelationshipsPage() {
                 <p style={{ fontSize: 12, color: "#00FF88", marginTop: 12, fontStyle: "italic" }}>"{s.verse.slice(0, 55)}..." — {s.verseRef}</p>
               </div>
             ))}
+          </div>
+        )}
+
+        {tab === "voices" && (
+          <div style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
+            <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 80 }}>
+              {VOICES_REL.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? "rgba(0,255,136,0.4)" : "#1E1E32"}`, background: selectedVoice === v.id ? "rgba(0,255,136,0.08)" : "#12121F", cursor: "pointer" }}>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: selectedVoice === v.id ? "#00FF88" : "#F2F2F8", marginBottom: 2 }}>{v.name}</div>
+                  <div style={{ fontSize: 11, color: "#9898B3" }}>{v.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1, background: "#12121F", border: "1px solid #1E1E32", borderRadius: 16, padding: 28 }}>
+              <div style={{ fontSize: 12, color: "#9898B3", fontStyle: "italic", marginBottom: 6 }}>{voiceItem.context}</div>
+              <h2 style={{ fontSize: 24, fontWeight: 800, marginBottom: 4, color: "#F2F2F8" }}>{voiceItem.name}</h2>
+              <div style={{ fontSize: 13, color: "#9898B3", marginBottom: 20 }}>{voiceItem.era}</div>
+              <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.8, marginBottom: 24 }}>{voiceItem.bio}</p>
+              <div style={{ background: "#07070F", borderRadius: 12, padding: 20, borderLeft: "3px solid #00FF88", marginBottom: 24 }}>
+                <p style={{ fontSize: 15, color: "#E0E0F0", lineHeight: 1.75, fontStyle: "italic" }}>&ldquo;{voiceItem.quote}&rdquo;</p>
+              </div>
+              <div>
+                <div style={{ fontSize: 11, fontWeight: 700, color: "#6B4FBB", textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>Contribution</div>
+                <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.75 }}>{voiceItem.contribution}</p>
+              </div>
+            </div>
           </div>
         )}
       </div>

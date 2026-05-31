@@ -112,7 +112,16 @@ export default function PrayerListPage() {
       return saved && saved.length > 0 ? saved : STARTER_ITEMS;
     } catch { return STARTER_ITEMS; }
   });
-  const [activeTab, setActiveTab] = useState<"active" | "answered">("active");
+  const [activeTab, setActiveTab] = useState<"active" | "answered" | "guide" | "voices">("active");
+  const [selectedVoice, setSelectedVoice] = useState("bounds-pl");
+  const VOICES_PL = [
+    { id: "bounds-pl", name: "E.M. Bounds", era: "1835-1913", context: "Power Through Prayer (1907) — the most uncompromising book on specific, persistent prayer", bio: "Edward McKendree Bounds spent the last seventeen years of his life rising at 4am to pray for three hours before anyone else in his household was awake. He wrote eight books on prayer, all published posthumously, of which Power Through Prayer is the most widely read. Bounds's argument is stark: the church's greatest need is not better programs, more money, or more talented leaders — it is men and women who pray. His prayer list was extensive, specific, and personal — he believed that vague prayer is no prayer at all, and that God honors the specificity that reflects genuine faith and genuine need.", quote: "Prayer is the one prime, eternal condition by which the Father is honored and the Son is glorified. No learning can make up for the failure to pray. No earnestness, no diligence, no study, no gifts will supply its lack.", contribution: "Bounds's work established specific, persistent, intercessory prayer as the primary discipline of Christian ministry. His eight books on prayer have shaped generations of pastors and prayer warriors, and his example of daily extended prayer has been held up as a model for serious intercession." },
+    { id: "foster-pl", name: "Richard Foster", era: "b. 1942", context: "Prayer: Finding the Heart's True Home (1992) — the most comprehensive evangelical guide to forms of prayer", bio: "Richard Foster's Prayer: Finding the Heart's True Home is the most comprehensive single-volume guide to Christian prayer for a general audience. Foster surveys 21 different forms of prayer — simple prayer, prayer of examination, intercessory prayer, contemplative prayer, healing prayer, sacramental prayer — and shows how each addresses different needs and dimensions of the human relationship with God. His treatment of petition and intercession is particularly useful for those learning to keep prayer lists: he argues that specific, expectant prayer honors God's personhood and invites genuine encounter rather than religious soliloquy.", quote: "Prayer is the central avenue God uses to transform us. If we are unwilling to change, we will abandon prayer as a noticeable characteristic of our lives. The closer we come to the heartbeat of God, the more we see our need and the more we desire to be conformed to Christ.", contribution: "Foster's Prayer introduced a generation of evangelical Christians to the full range of Christian prayer practice, from the ancient tradition of contemplative prayer to specific intercessory petition. His comprehensive treatment gave Christians a vocabulary for understanding the different dimensions of prayer and a guide for developing a richer prayer life." },
+    { id: "murray-pl", name: "Andrew Murray", era: "1828-1917", context: "With Christ in the School of Prayer (1885) — the classic study of Jesus's prayer teaching", bio: "Andrew Murray spent three months bedridden with a throat condition that prevented him from speaking, and used the time to write With Christ in the School of Prayer — a series of meditations on prayer drawn from Jesus's teaching in the Gospels. Murray's central argument is that prayer is not a technique to master but a relationship to inhabit: prayer is 'talking to God as a child talks to a father.' His treatment of specific petition — asking for particular things, with expectant faith — remains one of the clearest evangelical accounts of how prayer list intercession works and why it matters.", quote: "Prayer is not monologue but dialogue; God's voice in response to mine is its most essential part. Listening to God's voice is the secret of the assurance that he will listen to mine.", contribution: "With Christ in the School of Prayer has sold millions of copies and has been a standard text in evangelical prayer formation for over a century. Murray's accessible devotional style, his rootedness in the Gospel accounts of Jesus's teaching on prayer, and his pastoral sensitivity to the difficulties of sustained prayer have made it a perennial resource." },
+    { id: "yancey-pl", name: "Philip Yancey", era: "b. 1949", context: "Prayer: Does It Make Any Difference? (2006) — honest engagement with prayer's difficulties", bio: "Philip Yancey's Prayer: Does It Make Any Difference? is the most honest recent evangelical treatment of the difficulties of prayer — why prayers seem to go unanswered, how to pray through doubt, what to do when God seems silent. Yancey's journalistic instinct for honest engagement with hard questions, combined with his wide reading in theology, history, and science, produced a book that gives permission to pray honestly about prayer itself. His treatment of intercession — why we should pray for specific things even though God already knows what we need — is particularly thoughtful.", quote: "Prayer is the act of seeing reality from God's point of view. When I pray for a friend, I am not trying to manipulate God into doing something he didn't want to do. I am trying to see my friend through God's eyes — and that changes both my prayer and my friendship.", contribution: "Prayer: Does It Make Any Difference? gave evangelical readers an honest, intellectually serious treatment of prayer's difficulties that neither minimized the problems nor abandoned the practice. Yancey's honesty about his own struggles with prayer, combined with his intellectual engagement with the theology of prayer, made the book accessible to doubters and seekers who might have found more triumphalist treatments of prayer alienating." },
+    { id: "hallesby-ol", name: "O. Hallesby", era: "1879-1961", context: "Prayer (1931) — the Norwegian classic on helplessness as the key to prayer", bio: "Ole Kristian Hallesby was a Norwegian theologian who spent ten months imprisoned by the Nazis for his leadership of church resistance, and who wrote Prayer before the war in a simple, direct style that has made it a devotional classic across languages and denominations. Hallesby's central insight — that helplessness is the key to prayer — reframes the experience of struggling to pray: the feeling that you have nothing to bring to God, that you are empty, that you cannot even find words, is not a disqualification from prayer but its very foundation. His chapter on maintaining a prayer list as a record of God's faithfulness is particularly practical.", quote: "Helplessness united with faith produces prayer — real prayer, the kind that reaches heaven. Our helplessness is the very thing that opens us to receive the help God is ready and waiting to give.", contribution: "Prayer has been translated into dozens of languages and has shaped prayer life across Catholic, Orthodox, and Protestant communities. Hallesby's reframing of helplessness as the gateway rather than the barrier to prayer has given many struggling pray-ers permission to bring their emptiness to God rather than staying away until they feel 'ready to pray.'" },
+  ];
+  const voiceItem = VOICES_PL.find(v => v.id === selectedVoice)!;
   const [filterCat, setFilterCat] = useState<PrayerCategory | "All">("All");
   const [showAdd, setShowAdd] = useState(false);
   const [answeringId, setAnsweringId] = useState<string | null>(null);
@@ -293,7 +302,7 @@ export default function PrayerListPage() {
 
           {/* Tabs */}
           <div className="flex gap-1 p-1 rounded-xl mb-4" style={{ background: "#12121F", border: "1px solid #1E1E32" }}>
-            {(["active", "answered"] as const).map((tab) => (
+            {(["active", "answered", "guide", "voices"] as const).map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
@@ -304,11 +313,12 @@ export default function PrayerListPage() {
                   border: activeTab === tab ? `1px solid ${tab === "answered" ? "rgba(16,185,129,0.2)" : "rgba(107,79,187,0.2)"}` : "1px solid transparent",
                 }}
               >
-                {tab === "active" ? `Praying For (${activeCount})` : `Answered ✓ (${answeredCount})`}
+                {tab === "active" ? `Praying (${activeCount})` : tab === "answered" ? `Answered ✓ (${answeredCount})` : tab === "guide" ? "📖 Guide" : "🎓 Voices"}
               </button>
             ))}
           </div>
 
+          {(activeTab === "active" || activeTab === "answered") && <>
           {/* Category filter */}
           <div className="flex gap-2 flex-wrap mb-5">
             {(["All", ...CATEGORIES] as (PrayerCategory | "All")[]).map((cat) => (
@@ -480,6 +490,59 @@ export default function PrayerListPage() {
               </a>
             </div>
           </div>
+          </>}
+
+          {activeTab === "guide" && (
+            <div style={{ maxWidth: 760, margin: "0 auto" }}>
+              <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 8, color: "#F2F2F8" }}>How to Pray Specifically</h2>
+              <p style={{ color: "#9898B3", fontSize: 14, marginBottom: 24, lineHeight: 1.6 }}>
+                Vague prayer is comfortable because it can never be proven wrong. Specific prayer is an act of faith.
+              </p>
+              {[
+                { icon: "🎯", title: "Name the Person, Not the Category", desc: "Don't pray 'for those who are sick.' Pray for John Smith's kidney stone procedure on Thursday. The specificity is not magic — it is faith. It says: I believe God knows John Smith and cares about his Thursday. It also makes it possible to see when and how God answers." },
+                { icon: "📅", title: "Assign People to Days", desc: "A prayer list with 50 names becomes unmanageable if you try to pray for all 50 every day. Assign people and needs to days of the week: Monday for family, Tuesday for coworkers, Wednesday for church, etc. This lets you pray specifically for a smaller group each day rather than vaguely for everyone daily." },
+                { icon: "✍️", title: "Write the Request With a Date", desc: "Dating your prayer requests gives you the ability to see God's faithfulness over time. When God answers — in the way you asked, or in a better way, or with a clear 'not yet' — you can record that too. Over years, a dated prayer list becomes one of the most powerful spiritual documents you own." },
+                { icon: "📖", title: "Pray a Scripture Over the Request", desc: "Attaching a specific Scripture verse to a specific prayer request transforms intercession. Instead of 'Lord, help Sarah with her marriage,' pray Ephesians 3:17-19 over her: 'Lord, give Sarah roots in love and the ability to comprehend your love with her husband.' The Scripture gives the prayer substance and direction." },
+                { icon: "🔄", title: "Review Answered Prayers Regularly", desc: "Set a monthly or quarterly date to review your answered prayers. Read through old requests and notice what God has done. This practice builds faith for current requests — it gives you concrete evidence of God's faithfulness rather than abstract belief in it. It is the spiritual discipline of remembrance." },
+                { icon: "💬", title: "Ask People What They Specifically Need", desc: "When someone says 'pray for me,' follow up: 'For what, specifically?' Many people are afraid to be specific because specificity involves vulnerability — it exposes what they actually need. Asking the follow-up question honors their need and makes your prayer infinitely more targeted and faithful." },
+              ].map((item, i) => (
+                <div key={i} style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 14, padding: 22, marginBottom: 14 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}>
+                    <span style={{ fontSize: 24 }}>{item.icon}</span>
+                    <h3 style={{ fontSize: 16, fontWeight: 700, color: "#6B4FBB", margin: 0 }}>{item.title}</h3>
+                  </div>
+                  <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.75, margin: 0 }}>{item.desc}</p>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {activeTab === "voices" && (
+            <div style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
+              <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 80 }}>
+                {VOICES_PL.map(v => (
+                  <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                    style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? "rgba(107,79,187,0.4)" : "#1E1E32"}`, background: selectedVoice === v.id ? "rgba(107,79,187,0.1)" : "#12121F", cursor: "pointer" }}>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: selectedVoice === v.id ? "#A080FF" : "#F2F2F8", marginBottom: 2 }}>{v.name}</div>
+                    <div style={{ fontSize: 11, color: "#9898B3" }}>{v.era}</div>
+                  </button>
+                ))}
+              </div>
+              <div style={{ flex: 1, background: "#12121F", border: "1px solid #1E1E32", borderRadius: 16, padding: 28 }}>
+                <div style={{ fontSize: 12, color: "#9898B3", fontStyle: "italic", marginBottom: 6 }}>{voiceItem.context}</div>
+                <h2 style={{ fontSize: 24, fontWeight: 800, marginBottom: 4, color: "#F2F2F8" }}>{voiceItem.name}</h2>
+                <div style={{ fontSize: 13, color: "#9898B3", marginBottom: 20 }}>{voiceItem.era}</div>
+                <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.8, marginBottom: 24 }}>{voiceItem.bio}</p>
+                <div style={{ background: "#07070F", borderRadius: 12, padding: 20, borderLeft: "3px solid #6B4FBB", marginBottom: 24 }}>
+                  <p style={{ fontSize: 15, color: "#E0E0F0", lineHeight: 1.75, fontStyle: "italic" }}>&ldquo;{voiceItem.quote}&rdquo;</p>
+                </div>
+                <div>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: "#6B4FBB", textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>Contribution</div>
+                  <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.75 }}>{voiceItem.contribution}</p>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
       <Footer />

@@ -67,7 +67,7 @@ export default function FastingPage() {
   });
   const [showNew, setShowNew] = useState(false);
   const [activeTab, setActiveTab] = useState<"current" | "history">("current");
-  const [mainTab, setMainTab] = useState<"tracker" | "theology" | "voices">("tracker");
+  const [mainTab, setMainTab] = useState<"tracker" | "theology" | "voices" | "scripture">("tracker");
   const [selectedVoice, setSelectedVoice] = useState("foster-fast");
   const VOICES_FAST = [
     { id: "foster-fast", name: "Richard Foster", era: "b. 1942", context: "Celebration of Discipline (1978) — the chapter on fasting that launched a generation of evangelical practice", bio: "Richard Foster's Celebration of Discipline remains the most widely read modern evangelical guide to the classical spiritual disciplines, and its chapter on fasting is credited with recovering fasting as a mainstream evangelical practice. Before Foster, fasting was largely absent from evangelical spirituality — associated with ascetic traditions many Protestants had rejected. Foster showed that fasting is not about earning God's favor but about loosening the grip of bodily appetite on the soul, creating space for heightened spiritual sensitivity, and expressing the seriousness of one's intercession. His treatment of fasting as a discipline of 'freedom from food's tyranny' rather than physical punishment changed the conversation.", quote: "Fasting reveals the things that control us. This is a wonderful benefit to the person who is fasting: the realization of what is mastering your life. If we are given to food, food will be revealed as controlling us. If we find that we are full of resentment or anger, fasting will surface them. If we discover pride or envy, fasting will expose them.", contribution: "Foster's chapter on fasting in Celebration of Discipline recovered the discipline for evangelicalism. The book's enormous influence — it has sold millions of copies — brought fasting back into mainstream evangelical practice and gave Christians a theological framework for understanding fasting that was neither ascetic self-torture nor mechanistic spiritual technique." },
@@ -162,11 +162,11 @@ export default function FastingPage() {
 
           {/* Main Tab Bar */}
           <div className="flex gap-1 p-1 rounded-xl mb-6" style={{ background: "#12121F", border: "1px solid #1E1E32" }}>
-            {(["tracker", "theology", "voices"] as const).map((tab) => (
+            {(["tracker", "theology", "voices", "scripture"] as const).map((tab) => (
               <button key={tab} onClick={() => setMainTab(tab)}
                 className="flex-1 py-2 rounded-lg text-sm font-semibold transition-all"
                 style={{ background: mainTab === tab ? "rgba(0,255,136,0.12)" : "transparent", color: mainTab === tab ? "#00FF88" : "#6A6A88", border: mainTab === tab ? "1px solid rgba(0,255,136,0.2)" : "1px solid transparent" }}>
-                {tab === "tracker" ? "📊 Tracker" : tab === "theology" ? "📖 Theology" : "🎓 Voices"}
+                {tab === "tracker" ? "📊 Tracker" : tab === "theology" ? "📖 Theology" : tab === "voices" ? "🎓 Voices" : "📜 Scripture"}
               </button>
             ))}
           </div>
@@ -484,6 +484,76 @@ export default function FastingPage() {
                   <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.75 }}>{voiceItem.contribution}</p>
                 </div>
               </div>
+            </div>
+          )}
+          {mainTab === "scripture" && (
+            <div>
+              <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 8, color: "#F2F2F8" }}>Fasting in Scripture</h2>
+              <p style={{ color: "#9898B3", fontSize: 14, marginBottom: 24, lineHeight: 1.6 }}>
+                The Bible records fasting in crisis, grief, repentance, and preparation for mission. Here are the key passages and their contexts.
+              </p>
+              {[
+                {
+                  ref: "Matthew 6:16-18",
+                  title: "Jesus on Fasting",
+                  context: "Sermon on the Mount",
+                  text: "When you fast, do not look somber as the hypocrites do, for they disfigure their faces to show others they are fasting. Truly I tell you, they have received their reward in full. But when you fast, put oil on your head and wash your face, so that it will not be obvious to others that you are fasting, but only to your Father, who is unseen.",
+                  note: "Jesus says 'when you fast' — not 'if.' He assumes fasting is part of the disciple's practice, just as he assumes prayer and giving are. The text's concern is not whether to fast but the motive: fasting done for public recognition has already received its reward. The fast Jesus endorses is hidden, personal, and directed to the Father alone.",
+                  color: "#00FF88",
+                },
+                {
+                  ref: "Isaiah 58:3-7",
+                  title: "The Fast God Chooses",
+                  context: "Prophetic Critique of Religious Fasting",
+                  text: "Is not this the kind of fasting I have chosen: to loose the chains of injustice and untie the cords of the yoke, to set the oppressed free and break every yoke? Is it not to share your food with the hungry and to provide the poor wanderer with shelter?",
+                  note: "Isaiah's most pointed critique of religious fasting is that it can become self-focused — a private spiritual exercise that coexists with injustice and indifference to the poor. The fast God 'chooses' is one that produces justice, not just personal piety. This passage is the necessary corrective to fasting that is merely about self-discipline or spiritual intensity.",
+                  color: "#A080FF",
+                },
+                {
+                  ref: "Joel 2:12-13",
+                  title: "Corporate Fast of Repentance",
+                  context: "National Repentance",
+                  text: "Return to me with all your heart, with fasting and weeping and mourning. Rend your heart and not your garments. Return to the Lord your God, for he is gracious and compassionate, slow to anger and abounding in love.",
+                  note: "Joel's call to corporate, national fasting — 'rend your heart, not your garments' — is one of the OT's most striking treatments of authentic versus performative repentance. The physical act of fasting is meaningful only when it expresses genuine interior conversion. Torn garments are the external signal; the torn heart is the substance.",
+                  color: "#F59E0B",
+                },
+                {
+                  ref: "Acts 13:2-3",
+                  title: "Fasting Before Mission",
+                  context: "Commissioning of Paul and Barnabas",
+                  text: "While they were worshiping the Lord and fasting, the Holy Spirit said, 'Set apart for me Barnabas and Saul for the work to which I have called them.' So after they had fasted and prayed, they placed their hands on them and sent them off.",
+                  note: "The church at Antioch was fasting not as a crisis response but as an ordinary part of their worship. The Holy Spirit spoke in the context of fasting and prayer. This passage — along with Acts 14:23 (fasting at the appointment of elders) — establishes fasting as part of the church's regular preparation for significant decisions and commissions.",
+                  color: "#3B82F6",
+                },
+                {
+                  ref: "Esther 4:15-16",
+                  title: "Fasting in Crisis",
+                  context: "Before Esther Approaches the King",
+                  text: "Then Esther sent this reply to Mordecai: 'Go, gather together all the Jews who are in Susa, and fast for me. Do not eat or drink for three days, night or day. I and my attendants will fast as you do. When this is done, I will go to the king, even though it is against the law. And if I perish, I perish.'",
+                  note: "Esther's three-day fast before risking her life to approach the king is the most dramatic crisis fast in Scripture. She mobilizes the entire Jewish community to fast with her — recognizing that the need is too great for private prayer alone. God is not mentioned in the book of Esther, yet the structure of the narrative assumes divine response to corporate fasting and prayer.",
+                  color: "#EC4899",
+                },
+                {
+                  ref: "Luke 2:36-37",
+                  title: "Anna's Lifetime of Fasting",
+                  context: "The Prophetess at the Temple",
+                  text: "There was also a prophet, Anna, the daughter of Penuel, of the tribe of Asher. She was very old; she had lived with her husband seven years after her marriage, and then was a widow until she was eighty-four. She never left the temple but worshiped night and day, fasting and praying.",
+                  note: "Anna's life of fasting and prayer is presented as a model without qualification or critique. She is the first to recognize the infant Jesus as the redemption of Jerusalem. Her decades of persistent fasting are presented as the context in which her prophetic recognition of the Messiah occurred. Luke seems to suggest that her discipline of perception was cultivated by her discipline of fasting.",
+                  color: "#00FF88",
+                },
+              ].map((passage, i) => (
+                <div key={i} style={{ background: "#12121F", border: `1px solid ${passage.color}25`, borderRadius: 14, padding: 22, marginBottom: 16 }}>
+                  <div style={{ display: "flex", alignItems: "baseline", gap: 12, marginBottom: 8, flexWrap: "wrap" }}>
+                    <span style={{ fontSize: 14, fontWeight: 800, color: passage.color }}>{passage.ref}</span>
+                    <span style={{ fontSize: 12, color: "#9898B3" }}>{passage.context}</span>
+                  </div>
+                  <h3 style={{ fontSize: 16, fontWeight: 700, color: "#F2F2F8", marginBottom: 12 }}>{passage.title}</h3>
+                  <div style={{ background: "#07070F", borderRadius: 10, padding: 16, borderLeft: `3px solid ${passage.color}`, marginBottom: 14 }}>
+                    <p style={{ fontSize: 13, color: "#D0D0E8", lineHeight: 1.7, margin: 0, fontStyle: "italic" }}>{passage.text}</p>
+                  </div>
+                  <p style={{ fontSize: 13, color: "#C0C0D8", lineHeight: 1.7, margin: 0 }}>{passage.note}</p>
+                </div>
+              ))}
             </div>
           )}
         </div>

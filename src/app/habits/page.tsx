@@ -125,7 +125,7 @@ export default function HabitsPage() {
   const [newIcon, setNewIcon] = useState(ICONS[0]);
   const [newColor, setNewColor] = useState(COLORS[0]);
   const [view, setView] = useState<"week" | "month">("week");
-  const [mainTab, setMainTab] = useState<"tracker" | "theology" | "voices">("tracker");
+  const [mainTab, setMainTab] = useState<"tracker" | "theology" | "voices" | "methods">("tracker");
   const [selectedVoice, setSelectedVoice] = useState("smith-hab");
   const VOICES_HAB = [
     { id: "smith-hab", name: "James K.A. Smith", era: "b. 1970", context: "You Are What You Love (2016) — the liturgical formation of habit and desire", bio: "James K.A. Smith's You Are What You Love is the most theologically sophisticated recent treatment of habit formation in Christian life. Drawn from Augustine's vision of human beings as lovers and from Aristotle's account of virtue as habituated excellence, Smith argues that our habits — more than our beliefs or our decisions — shape what we love and therefore who we are. The 'secular liturgies' of consumer culture (the mall, the smartphone, social media) are forming our habits and desires whether we choose them or not. Christian formation requires intentional counter-practices — daily habits that reorient the heart toward God and neighbor.", quote: "You are what you love. And what you love is not first of all a result of what you believe — it is a result of what you practice. Habit precedes belief; practice shapes the heart.", contribution: "Smith's work gave Christians a theological vocabulary for habit formation that transcended the merely pragmatic. His integration of Augustinian theology with contemporary neuroscience and cultural criticism gave the church a sophisticated account of why habits matter for formation — not as moralistic self-improvement but as the re-orienting of desire toward God." },
@@ -215,11 +215,11 @@ export default function HabitsPage() {
 
           {/* Main Tabs */}
           <div className="flex gap-1 p-1 rounded-xl mb-6" style={{ background: "#12121F", border: "1px solid #1E1E32" }}>
-            {(["tracker", "theology", "voices"] as const).map((tab) => (
+            {(["tracker", "theology", "voices", "methods"] as const).map((tab) => (
               <button key={tab} onClick={() => setMainTab(tab)}
                 className="flex-1 py-2 rounded-lg text-sm font-semibold capitalize transition-all"
                 style={{ background: mainTab === tab ? "rgba(0,255,136,0.12)" : "transparent", color: mainTab === tab ? "#00FF88" : "#6A6A88", border: mainTab === tab ? "1px solid rgba(0,255,136,0.2)" : "1px solid transparent" }}>
-                {tab === "tracker" ? "📊 Tracker" : tab === "theology" ? "📖 Theology" : "🎓 Voices"}
+                {tab === "tracker" ? "📊 Tracker" : tab === "theology" ? "📖 Theology" : tab === "voices" ? "🎓 Voices" : "⚗️ Methods"}
               </button>
             ))}
           </div>
@@ -552,6 +552,70 @@ export default function HabitsPage() {
                   <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.75 }}>{voiceItem.contribution}</p>
                 </div>
               </div>
+            </div>
+          )}
+
+          {mainTab === "methods" && (
+            <div>
+              <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 8, color: "#F2F2F8" }}>Habit-Building Methods</h2>
+              <p style={{ color: "#9898B3", fontSize: 14, marginBottom: 24, lineHeight: 1.6 }}>
+                Proven frameworks for building sustainable spiritual and practical habits.
+              </p>
+              {[
+                {
+                  icon: "🔗",
+                  title: "Habit Stacking",
+                  author: "James Clear — Atomic Habits",
+                  desc: "Attach a new habit to an existing one. 'After I pour my morning coffee, I will read one verse of Scripture.' The existing habit (coffee) serves as an anchor cue for the new one. This exploits the brain's existing neural pathways rather than trying to build new ones from scratch. For spiritual habits: attach prayer to an existing morning ritual, attach gratitude journaling to an existing evening routine.",
+                  color: "#00FF88",
+                },
+                {
+                  icon: "⏱️",
+                  title: "The Two-Minute Rule",
+                  author: "James Clear — Atomic Habits",
+                  desc: "When starting a new habit, make it take less than two minutes. The goal of the two-minute rule is not to do two minutes of Bible reading — it is to become the kind of person who opens their Bible. Starting the habit is more important than the initial quantity. Once the habit is established, you will naturally extend the time. The hardest part is beginning; the two-minute rule makes beginning frictionless.",
+                  color: "#A080FF",
+                },
+                {
+                  icon: "📍",
+                  title: "Implementation Intentions",
+                  author: "Peter Gollwitzer — Research",
+                  desc: "Specify when, where, and how you will perform a habit: 'I will [BEHAVIOR] at [TIME] in [LOCATION].' Research shows that people who specify implementation intentions are 2-3x more likely to follow through. 'I will pray at 7am in my chair by the window' outperforms 'I want to pray more.' The specificity removes the daily decision cost that kills vague intentions.",
+                  color: "#F59E0B",
+                },
+                {
+                  icon: "🌱",
+                  title: "Tiny Habits Method",
+                  author: "BJ Fogg — Stanford",
+                  desc: "Start smaller than you think necessary. If you want to do 50 pushups daily, start with one. If you want to read 30 minutes of Scripture, start with one minute. Fogg's research shows that motivation follows successful action — each tiny completion builds the motivation for more. Apply to spiritual habits: if you struggle to pray, commit to a single sentence before your feet hit the floor each morning.",
+                  color: "#3B82F6",
+                },
+                {
+                  icon: "🔄",
+                  title: "The Habit Loop",
+                  author: "Charles Duhigg — The Power of Habit",
+                  desc: "Every habit has three components: Cue (the trigger), Routine (the behavior), Reward (the payoff). To build a spiritual habit, identify the cue that will trigger it, design a clear routine, and build in a genuine reward. To break a bad habit, keep the cue and reward but replace the routine. Duhigg's research shows that the cue-routine-reward loop is neurological — which means spiritual disciplines work with brain biology rather than against it.",
+                  color: "#EC4899",
+                },
+                {
+                  icon: "✝️",
+                  title: "Liturgical Anchoring",
+                  author: "James K.A. Smith — You Are What You Love",
+                  desc: "Structure daily life around fixed-time liturgical practices — morning and evening prayer, grace at meals, weekly Sabbath — in the same way that ancient Christians structured their days around the Divine Office. These are not optional add-ons but structural anchors that shape the entire day's orientation. The regularity of the liturgical calendar (Advent, Lent, Easter) provides annual rhythms that prevent spiritual life from becoming arbitrary.",
+                  color: "#00FF88",
+                },
+              ].map((method, i) => (
+                <div key={i} style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 14, padding: 22, marginBottom: 14, display: "flex", gap: 16 }}>
+                  <div style={{ fontSize: 28, flexShrink: 0 }}>{method.icon}</div>
+                  <div>
+                    <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 6, flexWrap: "wrap" }}>
+                      <h3 style={{ fontSize: 16, fontWeight: 700, color: method.color, margin: 0 }}>{method.title}</h3>
+                      <span style={{ fontSize: 11, color: "#9898B3", fontStyle: "italic" }}>{method.author}</span>
+                    </div>
+                    <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.75, margin: 0 }}>{method.desc}</p>
+                  </div>
+                </div>
+              ))}
             </div>
           )}
 

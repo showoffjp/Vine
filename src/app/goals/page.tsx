@@ -58,6 +58,14 @@ function uid() {
   return Math.random().toString(36).slice(2, 10);
 }
 
+const VOICES_GOALS = [
+  { id: "smith-jka", name: "James K.A. Smith", era: "b. 1970", context: "You Are What You Love (2016) — habit, liturgy, and the formation of desire", bio: "James K.A. Smith's You Are What You Love reframed Christian formation around the category of desire rather than belief. Drawing on Augustine's vision of the human being as a creature of love and habit, Smith argues that we are not primarily thinking beings (who need correct information) but desiring beings (who need habits that shape what we love). Goals, for Smith, are not primarily intellectual resolutions but practices that, over time, reshape what we want. The 'secular liturgies' of consumer culture — the mall, the stadium, the social media feed — are forming our loves whether we choose them or not; Christian formation requires counter-liturgies that re-orient desire toward God.", quote: "You are what you love — not what you believe, not what you know. Your deepest goals reveal your loves, and your loves are shaped by your practices more than your decisions.", contribution: "Smith's work gave Christians a vocabulary for understanding why willpower alone fails in goal-setting and habit formation: the issue is not information but desire-formation. His integration of Augustine's theology of desire with contemporary neuroscience and cultural analysis has influenced how Christian educators, pastors, and individuals think about formation." },
+  { id: "whitney-d", name: "Don Whitney", era: "b. 1957", context: "Spiritual Disciplines for the Christian Life (1991) — the most used evangelical guide to spiritual goals and practices", bio: "Don Whitney's Spiritual Disciplines for the Christian Life is the most widely used evangelical guide to intentional spiritual goal-setting and practice. Drawing on the long tradition of spiritual disciplines (Richard Foster, Dallas Willard) while grounding them in Reformed theology, Whitney argues that the spiritual disciplines are 'the God-ordained means by which we discipline ourselves for the purpose of godliness' (1 Timothy 4:7). Each chapter offers both biblical grounding and practical guidance for making progress in prayer, Scripture, worship, fasting, journaling, and other spiritual practices. Whitney's accessible writing and his pastoral experience have made the book a standard text in evangelical discipleship programs.", quote: "Spiritual disciplines are not a means of earning God's favor — they are the training ground where God's grace meets human effort and produces godliness. Goals without discipline are wishes; discipline without goals is aimlessness.", contribution: "Whitney's Spiritual Disciplines has introduced generations of evangelicals to intentional spiritual formation through specific, measurable practices. Its practical guidance — how to pray without falling asleep, how to read the Bible for transformation rather than information — has made spiritual goal-setting accessible to ordinary Christians who might find more academic treatments of formation too abstract." },
+  { id: "hybels-b", name: "Bill Hybels", era: "b. 1951", context: "Simplify: Ten Practices to Unclutter Your Soul (2014) — Christian goal-setting and margin", bio: "Bill Hybels, founder of Willow Creek Community Church, has written extensively about the intersection of Christian discipleship and practical goal-setting and life management. His Simplify: Ten Practices to Unclutter Your Soul addresses the exhaustion and overcommitment that prevent Christians from living according to their stated values. Hybels argues that the over-busy Christian life is not just a time-management problem but a spiritual problem — it reflects a failure to let God define one's priorities. His 'holy discontent' framework (What breaks your heart? What infuriates you about the way things are? That is where God is calling you to act) has shaped how many Christians think about goal-setting from a sense of vocation rather than personal ambition.", quote: "The goals that last are the ones that grow out of what God has put in your heart — a holy discontent with the way things are, and a vision of what they could become. Goals rooted in self-advancement fade; goals rooted in calling grow stronger under pressure.", contribution: "Hybels's writing on margin, rest, and simplicity helped articulate for a generation of evangelicals the distinction between busyness and fruitfulness. His practical approach to goal-setting within a framework of Christian vocation influenced millions of church leaders and laypeople to think about goals not merely as productivity tools but as spiritual practices." },
+  { id: "covey-s", name: "Stephen R. Covey", era: "1932-2012", context: "The 7 Habits of Highly Effective People (1989) — goal-setting and Christian character formation", bio: "Stephen Covey was a devout Latter-day Saint whose The 7 Habits of Highly Effective People drew explicitly on natural law theory, character ethics, and principles he understood as universal because they are rooted in God's design for human beings. His distinction between urgency and importance, his emphasis on beginning with the end in mind, and his principle of putting first things first have been widely adopted in Christian goal-setting frameworks. Covey's influence on evangelical thinking about goals and habits has been enormous, though not always acknowledged — much contemporary Christian productivity literature draws on Covey's framework while supplementing it with explicitly Christian theological content.", quote: "Begin with the end in mind — imagine your own funeral, and listen to what you want people to say about you. That funeral sermon you write for yourself is your personal mission statement, and your goals should all serve it.", contribution: "The 7 Habits gave Christians and non-Christians alike a framework for intentional goal-setting rooted in character rather than technique. Covey's insistence that lasting effectiveness flows from character (what he called the 'character ethic') rather than personality and technique resonated with Christian anthropology and gave the evangelical world a widely applicable framework for discipleship and goal-setting." },
+  { id: "willard-goals", name: "Dallas Willard", era: "1935-2013", context: "The Spirit of the Disciplines (1988); Renovation of the Heart (2002) — goals as spiritual formation", bio: "Dallas Willard's theology of spiritual formation has implications for how Christians think about goals and habit formation. Willard argued that the primary goal of the Christian life — transformation into Christlikeness — is achieved not by trying harder to act like Jesus but by training the whole person (body, mind, will, emotions, social relationships) through the spiritual disciplines. Goals, for Willard, must be understood in terms of the kind of person one is becoming rather than the achievements one is accumulating. His concept of 'VIM' (Vision, Intention, and Means) provides a framework for Christian goal-setting that integrates motivation, commitment, and method.", quote: "Grace is not opposed to effort; it is opposed to earning. The disciplines are not acts of earning favor with God — they are the training by which we cooperate with God's transforming work. Set your goals accordingly.", contribution: "Willard's vision of spiritual formation as whole-person transformation gave Christians a framework for understanding goals that goes beyond achievement and productivity. His VIM model (Vision, Intention, Means) has been widely adopted in Christian coaching and discipleship contexts as a theologically grounded alternative to secular goal-setting frameworks." },
+];
+
 export default function GoalsPage() {
   const [goals, setGoals] = useState<Goal[]>(() => {
     try {
@@ -66,7 +74,9 @@ export default function GoalsPage() {
     } catch { return []; }
   });
   const [showAdd, setShowAdd] = useState(false);
-  const [activeTab, setActiveTab] = useState<"active" | "completed">("active");
+  const [activeTab, setActiveTab] = useState<"active" | "completed" | "theology" | "voices">("active");
+  const [selectedVoice, setSelectedVoice] = useState("smith-jka");
+  const voiceItem = VOICES_GOALS.find(v => v.id === selectedVoice)!;
 
   // New goal form state
   const [newTitle, setNewTitle] = useState("");
@@ -178,7 +188,7 @@ export default function GoalsPage() {
 
           {/* Tabs */}
           <div className="flex gap-1 p-1 rounded-xl mb-6" style={{ background: "#12121F", border: "1px solid #1E1E32" }}>
-            {(["active", "completed"] as const).map((tab) => (
+            {(["active", "completed", "theology", "voices"] as const).map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
@@ -189,11 +199,12 @@ export default function GoalsPage() {
                   border: activeTab === tab ? "1px solid rgba(0,255,136,0.2)" : "1px solid transparent",
                 }}
               >
-                {tab} ({tab === "active" ? active.length : completed.length})
+                {tab === "active" ? `Active (${active.length})` : tab === "completed" ? `Done (${completed.length})` : tab === "theology" ? "📖 Theology" : "🎓 Voices"}
               </button>
             ))}
           </div>
 
+          {(activeTab === "active" || activeTab === "completed") && <>
           {/* Goal list */}
           {displayed.length === 0 ? (
             <div
@@ -485,6 +496,55 @@ export default function GoalsPage() {
               </a>
             </div>
           </div>
+          </>}
+
+          {activeTab === "theology" && (
+            <div>
+              <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 8, color: "#F2F2F8" }}>A Theology of Goals</h2>
+              <p style={{ color: "#9898B3", fontSize: 14, marginBottom: 24, lineHeight: 1.6 }}>
+                Christian goal-setting is not the same as secular goal-setting with a Bible verse added. Here is how a gospel framework changes everything.
+              </p>
+              {[
+                { title: "Goals Flow From Identity, Not the Other Way", color: "#00FF88", desc: "The world says: achieve the goal, become the person. The gospel says: you are already God's beloved child — now live accordingly. Christian goals are an expression of who you already are in Christ, not an attempt to become someone worth loving. This removes the crushing weight of self-justification from the goal-setting process." },
+                { title: "Desire Must Be Trained, Not Just Directed", color: "#A080FF", desc: "James K.A. Smith's insight: setting a goal without training the desires beneath it is like putting a new steering wheel on a car with a broken transmission. The practices you build around your goals matter more than the goals themselves — they are re-shaping what you love, which determines what you actually do." },
+                { title: "Sabbath Rest Is Built Into the Design", color: "#00FF88", desc: "God's pattern of six days of work and one day of rest is not a suggestion — it is a creation rhythm built into the structure of reality. Goals that do not include Sabbath will burn out their keeper. The Sabbath commands you to put the goal down one day in seven and trust God with what you cannot control." },
+                { title: "Failure Is Formative, Not Final", color: "#F59E0B", desc: "The biblical narrative is full of people who failed at their goals: Moses failed to enter the promised land, Peter denied Christ, Jonah ran from his calling. In each case, the failure was not the end of the story. Christian goal-setting includes a theology of failure — not as an excuse for irresponsibility, but as a refusal to make achievement the measure of worth." },
+                { title: "Some Goals Are Given, Not Chosen", color: "#A080FF", desc: "The language of vocation (calling) reminds us that not all goals are self-selected projects. God calls people to specific work in specific places — and sometimes the goal that shapes a life is not the one a person would have chosen. Openness to calling requires holding goals loosely, with open hands rather than clenched fists." },
+              ].map((item, i) => (
+                <div key={i} style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 14, padding: 22, marginBottom: 14 }}>
+                  <h3 style={{ fontSize: 16, fontWeight: 700, color: item.color, marginBottom: 10 }}>{item.title}</h3>
+                  <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.75, margin: 0 }}>{item.desc}</p>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {activeTab === "voices" && (
+            <div style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
+              <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 80 }}>
+                {VOICES_GOALS.map(v => (
+                  <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                    style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? "rgba(0,255,136,0.4)" : "#1E1E32"}`, background: selectedVoice === v.id ? "rgba(0,255,136,0.08)" : "#12121F", cursor: "pointer" }}>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: selectedVoice === v.id ? "#00FF88" : "#F2F2F8", marginBottom: 2 }}>{v.name}</div>
+                    <div style={{ fontSize: 11, color: "#9898B3" }}>{v.era}</div>
+                  </button>
+                ))}
+              </div>
+              <div style={{ flex: 1, background: "#12121F", border: "1px solid #1E1E32", borderRadius: 16, padding: 28 }}>
+                <div style={{ fontSize: 12, color: "#9898B3", fontStyle: "italic", marginBottom: 6 }}>{voiceItem.context}</div>
+                <h2 style={{ fontSize: 24, fontWeight: 800, marginBottom: 4, color: "#F2F2F8" }}>{voiceItem.name}</h2>
+                <div style={{ fontSize: 13, color: "#9898B3", marginBottom: 20 }}>{voiceItem.era}</div>
+                <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.8, marginBottom: 24 }}>{voiceItem.bio}</p>
+                <div style={{ background: "#07070F", borderRadius: 12, padding: 20, borderLeft: "3px solid #00FF88", marginBottom: 24 }}>
+                  <p style={{ fontSize: 15, color: "#E0E0F0", lineHeight: 1.75, fontStyle: "italic" }}>&ldquo;{voiceItem.quote}&rdquo;</p>
+                </div>
+                <div>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: "#6B4FBB", textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>Contribution</div>
+                  <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.75 }}>{voiceItem.contribution}</p>
+                </div>
+              </div>
+            </div>
+          )}
 
         </div>
       </div>

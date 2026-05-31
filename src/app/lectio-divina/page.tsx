@@ -77,8 +77,18 @@ interface Session {
   action: string;
 }
 
+const VOICES_LD = [
+  { id: "guigo-ld", name: "Guigo II", era: "d. c. 1188", context: "Scala Claustralium (The Ladder of Monks, c. 1150); Carthusian Prior", bio: "Guigo II is the architect of Lectio Divina as a systematic practice. His Scala Claustralium ('The Ladder of Monks'), written as a letter to a fellow monk, is the first document to formalize the four movements — lectio, meditatio, oratio, contemplatio — that had been practiced informally in monastic communities for centuries. His ladder metaphor is precise: 'Reading is the careful study of the scriptures, concentrating all one's powers on it. Meditation is the busy application of the mind to seek with the help of one's own reason for knowledge of hidden truth. Prayer is the heart's devoted turning to God to drive away evil and obtain what is good. Contemplation is when the mind is in some sort lifted up to God and held above itself, so that it tastes the joys of everlasting sweetness.'", quote: "Reading seeks the sweetness of a blessed life, meditation perceives it, prayer asks for it, contemplation tastes it.", contribution: "Created the vocabulary and structure for Lectio Divina that has governed contemplative Bible reading for 900 years. Every modern Lectio guide — including this one — builds directly on Guigo's four movements." },
+  { id: "benedict", name: "St. Benedict", era: "c. 480-547", context: "The Rule of Benedict (c. 516); founder of Western monasticism", bio: "Benedict of Nursia's Rule for his monastery at Monte Cassino organized the monastic day around three activities: Opus Dei (the prayer offices), lectio divina (sacred reading), and manual labor. For Benedict, Lectio was not a supplement to the monastic life — it was one of its structural pillars, as essential as eating and working. His Rule prescribes three to four hours of Lectio daily for his monks — a commitment that shaped Western Christian formation for a millennium. The monastic tradition of slow, meditative engagement with Scripture flows directly from Benedict's Rule.", quote: "Let nothing be preferred to the Work of God. But the Work of God includes reading — reading that attends to God.", contribution: "Institutionalized Lectio Divina as a daily discipline within the Western monastic tradition. The Rule of Benedict ensured that this practice would be transmitted across 15 centuries of monasteries, schools, and eventually lay spirituality." },
+  { id: "lectio-m", name: "Thomas Merton", era: "1915-1968", context: "Opening the Bible (1970); Lectio Divina and the Monastic Tradition; Trappist monk at Gethsemani", bio: "Merton wrote extensively about the monastic practice of Lectio Divina — what it is, what distinguishes it from study, and how it functions in the Christian life. His account is particularly helpful for modern people: he distinguishes between 'reading for information' (which dominates modern literary life) and 'reading for formation' (which is what Lectio aims at). The question in Lectio is not 'What does this mean?' but 'How is God speaking to me through this?' — a shift in orientation that transforms the entire activity. His writing helped introduce Lectio to non-monastic Catholics and Protestants.", quote: "Lectio Divina is not a way of reading the Bible. It is a way of being read by the Bible.", contribution: "Made the monastic practice of Lectio Divina accessible and compelling to non-monastic readers in the 20th century. His translations of the tradition into contemporary language are still the clearest introductions available." },
+  { id: "main", name: "John Main OSB", era: "1926-1982", context: "Word Into Silence (1980); founder of the Christian Meditation movement; Benedictine monk", bio: "Main was a Benedictine monk who rediscovered the practice of Christian meditation through the writings of John Cassian (who transmitted the Desert Fathers' method of repeated Scripture phrases to the West) and his own experience with Eastern meditation. He founded the World Community for Christian Meditation and developed a specific practice: sitting in silence, repeating a sacred word ('maranatha' — Aramaic for 'Come, Lord') as a way of surrendering all thoughts and entering stillness before God. His approach is more contemplative than Lectio Divina's four-step structure but closely related to its final movement (contemplatio).", quote: "To meditate is to attend with purity of heart — to turn the full beam of attention on God, who is the ground of our being.", contribution: "Established a structured Christian meditation practice that brought millions of people — including many outside traditional church contexts — into sustained contemplative prayer. The World Community for Christian Meditation operates in over 100 countries." },
+  { id: "hall", name: "Thelma Hall", era: "1918-2007", context: "Too Deep for Words: Rediscovering Lectio Divina (1988); Sisters of Charity", bio: "Hall's Too Deep for Words is often cited as the book that introduced Lectio Divina to English-speaking Catholic laypeople in the modern era. She wrote at a moment when the renewal movement in Catholicism was recovering contemplative practices, and her book provided both a theology and a practical method accessible to non-monastics. She argued that Lectio is not a monastic luxury but a birthright of every baptized Christian — the natural way that the people of God have always engaged Scripture when they engaged it as living Word rather than as text.", quote: "Lectio Divina invites us to read not to gather information but to encounter the living God who speaks through the written word.", contribution: "Democratized Lectio Divina for Catholic laypeople and eventually for Protestants. Too Deep for Words sparked a revival of contemplative Bible reading that continues to grow across denominational lines." },
+];
+
 export default function LectioDivinaPage() {
-  const [activeTab, setActiveTab] = useState<"guide" | "practice" | "history">("guide");
+  const [activeTab, setActiveTab] = useState<"guide" | "practice" | "voices" | "history">("guide");
+  const [selectedVoice, setSelectedVoice] = useState("guigo-ld");
+  const voiceItem = VOICES_LD.find(v => v.id === selectedVoice)!;
   const [selectedPassage, setSelectedPassage] = useState(0);
   const [activeMovement, setActiveMovement] = useState(0);
   const [responses, setResponses] = useState<Record<string, string>>({});
@@ -121,6 +131,7 @@ export default function LectioDivinaPage() {
           {[
             { id: "guide" as const, label: "What Is It", icon: "📖" },
             { id: "practice" as const, label: "Practice Now", icon: "🙏" },
+            { id: "voices" as const, label: "Voices", icon: "💬" },
             { id: "history" as const, label: "My Sessions", icon: "📅" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
@@ -255,6 +266,35 @@ export default function LectioDivinaPage() {
                   {saved ? "✓ Saved!" : "Complete Session"}
                 </button>
               )}
+            </div>
+          </div>
+        )}
+
+        {activeTab === "voices" && (
+          <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
+            <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
+              {VOICES_LD.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ background: selectedVoice === v.id ? PURPLE : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: TEXT, fontWeight: 700, fontSize: 14 }}>{v.name}</div>
+                  <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{v.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 28 }}>
+                <h2 style={{ color: GREEN, fontWeight: 900, fontSize: 22, margin: "0 0 4px" }}>{voiceItem.name}</h2>
+                <div style={{ color: PURPLE, fontSize: 13, fontWeight: 700, marginBottom: 6 }}>{voiceItem.era}</div>
+                <div style={{ color: MUTED, fontSize: 13, marginBottom: 16 }}>{voiceItem.context}</div>
+                <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 15, marginBottom: 20 }}>{voiceItem.bio}</p>
+                <div style={{ background: BG, borderLeft: `3px solid ${GREEN}`, borderRadius: "0 8px 8px 0", padding: "14px 18px", marginBottom: 20 }}>
+                  <p style={{ color: GREEN, fontStyle: "italic", fontSize: 15, lineHeight: 1.7, margin: 0 }}>&ldquo;{voiceItem.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: `${PURPLE}15`, borderRadius: 10, padding: 16 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>Contribution to Lectio Divina</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, margin: 0 }}>{voiceItem.contribution}</p>
+                </div>
+              </div>
             </div>
           </div>
         )}

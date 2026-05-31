@@ -190,8 +190,28 @@ let it be ratified in heaven. Amen.`,
   },
 ];
 
+const CREED_HISTORY = [
+  { era: "Apostolic Age (c. 50-100)", event: "Earliest baptismal confessions", desc: "The earliest Christian creedal formulas appear in the New Testament itself: 'Jesus is Lord' (Rom 10:9), 'Jesus Christ has come in the flesh' (1 John 4:2), and the Trinitarian formula of Matthew 28:19. These simple confessions functioned as baptismal affirmations and anti-heretical markers." },
+  { era: "2nd-3rd Century", event: "Rule of Faith and Old Roman Creed", desc: "As Gnosticism threatened to redefine Christianity, church fathers like Irenaeus and Tertullian appealed to the 'Rule of Faith' — a summary of apostolic teaching. The Old Roman Creed (ancestor of the Apostles' Creed) developed as a structured baptismal confession." },
+  { era: "325 AD", event: "Council of Nicea", desc: "Confronting Arianism (Arius's claim that Christ was a created being), 318 bishops gathered at Nicea. The resulting Nicene Creed affirmed Christ as 'of the same substance as the Father' (homoousios) — the most consequential theological decision in church history." },
+  { era: "381 AD", event: "Council of Constantinople", desc: "Expanded the Nicene Creed's treatment of the Holy Spirit, affirming him as 'the Lord and giver of life, who proceeds from the Father, who with the Father and the Son is worshiped and glorified.' This is the Nicene-Constantinopolitan Creed still used in worship today." },
+  { era: "451 AD", event: "Council of Chalcedon", desc: "Resolved the question of Christ's two natures, affirming the 'hypostatic union': Jesus is truly God and truly human, the two natures existing 'without confusion, without change, without division, without separation' in one person." },
+  { era: "1054 AD", event: "The Great Schism and the Filioque", desc: "The Eastern and Western churches split, partly over the Western addition of 'and the Son' (filioque) to the Nicene Creed's statement about the Spirit's procession. The Eastern church holds that the Spirit proceeds from the Father alone." },
+  { era: "16th Century", event: "Reformation Confessions", desc: "The Reformation produced a new generation of confessions: the Augsburg Confession (Lutheran, 1530), the Heidelberg Catechism (Reformed, 1563), and the Westminster Confession (Presbyterian, 1647) — each seeking to articulate biblical Christianity against both Rome and radical Protestantism." },
+];
+
+const VOICES_CREED = [
+  { id: "pelikan-j", name: "Jaroslav Pelikan", era: "1923-2006", context: "Credo (2003); The Christian Tradition (5 vols.) — the greatest historian of Christian doctrine", bio: "Jaroslav Pelikan was Sterling Professor of History at Yale and the greatest 20th-century historian of Christian doctrine. His Credo: Historical and Theological Guide to Creeds and Confessions of Faith in the Christian Tradition is the most comprehensive scholarly survey of Christian confessional documents ever written. Pelikan's approach was descriptive rather than prescriptive — he aimed to understand each creed in its historical context rather than evaluate it from a particular confessional standpoint. His late conversion to Eastern Orthodoxy (1998) added a personal dimension to his lifelong scholarly engagement with creedal tradition.", quote: "Creeds are not the enemies of Scripture — they are the church's distillation of what Scripture teaches. The creed is the church's response to heresy, and heresy is the church's way of learning what it actually believes.", contribution: "Pelikan's five-volume The Christian Tradition remains the standard scholarly survey of doctrinal development in the Western and Eastern churches. His Credo gave scholars, clergy, and educated laypeople access to the full range of Christian confessional documents with historical commentary that is both rigorous and accessible." },
+  { id: "hall-c", name: "Christopher A. Hall", era: "b. 1950", context: "Learning Theology with the Church Fathers (2002); Reading Scripture with the Church Fathers (1998)", bio: "Christopher Hall's work on patristic theology has made the early church fathers — and their creedal formulations — accessible to evangelical audiences who had largely been cut off from the tradition. His Learning Theology with the Church Fathers walks through the core doctrines of Christianity (Trinity, incarnation, salvation, church, Scripture) as they were understood and debated by the great figures of the patristic era. Hall argues that the creeds are not impositions on Scripture but the church's best attempt to read Scripture faithfully in the face of heretical distortion — and that evangelicals impoverish themselves by ignoring this tradition.", quote: "The creeds were not invented by councils — they were recognized by councils. The church did not create the doctrine of the Trinity; it recognized what was already there in Scripture and expressed it in language that would protect the faith from distortion.", contribution: "Hall's books on the church fathers introduced a generation of evangelical students, pastors, and laypeople to the patristic tradition as a living resource rather than ancient history. His accessible style and evangelical commitments made the creeds available to readers who might otherwise have found patristics too daunting." },
+  { id: "bird-m", name: "Michael Bird", era: "b. 1975", context: "What Christians Ought to Believe (2016) — a guide to the Apostles' Creed for contemporary readers", bio: "Michael Bird's What Christians Ought to Believe: An Introduction to Christian Doctrine Through the Apostles' Creed is among the most readable modern introductions to the Apostles' Creed as a summary of Christian doctrine. Bird reads each phrase of the creed as an entry point into the full depth of Christian teaching — not as a minimalist statement but as a maximalist summary. His treatment is theologically rich while remaining accessible, and his evangelical convictions combined with his engagement with the full Christian tradition (Catholic, Orthodox, and Protestant) make the book useful across denominational lines.", quote: "The Apostles' Creed is not a least-common-denominator statement for people who can't decide what they believe. It is the church's most compressed statement of what is essential — and everything essential is in it.", contribution: "Bird's What Christians Ought to Believe has been widely adopted as an introductory text in evangelical churches and seminaries for teaching Christian doctrine through the structure of the Apostles' Creed. Its readable style and theological depth have made it a trusted guide for adult education and new member classes in churches across the English-speaking world." },
+  { id: "barth-creed", name: "Karl Barth", era: "1886-1968", context: "Dogmatics in Outline (1947) — lectures on the Apostles' Creed given to prisoners of war", bio: "Karl Barth's Dogmatics in Outline is a set of lectures on the Apostles' Creed delivered to theology students and prisoners of war in Bonn in 1946, in the rubble of post-war Germany. It is arguably the most theologically profound short treatment of the creed in the 20th century. Barth's characteristic approach — reading all theology through the lens of Jesus Christ — gives his exposition of the creed a Christocentric unity: Father, Son, and Holy Spirit are all understood in relation to the revelation of God in Jesus Christ. The simplicity of the creed's language becomes, in Barth's hands, a window into the deepest mysteries of Christian revelation.", quote: "Credo — I believe. Not 'we believe' first, not 'I feel' or 'I experience,' but 'I believe.' Faith is a personal act. The creed places the individual before God and before the community of the church.", contribution: "Dogmatics in Outline demonstrated that serious, technical theological thought is not destroyed by the creed's simple language but illuminated by it. Barth's example of expounding the creed in a bombed-out lecture hall to students and former prisoners gave subsequent theologians a model for creedal theology that is simultaneously rigorous and pastorally alive." },
+  { id: "mcgrath-creed", name: "Alister McGrath", era: "b. 1953", context: "I Believe: Exploring the Apostles' Creed (1991); Theology: The Basics (2004)", bio: "Alister McGrath, Oxford theologian and prolific author of introductory Christian theology, has written some of the most used evangelical introductions to creedal Christianity. His I Believe: Exploring the Apostles' Creed walks through each article of the creed with historical awareness and contemporary application, showing how the creed has functioned across Christian history as both a statement of faith and a summary of Christian teaching. McGrath's particular skill is making technical theological debate accessible without simplifying it — his treatment of the Trinitarian controversies behind the Nicene Creed is the clearest short account available.", quote: "The creeds are the church's best attempt to say in brief what the whole of Scripture says at length. They are not a replacement for Scripture but a guide to reading it.", contribution: "McGrath's introductory theology texts — including his treatment of the creeds — have been among the most widely used in evangelical colleges and seminaries for thirty years. His ability to explain complex theological debates with clarity and historical precision has made him the most trusted guide to Christian doctrine for a generation of evangelical students." },
+];
+
 export default function CreedsPage() {
-  const [tab, setTab] = useState<"creeds" | "prayers">("creeds");
+  const [tab, setTab] = useState<"creeds" | "prayers" | "history" | "voices">("creeds");
+  const [selectedVoice, setSelectedVoice] = useState("pelikan-j");
+  const voiceItem = VOICES_CREED.find(v => v.id === selectedVoice)!;
   const [selected, setSelected] = useState<typeof CREEDS[0] | null>(null);
   const [showLines, setShowLines] = useState(false);
   const [memorizedIds, setMemorizedIds] = useState<Set<string>>(() => {
@@ -243,7 +263,7 @@ export default function CreedsPage() {
 
         {/* Tabs */}
         <div style={{ display: "flex", gap: 4, marginBottom: 32, borderBottom: "1px solid #1E1E32" }}>
-          {([["creeds", "Creeds"], ["prayers", "Historic Prayers"]] as const).map(([t, label]) => (
+          {([["creeds", "Creeds"], ["prayers", "Historic Prayers"], ["history", "History"], ["voices", "Voices"]] as const).map(([t, label]) => (
             <button key={t} onClick={() => setTab(t)}
               style={{ padding: "10px 20px", fontSize: 14, fontWeight: 600, background: "none", border: "none", cursor: "pointer", color: tab === t ? "#00FF88" : "#6A6A88", borderBottom: `2px solid ${tab === t ? "#00FF88" : "transparent"}`, marginBottom: -1 }}>
               {label}
@@ -348,6 +368,53 @@ export default function CreedsPage() {
                 </button>
               </div>
             ))}
+          </div>
+        )}
+        {tab === "history" && (
+          <div>
+            <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 22, marginBottom: 20 }}>
+              <p style={{ color: "#F2F2F8", fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                The creeds did not fall from the sky — they were forged in controversy, hammered out in councils, and refined over centuries of theological dispute. Understanding their history illuminates why every word matters.
+              </p>
+            </div>
+            {CREED_HISTORY.map((h, i) => (
+              <div key={i} style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 22, marginBottom: 12 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 8 }}>
+                  <h3 style={{ color: "#00FF88", fontWeight: 800, fontSize: 16, margin: 0 }}>{h.event}</h3>
+                  <span style={{ background: "rgba(107,79,187,0.15)", color: "#6B4FBB", padding: "2px 10px", borderRadius: 10, fontSize: 11, fontWeight: 700, flexShrink: 0, marginLeft: 12 }}>{h.era}</span>
+                </div>
+                <p style={{ color: "#F2F2F8", fontSize: 14, lineHeight: 1.75, margin: 0 }}>{h.desc}</p>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {tab === "voices" && (
+          <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
+            <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
+              {VOICES_CREED.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ background: selectedVoice === v.id ? "#6B4FBB" : "#12121F", border: `1px solid ${selectedVoice === v.id ? "#6B4FBB" : "#1E1E32"}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: "#F2F2F8", fontWeight: 700, fontSize: 14 }}>{v.name}</div>
+                  <div style={{ color: "#9898B3", fontSize: 12, marginTop: 2 }}>{v.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 28 }}>
+                <h2 style={{ color: "#00FF88", fontWeight: 900, fontSize: 22, margin: "0 0 4px" }}>{voiceItem.name}</h2>
+                <div style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 700, marginBottom: 6 }}>{voiceItem.era}</div>
+                <div style={{ color: "#9898B3", fontSize: 13, marginBottom: 16 }}>{voiceItem.context}</div>
+                <p style={{ color: "#F2F2F8", lineHeight: 1.8, fontSize: 15, marginBottom: 20 }}>{voiceItem.bio}</p>
+                <div style={{ background: "#07070F", borderLeft: "3px solid #00FF88", borderRadius: "0 8px 8px 0", padding: "14px 18px", marginBottom: 20 }}>
+                  <p style={{ color: "#00FF88", fontStyle: "italic", fontSize: 15, lineHeight: 1.7, margin: 0 }}>&ldquo;{voiceItem.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: "rgba(107,79,187,0.15)", borderRadius: 10, padding: 16 }}>
+                  <div style={{ color: "#6B4FBB", fontWeight: 700, fontSize: 13, marginBottom: 6 }}>Legacy and Contribution</div>
+                  <p style={{ color: "#F2F2F8", fontSize: 14, lineHeight: 1.7, margin: 0 }}>{voiceItem.contribution}</p>
+                </div>
+              </div>
+            </div>
           </div>
         )}
       </div>

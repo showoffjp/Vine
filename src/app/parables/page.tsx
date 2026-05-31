@@ -191,6 +191,22 @@ const PARABLES: Parable[] = [
 
 const THEMES = ["All", "Repentance & Grace", "Love of Neighbor", "Hearing & Receiving the Word", "Stewardship & Faithfulness", "God's Pursuit of the Lost", "Kingdom Growth", "Readiness for Christ's Return", "Grace vs. Merit"];
 
+const PARABLE_METHODS = [
+  { method: "Allegorical Method (Origin, Augustine)", desc: "Every detail of the parable has a specific meaning. The Good Samaritan: the man = Adam, Jerusalem = paradise, Jericho = the world, robbers = the devil, Samaritan = Christ, inn = the church. Medieval preaching was largely allegorical. The weakness: Jesus probably did not intend this level of coding, and it can obscure the parable's plain meaning." },
+  { method: "One-Point Method (Adolf Jülicher)", desc: "Each parable makes one main point — not multiple coded meanings. Jülicher's 19th-century reaction against allegory overcorrected: he reduced all parables to simple moral truths (e.g., 'Be merciful like the Samaritan'). The weakness: this flattens the Christological and eschatological dimensions of the parables into ethical instruction." },
+  { method: "Eschatological Method (Joachim Jeremias)", desc: "The parables must be interpreted in their original historical context: Jesus announcing the Kingdom of God in crisis. Many parables that seem to be about moral behavior are actually about the urgency of the Kingdom's arrival and the demand for decision. The parables have been 'de-eschatologized' by the church — we must recover their original edge." },
+  { method: "Narrative Method (Dan Via, David Buttrick)", desc: "Parables function as narratives that draw readers into an experience rather than teach propositions. The Prodigal Son doesn't teach that God forgives — it invites the reader to experience forgiveness through the narrative movement. Attention to plot, character, and reversal rather than allegorical coding." },
+  { method: "Kingdom-Centered Reading (N.T. Wright, Tom Long)", desc: "Parables announce the arrival of the Kingdom in Jesus himself and demand a response. They are not timeless moral truths or codes to be deciphered but invitations to enter the story Jesus is enacting. The most historically grounded and narratively sensitive approach, drawing on both Jeremias and narrative criticism." },
+];
+
+const VOICES_PARAB = [
+  { id: "jeremias-j", name: "Joachim Jeremias", era: "1900-1979", context: "The Parables of Jesus (1947) — the landmark historical-critical study of the parables", bio: "Joachim Jeremias's The Parables of Jesus is the most influential academic treatment of the parables in the 20th century. Jeremias argued that the key to understanding the parables is recovering their Sitz im Leben (situation in life) — the original historical context in which Jesus told them. He contended that the church had domesticated the parables, softening their eschatological urgency into moral lessons. In their original context, the parables were crisis announcements: the Kingdom of God has arrived, and it demands an immediate, total response. Jeremias's historical rigor and his reconstruction of the parables' original contexts reshaped how subsequent scholars approached the entire corpus.", quote: "The parables are not moral illustrations. They are proclamations of crisis — announcing that the Kingdom of God has arrived and that everything depends on how you respond to it now.", contribution: "The Parables of Jesus set the agenda for parable scholarship for the second half of the 20th century. Its historical method, its attention to Aramaic background, and its eschatological reading gave subsequent scholars both a model and a point of departure. Even those who have modified Jeremias's conclusions work in the framework he established." },
+  { id: "bailey-k", name: "Kenneth Bailey", era: "1930-2016", context: "Poet and Peasant (1976); The Cross and the Prodigal (1973) — Middle Eastern cultural context for the parables", bio: "Kenneth Bailey spent forty years living in the Middle East and teaching New Testament in Beirut, Jerusalem, and Egypt. His contribution to parable interpretation was unique: he brought deep knowledge of Middle Eastern village culture — drawn from decades of conversations with Lebanese, Egyptian, and Palestinian Christians — to bear on the details of Jesus's parables. His reading of the Prodigal Son, for instance, shows that a son asking his father for his inheritance was, in Middle Eastern culture, equivalent to wishing his father dead — making the father's response of running to embrace the returning son even more shocking. His cultural insights opened dimensions of the parables that historical-critical methods had missed.", quote: "The parables of Jesus must be read in the cultural world in which they were told. Every village custom, every social expectation, every breach of honor that Jesus describes had meaning for his original audience that we can only recover through deep cultural familiarity.", contribution: "Bailey's work gave preachers and scholars access to the specific cultural dynamics of Jesus's world that make the parables' reversals and shocks intelligible. His reading of the Prodigal Son, the Good Samaritan, and the Lost Sheep through Middle Eastern eyes has been adopted by preachers worldwide and has permanently changed how these parables are taught and preached." },
+  { id: "snodgrass-k", name: "Klyne Snodgrass", era: "b. 1941", context: "Stories with Intent (2008) — the most comprehensive modern scholarly commentary on all the parables", bio: "Klyne Snodgrass's Stories with Intent: A Comprehensive Guide to the Parables of Jesus is the most thorough single-volume treatment of all the parables available to English readers. Snodgrass argues against the reduction of each parable to a single point (Jülicher) and against pure allegory, seeking instead to understand the full range of intentions and meanings that Jesus encoded in each narrative. His treatment of each parable includes textual history, interpretive traditions, structural analysis, and theological application. Stories with Intent has become the standard reference for preachers, teachers, and scholars who want a comprehensive account of what the parables mean and how they have been interpreted.", quote: "Parables are stories with intent. Understanding that intent — historical, theological, and ethical — requires attending to every detail: who the characters are, what they do, and what the story reverses or confirms in its hearers' expectations.", contribution: "Stories with Intent is the most used scholarly reference for parable study in contemporary evangelical seminaries and biblical studies programs. Its comprehensive treatment of interpretive history, its balanced methodology, and its theological depth have made it the go-to resource for anyone engaged in serious parable study." },
+  { id: "wright-parab", name: "N.T. Wright", era: "b. 1948", context: "Jesus and the Victory of God (1996) — parables as enacted Kingdom proclamation", bio: "N.T. Wright's treatment of the parables in Jesus and the Victory of God (part of his Christian Origins series) reads them as the central vehicle through which Jesus was announcing the coming of the Kingdom — not as moral illustrations or hidden codes but as direct proclamations of what God was doing in Jesus's ministry. Wright reads parables like the Prodigal Son and the Wicked Tenants as retelling Israel's story in a new key: Jesus is claiming that Israel's exile is ending, that the return from exile is happening through his ministry, and that the response to him determines who is in and who is out of the renewed people of God. This reading gives the parables their full historical and theological weight.", quote: "The parables of Jesus are not timeless moral truths dressed in peasant clothes. They are Israel's story told to its crisis point — announcing that the God of Israel is at last acting to rescue his people, and that the rescue looks like this.", contribution: "Wright's reading of the parables through the lens of Jewish exile and return has been enormously influential in parable scholarship and preaching. His insistence on reading the parables in their full historical context — as proclamations about what God is doing in Jesus — has corrected both the moralistic reduction and the purely existentialist readings that had dominated 20th-century scholarship." },
+  { id: "young-b", name: "Brad Young", era: "b. 1950", context: "The Parables: Jewish Tradition and Christian Interpretation (1998) — rabbinic background to Jesus's parables", bio: "Brad Young has specialized in the Jewish background of Jesus's teaching, particularly the parables. His work draws on rabbinic parable literature (mashal) to show that Jesus was working within a well-established Jewish narrative tradition — not inventing a new literary form but using the parable genre as his rabbinic contemporaries used it. By reading the Gospel parables alongside rabbinic parallels, Young illuminates how Jesus was both using the genre and radically reinterpreting it. His work demonstrates that the most distinctive features of Jesus's parables — the unexpected reversals, the inclusion of social outcasts, the identification of God with unlikely characters — were deliberately counter-cultural within the parable tradition itself.", quote: "Jesus was a Jewish teacher who used the parable as every great Jewish teacher used it — but what he did with it was different in every parable. He turned the genre inside out to announce something unprecedented.", contribution: "Young's work on the Jewish background of the parables has given preachers and scholars access to the rabbinic literary context that makes the distinctiveness of Jesus's parables visible. By showing what Jesus shared with his contemporaries and where he departed from them, Young illuminates the radicality of Jesus's Kingdom proclamation in its own terms." },
+];
+
 export default function ParablesPage() {
   const [savedIds, setSavedIds] = useState<Set<string>>(() => {
     try { const s = localStorage.getItem("vine_parables_saved"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
@@ -202,8 +218,10 @@ export default function ParablesPage() {
   const [filter, setFilter] = useState("All");
   const [kingdomOnly, setKingdomOnly] = useState(false);
   const [search, setSearch] = useState("");
-  const [tab, setTab] = useState<"browse" | "studied">("browse");
+  const [tab, setTab] = useState<"browse" | "studied" | "methods" | "voices">("browse");
   const [openQuestion, setOpenQuestion] = useState<number | null>(null);
+  const [selectedVoice, setSelectedVoice] = useState("jeremias-j");
+  const voiceItem = VOICES_PARAB.find(v => v.id === selectedVoice)!;
 
   const toggleSave = (id: string) => {
     setSavedIds(prev => {
@@ -254,14 +272,15 @@ export default function ParablesPage() {
 
         {/* Tabs */}
         <div style={{ display: "flex", gap: 4, marginBottom: 24, borderBottom: "1px solid #1E1E32", paddingBottom: 0 }}>
-          {(["browse", "studied"] as const).map(t => (
+          {(["browse", "studied", "methods", "voices"] as const).map(t => (
             <button key={t} onClick={() => setTab(t)}
               style={{ padding: "10px 20px", fontSize: 14, fontWeight: 600, background: "none", border: "none", cursor: "pointer", color: tab === t ? "#00FF88" : "#6A6A88", borderBottom: `2px solid ${tab === t ? "#00FF88" : "transparent"}`, marginBottom: -1 }}>
-              {t === "browse" ? "All Parables" : `My Studied (${studiedIds.size})`}
+              {t === "browse" ? "All Parables" : t === "studied" ? `My Studied (${studiedIds.size})` : t === "methods" ? "📜 Methods" : "🎓 Scholars"}
             </button>
           ))}
         </div>
 
+        {(tab === "browse" || tab === "studied") && <>
         {/* Filters */}
         <div style={{ display: "flex", gap: 12, marginBottom: 20, flexWrap: "wrap", alignItems: "center" }}>
           <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search parables..."
@@ -334,6 +353,54 @@ export default function ParablesPage() {
             <p>No parables match your filters.</p>
           </div>
         )}
+        </>}
+
+        {/* METHODS TAB */}
+        {tab === "methods" && (
+          <div>
+            <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 8 }}>Interpretation Methods</h2>
+            <p style={{ color: "#9898B3", fontSize: 14, marginBottom: 28, lineHeight: 1.6 }}>
+              How scholars have approached reading the parables — from ancient allegory to modern narrative criticism.
+            </p>
+            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+              {PARABLE_METHODS.map((m, i) => (
+                <div key={i} style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 14, padding: 22 }}>
+                  <h3 style={{ fontSize: 16, fontWeight: 700, color: "#00FF88", marginBottom: 10 }}>{m.method}</h3>
+                  <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.75 }}>{m.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* VOICES TAB */}
+        {tab === "voices" && (
+          <div style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
+            <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 80 }}>
+              {VOICES_PARAB.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? "rgba(0,255,136,0.4)" : "#1E1E32"}`, background: selectedVoice === v.id ? "rgba(0,255,136,0.08)" : "#12121F", cursor: "pointer", transition: "all 0.2s" }}>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: selectedVoice === v.id ? "#00FF88" : "#F2F2F8", marginBottom: 2 }}>{v.name}</div>
+                  <div style={{ fontSize: 11, color: "#6A6A88" }}>{v.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1, background: "#12121F", border: "1px solid #1E1E32", borderRadius: 16, padding: 28 }}>
+              <div style={{ marginBottom: 6, fontSize: 12, color: "#6A6A88", fontStyle: "italic" }}>{voiceItem.context}</div>
+              <h2 style={{ fontSize: 24, fontWeight: 800, marginBottom: 4, color: "#F2F2F8" }}>{voiceItem.name}</h2>
+              <div style={{ fontSize: 13, color: "#9898B3", marginBottom: 20 }}>{voiceItem.era}</div>
+              <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.8, marginBottom: 24 }}>{voiceItem.bio}</p>
+              <div style={{ background: "#0D0D1A", borderRadius: 12, padding: 20, borderLeft: "3px solid #00FF88", marginBottom: 24 }}>
+                <p style={{ fontSize: 15, color: "#E0E0F0", lineHeight: 1.75, fontStyle: "italic" }}>&ldquo;{voiceItem.quote}&rdquo;</p>
+              </div>
+              <div>
+                <div style={{ fontSize: 11, fontWeight: 700, color: "#6B4FBB", textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>Contribution</div>
+                <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.75 }}>{voiceItem.contribution}</p>
+              </div>
+            </div>
+          </div>
+        )}
+
       </div>
 
       {/* Modal */}

@@ -4,6 +4,8 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
+type Tab = "books" | "seasons" | "guides" | "voices";
+
 const SEASON_FILTERS = ["All", "New Believer", "Deep Grief", "Doubt & Crisis", "Marriage & Family", "Calling & Vocation", "Suffering & Illness", "Spiritual Dryness", "Anger & Forgiveness"];
 
 const BOOKS = [
@@ -178,12 +180,177 @@ const BOOKS = [
   },
 ];
 
+const LIFE_SEASONS = [
+  {
+    id: 1,
+    season: "New Believer",
+    icon: "🌱",
+    description: "The beginning of faith brings joy, disorientation, and an enormous hunger to understand what you have just entered. The right books in this season establish foundations that will shape the entire trajectory of a life of faith.",
+    challenges: ["Theological confusion — so many traditions, so many opinions", "Integrating faith with prior secular worldview", "Finding a church and understanding what baptism, communion, and community mean", "Learning to read the Bible without feeling overwhelmed"],
+    books: ["Mere Christianity (C.S. Lewis)", "Knowing God (J.I. Packer)", "The Cost of Discipleship (Bonhoeffer)", "Basic Christianity (John Stott)"],
+    scripture: "Like newborn babies, crave pure spiritual milk, so that by it you may grow up in your salvation. — 1 Peter 2:2",
+  },
+  {
+    id: 2,
+    season: "Marriage & Family",
+    icon: "👨‍👩‍👧",
+    description: "The early years of marriage and parenting are among the most formative and most demanding of the Christian life. Books in this season help couples understand that marriage is a crucible of sanctification, not primarily a source of personal fulfillment.",
+    challenges: ["Unrealistic expectations colliding with reality", "Learning to love when love is not a feeling", "Parenting with grace without losing authority", "Maintaining spiritual intimacy alongside physical and emotional demands"],
+    books: ["Sacred Marriage (Gary Thomas)", "The Marriage Builder (Larry Crabb)", "Parenting (Paul David Tripp)", "This Momentary Marriage (John Piper)"],
+    scripture: "Husbands, love your wives, as Christ loved the church and gave himself up for her. — Ephesians 5:25",
+  },
+  {
+    id: 3,
+    season: "Grief & Loss",
+    icon: "🕯️",
+    description: "Bereavement strips away the comfortable assumptions of faith and demands an encounter with God in the darkness. The books that help most in grief are not the ones that explain sorrow away but the ones that accompany sufferers into it with honesty.",
+    challenges: ["Anger at God that feels like faithlessness", "The absence of God's presence when you need it most", "Well-meaning people who say the wrong things", "The long, slow second year that no one warns you about"],
+    books: ["A Grief Observed (C.S. Lewis)", "When God Weeps (Joni Eareckson Tada)", "Lament for a Son (Nicholas Wolterstorff)", "The Problem of Pain (C.S. Lewis)"],
+    scripture: "Blessed are those who mourn, for they shall be comforted. — Matthew 5:4",
+  },
+  {
+    id: 4,
+    season: "Midlife Questions",
+    icon: "🧭",
+    description: "Midlife brings questions of purpose, legacy, and identity that earlier seasons postponed. Many Christians arrive at midlife having achieved much but feeling spiritually empty — the books of this season address the deeper questions that success cannot answer.",
+    challenges: ["Questioning whether the life you have built is the life you were meant to live", "Facing mortality for the first time as a felt reality", "Spiritual dryness after years of activity and service", "Discerning between calling and mere ambition"],
+    books: ["Let Your Life Speak (Parker Palmer)", "A Long Obedience in the Same Direction (Eugene Peterson)", "The Second Half of Life (Richard Rohr)", "Ordering Your Private World (Gordon MacDonald)"],
+    scripture: "Teach us to number our days, that we may gain a heart of wisdom. — Psalm 90:12",
+  },
+  {
+    id: 5,
+    season: "Suffering & Trial",
+    icon: "⛰️",
+    description: "Chronic illness, job loss, prolonged financial crisis, prodigal children — the seasons of sustained suffering test faith most severely. Books that helped in this season are not merely intellectual; they are life-preservers grabbed in deep water.",
+    challenges: ["Maintaining faith when prayers go unanswered for years", "The isolation of suffering others cannot see or understand", "Theological questions that feel abstract to everyone else but urgent to you", "Finding meaning in pain that seems purely destructive"],
+    books: ["Walking with God through Pain and Suffering (Timothy Keller)", "Night (Elie Wiesel)", "Disappointment with God (Philip Yancey)", "Dark Clouds Deep Mercy (Mark Vroegop)"],
+    scripture: "I consider that our present sufferings are not worth comparing with the glory that will be revealed in us. — Romans 8:18",
+  },
+  {
+    id: 6,
+    season: "Aging & Legacy",
+    icon: "🌅",
+    description: "The final season of life brings both the richest opportunities for wisdom and the hardest questions about what has mattered. The right books in this season help older believers finish well — to pass faith to the next generation and to face death with hope.",
+    challenges: ["Physical limitation eroding the activities that once gave identity", "Grief over friends and contemporaries who have died", "Fear of becoming a burden; questions about what legacy remains", "Facing death with hope rather than denial"],
+    books: ["The Wisdom of Each Other (Eugene Peterson)", "When I Don't Desire God (John Piper)", "A Grace Disguised (Jerry Sittser)", "Finishing Well (Bob Buford)"],
+    scripture: "Even to your old age and gray hairs I am he, I am he who will sustain you. I have made you and I will carry you. — Isaiah 46:4",
+  },
+];
+
+const READING_PLANS_S = [
+  {
+    id: 1,
+    name: "Foundations of Faith",
+    duration: "3 months",
+    description: "A guided journey through the intellectual and devotional foundations of Christian belief. Designed for new believers and those who want to rebuild their theological foundation after a season of drift or doubt.",
+    phases: [
+      { title: "Month 1: Who Is God?", books: ["Knowing God — J.I. Packer", "The Knowledge of the Holy — A.W. Tozer"] },
+      { title: "Month 2: Who Is Christ?", books: ["Mere Christianity — C.S. Lewis", "Basic Christianity — John Stott"] },
+      { title: "Month 3: What Is the Gospel?", books: ["The Cross of Christ — John Stott", "The Reason for God — Timothy Keller (Part 2)"] },
+    ],
+  },
+  {
+    id: 2,
+    name: "Emotional & Spiritual Health",
+    duration: "3 months",
+    description: "A reading journey for Christians who sense their emotional and spiritual lives are disconnected — who know doctrine but feel little, or who feel much but lack structure. Integrates psychology, spiritual direction, and theology.",
+    phases: [
+      { title: "Month 1: Honest Self-Examination", books: ["The Emotionally Healthy Church — Peter Scazzero", "Emotionally Healthy Spirituality — Peter Scazzero"] },
+      { title: "Month 2: The Inner Life", books: ["Renovation of the Heart — Dallas Willard", "Ordering Your Private World — Gordon MacDonald"] },
+      { title: "Month 3: Grace & Transformation", books: ["The Return of the Prodigal Son — Henri Nouwen", "The Grace Awakening — Charles Swindoll"] },
+    ],
+  },
+  {
+    id: 3,
+    name: "Theology & Formation",
+    duration: "6 months",
+    description: "A six-month deep dive into Christian theology for those who want to move beyond surface-level faith. Covers systematic theology, church history, and the spiritual disciplines in an integrated reading journey.",
+    phases: [
+      { title: "Months 1-2: Systematic Theology", books: ["Systematic Theology (abridged) — Wayne Grudem", "The Apostles' Creed — Albert Mohler"] },
+      { title: "Months 3-4: Historical Theology", books: ["Church History in Plain Language — Bruce Shelley", "On the Incarnation — Athanasius (with C.S. Lewis intro)"] },
+      { title: "Months 5-6: Spiritual Disciplines", books: ["The Spirit of the Disciplines — Dallas Willard", "A Long Obedience in the Same Direction — Eugene Peterson"] },
+    ],
+  },
+  {
+    id: 4,
+    name: "Suffering & Hope",
+    duration: "2 months",
+    description: "An honest, theologically serious reading journey through the problem of suffering. Designed for those in pain or walking alongside someone in pain — not to resolve the question but to face it faithfully.",
+    phases: [
+      { title: "Month 1: Into the Darkness", books: ["A Grief Observed — C.S. Lewis", "Night — Elie Wiesel", "Lament for a Son — Nicholas Wolterstorff"] },
+      { title: "Month 2: Toward the Light", books: ["Walking with God through Pain and Suffering — Timothy Keller", "When God Weeps — Joni Eareckson Tada"] },
+    ],
+  },
+  {
+    id: 5,
+    name: "Marriage & Family",
+    duration: "3 months",
+    description: "A reading journey for married couples or engaged couples who want to build their relationship on a theological foundation rather than cultural assumptions about what marriage should provide.",
+    phases: [
+      { title: "Month 1: What Marriage Is For", books: ["Sacred Marriage — Gary Thomas", "This Momentary Marriage — John Piper"] },
+      { title: "Month 2: The Inner Work", books: ["The Marriage Builder — Larry Crabb", "Love & Respect — Emerson Eggerichs"] },
+      { title: "Month 3: Family & Legacy", books: ["Parenting — Paul David Tripp", "The Tech-Wise Family — Andy Crouch"] },
+    ],
+  },
+];
+
+const VOICES_BFOS = [
+  {
+    id: 1,
+    name: "C.S. Lewis",
+    era: "1898-1963",
+    context: "Oxford & Cambridge; Anglican convert",
+    bio: "C.S. Lewis was surprised by joy — his own phrase for his unexpected conversion to Christianity at 33. He lived through multiple life seasons as a Christian: the intellectual exhilaration of new faith, the agony of losing his wife Joy Davidman to cancer, and the long middle decades of productive scholarship and writing. His work spans the full range of life seasons because he lived them all with rare self-awareness and wrote about each with extraordinary precision. No Christian author has helped more people understand what they are experiencing.",
+    quote: "If I find in myself desires which nothing in this world can satisfy, the only logical explanation is that I was made for another world.",
+    contribution: "Showed that intellectual rigor and Christian faith are not enemies; wrote the most honest account of Christian grief in print; his corpus accompanies readers through doubt, conversion, marriage, loss, and death",
+  },
+  {
+    id: 2,
+    name: "Eugene Peterson",
+    era: "1932-2018",
+    context: "American pastor; Presbyterian; The Message translator",
+    bio: "Eugene Peterson pastored the same congregation in Maryland for 29 years before retiring to write and teach. His concept of 'a long obedience in the same direction' — borrowed from Nietzsche but filled with Christian content — became the defining metaphor for mature discipleship: not spiritual peak experiences but the slow, unglamorous faithfulness of decades. Peterson's books address the spirituality of ordinary pastoral life, midlife questions of purpose, and the formation of character through the long middle years that most Christian books ignore.",
+    quote: "The Christian life is not a problem to be solved but a mystery to be lived.",
+    contribution: "Named the spirituality of the ordinary; produced The Message as a translation that reads Scripture as living literature; modeled what it looks like to remain faithfully planted in one place for decades",
+  },
+  {
+    id: 3,
+    name: "Henri Nouwen",
+    era: "1932-1996",
+    context: "Dutch Catholic priest; Harvard, Yale, L'Arche",
+    bio: "Henri Nouwen left prestigious academic posts at Harvard and Yale to live at L'Arche Daybreak, a community for people with intellectual disabilities in Toronto, where he served as pastor until his death. His books chronicle an inner journey of painful self-discovery — loneliness, the longing for affirmation, the fear of abandonment, the slow discovery that one is the Beloved of God. He addressed the spiritual dimension of midlife, aging, grief, and the inner wounds that professional success cannot heal.",
+    quote: "The spiritual life is not a life before, after, or beyond our everyday existence. No, the spiritual life can only be real when it is lived in the midst of the pains and joys of the here and now.",
+    contribution: "Named the wound of the Christian leader who cannot receive what they give; The Return of the Prodigal Son became a classic of spiritual formation; modeled downward mobility as a spiritual path",
+  },
+  {
+    id: 4,
+    name: "Philip Yancey",
+    era: "b. 1949",
+    context: "American evangelical journalist and author",
+    bio: "Philip Yancey grew up in a racist Southern fundamentalist church and spent his early adulthood working through the damage. His books have chronicled his own journey from wounded faith to hard-won trust — addressing doubt, disappointment with God, suffering, and the strange grace of chronic pain. Yancey is the most widely-read evangelical author on the dark side of faith — the questions that believers are often afraid to ask — and has given millions of readers permission to be honest about their own spiritual struggles.",
+    quote: "I have learned that faith means trusting in advance what will only make sense in reverse.",
+    contribution: "Where Is God When It Hurts? gave a generation permission to bring honest pain to faith; Disappointment with God named what many Christians felt but could not say; Soul Survivor documented faith surviving institutional religion",
+  },
+  {
+    id: 5,
+    name: "Parker Palmer",
+    era: "b. 1939",
+    context: "American Quaker educator and writer",
+    bio: "Parker Palmer is a Quaker educator whose book 'Let Your Life Speak' became one of the defining texts on vocation and calling for a generation of midlife Christians. Palmer writes from his own experience of two severe depressions that stripped away his false self and forced an encounter with what was genuinely his to live. His central insight — that vocation is not what you do but who you are, and that the life you are given wants to be lived — has helped thousands of Christians in midlife and beyond to stop performing others' expectations and start living from their own deepest nature.",
+    quote: "Before I can tell my life what I want to do with it, I must listen to my life telling me who I am.",
+    contribution: "Let Your Life Speak defined a generation's understanding of vocation; gave language to the experience of false-self living; modeled intellectual humility about Quaker faith as a resource for all traditions",
+  },
+];
+
 export default function BooksForSeasonsPage() {
+  const [activeTab, setActiveTab] = useState<Tab>("books");
   const [season, setSeason] = useState("All");
   const [selected, setSelected] = useState<string | null>(null);
+  const [selectedVoice, setSelectedVoice] = useState<number>(VOICES_BFOS[0].id);
 
   const filtered = BOOKS.filter(b => season === "All" || b.season === season);
   const book = BOOKS.find(b => b.title === selected);
+  const voice = VOICES_BFOS.find(v => v.id === selectedVoice)!;
 
   const SEASON_COLOR: Record<string, string> = {
     "New Believer": GREEN,
@@ -204,66 +371,211 @@ export default function BooksForSeasonsPage() {
           <div style={{ fontSize: 48, marginBottom: 12 }}>📚</div>
           <h1 style={{ fontSize: 32, fontWeight: 900, marginBottom: 8 }}>Books for Every Season of Life</h1>
           <p style={{ color: MUTED, fontSize: 16, maxWidth: 640, margin: "0 auto" }}>
-            The right book at the right moment is a gift. Here are the best Christian books for specific life seasons — grief, doubt, marriage, suffering, dryness, and new faith — chosen for their proven power to help.
+            The right book at the right moment is a gift. Here are the best Christian books for specific life seasons &mdash; grief, doubt, marriage, suffering, dryness, and new faith &mdash; chosen for their proven power to help.
           </p>
         </div>
 
-        <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 28 }}>
-          {SEASON_FILTERS.map(s => (
-            <button key={s} onClick={() => setSeason(s)}
-              style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${season === s ? GREEN : BORDER}`, background: season === s ? `${GREEN}15` : "transparent", color: season === s ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
-              {s}
+        {/* Tab Bar */}
+        <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 6, width: "fit-content" }}>
+          {(["books", "seasons", "guides", "voices"] as const).map(t => (
+            <button key={t} onClick={() => setActiveTab(t)}
+              style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+              {t === "books" ? "Books" : t === "seasons" ? "Life Seasons" : t === "guides" ? "Reading Guides" : "Voices"}
             </button>
           ))}
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: book ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
-          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            {filtered.map((b, i) => (
-              <button key={i} onClick={() => setSelected(selected === b.title ? null : b.title)}
-                style={{ background: selected === b.title ? `${b.color}12` : CARD, border: `1px solid ${selected === b.title ? b.color + "50" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                  <div style={{ width: 44, height: 44, borderRadius: 10, background: `${b.color}20`, border: `1px solid ${b.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: b.color, fontWeight: 900, fontSize: 9, flexShrink: 0 }}>
-                    {b.initials}
-                  </div>
-                  <div style={{ flex: 1 }}>
-                    <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
-                      <span style={{ color: TEXT, fontWeight: 800, fontSize: 15 }}>{b.title}</span>
-                      <span style={{ background: `${SEASON_COLOR[b.season] || GREEN}15`, color: SEASON_COLOR[b.season] || GREEN, padding: "1px 8px", borderRadius: 8, fontSize: 10, fontWeight: 700 }}>{b.season}</span>
+        {/* Books Tab */}
+        {activeTab === "books" && (
+          <>
+            <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 28 }}>
+              {SEASON_FILTERS.map(s => (
+                <button key={s} onClick={() => setSeason(s)}
+                  style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${season === s ? GREEN : BORDER}`, background: season === s ? `${GREEN}15` : "transparent", color: season === s ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
+                  {s}
+                </button>
+              ))}
+            </div>
+
+            <div style={{ display: "grid", gridTemplateColumns: book ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                {filtered.map((b, i) => (
+                  <button key={i} onClick={() => setSelected(selected === b.title ? null : b.title)}
+                    style={{ background: selected === b.title ? `${b.color}12` : CARD, border: `1px solid ${selected === b.title ? b.color + "50" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                      <div style={{ width: 44, height: 44, borderRadius: 10, background: `${b.color}20`, border: `1px solid ${b.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: b.color, fontWeight: 900, fontSize: 9, flexShrink: 0 }}>
+                        {b.initials}
+                      </div>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
+                          <span style={{ color: TEXT, fontWeight: 800, fontSize: 15 }}>{b.title}</span>
+                          <span style={{ background: `${SEASON_COLOR[b.season] || GREEN}15`, color: SEASON_COLOR[b.season] || GREEN, padding: "1px 8px", borderRadius: 8, fontSize: 10, fontWeight: 700 }}>{b.season}</span>
+                        </div>
+                        <div style={{ color: MUTED, fontSize: 12, marginTop: 3 }}>{b.author} &middot; {b.year}</div>
+                      </div>
                     </div>
-                    <div style={{ color: MUTED, fontSize: 12, marginTop: 3 }}>{b.author} · {b.year}</div>
+                  </button>
+                ))}
+              </div>
+
+              {book && (
+                <div style={{ background: CARD, border: `1px solid ${book.color}30`, borderRadius: 14, padding: 28, position: "sticky", top: 100 }}>
+                  <h2 style={{ color: book.color, fontWeight: 900, fontSize: 18, margin: "0 0 2px" }}>{book.title}</h2>
+                  <div style={{ color: MUTED, fontSize: 13, marginBottom: 14 }}>{book.author} &middot; {book.year} &middot; {book.publisher}</div>
+
+                  <span style={{ background: `${SEASON_COLOR[book.season] || GREEN}15`, color: SEASON_COLOR[book.season] || GREEN, padding: "2px 10px", borderRadius: 8, fontSize: 11, fontWeight: 700 }}>{book.season}</span>
+
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: "14px 0" }}>{book.description}</p>
+
+                  <div style={{ background: `${PURPLE}08`, border: `1px solid ${PURPLE}15`, borderRadius: 8, padding: 12, marginBottom: 10 }}>
+                    <div style={{ color: PURPLE, fontWeight: 700, fontSize: 10, marginBottom: 6 }}>BEST QUOTE</div>
+                    <p style={{ color: TEXT, fontSize: 13, fontStyle: "italic", margin: 0, lineHeight: 1.65 }}>&ldquo;{book.best_quote}&rdquo;</p>
+                  </div>
+
+                  <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}15`, borderRadius: 8, padding: 12, marginBottom: 10 }}>
+                    <div style={{ color: GREEN, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>WHO NEEDS THIS BOOK</div>
+                    <p style={{ color: TEXT, fontSize: 12, margin: 0, lineHeight: 1.6 }}>{book.for_whom}</p>
+                  </div>
+
+                  <div style={{ background: "#3B82F608", border: "1px solid #3B82F615", borderRadius: 8, padding: 10 }}>
+                    <div style={{ color: "#3B82F6", fontWeight: 700, fontSize: 10, marginBottom: 4 }}>WHERE TO GET IT</div>
+                    <p style={{ color: TEXT, fontSize: 12, margin: 0 }}>{book.where_to_get}</p>
                   </div>
                 </div>
-              </button>
+              )}
+            </div>
+          </>
+        )}
+
+        {/* Life Seasons Tab */}
+        {activeTab === "seasons" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            <div style={{ background: CARD, border: `1px solid ${PURPLE}20`, borderRadius: 12, padding: 18, marginBottom: 8 }}>
+              <div style={{ color: PURPLE, fontWeight: 700, fontSize: 12, marginBottom: 6 }}>READING THROUGH LIFE&rsquo;S SEASONS</div>
+              <p style={{ color: MUTED, fontSize: 14, margin: 0 }}>
+                Different seasons of life require different books. The same book that transforms a person at 25 may say little to them at 55 — and vice versa. These are the seasons when the right book at the right moment becomes a lifeline.
+              </p>
+            </div>
+            {LIFE_SEASONS.map(ls => (
+              <div key={ls.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
+                  <span style={{ fontSize: 28 }}>{ls.icon}</span>
+                  <h3 style={{ color: TEXT, fontWeight: 900, fontSize: 18, margin: 0 }}>{ls.season}</h3>
+                </div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: "0 0 16px" }}>{ls.description}</p>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 14 }}>
+                  <div style={{ background: BG, borderRadius: 8, padding: "12px 14px" }}>
+                    <div style={{ color: "#EF4444", fontWeight: 700, fontSize: 10, marginBottom: 8 }}>CHALLENGES IN THIS SEASON</div>
+                    <ul style={{ margin: 0, paddingLeft: 16, display: "flex", flexDirection: "column", gap: 4 }}>
+                      {ls.challenges.map((c, i) => (
+                        <li key={i} style={{ color: MUTED, fontSize: 12, lineHeight: 1.5 }}>{c}</li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div style={{ background: BG, borderRadius: 8, padding: "12px 14px" }}>
+                    <div style={{ color: GREEN, fontWeight: 700, fontSize: 10, marginBottom: 8 }}>RECOMMENDED READING</div>
+                    <ul style={{ margin: 0, paddingLeft: 16, display: "flex", flexDirection: "column", gap: 4 }}>
+                      {ls.books.map((b, i) => (
+                        <li key={i} style={{ color: TEXT, fontSize: 12, lineHeight: 1.5 }}>{b}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+                <div style={{ background: `${PURPLE}08`, border: `1px solid ${PURPLE}15`, borderRadius: 8, padding: "10px 14px" }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>SCRIPTURE FOR THIS SEASON</div>
+                  <p style={{ color: TEXT, fontSize: 13, fontStyle: "italic", margin: 0, lineHeight: 1.6 }}>{ls.scripture}</p>
+                </div>
+              </div>
             ))}
           </div>
+        )}
 
-          {book && (
-            <div style={{ background: CARD, border: `1px solid ${book.color}30`, borderRadius: 14, padding: 28, position: "sticky", top: 100 }}>
-              <h2 style={{ color: book.color, fontWeight: 900, fontSize: 18, margin: "0 0 2px" }}>{book.title}</h2>
-              <div style={{ color: MUTED, fontSize: 13, marginBottom: 14 }}>{book.author} · {book.year} · {book.publisher}</div>
+        {/* Reading Guides Tab */}
+        {activeTab === "guides" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            <div style={{ background: CARD, border: `1px solid ${PURPLE}20`, borderRadius: 12, padding: 18, marginBottom: 8 }}>
+              <div style={{ color: PURPLE, fontWeight: 700, fontSize: 12, marginBottom: 6 }}>THEMED READING JOURNEYS</div>
+              <p style={{ color: MUTED, fontSize: 14, margin: 0 }}>
+                These multi-month reading plans are designed as journeys rather than lists — each phase builds on the previous one, taking you deeper into a theme across two to six months of intentional reading.
+              </p>
+            </div>
+            {READING_PLANS_S.map(plan => (
+              <div key={plan.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}>
+                  <h3 style={{ color: TEXT, fontWeight: 900, fontSize: 18, margin: 0, flex: 1 }}>{plan.name}</h3>
+                  <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "3px 12px", borderRadius: 20, fontSize: 11, fontWeight: 700, whiteSpace: "nowrap" }}>{plan.duration}</span>
+                </div>
+                <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: "0 0 18px" }}>{plan.description}</p>
+                <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                  {plan.phases.map((phase, i) => (
+                    <div key={i} style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
+                      <div style={{ width: 28, height: 28, borderRadius: "50%", background: PURPLE, display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontWeight: 900, fontSize: 12, flexShrink: 0, marginTop: 2 }}>
+                        {i + 1}
+                      </div>
+                      <div style={{ flex: 1, background: BG, borderRadius: 8, padding: "10px 14px" }}>
+                        <div style={{ color: TEXT, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>{phase.title}</div>
+                        <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
+                          {phase.books.map((b, j) => (
+                            <div key={j} style={{ color: MUTED, fontSize: 12 }}>{b}</div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
 
-              <span style={{ background: `${SEASON_COLOR[book.season] || GREEN}15`, color: SEASON_COLOR[book.season] || GREEN, padding: "2px 10px", borderRadius: 8, fontSize: 11, fontWeight: 700 }}>{book.season}</span>
+        {/* Voices Tab */}
+        {activeTab === "voices" && (
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, alignItems: "start" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              {VOICES_BFOS.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ background: selectedVoice === v.id ? `${PURPLE}15` : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE + "60" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left", transition: "all 0.15s" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                    <div style={{ width: 44, height: 44, borderRadius: "50%", background: `${PURPLE}25`, border: `1px solid ${PURPLE}40`, display: "flex", alignItems: "center", justifyContent: "center", color: PURPLE, fontWeight: 900, fontSize: 13, flexShrink: 0 }}>
+                      {v.name.split(" ").map(w => w[0]).join("").slice(0, 2)}
+                    </div>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ color: TEXT, fontWeight: 800, fontSize: 15, marginBottom: 2 }}>{v.name}</div>
+                      <div style={{ color: MUTED, fontSize: 12 }}>{v.era}</div>
+                      <div style={{ color: MUTED, fontSize: 11 }}>{v.context}</div>
+                    </div>
+                  </div>
+                </button>
+              ))}
+            </div>
 
-              <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: "14px 0" }}>{book.description}</p>
-
-              <div style={{ background: `${PURPLE}08`, border: `1px solid ${PURPLE}15`, borderRadius: 8, padding: 12, marginBottom: 10 }}>
-                <div style={{ color: PURPLE, fontWeight: 700, fontSize: 10, marginBottom: 6 }}>BEST QUOTE</div>
-                <p style={{ color: TEXT, fontSize: 13, fontStyle: "italic", margin: 0, lineHeight: 1.65 }}>{book.best_quote}</p>
+            <div style={{ background: CARD, border: `1px solid ${PURPLE}30`, borderRadius: 14, padding: 28, position: "sticky", top: 100 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 16 }}>
+                <div style={{ width: 52, height: 52, borderRadius: "50%", background: `${PURPLE}25`, border: `1px solid ${PURPLE}50`, display: "flex", alignItems: "center", justifyContent: "center", color: PURPLE, fontWeight: 900, fontSize: 16, flexShrink: 0 }}>
+                  {voice.name.split(" ").map(w => w[0]).join("").slice(0, 2)}
+                </div>
+                <div>
+                  <h2 style={{ color: PURPLE, fontWeight: 900, fontSize: 20, margin: "0 0 2px" }}>{voice.name}</h2>
+                  <div style={{ color: MUTED, fontSize: 12 }}>{voice.era}</div>
+                  <div style={{ color: MUTED, fontSize: 11 }}>{voice.context}</div>
+                </div>
               </div>
 
-              <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}15`, borderRadius: 8, padding: 12, marginBottom: 10 }}>
-                <div style={{ color: GREEN, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>WHO NEEDS THIS BOOK</div>
-                <p style={{ color: TEXT, fontSize: 12, margin: 0, lineHeight: 1.6 }}>{book.for_whom}</p>
+              <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: "0 0 16px" }}>{voice.bio}</p>
+
+              <div style={{ background: `${PURPLE}08`, border: `1px solid ${PURPLE}20`, borderRadius: 8, padding: 14, marginBottom: 14 }}>
+                <div style={{ color: PURPLE, fontWeight: 700, fontSize: 10, marginBottom: 6 }}>IN THEIR OWN WORDS</div>
+                <p style={{ color: TEXT, fontSize: 13, fontStyle: "italic", margin: 0, lineHeight: 1.7 }}>&ldquo;{voice.quote}&rdquo;</p>
               </div>
 
-              <div style={{ background: "#3B82F608", border: "1px solid #3B82F615", borderRadius: 8, padding: 10 }}>
-                <div style={{ color: "#3B82F6", fontWeight: 700, fontSize: 10, marginBottom: 4 }}>WHERE TO GET IT</div>
-                <p style={{ color: TEXT, fontSize: 12, margin: 0 }}>{book.where_to_get}</p>
+              <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}15`, borderRadius: 8, padding: 12 }}>
+                <div style={{ color: GREEN, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>KEY CONTRIBUTION</div>
+                <p style={{ color: TEXT, fontSize: 13, margin: 0, lineHeight: 1.6 }}>{voice.contribution}</p>
               </div>
             </div>
-          )}
-        </div>
+          </div>
+        )}
+
       </div>
     </div>
   );

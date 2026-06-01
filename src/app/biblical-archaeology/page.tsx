@@ -4,6 +4,8 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
+type Tab = "discoveries" | "sites" | "significance" | "voices";
+
 const ERA_FILTERS = ["All", "Patriarchal Era", "Exodus & Conquest", "Kingdom Period", "Exile & Return", "New Testament Era"];
 
 const DISCOVERIES = [
@@ -173,12 +175,158 @@ const ERA_COLOR: Record<string, string> = {
   "New Testament Era": GREEN,
 };
 
+const ARCHAEO_SITES = [
+  {
+    id: "megiddo",
+    name: "Megiddo (Armageddon)",
+    location: "Jezreel Valley, Northern Israel",
+    period: "Bronze Age – Iron Age (3000–600 BC)",
+    description: "Tel Megiddo is one of the most excavated sites in the world, with 26 layers of occupation. It guarded the main pass through the Carmel ridge — whoever controlled Megiddo controlled the Via Maris, the main trade and military route between Egypt and Mesopotamia. The city's strategic importance made it the site of more battles than any other place in the ancient Near East.",
+    biblical_connection: "1 Kings 9:15 (Solomon's chariot cities); 2 Kings 23:29 (death of Josiah); Revelation 16:16 (Armageddon — the hill of Megiddo — as the site of the final battle)",
+    discovered: "Excavated by the Oriental Institute of Chicago (1925–1939); ongoing excavations by Tel Aviv University",
+  },
+  {
+    id: "capernaum",
+    name: "Capernaum",
+    location: "Northern shore of the Sea of Galilee, Israel",
+    period: "Early Roman period (1st century BC – 4th century AD)",
+    description: "A prosperous fishing and trading town on the Sea of Galilee that served as the base of Jesus' Galilean ministry. Excavations have uncovered a 4th-century synagogue built on the basalt foundations of a 1st-century synagogue — likely the very building where Jesus taught. Beneath a 5th-century octagonal church lies a 1st-century house identified by early pilgrims as Peter's house.",
+    biblical_connection: "Matthew 4:13 (Jesus' home base); Mark 1:21 (healing in the synagogue); Luke 4:31–38; John 6:59 (Bread of Life discourse in the synagogue)",
+    discovered: "Franciscan excavations from 1906 onward; Israeli Antiquities Authority",
+  },
+  {
+    id: "qumran",
+    name: "Qumran",
+    location: "West Bank, near the Dead Sea",
+    period: "2nd century BC – 1st century AD",
+    description: "The settlement on the cliffs above the caves where the Dead Sea Scrolls were hidden. Qumran was occupied by the Essenes — a Jewish sect that rejected the Jerusalem Temple establishment and preserved their sacred texts in clay jars in the surrounding caves. The community had an elaborate system of ritual baths (miqva'ot), a scriptorium where scrolls were copied, and a communal dining hall.",
+    biblical_connection: "The Qumran community preserved manuscripts of every Old Testament book (except Esther), including multiple copies of Isaiah, Psalms, and Deuteronomy — the books most quoted by Jesus in the Gospels",
+    discovered: "Roland de Vaux and Gerald Lankester Harding (1949–1956); ongoing excavations",
+  },
+  {
+    id: "tel-dan",
+    name: "Tel Dan",
+    location: "Northern tip of Israel, near the Lebanese border",
+    period: "Bronze Age – Iron Age (3000–700 BC)",
+    description: "An ancient city at the foot of Mount Hermon, Tel Dan was a major cult center in northern Israel after the division of the kingdom. Jeroboam I set up one of his two golden calves here. The site contains a well-preserved Iron Age gate complex and a high place (bamah) where sacrifices were offered. It was here that the Tel Dan Inscription — the first extrabiblical reference to the House of David — was found.",
+    biblical_connection: "Genesis 14:14 (Abram pursues enemies to Dan); Judges 18 (Danites settle here); 1 Kings 12:29 (Jeroboam's golden calf); 2 Kings 10:29",
+    discovered: "Avraham Biran, Hebrew Union College excavations (1966–1999)",
+  },
+  {
+    id: "masada",
+    name: "Masada",
+    location: "Judean Desert plateau above the Dead Sea, Israel",
+    period: "1st century BC – 1st century AD",
+    description: "Herod the Great built an impregnable fortress-palace on a 1,300-foot desert plateau. After the fall of Jerusalem in AD 70, the last Jewish holdouts — the Sicarii — occupied Masada until AD 73-74. When the Roman X Legion completed their siege ramp and breached the walls, the 960 defenders chose collective death over enslavement. Yigael Yadin's excavations revealed Herod's palaces, a synagogue, storerooms, and the lots (ostraca) the defenders drew to determine who would die last.",
+    biblical_connection: "While Masada is not directly named in the New Testament, Herod's kingdom — including his building programs — forms the political backdrop of the Gospels. The siege of Masada was part of the same Jewish War described in Luke 21:20-24",
+    discovered: "Yigael Yadin, Hebrew University excavations (1963–1965); one of the largest archaeological expeditions in history",
+  },
+  {
+    id: "caesarea-maritima",
+    name: "Caesarea Maritima",
+    location: "Mediterranean coast, central Israel",
+    period: "1st century BC – Byzantine era",
+    description: "Herod the Great built the largest artificial harbor in the ancient world at Caesarea, naming the city in honor of Caesar Augustus. The city became the Roman administrative capital of Judea and the residence of the Roman prefects — including Pontius Pilate. It had an amphitheater, hippodrome, temples, an elaborate sewer system flushed by the sea, and a complex of warehouses serving international trade.",
+    biblical_connection: "Acts 10 (Cornelius, the first Gentile convert, lived here); Acts 12:19-23 (Herod Agrippa struck dead here); Acts 18:22; 21:8; 23:23-26:32 (Paul's imprisonment and trial before Festus and Agrippa II); the Pilate Stone was found here",
+    discovered: "Joint Expedition to Caesarea Maritima (JECM) from 1971; ongoing excavations by multiple institutions",
+  },
+];
+
+const ARCHAEO_SIGNIFICANCE = [
+  {
+    id: "exodus",
+    claim: "Does archaeology support the Exodus?",
+    evidence: "The Exodus narrative lacks direct extrabiblical confirmation, but archaeological evidence is consistent with it in multiple ways: the Ipuwer Papyrus describes Egyptian plagues remarkably similar to those in Exodus; the Merneptah Stele (1208 BC) mentions Israel as a people in Canaan (confirming the Israelites existed before any later Exodus date); Semitic slave populations in Egypt are documented in the Brooklyn Papyrus; and the city of Pi-Ramesses (Exodus 1:11) has been excavated at Tell el-Borg with Semitic workers.",
+    scripture: "Exodus 1:11; 12:37-40",
+    icon: "🌊",
+  },
+  {
+    id: "david-solomon",
+    claim: "Were David and Solomon historical kings?",
+    evidence: "The Tel Dan Inscription (1993) provides the first extrabiblical reference to the 'House of David,' confirming David's dynasty within 150 years of his reign. The Mesha Stele mentions the 'House of David.' Extensive Iron Age construction at Megiddo, Hazor, and Gezer — cities Solomon is said to have fortified (1 Kings 9:15) — have been dated to the 10th century BC. The debate about the scale of Solomon's kingdom continues, but the historicity of both kings is now broadly accepted.",
+    scripture: "2 Samuel 7; 1 Kings 9:15; 10:14-29",
+    icon: "👑",
+  },
+  {
+    id: "resurrection",
+    claim: "What is the historical context of the Resurrection?",
+    evidence: "Archaeology cannot prove the Resurrection — it is a theological and historical claim beyond the reach of the spade. But archaeology has confirmed everything around it: Pontius Pilate (Pilate Stone), Caiaphas (Caiaphas Ossuary), the crucifixion method (Yohanan ben Hagkol heel bone with nail, 1968), the tomb architecture of 1st-century Jerusalem, and the Pool of Siloam, Pool of Bethesda, and other Gospel sites. The environment in which the Resurrection is claimed is historically verified in extraordinary detail.",
+    scripture: "John 19:17-42; 1 Corinthians 15:3-8",
+    icon: "✝️",
+  },
+  {
+    id: "nt-reliability",
+    claim: "Does archaeology support New Testament reliability?",
+    evidence: "Consistently and in detail. Archaeologist John McRay writes: 'Archaeology has not produced anything that is unequivocally a contradiction to the Bible.' Luke's accuracy in Acts has been confirmed repeatedly — 84 historically verified facts in the last 16 chapters alone (confirmed by Colin Hemer). The Pool of Bethesda (John 5) was long dismissed as legendary; it was excavated in the 19th century. Lysanias tetrarch of Abilene (Luke 3:1), long thought an error, was confirmed by an inscription.",
+    scripture: "Luke 1:1-4; Acts 1:1-2; John 20:30-31",
+    icon: "📜",
+  },
+  {
+    id: "ot-text",
+    claim: "How reliable is the Old Testament text?",
+    evidence: "The Dead Sea Scrolls, discovered in 1947, pre-date the previously oldest Hebrew manuscripts by 1,000 years. Comparison of the Great Isaiah Scroll (125 BC) with the Masoretic text used in modern Bibles shows remarkable textual stability — the text was transmitted with extraordinary accuracy over a millennium. The Septuagint (Greek translation, ~250 BC) and the Samaritan Pentateuch provide additional textual witnesses that confirm the essential integrity of the Old Testament text we have today.",
+    scripture: "Psalm 119:89; Isaiah 40:8; Matthew 5:18",
+    icon: "📖",
+  },
+];
+
+const VOICES_ARCH = [
+  {
+    id: "albright",
+    name: "William F. Albright",
+    era: "1891–1971",
+    context: "Dean of American biblical archaeology",
+    bio: "William Foxwell Albright was the dominant figure in 20th-century biblical archaeology. Born to Methodist missionary parents, he studied at Johns Hopkins and spent decades excavating in Palestine, including Tell Beit Mirsim (ancient Debir). As director of the American Schools of Oriental Research, he trained a generation of archaeologists. His work consistently vindicated the historical reliability of the Old Testament against critics who dismissed it as late fiction. He authenticated the Dead Sea Scrolls and the Nash Papyrus and was the first to recognize the significance of the Gezer Calendar.",
+    quote: "The excessive skepticism shown toward the Bible by important historical schools of the 18th and 19th centuries, certain phases of which still appear periodically, has been progressively discredited. Discovery after discovery has established the accuracy of innumerable details.",
+    contribution: "Albright established biblical archaeology as a rigorous academic discipline and provided the framework for understanding the relationship between ancient Near Eastern history and the biblical narrative. His synthesis of archaeology, linguistics, and biblical studies created the standard methodology for the field.",
+  },
+  {
+    id: "yadin",
+    name: "Yigael Yadin",
+    era: "1917–1984",
+    context: "Israeli archaeologist and military hero",
+    bio: "Yigael Yadin combined two extraordinary careers — as the second Chief of Staff of the Israel Defense Forces (architect of Israel's victory in the 1948 War of Independence) and as Israel's greatest archaeologist. He excavated Hazor, Masada, and Megiddo, and was the lead scholar on the Dead Sea Scrolls, including the Temple Scroll. His excavations at Masada (1963–1965) — one of the largest excavations in history — used volunteers from around the world and produced findings that shaped Israeli national identity.",
+    quote: "Masada shall not fall again.",
+    contribution: "Yadin's excavations connected the land of Israel directly to its biblical and historical heritage. His work at Hazor confirmed the biblical account of Joshua's conquest, and his Masada excavations produced artifacts — including the ostraca that may be the lots drawn by the last defenders — that gave physical substance to Josephus's account.",
+  },
+  {
+    id: "kenyon",
+    name: "Kathleen Kenyon",
+    era: "1906–1978",
+    context: "Excavator of Jericho and Jerusalem",
+    bio: "Dame Kathleen Kenyon was the most important female archaeologist of the 20th century and one of the most rigorous methodologists in the history of the discipline. She introduced the stratigraphic excavation method to Palestinian archaeology through her excavations at Jericho (1952–1958) and Jerusalem (1961–1967). Her Jericho excavations dated the famous collapsed walls to the Early Bronze Age rather than the Late Bronze Age, complicating the identification with Joshua's conquest. Her Jerusalem excavations clarified the extent of the ancient city and confirmed the location of the Stepped Stone Structure.",
+    quote: "Archaeology, properly pursued, is a discipline requiring as great rigor as any scientific investigation. Its evidence must be interpreted without prejudice, whether that prejudice is in favor of the biblical account or against it.",
+    contribution: "Kenyon's stratigraphic methodology transformed Palestinian archaeology from treasure-hunting into rigorous science. Even where her findings complicated simple biblical correlations, they enriched the discipline and demanded more careful historical thinking from all sides.",
+  },
+  {
+    id: "strange",
+    name: "James Strange",
+    era: "1938–2014",
+    context: "New Testament archaeological sites",
+    bio: "James F. Strange was a professor at the University of South Florida and one of the leading excavators of New Testament-era sites. He directed excavations at Sepphoris (Zippori) — the Roman city just 4 miles from Nazareth where Jesus likely worked as a craftsman — and at numerous Galilean synagogues. His work on Capernaum and the broader Galilee region placed the Gospel narratives in their precise archaeological context and confirmed that Jesus operated in a more urbanized, Hellenistic world than older scholarship assumed.",
+    quote: "The Gospels are set in a real landscape. Every time I excavate in Galilee, I find myself inside the world that produced them.",
+    contribution: "Strange's excavations at Sepphoris and Galilean synagogues gave archaeologists and New Testament scholars a detailed picture of the world in which Jesus lived and taught. The proximity of Sepphoris to Nazareth — and its ongoing construction during Jesus' lifetime — helps explain why a carpenter's son from Nazareth would have been unusually well acquainted with Greco-Roman architectural and cultural forms.",
+  },
+  {
+    id: "kitchen",
+    name: "Kenneth Kitchen",
+    era: "1932–",
+    context: "Old Testament history defender",
+    bio: "Kenneth Anderson Kitchen is Professor Emeritus of Egyptology at the University of Liverpool and the world's leading authority on the intersection of Egyptian history and the Old Testament. His landmark work 'On the Reliability of the Old Testament' (2003) systematically evaluated every major period of biblical history against archaeological and epigraphic evidence from surrounding cultures. Kitchen consistently found that the biblical narrative accurately reflects the customs, language, and historical context of the periods it describes — a finding that surprised critics who assumed the texts were late compositions.",
+    quote: "The Bible's text is not a fabrication of later centuries. It is a genuine document of its times, and those times are recoverable.",
+    contribution: "Kitchen's magisterial synthesis of Egyptological and Old Testament scholarship provided the most comprehensive defense of the historical reliability of the Old Testament ever written. His technical command of ancient Near Eastern languages, archaeology, and chronology places him in a category of his own among biblical scholars.",
+  },
+];
+
 export default function BiblicalArchaeologyPage() {
+  const [activeTab, setActiveTab] = useState<Tab>("discoveries");
   const [era, setEra] = useState("All");
   const [selected, setSelected] = useState<string | null>(null);
+  const [selectedVoice, setSelectedVoice] = useState<string>(VOICES_ARCH[0].id);
 
   const filtered = DISCOVERIES.filter(d => era === "All" || d.era === era);
   const discovery = DISCOVERIES.find(d => d.title === selected);
+  const activeVoice = VOICES_ARCH.find(v => v.id === selectedVoice)!;
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 40 }}>
@@ -199,73 +347,171 @@ export default function BiblicalArchaeologyPage() {
           </span>
         </div>
 
-        <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 28 }}>
-          {ERA_FILTERS.map(e => (
-            <button key={e} onClick={() => setEra(e)}
-              style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${era === e ? GREEN : BORDER}`, background: era === e ? `${GREEN}15` : "transparent", color: era === e ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
-              {e}
+        {/* Tab bar */}
+        <div style={{ display: "flex", gap: 6, marginBottom: 28, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 6, flexWrap: "wrap" }}>
+          {(["discoveries", "sites", "significance", "voices"] as const).map(t => (
+            <button key={t} onClick={() => setActiveTab(t)}
+              style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+              {t === "discoveries" ? "Discoveries" : t === "sites" ? "Sites" : t === "significance" ? "Significance" : "Voices"}
             </button>
           ))}
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: discovery ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
-          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            {filtered.map((d, i) => (
-              <button key={i} onClick={() => setSelected(selected === d.title ? null : d.title)}
-                style={{ background: selected === d.title ? `${d.color}12` : CARD, border: `1px solid ${selected === d.title ? d.color + "50" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left", transition: "all 0.15s" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                  <div style={{ width: 44, height: 44, borderRadius: 10, background: `${d.color}20`, border: `1px solid ${d.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: d.color, fontWeight: 900, fontSize: 9, flexShrink: 0 }}>
-                    {d.initials}
+        {/* Discoveries tab */}
+        {activeTab === "discoveries" && (
+          <>
+            <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 28 }}>
+              {ERA_FILTERS.map(e => (
+                <button key={e} onClick={() => setEra(e)}
+                  style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${era === e ? GREEN : BORDER}`, background: era === e ? `${GREEN}15` : "transparent", color: era === e ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
+                  {e}
+                </button>
+              ))}
+            </div>
+
+            <div style={{ display: "grid", gridTemplateColumns: discovery ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                {filtered.map((d, i) => (
+                  <button key={i} onClick={() => setSelected(selected === d.title ? null : d.title)}
+                    style={{ background: selected === d.title ? `${d.color}12` : CARD, border: `1px solid ${selected === d.title ? d.color + "50" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left", transition: "all 0.15s" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                      <div style={{ width: 44, height: 44, borderRadius: 10, background: `${d.color}20`, border: `1px solid ${d.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: d.color, fontWeight: 900, fontSize: 9, flexShrink: 0 }}>
+                        {d.initials}
+                      </div>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                          <span style={{ color: TEXT, fontWeight: 800, fontSize: 15 }}>{d.title}</span>
+                          <span style={{ background: `${ERA_COLOR[d.era] || GREEN}15`, color: ERA_COLOR[d.era] || GREEN, padding: "1px 8px", borderRadius: 8, fontSize: 10, fontWeight: 700 }}>{d.era}</span>
+                        </div>
+                        <div style={{ display: "flex", gap: 8, marginTop: 3, alignItems: "center" }}>
+                          <span style={{ color: MUTED, fontSize: 12 }}>Discovered {d.year_discovered}</span>
+                          <span style={{ color: MUTED, fontSize: 10 }}>·</span>
+                          <span style={{ color: MUTED, fontSize: 11 }}>{d.location}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </button>
+                ))}
+              </div>
+
+              {discovery && (
+                <div style={{ background: CARD, border: `1px solid ${discovery.color}30`, borderRadius: 14, padding: 28, position: "sticky", top: 100 }}>
+                  <h2 style={{ color: discovery.color, fontWeight: 900, fontSize: 18, margin: "0 0 2px" }}>{discovery.title}</h2>
+                  <div style={{ color: MUTED, fontSize: 13, marginBottom: 14 }}>Discovered {discovery.year_discovered} · {discovery.location}</div>
+
+                  <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 16 }}>
+                    <span style={{ background: `${ERA_COLOR[discovery.era] || GREEN}15`, color: ERA_COLOR[discovery.era] || GREEN, padding: "2px 10px", borderRadius: 8, fontSize: 11, fontWeight: 700 }}>{discovery.era}</span>
                   </div>
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-                      <span style={{ color: TEXT, fontWeight: 800, fontSize: 15 }}>{d.title}</span>
-                      <span style={{ background: `${ERA_COLOR[d.era] || GREEN}15`, color: ERA_COLOR[d.era] || GREEN, padding: "1px 8px", borderRadius: 8, fontSize: 10, fontWeight: 700 }}>{d.era}</span>
-                    </div>
-                    <div style={{ display: "flex", gap: 8, marginTop: 3, alignItems: "center" }}>
-                      <span style={{ color: MUTED, fontSize: 12 }}>Discovered {d.year_discovered}</span>
-                      <span style={{ color: MUTED, fontSize: 10 }}>·</span>
-                      <span style={{ color: MUTED, fontSize: 11 }}>{d.location}</span>
-                    </div>
+
+                  <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}15`, borderRadius: 8, padding: 12, marginBottom: 14 }}>
+                    <div style={{ color: GREEN, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>BIBLICAL CONNECTION</div>
+                    <p style={{ color: TEXT, fontSize: 13, margin: 0 }}>{discovery.biblical_connection}</p>
+                  </div>
+
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, marginBottom: 14 }}>{discovery.description}</p>
+
+                  <div style={{ background: `${PURPLE}08`, border: `1px solid ${PURPLE}15`, borderRadius: 8, padding: 12, marginBottom: 10 }}>
+                    <div style={{ color: PURPLE, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>WHY IT MATTERS</div>
+                    <p style={{ color: TEXT, fontSize: 13, margin: 0, lineHeight: 1.65 }}>{discovery.significance}</p>
+                  </div>
+
+                  <div style={{ background: "#3B82F608", border: "1px solid #3B82F615", borderRadius: 8, padding: 10, marginBottom: 10 }}>
+                    <div style={{ color: "#3B82F6", fontWeight: 700, fontSize: 10, marginBottom: 4 }}>WHERE IT IS NOW</div>
+                    <p style={{ color: TEXT, fontSize: 12, margin: 0 }}>{discovery.current_location}</p>
+                  </div>
+
+                  <div style={{ background: `${discovery.color}08`, border: `1px solid ${discovery.color}20`, borderRadius: 8, padding: 10 }}>
+                    <div style={{ color: discovery.color, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>LEARN MORE</div>
+                    <p style={{ color: TEXT, fontSize: 12, margin: 0 }}>{discovery.learn_more}</p>
                   </div>
                 </div>
-              </button>
+              )}
+            </div>
+          </>
+        )}
+
+        {/* Sites tab */}
+        {activeTab === "sites" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            {ARCHAEO_SITES.map(site => (
+              <div key={site.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24 }}>
+                <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12, marginBottom: 8, flexWrap: "wrap" }}>
+                  <h3 style={{ color: TEXT, fontWeight: 900, fontSize: 18, margin: 0 }}>{site.name}</h3>
+                  <span style={{ background: `${PURPLE}15`, color: PURPLE, padding: "3px 10px", borderRadius: 8, fontSize: 11, fontWeight: 700, flexShrink: 0 }}>{site.period}</span>
+                </div>
+                <div style={{ color: MUTED, fontSize: 13, marginBottom: 12 }}>{site.location}</div>
+                <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.75, margin: "0 0 14px" }}>{site.description}</p>
+                <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 8, padding: 12, marginBottom: 10 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>BIBLICAL CONNECTION</div>
+                  <p style={{ color: TEXT, fontSize: 13, margin: 0, lineHeight: 1.65 }}>{site.biblical_connection}</p>
+                </div>
+                <div style={{ color: MUTED, fontSize: 12 }}><span style={{ color: MUTED, fontWeight: 700 }}>Excavated: </span>{site.discovered}</div>
+              </div>
             ))}
           </div>
+        )}
 
-          {discovery && (
-            <div style={{ background: CARD, border: `1px solid ${discovery.color}30`, borderRadius: 14, padding: 28, position: "sticky", top: 100 }}>
-              <h2 style={{ color: discovery.color, fontWeight: 900, fontSize: 18, margin: "0 0 2px" }}>{discovery.title}</h2>
-              <div style={{ color: MUTED, fontSize: 13, marginBottom: 14 }}>Discovered {discovery.year_discovered} · {discovery.location}</div>
+        {/* Significance tab */}
+        {activeTab === "significance" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            {ARCHAEO_SIGNIFICANCE.map(item => (
+              <div key={item.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+                  <span style={{ fontSize: 28 }}>{item.icon}</span>
+                  <h3 style={{ color: TEXT, fontWeight: 900, fontSize: 17, margin: 0 }}>{item.claim}</h3>
+                </div>
+                <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 10, padding: 16, marginBottom: 12 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 10, marginBottom: 6 }}>ARCHAEOLOGICAL EVIDENCE</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>{item.evidence}</p>
+                </div>
+                <div style={{ background: `${PURPLE}08`, border: `1px solid ${PURPLE}15`, borderRadius: 8, padding: 10 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>KEY SCRIPTURE</div>
+                  <p style={{ color: TEXT, fontSize: 13, margin: 0, fontStyle: "italic" }}>{item.scripture}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
 
-              <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 16 }}>
-                <span style={{ background: `${ERA_COLOR[discovery.era] || GREEN}15`, color: ERA_COLOR[discovery.era] || GREEN, padding: "2px 10px", borderRadius: 8, fontSize: 11, fontWeight: 700 }}>{discovery.era}</span>
+        {/* Voices tab */}
+        {activeTab === "voices" && (
+          <div style={{ display: "grid", gridTemplateColumns: "220px 1fr", gap: 20, alignItems: "start" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 100 }}>
+              {VOICES_ARCH.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ background: selectedVoice === v.id ? `${PURPLE}20` : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE + "60" : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: selectedVoice === v.id ? TEXT : MUTED, fontWeight: 800, fontSize: 14 }}>{v.name}</div>
+                  <div style={{ color: MUTED, fontSize: 11, marginTop: 2 }}>{v.era}</div>
+                </button>
+              ))}
+            </div>
+
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28 }}>
+              <div style={{ marginBottom: 6 }}>
+                <h2 style={{ color: TEXT, fontWeight: 900, fontSize: 22, margin: "0 0 4px" }}>{activeVoice.name}</h2>
+                <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
+                  <span style={{ color: MUTED, fontSize: 13 }}>{activeVoice.era}</span>
+                  <span style={{ background: `${PURPLE}15`, color: PURPLE, padding: "2px 10px", borderRadius: 8, fontSize: 11, fontWeight: 700 }}>{activeVoice.context}</span>
+                </div>
               </div>
 
-              <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}15`, borderRadius: 8, padding: 12, marginBottom: 14 }}>
-                <div style={{ color: GREEN, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>BIBLICAL CONNECTION</div>
-                <p style={{ color: TEXT, fontSize: 13, margin: 0 }}>{discovery.biblical_connection}</p>
+              <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: "16px 0" }}>{activeVoice.bio}</p>
+
+              <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 10, padding: 16, marginBottom: 16 }}>
+                <div style={{ color: GREEN, fontWeight: 700, fontSize: 10, marginBottom: 8 }}>NOTABLE QUOTE</div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0, fontStyle: "italic" }}>
+                  &ldquo;{activeVoice.quote}&rdquo;
+                </p>
               </div>
 
-              <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, marginBottom: 14 }}>{discovery.description}</p>
-
-              <div style={{ background: `${PURPLE}08`, border: `1px solid ${PURPLE}15`, borderRadius: 8, padding: 12, marginBottom: 10 }}>
-                <div style={{ color: PURPLE, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>WHY IT MATTERS</div>
-                <p style={{ color: TEXT, fontSize: 13, margin: 0, lineHeight: 1.65 }}>{discovery.significance}</p>
-              </div>
-
-              <div style={{ background: "#3B82F608", border: "1px solid #3B82F615", borderRadius: 8, padding: 10, marginBottom: 10 }}>
-                <div style={{ color: "#3B82F6", fontWeight: 700, fontSize: 10, marginBottom: 4 }}>WHERE IT IS NOW</div>
-                <p style={{ color: TEXT, fontSize: 12, margin: 0 }}>{discovery.current_location}</p>
-              </div>
-
-              <div style={{ background: `${discovery.color}08`, border: `1px solid ${discovery.color}20`, borderRadius: 8, padding: 10 }}>
-                <div style={{ color: discovery.color, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>LEARN MORE</div>
-                <p style={{ color: TEXT, fontSize: 12, margin: 0 }}>{discovery.learn_more}</p>
+              <div style={{ background: `${PURPLE}08`, border: `1px solid ${PURPLE}15`, borderRadius: 10, padding: 16 }}>
+                <div style={{ color: PURPLE, fontWeight: 700, fontSize: 10, marginBottom: 8 }}>CONTRIBUTION TO ARCHAEOLOGY</div>
+                <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0 }}>{activeVoice.contribution}</p>
               </div>
             </div>
-          )}
-        </div>
+          </div>
+        )}
+
       </div>
     </div>
   );

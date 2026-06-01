@@ -4,6 +4,8 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
+type Tab = "questions" | "methods" | "thinkers" | "resources";
+
 const TOPIC_FILTERS = ["All", "Existence of God", "Problem of Evil", "Jesus & Resurrection", "Bible", "Science & Faith", "Morality", "Other Religions"];
 
 const QUESTIONS = [
@@ -177,11 +179,169 @@ const QUESTIONS = [
   },
 ];
 
+const APOL_METHODS = [
+  {
+    id: "classical",
+    name: "Classical Apologetics",
+    icon: "🏛️",
+    description: "Establishes theism through reason and philosophy first, then moves to Christian evidences. Uses cosmological, ontological, and moral arguments to prove a God exists before addressing the specific claims of Christianity.",
+    strengths: ["Philosophically rigorous", "Addresses foundational worldview questions", "Strong in academic and philosophical contexts", "Works with natural theology"],
+    weaknesses: ["Can feel abstract and detached", "Two-step process may lose audiences", "Relies heavily on philosophical training"],
+    key_proponents: ["Thomas Aquinas", "Norman Geisler", "R.C. Sproul", "J.P. Moreland"],
+  },
+  {
+    id: "evidential",
+    name: "Evidential Apologetics",
+    icon: "🔍",
+    description: "Focuses on historical and empirical evidence for Christianity — particularly the resurrection. Argues that the historical evidence for Jesus's resurrection is compelling enough to justify Christian belief without first proving theism philosophically.",
+    strengths: ["Accessible and concrete", "Engages historical-minded skeptics", "Strong manuscript and archaeological evidence", "Useful in conversations with journalists and lawyers"],
+    weaknesses: ["Can appear to assume naturalism", "Historical probability arguments feel uncertain to some", "Misses deeper worldview presuppositions"],
+    key_proponents: ["Gary Habermas", "Lee Strobel", "Josh McDowell", "N.T. Wright"],
+  },
+  {
+    id: "presuppositional",
+    name: "Presuppositional Apologetics",
+    icon: "🧱",
+    description: "Argues that the unbeliever's worldview is internally incoherent and that only the Christian worldview provides the preconditions for intelligibility, logic, science, and morality. Named for Cornelius Van Til.",
+    strengths: ["Exposes deep worldview assumptions", "Shows Christianity as necessary not just probable", "Avoids conceding neutral ground", "Theologically robust"],
+    weaknesses: ["Can appear circular to critics", "Less accessible to general audiences", "May feel confrontational", "Difficult to apply in casual conversation"],
+    key_proponents: ["Cornelius Van Til", "Greg Bahnsen", "John Frame", "Scott Oliphint"],
+  },
+  {
+    id: "reformed-epistemology",
+    name: "Reformed Epistemology",
+    icon: "🧠",
+    description: "Associated with Alvin Plantinga. Argues that belief in God can be 'properly basic' — rationally justified without requiring argument or evidence, similar to how we accept other foundational beliefs like memory or the external world.",
+    strengths: ["Philosophically sophisticated", "Defends rationality of belief without evidence", "Counters the evidentialist challenge directly", "Strong in academic philosophy"],
+    weaknesses: ["Highly technical — difficult to popularize", "May not satisfy those who want positive arguments", "Seems to sidestep rather than engage skeptics"],
+    key_proponents: ["Alvin Plantinga", "Nicholas Wolterstorff", "William Alston"],
+  },
+  {
+    id: "cumulative",
+    name: "Cumulative Case Apologetics",
+    icon: "📊",
+    description: "Draws on multiple lines of evidence — cosmological, teleological, moral, historical, experiential — arguing that while no single argument is conclusive, the converging weight of evidence makes Christianity the most rational worldview.",
+    strengths: ["Mirrors how we reason in everyday life", "No single point of failure", "Comprehensive and flexible", "Appealing to broad audiences"],
+    weaknesses: ["Can feel like death by a thousand qualifications", "Hard to assess cumulative probability formally", "Requires breadth of knowledge"],
+    key_proponents: ["C.S. Lewis", "Basil Mitchell", "Timothy McGrew", "John Warwick Montgomery"],
+  },
+];
+
+const APOL_THINKERS = [
+  {
+    id: "lewis",
+    name: "C.S. Lewis",
+    era: "1898–1963",
+    specialty: "Literary Apologetics & Reason",
+    bio: "Former atheist and Oxford/Cambridge literature professor who became Christianity's most influential 20th-century defender. His conversion from hard atheism through theism to Christianity gave him unique insight into the skeptic's mind. Known for making profound theological arguments through accessible prose and imaginative fiction.",
+    famous_work: "Mere Christianity (1952)",
+    quote: "I believe in Christianity as I believe that the sun has risen — not only because I see it, but because by it I see everything else.",
+  },
+  {
+    id: "chesterton",
+    name: "G.K. Chesterton",
+    era: "1874–1936",
+    specialty: "Paradox, Culture & Common Sense",
+    bio: "English journalist, poet, and philosopher who defended orthodox Christianity against the progressive skepticism of his era with wit, paradox, and brilliant common sense. His style of argument — turning the objector's assumptions back on themselves — remains unmatched. Converted to Catholicism in 1922.",
+    famous_work: "Orthodoxy (1908)",
+    quote: "The Christian ideal has not been tried and found wanting. It has been found difficult; and left untried.",
+  },
+  {
+    id: "plantinga",
+    name: "Alvin Plantinga",
+    era: "1932–present",
+    specialty: "Reformed Epistemology & Philosophy of Religion",
+    bio: "Retired Notre Dame philosopher widely regarded as the greatest Christian philosopher of the 20th century. Developed the Free Will Defense against the logical problem of evil and the concept of 'warranted' Christian belief. His Evolutionary Argument Against Naturalism is considered one of the strongest arguments against atheism.",
+    famous_work: "Warranted Christian Belief (2000)",
+    quote: "It is entirely right, rational, reasonable, and proper to believe in God without any evidence or argument at all.",
+  },
+  {
+    id: "craig",
+    name: "William Lane Craig",
+    era: "1949–present",
+    specialty: "Philosophical Theology & Resurrection",
+    bio: "American philosopher and theologian who has done more than anyone to restore apologetics to academic respectability. Champion of the Kalam Cosmological Argument and a leading defender of the resurrection's historicity. Has publicly debated leading atheists including Christopher Hitchens, Sam Harris, and Daniel Dennett.",
+    famous_work: "Reasonable Faith (1984)",
+    quote: "The question is not whether God exists, but whether we will acknowledge the God who already exists.",
+  },
+  {
+    id: "zacharias",
+    name: "Ravi Zacharias",
+    era: "1946–2020",
+    specialty: "Cultural Apologetics & Reaching Intellectuals",
+    bio: "Born in India, Ravi Zacharias came to faith after a suicide attempt at 17. He became one of the most gifted communicators in Christian history, speaking at Oxford, Harvard, and in the heart of skeptical cultures worldwide. Known for answering questions behind the questions and addressing the emotional dimensions of doubt alongside the intellectual.",
+    famous_work: "Can Man Live Without God (1994)",
+    quote: "The longing for meaning is not a flaw to be overcome — it is the very signal of a soul made for more than this world.",
+  },
+];
+
+const APOL_RESOURCES = [
+  {
+    id: "mere-christianity",
+    title: "Mere Christianity",
+    author: "C.S. Lewis",
+    type: "book",
+    level: "Beginner",
+    description: "The most accessible entry point into Christian apologetics. Lewis argues from basic moral intuitions to the reasonableness of Christianity. Originally a series of BBC radio broadcasts during World War II.",
+    best_for: "Skeptical friends, seekers, anyone starting their apologetics journey",
+  },
+  {
+    id: "reasonable-faith",
+    title: "Reasonable Faith",
+    author: "William Lane Craig",
+    type: "book",
+    level: "Advanced",
+    description: "The most comprehensive systematic apologetics text available. Covers the existence of God, the resurrection, and the problem of evil with full philosophical rigor. Required reading for serious students.",
+    best_for: "Philosophy students, pastors, serious apologists who want academic depth",
+  },
+  {
+    id: "cold-case",
+    title: "Cold-Case Christianity",
+    author: "J. Warner Wallace",
+    type: "book",
+    level: "Intermediate",
+    description: "A former cold-case detective applies forensic investigation techniques to the Gospels, examining the evidence for Jesus as he would examine a decades-old murder case. Practical, evidence-based, and engaging.",
+    best_for: "Evidence-oriented thinkers, law enforcement, anyone who responds to detective-style reasoning",
+  },
+  {
+    id: "reason-for-god",
+    title: "The Reason for God",
+    author: "Timothy Keller",
+    type: "book",
+    level: "Intermediate",
+    description: "Written for cultural skeptics in secular urban environments. Keller engages objections from his Manhattan congregation and demonstrates that Christian faith is not intellectually naive. Balances philosophy with pastoral warmth.",
+    best_for: "Urban professionals, cultural skeptics, readers who care about justice and culture",
+  },
+  {
+    id: "orthodoxy",
+    title: "Orthodoxy",
+    author: "G.K. Chesterton",
+    type: "book",
+    level: "Intermediate",
+    description: "Chesterton's account of how he arrived at orthodox Christianity by following the logic of his own imagination and experience. Dense, witty, and unlike anything else in Christian literature. A masterclass in thinking Christianly.",
+    best_for: "Literary readers, those who enjoy paradox and wit, people bored by standard apologetics",
+  },
+  {
+    id: "case-for-christ",
+    title: "The Case for Christ",
+    author: "Lee Strobel",
+    type: "book",
+    level: "Beginner",
+    description: "A former legal editor at the Chicago Tribune interviews leading New Testament scholars after his wife's conversion. Covers the historical evidence for Jesus's life, death, and resurrection in accessible journalistic style.",
+    best_for: "Complete beginners, those who are skeptical of the resurrection's historical basis",
+  },
+];
+
 export default function ApologeticsQuestionsPage() {
+  const [activeTab, setActiveTab] = useState<Tab>("questions");
   const [topic, setTopic] = useState("All");
   const [expanded, setExpanded] = useState<string | null>(null);
+  const [selectedThinker, setSelectedThinker] = useState<string | null>(null);
 
   const filtered = QUESTIONS.filter(q => topic === "All" || q.topic === topic);
+
+  const levelColor = (level: string) => level === "Beginner" ? GREEN : level === "Advanced" ? "#EF4444" : PURPLE;
+  const typeColor = (type: string) => type === "book" ? "#F59E0B" : type === "podcast" ? "#3B82F6" : type === "website" ? "#10B981" : "#EC4899";
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 40 }}>
@@ -190,77 +350,215 @@ export default function ApologeticsQuestionsPage() {
           <div style={{ fontSize: 48, marginBottom: 12 }}>❓</div>
           <h1 style={{ fontSize: 32, fontWeight: 900, marginBottom: 8 }}>Tough Questions, Real Answers</h1>
           <p style={{ color: MUTED, fontSize: 16, maxWidth: 580, margin: "0 auto" }}>
-            The most common challenges to the Christian faith — answered honestly, with depth, and with the best scholarship available. Not for silencing questions but for thinking them through.
+            The most common challenges to the Christian faith &mdash; answered honestly, with depth, and with the best scholarship available. Not for silencing questions but for thinking them through.
           </p>
         </div>
 
-        <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 24, display: "flex", gap: 12, alignItems: "flex-start" }}>
-          <span style={{ fontSize: 24, flexShrink: 0 }}>💡</span>
-          <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>
-            1 Peter 3:15: "Always be prepared to give an answer to everyone who asks you to give the reason for the hope that you have — but do this with gentleness and respect." Apologetics is not winning arguments; it is removing intellectual obstacles so people can consider the gospel clearly.
-          </p>
-        </div>
-
-        <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 24 }}>
-          {TOPIC_FILTERS.map(t => (
-            <button key={t} onClick={() => setTopic(t)}
-              style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${topic === t ? GREEN : BORDER}`, background: topic === t ? `${GREEN}15` : "transparent", color: topic === t ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
-              {t}
+        {/* Tab bar */}
+        <div style={{ display: "flex", gap: 4, marginBottom: 28, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 6 }}>
+          {(["questions", "methods", "thinkers", "resources"] as const).map(t => (
+            <button key={t} onClick={() => setActiveTab(t)}
+              style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer", flex: 1 }}>
+              {t === "questions" ? "Questions" : t === "methods" ? "Methods" : t === "thinkers" ? "Thinkers" : "Resources"}
             </button>
           ))}
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-          {filtered.map((item, i) => (
-            <div key={i}>
-              <button onClick={() => setExpanded(expanded === item.q ? null : item.q)}
-                style={{ width: "100%", background: expanded === item.q ? `${item.color}10` : CARD, border: `1px solid ${expanded === item.q ? item.color + "40" : BORDER}`, borderRadius: expanded === item.q ? "12px 12px 0 0" : 12, padding: "16px 20px", cursor: "pointer", textAlign: "left", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
-                <div style={{ flex: 1 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4, flexWrap: "wrap" }}>
-                    <span style={{ background: `${item.color}15`, color: item.color, padding: "1px 8px", borderRadius: 8, fontSize: 10, fontWeight: 700 }}>{item.topic}</span>
-                  </div>
-                  <div style={{ color: TEXT, fontWeight: 700, fontSize: 15 }}>"{item.q}"</div>
-                  {expanded !== item.q && (
-                    <div style={{ color: MUTED, fontSize: 12, marginTop: 4, lineHeight: 1.5 }}>{item.quick}</div>
+        {/* Questions tab */}
+        {activeTab === "questions" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 24, display: "flex", gap: 12, alignItems: "flex-start" }}>
+              <span style={{ fontSize: 24, flexShrink: 0 }}>💡</span>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>
+                1 Peter 3:15: &ldquo;Always be prepared to give an answer to everyone who asks you to give the reason for the hope that you have &mdash; but do this with gentleness and respect.&rdquo; Apologetics is not winning arguments; it is removing intellectual obstacles so people can consider the gospel clearly.
+              </p>
+            </div>
+
+            <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 24 }}>
+              {TOPIC_FILTERS.map(t => (
+                <button key={t} onClick={() => setTopic(t)}
+                  style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${topic === t ? GREEN : BORDER}`, background: topic === t ? `${GREEN}15` : "transparent", color: topic === t ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
+                  {t}
+                </button>
+              ))}
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              {filtered.map((item, i) => (
+                <div key={i}>
+                  <button onClick={() => setExpanded(expanded === item.q ? null : item.q)}
+                    style={{ width: "100%", background: expanded === item.q ? `${item.color}10` : CARD, border: `1px solid ${expanded === item.q ? item.color + "40" : BORDER}`, borderRadius: expanded === item.q ? "12px 12px 0 0" : 12, padding: "16px 20px", cursor: "pointer", textAlign: "left", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4, flexWrap: "wrap" }}>
+                        <span style={{ background: `${item.color}15`, color: item.color, padding: "1px 8px", borderRadius: 8, fontSize: 10, fontWeight: 700 }}>{item.topic}</span>
+                      </div>
+                      <div style={{ color: TEXT, fontWeight: 700, fontSize: 15 }}>&ldquo;{item.q}&rdquo;</div>
+                      {expanded !== item.q && (
+                        <div style={{ color: MUTED, fontSize: 12, marginTop: 4, lineHeight: 1.5 }}>{item.quick}</div>
+                      )}
+                    </div>
+                    <span style={{ color: item.color, flexShrink: 0 }}>{expanded === item.q ? "−" : "+"}</span>
+                  </button>
+
+                  {expanded === item.q && (
+                    <div style={{ background: BG, border: `1px solid ${item.color}20`, borderTop: "none", borderRadius: "0 0 12px 12px", padding: 22 }}>
+                      <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.85, marginBottom: 16 }}>{item.a}</p>
+                      <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                        <div style={{ background: `${item.color}08`, border: `1px solid ${item.color}20`, borderRadius: 8, padding: "6px 12px" }}>
+                          <span style={{ color: item.color, fontWeight: 700, fontSize: 10 }}>KEY TEXTS: </span>
+                          <span style={{ color: MUTED, fontSize: 11 }}>{item.key_text}</span>
+                        </div>
+                      </div>
+                    </div>
                   )}
                 </div>
-                <span style={{ color: item.color, flexShrink: 0 }}>{expanded === item.q ? "−" : "+"}</span>
-              </button>
+              ))}
+            </div>
 
-              {expanded === item.q && (
-                <div style={{ background: BG, border: `1px solid ${item.color}20`, borderTop: "none", borderRadius: "0 0 12px 12px", padding: 22 }}>
-                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.85, marginBottom: 16 }}>{item.a}</p>
-                  <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                    <div style={{ background: `${item.color}08`, border: `1px solid ${item.color}20`, borderRadius: 8, padding: "6px 12px" }}>
-                      <span style={{ color: item.color, fontWeight: 700, fontSize: 10 }}>KEY TEXTS: </span>
-                      <span style={{ color: MUTED, fontSize: 11 }}>{item.key_text}</span>
+            <div style={{ background: CARD, border: `1px solid ${PURPLE}20`, borderRadius: 12, padding: 24, marginTop: 32 }}>
+              <h3 style={{ color: PURPLE, fontWeight: 900, fontSize: 16, marginBottom: 12 }}>Recommended Further Study</h3>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 10 }}>
+                {[
+                  { title: "Mere Christianity", author: "C.S. Lewis", type: "Book" },
+                  { title: "The Case for Christ", author: "Lee Strobel", type: "Book" },
+                  { title: "I Don't Have Enough Faith to Be an Atheist", author: "Geisler & Turek", type: "Book" },
+                  { title: "The Reason for God", author: "Tim Keller", type: "Book" },
+                  { title: "Reasonable Faith", author: "William Lane Craig", type: "Book" },
+                  { title: "CrossExamined YouTube", author: "Frank Turek", type: "Video" },
+                ].map((r, i) => (
+                  <div key={i} style={{ background: `${PURPLE}08`, border: `1px solid ${PURPLE}15`, borderRadius: 8, padding: 12 }}>
+                    <div style={{ color: TEXT, fontWeight: 700, fontSize: 13 }}>{r.title}</div>
+                    <div style={{ color: MUTED, fontSize: 11, marginTop: 2 }}>{r.author}</div>
+                    <div style={{ color: PURPLE, fontSize: 10, fontWeight: 700, marginTop: 4 }}>{r.type}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Methods tab */}
+        {activeTab === "methods" && (
+          <div>
+            <div style={{ marginBottom: 24 }}>
+              <h2 style={{ fontSize: 22, fontWeight: 900, marginBottom: 8 }}>Apologetic Methods</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7 }}>
+                Different schools of Christian apologetics use different strategies to defend and commend the faith. Each has strengths depending on the audience and context.
+              </p>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+              {APOL_METHODS.map(method => (
+                <div key={method.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
+                    <span style={{ fontSize: 28 }}>{method.icon}</span>
+                    <div>
+                      <h3 style={{ color: TEXT, fontWeight: 900, fontSize: 17, margin: 0 }}>{method.name}</h3>
+                      <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>
+                        {method.key_proponents.join(" · ")}
+                      </div>
+                    </div>
+                  </div>
+                  <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.75, marginBottom: 16 }}>{method.description}</p>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                    <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 10, padding: 14 }}>
+                      <div style={{ color: GREEN, fontWeight: 900, fontSize: 11, marginBottom: 8, textTransform: "uppercase", letterSpacing: 1 }}>Strengths</div>
+                      {method.strengths.map((s, i) => (
+                        <div key={i} style={{ display: "flex", gap: 6, alignItems: "flex-start", marginBottom: 5 }}>
+                          <span style={{ color: GREEN, flexShrink: 0, fontSize: 12, marginTop: 1 }}>+</span>
+                          <span style={{ color: TEXT, fontSize: 13, lineHeight: 1.5 }}>{s}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <div style={{ background: `rgba(239,68,68,0.05)`, border: `1px solid rgba(239,68,68,0.15)`, borderRadius: 10, padding: 14 }}>
+                      <div style={{ color: MUTED, fontWeight: 900, fontSize: 11, marginBottom: 8, textTransform: "uppercase", letterSpacing: 1 }}>Weaknesses</div>
+                      {method.weaknesses.map((w, i) => (
+                        <div key={i} style={{ display: "flex", gap: 6, alignItems: "flex-start", marginBottom: 5 }}>
+                          <span style={{ color: MUTED, flexShrink: 0, fontSize: 12, marginTop: 1 }}>−</span>
+                          <span style={{ color: MUTED, fontSize: 13, lineHeight: 1.5 }}>{w}</span>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
-              )}
+              ))}
             </div>
-          ))}
-        </div>
-
-        <div style={{ background: CARD, border: `1px solid ${PURPLE}20`, borderRadius: 12, padding: 24, marginTop: 32 }}>
-          <h3 style={{ color: PURPLE, fontWeight: 900, fontSize: 16, marginBottom: 12 }}>Recommended Further Study</h3>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 10 }}>
-            {[
-              { title: "Mere Christianity", author: "C.S. Lewis", type: "Book" },
-              { title: "The Case for Christ", author: "Lee Strobel", type: "Book" },
-              { title: "I Don't Have Enough Faith to Be an Atheist", author: "Geisler & Turek", type: "Book" },
-              { title: "The Reason for God", author: "Tim Keller", type: "Book" },
-              { title: "Reasonable Faith", author: "William Lane Craig", type: "Book" },
-              { title: "CrossExamined YouTube", author: "Frank Turek", type: "Video" },
-            ].map((r, i) => (
-              <div key={i} style={{ background: `${PURPLE}08`, border: `1px solid ${PURPLE}15`, borderRadius: 8, padding: 12 }}>
-                <div style={{ color: TEXT, fontWeight: 700, fontSize: 13 }}>{r.title}</div>
-                <div style={{ color: MUTED, fontSize: 11, marginTop: 2 }}>{r.author}</div>
-                <div style={{ color: PURPLE, fontSize: 10, fontWeight: 700, marginTop: 4 }}>{r.type}</div>
-              </div>
-            ))}
           </div>
-        </div>
+        )}
+
+        {/* Thinkers tab */}
+        {activeTab === "thinkers" && (
+          <div>
+            <div style={{ marginBottom: 24 }}>
+              <h2 style={{ fontSize: 22, fontWeight: 900, marginBottom: 8 }}>Great Apologists</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7 }}>
+                Thinkers who have shaped the intellectual defense of Christianity. Select any to read their story and contribution.
+              </p>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 14, marginBottom: 24 }}>
+              {APOL_THINKERS.map(thinker => (
+                <button key={thinker.id} onClick={() => setSelectedThinker(selectedThinker === thinker.id ? null : thinker.id)}
+                  style={{ background: selectedThinker === thinker.id ? `${PURPLE}18` : CARD, border: `1px solid ${selectedThinker === thinker.id ? PURPLE : BORDER}`, borderRadius: 12, padding: 18, cursor: "pointer", textAlign: "left", transition: "all 0.15s" }}>
+                  <div style={{ color: PURPLE, fontWeight: 900, fontSize: 16, marginBottom: 4 }}>{thinker.name}</div>
+                  <div style={{ color: MUTED, fontSize: 11, marginBottom: 6 }}>{thinker.era}</div>
+                  <div style={{ background: `${PURPLE}12`, color: PURPLE, borderRadius: 6, padding: "2px 8px", fontSize: 10, fontWeight: 700, display: "inline-block" }}>{thinker.specialty}</div>
+                </button>
+              ))}
+            </div>
+
+            {selectedThinker && (() => {
+              const t = APOL_THINKERS.find(th => th.id === selectedThinker)!;
+              return (
+                <div style={{ background: CARD, border: `1px solid ${PURPLE}30`, borderRadius: 14, padding: 28 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16, flexWrap: "wrap", gap: 8 }}>
+                    <div>
+                      <h3 style={{ color: TEXT, fontWeight: 900, fontSize: 20, margin: "0 0 4px" }}>{t.name}</h3>
+                      <div style={{ color: MUTED, fontSize: 13 }}>{t.era} &nbsp;&middot;&nbsp; {t.specialty}</div>
+                    </div>
+                    <div style={{ background: `${PURPLE}15`, border: `1px solid ${PURPLE}30`, borderRadius: 8, padding: "6px 12px", fontSize: 12, color: PURPLE, fontWeight: 700 }}>
+                      {t.famous_work}
+                    </div>
+                  </div>
+                  <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.8, marginBottom: 20 }}>{t.bio}</p>
+                  <blockquote style={{ borderLeft: `3px solid ${PURPLE}`, margin: 0, paddingLeft: 16 }}>
+                    <p style={{ color: TEXT, fontSize: 14, fontStyle: "italic", lineHeight: 1.7, margin: 0 }}>
+                      &ldquo;{t.quote}&rdquo;
+                    </p>
+                  </blockquote>
+                </div>
+              );
+            })()}
+          </div>
+        )}
+
+        {/* Resources tab */}
+        {activeTab === "resources" && (
+          <div>
+            <div style={{ marginBottom: 24 }}>
+              <h2 style={{ fontSize: 22, fontWeight: 900, marginBottom: 8 }}>Apologetics Resources</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7 }}>
+                Curated books, podcasts, and courses to build your apologetics foundation — from first conversations to serious academic study.
+              </p>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(340px, 1fr))", gap: 16 }}>
+              {APOL_RESOURCES.map(res => (
+                <div key={res.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 22 }}>
+                  <div style={{ display: "flex", gap: 8, marginBottom: 12, flexWrap: "wrap" }}>
+                    <span style={{ background: `${levelColor(res.level)}18`, color: levelColor(res.level), borderRadius: 6, padding: "3px 10px", fontSize: 11, fontWeight: 700 }}>{res.level}</span>
+                    <span style={{ background: `${typeColor(res.type)}18`, color: typeColor(res.type), borderRadius: 6, padding: "3px 10px", fontSize: 11, fontWeight: 700, textTransform: "capitalize" }}>{res.type}</span>
+                  </div>
+                  <h3 style={{ color: TEXT, fontWeight: 900, fontSize: 16, marginBottom: 4 }}>{res.title}</h3>
+                  <div style={{ color: MUTED, fontSize: 12, marginBottom: 12 }}>{res.author}</div>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.7, marginBottom: 14 }}>{res.description}</p>
+                  <div style={{ borderTop: `1px solid ${BORDER}`, paddingTop: 12 }}>
+                    <span style={{ color: GREEN, fontWeight: 700, fontSize: 11 }}>Best for: </span>
+                    <span style={{ color: GREEN, fontSize: 13 }}>{res.best_for}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
       </div>
     </div>
   );

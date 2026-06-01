@@ -2,6 +2,14 @@
 
 import { useState, useEffect } from "react";
 
+const BG = "#07070F";
+const CARD = "#12121F";
+const BORDER = "#1E1E32";
+const GREEN = "#00FF88";
+const PURPLE = "#6B4FBB";
+const TEXT = "#F2F2F8";
+const MUTED = "#9898B3";
+
 interface CountryPrayer {
   id: string;
   flag: string;
@@ -18,6 +26,36 @@ interface CountryPrayer {
   verseRef: string;
   missionaryPresence: "Strong" | "Moderate" | "Minimal" | "None";
 }
+
+interface PrayerMovement {
+  id: string;
+  name: string;
+  founded: number;
+  founder: string;
+  description: string;
+  impact: string;
+  website_hint: string;
+}
+
+interface PrayerScripture {
+  id: string;
+  ref: string;
+  text: string;
+  theme: string;
+  application: string;
+}
+
+interface VoiceWPrayer {
+  id: string;
+  name: string;
+  era: string;
+  context: string;
+  bio: string;
+  quote: string;
+  contribution: string;
+}
+
+type Tab = "countries" | "movements" | "scripture" | "voices";
 
 const countries: CountryPrayer[] = [
   {
@@ -202,11 +240,162 @@ const countries: CountryPrayer[] = [
   },
 ];
 
+const PRAYER_MOVEMENTS: PrayerMovement[] = [
+  {
+    id: "m1",
+    name: "24/7 Prayer",
+    founded: 1999,
+    founder: "Pete Greig",
+    description: "A non-stop, night-and-day prayer movement that began in a small town in England and spread to over 100 nations. Known for its raw, honest, creative approach to intercession and its work among the poor.",
+    impact: "Prayer rooms in 100+ nations, thousands of young people mobilized, Red Moon Rising movement launched globally.",
+    website_hint: "24-7prayer.com",
+  },
+  {
+    id: "m2",
+    name: "International House of Prayer",
+    founded: 1999,
+    founder: "Mike Bickle",
+    description: "A 24/7 prayer and worship ministry based in Kansas City, Missouri. Combines intercession with prophetic worship and training programs. Has become one of the most influential prayer centers in the modern charismatic world.",
+    impact: "Continuous worship and prayer since 1999, thousands trained annually, IHOPU school of ministry established.",
+    website_hint: "ihopkc.org",
+  },
+  {
+    id: "m3",
+    name: "World Prayer Center",
+    founded: 1998,
+    founder: "Ted Haggard & C. Peter Wagner",
+    description: "Founded in Colorado Springs as a hub for global prayer networks and spiritual mapping. Sought to connect prayer movements worldwide and coordinate intercession for unreached peoples and nations.",
+    impact: "Connected global prayer networks, produced prayer resources for unreached peoples, hosted major prayer summits.",
+    website_hint: "worldprayercenter.org",
+  },
+  {
+    id: "m4",
+    name: "Concerts of Prayer International",
+    founded: 1988,
+    founder: "David Bryant",
+    description: "A movement calling the church to united, extraordinary prayer for spiritual awakening and world evangelization. Known for its Concert of Prayer format that brings congregations together across denominational lines.",
+    impact: "Unified thousands of congregations in prayer, developed the Seek God for the City prayer guide, mobilized prayer for unreached peoples.",
+    website_hint: "prayeroncall.org",
+  },
+  {
+    id: "m5",
+    name: "Prayercast",
+    founded: 2009,
+    founder: "Team-led (no single founder)",
+    description: "An online video prayer ministry producing high-quality documentary-style videos for every nation on earth. Uses stunning visuals, facts, and Scripture to guide believers through focused intercession for specific countries and peoples.",
+    impact: "Videos for 200+ nations, millions of views globally, widely used in churches and prayer meetings for world intercession.",
+    website_hint: "prayercast.com",
+  },
+  {
+    id: "m6",
+    name: "Global Day of Prayer",
+    founded: 2001,
+    founder: "Graham Power",
+    description: "An annual worldwide prayer event originating in Cape Town, South Africa, culminating on Pentecost Sunday. Unites believers from every nation in a single day of repentance and intercession for the world.",
+    impact: "Hundreds of millions of believers participating in 220 nations annually, among the largest coordinated prayer events in history.",
+    website_hint: "globaldayofprayer.com",
+  },
+];
+
+const PRAYER_SCRIPTURE: PrayerScripture[] = [
+  {
+    id: "s1",
+    ref: "Matthew 9:37-38",
+    text: "The harvest is plentiful but the workers are few. Ask the Lord of the harvest, therefore, to send out workers into his harvest field.",
+    theme: "The Harvest and Laborers",
+    application: "Pray specifically for God to call and send missionaries to the least-reached nations. Intercede for those sensing a call to go.",
+  },
+  {
+    id: "s2",
+    ref: "Isaiah 56:7",
+    text: "These I will bring to my holy mountain and give them joy in my house of prayer. Their burnt offerings and sacrifices will be accepted on my altar; for my house will be called a house of prayer for all nations.",
+    theme: "House of Prayer for All Nations",
+    application: "Pray that your church becomes a genuine house of prayer for the nations. Ask God to stir global intercession in every local congregation.",
+  },
+  {
+    id: "s3",
+    ref: "Psalm 67:3-5",
+    text: "May the peoples praise you, God; may all the peoples praise you. May the nations be glad and sing for joy, for you rule the peoples with equity and guide the nations of the earth.",
+    theme: "Let All Peoples Praise",
+    application: "Intercede for worship to break out among unreached people groups. Pray for indigenous worship expressions to rise in every tongue and tribe.",
+  },
+  {
+    id: "s4",
+    ref: "Revelation 7:9-10",
+    text: "After this I looked, and there before me was a great multitude that no one could count, from every nation, tribe, people and language, standing before the throne and before the Lamb. They cried out in a loud voice: 'Salvation belongs to our God, who sits on the throne, and to the Lamb!'",
+    theme: "Every Nation Before the Throne",
+    application: "Let this vision fuel your prayers. Every people group represented in that multitude must first be reached. Pray with the end in view.",
+  },
+  {
+    id: "s5",
+    ref: "Romans 10:14-15",
+    text: "How, then, can they call on the one they have not believed in? And how can they believe in the one of whom they have not heard? And how can they hear without someone preaching to them? And how can anyone preach unless they are sent?",
+    theme: "How Shall They Hear?",
+    application: "Pray for the chain of mission to remain unbroken — senders, goers, proclaimers. Ask God to raise up every link needed to reach the unreached.",
+  },
+  {
+    id: "s6",
+    ref: "1 Timothy 2:1-4",
+    text: "I urge, then, first of all, that petitions, prayers, intercession and thanksgiving be made for all people — for kings and all those in authority... This is good, and pleases God our Savior, who wants all people to be saved and to come to a knowledge of the truth.",
+    theme: "Pray for All People",
+    application: "Pray for governments, leaders, and authorities in restricted nations. Ask God to open doors through political change and for His will to be done in every capital city.",
+  },
+];
+
+const VOICES_WPRAYER: VoiceWPrayer[] = [
+  {
+    id: "v1",
+    name: "E.M. Bounds",
+    era: "1835-1913",
+    context: "American Methodist pastor and author, Civil War chaplain",
+    bio: "Edward McKendree Bounds spent the last 17 years of his life rising at 4am to pray for three hours every morning. He wrote eight books on prayer, most published after his death. His life was a living argument for everything he wrote.",
+    quote: "Prayer is not preparation for the work. Prayer is the work.",
+    contribution: "His book Power Through Prayer remains one of the most widely read works on intercession ever written, challenging the church to treat prayer as the central activity of ministry rather than its supplement.",
+  },
+  {
+    id: "v2",
+    name: "Reginald Heber",
+    era: "1783-1826",
+    context: "Anglican bishop, hymn writer, missionary to India",
+    bio: "Reginald Heber served as Bishop of Calcutta from 1823 until his death at 43. He was one of the first voices in the English church to stir missionary awareness through hymnody, writing poetry that shaped how the church prayed for and imagined the unreached world.",
+    quote: "From Greenland's icy mountains, from India's coral strand — where Afric's sunny fountains roll down their golden sand — from many an ancient river, from many a palmy plain, they call us to deliver their land from error's chain.",
+    contribution: "His hymn 'From Greenland's Icy Mountains' became one of the great missionary mobilization hymns of the 19th century, planting the global vision of the Great Commission in the hearts of ordinary congregations.",
+  },
+  {
+    id: "v3",
+    name: "Cameron Townsend",
+    era: "1896-1982",
+    context: "Founder of Wycliffe Bible Translators and SIL International",
+    bio: "William Cameron Townsend went to Guatemala as a Bible salesman and discovered that millions of indigenous people had no Scripture in their language. He learned Cakchiquel, translated the New Testament, and then founded the largest Bible translation organization in history.",
+    quote: "The greatest missionary is the Bible in the mother tongue. It never needs a furlough, is never considered a foreigner.",
+    contribution: "Townsend's vision — that every people group deserves Scripture in their own language — gave birth to Wycliffe Bible Translators and SIL, which have now produced translations for over 700 languages with work ongoing in 2,000 more.",
+  },
+  {
+    id: "v4",
+    name: "Patrick Johnstone",
+    era: "1934-present",
+    context: "Missiologist, WEC International, author of Operation World",
+    bio: "Patrick Johnstone served as a missionary in Africa and spent decades compiling and updating Operation World, the definitive prayer guide to every nation on earth. His statistical and spiritual analysis of global mission has informed the prayer strategies of churches worldwide.",
+    quote: "Every Christian should be a world Christian. Not everyone can go, but everyone can pray — and prayer is the most powerful thing any believer can do for the unreached.",
+    contribution: "Operation World, first published in 1974, has shaped how the global church prays for nations for over 50 years. Johnstone's meticulous research transformed vague concern into informed, strategic intercession.",
+  },
+  {
+    id: "v5",
+    name: "Pete Greig",
+    era: "1966-present",
+    context: "Co-founder of 24/7 Prayer, pastor, author",
+    bio: "Pete Greig started a prayer room in Chichester, England in 1999 that was never meant to last more than a weekend. It ran continuously for months, then spread to dozens of nations. He went on to author some of the most important books on prayer of the 21st century.",
+    quote: "The church that prays together does extraordinary things. Not because of the power of prayer, but because of the power of God who answers prayer.",
+    contribution: "Greig's 24/7 Prayer movement and books like Red Moon Rising and God on Mute have revived grassroots prayer culture across generations, particularly among young people who had never experienced sustained intercession.",
+  },
+];
+
 const regions = ["All Regions", "South Asia", "East Asia", "Middle East", "West Africa", "East Africa", "Latin America", "Southeast Asia", "Eastern Europe", "Central Asia"];
 const statusColors = { Open: "#00FF88", Restricted: "#F59E0B", Persecuted: "#EF4444" };
 const missionaryColors = { Strong: "#00FF88", Moderate: "#3B82F6", Minimal: "#F59E0B", None: "#EF4444" };
 
 export default function WorldPrayerPage() {
+  const [activeTab, setActiveTab] = useState<Tab>("countries");
   const [prayedFor, setPrayedFor] = useState<Set<string>>(new Set());
   const [savedCountries, setSavedCountries] = useState<Set<string>>(new Set());
   const [selected, setSelected] = useState<CountryPrayer | null>(null);
@@ -214,6 +403,7 @@ export default function WorldPrayerPage() {
   const [filterStatus, setFilterStatus] = useState("All");
   const [search, setSearch] = useState("");
   const [prayerLog, setPrayerLog] = useState<{ countryId: string; date: string }[]>([]);
+  const [selectedVoice, setSelectedVoice] = useState<VoiceWPrayer>(VOICES_WPRAYER[0]);
 
   useEffect(() => {
     try {
@@ -260,12 +450,12 @@ export default function WorldPrayerPage() {
   const countriesPrayed = new Set(prayerLog.map((l) => l.countryId)).size;
 
   return (
-    <div style={{ minHeight: "100vh", background: "#07070F", color: "#F2F2F8" }}>
+    <div style={{ minHeight: "100vh", background: BG, color: TEXT }}>
       {/* Hero */}
-      <div style={{ background: "linear-gradient(135deg, #071428 0%, #07070F 100%)", padding: "52px 24px 36px", textAlign: "center", borderBottom: "1px solid #1E1E32" }}>
+      <div style={{ background: "linear-gradient(135deg, #071428 0%, #07070F 100%)", padding: "52px 24px 36px", textAlign: "center", borderBottom: `1px solid ${BORDER}` }}>
         <div style={{ fontSize: 44, marginBottom: 10 }}>🌍</div>
         <h1 style={{ fontSize: 36, fontWeight: 700, marginBottom: 8 }}>World Prayer</h1>
-        <p style={{ fontSize: 16, color: "#9898B3", maxWidth: 520, margin: "0 auto 24px" }}>
+        <p style={{ fontSize: 16, color: MUTED, maxWidth: 520, margin: "0 auto 24px" }}>
           Pray for nations. Every country. Every people group. Join thousands interceding for the globe.
         </p>
         <div style={{ display: "flex", justifyContent: "center", gap: 40, flexWrap: "wrap" }}>
@@ -276,128 +466,267 @@ export default function WorldPrayerPage() {
             { value: prayedFor.size.toString(), label: "Currently Praying For" },
           ].map((s) => (
             <div key={s.label}>
-              <div style={{ fontSize: 24, fontWeight: 700, color: "#00FF88" }}>{s.value}</div>
-              <div style={{ fontSize: 12, color: "#9898B3" }}>{s.label}</div>
+              <div style={{ fontSize: 24, fontWeight: 700, color: GREEN }}>{s.value}</div>
+              <div style={{ fontSize: 12, color: MUTED }}>{s.label}</div>
             </div>
           ))}
         </div>
       </div>
 
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "28px 24px" }}>
-        {/* Filters */}
-        <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 24, alignItems: "center" }}>
-          <input value={search} onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search country..."
-            style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 10, padding: "9px 14px", color: "#F2F2F8", fontSize: 13, outline: "none", minWidth: 200 }} />
-
-          <div style={{ display: "flex", gap: 6 }}>
-            {["All", "Open", "Restricted", "Persecuted"].map((s) => (
-              <button key={s} onClick={() => setFilterStatus(s)}
-                style={{ padding: "6px 14px", borderRadius: 20, fontSize: 12, cursor: "pointer",
-                  border: `1px solid ${filterStatus === s ? (s === "All" ? "#6B4FBB" : statusColors[s as keyof typeof statusColors]) : "#1E1E32"}`,
-                  background: filterStatus === s ? `${s === "All" ? "#6B4FBB" : statusColors[s as keyof typeof statusColors]}20` : "transparent",
-                  color: filterStatus === s ? (s === "All" ? "#6B4FBB" : statusColors[s as keyof typeof statusColors]) : "#9898B3" }}>
-                {s}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 24 }}>
-          {regions.map((r) => (
-            <button key={r} onClick={() => setFilterRegion(r)}
-              style={{ padding: "5px 12px", borderRadius: 20, fontSize: 11, cursor: "pointer",
-                border: `1px solid ${filterRegion === r ? "#00FF88" : "#1E1E32"}`,
-                background: filterRegion === r ? "#00FF8815" : "transparent",
-                color: filterRegion === r ? "#00FF88" : "#9898B3" }}>
-              {r}
+      {/* Tab Bar */}
+      <div style={{ borderBottom: `1px solid ${BORDER}`, background: CARD }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", display: "flex", gap: 4 }}>
+          {(["countries", "movements", "scripture", "voices"] as const).map(t => (
+            <button key={t} onClick={() => setActiveTab(t)}
+              style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer", margin: "8px 0" }}>
+              {t === "countries" ? "Countries" : t === "movements" ? "Movements" : t === "scripture" ? "Scripture" : "Voices"}
             </button>
           ))}
         </div>
-
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: 18 }}>
-          {filtered.map((c) => {
-            const prayed = prayedFor.has(c.id);
-            const saved = savedCountries.has(c.id);
-            return (
-              <div key={c.id}
-                style={{
-                  background: "#12121F",
-                  border: `1px solid ${prayed ? "#00FF8830" : "#1E1E32"}`,
-                  borderRadius: 16, padding: 20, cursor: "pointer",
-                }}
-                onClick={() => setSelected(c)}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
-                  <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-                    <div style={{ fontSize: 32 }}>{c.flag}</div>
-                    <div>
-                      <div style={{ fontSize: 16, fontWeight: 700, color: "#F2F2F8" }}>{c.country}</div>
-                      <div style={{ fontSize: 12, color: "#9898B3" }}>{c.region}</div>
-                    </div>
-                  </div>
-                  <div style={{ display: "flex", gap: 6, flexDirection: "column", alignItems: "flex-end" }}>
-                    <div style={{ padding: "2px 10px", borderRadius: 20, fontSize: 11, fontWeight: 600,
-                      background: `${statusColors[c.status]}20`, color: statusColors[c.status], border: `1px solid ${statusColors[c.status]}40` }}>
-                      {c.status}
-                    </div>
-                    <div style={{ fontSize: 10, color: missionaryColors[c.missionaryPresence] }}>
-                      ✦ {c.missionaryPresence} presence
-                    </div>
-                  </div>
-                </div>
-
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8, marginBottom: 14 }}>
-                  {[
-                    { label: "Population", value: c.population },
-                    { label: "Christians", value: `${c.christianPercent}%` },
-                    { label: "Unreached Groups", value: c.unreachedGroups.toString() },
-                  ].map((stat) => (
-                    <div key={stat.label} style={{ background: "#07070F", borderRadius: 8, padding: "8px 10px", textAlign: "center" }}>
-                      <div style={{ fontSize: 14, fontWeight: 700, color: "#F2F2F8" }}>{stat.value}</div>
-                      <div style={{ fontSize: 9, color: "#9898B3" }}>{stat.label}</div>
-                    </div>
-                  ))}
-                </div>
-
-                <div style={{ borderLeft: "2px solid #6B4FBB40", paddingLeft: 10, marginBottom: 14 }}>
-                  <div style={{ fontSize: 12, color: "#9898B3", fontStyle: "italic" }}>"{c.verse}"</div>
-                  <div style={{ fontSize: 10, color: "#6B4FBB", marginTop: 2 }}>{c.verseRef}</div>
-                </div>
-
-                <div style={{ display: "flex", gap: 8 }}>
-                  <button onClick={(e) => { e.stopPropagation(); handlePray(c.id); }}
-                    style={{
-                      flex: 1, padding: "8px 12px", borderRadius: 8, border: "none",
-                      background: prayed ? "#00FF8820" : "#6B4FBB",
-                      color: prayed ? "#00FF88" : "#fff",
-                      cursor: "pointer", fontWeight: 600, fontSize: 13,
-                    }}>
-                    {prayed ? "🙏 Praying" : "Pray for this Nation"}
-                  </button>
-                  <button onClick={(e) => { e.stopPropagation(); handleSave(c.id); }}
-                    style={{ padding: "8px 12px", borderRadius: 8, border: "none", background: saved ? "#6B4FBB20" : "#1E1E32", color: saved ? "#6B4FBB" : "#9898B3", cursor: "pointer", fontSize: 15 }}>
-                    {saved ? "★" : "☆"}
-                  </button>
-                </div>
-              </div>
-            );
-          })}
-        </div>
       </div>
 
-      {/* Country Detail Modal */}
+      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "28px 24px" }}>
+
+        {/* Countries Tab */}
+        {activeTab === "countries" && (
+          <div>
+            {/* Filters */}
+            <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 24, alignItems: "center" }}>
+              <input value={search} onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search country..."
+                style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "9px 14px", color: TEXT, fontSize: 13, outline: "none", minWidth: 200 }} />
+
+              <div style={{ display: "flex", gap: 6 }}>
+                {["All", "Open", "Restricted", "Persecuted"].map((s) => (
+                  <button key={s} onClick={() => setFilterStatus(s)}
+                    style={{ padding: "6px 14px", borderRadius: 20, fontSize: 12, cursor: "pointer",
+                      border: `1px solid ${filterStatus === s ? (s === "All" ? PURPLE : statusColors[s as keyof typeof statusColors]) : BORDER}`,
+                      background: filterStatus === s ? `${s === "All" ? PURPLE : statusColors[s as keyof typeof statusColors]}20` : "transparent",
+                      color: filterStatus === s ? (s === "All" ? PURPLE : statusColors[s as keyof typeof statusColors]) : MUTED }}>
+                    {s}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 24 }}>
+              {regions.map((r) => (
+                <button key={r} onClick={() => setFilterRegion(r)}
+                  style={{ padding: "5px 12px", borderRadius: 20, fontSize: 11, cursor: "pointer",
+                    border: `1px solid ${filterRegion === r ? GREEN : BORDER}`,
+                    background: filterRegion === r ? "#00FF8815" : "transparent",
+                    color: filterRegion === r ? GREEN : MUTED }}>
+                  {r}
+                </button>
+              ))}
+            </div>
+
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: 18 }}>
+              {filtered.map((c) => {
+                const prayed = prayedFor.has(c.id);
+                const saved = savedCountries.has(c.id);
+                return (
+                  <div key={c.id}
+                    style={{
+                      background: CARD,
+                      border: `1px solid ${prayed ? "#00FF8830" : BORDER}`,
+                      borderRadius: 16, padding: 20, cursor: "pointer",
+                    }}
+                    onClick={() => setSelected(c)}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+                      <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
+                        <div style={{ fontSize: 32 }}>{c.flag}</div>
+                        <div>
+                          <div style={{ fontSize: 16, fontWeight: 700, color: TEXT }}>{c.country}</div>
+                          <div style={{ fontSize: 12, color: MUTED }}>{c.region}</div>
+                        </div>
+                      </div>
+                      <div style={{ display: "flex", gap: 6, flexDirection: "column", alignItems: "flex-end" }}>
+                        <div style={{ padding: "2px 10px", borderRadius: 20, fontSize: 11, fontWeight: 600,
+                          background: `${statusColors[c.status]}20`, color: statusColors[c.status], border: `1px solid ${statusColors[c.status]}40` }}>
+                          {c.status}
+                        </div>
+                        <div style={{ fontSize: 10, color: missionaryColors[c.missionaryPresence] }}>
+                          ✦ {c.missionaryPresence} presence
+                        </div>
+                      </div>
+                    </div>
+
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8, marginBottom: 14 }}>
+                      {[
+                        { label: "Population", value: c.population },
+                        { label: "Christians", value: `${c.christianPercent}%` },
+                        { label: "Unreached Groups", value: c.unreachedGroups.toString() },
+                      ].map((stat) => (
+                        <div key={stat.label} style={{ background: BG, borderRadius: 8, padding: "8px 10px", textAlign: "center" }}>
+                          <div style={{ fontSize: 14, fontWeight: 700, color: TEXT }}>{stat.value}</div>
+                          <div style={{ fontSize: 9, color: MUTED }}>{stat.label}</div>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div style={{ borderLeft: `2px solid ${PURPLE}40`, paddingLeft: 10, marginBottom: 14 }}>
+                      <div style={{ fontSize: 12, color: MUTED, fontStyle: "italic" }}>&ldquo;{c.verse}&rdquo;</div>
+                      <div style={{ fontSize: 10, color: PURPLE, marginTop: 2 }}>{c.verseRef}</div>
+                    </div>
+
+                    <div style={{ display: "flex", gap: 8 }}>
+                      <button onClick={(e) => { e.stopPropagation(); handlePray(c.id); }}
+                        style={{
+                          flex: 1, padding: "8px 12px", borderRadius: 8, border: "none",
+                          background: prayed ? "#00FF8820" : PURPLE,
+                          color: prayed ? GREEN : "#fff",
+                          cursor: "pointer", fontWeight: 600, fontSize: 13,
+                        }}>
+                        {prayed ? "🙏 Praying" : "Pray for this Nation"}
+                      </button>
+                      <button onClick={(e) => { e.stopPropagation(); handleSave(c.id); }}
+                        style={{ padding: "8px 12px", borderRadius: 8, border: "none", background: saved ? `${PURPLE}20` : BORDER, color: saved ? PURPLE : MUTED, cursor: "pointer", fontSize: 15 }}>
+                        {saved ? "★" : "☆"}
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* Movements Tab */}
+        {activeTab === "movements" && (
+          <div>
+            <div style={{ marginBottom: 28 }}>
+              <h2 style={{ fontSize: 24, fontWeight: 700, color: TEXT, marginBottom: 8 }}>Prayer Movements</h2>
+              <p style={{ fontSize: 14, color: MUTED, maxWidth: 600 }}>
+                God has raised up organized prayer movements in every generation. These are some of the most significant in the modern era.
+              </p>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(360px, 1fr))", gap: 20 }}>
+              {PRAYER_MOVEMENTS.map((m) => (
+                <div key={m.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 24 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 14 }}>
+                    <h3 style={{ fontSize: 18, fontWeight: 700, color: TEXT, margin: 0, flex: 1, paddingRight: 12 }}>{m.name}</h3>
+                    <div style={{ background: `${PURPLE}20`, color: PURPLE, border: `1px solid ${PURPLE}40`, borderRadius: 20, padding: "2px 12px", fontSize: 11, fontWeight: 700, whiteSpace: "nowrap" }}>
+                      Est. {m.founded}
+                    </div>
+                  </div>
+                  <div style={{ fontSize: 12, color: GREEN, fontWeight: 600, marginBottom: 12 }}>
+                    Founded by {m.founder}
+                  </div>
+                  <p style={{ fontSize: 13, color: MUTED, lineHeight: 1.7, marginBottom: 16 }}>{m.description}</p>
+                  <div style={{ background: BG, borderRadius: 10, padding: "12px 14px", borderLeft: `3px solid ${GREEN}` }}>
+                    <div style={{ fontSize: 11, color: GREEN, fontWeight: 700, marginBottom: 4, textTransform: "uppercase", letterSpacing: "0.05em" }}>Impact</div>
+                    <p style={{ fontSize: 12, color: MUTED, margin: 0, lineHeight: 1.6 }}>{m.impact}</p>
+                  </div>
+                  <div style={{ marginTop: 12, fontSize: 11, color: `${MUTED}80` }}>{m.website_hint}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Scripture Tab */}
+        {activeTab === "scripture" && (
+          <div>
+            <div style={{ marginBottom: 28 }}>
+              <h2 style={{ fontSize: 24, fontWeight: 700, color: TEXT, marginBottom: 8 }}>Scripture on Global Prayer</h2>
+              <p style={{ fontSize: 14, color: MUTED, maxWidth: 600 }}>
+                The Bible is full of God&rsquo;s heart for the nations. These passages anchor global intercession in the Word.
+              </p>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+              {PRAYER_SCRIPTURE.map((s) => (
+                <div key={s.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 24 }}>
+                  <div style={{ display: "flex", gap: 14, alignItems: "flex-start", flexWrap: "wrap", marginBottom: 16 }}>
+                    <div style={{ fontSize: 18, fontWeight: 700, color: PURPLE }}>{s.ref}</div>
+                    <div style={{ background: `${PURPLE}15`, color: PURPLE, border: `1px solid ${PURPLE}30`, borderRadius: 20, padding: "2px 12px", fontSize: 11, fontWeight: 700 }}>
+                      {s.theme}
+                    </div>
+                  </div>
+                  <blockquote style={{ margin: "0 0 16px", padding: "14px 18px", borderLeft: `3px solid ${PURPLE}`, background: BG, borderRadius: "0 10px 10px 0" }}>
+                    <p style={{ fontSize: 15, color: TEXT, fontStyle: "italic", lineHeight: 1.75, margin: 0 }}>
+                      &ldquo;{s.text}&rdquo;
+                    </p>
+                  </blockquote>
+                  <div>
+                    <div style={{ fontSize: 11, color: GREEN, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: "0.05em" }}>How to Pray This</div>
+                    <p style={{ fontSize: 13, color: MUTED, margin: 0, lineHeight: 1.7 }}>{s.application}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Voices Tab */}
+        {activeTab === "voices" && (
+          <div>
+            <div style={{ marginBottom: 28 }}>
+              <h2 style={{ fontSize: 24, fontWeight: 700, color: TEXT, marginBottom: 8 }}>Voices on Prayer & Missions</h2>
+              <p style={{ fontSize: 14, color: MUTED, maxWidth: 600 }}>
+                Men and women throughout history whose lives and words have shaped how the church prays for the world.
+              </p>
+            </div>
+            <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
+              {/* Left panel — voice list */}
+              <div style={{ width: 240, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 24 }}>
+                {VOICES_WPRAYER.map((v) => (
+                  <button key={v.id} onClick={() => setSelectedVoice(v)}
+                    style={{
+                      background: selectedVoice.id === v.id ? `${PURPLE}20` : CARD,
+                      border: `1px solid ${selectedVoice.id === v.id ? PURPLE : BORDER}`,
+                      borderRadius: 12, padding: "12px 14px", cursor: "pointer", textAlign: "left",
+                    }}>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: selectedVoice.id === v.id ? TEXT : MUTED, marginBottom: 2 }}>{v.name}</div>
+                    <div style={{ fontSize: 11, color: selectedVoice.id === v.id ? PURPLE : `${MUTED}80` }}>{v.era}</div>
+                  </button>
+                ))}
+              </div>
+              {/* Right panel — detail */}
+              <div style={{ flex: 1, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 28 }}>
+                <div style={{ marginBottom: 20 }}>
+                  <h3 style={{ fontSize: 22, fontWeight: 700, color: TEXT, margin: "0 0 4px" }}>{selectedVoice.name}</h3>
+                  <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+                    <span style={{ background: `${PURPLE}20`, color: PURPLE, border: `1px solid ${PURPLE}40`, borderRadius: 20, padding: "2px 12px", fontSize: 11, fontWeight: 700 }}>{selectedVoice.era}</span>
+                    <span style={{ fontSize: 12, color: MUTED }}>{selectedVoice.context}</span>
+                  </div>
+                </div>
+
+                <blockquote style={{ margin: "0 0 20px", padding: "16px 20px", borderLeft: `3px solid ${GREEN}`, background: BG, borderRadius: "0 10px 10px 0" }}>
+                  <p style={{ fontSize: 15, color: TEXT, fontStyle: "italic", lineHeight: 1.75, margin: 0 }}>
+                    &ldquo;{selectedVoice.quote}&rdquo;
+                  </p>
+                </blockquote>
+
+                <div style={{ marginBottom: 20 }}>
+                  <div style={{ fontSize: 11, color: MUTED, fontWeight: 700, marginBottom: 8, textTransform: "uppercase", letterSpacing: "0.05em" }}>Biography</div>
+                  <p style={{ fontSize: 14, color: MUTED, lineHeight: 1.75, margin: 0 }}>{selectedVoice.bio}</p>
+                </div>
+
+                <div style={{ background: BG, borderRadius: 10, padding: "14px 16px", borderLeft: `3px solid ${PURPLE}` }}>
+                  <div style={{ fontSize: 11, color: PURPLE, fontWeight: 700, marginBottom: 6, textTransform: "uppercase", letterSpacing: "0.05em" }}>Legacy & Contribution</div>
+                  <p style={{ fontSize: 13, color: MUTED, margin: 0, lineHeight: 1.7 }}>{selectedVoice.contribution}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+      </div>
+
+      {/* Country Detail Modal — outside tab conditionals */}
       {selected && (
         <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.85)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1000, padding: 24 }}
           onClick={() => setSelected(null)}>
-          <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 20, padding: 28, maxWidth: 580, width: "100%", maxHeight: "88vh", overflowY: "auto" }}
+          <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 20, padding: 28, maxWidth: 580, width: "100%", maxHeight: "88vh", overflowY: "auto" }}
             onClick={(e) => e.stopPropagation()}>
             <div style={{ display: "flex", gap: 14, marginBottom: 20 }}>
               <div style={{ fontSize: 48 }}>{selected.flag}</div>
               <div>
-                <h2 style={{ fontSize: 22, fontWeight: 700, color: "#F2F2F8", margin: "0 0 4px" }}>{selected.country}</h2>
+                <h2 style={{ fontSize: 22, fontWeight: 700, color: TEXT, margin: "0 0 4px" }}>{selected.country}</h2>
                 <div style={{ display: "flex", gap: 8 }}>
                   <span style={{ padding: "2px 10px", borderRadius: 20, fontSize: 11, background: `${statusColors[selected.status]}20`, color: statusColors[selected.status], border: `1px solid ${statusColors[selected.status]}40` }}>{selected.status}</span>
-                  <span style={{ fontSize: 11, color: "#9898B3", padding: "2px 10px" }}>{selected.region}</span>
+                  <span style={{ fontSize: 11, color: MUTED, padding: "2px 10px" }}>{selected.region}</span>
                 </div>
               </div>
             </div>
@@ -409,43 +738,43 @@ export default function WorldPrayerPage() {
                 { label: "Unreached Groups", value: selected.unreachedGroups },
                 { label: "Missionaries", value: selected.missionaryPresence },
               ].map((s) => (
-                <div key={s.label} style={{ background: "#07070F", borderRadius: 10, padding: "10px 12px", textAlign: "center" }}>
-                  <div style={{ fontSize: 15, fontWeight: 700, color: "#F2F2F8" }}>{s.value}</div>
-                  <div style={{ fontSize: 9, color: "#9898B3" }}>{s.label}</div>
+                <div key={s.label} style={{ background: BG, borderRadius: 10, padding: "10px 12px", textAlign: "center" }}>
+                  <div style={{ fontSize: 15, fontWeight: 700, color: TEXT }}>{s.value}</div>
+                  <div style={{ fontSize: 9, color: MUTED }}>{s.label}</div>
                 </div>
               ))}
             </div>
 
-            <div style={{ background: "#07070F", borderRadius: 10, padding: 14, marginBottom: 16, borderLeft: "3px solid #F59E0B" }}>
+            <div style={{ background: BG, borderRadius: 10, padding: 14, marginBottom: 16, borderLeft: "3px solid #F59E0B" }}>
               <div style={{ fontSize: 12, color: "#F59E0B", fontWeight: 600, marginBottom: 6 }}>Recent News</div>
-              <p style={{ fontSize: 13, color: "#9898B3", lineHeight: 1.6, margin: 0 }}>{selected.recentNews}</p>
+              <p style={{ fontSize: 13, color: MUTED, lineHeight: 1.6, margin: 0 }}>{selected.recentNews}</p>
             </div>
 
-            <h3 style={{ fontSize: 14, fontWeight: 700, color: "#F2F2F8", marginBottom: 12 }}>🙏 Prayer Points</h3>
+            <h3 style={{ fontSize: 14, fontWeight: 700, color: TEXT, marginBottom: 12 }}>🙏 Prayer Points</h3>
             <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 20 }}>
               {selected.prayerPoints.map((pt, i) => (
                 <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-                  <div style={{ width: 20, height: 20, borderRadius: "50%", background: "#6B4FBB20", border: "1px solid #6B4FBB", color: "#6B4FBB", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, fontWeight: 700, flexShrink: 0, marginTop: 1 }}>{i + 1}</div>
-                  <div style={{ fontSize: 13, color: "#9898B3", lineHeight: 1.6 }}>{pt}</div>
+                  <div style={{ width: 20, height: 20, borderRadius: "50%", background: `${PURPLE}20`, border: `1px solid ${PURPLE}`, color: PURPLE, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, fontWeight: 700, flexShrink: 0, marginTop: 1 }}>{i + 1}</div>
+                  <div style={{ fontSize: 13, color: MUTED, lineHeight: 1.6 }}>{pt}</div>
                 </div>
               ))}
             </div>
 
-            <div style={{ borderLeft: "3px solid #6B4FBB", paddingLeft: 14, marginBottom: 24 }}>
-              <div style={{ fontSize: 14, color: "#F2F2F8", fontStyle: "italic" }}>"{selected.verse}"</div>
-              <div style={{ fontSize: 12, color: "#6B4FBB", marginTop: 4 }}>{selected.verseRef}</div>
+            <div style={{ borderLeft: `3px solid ${PURPLE}`, paddingLeft: 14, marginBottom: 24 }}>
+              <div style={{ fontSize: 14, color: TEXT, fontStyle: "italic" }}>&ldquo;{selected.verse}&rdquo;</div>
+              <div style={{ fontSize: 12, color: PURPLE, marginTop: 4 }}>{selected.verseRef}</div>
             </div>
 
             <div style={{ display: "flex", gap: 10 }}>
               <button onClick={() => handlePray(selected.id)}
                 style={{ flex: 1, padding: "12px 16px", borderRadius: 10, border: "none",
-                  background: prayedFor.has(selected.id) ? "#00FF8820" : "#6B4FBB",
-                  color: prayedFor.has(selected.id) ? "#00FF88" : "#fff",
+                  background: prayedFor.has(selected.id) ? "#00FF8820" : PURPLE,
+                  color: prayedFor.has(selected.id) ? GREEN : "#fff",
                   cursor: "pointer", fontWeight: 700, fontSize: 15 }}>
                 {prayedFor.has(selected.id) ? "🙏 Praying for " + selected.country : "Pray for " + selected.country}
               </button>
               <button onClick={() => setSelected(null)}
-                style={{ padding: "12px 16px", borderRadius: 10, border: "1px solid #1E1E32", background: "transparent", color: "#9898B3", cursor: "pointer", fontSize: 15 }}>
+                style={{ padding: "12px 16px", borderRadius: 10, border: `1px solid ${BORDER}`, background: "transparent", color: MUTED, cursor: "pointer", fontSize: 15 }}>
                 Close
               </button>
             </div>

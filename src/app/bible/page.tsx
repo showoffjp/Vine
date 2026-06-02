@@ -87,23 +87,60 @@ const NT_BOOKS = [
 
 const ALL_BOOKS = [...OT_BOOKS, ...NT_BOOKS];
 
-const VERSIONS = [
-  { id: "de4e12af7fb5a05c-02", code: "KJV", name: "King James Version", year: 1611, lang: "en" },
-  { id: "65eec8e0b60e656b-01", code: "ESV", name: "English Standard Version", year: 2001, lang: "en" },
-  { id: "06125adad2d5898a-01", code: "NIV", name: "New International Version", year: 1973, lang: "en" },
-  { id: "1c12yany", code: "NKJV", name: "New King James Version", year: 1982, lang: "en" },
-  { id: "314af4b7c8dc9de1-01", code: "NLT", name: "New Living Translation", year: 1996, lang: "en" },
-  { id: "c315fa9f71d4af3a-01", code: "NASB", name: "New American Standard Bible", year: 1971, lang: "en" },
-  { id: "7142879509583d59-01", code: "CSB", name: "Christian Standard Bible", year: 2017, lang: "en" },
-  { id: "bba9f40183526463-01", code: "NET", name: "New English Translation", year: 1996, lang: "en" },
-  { id: "e6a6b3d20b0375b3-01", code: "ASV", name: "American Standard Version", year: 1901, lang: "en" },
-  { id: "f72b840c855f362c-04", code: "WEB", name: "World English Bible", year: 2000, lang: "en" },
-  { id: "55212e3cf5d04d49-01", code: "MSG", name: "The Message", year: 1993, lang: "en" },
-  { id: "c114c33098c4fef1-01", code: "AMP", name: "Amplified Bible", year: 1954, lang: "en" },
-  { id: "01b29f4b342acc35-01", code: "RSV", name: "Revised Standard Version", year: 1952, lang: "en" },
-  { id: "40072c4a5aba4022-01", code: "GNT", name: "Good News Translation", year: 1966, lang: "en" },
-  { id: "9879dbb7cfe39e4d-03", code: "ERV", name: "Easy-to-Read Version", year: 1978, lang: "en" },
+// A normalized version the UI works with. Populated dynamically from
+// /api/bible?action=versions on mount, with the static list below as a fallback
+// when the API is unavailable (e.g. in local dev without network).
+type Version = { id: string; code: string; name: string; year: number | null };
+
+// Translations to prioritize/surface first when the API returns them, matched by
+// abbreviation or name substring.
+const PREFERRED_CODES = ["KJV", "NIV", "NKJV", "NLT", "ESV", "NASB", "CSB", "NET", "WEB", "AMP", "MSG"];
+
+const FALLBACK_VERSIONS: Version[] = [
+  { id: "de4e12af7fb5a05c-02", code: "KJV", name: "King James Version", year: 1611 },
+  { id: "65eec8e0b60e656b-01", code: "ESV", name: "English Standard Version", year: 2001 },
+  { id: "06125adad2d5898a-01", code: "NIV", name: "New International Version", year: 1973 },
+  { id: "1c12yany", code: "NKJV", name: "New King James Version", year: 1982 },
+  { id: "314af4b7c8dc9de1-01", code: "NLT", name: "New Living Translation", year: 1996 },
+  { id: "c315fa9f71d4af3a-01", code: "NASB", name: "New American Standard Bible", year: 1971 },
+  { id: "7142879509583d59-01", code: "CSB", name: "Christian Standard Bible", year: 2017 },
+  { id: "bba9f40183526463-01", code: "NET", name: "New English Translation", year: 1996 },
+  { id: "e6a6b3d20b0375b3-01", code: "ASV", name: "American Standard Version", year: 1901 },
+  { id: "f72b840c855f362c-04", code: "WEB", name: "World English Bible", year: 2000 },
+  { id: "55212e3cf5d04d49-01", code: "MSG", name: "The Message", year: 1993 },
+  { id: "c114c33098c4fef1-01", code: "AMP", name: "Amplified Bible", year: 1954 },
+  { id: "01b29f4b342acc35-01", code: "RSV", name: "Revised Standard Version", year: 1952 },
+  { id: "40072c4a5aba4022-01", code: "GNT", name: "Good News Translation", year: 1966 },
+  { id: "9879dbb7cfe39e4d-03", code: "ERV", name: "Easy-to-Read Version", year: 1978 },
 ];
+
+// Raw shape from /api/bible?action=versions (see route.ts BibleVersion).
+type ApiVersion = { id: string; abbreviation: string; name: string; description: string; language: string };
+
+function extractYear(...sources: string[]): number | null {
+  for (const s of sources) {
+    const match = s.match(/\b(1[5-9]\d{2}|20\d{2})\b/);
+    if (match) return Number(match[1]);
+  }
+  return null;
+}
+
+// Sort versions so PREFERRED_CODES come first (in that order), then the rest
+// alphabetically by name.
+function prioritizeVersions(versions: Version[]): Version[] {
+  const rank = (v: Version) => {
+    const idx = PREFERRED_CODES.findIndex(
+      (c) => v.code.toUpperCase().includes(c) || v.name.toUpperCase().includes(c)
+    );
+    return idx === -1 ? PREFERRED_CODES.length : idx;
+  };
+  return [...versions].sort((a, b) => {
+    const ra = rank(a);
+    const rb = rank(b);
+    if (ra !== rb) return ra - rb;
+    return a.name.localeCompare(b.name);
+  });
+}
 
 // Key verse data for well-known passages (used as fallback and for study context)
 const STUDY_NOTES: Record<string, Record<number, { context: string; crossRefs: string[]; note: string }>> = {
@@ -369,11 +406,16 @@ const INLINE_CHAPTERS: Record<string, { num: number; text: string }[]> = {
 
 type MainTab = "read" | "search" | "compare" | "study" | "plans";
 
+type ChapterData = { num: number; text: string }[];
+
 export default function BiblePage() {
   const [mainTab, setMainTab] = useState<MainTab>("read");
   const [selectedBook, setSelectedBook] = useState(ALL_BOOKS.find(b => b.id === "JHN")!);
   const [selectedChapter, setSelectedChapter] = useState(3);
-  const [selectedVersion, setSelectedVersion] = useState(VERSIONS[0]);
+  const [versions, setVersions] = useState<Version[]>(FALLBACK_VERSIONS);
+  const [selectedVersion, setSelectedVersion] = useState<Version>(
+    FALLBACK_VERSIONS.find(v => v.code === "KJV") ?? FALLBACK_VERSIONS[0]
+  );
   const [showBookList, setShowBookList] = useState(false);
   const [showChapterList, setShowChapterList] = useState(false);
   const [showVersionList, setShowVersionList] = useState(false);
@@ -388,11 +430,127 @@ export default function BiblePage() {
   const [fontSize, setFontSize] = useState(17);
   const [showStudyNotes, setShowStudyNotes] = useState(true);
 
+  // Chapter fetched from the API (for non-inline chapters).
+  const [fetchedVerses, setFetchedVerses] = useState<ChapterData | null>(null);
+  const [chapterLoading, setChapterLoading] = useState(false);
+  const [chapterError, setChapterError] = useState<string | null>(null);
+  const [chapterCopyright, setChapterCopyright] = useState("");
+  const [chapterReference, setChapterReference] = useState("");
+
   const chapterKey = `${selectedBook.id}-${selectedChapter}`;
-  const verses = INLINE_CHAPTERS[chapterKey] || null;
+  const inlineVerses = INLINE_CHAPTERS[chapterKey] || null;
+  // The KJV inline text only matches when the KJV-equivalent version is selected.
+  // For other translations we always fetch so the user sees the real text.
+  const useInline = inlineVerses !== null && selectedVersion.code.toUpperCase().includes("KJV");
+  const verses: ChapterData | null = useInline ? inlineVerses : fetchedVerses;
   const studyNote = STUDY_NOTES[selectedBook.id]?.[selectedChapter] || null;
 
   const chapterArray = Array.from({ length: selectedBook.chapters }, (_, i) => i + 1);
+
+  // ── Load available versions from the API on mount ──────────────────────────
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch("/api/bible?action=versions");
+        if (!res.ok) return;
+        const data: ApiVersion[] = await res.json();
+        if (cancelled || !Array.isArray(data) || data.length === 0) return;
+        const mapped: Version[] = data.map((v) => ({
+          id: v.id,
+          code: (v.abbreviation || v.name || "").toUpperCase(),
+          name: v.name,
+          year: extractYear(v.name, v.description),
+        }));
+        const ordered = prioritizeVersions(mapped);
+        setVersions(ordered);
+        // Default to KJV if available, else first in the prioritized list.
+        const kjv = ordered.find((v) => v.code.includes("KJV") || v.name.toUpperCase().includes("KING JAMES"));
+        setSelectedVersion(kjv ?? ordered[0]);
+      } catch {
+        // Keep fallback versions on any failure (e.g. offline dev).
+      }
+    })();
+    return () => { cancelled = true; };
+  }, []);
+
+  // ── Fetch chapter text when book/chapter/version changes (non-inline) ───────
+  useEffect(() => {
+    if (mainTab !== "read") return;
+    if (useInline) {
+      setFetchedVerses(null);
+      setChapterError(null);
+      setChapterLoading(false);
+      setChapterCopyright("");
+      setChapterReference("");
+      return;
+    }
+
+    let cancelled = false;
+    const controller = new AbortController();
+    setChapterLoading(true);
+    setChapterError(null);
+    setFetchedVerses(null);
+
+    (async () => {
+      try {
+        const url = `/api/bible?action=chapter&bibleId=${encodeURIComponent(selectedVersion.id)}&bookId=${encodeURIComponent(selectedBook.id)}&chapter=${selectedChapter}`;
+        const res = await fetch(url, { signal: controller.signal });
+        const json = await res.json();
+        if (cancelled) return;
+        if (!res.ok) {
+          setChapterError(json?.error || `Failed to load chapter (${res.status})`);
+          setChapterLoading(false);
+          return;
+        }
+        setFetchedVerses(Array.isArray(json.verses) ? json.verses : []);
+        setChapterCopyright(typeof json.copyright === "string" ? json.copyright : "");
+        setChapterReference(typeof json.reference === "string" ? json.reference : "");
+        setChapterLoading(false);
+      } catch (err) {
+        if (cancelled || (err instanceof DOMException && err.name === "AbortError")) return;
+        setChapterError(err instanceof Error ? err.message : "Failed to load chapter");
+        setChapterLoading(false);
+      }
+    })();
+
+    return () => { cancelled = true; controller.abort(); };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedBook.id, selectedChapter, selectedVersion.id, useInline, mainTab]);
+
+  // ── Scroll to top on chapter change ────────────────────────────────────────
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, [selectedBook.id, selectedChapter]);
+
+  // A stable retry counter so the chapter effect can be forced to re-run.
+  const retryChapter = useCallback(() => {
+    // Re-trigger the effect by nudging fetchedVerses through a no-op then refetch.
+    setChapterError(null);
+    setChapterLoading(true);
+    const controller = new AbortController();
+    (async () => {
+      try {
+        const url = `/api/bible?action=chapter&bibleId=${encodeURIComponent(selectedVersion.id)}&bookId=${encodeURIComponent(selectedBook.id)}&chapter=${selectedChapter}`;
+        const res = await fetch(url, { signal: controller.signal });
+        const json = await res.json();
+        if (!res.ok) {
+          setChapterError(json?.error || `Failed to load chapter (${res.status})`);
+          setChapterLoading(false);
+          return;
+        }
+        setFetchedVerses(Array.isArray(json.verses) ? json.verses : []);
+        setChapterCopyright(typeof json.copyright === "string" ? json.copyright : "");
+        setChapterReference(typeof json.reference === "string" ? json.reference : "");
+        setChapterLoading(false);
+      } catch (err) {
+        setChapterError(err instanceof Error ? err.message : "Failed to load chapter");
+        setChapterLoading(false);
+      }
+    })();
+  }, [selectedVersion.id, selectedBook.id, selectedChapter]);
 
   const bookmarkVerse = (ref: string) => {
     setBookmarkedVerses(prev => {
@@ -423,6 +581,21 @@ export default function BiblePage() {
     setHighlightedVerse(null);
   };
 
+  // ── Keyboard arrow navigation (only on the read tab) ───────────────────────
+  useEffect(() => {
+    if (mainTab !== "read") return;
+    const onKey = (e: KeyboardEvent) => {
+      // Ignore when typing in inputs/textareas.
+      const target = e.target as HTMLElement | null;
+      if (target && (target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.isContentEditable)) return;
+      if (e.key === "ArrowLeft") navigateChapter(-1);
+      else if (e.key === "ArrowRight") navigateChapter(1);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mainTab, selectedBook.id, selectedChapter]);
+
   const handleSearch = useCallback(() => {
     if (!searchQuery.trim()) return;
     const q = searchQuery.toLowerCase();
@@ -447,6 +620,22 @@ export default function BiblePage() {
 
   return (
     <div style={{ background: BG, color: TEXT, minHeight: "100vh", fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <style>{`
+        @keyframes biblePulse {
+          0%, 100% { opacity: 0.35; }
+          50% { opacity: 0.75; }
+        }
+        .bible-read-grid {
+          display: grid;
+          grid-template-columns: 260px 1fr;
+          gap: 20px;
+        }
+        @media (max-width: 860px) {
+          .bible-read-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+      `}</style>
       <Navbar />
       <main style={{ maxWidth: 1400, margin: "0 auto", padding: "0 16px 60px" }}>
 
@@ -494,7 +683,7 @@ export default function BiblePage() {
 
         {/* ===================== READ TAB ===================== */}
         {mainTab === "read" && (
-          <div style={{ display: "grid", gridTemplateColumns: "260px 1fr", gap: 20 }}>
+          <div className="bible-read-grid">
 
             {/* Book/Chapter sidebar */}
             <div>
@@ -566,11 +755,12 @@ export default function BiblePage() {
                     {selectedVersion.code} ▾
                   </button>
                   {showVersionList && (
-                    <div style={{ position: "absolute", top: "100%", left: 0, zIndex: 100, background: "#1A1A2E", border: `1px solid ${BORDER}`, borderRadius: 10, padding: 8, width: 280, maxHeight: 360, overflowY: "auto", marginTop: 4 }}>
-                      {VERSIONS.map(v => (
+                    <div style={{ position: "absolute", top: "100%", left: 0, zIndex: 100, background: "#1A1A2E", border: `1px solid ${BORDER}`, borderRadius: 10, padding: 8, width: 300, maxHeight: 400, overflowY: "auto", marginTop: 4 }}>
+                      <div style={{ color: MUTED, fontSize: 10, fontWeight: 800, letterSpacing: 1.5, padding: "4px 8px 8px" }}>{versions.length} TRANSLATIONS</div>
+                      {versions.map(v => (
                         <button key={v.id} onClick={() => { setSelectedVersion(v); setShowVersionList(false); }} style={{ width: "100%", textAlign: "left", padding: "10px 12px", borderRadius: 6, border: "none", cursor: "pointer", background: selectedVersion.id === v.id ? `${PURPLE}30` : "transparent", color: selectedVersion.id === v.id ? "#A78BFA" : TEXT, fontSize: 13, marginBottom: 2 }}>
-                          <div style={{ fontWeight: 700 }}>{v.code} — {v.name}</div>
-                          <div style={{ color: MUTED, fontSize: 11 }}>{v.year}</div>
+                          <div style={{ fontWeight: 700 }}>{v.code}{v.name && v.name.toUpperCase() !== v.code ? ` — ${v.name}` : ""}</div>
+                          {v.year && <div style={{ color: MUTED, fontSize: 11 }}>{v.year}</div>}
                         </button>
                       ))}
                     </div>
@@ -628,26 +818,60 @@ export default function BiblePage() {
 
               {/* Bible text */}
               <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "28px 32px", marginBottom: 20 }}>
-                {verses ? (
-                  <div style={{ lineHeight: 1.9 }}>
-                    {verses.map(v => (
-                      <span
-                        key={v.num}
-                        onClick={() => setHighlightedVerse(highlightedVerse === v.num ? null : v.num)}
+                {chapterLoading ? (
+                  /* Loading skeleton — animated pulsing lines */
+                  <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                    {[92, 100, 88, 96, 70, 100, 84, 90, 100, 60].map((w, i) => (
+                      <div
+                        key={i}
                         style={{
-                          display: "inline",
-                          cursor: "pointer",
-                          background: highlightedVerse === v.num ? `${GREEN}25` : "transparent",
-                          borderRadius: 4,
-                          padding: highlightedVerse === v.num ? "2px 4px" : "0",
-                          transition: "background 0.2s",
+                          height: 14,
+                          width: `${w}%`,
+                          borderRadius: 6,
+                          background: BORDER,
+                          animation: "biblePulse 1.4s ease-in-out infinite",
+                          animationDelay: `${i * 0.08}s`,
                         }}
-                      >
-                        <sup style={{ color: GREEN, fontSize: "0.65em", fontWeight: 800, marginRight: 3, verticalAlign: "super" }}>{v.num}</sup>
-                        <span style={{ fontSize: fontSize, color: TEXT, fontFamily: "var(--font-cormorant, Georgia, serif)" }}>{v.text} </span>
-                      </span>
+                      />
                     ))}
                   </div>
+                ) : chapterError ? (
+                  <div style={{ textAlign: "center", padding: "50px 20px" }}>
+                    <div style={{ fontSize: 44, marginBottom: 12 }}>⚠️</div>
+                    <p style={{ color: TEXT, fontSize: 16, marginBottom: 6 }}>Couldn&apos;t load this chapter</p>
+                    <p style={{ color: MUTED, fontSize: 13, marginBottom: 20, maxWidth: 420, margin: "0 auto 20px" }}>{chapterError}</p>
+                    <button onClick={retryChapter} style={{ padding: "10px 24px", borderRadius: 8, background: GREEN, color: "#07070F", fontWeight: 800, fontSize: 14, cursor: "pointer", border: "none" }}>
+                      Retry
+                    </button>
+                  </div>
+                ) : verses && verses.length > 0 ? (
+                  <>
+                    <div style={{ lineHeight: 1.9 }}>
+                      {verses.map(v => (
+                        <span
+                          key={v.num}
+                          onClick={() => setHighlightedVerse(highlightedVerse === v.num ? null : v.num)}
+                          style={{
+                            display: "inline",
+                            cursor: "pointer",
+                            background: highlightedVerse === v.num ? `${GREEN}25` : "transparent",
+                            borderRadius: 4,
+                            padding: highlightedVerse === v.num ? "2px 4px" : "0",
+                            transition: "background 0.2s",
+                          }}
+                        >
+                          <sup style={{ color: GREEN, fontSize: "0.65em", fontWeight: 800, marginRight: 3, verticalAlign: "super" }}>{v.num}</sup>
+                          <span style={{ fontSize: fontSize, color: TEXT, fontFamily: "var(--font-cormorant, Georgia, serif)" }}>{v.text} </span>
+                        </span>
+                      ))}
+                    </div>
+                    {/* Copyright / version note */}
+                    <div style={{ marginTop: 24, paddingTop: 16, borderTop: `1px solid ${BORDER}`, color: MUTED, fontSize: 11, lineHeight: 1.6 }}>
+                      {chapterReference && <span style={{ fontWeight: 700, color: MUTED }}>{chapterReference} · </span>}
+                      {selectedVersion.name || selectedVersion.code}
+                      {chapterCopyright ? ` — ${chapterCopyright}` : useInline ? " — Public Domain (King James Version)" : ""}
+                    </div>
+                  </>
                 ) : (
                   <div style={{ textAlign: "center", padding: "60px 20px" }}>
                     <div style={{ fontSize: 48, marginBottom: 16 }}>📖</div>
@@ -655,7 +879,7 @@ export default function BiblePage() {
                       {selectedBook.name} {selectedChapter} — {selectedVersion.code}
                     </p>
                     <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, maxWidth: 500, margin: "0 auto 24px" }}>
-                      This chapter is available through the Bible API. For full offline access to all 66 books in every translation, connect to scripture.api.bible with your API key. Popular chapters like John 3, Psalm 23, Romans 8, Isaiah 53, and Genesis 1 are available right now.
+                      No verses were returned for this chapter in this translation. Try another version, or jump to one of these popular chapters:
                     </p>
                     <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
                       {[["JHN", 3, "John 3"], ["PSA", 23, "Psalm 23"], ["ROM", 8, "Romans 8"], ["ISA", 53, "Isaiah 53"], ["GEN", 1, "Genesis 1"], ["EPH", 2, "Ephesians 2"]].map(([bid, ch, label]) => (
@@ -807,7 +1031,7 @@ export default function BiblePage() {
               <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Compare Translations</h2>
               <p style={{ color: MUTED, fontSize: 14, marginBottom: 20 }}>See how different Bible translations render the same passage side by side.</p>
               <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-                {VERSIONS.slice(0, 8).map(v => (
+                {versions.slice(0, 8).map(v => (
                   <button
                     key={v.code}
                     onClick={() => setCompareVersions(prev => prev.includes(v.code) ? prev.filter(c => c !== v.code) : [...prev, v.code].slice(0, 4))}

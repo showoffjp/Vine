@@ -273,6 +273,45 @@ const resources = [
   { title: "ReasonableFaith.org", author: "William Lane Craig", type: "Website", level: "All Levels", description: "Free essays, podcasts, debates, and Q&A covering every major apologetics topic. The most comprehensive free apologetics resource online.", color: "#EC4899" },
 ];
 
+const APOL_VIDEOS = [
+  {
+    videoId: "Kxup3OS5ZhQ",
+    preacher: "Tim Keller",
+    title: "The Reason for God",
+    description: "Keller presents his landmark case for Christian faith to an audience at Google, addressing the most common intellectual objections to belief in an accessible and winsome style.",
+  },
+  {
+    videoId: "by8ykv7-A3c",
+    preacher: "Voddie Baucham",
+    title: "The Supremacy of Christ and Truth in a Postmodern World",
+    description: "Baucham's powerful 2006 Desiring God Conference address on how Christians must hold fast to absolute truth and the lordship of Christ against the rising tide of postmodern relativism.",
+  },
+  {
+    videoId: "gySaWKg-NQQ",
+    preacher: "Tim Keller",
+    title: "The Reason for God — Big Think",
+    description: "A concentrated and intellectually sharp presentation of Keller's argument for Christian faith, filmed for Big Think and covering doubt, suffering, and the exclusivity of Christ.",
+  },
+  {
+    videoId: "F4rX1pTRbuo",
+    preacher: "Voddie Baucham",
+    title: "The Supremacy of Christ — Sermon Jam",
+    description: "A stirring sermon jam drawn from Baucham's preaching on the supremacy and sufficiency of Jesus Christ over every philosophy and cultural narrative.",
+  },
+  {
+    videoId: "v6xk8e7gdMA",
+    preacher: "R.C. Sproul",
+    title: "The Holiness of God",
+    description: "Sproul's classic teaching on the defining attribute of God -- his holiness -- and why a right understanding of it is the foundation of every other doctrine in Christian theology.",
+  },
+  {
+    videoId: "svt8i4Vh-gI",
+    preacher: "Tim Keller",
+    title: "Keller vs. Bacrac: The Reason for God Debate",
+    description: "Tim Keller debates atheist Norman Bacrac on \"The Reason for God,\" modeling respectful and rigorous Christian engagement with unbelief in a live forum setting.",
+  },
+];
+
 const APOL_METHODS = [
   { id: "classical", name: "Classical Apologetics", era: "Aquinas to Craig", context: "Two-step method: natural theology establishes theism, then historical evidence establishes Christianity", bio: "Classical apologetics proceeds in two stages. First, arguments from natural theology (cosmological, teleological, ontological, moral) establish that God exists. Only then, once theism is defensible, does the apologist present historical evidences for Jesus, the resurrection, and Scripture's reliability. The logic: it is worth examining Christian historical claims only if theism is coherent. Key practitioners include Thomas Aquinas (13th century), R.C. Sproul, and William Lane Craig. Craig's debates typically follow this two-step structure explicitly: establishing a philosophical case for theism, then making a historical case for the resurrection.", quote: "The theist can appeal to a whole series of arguments for God's existence which, taken individually, are powerful and which, taken collectively, may constitute a virtually irresistible case for theism.", contribution: "Classical apologetics has dominated formal philosophical apologetics. It produced the most technically rigorous arguments for Christian theism and remains the dominant model in academic philosophy of religion. Its weakness: critics argue that most people don't come to faith through syllogisms." },
   { id: "evidential", name: "Evidential Apologetics", era: "Montgomery, Strobel, Habermas", context: "Single-step: historical and archaeological evidences for Christianity, without first proving theism", bio: "Evidential apologetics presents historical, scientific, and archaeological evidence for Christian claims directly — without first requiring the inquirer to accept theism. John Warwick Montgomery argues that a historian using ordinary principles of historical investigation should conclude the resurrection occurred. Gary Habermas's 'Minimal Facts' approach presents only facts that virtually all critical scholars affirm, then shows the resurrection is the best explanation. Lee Strobel's popular-level work follows this approach, interviewing experts across disciplines. The assumption: evidence can be assessed objectively without prior theological commitments.", quote: "The weight of the evidence is, in fact, so great that no historian of the first century has successfully argued that Jesus did not exist.", contribution: "Evidential apologetics has been enormously influential in popular Christian outreach. Works like The Case for Christ and The Case for the Resurrection have reached millions. Its weakness: critics argue it underestimates how philosophical presuppositions affect evidence assessment." },
@@ -620,6 +659,40 @@ export default function ApologeticsPage() {
                   </div>
                 </div>
               ))}
+            </div>
+
+            {/* Video Section */}
+            <div style={{ marginTop: 40 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
+                <span style={{ fontSize: 20 }}>🎬</span>
+                <h2 style={{ fontSize: 20, fontWeight: 900, color: TEXT, margin: 0 }}>Apologetics on Video</h2>
+              </div>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 24 }}>
+                Watch leading apologists and preachers defend the faith&mdash;ideal for personal study or sharing with a skeptical friend.
+              </p>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(380px, 1fr))", gap: 24 }}>
+                {APOL_VIDEOS.map(v => (
+                  <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, overflow: "hidden" }}>
+                    <div style={{ padding: "0" }}>
+                      <iframe
+                        width="100%"
+                        style={{ aspectRatio: "16/9", border: "none", borderRadius: "8px 8px 0 0", display: "block" }}
+                        src={`https://www.youtube.com/embed/${v.videoId}`}
+                        title={v.title}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      />
+                    </div>
+                    <div style={{ padding: "16px 20px" }}>
+                      <span style={{ display: "inline-block", fontSize: 11, fontWeight: 700, padding: "3px 10px", borderRadius: 20, background: "rgba(107,79,187,0.18)", color: PURPLE, marginBottom: 8 }}>
+                        {v.preacher}
+                      </span>
+                      <h3 style={{ fontSize: 15, fontWeight: 800, color: TEXT, margin: "0 0 8px", lineHeight: 1.3 }}>{v.title}</h3>
+                      <p style={{ fontSize: 13, color: MUTED, lineHeight: 1.6, margin: 0 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
 
             {/* CTA Banner */}

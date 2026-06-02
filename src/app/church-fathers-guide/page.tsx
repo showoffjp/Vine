@@ -117,12 +117,125 @@ const FATHERS = [
   },
 ];
 
+const FATHER_PERIODS = [
+  {
+    id: 1,
+    era: "Apostolic Fathers",
+    period: "c. 70-150 AD",
+    description: "Students and disciples of the apostles who served as the bridge between the New Testament era and the broader sweep of church history. Their writings are not Scripture, but they represent the living memory of those who knew the apostles and preserve the teaching of the first generation. They wrote to encourage, correct, and unify young churches facing persecution and doctrinal confusion.",
+    key_figures: ["Ignatius of Antioch", "Clement of Rome", "Polycarp of Smyrna", "Papias of Hierapolis", "The Didache (anonymous)"],
+    key_controversy: "Establishing authentic Christianity — which communities, leaders, and teachings are genuinely apostolic",
+    significance: "The Apostolic Fathers give us our earliest window into how the church worshipped, organized itself, dealt with false teaching, and faced martyrdom. Their writings are the primary evidence for what Christianity looked like in the generation immediately after the apostles.",
+  },
+  {
+    id: 2,
+    era: "Apologists",
+    period: "c. 150-220 AD",
+    description: "The Apologists were educated Christians who addressed their writings to pagan Roman emperors and intellectuals to defend the faith against mischaracterizations and persecution. They argued that Christianity is morally superior to paganism, philosophically coherent, and not a threat to the Roman state. Many drew on Greek philosophy (Stoicism, Platonism) as a bridge to the gospel.",
+    key_figures: ["Justin Martyr", "Tertullian", "Athenagoras", "Theophilus of Antioch", "Minucius Felix"],
+    key_controversy: "Showing Christianity is philosophically credible and morally defensible to pagan Rome",
+    significance: "The Apologists pioneered the engagement between Christian faith and secular philosophy that has continued ever since. Justin Martyr's description of Sunday worship is our earliest detailed account of Christian liturgy. Tertullian's Latin theological vocabulary shaped Western Christianity for centuries.",
+  },
+  {
+    id: 3,
+    era: "Pre-Nicene Fathers",
+    period: "c. 170-325 AD",
+    description: "As Christianity grew, heresies multiplied — especially Gnosticism, which claimed a secret spiritual knowledge superior to the bodily resurrection and material creation. The Pre-Nicene Fathers responded by articulating the rule of faith (regula fidei), defending apostolic succession, and developing systematic approaches to Scripture and doctrine. Origen represents the high-water mark of pre-Nicene theological ambition.",
+    key_figures: ["Irenaeus of Lyons", "Origen of Alexandria", "Cyprian of Carthage", "Hippolytus of Rome", "Clement of Alexandria"],
+    key_controversy: "Gnosticism, Montanism, Modalism (Sabellianism) — all challenging the apostolic pattern of faith",
+    significance: "Irenaeus's Against Heresies gave the church its first comprehensive theological system. Origen's allegorical method shaped biblical interpretation for a millennium. Cyprian's ecclesiology ('outside the church there is no salvation') became foundational for both Catholic and Protestant ecclesiology.",
+  },
+  {
+    id: 4,
+    era: "Nicene Fathers",
+    period: "c. 325-430 AD",
+    description: "The great conciliar era, when the church's ecumenical councils defined the Trinity (Nicaea, 325; Constantinople, 381) and the two natures of Christ (Ephesus, 431; Chalcedon, 451). The Nicene Fathers were both bishops and theologians who engaged political power, endured exile, and argued with extraordinary precision over the Greek terms that would define Christian orthodoxy.",
+    key_figures: ["Athanasius of Alexandria", "Basil the Great", "Gregory of Nazianzus", "Gregory of Nyssa", "John Chrysostom", "Ambrose of Milan", "Augustine of Hippo"],
+    key_controversy: "Arianism (Christ is a created being, not fully divine) — the greatest theological crisis of the first millennium",
+    significance: "The Nicene Creed, hammered out in this period, remains the common confession of Catholic, Orthodox, and most Protestant churches. Athanasius's phrase 'homoousios' (same substance with the Father) and the Cappadocians' ousia/hypostasis distinction are the permanent framework for Trinitarian theology.",
+  },
+  {
+    id: 5,
+    era: "Post-Nicene Fathers",
+    period: "c. 430-600 AD",
+    description: "After the great doctrinal councils, the church turned to applying orthodoxy pastorally, politically, and institutionally. The Western Roman Empire was collapsing; the church increasingly stepped into civil roles. Monasticism grew as a counter-cultural spiritual movement. The great fathers of this era organized church and society, developed pastoral theology, and preserved learning through the darkening of late antiquity.",
+    key_figures: ["Leo the Great", "John Cassian", "Vincent of Lerins", "Gregory the Great", "Boethius", "Isidore of Seville"],
+    key_controversy: "Church-state relations, the nature of monasticism, and the Nestorian/Monophysite aftermath",
+    significance: "Gregory the Great's pastoral writings (Pastoral Rule) defined the bishop's role for the medieval church. John Cassian's Institutes and Conferences gave Western monasticism its spirituality. Leo's Tome and interventions at Chalcedon established papal authority in a new register.",
+  },
+];
+
+const FATHER_TEXTS = [
+  {
+    id: 1,
+    title: "The Didache",
+    author: "Anonymous",
+    date: "c. 100 AD",
+    excerpt: "You shall not murder; you shall not commit adultery; you shall not corrupt children; you shall not fornicate... And concerning the Eucharist, hold Eucharist thus: First concerning the Cup, 'We give thanks to thee, our Father, for the holy vine of David thy child.'",
+    significance: "Earliest non-canonical church manual — the first written evidence of how early Christians worshipped, practiced baptism, celebrated the Eucharist, and organized their communities. Rediscovered in 1873 in a monastery in Constantinople after being lost for 1,500 years.",
+  },
+  {
+    id: 2,
+    title: "Epistle to the Romans",
+    author: "Ignatius of Antioch",
+    date: "c. 110 AD",
+    excerpt: "I am God's wheat, ground fine by the lion's teeth to be made purest bread for Christ. Better still, incite the wild beasts to become my tomb and leave no trace of my body. Thus, when I have fallen asleep, I shall be a burden to no one.",
+    significance: "The most moving early Christian letter on martyrdom — written while Ignatius was being transported to Rome to be killed. Reveals the early church's theology of suffering, the Eucharist, and union with Christ through death.",
+  },
+  {
+    id: 3,
+    title: "First Apology",
+    author: "Justin Martyr",
+    date: "c. 155 AD",
+    excerpt: "We who formerly delighted in fornication now embrace chastity alone; we who formerly used magical arts now dedicate ourselves to the good and unbegotten God; we who formerly valued above all things the acquisition of wealth now bring what we have into a common stock and share with everyone in need.",
+    significance: "First systematic defense of Christianity addressed to a Roman Emperor (Antoninus Pius). Contains the earliest detailed description of Sunday Christian worship — including the reading of Scripture, preaching, prayers, and Eucharist — making it invaluable for liturgical history.",
+  },
+  {
+    id: 4,
+    title: "Against Heresies",
+    author: "Irenaeus of Lyons",
+    date: "c. 180 AD",
+    excerpt: "For the glory of God is a living man; and the life of man consists in beholding God. For if the manifestation of God which is made by means of the creation affords life to all living in the earth, much more does that revelation of the Father which comes through the Word give life to those who see God.",
+    significance: "The first comprehensive statement of orthodox theology — a five-volume refutation of Gnosticism that established the rule of faith, apostolic succession, and the canon of Scripture as the criteria for authentic Christianity. Still unsurpassed as an anti-Gnostic resource.",
+  },
+  {
+    id: 5,
+    title: "Confessions",
+    author: "Augustine of Hippo",
+    date: "c. 397 AD",
+    excerpt: "Thou madest us for Thyself, and our heart is restless, until it repose in Thee... Thou awakest us to delight in Thy praise; for Thou madest us for Thyself, and our heart is restless, until it repose in Thee.",
+    significance: "The first autobiography in Western literature and the most personal account of conversion in the history of the church. Augustine's account of his life from birth through his conversion at age 31 and his mother Monica's death has shaped Christian spirituality for 1,600 years.",
+  },
+  {
+    id: 6,
+    title: "On the Incarnation",
+    author: "Athanasius of Alexandria",
+    date: "c. 318 AD",
+    excerpt: "He became what we are that he might make us what he is. The Word of God came in His own Person, because it was He alone, the Image of the Father, Who could recreate man made after the Image.",
+    significance: "The clearest and most compelling statement of why God became man — written before the Arian controversy erupted. C.S. Lewis wrote the introduction to a 20th-century edition, describing it as one of the greatest books he had ever read. Required reading for any serious Christian.",
+  },
+];
+
+const FATHERS_VIDEOS = [
+  { id: "v6xk8e7gdMA", title: "The Holiness of God", speaker: "R.C. Sproul" },
+  { id: "7CBgp74UwbU", title: "The Trauma of Holiness", speaker: "R.C. Sproul" },
+  { id: "by8ykv7-A3c", title: "Supremacy of Christ and Truth", speaker: "Voddie Baucham" },
+  { id: "Kxup3OS5ZhQ", title: "The Reason for God at Google", speaker: "Tim Keller" },
+  { id: "JHdB1dYAteA", title: "Don't Waste Your Life", speaker: "John Piper" },
+  { id: "lsTzXI7cJGA", title: "The Prodigal Sons", speaker: "Tim Keller" },
+];
+
+type Tab = "guide" | "periods" | "texts" | "videos";
+
 export default function ChurchFathersGuidePage() {
+  const [activeTab, setActiveTab] = useState<Tab>("guide");
   const [era, setEra] = useState("All");
   const [selected, setSelected] = useState<string | null>(null);
+  const [selectedText, setSelectedText] = useState<number | null>(null);
 
   const filtered = FATHERS.filter(f => era === "All" || f.era === era);
   const father = FATHERS.find(f => f.name === selected);
+  const text = FATHER_TEXTS.find(t => t.id === selectedText) ?? null;
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 40 }}>
@@ -131,72 +244,193 @@ export default function ChurchFathersGuidePage() {
           <div style={{ fontSize: 48, marginBottom: 12 }}>🏛️</div>
           <h1 style={{ fontSize: 32, fontWeight: 900, marginBottom: 8 }}>The Church Fathers</h1>
           <p style={{ color: MUTED, fontSize: 16, maxWidth: 600, margin: "0 auto" }}>
-            The theologians who shaped Christian doctrine in the first six centuries — from Ignatius's martyrdom letters to Augustine's City of God. The cloud of witnesses who worked out what we now confess.
+            The theologians who shaped Christian doctrine in the first six centuries &mdash; from Ignatius&rsquo;s martyrdom letters to Augustine&rsquo;s City of God. The cloud of witnesses who worked out what we now confess.
           </p>
         </div>
 
-        <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 28 }}>
-          {ERAS.map(e => (
-            <button key={e} onClick={() => setEra(e)}
-              style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${era === e ? GREEN : BORDER}`, background: era === e ? `${GREEN}15` : "transparent", color: era === e ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
-              {e}
+        {/* Top Tab Bar */}
+        <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
+          {(["guide", "periods", "texts", "videos"] as const).map(t => (
+            <button key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer", flex: 1 }}>
+              {t === "guide" ? "Guide" : t === "periods" ? "Periods" : t === "texts" ? "Texts" : "Videos"}
             </button>
           ))}
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: father ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
-          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            {filtered.map((f, i) => (
-              <button key={i} onClick={() => setSelected(selected === f.name ? null : f.name)}
-                style={{ background: selected === f.name ? `${f.color}12` : CARD, border: `1px solid ${selected === f.name ? f.color + "50" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left", transition: "all 0.15s" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                  <div style={{ width: 44, height: 44, borderRadius: 10, background: `${f.color}20`, border: `1px solid ${f.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: f.color, fontWeight: 900, fontSize: 12, flexShrink: 0 }}>
-                    {f.initials}
-                  </div>
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-                      <span style={{ color: TEXT, fontWeight: 800, fontSize: 15 }}>{f.name}</span>
-                      <span style={{ background: `${f.color}15`, color: f.color, padding: "1px 8px", borderRadius: 8, fontSize: 10, fontWeight: 700 }}>{f.dates}</span>
+        {/* GUIDE TAB */}
+        {activeTab === "guide" && (
+          <>
+            <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 28 }}>
+              {ERAS.map(e => (
+                <button key={e} onClick={() => setEra(e)}
+                  style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${era === e ? GREEN : BORDER}`, background: era === e ? `${GREEN}15` : "transparent", color: era === e ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
+                  {e}
+                </button>
+              ))}
+            </div>
+
+            <div style={{ display: "grid", gridTemplateColumns: father ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                {filtered.map((f, i) => (
+                  <button key={i} onClick={() => setSelected(selected === f.name ? null : f.name)}
+                    style={{ background: selected === f.name ? `${f.color}12` : CARD, border: `1px solid ${selected === f.name ? f.color + "50" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left", transition: "all 0.15s" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                      <div style={{ width: 44, height: 44, borderRadius: 10, background: `${f.color}20`, border: `1px solid ${f.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: f.color, fontWeight: 900, fontSize: 12, flexShrink: 0 }}>
+                        {f.initials}
+                      </div>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                          <span style={{ color: TEXT, fontWeight: 800, fontSize: 15 }}>{f.name}</span>
+                          <span style={{ background: `${f.color}15`, color: f.color, padding: "1px 8px", borderRadius: 8, fontSize: 10, fontWeight: 700 }}>{f.dates}</span>
+                        </div>
+                        <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{f.role}</div>
+                      </div>
                     </div>
-                    <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{f.role}</div>
+                  </button>
+                ))}
+              </div>
+
+              {father && (
+                <div style={{ background: CARD, border: `1px solid ${father.color}30`, borderRadius: 14, padding: 28, position: "sticky", top: 100 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 14 }}>
+                    <div style={{ width: 52, height: 52, borderRadius: 12, background: `${father.color}20`, border: `1px solid ${father.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: father.color, fontWeight: 900, fontSize: 13, flexShrink: 0 }}>
+                      {father.initials}
+                    </div>
+                    <div>
+                      <h2 style={{ color: father.color, fontWeight: 900, fontSize: 20, margin: "0 0 2px" }}>{father.name}</h2>
+                      <div style={{ color: MUTED, fontSize: 12 }}>{father.dates} &middot; {father.role}</div>
+                    </div>
+                  </div>
+
+                  <div style={{ background: `${father.color}08`, border: `1px solid ${father.color}20`, borderRadius: 10, padding: 14, marginBottom: 14 }}>
+                    <div style={{ color: father.color, fontWeight: 700, fontSize: 10, marginBottom: 6 }}>KEY QUOTE</div>
+                    <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0, fontStyle: "italic" }}>&ldquo;{father.key_quote}&rdquo;</p>
+                  </div>
+
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, marginBottom: 14 }}>{father.significance}</p>
+
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 14 }}>
+                    <div style={{ background: `${PURPLE}08`, border: `1px solid ${PURPLE}15`, borderRadius: 8, padding: 10 }}>
+                      <div style={{ color: PURPLE, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>KEY WORKS</div>
+                      <p style={{ color: TEXT, fontSize: 12, margin: 0, lineHeight: 1.5 }}>{father.key_work}</p>
+                    </div>
+                    <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}15`, borderRadius: 8, padding: 10 }}>
+                      <div style={{ color: GREEN, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>THEOLOGY</div>
+                      <p style={{ color: TEXT, fontSize: 12, margin: 0, lineHeight: 1.5 }}>{father.theology}</p>
+                    </div>
                   </div>
                 </div>
-              </button>
+              )}
+            </div>
+          </>
+        )}
+
+        {/* PERIODS TAB */}
+        {activeTab === "periods" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+            <p style={{ fontSize: 14, color: MUTED, lineHeight: 1.7, maxWidth: 720, marginBottom: 8 }}>
+              The Church Fathers span five distinct periods, each shaped by different controversies, contexts, and challenges. Understanding the era helps you understand why a father wrote what he wrote.
+            </p>
+            {FATHER_PERIODS.map(period => (
+              <div key={period.id} style={{ background: CARD, borderRadius: 16, padding: 28, border: `1px solid ${BORDER}` }}>
+                <div style={{ display: "flex", gap: 14, alignItems: "flex-start", marginBottom: 16, flexWrap: "wrap" }}>
+                  <div>
+                    <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap", marginBottom: 6 }}>
+                      <h3 style={{ fontSize: 18, fontWeight: 900, color: TEXT, margin: 0 }}>{period.era}</h3>
+                      <span style={{ background: `${GREEN}15`, color: GREEN, padding: "2px 10px", borderRadius: 20, fontSize: 11, fontWeight: 700, border: `1px solid ${GREEN}30` }}>{period.period}</span>
+                    </div>
+                    <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.8, marginBottom: 14 }}>{period.description}</p>
+                  </div>
+                </div>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 12 }}>
+                  <div style={{ background: `${PURPLE}08`, border: `1px solid ${PURPLE}20`, borderRadius: 10, padding: 14 }}>
+                    <div style={{ color: PURPLE, fontWeight: 700, fontSize: 10, marginBottom: 8 }}>KEY FIGURES</div>
+                    <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                      {period.key_figures.map(f => (
+                        <div key={f} style={{ fontSize: 13, color: TEXT, display: "flex", alignItems: "center", gap: 6 }}>
+                          <span style={{ color: PURPLE, fontSize: 10 }}>&#9658;</span> {f}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                    <div style={{ background: "#FF444408", border: "1px solid #FF444420", borderRadius: 10, padding: 14 }}>
+                      <div style={{ color: "#FF6666", fontWeight: 700, fontSize: 10, marginBottom: 6 }}>KEY CONTROVERSY</div>
+                      <p style={{ color: TEXT, fontSize: 13, margin: 0, lineHeight: 1.6 }}>{period.key_controversy}</p>
+                    </div>
+                    <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 10, padding: 14 }}>
+                      <div style={{ color: GREEN, fontWeight: 700, fontSize: 10, marginBottom: 6 }}>SIGNIFICANCE</div>
+                      <p style={{ color: TEXT, fontSize: 13, margin: 0, lineHeight: 1.6 }}>{period.significance}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
+        )}
 
-          {father && (
-            <div style={{ background: CARD, border: `1px solid ${father.color}30`, borderRadius: 14, padding: 28, position: "sticky", top: 100 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 14 }}>
-                <div style={{ width: 52, height: 52, borderRadius: 12, background: `${father.color}20`, border: `1px solid ${father.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: father.color, fontWeight: 900, fontSize: 13, flexShrink: 0 }}>
-                  {father.initials}
-                </div>
-                <div>
-                  <h2 style={{ color: father.color, fontWeight: 900, fontSize: 20, margin: "0 0 2px" }}>{father.name}</h2>
-                  <div style={{ color: MUTED, fontSize: 12 }}>{father.dates} · {father.role}</div>
-                </div>
-              </div>
-
-              <div style={{ background: `${father.color}08`, border: `1px solid ${father.color}20`, borderRadius: 10, padding: 14, marginBottom: 14 }}>
-                <div style={{ color: father.color, fontWeight: 700, fontSize: 10, marginBottom: 6 }}>KEY QUOTE</div>
-                <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0, fontStyle: "italic" }}>"{father.key_quote}"</p>
-              </div>
-
-              <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, marginBottom: 14 }}>{father.significance}</p>
-
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 14 }}>
-                <div style={{ background: `${PURPLE}08`, border: `1px solid ${PURPLE}15`, borderRadius: 8, padding: 10 }}>
-                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>KEY WORKS</div>
-                  <p style={{ color: TEXT, fontSize: 12, margin: 0, lineHeight: 1.5 }}>{father.key_work}</p>
-                </div>
-                <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}15`, borderRadius: 8, padding: 10 }}>
-                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>THEOLOGY</div>
-                  <p style={{ color: TEXT, fontSize: 12, margin: 0, lineHeight: 1.5 }}>{father.theology}</p>
-                </div>
-              </div>
+        {/* TEXTS TAB */}
+        {activeTab === "texts" && (
+          <div style={{ display: "grid", gridTemplateColumns: text ? "1fr 300px" : "1fr", gap: 16, alignItems: "start" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+              <p style={{ fontSize: 14, color: MUTED, lineHeight: 1.7, marginBottom: 8 }}>
+                Six primary texts every serious student of the Church Fathers should read &mdash; with real excerpts and their significance in Christian history.
+              </p>
+              {FATHER_TEXTS.map(t => (
+                <button key={t.id} onClick={() => setSelectedText(selectedText === t.id ? null : t.id)}
+                  style={{ background: selectedText === t.id ? `${GREEN}08` : CARD, border: `1px solid ${selectedText === t.id ? GREEN + "40" : BORDER}`, borderRadius: 14, padding: "20px 24px", cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap", marginBottom: 8 }}>
+                    <span style={{ color: TEXT, fontWeight: 900, fontSize: 16 }}>{t.title}</span>
+                    <span style={{ background: `${PURPLE}15`, color: PURPLE, padding: "1px 8px", borderRadius: 8, fontSize: 11, fontWeight: 700 }}>{t.date}</span>
+                  </div>
+                  <div style={{ color: MUTED, fontSize: 13, marginBottom: 12 }}>by {t.author}</div>
+                  <p style={{ fontSize: 13, color: GREEN, lineHeight: 1.7, fontStyle: "italic", margin: 0 }}>
+                    &ldquo;{t.excerpt}&rdquo;
+                  </p>
+                </button>
+              ))}
             </div>
-          )}
-        </div>
+
+            {text && (
+              <div style={{ background: CARD, border: `1px solid ${GREEN}30`, borderRadius: 14, padding: 20, position: "sticky", top: 100 }}>
+                <h3 style={{ color: GREEN, fontWeight: 900, fontSize: 16, marginBottom: 4 }}>{text.title}</h3>
+                <div style={{ color: MUTED, fontSize: 12, marginBottom: 4 }}>by {text.author}</div>
+                <div style={{ color: PURPLE, fontSize: 12, fontWeight: 700, marginBottom: 14 }}>{text.date}</div>
+                <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 8, padding: 14, marginBottom: 14 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 10, marginBottom: 6 }}>EXCERPT</div>
+                  <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, fontStyle: "italic", margin: 0 }}>&ldquo;{text.excerpt}&rdquo;</p>
+                </div>
+                <div style={{ background: `${PURPLE}08`, border: `1px solid ${PURPLE}20`, borderRadius: 8, padding: 14 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 10, marginBottom: 6 }}>SIGNIFICANCE</div>
+                  <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.6, margin: 0 }}>{text.significance}</p>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* VIDEOS TAB */}
+        {activeTab === "videos" && (
+          <div>
+            <p style={{ fontSize: 14, color: MUTED, lineHeight: 1.7, marginBottom: 24 }}>
+              Lectures and sermons on theology, church history, and the truth the Fathers gave their lives to defend.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(440px, 1fr))", gap: 20 }}>
+              {FATHERS_VIDEOS.map(v => (
+                <div key={v.id} style={{ background: CARD, borderRadius: 14, overflow: "hidden", border: `1px solid ${BORDER}` }}>
+                  <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", borderRadius: 0 }}
+                    src={`https://www.youtube.com/embed/${v.id}`} title={v.title}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+                  <div style={{ padding: "14px 18px" }}>
+                    <div style={{ fontWeight: 700, fontSize: 14, color: TEXT, marginBottom: 4 }}>{v.title}</div>
+                    <div style={{ fontSize: 12, color: MUTED }}>{v.speaker}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
       </div>
     </div>
   );

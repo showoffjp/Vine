@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const THEOLOGY = [
   { title: "The Fifth Commandment Extended", verse: "Exodus 20:12", body: "'Honor your father and your mother' (Exodus 20:12). This commandment does not expire when you turn 18. Paul grounds it in Ephesians 6:2-3 as 'the first commandment with a promise' — it remains in force for adult children. The honor looks different in different seasons: for young children it means obedience; for adult children it means care, respect, financial support when needed, and presence." },

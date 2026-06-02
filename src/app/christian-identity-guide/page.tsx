@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const IDENTITY_STATEMENTS = [
   { category: "Belonging", statement: "I am a child of God", verse: "John 1:12", explanation: "As many as received him, to those who believed in his name, he gave the right to become children of God. Not servants, not subjects — children. The relationship is adoptive, personal, familial. God is not merely your creator; he is your Father. This is the most foundational identity statement in the New Testament." },

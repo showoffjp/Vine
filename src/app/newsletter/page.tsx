@@ -56,7 +56,7 @@ const editions = [
     frequency: "Every Sunday morning",
     description: "The 5 best articles, top discussion, verse of the week, and global prayer spotlight. Curated, not algorithmic.",
     icon: Star,
-    color: "#00FF88",
+    color: "#3a7d56",
     subscribers: "124K",
     popular: true,
   },
@@ -137,8 +137,8 @@ export default function NewsletterPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
           <div className="text-center max-w-2xl mx-auto">
             <div className="flex items-center justify-center gap-2 mb-4">
-              <Mail size={22} style={{ color: "#00FF88" }} />
-              <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#00FF88" }}>
+              <Mail size={22} style={{ color: "#3a7d56" }} />
+              <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#3a7d56" }}>
                 Newsletters
               </span>
             </div>
@@ -146,7 +146,7 @@ export default function NewsletterPage() {
               Faith in your{" "}
               <span
                 style={{
-                  background: "linear-gradient(135deg, #00FF88, #6B4FBB)",
+                  background: "linear-gradient(135deg, #3a7d56, #6B4FBB)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                 }}
@@ -187,7 +187,7 @@ export default function NewsletterPage() {
                   {ed.popular && (
                     <div
                       className="absolute top-4 right-4 text-xs font-bold px-2 py-0.5 rounded-full"
-                      style={{ background: "rgba(0,255,136,0.15)", color: "#00FF88" }}
+                      style={{ background: "rgba(58,125,86,0.15)", color: "#3a7d56" }}
                     >
                       Most Popular
                     </div>
@@ -219,8 +219,8 @@ export default function NewsletterPage() {
             <div
               className="max-w-xl mx-auto rounded-2xl p-8"
               style={{
-                background: "linear-gradient(135deg, rgba(0,255,136,0.06) 0%, rgba(107,79,187,0.06) 100%)",
-                border: "1px solid rgba(0,255,136,0.15)",
+                background: "linear-gradient(135deg, rgba(58,125,86,0.06) 0%, rgba(107,79,187,0.06) 100%)",
+                border: "1px solid rgba(58,125,86,0.15)",
               }}
             >
               <h3 className="text-xl font-black mb-2 text-center" style={{ color: "#F2F2F8" }}>
@@ -248,7 +248,7 @@ export default function NewsletterPage() {
                   onClick={handleSubscribe}
                   className="px-6 py-3 rounded-xl font-bold text-sm text-black transition-opacity"
                   style={{
-                    background: "linear-gradient(135deg, #00FF88, #00BB55)",
+                    background: "linear-gradient(135deg, #3a7d56, #3a7d56)",
                     opacity: email && selected.length ? 1 : 0.5,
                   }}
                 >
@@ -307,7 +307,7 @@ export default function NewsletterPage() {
                 style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.background = "rgba(255,255,255,0.04)";
-                  e.currentTarget.style.borderColor = "rgba(0,255,136,0.15)";
+                  e.currentTarget.style.borderColor = "rgba(58,125,86,0.15)";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.background = "rgba(255,255,255,0.02)";
@@ -317,7 +317,7 @@ export default function NewsletterPage() {
                 <div className="flex items-start gap-4">
                   <div
                     className="w-12 h-12 rounded-xl flex items-center justify-center text-sm font-black shrink-0"
-                    style={{ background: "rgba(0,255,136,0.1)", color: "#00FF88" }}
+                    style={{ background: "rgba(58,125,86,0.1)", color: "#3a7d56" }}
                   >
                     {issue.issue}
                   </div>
@@ -331,7 +331,7 @@ export default function NewsletterPage() {
                         {issue.opens} open rate
                       </span>
                     </div>
-                    <h3 className="font-bold text-base mb-1.5 group-hover:text-[#00FF88] transition-colors" style={{ color: "#F2F2F8" }}>
+                    <h3 className="font-bold text-base mb-1.5 group-hover:text-[#3a7d56] transition-colors" style={{ color: "#F2F2F8" }}>
                       {issue.title}
                     </h3>
                     <p className="text-sm mb-3" style={{ color: "#6A6A88" }}>{issue.preview}</p>
@@ -347,7 +347,7 @@ export default function NewsletterPage() {
                       ))}
                     </div>
                   </div>
-                  <ChevronRight size={16} className="shrink-0 mt-1 group-hover:text-[#00FF88] transition-colors" style={{ color: "#4A4A68" }} />
+                  <ChevronRight size={16} className="shrink-0 mt-1 group-hover:text-[#3a7d56] transition-colors" style={{ color: "#4A4A68" }} />
                 </div>
               </div>
             ))}
@@ -366,7 +366,7 @@ export default function NewsletterPage() {
               >
                 <div className="flex mb-3">
                   {[...Array(5)].map((_, j) => (
-                    <Star key={j} size={14} style={{ color: "#00FF88" }} />
+                    <Star key={j} size={14} style={{ color: "#3a7d56" }} />
                   ))}
                 </div>
                 <p className="text-sm italic mb-4 leading-relaxed" style={{ color: "#C0C0D8" }}>

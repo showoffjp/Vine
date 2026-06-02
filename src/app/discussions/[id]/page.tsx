@@ -75,7 +75,7 @@ const threads: Record<string, {
       {
         author: "Amara Osei",
         avatar: "AO",
-        avatarColor: "#00FF88",
+        avatarColor: "#3a7d56",
         flag: "🇬🇭",
         isOp: false,
         body: "Practical suggestion: Find one honest, intellectually serious Christian to talk to about this in person. Not to resolve the doubt — just to not be alone in it. Isolation makes doubt feel much larger than it is. The book of Job is literally a long argument between Job and his friends. God shows up at the end not to explain everything but to be present. Sometimes that's enough.",
@@ -154,7 +154,7 @@ const threads: Record<string, {
     title: "After 3 years of depression and praying for healing, I finally got therapy — and it changed everything.",
     body: "I want to preface this: I love God. I have not stopped believing. But for three years I believed that if I just had enough faith, my depression would lift. My pastor said 'the joy of the Lord is your strength' as if it were a prescription. I was drowning and ashamed. Eight months ago I finally started seeing a Christian counselor. I want to share what happened.",
     hub: "r/MentalHealth&Faith",
-    hubColor: "#00FF88",
+    hubColor: "#3a7d56",
     author: "Isabella Ferreira",
     avatar: "IF",
     avatarColor: "#EC4899",
@@ -242,7 +242,7 @@ const threads: Record<string, {
       {
         author: "Amara Osei",
         avatar: "AO",
-        avatarColor: "#00FF88",
+        avatarColor: "#3a7d56",
         flag: "🇬🇭",
         body: "James 5:16 says 'The prayer of a righteous person is powerful and effective.' Two hundred and forty-seven righteous people went before God for a man they had never met. And God moved. I don't have adequate words. Just tears and thanksgiving. Hug your father tight tonight, Maria.",
         upvotes: 1643,
@@ -259,7 +259,7 @@ const threads: Record<string, {
     hubColor: "#4FBBAA",
     author: "Amara Osei",
     avatar: "AO",
-    avatarColor: "#00FF88",
+    avatarColor: "#3a7d56",
     flag: "🇬🇭",
     upvotes: 789,
     date: "May 23, 2026",
@@ -378,7 +378,7 @@ const threads: Record<string, {
       {
         author: "Amara Osei",
         avatar: "AO",
-        avatarColor: "#00FF88",
+        avatarColor: "#3a7d56",
         flag: "🇬🇭",
         body: "What helped me most was finding a community of people who were asking honest questions AND staying in the faith. Not people who had all the answers, but people who were willing to sit in the tension with me. That combination — honesty plus perseverance — was rarer than I expected but absolutely exists. Don't let the algorithm show you only the people who walked away.",
         upvotes: 1567,
@@ -437,7 +437,7 @@ const threads: Record<string, {
     title: "I pray and pray and nothing seems to happen. Is God actually listening?",
     body: "I know this is vulnerable to share, but I've been praying about the same situation for 3 years. Nothing has changed. I believe God exists. But sometimes in the silence I wonder if prayer is just... talking to myself? I feel guilty even writing this. Has anyone else been here?",
     hub: "r/Prayer",
-    hubColor: "#00FF88",
+    hubColor: "#3a7d56",
     author: "Hannah P.",
     avatar: "HP",
     avatarColor: "#EC4899",
@@ -470,7 +470,7 @@ const threads: Record<string, {
       {
         author: "Amara Osei",
         avatar: "AO",
-        avatarColor: "#00FF88",
+        avatarColor: "#3a7d56",
         flag: "🇬🇭",
         body: "Practical and honest response: I've been through seasons where prayer felt completely empty. What helped me was changing what I was asking from 'God, change this situation' to 'God, change me in this situation.' It's not that God ignores the first kind of prayer — he doesn't — but the second kind has a different quality. It's more available to be answered, in some way, every day.",
         upvotes: 1893,
@@ -778,7 +778,7 @@ const threads: Record<string, {
       {
         author: "Pastor Marcus Webb",
         avatar: "MW",
-        avatarColor: "#00FF88",
+        avatarColor: "#3a7d56",
         flag: "🇺🇸",
         body: "I've walked with dozens of families in this situation over 25 years of ministry, and there is one thing I've observed consistently: the parents who maintain long-season faith in this are the ones who anchor their prayer in God's character rather than in outcomes. You are not praying to change God's mind — you are praying in alignment with what God already wants. He loves your son more than you do. That's not a platitude. It's the bedrock.",
         upvotes: 1847,
@@ -824,10 +824,10 @@ const threads: Record<string, {
     title: "How do you actually live out your faith at work without being the 'weird Christian'?",
     body: "I'm a software engineer at a fairly secular tech company. Most of my colleagues are atheist or agnostic. I don't want to hide my faith, but I also don't want to be the person who turns every conversation into an evangelism opportunity. Is there a way to be authentically Christian in a secular workplace without either erasing your identity or making your coworkers uncomfortable? Looking for real, practical stories — not generic 'just shine your light' advice.",
     hub: "r/FaithAndWork",
-    hubColor: "#00FF88",
+    hubColor: "#3a7d56",
     author: "Kwame Asante",
     avatar: "KA",
-    avatarColor: "#00FF88",
+    avatarColor: "#3a7d56",
     flag: "🇬🇭",
     upvotes: 3891,
     date: "May 21, 2026",
@@ -844,7 +844,7 @@ const threads: Record<string, {
           {
             author: "Kwame Asante",
             avatar: "KA",
-            avatarColor: "#00FF88",
+            avatarColor: "#3a7d56",
             flag: "🇬🇭",
             body: "This is exactly the kind of concrete answer I needed. 'It recontextualizes everything they've seen' — that's the model. Thank you.",
             upvotes: 478,
@@ -1133,7 +1133,7 @@ const threads: Record<string, {
       {
         author: "Rev. Sarah Okonkwo",
         avatar: "SO",
-        avatarColor: "#00FF88",
+        avatarColor: "#3a7d56",
         flag: "🇳🇬",
         body: "A few things that resonate with teens specifically: First, Jesus himself asked 'My God, my God, why have you forsaken me?' — so asking the question isn't doubt, it's scriptural. Second, God is not absent from suffering — he entered it. The cross is not God watching from a safe distance; it's God in the middle of the worst thing imaginable. That framing tends to land with young people in a way that abstract theodicy doesn't.",
         upvotes: 341,
@@ -1154,7 +1154,7 @@ const threads: Record<string, {
       {
         author: "Amara Osei",
         avatar: "AO",
-        avatarColor: "#00FF88",
+        avatarColor: "#3a7d56",
         flag: "🇬🇭",
         body: "Something I'd add: make space for her grief first before the theology. Her classmate's parent died. That's traumatic. Before you explain why God allows suffering, sit with her in the fact that it's genuinely terrible that this happened. Lament before logic. Psalm 22 starts in desolation and moves toward trust — that's the pastoral model.",
         upvotes: 398,
@@ -1200,7 +1200,7 @@ const threads: Record<string, {
       {
         author: "Amara Osei",
         avatar: "AO",
-        avatarColor: "#00FF88",
+        avatarColor: "#3a7d56",
         flag: "🇬🇭",
         body: "As a Ghanaian woman married to a white British man, I want to say: the concerns you'll face are mostly cultural, not theological. And they'll come from both sides. Prepare for that with grace and patience — not because your relationship is wrong but because some people take time. The biblical case for your relationship is rock solid. The pastoral case for taking it slowly with your church community is also real.",
         upvotes: 2891,
@@ -1235,7 +1235,7 @@ const threads: Record<string, {
       {
         author: "Dr. Sarah Kimani",
         avatar: "SK",
-        avatarColor: "#00FF88",
+        avatarColor: "#3a7d56",
         flag: "🇰🇪",
         body: "As a biblical counselor and licensed therapist who is also a committed Christian, let me be direct: antidepressants are not a spiritual failure. They are medicine. We don't tell diabetics that insulin means weak faith. We don't tell people with broken legs to 'pray harder instead of getting a cast.' The brain is an organ. When it needs medical support, getting that support is good stewardship of the body God gave you. Elijah was suicidal under a broom tree (1 Kings 19). God's response wasn't 'pray harder' — it was 'eat something and sleep.' Physical care came first.",
         upvotes: 4891,
@@ -1472,7 +1472,7 @@ const threads: Record<string, {
       {
         author: "Pastor James Whitfield",
         avatar: "JW",
-        avatarColor: "#00FF88",
+        avatarColor: "#3a7d56",
         flag: "🇺🇸",
         body: "I've been a pastor for 18 years and let me say something plainly: what happened to you was wrong. Full stop. The people who did it bear full responsibility. God is not asking you to minimize it, rush past it, or perform forgiveness on their timeline. He is patient. He has been in the waiting with you for two years and He will still be there when you're ready. You don't have to rush back to anything.",
         upvotes: 5891,
@@ -1532,7 +1532,7 @@ export default async function DiscussionPage({ params }: { params: Promise<{ id:
           <p className="text-6xl mb-6">💬</p>
           <h1 className="text-3xl font-black mb-4">Thread not found</h1>
           <a href="/discussions" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-black"
-            style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)" }}>
+            style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}>
             Back to Discussions
           </a>
         </div>
@@ -1549,7 +1549,7 @@ export default async function DiscussionPage({ params }: { params: Promise<{ id:
       <div className="page-body pb-20">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Back */}
-          <a href="/discussions" className="inline-flex items-center gap-2 text-sm mb-6 hover:text-[#00FF88] transition-colors" style={{ color: "#6A6A88" }}>
+          <a href="/discussions" className="inline-flex items-center gap-2 text-sm mb-6 hover:text-[#3a7d56] transition-colors" style={{ color: "#6A6A88" }}>
             <ArrowLeft size={14} /> Discussions
           </a>
 
@@ -1620,7 +1620,7 @@ export default async function DiscussionPage({ params }: { params: Promise<{ id:
 
                   {reply.verse && (
                     <span className="text-xs px-2 py-0.5 rounded-full inline-flex items-center gap-1"
-                      style={{ background: "rgba(0,255,136,0.08)", color: "#00FF88" }}>
+                      style={{ background: "rgba(58,125,86,0.08)", color: "#3a7d56" }}>
                       📜 {reply.verse}
                     </span>
                   )}

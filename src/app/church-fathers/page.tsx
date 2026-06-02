@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 type Tab = "fathers" | "theology" | "legacy" | "writings" | "videos";
 
@@ -238,7 +238,7 @@ export default function ChurchFathersPage() {
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 80 }}>
               {WRITINGS_DATA.map(w => (
                 <button key={w.id} onClick={() => setSelectedWriting(w.id)}
-                  style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedWriting === w.id ? "rgba(0,255,136,0.4)" : BORDER}`, background: selectedWriting === w.id ? "rgba(0,255,136,0.08)" : CARD, cursor: "pointer" }}>
+                  style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedWriting === w.id ? "rgba(58,125,86,0.4)" : BORDER}`, background: selectedWriting === w.id ? "rgba(58,125,86,0.08)" : CARD, cursor: "pointer" }}>
                   <div style={{ fontSize: 12, fontWeight: 700, color: selectedWriting === w.id ? GREEN : TEXT, marginBottom: 2 }}>{w.author}</div>
                   <div style={{ fontSize: 10, color: MUTED }}>{w.era}</div>
                 </button>

@@ -55,7 +55,7 @@ const MODES: { id: GameMode; label: string; description: string; icon: string }[
   { id: "fill-blank", label: "Fill in the Blank", description: "Complete the missing words", icon: "✏️" },
 ];
 
-const DIFFICULTY_COLORS = { Easy: "#00FF88", Medium: "#F59E0B", Hard: "#EF4444" };
+const DIFFICULTY_COLORS = { Easy: "#3a7d56", Medium: "#F59E0B", Hard: "#EF4444" };
 
 const shuffle = <T,>(arr: T[]): T[] => [...arr].sort(() => Math.random() - 0.5);
 
@@ -210,7 +210,7 @@ export default function ScriptureGamePage() {
             { value: stats.currentStreak.toString(), label: "Current Streak" },
           ].map((s) => (
             <div key={s.label}>
-              <div style={{ fontSize: 24, fontWeight: 700, color: "#00FF88" }}>{s.value}</div>
+              <div style={{ fontSize: 24, fontWeight: 700, color: "#3a7d56" }}>{s.value}</div>
               <div style={{ fontSize: 12, color: "#9898B3" }}>{s.label}</div>
             </div>
           ))}
@@ -263,9 +263,9 @@ export default function ScriptureGamePage() {
                     <button key={c} onClick={() => setFilterCategory(c)}
                       style={{
                         padding: "5px 14px", borderRadius: 20, fontSize: 12, cursor: "pointer",
-                        border: `1px solid ${filterCategory === c ? "#00FF88" : "#1E1E32"}`,
-                        background: filterCategory === c ? "#00FF8815" : "transparent",
-                        color: filterCategory === c ? "#00FF88" : "#9898B3",
+                        border: `1px solid ${filterCategory === c ? "#3a7d56" : "#1E1E32"}`,
+                        background: filterCategory === c ? "#3a7d5615" : "transparent",
+                        color: filterCategory === c ? "#3a7d56" : "#9898B3",
                       }}>
                       {c}
                     </button>
@@ -279,7 +279,7 @@ export default function ScriptureGamePage() {
               disabled={!mode}
               style={{
                 width: "100%", padding: "14px 20px", borderRadius: 12, border: "none",
-                background: mode ? "#00FF88" : "#1E1E32",
+                background: mode ? "#3a7d56" : "#1E1E32",
                 color: mode ? "#07070F" : "#9898B3",
                 cursor: mode ? "pointer" : "default",
                 fontWeight: 700, fontSize: 17,
@@ -298,7 +298,7 @@ export default function ScriptureGamePage() {
                       <div key={cat} style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 10, padding: "12px 14px" }}>
                         <div style={{ fontSize: 13, fontWeight: 600, color: "#F2F2F8", marginBottom: 6 }}>{cat}</div>
                         <div style={{ height: 4, background: "#1E1E32", borderRadius: 2, marginBottom: 4 }}>
-                          <div style={{ height: "100%", borderRadius: 2, background: pct >= 80 ? "#00FF88" : pct >= 50 ? "#F59E0B" : "#EF4444", width: `${pct}%`, transition: "width 0.5s" }} />
+                          <div style={{ height: "100%", borderRadius: 2, background: pct >= 80 ? "#3a7d56" : pct >= 50 ? "#F59E0B" : "#EF4444", width: `${pct}%`, transition: "width 0.5s" }} />
                         </div>
                         <div style={{ fontSize: 11, color: "#9898B3" }}>{score.correct}/{score.total} ({pct}%)</div>
                       </div>
@@ -360,14 +360,14 @@ export default function ScriptureGamePage() {
                     style={{
                       padding: "12px 16px", borderRadius: 10, border: "2px solid",
                       borderColor: selected === choice
-                        ? (isCorrect ? "#00FF88" : "#EF4444")
+                        ? (isCorrect ? "#3a7d56" : "#EF4444")
                         : choice === verse.ref && selected !== null
-                        ? "#00FF88"
+                        ? "#3a7d56"
                         : "#1E1E32",
                       background: selected === choice
-                        ? (isCorrect ? "#00FF8815" : "#EF444415")
+                        ? (isCorrect ? "#3a7d5615" : "#EF444415")
                         : choice === verse.ref && selected !== null
-                        ? "#00FF8815"
+                        ? "#3a7d5615"
                         : "#12121F",
                       color: "#F2F2F8", cursor: selected ? "default" : "pointer",
                       fontSize: 13, fontWeight: 500, textAlign: "left", lineHeight: 1.4,
@@ -418,9 +418,9 @@ export default function ScriptureGamePage() {
             {selected !== null && isCorrect !== null && (
               <div style={{
                 marginTop: 16, padding: "12px 16px", borderRadius: 10,
-                background: isCorrect ? "#00FF8815" : "#EF444415",
-                border: `1px solid ${isCorrect ? "#00FF8840" : "#EF444440"}`,
-                color: isCorrect ? "#00FF88" : "#EF4444",
+                background: isCorrect ? "#3a7d5615" : "#EF444415",
+                border: `1px solid ${isCorrect ? "#3a7d5640" : "#EF444440"}`,
+                color: isCorrect ? "#3a7d56" : "#EF4444",
                 fontSize: 14, fontWeight: 600,
               }}>
                 {isCorrect ? "✓ Correct!" : `✗ The answer was: ${mode === "text-to-ref" || mode === "multiple-choice" ? verse.ref : blank?.answer ?? verse.text}`}
@@ -444,7 +444,7 @@ export default function ScriptureGamePage() {
             </p>
             <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
               <button onClick={() => { setGameState("idle"); setMode(null); }}
-                style={{ padding: "12px 28px", borderRadius: 10, background: "#00FF88", border: "none", color: "#07070F", fontWeight: 700, fontSize: 15, cursor: "pointer" }}>
+                style={{ padding: "12px 28px", borderRadius: 10, background: "#3a7d56", border: "none", color: "#07070F", fontWeight: 700, fontSize: 15, cursor: "pointer" }}>
                 Play Again
               </button>
               <button onClick={() => mode && startGame(mode)}

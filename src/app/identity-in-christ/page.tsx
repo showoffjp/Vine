@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const IDENTITY_STATEMENTS = [
   { ref: "John 1:12", statement: "I am a child of God.", category: "Belonging", verse: "Yet to all who did receive him, to those who believed in his name, he gave the right to become children of God." },
@@ -77,7 +77,7 @@ const CATEGORIES = ["All", "Belonging", "Freedom", "Renewal", "Purpose", "Streng
 const CATEGORY_COLORS: Record<string, string> = {
   "Belonging": "#6B4FBB", "Freedom": "#10B981", "Renewal": "#3B82F6",
   "Purpose": "#F59E0B", "Strength": "#EF4444", "Dignity": "#EC4899",
-  "Sufficiency": "#8B5CF6", "Access": "#00FF88", "Security": "#F97316",
+  "Sufficiency": "#8B5CF6", "Access": "#3a7d56", "Security": "#F97316",
 };
 
 const FALSE_IDENTITIES = [

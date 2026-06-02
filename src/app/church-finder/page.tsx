@@ -31,7 +31,7 @@ const SIZES = ["All", "Small (<100)", "Medium (100-500)", "Large (500-2000)", "M
 const COUNTRIES = ["All", "USA", "UK", "Canada", "Nigeria", "Kenya", "Ghana", "Brazil", "South Korea", "Germany", "Australia", "Singapore", "South Africa", "India"];
 
 const DENOM_COLORS: Record<string, string> = {
-  "Non-denominational": "#00FF88",
+  "Non-denominational": "#3a7d56",
   "Baptist": "#3B82F6",
   "Methodist": "#6B4FBB",
   "Presbyterian": "#F59E0B",
@@ -327,12 +327,12 @@ export default function ChurchFinderPage() {
         {/* Hero */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8 pt-2">
           <div className="flex items-center gap-2 mb-4">
-            <MapPin size={18} style={{ color: "#00FF88" }} />
-            <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#00FF88" }}>Church Finder</span>
+            <MapPin size={18} style={{ color: "#3a7d56" }} />
+            <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#3a7d56" }}>Church Finder</span>
           </div>
           <h1 className="text-4xl sm:text-5xl font-black mb-3">
             Find your{" "}
-            <span style={{ background: "linear-gradient(135deg, #00FF88, #6B4FBB)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+            <span style={{ background: "linear-gradient(135deg, #3a7d56, #6B4FBB)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
               church home.
             </span>
           </h1>
@@ -342,7 +342,7 @@ export default function ChurchFinderPage() {
           <div className="flex flex-wrap gap-3 text-sm" style={{ color: "#8A8AA8" }}>
             {[{ v: "15,000+", label: "Churches listed" }, { v: "184", label: "Countries" }, { v: "40+", label: "Denominations" }].map((s) => (
               <div key={s.label} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}>
-                <span className="font-black" style={{ color: "#00FF88" }}>{s.v}</span> {s.label}
+                <span className="font-black" style={{ color: "#3a7d56" }}>{s.v}</span> {s.label}
               </div>
             ))}
           </div>
@@ -374,7 +374,7 @@ export default function ChurchFinderPage() {
               <button
                 onClick={() => setFilterOnline((v) => !v)}
                 className="px-3 py-2 rounded-xl text-xs font-bold"
-                style={{ background: filterOnline ? "rgba(0,255,136,0.12)" : "rgba(255,255,255,0.04)", border: filterOnline ? "1px solid rgba(0,255,136,0.35)" : "1px solid rgba(255,255,255,0.08)", color: filterOnline ? "#00FF88" : "#6A6A88" }}
+                style={{ background: filterOnline ? "rgba(58,125,86,0.12)" : "rgba(255,255,255,0.04)", border: filterOnline ? "1px solid rgba(58,125,86,0.35)" : "1px solid rgba(255,255,255,0.08)", color: filterOnline ? "#3a7d56" : "#6A6A88" }}
               >
                 <Globe size={11} className="inline mr-1" /> Online services
               </button>
@@ -400,7 +400,7 @@ export default function ChurchFinderPage() {
                     <div
                       key={c.id}
                       className="rounded-2xl p-5 cursor-pointer transition-all"
-                      style={{ background: isSelected ? "rgba(0,255,136,0.05)" : "#12121F", border: isSelected ? "1px solid rgba(0,255,136,0.2)" : "1px solid #1E1E32" }}
+                      style={{ background: isSelected ? "rgba(58,125,86,0.05)" : "#12121F", border: isSelected ? "1px solid rgba(58,125,86,0.2)" : "1px solid #1E1E32" }}
                       onClick={() => setSelectedId(isSelected ? null : c.id)}
                     >
                       <div className="flex items-start gap-4">
@@ -413,7 +413,7 @@ export default function ChurchFinderPage() {
                               <div className="flex items-center gap-2 mb-1 flex-wrap">
                                 {c.featured && <span className="text-[10px] font-black px-2 py-0.5 rounded-full" style={{ background: "rgba(245,158,11,0.15)", color: "#F59E0B", border: "1px solid rgba(245,158,11,0.3)" }}>⭐ Featured</span>}
                                 <span className="text-[10px] font-bold px-2 py-0.5 rounded-full" style={{ background: `${denomColor}15`, color: denomColor, border: `1px solid ${denomColor}30` }}>{c.denomination}</span>
-                                {c.online && <span className="text-[10px] font-bold px-2 py-0.5 rounded-full" style={{ background: "rgba(0,255,136,0.08)", color: "#00FF88", border: "1px solid rgba(0,255,136,0.2)" }}>🌐 Online</span>}
+                                {c.online && <span className="text-[10px] font-bold px-2 py-0.5 rounded-full" style={{ background: "rgba(58,125,86,0.08)", color: "#3a7d56", border: "1px solid rgba(58,125,86,0.2)" }}>🌐 Online</span>}
                               </div>
                               <h3 className="font-black text-base leading-tight" style={{ color: "#F2F2F8" }}>{c.name}</h3>
                               <p className="text-xs mt-0.5" style={{ color: "#6A6A88" }}>
@@ -461,7 +461,7 @@ export default function ChurchFinderPage() {
                                 </div>
                               </div>
                               <div className="flex gap-3">
-                                <button className="flex-1 py-2 rounded-xl text-xs font-black" style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)", color: "#07070F" }}>
+                                <button className="flex-1 py-2 rounded-xl text-xs font-black" style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)", color: "#07070F" }}>
                                   Visit Website
                                 </button>
                                 <button

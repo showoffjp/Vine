@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const THEOLOGY = [
   { title: "What Is the Church?", verse: "Matthew 16:18", body: "I will build my church, and the gates of Hades will not overcome it (Matthew 16:18). The Greek word ekklesia — translated church — literally means the called-out assembly. In the Greco-Roman world it referred to the citizen assembly of a city-state. Jesus appropriates the word to describe a new kind of assembly: people called out of the world to belong to God and be sent back into the world as his representatives. The church is not primarily an institution, a building, or a program — it is a community of people gathered around Jesus Christ and constituted by his word and Spirit." },

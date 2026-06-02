@@ -130,7 +130,7 @@ export default function PrivacyPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="mb-12">
-            <span className="text-xs font-bold uppercase tracking-widest mb-3 block" style={{ color: "#00FF88" }}>
+            <span className="text-xs font-bold uppercase tracking-widest mb-3 block" style={{ color: "#3a7d56" }}>
               Legal
             </span>
             <h1 className="text-4xl font-black mb-4" style={{ color: "#F2F2F8" }}>Privacy Policy</h1>
@@ -139,10 +139,10 @@ export default function PrivacyPage() {
             </p>
             <div
               className="mt-6 p-5 rounded-2xl"
-              style={{ background: "rgba(0,255,136,0.06)", border: "1px solid rgba(0,255,136,0.15)" }}
+              style={{ background: "rgba(58,125,86,0.06)", border: "1px solid rgba(58,125,86,0.15)" }}
             >
               <p className="text-sm leading-relaxed" style={{ color: "#C0C0D8" }}>
-                <strong style={{ color: "#00FF88" }}>The short version:</strong> We collect only what we need, we never sell your data, you control everything, and we treat your information with the same respect and care we want our community to embody. Read on for the full details.
+                <strong style={{ color: "#3a7d56" }}>The short version:</strong> We collect only what we need, we never sell your data, you control everything, and we treat your information with the same respect and care we want our community to embody. Read on for the full details.
               </p>
             </div>
           </div>
@@ -153,14 +153,14 @@ export default function PrivacyPage() {
               <div key={section.title}>
                 <h2
                   className="text-xl font-black mb-5 pb-3 border-b"
-                  style={{ color: "#F2F2F8", borderColor: "rgba(0,255,136,0.1)" }}
+                  style={{ color: "#F2F2F8", borderColor: "rgba(58,125,86,0.1)" }}
                 >
                   {section.title}
                 </h2>
                 <div className="space-y-5">
                   {section.content.map((item) => (
                     <div key={item.subtitle}>
-                      <h3 className="font-bold text-base mb-2" style={{ color: "#00FF88" }}>
+                      <h3 className="font-bold text-base mb-2" style={{ color: "#3a7d56" }}>
                         {item.subtitle}
                       </h3>
                       <p className="text-sm leading-relaxed" style={{ color: "#8A8AA8" }}>{item.text}</p>
@@ -183,7 +183,7 @@ export default function PrivacyPage() {
             <a
               href="mailto:privacy@vine.community"
               className="text-sm font-semibold"
-              style={{ color: "#00FF88" }}
+              style={{ color: "#3a7d56" }}
             >
               privacy@vine.community
             </a>

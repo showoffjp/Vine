@@ -59,7 +59,7 @@ export default function CommunityGuidelinesPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="mb-12">
-            <span className="text-xs font-bold uppercase tracking-widest mb-3 block" style={{ color: "#00FF88" }}>
+            <span className="text-xs font-bold uppercase tracking-widest mb-3 block" style={{ color: "#3a7d56" }}>
               Legal
             </span>
             <h1 className="text-4xl font-black mb-4" style={{ color: "#F2F2F8" }}>Community Guidelines</h1>
@@ -68,7 +68,7 @@ export default function CommunityGuidelinesPage() {
             </p>
             <div
               className="p-5 rounded-2xl"
-              style={{ background: "rgba(0,255,136,0.06)", border: "1px solid rgba(0,255,136,0.15)" }}
+              style={{ background: "rgba(58,125,86,0.06)", border: "1px solid rgba(58,125,86,0.15)" }}
             >
               <p className="text-sm leading-relaxed italic" style={{ color: "#C0C0D8" }}>
                 &ldquo;Let no corrupting talk come out of your mouths, but only such as is good for building up, as fits the occasion, that it may give grace to those who hear.&rdquo; — Ephesians 4:29
@@ -169,7 +169,7 @@ export default function CommunityGuidelinesPage() {
             <p className="text-sm leading-relaxed mb-3" style={{ color: "#8A8AA8" }}>
               If you believe content was removed or an account action was taken in error, you can appeal within 30 days. We review all appeals within 5 business days.
             </p>
-            <a href="mailto:safety@vine.community" className="text-sm font-semibold" style={{ color: "#00FF88" }}>
+            <a href="mailto:safety@vine.community" className="text-sm font-semibold" style={{ color: "#3a7d56" }}>
               safety@vine.community
             </a>
           </div>

@@ -26,13 +26,13 @@ const PRESET_HABITS = [
   { name: "Daily Prayer", icon: "🙏", color: "#6B4FBB" },
   { name: "Gratitude journal", icon: "🙌", color: "#F59E0B" },
   { name: "No social media before prayer", icon: "📵", color: "#EC4899" },
-  { name: "Memorize a verse", icon: "🧠", color: "#00FF88" },
+  { name: "Memorize a verse", icon: "🧠", color: "#3a7d56" },
   { name: "Fast", icon: "🔥", color: "#EF4444" },
   { name: "Attend church/small group", icon: "✝️", color: "#10B981" },
   { name: "Share my faith", icon: "💬", color: "#8B5CF6" },
 ];
 
-const COLORS = ["#3B82F6", "#6B4FBB", "#10B981", "#00FF88", "#F59E0B", "#EC4899", "#EF4444", "#8B5CF6"];
+const COLORS = ["#3B82F6", "#6B4FBB", "#10B981", "#3a7d56", "#F59E0B", "#EC4899", "#EF4444", "#8B5CF6"];
 const ICONS = ["📖", "🙏", "🧠", "🙌", "✝️", "💬", "🔥", "🌟", "💪", "🎵", "📵", "🌿"];
 
 function uid() { return Math.random().toString(36).slice(2, 10); }
@@ -198,8 +198,8 @@ export default function HabitsPage() {
           <div className="flex items-end justify-between flex-wrap gap-4 mb-8">
             <div>
               <div className="flex items-center gap-2 mb-1">
-                <Flame size={18} style={{ color: "#00FF88" }} />
-                <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#00FF88" }}>Daily Disciplines</span>
+                <Flame size={18} style={{ color: "#3a7d56" }} />
+                <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#3a7d56" }}>Daily Disciplines</span>
               </div>
               <h1 className="text-3xl font-black">Habit Tracker</h1>
               <p className="text-sm mt-1" style={{ color: "#6A6A88" }}>Build spiritual disciplines one day at a time.</p>
@@ -207,7 +207,7 @@ export default function HabitsPage() {
             <button
               onClick={() => setShowAdd(true)}
               className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold text-black"
-              style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)" }}
+              style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}
             >
               <Plus size={14} /> Add Habit
             </button>
@@ -218,7 +218,7 @@ export default function HabitsPage() {
             {(["tracker", "theology", "voices", "methods"] as const).map((tab) => (
               <button key={tab} onClick={() => setMainTab(tab)}
                 className="flex-1 py-2 rounded-lg text-sm font-semibold capitalize transition-all"
-                style={{ background: mainTab === tab ? "rgba(0,255,136,0.12)" : "transparent", color: mainTab === tab ? "#00FF88" : "#6A6A88", border: mainTab === tab ? "1px solid rgba(0,255,136,0.2)" : "1px solid transparent" }}>
+                style={{ background: mainTab === tab ? "rgba(58,125,86,0.12)" : "transparent", color: mainTab === tab ? "#3a7d56" : "#6A6A88", border: mainTab === tab ? "1px solid rgba(58,125,86,0.2)" : "1px solid transparent" }}>
                 {tab === "tracker" ? "📊 Tracker" : tab === "theology" ? "📖 Theology" : tab === "voices" ? "🎓 Voices" : "⚗️ Methods"}
               </button>
             ))}
@@ -229,22 +229,22 @@ export default function HabitsPage() {
           {habits.length > 0 && (
             <div
               className="rounded-2xl p-5 mb-6"
-              style={{ background: "linear-gradient(135deg, rgba(0,255,136,0.06), rgba(107,79,187,0.04))", border: "1px solid rgba(0,255,136,0.15)" }}
+              style={{ background: "linear-gradient(135deg, rgba(58,125,86,0.06), rgba(107,79,187,0.04))", border: "1px solid rgba(58,125,86,0.15)" }}
             >
               <div className="flex items-center justify-between mb-3">
                 <p className="font-black" style={{ color: "#F2F2F8" }}>
                   Today — {new Date().toLocaleDateString("en-US", { weekday: "long", month: "short", day: "numeric" })}
                 </p>
-                <span className="text-sm font-bold" style={{ color: "#00FF88" }}>{todayDone}/{todayTotal} done</span>
+                <span className="text-sm font-bold" style={{ color: "#3a7d56" }}>{todayDone}/{todayTotal} done</span>
               </div>
               <div className="h-2 rounded-full mb-1" style={{ background: "#1E1E32" }}>
                 <div
                   className="h-2 rounded-full transition-all duration-500"
-                  style={{ width: `${todayPct}%`, background: todayPct === 100 ? "linear-gradient(90deg, #00FF88, #10B981)" : "linear-gradient(90deg, #6B4FBB, #00FF88)" }}
+                  style={{ width: `${todayPct}%`, background: todayPct === 100 ? "linear-gradient(90deg, #3a7d56, #10B981)" : "linear-gradient(90deg, #6B4FBB, #3a7d56)" }}
                 />
               </div>
               {todayPct === 100 && (
-                <p className="text-xs mt-1" style={{ color: "#00FF88" }}>🎉 All habits completed today!</p>
+                <p className="text-xs mt-1" style={{ color: "#3a7d56" }}>🎉 All habits completed today!</p>
               )}
             </div>
           )}
@@ -258,9 +258,9 @@ export default function HabitsPage() {
                   onClick={() => setView(v)}
                   className="flex-1 py-2 rounded-lg text-sm font-semibold capitalize transition-all"
                   style={{
-                    background: view === v ? "rgba(0,255,136,0.12)" : "transparent",
-                    color: view === v ? "#00FF88" : "#6A6A88",
-                    border: view === v ? "1px solid rgba(0,255,136,0.2)" : "1px solid transparent",
+                    background: view === v ? "rgba(58,125,86,0.12)" : "transparent",
+                    color: view === v ? "#3a7d56" : "#6A6A88",
+                    border: view === v ? "1px solid rgba(58,125,86,0.2)" : "1px solid transparent",
                   }}
                 >
                   {v === "week" ? "This Week" : "Last 30 Days"}
@@ -287,7 +287,7 @@ export default function HabitsPage() {
                         <p className="text-[9px]" style={{ color: "#4A4A68" }}>{WEEKDAYS[d.getDay()]}</p>
                         <p
                           className="text-[10px] font-bold"
-                          style={{ color: getDateKey(d) === todayKey ? "#00FF88" : "#6A6A88" }}
+                          style={{ color: getDateKey(d) === todayKey ? "#3a7d56" : "#6A6A88" }}
                         >
                           {d.getDate()}
                         </p>
@@ -333,7 +333,7 @@ export default function HabitsPage() {
                               className="w-8 h-8 rounded-lg flex items-center justify-center transition-all"
                               style={{
                                 background: done ? `${habit.color}25` : isFuture ? "rgba(255,255,255,0.02)" : "rgba(255,255,255,0.04)",
-                                border: `1px solid ${done ? `${habit.color}40` : isToday ? "rgba(0,255,136,0.2)" : "rgba(255,255,255,0.06)"}`,
+                                border: `1px solid ${done ? `${habit.color}40` : isToday ? "rgba(58,125,86,0.2)" : "rgba(255,255,255,0.06)"}`,
                               }}
                             >
                               {done ? (
@@ -388,7 +388,7 @@ export default function HabitsPage() {
 
           {/* Add form */}
           {showAdd && (
-            <div className="rounded-2xl p-5 mb-6" style={{ background: "#12121F", border: "1px solid rgba(0,255,136,0.2)" }}>
+            <div className="rounded-2xl p-5 mb-6" style={{ background: "#12121F", border: "1px solid rgba(58,125,86,0.2)" }}>
               <div className="flex items-center justify-between mb-4">
                 <h3 className="font-black" style={{ color: "#F2F2F8" }}>New Habit</h3>
                 <button onClick={() => setShowAdd(false)} style={{ color: "#6A6A88" }}><X size={16} /></button>
@@ -410,7 +410,7 @@ export default function HabitsPage() {
                         key={ic}
                         onClick={() => setNewIcon(ic)}
                         className="w-9 h-9 rounded-xl text-lg transition-all"
-                        style={{ background: newIcon === ic ? "rgba(0,255,136,0.15)" : "#0D0D1A", border: `1px solid ${newIcon === ic ? "rgba(0,255,136,0.3)" : "#1E1E32"}` }}
+                        style={{ background: newIcon === ic ? "rgba(58,125,86,0.15)" : "#0D0D1A", border: `1px solid ${newIcon === ic ? "rgba(58,125,86,0.3)" : "#1E1E32"}` }}
                       >
                         {ic}
                       </button>
@@ -442,7 +442,7 @@ export default function HabitsPage() {
                     onClick={addHabit}
                     disabled={!newName.trim()}
                     className="flex-1 py-2.5 rounded-xl text-sm font-bold text-black"
-                    style={{ background: newName.trim() ? "linear-gradient(135deg, #00FF88, #00BB55)" : "#1E1E32", color: newName.trim() ? "#07070F" : "#4A4A68" }}
+                    style={{ background: newName.trim() ? "linear-gradient(135deg, #3a7d56, #3a7d56)" : "#1E1E32", color: newName.trim() ? "#07070F" : "#4A4A68" }}
                   >
                     Add Habit
                   </button>
@@ -489,7 +489,7 @@ export default function HabitsPage() {
           {/* Verse */}
           <div
             className="rounded-2xl p-6 text-center"
-            style={{ background: "linear-gradient(135deg, rgba(0,255,136,0.05), rgba(107,79,187,0.05))", border: "1px solid rgba(0,255,136,0.1)" }}
+            style={{ background: "linear-gradient(135deg, rgba(58,125,86,0.05), rgba(107,79,187,0.05))", border: "1px solid rgba(58,125,86,0.1)" }}
           >
             <Star size={18} style={{ color: "#F59E0B" }} className="mx-auto mb-3" />
             <p className="text-sm italic mb-1" style={{ color: "#C0C0D8" }}>
@@ -497,7 +497,7 @@ export default function HabitsPage() {
             </p>
             <p className="text-xs font-bold mb-4" style={{ color: "#4A4A68" }}>— 1 Timothy 4:7-8</p>
             <div className="flex items-center justify-center gap-4">
-              <a href="/challenges" className="flex items-center gap-1 text-xs font-semibold" style={{ color: "#00FF88" }}>
+              <a href="/challenges" className="flex items-center gap-1 text-xs font-semibold" style={{ color: "#3a7d56" }}>
                 Challenges <ChevronRight size={11} />
               </a>
               <a href="/goals" className="flex items-center gap-1 text-xs font-semibold" style={{ color: "#6B4FBB" }}>
@@ -514,9 +514,9 @@ export default function HabitsPage() {
                 Why Christians build habits — and why willpower alone is never enough.
               </p>
               {[
-                { title: "You Are What You Practice", color: "#00FF88", desc: "The ancient insight of Aristotle — recovered by Dallas Willard and James K.A. Smith for Christian formation — is that we become what we repeatedly do. Character is not formed by decisions alone but by habituated actions. The Christian who wants to be patient must practice patience. The Christian who wants to be generous must practice generosity. Virtue is built by doing virtuous acts until the act becomes second nature." },
+                { title: "You Are What You Practice", color: "#3a7d56", desc: "The ancient insight of Aristotle — recovered by Dallas Willard and James K.A. Smith for Christian formation — is that we become what we repeatedly do. Character is not formed by decisions alone but by habituated actions. The Christian who wants to be patient must practice patience. The Christian who wants to be generous must practice generosity. Virtue is built by doing virtuous acts until the act becomes second nature." },
                 { title: "The Body Is a Spiritual Organ", color: "#A080FF", desc: "Willard's central insight in The Spirit of the Disciplines: because human beings are embodied, spiritual formation must involve the body. Fasting disciplines desire. Physical acts of service form compassion. Kneeling in prayer shapes humility. The body is not just a container for the soul — it is the site where spiritual habits are formed. 'Present your bodies as a living sacrifice' (Romans 12:1)." },
-                { title: "Desire Is Trained, Not Just Directed", color: "#00FF88", desc: "Deciding you want to pray more does not make you pray more. Deciding you want to love your neighbor more does not produce love. The gap between what we want and what we do is bridged by habit — by repeatedly doing the thing until the body wants to do it. Smith calls this the formation of desire: the spiritual disciplines don't just constrain us, they re-orient what we love." },
+                { title: "Desire Is Trained, Not Just Directed", color: "#3a7d56", desc: "Deciding you want to pray more does not make you pray more. Deciding you want to love your neighbor more does not produce love. The gap between what we want and what we do is bridged by habit — by repeatedly doing the thing until the body wants to do it. Smith calls this the formation of desire: the spiritual disciplines don't just constrain us, they re-orient what we love." },
                 { title: "Tiny Actions, Massive Formation", color: "#F59E0B", desc: "James Clear's insight from Atomic Habits: small habits — ones that take two minutes or less to start — are the most powerful because they remove the activation energy that prevents action. The two-minute rule in a Christian context: if you want to read Scripture daily, start with two minutes, not twenty. The goal is to become the kind of person who opens the Bible, not to read a minimum number of chapters." },
                 { title: "The Habit of Sabbath", color: "#A080FF", desc: "Sabbath is the habit that makes all other habits sustainable. Without rest, habits become driven compulsion rather than loving practice. The regular rhythm of stopping — one day in seven — trains the soul in trust, reminding the habitual self that the world does not depend on its striving. Sabbath is the meta-habit that puts all other habits in their proper place." },
               ].map((item, i) => (
@@ -533,8 +533,8 @@ export default function HabitsPage() {
               <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 80 }}>
                 {VOICES_HAB.map(v => (
                   <button key={v.id} onClick={() => setSelectedVoice(v.id)}
-                    style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? "rgba(0,255,136,0.4)" : "#1E1E32"}`, background: selectedVoice === v.id ? "rgba(0,255,136,0.08)" : "#12121F", cursor: "pointer" }}>
-                    <div style={{ fontSize: 13, fontWeight: 700, color: selectedVoice === v.id ? "#00FF88" : "#F2F2F8", marginBottom: 2 }}>{v.name}</div>
+                    style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? "rgba(58,125,86,0.4)" : "#1E1E32"}`, background: selectedVoice === v.id ? "rgba(58,125,86,0.08)" : "#12121F", cursor: "pointer" }}>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: selectedVoice === v.id ? "#3a7d56" : "#F2F2F8", marginBottom: 2 }}>{v.name}</div>
                     <div style={{ fontSize: 11, color: "#9898B3" }}>{v.era}</div>
                   </button>
                 ))}
@@ -544,7 +544,7 @@ export default function HabitsPage() {
                 <h2 style={{ fontSize: 24, fontWeight: 800, marginBottom: 4, color: "#F2F2F8" }}>{voiceItem.name}</h2>
                 <div style={{ fontSize: 13, color: "#9898B3", marginBottom: 20 }}>{voiceItem.era}</div>
                 <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.8, marginBottom: 24 }}>{voiceItem.bio}</p>
-                <div style={{ background: "#07070F", borderRadius: 12, padding: 20, borderLeft: "3px solid #00FF88", marginBottom: 24 }}>
+                <div style={{ background: "#07070F", borderRadius: 12, padding: 20, borderLeft: "3px solid #3a7d56", marginBottom: 24 }}>
                   <p style={{ fontSize: 15, color: "#E0E0F0", lineHeight: 1.75, fontStyle: "italic" }}>&ldquo;{voiceItem.quote}&rdquo;</p>
                 </div>
                 <div>
@@ -567,7 +567,7 @@ export default function HabitsPage() {
                   title: "Habit Stacking",
                   author: "James Clear — Atomic Habits",
                   desc: "Attach a new habit to an existing one. 'After I pour my morning coffee, I will read one verse of Scripture.' The existing habit (coffee) serves as an anchor cue for the new one. This exploits the brain's existing neural pathways rather than trying to build new ones from scratch. For spiritual habits: attach prayer to an existing morning ritual, attach gratitude journaling to an existing evening routine.",
-                  color: "#00FF88",
+                  color: "#3a7d56",
                 },
                 {
                   icon: "⏱️",
@@ -602,7 +602,7 @@ export default function HabitsPage() {
                   title: "Liturgical Anchoring",
                   author: "James K.A. Smith — You Are What You Love",
                   desc: "Structure daily life around fixed-time liturgical practices — morning and evening prayer, grace at meals, weekly Sabbath — in the same way that ancient Christians structured their days around the Divine Office. These are not optional add-ons but structural anchors that shape the entire day's orientation. The regularity of the liturgical calendar (Advent, Lent, Easter) provides annual rhythms that prevent spiritual life from becoming arbitrary.",
-                  color: "#00FF88",
+                  color: "#3a7d56",
                 },
               ].map((method, i) => (
                 <div key={i} style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 14, padding: 22, marginBottom: 14, display: "flex", gap: 16 }}>

@@ -6,7 +6,7 @@ import { Globe, Heart, Users, ChevronRight, MapPin, Flame, BookOpen, CheckCircle
 const BG = "#07070F";
 const CARD = "#12121F";
 const BORDER = "#1E1E32";
-const GREEN = "#00FF88";
+const GREEN = "#3a7d56";
 const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
@@ -56,7 +56,7 @@ const ways = [
     description: "The most powerful thing you can do. Join our Global Prayer Wall and pray specifically for unreached people groups using the Operation World database.",
     action: "Go to Prayer Wall",
     href: "/prayer",
-    color: "#00FF88",
+    color: "#3a7d56",
   },
   {
     icon: "💰",
@@ -106,7 +106,7 @@ const spotlights = [
     flag: "🇧🇷",
     location: "Nampula Province, Mozambique",
     avatar: "IF",
-    color: "#00FF88",
+    color: "#3a7d56",
     role: "Church planters",
     summary: "3 years in. 4 churches planted. 180 new believers baptized. Still going.",
     update: "We just trained 12 local pastors who will each plant their own churches this year. The harvest is real.",
@@ -341,7 +341,7 @@ export default function MissionsPage() {
             </div>
             <h1 className="text-4xl sm:text-5xl font-black mb-6">
               Make disciples of{" "}
-              <span style={{ background: "linear-gradient(135deg, #00FF88, #10B981)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+              <span style={{ background: "linear-gradient(135deg, #3a7d56, #10B981)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
                 all nations.
               </span>
             </h1>
@@ -452,7 +452,7 @@ export default function MissionsPage() {
                         </div>
                       </div>
                       <p className="text-sm font-semibold mb-3" style={{ color: "#C0C0D8" }}>{s.summary}</p>
-                      <div className="p-3 rounded-xl mb-4" style={{ background: "rgba(0,255,136,0.05)", border: "1px solid rgba(0,255,136,0.1)" }}>
+                      <div className="p-3 rounded-xl mb-4" style={{ background: "rgba(58,125,86,0.05)", border: "1px solid rgba(58,125,86,0.1)" }}>
                         <p className="text-xs font-bold mb-1" style={{ color: GREEN }}>Latest Update</p>
                         <p className="text-sm italic" style={{ color: "#8A8AA8" }}>&ldquo;{s.update}&rdquo;</p>
                       </div>
@@ -461,8 +461,8 @@ export default function MissionsPage() {
                           onClick={() => toggleMissionaryPrayer(i)}
                           className="flex-1 py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-1 transition-all"
                           style={{
-                            background: prayed ? "rgba(0,255,136,0.12)" : "transparent",
-                            border: `1px solid ${prayed ? "rgba(0,255,136,0.4)" : "rgba(0,255,136,0.2)"}`,
+                            background: prayed ? "rgba(58,125,86,0.12)" : "transparent",
+                            border: `1px solid ${prayed ? "rgba(58,125,86,0.4)" : "rgba(58,125,86,0.2)"}`,
                             color: GREEN,
                           }}
                         >
@@ -488,13 +488,13 @@ export default function MissionsPage() {
 
             {/* Great Commission CTA */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="rounded-2xl p-10 text-center" style={{ background: "linear-gradient(135deg, rgba(0,255,136,0.06) 0%, rgba(16,185,129,0.06) 100%)", border: "1px solid rgba(0,255,136,0.15)" }}>
+              <div className="rounded-2xl p-10 text-center" style={{ background: "linear-gradient(135deg, rgba(58,125,86,0.06) 0%, rgba(16,185,129,0.06) 100%)", border: "1px solid rgba(58,125,86,0.15)" }}>
                 <p className="text-xl italic mb-2" style={{ color: "#C0C0D8" }}>
                   &ldquo;Go therefore and make disciples of all nations, baptizing them in the name of the Father and of the Son and of the Holy Spirit.&rdquo;
                 </p>
                 <p className="font-bold mb-8" style={{ color: GREEN }}>— Matthew 28:19</p>
                 <div className="flex flex-wrap gap-4 justify-center">
-                  <a href="/prayer" className="inline-flex items-center gap-2 px-8 py-3 rounded-xl font-bold text-black" style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)" }}>
+                  <a href="/prayer" className="inline-flex items-center gap-2 px-8 py-3 rounded-xl font-bold text-black" style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}>
                     🙏 Pray for the Nations
                   </a>
                   <a href="/global-connect" className="inline-flex items-center gap-2 px-8 py-3 rounded-xl font-semibold" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)", color: "#C0C0D8" }}>

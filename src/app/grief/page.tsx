@@ -318,12 +318,12 @@ export default function GriefPage() {
 
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                       <div style={{ fontSize: 12, color: "#9898B3" }}>
-                        {story.hopeful && <span style={{ color: "#00FF88", marginRight: 8 }}>🌱 Hopeful</span>}
+                        {story.hopeful && <span style={{ color: "#3a7d56", marginRight: 8 }}>🌱 Hopeful</span>}
                         Read more →
                       </div>
                       <button
                         onClick={(e) => { e.stopPropagation(); handleLike(story.id); }}
-                        style={{ padding: "5px 12px", borderRadius: 6, border: "none", background: liked ? "#00FF8815" : "#1E1E32", color: liked ? "#00FF88" : "#9898B3", cursor: "pointer", fontSize: 12 }}>
+                        style={{ padding: "5px 12px", borderRadius: 6, border: "none", background: liked ? "#3a7d5615" : "#1E1E32", color: liked ? "#3a7d56" : "#9898B3", cursor: "pointer", fontSize: 12 }}>
                         ♥ {story.likes + (liked ? 1 : 0)}
                       </button>
                     </div>
@@ -348,12 +348,12 @@ export default function GriefPage() {
             </div>
             <div style={{ flex: 1 }}>
               <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 28 }}>
-                <h2 style={{ color: "#00FF88", fontWeight: 900, fontSize: 22, margin: "0 0 4px" }}>{voiceItem.name}</h2>
+                <h2 style={{ color: "#3a7d56", fontWeight: 900, fontSize: 22, margin: "0 0 4px" }}>{voiceItem.name}</h2>
                 <div style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 700, marginBottom: 6 }}>{voiceItem.era}</div>
                 <div style={{ color: "#9898B3", fontSize: 13, marginBottom: 16 }}>{voiceItem.context}</div>
                 <p style={{ color: "#F2F2F8", lineHeight: 1.8, fontSize: 15, marginBottom: 20 }}>{voiceItem.bio}</p>
-                <div style={{ background: "#07070F", borderLeft: "3px solid #00FF88", borderRadius: "0 8px 8px 0", padding: "14px 18px", marginBottom: 20 }}>
-                  <p style={{ color: "#00FF88", fontStyle: "italic", fontSize: 15, lineHeight: 1.7, margin: 0 }}>&ldquo;{voiceItem.quote}&rdquo;</p>
+                <div style={{ background: "#07070F", borderLeft: "3px solid #3a7d56", borderRadius: "0 8px 8px 0", padding: "14px 18px", marginBottom: 20 }}>
+                  <p style={{ color: "#3a7d56", fontStyle: "italic", fontSize: 15, lineHeight: 1.7, margin: 0 }}>&ldquo;{voiceItem.quote}&rdquo;</p>
                 </div>
                 <div style={{ background: "rgba(107,79,187,0.1)", borderRadius: 10, padding: 16 }}>
                   <div style={{ color: "#6B4FBB", fontWeight: 700, fontSize: 13, marginBottom: 6 }}>Contribution to Grief Theology</div>
@@ -482,10 +482,10 @@ export default function GriefPage() {
                 If you're in crisis or having thoughts of self-harm, please reach out immediately.
               </div>
               <div style={{ fontSize: 14, fontWeight: 600, color: "#F2F2F8" }}>
-                988 Suicide & Crisis Lifeline: call or text <span style={{ color: "#00FF88" }}>988</span>
+                988 Suicide & Crisis Lifeline: call or text <span style={{ color: "#3a7d56" }}>988</span>
               </div>
               <div style={{ fontSize: 13, color: "#9898B3", marginTop: 4 }}>
-                Crisis Text Line: text <span style={{ color: "#00FF88" }}>HOME</span> to 741741
+                Crisis Text Line: text <span style={{ color: "#3a7d56" }}>HOME</span> to 741741
               </div>
             </div>
           </div>
@@ -493,7 +493,7 @@ export default function GriefPage() {
         {activeTab === "videos" && (
           <div style={{ maxWidth: 720, margin: "0 auto" }}>
             <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 24, marginBottom: 24 }}>
-              <h2 style={{ color: "#00FF88", fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <h2 style={{ color: "#3a7d56", fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
               <p style={{ color: "#9898B3", fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
                 Video teachings on grief, lament, and finding God in loss — for those who are walking through darkness or supporting others who are.
               </p>
@@ -513,7 +513,7 @@ export default function GriefPage() {
                       allowFullScreen
                     />
                     <div style={{ padding: "14px 16px" }}>
-                      <h4 style={{ color: "#00FF88", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <h4 style={{ color: "#3a7d56", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
                       <p style={{ color: "#9898B3", fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
                     </div>
@@ -560,8 +560,8 @@ export default function GriefPage() {
               <button
                 onClick={() => handleLike(selectedStory.id)}
                 style={{ flex: 1, padding: "11px 16px", borderRadius: 10, border: "none",
-                  background: likedStories.has(selectedStory.id) ? "#00FF8815" : "#1E1E32",
-                  color: likedStories.has(selectedStory.id) ? "#00FF88" : "#9898B3",
+                  background: likedStories.has(selectedStory.id) ? "#3a7d5615" : "#1E1E32",
+                  color: likedStories.has(selectedStory.id) ? "#3a7d56" : "#9898B3",
                   cursor: "pointer", fontWeight: 600, fontSize: 15 }}>
                 ♥ {selectedStory.likes + (likedStories.has(selectedStory.id) ? 1 : 0)} This helped me
               </button>

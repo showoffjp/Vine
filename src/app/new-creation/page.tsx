@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const THEOLOGY = [
   { title: "Renewal, Not Replacement", verse: "Revelation 21:1-5", body: "John's vision is of 'a new heaven and a new earth' — but the word translated 'new' (kainos) means renewed or transformed, not created from nothing. God does not abandon his creation; he redeems it. The material world is not an error to be escaped but a good creation to be restored. This means Christian hope is not about leaving earth for heaven but about heaven coming to a renewed earth — exactly what Revelation 21 describes." },

@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const THEOLOGY = [
   { title: "Money Is a Spiritual Issue", verse: "Matthew 6:24", body: "'You cannot serve both God and money' (Matthew 6:24). Jesus said more about money than about heaven and hell combined. Money is not morally neutral — it tends toward lordship. It promises security, identity, and freedom that only God can provide. The question is not whether you have money but whether money has you." },

@@ -59,7 +59,7 @@ const devotionals = [
     author: "Pastor Miriam Osei",
     authorRole: "Accra, Ghana · Lead Pastor, Grace Tabernacle",
     authorInitials: "MO",
-    authorGradient: "linear-gradient(135deg, #00FF88, #4FBBAA)",
+    authorGradient: "linear-gradient(135deg, #3a7d56, #4FBBAA)",
     readTime: "6 min read",
     content: [
       "Psalm 23 may be the most memorized passage in all of Scripture, but familiarity has a way of making us deaf to what we most need to hear. David wasn't writing from a comfortable study. He was a man who had faced lions, bears, betrayal, exile, and the silence of God — and still he wrote: the Lord is my shepherd.",
@@ -81,7 +81,7 @@ const devotionals = [
     prayer:
       "Good Shepherd, I acknowledge that I am a sheep who wanders, who runs when I should rest, who fears when you have promised presence. Lead me today beside still waters. Restore the parts of my soul that have grown thin and weary. Help me trust that even in the darkest valley, your rod and your staff are with me. Amen.",
     tag: "Guidance",
-    tagColor: "#00FF88",
+    tagColor: "#3a7d56",
   },
   {
     day: 3,
@@ -161,7 +161,7 @@ const devotionals = [
     author: "Pastor Daniel Abara",
     authorRole: "Lagos, Nigeria · Church Planter & Preacher",
     authorInitials: "DA",
-    authorGradient: "linear-gradient(135deg, #00FF88, #6B4FBB)",
+    authorGradient: "linear-gradient(135deg, #3a7d56, #6B4FBB)",
     readTime: "6 min read",
     content: [
       "Jesus spoke these words the night before his crucifixion, in the upper room, to the people he loved most. He was hours from the cross, and he chose to spend that time talking about abiding. Not about heroic sacrifice. Not about strategic mission. About staying connected — because everything else flows from that.",
@@ -183,7 +183,7 @@ const devotionals = [
     prayer:
       "Jesus, I acknowledge today that I am the branch and you are the Vine. Forgive me for the times I've disconnected from you and tried to produce fruit on my own. Draw me back into abiding — into the quiet, connected, present place where your life flows into mine. Bear your fruit through me today. Amen.",
     tag: "Abiding",
-    tagColor: "#00FF88",
+    tagColor: "#3a7d56",
   },
   {
     day: 6,
@@ -291,7 +291,7 @@ export default function DailyDevotional() {
           <ChevronLeft size={15} /> Prev
         </button>
         <div className="text-center">
-          <p className="text-xs font-bold uppercase tracking-widest" style={{ color: "#00FF88" }}>
+          <p className="text-xs font-bold uppercase tracking-widest" style={{ color: "#3a7d56" }}>
             Day {dayIndex + 1} of 7
           </p>
           <p className="text-xs" style={{ color: "#6A6A88" }}>{d.dayName}</p>
@@ -326,9 +326,9 @@ export default function DailyDevotional() {
       {/* Verse Card */}
       <div className="verse-card rounded-2xl p-8 mb-6 text-center relative overflow-hidden">
         <div className="absolute inset-0 opacity-20" style={{
-          background: "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(0,255,136,0.15) 0%, transparent 70%)",
+          background: "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(58,125,86,0.15) 0%, transparent 70%)",
         }} />
-        <p className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: "#00FF88" }}>
+        <p className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: "#3a7d56" }}>
           Today&apos;s Verse · {d.ref}
         </p>
         <blockquote className="text-xl sm:text-2xl font-bold italic leading-relaxed mb-4" style={{ color: "#F2F2F8" }}>
@@ -379,15 +379,15 @@ export default function DailyDevotional() {
             <button
               onClick={() => setSaved(v => !v)}
               className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all"
-              style={{ color: saved ? "#00FF88" : "#8A8AA8", background: saved ? "rgba(0,255,136,0.08)" : "transparent" }}
+              style={{ color: saved ? "#3a7d56" : "#8A8AA8", background: saved ? "rgba(58,125,86,0.08)" : "transparent" }}
             >
-              <Bookmark size={15} fill={saved ? "#00FF88" : "none"} />
+              <Bookmark size={15} fill={saved ? "#3a7d56" : "none"} />
               {saved ? "Saved" : "Save"}
             </button>
             <button
               onClick={handleShare}
               className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all ml-auto"
-              style={{ color: shared ? "#00FF88" : "#8A8AA8" }}
+              style={{ color: shared ? "#3a7d56" : "#8A8AA8" }}
             >
               <Share2 size={15} />
               {shared ? "Copied!" : "Share"}
@@ -398,13 +398,13 @@ export default function DailyDevotional() {
             <button
               onClick={handleComplete}
               className="w-full py-3 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all"
-              style={{ border: "1px solid rgba(0,255,136,0.2)", color: "#00FF88", background: "rgba(0,255,136,0.04)" }}
+              style={{ border: "1px solid rgba(58,125,86,0.2)", color: "#3a7d56", background: "rgba(58,125,86,0.04)" }}
             >
               <CheckCircle2 size={16} /> Mark Day {dayIndex + 1} Complete
             </button>
           ) : (
             <div className="w-full py-3 rounded-xl text-sm font-bold flex items-center justify-center gap-2"
-              style={{ background: "rgba(0,255,136,0.1)", border: "1px solid rgba(0,255,136,0.25)", color: "#00FF88" }}>
+              style={{ background: "rgba(58,125,86,0.1)", border: "1px solid rgba(58,125,86,0.25)", color: "#3a7d56" }}>
               <CheckCircle2 size={16} /> Day {dayIndex + 1} Complete — Streak +1! 🔥
             </div>
           )}
@@ -449,7 +449,7 @@ export default function DailyDevotional() {
       {/* Prayer */}
       <div className="rounded-2xl p-6 mb-6 verse-card">
         <div className="flex items-center gap-2 mb-4">
-          <Pen size={18} style={{ color: "#00FF88" }} />
+          <Pen size={18} style={{ color: "#3a7d56" }} />
           <h3 className="text-base font-black" style={{ color: "#F2F2F8" }}>A Prayer for Today</h3>
         </div>
         <p className="text-sm italic leading-relaxed" style={{ color: "#C0C0D8" }}>{d.prayer}</p>

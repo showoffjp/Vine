@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 type Tab = "methods" | "evangelists" | "essentials" | "objections" | "videos";
 
@@ -85,7 +85,7 @@ const OBJECTIONS = [
 const METHODS = [
   {
     name: "Friendship Evangelism",
-    color: "#00FF88",
+    color: "#3a7d56",
     time: "Ongoing",
     best_for: "People who build deep relationships naturally",
     desc: "The most sustainable and historically fruitful method: sharing the gospel as a natural outgrowth of genuine friendship. Jesus ate with tax collectors and sinners; he was accused of being their friend. The authentic relationship creates trust, creates opportunity for honest conversation, and means the person has already seen the gospel lived before hearing it stated.",

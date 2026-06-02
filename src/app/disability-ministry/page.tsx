@@ -5,7 +5,7 @@ import { useState } from "react";
 const BG = "#07070F";
 const CARD = "#12121F";
 const BORDER = "#1E1E32";
-const GREEN = "#00FF88";
+const GREEN = "#3a7d56";
 const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
@@ -348,13 +348,13 @@ export default function DisabilityMinistryPage() {
                 <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.8, marginBottom: 20 }}>{activeJoni.body}</p>
                 <div
                   style={{
-                    background: "rgba(0,255,136,0.05)",
-                    border: `1px solid rgba(0,255,136,0.2)`,
+                    background: "rgba(58,125,86,0.05)",
+                    border: `1px solid rgba(58,125,86,0.2)`,
                     borderRadius: 10,
                     padding: "14px 16px",
                   }}
                 >
-                  <p style={{ fontSize: 13, color: "#00CC66", lineHeight: 1.7, margin: 0, fontStyle: "italic" }}>
+                  <p style={{ fontSize: 13, color: "#4a9e6e", lineHeight: 1.7, margin: 0, fontStyle: "italic" }}>
                     {activeJoni.detail}
                   </p>
                 </div>
@@ -404,7 +404,7 @@ export default function DisabilityMinistryPage() {
                             width: 26,
                             height: 26,
                             borderRadius: "50%",
-                            background: isOpen ? "rgba(0,255,136,0.15)" : "rgba(255,255,255,0.04)",
+                            background: isOpen ? "rgba(58,125,86,0.15)" : "rgba(255,255,255,0.04)",
                             border: `1px solid ${isOpen ? GREEN + "50" : BORDER}`,
                             display: "flex",
                             alignItems: "center",
@@ -467,7 +467,7 @@ export default function DisabilityMinistryPage() {
             <div
               style={{
                 marginTop: 36,
-                background: `linear-gradient(135deg, rgba(107,79,187,0.12), rgba(0,255,136,0.08))`,
+                background: `linear-gradient(135deg, rgba(107,79,187,0.12), rgba(58,125,86,0.08))`,
                 border: `1px solid rgba(107,79,187,0.25)`,
                 borderRadius: 16,
                 padding: "32px 24px",

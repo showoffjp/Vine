@@ -5,7 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const SERIF = "var(--font-cormorant, Georgia, serif)";
 
@@ -370,7 +370,7 @@ function HeroBadge({ children }: { children: React.ReactNode }) {
         letterSpacing: "0.12em",
         textTransform: "uppercase",
         color: GREEN,
-        background: "rgba(0,255,136,0.08)",
+        background: "rgba(58,125,86,0.08)",
         border: `1px solid ${BORDER}`,
         borderRadius: 999,
         padding: "6px 14px",
@@ -397,7 +397,7 @@ function TabButton({
         padding: "10px 18px",
         borderRadius: 999,
         border: `1px solid ${active ? GREEN : BORDER}`,
-        background: active ? "rgba(0,255,136,0.1)" : CARD,
+        background: active ? "rgba(58,125,86,0.1)" : CARD,
         color: active ? GREEN : MUTED,
         fontWeight: 600,
         fontSize: 14,
@@ -624,7 +624,7 @@ export default function HymnsPage() {
                     padding: "8px 16px",
                     borderRadius: 999,
                     border: `1px solid ${era === f ? GREEN : BORDER}`,
-                    background: era === f ? "rgba(0,255,136,0.1)" : "transparent",
+                    background: era === f ? "rgba(58,125,86,0.1)" : "transparent",
                     color: era === f ? GREEN : MUTED,
                     fontSize: 13,
                     fontWeight: 600,

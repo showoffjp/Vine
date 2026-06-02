@@ -254,9 +254,9 @@ export default function QuotesPage() {
                 onClick={() => setFilterEra(e)}
                 style={{
                   padding: "4px 12px", borderRadius: 20, fontSize: 11,
-                  border: `1px solid ${filterEra === e ? "#00FF88" : "#1E1E32"}`,
-                  background: filterEra === e ? "#00FF8815" : "transparent",
-                  color: filterEra === e ? "#00FF88" : "#9898B3",
+                  border: `1px solid ${filterEra === e ? "#3a7d56" : "#1E1E32"}`,
+                  background: filterEra === e ? "#3a7d5615" : "transparent",
+                  color: filterEra === e ? "#3a7d56" : "#9898B3",
                   cursor: "pointer",
                 }}
               >
@@ -320,8 +320,8 @@ export default function QuotesPage() {
                     onClick={() => handleLike(quote.id)}
                     style={{
                       padding: "4px 10px", borderRadius: 6, border: "none",
-                      background: liked ? "#00FF8815" : "#1E1E32",
-                      color: liked ? "#00FF88" : "#9898B3",
+                      background: liked ? "#3a7d5615" : "#1E1E32",
+                      color: liked ? "#3a7d56" : "#9898B3",
                       cursor: "pointer", fontSize: 12,
                     }}
                   >
@@ -404,7 +404,7 @@ export default function QuotesPage() {
                 <div key={i} style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 14, padding: 22 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
                     <span style={{ fontSize: 24 }}>{item.icon}</span>
-                    <h3 style={{ fontSize: 17, fontWeight: 800, color: "#00FF88", margin: 0 }}>{item.theme}</h3>
+                    <h3 style={{ fontSize: 17, fontWeight: 800, color: "#3a7d56", margin: 0 }}>{item.theme}</h3>
                   </div>
                   <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.75, marginBottom: 10 }}>{item.desc}</p>
                   <div style={{ fontSize: 12, color: "#9898B3" }}>Key voices: {item.authors}</div>
@@ -417,7 +417,7 @@ export default function QuotesPage() {
         {activeTab === "videos" && (
           <div>
             <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 24, marginBottom: 24 }}>
-              <h2 style={{ color: "#00FF88", fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <h2 style={{ color: "#3a7d56", fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
               <p style={{ color: "#9898B3", fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
                 Sermons, lectures, and teachings from the voices behind some of the most enduring Christian quotes.
               </p>
@@ -437,7 +437,7 @@ export default function QuotesPage() {
                       allowFullScreen
                     />
                     <div style={{ padding: "14px 16px" }}>
-                      <h4 style={{ color: "#00FF88", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <h4 style={{ color: "#3a7d56", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
                       <p style={{ color: "#9898B3", fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
                     </div>

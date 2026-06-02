@@ -156,7 +156,7 @@ const THINKERS = [
     books: ["The Language of God", "The Language of Life", "Belief: Readings on the Reason for Faith"],
     perspective: "Scientist Who Found Faith" as const,
     emoji: "🧬",
-    color: "#00FF88",
+    color: "#3a7d56",
   },
   {
     id: "john-polkinghorne",
@@ -198,7 +198,7 @@ const THINKERS = [
     books: ["Worlds Without End: Exoplanets, Habitability, and the Future of Humanity"],
     perspective: "Faith-affirming Scientist" as const,
     emoji: "🔭",
-    color: "#00FF88",
+    color: "#3a7d56",
   },
   {
     id: "cs-lewis",
@@ -240,7 +240,7 @@ const THINKERS = [
     books: ["Affective Computing", "Automating Inequality (contributor)"],
     perspective: "Scientist Who Found Faith" as const,
     emoji: "🤖",
-    color: "#00FF88",
+    color: "#3a7d56",
   },
   {
     id: "ard-louis",
@@ -428,13 +428,13 @@ export default function FaithSciencePage() {
   const BG = "#07070F";
   const CARD_BG = "#12121F";
   const BORDER = "#1E1E32";
-  const GREEN = "#00FF88";
+  const GREEN = "#3a7d56";
   const PURPLE = "#6B4FBB";
   const TEXT = "#F2F2F8";
   const SECONDARY = "#9898B3";
 
   const difficultyColor: Record<string, string> = {
-    Beginner: "#00FF88",
+    Beginner: "#3a7d56",
     Intermediate: "#F59E0B",
     Advanced: "#EF4444",
   };
@@ -454,8 +454,8 @@ export default function FaithSciencePage() {
           <div
             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-5"
             style={{
-              background: "rgba(0,255,136,0.08)",
-              border: `1px solid rgba(0,255,136,0.2)`,
+              background: "rgba(58,125,86,0.08)",
+              border: `1px solid rgba(58,125,86,0.2)`,
               color: GREEN,
             }}
           >
@@ -555,8 +555,8 @@ export default function FaithSciencePage() {
                       fontSize: "0.78rem",
                       fontWeight: 600,
                       cursor: "pointer",
-                      background: categoryFilter === cat ? "rgba(0,255,136,0.12)" : CARD_BG,
-                      border: `1px solid ${categoryFilter === cat ? "rgba(0,255,136,0.4)" : BORDER}`,
+                      background: categoryFilter === cat ? "rgba(58,125,86,0.12)" : CARD_BG,
+                      border: `1px solid ${categoryFilter === cat ? "rgba(58,125,86,0.4)" : BORDER}`,
                       color: categoryFilter === cat ? GREEN : SECONDARY,
                       transition: "all 0.15s",
                     }}
@@ -612,7 +612,7 @@ export default function FaithSciencePage() {
                     key={topic.id}
                     style={{
                       background: isRead ? "rgba(18,18,31,0.7)" : CARD_BG,
-                      border: `1px solid ${isSaved ? "rgba(0,255,136,0.25)" : BORDER}`,
+                      border: `1px solid ${isSaved ? "rgba(58,125,86,0.25)" : BORDER}`,
                       borderRadius: "16px",
                       padding: "20px 24px",
                       opacity: isRead ? 0.75 : 1,
@@ -672,8 +672,8 @@ export default function FaithSciencePage() {
                           onClick={() => toggleSaved(topic.id)}
                           title={isSaved ? "Unsave" : "Save topic"}
                           style={{
-                            background: isSaved ? "rgba(0,255,136,0.1)" : "transparent",
-                            border: `1px solid ${isSaved ? "rgba(0,255,136,0.3)" : BORDER}`,
+                            background: isSaved ? "rgba(58,125,86,0.1)" : "transparent",
+                            border: `1px solid ${isSaved ? "rgba(58,125,86,0.3)" : BORDER}`,
                             borderRadius: "8px",
                             padding: "5px 8px",
                             cursor: "pointer",
@@ -724,8 +724,8 @@ export default function FaithSciencePage() {
                     >
                       <blockquote
                         style={{
-                          background: "rgba(0,255,136,0.05)",
-                          border: `1px solid rgba(0,255,136,0.12)`,
+                          background: "rgba(58,125,86,0.05)",
+                          border: `1px solid rgba(58,125,86,0.12)`,
                           borderRadius: "8px",
                           padding: "6px 10px",
                           fontSize: "0.78rem",
@@ -884,7 +884,7 @@ export default function FaithSciencePage() {
                     key={item.id}
                     style={{
                       background: CARD_BG,
-                      border: `1px solid ${isOpen ? "rgba(0,255,136,0.2)" : BORDER}`,
+                      border: `1px solid ${isOpen ? "rgba(58,125,86,0.2)" : BORDER}`,
                       borderRadius: "14px",
                       overflow: "hidden",
                       transition: "border-color 0.2s",
@@ -960,7 +960,7 @@ export default function FaithSciencePage() {
               <div key={i} style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 14, padding: 22, marginBottom: 14 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 }}>
                   <div>
-                    <span style={{ color: "#00FF88", fontWeight: 800, fontSize: 13, marginRight: 10 }}>{item.year}</span>
+                    <span style={{ color: "#3a7d56", fontWeight: 800, fontSize: 13, marginRight: 10 }}>{item.year}</span>
                     <span style={{ background: "rgba(107,79,187,0.15)", color: "#A080FF", padding: "2px 8px", borderRadius: 8, fontSize: 11, fontWeight: 700 }}>{item.tag}</span>
                   </div>
                 </div>

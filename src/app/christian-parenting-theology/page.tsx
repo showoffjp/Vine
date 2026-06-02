@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const THEOLOGY = [
   { title: "Children as Gift and Heritage", verse: "Psalm 127:3", body: "Children are a heritage from the Lord, offspring a reward from him (Psalm 127:3). The Hebrew word for heritage (nachalah) is the same word used for the land of Canaan — the inheritance given by God. Children are not possessions, projects, or inconveniences; they are gifts entrusted by the One who gives life. This reframes the entire parenting project: we are not the owners of our children but stewards of God's gift. They come from him and ultimately return to him. Our task is faithful stewardship, not ultimate ownership." },

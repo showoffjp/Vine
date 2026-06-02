@@ -397,7 +397,7 @@ export default function CouplesDevotionalPage() {
               placeholder="Partner's name..."
               style={{ padding: "8px 14px", borderRadius: 8, background: "#12121F", border: "1px solid #1E1E32", color: "#F2F2F8", fontSize: 14, outline: "none" }} />
             <button onClick={handleSaveName}
-              style={{ padding: "8px 16px", borderRadius: 8, background: "#00FF88", border: "none", color: "#07070F", cursor: "pointer", fontWeight: 700 }}>
+              style={{ padding: "8px 16px", borderRadius: 8, background: "#3a7d56", border: "none", color: "#07070F", cursor: "pointer", fontWeight: 700 }}>
               Save
             </button>
           </div>
@@ -417,7 +417,7 @@ export default function CouplesDevotionalPage() {
         <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 24px", display: "flex", gap: 2 }}>
           {([["devotionals", "💑 Devotionals"], ["practices", "✝️ Practices"], ["scripture", "📖 Scripture"], ["voices", "🎓 Voices"]] as const).map(([key, label]) => (
             <button key={key} onClick={() => setMainTab(key)}
-              style={{ background: "none", border: "none", borderBottom: mainTab === key ? "2px solid #00FF88" : "2px solid transparent", color: mainTab === key ? "#F2F2F8" : "#9898B3", fontWeight: mainTab === key ? 700 : 500, fontSize: 14, padding: "14px 18px", cursor: "pointer", whiteSpace: "nowrap" }}>
+              style={{ background: "none", border: "none", borderBottom: mainTab === key ? "2px solid #3a7d56" : "2px solid transparent", color: mainTab === key ? "#F2F2F8" : "#9898B3", fontWeight: mainTab === key ? 700 : 500, fontSize: 14, padding: "14px 18px", cursor: "pointer", whiteSpace: "nowrap" }}>
               {label}
             </button>
           ))}
@@ -432,15 +432,15 @@ export default function CouplesDevotionalPage() {
             <div style={{ fontSize: 13, color: "#9898B3" }}>{completedCount}/{totalDays} days</div>
           </div>
           <div style={{ height: 8, background: "#1E1E32", borderRadius: 4, marginBottom: 10 }}>
-            <div style={{ height: "100%", borderRadius: 4, background: "linear-gradient(90deg, #6B4FBB, #00FF88)", width: `${progressPct}%`, transition: "width 0.4s" }} />
+            <div style={{ height: "100%", borderRadius: 4, background: "linear-gradient(90deg, #6B4FBB, #3a7d56)", width: `${progressPct}%`, transition: "width 0.4s" }} />
           </div>
           <div style={{ display: "flex", gap: 8 }}>
             {devotionals.map((d) => (
               <div key={d.day}
                 style={{
                   width: 32, height: 32, borderRadius: "50%",
-                  background: progress.completedDays.includes(d.day) ? "#00FF88" : d.id === nextDay?.id ? "#6B4FBB" : "#1E1E32",
-                  border: `2px solid ${progress.completedDays.includes(d.day) ? "#00FF88" : d.id === nextDay?.id ? "#6B4FBB" : "#1E1E32"}`,
+                  background: progress.completedDays.includes(d.day) ? "#3a7d56" : d.id === nextDay?.id ? "#6B4FBB" : "#1E1E32",
+                  border: `2px solid ${progress.completedDays.includes(d.day) ? "#3a7d56" : d.id === nextDay?.id ? "#6B4FBB" : "#1E1E32"}`,
                   display: "flex", alignItems: "center", justifyContent: "center",
                   fontSize: 11, fontWeight: 700,
                   color: progress.completedDays.includes(d.day) ? "#07070F" : d.id === nextDay?.id ? "#fff" : "#9898B3",
@@ -473,9 +473,9 @@ export default function CouplesDevotionalPage() {
         )}
 
         {completedCount === totalDays && (
-          <div style={{ background: "#00FF8815", border: "1px solid #00FF8840", borderRadius: 14, padding: 20, textAlign: "center", marginBottom: 24 }}>
+          <div style={{ background: "#3a7d5615", border: "1px solid #3a7d5640", borderRadius: 14, padding: 20, textAlign: "center", marginBottom: 24 }}>
             <div style={{ fontSize: 24, marginBottom: 8 }}>🎉</div>
-            <div style={{ fontSize: 17, fontWeight: 700, color: "#00FF88", marginBottom: 4 }}>You completed the 7-Day Series!</div>
+            <div style={{ fontSize: 17, fontWeight: 700, color: "#3a7d56", marginBottom: 4 }}>You completed the 7-Day Series!</div>
             <div style={{ fontSize: 13, color: "#9898B3" }}>You've built something meaningful. Keep the conversation going.</div>
           </div>
         )}
@@ -487,14 +487,14 @@ export default function CouplesDevotionalPage() {
             const done = progress.completedDays.includes(d.day);
             return (
               <div key={d.id}
-                style={{ background: "#12121F", border: `1px solid ${done ? "#00FF8830" : "#1E1E32"}`, borderRadius: 14, padding: 18, cursor: "pointer" }}
+                style={{ background: "#12121F", border: `1px solid ${done ? "#3a7d5630" : "#1E1E32"}`, borderRadius: 14, padding: 18, cursor: "pointer" }}
                 onClick={() => setSelectedDay(d)}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 8 }}>
                   <div>
-                    <div style={{ fontSize: 11, color: done ? "#00FF88" : "#6B4FBB", fontWeight: 600, marginBottom: 2 }}>Day {d.day} · {d.theme}</div>
+                    <div style={{ fontSize: 11, color: done ? "#3a7d56" : "#6B4FBB", fontWeight: 600, marginBottom: 2 }}>Day {d.day} · {d.theme}</div>
                     <div style={{ fontSize: 15, fontWeight: 700, color: "#F2F2F8" }}>{d.title}</div>
                   </div>
-                  {done && <div style={{ color: "#00FF88", fontSize: 18 }}>✓</div>}
+                  {done && <div style={{ color: "#3a7d56", fontSize: 18 }}>✓</div>}
                 </div>
                 <div style={{ fontSize: 12, color: "#9898B3", fontStyle: "italic", lineHeight: 1.5 }}>
                   "{d.verse.slice(0, 80)}..."
@@ -552,8 +552,8 @@ export default function CouplesDevotionalPage() {
                   ))}
                 </div>
 
-                <div style={{ background: "#07070F", borderRadius: 10, padding: 16, marginBottom: 16, borderLeft: "3px solid #00FF88" }}>
-                  <div style={{ fontSize: 11, color: "#00FF88", fontWeight: 700, marginBottom: 8, textTransform: "uppercase" }}>🙏 Prayer Prompt</div>
+                <div style={{ background: "#07070F", borderRadius: 10, padding: 16, marginBottom: 16, borderLeft: "3px solid #3a7d56" }}>
+                  <div style={{ fontSize: 11, color: "#3a7d56", fontWeight: 700, marginBottom: 8, textTransform: "uppercase" }}>🙏 Prayer Prompt</div>
                   <p style={{ fontSize: 13, color: "#9898B3", lineHeight: 1.6, margin: 0 }}>{selectedDay.prayerPrompt}</p>
                 </div>
 
@@ -568,7 +568,7 @@ export default function CouplesDevotionalPage() {
               <button onClick={() => { handleComplete(selectedDay.day); setSelectedDay(null); }}
                 style={{
                   flex: 1, padding: "12px 16px", borderRadius: 10, border: "none",
-                  background: progress.completedDays.includes(selectedDay.day) ? "#1E1E32" : "#00FF88",
+                  background: progress.completedDays.includes(selectedDay.day) ? "#1E1E32" : "#3a7d56",
                   color: progress.completedDays.includes(selectedDay.day) ? "#9898B3" : "#07070F",
                   cursor: "pointer", fontWeight: 700, fontSize: 15,
                 }}>
@@ -589,8 +589,8 @@ export default function CouplesDevotionalPage() {
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 80 }}>
               {VOICES_CD.map(v => (
                 <button key={v.id} onClick={() => setSelectedVoice(v.id)}
-                  style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? "rgba(0,255,136,0.4)" : "#1E1E32"}`, background: selectedVoice === v.id ? "rgba(0,255,136,0.08)" : "#12121F", cursor: "pointer" }}>
-                  <div style={{ fontSize: 13, fontWeight: 700, color: selectedVoice === v.id ? "#00FF88" : "#F2F2F8", marginBottom: 2 }}>{v.name}</div>
+                  style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? "rgba(58,125,86,0.4)" : "#1E1E32"}`, background: selectedVoice === v.id ? "rgba(58,125,86,0.08)" : "#12121F", cursor: "pointer" }}>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: selectedVoice === v.id ? "#3a7d56" : "#F2F2F8", marginBottom: 2 }}>{v.name}</div>
                   <div style={{ fontSize: 11, color: "#9898B3" }}>{v.era}</div>
                 </button>
               ))}
@@ -600,7 +600,7 @@ export default function CouplesDevotionalPage() {
               <h2 style={{ fontSize: 24, fontWeight: 800, marginBottom: 4, color: "#F2F2F8" }}>{voiceItem.name}</h2>
               <div style={{ fontSize: 13, color: "#9898B3", marginBottom: 20 }}>{voiceItem.era}</div>
               <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.8, marginBottom: 24 }}>{voiceItem.bio}</p>
-              <div style={{ background: "#07070F", borderRadius: 12, padding: 20, borderLeft: "3px solid #00FF88", marginBottom: 24 }}>
+              <div style={{ background: "#07070F", borderRadius: 12, padding: 20, borderLeft: "3px solid #3a7d56", marginBottom: 24 }}>
                 <p style={{ fontSize: 15, color: "#E0E0F0", lineHeight: 1.75, fontStyle: "italic" }}>&ldquo;{voiceItem.quote}&rdquo;</p>
               </div>
               <div>
@@ -625,7 +625,7 @@ export default function CouplesDevotionalPage() {
                 <div style={{ flex: 1 }}>
                   <h3 style={{ fontSize: 18, fontWeight: 700, color: "#F2F2F8", margin: 0, marginBottom: 4 }}>{p.title}</h3>
                   <div style={{ display: "flex", gap: 8 }}>
-                    <span style={{ fontSize: 11, fontWeight: 600, color: "#07070F", background: "#00FF88", borderRadius: 6, padding: "2px 8px" }}>{p.frequency}</span>
+                    <span style={{ fontSize: 11, fontWeight: 600, color: "#07070F", background: "#3a7d56", borderRadius: 6, padding: "2px 8px" }}>{p.frequency}</span>
                     <span style={{ fontSize: 11, fontWeight: 600, color: "#9898B3", background: "#1E1E32", borderRadius: 6, padding: "2px 8px" }}>{p.time}</span>
                   </div>
                 </div>
@@ -654,7 +654,7 @@ export default function CouplesDevotionalPage() {
                 <h3 style={{ fontSize: 18, fontWeight: 700, color: "#F2F2F8", margin: 0 }}>{s.ref}</h3>
                 <span style={{ fontSize: 11, fontWeight: 600, color: "#6B4FBB", background: "rgba(107,79,187,0.15)", border: "1px solid rgba(107,79,187,0.3)", borderRadius: 6, padding: "3px 10px" }}>{s.theme}</span>
               </div>
-              <blockquote style={{ borderLeft: "3px solid #00FF88", paddingLeft: 16, margin: "0 0 12px 0", fontStyle: "italic" }}>
+              <blockquote style={{ borderLeft: "3px solid #3a7d56", paddingLeft: 16, margin: "0 0 12px 0", fontStyle: "italic" }}>
                 <p style={{ fontSize: 15, color: "#E0E0F0", lineHeight: 1.75, margin: 0 }}>&ldquo;{s.text}&rdquo;</p>
               </blockquote>
               <p style={{ fontSize: 14, color: "#9898B3", lineHeight: 1.75, marginTop: 12, marginBottom: 0 }}>{s.reflection}</p>

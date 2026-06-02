@@ -25,7 +25,7 @@ export default function EventRegisterButton({
     return (
       <button
         className="px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5"
-        style={{ background: "rgba(0,255,136,0.12)", color: "#00FF88", border: "1px solid rgba(0,255,136,0.3)" }}
+        style={{ background: "rgba(58,125,86,0.12)", color: "#3a7d56", border: "1px solid rgba(58,125,86,0.3)" }}
         onClick={() => setRegistered(false)}
         title={`Registered for ${eventTitle}`}
       >
@@ -46,10 +46,10 @@ export default function EventRegisterButton({
       style={{
         background:
           price === "Free"
-            ? "linear-gradient(135deg, #00FF88 0%, #B8960C 100%)"
+            ? "linear-gradient(135deg, #3a7d56 0%, #B8960C 100%)"
             : "transparent",
-        color: price === "Free" ? "#07070F" : "#00FF88",
-        border: price === "Free" ? "none" : "1px solid rgba(0,255,136,0.35)",
+        color: price === "Free" ? "#07070F" : "#3a7d56",
+        border: price === "Free" ? "none" : "1px solid rgba(58,125,86,0.35)",
       }}
     >
       {cta}

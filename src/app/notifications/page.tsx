@@ -114,7 +114,7 @@ const allNotifs: { group: string; items: Notification[] }[] = [
       {
         id: 8,
         emoji: "🏆",
-        emojiBg: "#00CC66",
+        emojiBg: "#4a9e6e",
         text: "You earned the 'Prayer Warrior' badge — 100+ prayers prayed!",
         time: "5h ago",
         read: true,
@@ -163,7 +163,7 @@ const allNotifs: { group: string; items: Notification[] }[] = [
       {
         id: 12,
         emoji: "🏆",
-        emojiBg: "#00CC66",
+        emojiBg: "#4a9e6e",
         text: "You earned the 'Scripture Scholar' badge — 30-day reading streak!",
         time: "Yesterday, 8:00 AM",
         read: true,
@@ -276,7 +276,7 @@ const categoryColors: Record<NotifCategory, string> = {
   like: "#BB4F7A",
   follow: "#2A6496",
   challenge: "#6B4FBB",
-  badge: "#00FF88",
+  badge: "#3a7d56",
   event: "#3A7BD5",
   resource: "#E8A030",
   circle: "#4CAF82",
@@ -350,7 +350,7 @@ export default function NotificationsPage() {
               {unreadCount > 0 && (
                 <span
                   style={{
-                    background: "#00FF88",
+                    background: "#3a7d56",
                     color: "#07070F",
                     fontSize: 12,
                     fontWeight: 800,
@@ -372,7 +372,7 @@ export default function NotificationsPage() {
             style={{
               fontSize: 13,
               fontWeight: 600,
-              color: unreadCount === 0 ? "#4A4A68" : "#00FF88",
+              color: unreadCount === 0 ? "#4A4A68" : "#3a7d56",
               background: "transparent",
               border: "none",
               cursor: unreadCount === 0 ? "default" : "pointer",
@@ -403,9 +403,9 @@ export default function NotificationsPage() {
                   padding: "7px 16px",
                   borderRadius: 20,
                   border: "1px solid",
-                  borderColor: active ? "#00FF88" : "#1E1E32",
-                  background: active ? "rgba(0,255,136,0.12)" : "transparent",
-                  color: active ? "#00FF88" : "#8A8AA8",
+                  borderColor: active ? "#3a7d56" : "#1E1E32",
+                  background: active ? "rgba(58,125,86,0.12)" : "transparent",
+                  color: active ? "#3a7d56" : "#8A8AA8",
                   fontSize: 13,
                   fontWeight: active ? 700 : 500,
                   cursor: "pointer",
@@ -461,7 +461,7 @@ export default function NotificationsPage() {
                         gap: 14,
                         padding: "16px 20px",
                         borderBottom: i === filtered.length - 1 ? "none" : "1px solid #1E1E32",
-                        background: isRead ? "transparent" : "rgba(0,255,136,0.03)",
+                        background: isRead ? "transparent" : "rgba(58,125,86,0.03)",
                         cursor: isRead ? "default" : "pointer",
                         transition: "background 0.15s",
                       }}
@@ -519,7 +519,7 @@ export default function NotificationsPage() {
                             width: 8,
                             height: 8,
                             borderRadius: "50%",
-                            background: "#00FF88",
+                            background: "#3a7d56",
                             flexShrink: 0,
                             marginTop: 6,
                           }}

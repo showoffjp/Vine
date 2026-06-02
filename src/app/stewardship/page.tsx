@@ -266,7 +266,7 @@ const STEWARD_VIDEOS = [
 ];
 
 const DEFAULT_BUDGET: BudgetCategory[] = [
-  { name: "Giving / Tithe", recommended: 10, actual: 7, color: "#00FF88" },
+  { name: "Giving / Tithe", recommended: 10, actual: 7, color: "#3a7d56" },
   { name: "Housing", recommended: 25, actual: 30, color: "#4FC3F7" },
   { name: "Food", recommended: 12, actual: 15, color: "#FF8C42" },
   { name: "Transportation", recommended: 10, actual: 12, color: "#FFB347" },
@@ -322,7 +322,7 @@ export default function StewardshipPage() {
         <div style={{ display: "flex", gap: 4, marginBottom: 32, borderBottom: "1px solid #1E1E32" }}>
           {tabs.map(({ key, label }) => (
             <button key={key} onClick={() => setActiveTab(key)}
-              style={{ padding: "10px 20px", fontSize: 14, fontWeight: 600, background: "none", border: "none", cursor: "pointer", color: activeTab === key ? "#00FF88" : "#6A6A88", borderBottom: `2px solid ${activeTab === key ? "#00FF88" : "transparent"}`, marginBottom: -1 }}>
+              style={{ padding: "10px 20px", fontSize: 14, fontWeight: 600, background: "none", border: "none", cursor: "pointer", color: activeTab === key ? "#3a7d56" : "#6A6A88", borderBottom: `2px solid ${activeTab === key ? "#3a7d56" : "transparent"}`, marginBottom: -1 }}>
               {label}
             </button>
           ))}
@@ -333,14 +333,14 @@ export default function StewardshipPage() {
           <div style={{ maxWidth: 800, margin: "0 auto" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 32 }}>
               {PRINCIPLES.map(p => (
-                <div key={p.id} style={{ background: "#12121F", borderRadius: 16, overflow: "hidden", border: `1px solid ${openPrinciple === p.id ? "rgba(0,255,136,0.3)" : "#1E1E32"}` }}>
+                <div key={p.id} style={{ background: "#12121F", borderRadius: 16, overflow: "hidden", border: `1px solid ${openPrinciple === p.id ? "rgba(58,125,86,0.3)" : "#1E1E32"}` }}>
                   <div onClick={() => setOpenPrinciple(openPrinciple === p.id ? null : p.id)}
                     style={{ padding: "18px 22px", display: "flex", justifyContent: "space-between", alignItems: "center", cursor: "pointer" }}>
                     <div style={{ display: "flex", gap: 14, alignItems: "center", flex: 1 }}>
                       <span style={{ fontSize: 26 }}>{p.icon}</span>
                       <div>
-                        <h3 style={{ fontSize: 16, fontWeight: 700, color: openPrinciple === p.id ? "#00FF88" : "#F2F2F8", marginBottom: 4 }}>{p.title}</h3>
-                        <p style={{ fontSize: 12, color: "#00FF88", fontStyle: "italic" }}>{p.verseRef}</p>
+                        <h3 style={{ fontSize: 16, fontWeight: 700, color: openPrinciple === p.id ? "#3a7d56" : "#F2F2F8", marginBottom: 4 }}>{p.title}</h3>
+                        <p style={{ fontSize: 12, color: "#3a7d56", fontStyle: "italic" }}>{p.verseRef}</p>
                       </div>
                     </div>
                     <div style={{ display: "flex", gap: 10, alignItems: "center", flexShrink: 0, marginLeft: 12 }}>
@@ -353,9 +353,9 @@ export default function StewardshipPage() {
                   </div>
                   {openPrinciple === p.id && (
                     <div style={{ padding: "0 22px 22px", borderTop: "1px solid #1E1E32" }}>
-                      <div style={{ background: "#0D0D1A", borderRadius: 10, padding: 14, margin: "16px 0", borderLeft: "3px solid #00FF88" }}>
+                      <div style={{ background: "#0D0D1A", borderRadius: 10, padding: 14, margin: "16px 0", borderLeft: "3px solid #3a7d56" }}>
                         <p style={{ fontSize: 14, color: "#C0C0D8", fontStyle: "italic" }}>&ldquo;{p.verse}&rdquo;</p>
-                        <p style={{ fontSize: 12, color: "#00FF88", marginTop: 6 }}>— {p.verseRef}</p>
+                        <p style={{ fontSize: 12, color: "#3a7d56", marginTop: 6 }}>— {p.verseRef}</p>
                       </div>
                       {p.content.split("\n\n").map((para, i) => (
                         <p key={i} style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.8, marginTop: i > 0 ? 12 : 0 }}>{para}</p>
@@ -411,7 +411,7 @@ export default function StewardshipPage() {
                     <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
                       {tier.practicalSteps.map((step, si) => (
                         <div key={si} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-                          <span style={{ color: "#00FF88", fontSize: 12, flexShrink: 0, marginTop: 2 }}>→</span>
+                          <span style={{ color: "#3a7d56", fontSize: 12, flexShrink: 0, marginTop: 2 }}>→</span>
                           <p style={{ fontSize: 13, color: "#9898B3", lineHeight: 1.6, margin: 0 }}>{step}</p>
                         </div>
                       ))}
@@ -433,8 +433,8 @@ export default function StewardshipPage() {
                     </div>
                   </div>
                   <p style={{ fontSize: 13, color: "#9898B3", lineHeight: 1.6, marginBottom: 12 }}>{v.practice}</p>
-                  <div style={{ background: "#07070F", borderLeft: "3px solid #00FF88", borderRadius: "0 6px 6px 0", padding: "10px 14px" }}>
-                    <p style={{ fontSize: 13, color: "#00FF88", fontStyle: "italic", margin: 0 }}>&ldquo;{v.quote}&rdquo;</p>
+                  <div style={{ background: "#07070F", borderLeft: "3px solid #3a7d56", borderRadius: "0 6px 6px 0", padding: "10px 14px" }}>
+                    <p style={{ fontSize: 13, color: "#3a7d56", fontStyle: "italic", margin: 0 }}>&ldquo;{v.quote}&rdquo;</p>
                   </div>
                 </div>
               ))}
@@ -456,12 +456,12 @@ export default function StewardshipPage() {
             </div>
             <div style={{ flex: 1 }}>
               <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 28 }}>
-                <h2 style={{ color: "#00FF88", fontWeight: 900, fontSize: 22, margin: "0 0 4px" }}>{voiceItem.name}</h2>
+                <h2 style={{ color: "#3a7d56", fontWeight: 900, fontSize: 22, margin: "0 0 4px" }}>{voiceItem.name}</h2>
                 <div style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 700, marginBottom: 6 }}>{voiceItem.era}</div>
                 <div style={{ color: "#9898B3", fontSize: 13, marginBottom: 16 }}>{voiceItem.context}</div>
                 <p style={{ color: "#F2F2F8", lineHeight: 1.8, fontSize: 15, marginBottom: 20 }}>{voiceItem.bio}</p>
-                <div style={{ background: "#07070F", borderLeft: "3px solid #00FF88", borderRadius: "0 8px 8px 0", padding: "14px 18px", marginBottom: 20 }}>
-                  <p style={{ color: "#00FF88", fontStyle: "italic", fontSize: 15, lineHeight: 1.7, margin: 0 }}>&ldquo;{voiceItem.quote}&rdquo;</p>
+                <div style={{ background: "#07070F", borderLeft: "3px solid #3a7d56", borderRadius: "0 8px 8px 0", padding: "14px 18px", marginBottom: 20 }}>
+                  <p style={{ color: "#3a7d56", fontStyle: "italic", fontSize: 15, lineHeight: 1.7, margin: 0 }}>&ldquo;{voiceItem.quote}&rdquo;</p>
                 </div>
                 <div style={{ background: "rgba(107,79,187,0.1)", borderRadius: 10, padding: 16 }}>
                   <div style={{ color: "#6B4FBB", fontWeight: 700, fontSize: 13, marginBottom: 6 }}>Contribution to Stewardship Theology</div>

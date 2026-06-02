@@ -211,7 +211,7 @@ const expertiseAreas = [
 ];
 
 const availabilityColor: Record<string, string> = {
-  Open: "#00FF88",
+  Open: "#3a7d56",
   Limited: "#F59E0B",
   Full: "#EF4444",
 };
@@ -312,7 +312,7 @@ export default function MentorshipPage() {
             { value: "4.9★", label: "Avg. Rating" },
           ].map((s) => (
             <div key={s.label}>
-              <div style={{ fontSize: 26, fontWeight: 700, color: "#00FF88" }}>{s.value}</div>
+              <div style={{ fontSize: 26, fontWeight: 700, color: "#3a7d56" }}>{s.value}</div>
               <div style={{ fontSize: 13, color: "#9898B3" }}>{s.label}</div>
             </div>
           ))}
@@ -379,9 +379,9 @@ export default function MentorshipPage() {
                       style={{
                         padding: "5px 14px",
                         borderRadius: 20,
-                        border: `1px solid ${filterAvailability === a ? "#00FF88" : "#1E1E32"}`,
-                        background: filterAvailability === a ? "#00FF8820" : "transparent",
-                        color: filterAvailability === a ? "#00FF88" : "#9898B3",
+                        border: `1px solid ${filterAvailability === a ? "#3a7d56" : "#1E1E32"}`,
+                        background: filterAvailability === a ? "#3a7d5620" : "transparent",
+                        color: filterAvailability === a ? "#3a7d56" : "#9898B3",
                         cursor: "pointer",
                         fontSize: 12,
                       }}
@@ -432,7 +432,7 @@ export default function MentorshipPage() {
                           <h3 style={{ fontSize: 15, fontWeight: 700, color: "#F2F2F8", margin: 0 }}>
                             {mentor.name}
                           </h3>
-                          {mentor.verified && <span style={{ fontSize: 14, color: "#00FF88" }}>✓</span>}
+                          {mentor.verified && <span style={{ fontSize: 14, color: "#3a7d56" }}>✓</span>}
                         </div>
                         <div style={{ fontSize: 12, color: "#9898B3" }}>{mentor.title}</div>
                         <div style={{ fontSize: 12, color: "#9898B3", marginTop: 2 }}>
@@ -515,13 +515,13 @@ export default function MentorshipPage() {
                             border: "none",
                             background:
                               hasRequest
-                                ? "#00FF8820"
+                                ? "#3a7d5620"
                                 : mentor.availability === "Full"
                                 ? "#1E1E32"
                                 : "#6B4FBB",
                             color:
                               hasRequest
-                                ? "#00FF88"
+                                ? "#3a7d56"
                                 : mentor.availability === "Full"
                                 ? "#9898B3"
                                 : "#fff",
@@ -606,10 +606,10 @@ export default function MentorshipPage() {
                             borderRadius: 20,
                             background:
                               req.status === "Pending" ? "#F59E0B20" :
-                              req.status === "Accepted" ? "#00FF8820" : "#6B4FBB20",
+                              req.status === "Accepted" ? "#3a7d5620" : "#6B4FBB20",
                             color:
                               req.status === "Pending" ? "#F59E0B" :
-                              req.status === "Accepted" ? "#00FF88" : "#6B4FBB",
+                              req.status === "Accepted" ? "#3a7d56" : "#6B4FBB",
                             fontSize: 12,
                             fontWeight: 600,
                             height: "fit-content",
@@ -651,7 +651,7 @@ export default function MentorshipPage() {
               <div key={i} style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 14, padding: 22, marginBottom: 14 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}>
                   <span style={{ fontSize: 24 }}>{item.icon}</span>
-                  <h3 style={{ fontSize: 16, fontWeight: 700, color: "#00FF88", margin: 0 }}>{item.title}</h3>
+                  <h3 style={{ fontSize: 16, fontWeight: 700, color: "#3a7d56", margin: 0 }}>{item.title}</h3>
                 </div>
                 <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.75, margin: 0 }}>{item.desc}</p>
               </div>
@@ -664,8 +664,8 @@ export default function MentorshipPage() {
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 80 }}>
               {VOICES_MENT.map(v => (
                 <button key={v.id} onClick={() => setSelectedVoice(v.id)}
-                  style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? "rgba(0,255,136,0.4)" : "#1E1E32"}`, background: selectedVoice === v.id ? "rgba(0,255,136,0.08)" : "#12121F", cursor: "pointer" }}>
-                  <div style={{ fontSize: 13, fontWeight: 700, color: selectedVoice === v.id ? "#00FF88" : "#F2F2F8", marginBottom: 2 }}>{v.name}</div>
+                  style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? "rgba(58,125,86,0.4)" : "#1E1E32"}`, background: selectedVoice === v.id ? "rgba(58,125,86,0.08)" : "#12121F", cursor: "pointer" }}>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: selectedVoice === v.id ? "#3a7d56" : "#F2F2F8", marginBottom: 2 }}>{v.name}</div>
                   <div style={{ fontSize: 11, color: "#9898B3" }}>{v.era}</div>
                 </button>
               ))}
@@ -675,7 +675,7 @@ export default function MentorshipPage() {
               <h2 style={{ fontSize: 24, fontWeight: 800, marginBottom: 4, color: "#F2F2F8" }}>{voiceItem.name}</h2>
               <div style={{ fontSize: 13, color: "#9898B3", marginBottom: 20 }}>{voiceItem.era}</div>
               <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.8, marginBottom: 24 }}>{voiceItem.bio}</p>
-              <div style={{ background: "#07070F", borderRadius: 12, padding: 20, borderLeft: "3px solid #00FF88", marginBottom: 24 }}>
+              <div style={{ background: "#07070F", borderRadius: 12, padding: 20, borderLeft: "3px solid #3a7d56", marginBottom: 24 }}>
                 <p style={{ fontSize: 15, color: "#E0E0F0", lineHeight: 1.75, fontStyle: "italic" }}>&ldquo;{voiceItem.quote}&rdquo;</p>
               </div>
               <div>
@@ -701,7 +701,7 @@ export default function MentorshipPage() {
               <div style={{ fontSize: 52, marginBottom: 8 }}>{selectedMentor.avatar}</div>
               <h2 style={{ fontSize: 22, fontWeight: 700, color: "#F2F2F8", marginBottom: 4 }}>
                 {selectedMentor.name}
-                {selectedMentor.verified && <span style={{ fontSize: 16, color: "#00FF88", marginLeft: 8 }}>✓ Verified</span>}
+                {selectedMentor.verified && <span style={{ fontSize: 16, color: "#3a7d56", marginLeft: 8 }}>✓ Verified</span>}
               </h2>
               <div style={{ fontSize: 14, color: "#9898B3" }}>{selectedMentor.title}</div>
               <div style={{ fontSize: 13, color: "#9898B3", marginTop: 2 }}>
@@ -722,7 +722,7 @@ export default function MentorshipPage() {
               ))}
             </div>
 
-            <div style={{ background: "#07070F", borderRadius: 10, padding: 16, marginBottom: 20, borderLeft: "3px solid #00FF88" }}>
+            <div style={{ background: "#07070F", borderRadius: 10, padding: 16, marginBottom: 20, borderLeft: "3px solid #3a7d56" }}>
               <div style={{ fontSize: 12, color: "#9898B3", marginBottom: 4, fontWeight: 600 }}>Mentee Testimonial</div>
               <div style={{ fontSize: 13, color: "#F2F2F8", fontStyle: "italic", lineHeight: 1.6 }}>
                 "{selectedMentor.testimonial}"
@@ -753,10 +753,10 @@ export default function MentorshipPage() {
                   borderRadius: 10,
                   border: "none",
                   background:
-                    requests.some((r) => r.mentorId === selectedMentor.id) ? "#00FF8820" :
+                    requests.some((r) => r.mentorId === selectedMentor.id) ? "#3a7d5620" :
                     selectedMentor.availability === "Full" ? "#1E1E32" : "#6B4FBB",
                   color:
-                    requests.some((r) => r.mentorId === selectedMentor.id) ? "#00FF88" :
+                    requests.some((r) => r.mentorId === selectedMentor.id) ? "#3a7d56" :
                     selectedMentor.availability === "Full" ? "#9898B3" : "#fff",
                   cursor: selectedMentor.availability === "Full" ? "default" : "pointer",
                   fontWeight: 700,

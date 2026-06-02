@@ -30,12 +30,12 @@ export default function EventDetailActions({
         className="w-full py-3.5 rounded-xl text-sm font-black mt-2 transition-all"
         style={{
           background: registered
-            ? "rgba(0,255,136,0.15)"
+            ? "rgba(58,125,86,0.15)"
             : price === "Free"
             ? `linear-gradient(135deg, ${accentColor} 0%, ${secondaryColor} 100%)`
             : accentColor,
-          color: registered ? "#00FF88" : "#07070F",
-          border: registered ? "1px solid rgba(0,255,136,0.4)" : "none",
+          color: registered ? "#3a7d56" : "#07070F",
+          border: registered ? "1px solid rgba(58,125,86,0.4)" : "none",
         }}
       >
         {registered ? (
@@ -65,9 +65,9 @@ export default function EventDetailActions({
           onClick={handleShare}
           className="flex-1 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-all"
           style={{
-            background: shared ? "rgba(0,255,136,0.08)" : "rgba(255,255,255,0.04)",
-            color: shared ? "#00FF88" : "#8A8AA8",
-            border: shared ? "1px solid rgba(0,255,136,0.2)" : "1px solid rgba(255,255,255,0.08)",
+            background: shared ? "rgba(58,125,86,0.08)" : "rgba(255,255,255,0.04)",
+            color: shared ? "#3a7d56" : "#8A8AA8",
+            border: shared ? "1px solid rgba(58,125,86,0.2)" : "1px solid rgba(255,255,255,0.08)",
           }}
         >
           <Share2 size={12} /> {shared ? "Copied!" : "Share"}

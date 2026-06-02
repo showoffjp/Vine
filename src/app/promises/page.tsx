@@ -411,7 +411,7 @@ const ALL_CATEGORIES = [
 
 const CATEGORY_COLORS: Record<string, string> = {
   Salvation: "#6B4FBB",
-  Provision: "#00FF88",
+  Provision: "#3a7d56",
   Protection: "#4F8BBB",
   Healing: "#BB4F7A",
   Peace: "#4FBBAA",
@@ -584,7 +584,7 @@ function PromiseCard({
             left: 0,
             right: 0,
             height: 3,
-            background: "linear-gradient(90deg, #6B4FBB, #00FF88)",
+            background: "linear-gradient(90deg, #6B4FBB, #3a7d56)",
           }}
         />
       )}
@@ -660,7 +660,7 @@ function PromiseCard({
       {/* Reference */}
       <p
         style={{
-          color: "#00FF88",
+          color: "#3a7d56",
           fontSize: 13,
           fontWeight: 700,
           margin: 0,
@@ -704,10 +704,10 @@ function PromiseCard({
           onClick={() => onClaim(promise.id)}
           style={{
             background: isClaimed
-              ? "linear-gradient(135deg, #00FF8844, #6B4FBB44)"
-              : "linear-gradient(135deg, #00FF88, #6B4FBB)",
-            color: isClaimed ? "#00FF88" : "#07070F",
-            border: isClaimed ? "1px solid #00FF8866" : "none",
+              ? "linear-gradient(135deg, #3a7d5644, #6B4FBB44)"
+              : "linear-gradient(135deg, #3a7d56, #6B4FBB)",
+            color: isClaimed ? "#3a7d56" : "#07070F",
+            border: isClaimed ? "1px solid #3a7d5666" : "none",
             borderRadius: 8,
             padding: "8px 16px",
             fontSize: 13,
@@ -726,7 +726,7 @@ function PromiseCard({
               style={{
                 fontSize: 11,
                 fontWeight: 800,
-                color: "#00FF88",
+                color: "#3a7d56",
                 animation: "fadeUp 0.6s ease forwards",
               }}
             >
@@ -743,9 +743,9 @@ function PromiseCard({
           <button
             onClick={() => onCopy(promise.id)}
             style={{
-              background: justCopied ? "#00FF8822" : "#1E1E32",
-              border: `1px solid ${justCopied ? "#00FF88" : "#1E1E32"}`,
-              color: justCopied ? "#00FF88" : "#9898B3",
+              background: justCopied ? "#3a7d5622" : "#1E1E32",
+              border: `1px solid ${justCopied ? "#3a7d56" : "#1E1E32"}`,
+              color: justCopied ? "#3a7d56" : "#9898B3",
               borderRadius: 6,
               padding: "5px 10px",
               fontSize: 11,
@@ -926,7 +926,7 @@ export default function PromisesPage() {
               width: 220,
               height: 220,
               borderRadius: "50%",
-              background: "radial-gradient(circle, #00FF8818 0%, transparent 70%)",
+              background: "radial-gradient(circle, #3a7d5618 0%, transparent 70%)",
               pointerEvents: "none",
             }}
           />
@@ -956,7 +956,7 @@ export default function PromisesPage() {
               fontSize: "clamp(28px, 5vw, 48px)",
               fontWeight: 800,
               margin: "0 0 12px",
-              background: "linear-gradient(135deg, #F2F2F8 0%, #00FF88 100%)",
+              background: "linear-gradient(135deg, #F2F2F8 0%, #3a7d56 100%)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundClip: "text",
@@ -985,7 +985,7 @@ export default function PromisesPage() {
             }}
           >
             {[
-              { label: "Promises Claimed", value: userTotalClaims, color: "#00FF88", icon: "🙌" },
+              { label: "Promises Claimed", value: userTotalClaims, color: "#3a7d56", icon: "🙌" },
               { label: "Promises Saved", value: userTotalSaved, color: "#6B4FBB", icon: "★" },
               { label: "Total in Collection", value: SEED_PROMISES.length, color: "#4F8BBB", icon: "📖" },
             ].map((stat) => (
@@ -1048,7 +1048,7 @@ export default function PromisesPage() {
                 style={{
                   background: "none",
                   border: "none",
-                  borderBottom: activeTab === tab.key ? "2px solid #00FF88" : "2px solid transparent",
+                  borderBottom: activeTab === tab.key ? "2px solid #3a7d56" : "2px solid transparent",
                   color: activeTab === tab.key ? "#F2F2F8" : "#9898B3",
                   fontWeight: activeTab === tab.key ? 700 : 500,
                   fontSize: 14,
@@ -1064,8 +1064,8 @@ export default function PromisesPage() {
                 {tab.label}
                 <span
                   style={{
-                    background: activeTab === tab.key ? "#00FF8822" : "#1E1E32",
-                    color: activeTab === tab.key ? "#00FF88" : "#9898B3",
+                    background: activeTab === tab.key ? "#3a7d5622" : "#1E1E32",
+                    color: activeTab === tab.key ? "#3a7d56" : "#9898B3",
                     borderRadius: 9999,
                     padding: "1px 7px",
                     fontSize: 11,
@@ -1370,7 +1370,7 @@ export default function PromisesPage() {
               {/* Summary card */}
               <div
                 style={{
-                  background: "linear-gradient(135deg, #6B4FBB22, #00FF8818)",
+                  background: "linear-gradient(135deg, #6B4FBB22, #3a7d5618)",
                   border: "1px solid #6B4FBB44",
                   borderRadius: 14,
                   padding: "20px 24px",
@@ -1385,7 +1385,7 @@ export default function PromisesPage() {
                     style={{
                       fontSize: 36,
                       fontWeight: 800,
-                      color: "#00FF88",
+                      color: "#3a7d56",
                       lineHeight: 1,
                     }}
                   >
@@ -1446,7 +1446,7 @@ export default function PromisesPage() {
                     onClick={() => setActiveTab("all")}
                     style={{
                       marginTop: 20,
-                      background: "linear-gradient(135deg, #00FF88, #6B4FBB)",
+                      background: "linear-gradient(135deg, #3a7d56, #6B4FBB)",
                       color: "#07070F",
                       border: "none",
                       borderRadius: 10,
@@ -1493,8 +1493,8 @@ export default function PromisesPage() {
                 <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 80 }}>
                   {VOICES_PROM.map(v => (
                     <button key={v.id} onClick={() => setSelectedThinker(v.id)}
-                      style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedThinker === v.id ? "rgba(0,255,136,0.4)" : "#1E1E32"}`, background: selectedThinker === v.id ? "rgba(0,255,136,0.08)" : "#12121F", cursor: "pointer" }}>
-                      <div style={{ fontSize: 13, fontWeight: 700, color: selectedThinker === v.id ? "#00FF88" : "#F2F2F8", marginBottom: 2 }}>{v.name}</div>
+                      style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedThinker === v.id ? "rgba(58,125,86,0.4)" : "#1E1E32"}`, background: selectedThinker === v.id ? "rgba(58,125,86,0.08)" : "#12121F", cursor: "pointer" }}>
+                      <div style={{ fontSize: 13, fontWeight: 700, color: selectedThinker === v.id ? "#3a7d56" : "#F2F2F8", marginBottom: 2 }}>{v.name}</div>
                       <div style={{ fontSize: 11, color: "#9898B3" }}>{v.era}</div>
                     </button>
                   ))}
@@ -1504,7 +1504,7 @@ export default function PromisesPage() {
                   <h2 style={{ fontSize: 24, fontWeight: 800, marginBottom: 4, color: "#F2F2F8" }}>{t.name}</h2>
                   <div style={{ fontSize: 13, color: "#9898B3", marginBottom: 20 }}>{t.era}</div>
                   <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.8, marginBottom: 24 }}>{t.bio}</p>
-                  <div style={{ background: "#07070F", borderRadius: 12, padding: 20, borderLeft: "3px solid #00FF88", marginBottom: 24 }}>
+                  <div style={{ background: "#07070F", borderRadius: 12, padding: 20, borderLeft: "3px solid #3a7d56", marginBottom: 24 }}>
                     <p style={{ fontSize: 15, color: "#E0E0F0", lineHeight: 1.75, fontStyle: "italic" }}>&ldquo;{t.quote}&rdquo;</p>
                   </div>
                   <div>

@@ -19,8 +19,8 @@ export default function ScrollToTop() {
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
       className="fixed bottom-6 right-6 z-40 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200"
       style={{
-        background: "linear-gradient(135deg, #00CC66, #00FF88)",
-        boxShadow: "0 4px 20px rgba(0,255,136,0.4)",
+        background: "linear-gradient(135deg, #4a9e6e, #3a7d56)",
+        boxShadow: "0 4px 20px rgba(58,125,86,0.4)",
         color: "#07070F",
       }}
       aria-label="Scroll to top"

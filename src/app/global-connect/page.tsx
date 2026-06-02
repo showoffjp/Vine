@@ -86,7 +86,7 @@ const globalMembers = [
   { name: "Ji-Woo Park", country: "South Korea", flag: "🇰🇷", role: "Seminary Student", joined: "2025", avatar: "JP", color: "#EC4899", storySlug: "ji-woo-park-kpop-idol-to-pastor" },
   { name: "Carlos Mendez", country: "Colombia", flag: "🇨🇴", role: "Church Planter", joined: "2024", avatar: "CM", color: "#10B981", storySlug: "carlos-mendez-drug-cartel-to-church-planter" },
   { name: "Lydia Böhm", country: "Germany", flag: "🇩🇪", role: "Youth Pastor", joined: "2025", avatar: "LB", color: "#6B4FBB", storySlug: "lydia-bohm-deconstruction" },
-  { name: "Samuel Mwangi", country: "Kenya", flag: "🇰🇪", role: "Bible Teacher", joined: "2023", avatar: "SM", color: "#00FF88", storySlug: "samuel-mwangi-from-prosperity-gospel-to-grace" },
+  { name: "Samuel Mwangi", country: "Kenya", flag: "🇰🇪", role: "Bible Teacher", joined: "2023", avatar: "SM", color: "#3a7d56", storySlug: "samuel-mwangi-from-prosperity-gospel-to-grace" },
   { name: "Isabella Ferreira", country: "Brazil", flag: "🇧🇷", role: "Missionary", joined: "2024", avatar: "IF", color: "#3B82F6", storySlug: null },
 ];
 
@@ -163,8 +163,8 @@ export default function GlobalConnectPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-14">
           <div className="text-center max-w-3xl mx-auto">
             <div className="flex items-center justify-center gap-2 mb-4">
-              <Globe size={24} style={{ color: "#00FF88" }} />
-              <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#00FF88" }}>
+              <Globe size={24} style={{ color: "#3a7d56" }} />
+              <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#3a7d56" }}>
                 Global Connect
               </span>
             </div>
@@ -172,7 +172,7 @@ export default function GlobalConnectPage() {
               One body.{" "}
               <span
                 style={{
-                  background: "linear-gradient(135deg, #00FF88, #10B981)",
+                  background: "linear-gradient(135deg, #3a7d56, #10B981)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                 }}
@@ -193,7 +193,7 @@ export default function GlobalConnectPage() {
                     className="rounded-2xl p-4 text-center"
                     style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
                   >
-                    <Icon size={18} style={{ color: "#00FF88" }} className="mx-auto mb-2" />
+                    <Icon size={18} style={{ color: "#3a7d56" }} className="mx-auto mb-2" />
                     <p className="text-2xl font-black mb-0.5" style={{ color: "#F2F2F8" }}>{s.value}</p>
                     <p className="text-xs" style={{ color: "#6A6A88" }}>{s.label}</p>
                   </div>
@@ -258,10 +258,10 @@ export default function GlobalConnectPage() {
                     href={`/discussions/${r.discussionSlug}`}
                     className="block p-3 rounded-xl transition-all mb-4"
                     style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", textDecoration: "none" }}
-                    onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(0,255,136,0.2)"; }}
+                    onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(58,125,86,0.2)"; }}
                     onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)"; }}
                   >
-                    <p className="text-xs mb-1 font-bold" style={{ color: "#00FF88" }}>🔥 Active Discussion</p>
+                    <p className="text-xs mb-1 font-bold" style={{ color: "#3a7d56" }}>🔥 Active Discussion</p>
                     <p className="text-sm" style={{ color: "#8A8AA8" }}>{r.activeDiscussion}</p>
                   </a>
                   <button
@@ -288,7 +288,7 @@ export default function GlobalConnectPage() {
             <h2 className="text-2xl font-black" style={{ color: "#F2F2F8" }}>
               Members Around the World
             </h2>
-            <button className="flex items-center gap-1 text-sm font-semibold" style={{ color: "#00FF88" }}>
+            <button className="flex items-center gap-1 text-sm font-semibold" style={{ color: "#3a7d56" }}>
               View All <ChevronRight size={16} />
             </button>
           </div>
@@ -300,7 +300,7 @@ export default function GlobalConnectPage() {
                 style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.background = "rgba(255,255,255,0.04)";
-                  e.currentTarget.style.borderColor = "rgba(0,255,136,0.15)";
+                  e.currentTarget.style.borderColor = "rgba(58,125,86,0.15)";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.background = "rgba(255,255,255,0.02)";
@@ -315,7 +315,7 @@ export default function GlobalConnectPage() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    <p className="font-semibold text-sm group-hover:text-[#00FF88] transition-colors truncate" style={{ color: "#F2F2F8" }}>
+                    <p className="font-semibold text-sm group-hover:text-[#3a7d56] transition-colors truncate" style={{ color: "#F2F2F8" }}>
                       {m.name}
                     </p>
                     <span>{m.flag}</span>
@@ -326,7 +326,7 @@ export default function GlobalConnectPage() {
                   <a
                     href={`/stories/${m.storySlug}`}
                     className="text-xs px-2.5 py-1 rounded-full font-semibold shrink-0"
-                    style={{ background: "rgba(0,255,136,0.1)", color: "#00FF88", border: "1px solid rgba(0,255,136,0.2)", textDecoration: "none" }}
+                    style={{ background: "rgba(58,125,86,0.1)", color: "#3a7d56", border: "1px solid rgba(58,125,86,0.2)", textDecoration: "none" }}
                   >
                     Story
                   </a>
@@ -335,9 +335,9 @@ export default function GlobalConnectPage() {
                     onClick={() => toggleConnect(m.name)}
                     className="text-xs px-2.5 py-1 rounded-full font-semibold shrink-0 transition-all"
                     style={{
-                      background: connectedMembers.has(m.name) ? "rgba(0,255,136,0.2)" : "rgba(0,255,136,0.1)",
-                      color: "#00FF88",
-                      border: `1px solid ${connectedMembers.has(m.name) ? "rgba(0,255,136,0.4)" : "rgba(0,255,136,0.2)"}`,
+                      background: connectedMembers.has(m.name) ? "rgba(58,125,86,0.2)" : "rgba(58,125,86,0.1)",
+                      color: "#3a7d56",
+                      border: `1px solid ${connectedMembers.has(m.name) ? "rgba(58,125,86,0.4)" : "rgba(58,125,86,0.2)"}`,
                     }}
                   >
                     {connectedMembers.has(m.name) ? "✓ Connected" : "Connect"}
@@ -353,7 +353,7 @@ export default function GlobalConnectPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <div>
               <div className="flex items-center gap-2 mb-5">
-                <Heart size={18} style={{ color: "#00FF88" }} />
+                <Heart size={18} style={{ color: "#3a7d56" }} />
                 <h2 className="text-xl font-black" style={{ color: "#F2F2F8" }}>
                   Global Prayer Wall
                 </h2>
@@ -372,7 +372,7 @@ export default function GlobalConnectPage() {
                     >
                       <span className="text-2xl shrink-0">{p.country}</span>
                       <div className="flex-1">
-                        <p className="text-xs font-bold mb-1" style={{ color: "#00FF88" }}>{p.region}</p>
+                        <p className="text-xs font-bold mb-1" style={{ color: "#3a7d56" }}>{p.region}</p>
                         <p className="text-sm leading-relaxed" style={{ color: "#A0A0C0" }}>{p.request}</p>
                         <div className="flex items-center gap-3 mt-2">
                           <span className="text-xs" style={{ color: "#4A4A68" }}>{p.time}</span>
@@ -381,7 +381,7 @@ export default function GlobalConnectPage() {
                             disabled={prayed}
                             className="text-xs flex items-center gap-1 font-semibold transition-all"
                             style={{
-                              color: prayed ? "#00FF88" : "#6B4FBB",
+                              color: prayed ? "#3a7d56" : "#6B4FBB",
                               opacity: prayed ? 1 : 1,
                             }}
                           >
@@ -396,7 +396,7 @@ export default function GlobalConnectPage() {
               <a
                 href="/prayer"
                 className="mt-4 block w-full py-3 rounded-xl text-sm font-semibold text-center"
-                style={{ background: "rgba(0,255,136,0.06)", border: "1px solid rgba(0,255,136,0.15)", color: "#00FF88", textDecoration: "none" }}
+                style={{ background: "rgba(58,125,86,0.06)", border: "1px solid rgba(58,125,86,0.15)", color: "#3a7d56", textDecoration: "none" }}
               >
                 View All Global Prayers
               </a>
@@ -407,20 +407,20 @@ export default function GlobalConnectPage() {
               <div
                 className="rounded-2xl p-8"
                 style={{
-                  background: "linear-gradient(135deg, rgba(107,79,187,0.1) 0%, rgba(0,255,136,0.06) 100%)",
+                  background: "linear-gradient(135deg, rgba(107,79,187,0.1) 0%, rgba(58,125,86,0.06) 100%)",
                   border: "1px solid rgba(107,79,187,0.2)",
                 }}
               >
                 <p className="text-lg italic mb-4 leading-relaxed" style={{ color: "#C0C0D8" }}>
                   &ldquo;After this I looked, and there before me was a great multitude that no one could count, from every nation, tribe, people and language, standing before the throne and before the Lamb.&rdquo;
                 </p>
-                <p className="font-bold text-sm" style={{ color: "#00FF88" }}>— Revelation 7:9</p>
+                <p className="font-bold text-sm" style={{ color: "#3a7d56" }}>— Revelation 7:9</p>
               </div>
               <div
                 className="rounded-2xl p-6"
                 style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
               >
-                <MapPin size={24} style={{ color: "#00FF88" }} className="mb-3" />
+                <MapPin size={24} style={{ color: "#3a7d56" }} className="mb-3" />
                 <h3 className="font-bold text-lg mb-2" style={{ color: "#F2F2F8" }}>
                   {locationSet ? "Location Updated!" : "Set Your Location"}
                 </h3>
@@ -432,7 +432,7 @@ export default function GlobalConnectPage() {
                 {locationSet ? (
                   <div
                     className="w-full py-2.5 rounded-xl text-sm font-bold text-center flex items-center justify-center gap-2"
-                    style={{ background: "rgba(0,255,136,0.1)", border: "1px solid rgba(0,255,136,0.3)", color: "#00FF88" }}
+                    style={{ background: "rgba(58,125,86,0.1)", border: "1px solid rgba(58,125,86,0.3)", color: "#3a7d56" }}
                   >
                     <CheckCircle2 size={15} />
                     Location saved
@@ -441,7 +441,7 @@ export default function GlobalConnectPage() {
                   <button
                     onClick={() => setLocationSet(true)}
                     className="w-full py-2.5 rounded-xl text-sm font-bold text-black"
-                    style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)" }}
+                    style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}
                   >
                     Update My Location
                   </button>

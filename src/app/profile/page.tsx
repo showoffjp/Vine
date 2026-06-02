@@ -30,7 +30,7 @@ const badges = [
     icon: Star,
     name: "Early Adopter",
     desc: "Joined Vine in its founding year",
-    color: "#00FF88",
+    color: "#3a7d56",
   },
   {
     icon: Heart,
@@ -82,7 +82,7 @@ const activityFeed = [
   {
     type: "save",
     icon: Bookmark,
-    color: "#00FF88",
+    color: "#3a7d56",
     text: "Saved an article",
     detail: '"Why the Resurrection Changes Everything"',
     time: "5 hours ago",
@@ -182,9 +182,9 @@ export default function ProfilePage() {
               <div
                 className="w-24 h-24 rounded-full flex items-center justify-center mb-4 text-2xl font-black"
                 style={{
-                  background: "linear-gradient(135deg, #00FF88 0%, #6B4FBB 100%)",
+                  background: "linear-gradient(135deg, #3a7d56 0%, #6B4FBB 100%)",
                   color: "#07070F",
-                  boxShadow: "0 0 0 4px rgba(0,255,136,0.15)",
+                  boxShadow: "0 0 0 4px rgba(58,125,86,0.15)",
                 }}
               >
                 {displayAvatar}
@@ -209,7 +209,7 @@ export default function ProfilePage() {
               <p className="text-sm leading-relaxed mb-5 text-left" style={{ color: "#8A8AA8" }}>
                 Husband. Father of 3. Passionate about apologetics, biblical finance, and helping men grow in their
                 faith.{" "}
-                <span style={{ color: "#00FF88" }}>Philippians 4:13.</span>
+                <span style={{ color: "#3a7d56" }}>Philippians 4:13.</span>
               </p>
 
               {/* Stats */}
@@ -261,7 +261,7 @@ export default function ProfilePage() {
               className="rounded-2xl p-4"
               style={{ background: "#12121F", border: "1px solid #1E1E32" }}
             >
-              <h4 className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#00FF88" }}>
+              <h4 className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#3a7d56" }}>
                 Badges
               </h4>
               <div className="flex flex-wrap gap-2">
@@ -305,7 +305,7 @@ export default function ProfilePage() {
               className="rounded-2xl p-4"
               style={{ background: "#12121F", border: "1px solid #1E1E32" }}
             >
-              <h4 className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#00FF88" }}>
+              <h4 className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#3a7d56" }}>
                 Interests
               </h4>
               <div className="flex flex-wrap gap-1.5">
@@ -322,7 +322,7 @@ export default function ProfilePage() {
               className="rounded-2xl p-4"
               style={{ background: "#12121F", border: "1px solid #1E1E32" }}
             >
-              <h4 className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#00FF88" }}>
+              <h4 className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#3a7d56" }}>
                 Currently Reading
               </h4>
               <div className="flex gap-3 items-start">
@@ -330,7 +330,7 @@ export default function ProfilePage() {
                   className="w-10 h-14 rounded-lg flex items-center justify-center flex-shrink-0"
                   style={{ background: "linear-gradient(135deg, #6B4FBB, #4F3A8A)" }}
                 >
-                  <BookOpen size={16} style={{ color: "#00FF88" }} />
+                  <BookOpen size={16} style={{ color: "#3a7d56" }} />
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-bold leading-snug mb-0.5" style={{ color: "#F2F2F8" }}>
@@ -342,7 +342,7 @@ export default function ProfilePage() {
                   <div className="w-full h-1.5 rounded-full" style={{ background: "#1E1E32" }}>
                     <div
                       className="h-full rounded-full"
-                      style={{ width: "67%", background: "linear-gradient(90deg, #00FF88, #44FFAA)" }}
+                      style={{ width: "67%", background: "linear-gradient(90deg, #3a7d56, #52a876)" }}
                     />
                   </div>
                   <p className="text-[10px] mt-1" style={{ color: "#6A6A88" }}>
@@ -356,11 +356,11 @@ export default function ProfilePage() {
             <div
               className="rounded-2xl p-4"
               style={{
-                background: "linear-gradient(135deg, rgba(0,255,136,0.06) 0%, rgba(107,79,187,0.04) 100%)",
-                border: "1px solid rgba(0,255,136,0.15)",
+                background: "linear-gradient(135deg, rgba(58,125,86,0.06) 0%, rgba(107,79,187,0.04) 100%)",
+                border: "1px solid rgba(58,125,86,0.15)",
               }}
             >
-              <h4 className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#00FF88" }}>
+              <h4 className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#3a7d56" }}>
                 Faith Stats
               </h4>
               <div className="space-y-3">
@@ -400,8 +400,8 @@ export default function ProfilePage() {
                     onClick={() => setActiveTab(tab)}
                     className="flex-shrink-0 px-6 py-4 text-sm font-semibold transition-all duration-200"
                     style={{
-                      color: activeTab === tab ? "#00FF88" : "#6A6A88",
-                      borderBottom: activeTab === tab ? "2px solid #00FF88" : "2px solid transparent",
+                      color: activeTab === tab ? "#3a7d56" : "#6A6A88",
+                      borderBottom: activeTab === tab ? "2px solid #3a7d56" : "2px solid transparent",
                     }}
                   >
                     {tab}
@@ -459,7 +459,7 @@ export default function ProfilePage() {
                     className="block rounded-2xl p-4 cursor-pointer transition-all duration-200 hover:bg-[#18182A] flex items-center gap-4"
                     style={{ background: "#12121F", border: "1px solid #1E1E32", textDecoration: "none" }}
                   >
-                    <Bookmark size={18} style={{ color: "#00FF88" }} />
+                    <Bookmark size={18} style={{ color: "#3a7d56" }} />
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-semibold leading-snug mb-0.5" style={{ color: "#F2F2F8" }}>
                         {item.title}
@@ -542,13 +542,13 @@ export default function ProfilePage() {
                 <div
                   className="rounded-2xl p-6 verse-card"
                 >
-                  <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: "#00FF88" }}>
+                  <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: "#3a7d56" }}>
                     Favourite Verse
                   </p>
                   <p className="text-base italic font-medium leading-relaxed mb-2" style={{ color: "#F2F2F8" }}>
                     &ldquo;I can do all things through Christ who strengthens me.&rdquo;
                   </p>
-                  <p className="text-sm font-semibold" style={{ color: "#00FF88" }}>
+                  <p className="text-sm font-semibold" style={{ color: "#3a7d56" }}>
                     — Philippians 4:13
                   </p>
                 </div>

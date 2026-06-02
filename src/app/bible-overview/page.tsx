@@ -4,7 +4,7 @@ import { useState } from "react";
 const BG = "#07070F";
 const CARD = "#12121F";
 const BORDER = "#1E1E32";
-const GREEN = "#00FF88";
+const GREEN = "#3a7d56";
 const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
@@ -289,7 +289,7 @@ export default function BibleOverviewPage() {
     "Law / Torah": "#FFB347",
     "Poetry / Wisdom": "#4FC3F7",
     "Major Prophets": "#A080FF",
-    "Gospels": "#00FF88",
+    "Gospels": "#3a7d56",
     "Epistles": "#FF8C42",
     "Apocalyptic": "#FF6B9D",
   };
@@ -304,7 +304,7 @@ export default function BibleOverviewPage() {
           <h1 style={{ fontSize: 36, fontWeight: 900, marginBottom: 8 }}>Bible Book Overview</h1>
           <p style={{ color: MUTED, fontSize: 16 }}>Know what every book is about &mdash; its theme, author, and big idea</p>
           <div style={{ display: "flex", gap: 12, justifyContent: "center", marginTop: 16, flexWrap: "wrap" }}>
-            <span style={{ background: "rgba(0,255,136,0.1)", color: GREEN, border: "1px solid rgba(0,255,136,0.25)", borderRadius: 20, padding: "4px 14px", fontSize: 13 }}>
+            <span style={{ background: "rgba(58,125,86,0.1)", color: GREEN, border: "1px solid rgba(58,125,86,0.25)", borderRadius: 20, padding: "4px 14px", fontSize: 13 }}>
               {readIds.size}/{BOOKS.length} Read
             </span>
           </div>
@@ -343,7 +343,7 @@ export default function BibleOverviewPage() {
               <div style={{ display: "flex", gap: 6 }}>
                 {TESTAMENTS.map(t => (
                   <button key={t} onClick={() => setTestamentFilter(t)}
-                    style={{ padding: "7px 14px", borderRadius: 10, border: `1px solid ${testamentFilter === t ? GREEN : BORDER}`, background: testamentFilter === t ? "rgba(0,255,136,0.1)" : "transparent", color: testamentFilter === t ? GREEN : MUTED, fontSize: 13, cursor: "pointer", fontWeight: testamentFilter === t ? 700 : 400 }}>
+                    style={{ padding: "7px 14px", borderRadius: 10, border: `1px solid ${testamentFilter === t ? GREEN : BORDER}`, background: testamentFilter === t ? "rgba(58,125,86,0.1)" : "transparent", color: testamentFilter === t ? GREEN : MUTED, fontSize: 13, cursor: "pointer", fontWeight: testamentFilter === t ? 700 : 400 }}>
                     {t === "OT" ? "Old Testament" : t === "NT" ? "New Testament" : "All"}
                   </button>
                 ))}
@@ -358,9 +358,9 @@ export default function BibleOverviewPage() {
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 16 }}>
               {filtered.map(book => (
                 <div key={book.name} onClick={() => setSelected(book)}
-                  style={{ background: CARD, border: `1px solid ${readIds.has(book.name) ? "rgba(0,255,136,0.25)" : BORDER}`, borderRadius: 16, padding: 20, cursor: "pointer", transition: "border-color 0.2s, transform 0.15s" }}
+                  style={{ background: CARD, border: `1px solid ${readIds.has(book.name) ? "rgba(58,125,86,0.25)" : BORDER}`, borderRadius: 16, padding: 20, cursor: "pointer", transition: "border-color 0.2s, transform 0.15s" }}
                   onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.transform = "translateY(-2px)"; (e.currentTarget as HTMLDivElement).style.borderColor = CAT_COLORS[book.category]; }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.transform = "none"; (e.currentTarget as HTMLDivElement).style.borderColor = readIds.has(book.name) ? "rgba(0,255,136,0.25)" : BORDER; }}>
+                  onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.transform = "none"; (e.currentTarget as HTMLDivElement).style.borderColor = readIds.has(book.name) ? "rgba(58,125,86,0.25)" : BORDER; }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 }}>
                     <div>
                       <h3 style={{ fontSize: 18, fontWeight: 800, marginBottom: 4 }}>{book.name}</h3>
@@ -381,7 +381,7 @@ export default function BibleOverviewPage() {
                   <div style={{ marginTop: 12, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                     <span style={{ fontSize: 12, color: "#6A6A88" }}>{book.author} &middot; {book.date}</span>
                     <button onClick={e => { e.stopPropagation(); toggleRead(book.name); }}
-                      style={{ fontSize: 11, padding: "3px 10px", borderRadius: 8, border: `1px solid ${readIds.has(book.name) ? "rgba(0,255,136,0.3)" : "#2A2A40"}`, background: readIds.has(book.name) ? "rgba(0,255,136,0.1)" : "transparent", color: readIds.has(book.name) ? GREEN : "#6A6A88", cursor: "pointer", fontWeight: 600 }}>
+                      style={{ fontSize: 11, padding: "3px 10px", borderRadius: 8, border: `1px solid ${readIds.has(book.name) ? "rgba(58,125,86,0.3)" : "#2A2A40"}`, background: readIds.has(book.name) ? "rgba(58,125,86,0.1)" : "transparent", color: readIds.has(book.name) ? GREEN : "#6A6A88", cursor: "pointer", fontWeight: 600 }}>
                       {readIds.has(book.name) ? "✓ Read" : "Mark Read"}
                     </button>
                   </div>
@@ -590,7 +590,7 @@ export default function BibleOverviewPage() {
 
             <div style={{ display: "flex", gap: 12 }}>
               <button onClick={() => toggleRead(selected.name)}
-                style={{ flex: 1, padding: "12px", borderRadius: 12, border: `1px solid ${readIds.has(selected.name) ? "rgba(0,255,136,0.4)" : "#2A2A40"}`, background: readIds.has(selected.name) ? "rgba(0,255,136,0.12)" : BORDER, color: readIds.has(selected.name) ? GREEN : MUTED, cursor: "pointer", fontWeight: 700, fontSize: 14 }}>
+                style={{ flex: 1, padding: "12px", borderRadius: 12, border: `1px solid ${readIds.has(selected.name) ? "rgba(58,125,86,0.4)" : "#2A2A40"}`, background: readIds.has(selected.name) ? "rgba(58,125,86,0.12)" : BORDER, color: readIds.has(selected.name) ? GREEN : MUTED, cursor: "pointer", fontWeight: 700, fontSize: 14 }}>
                 {readIds.has(selected.name) ? "✓ Marked as Read" : "Mark as Read"}
               </button>
               <button onClick={() => toggleSave(selected.name)}

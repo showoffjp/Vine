@@ -854,7 +854,7 @@ export default function HealingPage() {
             width: "64px",
             height: "64px",
             borderRadius: "20px",
-            background: "linear-gradient(135deg, rgba(107,79,187,0.3), rgba(0,255,136,0.15))",
+            background: "linear-gradient(135deg, rgba(107,79,187,0.3), rgba(58,125,86,0.15))",
             border: "1px solid rgba(107,79,187,0.4)",
             fontSize: "28px",
             marginBottom: "20px",
@@ -912,7 +912,7 @@ export default function HealingPage() {
               border: activeTab === tab.key ? "1px solid #6B4FBB" : "1px solid #1E1E32",
               background:
                 activeTab === tab.key
-                  ? "linear-gradient(135deg, rgba(107,79,187,0.25), rgba(0,255,136,0.08))"
+                  ? "linear-gradient(135deg, rgba(107,79,187,0.25), rgba(58,125,86,0.08))"
                   : "transparent",
               color: activeTab === tab.key ? "#F2F2F8" : "#9898B3",
               fontWeight: activeTab === tab.key ? 600 : 400,
@@ -951,7 +951,7 @@ export default function HealingPage() {
                     key={path.id}
                     style={{
                       backgroundColor: "#12121F",
-                      border: started ? "1px solid rgba(0,255,136,0.35)" : "1px solid #1E1E32",
+                      border: started ? "1px solid rgba(58,125,86,0.35)" : "1px solid #1E1E32",
                       borderRadius: "14px",
                       padding: "20px",
                       cursor: "pointer",
@@ -972,12 +972,12 @@ export default function HealingPage() {
                           position: "absolute",
                           top: "12px",
                           right: "12px",
-                          backgroundColor: "rgba(0,255,136,0.15)",
-                          border: "1px solid rgba(0,255,136,0.4)",
+                          backgroundColor: "rgba(58,125,86,0.15)",
+                          border: "1px solid rgba(58,125,86,0.4)",
                           borderRadius: "20px",
                           padding: "2px 8px",
                           fontSize: "11px",
-                          color: "#00FF88",
+                          color: "#3a7d56",
                           fontWeight: 600,
                         }}
                       >
@@ -1067,9 +1067,9 @@ export default function HealingPage() {
                         borderRadius: "8px",
                         border: "none",
                         background: started
-                          ? "rgba(0,255,136,0.12)"
+                          ? "rgba(58,125,86,0.12)"
                           : "linear-gradient(135deg, #6B4FBB, #4F3A8A)",
-                        color: started ? "#00FF88" : "#F2F2F8",
+                        color: started ? "#3a7d56" : "#F2F2F8",
                         fontWeight: 600,
                         fontSize: "13px",
                         cursor: "pointer",
@@ -1180,11 +1180,11 @@ export default function HealingPage() {
                           onClick={() => toggleSaveVerse(verse.id)}
                           title={saved ? "Unsave" : "Save verse"}
                           style={{
-                            background: saved ? "rgba(0,255,136,0.12)" : "rgba(255,255,255,0.05)",
-                            border: saved ? "1px solid rgba(0,255,136,0.35)" : "1px solid #1E1E32",
+                            background: saved ? "rgba(58,125,86,0.12)" : "rgba(255,255,255,0.05)",
+                            border: saved ? "1px solid rgba(58,125,86,0.35)" : "1px solid #1E1E32",
                             borderRadius: "8px",
                             padding: "6px 10px",
-                            color: saved ? "#00FF88" : "#9898B3",
+                            color: saved ? "#3a7d56" : "#9898B3",
                             fontSize: "13px",
                             cursor: "pointer",
                           }}
@@ -1293,12 +1293,12 @@ export default function HealingPage() {
                           <span style={{ color: "#9898B3", fontSize: "13px" }}>{testimony.age}</span>
                           <span
                             style={{
-                              backgroundColor: "rgba(0,255,136,0.12)",
-                              border: "1px solid rgba(0,255,136,0.25)",
+                              backgroundColor: "rgba(58,125,86,0.12)",
+                              border: "1px solid rgba(58,125,86,0.25)",
                               borderRadius: "20px",
                               padding: "2px 8px",
                               fontSize: "11px",
-                              color: "#00FF88",
+                              color: "#3a7d56",
                             }}
                           >
                             {testimony.typeOfHealing}
@@ -1445,7 +1445,7 @@ export default function HealingPage() {
               {filteredResources.map((resource) => {
                 const typeColors: Record<string, { bg: string; border: string; text: string }> = {
                   Book: { bg: "rgba(107,79,187,0.15)", border: "rgba(107,79,187,0.3)", text: "#A889F0" },
-                  Program: { bg: "rgba(0,255,136,0.12)", border: "rgba(0,255,136,0.25)", text: "#00FF88" },
+                  Program: { bg: "rgba(58,125,86,0.12)", border: "rgba(58,125,86,0.25)", text: "#3a7d56" },
                   Hotline: { bg: "rgba(232,79,120,0.15)", border: "rgba(232,79,120,0.3)", text: "#F07090" },
                 };
                 const colors = typeColors[resource.type] ?? typeColors.Book;
@@ -1548,7 +1548,7 @@ export default function HealingPage() {
         {activeTab === "videos" && (
           <div>
             <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 24, marginBottom: 24 }}>
-              <h2 style={{ color: "#00FF88", fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <h2 style={{ color: "#3a7d56", fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
               <p style={{ color: "#9898B3", fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
                 Sermons, lectures, and teachings from trusted Christian scholars and pastors.
               </p>
@@ -1568,7 +1568,7 @@ export default function HealingPage() {
                       allowFullScreen
                     />
                     <div style={{ padding: "14px 16px" }}>
-                      <h4 style={{ color: "#00FF88", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <h4 style={{ color: "#3a7d56", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
                       <p style={{ color: "#9898B3", fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
                     </div>
@@ -1756,13 +1756,13 @@ export default function HealingPage() {
 
                     <div
                       style={{
-                        backgroundColor: "rgba(0,255,136,0.07)",
-                        border: "1px solid rgba(0,255,136,0.2)",
+                        backgroundColor: "rgba(58,125,86,0.07)",
+                        border: "1px solid rgba(58,125,86,0.2)",
                         borderRadius: "10px",
                         padding: "14px 16px",
                       }}
                     >
-                      <h4 style={{ margin: "0 0 8px", fontSize: "13px", fontWeight: 700, color: "#00FF88", textTransform: "uppercase", letterSpacing: "0.5px" }}>
+                      <h4 style={{ margin: "0 0 8px", fontSize: "13px", fontWeight: 700, color: "#3a7d56", textTransform: "uppercase", letterSpacing: "0.5px" }}>
                         Action Step
                       </h4>
                       <p style={{ margin: 0, fontSize: "14px", color: "#C8C8D8", lineHeight: 1.7 }}>

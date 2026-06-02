@@ -71,9 +71,9 @@ export default function DiscussionActions({ initialUpvotes, id }: Props) {
         onClick={handleUpvote}
         className="flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-lg transition-all"
         style={{
-          background: upvoted ? "rgba(0,255,136,0.15)" : "rgba(0,255,136,0.08)",
-          border: upvoted ? "1px solid rgba(0,255,136,0.4)" : "1px solid rgba(0,255,136,0.15)",
-          color: "#00FF88",
+          background: upvoted ? "rgba(58,125,86,0.15)" : "rgba(58,125,86,0.08)",
+          border: upvoted ? "1px solid rgba(58,125,86,0.4)" : "1px solid rgba(58,125,86,0.15)",
+          color: "#3a7d56",
         }}
       >
         <ChevronUp size={12} /> {upvotes.toLocaleString()}
@@ -89,7 +89,7 @@ export default function DiscussionActions({ initialUpvotes, id }: Props) {
       <button
         onClick={handleShare}
         className="flex items-center gap-1 p-1.5 rounded-lg transition-all text-xs font-semibold"
-        style={{ color: shared ? "#00FF88" : "#4A4A68" }}
+        style={{ color: shared ? "#3a7d56" : "#4A4A68" }}
         title={shared ? "Link copied!" : "Copy link"}
       >
         <Share2 size={14} />

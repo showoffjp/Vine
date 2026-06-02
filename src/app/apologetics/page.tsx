@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 type Case = {
   id: string; icon: string; title: string; category: string; difficulty: "Starter" | "Intermediate" | "Advanced";
@@ -205,7 +205,7 @@ const thinkers: Thinker[] = [
     quote: "I am trying here to prevent anyone saying the really foolish thing that people often say about Him: 'I'm ready to accept Jesus as a great moral teacher, but I don't accept his claim to be God.' That is the one thing we must not say.",
     contribution: "Lewis's 'Lord, Liar, or Lunatic' trilemma remains one of the most popular and accessible arguments for the divinity of Christ. His intellectual journey from atheism to Christianity and his ability to explain faith for ordinary people made him the 20th century's most influential Christian apologist.",
     icon: "📚",
-    color: "#00FF88"
+    color: "#3a7d56"
   },
   {
     name: "Alvin Plantinga",
@@ -265,7 +265,7 @@ const thinkers: Thinker[] = [
 ];
 
 const resources = [
-  { title: "Mere Christianity", author: "C.S. Lewis", type: "Book", level: "Beginner", description: "The best single starting point for intellectual engagement with Christianity. Lewis argues from natural morality to the Christian God with rare clarity.", color: "#00FF88" },
+  { title: "Mere Christianity", author: "C.S. Lewis", type: "Book", level: "Beginner", description: "The best single starting point for intellectual engagement with Christianity. Lewis argues from natural morality to the Christian God with rare clarity.", color: "#3a7d56" },
   { title: "Reasonable Faith", author: "William Lane Craig", type: "Book", level: "Advanced", description: "The most comprehensive academic apologetics text available. Covers cosmological, teleological, moral, and ontological arguments plus historical Jesus scholarship.", color: "#3B82F6" },
   { title: "The Case for Christ", author: "Lee Strobel", type: "Book", level: "Beginner", description: "A journalist's investigative approach to the historical evidence for Jesus. Interviews leading New Testament scholars in an accessible format.", color: "#F59E0B" },
   { title: "God, Freedom, and Evil", author: "Alvin Plantinga", type: "Book", level: "Advanced", description: "Plantinga's definitive free will defense and response to the problem of evil. Academic but readable — the text that changed the landscape of analytic philosophy of religion.", color: "#6B4FBB" },
@@ -329,7 +329,7 @@ const categoryColors: Record<string, string> = {
 };
 
 const difficultyColors: Record<string, string> = {
-  "Starter": "#00FF88",
+  "Starter": "#3a7d56",
   "Intermediate": "#F59E0B",
   "Advanced": "#EF4444"
 };
@@ -387,8 +387,8 @@ export default function ApologeticsPage() {
           <p style={{ color: MUTED, fontSize: 17, marginBottom: 20, maxWidth: 580, margin: "0 auto 20px" }}>
             Christianity has nothing to fear from hard questions. Explore rigorous arguments, classic objections, and honest rebuttals.
           </p>
-          <div style={{ background: "rgba(0,255,136,0.06)", border: "1px solid rgba(0,255,136,0.2)", borderRadius: 12, padding: "14px 20px", maxWidth: 500, margin: "0 auto" }}>
-            <p style={{ fontSize: 14, color: "#00CC66", fontStyle: "italic", margin: 0 }}>
+          <div style={{ background: "rgba(58,125,86,0.06)", border: "1px solid rgba(58,125,86,0.2)", borderRadius: 12, padding: "14px 20px", maxWidth: 500, margin: "0 auto" }}>
+            <p style={{ fontSize: 14, color: "#4a9e6e", fontStyle: "italic", margin: 0 }}>
               "Always be prepared to give an answer to everyone who asks you to give the reason for the hope that you have."
             </p>
             <p style={{ fontSize: 12, color: MUTED, marginTop: 4, marginBottom: 0 }}>— 1 Peter 3:15</p>
@@ -465,7 +465,7 @@ export default function ApologeticsPage() {
                             <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6, flexWrap: "wrap" }}>
                               <span style={{ fontSize: 11, fontWeight: 700, padding: "2px 10px", borderRadius: 20, background: `${categoryColors[c.category]}20`, color: categoryColors[c.category] }}>{c.category}</span>
                               <span style={{ fontSize: 11, fontWeight: 700, padding: "2px 10px", borderRadius: 20, background: `${difficultyColors[c.difficulty]}15`, color: difficultyColors[c.difficulty] }}>{c.difficulty}</span>
-                              {studiedCases.has(c.id) && <span style={{ fontSize: 11, fontWeight: 700, padding: "2px 10px", borderRadius: 20, background: "rgba(0,255,136,0.1)", color: GREEN }}>✓ Studied</span>}
+                              {studiedCases.has(c.id) && <span style={{ fontSize: 11, fontWeight: 700, padding: "2px 10px", borderRadius: 20, background: "rgba(58,125,86,0.1)", color: GREEN }}>✓ Studied</span>}
                             </div>
                             <h3 style={{ fontSize: 18, fontWeight: 800, margin: 0, color: TEXT }}>{c.title}</h3>
                           </div>
@@ -505,7 +505,7 @@ export default function ApologeticsPage() {
                                 "{obj}"
                               </button>
                               {showRebuttal[c.id] === i && (
-                                <div style={{ padding: "14px 16px", background: "rgba(0,255,136,0.04)", borderRadius: "0 0 10px 10px", border: `1px solid ${BORDER}`, borderTop: "none" }}>
+                                <div style={{ padding: "14px 16px", background: "rgba(58,125,86,0.04)", borderRadius: "0 0 10px 10px", border: `1px solid ${BORDER}`, borderTop: "none" }}>
                                   <p style={{ fontSize: 14, color: "#B0F0D0", lineHeight: 1.7, margin: 0 }}>💡 {c.rebuttals[i]}</p>
                                 </div>
                               )}
@@ -518,7 +518,7 @@ export default function ApologeticsPage() {
                           <h4 style={{ fontSize: 13, fontWeight: 800, color: MUTED, marginBottom: 10, textTransform: "uppercase", letterSpacing: 1 }}>Key Scriptures</h4>
                           <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
                             {c.keyVerses.map(v => (
-                              <span key={v} style={{ fontSize: 12, padding: "4px 12px", borderRadius: 20, background: "rgba(0,255,136,0.08)", color: GREEN, fontWeight: 600 }}>{v}</span>
+                              <span key={v} style={{ fontSize: 12, padding: "4px 12px", borderRadius: 20, background: "rgba(58,125,86,0.08)", color: GREEN, fontWeight: 600 }}>{v}</span>
                             ))}
                           </div>
                         </div>
@@ -531,7 +531,7 @@ export default function ApologeticsPage() {
                             ))}
                           </div>
                           <button onClick={() => toggleStudied(c.id)}
-                            style={{ padding: "8px 18px", borderRadius: 10, border: `1px solid ${studiedCases.has(c.id) ? GREEN : BORDER}`, background: studiedCases.has(c.id) ? "rgba(0,255,136,0.1)" : "transparent", color: studiedCases.has(c.id) ? GREEN : MUTED, cursor: "pointer", fontSize: 13, fontWeight: 700 }}>
+                            style={{ padding: "8px 18px", borderRadius: 10, border: `1px solid ${studiedCases.has(c.id) ? GREEN : BORDER}`, background: studiedCases.has(c.id) ? "rgba(58,125,86,0.1)" : "transparent", color: studiedCases.has(c.id) ? GREEN : MUTED, cursor: "pointer", fontSize: 13, fontWeight: 700 }}>
                             {studiedCases.has(c.id) ? "✓ Marked as Studied" : "Mark as Studied"}
                           </button>
                         </div>
@@ -697,7 +697,7 @@ export default function ApologeticsPage() {
             </div>
 
             {/* CTA Banner */}
-            <div style={{ marginTop: 32, background: `linear-gradient(135deg, rgba(107,79,187,0.12), rgba(0,255,136,0.08))`, border: `1px solid rgba(107,79,187,0.25)`, borderRadius: 16, padding: "28px 24px", textAlign: "center" }}>
+            <div style={{ marginTop: 32, background: `linear-gradient(135deg, rgba(107,79,187,0.12), rgba(58,125,86,0.08))`, border: `1px solid rgba(107,79,187,0.25)`, borderRadius: 16, padding: "28px 24px", textAlign: "center" }}>
               <p style={{ fontSize: 28, marginBottom: 10 }}>🛡️</p>
               <h3 style={{ fontSize: 20, fontWeight: 900, marginBottom: 8 }}>Have a Hard Question?</h3>
               <p style={{ fontSize: 14, color: MUTED, marginBottom: 16, maxWidth: 400, margin: "0 auto 16px" }}>

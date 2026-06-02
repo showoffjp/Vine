@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 type DailyVerse = {
   id: number; reference: string; text: string; theme: string; themeColor: string;
@@ -139,7 +139,7 @@ export default function VerseOfTheDayPage() {
 
         {/* Header */}
         <div style={{ textAlign: "center", marginBottom: 36 }}>
-          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(0,255,136,0.1)", border: "1px solid rgba(0,255,136,0.2)", borderRadius: 20, padding: "6px 16px", marginBottom: 12 }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(58,125,86,0.1)", border: "1px solid rgba(58,125,86,0.2)", borderRadius: 20, padding: "6px 16px", marginBottom: 12 }}>
             <span style={{ fontSize: 14 }}>☀️</span>
             <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2, color: GREEN, textTransform: "uppercase" }}>Verse of the Day</span>
           </div>
@@ -147,7 +147,7 @@ export default function VerseOfTheDayPage() {
         </div>
 
         {/* Main Verse Card */}
-        <div style={{ background: `linear-gradient(135deg, rgba(107,79,187,0.12), rgba(0,255,136,0.06))`, border: `1px solid rgba(107,79,187,0.3)`, borderRadius: 20, padding: "36px 32px", marginBottom: 24, textAlign: "center", position: "relative" }}>
+        <div style={{ background: `linear-gradient(135deg, rgba(107,79,187,0.12), rgba(58,125,86,0.06))`, border: `1px solid rgba(107,79,187,0.3)`, borderRadius: 20, padding: "36px 32px", marginBottom: 24, textAlign: "center", position: "relative" }}>
           <div style={{ display: "inline-block", padding: "4px 14px", borderRadius: 20, background: `${selectedVerse.themeColor}20`, border: `1px solid ${selectedVerse.themeColor}40`, marginBottom: 20 }}>
             <span style={{ fontSize: 12, fontWeight: 700, color: selectedVerse.themeColor }}>{selectedVerse.theme}</span>
           </div>
@@ -158,7 +158,7 @@ export default function VerseOfTheDayPage() {
 
           <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
             <button onClick={copyVerse}
-              style={{ padding: "8px 18px", borderRadius: 10, border: `1px solid ${BORDER}`, background: copiedVerse ? "rgba(0,255,136,0.1)" : "rgba(255,255,255,0.04)", color: copiedVerse ? GREEN : MUTED, cursor: "pointer", fontSize: 13, fontWeight: 700 }}>
+              style={{ padding: "8px 18px", borderRadius: 10, border: `1px solid ${BORDER}`, background: copiedVerse ? "rgba(58,125,86,0.1)" : "rgba(255,255,255,0.04)", color: copiedVerse ? GREEN : MUTED, cursor: "pointer", fontSize: 13, fontWeight: 700 }}>
               {copiedVerse ? "✓ Copied!" : "📋 Copy Verse"}
             </button>
             <button onClick={() => toggleLike(selectedId)}
@@ -199,7 +199,7 @@ export default function VerseOfTheDayPage() {
                 <p style={{ fontSize: 12, fontWeight: 800, color: MUTED, textTransform: "uppercase", letterSpacing: 1, marginBottom: 10 }}>Related Verses</p>
                 <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
                   {selectedVerse.relatedVerses.map(v => (
-                    <span key={v} style={{ fontSize: 12, padding: "4px 12px", borderRadius: 20, background: "rgba(0,255,136,0.08)", color: GREEN, fontWeight: 600 }}>{v}</span>
+                    <span key={v} style={{ fontSize: 12, padding: "4px 12px", borderRadius: 20, background: "rgba(58,125,86,0.08)", color: GREEN, fontWeight: 600 }}>{v}</span>
                   ))}
                 </div>
               </div>
@@ -217,13 +217,13 @@ export default function VerseOfTheDayPage() {
           {view === "reflection" && (
             <div>
               <h3 style={{ fontSize: 16, fontWeight: 800, marginBottom: 16, color: selectedVerse.themeColor }}>Apply It Today</h3>
-              <div style={{ background: "rgba(0,255,136,0.05)", border: "1px solid rgba(0,255,136,0.15)", borderRadius: 12, padding: "20px" }}>
+              <div style={{ background: "rgba(58,125,86,0.05)", border: "1px solid rgba(58,125,86,0.15)", borderRadius: 12, padding: "20px" }}>
                 <p style={{ fontSize: 15, color: "#B0F0C0", lineHeight: 1.85, margin: 0 }}>{selectedVerse.application}</p>
               </div>
               <div style={{ marginTop: 20 }}>
                 <p style={{ fontSize: 13, color: MUTED, marginBottom: 12 }}>Ready to journal your response? Switch to the Journal tab.</p>
                 <button onClick={() => setView("journal")}
-                  style={{ padding: "10px 22px", borderRadius: 10, border: `1px solid ${GREEN}40`, background: "rgba(0,255,136,0.08)", color: GREEN, cursor: "pointer", fontSize: 13, fontWeight: 700 }}>
+                  style={{ padding: "10px 22px", borderRadius: 10, border: `1px solid ${GREEN}40`, background: "rgba(58,125,86,0.08)", color: GREEN, cursor: "pointer", fontSize: 13, fontWeight: 700 }}>
                   ✍️ Open Journal →
                 </button>
               </div>
@@ -239,7 +239,7 @@ export default function VerseOfTheDayPage() {
                 style={{ width: "100%", padding: "14px 16px", borderRadius: 12, border: `1px solid ${BORDER}`, background: "rgba(255,255,255,0.03)", color: TEXT, fontSize: 14, resize: "none", outline: "none", lineHeight: 1.7, marginBottom: 12, boxSizing: "border-box" }} />
               <div style={{ display: "flex", justifyContent: "flex-end" }}>
                 <button onClick={saveJournal} disabled={!journalText.trim()}
-                  style={{ padding: "10px 22px", borderRadius: 10, border: "none", background: journalSaved ? "rgba(0,255,136,0.15)" : `linear-gradient(135deg, ${PURPLE}, ${GREEN})`, color: journalSaved ? GREEN : BG, cursor: "pointer", fontSize: 14, fontWeight: 800 }}>
+                  style={{ padding: "10px 22px", borderRadius: 10, border: "none", background: journalSaved ? "rgba(58,125,86,0.15)" : `linear-gradient(135deg, ${PURPLE}, ${GREEN})`, color: journalSaved ? GREEN : BG, cursor: "pointer", fontSize: 14, fontWeight: 800 }}>
                   {journalSaved ? "✓ Saved!" : "Save Reflection"}
                 </button>
               </div>
@@ -272,7 +272,7 @@ export default function VerseOfTheDayPage() {
               <button key={v.id} onClick={() => { setSelectedId(v.id); setView("verse"); }}
                 style={{ padding: "14px 16px", borderRadius: 12, border: `1px solid ${selectedId === v.id ? v.themeColor + "50" : BORDER}`, background: selectedId === v.id ? `${v.themeColor}10` : CARD, cursor: "pointer", textAlign: "left", position: "relative" }}>
                 {i === todayIndex && (
-                  <span style={{ position: "absolute", top: 8, right: 8, fontSize: 10, fontWeight: 700, padding: "2px 8px", borderRadius: 20, background: "rgba(0,255,136,0.15)", color: GREEN }}>Today</span>
+                  <span style={{ position: "absolute", top: 8, right: 8, fontSize: 10, fontWeight: 700, padding: "2px 8px", borderRadius: 20, background: "rgba(58,125,86,0.15)", color: GREEN }}>Today</span>
                 )}
                 <p style={{ fontSize: 12, fontWeight: 800, color: v.themeColor, margin: "0 0 4px" }}>{v.reference}</p>
                 <p style={{ fontSize: 12, color: MUTED, margin: 0 }}>{v.theme}</p>

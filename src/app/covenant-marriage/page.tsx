@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const THEOLOGY = [
   { title: "Marriage as Covenant, Not Contract", verse: "Malachi 2:14", body: "A contract is a legal agreement that terminates when obligations are unfulfilled. A covenant is a binding commitment that persists even when one party fails. God's covenant with Israel survived Israel's repeated unfaithfulness — because the covenant is held by God, not by Israel's performance. Marriage is called a covenant in Malachi 2:14. The implication is profound: the marriage relationship is defined by the covenant, not by the quality of the experience within it." },

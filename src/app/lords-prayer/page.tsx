@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const SERIF = "var(--font-cormorant, Georgia, serif)";
 
@@ -44,7 +44,7 @@ const PHRASES: Phrase[] = [
     id: "kingdom",
     phrase: "Your kingdom come",
     ref: "Matthew 6:10",
-    color: "#00FF88",
+    color: "#3a7d56",
     icon: "🌍",
     meaning: "The kingdom of God is the reign and rule of God — his sovereign, saving authority breaking into the world through Jesus. To pray 'your kingdom come' is to ask for the advance of God's rule: in our own hearts now, in the church, in the spread of the gospel, and ultimately in the consummation when Christ returns and 'the kingdom of the world has become the kingdom of our Lord' (Revelation 11:15). It is a prayer of longing for the day when every rival rule is overthrown.",
     depth: "The petition has a present and a future dimension. We pray that God's reign would come now — that more hearts would bow to him, that his church would grow, that injustice would yield to his righteous rule. And we pray maranatha — 'Come, Lord Jesus' (Revelation 22:20) — for the full and final coming of the kingdom. To pray it sincerely is to enlist in the kingdom's work and to surrender our own competing kingdoms.",

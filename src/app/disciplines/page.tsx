@@ -6,7 +6,7 @@ import { CheckCircle2, ChevronRight, Star, Flame, X } from "lucide-react";
 const BG = "#07070F";
 const CARD = "#12121F";
 const BORDER = "#1E1E32";
-const GREEN = "#00FF88";
+const GREEN = "#3a7d56";
 const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
@@ -106,7 +106,7 @@ const DISCIPLINES: Discipline[] = [
     difficulty: 2,
   },
   {
-    id: "service", name: "Service", category: "outward", emoji: "🤝", color: "#00FF88",
+    id: "service", name: "Service", category: "outward", emoji: "🤝", color: "#3a7d56",
     tagline: "The discipline of not thinking about yourself",
     description: "Choosing to serve others as a spiritual discipline — not grudgingly or for recognition but as a training ground for crucifying self-centeredness and practicing the way of Jesus.",
     howTo: ["Serve anonymously so only God knows", "Look for the overlooked person in every room", "Say yes to the thing you don't feel like doing", "Serve in ways that cost you something real", "Volunteer for unglamorous roles in your community"],
@@ -451,7 +451,7 @@ export default function DisciplinesPage() {
           </div>
           <h1 className="text-4xl sm:text-5xl font-black mb-3">
             Train for{" "}
-            <span style={{ background: "linear-gradient(135deg, #00FF88, #6B4FBB)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+            <span style={{ background: "linear-gradient(135deg, #3a7d56, #6B4FBB)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
               godliness.
             </span>
           </h1>
@@ -542,7 +542,7 @@ export default function DisciplinesPage() {
                 ) : null}
                 <div className="flex gap-2">
                   <input value={noteInput} onChange={(e) => setNoteInput(e.target.value)} placeholder="Add a personal note or reflection..." className="flex-1 px-3 py-2 rounded-xl text-sm outline-none" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: TEXT }} />
-                  <button onClick={() => saveNote(selected.id)} className="px-3 py-2 rounded-xl text-xs font-bold" style={{ background: "rgba(0,255,136,0.1)", color: GREEN, border: "1px solid rgba(0,255,136,0.2)" }}>Save</button>
+                  <button onClick={() => saveNote(selected.id)} className="px-3 py-2 rounded-xl text-xs font-bold" style={{ background: "rgba(58,125,86,0.1)", color: GREEN, border: "1px solid rgba(58,125,86,0.2)" }}>Save</button>
                 </div>
               </div>
 
@@ -551,7 +551,7 @@ export default function DisciplinesPage() {
                 <button
                   onClick={() => { logPractice(selected.id); }}
                   className="flex-1 py-2.5 rounded-xl font-black text-sm flex items-center justify-center gap-2"
-                  style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)", color: BG }}
+                  style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)", color: BG }}
                 >
                   <CheckCircle2 size={14} /> Log Practice Today
                 </button>
@@ -592,7 +592,7 @@ export default function DisciplinesPage() {
                     key={k}
                     onClick={() => setActiveCategory(k)}
                     className="px-4 py-2 rounded-xl text-sm font-bold"
-                    style={{ background: activeCategory === k ? "rgba(0,255,136,0.12)" : "rgba(255,255,255,0.04)", border: activeCategory === k ? "1px solid rgba(0,255,136,0.3)" : "1px solid rgba(255,255,255,0.08)", color: activeCategory === k ? GREEN : "#6A6A88" }}
+                    style={{ background: activeCategory === k ? "rgba(58,125,86,0.12)" : "rgba(255,255,255,0.04)", border: activeCategory === k ? "1px solid rgba(58,125,86,0.3)" : "1px solid rgba(255,255,255,0.08)", color: activeCategory === k ? GREEN : "#6A6A88" }}
                   >
                     {label}
                   </button>
@@ -615,7 +615,7 @@ export default function DisciplinesPage() {
                         <span className="text-3xl">{d.emoji}</span>
                         <div className="flex items-center gap-1.5">
                           {rec.committed && <span className="text-[10px] font-black px-2 py-0.5 rounded-full" style={{ background: `${d.color}15`, color: d.color, border: `1px solid ${d.color}30` }}>✓ Committed</span>}
-                          {practicedNow && <span className="text-[10px] font-black px-2 py-0.5 rounded-full" style={{ background: "rgba(0,255,136,0.12)", color: GREEN, border: "1px solid rgba(0,255,136,0.3)" }}>Today ✓</span>}
+                          {practicedNow && <span className="text-[10px] font-black px-2 py-0.5 rounded-full" style={{ background: "rgba(58,125,86,0.12)", color: GREEN, border: "1px solid rgba(58,125,86,0.3)" }}>Today ✓</span>}
                         </div>
                       </div>
 

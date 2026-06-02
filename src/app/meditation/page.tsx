@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 const BG = "#07070F";
 const CARD = "#12121F";
 const BORDER = "#1E1E32";
-const GREEN = "#00FF88";
+const GREEN = "#3a7d56";
 const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
@@ -245,7 +245,7 @@ export default function MeditationPage() {
           <h1 style={{ fontSize: 36, fontWeight: 900, marginBottom: 8 }}>Biblical Meditation</h1>
           <p style={{ color: MUTED, fontSize: 16 }}>Not emptying the mind &mdash; filling it with God&rsquo;s Word</p>
           <div style={{ display: "flex", gap: 12, justifyContent: "center", marginTop: 16, flexWrap: "wrap" }}>
-            <span style={{ background: "rgba(0,255,136,0.1)", color: GREEN, border: "1px solid rgba(0,255,136,0.25)", borderRadius: 20, padding: "4px 14px", fontSize: 13 }}>
+            <span style={{ background: "rgba(58,125,86,0.1)", color: GREEN, border: "1px solid rgba(58,125,86,0.25)", borderRadius: 20, padding: "4px 14px", fontSize: 13 }}>
               {practiceLog.length} Sessions Completed
             </span>
           </div>
@@ -315,7 +315,7 @@ export default function MeditationPage() {
                   )}
                   {timerDone && !savedReflection && (
                     <button onClick={completeSession}
-                      style={{ width: "100%", padding: "14px", borderRadius: 12, border: "none", background: "linear-gradient(135deg, #00FF88, #00CC6A)", color: BG, cursor: "pointer", fontWeight: 800, fontSize: 15 }}>
+                      style={{ width: "100%", padding: "14px", borderRadius: 12, border: "none", background: "linear-gradient(135deg, #3a7d56, #00CC6A)", color: BG, cursor: "pointer", fontWeight: 800, fontSize: 15 }}>
                       Complete Session
                     </button>
                   )}

@@ -284,7 +284,7 @@ export default function PrayerPartnerPage() {
             { value: myPartners.length.toString(), label: "Your Partners" },
           ].map((s) => (
             <div key={s.label}>
-              <div style={{ fontSize: 24, fontWeight: 700, color: "#00FF88" }}>{s.value}</div>
+              <div style={{ fontSize: 24, fontWeight: 700, color: "#3a7d56" }}>{s.value}</div>
               <div style={{ fontSize: 12, color: "#9898B3" }}>{s.label}</div>
             </div>
           ))}
@@ -334,9 +334,9 @@ export default function PrayerPartnerPage() {
                   {frequencyOptions.map((f) => (
                     <button key={f} onClick={() => setFilterFreq(f)}
                       style={{ padding: "4px 12px", borderRadius: 20, fontSize: 12, cursor: "pointer",
-                        border: `1px solid ${filterFreq === f ? "#00FF88" : "#1E1E32"}`,
-                        background: filterFreq === f ? "#00FF8815" : "transparent",
-                        color: filterFreq === f ? "#00FF88" : "#9898B3" }}>
+                        border: `1px solid ${filterFreq === f ? "#3a7d56" : "#1E1E32"}`,
+                        background: filterFreq === f ? "#3a7d5615" : "transparent",
+                        color: filterFreq === f ? "#3a7d56" : "#9898B3" }}>
                       {f}
                     </button>
                   ))}
@@ -350,7 +350,7 @@ export default function PrayerPartnerPage() {
                 const saved = savedIds.has(p.id);
                 return (
                   <div key={p.id}
-                    style={{ background: "#12121F", border: `1px solid ${connected ? "#00FF8830" : "#1E1E32"}`, borderRadius: 16, padding: 20, cursor: "pointer" }}
+                    style={{ background: "#12121F", border: `1px solid ${connected ? "#3a7d5630" : "#1E1E32"}`, borderRadius: 16, padding: 20, cursor: "pointer" }}
                     onClick={() => setSelectedPartner(p)}>
                     <div style={{ display: "flex", gap: 12, marginBottom: 12 }}>
                       <div style={{ width: 48, height: 48, borderRadius: "50%", background: "#1E1E32", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24, flexShrink: 0 }}>
@@ -359,13 +359,13 @@ export default function PrayerPartnerPage() {
                       <div style={{ flex: 1 }}>
                         <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
                           <span style={{ fontSize: 15, fontWeight: 700, color: "#F2F2F8" }}>{p.name}</span>
-                          {p.verified && <span style={{ fontSize: 13, color: "#00FF88" }}>✓</span>}
+                          {p.verified && <span style={{ fontSize: 13, color: "#3a7d56" }}>✓</span>}
                         </div>
                         <div style={{ fontSize: 12, color: "#9898B3" }}>{p.location} · {p.timezone}</div>
                         <div style={{ fontSize: 12, color: "#9898B3" }}>{p.denomination} · {p.ageGroup}</div>
                       </div>
                       <div style={{ textAlign: "right" }}>
-                        <div style={{ fontSize: 12, color: "#00FF88", fontWeight: 600 }}>{p.responseRate}%</div>
+                        <div style={{ fontSize: 12, color: "#3a7d56", fontWeight: 600 }}>{p.responseRate}%</div>
                         <div style={{ fontSize: 10, color: "#9898B3" }}>response</div>
                       </div>
                     </div>
@@ -389,8 +389,8 @@ export default function PrayerPartnerPage() {
                         </button>
                         <button onClick={(e) => { e.stopPropagation(); handleConnect(p.id); }}
                           style={{ padding: "5px 14px", borderRadius: 6, border: "none",
-                            background: connected ? "#00FF8820" : "#6B4FBB",
-                            color: connected ? "#00FF88" : "#fff",
+                            background: connected ? "#3a7d5620" : "#6B4FBB",
+                            color: connected ? "#3a7d56" : "#fff",
                             cursor: "pointer", fontWeight: 600, fontSize: 12 }}>
                           {connected ? "✓ Connected" : "Connect"}
                         </button>
@@ -465,7 +465,7 @@ export default function PrayerPartnerPage() {
                     { label: "Partners Prayed With", value: new Set(sessions.map((s) => s.partnerId)).size },
                   ].map((stat) => (
                     <div key={stat.label} style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 10, padding: "14px 16px", textAlign: "center" }}>
-                      <div style={{ fontSize: 22, fontWeight: 700, color: "#00FF88" }}>{stat.value}</div>
+                      <div style={{ fontSize: 22, fontWeight: 700, color: "#3a7d56" }}>{stat.value}</div>
                       <div style={{ fontSize: 11, color: "#9898B3" }}>{stat.label}</div>
                     </div>
                   ))}
@@ -505,12 +505,12 @@ export default function PrayerPartnerPage() {
             </div>
             <div style={{ flex: 1 }}>
               <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 28 }}>
-                <h2 style={{ color: "#00FF88", fontWeight: 900, fontSize: 22, margin: "0 0 4px" }}>{voiceItem.name}</h2>
+                <h2 style={{ color: "#3a7d56", fontWeight: 900, fontSize: 22, margin: "0 0 4px" }}>{voiceItem.name}</h2>
                 <div style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 700, marginBottom: 6 }}>{voiceItem.era}</div>
                 <div style={{ color: "#9898B3", fontSize: 13, marginBottom: 16 }}>{voiceItem.context}</div>
                 <p style={{ color: "#F2F2F8", lineHeight: 1.8, fontSize: 15, marginBottom: 20 }}>{voiceItem.bio}</p>
-                <div style={{ background: "#07070F", borderLeft: "3px solid #00FF88", borderRadius: "0 8px 8px 0", padding: "14px 18px", marginBottom: 20 }}>
-                  <p style={{ color: "#00FF88", fontStyle: "italic", fontSize: 15, lineHeight: 1.7, margin: 0 }}>&ldquo;{voiceItem.quote}&rdquo;</p>
+                <div style={{ background: "#07070F", borderLeft: "3px solid #3a7d56", borderRadius: "0 8px 8px 0", padding: "14px 18px", marginBottom: 20 }}>
+                  <p style={{ color: "#3a7d56", fontStyle: "italic", fontSize: 15, lineHeight: 1.7, margin: 0 }}>&ldquo;{voiceItem.quote}&rdquo;</p>
                 </div>
                 <div style={{ background: "rgba(107,79,187,0.15)", borderRadius: 10, padding: 16 }}>
                   <div style={{ color: "#6B4FBB", fontWeight: 700, fontSize: 13, marginBottom: 6 }}>Legacy and Contribution</div>
@@ -532,10 +532,10 @@ export default function PrayerPartnerPage() {
               <div style={{ fontSize: 48, marginBottom: 8 }}>{selectedPartner.avatar}</div>
               <h2 style={{ fontSize: 20, fontWeight: 700, color: "#F2F2F8", marginBottom: 2 }}>
                 {selectedPartner.name}
-                {selectedPartner.verified && <span style={{ fontSize: 14, color: "#00FF88", marginLeft: 8 }}>✓</span>}
+                {selectedPartner.verified && <span style={{ fontSize: 14, color: "#3a7d56", marginLeft: 8 }}>✓</span>}
               </h2>
               <div style={{ fontSize: 13, color: "#9898B3" }}>{selectedPartner.location} · {selectedPartner.denomination}</div>
-              <div style={{ fontSize: 12, color: "#00FF88", marginTop: 4 }}>{selectedPartner.responseRate}% response rate</div>
+              <div style={{ fontSize: 12, color: "#3a7d56", marginTop: 4 }}>{selectedPartner.responseRate}% response rate</div>
             </div>
 
             <p style={{ fontSize: 14, color: "#9898B3", lineHeight: 1.7, marginBottom: 16 }}>{selectedPartner.bio}</p>
@@ -565,8 +565,8 @@ export default function PrayerPartnerPage() {
                 onClick={() => { handleConnect(selectedPartner.id); setSelectedPartner(null); }}
                 style={{
                   flex: 1, padding: "11px 16px", borderRadius: 10, border: "none",
-                  background: connectedIds.has(selectedPartner.id) ? "#00FF8820" : "#6B4FBB",
-                  color: connectedIds.has(selectedPartner.id) ? "#00FF88" : "#fff",
+                  background: connectedIds.has(selectedPartner.id) ? "#3a7d5620" : "#6B4FBB",
+                  color: connectedIds.has(selectedPartner.id) ? "#3a7d56" : "#fff",
                   cursor: "pointer", fontWeight: 700, fontSize: 15,
                 }}>
                 {connectedIds.has(selectedPartner.id) ? "✓ Connected" : "Connect"}
@@ -623,7 +623,7 @@ export default function PrayerPartnerPage() {
               <button onClick={handleLogSession}
                 disabled={!sessionForm.topic}
                 style={{ flex: 1, padding: "11px 16px", borderRadius: 10, border: "none",
-                  background: sessionForm.topic ? "#00FF88" : "#1E1E32",
+                  background: sessionForm.topic ? "#3a7d56" : "#1E1E32",
                   color: sessionForm.topic ? "#07070F" : "#9898B3",
                   cursor: sessionForm.topic ? "pointer" : "default", fontWeight: 700, fontSize: 15 }}>
                 Log Session

@@ -19,7 +19,7 @@ export default function NotFound() {
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse 60% 40% at 50% 40%, rgba(0,255,136,0.06) 0%, transparent 70%)",
+            "radial-gradient(ellipse 60% 40% at 50% 40%, rgba(58,125,86,0.06) 0%, transparent 70%)",
         }}
       />
 
@@ -27,7 +27,7 @@ export default function NotFound() {
       <Link href="/" className="flex items-center gap-2 mb-12">
         <div
           className="w-9 h-9 rounded-xl flex items-center justify-center"
-          style={{ background: "linear-gradient(135deg, #00FF88, #8B6FDB)" }}
+          style={{ background: "linear-gradient(135deg, #3a7d56, #8B6FDB)" }}
         >
           <span className="text-black font-black">V</span>
         </div>
@@ -38,7 +38,7 @@ export default function NotFound() {
       <div
         className="text-9xl font-black mb-4 leading-none"
         style={{
-          background: "linear-gradient(135deg, #00FF88 0%, #44FFAA 50%, #00BB55 100%)",
+          background: "linear-gradient(135deg, #3a7d56 0%, #52a876 50%, #3a7d56 100%)",
           WebkitBackgroundClip: "text",
           WebkitTextFillColor: "transparent",
           backgroundClip: "text",
@@ -55,7 +55,7 @@ export default function NotFound() {
         This branch doesn&apos;t lead anywhere — but there&apos;s plenty of life on the main vine.
       </p>
 
-      <p className="text-sm italic mb-10" style={{ color: "rgba(0,255,136,0.5)" }}>
+      <p className="text-sm italic mb-10" style={{ color: "rgba(58,125,86,0.5)" }}>
         &ldquo;I am the vine; you are the branches.&rdquo; — John 15:5
       </p>
 
@@ -81,7 +81,7 @@ export default function NotFound() {
         href="/"
         className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl text-sm font-bold"
         style={{
-          background: "linear-gradient(135deg, #00CC66 0%, #00FF88 50%, #00CC66 100%)",
+          background: "linear-gradient(135deg, #4a9e6e 0%, #3a7d56 50%, #4a9e6e 100%)",
           color: "#07070F",
         }}
       >

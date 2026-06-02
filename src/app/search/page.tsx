@@ -4,10 +4,10 @@ import { Search, X, BookOpen, MessageSquare, Users, Flame, Globe, Star, ChevronR
 import { useState, useRef, useEffect } from "react";
 
 const categories = [
-  { label: "All", icon: "✦", color: "#00FF88" },
+  { label: "All", icon: "✦", color: "#3a7d56" },
   { label: "Articles", icon: "📖", color: "#3B82F6" },
   { label: "Discussions", icon: "💬", color: "#6B4FBB" },
-  { label: "Scripture", icon: "✝️", color: "#00FF88" },
+  { label: "Scripture", icon: "✝️", color: "#3a7d56" },
   { label: "Stories", icon: "❤️", color: "#EC4899" },
   { label: "Videos", icon: "🎬", color: "#EF4444" },
   { label: "Groups", icon: "👥", color: "#10B981" },
@@ -45,7 +45,7 @@ const allResults = [
   },
   {
     type: "Scripture",
-    typeColor: "#00FF88",
+    typeColor: "#3a7d56",
     icon: "✝️",
     title: "Romans 8:28 — And we know that in all things God works for the good",
     excerpt: "...of those who love him, who have been called according to his purpose.",
@@ -136,7 +136,7 @@ const allResultsExtra = [
   },
   {
     type: "Article",
-    typeColor: "#00FF88",
+    typeColor: "#3a7d56",
     icon: "📖",
     title: "The Digital Sabbath: How to Rest in a Hyper-Connected World",
     excerpt: "Your phones have colonized Sunday. The ancient practice of Shabbat has something radical to say about it.",
@@ -158,7 +158,7 @@ const allResultsExtra = [
   },
   {
     type: "Discussion",
-    typeColor: "#00FF88",
+    typeColor: "#3a7d56",
     icon: "💬",
     title: "After 3 years of depression and praying for healing, I finally got therapy — and it changed everything.",
     excerpt: "I believed that if I just had enough faith, my depression would lift. I was drowning. Finally started seeing a Christian counselor.",
@@ -216,10 +216,10 @@ export default function SearchPage() {
         {/* Search Header */}
         <div
           className="py-12 px-4"
-          style={{ background: "linear-gradient(180deg, rgba(0,255,136,0.04) 0%, transparent 100%)", borderBottom: "1px solid rgba(255,255,255,0.04)" }}
+          style={{ background: "linear-gradient(180deg, rgba(58,125,86,0.04) 0%, transparent 100%)", borderBottom: "1px solid rgba(255,255,255,0.04)" }}
         >
           <div className="max-w-3xl mx-auto">
-            <p className="text-xs font-bold uppercase tracking-widest mb-4 text-center" style={{ color: "#00FF88" }}>Search Vine</p>
+            <p className="text-xs font-bold uppercase tracking-widest mb-4 text-center" style={{ color: "#3a7d56" }}>Search Vine</p>
             <div className="relative">
               <Search size={20} className="absolute left-5 top-1/2 -translate-y-1/2" style={{ color: "#6A6A88" }} />
               <input
@@ -231,7 +231,7 @@ export default function SearchPage() {
                 className="w-full pl-14 pr-12 py-4 rounded-2xl text-base outline-none"
                 style={{
                   background: "rgba(255,255,255,0.05)",
-                  border: "1px solid rgba(0,255,136,0.2)",
+                  border: "1px solid rgba(58,125,86,0.2)",
                   color: "#F2F2F8",
                   fontSize: "1rem",
                 }}
@@ -299,7 +299,7 @@ export default function SearchPage() {
                         style={{ color: "#6A6A88" }}
                       >
                         <span className="font-mono text-xs w-4" style={{ color: "#4A4A68" }}>{i + 1}</span>
-                        <span className="group-hover:text-[#00FF88] transition-colors">{t}</span>
+                        <span className="group-hover:text-[#3a7d56] transition-colors">{t}</span>
                       </button>
                     ))}
                   </div>
@@ -317,9 +317,9 @@ export default function SearchPage() {
                     onClick={() => setActiveCategory(cat.label)}
                     className="px-3 py-1.5 rounded-full text-xs font-semibold"
                     style={{
-                      background: activeCategory === cat.label ? "#00FF88" : "rgba(255,255,255,0.04)",
+                      background: activeCategory === cat.label ? "#3a7d56" : "rgba(255,255,255,0.04)",
                       color: activeCategory === cat.label ? "#000" : "#6A6A88",
-                      border: `1px solid ${activeCategory === cat.label ? "#00FF88" : "rgba(255,255,255,0.08)"}`,
+                      border: `1px solid ${activeCategory === cat.label ? "#3a7d56" : "rgba(255,255,255,0.08)"}`,
                     }}
                   >
                     {cat.icon} {cat.label}
@@ -347,8 +347,8 @@ export default function SearchPage() {
                     className="flex items-start gap-4 p-5 rounded-2xl transition-all group"
                     style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)", textDecoration: "none" }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.borderColor = "rgba(0,255,136,0.2)";
-                      e.currentTarget.style.background = "rgba(0,255,136,0.03)";
+                      e.currentTarget.style.borderColor = "rgba(58,125,86,0.2)";
+                      e.currentTarget.style.background = "rgba(58,125,86,0.03)";
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.borderColor = "rgba(255,255,255,0.05)";
@@ -367,7 +367,7 @@ export default function SearchPage() {
                           </span>
                         ))}
                       </div>
-                      <h3 className="font-black text-base mb-1 group-hover:text-[#00FF88] transition-colors" style={{ color: "#F2F2F8" }}>
+                      <h3 className="font-black text-base mb-1 group-hover:text-[#3a7d56] transition-colors" style={{ color: "#F2F2F8" }}>
                         {r.title}
                       </h3>
                       <p className="text-sm mb-2 line-clamp-2" style={{ color: "#6A6A88" }}>{r.excerpt}</p>
@@ -396,7 +396,7 @@ export default function SearchPage() {
                         key={t}
                         onClick={() => setQuery(t)}
                         className="px-4 py-2 rounded-xl text-sm"
-                        style={{ background: "rgba(0,255,136,0.08)", border: "1px solid rgba(0,255,136,0.15)", color: "#00FF88" }}
+                        style={{ background: "rgba(58,125,86,0.08)", border: "1px solid rgba(58,125,86,0.15)", color: "#3a7d56" }}
                       >
                         {t}
                       </button>

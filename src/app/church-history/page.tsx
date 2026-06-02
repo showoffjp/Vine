@@ -184,7 +184,7 @@ const CATEGORIES = ["All", "Council", "Reformation", "Mission", "Persecution", "
 const ERAS = ["All", "Early Church", "Medieval", "Reformation", "Modern", "Contemporary"];
 
 const ERA_COLORS: Record<string, string> = {
-  "Early Church": "#00FF88",
+  "Early Church": "#3a7d56",
   "Medieval": "#6B4FBB",
   "Reformation": "#FF8C42",
   "Modern": "#4FC3F7",
@@ -194,7 +194,7 @@ const ERA_COLORS: Record<string, string> = {
 const CAT_COLORS: Record<string, string> = {
   "Council": "#6B4FBB",
   "Reformation": "#FF8C42",
-  "Mission": "#00FF88",
+  "Mission": "#3a7d56",
   "Persecution": "#EF4444",
   "Theology": "#4FC3F7",
   "Split": "#FF6B9D",
@@ -268,7 +268,7 @@ export default function ChurchHistoryPage() {
             ["videos", "Videos"],
           ] as [Tab, string][]).map(([t, label]) => (
             <button key={t} onClick={() => setActiveTab(t)}
-              style={{ padding: "10px 20px", fontSize: 14, fontWeight: 600, background: "none", border: "none", cursor: "pointer", color: activeTab === t ? "#00FF88" : "#6A6A88", borderBottom: `2px solid ${activeTab === t ? "#00FF88" : "transparent"}`, marginBottom: -1 }}>
+              style={{ padding: "10px 20px", fontSize: 14, fontWeight: 600, background: "none", border: "none", cursor: "pointer", color: activeTab === t ? "#3a7d56" : "#6A6A88", borderBottom: `2px solid ${activeTab === t ? "#3a7d56" : "transparent"}`, marginBottom: -1 }}>
               {label}
             </button>
           ))}
@@ -295,16 +295,16 @@ export default function ChurchHistoryPage() {
             <div style={{ marginBottom: 28, background: "#12121F", borderRadius: 12, padding: "14px 18px", border: "1px solid #1E1E32" }}>
               <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
                 <span style={{ fontSize: 13, color: "#9898B3" }}>Events Explored</span>
-                <span style={{ fontSize: 13, color: "#00FF88", fontWeight: 700 }}>{readIds.size} of {EVENTS.length}</span>
+                <span style={{ fontSize: 13, color: "#3a7d56", fontWeight: 700 }}>{readIds.size} of {EVENTS.length}</span>
               </div>
               <div style={{ height: 6, background: "#1E1E32", borderRadius: 3, overflow: "hidden" }}>
-                <div style={{ height: "100%", width: `${(readIds.size / EVENTS.length) * 100}%`, background: "linear-gradient(90deg, #00FF88, #6B4FBB)", borderRadius: 3, transition: "width 0.3s" }} />
+                <div style={{ height: "100%", width: `${(readIds.size / EVENTS.length) * 100}%`, background: "linear-gradient(90deg, #3a7d56, #6B4FBB)", borderRadius: 3, transition: "width 0.3s" }} />
               </div>
             </div>
 
             {/* Timeline */}
             <div style={{ position: "relative" }}>
-              <div style={{ position: "absolute", left: 20, top: 0, bottom: 0, width: 2, background: "linear-gradient(180deg, #00FF88, #6B4FBB, #FF8C42, #4FC3F7)", opacity: 0.3 }} />
+              <div style={{ position: "absolute", left: 20, top: 0, bottom: 0, width: 2, background: "linear-gradient(180deg, #3a7d56, #6B4FBB, #FF8C42, #4FC3F7)", opacity: 0.3 }} />
               <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
                 {filteredEvents.map((e, idx) => (
                   <div key={e.id} style={{ display: "flex", gap: 20, paddingLeft: 0 }}>
@@ -314,9 +314,9 @@ export default function ChurchHistoryPage() {
                       </div>
                     </div>
                     <div onClick={() => setSelected(e)}
-                      style={{ flex: 1, background: "#12121F", border: `1px solid ${readIds.has(e.id) ? "rgba(0,255,136,0.25)" : "#1E1E32"}`, borderRadius: 14, padding: 18, marginTop: idx === 0 ? 0 : 12, cursor: "pointer", transition: "border-color 0.2s" }}
+                      style={{ flex: 1, background: "#12121F", border: `1px solid ${readIds.has(e.id) ? "rgba(58,125,86,0.25)" : "#1E1E32"}`, borderRadius: 14, padding: 18, marginTop: idx === 0 ? 0 : 12, cursor: "pointer", transition: "border-color 0.2s" }}
                       onMouseEnter={ev => (ev.currentTarget as HTMLDivElement).style.borderColor = ERA_COLORS[e.era]}
-                      onMouseLeave={ev => (ev.currentTarget as HTMLDivElement).style.borderColor = readIds.has(e.id) ? "rgba(0,255,136,0.25)" : "#1E1E32"}>
+                      onMouseLeave={ev => (ev.currentTarget as HTMLDivElement).style.borderColor = readIds.has(e.id) ? "rgba(58,125,86,0.25)" : "#1E1E32"}>
                       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
                         <div>
                           <div style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 6, flexWrap: "wrap" }}>
@@ -356,7 +356,7 @@ export default function ChurchHistoryPage() {
                 style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 16, padding: 22, cursor: "pointer", transition: "border-color 0.2s, transform 0.15s" }}
                 onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = "#6B4FBB"; (e.currentTarget as HTMLDivElement).style.transform = "translateY(-2px)"; }}
                 onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = "#1E1E32"; (e.currentTarget as HTMLDivElement).style.transform = "none"; }}>
-                <div style={{ width: 48, height: 48, borderRadius: 12, background: "linear-gradient(135deg, #00FF8830, #6B4FBB30)", border: "1px solid #2A2A40", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, marginBottom: 14 }}>
+                <div style={{ width: 48, height: 48, borderRadius: 12, background: "linear-gradient(135deg, #3a7d5630, #6B4FBB30)", border: "1px solid #2A2A40", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, marginBottom: 14 }}>
                   &#10013;&#65039;
                 </div>
                 <h3 style={{ fontSize: 17, fontWeight: 700, marginBottom: 4 }}>{f.name}</h3>
@@ -364,7 +364,7 @@ export default function ChurchHistoryPage() {
                   <span style={{ fontSize: 12, color: "#9898B3" }}>{f.years}</span>
                   <span style={{ fontSize: 11, padding: "2px 8px", borderRadius: 20, background: "rgba(107,79,187,0.15)", color: "#A080FF", border: "1px solid rgba(107,79,187,0.25)" }}>{f.era}</span>
                 </div>
-                <p style={{ fontSize: 13, color: "#00FF88", fontStyle: "italic", marginBottom: 10 }}>&ldquo;{f.quote}&rdquo;</p>
+                <p style={{ fontSize: 13, color: "#3a7d56", fontStyle: "italic", marginBottom: 10 }}>&ldquo;{f.quote}&rdquo;</p>
                 <p style={{ fontSize: 13, color: "#9898B3", lineHeight: 1.6, display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
                   {f.contribution}
                 </p>
@@ -385,10 +385,10 @@ export default function ChurchHistoryPage() {
             <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
               {CHURCH_THEOLOGY.map((item, idx) => (
                 <div key={item.id} style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 16, padding: 24, position: "relative", overflow: "hidden" }}>
-                  <div style={{ position: "absolute", top: 0, left: 0, bottom: 0, width: 4, background: "linear-gradient(180deg, #00FF88, #6B4FBB)", borderRadius: "16px 0 0 16px" }} />
+                  <div style={{ position: "absolute", top: 0, left: 0, bottom: 0, width: 4, background: "linear-gradient(180deg, #3a7d56, #6B4FBB)", borderRadius: "16px 0 0 16px" }} />
                   <div style={{ paddingLeft: 8 }}>
                     <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 12, flexWrap: "wrap" }}>
-                      <span style={{ fontSize: 11, fontWeight: 900, color: "#07070F", background: "#00FF88", padding: "3px 10px", borderRadius: 20 }}>{item.year}</span>
+                      <span style={{ fontSize: 11, fontWeight: 900, color: "#07070F", background: "#3a7d56", padding: "3px 10px", borderRadius: 20 }}>{item.year}</span>
                       <h3 style={{ fontSize: 18, fontWeight: 800, color: "#F2F2F8", margin: 0 }}>{item.council}</h3>
                     </div>
 
@@ -398,14 +398,14 @@ export default function ChurchHistoryPage() {
                     </div>
 
                     <div style={{ marginBottom: 14 }}>
-                      <div style={{ fontSize: 11, fontWeight: 700, color: "#00FF88", textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 }}>Resolution</div>
+                      <div style={{ fontSize: 11, fontWeight: 700, color: "#3a7d56", textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 }}>Resolution</div>
                       <p style={{ color: "#C0C0D8", fontSize: 14, lineHeight: 1.7, margin: 0 }}>{item.resolution}</p>
                     </div>
 
                     <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 14 }}>
-                      <div style={{ background: "rgba(0,255,136,0.08)", border: "1px solid rgba(0,255,136,0.2)", borderRadius: 8, padding: "8px 14px" }}>
+                      <div style={{ background: "rgba(58,125,86,0.08)", border: "1px solid rgba(58,125,86,0.2)", borderRadius: 8, padding: "8px 14px" }}>
                         <div style={{ fontSize: 10, fontWeight: 700, color: "#9898B3", textTransform: "uppercase", letterSpacing: 1, marginBottom: 3 }}>Resulting Creed / Confession</div>
-                        <div style={{ color: "#00FF88", fontWeight: 700, fontSize: 13 }}>{item.creed}</div>
+                        <div style={{ color: "#3a7d56", fontWeight: 700, fontSize: 13 }}>{item.creed}</div>
                       </div>
                     </div>
 
@@ -474,14 +474,14 @@ export default function ChurchHistoryPage() {
             <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.7, marginBottom: 20 }}>{selected.description}</p>
 
             {selected.scripture && (
-              <div style={{ background: "#0D0D1A", borderRadius: 12, padding: 16, marginBottom: 20, borderLeft: "3px solid #00FF88" }}>
+              <div style={{ background: "#0D0D1A", borderRadius: 12, padding: 16, marginBottom: 20, borderLeft: "3px solid #3a7d56" }}>
                 <p style={{ fontSize: 14, color: "#C0C0D8", fontStyle: "italic" }}>&ldquo;{selected.scripture}&rdquo;</p>
-                <p style={{ fontSize: 12, color: "#00FF88", marginTop: 6 }}>&mdash; {selected.scriptureRef}</p>
+                <p style={{ fontSize: 12, color: "#3a7d56", marginTop: 6 }}>&mdash; {selected.scriptureRef}</p>
               </div>
             )}
 
             <div style={{ marginBottom: 20 }}>
-              <h4 style={{ fontSize: 13, fontWeight: 700, color: "#00FF88", textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>Key Figures</h4>
+              <h4 style={{ fontSize: 13, fontWeight: 700, color: "#3a7d56", textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>Key Figures</h4>
               <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
                 {selected.keyFigures.map(f => <span key={f} style={{ fontSize: 13, padding: "4px 12px", borderRadius: 8, background: "#1E1E32", color: "#D0D0E8" }}>{f}</span>)}
               </div>
@@ -494,7 +494,7 @@ export default function ChurchHistoryPage() {
 
             <div style={{ display: "flex", gap: 12 }}>
               <button onClick={() => toggleRead(selected.id)}
-                style={{ flex: 1, padding: "12px 20px", borderRadius: 12, border: `1px solid ${readIds.has(selected.id) ? "rgba(0,255,136,0.4)" : "#2A2A40"}`, background: readIds.has(selected.id) ? "rgba(0,255,136,0.12)" : "#1E1E32", color: readIds.has(selected.id) ? "#00FF88" : "#9898B3", cursor: "pointer", fontWeight: 700, fontSize: 14 }}>
+                style={{ flex: 1, padding: "12px 20px", borderRadius: 12, border: `1px solid ${readIds.has(selected.id) ? "rgba(58,125,86,0.4)" : "#2A2A40"}`, background: readIds.has(selected.id) ? "rgba(58,125,86,0.12)" : "#1E1E32", color: readIds.has(selected.id) ? "#3a7d56" : "#9898B3", cursor: "pointer", fontWeight: 700, fontSize: 14 }}>
                 {readIds.has(selected.id) ? "✓ Explored" : "Mark as Explored"}
               </button>
               <button onClick={() => toggleSave(selected.id)}
@@ -517,11 +517,11 @@ export default function ChurchHistoryPage() {
               </div>
               <button onClick={() => setSelectedFigure(null)} style={{ background: "none", border: "none", color: "#6A6A88", fontSize: 22, cursor: "pointer" }}>×</button>
             </div>
-            <div style={{ background: "#0D0D1A", borderRadius: 12, padding: 16, marginBottom: 20, borderLeft: "3px solid #00FF88" }}>
+            <div style={{ background: "#0D0D1A", borderRadius: 12, padding: 16, marginBottom: 20, borderLeft: "3px solid #3a7d56" }}>
               <p style={{ fontSize: 15, color: "#C0C0D8", fontStyle: "italic" }}>&ldquo;{selectedFigure.quote}&rdquo;</p>
             </div>
             <div style={{ marginBottom: 20 }}>
-              <h4 style={{ fontSize: 13, fontWeight: 700, color: "#00FF88", textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>Contribution</h4>
+              <h4 style={{ fontSize: 13, fontWeight: 700, color: "#3a7d56", textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>Contribution</h4>
               <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.7 }}>{selectedFigure.contribution}</p>
             </div>
             <div style={{ background: "#0D0D1A", borderRadius: 12, padding: 16, borderLeft: "3px solid #6B4FBB" }}>

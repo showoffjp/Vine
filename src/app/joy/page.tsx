@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const THEOLOGY = [
   { title: "Joy Is a Command, Not a Feeling", verse: "Philippians 4:4", body: "'Rejoice in the Lord always. I will say it again: Rejoice!' (Philippians 4:4). Paul was in prison when he wrote this. Joy in the NT is not primarily an emotion — it is a command addressed to the will. It is a deliberate orientation of the soul toward God's goodness and grace, chosen in defiance of circumstances. The command implies it is possible even in difficulty." },

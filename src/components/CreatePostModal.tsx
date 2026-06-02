@@ -50,7 +50,7 @@ export default function CreatePostModal({ label = "Create Post", variant = "gold
         >
           <div
             className="w-full max-w-lg rounded-3xl overflow-hidden relative"
-            style={{ background: "#0E0E1A", border: "1px solid rgba(0,255,136,0.15)", boxShadow: "0 40px 80px rgba(0,0,0,0.8)" }}
+            style={{ background: "#0E0E1A", border: "1px solid rgba(58,125,86,0.15)", boxShadow: "0 40px 80px rgba(0,0,0,0.8)" }}
           >
             <div className="p-6">
               <div className="flex items-center justify-between mb-6">
@@ -62,7 +62,7 @@ export default function CreatePostModal({ label = "Create Post", variant = "gold
 
               {submitted ? (
                 <div className="py-8 text-center">
-                  <CheckCircle2 size={40} className="mx-auto mb-3" style={{ color: "#00FF88" }} />
+                  <CheckCircle2 size={40} className="mx-auto mb-3" style={{ color: "#3a7d56" }} />
                   <p className="text-base font-bold" style={{ color: "#F2F2F8" }}>Post submitted!</p>
                   <p className="text-sm mt-1" style={{ color: "#6A6A88" }}>Your post is now live in the community.</p>
                 </div>

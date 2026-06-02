@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const THEOLOGY = [
   { title: "One Blood, One Humanity", verse: "Acts 17:26", body: "'From one man he made all the nations, that they should inhabit the whole earth' (Acts 17:26). The biblical starting point for race is not diversity — it is unity. All humans share one origin, one Creator, one dignity. Race as a category of fundamental difference is a recent and largely social construct. The gospel begins by dismantling the assumption that any race is fundamentally other." },

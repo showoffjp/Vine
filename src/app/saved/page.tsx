@@ -102,7 +102,7 @@ function loadSavedItems(): SavedItem[] {
         type: "Podcasts",
         title: `${podSaved.length} saved episode${podSaved.length !== 1 ? "s" : ""}`,
         href: "/podcast",
-        color: "#00FF88",
+        color: "#3a7d56",
         icon: "🎙️",
       });
     }
@@ -283,7 +283,7 @@ function loadSavedItems(): SavedItem[] {
         type: "Bible Bookmarks",
         title: `${bibleBookmarks.length} bookmarked verse${bibleBookmarks.length !== 1 ? "s" : ""}`,
         href: "/bible",
-        color: "#00FF88",
+        color: "#3a7d56",
         icon: "📖",
       });
     }
@@ -353,9 +353,9 @@ export default function SavedPage() {
   const quickLinks = [
     { label: "Journal", href: "/journal", icon: BookOpen, color: "#EC4899" },
     { label: "Verse Memory", href: "/verse-memory", icon: Brain, color: "#6B4FBB" },
-    { label: "Faith Goals", href: "/goals", icon: Zap, color: "#00FF88" },
+    { label: "Faith Goals", href: "/goals", icon: Zap, color: "#3a7d56" },
     { label: "Gifts Quiz", href: "/spiritual-gifts", icon: Music, color: "#8B5CF6" },
-    { label: "Bible Reader", href: "/bible", icon: BookOpen, color: "#00FF88" },
+    { label: "Bible Reader", href: "/bible", icon: BookOpen, color: "#3a7d56" },
     { label: "Discussion Hubs", href: "/discussions", icon: MessageSquare, color: "#8B9BCC" },
     { label: "Video Library", href: "/video", icon: PlayCircle, color: "#BB4F7A" },
     { label: "Life Hacks", href: "/life-hacks", icon: Heart, color: "#10B981" },
@@ -370,8 +370,8 @@ export default function SavedPage() {
           {/* Header */}
           <div className="mb-10">
             <div className="flex items-center gap-2 mb-2">
-              <Bookmark size={20} style={{ color: "#00FF88" }} />
-              <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#00FF88" }}>My Library</span>
+              <Bookmark size={20} style={{ color: "#3a7d56" }} />
+              <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#3a7d56" }}>My Library</span>
             </div>
             <h1 className="text-3xl font-black">Saved Content</h1>
             <p className="text-sm mt-1" style={{ color: "#6A6A88" }}>Everything you&apos;ve bookmarked, saved, and collected across Vine.</p>
@@ -379,7 +379,7 @@ export default function SavedPage() {
 
           {!loaded ? (
             <div className="text-center py-20">
-              <div className="w-8 h-8 rounded-full border-2 border-t-transparent animate-spin mx-auto mb-4" style={{ borderColor: "#00FF88", borderTopColor: "transparent" }} />
+              <div className="w-8 h-8 rounded-full border-2 border-t-transparent animate-spin mx-auto mb-4" style={{ borderColor: "#3a7d56", borderTopColor: "transparent" }} />
               <p style={{ color: "#6A6A88" }}>Loading your saved content...</p>
             </div>
           ) : items.length === 0 ? (
@@ -393,7 +393,7 @@ export default function SavedPage() {
                 <a
                   href="/explore"
                   className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl font-bold text-sm text-black"
-                  style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)" }}
+                  style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}
                 >
                   Explore Vine <ChevronRight size={14} />
                 </a>
@@ -462,14 +462,14 @@ export default function SavedPage() {
           {/* Pro tip */}
           <div
             className="mt-10 rounded-2xl p-6 text-center"
-            style={{ background: "linear-gradient(135deg, rgba(0,255,136,0.06) 0%, rgba(107,79,187,0.06) 100%)", border: "1px solid rgba(0,255,136,0.12)" }}
+            style={{ background: "linear-gradient(135deg, rgba(58,125,86,0.06) 0%, rgba(107,79,187,0.06) 100%)", border: "1px solid rgba(58,125,86,0.12)" }}
           >
-            <Users size={24} style={{ color: "#00FF88" }} className="mx-auto mb-3" />
+            <Users size={24} style={{ color: "#3a7d56" }} className="mx-auto mb-3" />
             <h3 className="text-base font-black mb-2" style={{ color: "#F2F2F8" }}>Your library grows as you engage</h3>
             <p className="text-sm max-w-md mx-auto mb-4" style={{ color: "#6A6A88" }}>
               Save articles from the blog, bookmark Bible verses, add verses to memory, save discussions — it all collects here automatically.
             </p>
-            <a href="/dashboard" className="inline-flex items-center gap-2 px-5 py-2 rounded-xl text-sm font-bold" style={{ background: "rgba(0,255,136,0.12)", color: "#00FF88", border: "1px solid rgba(0,255,136,0.25)" }}>
+            <a href="/dashboard" className="inline-flex items-center gap-2 px-5 py-2 rounded-xl text-sm font-bold" style={{ background: "rgba(58,125,86,0.12)", color: "#3a7d56", border: "1px solid rgba(58,125,86,0.25)" }}>
               View Full Dashboard <ChevronRight size={13} />
             </a>
           </div>

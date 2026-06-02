@@ -17,7 +17,7 @@ const weeklyChallenge = {
   participants: 14823,
   daysLeft: 22,
   category: "Prayer",
-  color: "#00FF88",
+  color: "#3a7d56",
   emoji: "🙏",
   steps: [
     "Open the Vine app first thing in the morning",
@@ -309,12 +309,12 @@ export default function ChallengesPage() {
         {/* Header */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
           <div className="flex items-center gap-2 mb-4">
-            <Target size={20} style={{ color: "#00FF88" }} />
-            <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#00FF88" }}>Challenges</span>
+            <Target size={20} style={{ color: "#3a7d56" }} />
+            <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#3a7d56" }}>Challenges</span>
           </div>
           <h1 className="text-4xl sm:text-5xl font-black mb-4">
             Grow{" "}
-            <span style={{ background: "linear-gradient(135deg, #00FF88, #10B981)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+            <span style={{ background: "linear-gradient(135deg, #3a7d56, #10B981)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
               together.
             </span>
           </h1>
@@ -337,8 +337,8 @@ export default function ChallengesPage() {
                   background: "none",
                   border: "none",
                   cursor: "pointer",
-                  color: activeTab === key ? "#00FF88" : "#6A6A88",
-                  borderBottom: `2px solid ${activeTab === key ? "#00FF88" : "transparent"}`,
+                  color: activeTab === key ? "#3a7d56" : "#6A6A88",
+                  borderBottom: `2px solid ${activeTab === key ? "#3a7d56" : "transparent"}`,
                   marginBottom: -1,
                   whiteSpace: "nowrap",
                 }}
@@ -356,10 +356,10 @@ export default function ChallengesPage() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 {/* Challenge card */}
-                <div className="lg:col-span-2 rounded-2xl p-8" style={{ background: "linear-gradient(135deg, rgba(0,255,136,0.08) 0%, rgba(16,185,129,0.04) 100%)", border: "1px solid rgba(0,255,136,0.25)" }}>
+                <div className="lg:col-span-2 rounded-2xl p-8" style={{ background: "linear-gradient(135deg, rgba(58,125,86,0.08) 0%, rgba(16,185,129,0.04) 100%)", border: "1px solid rgba(58,125,86,0.25)" }}>
                   <div className="flex items-start justify-between mb-4">
                     <div>
-                      <span className="text-xs font-bold px-3 py-1 rounded-full mb-3 inline-block" style={{ background: "rgba(0,255,136,0.15)", color: "#00FF88" }}>
+                      <span className="text-xs font-bold px-3 py-1 rounded-full mb-3 inline-block" style={{ background: "rgba(58,125,86,0.15)", color: "#3a7d56" }}>
                         🔥 This Month&apos;s Challenge
                       </span>
                       <h2 className="text-3xl font-black mb-2" style={{ color: "#F2F2F8" }}>
@@ -369,14 +369,14 @@ export default function ChallengesPage() {
                     </div>
                   </div>
 
-                  <div className="p-4 rounded-xl mb-6" style={{ background: "rgba(0,0,0,0.3)", border: "1px solid rgba(0,255,136,0.1)" }}>
+                  <div className="p-4 rounded-xl mb-6" style={{ background: "rgba(0,0,0,0.3)", border: "1px solid rgba(58,125,86,0.1)" }}>
                     <p className="text-sm italic mb-1" style={{ color: "#C0C0D8" }}>&ldquo;{weeklyChallenge.verse}&rdquo;</p>
-                    <p className="text-xs font-bold" style={{ color: "#00FF88" }}>— {weeklyChallenge.verseRef}</p>
+                    <p className="text-xs font-bold" style={{ color: "#3a7d56" }}>— {weeklyChallenge.verseRef}</p>
                   </div>
 
                   <div className="grid grid-cols-3 gap-3 mb-6">
                     <div className="text-center rounded-xl p-3" style={{ background: "rgba(0,0,0,0.2)" }}>
-                      <p className="text-xl font-black" style={{ color: "#00FF88" }}>{weeklyChallenge.participants.toLocaleString()}</p>
+                      <p className="text-xl font-black" style={{ color: "#3a7d56" }}>{weeklyChallenge.participants.toLocaleString()}</p>
                       <p className="text-xs" style={{ color: "#4A4A68" }}>Participants</p>
                     </div>
                     <div className="text-center rounded-xl p-3" style={{ background: "rgba(0,0,0,0.2)" }}>
@@ -393,9 +393,9 @@ export default function ChallengesPage() {
                     onClick={() => toggleJoin(1)}
                     className="w-full py-3.5 rounded-xl font-black text-base transition-all"
                     style={{
-                      background: joined.has(1) ? "rgba(0,255,136,0.15)" : "linear-gradient(135deg, #00FF88, #00BB55)",
-                      color: joined.has(1) ? "#00FF88" : "#07070F",
-                      border: joined.has(1) ? "1px solid rgba(0,255,136,0.4)" : "none",
+                      background: joined.has(1) ? "rgba(58,125,86,0.15)" : "linear-gradient(135deg, #3a7d56, #3a7d56)",
+                      color: joined.has(1) ? "#3a7d56" : "#07070F",
+                      border: joined.has(1) ? "1px solid rgba(58,125,86,0.4)" : "none",
                     }}
                   >
                     {joined.has(1) ? "✓ Challenge Accepted!" : "Accept Challenge"}
@@ -423,11 +423,11 @@ export default function ChallengesPage() {
                           style={{
                             background: done
                               ? isToday
-                                ? "linear-gradient(135deg, #00FF88, #44FFAA)"
-                                : "rgba(0,255,136,0.2)"
+                                ? "linear-gradient(135deg, #3a7d56, #52a876)"
+                                : "rgba(58,125,86,0.2)"
                               : "#1E1E32",
-                            color: done ? (isToday ? "#07070F" : "#00FF88") : "#4A4A68",
-                            border: isToday && !done ? "1px solid rgba(0,255,136,0.3)" : "none",
+                            color: done ? (isToday ? "#07070F" : "#3a7d56") : "#4A4A68",
+                            border: isToday && !done ? "1px solid rgba(58,125,86,0.3)" : "none",
                           }}
                           title={`Day ${day}`}
                         >
@@ -436,7 +436,7 @@ export default function ChallengesPage() {
                       );
                     })}
                   </div>
-                  <div className="p-3 rounded-xl text-center" style={{ background: "rgba(0,255,136,0.05)", border: "1px solid rgba(0,255,136,0.1)" }}>
+                  <div className="p-3 rounded-xl text-center" style={{ background: "rgba(58,125,86,0.05)", border: "1px solid rgba(58,125,86,0.1)" }}>
                     <p className="text-xs" style={{ color: "#6A6A88" }}>
                       {completedCount === 0
                         ? "Start today — tap a day to mark it complete"
@@ -458,9 +458,9 @@ export default function ChallengesPage() {
                     onClick={() => setActiveCategory(c)}
                     className="px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition-all"
                     style={{
-                      background: activeCategory === c ? "rgba(0,255,136,0.15)" : "rgba(255,255,255,0.03)",
-                      border: activeCategory === c ? "1px solid rgba(0,255,136,0.4)" : "1px solid rgba(255,255,255,0.06)",
-                      color: activeCategory === c ? "#00FF88" : "#8A8AA8",
+                      background: activeCategory === c ? "rgba(58,125,86,0.15)" : "rgba(255,255,255,0.03)",
+                      border: activeCategory === c ? "1px solid rgba(58,125,86,0.4)" : "1px solid rgba(255,255,255,0.06)",
+                      color: activeCategory === c ? "#3a7d56" : "#8A8AA8",
                     }}
                   >
                     {c}
@@ -554,7 +554,7 @@ export default function ChallengesPage() {
                     </div>
                     <div>
                       <h3 style={{ fontSize: 18, fontWeight: 800, color: "#F2F2F8", marginBottom: 6 }}>{d.title}</h3>
-                      <p style={{ fontSize: 14, color: "#00FF88", fontStyle: "italic", lineHeight: 1.6, margin: 0 }}>
+                      <p style={{ fontSize: 14, color: "#3a7d56", fontStyle: "italic", lineHeight: 1.6, margin: 0 }}>
                         &ldquo;{d.verse}&rdquo; <span style={{ fontStyle: "normal", fontWeight: 700, color: "#00BB66" }}>&mdash; {d.verseRef}</span>
                       </p>
                     </div>
@@ -583,7 +583,7 @@ export default function ChallengesPage() {
               {CHALLENGE_SCRIPTURE.map(s => (
                 <div key={s.id} style={{ background: "#12121F", borderRadius: 16, padding: 24, border: "1px solid #1E1E32", display: "flex", flexDirection: "column", gap: 14 }}>
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
-                    <span style={{ fontSize: 15, fontWeight: 800, color: "#00FF88" }}>{s.ref}</span>
+                    <span style={{ fontSize: 15, fontWeight: 800, color: "#3a7d56" }}>{s.ref}</span>
                     <span style={{ background: "rgba(107,79,187,0.15)", color: "#A080FF", fontSize: 11, fontWeight: 700, padding: "3px 10px", borderRadius: 20, border: "1px solid rgba(107,79,187,0.25)" }}>
                       {s.theme}
                     </span>

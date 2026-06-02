@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 type IceBreaker = { question: string; category: string; depth: "Light" | "Medium" | "Deep"; };
 type StudyGuide = { id: string; title: string; passage: string; weeks: number; theme: string; color: string; description: string; weekOutlines: { week: number; title: string; passage: string; bigQuestion: string; }[]; };
@@ -214,7 +214,7 @@ export default function SmallGroupsPage() {
 
         {/* Header */}
         <div style={{ textAlign: "center", marginBottom: 40 }}>
-          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(0,255,136,0.1)", border: "1px solid rgba(0,255,136,0.25)", borderRadius: 20, padding: "6px 16px", marginBottom: 16 }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(58,125,86,0.1)", border: "1px solid rgba(58,125,86,0.25)", borderRadius: 20, padding: "6px 16px", marginBottom: 16 }}>
             <span style={{ fontSize: 16 }}>&#128101;</span>
             <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 2, color: GREEN, textTransform: "uppercase" }}>Small Groups</span>
           </div>
@@ -342,7 +342,7 @@ export default function SmallGroupsPage() {
                       <p style={{ fontSize: 15, color: used ? MUTED : TEXT, margin: 0, lineHeight: 1.6, fontStyle: "italic" }}>&ldquo;{q.question}&rdquo;</p>
                     </div>
                     <button onClick={() => toggleUsed(origIndex)}
-                      style={{ width: 36, height: 36, borderRadius: 10, border: `1px solid ${used ? GREEN + "40" : BORDER}`, background: used ? "rgba(0,255,136,0.08)" : "rgba(255,255,255,0.03)", cursor: "pointer", fontSize: 14, color: used ? GREEN : MUTED, flexShrink: 0 }}>
+                      style={{ width: 36, height: 36, borderRadius: 10, border: `1px solid ${used ? GREEN + "40" : BORDER}`, background: used ? "rgba(58,125,86,0.08)" : "rgba(255,255,255,0.03)", cursor: "pointer", fontSize: 14, color: used ? GREEN : MUTED, flexShrink: 0 }}>
                       {used ? "✓" : "○"}
                     </button>
                   </div>

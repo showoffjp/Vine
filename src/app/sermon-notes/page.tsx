@@ -205,15 +205,15 @@ export default function SermonNotesPage() {
               <div className="flex items-center justify-between mb-4">
                 <div>
                   <div className="flex items-center gap-1.5 mb-0.5">
-                    <FileText size={15} style={{ color: "#00FF88" }} />
-                    <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#00FF88" }}>Sermon Notes</span>
+                    <FileText size={15} style={{ color: "#3a7d56" }} />
+                    <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#3a7d56" }}>Sermon Notes</span>
                   </div>
                   <p className="text-xs" style={{ color: "#4A4A68" }}>{notes.length} note{notes.length !== 1 ? "s" : ""}</p>
                 </div>
                 <button
                   onClick={startNew}
                   className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-bold text-black"
-                  style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)" }}
+                  style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}
                 >
                   <Plus size={12} /> New
                 </button>
@@ -243,11 +243,11 @@ export default function SermonNotesPage() {
                     onClick={() => { setActiveId(note.id); setShowNew(false); setEditMode(false); }}
                     className="w-full text-left p-3 rounded-xl transition-all"
                     style={{
-                      background: activeId === note.id ? "rgba(0,255,136,0.08)" : "#12121F",
-                      border: `1px solid ${activeId === note.id ? "rgba(0,255,136,0.25)" : "#1E1E32"}`,
+                      background: activeId === note.id ? "rgba(58,125,86,0.08)" : "#12121F",
+                      border: `1px solid ${activeId === note.id ? "rgba(58,125,86,0.25)" : "#1E1E32"}`,
                     }}
                   >
-                    <p className="text-xs font-bold leading-snug mb-1" style={{ color: activeId === note.id ? "#00FF88" : "#F2F2F8" }}>
+                    <p className="text-xs font-bold leading-snug mb-1" style={{ color: activeId === note.id ? "#3a7d56" : "#F2F2F8" }}>
                       {note.title}
                     </p>
                     <p className="text-[10px]" style={{ color: "#4A4A68" }}>{note.date}</p>
@@ -255,7 +255,7 @@ export default function SermonNotesPage() {
                     {note.tags.length > 0 && (
                       <div className="flex flex-wrap gap-1 mt-1.5">
                         {note.tags.slice(0, 3).map((t) => (
-                          <span key={t} className="text-[9px] px-1.5 py-0.5 rounded-full" style={{ background: "rgba(0,255,136,0.08)", color: "#00AA55" }}>
+                          <span key={t} className="text-[9px] px-1.5 py-0.5 rounded-full" style={{ background: "rgba(58,125,86,0.08)", color: "#00AA55" }}>
                             #{t}
                           </span>
                         ))}
@@ -278,7 +278,7 @@ export default function SermonNotesPage() {
                   <button
                     onClick={startNew}
                     className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm text-black"
-                    style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)" }}
+                    style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}
                   >
                     <Plus size={14} /> Take New Notes
                   </button>
@@ -287,7 +287,7 @@ export default function SermonNotesPage() {
                 /* EDITOR */
                 <div
                   className="rounded-2xl p-6"
-                  style={{ background: "#12121F", border: "1px solid rgba(0,255,136,0.2)" }}
+                  style={{ background: "#12121F", border: "1px solid rgba(58,125,86,0.2)" }}
                 >
                   <div className="flex items-center justify-between mb-6">
                     <h2 className="font-black" style={{ color: "#F2F2F8" }}>{showNew ? "New Sermon Notes" : "Edit Notes"}</h2>
@@ -367,7 +367,7 @@ export default function SermonNotesPage() {
                       <div className="space-y-1.5 mb-2">
                         {(editDraft.keyPoints ?? []).map((pt, i) => (
                           <div key={i} className="flex items-start gap-2 px-3 py-2 rounded-lg" style={{ background: "#0D0D1A", border: "1px solid #1E1E32" }}>
-                            <ChevronRight size={13} className="mt-0.5 shrink-0" style={{ color: "#00FF88" }} />
+                            <ChevronRight size={13} className="mt-0.5 shrink-0" style={{ color: "#3a7d56" }} />
                             <span className="flex-1 text-sm" style={{ color: "#C0C0D8" }}>{pt}</span>
                             <button onClick={() => removePoint(i)} style={{ color: "#4A4A68" }}><X size={13} /></button>
                           </div>
@@ -382,7 +382,7 @@ export default function SermonNotesPage() {
                           className="flex-1 px-3 py-2 rounded-xl text-sm outline-none"
                           style={{ background: "#0D0D1A", border: "1px solid #1E1E32", color: "#F2F2F8" }}
                         />
-                        <button onClick={addPoint} className="px-3 py-2 rounded-xl text-sm font-bold" style={{ background: "rgba(0,255,136,0.12)", color: "#00FF88" }}>
+                        <button onClick={addPoint} className="px-3 py-2 rounded-xl text-sm font-bold" style={{ background: "rgba(58,125,86,0.12)", color: "#3a7d56" }}>
                           Add
                         </button>
                       </div>
@@ -393,7 +393,7 @@ export default function SermonNotesPage() {
                       <label className="text-[10px] font-bold uppercase tracking-wider block mb-2" style={{ color: "#6A6A88" }}>Tags</label>
                       <div className="flex flex-wrap gap-1.5 mb-2">
                         {(editDraft.tags ?? []).map((t) => (
-                          <span key={t} className="flex items-center gap-1 text-xs px-2.5 py-1 rounded-full" style={{ background: "rgba(0,255,136,0.1)", color: "#00FF88" }}>
+                          <span key={t} className="flex items-center gap-1 text-xs px-2.5 py-1 rounded-full" style={{ background: "rgba(58,125,86,0.1)", color: "#3a7d56" }}>
                             #{t} <button onClick={() => removeTag(t)}>×</button>
                           </span>
                         ))}
@@ -407,7 +407,7 @@ export default function SermonNotesPage() {
                           className="flex-1 px-3 py-2 rounded-xl text-sm outline-none"
                           style={{ background: "#0D0D1A", border: "1px solid #1E1E32", color: "#F2F2F8" }}
                         />
-                        <button onClick={addTag} className="px-3 py-2 rounded-xl text-sm font-bold" style={{ background: "rgba(0,255,136,0.12)", color: "#00FF88" }}>
+                        <button onClick={addTag} className="px-3 py-2 rounded-xl text-sm font-bold" style={{ background: "rgba(58,125,86,0.12)", color: "#3a7d56" }}>
                           Add
                         </button>
                       </div>
@@ -425,7 +425,7 @@ export default function SermonNotesPage() {
                         onClick={showNew ? saveNew : saveEdit}
                         disabled={!editDraft.title?.trim()}
                         className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-bold text-black"
-                        style={{ background: editDraft.title?.trim() ? "linear-gradient(135deg, #00FF88, #00BB55)" : "#1E1E32", color: editDraft.title?.trim() ? "#07070F" : "#4A4A68" }}
+                        style={{ background: editDraft.title?.trim() ? "linear-gradient(135deg, #3a7d56, #3a7d56)" : "#1E1E32", color: editDraft.title?.trim() ? "#07070F" : "#4A4A68" }}
                       >
                         <Check size={14} /> {showNew ? "Save Notes" : "Save Changes"}
                       </button>
@@ -468,8 +468,8 @@ export default function SermonNotesPage() {
                   {/* Meta row */}
                   <div className="flex flex-wrap items-center gap-4 mb-6 pb-6" style={{ borderBottom: "1px solid #1E1E32" }}>
                     <div className="flex items-center gap-1.5">
-                      <BookOpen size={13} style={{ color: "#00FF88" }} />
-                      <span className="text-sm font-bold" style={{ color: "#00FF88" }}>{activeNote.scripture}</span>
+                      <BookOpen size={13} style={{ color: "#3a7d56" }} />
+                      <span className="text-sm font-bold" style={{ color: "#3a7d56" }}>{activeNote.scripture}</span>
                     </div>
                     <div className="flex items-center gap-1.5">
                       <Calendar size={13} style={{ color: "#4A4A68" }} />
@@ -479,7 +479,7 @@ export default function SermonNotesPage() {
                       <div className="flex items-center gap-1.5 flex-wrap">
                         <Tag size={12} style={{ color: "#4A4A68" }} />
                         {activeNote.tags.map((t) => (
-                          <span key={t} className="text-xs px-2 py-0.5 rounded-full" style={{ background: "rgba(0,255,136,0.08)", color: "#00AA55" }}>
+                          <span key={t} className="text-xs px-2 py-0.5 rounded-full" style={{ background: "rgba(58,125,86,0.08)", color: "#00AA55" }}>
                             #{t}
                           </span>
                         ))}
@@ -504,7 +504,7 @@ export default function SermonNotesPage() {
                       <div className="space-y-2">
                         {activeNote.keyPoints.map((pt, i) => (
                           <div key={i} className="flex items-start gap-3 px-4 py-3 rounded-xl" style={{ background: "#12121F", border: "1px solid #1E1E32" }}>
-                            <ChevronRight size={14} className="mt-0.5 shrink-0" style={{ color: "#00FF88" }} />
+                            <ChevronRight size={14} className="mt-0.5 shrink-0" style={{ color: "#3a7d56" }} />
                             <p className="text-sm" style={{ color: "#C0C0D8" }}>{pt}</p>
                           </div>
                         ))}
@@ -518,7 +518,7 @@ export default function SermonNotesPage() {
                       <a
                         href="/bible"
                         className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg transition-all"
-                        style={{ background: "rgba(0,255,136,0.08)", color: "#00FF88", border: "1px solid rgba(0,255,136,0.2)" }}
+                        style={{ background: "rgba(58,125,86,0.08)", color: "#3a7d56", border: "1px solid rgba(58,125,86,0.2)" }}
                       >
                         <BookOpen size={12} /> Open in Bible Reader
                       </a>

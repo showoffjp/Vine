@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const SERIF = "var(--font-cormorant, Georgia, serif)";
 
@@ -93,7 +93,7 @@ const PIECES: Piece[] = [
     name: "The Sword of the Spirit",
     greek: "μάχαιρα / ῥῆμα (machaira / rhēma)",
     ref: "Ephesians 6:17b",
-    color: "#00FF88",
+    color: "#3a7d56",
     icon: "⚔️",
     military: "The machaira was the gladius — the short Roman stabbing sword, roughly two feet long, double-edged and razor-sharp. It was the weapon of close combat, wielded with precision rather than wide swinging strokes. The legionary's discipline with the gladius, thrusting in tight formation, made the Roman infantry nearly invincible. It was the soldier's single offensive weapon in this list.",
     meaning: "The sword is 'the word of God' — and Paul uses rhēma (a specific spoken word) rather than logos, suggesting the particular Scripture applied to the particular moment. This is the only offensive weapon in the armor, and it belongs to the Spirit: it is 'the sword of the Spirit,' wielded in the Spirit's power. The model is Jesus in the wilderness (Matthew 4), who met each temptation with 'It is written,' answering specific lies with specific Scripture. The Word is 'living and active, sharper than any two-edged sword' (Hebrews 4:12).",

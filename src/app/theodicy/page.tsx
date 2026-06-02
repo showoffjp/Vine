@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const THEOLOGY = [
   { title: "The Problem Stated", verse: "Habakkuk 1:2", body: "'How long, Lord, must I call for help, but you do not listen? Or cry out to you about violence but you do not save?' (Habakkuk 1:2). The problem of evil — why a good, all-powerful God permits suffering and evil — is ancient. The logical form: (1) God is all-good. (2) God is all-powerful. (3) Evil exists. The challenge is that the three seem incompatible. Every serious response to this question is called a theodicy — a justification of God's ways. The Bible does not offer a theodicy in the philosophical sense; it offers something better: a narrative of God's redemptive response to evil." },

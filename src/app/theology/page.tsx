@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 type Doctrine = {
   id: string; name: string; category: string; emoji: string; color: string;
@@ -438,7 +438,7 @@ export default function TheologyPage() {
                               <h3 style={{ fontSize: 18, fontWeight: 800, margin: 0 }}>{doc.name}</h3>
                               <span style={{ fontSize: 11, padding: "2px 10px", borderRadius: 20, background: `${doc.color}15`, color: doc.color, fontWeight: 700 }}>{doc.category}</span>
                               <span style={{ fontSize: 11, padding: "2px 10px", borderRadius: 20, background: `${diffColors[doc.difficulty]}15`, color: diffColors[doc.difficulty], fontWeight: 700 }}>{doc.difficulty}</span>
-                              {studiedDocs.has(doc.id) && <span style={{ fontSize: 11, padding: "2px 10px", borderRadius: 20, background: "rgba(0,255,136,0.1)", color: GREEN, fontWeight: 700 }}>&#x2713; Studied</span>}
+                              {studiedDocs.has(doc.id) && <span style={{ fontSize: 11, padding: "2px 10px", borderRadius: 20, background: "rgba(58,125,86,0.1)", color: GREEN, fontWeight: 700 }}>&#x2713; Studied</span>}
                             </div>
                             <p style={{ fontSize: 14, color: MUTED, margin: 0, lineHeight: 1.6 }}>{doc.headline}</p>
                           </div>
@@ -504,7 +504,7 @@ export default function TheologyPage() {
                             ))}
                           </div>
                           <button onClick={() => toggleStudied(doc.id)}
-                            style={{ padding: "8px 18px", borderRadius: 10, border: `1px solid ${studiedDocs.has(doc.id) ? GREEN : BORDER}`, background: studiedDocs.has(doc.id) ? "rgba(0,255,136,0.1)" : "transparent", color: studiedDocs.has(doc.id) ? GREEN : MUTED, cursor: "pointer", fontSize: 13, fontWeight: 700 }}>
+                            style={{ padding: "8px 18px", borderRadius: 10, border: `1px solid ${studiedDocs.has(doc.id) ? GREEN : BORDER}`, background: studiedDocs.has(doc.id) ? "rgba(58,125,86,0.1)" : "transparent", color: studiedDocs.has(doc.id) ? GREEN : MUTED, cursor: "pointer", fontSize: 13, fontWeight: 700 }}>
                             {studiedDocs.has(doc.id) ? "&#x2713; Studied" : "Mark as Studied"}
                           </button>
                         </div>
@@ -541,7 +541,7 @@ export default function TheologyPage() {
                       </div>
                     </div>
                     <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 12 }}>
-                      <div style={{ background: "rgba(0,255,136,0.05)", border: "1px solid rgba(0,255,136,0.15)", borderRadius: 10, padding: "12px 14px" }}>
+                      <div style={{ background: "rgba(58,125,86,0.05)", border: "1px solid rgba(58,125,86,0.15)", borderRadius: 10, padding: "12px 14px" }}>
                         <p style={{ fontSize: 11, fontWeight: 800, color: GREEN, textTransform: "uppercase", letterSpacing: 1, margin: "0 0 6px" }}>Decision</p>
                         <p style={{ fontSize: 13, color: "#C0C0D8", margin: 0, lineHeight: 1.6 }}>{c.decision}</p>
                       </div>

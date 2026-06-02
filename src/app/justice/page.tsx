@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const FOUNDATIONS = [
   { title: "Justice Is God's Character", verse: "Psalm 89:14", body: "Justice and righteousness are the foundation of God's throne (Psalm 89:14). This is not a political statement — it is a theological one. God is not neutral about injustice. He hates oppression because it violates the dignity of people made in his image. His covenant repeatedly commands care for the widow, orphan, foreigner, and poor — those without social power to protect themselves." },

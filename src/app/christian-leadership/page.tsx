@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const THEOLOGY = [
   { title: "The Servant Leader", verse: "Mark 10:42-45", body: "'Whoever wants to become great among you must be your servant... For even the Son of Man did not come to be served, but to serve' (Mark 10:43-45). Jesus' definition of leadership inverts the world's definition. Secular leadership moves toward power, status, and leverage. Christian leadership moves toward service, sacrifice, and the building up of others. The leader who has not understood this has not understood Christ." },

@@ -22,7 +22,7 @@ import {
 const BG = "#07070F";
 const CARD = "#12121F";
 const BORDER = "#1E1E32";
-const GREEN = "#00FF88";
+const GREEN = "#3a7d56";
 const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
@@ -41,8 +41,8 @@ const entryPoints = [
   {
     title: "I'm Going Through Depression",
     icon: Sun,
-    color: "#00FF88",
-    gradient: "linear-gradient(135deg, rgba(0,255,136,0.2), rgba(0,255,136,0.05))",
+    color: "#3a7d56",
+    gradient: "linear-gradient(135deg, rgba(58,125,86,0.2), rgba(58,125,86,0.05))",
     desc: "You're not alone and this is not weakness. Explore stories, resources, and professional support paths.",
     count: "28 resources",
   },
@@ -84,7 +84,7 @@ const faithBasics = [
 
 const resources = [
   { topic: "Anxiety", type: "Article", title: "When Prayer Feels Like It Isn't Working", time: "8 min read", color: "#6B4FBB", href: "/discussions/prayer-doesnt-feel-real-009" },
-  { topic: "Depression", type: "Discussion", title: "My Journey Through the Dark Night of the Soul", time: "Community", color: "#00FF88", href: "/discussions/worship-feels-empty-011" },
+  { topic: "Depression", type: "Discussion", title: "My Journey Through the Dark Night of the Soul", time: "Community", color: "#3a7d56", href: "/discussions/worship-feels-empty-011" },
   { topic: "Grief", type: "Article", title: "God, Grief, and the Permission to Mourn", time: "12 min read", color: "#4F8FBB", href: "/blog/psalms-permission-to-lament" },
   { topic: "Trauma", type: "Discussion", title: "Healing the Wounds We Don't Show Anyone", time: "Community", color: "#4FBBAA", href: "/discussions/depression-therapy-faith-005" },
   { topic: "Loneliness", type: "Article", title: "The Lonely Christian: You Are Not Abandoned", time: "6 min read", color: "#BB7A4F", href: "/topics/mental-health-god" },
@@ -114,7 +114,7 @@ const therapists = [
     rating: 4.8,
     reviews: 62,
     initials: "JW",
-    color: "#00FF88",
+    color: "#3a7d56",
   },
   {
     name: "Maria Elena Reyes",
@@ -143,7 +143,7 @@ const therapists = [
 const supportGroups = [
   { name: "Anxiety & Faith Circle", members: "2.1k", meets: "Tuesdays 7PM ET", color: "#6B4FBB" },
   { name: "Grief & Loss Support", members: "1.4k", meets: "Sundays 3PM ET", color: "#4F8FBB" },
-  { name: "Recovery & Restoration", members: "987", meets: "Mondays 8PM ET", color: "#00FF88" },
+  { name: "Recovery & Restoration", members: "987", meets: "Mondays 8PM ET", color: "#3a7d56" },
   { name: "Women Healing Together", members: "3.2k", meets: "Thursdays 6PM ET", color: "#BB4F7A" },
   { name: "Men's Mental Health Space", members: "1.8k", meets: "Fridays 7PM ET", color: "#4FBBAA" },
 ];
@@ -368,7 +368,7 @@ export default function MentalHealthPage() {
         {/* HERO */}
         <section
           style={{
-            background: "linear-gradient(180deg, rgba(107,79,187,0.12) 0%, rgba(0,255,136,0.04) 60%, transparent 100%)",
+            background: "linear-gradient(180deg, rgba(107,79,187,0.12) 0%, rgba(58,125,86,0.04) 60%, transparent 100%)",
             padding: "72px 24px 60px",
             textAlign: "center",
           }}
@@ -379,8 +379,8 @@ export default function MentalHealthPage() {
                 display: "inline-flex",
                 alignItems: "center",
                 gap: "8px",
-                background: "rgba(0,255,136,0.1)",
-                border: "1px solid rgba(0,255,136,0.25)",
+                background: "rgba(58,125,86,0.1)",
+                border: "1px solid rgba(58,125,86,0.25)",
                 borderRadius: "100px",
                 padding: "6px 16px",
                 marginBottom: "24px",
@@ -643,9 +643,9 @@ export default function MentalHealthPage() {
                         onClick={() => toggleBook(i)}
                         style={{
                           width: "100%",
-                          background: bookedSessions.has(i) ? "rgba(0,255,136,0.15)" : "linear-gradient(135deg, #00FF88, #B8922A)",
+                          background: bookedSessions.has(i) ? "rgba(58,125,86,0.15)" : "linear-gradient(135deg, #3a7d56, #B8922A)",
                           color: bookedSessions.has(i) ? GREEN : BG,
-                          border: bookedSessions.has(i) ? "1px solid rgba(0,255,136,0.3)" : "none",
+                          border: bookedSessions.has(i) ? "1px solid rgba(58,125,86,0.3)" : "none",
                           borderRadius: "10px",
                           padding: "10px",
                           fontWeight: 700,
@@ -739,8 +739,8 @@ export default function MentalHealthPage() {
                   </div>
                   <div
                     style={{
-                      background: "linear-gradient(135deg, rgba(0,255,136,0.12) 0%, rgba(0,255,136,0.03) 100%)",
-                      border: "1px solid rgba(0,255,136,0.2)",
+                      background: "linear-gradient(135deg, rgba(58,125,86,0.12) 0%, rgba(58,125,86,0.03) 100%)",
+                      border: "1px solid rgba(58,125,86,0.2)",
                       borderRadius: "20px",
                       padding: "32px",
                     }}
@@ -798,7 +798,7 @@ export default function MentalHealthPage() {
                   </div>
                   <div>
                     <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "16px" }}>
-                      <div style={{ width: "36px", height: "36px", borderRadius: "10px", background: "rgba(0,255,136,0.15)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                      <div style={{ width: "36px", height: "36px", borderRadius: "10px", background: "rgba(58,125,86,0.15)", display: "flex", alignItems: "center", justifyContent: "center" }}>
                         <Users size={18} style={{ color: GREEN }} />
                       </div>
                       <h3 style={{ color: TEXT, fontWeight: 700, fontSize: "17px" }}>Community Support</h3>
@@ -811,7 +811,7 @@ export default function MentalHealthPage() {
                         "Available 24/7, no appointment needed",
                         "Best for: loneliness, everyday struggles, faith questions",
                       ].map((item, i) => (
-                        <li key={i} style={{ color: "#8A8AA8", fontSize: "14px", lineHeight: 1.6, padding: "4px 0", paddingLeft: "16px", borderLeft: "2px solid rgba(0,255,136,0.4)", marginBottom: "4px" }}>
+                        <li key={i} style={{ color: "#8A8AA8", fontSize: "14px", lineHeight: 1.6, padding: "4px 0", paddingLeft: "16px", borderLeft: "2px solid rgba(58,125,86,0.4)", marginBottom: "4px" }}>
                           {item}
                         </li>
                       ))}
@@ -824,7 +824,7 @@ export default function MentalHealthPage() {
               <section>
                 <div
                   style={{
-                    background: "linear-gradient(135deg, rgba(107,79,187,0.18) 0%, rgba(0,255,136,0.08) 100%)",
+                    background: "linear-gradient(135deg, rgba(107,79,187,0.18) 0%, rgba(58,125,86,0.08) 100%)",
                     border: "1px solid rgba(107,79,187,0.25)",
                     borderRadius: "24px",
                     padding: "56px",
@@ -844,7 +844,7 @@ export default function MentalHealthPage() {
                         display: "flex",
                         alignItems: "center",
                         gap: "8px",
-                        background: "linear-gradient(135deg, #00FF88, #B8922A)",
+                        background: "linear-gradient(135deg, #3a7d56, #B8922A)",
                         color: BG,
                         border: "none",
                         borderRadius: "12px",

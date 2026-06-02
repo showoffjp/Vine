@@ -40,7 +40,7 @@ const stories: Record<string, {
       { type: "p", text: "I'm 34 now. Against every actuarial table and every expectation of everyone who knew me at 23. I didn't age gracefully. I aged gratefully. Those are very different things." },
     ],
     related: [
-      { title: "We Sold Everything and Moved to Mozambique", slug: "isabella-ferreira-mozambique", name: "Isabella Ferreira", flag: "🇧🇷", category: "Missions", categoryColor: "#00FF88" },
+      { title: "We Sold Everything and Moved to Mozambique", slug: "isabella-ferreira-mozambique", name: "Isabella Ferreira", flag: "🇧🇷", category: "Missions", categoryColor: "#3a7d56" },
       { title: "The Night I Prayed to Die — and Why I'm Grateful God Said No", slug: "samuel-mwangi-mental-health", name: "Samuel Mwangi", flag: "🇰🇪", category: "Mental Health", categoryColor: "#3B82F6" },
     ],
   },
@@ -49,7 +49,7 @@ const stories: Record<string, {
     flag: "🇬🇭",
     location: "Accra, Ghana",
     avatar: "AO",
-    color: "#00FF88",
+    color: "#3a7d56",
     title: "Widowed at 28 with Three Children. How Faith Became My Only Floor.",
     excerpt: "When my husband Emmanuel died in a road accident, I had three children under five and no job. What happened next I can only describe as divine provision — not the kind that's comfortable, but the kind that's undeniably real.",
     category: "Grief & Restoration",
@@ -163,11 +163,11 @@ const stories: Record<string, {
     flag: "🇧🇷",
     location: "São Paulo, Brazil / Maputo, Mozambique",
     avatar: "IF",
-    color: "#00FF88",
+    color: "#3a7d56",
     title: "We Sold Everything and Moved to Mozambique. Here's Year Three.",
     excerpt: "Missions sounds romantic until you're actually there — sick, broke, questioning everything. This is an honest account of what long-term missions actually looks like from the inside.",
     category: "Missions",
-    categoryColor: "#00FF88",
+    categoryColor: "#3a7d56",
     readTime: "16 min",
     hearts: 2934,
     date: "May 12, 2026",
@@ -245,7 +245,7 @@ export default async function StoryDetailPage({ params }: { params: Promise<{ sl
         <div className="page-body pb-20 text-center max-w-2xl mx-auto px-4">
           <p className="text-6xl mb-6">📭</p>
           <h1 className="text-3xl font-black mb-4">Story not found</h1>
-          <a href="/stories" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-black" style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)" }}>
+          <a href="/stories" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-black" style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}>
             Browse all stories
           </a>
         </div>
@@ -309,7 +309,7 @@ export default async function StoryDetailPage({ params }: { params: Promise<{ sl
                 <p key={i} className="text-base leading-relaxed mb-6" style={{ color: "#C0C0D8", lineHeight: "1.9" }}>{block.text}</p>
               );
               if (block.type === "quote") return (
-                <blockquote key={i} className="my-8 p-6 rounded-2xl" style={{ background: "rgba(0,255,136,0.06)", borderLeft: `3px solid ${story.color}` }}>
+                <blockquote key={i} className="my-8 p-6 rounded-2xl" style={{ background: "rgba(58,125,86,0.06)", borderLeft: `3px solid ${story.color}` }}>
                   <p className="text-lg italic mb-3" style={{ color: "#00DD77" }}>&ldquo;{block.text}&rdquo;</p>
                   {block.attribution && <p className="text-sm font-bold" style={{ color: "#007A33" }}>— {block.attribution}</p>}
                 </blockquote>
@@ -323,12 +323,12 @@ export default async function StoryDetailPage({ params }: { params: Promise<{ sl
 
           {/* Submit your own */}
           <div className="rounded-2xl p-6 mb-10 text-center"
-            style={{ background: "linear-gradient(135deg, rgba(0,255,136,0.06) 0%, rgba(107,79,187,0.06) 100%)", border: "1px solid rgba(0,255,136,0.15)" }}>
+            style={{ background: "linear-gradient(135deg, rgba(58,125,86,0.06) 0%, rgba(107,79,187,0.06) 100%)", border: "1px solid rgba(58,125,86,0.15)" }}>
             <p className="text-sm italic mb-3" style={{ color: "#8A8AA8" }}>
               &ldquo;They triumphed over him by the blood of the Lamb and by the word of their testimony.&rdquo; — Revelation 12:11
             </p>
             <a href="/stories" className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl font-bold text-sm text-black"
-              style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)" }}>
+              style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}>
               Share Your Story <ChevronRight size={14} />
             </a>
           </div>
@@ -345,7 +345,7 @@ export default async function StoryDetailPage({ params }: { params: Promise<{ sl
                   >
                     <div>
                       <span className="text-xs font-bold" style={{ color: r.categoryColor }}>{r.category}</span>
-                      <p className="font-bold text-sm group-hover:text-[#00FF88] transition-colors" style={{ color: "#F2F2F8" }}>{r.title}</p>
+                      <p className="font-bold text-sm group-hover:text-[#3a7d56] transition-colors" style={{ color: "#F2F2F8" }}>{r.title}</p>
                       <p className="text-xs" style={{ color: "#4A4A68" }}>{r.name} {r.flag}</p>
                     </div>
                     <ChevronRight size={16} style={{ color: "#4A4A68" }} />

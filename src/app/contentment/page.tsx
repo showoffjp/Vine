@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const THEOLOGY = [
   { title: "Contentment Is Learned, Not Given", verse: "Philippians 4:11", body: "'I have learned, in whatever state I am, to be content' (Philippians 4:11). Paul does not say contentment is natural or automatic — he says he learned it. It is a discipline, a skill, a virtue formed through practice under grace. He learned it through 'being abased and abounding' — through both poverty and plenty. Contentment is not the product of circumstances; it is an achievement of the soul forged through them." },

@@ -4,7 +4,7 @@ import { useState } from "react";
 const BG = "#07070F";
 const CARD = "#12121F";
 const BORDER = "#1E1E32";
-const GREEN = "#00FF88";
+const GREEN = "#3a7d56";
 const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
@@ -110,7 +110,7 @@ const TEACHERS = [
   },
   {
     name: "Jackie Hill Perry",
-    color: "#00FF88",
+    color: "#3a7d56",
     tradition: "Reformed Baptist",
     knownFor: "Spoken word artist, author, Bible teacher; known for honest, theologically grounded engagement with sexuality and sanctification",
     works: ["Gay Girl, Good God", "Holier Than Thou", "Jude (Bible study)"],
@@ -184,7 +184,7 @@ const RESOURCES = [
     subtitle: "Jen Wilkin — Book",
     desc: "The definitive guide to teaching women how to study the Bible well. Wilkin's three-question method (observation, interpretation, application) and her insistence on letting Scripture speak before asking what it means for me has shaped a generation of women's Bible study leaders. The most recommended women's ministry resource today.",
     url: "Book — widely available",
-    color: "#00FF88",
+    color: "#3a7d56",
   },
   {
     title: "A Woman After God's Own Heart",

@@ -173,8 +173,8 @@ export default function JournalPage() {
           <div className="flex items-center justify-between mb-8">
             <div>
               <div className="flex items-center gap-2 mb-1">
-                <BookOpen size={20} style={{ color: "#00FF88" }} />
-                <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#00FF88" }}>My Journal</span>
+                <BookOpen size={20} style={{ color: "#3a7d56" }} />
+                <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#3a7d56" }}>My Journal</span>
               </div>
               <h1 className="text-3xl font-black" style={{ color: "#F2F2F8" }}>Devotional Journal</h1>
               <p className="text-sm mt-1" style={{ color: "#6A6A88" }}>{entries.length} entries · Private to you</p>
@@ -182,7 +182,7 @@ export default function JournalPage() {
             <button
               onClick={() => { setComposing(true); setSelectedEntry(null); }}
               className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm text-black"
-              style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)" }}
+              style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}
             >
               <Plus size={16} /> New Entry
             </button>
@@ -210,7 +210,7 @@ export default function JournalPage() {
                   <button
                     onClick={() => setActiveTag(null)}
                     className="w-full text-left text-xs px-2 py-1.5 rounded-lg transition-all"
-                    style={{ color: !activeTag ? "#00FF88" : "#8A8AA8", background: !activeTag ? "rgba(0,255,136,0.08)" : "transparent" }}
+                    style={{ color: !activeTag ? "#3a7d56" : "#8A8AA8", background: !activeTag ? "rgba(58,125,86,0.08)" : "transparent" }}
                   >
                     All entries
                   </button>
@@ -219,7 +219,7 @@ export default function JournalPage() {
                       key={tag}
                       onClick={() => setActiveTag(activeTag === tag ? null : tag)}
                       className="w-full text-left text-xs px-2 py-1.5 rounded-lg transition-all flex items-center gap-1.5"
-                      style={{ color: activeTag === tag ? "#00FF88" : "#8A8AA8", background: activeTag === tag ? "rgba(0,255,136,0.08)" : "transparent" }}
+                      style={{ color: activeTag === tag ? "#3a7d56" : "#8A8AA8", background: activeTag === tag ? "rgba(58,125,86,0.08)" : "transparent" }}
                     >
                       <Tag size={10} /> {tag}
                     </button>
@@ -248,7 +248,7 @@ export default function JournalPage() {
             <div className="flex-1 min-w-0">
               {/* Compose */}
               {composing && (
-                <div className="rounded-2xl p-6 mb-6" style={{ background: "#12121F", border: "1px solid rgba(0,255,136,0.2)" }}>
+                <div className="rounded-2xl p-6 mb-6" style={{ background: "#12121F", border: "1px solid rgba(58,125,86,0.2)" }}>
                   <div className="flex items-center justify-between mb-4">
                     <h2 className="font-black text-base" style={{ color: "#F2F2F8" }}>New Entry</h2>
                     <button onClick={() => setComposing(false)} style={{ color: "#4A4A68" }}>
@@ -298,9 +298,9 @@ export default function JournalPage() {
                         onClick={() => setNewEntry((p) => ({ ...p, mood: p.mood === m ? "" : m }))}
                         className="text-xs px-2.5 py-1 rounded-full transition-all"
                         style={{
-                          background: newEntry.mood === m ? "rgba(0,255,136,0.15)" : "rgba(255,255,255,0.04)",
-                          border: `1px solid ${newEntry.mood === m ? "rgba(0,255,136,0.4)" : "rgba(255,255,255,0.06)"}`,
-                          color: newEntry.mood === m ? "#00FF88" : "#6A6A88",
+                          background: newEntry.mood === m ? "rgba(58,125,86,0.15)" : "rgba(255,255,255,0.04)",
+                          border: `1px solid ${newEntry.mood === m ? "rgba(58,125,86,0.4)" : "rgba(255,255,255,0.06)"}`,
+                          color: newEntry.mood === m ? "#3a7d56" : "#6A6A88",
                         }}
                       >
                         {m}
@@ -338,8 +338,8 @@ export default function JournalPage() {
                       disabled={!newEntry.title.trim() || !newEntry.body.trim()}
                       className="flex items-center gap-2 px-5 py-2 rounded-xl text-xs font-bold transition-all"
                       style={{
-                        background: newEntry.title && newEntry.body ? (saved ? "rgba(0,255,136,0.2)" : "linear-gradient(135deg, #00FF88, #00BB55)") : "#1E1E32",
-                        color: newEntry.title && newEntry.body ? (saved ? "#00FF88" : "#07070F") : "#4A4A68",
+                        background: newEntry.title && newEntry.body ? (saved ? "rgba(58,125,86,0.2)" : "linear-gradient(135deg, #3a7d56, #3a7d56)") : "#1E1E32",
+                        color: newEntry.title && newEntry.body ? (saved ? "#3a7d56" : "#07070F") : "#4A4A68",
                       }}
                     >
                       {saved ? <><Sparkles size={12} /> Saved!</> : <><Save size={12} /> Save Entry</>}
@@ -350,13 +350,13 @@ export default function JournalPage() {
 
               {/* Entry detail view */}
               {selectedEntry && !composing && (
-                <div className="rounded-2xl p-6 mb-6" style={{ background: "#12121F", border: "1px solid rgba(0,255,136,0.15)" }}>
+                <div className="rounded-2xl p-6 mb-6" style={{ background: "#12121F", border: "1px solid rgba(58,125,86,0.15)" }}>
                   <div className="flex items-start justify-between mb-4">
                     <div>
                       <div className="flex items-center gap-2 mb-1 text-xs" style={{ color: "#4A4A68" }}>
                         <Calendar size={11} />
                         {selectedEntry.date}
-                        <span className="px-2 py-0.5 rounded-full text-xs" style={{ background: "rgba(0,255,136,0.08)", color: "#00FF88" }}>
+                        <span className="px-2 py-0.5 rounded-full text-xs" style={{ background: "rgba(58,125,86,0.08)", color: "#3a7d56" }}>
                           {selectedEntry.mood}
                         </span>
                       </div>
@@ -370,9 +370,9 @@ export default function JournalPage() {
                     {selectedEntry.body}
                   </p>
                   {selectedEntry.verse && (
-                    <div className="p-4 rounded-xl mb-4" style={{ background: "rgba(0,255,136,0.05)", border: "1px solid rgba(0,255,136,0.1)" }}>
+                    <div className="p-4 rounded-xl mb-4" style={{ background: "rgba(58,125,86,0.05)", border: "1px solid rgba(58,125,86,0.1)" }}>
                       <p className="text-sm italic mb-1" style={{ color: "#C0C0D8" }}>&ldquo;{selectedEntry.verse}&rdquo;</p>
-                      <p className="text-xs font-bold" style={{ color: "#00FF88" }}>— {selectedEntry.verseRef}</p>
+                      <p className="text-xs font-bold" style={{ color: "#3a7d56" }}>— {selectedEntry.verseRef}</p>
                     </div>
                   )}
                   <div className="flex flex-wrap gap-1.5">
@@ -408,7 +408,7 @@ export default function JournalPage() {
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-1">
                             <span className="text-xs" style={{ color: "#4A4A68" }}>{entry.date}</span>
-                            <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "rgba(0,255,136,0.08)", color: "#00FF88" }}>
+                            <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "rgba(58,125,86,0.08)", color: "#3a7d56" }}>
                               {entry.mood}
                             </span>
                           </div>

@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const THEOLOGY = [
   { title: "A Command, Not a Gift", verse: "Romans 12:13", body: "'Share with the Lord's people who are in need. Practice hospitality' (Romans 12:13). The word 'practice' implies deliberate effort and repetition — not a personality trait but a discipline. The Greek word for hospitality is philoxenia: love of the stranger. It is not reserved for those with large homes, culinary gifts, or extroverted personalities. It is commanded of all believers." },

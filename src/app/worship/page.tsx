@@ -32,7 +32,7 @@ const songs = [
     artist: "Sinach",
     plays: "4.2M",
     genre: "Contemporary",
-    gradient: "linear-gradient(135deg, #6B4FBB 0%, #00FF88 100%)",
+    gradient: "linear-gradient(135deg, #6B4FBB 0%, #3a7d56 100%)",
   },
   {
     title: "Goodness of God",
@@ -46,7 +46,7 @@ const songs = [
     artist: "Hillsong Worship",
     plays: "5.1M",
     genre: "Hillsong",
-    gradient: "linear-gradient(135deg, #00FF88 0%, #BB7A4F 100%)",
+    gradient: "linear-gradient(135deg, #3a7d56 0%, #BB7A4F 100%)",
   },
   {
     title: "Total Praise",
@@ -77,7 +77,7 @@ const playlists = [
     songs: 24,
     duration: "1h 42m",
     contributors: 8,
-    color: "#00FF88",
+    color: "#3a7d56",
     emoji: "☀️",
   },
   {
@@ -126,14 +126,14 @@ const chords = [
     artist: "Cory Asbury",
     key: "D",
     difficulty: "Intermediate",
-    diffColor: "#00FF88",
+    diffColor: "#3a7d56",
   },
   {
     song: "Gratitude",
     artist: "Brandon Lake",
     key: "A",
     difficulty: "Intermediate",
-    diffColor: "#00FF88",
+    diffColor: "#3a7d56",
   },
   {
     song: "The Stand",
@@ -156,7 +156,7 @@ const circles = [
     name: "Acoustic Worship Collective",
     members: "3.4k",
     description: "Acoustic guitar-led worship discussions, tutorials, and community.",
-    color: "#00FF88",
+    color: "#3a7d56",
   },
   {
     name: "Gospel Choir Network",
@@ -184,7 +184,7 @@ const creators = [
     location: "Accra, Ghana",
     followers: "28.4k",
     specialty: "Contemporary Gospel",
-    gradient: "linear-gradient(135deg, #00FF88, #BB7A4F)",
+    gradient: "linear-gradient(135deg, #3a7d56, #BB7A4F)",
     initials: "AC",
     bio: "Bringing the sound of West African worship to the global church. Known for her powerful vocal arrangements and original compositions.",
   },
@@ -214,7 +214,7 @@ const genreColors: Record<string, string> = {
   Gospel: "#BB4F7A",
   Hymn: "#4F8FBB",
   Hillsong: "#4FBBAA",
-  Bethel: "#00FF88",
+  Bethel: "#3a7d56",
 };
 
 const WORSHIP_THEOLOGY = [
@@ -429,8 +429,8 @@ export default function WorshipPage() {
                   background: "none",
                   border: "none",
                   cursor: "pointer",
-                  color: activeTab === t ? "#00FF88" : "#6A6A88",
-                  borderBottom: `2px solid ${activeTab === t ? "#00FF88" : "transparent"}`,
+                  color: activeTab === t ? "#3a7d56" : "#6A6A88",
+                  borderBottom: `2px solid ${activeTab === t ? "#3a7d56" : "transparent"}`,
                   marginBottom: -1,
                   whiteSpace: "nowrap",
                   transition: "color 0.2s",
@@ -451,7 +451,7 @@ export default function WorshipPage() {
             <section
               style={{
                 background:
-                  "linear-gradient(180deg, rgba(107,79,187,0.18) 0%, rgba(0,255,136,0.06) 60%, transparent 100%)",
+                  "linear-gradient(180deg, rgba(107,79,187,0.18) 0%, rgba(58,125,86,0.06) 60%, transparent 100%)",
                 padding: "80px 0 60px",
                 textAlign: "center",
               }}
@@ -462,15 +462,15 @@ export default function WorshipPage() {
                     display: "inline-flex",
                     alignItems: "center",
                     gap: "8px",
-                    background: "rgba(0,255,136,0.1)",
-                    border: "1px solid rgba(0,255,136,0.25)",
+                    background: "rgba(58,125,86,0.1)",
+                    border: "1px solid rgba(58,125,86,0.25)",
                     borderRadius: "100px",
                     padding: "6px 16px",
                     marginBottom: "24px",
                   }}
                 >
-                  <Music size={14} style={{ color: "#00FF88" }} />
-                  <span style={{ color: "#00FF88", fontSize: "12px", fontWeight: 700, letterSpacing: "0.08em" }}>
+                  <Music size={14} style={{ color: "#3a7d56" }} />
+                  <span style={{ color: "#3a7d56", fontSize: "12px", fontWeight: 700, letterSpacing: "0.08em" }}>
                     WORSHIP HUB
                   </span>
                 </div>
@@ -480,7 +480,7 @@ export default function WorshipPage() {
                     fontWeight: 900,
                     lineHeight: 1.05,
                     marginBottom: "20px",
-                    background: "linear-gradient(135deg, #FFFFFF 0%, #00FF88 50%, #F2F2F8 100%)",
+                    background: "linear-gradient(135deg, #FFFFFF 0%, #3a7d56 50%, #F2F2F8 100%)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                     backgroundClip: "text",
@@ -498,7 +498,7 @@ export default function WorshipPage() {
                       display: "flex",
                       alignItems: "center",
                       gap: "8px",
-                      background: "linear-gradient(135deg, #00FF88, #B8922A)",
+                      background: "linear-gradient(135deg, #3a7d56, #B8922A)",
                       color: "#07070F",
                       border: "none",
                       borderRadius: "12px",
@@ -541,7 +541,7 @@ export default function WorshipPage() {
                   <h2 style={{ fontSize: "24px", fontWeight: 800, color: "#F2F2F8" }}>
                     Now Trending in Worship
                   </h2>
-                  <button style={{ display: "flex", alignItems: "center", gap: "6px", color: "#00FF88", fontSize: "14px", fontWeight: 600, background: "none", border: "none", cursor: "pointer" }}>
+                  <button style={{ display: "flex", alignItems: "center", gap: "6px", color: "#3a7d56", fontSize: "14px", fontWeight: 600, background: "none", border: "none", cursor: "pointer" }}>
                     See all <ChevronRight size={16} />
                   </button>
                 </div>
@@ -558,7 +558,7 @@ export default function WorshipPage() {
                       onClick={() => togglePlay(i)}
                       style={{
                         background: "#12121F",
-                        border: `1px solid ${playingSong === i ? "rgba(0,255,136,0.4)" : "#1E1E32"}`,
+                        border: `1px solid ${playingSong === i ? "rgba(58,125,86,0.4)" : "#1E1E32"}`,
                         borderRadius: "16px",
                         padding: "16px",
                         cursor: "pointer",
@@ -584,7 +584,7 @@ export default function WorshipPage() {
                             position: "absolute",
                             bottom: "8px",
                             right: "8px",
-                            background: playingSong === i ? "#00FF88" : "rgba(0,0,0,0.5)",
+                            background: playingSong === i ? "#3a7d56" : "rgba(0,0,0,0.5)",
                             borderRadius: "50%",
                             width: "32px",
                             height: "32px",
@@ -740,7 +740,7 @@ export default function WorshipPage() {
                     <div
                       style={{
                         background: "#12121F",
-                        border: `1px solid ${viewChord === i ? "rgba(0,255,136,0.3)" : "#1E1E32"}`,
+                        border: `1px solid ${viewChord === i ? "rgba(58,125,86,0.3)" : "#1E1E32"}`,
                         borderRadius: viewChord === i ? "16px 16px 0 0" : "16px",
                         padding: "20px",
                         display: "flex",
@@ -757,8 +757,8 @@ export default function WorshipPage() {
                         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                           <span
                             style={{
-                              background: "rgba(0,255,136,0.12)",
-                              color: "#00FF88",
+                              background: "rgba(58,125,86,0.12)",
+                              color: "#3a7d56",
                               borderRadius: "6px",
                               padding: "2px 8px",
                               fontSize: "11px",
@@ -785,9 +785,9 @@ export default function WorshipPage() {
                         onClick={() => setViewChord(viewChord === i ? null : i)}
                         style={{
                           flexShrink: 0,
-                          background: viewChord === i ? "rgba(0,255,136,0.15)" : "transparent",
-                          border: "1px solid rgba(0,255,136,0.3)",
-                          color: "#00FF88",
+                          background: viewChord === i ? "rgba(58,125,86,0.15)" : "transparent",
+                          border: "1px solid rgba(58,125,86,0.3)",
+                          color: "#3a7d56",
                           borderRadius: "10px",
                           padding: "8px 14px",
                           fontSize: "12px",
@@ -803,8 +803,8 @@ export default function WorshipPage() {
                       </button>
                     </div>
                     {viewChord === i && (
-                      <div style={{ padding: "16px", borderTop: "1px solid rgba(0,255,136,0.15)", background: "rgba(0,255,136,0.04)", borderRadius: "0 0 16px 16px", border: "1px solid rgba(0,255,136,0.3)", borderTopWidth: 0 }}>
-                        <p style={{ color: "#00FF88", fontWeight: 700, fontSize: "13px", marginBottom: "8px" }}>
+                      <div style={{ padding: "16px", borderTop: "1px solid rgba(58,125,86,0.15)", background: "rgba(58,125,86,0.04)", borderRadius: "0 0 16px 16px", border: "1px solid rgba(58,125,86,0.3)", borderTopWidth: 0 }}>
+                        <p style={{ color: "#3a7d56", fontWeight: 700, fontSize: "13px", marginBottom: "8px" }}>
                           Key of {chord.key} &mdash; Basic Progression
                         </p>
                         <p style={{ color: "#8A8AA8", fontSize: "12px", lineHeight: 1.7 }}>
@@ -899,16 +899,16 @@ export default function WorshipPage() {
                       display: "inline-flex",
                       alignItems: "center",
                       gap: "6px",
-                      background: "rgba(0,255,136,0.1)",
-                      border: "1px solid rgba(0,255,136,0.2)",
+                      background: "rgba(58,125,86,0.1)",
+                      border: "1px solid rgba(58,125,86,0.2)",
                       borderRadius: "100px",
                       padding: "4px 12px",
-                      color: "#00FF88",
+                      color: "#3a7d56",
                       fontSize: "11px",
                       fontWeight: 700,
                     }}
                   >
-                    <Star size={11} fill="#00FF88" /> Featured This Week
+                    <Star size={11} fill="#3a7d56" /> Featured This Week
                   </span>
                 </div>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: "20px" }}>
@@ -964,9 +964,9 @@ export default function WorshipPage() {
                           onClick={() => toggleFollow(i)}
                           style={{
                             width: "100%",
-                            background: followedCreators.has(i) ? "rgba(0,255,136,0.2)" : "rgba(0,255,136,0.08)",
-                            border: "1px solid rgba(0,255,136,0.25)",
-                            color: "#00FF88",
+                            background: followedCreators.has(i) ? "rgba(58,125,86,0.2)" : "rgba(58,125,86,0.08)",
+                            border: "1px solid rgba(58,125,86,0.25)",
+                            color: "#3a7d56",
                             borderRadius: "10px",
                             padding: "10px",
                             fontWeight: 700,
@@ -991,8 +991,8 @@ export default function WorshipPage() {
               <section>
                 <div
                   style={{
-                    background: "linear-gradient(135deg, rgba(107,79,187,0.2) 0%, rgba(0,255,136,0.1) 100%)",
-                    border: "1px solid rgba(0,255,136,0.2)",
+                    background: "linear-gradient(135deg, rgba(107,79,187,0.2) 0%, rgba(58,125,86,0.1) 100%)",
+                    border: "1px solid rgba(58,125,86,0.2)",
                     borderRadius: "24px",
                     padding: "48px",
                     textAlign: "center",
@@ -1003,15 +1003,15 @@ export default function WorshipPage() {
                       width: "64px",
                       height: "64px",
                       borderRadius: "20px",
-                      background: "rgba(0,255,136,0.15)",
-                      border: "1px solid rgba(0,255,136,0.3)",
+                      background: "rgba(58,125,86,0.15)",
+                      border: "1px solid rgba(58,125,86,0.3)",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
                       margin: "0 auto 20px",
                     }}
                   >
-                    <Upload size={28} style={{ color: "#00FF88" }} />
+                    <Upload size={28} style={{ color: "#3a7d56" }} />
                   </div>
                   <h2 style={{ fontSize: "28px", fontWeight: 800, color: "#F2F2F8", marginBottom: "12px" }}>
                     Submit Your Music
@@ -1020,10 +1020,10 @@ export default function WorshipPage() {
                     Are you a worship creator? Share your original songs, chord sheets, and arrangements with the global Vine community.
                   </p>
                   {submitSuccess ? (
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "10px", padding: "16px 24px", background: "rgba(0,255,136,0.12)", border: "1px solid rgba(0,255,136,0.3)", borderRadius: "16px", maxWidth: "360px", margin: "0 auto" }}>
-                      <CheckCircle2 size={20} style={{ color: "#00FF88" }} />
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "10px", padding: "16px 24px", background: "rgba(58,125,86,0.12)", border: "1px solid rgba(58,125,86,0.3)", borderRadius: "16px", maxWidth: "360px", margin: "0 auto" }}>
+                      <CheckCircle2 size={20} style={{ color: "#3a7d56" }} />
                       <div style={{ textAlign: "left" }}>
-                        <p style={{ color: "#00FF88", fontWeight: 700, fontSize: "15px", marginBottom: "2px" }}>Music Submitted!</p>
+                        <p style={{ color: "#3a7d56", fontWeight: 700, fontSize: "15px", marginBottom: "2px" }}>Music Submitted!</p>
                         <p style={{ color: "#8A8AA8", fontSize: "12px" }}>The Vine team will review and be in touch within 3 business days.</p>
                       </div>
                     </div>
@@ -1035,7 +1035,7 @@ export default function WorshipPage() {
                           display: "flex",
                           alignItems: "center",
                           gap: "8px",
-                          background: "linear-gradient(135deg, #00FF88, #B8922A)",
+                          background: "linear-gradient(135deg, #3a7d56, #B8922A)",
                           color: "#07070F",
                           border: "none",
                           borderRadius: "12px",
@@ -1099,7 +1099,7 @@ export default function WorshipPage() {
                   <div style={{ display: "flex", alignItems: "flex-start", gap: "14px", marginBottom: "16px" }}>
                     <span style={{ fontSize: "28px", flexShrink: 0 }}>{entry.icon}</span>
                     <div>
-                      <p style={{ color: "#00FF88", fontSize: "13px", fontStyle: "italic", lineHeight: 1.5, marginBottom: "6px" }}>
+                      <p style={{ color: "#3a7d56", fontSize: "13px", fontStyle: "italic", lineHeight: 1.5, marginBottom: "6px" }}>
                         &ldquo;{entry.scripture}&rdquo; &mdash; {entry.scriptureRef}
                       </p>
                       <h3 style={{ color: "#F2F2F8", fontWeight: 800, fontSize: "18px" }}>{entry.title}</h3>
@@ -1166,12 +1166,12 @@ export default function WorshipPage() {
               {/* Right panel */}
               <div style={{ flex: 1 }}>
                 <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: "16px", padding: "32px" }}>
-                  <h2 style={{ color: "#00FF88", fontWeight: 900, fontSize: "24px", margin: "0 0 4px" }}>{voiceItem.name}</h2>
+                  <h2 style={{ color: "#3a7d56", fontWeight: 900, fontSize: "24px", margin: "0 0 4px" }}>{voiceItem.name}</h2>
                   <div style={{ color: "#6B4FBB", fontSize: "13px", fontWeight: 700, marginBottom: "6px" }}>{voiceItem.era}</div>
                   <div style={{ color: "#9898B3", fontSize: "13px", marginBottom: "20px", lineHeight: 1.6 }}>{voiceItem.context}</div>
                   <p style={{ color: "#F2F2F8", lineHeight: 1.8, fontSize: "15px", marginBottom: "24px" }}>{voiceItem.bio}</p>
-                  <div style={{ background: "#07070F", borderLeft: "3px solid #00FF88", borderRadius: "0 8px 8px 0", padding: "16px 20px", marginBottom: "24px" }}>
-                    <p style={{ color: "#00FF88", fontStyle: "italic", fontSize: "15px", lineHeight: 1.7, margin: 0 }}>
+                  <div style={{ background: "#07070F", borderLeft: "3px solid #3a7d56", borderRadius: "0 8px 8px 0", padding: "16px 20px", marginBottom: "24px" }}>
+                    <p style={{ color: "#3a7d56", fontStyle: "italic", fontSize: "15px", lineHeight: 1.7, margin: 0 }}>
                       &ldquo;{voiceItem.quote}&rdquo;
                     </p>
                   </div>
@@ -1257,7 +1257,7 @@ export default function WorshipPage() {
             right: 0,
             background: "rgba(7,7,15,0.95)",
             backdropFilter: "blur(20px)",
-            borderTop: "1px solid rgba(0,255,136,0.25)",
+            borderTop: "1px solid rgba(58,125,86,0.25)",
             padding: "12px 24px",
             display: "flex",
             alignItems: "center",
@@ -1270,7 +1270,7 @@ export default function WorshipPage() {
               width: "40px",
               height: "40px",
               borderRadius: "8px",
-              background: playingSong < songs.length ? songs[playingSong].gradient : "linear-gradient(135deg,#00FF88,#6B4FBB)",
+              background: playingSong < songs.length ? songs[playingSong].gradient : "linear-gradient(135deg,#3a7d56,#6B4FBB)",
               flexShrink: 0,
               display: "flex",
               alignItems: "center",
@@ -1290,7 +1290,7 @@ export default function WorshipPage() {
           <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
             <Volume2 size={14} style={{ color: "#6A6A88" }} />
             <div style={{ width: "80px", height: "3px", background: "#1E1E32", borderRadius: "2px" }}>
-              <div style={{ width: "60%", height: "100%", background: "#00FF88", borderRadius: "2px" }} />
+              <div style={{ width: "60%", height: "100%", background: "#3a7d56", borderRadius: "2px" }} />
             </div>
           </div>
           <button

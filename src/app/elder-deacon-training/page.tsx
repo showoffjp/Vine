@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 
-const BG = "#07070F"; const CARD = "#12121F"; const BORDER = "#1E1E32"; const GREEN = "#00FF88"; const PURPLE = "#6B4FBB"; const TEXT = "#F2F2F8"; const MUTED = "#9898B3";
+const BG = "#07070F"; const CARD = "#12121F"; const BORDER = "#1E1E32"; const GREEN = "#3a7d56"; const PURPLE = "#6B4FBB"; const TEXT = "#F2F2F8"; const MUTED = "#9898B3";
 
 type Tab = "elders" | "deacons" | "training" | "resources" | "videos";
 

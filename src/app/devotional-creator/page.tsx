@@ -298,9 +298,9 @@ export default function DevotionalCreatorPage() {
                       onClick={() => setFilterAudience(a)}
                       style={{
                         padding: "4px 12px", borderRadius: 20,
-                        border: `1px solid ${filterAudience === a ? "#00FF88" : "#1E1E32"}`,
-                        background: filterAudience === a ? "#00FF8820" : "transparent",
-                        color: filterAudience === a ? "#00FF88" : "#9898B3",
+                        border: `1px solid ${filterAudience === a ? "#3a7d56" : "#1E1E32"}`,
+                        background: filterAudience === a ? "#3a7d5620" : "transparent",
+                        color: filterAudience === a ? "#3a7d56" : "#9898B3",
                         cursor: "pointer", fontSize: 12,
                       }}
                     >
@@ -326,7 +326,7 @@ export default function DevotionalCreatorPage() {
                         <div style={{ display: "flex", gap: 6, marginBottom: 8 }}>
                           <span style={{ padding: "2px 10px", borderRadius: 20, background: "#6B4FBB20", color: "#6B4FBB", fontSize: 11, fontWeight: 600 }}>{dev.theme}</span>
                           <span style={{ padding: "2px 10px", borderRadius: 20, background: "#1E1E32", color: "#9898B3", fontSize: 11 }}>{dev.audience}</span>
-                          {isCustom && <span style={{ padding: "2px 10px", borderRadius: 20, background: "#00FF8820", color: "#00FF88", fontSize: 11, fontWeight: 600 }}>Yours</span>}
+                          {isCustom && <span style={{ padding: "2px 10px", borderRadius: 20, background: "#3a7d5620", color: "#3a7d56", fontSize: 11, fontWeight: 600 }}>Yours</span>}
                         </div>
                         <h3 style={{ fontSize: 18, fontWeight: 700, color: "#F2F2F8", margin: "0 0 6px", lineHeight: 1.3 }}>{dev.title}</h3>
                         <div style={{ fontSize: 13, color: "#6B4FBB", fontStyle: "italic", marginBottom: 8 }}>
@@ -360,7 +360,7 @@ export default function DevotionalCreatorPage() {
                         )}
                         <button
                           onClick={(e) => { e.stopPropagation(); handleLike(dev.id); }}
-                          style={{ padding: "5px 12px", borderRadius: 6, border: "none", background: liked ? "#00FF8820" : "#1E1E32", color: liked ? "#00FF88" : "#9898B3", cursor: "pointer", fontSize: 12 }}
+                          style={{ padding: "5px 12px", borderRadius: 6, border: "none", background: liked ? "#3a7d5620" : "#1E1E32", color: liked ? "#3a7d56" : "#9898B3", cursor: "pointer", fontSize: 12 }}
                         >
                           ♥ {dev.likes + (liked ? 1 : 0)}
                         </button>
@@ -405,8 +405,8 @@ export default function DevotionalCreatorPage() {
             </div>
 
             {/* Prayer */}
-            <div style={{ background: "#12121F", borderRadius: 12, padding: 20, marginBottom: 24, borderLeft: "4px solid #00FF88" }}>
-              <div style={{ fontSize: 11, color: "#00FF88", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 10 }}>🙏 Prayer</div>
+            <div style={{ background: "#12121F", borderRadius: 12, padding: 20, marginBottom: 24, borderLeft: "4px solid #3a7d56" }}>
+              <div style={{ fontSize: 11, color: "#3a7d56", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 10 }}>🙏 Prayer</div>
               <p style={{ fontSize: 14, color: "#D0D0E8", lineHeight: 1.8, margin: 0 }}>{selectedDev.prayer}</p>
             </div>
 
@@ -421,9 +421,9 @@ export default function DevotionalCreatorPage() {
                 onClick={() => handleLike(selectedDev.id)}
                 style={{
                   flex: 1, padding: "12px 20px", borderRadius: 10,
-                  border: `1px solid ${likedIds.has(selectedDev.id) ? "#00FF8840" : "#1E1E32"}`,
-                  background: likedIds.has(selectedDev.id) ? "#00FF8820" : "#12121F",
-                  color: likedIds.has(selectedDev.id) ? "#00FF88" : "#9898B3",
+                  border: `1px solid ${likedIds.has(selectedDev.id) ? "#3a7d5640" : "#1E1E32"}`,
+                  background: likedIds.has(selectedDev.id) ? "#3a7d5620" : "#12121F",
+                  color: likedIds.has(selectedDev.id) ? "#3a7d56" : "#9898B3",
                   cursor: "pointer", fontWeight: 600, fontSize: 15,
                 }}
               >
@@ -537,7 +537,7 @@ export default function DevotionalCreatorPage() {
             {step === 1 && (
               <div>
                 <label style={{ fontSize: 13, color: "#9898B3", display: "block", marginBottom: 6 }}>
-                  Devotional body * <span style={{ color: draft.body.length < 50 ? "#EF4444" : "#00FF88" }}>({draft.body.length} chars)</span>
+                  Devotional body * <span style={{ color: draft.body.length < 50 ? "#EF4444" : "#3a7d56" }}>({draft.body.length} chars)</span>
                 </label>
                 <textarea
                   value={draft.body}
@@ -624,7 +624,7 @@ Break into paragraphs for readability. Aim for 200–600 words."
               ) : (
                 <button
                   onClick={handlePublish}
-                  style={{ flex: 1, padding: "11px 24px", borderRadius: 10, border: "none", background: "#00FF88", color: "#07070F", cursor: "pointer", fontWeight: 700, fontSize: 15 }}
+                  style={{ flex: 1, padding: "11px 24px", borderRadius: 10, border: "none", background: "#3a7d56", color: "#07070F", cursor: "pointer", fontWeight: 700, fontSize: 15 }}
                 >
                   {editingId ? "Save Changes" : "Publish Devotional"}
                 </button>

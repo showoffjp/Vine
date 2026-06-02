@@ -51,7 +51,7 @@ const posts = [
   {
     slug: "prayer-that-works",
     category: "Life & Faith",
-    categoryColor: "#00FF88",
+    categoryColor: "#3a7d56",
     title: "Prayer That Actually Works: Moving Beyond the Shopping List",
     excerpt:
       "Most Christians pray like they're placing an order. The ACTS framework and contemplative prayer tradition offer something richer — a conversation, not a transaction.",
@@ -83,7 +83,7 @@ const posts = [
   {
     slug: "digital-sabbath",
     category: "Life & Faith",
-    categoryColor: "#00FF88",
+    categoryColor: "#3a7d56",
     title: "The Digital Sabbath: How to Rest in a Hyper-Connected World",
     excerpt:
       "Modern Christianity moves fast. But the richest seasons of spiritual growth come from deliberately slowing down — and shutting off. Here's how a 24-hour phone fast changed everything.",
@@ -243,7 +243,7 @@ const posts = [
   {
     slug: "theology-of-monday",
     category: "Work & Faith",
-    categoryColor: "#00FF88",
+    categoryColor: "#3a7d56",
     title: "The Theology of Monday: Why Your Work Is Holy Ground",
     excerpt:
       "We've created a sacred/secular split that Jesus never intended. A theological case for treating your job — any job — as a calling from God.",
@@ -320,7 +320,7 @@ const posts = [
   {
     slug: "faith-and-doubt",
     category: "Life & Faith",
-    categoryColor: "#00FF88",
+    categoryColor: "#3a7d56",
     title: "How Do You Handle Doubt Without Losing Faith? A Pastor's Guide",
     excerpt: "Doubt isn't the opposite of faith — it's part of faith. Here's how to engage your questions honestly without letting them destroy your foundation.",
     author: "Rev. Sarah Okonkwo",
@@ -360,7 +360,7 @@ const trending = [
 
 const editors = [
   { name: "Dr. Marcus Webb", role: "Theology", avatar: "MW", color: "#6B4FBB" },
-  { name: "Rev. Amara Osei", role: "Devotional", avatar: "AO", color: "#00FF88" },
+  { name: "Rev. Amara Osei", role: "Devotional", avatar: "AO", color: "#3a7d56" },
   { name: "James Okafor", role: "Culture", avatar: "JO", color: "#3B82F6" },
   { name: "Pastor Kwame Asante", role: "Leadership", avatar: "KA", color: "#10B981" },
 ];
@@ -401,12 +401,12 @@ export default function BlogPage() {
           <div className="flex items-center gap-3 mb-4">
             <div
               className="w-10 h-10 rounded-xl flex items-center justify-center"
-              style={{ background: "linear-gradient(135deg, #00FF88 0%, #6B4FBB 100%)" }}
+              style={{ background: "linear-gradient(135deg, #3a7d56 0%, #6B4FBB 100%)" }}
             >
               <BookOpen size={20} className="text-black" />
             </div>
             <div>
-              <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#00FF88" }}>
+              <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#3a7d56" }}>
                 Vine Blog
               </span>
               <div className="flex items-center gap-2 mt-0.5">
@@ -420,7 +420,7 @@ export default function BlogPage() {
           <h1 className="text-4xl sm:text-5xl font-black mb-4" style={{ color: "#F2F2F8" }}>
             Faith that thinks.
             <br />
-            <span style={{ background: "linear-gradient(135deg, #00FF88, #6B4FBB)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+            <span style={{ background: "linear-gradient(135deg, #3a7d56, #6B4FBB)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
               Truth that moves.
             </span>
           </h1>
@@ -455,7 +455,7 @@ export default function BlogPage() {
                     >
                       {featuredPost.category}
                     </span>
-                    <span className="text-xs font-bold px-2 py-1 rounded-full" style={{ background: "rgba(0,255,136,0.1)", color: "#00FF88" }}>
+                    <span className="text-xs font-bold px-2 py-1 rounded-full" style={{ background: "rgba(58,125,86,0.1)", color: "#3a7d56" }}>
                       Featured
                     </span>
                   </div>
@@ -468,7 +468,7 @@ export default function BlogPage() {
                   <div className="flex items-center gap-4 flex-wrap">
                     <div className="flex items-center gap-2">
                       <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold"
-                        style={{ background: "linear-gradient(135deg, #6B4FBB, #00FF88)", color: "#000" }}>
+                        style={{ background: "linear-gradient(135deg, #6B4FBB, #3a7d56)", color: "#000" }}>
                         MW
                       </div>
                       <div>
@@ -491,7 +491,7 @@ export default function BlogPage() {
                   <a
                     href={`/blog/${featuredPost.slug}`}
                     className="mt-6 inline-flex items-center gap-2 text-sm font-bold hover:underline"
-                    style={{ color: "#00FF88" }}
+                    style={{ color: "#3a7d56" }}
                   >
                     Read Article <ChevronRight size={16} />
                   </a>
@@ -508,9 +508,9 @@ export default function BlogPage() {
                       onClick={() => setActiveCategory(cat.name)}
                       className="px-4 py-1.5 rounded-full text-sm font-semibold transition-all"
                       style={{
-                        background: active ? "#00FF88" : "rgba(255,255,255,0.04)",
+                        background: active ? "#3a7d56" : "rgba(255,255,255,0.04)",
                         color: active ? "#000" : "#6A6A88",
-                        border: `1px solid ${active ? "#00FF88" : "rgba(255,255,255,0.08)"}`,
+                        border: `1px solid ${active ? "#3a7d56" : "rgba(255,255,255,0.08)"}`,
                       }}
                     >
                       {cat.name}
@@ -537,7 +537,7 @@ export default function BlogPage() {
                     }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.background = "rgba(255,255,255,0.04)";
-                      e.currentTarget.style.borderColor = "rgba(0,255,136,0.15)";
+                      e.currentTarget.style.borderColor = "rgba(58,125,86,0.15)";
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.background = "rgba(255,255,255,0.02)";
@@ -564,12 +564,12 @@ export default function BlogPage() {
                         <button
                           onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleSave(i); }}
                           className="ml-auto p-1 rounded transition hover:bg-[#1E1E32]"
-                          style={{ color: savedPosts.has(i) || post.saved ? "#00FF88" : "#4A4A68" }}
+                          style={{ color: savedPosts.has(i) || post.saved ? "#3a7d56" : "#4A4A68" }}
                         >
-                          <Bookmark size={12} fill={savedPosts.has(i) || post.saved ? "#00FF88" : "none"} />
+                          <Bookmark size={12} fill={savedPosts.has(i) || post.saved ? "#3a7d56" : "none"} />
                         </button>
                       </div>
-                      <h3 className="font-bold text-base mb-1.5 leading-snug group-hover:text-[#00FF88] transition-colors" style={{ color: "#F2F2F8" }}>
+                      <h3 className="font-bold text-base mb-1.5 leading-snug group-hover:text-[#3a7d56] transition-colors" style={{ color: "#F2F2F8" }}>
                         {post.title}
                       </h3>
                       <p className="text-sm mb-3 line-clamp-2 leading-relaxed" style={{ color: "#6A6A88" }}>
@@ -602,12 +602,12 @@ export default function BlogPage() {
                 className="w-full py-3.5 rounded-xl text-sm font-semibold transition-all"
                 style={{
                   background: "rgba(255,255,255,0.03)",
-                  border: "1px solid rgba(0,255,136,0.12)",
+                  border: "1px solid rgba(58,125,86,0.12)",
                   color: "#8A8AA8",
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "rgba(0,255,136,0.06)";
-                  e.currentTarget.style.color = "#00FF88";
+                  e.currentTarget.style.background = "rgba(58,125,86,0.06)";
+                  e.currentTarget.style.color = "#3a7d56";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.background = "rgba(255,255,255,0.03)";
@@ -626,20 +626,20 @@ export default function BlogPage() {
                 style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
               >
                 <div className="flex items-center gap-2 mb-5">
-                  <Flame size={16} style={{ color: "#00FF88" }} />
-                  <h3 className="text-sm font-bold uppercase tracking-widest" style={{ color: "#00FF88" }}>
+                  <Flame size={16} style={{ color: "#3a7d56" }} />
+                  <h3 className="text-sm font-bold uppercase tracking-widest" style={{ color: "#3a7d56" }}>
                     Trending
                   </h3>
                 </div>
                 <div className="space-y-4">
                   {trending.map((item) => (
                     <div key={item.rank} className="flex gap-3 group cursor-pointer">
-                      <span className="text-2xl font-black w-6 shrink-0" style={{ color: "rgba(0,255,136,0.2)" }}>
+                      <span className="text-2xl font-black w-6 shrink-0" style={{ color: "rgba(58,125,86,0.2)" }}>
                         {item.rank}
                       </span>
                       <div>
                         <p
-                          className="text-sm font-semibold leading-snug group-hover:text-[#00FF88] transition-colors"
+                          className="text-sm font-semibold leading-snug group-hover:text-[#3a7d56] transition-colors"
                           style={{ color: "#C0C0D8" }}
                         >
                           {item.title}
@@ -660,8 +660,8 @@ export default function BlogPage() {
                 style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
               >
                 <div className="flex items-center gap-2 mb-5">
-                  <Star size={16} style={{ color: "#00FF88" }} />
-                  <h3 className="text-sm font-bold uppercase tracking-widest" style={{ color: "#00FF88" }}>
+                  <Star size={16} style={{ color: "#3a7d56" }} />
+                  <h3 className="text-sm font-bold uppercase tracking-widest" style={{ color: "#3a7d56" }}>
                     Featured Writers
                   </h3>
                 </div>
@@ -675,7 +675,7 @@ export default function BlogPage() {
                         {ed.avatar}
                       </div>
                       <div>
-                        <p className="text-sm font-semibold group-hover:text-[#00FF88] transition-colors" style={{ color: "#E0E0F0" }}>
+                        <p className="text-sm font-semibold group-hover:text-[#3a7d56] transition-colors" style={{ color: "#E0E0F0" }}>
                           {ed.name}
                         </p>
                         <p className="text-xs" style={{ color: "#6A6A88" }}>{ed.role}</p>
@@ -684,9 +684,9 @@ export default function BlogPage() {
                         onClick={() => toggleFollow(ed.name)}
                         className="ml-auto text-xs px-3 py-1 rounded-full font-semibold transition-all"
                         style={{
-                          background: followedEditors.has(ed.name) ? "#00FF88" : "rgba(0,255,136,0.1)",
-                          color: followedEditors.has(ed.name) ? "#07070F" : "#00FF88",
-                          border: "1px solid rgba(0,255,136,0.2)",
+                          background: followedEditors.has(ed.name) ? "#3a7d56" : "rgba(58,125,86,0.1)",
+                          color: followedEditors.has(ed.name) ? "#07070F" : "#3a7d56",
+                          border: "1px solid rgba(58,125,86,0.2)",
                         }}
                       >
                         {followedEditors.has(ed.name) ? "✓ Following" : "Follow"}
@@ -700,11 +700,11 @@ export default function BlogPage() {
               <div
                 className="rounded-2xl p-6"
                 style={{
-                  background: "linear-gradient(135deg, rgba(0,255,136,0.06) 0%, rgba(107,79,187,0.06) 100%)",
-                  border: "1px solid rgba(0,255,136,0.12)",
+                  background: "linear-gradient(135deg, rgba(58,125,86,0.06) 0%, rgba(107,79,187,0.06) 100%)",
+                  border: "1px solid rgba(58,125,86,0.12)",
                 }}
               >
-                <TrendingUp size={24} style={{ color: "#00FF88" }} className="mb-3" />
+                <TrendingUp size={24} style={{ color: "#3a7d56" }} className="mb-3" />
                 <h3 className="font-bold mb-2" style={{ color: "#F2F2F8" }}>
                   Weekly Digest
                 </h3>
@@ -713,7 +713,7 @@ export default function BlogPage() {
                 </p>
                 {newsletterDone ? (
                   <div className="py-3 text-center">
-                    <p className="font-bold text-sm" style={{ color: "#00FF88" }}>✓ You're subscribed!</p>
+                    <p className="font-bold text-sm" style={{ color: "#3a7d56" }}>✓ You're subscribed!</p>
                     <p className="text-xs mt-1" style={{ color: "#6A6A88" }}>First digest arrives Sunday morning.</p>
                   </div>
                 ) : (
@@ -734,7 +734,7 @@ export default function BlogPage() {
                     <button
                       onClick={handleSubscribe}
                       className="w-full py-2.5 rounded-lg text-sm font-bold text-black"
-                      style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)" }}
+                      style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}
                     >
                       Subscribe Free
                     </button>

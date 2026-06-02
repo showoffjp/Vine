@@ -7,7 +7,7 @@ import Footer from "@/components/Footer";
 const BG = "#07070F";
 const CARD = "#12121F";
 const BORDER = "#1E1E32";
-const GREEN = "#00FF88";
+const GREEN = "#3a7d56";
 const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
@@ -242,7 +242,7 @@ const STUDY_NOTES: Record<string, Record<number, { context: string; crossRefs: s
 const VERSE_THEMES: Record<string, { theme: string; color: string; verses: { ref: string; text: string; version: string }[] }> = {
   salvation: {
     theme: "Salvation & Grace",
-    color: "#00FF88",
+    color: "#3a7d56",
     verses: [
       { ref: "John 3:16", text: "For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.", version: "KJV" },
       { ref: "Ephesians 2:8-9", text: "For by grace are ye saved through faith; and that not of yourselves: it is the gift of God: Not of works, lest any man should boast.", version: "KJV" },

@@ -16,7 +16,7 @@ interface Milestone {
 }
 
 const CATEGORIES = [
-  { id: "salvation", label: "Salvation / Conversion", icon: "✨", color: "#00FF88" },
+  { id: "salvation", label: "Salvation / Conversion", icon: "✨", color: "#3a7d56" },
   { id: "baptism", label: "Baptism", icon: "💧", color: "#3B82F6" },
   { id: "calling", label: "Calling / Vocation", icon: "📣", color: "#F59E0B" },
   { id: "trial", label: "Trial / Dark Season", icon: "⛈️", color: "#6B7280" },
@@ -367,7 +367,7 @@ export default function FaithJourneyPage() {
   const totalSignificance = milestones.reduce((s, m) => s + m.significance, 0);
 
   const significanceLabel = (s: 1 | 2 | 3) => s === 3 ? "Major milestone" : s === 2 ? "Significant moment" : "Notable moment";
-  const significanceColor = (s: 1 | 2 | 3) => s === 3 ? "#00FF88" : s === 2 ? "#6B4FBB" : "#4A4A68";
+  const significanceColor = (s: 1 | 2 | 3) => s === 3 ? "#3a7d56" : s === 2 ? "#6B4FBB" : "#4A4A68";
 
   return (
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
@@ -376,12 +376,12 @@ export default function FaithJourneyPage() {
         {/* Hero */}
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-6 pt-2">
           <div className="flex items-center gap-2 mb-4">
-            <MapPin size={18} style={{ color: "#00FF88" }} />
-            <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#00FF88" }}>Faith Journey</span>
+            <MapPin size={18} style={{ color: "#3a7d56" }} />
+            <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#3a7d56" }}>Faith Journey</span>
           </div>
           <h1 className="text-4xl sm:text-5xl font-black mb-4">
             Your story with{" "}
-            <span style={{ background: "linear-gradient(135deg, #00FF88, #6B4FBB)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+            <span style={{ background: "linear-gradient(135deg, #3a7d56, #6B4FBB)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
               God.
             </span>
           </h1>
@@ -390,9 +390,9 @@ export default function FaithJourneyPage() {
           </p>
 
           <div className="flex flex-wrap gap-4 mb-6">
-            <div className="flex items-center gap-2 px-4 py-2 rounded-xl" style={{ background: "rgba(0,255,136,0.08)", border: "1px solid rgba(0,255,136,0.15)" }}>
-              <Star size={13} style={{ color: "#00FF88" }} />
-              <span className="text-sm font-bold" style={{ color: "#00FF88" }}>{milestones.length} milestones recorded</span>
+            <div className="flex items-center gap-2 px-4 py-2 rounded-xl" style={{ background: "rgba(58,125,86,0.08)", border: "1px solid rgba(58,125,86,0.15)" }}>
+              <Star size={13} style={{ color: "#3a7d56" }} />
+              <span className="text-sm font-bold" style={{ color: "#3a7d56" }}>{milestones.length} milestones recorded</span>
             </div>
             <div className="flex items-center gap-2 px-4 py-2 rounded-xl" style={{ background: "rgba(107,79,187,0.08)", border: "1px solid rgba(107,79,187,0.2)" }}>
               <Calendar size={13} style={{ color: "#6B4FBB" }} />
@@ -408,7 +408,7 @@ export default function FaithJourneyPage() {
           <div style={{ display: "flex" }}>
             {(["journey", "scripture", "models", "guide", "videos"] as const).map(tab => (
               <button key={tab} onClick={() => setMainTab(tab)}
-                style={{ background: "none", border: "none", borderBottom: mainTab === tab ? "2px solid #00FF88" : "2px solid transparent", color: mainTab === tab ? "#F2F2F8" : "#9898B3", fontWeight: mainTab === tab ? 700 : 500, fontSize: 14, padding: "14px 18px", cursor: "pointer" }}>
+                style={{ background: "none", border: "none", borderBottom: mainTab === tab ? "2px solid #3a7d56" : "2px solid transparent", color: mainTab === tab ? "#F2F2F8" : "#9898B3", fontWeight: mainTab === tab ? 700 : 500, fontSize: 14, padding: "14px 18px", cursor: "pointer" }}>
                 {tab === "journey" ? "My Journey" : tab === "scripture" ? "📖 Scripture" : tab === "models" ? "👤 Models" : tab === "guide" ? "📋 Guide" : "🎬 Videos"}
               </button>
             ))}
@@ -422,7 +422,7 @@ export default function FaithJourneyPage() {
               <button
                 onClick={() => { resetForm(); setShowCompose(true); }}
                 className="flex items-center gap-2 px-6 py-3 rounded-xl font-black text-sm"
-                style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)", color: "#07070F" }}
+                style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)", color: "#07070F" }}
               >
                 <Plus size={16} /> Add Milestone
               </button>
@@ -439,7 +439,7 @@ export default function FaithJourneyPage() {
               ) : (
                 <div className="relative">
                   {/* Vertical line */}
-                  <div className="absolute left-6 top-0 bottom-0 w-0.5" style={{ background: "linear-gradient(to bottom, #00FF88, #6B4FBB, rgba(107,79,187,0))" }} />
+                  <div className="absolute left-6 top-0 bottom-0 w-0.5" style={{ background: "linear-gradient(to bottom, #3a7d56, #6B4FBB, rgba(107,79,187,0))" }} />
 
                   <div className="space-y-1">
                     {years.map((year) => {
@@ -448,7 +448,7 @@ export default function FaithJourneyPage() {
                         <div key={year}>
                           {/* Year label */}
                           <div className="flex items-center gap-4 mb-2 mt-6 first:mt-0">
-                            <div className="w-12 h-12 rounded-full flex items-center justify-center text-xs font-black shrink-0 z-10 relative" style={{ background: "#07070F", border: "2px solid rgba(0,255,136,0.4)", color: "#00FF88" }}>
+                            <div className="w-12 h-12 rounded-full flex items-center justify-center text-xs font-black shrink-0 z-10 relative" style={{ background: "#07070F", border: "2px solid rgba(58,125,86,0.4)", color: "#3a7d56" }}>
                               {year}
                             </div>
                             <div className="h-px flex-1" style={{ background: "rgba(255,255,255,0.06)" }} />
@@ -531,14 +531,14 @@ export default function FaithJourneyPage() {
 
                     {/* Future dot */}
                     <div className="flex items-center gap-4 mt-6">
-                      <div className="w-12 h-12 rounded-full flex items-center justify-center text-sm font-black shrink-0 z-10 relative" style={{ background: "rgba(0,255,136,0.1)", border: "2px dashed rgba(0,255,136,0.3)", color: "#00FF88" }}>
+                      <div className="w-12 h-12 rounded-full flex items-center justify-center text-sm font-black shrink-0 z-10 relative" style={{ background: "rgba(58,125,86,0.1)", border: "2px dashed rgba(58,125,86,0.3)", color: "#3a7d56" }}>
                         →
                       </div>
                       <p className="text-sm font-semibold" style={{ color: "#4A4A68" }}>Your story continues...</p>
                       <button
                         onClick={() => { resetForm(); setShowCompose(true); }}
                         className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold"
-                        style={{ background: "rgba(0,255,136,0.08)", color: "#00FF88", border: "1px solid rgba(0,255,136,0.2)" }}
+                        style={{ background: "rgba(58,125,86,0.08)", color: "#3a7d56", border: "1px solid rgba(58,125,86,0.2)" }}
                       >
                         <Plus size={12} /> Add
                       </button>
@@ -551,7 +551,7 @@ export default function FaithJourneyPage() {
               {milestones.length > 0 && (
                 <div className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-4">
                   {[
-                    { label: "Total milestones", value: milestones.length, color: "#00FF88" },
+                    { label: "Total milestones", value: milestones.length, color: "#3a7d56" },
                     { label: "Major milestones", value: milestones.filter((m) => m.significance === 3).length, color: "#EC4899" },
                     { label: "Years of journey", value: years.length > 0 ? currentYear - years[0] + 1 : 1, color: "#6B4FBB" },
                     { label: "Categories covered", value: new Set(milestones.map((m) => m.category)).size, color: "#F59E0B" },
@@ -612,9 +612,9 @@ export default function FaithJourneyPage() {
                     <div style={{ color: "#9898B3", fontSize: 12 }}>{model.era}</div>
                   </div>
                   <p style={{ color: "#9898B3", fontSize: 14, lineHeight: 1.8, marginBottom: 16 }}>{model.bio}</p>
-                  <div style={{ background: "rgba(0,255,136,0.07)", border: "1px solid rgba(0,255,136,0.18)", borderRadius: 10, padding: "10px 14px", marginBottom: 16 }}>
-                    <span style={{ color: "#00FF88", fontWeight: 700, fontSize: 11, textTransform: "uppercase", letterSpacing: 0.8 }}>Key Lesson: </span>
-                    <span style={{ color: "#00FF88", fontSize: 13 }}>{model.key_lesson}</span>
+                  <div style={{ background: "rgba(58,125,86,0.07)", border: "1px solid rgba(58,125,86,0.18)", borderRadius: 10, padding: "10px 14px", marginBottom: 16 }}>
+                    <span style={{ color: "#3a7d56", fontWeight: 700, fontSize: 11, textTransform: "uppercase", letterSpacing: 0.8 }}>Key Lesson: </span>
+                    <span style={{ color: "#3a7d56", fontSize: 13 }}>{model.key_lesson}</span>
                   </div>
                   <blockquote style={{ borderLeft: "3px solid rgba(107,79,187,0.5)", margin: 0, paddingLeft: 14 }}>
                     <p style={{ color: "#C0C0D8", fontSize: 14, fontStyle: "italic", lineHeight: 1.7, margin: 0 }}>
@@ -638,7 +638,7 @@ export default function FaithJourneyPage() {
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {JOURNEY_GUIDE.map(phase => (
-                <div key={phase.id} style={{ background: "#12121F", border: `1px solid ${expandedGuide === phase.id ? "rgba(0,255,136,0.25)" : "#1E1E32"}`, borderRadius: 12 }}>
+                <div key={phase.id} style={{ background: "#12121F", border: `1px solid ${expandedGuide === phase.id ? "rgba(58,125,86,0.25)" : "#1E1E32"}`, borderRadius: 12 }}>
                   <button
                     onClick={() => setExpandedGuide(expandedGuide === phase.id ? null : phase.id)}
                     style={{ width: "100%", background: "none", border: "none", padding: "18px 22px", cursor: "pointer", textAlign: "left", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}
@@ -653,11 +653,11 @@ export default function FaithJourneyPage() {
                   {expandedGuide === phase.id && (
                     <div style={{ padding: "0 22px 22px" }}>
                       <p style={{ color: "#9898B3", fontSize: 14, lineHeight: 1.8, marginBottom: 18 }}>{phase.description}</p>
-                      <div style={{ background: "rgba(0,255,136,0.05)", border: "1px solid rgba(0,255,136,0.12)", borderRadius: 10, padding: 16, marginBottom: 16 }}>
-                        <div style={{ color: "#00FF88", fontWeight: 700, fontSize: 11, marginBottom: 10, textTransform: "uppercase", letterSpacing: 0.8 }}>Practices for this phase</div>
+                      <div style={{ background: "rgba(58,125,86,0.05)", border: "1px solid rgba(58,125,86,0.12)", borderRadius: 10, padding: 16, marginBottom: 16 }}>
+                        <div style={{ color: "#3a7d56", fontWeight: 700, fontSize: 11, marginBottom: 10, textTransform: "uppercase", letterSpacing: 0.8 }}>Practices for this phase</div>
                         {phase.practices.map((p, i) => (
                           <div key={i} style={{ display: "flex", gap: 8, alignItems: "flex-start", marginBottom: 8 }}>
-                            <span style={{ color: "#00FF88", flexShrink: 0, fontWeight: 700, fontSize: 13 }}>→</span>
+                            <span style={{ color: "#3a7d56", flexShrink: 0, fontWeight: 700, fontSize: 13 }}>→</span>
                             <span style={{ color: "#F2F2F8", fontSize: 13, lineHeight: 1.6 }}>{p}</span>
                           </div>
                         ))}
@@ -677,7 +677,7 @@ export default function FaithJourneyPage() {
         {mainTab === "videos" && (
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 24, marginBottom: 24 }}>
-              <h2 style={{ color: "#00FF88", fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <h2 style={{ color: "#3a7d56", fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
               <p style={{ color: "#9898B3", fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
                 Video teachings on the faith journey — conversion, spiritual growth, seasons of doubt, and what it looks like to follow Jesus across a lifetime.
               </p>
@@ -697,7 +697,7 @@ export default function FaithJourneyPage() {
                       allowFullScreen
                     />
                     <div style={{ padding: "14px 16px" }}>
-                      <h4 style={{ color: "#00FF88", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <h4 style={{ color: "#3a7d56", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
                       <p style={{ color: "#9898B3", fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
                     </div>
@@ -834,7 +834,7 @@ export default function FaithJourneyPage() {
                 disabled={!form.title.trim()}
                 className="flex-1 py-2.5 rounded-xl font-black text-sm"
                 style={{
-                  background: form.title.trim() ? "linear-gradient(135deg, #00FF88, #00BB55)" : "rgba(255,255,255,0.06)",
+                  background: form.title.trim() ? "linear-gradient(135deg, #3a7d56, #3a7d56)" : "rgba(255,255,255,0.06)",
                   color: form.title.trim() ? "#07070F" : "#4A4A68",
                 }}
               >

@@ -50,12 +50,12 @@ const creators: Record<string, CreatorProfile> = {
     followers: "84,200",
     posts: 847,
     videos: 124,
-    avatarColors: ["#00FF88", "#6B4FBB"],
+    avatarColors: ["#3a7d56", "#6B4FBB"],
     gradient: "linear-gradient(135deg, #1A1430 0%, #2D1B69 50%, #1A2A0A 100%)",
     bio: "Teaching the unchanging Word in a changing world. From Accra to the global church, I help believers go deeper into Scripture with joy and clarity. I believe every Christian — regardless of education level — can understand and love the Bible.",
     tags: ["Bible Study", "Devotionals", "Women's Ministry", "Ghanaian Church"],
     verified: true,
-    accentColor: "#00FF88",
+    accentColor: "#3a7d56",
     initials: "AC",
     aboutParagraphs: [
       "Ama Christabel grew up in Accra attending her grandmother's small Pentecostal congregation, where the Bible was read aloud every Sunday and memorized by the children in the pews. That early immersion in Scripture shaped everything that followed — her teaching style, her devotional voice, and her deep conviction that the Word of God is not the exclusive domain of seminarians.",
@@ -90,7 +90,7 @@ const creators: Record<string, CreatorProfile> = {
     followers: "52,000",
     posts: 312,
     videos: 87,
-    avatarColors: ["#00FF88", "#8B4513"],
+    avatarColors: ["#3a7d56", "#8B4513"],
     gradient: "linear-gradient(135deg, #0A1A0A 0%, #1A3A0A 100%)",
     bio: "Making deep theology accessible to everyday believers. Trained at Regent College, Vancouver — now teaching from Accra. My goal is to make Bonhoeffer and Barth as readable as a text message.",
     tags: ["Theology", "Expository Preaching", "Men's Ministry", "Reformed"],
@@ -289,12 +289,12 @@ const creators: Record<string, CreatorProfile> = {
     followers: "45,000",
     posts: 519,
     videos: 182,
-    avatarColors: ["#2A8A2A", "#00FF88"],
+    avatarColors: ["#2A8A2A", "#3a7d56"],
     gradient: "linear-gradient(135deg, #0A1A0A 0%, #1A2A0A 100%)",
     bio: "Equipping the next generation of Brazilian believers for mission. Youth pastor in São Paulo who believes Gen Z is not losing faith — they're waiting for the real thing.",
     tags: ["Youth Ministry", "Evangelism", "Discipleship", "Brazilian Church"],
     verified: false,
-    accentColor: "#00FF88",
+    accentColor: "#3a7d56",
     initials: "LF",
     aboutParagraphs: [
       "Luiz Figueiredo has spent twelve years working with teenagers and young adults in São Paulo, one of the world's largest cities and home to one of the world's most dynamic evangelical churches. He has watched the Brazilian church struggle with the same question facing the global church: how do you disciple a generation whose default mode is digital, whose attention is fragmented, and whose tolerance for inauthenticity is essentially zero?",
@@ -407,7 +407,7 @@ const creators: Record<string, CreatorProfile> = {
     followers: "31,000",
     posts: 287,
     videos: 94,
-    avatarColors: ["#00FF88", "#BB4F4F"],
+    avatarColors: ["#3a7d56", "#BB4F4F"],
     gradient: "linear-gradient(135deg, #0A1A0A 0%, #1A0A0A 100%)",
     bio: "Helping couples build Christ-centered, lasting covenant marriages. Biblical counselor in Bogotá, working at the intersection of faith, trauma, and relationship healing.",
     tags: ["Marriage", "Family", "Biblical Counseling", "Covenant"],
@@ -524,7 +524,7 @@ const creators: Record<string, CreatorProfile> = {
     followers: "73,000",
     posts: 198,
     videos: 312,
-    avatarColors: ["#6B4FBB", "#00FF88"],
+    avatarColors: ["#6B4FBB", "#3a7d56"],
     gradient: "linear-gradient(135deg, #1A0A2A 0%, #0A1A14 100%)",
     bio: "Crafting anthems of praise that move both heaven and earth. Nigerian-British worship leader based in London. I write songs that emerge from the collision of African gospel tradition and contemporary worship — recorded in London, sung in Lagos, Accra, and Houston.",
     tags: ["Worship", "Gospel", "African Diaspora", "Songwriting"],
@@ -595,7 +595,7 @@ export default async function CreatorProfilePage({ params }: { params: Promise<{
           <a
             href="/creators"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm"
-            style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)", color: "#07070F" }}
+            style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)", color: "#07070F" }}
           >
             <ArrowLeft size={14} /> Back to Creators
           </a>
@@ -666,7 +666,7 @@ export default async function CreatorProfilePage({ params }: { params: Promise<{
                   {creator.country}
                 </span>
                 {creator.verified && (
-                  <CheckCircle size={17} style={{ color: "#00FF88" }} />
+                  <CheckCircle size={17} style={{ color: "#3a7d56" }} />
                 )}
               </div>
               <p className="text-sm mb-3" style={{ color: "#8A8AA8" }}>
@@ -825,7 +825,7 @@ export default async function CreatorProfilePage({ params }: { params: Promise<{
               >
                 <h4
                   className="text-xs font-bold uppercase tracking-widest mb-3"
-                  style={{ color: "#00FF88" }}
+                  style={{ color: "#3a7d56" }}
                 >
                   You Might Also Like
                 </h4>
@@ -839,13 +839,13 @@ export default async function CreatorProfilePage({ params }: { params: Promise<{
                     >
                       <div
                         className="w-9 h-9 rounded-xl flex items-center justify-center text-xs font-black flex-shrink-0"
-                        style={{ background: "rgba(0,255,136,0.15)", color: "#00FF88" }}
+                        style={{ background: "rgba(58,125,86,0.15)", color: "#3a7d56" }}
                       >
                         <BookOpen size={14} />
                       </div>
                       <div className="min-w-0">
                         <p
-                          className="text-xs font-bold truncate transition-colors group-hover:text-[#00FF88]"
+                          className="text-xs font-bold truncate transition-colors group-hover:text-[#3a7d56]"
                           style={{ color: "#E0E0F0" }}
                         >
                           {rel.name}
@@ -866,7 +866,7 @@ export default async function CreatorProfilePage({ params }: { params: Promise<{
               >
                 <h4
                   className="text-xs font-bold uppercase tracking-widest mb-3"
-                  style={{ color: "#00FF88" }}
+                  style={{ color: "#3a7d56" }}
                 >
                   Topics
                 </h4>

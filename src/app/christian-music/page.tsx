@@ -246,7 +246,7 @@ const PLAYLISTS: Playlist[] = [
     songCount: 15,
     mood: "Uplifting",
     occasion: "Morning",
-    coverColor: "#00FF88",
+    coverColor: "#3a7d56",
   },
   {
     name: "Deep Focus Prayer",
@@ -312,7 +312,7 @@ const ARTISTS: Artist[] = [
     topSong: "Goodness of God",
     verified: true,
     bio: "Rooted in Bethel Church in Redding, California, Bethel Music has become synonymous with spontaneous, Spirit-led worship. Their music calls listeners into deeper encounter with God.",
-    accentColor: "#00FF88",
+    accentColor: "#3a7d56",
     initials: "BM",
   },
   {
@@ -454,7 +454,7 @@ const GENRE_COLORS: Record<string, string> = {
 };
 
 const MOOD_COLORS: Record<string, string> = {
-  Uplifting: "#00FF88",
+  Uplifting: "#3a7d56",
   Reflective: "#6B4FBB",
   Celebratory: "#BB7A4F",
   Peaceful: "#4FBBAA",
@@ -725,11 +725,11 @@ export default function ChristianMusicPage() {
                 display: "flex",
                 alignItems: "center",
                 gap: "5px",
-                background: isSaved ? "rgba(0,255,136,0.12)" : "transparent",
-                border: isSaved ? "1px solid rgba(0,255,136,0.3)" : "1px solid #1E1E32",
+                background: isSaved ? "rgba(58,125,86,0.12)" : "transparent",
+                border: isSaved ? "1px solid rgba(58,125,86,0.3)" : "1px solid #1E1E32",
                 borderRadius: "8px",
                 padding: "5px 10px",
-                color: isSaved ? "#00FF88" : "#9898B3",
+                color: isSaved ? "#3a7d56" : "#9898B3",
                 fontSize: "12px",
                 fontWeight: 600,
                 cursor: "pointer",
@@ -739,8 +739,8 @@ export default function ChristianMusicPage() {
             >
               <Bookmark
                 size={13}
-                fill={isSaved ? "#00FF88" : "none"}
-                style={{ color: isSaved ? "#00FF88" : "#9898B3" }}
+                fill={isSaved ? "#3a7d56" : "none"}
+                style={{ color: isSaved ? "#3a7d56" : "#9898B3" }}
               />
               {isSaved ? "Saved" : "Save"}
             </button>
@@ -758,7 +758,7 @@ export default function ChristianMusicPage() {
       <section
         style={{
           background:
-            "linear-gradient(180deg, rgba(0,255,136,0.08) 0%, rgba(107,79,187,0.12) 50%, transparent 100%)",
+            "linear-gradient(180deg, rgba(58,125,86,0.08) 0%, rgba(107,79,187,0.12) 50%, transparent 100%)",
           padding: "56px 24px 48px",
           textAlign: "center",
         }}
@@ -768,15 +768,15 @@ export default function ChristianMusicPage() {
             display: "inline-flex",
             alignItems: "center",
             gap: "8px",
-            background: "rgba(0,255,136,0.1)",
-            border: "1px solid rgba(0,255,136,0.25)",
+            background: "rgba(58,125,86,0.1)",
+            border: "1px solid rgba(58,125,86,0.25)",
             borderRadius: "100px",
             padding: "6px 16px",
             marginBottom: "20px",
           }}
         >
-          <Music size={13} style={{ color: "#00FF88" }} />
-          <span style={{ color: "#00FF88", fontSize: "11px", fontWeight: 700, letterSpacing: "0.1em" }}>
+          <Music size={13} style={{ color: "#3a7d56" }} />
+          <span style={{ color: "#3a7d56", fontSize: "11px", fontWeight: 700, letterSpacing: "0.1em" }}>
             VINE · MUSIC
           </span>
         </div>
@@ -787,7 +787,7 @@ export default function ChristianMusicPage() {
             fontWeight: 900,
             lineHeight: 1.05,
             marginBottom: "12px",
-            background: "linear-gradient(135deg, #FFFFFF 0%, #00FF88 60%, #6B4FBB 100%)",
+            background: "linear-gradient(135deg, #FFFFFF 0%, #3a7d56 60%, #6B4FBB 100%)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
             backgroundClip: "text",
@@ -835,8 +835,8 @@ export default function ChristianMusicPage() {
                 style={{
                   background: "transparent",
                   border: "none",
-                  borderBottom: isActive ? "2px solid #00FF88" : "2px solid transparent",
-                  color: isActive ? "#00FF88" : "#9898B3",
+                  borderBottom: isActive ? "2px solid #3a7d56" : "2px solid transparent",
+                  color: isActive ? "#3a7d56" : "#9898B3",
                   padding: "16px 20px",
                   fontSize: "14px",
                   fontWeight: isActive ? 700 : 500,
@@ -907,19 +907,19 @@ export default function ChristianMusicPage() {
                 <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
                   {GENRES.map((g) => {
                     const active = genreFilter === g;
-                    const col = GENRE_COLORS[g] ?? "#00FF88";
+                    const col = GENRE_COLORS[g] ?? "#3a7d56";
                     return (
                       <button
                         key={g}
                         onClick={() => setGenreFilter(g)}
                         style={{
-                          background: active ? (g === "All" ? "rgba(0,255,136,0.15)" : `${col}18`) : "transparent",
+                          background: active ? (g === "All" ? "rgba(58,125,86,0.15)" : `${col}18`) : "transparent",
                           border: active
-                            ? `1px solid ${g === "All" ? "rgba(0,255,136,0.4)" : `${col}50`}`
+                            ? `1px solid ${g === "All" ? "rgba(58,125,86,0.4)" : `${col}50`}`
                             : "1px solid #1E1E32",
                           borderRadius: "100px",
                           padding: "5px 14px",
-                          color: active ? (g === "All" ? "#00FF88" : col) : "#9898B3",
+                          color: active ? (g === "All" ? "#3a7d56" : col) : "#9898B3",
                           fontSize: "12px",
                           fontWeight: active ? 700 : 500,
                           cursor: "pointer",
@@ -941,19 +941,19 @@ export default function ChristianMusicPage() {
                 <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
                   {MOODS.map((m) => {
                     const active = moodFilter === m;
-                    const col = MOOD_COLORS[m] ?? "#00FF88";
+                    const col = MOOD_COLORS[m] ?? "#3a7d56";
                     return (
                       <button
                         key={m}
                         onClick={() => setMoodFilter(m)}
                         style={{
-                          background: active ? (m === "All" ? "rgba(0,255,136,0.15)" : `${col}18`) : "transparent",
+                          background: active ? (m === "All" ? "rgba(58,125,86,0.15)" : `${col}18`) : "transparent",
                           border: active
-                            ? `1px solid ${m === "All" ? "rgba(0,255,136,0.4)" : `${col}50`}`
+                            ? `1px solid ${m === "All" ? "rgba(58,125,86,0.4)" : `${col}50`}`
                             : "1px solid #1E1E32",
                           borderRadius: "100px",
                           padding: "5px 14px",
-                          color: active ? (m === "All" ? "#00FF88" : col) : "#9898B3",
+                          color: active ? (m === "All" ? "#3a7d56" : col) : "#9898B3",
                           fontSize: "12px",
                           fontWeight: active ? 700 : 500,
                           cursor: "pointer",
@@ -1193,7 +1193,7 @@ export default function ChristianMusicPage() {
                           {artist.name}
                         </p>
                         {artist.verified && (
-                          <BadgeCheck size={15} style={{ color: "#00FF88", flexShrink: 0 }} />
+                          <BadgeCheck size={15} style={{ color: "#3a7d56", flexShrink: 0 }} />
                         )}
                       </div>
                       <p style={{ color: "#9898B3", fontSize: "12px", marginBottom: "4px" }}>{artist.genre}</p>
@@ -1249,9 +1249,9 @@ export default function ChristianMusicPage() {
                       borderRadius: "8px",
                     }}
                   >
-                    <Music size={11} style={{ color: "#00FF88" }} />
+                    <Music size={11} style={{ color: "#3a7d56" }} />
                     <span>Top song: </span>
-                    <span style={{ color: "#00FF88", fontWeight: 600 }}>{artist.topSong}</span>
+                    <span style={{ color: "#3a7d56", fontWeight: 600 }}>{artist.topSong}</span>
                   </div>
 
                   <p style={{ color: "#6B4FBB", fontSize: "11px", marginTop: "12px", textAlign: "right", fontWeight: 600 }}>
@@ -1348,7 +1348,7 @@ export default function ChristianMusicPage() {
                 style={{
                   padding: "24px 28px 20px",
                   borderBottom: "1px solid #1E1E32",
-                  background: "linear-gradient(135deg, rgba(107,79,187,0.12) 0%, rgba(0,255,136,0.06) 100%)",
+                  background: "linear-gradient(135deg, rgba(107,79,187,0.12) 0%, rgba(58,125,86,0.06) 100%)",
                 }}
               >
                 <h3 style={{ fontWeight: 900, fontSize: "24px", marginBottom: "4px" }}>
@@ -1568,7 +1568,7 @@ export default function ChristianMusicPage() {
                   <div>
                     <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "2px" }}>
                       <h2 style={{ fontWeight: 900, fontSize: "20px" }}>{selectedArtist.name}</h2>
-                      <BadgeCheck size={17} style={{ color: "#00FF88" }} />
+                      <BadgeCheck size={17} style={{ color: "#3a7d56" }} />
                     </div>
                     <p style={{ color: "#9898B3", fontSize: "13px" }}>{selectedArtist.genre}</p>
                   </div>
@@ -1634,8 +1634,8 @@ export default function ChristianMusicPage() {
               {/* Top song */}
               <div
                 style={{
-                  background: "rgba(0,255,136,0.06)",
-                  border: "1px solid rgba(0,255,136,0.18)",
+                  background: "rgba(58,125,86,0.06)",
+                  border: "1px solid rgba(58,125,86,0.18)",
                   borderRadius: "12px",
                   padding: "14px 16px",
                   display: "flex",
@@ -1644,10 +1644,10 @@ export default function ChristianMusicPage() {
                   marginBottom: "20px",
                 }}
               >
-                <Music size={16} style={{ color: "#00FF88", flexShrink: 0 }} />
+                <Music size={16} style={{ color: "#3a7d56", flexShrink: 0 }} />
                 <div>
                   <p style={{ color: "#9898B3", fontSize: "11px", marginBottom: "2px" }}>Top Song</p>
-                  <p style={{ color: "#00FF88", fontWeight: 700, fontSize: "14px" }}>
+                  <p style={{ color: "#3a7d56", fontWeight: 700, fontSize: "14px" }}>
                     {selectedArtist.topSong}
                   </p>
                 </div>

@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const THEOLOGY = [
   { title: "Addiction Is a Spiritual Condition", verse: "Romans 7:15", body: "'I do not understand what I do. For what I want to do I do not do, but what I hate I do' (Romans 7:15). Paul's description of the war within is the addict's experience exactly: compulsion, self-betrayal, and the desperate inability to do what you most want to do. Addiction is not primarily a weakness of will — it is a theological condition: the bondage of sin given its most visceral expression." },

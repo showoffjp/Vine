@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const SERIF = "var(--font-cormorant, Georgia, serif)";
 
@@ -132,7 +132,7 @@ const FRUITS: Fruit[] = [
     name: "Self-Control",
     greek: "ἐγκράτεια",
     translit: "enkrateia",
-    color: "#00FF88",
+    color: "#3a7d56",
     icon: "🛑",
     meaning: "Enkrateia is mastery over one's own desires, impulses, and appetites — literally 'holding power within.' It is the inner government that keeps passions in their proper place rather than being ruled by them. Paul compares the Christian life to an athlete who 'exercises self-control in all things' (1 Corinthians 9:25). It comes last not as least but as the crowning evidence that the Spirit, not the flesh, now governs the believer's desires.",
     contrast: "Against the entire catalog of fleshly indulgence — 'sexual immorality... drunkenness, orgies' (Galatians 5:19–21). The flesh is ruled by appetite; the Spirit-led life rules its appetites.",

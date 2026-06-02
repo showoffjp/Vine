@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const THEOLOGY = [
   { title: "The Trinity as Community's Ground", verse: "John 17:21", body: "The Christian God is not a solitary being but a communion — Father, Son, and Spirit in eternal relation. Jesus prays that his followers would be one 'just as you are in me and I am in you' (John 17:21). Human community is not an imitation of God's community but a participation in it. The church at its deepest is not a club or an institution but an extension of the Trinitarian life into history." },

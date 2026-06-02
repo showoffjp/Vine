@@ -35,7 +35,7 @@ const CATEGORY_CONFIG: Record<GoalCategory, { color: string; icon: typeof Target
   Scripture:   { color: "#3B82F6", icon: BookOpen },
   Prayer:      { color: "#8B5CF6", icon: Heart },
   Service:     { color: "#10B981", icon: Users },
-  Community:   { color: "#00FF88", icon: Users },
+  Community:   { color: "#3a7d56", icon: Users },
   Discipline:  { color: "#F59E0B", icon: Zap },
   Evangelism:  { color: "#EF4444", icon: Flame },
   Other:       { color: "#6A6A88", icon: Target },
@@ -152,8 +152,8 @@ export default function GoalsPage() {
           {/* Header */}
           <div className="mb-8">
             <div className="flex items-center gap-2 mb-2">
-              <Target size={18} style={{ color: "#00FF88" }} />
-              <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#00FF88" }}>Faith Goals</span>
+              <Target size={18} style={{ color: "#3a7d56" }} />
+              <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#3a7d56" }}>Faith Goals</span>
             </div>
             <div className="flex items-end justify-between flex-wrap gap-4">
               <div>
@@ -163,7 +163,7 @@ export default function GoalsPage() {
               <button
                 onClick={() => setShowAdd(true)}
                 className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold text-black"
-                style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)" }}
+                style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}
               >
                 <Plus size={14} /> New Goal
               </button>
@@ -174,7 +174,7 @@ export default function GoalsPage() {
           {totalGoals > 0 && (
             <div className="grid grid-cols-3 gap-4 mb-8">
               {[
-                { label: "Total Goals", value: totalGoals, color: "#00FF88" },
+                { label: "Total Goals", value: totalGoals, color: "#3a7d56" },
                 { label: "Completed", value: completedCount, color: "#10B981" },
                 { label: "Avg Progress", value: `${overallProgress}%`, color: "#6B4FBB" },
               ].map((s) => (
@@ -194,9 +194,9 @@ export default function GoalsPage() {
                 onClick={() => setActiveTab(tab)}
                 className="flex-1 py-2 rounded-lg text-sm font-semibold capitalize transition-all"
                 style={{
-                  background: activeTab === tab ? "rgba(0,255,136,0.12)" : "transparent",
-                  color: activeTab === tab ? "#00FF88" : "#6A6A88",
-                  border: activeTab === tab ? "1px solid rgba(0,255,136,0.2)" : "1px solid transparent",
+                  background: activeTab === tab ? "rgba(58,125,86,0.12)" : "transparent",
+                  color: activeTab === tab ? "#3a7d56" : "#6A6A88",
+                  border: activeTab === tab ? "1px solid rgba(58,125,86,0.2)" : "1px solid transparent",
                 }}
               >
                 {tab === "active" ? `Active (${active.length})` : tab === "completed" ? `Done (${completed.length})` : tab === "theology" ? "📖 Theology" : tab === "voices" ? "🎓 Voices" : "🎬 Videos"}
@@ -385,7 +385,7 @@ export default function GoalsPage() {
           {showAdd && (
             <div
               className="rounded-2xl p-6 mb-6"
-              style={{ background: "#12121F", border: "1px solid rgba(0,255,136,0.2)" }}
+              style={{ background: "#12121F", border: "1px solid rgba(58,125,86,0.2)" }}
             >
               <div className="flex items-center justify-between mb-5">
                 <h3 className="font-black" style={{ color: "#F2F2F8" }}>New Goal</h3>
@@ -468,7 +468,7 @@ export default function GoalsPage() {
                     onClick={addGoal}
                     disabled={!newTitle.trim() || !newTarget}
                     className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-bold text-black transition-all"
-                    style={{ background: newTitle.trim() && newTarget ? "linear-gradient(135deg, #00FF88, #00BB55)" : "#1E1E32", color: newTitle.trim() && newTarget ? "#07070F" : "#4A4A68" }}
+                    style={{ background: newTitle.trim() && newTarget ? "linear-gradient(135deg, #3a7d56, #3a7d56)" : "#1E1E32", color: newTitle.trim() && newTarget ? "#07070F" : "#4A4A68" }}
                   >
                     <Target size={14} /> Add Goal
                   </button>
@@ -480,15 +480,15 @@ export default function GoalsPage() {
           {/* Scripture */}
           <div
             className="mt-8 rounded-2xl p-6 text-center"
-            style={{ background: "linear-gradient(135deg, rgba(0,255,136,0.06), rgba(107,79,187,0.06))", border: "1px solid rgba(0,255,136,0.12)" }}
+            style={{ background: "linear-gradient(135deg, rgba(58,125,86,0.06), rgba(107,79,187,0.06))", border: "1px solid rgba(58,125,86,0.12)" }}
           >
-            <Music size={22} style={{ color: "#00FF88" }} className="mx-auto mb-3" />
+            <Music size={22} style={{ color: "#3a7d56" }} className="mx-auto mb-3" />
             <p className="text-sm italic mb-1" style={{ color: "#C0C0D8" }}>
               &ldquo;Let us not become weary in doing good, for at the proper time we will reap a harvest if we do not give up.&rdquo;
             </p>
             <p className="text-xs font-bold" style={{ color: "#4A4A68" }}>— Galatians 6:9</p>
             <div className="flex items-center justify-center gap-4 mt-4">
-              <a href="/verse-memory" className="flex items-center gap-1.5 text-xs font-semibold" style={{ color: "#00FF88" }}>
+              <a href="/verse-memory" className="flex items-center gap-1.5 text-xs font-semibold" style={{ color: "#3a7d56" }}>
                 <BookOpen size={12} /> Verse Memory <ChevronRight size={11} />
               </a>
               <a href="/journal" className="flex items-center gap-1.5 text-xs font-semibold" style={{ color: "#6B4FBB" }}>
@@ -505,9 +505,9 @@ export default function GoalsPage() {
                 Christian goal-setting is not the same as secular goal-setting with a Bible verse added. Here is how a gospel framework changes everything.
               </p>
               {[
-                { title: "Goals Flow From Identity, Not the Other Way", color: "#00FF88", desc: "The world says: achieve the goal, become the person. The gospel says: you are already God's beloved child — now live accordingly. Christian goals are an expression of who you already are in Christ, not an attempt to become someone worth loving. This removes the crushing weight of self-justification from the goal-setting process." },
+                { title: "Goals Flow From Identity, Not the Other Way", color: "#3a7d56", desc: "The world says: achieve the goal, become the person. The gospel says: you are already God's beloved child — now live accordingly. Christian goals are an expression of who you already are in Christ, not an attempt to become someone worth loving. This removes the crushing weight of self-justification from the goal-setting process." },
                 { title: "Desire Must Be Trained, Not Just Directed", color: "#A080FF", desc: "James K.A. Smith's insight: setting a goal without training the desires beneath it is like putting a new steering wheel on a car with a broken transmission. The practices you build around your goals matter more than the goals themselves — they are re-shaping what you love, which determines what you actually do." },
-                { title: "Sabbath Rest Is Built Into the Design", color: "#00FF88", desc: "God's pattern of six days of work and one day of rest is not a suggestion — it is a creation rhythm built into the structure of reality. Goals that do not include Sabbath will burn out their keeper. The Sabbath commands you to put the goal down one day in seven and trust God with what you cannot control." },
+                { title: "Sabbath Rest Is Built Into the Design", color: "#3a7d56", desc: "God's pattern of six days of work and one day of rest is not a suggestion — it is a creation rhythm built into the structure of reality. Goals that do not include Sabbath will burn out their keeper. The Sabbath commands you to put the goal down one day in seven and trust God with what you cannot control." },
                 { title: "Failure Is Formative, Not Final", color: "#F59E0B", desc: "The biblical narrative is full of people who failed at their goals: Moses failed to enter the promised land, Peter denied Christ, Jonah ran from his calling. In each case, the failure was not the end of the story. Christian goal-setting includes a theology of failure — not as an excuse for irresponsibility, but as a refusal to make achievement the measure of worth." },
                 { title: "Some Goals Are Given, Not Chosen", color: "#A080FF", desc: "The language of vocation (calling) reminds us that not all goals are self-selected projects. God calls people to specific work in specific places — and sometimes the goal that shapes a life is not the one a person would have chosen. Openness to calling requires holding goals loosely, with open hands rather than clenched fists." },
               ].map((item, i) => (
@@ -524,8 +524,8 @@ export default function GoalsPage() {
               <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 80 }}>
                 {VOICES_GOALS.map(v => (
                   <button key={v.id} onClick={() => setSelectedVoice(v.id)}
-                    style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? "rgba(0,255,136,0.4)" : "#1E1E32"}`, background: selectedVoice === v.id ? "rgba(0,255,136,0.08)" : "#12121F", cursor: "pointer" }}>
-                    <div style={{ fontSize: 13, fontWeight: 700, color: selectedVoice === v.id ? "#00FF88" : "#F2F2F8", marginBottom: 2 }}>{v.name}</div>
+                    style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? "rgba(58,125,86,0.4)" : "#1E1E32"}`, background: selectedVoice === v.id ? "rgba(58,125,86,0.08)" : "#12121F", cursor: "pointer" }}>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: selectedVoice === v.id ? "#3a7d56" : "#F2F2F8", marginBottom: 2 }}>{v.name}</div>
                     <div style={{ fontSize: 11, color: "#9898B3" }}>{v.era}</div>
                   </button>
                 ))}
@@ -535,7 +535,7 @@ export default function GoalsPage() {
                 <h2 style={{ fontSize: 24, fontWeight: 800, marginBottom: 4, color: "#F2F2F8" }}>{voiceItem.name}</h2>
                 <div style={{ fontSize: 13, color: "#9898B3", marginBottom: 20 }}>{voiceItem.era}</div>
                 <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.8, marginBottom: 24 }}>{voiceItem.bio}</p>
-                <div style={{ background: "#07070F", borderRadius: 12, padding: 20, borderLeft: "3px solid #00FF88", marginBottom: 24 }}>
+                <div style={{ background: "#07070F", borderRadius: 12, padding: 20, borderLeft: "3px solid #3a7d56", marginBottom: 24 }}>
                   <p style={{ fontSize: 15, color: "#E0E0F0", lineHeight: 1.75, fontStyle: "italic" }}>&ldquo;{voiceItem.quote}&rdquo;</p>
                 </div>
                 <div>
@@ -549,7 +549,7 @@ export default function GoalsPage() {
           {activeTab === "videos" && (
             <div>
               <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 24, marginBottom: 24 }}>
-                <h2 style={{ color: "#00FF88", fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+                <h2 style={{ color: "#3a7d56", fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
                 <p style={{ color: "#9898B3", fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
                   Video teachings on setting faith goals, spiritual growth, and pursuing God's calling with intentionality.
                 </p>
@@ -569,7 +569,7 @@ export default function GoalsPage() {
                         allowFullScreen
                       />
                       <div style={{ padding: "14px 16px" }}>
-                        <h4 style={{ color: "#00FF88", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                        <h4 style={{ color: "#3a7d56", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                         <p style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
                         <p style={{ color: "#9898B3", fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
                       </div>

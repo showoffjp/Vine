@@ -26,7 +26,7 @@ interface StudyPlan {
 const NOTE_TYPES = [
   { id: "observation", label: "Observation", icon: "👁️", color: "#3B82F6", desc: "What does it say?" },
   { id: "interpretation", label: "Interpretation", icon: "🧠", color: "#6B4FBB", desc: "What does it mean?" },
-  { id: "application", label: "Application", icon: "⚡", color: "#00FF88", desc: "How do I apply it?" },
+  { id: "application", label: "Application", icon: "⚡", color: "#3a7d56", desc: "How do I apply it?" },
   { id: "question", label: "Question", icon: "❓", color: "#F59E0B", desc: "What puzzles me?" },
   { id: "cross-ref", label: "Cross-Reference", icon: "🔗", color: "#EC4899", desc: "Related passages" },
 ] as const;
@@ -228,14 +228,14 @@ export default function BibleStudyPage() {
         {/* Header */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8 pt-2">
           <div className="flex items-center gap-2 mb-4">
-            <BookOpen size={18} style={{ color: "#00FF88" }} />
-            <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#00FF88" }}>Bible Study</span>
+            <BookOpen size={18} style={{ color: "#3a7d56" }} />
+            <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#3a7d56" }}>Bible Study</span>
           </div>
           <div className="flex items-start justify-between gap-4">
             <div>
               <h1 className="text-4xl sm:text-5xl font-black mb-3">
                 Study the{" "}
-                <span style={{ background: "linear-gradient(135deg, #00FF88, #6B4FBB)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+                <span style={{ background: "linear-gradient(135deg, #3a7d56, #6B4FBB)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
                   Word deeply.
                 </span>
               </h1>
@@ -246,7 +246,7 @@ export default function BibleStudyPage() {
             <button
               onClick={() => setShowNewPlan(true)}
               className="shrink-0 flex items-center gap-2 px-5 py-2.5 rounded-xl font-black text-sm"
-              style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)", color: "#07070F" }}
+              style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)", color: "#07070F" }}
             >
               <Plus size={15} /> New Study
             </button>
@@ -292,7 +292,7 @@ export default function BibleStudyPage() {
               </div>
               <div className="flex gap-3 mt-5">
                 <button onClick={() => setShowNewPlan(false)} className="flex-1 py-2.5 rounded-xl font-bold text-sm" style={{ background: "rgba(255,255,255,0.04)", color: "#8A8AA8", border: "1px solid rgba(255,255,255,0.08)" }}>Cancel</button>
-                <button onClick={addStudyPlan} className="flex-1 py-2.5 rounded-xl font-black text-sm" style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)", color: "#07070F" }}>Start Study</button>
+                <button onClick={addStudyPlan} className="flex-1 py-2.5 rounded-xl font-black text-sm" style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)", color: "#07070F" }}>Start Study</button>
               </div>
             </div>
           </div>
@@ -367,7 +367,7 @@ export default function BibleStudyPage() {
                   onClick={addNote}
                   disabled={!newNoteForm.content.trim()}
                   className="flex-1 py-2.5 rounded-xl font-black text-sm"
-                  style={{ background: newNoteForm.content.trim() ? "linear-gradient(135deg, #00FF88, #00BB55)" : "rgba(255,255,255,0.06)", color: newNoteForm.content.trim() ? "#07070F" : "#4A4A68" }}
+                  style={{ background: newNoteForm.content.trim() ? "linear-gradient(135deg, #3a7d56, #3a7d56)" : "rgba(255,255,255,0.06)", color: newNoteForm.content.trim() ? "#07070F" : "#4A4A68" }}
                 >
                   Save Note
                 </button>
@@ -390,17 +390,17 @@ export default function BibleStudyPage() {
                       onClick={() => { setSelectedPlanId(p.id); setSelectedChapter(null); }}
                       className="w-full text-left p-3 rounded-xl transition-all"
                       style={{
-                        background: selectedPlanId === p.id ? "rgba(0,255,136,0.08)" : "#12121F",
-                        border: selectedPlanId === p.id ? "1px solid rgba(0,255,136,0.25)" : "1px solid #1E1E32",
+                        background: selectedPlanId === p.id ? "rgba(58,125,86,0.08)" : "#12121F",
+                        border: selectedPlanId === p.id ? "1px solid rgba(58,125,86,0.25)" : "1px solid #1E1E32",
                       }}
                     >
                       <p className="font-bold text-sm mb-1 truncate" style={{ color: "#F2F2F8" }}>{p.book}</p>
                       <p className="text-[10px] truncate mb-1.5" style={{ color: "#4A4A68" }}>{p.title}</p>
                       <div className="flex items-center gap-2">
                         <div className="flex-1 h-1 rounded-full" style={{ background: "#1E1E32" }}>
-                          <div className="h-1 rounded-full" style={{ width: `${pct}%`, background: "#00FF88" }} />
+                          <div className="h-1 rounded-full" style={{ width: `${pct}%`, background: "#3a7d56" }} />
                         </div>
-                        <span className="text-[10px] font-bold" style={{ color: "#00FF88" }}>{pct}%</span>
+                        <span className="text-[10px] font-bold" style={{ color: "#3a7d56" }}>{pct}%</span>
                       </div>
                     </button>
                   );
@@ -419,19 +419,19 @@ export default function BibleStudyPage() {
             {selectedPlan && bookInfo ? (
               <div className="flex-1 min-w-0">
                 {/* Plan header */}
-                <div className="rounded-2xl p-6 mb-5" style={{ background: "linear-gradient(135deg, rgba(0,255,136,0.06) 0%, rgba(107,79,187,0.04) 100%)", border: "1px solid rgba(0,255,136,0.15)" }}>
+                <div className="rounded-2xl p-6 mb-5" style={{ background: "linear-gradient(135deg, rgba(58,125,86,0.06) 0%, rgba(107,79,187,0.04) 100%)", border: "1px solid rgba(58,125,86,0.15)" }}>
                   <div className="flex items-start justify-between gap-4 mb-4">
                     <div>
                       <h2 className="font-black text-2xl mb-1" style={{ color: "#F2F2F8" }}>{selectedPlan.title}</h2>
                       <p className="text-sm" style={{ color: "#6A6A88" }}>{selectedPlan.book} · {bookInfo.testament === "OT" ? "Old Testament" : "New Testament"} · Started {selectedPlan.startDate}</p>
                     </div>
                     <div className="text-right shrink-0">
-                      <p className="text-3xl font-black" style={{ color: "#00FF88" }}>{progressPct}%</p>
+                      <p className="text-3xl font-black" style={{ color: "#3a7d56" }}>{progressPct}%</p>
                       <p className="text-xs" style={{ color: "#4A4A68" }}>{selectedPlan.completedChapters.length}/{selectedPlan.totalChapters} chapters</p>
                     </div>
                   </div>
                   <div className="w-full h-2 rounded-full" style={{ background: "rgba(255,255,255,0.06)" }}>
-                    <div className="h-2 rounded-full transition-all" style={{ width: `${progressPct}%`, background: "linear-gradient(90deg, #00FF88, #6B4FBB)" }} />
+                    <div className="h-2 rounded-full transition-all" style={{ width: `${progressPct}%`, background: "linear-gradient(90deg, #3a7d56, #6B4FBB)" }} />
                   </div>
                 </div>
 
@@ -443,9 +443,9 @@ export default function BibleStudyPage() {
                       onClick={() => setActiveView(v)}
                       className="px-4 py-2 rounded-xl text-sm font-bold capitalize"
                       style={{
-                        background: activeView === v ? "rgba(0,255,136,0.12)" : "rgba(255,255,255,0.04)",
-                        border: activeView === v ? "1px solid rgba(0,255,136,0.3)" : "1px solid rgba(255,255,255,0.08)",
-                        color: activeView === v ? "#00FF88" : "#6A6A88",
+                        background: activeView === v ? "rgba(58,125,86,0.12)" : "rgba(255,255,255,0.04)",
+                        border: activeView === v ? "1px solid rgba(58,125,86,0.3)" : "1px solid rgba(255,255,255,0.08)",
+                        color: activeView === v ? "#3a7d56" : "#6A6A88",
                       }}
                     >
                       {v === "plan" ? "📋 Chapter Tracker" : `📝 Notes (${allPlanNotes.length})`}
@@ -473,9 +473,9 @@ export default function BibleStudyPage() {
                               onDoubleClick={() => toggleChapter(ch)}
                               className="w-10 h-10 rounded-lg flex items-center justify-center text-xs font-bold relative transition-all"
                               style={{
-                                background: done ? "rgba(0,255,136,0.15)" : selected ? "rgba(107,79,187,0.15)" : "rgba(255,255,255,0.04)",
-                                border: selected ? "1px solid rgba(107,79,187,0.5)" : done ? "1px solid rgba(0,255,136,0.35)" : "1px solid rgba(255,255,255,0.08)",
-                                color: done ? "#00FF88" : selected ? "#9B8FEB" : "#6A6A88",
+                                background: done ? "rgba(58,125,86,0.15)" : selected ? "rgba(107,79,187,0.15)" : "rgba(255,255,255,0.04)",
+                                border: selected ? "1px solid rgba(107,79,187,0.5)" : done ? "1px solid rgba(58,125,86,0.35)" : "1px solid rgba(255,255,255,0.08)",
+                                color: done ? "#3a7d56" : selected ? "#9B8FEB" : "#6A6A88",
                               }}
                               title={`Chapter ${ch}${done ? " (completed)" : ""}${hasNotes ? " — has notes" : ""} — double-click to toggle completion`}
                             >
@@ -498,7 +498,7 @@ export default function BibleStudyPage() {
                           <button
                             onClick={() => setShowNewNote(true)}
                             className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold"
-                            style={{ background: "rgba(0,255,136,0.1)", color: "#00FF88", border: "1px solid rgba(0,255,136,0.2)" }}
+                            style={{ background: "rgba(58,125,86,0.1)", color: "#3a7d56", border: "1px solid rgba(58,125,86,0.2)" }}
                           >
                             <Plus size={12} /> Add Note
                           </button>
@@ -507,7 +507,7 @@ export default function BibleStudyPage() {
                           <div className="text-center py-8" style={{ color: "#4A4A68" }}>
                             <Lightbulb size={32} className="mx-auto mb-2 opacity-30" />
                             <p className="text-sm">No notes for this chapter yet.</p>
-                            <button onClick={() => setShowNewNote(true)} className="mt-3 text-xs font-bold" style={{ color: "#00FF88" }}>Add your first note →</button>
+                            <button onClick={() => setShowNewNote(true)} className="mt-3 text-xs font-bold" style={{ color: "#3a7d56" }}>Add your first note →</button>
                           </div>
                         ) : (
                           <div className="space-y-3">
@@ -548,7 +548,7 @@ export default function BibleStudyPage() {
                       <button
                         onClick={() => setShowNewNote(true)}
                         className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-sm font-bold"
-                        style={{ background: "rgba(0,255,136,0.1)", color: "#00FF88", border: "1px solid rgba(0,255,136,0.2)" }}
+                        style={{ background: "rgba(58,125,86,0.1)", color: "#3a7d56", border: "1px solid rgba(58,125,86,0.2)" }}
                       >
                         <Plus size={14} /> Note
                       </button>
@@ -598,7 +598,7 @@ export default function BibleStudyPage() {
                 <div className="text-center">
                   <BookOpen size={48} className="mx-auto mb-4 opacity-20" />
                   <p className="font-black text-lg mb-2" style={{ color: "#F2F2F8" }}>Choose a study to begin</p>
-                  <button onClick={() => setShowNewPlan(true)} className="flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-sm mx-auto mt-3" style={{ background: "rgba(0,255,136,0.1)", color: "#00FF88", border: "1px solid rgba(0,255,136,0.2)" }}>
+                  <button onClick={() => setShowNewPlan(true)} className="flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-sm mx-auto mt-3" style={{ background: "rgba(58,125,86,0.1)", color: "#3a7d56", border: "1px solid rgba(58,125,86,0.2)" }}>
                     <Plus size={14} /> Start your first study
                   </button>
                 </div>

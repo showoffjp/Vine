@@ -24,7 +24,7 @@ const causes = [
     raised: 312400,
     goal: 500000,
     donors: 2103,
-    color: "#00FF88",
+    color: "#3a7d56",
     urgency: "Ongoing",
     impact: "$100 funds one day of a professional translator's work",
   },
@@ -137,12 +137,12 @@ export default function GivingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-14">
           <div className="text-center max-w-3xl mx-auto">
             <div className="flex items-center justify-center gap-2 mb-4">
-              <Heart size={22} style={{ color: "#00FF88" }} />
-              <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#00FF88" }}>Giving</span>
+              <Heart size={22} style={{ color: "#3a7d56" }} />
+              <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#3a7d56" }}>Giving</span>
             </div>
             <h1 className="text-4xl sm:text-5xl font-black mb-5">
               Give where it{" "}
-              <span style={{ background: "linear-gradient(135deg, #00FF88, #10B981)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+              <span style={{ background: "linear-gradient(135deg, #3a7d56, #10B981)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
                 changes eternity.
               </span>
             </h1>
@@ -156,7 +156,7 @@ export default function GivingPage() {
                 { icon: Users, label: "22,000+ donors" },
               ].map(({ icon: Icon, label }) => (
                 <div key={label} className="flex items-center gap-2" style={{ color: "#8A8AA8" }}>
-                  <Icon size={14} style={{ color: "#00FF88" }} />
+                  <Icon size={14} style={{ color: "#3a7d56" }} />
                   {label}
                 </div>
               ))}
@@ -243,8 +243,8 @@ export default function GivingPage() {
 
         {/* One-time vs recurring */}
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="rounded-2xl p-10 text-center" style={{ background: "linear-gradient(135deg, rgba(0,255,136,0.06) 0%, rgba(16,185,129,0.06) 100%)", border: "1px solid rgba(0,255,136,0.15)" }}>
-            <Heart size={32} style={{ color: "#00FF88" }} className="mx-auto mb-4" />
+          <div className="rounded-2xl p-10 text-center" style={{ background: "linear-gradient(135deg, rgba(58,125,86,0.06) 0%, rgba(16,185,129,0.06) 100%)", border: "1px solid rgba(58,125,86,0.15)" }}>
+            <Heart size={32} style={{ color: "#3a7d56" }} className="mx-auto mb-4" />
             <h3 className="text-2xl font-black mb-3" style={{ color: "#F2F2F8" }}>Become a Monthly Partner</h3>
             <p className="text-base mb-6 max-w-lg mx-auto" style={{ color: "#6A6A88" }}>
               Recurring gifts allow us to plan, commit to missionaries long-term, and keep Vine free for the global church.
@@ -252,7 +252,7 @@ export default function GivingPage() {
             {monthlyConfirmed ? (
               <div className="py-4">
                 <div className="text-4xl mb-3">🎉</div>
-                <h4 className="text-xl font-black mb-2" style={{ color: "#00FF88" }}>Thank you, partner!</h4>
+                <h4 className="text-xl font-black mb-2" style={{ color: "#3a7d56" }}>Thank you, partner!</h4>
                 <p className="text-sm mb-1" style={{ color: "#C0C0D8" }}>
                   Your ${selectedMonthly}/month gift is confirmed.
                 </p>
@@ -269,9 +269,9 @@ export default function GivingPage() {
                         onClick={() => setSelectedMonthly(amt)}
                         className="px-5 py-2.5 rounded-xl font-bold text-sm transition-all"
                         style={{
-                          background: selected ? "rgba(0,255,136,0.2)" : "rgba(0,255,136,0.1)",
-                          border: selected ? "1px solid rgba(0,255,136,0.6)" : "1px solid rgba(0,255,136,0.2)",
-                          color: "#00FF88",
+                          background: selected ? "rgba(58,125,86,0.2)" : "rgba(58,125,86,0.1)",
+                          border: selected ? "1px solid rgba(58,125,86,0.6)" : "1px solid rgba(58,125,86,0.2)",
+                          color: "#3a7d56",
                           transform: selected ? "scale(1.05)" : "scale(1)",
                         }}
                       >
@@ -284,7 +284,7 @@ export default function GivingPage() {
                   onClick={handleStartGiving}
                   className="inline-flex items-center gap-2 px-8 py-3 rounded-xl font-bold text-black transition-all"
                   style={{
-                    background: selectedMonthly ? "linear-gradient(135deg, #00FF88, #00BB55)" : "#2A2A40",
+                    background: selectedMonthly ? "linear-gradient(135deg, #3a7d56, #3a7d56)" : "#2A2A40",
                     color: selectedMonthly ? "#07070F" : "#6A6A88",
                     cursor: selectedMonthly ? "pointer" : "not-allowed",
                   }}

@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const THEOLOGY = [
   { title: "Generosity Flows from Who God Is", verse: "John 3:16", body: "The gospel itself is an act of generosity: 'For God so loved the world that he gave his one and only Son.' Generosity is not a spiritual discipline Christians practice toward God — it is participation in the character of a God who is himself defined by giving. Generosity is not the cost of following Jesus; it is the natural expression of being transformed by him." },

@@ -68,7 +68,7 @@ const events: Record<string, EventDetail> = {
     capacity: "5,000",
     type: "Prayer Summit",
     price: "Free",
-    accentColor: "#00FF88",
+    accentColor: "#3a7d56",
     secondaryColor: "#6B4FBB",
     gradient: "linear-gradient(135deg, #0D0A28 0%, #1A1050 40%, #0A1F14 100%)",
     description: "Join believers from 120+ nations for three days of unified prayer, prophetic worship, and biblical teaching.",
@@ -77,7 +77,7 @@ const events: Record<string, EventDetail> = {
     speakers: [
       { name: "Dr. Emmanuel Asante", title: "Senior Pastor, All Nations Church Lagos", avatarColor: "#F59E0B", initials: "EA" },
       { name: "Pastor Ji-Young Kim", title: "Founder, Seoul Prayer House", avatarColor: "#6B4FBB", initials: "JK" },
-      { name: "Sarah Mitchell", title: "Worship Leader & Author", avatarColor: "#00FF88", initials: "SM" },
+      { name: "Sarah Mitchell", title: "Worship Leader & Author", avatarColor: "#3a7d56", initials: "SM" },
       { name: "Bishop Carlos Rivera", title: "Latin America Church Alliance", avatarColor: "#EF4444", initials: "CR" },
       { name: "Dr. Priya Singh", title: "Theologian, Oxford Centre for Christian Apologetics", avatarColor: "#3B82F6", initials: "PS" },
       { name: "Amina Haidari", title: "Missionary, Central Asia", avatarColor: "#EC4899", initials: "AH" },
@@ -130,7 +130,7 @@ const events: Record<string, EventDetail> = {
     speakers: [
       { name: "Dr. Priya Singh", title: "Theologian & Apologist, Oxford", avatarColor: "#3B82F6", initials: "PS" },
       { name: "Prof. James Nakamura", title: "Philosophy of Religion, UT Dallas", avatarColor: "#6B4FBB", initials: "JN" },
-      { name: "Rachel Kim", title: "Author, \"Honest Faith\"", avatarColor: "#00FF88", initials: "RK" },
+      { name: "Rachel Kim", title: "Author, \"Honest Faith\"", avatarColor: "#3a7d56", initials: "RK" },
       { name: "Pastor Thomas Weber", title: "Lead Pastor, Grace Fellowship Dallas", avatarColor: "#F59E0B", initials: "TW" },
     ],
     schedule: [
@@ -173,14 +173,14 @@ const events: Record<string, EventDetail> = {
     capacity: "3,000",
     type: "Worship Night",
     price: "Free",
-    accentColor: "#00FF88",
+    accentColor: "#3a7d56",
     secondaryColor: "#EC4899",
     gradient: "linear-gradient(135deg, #080818 0%, #101A0A 50%, #180810 100%)",
     description: "An evening of uninterrupted worship and intercession for the nations of the earth.",
     longDescription: `Heaven's Frequency is an annual evening of worship that draws thousands to the O2 Academy Brixton in London for an experience of the presence of God that transcends culture, language, and denominational tradition.\n\nFor four hours, the sanctuary becomes a portal of prayer — voices lifted in 12 languages, instruments from every tradition, and a sense of heaven touching earth. This year's theme is 'One New Humanity' from Ephesians 2, celebrating the unity that Christ creates across every dividing wall.\n\nWhether you're in London or joining via free global livestream, prepare to encounter God in worship unlike anything you've experienced before.`,
     tags: ["Worship", "Prayer", "Intercession", "Unity", "Global Church"],
     speakers: [
-      { name: "Grace Okonkwo", title: "Worship Leader & Recording Artist", avatarColor: "#00FF88", initials: "GO" },
+      { name: "Grace Okonkwo", title: "Worship Leader & Recording Artist", avatarColor: "#3a7d56", initials: "GO" },
       { name: "Benjamin Levi", title: "Messianic Worship Leader", avatarColor: "#F59E0B", initials: "BL" },
       { name: "Yemi Adeyinka", title: "Vocalist & Songwriter", avatarColor: "#EC4899", initials: "YA" },
       { name: "Pastor David Chen", title: "All Nations Church London", avatarColor: "#3B82F6", initials: "DC" },
@@ -224,14 +224,14 @@ const events: Record<string, EventDetail> = {
     capacity: "Unlimited",
     type: "Prayer Summit",
     price: "Free",
-    accentColor: "#00FF88",
+    accentColor: "#3a7d56",
     secondaryColor: "#6B4FBB",
     gradient: "linear-gradient(135deg, #050514 0%, #0A1020 50%, #050514 100%)",
     description: "A continuous 24-hour prayer event with live segments hosted from every inhabited continent.",
     longDescription: `The 24-Hour Watch is Vine's flagship global prayer event — a continuous, unbroken stream of intercession that circles the earth, passing the baton of prayer from continent to continent as the sun moves.\n\nBeginning at midnight UTC on September 19th, believers from Fiji to Fiji (all the way around) will pray in 1-hour segments. Asia Pacific opens the watch, passing to South Asia, then the Middle East & Africa, Europe, Latin America, and North America — then beginning again.\n\nEach segment features live worship, Scripture reading, and focused intercession led by local believers in their own language and cultural expression. This is not a polished conference — it's raw, honest, global prayer.\n\nLast year, 12,000 people joined at least one hour. We believe God for 25,000 this year.`,
     tags: ["Prayer", "Intercession", "Global", "Online", "24 Hours", "Revival"],
     speakers: [
-      { name: "Vine Global Prayer Team", title: "Event Coordinators", avatarColor: "#00FF88", initials: "VG" },
+      { name: "Vine Global Prayer Team", title: "Event Coordinators", avatarColor: "#3a7d56", initials: "VG" },
       { name: "150+ Local Prayer Leaders", title: "From 60+ Nations", avatarColor: "#6B4FBB", initials: "LP" },
       { name: "Dr. Emmanuel Asante", title: "Opening Keynote", avatarColor: "#F59E0B", initials: "EA" },
       { name: "Pastor Ji-Young Kim", title: "Asia Pacific Opening", avatarColor: "#EC4899", initials: "JK" },
@@ -612,7 +612,7 @@ const events: Record<string, EventDetail> = {
 };
 
 const scheduleTypeColors: Record<string, string> = {
-  worship: "#00FF88",
+  worship: "#3a7d56",
   teaching: "#6B4FBB",
   break: "#6A6A88",
   prayer: "#F59E0B",
@@ -663,7 +663,7 @@ export default async function EventDetailPage({
           <div className="text-center">
             <p className="text-5xl font-black mb-4" style={{ color: "#1E1E32" }}>404</p>
             <p className="text-lg font-bold mb-6" style={{ color: "#F2F2F8" }}>Event Not Found</p>
-            <a href="/events" className="text-sm font-semibold" style={{ color: "#00FF88" }}>← Back to Events</a>
+            <a href="/events" className="text-sm font-semibold" style={{ color: "#3a7d56" }}>← Back to Events</a>
           </div>
         </main>
         <Footer />
@@ -877,11 +877,11 @@ export default async function EventDetailPage({
 
                 <div className="p-5 space-y-3">
                   <div className="flex items-center gap-2 text-sm" style={{ color: "#8A8AA8" }}>
-                    <Calendar size={14} style={{ color: "#00FF88" }} />
+                    <Calendar size={14} style={{ color: "#3a7d56" }} />
                     {event.dates}
                   </div>
                   <div className="flex items-center gap-2 text-sm" style={{ color: "#8A8AA8" }}>
-                    <MapPin size={14} style={{ color: "#00FF88" }} />
+                    <MapPin size={14} style={{ color: "#3a7d56" }} />
                     {event.location}
                   </div>
                   <div className="flex items-center gap-2 text-sm" style={{ color: "#8A8AA8" }}>

@@ -132,7 +132,7 @@ const groups: Record<string, Group> = {
     id: "mental-health-faith",
     name: "Mental Health & Faith",
     emoji: "💙",
-    color: "#00FF88",
+    color: "#3a7d56",
     members: 18700,
     description:
       "A safe space where faith and mental wellness intersect. No toxic positivity, no 'just pray more.' Honest conversations about depression, anxiety, trauma, and healing.",
@@ -151,7 +151,7 @@ const groups: Record<string, Group> = {
         replies: 89,
         time: "1h ago",
         flair: "Testimony",
-        flairColor: "#00FF88",
+        flairColor: "#3a7d56",
         pinned: true,
       },
       {
@@ -169,7 +169,7 @@ const groups: Record<string, Group> = {
         title: "Christian counselor vs. secular therapist: real experiences from this community",
         author: "Amara Osei",
         avatar: "AO",
-        avatarColor: "#00FF88",
+        avatarColor: "#3a7d56",
         upvotes: 876,
         replies: 73,
         time: "9h ago",
@@ -232,7 +232,7 @@ const groups: Record<string, Group> = {
           "Dating as a Christian in 2026 is genuinely hard. Anyone else feel like the apps are working against you?",
         author: "Amara Osei",
         avatar: "AO",
-        avatarColor: "#00FF88",
+        avatarColor: "#3a7d56",
         upvotes: 789,
         replies: 124,
         time: "3h ago",
@@ -417,7 +417,7 @@ const groups: Record<string, Group> = {
         title: "My boss asked me to fudge the numbers. I refused. Here's what happened.",
         author: "Amara Osei",
         avatar: "AO",
-        avatarColor: "#00FF88",
+        avatarColor: "#3a7d56",
         upvotes: 1204,
         replies: 63,
         time: "5h ago",
@@ -515,7 +515,7 @@ const groups: Record<string, Group> = {
         title: "I prayed for years and nothing changed. How do you keep going?",
         author: "Amara Osei",
         avatar: "AO",
-        avatarColor: "#00FF88",
+        avatarColor: "#3a7d56",
         upvotes: 634,
         replies: 89,
         time: "1d ago",
@@ -584,16 +584,16 @@ const groups: Record<string, Group> = {
     id: "global-prayer-warriors",
     name: "Global Prayer Warriors",
     emoji: "🙏",
-    color: "#00FF88",
+    color: "#3a7d56",
     members: 34502,
     description: "Interceding for the nations 24/7. Rotating prayer chains, unreached people group updates, and live prayer sessions connecting believers across every timezone.",
     founded: "2023",
     moderators: ["Rev. Amara Osei", "Pastor Ruth Nakamura"],
     pinnedDiscussion: "LIVE NOW: 24-hour prayer chain for the persecuted church — every 30 minutes",
     posts: [
-      { title: "LIVE NOW: 24-hour prayer chain for the persecuted church — every 30 minutes", author: "Rev. Amara Osei", avatar: "AO", avatarColor: "#00FF88", upvotes: 4210, replies: 892, time: "Live", flair: "Prayer Chain", flairColor: "#00FF88", pinned: true },
+      { title: "LIVE NOW: 24-hour prayer chain for the persecuted church — every 30 minutes", author: "Rev. Amara Osei", avatar: "AO", avatarColor: "#3a7d56", upvotes: 4210, replies: 892, time: "Live", flair: "Prayer Chain", flairColor: "#3a7d56", pinned: true },
       { title: "Praying for North Korea's underground church — what we know and how to intercede", author: "Daniel Park", avatar: "DP", avatarColor: "#3B82F6", upvotes: 1843, replies: 201, time: "3h ago", flair: "Persecuted Church", flairColor: "#EF4444" },
-      { title: "Praise report: The woman we prayed for in Yemen is safe and has found community", author: "Sarah M.", avatar: "SM", avatarColor: "#F59E0B", upvotes: 3891, replies: 412, time: "1d ago", flair: "Praise Report", flairColor: "#00FF88" },
+      { title: "Praise report: The woman we prayed for in Yemen is safe and has found community", author: "Sarah M.", avatar: "SM", avatarColor: "#F59E0B", upvotes: 3891, replies: 412, time: "1d ago", flair: "Praise Report", flairColor: "#3a7d56" },
       { title: "How do you sustain a consistent prayer life? Share your rhythms", author: "Lydia Böhm", avatar: "LB", avatarColor: "#6B4FBB", upvotes: 743, replies: 189, time: "2d ago", flair: "Practice", flairColor: "#6B4FBB" },
     ],
     rules: ["All prayer requests treated with dignity and confidentiality", "No political agendas in prayer threads", "Praise reports always welcome", "Respect the time zone rotation schedule"],
@@ -633,7 +633,7 @@ const groups: Record<string, Group> = {
     posts: [
       { title: "What does Proverbs 31 actually teach? A responsible exegesis", author: "Dr. Naomi Clark", avatar: "NC", avatarColor: "#F59E0B", upvotes: 2104, replies: 312, time: "3h ago", flair: "Bible Study", flairColor: "#F59E0B", pinned: true },
       { title: "Being a Christian woman in a secular workplace in 2026 — your experiences", author: "Priscilla Chen", avatar: "PC", avatarColor: "#EC4899", upvotes: 1542, replies: 234, time: "6h ago", flair: "Work & Faith", flairColor: "#3B82F6" },
-      { title: "Finding your worth outside of your role as wife/mother — not anti-family, just honest", author: "Amara Osei", avatar: "AO", avatarColor: "#00FF88", upvotes: 3201, replies: 489, time: "1d ago", flair: "Identity", flairColor: "#6B4FBB" },
+      { title: "Finding your worth outside of your role as wife/mother — not anti-family, just honest", author: "Amara Osei", avatar: "AO", avatarColor: "#3a7d56", upvotes: 3201, replies: 489, time: "1d ago", flair: "Identity", flairColor: "#6B4FBB" },
       { title: "Church hurt from patriarchal leadership — how do you heal and stay?", author: "Anonymous", avatar: "?", avatarColor: "#4A4A68", upvotes: 2891, replies: 401, time: "2d ago", flair: "Church Hurt", flairColor: "#BB4F7A" },
     ],
     rules: ["This space centers the experiences of Christian women", "Complementarian and egalitarian views both welcome with respect", "No condescending theology", "Mentorship connections encouraged"],
@@ -652,7 +652,7 @@ const groups: Record<string, Group> = {
     pinnedDiscussion: "The top 5 questions secular professors use to challenge your faith — and how to engage",
     posts: [
       { title: "The top 5 questions secular professors use to challenge your faith — and how to engage", author: "Samuel Okafor", avatar: "SO", avatarColor: "#10B981", upvotes: 3421, replies: 421, time: "2h ago", flair: "Apologetics", flairColor: "#6B4FBB", pinned: true },
-      { title: "How to find (and build) Christian community on a secular campus", author: "Grace Nakamura", avatar: "GN", avatarColor: "#F59E0B", upvotes: 1204, replies: 187, time: "8h ago", flair: "Community", flairColor: "#00FF88" },
+      { title: "How to find (and build) Christian community on a secular campus", author: "Grace Nakamura", avatar: "GN", avatarColor: "#F59E0B", upvotes: 1204, replies: 187, time: "8h ago", flair: "Community", flairColor: "#3a7d56" },
       { title: "I almost deconstructed in sophomore year. Here's what kept me", author: "Ji-Woo Park", avatar: "JP", avatarColor: "#EC4899", upvotes: 2891, replies: 312, time: "1d ago", flair: "Testimony", flairColor: "#10B981" },
       { title: "Christian dating on campus — navigating apps, purity culture, and real relationships", author: "Anonymous", avatar: "?", avatarColor: "#4A4A68", upvotes: 1892, replies: 401, time: "3d ago", flair: "Dating", flairColor: "#BB4F7A" },
     ],
@@ -673,7 +673,7 @@ const groups: Record<string, Group> = {
     posts: [
       { title: "What does it mean to make 'Christian art' — and is that even a helpful category?", author: "Eva van der Berg", avatar: "EV", avatarColor: "#EC4899", upvotes: 1204, replies: 198, time: "1h ago", flair: "Philosophy", flairColor: "#6B4FBB", pinned: true },
       { title: "Show us your work: post your art, music, writing, or film here", author: "Carlos Mendez", avatar: "CM", avatarColor: "#10B981", upvotes: 891, replies: 312, time: "4h ago", flair: "Share", flairColor: "#EC4899" },
-      { title: "How do you make a living as a Christian creative without compromising your calling?", author: "Ama Christabel", avatar: "AC", avatarColor: "#00FF88", upvotes: 743, replies: 187, time: "1d ago", flair: "Career", flairColor: "#3B82F6" },
+      { title: "How do you make a living as a Christian creative without compromising your calling?", author: "Ama Christabel", avatar: "AC", avatarColor: "#3a7d56", upvotes: 743, replies: 187, time: "1d ago", flair: "Career", flairColor: "#3B82F6" },
       { title: "Is secular music okay for Christians? The worship vs. mainstream debate", author: "Ji-Woo Park", avatar: "JP", avatarColor: "#EC4899", upvotes: 2103, replies: 401, time: "2d ago", flair: "Worship", flairColor: "#F59E0B" },
     ],
     rules: ["All creative disciplines welcome", "Critiques must be constructive", "No gatekeeping what counts as 'Christian art'", "Commercial promotion limited to 1 post per week"],
@@ -693,7 +693,7 @@ const groups: Record<string, Group> = {
     posts: [
       { title: "To anyone who just lost someone: this community is here, and grief is not faithlessness", author: "Rev. Amara Osei", avatar: "AO", avatarColor: "#6B4FBB", upvotes: 2891, replies: 301, time: "1h ago", flair: "Welcome", flairColor: "#6B4FBB", pinned: true },
       { title: "Our daughter was stillborn three weeks ago. I don't know how to talk to God anymore.", author: "Anonymous", avatar: "?", avatarColor: "#4A4A68", upvotes: 5210, replies: 712, time: "4h ago", flair: "Loss", flairColor: "#BB4F7A" },
-      { title: "One year since my husband died. What I wish someone had told me.", author: "Amara Osei", avatar: "AO", avatarColor: "#00FF88", upvotes: 4103, replies: 512, time: "2d ago", flair: "Testimony", flairColor: "#10B981" },
+      { title: "One year since my husband died. What I wish someone had told me.", author: "Amara Osei", avatar: "AO", avatarColor: "#3a7d56", upvotes: 4103, replies: 512, time: "2d ago", flair: "Testimony", flairColor: "#10B981" },
       { title: "Is lament biblical? A deep dive into the Psalms of loss", author: "Dr. Jennifer Nakamura", avatar: "JN", avatarColor: "#F59E0B", upvotes: 892, replies: 134, time: "3d ago", flair: "Bible Study", flairColor: "#F59E0B" },
     ],
     rules: ["Grief is not weakness and never will be here", "No toxic positivity or rushed comfort", "Professional crisis resources are pinned — use them", "Respect the privacy of those sharing vulnerable stories"],
@@ -734,7 +734,7 @@ const groups: Record<string, Group> = {
       { title: "The Joshua Project: 7,000+ unreached people groups still waiting for the Gospel", author: "Dr. Priya Singh", avatar: "PS", avatarColor: "#10B981", upvotes: 1204, replies: 89, time: "2h ago", flair: "Stats", flairColor: "#10B981", pinned: true },
       { title: "Preparing to go: what no missions agency told me before my first long-term deployment", author: "Carlos Mendez", avatar: "CM", avatarColor: "#6B4FBB", upvotes: 2891, replies: 312, time: "6h ago", flair: "Training", flairColor: "#6B4FBB" },
       { title: "Is tent-making missions actually effective? An honest assessment", author: "Samuel Mwangi", avatar: "SM", avatarColor: "#3B82F6", upvotes: 743, replies: 201, time: "1d ago", flair: "Tent-Making", flairColor: "#3B82F6" },
-      { title: "Prayer for the Fulani people of West Africa — 32 million with less than 0.1% Christian", author: "Rev. Amara Osei", avatar: "AO", avatarColor: "#00FF88", upvotes: 1891, replies: 134, time: "2d ago", flair: "Prayer", flairColor: "#00FF88" },
+      { title: "Prayer for the Fulani people of West Africa — 32 million with less than 0.1% Christian", author: "Rev. Amara Osei", avatar: "AO", avatarColor: "#3a7d56", upvotes: 1891, replies: 134, time: "2d ago", flair: "Prayer", flairColor: "#3a7d56" },
     ],
     rules: ["Practical missions experience valued here", "Short-term mission trips welcome but context matters", "Paternalism and saviorism will be called out respectfully", "Cultural humility is not optional"],
     relatedGroups: [{ name: "Global Prayer Warriors", emoji: "🙏", id: "global-prayer-warriors" }, { name: "Theology & Doctrine", emoji: "📜", id: "theology-doctrine" }, { name: "Young Adults (18-30)", emoji: "🔥", id: "young-adults" }],
@@ -777,7 +777,7 @@ export default async function GroupPage({
           <a
             href="/groups"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-black"
-            style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)" }}
+            style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}
           >
             Back to Groups
           </a>
@@ -795,7 +795,7 @@ export default async function GroupPage({
           {/* Back */}
           <a
             href="/groups"
-            className="inline-flex items-center gap-2 text-sm mb-6 hover:text-[#00FF88] transition-colors"
+            className="inline-flex items-center gap-2 text-sm mb-6 hover:text-[#3a7d56] transition-colors"
             style={{ color: "#6A6A88" }}
           >
             <ArrowLeft size={14} /> All Groups
@@ -836,7 +836,7 @@ export default async function GroupPage({
                     Founded {group.founded}
                   </span>
                   <span className="flex items-center gap-1.5">
-                    <TrendingUp size={13} style={{ color: "#00FF88" }} />
+                    <TrendingUp size={13} style={{ color: "#3a7d56" }} />
                     Active community
                   </span>
                 </div>
@@ -976,7 +976,7 @@ export default async function GroupPage({
                 style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
               >
                 <h3 className="font-black text-sm mb-4 flex items-center gap-2" style={{ color: "#F2F2F8" }}>
-                  <TrendingUp size={14} style={{ color: "#00FF88" }} /> Group Stats
+                  <TrendingUp size={14} style={{ color: "#3a7d56" }} /> Group Stats
                 </h3>
                 <div className="space-y-3 text-sm">
                   <div className="flex justify-between">
@@ -991,7 +991,7 @@ export default async function GroupPage({
                   </div>
                   <div className="flex justify-between">
                     <span style={{ color: "#6A6A88" }}>Posts this week</span>
-                    <span className="font-bold" style={{ color: "#00FF88" }}>
+                    <span className="font-bold" style={{ color: "#3a7d56" }}>
                       {group.posts.length * 7}
                     </span>
                   </div>
@@ -1044,7 +1044,7 @@ export default async function GroupPage({
                     >
                       <span className="text-xl">{rg.emoji}</span>
                       <span
-                        className="text-xs font-semibold group-hover/rg:text-[#00FF88] transition-colors"
+                        className="text-xs font-semibold group-hover/rg:text-[#3a7d56] transition-colors"
                         style={{ color: "#C0C0D8" }}
                       >
                         {rg.name}

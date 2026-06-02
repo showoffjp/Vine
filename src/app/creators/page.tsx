@@ -77,7 +77,7 @@ const creators: Creator[] = [
     badges: ["Theology", "Expository Preaching", "Men's Ministry"],
     bio: "Making deep theology accessible to everyday believers.",
     verified: true,
-    avatarGradient: "linear-gradient(135deg, #00FF88 0%, #8B4513 100%)",
+    avatarGradient: "linear-gradient(135deg, #3a7d56 0%, #8B4513 100%)",
     slug: "marcus-osei",
   },
   {
@@ -129,7 +129,7 @@ const creators: Creator[] = [
     badges: ["Youth Ministry", "Evangelism", "Discipleship"],
     bio: "Equipping the next generation of Brazilian believers for mission.",
     verified: false,
-    avatarGradient: "linear-gradient(135deg, #2A8A2A 0%, #00FF88 100%)",
+    avatarGradient: "linear-gradient(135deg, #2A8A2A 0%, #3a7d56 100%)",
     slug: "luiz-figueiredo",
   },
   {
@@ -168,7 +168,7 @@ const creators: Creator[] = [
     badges: ["Marriage", "Family", "Biblical Counseling"],
     bio: "Helping couples build Christ-centered, lasting covenant marriages.",
     verified: false,
-    avatarGradient: "linear-gradient(135deg, #00FF88 0%, #BB4F4F 100%)",
+    avatarGradient: "linear-gradient(135deg, #3a7d56 0%, #BB4F4F 100%)",
     slug: "carlos-mendoza",
   },
   {
@@ -207,7 +207,7 @@ const creators: Creator[] = [
     badges: ["Worship", "Gospel", "African Diaspora"],
     bio: "Crafting anthems of praise that move both heaven and earth.",
     verified: true,
-    avatarGradient: "linear-gradient(135deg, #6B4FBB 0%, #00FF88 100%)",
+    avatarGradient: "linear-gradient(135deg, #6B4FBB 0%, #3a7d56 100%)",
     slug: "ruth-adeyemi",
   },
   {
@@ -277,16 +277,16 @@ export default function CreatorsPage() {
             className="absolute inset-0"
             style={{
               background:
-                "radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0,255,136,0.1) 0%, rgba(107,79,187,0.08) 40%, transparent 70%)",
+                "radial-gradient(ellipse 80% 60% at 50% 0%, rgba(58,125,86,0.1) 0%, rgba(107,79,187,0.08) 40%, transparent 70%)",
             }}
           />
           <div className="relative max-w-3xl mx-auto">
             <span
               className="inline-block mb-4 text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-full"
               style={{
-                background: "rgba(0,255,136,0.1)",
-                color: "#00FF88",
-                border: "1px solid rgba(0,255,136,0.2)",
+                background: "rgba(58,125,86,0.1)",
+                color: "#3a7d56",
+                border: "1px solid rgba(58,125,86,0.2)",
               }}
             >
               1,240+ Verified Creators
@@ -295,7 +295,7 @@ export default function CreatorsPage() {
               Vine{" "}
               <span
                 style={{
-                  backgroundImage: "linear-gradient(90deg, #00FF88 0%, #44FFAA 50%, #00FF88 100%)",
+                  backgroundImage: "linear-gradient(90deg, #3a7d56 0%, #52a876 50%, #3a7d56 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
@@ -319,7 +319,7 @@ export default function CreatorsPage() {
               </h2>
               <span
                 className="text-xs font-bold px-2.5 py-1 rounded-full"
-                style={{ background: "rgba(0,255,136,0.1)", color: "#00FF88", border: "1px solid rgba(0,255,136,0.25)" }}
+                style={{ background: "rgba(58,125,86,0.1)", color: "#3a7d56", border: "1px solid rgba(58,125,86,0.25)" }}
               >
                 Creator of the Month
               </span>
@@ -337,7 +337,7 @@ export default function CreatorsPage() {
                 <div
                   className="absolute inset-0"
                   style={{
-                    background: "radial-gradient(ellipse 60% 80% at 20% 50%, rgba(0,255,136,0.15) 0%, transparent 60%)",
+                    background: "radial-gradient(ellipse 60% 80% at 20% 50%, rgba(58,125,86,0.15) 0%, transparent 60%)",
                   }}
                 />
                 <div
@@ -352,7 +352,7 @@ export default function CreatorsPage() {
                   <div
                     className="w-24 h-24 rounded-2xl flex items-center justify-center text-3xl font-black flex-shrink-0"
                     style={{
-                      background: "linear-gradient(135deg, #00FF88 0%, #6B4FBB 100%)",
+                      background: "linear-gradient(135deg, #3a7d56 0%, #6B4FBB 100%)",
                       border: "3px solid #12121F",
                       color: "#07070F",
                     }}
@@ -370,7 +370,7 @@ export default function CreatorsPage() {
                       <span className="text-xs" style={{ color: "#8A8AA8" }}>
                         {featuredCreator.country}
                       </span>
-                      <CheckCircle size={16} style={{ color: "#00FF88" }} />
+                      <CheckCircle size={16} style={{ color: "#3a7d56" }} />
                     </div>
                     <p className="text-sm mb-3" style={{ color: "#8A8AA8" }}>
                       {featuredCreator.role}
@@ -401,9 +401,9 @@ export default function CreatorsPage() {
                       onClick={() => setFollowingFeatured(!followingFeatured)}
                       className="px-5 py-2.5 rounded-xl text-sm font-bold transition-all"
                       style={{
-                        background: followingFeatured ? "rgba(0,255,136,0.2)" : "linear-gradient(135deg, #00FF88 0%, #B8960C 100%)",
-                        color: followingFeatured ? "#00FF88" : "#07070F",
-                        border: followingFeatured ? "1px solid rgba(0,255,136,0.4)" : "none",
+                        background: followingFeatured ? "rgba(58,125,86,0.2)" : "linear-gradient(135deg, #3a7d56 0%, #B8960C 100%)",
+                        color: followingFeatured ? "#3a7d56" : "#07070F",
+                        border: followingFeatured ? "1px solid rgba(58,125,86,0.4)" : "none",
                       }}
                     >
                       {followingFeatured ? "✓ Following" : "Follow"}
@@ -413,8 +413,8 @@ export default function CreatorsPage() {
                       className="px-5 py-2.5 rounded-xl text-sm font-bold"
                       style={{
                         background: "transparent",
-                        color: "#00FF88",
-                        border: "1px solid rgba(0,255,136,0.4)",
+                        color: "#3a7d56",
+                        border: "1px solid rgba(58,125,86,0.4)",
                         textDecoration: "none",
                         display: "inline-block",
                       }}
@@ -458,9 +458,9 @@ export default function CreatorsPage() {
                         >
                           <div
                             className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
-                            style={{ background: "rgba(0,255,136,0.12)" }}
+                            style={{ background: "rgba(58,125,86,0.12)" }}
                           >
-                            <Icon size={16} style={{ color: "#00FF88" }} />
+                            <Icon size={16} style={{ color: "#3a7d56" }} />
                           </div>
                           <div className="min-w-0">
                             <p className="text-xs font-semibold truncate" style={{ color: "#E0E0F0" }}>
@@ -507,7 +507,7 @@ export default function CreatorsPage() {
                     className="text-xs font-semibold px-4 py-2 rounded-full transition-all duration-150"
                     style={
                       active
-                        ? { background: "linear-gradient(135deg, #00FF88 0%, #B8960C 100%)", color: "#07070F" }
+                        ? { background: "linear-gradient(135deg, #3a7d56 0%, #B8960C 100%)", color: "#07070F" }
                         : { background: "#12121F", color: "#8A8AA8", border: "1px solid #1E1E32" }
                     }
                   >
@@ -524,7 +524,7 @@ export default function CreatorsPage() {
               {filteredCreators.length === 0 && (
                 <div className="col-span-full text-center py-12">
                   <p style={{ color: "#8A8AA8" }}>No creators match your filter.</p>
-                  <button onClick={() => { setActiveFilter("All"); setSearch(""); }} className="mt-2 text-sm font-semibold" style={{ color: "#00FF88" }}>Clear filters</button>
+                  <button onClick={() => { setActiveFilter("All"); setSearch(""); }} className="mt-2 text-sm font-semibold" style={{ color: "#3a7d56" }}>Clear filters</button>
                 </div>
               )}
               {filteredCreators.map((creator) => {
@@ -541,8 +541,8 @@ export default function CreatorsPage() {
             <div
               className="rounded-3xl p-10 text-center relative overflow-hidden"
               style={{
-                background: "linear-gradient(135deg, rgba(0,255,136,0.08) 0%, rgba(107,79,187,0.12) 100%)",
-                border: "1px solid rgba(0,255,136,0.2)",
+                background: "linear-gradient(135deg, rgba(58,125,86,0.08) 0%, rgba(107,79,187,0.12) 100%)",
+                border: "1px solid rgba(58,125,86,0.2)",
               }}
             >
               <div
@@ -555,9 +555,9 @@ export default function CreatorsPage() {
               <div className="relative">
                 <div
                   className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-5"
-                  style={{ background: "rgba(0,255,136,0.15)", border: "1px solid rgba(0,255,136,0.25)" }}
+                  style={{ background: "rgba(58,125,86,0.15)", border: "1px solid rgba(58,125,86,0.25)" }}
                 >
-                  <Mic size={26} style={{ color: "#00FF88" }} />
+                  <Mic size={26} style={{ color: "#3a7d56" }} />
                 </div>
                 <h2 className="text-3xl font-black mb-3" style={{ color: "#F2F2F8" }}>
                   Share Your Gift
@@ -579,7 +579,7 @@ export default function CreatorsPage() {
                         className="rounded-2xl p-5 text-left"
                         style={{ background: "rgba(18,18,31,0.6)", border: "1px solid rgba(255,255,255,0.06)" }}
                       >
-                        <BIcon size={20} style={{ color: "#00FF88" }} className="mb-3" />
+                        <BIcon size={20} style={{ color: "#3a7d56" }} className="mb-3" />
                         <p className="text-sm font-bold mb-1" style={{ color: "#F2F2F8" }}>
                           {benefit.title}
                         </p>
@@ -594,7 +594,7 @@ export default function CreatorsPage() {
                 <button
                   className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl text-sm font-black"
                   style={{
-                    background: "linear-gradient(135deg, #00FF88 0%, #B8960C 100%)",
+                    background: "linear-gradient(135deg, #3a7d56 0%, #B8960C 100%)",
                     color: "#07070F",
                   }}
                 >
@@ -647,7 +647,7 @@ function CreatorCard({
             {creator.initials}
           </div>
           {creator.verified && (
-            <CheckCircle size={16} style={{ color: "#00FF88" }} />
+            <CheckCircle size={16} style={{ color: "#3a7d56" }} />
           )}
         </div>
 
@@ -709,9 +709,9 @@ function CreatorCard({
           onClick={() => setFollowing(!following)}
           className="w-full py-2.5 rounded-xl text-xs font-bold transition-all duration-150"
           style={{
-            background: following ? "#00FF88" : "rgba(0,255,136,0.1)",
-            color: following ? "#07070F" : "#00FF88",
-            border: "1px solid rgba(0,255,136,0.25)",
+            background: following ? "#3a7d56" : "rgba(58,125,86,0.1)",
+            color: following ? "#07070F" : "#3a7d56",
+            border: "1px solid rgba(58,125,86,0.25)",
           }}
         >
           {following ? "✓ Following" : "Follow"}

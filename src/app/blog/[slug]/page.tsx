@@ -72,7 +72,7 @@ const articles: Record<string, {
     ],
     related: [
       { title: "Can an AI Have a Soul? A Biblical Anthropology", slug: "ai-have-soul", readTime: "8 min", category: "Apologetics", categoryColor: "#EF4444" },
-      { title: "The Digital Sabbath: How to Rest in a Hyper-Connected World", slug: "digital-sabbath", readTime: "6 min", category: "Life & Faith", categoryColor: "#00FF88" },
+      { title: "The Digital Sabbath: How to Rest in a Hyper-Connected World", slug: "digital-sabbath", readTime: "6 min", category: "Life & Faith", categoryColor: "#3a7d56" },
     ],
   },
   "problem-of-evil": {
@@ -104,7 +104,7 @@ const articles: Record<string, {
     ],
     related: [
       { title: "Why the Resurrection Changes Everything...", slug: "why-the-resurrection-changes-everything", readTime: "8 min", category: "Theology", categoryColor: "#6B4FBB" },
-      { title: "How Do You Handle Doubt Without Losing Faith?", slug: "faith-and-doubt", readTime: "7 min", category: "Life & Faith", categoryColor: "#00FF88" },
+      { title: "How Do You Handle Doubt Without Losing Faith?", slug: "faith-and-doubt", readTime: "7 min", category: "Life & Faith", categoryColor: "#3a7d56" },
     ],
   },
   "digital-sabbath": {
@@ -119,7 +119,7 @@ const articles: Record<string, {
     views: "41.2k",
     comments: 389,
     category: "Life & Faith",
-    categoryColor: "#00FF88",
+    categoryColor: "#3a7d56",
     tags: ["Sabbath", "Tech", "Rest", "Spiritual Discipline"],
     content: [
       { type: "p", text: "Last Sunday morning I reached for my phone before I reached for my Bible. I checked email during the sermon — just a quick glance. I posted a photo from the fellowship lunch before I'd finished eating it. By the time Sunday evening came, I felt not rested but strangely depleted. My phone had colonized the one day I had set aside to stop. Sound familiar?" },
@@ -165,7 +165,7 @@ const articles: Record<string, {
       { type: "p", text: "If you want to deepen your prayer life but don't know where to start: spend two minutes in silence, simply becoming aware of God's presence. Spend two minutes in adoration — you can use a psalm or simply speak what is true about God's character. Spend two minutes in honest confession. Spend two minutes in thanksgiving — three to five specific things from the past 24 hours. Spend the final two minutes in supplication — your needs, your community's needs, the world's needs. Ten minutes. Do it every day for 30 days and see what happens to you." },
     ],
     related: [
-      { title: "The Digital Sabbath", slug: "digital-sabbath", readTime: "6 min", category: "Life & Faith", categoryColor: "#00FF88" },
+      { title: "The Digital Sabbath", slug: "digital-sabbath", readTime: "6 min", category: "Life & Faith", categoryColor: "#3a7d56" },
       { title: "Why the Resurrection Changes Everything", slug: "why-the-resurrection-changes-everything", readTime: "8 min", category: "Theology", categoryColor: "#6B4FBB" },
     ],
   },
@@ -196,7 +196,7 @@ const articles: Record<string, {
       { type: "p", text: "If your marriage is in a difficult season, the covenant framework offers a stabilizing anchor. First, revisit your vows — not as a romantic exercise but as a theological one. What did you actually promise? Second, seek community: covenant love was never meant to be carried alone. A good marriage counselor, a trusted pastor, a small group of married couples — these are not signs of weakness but of covenant seriousness. Third, pray for your spouse with specific intentionality. It is nearly impossible to maintain contempt toward someone you are genuinely interceding for. The covenant is not simply a legal fact — it is a spiritual reality that can be renewed, deepened, and reclaimed even after seasons of failure." },
     ],
     related: [
-      { title: "The Digital Sabbath: How to Rest in a Hyper-Connected World", slug: "digital-sabbath", readTime: "6 min", category: "Life & Faith", categoryColor: "#00FF88" },
+      { title: "The Digital Sabbath: How to Rest in a Hyper-Connected World", slug: "digital-sabbath", readTime: "6 min", category: "Life & Faith", categoryColor: "#3a7d56" },
       { title: "Prayer That Actually Works", slug: "prayer-that-works", readTime: "7 min", category: "Devotional", categoryColor: "#F59E0B" },
     ],
   },
@@ -228,7 +228,7 @@ const articles: Record<string, {
     ],
     related: [
       { title: "Prayer That Actually Works", slug: "prayer-that-works", readTime: "7 min", category: "Devotional", categoryColor: "#F59E0B" },
-      { title: "The Digital Sabbath: How to Rest in a Hyper-Connected World", slug: "digital-sabbath", readTime: "6 min", category: "Life & Faith", categoryColor: "#00FF88" },
+      { title: "The Digital Sabbath: How to Rest in a Hyper-Connected World", slug: "digital-sabbath", readTime: "6 min", category: "Life & Faith", categoryColor: "#3a7d56" },
       { title: "The Problem of Evil: Why Suffering Doesn't Disprove God", slug: "problem-of-evil", readTime: "10 min", category: "Apologetics", categoryColor: "#EF4444" },
     ],
   },
@@ -263,7 +263,7 @@ const articles: Record<string, {
     related: [
       { title: "Why the Resurrection Changes Everything", slug: "why-the-resurrection-changes-everything", readTime: "8 min", category: "Theology", categoryColor: "#6B4FBB" },
       { title: "The Problem of Evil: Why Suffering Doesn't Disprove God", slug: "problem-of-evil", readTime: "10 min", category: "Apologetics", categoryColor: "#EF4444" },
-      { title: "The Digital Sabbath: How to Rest in a Hyper-Connected World", slug: "digital-sabbath", readTime: "6 min", category: "Life & Faith", categoryColor: "#00FF88" },
+      { title: "The Digital Sabbath: How to Rest in a Hyper-Connected World", slug: "digital-sabbath", readTime: "6 min", category: "Life & Faith", categoryColor: "#3a7d56" },
     ],
   },
   "biblical-finances-stewardship": {
@@ -493,13 +493,13 @@ const articles: Record<string, {
     author: "Rev. Marcus Webb",
     role: "Lead Pastor, Redeemer City Church, Atlanta",
     avatar: "MW",
-    avatarColor: "#00FF88",
+    avatarColor: "#3a7d56",
     date: "May 22, 2026",
     readTime: "8 min read",
     views: "24.1k",
     comments: 193,
     category: "Work & Faith",
-    categoryColor: "#00FF88",
+    categoryColor: "#3a7d56",
     tags: ["Work", "Calling", "Vocation", "Faith Integration"],
     content: [
       { type: "p", text: "There is a heresy that has quietly dominated Western Christianity for centuries, and it doesn't appear in any doctrinal statement. You won't find it condemned at any council. But it lives in the hearts of millions of Christians who go to church on Sunday and feel a subtle sense of leaving God behind when they clock in on Monday." },
@@ -520,7 +520,7 @@ const articles: Record<string, {
     related: [
       { title: "Servant Leadership: What Jesus Actually Taught", slug: "servant-leadership-jesus", readTime: "7 min", category: "Leadership", categoryColor: "#6B4FBB" },
       { title: "Biblical Finances & Stewardship", slug: "biblical-finances-stewardship", readTime: "9 min", category: "Finance", categoryColor: "#10B981" },
-      { title: "Faith at Work — Discussion", slug: "faith-doubt-workplace-015", readTime: "Discussion", category: "Community", categoryColor: "#00FF88" },
+      { title: "Faith at Work — Discussion", slug: "faith-doubt-workplace-015", readTime: "Discussion", category: "Community", categoryColor: "#3a7d56" },
     ],
   },
   "biblical-ambition": {
@@ -554,7 +554,7 @@ const articles: Record<string, {
       { type: "p", text: "The Christian who is too small is not holier than the Christian who reaches for greatness. They're just less useful. Take the parable of the talents seriously: the master was furious at the servant who buried his — not because he was humble, but because he was afraid. Don't be afraid. Work hard. Build things. Reach high. Just know who you're building for." },
     ],
     related: [
-      { title: "The Theology of Monday", slug: "theology-of-monday", readTime: "8 min", category: "Work & Faith", categoryColor: "#00FF88" },
+      { title: "The Theology of Monday", slug: "theology-of-monday", readTime: "8 min", category: "Work & Faith", categoryColor: "#3a7d56" },
       { title: "Servant Leadership: What Jesus Actually Taught", slug: "servant-leadership-jesus", readTime: "7 min", category: "Leadership", categoryColor: "#6B4FBB" },
       { title: "Deconstruction & Reconstruction", slug: "deconstruction-reconstruction", readTime: "11 min", category: "Theology", categoryColor: "#6B4FBB" },
     ],
@@ -660,7 +660,7 @@ const articles: Record<string, {
     ],
     related: [
       { title: "AI, ChatGPT, and the Church: A Faithful Reckoning", slug: "ai-chatgpt-church", readTime: "9 min", category: "Culture", categoryColor: "#3B82F6" },
-      { title: "The Digital Sabbath: How to Rest in a Hyper-Connected World", slug: "digital-sabbath", readTime: "6 min", category: "Life & Faith", categoryColor: "#00FF88" },
+      { title: "The Digital Sabbath: How to Rest in a Hyper-Connected World", slug: "digital-sabbath", readTime: "6 min", category: "Life & Faith", categoryColor: "#3a7d56" },
       { title: "The Problem of Evil: Why Suffering Doesn't Disprove God", slug: "problem-of-evil", readTime: "10 min", category: "Apologetics", categoryColor: "#EF4444" },
     ],
   },
@@ -676,7 +676,7 @@ const articles: Record<string, {
     views: "31.6k",
     comments: 224,
     category: "Life & Faith",
-    categoryColor: "#00FF88",
+    categoryColor: "#3a7d56",
     tags: ["Doubt", "Faith", "Deconstruction", "Spiritual Growth"],
     content: [
       { type: "p", text: "I've been in pastoral ministry for eighteen years. In that time, I've watched two kinds of Christians lose their faith. The first kind suppressed every doubt so thoroughly that when a hard question finally broke through, their faith had no immune system. The second kind fed their doubts so obsessively — scrolling Reddit threads, watching deconversion videos — that the doubt eventually consumed everything. Neither approach serves the soul." },
@@ -729,7 +729,7 @@ const articles: Record<string, {
       { type: "p", text: "The goal is not to convert your entire department. The goal is to be a human being who is genuinely shaped by their faith — so that your faith is visible in the texture of your character, not just in your bumper stickers. That kind of witness has been changing minds for two thousand years, and it doesn't require any technique at all." },
     ],
     related: [
-      { title: "The Theology of Monday", slug: "theology-of-monday", readTime: "8 min", category: "Work & Faith", categoryColor: "#00FF88" },
+      { title: "The Theology of Monday", slug: "theology-of-monday", readTime: "8 min", category: "Work & Faith", categoryColor: "#3a7d56" },
       { title: "Is Ambition a Sin?", slug: "biblical-ambition", readTime: "9 min", category: "Work & Faith", categoryColor: "#F59E0B" },
       { title: "Servant Leadership: What Jesus Actually Taught", slug: "servant-leadership-jesus", readTime: "7 min", category: "Leadership", categoryColor: "#6B4FBB" },
     ],
@@ -762,7 +762,7 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
           <p className="text-6xl mb-6">📭</p>
           <h1 className="text-3xl font-black mb-4">Article not found</h1>
           <p className="mb-8" style={{ color: "#6A6A88" }}>This article may have moved or been removed.</p>
-          <a href="/blog" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-black" style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)" }}>
+          <a href="/blog" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-black" style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}>
             Browse all articles
           </a>
         </div>
@@ -777,7 +777,7 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
       <div className="page-body pb-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Back link */}
-          <a href="/blog" className="inline-flex items-center gap-2 text-sm mb-8 transition-colors hover:text-[#00FF88]" style={{ color: "#6A6A88" }}>
+          <a href="/blog" className="inline-flex items-center gap-2 text-sm mb-8 transition-colors hover:text-[#3a7d56]" style={{ color: "#6A6A88" }}>
             <ArrowLeft size={14} /> Back to Blog
           </a>
 
@@ -828,7 +828,7 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
                 <p key={i} className="text-base leading-relaxed mb-5" style={{ color: "#C0C0D8", lineHeight: "1.85" }}>{block.text}</p>
               );
               if (block.type === "quote") return (
-                <blockquote key={i} className="my-8 p-6 rounded-2xl" style={{ background: "rgba(0,255,136,0.06)", borderLeft: "3px solid #00FF88" }}>
+                <blockquote key={i} className="my-8 p-6 rounded-2xl" style={{ background: "rgba(58,125,86,0.06)", borderLeft: "3px solid #3a7d56" }}>
                   <p className="text-lg italic mb-3" style={{ color: "#00DD77" }}>&ldquo;{block.text}&rdquo;</p>
                   {block.attribution && <p className="text-sm font-bold" style={{ color: "#007A33" }}>— {block.attribution}</p>}
                 </blockquote>
@@ -875,7 +875,7 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
                   >
                     <div>
                       <span className="text-xs font-bold" style={{ color: r.categoryColor }}>{r.category}</span>
-                      <p className="font-bold text-sm group-hover:text-[#00FF88] transition-colors" style={{ color: "#F2F2F8" }}>{r.title}</p>
+                      <p className="font-bold text-sm group-hover:text-[#3a7d56] transition-colors" style={{ color: "#F2F2F8" }}>{r.title}</p>
                       <p className="text-xs" style={{ color: "#4A4A68" }}>{r.readTime}</p>
                     </div>
                     <ChevronRight size={16} style={{ color: "#4A4A68" }} />

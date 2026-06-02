@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const PSALMS_OF_LAMENT = [
   { ref: "Psalm 22", title: "My God, My God, Why Have You Forsaken Me?", opening: "My God, my God, why have you forsaken me? Why are you so far from saving me, so far from my cries of anguish?", theme: "Abandonment", note: "Jesus quoted this from the cross. The psalm moves from desperate cry to confident praise without the suffering being resolved." },

@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const THEOLOGY = [
   { title: "God Owns Everything", verse: "Psalm 24:1", body: "The earth is the Lord's, and everything in it (Psalm 24:1). The foundational biblical conviction about money is that none of it is ours. We are stewards — managers of resources that belong to God — not owners who happen to occasionally donate. This shifts the question from 'How much of my money should I give to God?' to 'How does the owner want me to manage his resources?' The practical difference is enormous: a steward answers to the owner; an owner answers to no one. Every financial decision is therefore a theological decision about who is lord." },

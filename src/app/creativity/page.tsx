@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const MEDIUMS = [
   { id: "writing", name: "Writing", icon: "✍️", color: "#3B82F6", forms: ["Poetry", "Journaling", "Fiction", "Essays", "Liturgy"], prompt: "Write a poem about a moment when you sensed God's presence unexpectedly. Don't aim for theological precision — aim for honesty." },

@@ -99,7 +99,7 @@ function TypingIndicator() {
           width: 36,
           height: 36,
           borderRadius: "50%",
-          background: "linear-gradient(135deg, #00FF88, #6B4FBB)",
+          background: "linear-gradient(135deg, #3a7d56, #6B4FBB)",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -130,7 +130,7 @@ function TypingIndicator() {
               width: 8,
               height: 8,
               borderRadius: "50%",
-              background: "#00FF88",
+              background: "#3a7d56",
               animation: "dot-bounce 1.2s ease-in-out infinite",
               animationDelay: `${i * 0.2}s`,
             }}
@@ -181,7 +181,7 @@ function MessageBubble({ message }: { message: Message }) {
             width: 36,
             height: 36,
             borderRadius: "50%",
-            background: "linear-gradient(135deg, #00FF88, #6B4FBB)",
+            background: "linear-gradient(135deg, #3a7d56, #6B4FBB)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -205,10 +205,10 @@ function MessageBubble({ message }: { message: Message }) {
         <div
           style={{
             background: isUser
-              ? "linear-gradient(135deg, rgba(0,255,136,0.12), rgba(107,79,187,0.08))"
+              ? "linear-gradient(135deg, rgba(58,125,86,0.12), rgba(107,79,187,0.08))"
               : "#12121F",
             border: isUser
-              ? "1px solid rgba(0,255,136,0.25)"
+              ? "1px solid rgba(58,125,86,0.25)"
               : "1px solid #1E1E32",
             borderRadius: 18,
             borderBottomRightRadius: isUser ? 4 : 18,
@@ -228,7 +228,7 @@ function MessageBubble({ message }: { message: Message }) {
                 display: "inline-block",
                 width: 2,
                 height: 16,
-                background: "#00FF88",
+                background: "#3a7d56",
                 marginLeft: 2,
                 verticalAlign: "text-bottom",
                 animation: "cursor-blink 0.8s step-end infinite",
@@ -410,8 +410,8 @@ export default function AICompanionPage() {
           to { opacity: 1; transform: translateY(0); }
         }
         @keyframes pulse-ring {
-          0%, 100% { box-shadow: 0 0 0 0 rgba(0,255,136,0.3); }
-          50% { box-shadow: 0 0 0 6px rgba(0,255,136,0); }
+          0%, 100% { box-shadow: 0 0 0 0 rgba(58,125,86,0.3); }
+          50% { box-shadow: 0 0 0 6px rgba(58,125,86,0); }
         }
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #07070F; }
@@ -465,7 +465,7 @@ export default function AICompanionPage() {
                   fontSize: 11,
                   fontWeight: 600,
                   color: "#07070F",
-                  background: "linear-gradient(135deg, #00FF88, #00cc66)",
+                  background: "linear-gradient(135deg, #3a7d56, #00cc66)",
                   borderRadius: 20,
                   padding: "2px 10px",
                   letterSpacing: 0.3,
@@ -519,7 +519,7 @@ export default function AICompanionPage() {
                 whiteSpace: "nowrap",
               }}
             >
-              <HelpCircle size={15} style={{ color: "#00FF88" }} />
+              <HelpCircle size={15} style={{ color: "#3a7d56" }} />
               Suggested Questions
               {showDropdown ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
             </button>
@@ -622,7 +622,7 @@ export default function AICompanionPage() {
                           transition: "border-color 0.2s",
                         }}
                         onMouseEnter={(e) => {
-                          (e.currentTarget as HTMLButtonElement).style.borderColor = "#00FF88";
+                          (e.currentTarget as HTMLButtonElement).style.borderColor = "#3a7d56";
                         }}
                         onMouseLeave={(e) => {
                           (e.currentTarget as HTMLButtonElement).style.borderColor = "#1E1E32";
@@ -654,7 +654,7 @@ export default function AICompanionPage() {
             }}
             className="vine-sidebar"
           >
-            <div style={{ fontSize: 13, fontWeight: 600, color: "#00FF88", marginBottom: 16, letterSpacing: 0.5, textTransform: "uppercase" }}>
+            <div style={{ fontSize: 13, fontWeight: 600, color: "#3a7d56", marginBottom: 16, letterSpacing: 0.5, textTransform: "uppercase" }}>
               Try asking...
             </div>
             {SUGGESTED_QUESTIONS.map((cat) => (
@@ -685,7 +685,7 @@ export default function AICompanionPage() {
                       onMouseEnter={(e) => {
                         const btn = e.currentTarget as HTMLButtonElement;
                         btn.style.color = "#F2F2F8";
-                        btn.style.borderColor = "rgba(0,255,136,0.4)";
+                        btn.style.borderColor = "rgba(58,125,86,0.4)";
                       }}
                       onMouseLeave={(e) => {
                         const btn = e.currentTarget as HTMLButtonElement;
@@ -724,7 +724,7 @@ export default function AICompanionPage() {
                 transition: "border-color 0.2s",
               }}
               onFocusCapture={(e) => {
-                (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(0,255,136,0.4)";
+                (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(58,125,86,0.4)";
               }}
               onBlurCapture={(e) => {
                 (e.currentTarget as HTMLDivElement).style.borderColor = "#1E1E32";
@@ -763,7 +763,7 @@ export default function AICompanionPage() {
                   background:
                     isLoading || !input.trim()
                       ? "#1E1E32"
-                      : "linear-gradient(135deg, #00FF88, #00cc66)",
+                      : "linear-gradient(135deg, #3a7d56, #00cc66)",
                   border: "none",
                   color: isLoading || !input.trim() ? "#6A6A88" : "#07070F",
                   display: "flex",

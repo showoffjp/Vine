@@ -22,8 +22,8 @@ const quizMeta = [
     icon: "✨",
     questions: 10,
     results: 7,
-    color: "#00FF88",
-    gradient: "linear-gradient(135deg, rgba(0,255,136,0.2), rgba(0,255,136,0.05))",
+    color: "#3a7d56",
+    gradient: "linear-gradient(135deg, rgba(58,125,86,0.2), rgba(58,125,86,0.05))",
     available: true,
   },
   {
@@ -162,7 +162,7 @@ const giftResults: Record<string, { title: string; description: string; verse: s
     verse: "2 Timothy 2:15 — 'Do your best to present yourself to God as one approved, a worker who has no need to be ashamed, rightly handling the word of truth.'",
     example: "Apollos — 'an eloquent man, competent in the Scriptures' (Acts 18:24). He taught the way of God accurately and powerfully.",
     vineUse: "Lead a Bible Study Circle, write devotionals, record Scripture breakdowns, answer theology questions in Discussions.",
-    color: "#00FF88",
+    color: "#3a7d56",
     emoji: "📖",
   },
   Encouragement: {
@@ -368,7 +368,7 @@ const characterResults: Record<string, { title: string; description: string; ver
     verse: "Judges 4:4 — 'Now Deborah, a prophet, the wife of Lappidoth, was leading Israel at that time.'",
     example: "Deborah led Israel as prophet, judge, and military strategist in an era when no one expected a woman to hold that role. She did it anyway.",
     vineUse: "Lead groups, moderate communities, shape the culture of Vine spaces. Your wisdom and decisiveness make communities healthier.",
-    color: "#00FF88",
+    color: "#3a7d56",
     emoji: "🏛️",
   },
   Jacob: {
@@ -520,7 +520,7 @@ const faithMuscleResults: Record<string, { title: string; description: string; v
     verse: "2 Peter 3:18 — 'But grow in the grace and knowledge of our Lord and Savior Jesus Christ.'",
     example: "The disciples were 'with Jesus' for three years before they understood what they had witnessed. Growth requires time in proximity to the source.",
     vineUse: "Begin mentoring newer believers. Share your journey in Vine Discussions. Take on more spiritual responsibility — you're ready.",
-    color: "#00FF88",
+    color: "#3a7d56",
     emoji: "🌿",
   },
   "Mighty Oak": {
@@ -655,7 +655,7 @@ const prayerStyleResults: Record<string, { title: string; description: string; v
     verse: "Matthew 18:3 — 'Truly I tell you, unless you change and become like little children, you will never enter the kingdom of heaven.'",
     example: "David's psalms are full of conversational prayer — negotiating with God, expressing emotion, reasoning out loud. God called him a man after his own heart.",
     vineUse: "Model authentic, accessible faith in Vine Discussions. Show that prayer doesn't require special vocabulary or posture. Help demystify prayer for new believers.",
-    color: "#00FF88",
+    color: "#3a7d56",
     emoji: "💬",
   },
 };
@@ -779,15 +779,15 @@ export default function QuizPage() {
                 display: "inline-flex",
                 alignItems: "center",
                 gap: "8px",
-                background: "rgba(0,255,136,0.1)",
-                border: "1px solid rgba(0,255,136,0.25)",
+                background: "rgba(58,125,86,0.1)",
+                border: "1px solid rgba(58,125,86,0.25)",
                 borderRadius: "100px",
                 padding: "6px 16px",
                 marginBottom: "24px",
               }}
             >
-              <Star size={14} style={{ color: "#00FF88" }} />
-              <span style={{ color: "#00FF88", fontSize: "12px", fontWeight: 700, letterSpacing: "0.08em" }}>
+              <Star size={14} style={{ color: "#3a7d56" }} />
+              <span style={{ color: "#3a7d56", fontSize: "12px", fontWeight: 700, letterSpacing: "0.08em" }}>
                 SPIRITUAL QUIZZES
               </span>
             </div>
@@ -797,7 +797,7 @@ export default function QuizPage() {
                 fontWeight: 900,
                 lineHeight: 1.05,
                 marginBottom: "16px",
-                background: "linear-gradient(135deg, #FFFFFF 0%, #00FF88 50%, #BBA8D4 100%)",
+                background: "linear-gradient(135deg, #FFFFFF 0%, #3a7d56 50%, #BBA8D4 100%)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
@@ -951,7 +951,7 @@ export default function QuizPage() {
                 <div
                   style={{
                     height: "100%",
-                    background: "linear-gradient(90deg, #00FF88, #B8922A)",
+                    background: "linear-gradient(90deg, #3a7d56, #B8922A)",
                     borderRadius: "100px",
                     width: `${((currentQ + 1) / activeQuizData.questions.length) * 100}%`,
                     transition: "width 0.4s ease",
@@ -968,7 +968,7 @@ export default function QuizPage() {
                   padding: "40px",
                 }}
               >
-                <p style={{ color: "#00FF88", fontSize: "11px", fontWeight: 700, letterSpacing: "0.1em", marginBottom: "16px" }}>
+                <p style={{ color: "#3a7d56", fontSize: "11px", fontWeight: 700, letterSpacing: "0.1em", marginBottom: "16px" }}>
                   {quizMeta.find((q) => q.id === activeQuiz)?.icon} {quizMeta.find((q) => q.id === activeQuiz)?.title.toUpperCase()}
                 </p>
                 <h2
@@ -990,11 +990,11 @@ export default function QuizPage() {
                       style={{
                         background:
                           selected === idx
-                            ? "linear-gradient(135deg, rgba(0,255,136,0.25), rgba(0,255,136,0.1))"
+                            ? "linear-gradient(135deg, rgba(58,125,86,0.25), rgba(58,125,86,0.1))"
                             : "#0F0F1C",
                         border:
                           selected === idx
-                            ? "1px solid rgba(0,255,136,0.6)"
+                            ? "1px solid rgba(58,125,86,0.6)"
                             : "1px solid #1E1E32",
                         borderRadius: "14px",
                         padding: "16px 20px",
@@ -1015,8 +1015,8 @@ export default function QuizPage() {
                           width: "26px",
                           height: "26px",
                           borderRadius: "50%",
-                          background: selected === idx ? "rgba(0,255,136,0.25)" : "rgba(255,255,255,0.04)",
-                          color: selected === idx ? "#00FF88" : "#6A6A88",
+                          background: selected === idx ? "rgba(58,125,86,0.25)" : "rgba(255,255,255,0.04)",
+                          color: selected === idx ? "#3a7d56" : "#6A6A88",
                           fontSize: "12px",
                           fontWeight: 800,
                           marginRight: "12px",
@@ -1103,7 +1103,7 @@ export default function QuizPage() {
                           marginBottom: "20px",
                         }}
                       >
-                        <p style={{ color: "#00FF88", fontSize: "11px", fontWeight: 700, letterSpacing: "0.1em", marginBottom: "8px" }}>
+                        <p style={{ color: "#3a7d56", fontSize: "11px", fontWeight: 700, letterSpacing: "0.1em", marginBottom: "8px" }}>
                           BIBLICAL EXAMPLE
                         </p>
                         <p style={{ color: "#8A8AA8", fontSize: "14px", lineHeight: 1.65 }}>
@@ -1138,7 +1138,7 @@ export default function QuizPage() {
                             alignItems: "center",
                             justifyContent: "center",
                             gap: "8px",
-                            background: "linear-gradient(135deg, #00FF88, #B8922A)",
+                            background: "linear-gradient(135deg, #3a7d56, #B8922A)",
                             color: "#07070F",
                             border: "none",
                             borderRadius: "12px",

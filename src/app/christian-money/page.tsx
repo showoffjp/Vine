@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const THEOLOGY = [
   { title: "Money Is Not Evil — Love of It Is", verse: "1 Timothy 6:10", body: "'For the love of money is a root of all kinds of evil' (1 Timothy 6:10). The text is routinely misquoted as 'money is the root of all evil.' Paul's point is more precise: money itself is morally neutral — it is the heart's orientation toward it that is dangerous. Paul identifies three disorders: the love of money, the desire to get rich, and covetousness. All are problems of the heart, not the bank account." },

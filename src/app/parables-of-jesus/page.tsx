@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const SERIF = "var(--font-cormorant, Georgia, serif)";
 
@@ -15,7 +15,7 @@ const CATEGORIES: Category[] = ["All", "Kingdom", "Grace", "Prayer", "Judgment",
 
 const CATEGORY_COLOR: Record<string, string> = {
   Kingdom: "#6B4FBB",
-  Grace: "#00FF88",
+  Grace: "#3a7d56",
   Prayer: "#3B82F6",
   Judgment: "#EF4444",
   "Lost & Found": "#F59E0B",

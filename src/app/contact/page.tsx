@@ -30,7 +30,7 @@ const teamOptions = [
     title: "General Support",
     description: "Questions about the platform, features, or how to get started.",
     email: "hello@vine.community",
-    color: "#00FF88",
+    color: "#3a7d56",
   },
   {
     icon: Shield,
@@ -91,14 +91,14 @@ export default function ContactPage() {
         {/* Hero */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-14">
           <div className="text-center max-w-2xl mx-auto">
-            <span className="text-xs font-bold uppercase tracking-widest mb-4 block" style={{ color: "#00FF88" }}>
+            <span className="text-xs font-bold uppercase tracking-widest mb-4 block" style={{ color: "#3a7d56" }}>
               Contact Us
             </span>
             <h1 className="text-4xl sm:text-5xl font-black mb-5">
               We&apos;d love to{" "}
               <span
                 style={{
-                  background: "linear-gradient(135deg, #00FF88, #6B4FBB)",
+                  background: "linear-gradient(135deg, #3a7d56, #6B4FBB)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                 }}
@@ -206,7 +206,7 @@ export default function ContactPage() {
                       onClick={handleSubmit}
                       className="w-full py-3.5 rounded-xl font-bold text-sm text-black transition-opacity"
                       style={{
-                        background: "linear-gradient(135deg, #00FF88, #00BB55)",
+                        background: "linear-gradient(135deg, #3a7d56, #3a7d56)",
                         opacity: form.name && form.email && form.message ? 1 : 0.5,
                       }}
                     >
@@ -257,7 +257,7 @@ export default function ContactPage() {
             <div className="space-y-5">
               {/* Contact by team */}
               <div>
-                <h3 className="text-sm font-bold uppercase tracking-widest mb-4" style={{ color: "#00FF88" }}>
+                <h3 className="text-sm font-bold uppercase tracking-widest mb-4" style={{ color: "#3a7d56" }}>
                   Reach a Specific Team
                 </h3>
                 <div className="space-y-3">
@@ -285,7 +285,7 @@ export default function ContactPage() {
                           <Icon size={16} style={{ color: opt.color }} />
                         </div>
                         <div>
-                          <p className="text-sm font-semibold group-hover:text-[#00FF88] transition-colors" style={{ color: "#F2F2F8" }}>
+                          <p className="text-sm font-semibold group-hover:text-[#3a7d56] transition-colors" style={{ color: "#F2F2F8" }}>
                             {opt.title}
                           </p>
                           <p className="text-xs mb-1" style={{ color: "#6A6A88" }}>{opt.description}</p>
@@ -307,15 +307,15 @@ export default function ContactPage() {
                 </h3>
                 <div className="space-y-3 text-sm" style={{ color: "#6A6A88" }}>
                   <div className="flex items-start gap-2">
-                    <MapPin size={14} className="mt-0.5 shrink-0" style={{ color: "#00FF88" }} />
+                    <MapPin size={14} className="mt-0.5 shrink-0" style={{ color: "#3a7d56" }} />
                     <span>Global — built for every believer, everywhere</span>
                   </div>
                   <div className="flex items-start gap-2">
-                    <Mail size={14} className="mt-0.5 shrink-0" style={{ color: "#00FF88" }} />
+                    <Mail size={14} className="mt-0.5 shrink-0" style={{ color: "#3a7d56" }} />
                     <span>hello@vine.community</span>
                   </div>
                   <div className="flex items-start gap-2">
-                    <MessageSquare size={14} className="mt-0.5 shrink-0" style={{ color: "#00FF88" }} />
+                    <MessageSquare size={14} className="mt-0.5 shrink-0" style={{ color: "#3a7d56" }} />
                     <span>Response time: 1–2 business days</span>
                   </div>
                 </div>
@@ -325,8 +325,8 @@ export default function ContactPage() {
               <div
                 className="rounded-2xl p-5 text-center"
                 style={{
-                  background: "linear-gradient(135deg, rgba(0,255,136,0.06) 0%, rgba(107,79,187,0.06) 100%)",
-                  border: "1px solid rgba(0,255,136,0.12)",
+                  background: "linear-gradient(135deg, rgba(58,125,86,0.06) 0%, rgba(107,79,187,0.06) 100%)",
+                  border: "1px solid rgba(58,125,86,0.12)",
                 }}
               >
                 <p className="text-2xl mb-3">🙏</p>
@@ -337,7 +337,7 @@ export default function ContactPage() {
                 <a
                   href="/prayer"
                   className="flex items-center justify-center gap-1 text-sm font-bold"
-                  style={{ color: "#00FF88" }}
+                  style={{ color: "#3a7d56" }}
                 >
                   Visit Prayer Wall <ChevronRight size={14} />
                 </a>

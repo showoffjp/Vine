@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const THEOLOGY = [
   { title: "Growth as God's Work", verse: "Philippians 1:6", body: "'He who began a good work in you will carry it on to completion until the day of Christ Jesus' (Philippians 1:6). Spiritual growth is not primarily human effort — it is God's ongoing work in those who belong to him. This does not make human effort irrelevant (Paul also says 'work out your salvation with fear and trembling' in the same letter) but it grounds growth in divine initiative rather than human achievement. You are not the author of your own transformation." },

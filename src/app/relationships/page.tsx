@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const GUIDANCE = [
   {
@@ -318,7 +318,7 @@ export default function RelationshipsPage() {
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 80 }}>
               {VOICES_REL.map(v => (
                 <button key={v.id} onClick={() => setSelectedVoice(v.id)}
-                  style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? "rgba(0,255,136,0.4)" : BORDER}`, background: selectedVoice === v.id ? "rgba(0,255,136,0.08)" : CARD, cursor: "pointer" }}>
+                  style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? "rgba(58,125,86,0.4)" : BORDER}`, background: selectedVoice === v.id ? "rgba(58,125,86,0.08)" : CARD, cursor: "pointer" }}>
                   <div style={{ fontSize: 13, fontWeight: 700, color: selectedVoice === v.id ? GREEN : TEXT, marginBottom: 2 }}>{v.name}</div>
                   <div style={{ fontSize: 11, color: MUTED }}>{v.era}</div>
                 </button>
@@ -430,7 +430,7 @@ function CommunityContent({
       <div style={{ display: "flex", gap: 4, marginBottom: 32, borderBottom: "1px solid #1E1E32" }}>
         {([["guidance", "Guidance"], ["articles", "Topics"], ["stories", "Stories"]] as const).map(([t, label]) => (
           <button key={t} onClick={() => setInnerTab(t)}
-            style={{ padding: "10px 20px", fontSize: 14, fontWeight: 600, background: "none", border: "none", cursor: "pointer", color: innerTab === t ? "#00FF88" : "#6A6A88", borderBottom: `2px solid ${innerTab === t ? "#00FF88" : "transparent"}`, marginBottom: -1 }}>
+            style={{ padding: "10px 20px", fontSize: 14, fontWeight: 600, background: "none", border: "none", cursor: "pointer", color: innerTab === t ? "#3a7d56" : "#6A6A88", borderBottom: `2px solid ${innerTab === t ? "#3a7d56" : "transparent"}`, marginBottom: -1 }}>
             {label}
           </button>
         ))}
@@ -439,13 +439,13 @@ function CommunityContent({
       {innerTab === "guidance" && (
         <div style={{ maxWidth: 800, margin: "0 auto", display: "flex", flexDirection: "column", gap: 12 }}>
           {GUIDANCE.map(g => (
-            <div key={g.id} style={{ background: "#12121F", borderRadius: 16, overflow: "hidden", border: `1px solid ${openGuidance === g.id ? "rgba(0,255,136,0.3)" : "#1E1E32"}` }}>
+            <div key={g.id} style={{ background: "#12121F", borderRadius: 16, overflow: "hidden", border: `1px solid ${openGuidance === g.id ? "rgba(58,125,86,0.3)" : "#1E1E32"}` }}>
               <button onClick={() => setOpenGuidance(openGuidance === g.id ? null : g.id)}
                 style={{ width: "100%", padding: "18px 22px", display: "flex", justifyContent: "space-between", alignItems: "center", background: "none", border: "none", cursor: "pointer", textAlign: "left" }}>
                 <div style={{ display: "flex", gap: 14, alignItems: "center" }}>
                   <span style={{ fontSize: 24 }}>{g.icon}</span>
                   <div>
-                    <h3 style={{ fontSize: 16, fontWeight: 700, color: openGuidance === g.id ? "#00FF88" : "#F2F2F8", marginBottom: 3 }}>{g.title}</h3>
+                    <h3 style={{ fontSize: 16, fontWeight: 700, color: openGuidance === g.id ? "#3a7d56" : "#F2F2F8", marginBottom: 3 }}>{g.title}</h3>
                     <p style={{ fontSize: 13, color: "#9898B3" }}>{g.summary}</p>
                   </div>
                 </div>
@@ -457,7 +457,7 @@ function CommunityContent({
                     <p key={i} style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.8, marginTop: 16 }}>{para}</p>
                   ))}
                   <div style={{ display: "flex", gap: 8, marginTop: 16, flexWrap: "wrap" }}>
-                    {g.verses.map(v => <span key={v} style={{ fontSize: 12, padding: "3px 10px", borderRadius: 8, background: "rgba(0,255,136,0.08)", color: "#00FF88", border: "1px solid rgba(0,255,136,0.2)" }}>{v}</span>)}
+                    {g.verses.map(v => <span key={v} style={{ fontSize: 12, padding: "3px 10px", borderRadius: 8, background: "rgba(58,125,86,0.08)", color: "#3a7d56", border: "1px solid rgba(58,125,86,0.2)" }}>{v}</span>)}
                   </div>
                 </div>
               )}
@@ -474,7 +474,7 @@ function CommunityContent({
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
               {CATEGORIES.map(c => (
                 <button key={c} onClick={() => setCatFilter(c)}
-                  style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${catFilter === c ? "#00FF88" : "#1E1E32"}`, background: catFilter === c ? "rgba(0,255,136,0.1)" : "transparent", color: catFilter === c ? "#00FF88" : "#9898B3", fontSize: 13, cursor: "pointer", fontWeight: catFilter === c ? 700 : 400 }}>
+                  style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${catFilter === c ? "#3a7d56" : "#1E1E32"}`, background: catFilter === c ? "rgba(58,125,86,0.1)" : "transparent", color: catFilter === c ? "#3a7d56" : "#9898B3", fontSize: 13, cursor: "pointer", fontWeight: catFilter === c ? 700 : 400 }}>
                   {c}
                 </button>
               ))}
@@ -482,7 +482,7 @@ function CommunityContent({
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             {filteredArticles.map(a => (
-              <div key={a.id} style={{ background: "#12121F", borderRadius: 16, overflow: "hidden", border: `1px solid ${expandedArticle === a.id ? "rgba(0,255,136,0.2)" : "#1E1E32"}` }}>
+              <div key={a.id} style={{ background: "#12121F", borderRadius: 16, overflow: "hidden", border: `1px solid ${expandedArticle === a.id ? "rgba(58,125,86,0.2)" : "#1E1E32"}` }}>
                 <div onClick={() => setExpandedArticle(expandedArticle === a.id ? null : a.id)}
                   style={{ padding: "18px 22px", display: "flex", justifyContent: "space-between", alignItems: "flex-start", cursor: "pointer" }}>
                   <div style={{ flex: 1 }}>
@@ -490,7 +490,7 @@ function CommunityContent({
                       <span style={{ fontSize: 11, padding: "2px 8px", borderRadius: 20, background: "rgba(107,79,187,0.15)", color: "#A080FF", border: "1px solid rgba(107,79,187,0.25)" }}>{a.category}</span>
                       <span style={{ fontSize: 11, color: "#6A6A88" }}>{a.readTime} read</span>
                     </div>
-                    <h3 style={{ fontSize: 16, fontWeight: 700, color: expandedArticle === a.id ? "#00FF88" : "#F2F2F8", marginBottom: 4 }}>{a.title}</h3>
+                    <h3 style={{ fontSize: 16, fontWeight: 700, color: expandedArticle === a.id ? "#3a7d56" : "#F2F2F8", marginBottom: 4 }}>{a.title}</h3>
                     <p style={{ fontSize: 13, color: "#9898B3" }}>{a.summary}</p>
                   </div>
                   <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0, marginLeft: 12 }}>
@@ -519,7 +519,7 @@ function CommunityContent({
           {STORIES.map(s => (
             <div key={s.id} onClick={() => setSelectedStory(s)}
               style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 16, padding: 22, cursor: "pointer" }}
-              onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = "#00FF88"; (e.currentTarget as HTMLDivElement).style.transform = "translateY(-2px)"; }}
+              onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = "#3a7d56"; (e.currentTarget as HTMLDivElement).style.transform = "translateY(-2px)"; }}
               onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = "#1E1E32"; (e.currentTarget as HTMLDivElement).style.transform = "none"; }}>
               <div style={{ fontSize: 28, marginBottom: 12 }}>{s.type === "couple" ? "💑" : "🌸"}</div>
               <h3 style={{ fontSize: 17, fontWeight: 700, marginBottom: 4 }}>{s.title}</h3>
@@ -527,7 +527,7 @@ function CommunityContent({
               <p style={{ fontSize: 13, color: "#C0C0D8", lineHeight: 1.6, display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
                 {s.story.split("\n\n")[0]}
               </p>
-              <p style={{ fontSize: 12, color: "#00FF88", marginTop: 12, fontStyle: "italic" }}>&ldquo;{s.verse.slice(0, 55)}&hellip;&rdquo; &mdash; {s.verseRef}</p>
+              <p style={{ fontSize: 12, color: "#3a7d56", marginTop: 12, fontStyle: "italic" }}>&ldquo;{s.verse.slice(0, 55)}&hellip;&rdquo; &mdash; {s.verseRef}</p>
             </div>
           ))}
         </div>

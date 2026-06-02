@@ -123,7 +123,7 @@ const topics: Record<string, Topic> = {
         avatar: "IF",
         avatarColor: "#EC4899",
         hub: "r/MentalHealth&Faith",
-        hubColor: "#00FF88",
+        hubColor: "#3a7d56",
         upvotes: 2103,
         replies: 312,
         time: "1 day ago",
@@ -148,7 +148,7 @@ const topics: Record<string, Topic> = {
         title: "Dating as a Christian in 2026 is genuinely hard. Anyone else feel like the apps are working against you?",
         author: "Amara Osei",
         avatar: "AO",
-        avatarColor: "#00FF88",
+        avatarColor: "#3a7d56",
         hub: "r/YoungAdults",
         hubColor: "#4FBBAA",
         upvotes: 789,
@@ -162,7 +162,7 @@ const topics: Record<string, Topic> = {
   },
   "marriage-faith": {
     name: "#MarriageFaith",
-    color: "#00FF88",
+    color: "#3a7d56",
     posts: "8.1k",
     description:
       "Building marriages centered on Christ — from Christian dating to engagement, communication, conflict resolution, and lifelong covenant commitment. Real couples share real challenges.",
@@ -174,7 +174,7 @@ const topics: Record<string, Topic> = {
         avatar: "TN",
         avatarColor: "#4F8FBB",
         hub: "r/ChristianMarriage",
-        hubColor: "#00FF88",
+        hubColor: "#3a7d56",
         upvotes: 1893,
         replies: 312,
         time: "2 hours ago",
@@ -187,7 +187,7 @@ const topics: Record<string, Topic> = {
         avatar: "LB",
         avatarColor: "#6B4FBB",
         hub: "r/ChristianMarriage",
-        hubColor: "#00FF88",
+        hubColor: "#3a7d56",
         upvotes: 1204,
         replies: 234,
         time: "1 day ago",
@@ -213,12 +213,12 @@ const topics: Record<string, Topic> = {
         avatar: "DO",
         avatarColor: "#F59E0B",
         hub: "r/ChristianMarriage",
-        hubColor: "#00FF88",
+        hubColor: "#3a7d56",
         upvotes: 2891,
         replies: 167,
         time: "1 week ago",
         flair: "Wisdom",
-        flairColor: "#00FF88",
+        flairColor: "#3a7d56",
       },
     ],
   },
@@ -241,7 +241,7 @@ const topics: Record<string, Topic> = {
         replies: 318,
         time: "4 hours ago",
         flair: "🏆 Community Favorite",
-        flairColor: "#00FF88",
+        flairColor: "#3a7d56",
         slug: "depression-therapy-faith-005",
       },
       {
@@ -367,7 +367,7 @@ const topics: Record<string, Topic> = {
         replies: 892,
         time: "3 days ago",
         flair: "🏆 Most Saved",
-        flairColor: "#00FF88",
+        flairColor: "#3a7d56",
       },
       {
         title: "How do you handle doubt without losing faith? (serious discussion)",
@@ -413,7 +413,7 @@ const topics: Record<string, Topic> = {
   },
   "resurrection": {
     name: "#ResurrectionEvidence",
-    color: "#00FF88",
+    color: "#3a7d56",
     posts: "4.8k",
     description:
       "The bodily resurrection of Jesus is the hinge on which Christianity stands or falls. Historical evidence, theological implications, and why Easter changes everything about how we live right now.",
@@ -424,7 +424,7 @@ const topics: Record<string, Topic> = {
         title: "N.T. Wright on the resurrection: 'The evidence is as strong as any ancient event' — discuss",
         author: "Dr. Emmanuel Adeyemi",
         avatar: "EA",
-        avatarColor: "#00FF88",
+        avatarColor: "#3a7d56",
         hub: "r/Apologetics",
         hubColor: "#6B4FBB",
         upvotes: 3241,
@@ -581,7 +581,7 @@ const topics: Record<string, Topic> = {
         title: "Christian masculinity books — what's actually helpful vs. what's just culture war content?",
         author: "Kwame Asante",
         avatar: "KA",
-        avatarColor: "#00FF88",
+        avatarColor: "#3a7d56",
         hub: "r/MenOfFaith",
         hubColor: "#F59E0B",
         upvotes: 1547,
@@ -710,7 +710,7 @@ export default async function TopicPage({ params }: { params: Promise<{ slug: st
           <p className="text-6xl mb-6">🔍</p>
           <h1 className="text-3xl font-black mb-4">Topic not found</h1>
           <a href="/topics" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-black"
-            style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)" }}>
+            style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}>
             Browse All Topics
           </a>
         </div>
@@ -734,7 +734,7 @@ export default async function TopicPage({ params }: { params: Promise<{ slug: st
           }}
         >
           <div className="max-w-4xl mx-auto">
-            <a href="/topics" className="inline-flex items-center gap-2 text-sm mb-6 hover:text-[#00FF88] transition-colors" style={{ color: "#6A6A88" }}>
+            <a href="/topics" className="inline-flex items-center gap-2 text-sm mb-6 hover:text-[#3a7d56] transition-colors" style={{ color: "#6A6A88" }}>
               <ArrowLeft size={14} /> All Topics
             </a>
             <div className="flex items-start justify-between gap-6">
@@ -752,7 +752,7 @@ export default async function TopicPage({ params }: { params: Promise<{ slug: st
                 </div>
                 <p className="text-base leading-relaxed max-w-2xl" style={{ color: "#8A8AA8" }}>{topic.description}</p>
                 {topic.scripture && (
-                  <span className="mt-4 inline-flex items-center gap-2 text-xs px-3 py-1.5 rounded-full" style={{ background: "rgba(0,255,136,0.08)", color: "#00FF88", border: "1px solid rgba(0,255,136,0.15)" }}>
+                  <span className="mt-4 inline-flex items-center gap-2 text-xs px-3 py-1.5 rounded-full" style={{ background: "rgba(58,125,86,0.08)", color: "#3a7d56", border: "1px solid rgba(58,125,86,0.15)" }}>
                     📜 Key Scripture: {topic.scripture}
                   </span>
                 )}
@@ -771,8 +771,8 @@ export default async function TopicPage({ params }: { params: Promise<{ slug: st
                   Top Discussions
                 </h2>
                 <div className="flex items-center gap-2">
-                  <TrendingUp size={14} style={{ color: "#00FF88" }} />
-                  <span className="text-xs font-semibold" style={{ color: "#00FF88" }}>Trending</span>
+                  <TrendingUp size={14} style={{ color: "#3a7d56" }} />
+                  <span className="text-xs font-semibold" style={{ color: "#3a7d56" }}>Trending</span>
                 </div>
               </div>
 
@@ -813,7 +813,7 @@ export default async function TopicPage({ params }: { params: Promise<{ slug: st
 
               <a
                 href="/discussions"
-                className="mt-6 w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-semibold transition-all hover:border-[rgba(0,255,136,0.3)] hover:text-[#00FF88]"
+                className="mt-6 w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-semibold transition-all hover:border-[rgba(58,125,86,0.3)] hover:text-[#3a7d56]"
                 style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", color: "#6A6A88" }}
               >
                 View all {topic.posts} discussions <ArrowLeft size={14} className="rotate-180" />
@@ -834,7 +834,7 @@ export default async function TopicPage({ params }: { params: Promise<{ slug: st
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-xs" style={{ color: "#6A6A88" }}>This week</span>
-                    <span className="text-xs font-bold" style={{ color: "#00FF88" }}>+1.2k</span>
+                    <span className="text-xs font-bold" style={{ color: "#3a7d56" }}>+1.2k</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-xs" style={{ color: "#6A6A88" }}>Followers</span>
@@ -845,7 +845,7 @@ export default async function TopicPage({ params }: { params: Promise<{ slug: st
 
               {/* Related Topics */}
               <div className="rounded-2xl p-4" style={{ background: "#12121F", border: "1px solid #1E1E32" }}>
-                <h4 className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#00FF88" }}>
+                <h4 className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#3a7d56" }}>
                   Related Topics
                 </h4>
                 <div className="space-y-2">
@@ -853,7 +853,7 @@ export default async function TopicPage({ params }: { params: Promise<{ slug: st
                     <a
                       key={relSlug}
                       href={`/topics/${relSlug}`}
-                      className="flex items-center gap-2 text-xs font-semibold hover:text-[#00FF88] transition-colors"
+                      className="flex items-center gap-2 text-xs font-semibold hover:text-[#3a7d56] transition-colors"
                       style={{ color: "#C0C0D8", textDecoration: "none" }}
                     >
                       <Hash size={11} style={{ color: "#4A4A68" }} />
@@ -865,7 +865,7 @@ export default async function TopicPage({ params }: { params: Promise<{ slug: st
 
               {/* Community rules */}
               <div className="rounded-2xl p-4" style={{ background: "#12121F", border: "1px solid #1E1E32" }}>
-                <h4 className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#00FF88" }}>
+                <h4 className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#3a7d56" }}>
                   Community Guidelines
                 </h4>
                 <div className="space-y-2">
@@ -895,7 +895,7 @@ export default async function TopicPage({ params }: { params: Promise<{ slug: st
                 <a
                   href="/discussions"
                   className="block w-full py-2 rounded-xl font-bold text-sm text-black"
-                  style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)" }}
+                  style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}
                 >
                   Post a Discussion
                 </a>

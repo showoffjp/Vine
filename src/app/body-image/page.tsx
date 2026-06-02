@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const THEOLOGY = [
   { title: "The Body is Good", verse: "Genesis 1:31", body: "God created the human body and called it very good (Genesis 1:31). The body is not a prison for the soul, not a mistake, not a lower reality to be transcended — it is a good gift from a good Creator. The Incarnation confirms this: God became flesh (John 1:14). The resurrection confirms it again: the future holds embodied existence, not escape from the body. The body is not the problem; sin, shame, and comparison are." },

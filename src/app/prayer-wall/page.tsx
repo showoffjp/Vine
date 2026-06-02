@@ -171,7 +171,7 @@ const CATEGORY_COLORS: Record<string, string> = {
   Health: "#EF4444",
   Family: "#3B82F6",
   Work: "#F59E0B",
-  Salvation: "#00FF88",
+  Salvation: "#3a7d56",
   Relationships: "#EC4899",
   Finances: "#F97316",
   Grief: "#8B5CF6",
@@ -276,12 +276,12 @@ export default function PrayerWallPage() {
         {/* Hero */}
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-10 pt-2">
           <div className="flex items-center gap-2 mb-4">
-            <Globe size={18} style={{ color: "#00FF88" }} />
-            <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#00FF88" }}>Community Prayer Wall</span>
+            <Globe size={18} style={{ color: "#3a7d56" }} />
+            <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#3a7d56" }}>Community Prayer Wall</span>
           </div>
           <h1 className="text-4xl sm:text-5xl font-black mb-4">
             Carry each{" "}
-            <span style={{ background: "linear-gradient(135deg, #00FF88, #6B4FBB)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+            <span style={{ background: "linear-gradient(135deg, #3a7d56, #6B4FBB)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
               other&apos;s burdens.
             </span>
           </h1>
@@ -291,9 +291,9 @@ export default function PrayerWallPage() {
 
           {/* Stats row */}
           <div className="flex flex-wrap gap-4 mb-6">
-            <div className="flex items-center gap-2 px-4 py-2 rounded-xl" style={{ background: "rgba(0,255,136,0.08)", border: "1px solid rgba(0,255,136,0.15)" }}>
-              <Heart size={14} style={{ color: "#00FF88" }} />
-              <span className="text-sm font-bold" style={{ color: "#00FF88" }}>{totalPrayers.toLocaleString()} prayers offered</span>
+            <div className="flex items-center gap-2 px-4 py-2 rounded-xl" style={{ background: "rgba(58,125,86,0.08)", border: "1px solid rgba(58,125,86,0.15)" }}>
+              <Heart size={14} style={{ color: "#3a7d56" }} />
+              <span className="text-sm font-bold" style={{ color: "#3a7d56" }}>{totalPrayers.toLocaleString()} prayers offered</span>
             </div>
             <div className="flex items-center gap-2 px-4 py-2 rounded-xl" style={{ background: "rgba(107,79,187,0.08)", border: "1px solid rgba(107,79,187,0.2)" }}>
               <CheckCircle2 size={14} style={{ color: "#6B4FBB" }} />
@@ -308,7 +308,7 @@ export default function PrayerWallPage() {
           <button
             onClick={() => setShowCompose(true)}
             className="flex items-center gap-2 px-6 py-3 rounded-xl font-black text-sm transition-all"
-            style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)", color: "#07070F" }}
+            style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)", color: "#07070F" }}
           >
             <Plus size={16} /> Post a Prayer Request
           </button>
@@ -327,13 +327,13 @@ export default function PrayerWallPage() {
                 {/* Anonymous toggle */}
                 <div className="flex items-center justify-between p-3 rounded-xl" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}>
                   <div className="flex items-center gap-2">
-                    <Lock size={14} style={{ color: form.anonymous ? "#00FF88" : "#4A4A68" }} />
+                    <Lock size={14} style={{ color: form.anonymous ? "#3a7d56" : "#4A4A68" }} />
                     <span className="text-sm font-semibold" style={{ color: "#C0C0D8" }}>Post anonymously</span>
                   </div>
                   <button
                     onClick={() => setForm((f) => ({ ...f, anonymous: !f.anonymous }))}
                     className="w-10 h-5 rounded-full transition-all relative"
-                    style={{ background: form.anonymous ? "#00FF88" : "#1E1E32" }}
+                    style={{ background: form.anonymous ? "#3a7d56" : "#1E1E32" }}
                   >
                     <span className="absolute top-0.5 w-4 h-4 rounded-full transition-all" style={{ background: "#fff", left: form.anonymous ? "22px" : "2px" }} />
                   </button>
@@ -392,7 +392,7 @@ export default function PrayerWallPage() {
                   disabled={!form.body.trim()}
                   className="flex-1 py-2.5 rounded-xl font-black text-sm transition-all"
                   style={{
-                    background: form.body.trim() ? "linear-gradient(135deg, #00FF88, #00BB55)" : "rgba(255,255,255,0.06)",
+                    background: form.body.trim() ? "linear-gradient(135deg, #3a7d56, #3a7d56)" : "rgba(255,255,255,0.06)",
                     color: form.body.trim() ? "#07070F" : "#4A4A68",
                   }}
                 >
@@ -424,9 +424,9 @@ export default function PrayerWallPage() {
                   onClick={() => setSortBy(s)}
                   className="px-3 py-1.5 rounded-lg text-xs font-semibold capitalize whitespace-nowrap"
                   style={{
-                    background: sortBy === s ? "rgba(0,255,136,0.15)" : "rgba(255,255,255,0.04)",
-                    border: sortBy === s ? "1px solid rgba(0,255,136,0.35)" : "1px solid rgba(255,255,255,0.06)",
-                    color: sortBy === s ? "#00FF88" : "#6A6A88",
+                    background: sortBy === s ? "rgba(58,125,86,0.15)" : "rgba(255,255,255,0.04)",
+                    border: sortBy === s ? "1px solid rgba(58,125,86,0.35)" : "1px solid rgba(255,255,255,0.06)",
+                    color: sortBy === s ? "#3a7d56" : "#6A6A88",
                   }}
                 >
                   {s === "most-prayed" ? "Most Prayed" : s === "answered" ? "Answered ✓" : "Recent"}
@@ -469,8 +469,8 @@ export default function PrayerWallPage() {
                   key={req.id}
                   className="rounded-2xl p-5 transition-all"
                   style={{
-                    background: req.answered ? "linear-gradient(135deg, rgba(0,255,136,0.05), rgba(16,185,129,0.02))" : "#12121F",
-                    border: req.answered ? "1px solid rgba(0,255,136,0.2)" : "1px solid #1E1E32",
+                    background: req.answered ? "linear-gradient(135deg, rgba(58,125,86,0.05), rgba(16,185,129,0.02))" : "#12121F",
+                    border: req.answered ? "1px solid rgba(58,125,86,0.2)" : "1px solid #1E1E32",
                   }}
                 >
                   {/* Header */}
@@ -497,7 +497,7 @@ export default function PrayerWallPage() {
                       </div>
                     </div>
                     {req.answered && (
-                      <span className="text-[10px] font-black px-2 py-1 rounded-full whitespace-nowrap" style={{ background: "rgba(0,255,136,0.15)", color: "#00FF88", border: "1px solid rgba(0,255,136,0.3)" }}>
+                      <span className="text-[10px] font-black px-2 py-1 rounded-full whitespace-nowrap" style={{ background: "rgba(58,125,86,0.15)", color: "#3a7d56", border: "1px solid rgba(58,125,86,0.3)" }}>
                         ✓ ANSWERED
                       </span>
                     )}
@@ -508,8 +508,8 @@ export default function PrayerWallPage() {
 
                   {/* Testimony */}
                   {req.testimony && (
-                    <div className="p-3 rounded-xl mb-4" style={{ background: "rgba(0,255,136,0.06)", border: "1px solid rgba(0,255,136,0.12)" }}>
-                      <p className="text-xs font-bold mb-1" style={{ color: "#00FF88" }}>🙏 Praise Report</p>
+                    <div className="p-3 rounded-xl mb-4" style={{ background: "rgba(58,125,86,0.06)", border: "1px solid rgba(58,125,86,0.12)" }}>
+                      <p className="text-xs font-bold mb-1" style={{ color: "#3a7d56" }}>🙏 Praise Report</p>
                       <p className="text-xs" style={{ color: "#A0A0C0" }}>{req.testimony}</p>
                     </div>
                   )}
@@ -520,12 +520,12 @@ export default function PrayerWallPage() {
                       onClick={() => handlePray(req.id)}
                       className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-black transition-all"
                       style={{
-                        background: hasPrayed ? "rgba(0,255,136,0.15)" : "rgba(0,255,136,0.08)",
-                        color: "#00FF88",
-                        border: hasPrayed ? "1px solid rgba(0,255,136,0.4)" : "1px solid rgba(0,255,136,0.15)",
+                        background: hasPrayed ? "rgba(58,125,86,0.15)" : "rgba(58,125,86,0.08)",
+                        color: "#3a7d56",
+                        border: hasPrayed ? "1px solid rgba(58,125,86,0.4)" : "1px solid rgba(58,125,86,0.15)",
                       }}
                     >
-                      <Heart size={13} fill={hasPrayed ? "#00FF88" : "none"} />
+                      <Heart size={13} fill={hasPrayed ? "#3a7d56" : "none"} />
                       {hasPrayed ? "Praying" : "I'll Pray"}
                       <span className="ml-1 font-normal text-xs opacity-70">{req.prayerCount.toLocaleString()}</span>
                     </button>
@@ -542,7 +542,7 @@ export default function PrayerWallPage() {
           </div>
 
           {/* Bottom CTA */}
-          <div className="text-center mt-12 p-8 rounded-2xl" style={{ background: "linear-gradient(135deg, rgba(107,79,187,0.08) 0%, rgba(0,255,136,0.04) 100%)", border: "1px solid rgba(107,79,187,0.15)" }}>
+          <div className="text-center mt-12 p-8 rounded-2xl" style={{ background: "linear-gradient(135deg, rgba(107,79,187,0.08) 0%, rgba(58,125,86,0.04) 100%)", border: "1px solid rgba(107,79,187,0.15)" }}>
             <p className="text-2xl font-black mb-2" style={{ color: "#F2F2F8" }}>Carry each other&apos;s burdens</p>
             <p className="text-sm mb-5" style={{ color: "#6A6A88" }}>
               Every prayer matters. The global church praying together is the most powerful force on earth.

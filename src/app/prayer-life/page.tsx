@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const THEOLOGY = [
   { title: "Prayer as Relationship", verse: "Matthew 6:9", body: "'Our Father in heaven' — the very first word of the Lord's Prayer establishes prayer's foundation: relationship. Prayer is not a vending machine (input request, receive output), not a magic spell, and not primarily a spiritual discipline for self-improvement. It is a conversation with a personal God who is simultaneously transcendent ('in heaven') and intimate ('our Father'). The quality of a prayer life reflects the quality of the relationship that sustains it." },

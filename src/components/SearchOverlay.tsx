@@ -13,7 +13,7 @@ const trending = [
 ];
 
 const quickLinks = [
-  { icon: BookOpen, label: "Bible — John 3:16", type: "Scripture", color: "#00FF88" },
+  { icon: BookOpen, label: "Bible — John 3:16", type: "Scripture", color: "#3a7d56" },
   { icon: MessageSquare, label: "r/FaithAndDoubt", type: "Hub", color: "#6B4FBB" },
   { icon: Zap, label: "10-10-80 Money Method", type: "Life Hack", color: "#E8A020" },
   { icon: Users, label: "Global Connect", type: "Community", color: "#3A9E72" },
@@ -63,13 +63,13 @@ export default function SearchOverlay({ open, onClose }: SearchOverlayProps) {
         className="w-full max-w-2xl rounded-2xl overflow-hidden"
         style={{
           background: "#0E0E1A",
-          border: "1px solid rgba(0,255,136,0.2)",
-          boxShadow: "0 40px 80px rgba(0,0,0,0.8), 0 0 0 1px rgba(0,255,136,0.05)",
+          border: "1px solid rgba(58,125,86,0.2)",
+          boxShadow: "0 40px 80px rgba(0,0,0,0.8), 0 0 0 1px rgba(58,125,86,0.05)",
         }}
       >
         {/* Input */}
         <div className="flex items-center gap-3 px-5 py-4 border-b" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
-          <Search size={20} style={{ color: "#00FF88" }} />
+          <Search size={20} style={{ color: "#3a7d56" }} />
           <input
             ref={inputRef}
             value={query}
@@ -90,14 +90,14 @@ export default function SearchOverlay({ open, onClose }: SearchOverlayProps) {
               {/* Trending */}
               <div className="mb-6">
                 <div className="flex items-center gap-2 mb-3">
-                  <TrendingUp size={13} style={{ color: "#00FF88" }} />
-                  <span className="text-xs font-bold uppercase tracking-wider" style={{ color: "#00FF88" }}>Trending Now</span>
+                  <TrendingUp size={13} style={{ color: "#3a7d56" }} />
+                  <span className="text-xs font-bold uppercase tracking-wider" style={{ color: "#3a7d56" }}>Trending Now</span>
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {trending.map((t) => (
                     <button key={t.label} className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm transition-colors"
                       style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)", color: "#A0A0C0" }}
-                      onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(0,255,136,0.3)"; e.currentTarget.style.color = "#F2F2F8"; }}
+                      onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(58,125,86,0.3)"; e.currentTarget.style.color = "#F2F2F8"; }}
                       onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)"; e.currentTarget.style.color = "#A0A0C0"; }}
                     >
                       <span>{t.icon}</span> {t.label}

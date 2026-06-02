@@ -44,7 +44,7 @@ const moreDevotionals = [
     author: "Rev. Naomi Clark",
     readTime: "6 min",
     tag: "Endurance",
-    tagColor: "#00FF88",
+    tagColor: "#3a7d56",
   },
   {
     title: "Walking by Faith, Not by Sight",
@@ -91,7 +91,7 @@ export default function DailyPage() {
           style={{ background: "#12121F", border: "1px solid #1E1E32" }}
         >
           <div className="flex items-center gap-2">
-            <BookOpen size={16} style={{ color: "#00FF88" }} />
+            <BookOpen size={16} style={{ color: "#3a7d56" }} />
             <span className="text-sm font-semibold" style={{ color: "#F2F2F8" }}>
               New Testament in 90 Days
             </span>
@@ -101,11 +101,11 @@ export default function DailyPage() {
               className="h-full rounded-full"
               style={{
                 width: "23.3%",
-                background: "linear-gradient(90deg, #00FF88, #44FFAA)",
+                background: "linear-gradient(90deg, #3a7d56, #52a876)",
               }}
             />
           </div>
-          <span className="text-sm font-bold flex-shrink-0" style={{ color: "#00FF88" }}>
+          <span className="text-sm font-bold flex-shrink-0" style={{ color: "#3a7d56" }}>
             Day 21 of 90
           </span>
         </div>
@@ -169,7 +169,7 @@ export default function DailyPage() {
               className="rounded-2xl p-4"
               style={{ background: "#12121F", border: "1px solid #1E1E32" }}
             >
-              <h4 className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#00FF88" }}>
+              <h4 className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#3a7d56" }}>
                 Reading Plan
               </h4>
               <p className="text-sm font-bold mb-1" style={{ color: "#F2F2F8" }}>
@@ -181,7 +181,7 @@ export default function DailyPage() {
               <div className="w-full h-2 rounded-full mb-2" style={{ background: "#1E1E32" }}>
                 <div
                   className="h-full rounded-full"
-                  style={{ width: "23.3%", background: "linear-gradient(90deg, #00FF88, #44FFAA)" }}
+                  style={{ width: "23.3%", background: "linear-gradient(90deg, #3a7d56, #52a876)" }}
                 />
               </div>
               <div className="flex justify-between text-[10px]" style={{ color: "#6A6A88" }}>
@@ -195,7 +195,7 @@ export default function DailyPage() {
               className="rounded-2xl p-4"
               style={{ background: "#12121F", border: "1px solid #1E1E32" }}
             >
-              <h4 className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#00FF88" }}>
+              <h4 className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#3a7d56" }}>
                 This Week
               </h4>
               <div className="space-y-2">
@@ -207,15 +207,15 @@ export default function DailyPage() {
                       onClick={() => toggleDay(day.todayIndex)}
                       className="flex items-center gap-3 p-2 rounded-xl transition-all duration-200 cursor-pointer"
                       style={{
-                        background: done ? "rgba(0,255,136,0.08)" : "transparent",
-                        border: done ? "1px solid rgba(0,255,136,0.2)" : "1px solid transparent",
+                        background: done ? "rgba(58,125,86,0.08)" : "transparent",
+                        border: done ? "1px solid rgba(58,125,86,0.2)" : "1px solid transparent",
                       }}
                     >
                       <div
                         className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 text-[10px] font-black"
                         style={{
-                          background: done ? "rgba(0,255,136,0.2)" : "#1E1E32",
-                          color: done ? "#00FF88" : "#6A6A88",
+                          background: done ? "rgba(58,125,86,0.2)" : "#1E1E32",
+                          color: done ? "#3a7d56" : "#6A6A88",
                         }}
                       >
                         {day.day}
@@ -228,7 +228,7 @@ export default function DailyPage() {
                           {day.label}
                         </p>
                       </div>
-                      {done && <CheckCircle size={13} style={{ color: "#00FF88" }} />}
+                      {done && <CheckCircle size={13} style={{ color: "#3a7d56" }} />}
                     </div>
                   );
                 })}
@@ -239,12 +239,12 @@ export default function DailyPage() {
             <div
               className="rounded-2xl p-4"
               style={{
-                background: "linear-gradient(135deg, rgba(0,255,136,0.06) 0%, rgba(107,79,187,0.04) 100%)",
-                border: "1px solid rgba(0,255,136,0.15)",
+                background: "linear-gradient(135deg, rgba(58,125,86,0.06) 0%, rgba(107,79,187,0.04) 100%)",
+                border: "1px solid rgba(58,125,86,0.15)",
               }}
             >
               <div className="flex items-center justify-between mb-3">
-                <h4 className="text-xs font-bold uppercase tracking-widest" style={{ color: "#00FF88" }}>
+                <h4 className="text-xs font-bold uppercase tracking-widest" style={{ color: "#3a7d56" }}>
                   Streak
                 </h4>
                 <div className="flex items-center gap-1">
@@ -262,10 +262,10 @@ export default function DailyPage() {
                     style={{
                       background:
                         day === 21
-                          ? "linear-gradient(135deg, #00FF88, #44FFAA)"
-                          : "rgba(0,255,136,0.15)",
-                      color: day === 21 ? "#07070F" : "#00FF88",
-                      border: day === 21 ? "none" : "1px solid rgba(0,255,136,0.2)",
+                          ? "linear-gradient(135deg, #3a7d56, #52a876)"
+                          : "rgba(58,125,86,0.15)",
+                      color: day === 21 ? "#07070F" : "#3a7d56",
+                      border: day === 21 ? "none" : "1px solid rgba(58,125,86,0.2)",
                     }}
                   >
                     🔥
@@ -282,7 +282,7 @@ export default function DailyPage() {
               className="rounded-2xl p-4"
               style={{ background: "#12121F", border: "1px solid #1E1E32" }}
             >
-              <h4 className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#00FF88" }}>
+              <h4 className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#3a7d56" }}>
                 Your Month
               </h4>
               <div className="space-y-2">

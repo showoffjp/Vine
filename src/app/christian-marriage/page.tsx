@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const THEOLOGY = [
   { title: "Marriage as Covenant", verse: "Malachi 2:14", body: "Scripture consistently describes marriage as a covenant — a binding commitment made before God, not merely a social contract between two parties. 'The Lord is the witness between you and the wife of your youth... though she is your partner, the wife of your marriage covenant' (Malachi 2:14). Covenant language means: this is not dissolved by disappointment or the fading of feeling. It is a promise, and promises create identity." },

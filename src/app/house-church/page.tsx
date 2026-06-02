@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 type Tab = "guide" | "models" | "voices" | "videos";
 
@@ -365,7 +365,7 @@ export default function HouseChurchPage() {
 
         {/* Header */}
         <div style={{ textAlign: "center", marginBottom: 40 }}>
-          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(0,255,136,0.1)", border: "1px solid rgba(0,255,136,0.25)", borderRadius: 20, padding: "6px 16px", marginBottom: 16 }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(58,125,86,0.1)", border: "1px solid rgba(58,125,86,0.25)", borderRadius: 20, padding: "6px 16px", marginBottom: 16 }}>
             <span style={{ fontSize: 16 }}>🏡</span>
             <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 2, color: GREEN, textTransform: "uppercase" }}>House Church</span>
           </div>
@@ -378,8 +378,8 @@ export default function HouseChurchPage() {
           <p style={{ color: MUTED, fontSize: 17, maxWidth: 580, margin: "0 auto 24px" }}>
             The first Christians gathered in homes. Simple, participatory, relational gatherings centered on Word, prayer, and table are not a lesser form of church &mdash; they may be its purest expression.
           </p>
-          <div style={{ background: "rgba(0,255,136,0.06)", border: "1px solid rgba(0,255,136,0.18)", borderRadius: 12, padding: "14px 20px", maxWidth: 520, margin: "0 auto" }}>
-            <p style={{ fontSize: 14, color: "#00CC66", fontStyle: "italic", margin: 0 }}>
+          <div style={{ background: "rgba(58,125,86,0.06)", border: "1px solid rgba(58,125,86,0.18)", borderRadius: 12, padding: "14px 20px", maxWidth: 520, margin: "0 auto" }}>
+            <p style={{ fontSize: 14, color: "#4a9e6e", fontStyle: "italic", margin: 0 }}>
               &ldquo;They broke bread in their homes and ate together with glad and sincere hearts.&rdquo;
             </p>
             <p style={{ fontSize: 12, color: MUTED, marginTop: 4, marginBottom: 0 }}>&mdash; Acts 2:46</p>
@@ -409,7 +409,7 @@ export default function HouseChurchPage() {
             </p>
 
             {/* Essentials banner */}
-            <div style={{ background: `linear-gradient(135deg, rgba(107,79,187,0.1), rgba(0,255,136,0.05))`, border: `1px solid rgba(107,79,187,0.2)`, borderRadius: 16, padding: "24px", marginBottom: 28 }}>
+            <div style={{ background: `linear-gradient(135deg, rgba(107,79,187,0.1), rgba(58,125,86,0.05))`, border: `1px solid rgba(107,79,187,0.2)`, borderRadius: 16, padding: "24px", marginBottom: 28 }}>
               <h3 style={{ fontSize: 16, fontWeight: 800, marginBottom: 16 }}>Non-Negotiables for a Healthy House Church</h3>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: 12 }}>
                 {essentials.map(e => (
@@ -438,7 +438,7 @@ export default function HouseChurchPage() {
                             <div style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 6, flexWrap: "wrap" }}>
                               <h3 style={{ fontSize: 16, fontWeight: 800, margin: 0 }}>{el.name}</h3>
                               <span style={{ fontSize: 11, padding: "2px 10px", borderRadius: 20, background: `${el.color}15`, color: el.color, fontWeight: 700 }}>⏱ {el.timeRange}</span>
-                              {!el.optional && <span style={{ fontSize: 11, padding: "2px 10px", borderRadius: 20, background: "rgba(0,255,136,0.1)", color: GREEN, fontWeight: 700 }}>Core</span>}
+                              {!el.optional && <span style={{ fontSize: 11, padding: "2px 10px", borderRadius: 20, background: "rgba(58,125,86,0.1)", color: GREEN, fontWeight: 700 }}>Core</span>}
                               {el.optional && <span style={{ fontSize: 11, padding: "2px 10px", borderRadius: 20, background: "rgba(255,255,255,0.05)", color: MUTED, fontWeight: 700 }}>Optional</span>}
                             </div>
                             <p style={{ fontSize: 14, color: MUTED, margin: 0, lineHeight: 1.6 }}>{el.description}</p>
@@ -485,7 +485,7 @@ export default function HouseChurchPage() {
                         </div>
                         <div style={{ display: "flex", justifyContent: "flex-end" }}>
                           <button onClick={() => togglePlan(el.id)}
-                            style={{ padding: "8px 18px", borderRadius: 10, border: `1px solid ${planItems.has(el.id) ? GREEN + "40" : BORDER}`, background: planItems.has(el.id) ? "rgba(0,255,136,0.1)" : "transparent", color: planItems.has(el.id) ? GREEN : MUTED, cursor: "pointer", fontSize: 13, fontWeight: 700 }}>
+                            style={{ padding: "8px 18px", borderRadius: 10, border: `1px solid ${planItems.has(el.id) ? GREEN + "40" : BORDER}`, background: planItems.has(el.id) ? "rgba(58,125,86,0.1)" : "transparent", color: planItems.has(el.id) ? GREEN : MUTED, cursor: "pointer", fontSize: 13, fontWeight: 700 }}>
                             {planItems.has(el.id) ? "✓ In My Plan" : "+ Add to Plan"}
                           </button>
                         </div>
@@ -509,7 +509,7 @@ export default function HouseChurchPage() {
                 <div key={m.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 18, padding: "24px" }}>
                   <div style={{ display: "flex", flexWrap: "wrap", gap: 10, alignItems: "flex-start", marginBottom: 14 }}>
                     <h3 style={{ fontSize: 20, fontWeight: 900, margin: 0, color: TEXT, flex: 1 }}>{m.name}</h3>
-                    <span style={{ fontSize: 12, padding: "4px 12px", borderRadius: 20, background: "rgba(0,255,136,0.1)", color: GREEN, fontWeight: 700 }}>{m.size}</span>
+                    <span style={{ fontSize: 12, padding: "4px 12px", borderRadius: 20, background: "rgba(58,125,86,0.1)", color: GREEN, fontWeight: 700 }}>{m.size}</span>
                   </div>
                   <p style={{ fontSize: 13, color: PURPLE, fontWeight: 700, margin: "0 0 4px" }}>{m.origin}</p>
                   <p style={{ fontSize: 13, color: MUTED, margin: "0 0 14px", lineHeight: 1.6 }}>{m.focus}</p>
@@ -561,7 +561,7 @@ export default function HouseChurchPage() {
               <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
                 {VOICES_HC.map(v => (
                   <button key={v.id} onClick={() => setSelectedVoice(v)}
-                    style={{ textAlign: "left", padding: "14px 16px", borderRadius: 14, border: `1px solid ${selectedVoice.id === v.id ? GREEN + "50" : BORDER}`, background: selectedVoice.id === v.id ? "rgba(0,255,136,0.07)" : CARD, cursor: "pointer", transition: "all 0.15s" }}>
+                    style={{ textAlign: "left", padding: "14px 16px", borderRadius: 14, border: `1px solid ${selectedVoice.id === v.id ? GREEN + "50" : BORDER}`, background: selectedVoice.id === v.id ? "rgba(58,125,86,0.07)" : CARD, cursor: "pointer", transition: "all 0.15s" }}>
                     <p style={{ fontSize: 14, fontWeight: 800, margin: "0 0 3px", color: selectedVoice.id === v.id ? GREEN : TEXT }}>{v.name}</p>
                     <p style={{ fontSize: 11, color: MUTED, margin: 0 }}>{v.era}</p>
                   </button>
@@ -577,7 +577,7 @@ export default function HouseChurchPage() {
 
                   <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.8, margin: "0 0 24px" }}>{selectedVoice.bio}</p>
 
-                  <blockquote style={{ margin: "0 0 24px", padding: "18px 22px", background: "rgba(0,255,136,0.05)", borderLeft: `3px solid ${GREEN}`, borderRadius: "0 12px 12px 0" }}>
+                  <blockquote style={{ margin: "0 0 24px", padding: "18px 22px", background: "rgba(58,125,86,0.05)", borderLeft: `3px solid ${GREEN}`, borderRadius: "0 12px 12px 0" }}>
                     <p style={{ fontSize: 15, color: "#A0F0C0", fontStyle: "italic", lineHeight: 1.7, margin: "0 0 8px" }}>
                       &ldquo;{selectedVoice.quote}&rdquo;
                     </p>

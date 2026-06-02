@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const THEOLOGY = [
   { title: "Who Is My Neighbor? The Radical Answer", body: "The lawyer in Luke 10 asked Jesus 'Who is my neighbor?' hoping to limit the command to love. Jesus answered with a story that expanded the question: it is not 'Who counts as my neighbor?' but 'Who will be a neighbor to the one who needs it?' The Samaritan — the ethnic and religious outsider — is the moral hero. Your neighbor is whoever is in front of you who has need you can meet." },

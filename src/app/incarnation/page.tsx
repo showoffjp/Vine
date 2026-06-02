@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const THEOLOGY = [
   { title: "The Word Became Flesh", verse: "John 1:14", body: "'The Word became flesh and made his dwelling among us. We have seen his glory, the glory of the one and only Son, who came from the Father, full of grace and truth' (John 1:14). This is the most astonishing sentence in all of literature. The eternal Word — through whom all things were made (1:3) — took on human flesh. Not as an appearance (Docetism) but in full, genuine humanity. God became what we are so that we could become what he is." },

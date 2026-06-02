@@ -130,12 +130,12 @@ export default function FastingPage() {
           {/* Header */}
           <div className="text-center mb-10">
             <div className="flex items-center justify-center gap-2 mb-3">
-              <Flame size={18} style={{ color: "#00FF88" }} />
-              <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#00FF88" }}>Spiritual Discipline</span>
+              <Flame size={18} style={{ color: "#3a7d56" }} />
+              <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#3a7d56" }}>Spiritual Discipline</span>
             </div>
             <h1 className="text-3xl sm:text-4xl font-black mb-3">
               Fasting{" "}
-              <span style={{ background: "linear-gradient(135deg, #00FF88, #6B4FBB)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+              <span style={{ background: "linear-gradient(135deg, #3a7d56, #6B4FBB)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
                 Tracker
               </span>
             </h1>
@@ -148,7 +148,7 @@ export default function FastingPage() {
           {totalFasts > 0 && (
             <div className="grid grid-cols-3 gap-4 mb-8">
               {[
-                { label: "Total Fasts", value: totalFasts, color: "#00FF88" },
+                { label: "Total Fasts", value: totalFasts, color: "#3a7d56" },
                 { label: "Completed", value: completedFasts, color: "#10B981" },
                 { label: "In Progress", value: current.length, color: "#F59E0B" },
               ].map((s) => (
@@ -165,7 +165,7 @@ export default function FastingPage() {
             {(["tracker", "theology", "voices", "scripture", "videos"] as const).map((tab) => (
               <button key={tab} onClick={() => setMainTab(tab)}
                 className="flex-1 py-2 rounded-lg text-sm font-semibold transition-all"
-                style={{ background: mainTab === tab ? "rgba(0,255,136,0.12)" : "transparent", color: mainTab === tab ? "#00FF88" : "#6A6A88", border: mainTab === tab ? "1px solid rgba(0,255,136,0.2)" : "1px solid transparent" }}>
+                style={{ background: mainTab === tab ? "rgba(58,125,86,0.12)" : "transparent", color: mainTab === tab ? "#3a7d56" : "#6A6A88", border: mainTab === tab ? "1px solid rgba(58,125,86,0.2)" : "1px solid transparent" }}>
                 {tab === "tracker" ? "📊 Tracker" : tab === "theology" ? "📖 Theology" : tab === "voices" ? "🎓 Voices" : tab === "scripture" ? "📜 Scripture" : "🎬 Videos"}
               </button>
             ))}
@@ -179,9 +179,9 @@ export default function FastingPage() {
                 <button
                   onClick={() => setShowNew(true)}
                   className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl text-sm font-bold transition-all"
-                  style={{ background: "rgba(0,255,136,0.06)", border: "1px dashed rgba(0,255,136,0.3)", color: "#00FF88" }}
-                  onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(0,255,136,0.1)"; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(0,255,136,0.06)"; }}
+                  style={{ background: "rgba(58,125,86,0.06)", border: "1px dashed rgba(58,125,86,0.3)", color: "#3a7d56" }}
+                  onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(58,125,86,0.1)"; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(58,125,86,0.06)"; }}
                 >
                   <Plus size={16} /> Begin a New Fast
                 </button>
@@ -191,7 +191,7 @@ export default function FastingPage() {
               {showNew && (
                 <div
                   className="rounded-2xl p-6"
-                  style={{ background: "#12121F", border: "1px solid rgba(0,255,136,0.2)" }}
+                  style={{ background: "#12121F", border: "1px solid rgba(58,125,86,0.2)" }}
                 >
                   <h3 className="font-black mb-5" style={{ color: "#F2F2F8" }}>Begin a New Fast</h3>
                   <div className="space-y-4">
@@ -255,7 +255,7 @@ export default function FastingPage() {
                       <button
                         onClick={startFast}
                         className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-bold text-black"
-                        style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)" }}
+                        style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}
                       >
                         <Flame size={14} /> Start Fast
                       </button>
@@ -272,9 +272,9 @@ export default function FastingPage() {
                     onClick={() => setActiveTab(tab)}
                     className="flex-1 py-2 rounded-lg text-sm font-semibold capitalize transition-all"
                     style={{
-                      background: activeTab === tab ? "rgba(0,255,136,0.12)" : "transparent",
-                      color: activeTab === tab ? "#00FF88" : "#6A6A88",
-                      border: activeTab === tab ? "1px solid rgba(0,255,136,0.2)" : "1px solid transparent",
+                      background: activeTab === tab ? "rgba(58,125,86,0.12)" : "transparent",
+                      color: activeTab === tab ? "#3a7d56" : "#6A6A88",
+                      border: activeTab === tab ? "1px solid rgba(58,125,86,0.2)" : "1px solid transparent",
                     }}
                   >
                     {tab === "current" ? `In Progress (${current.length})` : `Completed (${history.length})`}
@@ -384,13 +384,13 @@ export default function FastingPage() {
               {/* Biblical Basis */}
               <div className="rounded-2xl p-5" style={{ background: "#12121F", border: "1px solid #1E1E32" }}>
                 <div className="flex items-center gap-1.5 mb-4">
-                  <BookOpen size={13} style={{ color: "#00FF88" }} />
+                  <BookOpen size={13} style={{ color: "#3a7d56" }} />
                   <h3 className="text-sm font-black" style={{ color: "#F2F2F8" }}>Biblical Basis</h3>
                 </div>
                 <div className="space-y-3">
                   {BIBLICAL_BASIS.map((b, i) => (
                     <div key={i} className="pb-3" style={{ borderBottom: i < BIBLICAL_BASIS.length - 1 ? "1px solid #1E1E32" : undefined }}>
-                      <p className="text-xs font-bold mb-0.5" style={{ color: "#00FF88" }}>{b.reference}</p>
+                      <p className="text-xs font-bold mb-0.5" style={{ color: "#3a7d56" }}>{b.reference}</p>
                       <p className="text-xs leading-relaxed" style={{ color: "#6A6A88" }}>{b.summary}</p>
                     </div>
                   ))}
@@ -400,15 +400,15 @@ export default function FastingPage() {
               {/* Quote */}
               <div
                 className="rounded-2xl p-5"
-                style={{ background: "linear-gradient(135deg, rgba(0,255,136,0.06), rgba(107,79,187,0.06))", border: "1px solid rgba(0,255,136,0.12)" }}
+                style={{ background: "linear-gradient(135deg, rgba(58,125,86,0.06), rgba(107,79,187,0.06))", border: "1px solid rgba(58,125,86,0.12)" }}
               >
-                <Heart size={16} style={{ color: "#00FF88" }} className="mb-3" />
+                <Heart size={16} style={{ color: "#3a7d56" }} className="mb-3" />
                 <p className="text-xs italic leading-relaxed mb-2" style={{ color: "#C0C0D8" }}>
                   &ldquo;When you fast, do not look somber as the hypocrites do... But when you fast, put oil on your head and wash your face.&rdquo;
                 </p>
                 <p className="text-[10px] font-bold" style={{ color: "#4A4A68" }}>— Matthew 6:16-17</p>
                 <div className="mt-3 pt-3" style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}>
-                  <a href="/bible" className="flex items-center gap-1 text-xs font-semibold" style={{ color: "#00FF88" }}>
+                  <a href="/bible" className="flex items-center gap-1 text-xs font-semibold" style={{ color: "#3a7d56" }}>
                     <BookOpen size={11} /> Open Bible Reader <ChevronRight size={11} />
                   </a>
                 </div>
@@ -446,10 +446,10 @@ export default function FastingPage() {
                 Why Jesus assumed his followers would fast — and what fasting is actually for.
               </p>
               {[
-                { title: "Jesus Expected It — Not Merely Permitted It", color: "#00FF88", desc: "In Matthew 6:16, Jesus says 'When you fast' — not 'if you fast.' He places fasting alongside prayer and giving as an assumed practice of kingdom discipleship. The early church fasted regularly (Acts 13:2-3, 14:23). The question is not whether fasting is valid for Christians but why so many Christians have abandoned it entirely." },
+                { title: "Jesus Expected It — Not Merely Permitted It", color: "#3a7d56", desc: "In Matthew 6:16, Jesus says 'When you fast' — not 'if you fast.' He places fasting alongside prayer and giving as an assumed practice of kingdom discipleship. The early church fasted regularly (Acts 13:2-3, 14:23). The question is not whether fasting is valid for Christians but why so many Christians have abandoned it entirely." },
                 { title: "Fasting Is Not Earning — It Is Longing", color: "#A080FF", desc: "The most common misconception: fasting earns God's answers or favor. It doesn't. Fasting is not a work that obligates God — it is an expression of longing. When we fast, we declare with our bodies that something matters so much that normal appetite is irrelevant. Piper: 'Fasting is hunger born of a greater hunger.'" },
                 { title: "Fasting Reveals What Controls Us", color: "#F59E0B", desc: "Foster's insight: fasting surfaces what has mastery over us. When the hunger comes and we notice anger, anxiety, or resentment rising — that is diagnostic information. The physical discipline of fasting reveals the internal landscape of the soul. This is not punishment; it is revelation. And what is revealed can be brought to God." },
-                { title: "The Daniel Fast and Partial Fasting", color: "#00FF88", desc: "Daniel fasted from choice foods (meat, wine, delicacies) for 21 days while eating vegetables and water (Daniel 10). This pattern — the Daniel Fast — has become the most practiced form of fasting in contemporary evangelical Christianity. Partial fasting makes the discipline accessible to those with medical conditions that preclude complete abstinence from food." },
+                { title: "The Daniel Fast and Partial Fasting", color: "#3a7d56", desc: "Daniel fasted from choice foods (meat, wine, delicacies) for 21 days while eating vegetables and water (Daniel 10). This pattern — the Daniel Fast — has become the most practiced form of fasting in contemporary evangelical Christianity. Partial fasting makes the discipline accessible to those with medical conditions that preclude complete abstinence from food." },
                 { title: "Fasting Is Eschatological", color: "#A080FF", desc: "Jesus said his disciples would fast 'when the bridegroom has been taken away' (Matthew 9:15). This locates fasting in the interim between Christ's ascension and return. We fast because the wedding feast is not yet here, and we ache for it. Fasting is not sadness but longing — the holy homesickness of people who know where they belong and aren't there yet." },
               ].map((item, i) => (
                 <div key={i} style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 14, padding: 22, marginBottom: 14 }}>
@@ -465,8 +465,8 @@ export default function FastingPage() {
               <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 80 }}>
                 {VOICES_FAST.map(v => (
                   <button key={v.id} onClick={() => setSelectedVoice(v.id)}
-                    style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? "rgba(0,255,136,0.4)" : "#1E1E32"}`, background: selectedVoice === v.id ? "rgba(0,255,136,0.08)" : "#12121F", cursor: "pointer" }}>
-                    <div style={{ fontSize: 13, fontWeight: 700, color: selectedVoice === v.id ? "#00FF88" : "#F2F2F8", marginBottom: 2 }}>{v.name}</div>
+                    style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? "rgba(58,125,86,0.4)" : "#1E1E32"}`, background: selectedVoice === v.id ? "rgba(58,125,86,0.08)" : "#12121F", cursor: "pointer" }}>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: selectedVoice === v.id ? "#3a7d56" : "#F2F2F8", marginBottom: 2 }}>{v.name}</div>
                     <div style={{ fontSize: 11, color: "#9898B3" }}>{v.era}</div>
                   </button>
                 ))}
@@ -476,7 +476,7 @@ export default function FastingPage() {
                 <h2 style={{ fontSize: 24, fontWeight: 800, marginBottom: 4, color: "#F2F2F8" }}>{voiceItem.name}</h2>
                 <div style={{ fontSize: 13, color: "#9898B3", marginBottom: 20 }}>{voiceItem.era}</div>
                 <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.8, marginBottom: 24 }}>{voiceItem.bio}</p>
-                <div style={{ background: "#07070F", borderRadius: 12, padding: 20, borderLeft: "3px solid #00FF88", marginBottom: 24 }}>
+                <div style={{ background: "#07070F", borderRadius: 12, padding: 20, borderLeft: "3px solid #3a7d56", marginBottom: 24 }}>
                   <p style={{ fontSize: 15, color: "#E0E0F0", lineHeight: 1.75, fontStyle: "italic" }}>&ldquo;{voiceItem.quote}&rdquo;</p>
                 </div>
                 <div>
@@ -499,7 +499,7 @@ export default function FastingPage() {
                   context: "Sermon on the Mount",
                   text: "When you fast, do not look somber as the hypocrites do, for they disfigure their faces to show others they are fasting. Truly I tell you, they have received their reward in full. But when you fast, put oil on your head and wash your face, so that it will not be obvious to others that you are fasting, but only to your Father, who is unseen.",
                   note: "Jesus says 'when you fast' — not 'if.' He assumes fasting is part of the disciple's practice, just as he assumes prayer and giving are. The text's concern is not whether to fast but the motive: fasting done for public recognition has already received its reward. The fast Jesus endorses is hidden, personal, and directed to the Father alone.",
-                  color: "#00FF88",
+                  color: "#3a7d56",
                 },
                 {
                   ref: "Isaiah 58:3-7",
@@ -539,7 +539,7 @@ export default function FastingPage() {
                   context: "The Prophetess at the Temple",
                   text: "There was also a prophet, Anna, the daughter of Penuel, of the tribe of Asher. She was very old; she had lived with her husband seven years after her marriage, and then was a widow until she was eighty-four. She never left the temple but worshiped night and day, fasting and praying.",
                   note: "Anna's life of fasting and prayer is presented as a model without qualification or critique. She is the first to recognize the infant Jesus as the redemption of Jerusalem. Her decades of persistent fasting are presented as the context in which her prophetic recognition of the Messiah occurred. Luke seems to suggest that her discipline of perception was cultivated by her discipline of fasting.",
-                  color: "#00FF88",
+                  color: "#3a7d56",
                 },
               ].map((passage, i) => (
                 <div key={i} style={{ background: "#12121F", border: `1px solid ${passage.color}25`, borderRadius: 14, padding: 22, marginBottom: 16 }}>
@@ -559,7 +559,7 @@ export default function FastingPage() {
           {mainTab === "videos" && (
             <div>
               <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 24, marginBottom: 24 }}>
-                <h2 style={{ color: "#00FF88", fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+                <h2 style={{ color: "#3a7d56", fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
                 <p style={{ color: "#9898B3", fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
                   Video teachings on fasting — biblical foundations, practical guidance, and testimony from those who have built fasting into their spiritual lives.
                 </p>
@@ -579,7 +579,7 @@ export default function FastingPage() {
                         allowFullScreen
                       />
                       <div style={{ padding: "14px 16px" }}>
-                        <h4 style={{ color: "#00FF88", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                        <h4 style={{ color: "#3a7d56", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                         <p style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
                         <p style={{ color: "#9898B3", fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
                       </div>

@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const PRINCIPLES = [
   { title: "Preach the Text, Not a Topic", verse: "2 Timothy 4:2", body: "Expository preaching takes its shape, structure, and thrust from the biblical text — not from a topic the preacher wants to address that then searches for proof texts. The preacher's job is to stand under the text, not over it. Topical preaching is not inherently wrong, but even topical sermons must be accountable to actual texts rather than using them as decoration." },

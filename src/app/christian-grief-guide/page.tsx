@@ -4,7 +4,7 @@ import { useState } from "react";
 const BG = "#07070F";
 const CARD = "#12121F";
 const BORDER = "#1E1E32";
-const GREEN = "#00FF88";
+const GREEN = "#3a7d56";
 const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
@@ -106,7 +106,7 @@ const STAGES = [
   {
     num: 7,
     name: "Acceptance & Integration",
-    color: "#00FF88",
+    color: "#3a7d56",
     practical: "This is not getting over it. The person who has died is not gotten over. The loss is not reversed or minimized. What changes is the relationship between the grief and the rest of life: the grief is now carried differently — as part of the self rather than in opposition to it.",
     spiritual: "The wound becomes a scar. A scar is not nothing — it is the evidence of an injury, it remains permanently, and it can ache in certain weather. But it is no longer an open wound. The bereaved person has not forgotten; they have integrated. The loss becomes part of the story that is still being written, within the larger story of resurrection and new creation.",
     detail: `The final stage of grief integration is not the disappearance of grief but its transformation. The grief does not end — experienced grief counselors note that most people describe grief as changing in character over time rather than diminishing in significance. The bereaved person is not the same person they were before the loss. They have been shaped, deepened, and in many cases, prepared to become a minister of comfort to others (2 Corinthians 1:3-4). What changes is the proportion: the grief, which once filled the entire landscape of consciousness, now occupies a specific place within a larger landscape. There are seasons — anniversaries, the deceased's birthday, certain songs, the smell of their coat — when the grief surges to the foreground with remarkable freshness, even years later. This is not a relapse or a sign of poor healing. It is the continued reality of love. Integration means that grief no longer prevents living — but it also means that grief is honored as the lasting mark of a real love for a real person who is genuinely gone from this world and genuinely awaited in the next.`,

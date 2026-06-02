@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 type Tab = "parables" | "themes" | "study" | "videos";
 
@@ -462,7 +462,7 @@ export default function ParablesPage() {
             Deep study of {PARABLES.length} parables &mdash; their context, meaning, and application
           </p>
           <div style={{ display: "flex", gap: 12, justifyContent: "center", marginTop: 16, flexWrap: "wrap" }}>
-            <span style={{ background: "rgba(0,255,136,0.1)", color: GREEN, border: "1px solid rgba(0,255,136,0.25)", borderRadius: 20, padding: "4px 14px", fontSize: 13 }}>
+            <span style={{ background: "rgba(58,125,86,0.1)", color: GREEN, border: "1px solid rgba(58,125,86,0.25)", borderRadius: 20, padding: "4px 14px", fontSize: 13 }}>
               {studiedIds.size}/{PARABLES.length} Studied
             </span>
             <span style={{ background: "rgba(107,79,187,0.15)", color: "#A080FF", border: "1px solid rgba(107,79,187,0.3)", borderRadius: 20, padding: "4px 14px", fontSize: 13 }}>
@@ -524,9 +524,9 @@ export default function ParablesPage() {
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: 20 }}>
                   {filtered.map(p => (
                     <div key={p.id} onClick={() => setSelected(p)}
-                      style={{ background: CARD, border: `1px solid ${studiedIds.has(p.id) ? "rgba(0,255,136,0.3)" : BORDER}`, borderRadius: 16, padding: 20, cursor: "pointer", transition: "border-color 0.2s, transform 0.15s" }}
+                      style={{ background: CARD, border: `1px solid ${studiedIds.has(p.id) ? "rgba(58,125,86,0.3)" : BORDER}`, borderRadius: 16, padding: 20, cursor: "pointer", transition: "border-color 0.2s, transform 0.15s" }}
                       onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.transform = "translateY(-2px)"; (e.currentTarget as HTMLDivElement).style.borderColor = GREEN; }}
-                      onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.transform = "none"; (e.currentTarget as HTMLDivElement).style.borderColor = studiedIds.has(p.id) ? "rgba(0,255,136,0.3)" : BORDER; }}>
+                      onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.transform = "none"; (e.currentTarget as HTMLDivElement).style.borderColor = studiedIds.has(p.id) ? "rgba(58,125,86,0.3)" : BORDER; }}>
                       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 }}>
                         <div style={{ flex: 1 }}>
                           <h3 style={{ fontSize: 17, fontWeight: 700, marginBottom: 4, color: TEXT }}>{p.title}</h3>
@@ -542,7 +542,7 @@ export default function ParablesPage() {
                           {p.theme}
                         </span>
                         {p.kingdom && (
-                          <span style={{ fontSize: 11, padding: "3px 10px", borderRadius: 20, background: "rgba(0,255,136,0.08)", color: GREEN, border: "1px solid rgba(0,255,136,0.2)" }}>
+                          <span style={{ fontSize: 11, padding: "3px 10px", borderRadius: 20, background: "rgba(58,125,86,0.08)", color: GREEN, border: "1px solid rgba(58,125,86,0.2)" }}>
                             Kingdom
                           </span>
                         )}
@@ -553,7 +553,7 @@ export default function ParablesPage() {
                       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                         <span style={{ fontSize: 12, color: "#6A6A88", fontStyle: "italic" }}>{p.audience}</span>
                         <button onClick={e => { e.stopPropagation(); toggleStudied(p.id); }}
-                          style={{ fontSize: 11, padding: "4px 12px", borderRadius: 8, border: `1px solid ${studiedIds.has(p.id) ? "rgba(0,255,136,0.3)" : "#2A2A40"}`, background: studiedIds.has(p.id) ? "rgba(0,255,136,0.1)" : "transparent", color: studiedIds.has(p.id) ? GREEN : "#6A6A88", cursor: "pointer", fontWeight: 600 }}>
+                          style={{ fontSize: 11, padding: "4px 12px", borderRadius: 8, border: `1px solid ${studiedIds.has(p.id) ? "rgba(58,125,86,0.3)" : "#2A2A40"}`, background: studiedIds.has(p.id) ? "rgba(58,125,86,0.1)" : "transparent", color: studiedIds.has(p.id) ? GREEN : "#6A6A88", cursor: "pointer", fontWeight: 600 }}>
                           {studiedIds.has(p.id) ? "✓ Studied" : "Mark Studied"}
                         </button>
                       </div>
@@ -594,7 +594,7 @@ export default function ParablesPage() {
                 <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 80 }}>
                   {VOICES_PARAB.map(v => (
                     <button key={v.id} onClick={() => setSelectedVoice(v.id)}
-                      style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? "rgba(0,255,136,0.4)" : BORDER}`, background: selectedVoice === v.id ? "rgba(0,255,136,0.08)" : CARD, cursor: "pointer", transition: "all 0.2s" }}>
+                      style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? "rgba(58,125,86,0.4)" : BORDER}`, background: selectedVoice === v.id ? "rgba(58,125,86,0.08)" : CARD, cursor: "pointer", transition: "all 0.2s" }}>
                       <div style={{ fontSize: 13, fontWeight: 700, color: selectedVoice === v.id ? GREEN : TEXT, marginBottom: 2 }}>{v.name}</div>
                       <div style={{ fontSize: 11, color: "#6A6A88" }}>{v.era}</div>
                     </button>
@@ -679,7 +679,7 @@ export default function ParablesPage() {
                     <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                       {s.steps.map((step, i) => (
                         <div key={i} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
-                          <div style={{ width: 24, height: 24, borderRadius: "50%", background: "rgba(0,255,136,0.1)", border: "1px solid rgba(0,255,136,0.25)", color: GREEN, fontSize: 11, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 2 }}>{i + 1}</div>
+                          <div style={{ width: 24, height: 24, borderRadius: "50%", background: "rgba(58,125,86,0.1)", border: "1px solid rgba(58,125,86,0.25)", color: GREEN, fontSize: 11, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 2 }}>{i + 1}</div>
                           <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.7, margin: 0 }}>{step}</p>
                         </div>
                       ))}
@@ -763,7 +763,7 @@ export default function ParablesPage() {
 
             <div style={{ display: "flex", gap: 8, marginBottom: 20, flexWrap: "wrap" }}>
               <span style={{ fontSize: 12, padding: "4px 12px", borderRadius: 20, background: "rgba(107,79,187,0.15)", color: "#A080FF", border: "1px solid rgba(107,79,187,0.25)" }}>{selected.theme}</span>
-              {selected.kingdom && <span style={{ fontSize: 12, padding: "4px 12px", borderRadius: 20, background: "rgba(0,255,136,0.08)", color: GREEN, border: "1px solid rgba(0,255,136,0.2)" }}>Kingdom Parable</span>}
+              {selected.kingdom && <span style={{ fontSize: 12, padding: "4px 12px", borderRadius: 20, background: "rgba(58,125,86,0.08)", color: GREEN, border: "1px solid rgba(58,125,86,0.2)" }}>Kingdom Parable</span>}
               <span style={{ fontSize: 12, padding: "4px 12px", borderRadius: 20, background: BORDER, color: MUTED }}>Audience: {selected.audience}</span>
             </div>
 
@@ -822,7 +822,7 @@ export default function ParablesPage() {
 
             <div style={{ display: "flex", gap: 12 }}>
               <button onClick={() => toggleStudied(selected.id)}
-                style={{ flex: 1, padding: "12px 20px", borderRadius: 12, border: `1px solid ${studiedIds.has(selected.id) ? "rgba(0,255,136,0.4)" : "#2A2A40"}`, background: studiedIds.has(selected.id) ? "rgba(0,255,136,0.12)" : BORDER, color: studiedIds.has(selected.id) ? GREEN : MUTED, cursor: "pointer", fontWeight: 700, fontSize: 14 }}>
+                style={{ flex: 1, padding: "12px 20px", borderRadius: 12, border: `1px solid ${studiedIds.has(selected.id) ? "rgba(58,125,86,0.4)" : "#2A2A40"}`, background: studiedIds.has(selected.id) ? "rgba(58,125,86,0.12)" : BORDER, color: studiedIds.has(selected.id) ? GREEN : MUTED, cursor: "pointer", fontWeight: 700, fontSize: 14 }}>
                 {studiedIds.has(selected.id) ? "✓ Marked as Studied" : "Mark as Studied"}
               </button>
               <button onClick={() => toggleSave(selected.id)}

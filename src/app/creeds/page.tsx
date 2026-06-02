@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const CREEDS = [
   {
@@ -342,9 +342,9 @@ export default function CreedsPage() {
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             {CREEDS.map(c => (
               <div key={c.id} onClick={() => { setSelected(c); setShowLines(false); }}
-                style={{ background: CARD, border: `1px solid ${memorizedIds.has(c.id) ? "rgba(0,255,136,0.25)" : BORDER}`, borderRadius: 16, padding: 24, cursor: "pointer", transition: "border-color 0.2s" }}
+                style={{ background: CARD, border: `1px solid ${memorizedIds.has(c.id) ? "rgba(58,125,86,0.25)" : BORDER}`, borderRadius: 16, padding: 24, cursor: "pointer", transition: "border-color 0.2s" }}
                 onMouseEnter={e => (e.currentTarget as HTMLDivElement).style.borderColor = PURPLE}
-                onMouseLeave={e => (e.currentTarget as HTMLDivElement).style.borderColor = memorizedIds.has(c.id) ? "rgba(0,255,136,0.25)" : BORDER}>
+                onMouseLeave={e => (e.currentTarget as HTMLDivElement).style.borderColor = memorizedIds.has(c.id) ? "rgba(58,125,86,0.25)" : BORDER}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 }}>
                   <div>
                     <h2 style={{ fontSize: 20, fontWeight: 800, marginBottom: 6 }}>{c.name}</h2>
@@ -353,7 +353,7 @@ export default function CreedsPage() {
                       <span style={{ fontSize: 12, padding: "2px 8px", borderRadius: 20, background: BORDER, color: MUTED }}>{c.date}</span>
                     </div>
                   </div>
-                  {memorizedIds.has(c.id) && <span style={{ fontSize: 12, padding: "3px 10px", borderRadius: 20, background: "rgba(0,255,136,0.1)", color: GREEN }}>&#10003; Memorizing</span>}
+                  {memorizedIds.has(c.id) && <span style={{ fontSize: 12, padding: "3px 10px", borderRadius: 20, background: "rgba(58,125,86,0.1)", color: GREEN }}>&#10003; Memorizing</span>}
                 </div>
                 <p style={{ fontSize: 14, color: MUTED, lineHeight: 1.6 }}>{c.usage}</p>
               </div>
@@ -385,7 +385,7 @@ export default function CreedsPage() {
                   {copiedId === selected.id ? "✓ Copied!" : "Copy Text"}
                 </button>
                 <button onClick={() => toggleMemorized(selected.id)}
-                  style={{ padding: "10px 18px", borderRadius: 10, border: `1px solid ${memorizedIds.has(selected.id) ? "rgba(0,255,136,0.35)" : "#2A2A40"}`, background: memorizedIds.has(selected.id) ? "rgba(0,255,136,0.1)" : BORDER, color: memorizedIds.has(selected.id) ? GREEN : MUTED, cursor: "pointer", fontWeight: 700, fontSize: 14 }}>
+                  style={{ padding: "10px 18px", borderRadius: 10, border: `1px solid ${memorizedIds.has(selected.id) ? "rgba(58,125,86,0.35)" : "#2A2A40"}`, background: memorizedIds.has(selected.id) ? "rgba(58,125,86,0.1)" : BORDER, color: memorizedIds.has(selected.id) ? GREEN : MUTED, cursor: "pointer", fontWeight: 700, fontSize: 14 }}>
                   {memorizedIds.has(selected.id) ? "✓ Memorizing" : "Track Memorization"}
                 </button>
               </div>
@@ -435,7 +435,7 @@ export default function CreedsPage() {
                       <p key={i} style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.8, margin: 0 }}>{para}</p>
                     ))}
                   </div>
-                  <div style={{ background: "rgba(0,255,136,0.05)", border: "1px solid rgba(0,255,136,0.15)", borderRadius: 10, padding: "12px 16px" }}>
+                  <div style={{ background: "rgba(58,125,86,0.05)", border: "1px solid rgba(58,125,86,0.15)", borderRadius: 10, padding: "12px 16px" }}>
                     <p style={{ fontSize: 11, fontWeight: 800, color: GREEN, textTransform: "uppercase" as const, letterSpacing: 1, marginBottom: 6 }}>Significance</p>
                     <p style={{ fontSize: 13, color: GREEN, lineHeight: 1.7, margin: 0 }}>{entry.significance}</p>
                   </div>

@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 const BG = "#07070F";
 const CARD = "#12121F";
 const BORDER = "#1E1E32";
-const GREEN = "#00FF88";
+const GREEN = "#3a7d56";
 const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
@@ -42,7 +42,7 @@ const terms: Term[] = [
 
 const categories = ["All", "Salvation", "God", "Christ", "Scripture", "End Times"];
 const levels = ["All", "Basic", "Intermediate", "Advanced"];
-const levelColors = { Basic: "#00FF88", Intermediate: "#F59E0B", Advanced: "#EF4444" };
+const levelColors = { Basic: "#3a7d56", Intermediate: "#F59E0B", Advanced: "#EF4444" };
 
 interface Doctrine {
   id: string;

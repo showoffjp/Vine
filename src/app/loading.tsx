@@ -8,7 +8,7 @@ export default function Loading() {
         <div
           className="w-12 h-12 rounded-2xl flex items-center justify-center"
           style={{
-            background: "linear-gradient(135deg, #00FF88, #8B6FDB)",
+            background: "linear-gradient(135deg, #3a7d56, #8B6FDB)",
             animation: "pulse 1.5s ease-in-out infinite",
           }}
         >
@@ -20,7 +20,7 @@ export default function Loading() {
               key={i}
               className="w-2 h-2 rounded-full"
               style={{
-                background: "#00FF88",
+                background: "#3a7d56",
                 animation: `bounce 0.8s ease-in-out ${i * 0.15}s infinite alternate`,
               }}
             />

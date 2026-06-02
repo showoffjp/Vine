@@ -7,7 +7,7 @@ type Tab = "theology" | "views" | "practice" | "history" | "videos";
 const BG = "#07070F";
 const CARD = "#12121F";
 const BORDER = "#1E1E32";
-const GREEN = "#00FF88";
+const GREEN = "#3a7d56";
 const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
@@ -664,7 +664,7 @@ export default function CommunionTheologyPage() {
                           color: GREEN,
                           fontSize: 12,
                           fontWeight: 600,
-                          background: "rgba(0,255,136,0.08)",
+                          background: "rgba(58,125,86,0.08)",
                           padding: "2px 10px",
                           borderRadius: 20,
                         }}

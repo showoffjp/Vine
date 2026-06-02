@@ -8,7 +8,7 @@ interface JoinGroupButtonProps {
   color?: string;
 }
 
-export default function JoinGroupButton({ groupId, color = "#00FF88" }: JoinGroupButtonProps) {
+export default function JoinGroupButton({ groupId, color = "#3a7d56" }: JoinGroupButtonProps) {
   const [joined, setJoined] = useState(false);
 
   return (
@@ -20,7 +20,7 @@ export default function JoinGroupButton({ groupId, color = "#00FF88" }: JoinGrou
         border: "1px solid rgba(255,255,255,0.1)",
         color: "#8A8AA8",
       } : {
-        background: "linear-gradient(135deg, #00FF88, #00BB55)",
+        background: "linear-gradient(135deg, #3a7d56, #3a7d56)",
         color: "#000",
       }}
     >

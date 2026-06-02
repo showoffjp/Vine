@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const PASSAGES = [
   { title: "Count the Cost", verse: "Luke 14:25-33", body: "Jesus does not recruit with a prosperity promise. He sits down and urges those following him to count the cost before committing — like a builder calculating before laying a foundation or a king assessing before declaring war. The conclusion is stark: 'Any of you who does not give up everything he has cannot be my disciple' (14:33). Jesus is not looking for enthusiastic beginners; he wants committed finishers. He would rather have fewer disciples who counted the cost than masses who turned back when the road hardened." },

@@ -213,14 +213,14 @@ export default function DashboardPage() {
 
   const levelColor = level === "Seedling" ? "#8A8AA8" :
     level === "Sprout" ? "#10B981" :
-    level === "Growing" ? "#00FF88" :
+    level === "Growing" ? "#3a7d56" :
     level === "Rooted" ? "#6B4FBB" : "#F59E0B";
 
   const sections = [
     {
       title: "Scripture",
       icon: BookOpen,
-      color: "#00FF88",
+      color: "#3a7d56",
       items: [
         { label: "Currently Reading", value: stats ? `${stats.bibleBook} ${stats.bibleChapter}` : "—", href: "/bible" },
         { label: "Highlighted Verses", value: stats?.bibleHighlights ?? 0, href: "/bible" },
@@ -311,7 +311,7 @@ export default function DashboardPage() {
 
   const quickLinks = [
     { label: "Daily Devotional", icon: Flame, color: "#E07030", href: "/daily" },
-    { label: "Reading Plan", icon: BookOpen, color: "#00FF88", href: "/reading-plan" },
+    { label: "Reading Plan", icon: BookOpen, color: "#3a7d56", href: "/reading-plan" },
     { label: "Prayer Wall", icon: Heart, color: "#EC4899", href: "/prayer-wall" },
     { label: "Journal", icon: MessageSquare, color: "#6B4FBB", href: "/journal" },
     { label: "Faith Goals", icon: Target, color: "#10B981", href: "/goals" },
@@ -319,12 +319,12 @@ export default function DashboardPage() {
     { label: "Sermon Notes", icon: BookOpen, color: "#F59E0B", href: "/sermon-notes" },
     { label: "Spiritual Gifts", icon: Zap, color: "#8B5CF6", href: "/spiritual-gifts" },
     { label: "Bible Study", icon: BookOpen, color: "#10B981", href: "/bible-study" },
-    { label: "Accountability", icon: Shield, color: "#00FF88", href: "/accountability" },
+    { label: "Accountability", icon: Shield, color: "#3a7d56", href: "/accountability" },
     { label: "Disciplines", icon: Star, color: "#F59E0B", href: "/disciplines" },
     { label: "Faith Journey", icon: Globe, color: "#6B4FBB", href: "/faith-journey" },
     { label: "Groups", icon: Users, color: "#F59E0B", href: "/groups" },
     { label: "World Prayer", icon: Globe, color: "#EF4444", href: "/world-prayer" },
-    { label: "Scripture Game", icon: Zap, color: "#00FF88", href: "/scripture-game" },
+    { label: "Scripture Game", icon: Zap, color: "#3a7d56", href: "/scripture-game" },
     { label: "Mentorship", icon: Users, color: "#6B4FBB", href: "/mentorship" },
     { label: "AI Companion", icon: Zap, color: "#8B9BCC", href: "/ai-companion" },
   ];
@@ -337,8 +337,8 @@ export default function DashboardPage() {
           {/* Header */}
           <div className="mb-10">
             <div className="flex items-center gap-2 mb-2">
-              <Trophy size={20} style={{ color: "#00FF88" }} />
-              <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#00FF88" }}>
+              <Trophy size={20} style={{ color: "#3a7d56" }} />
+              <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#3a7d56" }}>
                 My Faith Journey
               </span>
             </div>
@@ -352,8 +352,8 @@ export default function DashboardPage() {
           <div
             className="rounded-2xl p-6 mb-8 flex flex-col sm:flex-row items-start sm:items-center gap-6"
             style={{
-              background: "linear-gradient(135deg, rgba(0,255,136,0.08) 0%, rgba(107,79,187,0.08) 100%)",
-              border: "1px solid rgba(0,255,136,0.15)",
+              background: "linear-gradient(135deg, rgba(58,125,86,0.08) 0%, rgba(107,79,187,0.08) 100%)",
+              border: "1px solid rgba(58,125,86,0.15)",
             }}
           >
             <div
@@ -486,7 +486,7 @@ export default function DashboardPage() {
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
               {[
-                { emoji: "⭐", label: "Early Adopter", earned: true, color: "#00FF88" },
+                { emoji: "⭐", label: "Early Adopter", earned: true, color: "#3a7d56" },
                 { emoji: "🙏", label: "Prayer Warrior", earned: (stats?.prayerCards ?? 0) >= 3, color: "#6B4FBB" },
                 { emoji: "📖", label: "Word Keeper", earned: (stats?.readingChapters ?? 0) >= 5, color: "#3B82F6" },
                 { emoji: "🔥", label: "Streak Keeper", earned: (stats?.dailyCompleted ?? 0) >= 5, color: "#EF4444" },
@@ -518,17 +518,17 @@ export default function DashboardPage() {
           <div
             className="mt-8 rounded-2xl p-8 text-center"
             style={{
-              background: "linear-gradient(135deg, rgba(0,255,136,0.06) 0%, rgba(107,79,187,0.06) 100%)",
-              border: "1px solid rgba(0,255,136,0.12)",
+              background: "linear-gradient(135deg, rgba(58,125,86,0.06) 0%, rgba(107,79,187,0.06) 100%)",
+              border: "1px solid rgba(58,125,86,0.12)",
             }}
           >
-            <TrendingUp size={28} style={{ color: "#00FF88" }} className="mx-auto mb-3" />
+            <TrendingUp size={28} style={{ color: "#3a7d56" }} className="mx-auto mb-3" />
             <h3 className="text-xl font-black mb-2" style={{ color: "#F2F2F8" }}>Keep Growing</h3>
             <p className="text-sm mb-6 max-w-md mx-auto" style={{ color: "#6A6A88" }}>
               Every chapter read, prayer offered, and verse highlighted is a step deeper into the Vine.
             </p>
             <div className="flex flex-wrap gap-3 justify-center">
-              <a href="/daily" className="px-5 py-2.5 rounded-xl text-sm font-bold text-black" style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)" }}>
+              <a href="/daily" className="px-5 py-2.5 rounded-xl text-sm font-bold text-black" style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}>
                 Today&apos;s Devotional
               </a>
               <a href="/challenges" className="px-5 py-2.5 rounded-xl text-sm font-bold" style={{ background: "rgba(107,79,187,0.15)", color: "#9B7FEB", border: "1px solid rgba(107,79,187,0.3)" }}>

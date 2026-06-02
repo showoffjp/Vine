@@ -4,7 +4,7 @@ import { useState } from "react";
 const BG = "#07070F";
 const CARD = "#12121F";
 const BORDER = "#1E1E32";
-const GREEN = "#00FF88";
+const GREEN = "#3a7d56";
 const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
@@ -37,7 +37,7 @@ const STEPS = [
     number: "3",
     title: "Faith Receives the Gift",
     icon: "🎁",
-    color: "#00FF88",
+    color: "#3a7d56",
     summary: "Salvation is not earned by good works or religious effort. It is received by faith.",
     content: `Ephesians 2:8-9 is the clearest statement: "For it is by grace you have been saved, through faith — and this is not from yourselves, it is the gift of God — not by works, so that no one can boast."\n\nFaith here means trusting in Jesus Christ — not just intellectual agreement that he existed, but personal trust in who he is and what he has done. It means turning from your own way (repentance) and turning to him as Lord and Savior.\n\nThis faith is not a feeling. It is a decision, often imperfect and trembling, that says: "I trust you, Jesus. I cannot save myself. Be my Lord and my Savior."`,
     verse: "For it is by grace you have been saved, through faith — and this is not from yourselves, it is the gift of God.",
@@ -333,12 +333,12 @@ export default function SalvationPage() {
                   )}
                   {step < STEPS.length - 1 ? (
                     <button onClick={() => setStep(s => s + 1)}
-                      style={{ padding: "12px 28px", borderRadius: 12, border: "none", background: "linear-gradient(135deg, #00FF88, #00CC6A)", color: BG, cursor: "pointer", fontWeight: 800, fontSize: 15 }}>
+                      style={{ padding: "12px 28px", borderRadius: 12, border: "none", background: "linear-gradient(135deg, #3a7d56, #00CC6A)", color: BG, cursor: "pointer", fontWeight: 800, fontSize: 15 }}>
                       Next &rarr;
                     </button>
                   ) : (
                     <button onClick={() => setTab("prayer")}
-                      style={{ padding: "12px 28px", borderRadius: 12, border: "none", background: "linear-gradient(135deg, #00FF88, #00CC6A)", color: BG, cursor: "pointer", fontWeight: 800, fontSize: 15 }}>
+                      style={{ padding: "12px 28px", borderRadius: 12, border: "none", background: "linear-gradient(135deg, #3a7d56, #00CC6A)", color: BG, cursor: "pointer", fontWeight: 800, fontSize: 15 }}>
                       I&rsquo;m Ready to Respond &rarr;
                     </button>
                   )}
@@ -360,7 +360,7 @@ export default function SalvationPage() {
                       <p><em>In Jesus&rsquo; name, Amen.&rdquo;</em></p>
                     </div>
                     <button onClick={markPrayed}
-                      style={{ width: "100%", padding: "16px", borderRadius: 14, border: "none", background: "linear-gradient(135deg, #00FF88, #00CC6A)", color: BG, cursor: "pointer", fontWeight: 800, fontSize: 16 }}>
+                      style={{ width: "100%", padding: "16px", borderRadius: 14, border: "none", background: "linear-gradient(135deg, #3a7d56, #00CC6A)", color: BG, cursor: "pointer", fontWeight: 800, fontSize: 16 }}>
                       I prayed this prayer
                     </button>
                   </div>
@@ -380,7 +380,7 @@ export default function SalvationPage() {
                         { step: "Pray daily", desc: "Prayer is just talking to God. Do it today, tomorrow, and every day after." },
                       ].map((n, i) => (
                         <div key={i} style={{ background: CARD, borderRadius: 12, padding: "14px 18px", border: `1px solid ${BORDER}`, display: "flex", gap: 14, textAlign: "left" }}>
-                          <div style={{ width: 28, height: 28, borderRadius: "50%", background: "linear-gradient(135deg, #00FF88, #6B4FBB)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 900, fontSize: 12, color: BG, flexShrink: 0 }}>{i + 1}</div>
+                          <div style={{ width: 28, height: 28, borderRadius: "50%", background: "linear-gradient(135deg, #3a7d56, #6B4FBB)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 900, fontSize: 12, color: BG, flexShrink: 0 }}>{i + 1}</div>
                           <div>
                             <p style={{ fontWeight: 700, fontSize: 14 }}>{n.step}</p>
                             <p style={{ fontSize: 13, color: MUTED }}>{n.desc}</p>

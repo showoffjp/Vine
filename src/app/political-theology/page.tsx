@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 type Tab = "foundations" | "models" | "issues" | "engagement" | "videos";
 
@@ -139,7 +139,7 @@ export default function PoliticalTheologyPage() {
         {tab === "engagement" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {ENGAGEMENT.map((e, i) => (
-              <div key={i} style={{ background: CARD, border: `1px solid ${expanded[e.principle] ? "#00FF8840" : BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+              <div key={i} style={{ background: CARD, border: `1px solid ${expanded[e.principle] ? "#3a7d5640" : BORDER}`, borderRadius: 12, overflow: "hidden" }}>
                 <button onClick={() => setExpanded(ex => ({ ...ex, [e.principle]: !ex[e.principle] }))}
                   style={{ width: "100%", padding: "16px 20px", cursor: "pointer", textAlign: "left", background: "transparent", border: "none", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <div style={{ color: e.color, fontWeight: 800, fontSize: 14, paddingRight: 16 }}>{e.principle}</div>

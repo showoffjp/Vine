@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 interface MemoryVerse {
   id: number; reference: string; text: string; category: string;
@@ -270,7 +270,7 @@ export default function VerseMemoryPage() {
   };
 
   const resultConfig = {
-    correct: { color: GREEN, border: "rgba(0,255,136,0.25)", bg: "rgba(0,255,136,0.08)", msg: "✓ Excellent! Almost word-perfect." },
+    correct: { color: GREEN, border: "rgba(58,125,86,0.25)", bg: "rgba(58,125,86,0.08)", msg: "✓ Excellent! Almost word-perfect." },
     close: { color: "#F59E0B", border: "rgba(245,158,11,0.25)", bg: "rgba(245,158,11,0.08)", msg: "✓ Very close! Review the differences." },
     wrong: { color: "#EF4444", border: "rgba(239,68,68,0.25)", bg: "rgba(239,68,68,0.08)", msg: "Keep practicing — you'll get there!" },
   };
@@ -290,7 +290,7 @@ export default function VerseMemoryPage() {
             <p style={{ fontSize: 14, color: MUTED, marginTop: 6 }}>{verses.length} verses &middot; {mastered} mastered &middot; {verses.length - mastered} in progress</p>
           </div>
           <button onClick={() => { setAddingVerse(true); setActiveTab("memory"); setInnerTab("library"); }}
-            style={{ padding: "10px 22px", borderRadius: 12, border: "none", background: `linear-gradient(135deg, ${GREEN}, #00BB55)`, color: BG, fontWeight: 800, fontSize: 14, cursor: "pointer" }}>
+            style={{ padding: "10px 22px", borderRadius: 12, border: "none", background: `linear-gradient(135deg, ${GREEN}, #3a7d56)`, color: BG, fontWeight: 800, fontSize: 14, cursor: "pointer" }}>
             + Add Verse
           </button>
         </div>
@@ -350,7 +350,7 @@ export default function VerseMemoryPage() {
             {innerTab === "library" && (
               <div>
                 {addingVerse && (
-                  <div style={{ background: CARD, border: `1px solid rgba(0,255,136,0.25)`, borderRadius: 16, padding: "24px", marginBottom: 20 }}>
+                  <div style={{ background: CARD, border: `1px solid rgba(58,125,86,0.25)`, borderRadius: 16, padding: "24px", marginBottom: 20 }}>
                     <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16 }}>
                       <h3 style={{ fontSize: 16, fontWeight: 800, margin: 0 }}>Add a Verse</h3>
                       <button onClick={() => setAddingVerse(false)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18 }}>×</button>
@@ -369,7 +369,7 @@ export default function VerseMemoryPage() {
                       style={{ width: "100%", padding: "10px 14px", borderRadius: 10, border: `1px solid ${BORDER}`, background: "rgba(255,255,255,0.04)", color: TEXT, fontSize: 14, resize: "none", outline: "none", marginBottom: 12, boxSizing: "border-box", lineHeight: 1.7 }} />
                     <div style={{ display: "flex", justifyContent: "flex-end" }}>
                       <button onClick={addVerse} disabled={!newVerse.reference.trim() || !newVerse.text.trim()}
-                        style={{ padding: "10px 24px", borderRadius: 10, border: "none", cursor: "pointer", fontWeight: 800, fontSize: 14, background: savedFlash ? "rgba(0,255,136,0.2)" : (newVerse.reference && newVerse.text ? `linear-gradient(135deg, ${GREEN}, #00BB55)` : BORDER), color: savedFlash ? GREEN : (newVerse.reference && newVerse.text ? BG : MUTED) }}>
+                        style={{ padding: "10px 24px", borderRadius: 10, border: "none", cursor: "pointer", fontWeight: 800, fontSize: 14, background: savedFlash ? "rgba(58,125,86,0.2)" : (newVerse.reference && newVerse.text ? `linear-gradient(135deg, ${GREEN}, #3a7d56)` : BORDER), color: savedFlash ? GREEN : (newVerse.reference && newVerse.text ? BG : MUTED) }}>
                         {savedFlash ? "✓ Saved!" : "Save Verse"}
                       </button>
                     </div>
@@ -394,12 +394,12 @@ export default function VerseMemoryPage() {
                     </div>
                   )}
                   {filtered.map(verse => (
-                    <div key={verse.id} style={{ background: verse.mastered ? "rgba(0,255,136,0.04)" : CARD, border: `1px solid ${verse.mastered ? "rgba(0,255,136,0.2)" : BORDER}`, borderRadius: 16, padding: "18px 22px" }}>
+                    <div key={verse.id} style={{ background: verse.mastered ? "rgba(58,125,86,0.04)" : CARD, border: `1px solid ${verse.mastered ? "rgba(58,125,86,0.2)" : BORDER}`, borderRadius: 16, padding: "18px 22px" }}>
                       <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12, marginBottom: 10 }}>
                         <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
                           <span style={{ fontSize: 14, fontWeight: 800, color: verse.mastered ? GREEN : TEXT }}>{verse.reference}</span>
                           <span style={{ fontSize: 11, padding: "2px 10px", borderRadius: 20, background: `${categoryColors[verse.category] || PURPLE}15`, color: categoryColors[verse.category] || PURPLE, fontWeight: 700 }}>{verse.category}</span>
-                          {verse.mastered && <span style={{ fontSize: 11, padding: "2px 10px", borderRadius: 20, background: "rgba(0,255,136,0.1)", color: GREEN, fontWeight: 700 }}>✓ Mastered</span>}
+                          {verse.mastered && <span style={{ fontSize: 11, padding: "2px 10px", borderRadius: 20, background: "rgba(58,125,86,0.1)", color: GREEN, fontWeight: 700 }}>✓ Mastered</span>}
                         </div>
                         <div style={{ display: "flex", gap: 6, flexShrink: 0 }}>
                           <button onClick={() => startReview(verse.id)}
@@ -407,7 +407,7 @@ export default function VerseMemoryPage() {
                             Practice
                           </button>
                           <button onClick={() => toggleMastered(verse.id)} title={verse.mastered ? "Mark as in-progress" : "Mark as mastered"}
-                            style={{ width: 32, height: 32, borderRadius: 8, border: `1px solid ${verse.mastered ? GREEN + "40" : BORDER}`, background: verse.mastered ? "rgba(0,255,136,0.1)" : "transparent", cursor: "pointer", fontSize: 14, color: verse.mastered ? GREEN : MUTED }}>
+                            style={{ width: 32, height: 32, borderRadius: 8, border: `1px solid ${verse.mastered ? GREEN + "40" : BORDER}`, background: verse.mastered ? "rgba(58,125,86,0.1)" : "transparent", cursor: "pointer", fontSize: 14, color: verse.mastered ? GREEN : MUTED }}>
                             {verse.mastered ? "✓" : "○"}
                           </button>
                         </div>
@@ -464,7 +464,7 @@ export default function VerseMemoryPage() {
                     </div>
 
                     {showAnswer && !quizResult && (
-                      <div style={{ padding: "16px 20px", background: "rgba(0,255,136,0.05)", border: "1px solid rgba(0,255,136,0.15)", borderRadius: 12, marginBottom: 16 }}>
+                      <div style={{ padding: "16px 20px", background: "rgba(58,125,86,0.05)", border: "1px solid rgba(58,125,86,0.15)", borderRadius: 12, marginBottom: 16 }}>
                         <p style={{ fontSize: 15, fontStyle: "italic", color: "#C0C0D8", lineHeight: 1.8, margin: 0 }}>&ldquo;{reviewingVerse.text}&rdquo;</p>
                       </div>
                     )}
@@ -501,7 +501,7 @@ export default function VerseMemoryPage() {
                           </button>
                           {quizResult === "correct" && (
                             <button onClick={() => { toggleMastered(reviewingVerse.id); setReviewingId(null); setQuizResult(null); setUserInput(""); setShowAnswer(false); }}
-                              style={{ padding: "10px 20px", borderRadius: 10, border: `1px solid ${GREEN}40`, background: "rgba(0,255,136,0.12)", color: GREEN, cursor: "pointer", fontSize: 13, fontWeight: 800 }}>
+                              style={{ padding: "10px 20px", borderRadius: 10, border: `1px solid ${GREEN}40`, background: "rgba(58,125,86,0.12)", color: GREEN, cursor: "pointer", fontSize: 13, fontWeight: 800 }}>
                               🏆 Mark as Mastered
                             </button>
                           )}
@@ -551,7 +551,7 @@ export default function VerseMemoryPage() {
                           <p style={{ fontSize: 13, color: MUTED, lineHeight: 1.6, margin: 0, fontStyle: "italic" }}>&ldquo;{v.text.slice(0, 80)}&hellip;&rdquo;</p>
                         </div>
                         <button onClick={() => addSuggested(v)} disabled={added}
-                          style={{ padding: "8px 16px", borderRadius: 10, border: `1px solid ${added ? GREEN + "40" : BORDER}`, background: added ? "rgba(0,255,136,0.08)" : "rgba(255,255,255,0.04)", color: added ? GREEN : MUTED, cursor: added ? "not-allowed" : "pointer", fontSize: 12, fontWeight: 700, flexShrink: 0 }}>
+                          style={{ padding: "8px 16px", borderRadius: 10, border: `1px solid ${added ? GREEN + "40" : BORDER}`, background: added ? "rgba(58,125,86,0.08)" : "rgba(255,255,255,0.04)", color: added ? GREEN : MUTED, cursor: added ? "not-allowed" : "pointer", fontSize: 12, fontWeight: 700, flexShrink: 0 }}>
                           {added ? "✓ Added" : "+ Add"}
                         </button>
                       </div>
@@ -559,7 +559,7 @@ export default function VerseMemoryPage() {
                   })}
                 </div>
 
-                <div style={{ marginTop: 28, background: `linear-gradient(135deg, rgba(107,79,187,0.08), rgba(0,255,136,0.05))`, border: `1px solid rgba(107,79,187,0.2)`, borderRadius: 16, padding: "24px" }}>
+                <div style={{ marginTop: 28, background: `linear-gradient(135deg, rgba(107,79,187,0.08), rgba(58,125,86,0.05))`, border: `1px solid rgba(107,79,187,0.2)`, borderRadius: 16, padding: "24px" }}>
                   <h3 style={{ fontSize: 16, fontWeight: 800, marginBottom: 14 }}>🧠 Memory Tips</h3>
                   <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                     {[

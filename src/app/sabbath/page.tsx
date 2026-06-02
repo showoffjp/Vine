@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const MISCONCEPTIONS = [
   { myth: "Sabbath is just about church attendance", truth: "The Sabbath predates the church and even Israel — it is woven into the fabric of creation (Gen 2:2-3). Church attendance matters, but Sabbath is a whole 24-hour practice of rest, worship, and delight — not a single morning." },

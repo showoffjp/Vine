@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 type Tab = "theology" | "jesus" | "practices" | "pitfalls";
 
@@ -386,8 +386,8 @@ export default function TheologyOfMoneyPage() {
           <p style={{ color: MUTED, fontSize: 16, maxWidth: 580, margin: "0 auto 20px" }}>
             What the Bible actually says about wealth, generosity, debt, and the spiritual danger of loving money — from Genesis to Revelation.
           </p>
-          <div style={{ background: "rgba(0,255,136,0.06)", border: `1px solid rgba(0,255,136,0.2)`, borderRadius: 12, padding: "14px 20px", maxWidth: 520, margin: "0 auto" }}>
-            <p style={{ fontSize: 14, color: "#00CC66", fontStyle: "italic", margin: 0 }}>
+          <div style={{ background: "rgba(58,125,86,0.06)", border: `1px solid rgba(58,125,86,0.2)`, borderRadius: 12, padding: "14px 20px", maxWidth: 520, margin: "0 auto" }}>
+            <p style={{ fontSize: 14, color: "#4a9e6e", fontStyle: "italic", margin: 0 }}>
               "For where your treasure is, there your heart will be also."
             </p>
             <p style={{ fontSize: 12, color: MUTED, marginTop: 4, marginBottom: 0 }}>— Matthew 6:21</p>
@@ -478,7 +478,7 @@ export default function TheologyOfMoneyPage() {
                       padding: "12px 14px",
                       borderRadius: 10,
                       border: `1px solid ${selectedJesusTopic === topic.id ? GREEN + "50" : BORDER}`,
-                      background: selectedJesusTopic === topic.id ? "rgba(0,255,136,0.07)" : "transparent",
+                      background: selectedJesusTopic === topic.id ? "rgba(58,125,86,0.07)" : "transparent",
                       cursor: "pointer",
                       color: selectedJesusTopic === topic.id ? TEXT : MUTED,
                     }}
@@ -494,7 +494,7 @@ export default function TheologyOfMoneyPage() {
             <div style={{ flex: 1, position: "sticky", top: 20 }}>
               <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: "28px 28px 24px", maxHeight: "calc(100vh - 80px)", overflowY: "auto" }}>
                 <div style={{ marginBottom: 6 }}>
-                  <span style={{ fontSize: 12, fontWeight: 700, padding: "3px 12px", borderRadius: 20, background: "rgba(0,255,136,0.1)", color: GREEN }}>{selectedTopic.reference}</span>
+                  <span style={{ fontSize: 12, fontWeight: 700, padding: "3px 12px", borderRadius: 20, background: "rgba(58,125,86,0.1)", color: GREEN }}>{selectedTopic.reference}</span>
                 </div>
                 <h2 style={{ fontSize: 22, fontWeight: 900, margin: "10px 0 6px", color: TEXT }}>{selectedTopic.title}</h2>
                 <p style={{ fontSize: 14, color: MUTED, marginBottom: 20, fontStyle: "italic", lineHeight: 1.6 }}>{selectedTopic.summary}</p>
@@ -502,7 +502,7 @@ export default function TheologyOfMoneyPage() {
                 {selectedTopic.detail.split("\n\n").map((para, i) => (
                   <p key={i} style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.85, marginBottom: 14 }}>{para}</p>
                 ))}
-                <div style={{ marginTop: 20, background: "rgba(0,255,136,0.05)", border: `1px solid rgba(0,255,136,0.2)`, borderRadius: 10, padding: "14px 16px" }}>
+                <div style={{ marginTop: 20, background: "rgba(58,125,86,0.05)", border: `1px solid rgba(58,125,86,0.2)`, borderRadius: 10, padding: "14px 16px" }}>
                   <p style={{ fontSize: 13, color: GREEN, fontStyle: "italic", margin: 0, lineHeight: 1.7 }}>{selectedTopic.keyVerse}</p>
                 </div>
               </div>
@@ -612,7 +612,7 @@ export default function TheologyOfMoneyPage() {
         )}
 
         {/* Footer CTA */}
-        <div style={{ marginTop: 48, background: `linear-gradient(135deg, rgba(107,79,187,0.1), rgba(0,255,136,0.06))`, border: `1px solid rgba(107,79,187,0.2)`, borderRadius: 16, padding: "28px 24px", textAlign: "center" }}>
+        <div style={{ marginTop: 48, background: `linear-gradient(135deg, rgba(107,79,187,0.1), rgba(58,125,86,0.06))`, border: `1px solid rgba(107,79,187,0.2)`, borderRadius: 16, padding: "28px 24px", textAlign: "center" }}>
           <h3 style={{ fontSize: 18, fontWeight: 900, marginBottom: 8 }}>Take the Next Step</h3>
           <p style={{ fontSize: 14, color: MUTED, marginBottom: 20, maxWidth: 440, margin: "0 auto 20px" }}>
             A theology of money without practice is just information. Consider what one concrete change you can make this month — in giving, in simplicity, or in generosity.

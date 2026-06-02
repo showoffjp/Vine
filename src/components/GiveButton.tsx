@@ -64,14 +64,14 @@ export default function GiveButton({
             {step === "success" ? (
               <div className="text-center py-4">
                 <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
-                  style={{ background: "rgba(0,255,136,0.12)", border: "1px solid rgba(0,255,136,0.3)" }}>
-                  <CheckCircle2 size={32} style={{ color: "#00FF88" }} />
+                  style={{ background: "rgba(58,125,86,0.12)", border: "1px solid rgba(58,125,86,0.3)" }}>
+                  <CheckCircle2 size={32} style={{ color: "#3a7d56" }} />
                 </div>
                 <h3 className="text-xl font-black mb-2" style={{ color: "#F2F2F8" }}>
                   Thank you! 🙌
                 </h3>
                 <p className="text-sm mb-1" style={{ color: "#8A8AA8" }}>
-                  Your gift of <strong style={{ color: "#00FF88" }}>${displayAmount}</strong> to
+                  Your gift of <strong style={{ color: "#3a7d56" }}>${displayAmount}</strong> to
                 </p>
                 <p className="text-sm font-semibold mb-4" style={{ color: "#C0C0D8" }}>{cause}</p>
                 <p className="text-xs" style={{ color: "#6A6A88" }}>
@@ -86,7 +86,7 @@ export default function GiveButton({
                 </h3>
                 <p className="text-sm mb-4" style={{ color: "#8A8AA8" }}>{cause}</p>
                 <div className="rounded-2xl p-4 mb-6"
-                  style={{ background: "rgba(0,255,136,0.05)", border: "1px solid rgba(0,255,136,0.15)" }}>
+                  style={{ background: "rgba(58,125,86,0.05)", border: "1px solid rgba(58,125,86,0.15)" }}>
                   <p className="text-3xl font-black" style={{ color: "#F2F2F8" }}>${displayAmount}</p>
                   <p className="text-xs mt-1" style={{ color: "#6A6A88" }}>One-time gift</p>
                 </div>

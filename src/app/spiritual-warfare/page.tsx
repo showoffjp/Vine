@@ -4,7 +4,7 @@ import { useState } from "react";
 const BG = "#07070F";
 const CARD = "#12121F";
 const BORDER = "#1E1E32";
-const GREEN = "#00FF88";
+const GREEN = "#3a7d56";
 const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
@@ -199,7 +199,7 @@ function AccordionItem({
       style={{
         background: CARD,
         borderRadius: 14,
-        border: `1px solid ${expanded ? "rgba(0,255,136,0.28)" : BORDER}`,
+        border: `1px solid ${expanded ? "rgba(58,125,86,0.28)" : BORDER}`,
         overflow: "hidden",
         transition: "border-color 0.2s",
       }}
@@ -266,9 +266,9 @@ function AccordionItem({
                     fontSize: 12,
                     padding: "3px 10px",
                     borderRadius: 8,
-                    background: "rgba(0,255,136,0.07)",
+                    background: "rgba(58,125,86,0.07)",
                     color: GREEN,
-                    border: `1px solid rgba(0,255,136,0.2)`,
+                    border: `1px solid rgba(58,125,86,0.2)`,
                     fontWeight: 600,
                   }}
                 >
@@ -323,8 +323,8 @@ export default function SpiritualWarfarePage() {
           <div
             style={{
               display: "inline-block",
-              background: "rgba(0,255,136,0.06)",
-              border: `1px solid rgba(0,255,136,0.16)`,
+              background: "rgba(58,125,86,0.06)",
+              border: `1px solid rgba(58,125,86,0.16)`,
               borderRadius: 12,
               padding: "12px 22px",
               maxWidth: 580,
@@ -482,7 +482,7 @@ export default function SpiritualWarfarePage() {
                         alignItems: "flex-start",
                         background:
                           selectedArmor === piece.id
-                            ? `rgba(0,255,136,0.07)`
+                            ? `rgba(58,125,86,0.07)`
                             : "none",
                         border: "none",
                         borderBottom:
@@ -581,7 +581,7 @@ export default function SpiritualWarfarePage() {
                 <div
                   style={{
                     background: "#0D0D1C",
-                    border: `1px solid rgba(0,255,136,0.15)`,
+                    border: `1px solid rgba(58,125,86,0.15)`,
                     borderLeft: `3px solid ${GREEN}`,
                     borderRadius: 10,
                     padding: "14px 16px",

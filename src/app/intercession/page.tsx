@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 interface PrayerItem {
   id: string;
@@ -18,7 +18,7 @@ interface PrayerItem {
 const CATEGORIES = ["Family", "Friends", "Church", "Nation", "World", "Healing", "Salvation", "Missions", "Personal"];
 const CATEGORY_COLORS: Record<string, string> = {
   Family: "#F59E0B", Friends: "#10B981", Church: "#8B5CF6", Nation: "#3B82F6",
-  World: "#EC4899", Healing: "#EF4444", Salvation: "#00FF88", Missions: "#F97316", Personal: "#6B7280"
+  World: "#EC4899", Healing: "#EF4444", Salvation: "#3a7d56", Missions: "#F97316", Personal: "#6B7280"
 };
 
 const SEED_ITEMS: PrayerItem[] = [

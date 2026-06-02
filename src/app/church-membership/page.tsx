@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const WHY_IT_MATTERS = [
   { title: "Membership Is the Visible Church", verse: "1 Corinthians 12:12-27", body: "The NT describes the church as a body — not a crowd. A crowd is a collection of individuals who happen to be in the same place. A body is an organism with interdependent parts that need each other. Church membership is what moves you from the crowd into the body. 'The body is not made up of one part but of many' (1 Cor. 12:14). Membership formalizes belonging." },

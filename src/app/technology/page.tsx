@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const FRAMEWORKS = [
   { title: "Technology Is Not Neutral", body: "Every technology is not merely a tool — it embeds values, shapes attention, and forms habits. The printing press didn't just move information faster; it changed how people thought about authority, literacy, and private interpretation. Smartphones don't just connect us; they restructure attention spans, relationships, and the capacity for solitude. Christians must ask not only 'What can I use this for?' but 'What does this use me for?'" },

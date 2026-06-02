@@ -642,8 +642,8 @@ export default function Navbar() {
                   <button
                     className="flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-medium transition-all"
                     style={{
-                      color: activeDropdown === link.label ? "#00FF88" : "#9090B0",
-                      background: activeDropdown === link.label ? "rgba(0,255,136,0.07)" : "transparent",
+                      color: activeDropdown === link.label ? "#3a7d56" : "#9090B0",
+                      background: activeDropdown === link.label ? "rgba(58,125,86,0.07)" : "transparent",
                     }}
                   >
                     {link.label}
@@ -668,7 +668,7 @@ export default function Navbar() {
                         maxHeight: "80vh",
                         overflowY: "auto",
                         background: "rgba(11,11,22,0.98)",
-                        border: "1px solid rgba(0,255,136,0.12)",
+                        border: "1px solid rgba(58,125,86,0.12)",
                         backdropFilter: "blur(24px)",
                         boxShadow: "0 24px 64px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.03)",
                         paddingTop: "8px",
@@ -695,7 +695,7 @@ export default function Navbar() {
                             >
                               <div
                                 className="px-4 py-1.5 text-[10px] font-bold uppercase tracking-wider"
-                                style={{ color: "#00FF88", opacity: 0.7 }}
+                                style={{ color: "#3a7d56", opacity: 0.7 }}
                               >
                                 {section.title}
                               </div>
@@ -707,7 +707,7 @@ export default function Navbar() {
                                   style={{ color: "#8A8AA8" }}
                                   onMouseEnter={(e) => {
                                     e.currentTarget.style.color = "#F2F2F8";
-                                    e.currentTarget.style.background = "rgba(0,255,136,0.06)";
+                                    e.currentTarget.style.background = "rgba(58,125,86,0.06)";
                                   }}
                                   onMouseLeave={(e) => {
                                     e.currentTarget.style.color = "#8A8AA8";
@@ -735,7 +735,7 @@ export default function Navbar() {
                             )}
                             <div
                               className="px-4 py-1 text-[10px] font-bold uppercase tracking-wider"
-                              style={{ color: "#00FF88", opacity: 0.6 }}
+                              style={{ color: "#3a7d56", opacity: 0.6 }}
                             >
                               {section.title}
                             </div>
@@ -747,7 +747,7 @@ export default function Navbar() {
                                 style={{ color: "#8A8AA8" }}
                                 onMouseEnter={(e) => {
                                   e.currentTarget.style.color = "#F2F2F8";
-                                  e.currentTarget.style.background = "rgba(0,255,136,0.06)";
+                                  e.currentTarget.style.background = "rgba(58,125,86,0.06)";
                                 }}
                                 onMouseLeave={(e) => {
                                   e.currentTarget.style.color = "#8A8AA8";
@@ -790,7 +790,7 @@ export default function Navbar() {
                   {hasUnread && (
                     <span
                       className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full"
-                      style={{ background: "#00FF88", boxShadow: "0 0 5px #00FF88" }}
+                      style={{ background: "#3a7d56", boxShadow: "0 0 5px #3a7d56" }}
                     />
                   )}
                 </button>
@@ -800,7 +800,7 @@ export default function Navbar() {
                     className="absolute right-0 top-full mt-2 w-80 rounded-2xl py-1 z-50"
                     style={{
                       background: "rgba(11,11,22,0.98)",
-                      border: "1px solid rgba(0,255,136,0.12)",
+                      border: "1px solid rgba(58,125,86,0.12)",
                       backdropFilter: "blur(24px)",
                       boxShadow: "0 24px 64px rgba(0,0,0,0.6)",
                     }}
@@ -810,7 +810,7 @@ export default function Navbar() {
                       style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}
                     >
                       <span className="text-sm font-bold" style={{ color: "#F2F2F8" }}>Notifications</span>
-                      <button className="text-xs font-semibold" style={{ color: "#00FF88" }}>Mark all read</button>
+                      <button className="text-xs font-semibold" style={{ color: "#3a7d56" }}>Mark all read</button>
                     </div>
                     {[
                       { icon: "🙏", text: "3 people prayed for your request", time: "2m ago", unread: true },
@@ -822,20 +822,20 @@ export default function Navbar() {
                       <div
                         key={i}
                         className="flex items-start gap-3 px-4 py-3 cursor-pointer"
-                        style={{ background: n.unread ? "rgba(0,255,136,0.03)" : "transparent" }}
+                        style={{ background: n.unread ? "rgba(58,125,86,0.03)" : "transparent" }}
                         onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.03)")}
-                        onMouseLeave={(e) => (e.currentTarget.style.background = n.unread ? "rgba(0,255,136,0.03)" : "transparent")}
+                        onMouseLeave={(e) => (e.currentTarget.style.background = n.unread ? "rgba(58,125,86,0.03)" : "transparent")}
                       >
                         <span className="text-base shrink-0">{n.icon}</span>
                         <div className="flex-1 min-w-0">
                           <p className="text-xs leading-snug" style={{ color: n.unread ? "#D0D0E8" : "#6A6A88" }}>{n.text}</p>
                           <p className="text-xs mt-0.5" style={{ color: "#4A4A68" }}>{n.time}</p>
                         </div>
-                        {n.unread && <div className="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0" style={{ background: "#00FF88" }} />}
+                        {n.unread && <div className="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0" style={{ background: "#3a7d56" }} />}
                       </div>
                     ))}
                     <div className="px-4 py-2" style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}>
-                      <a href="/notifications" className="text-xs font-semibold block text-center py-1.5" style={{ color: "#00FF88" }}>
+                      <a href="/notifications" className="text-xs font-semibold block text-center py-1.5" style={{ color: "#3a7d56" }}>
                         View all notifications
                       </a>
                     </div>
@@ -848,10 +848,10 @@ export default function Navbar() {
                 <div className="relative">
                   <button
                     className="flex items-center gap-2 pl-1.5 pr-3 py-1.5 rounded-xl transition-all"
-                    style={{ background: "rgba(0,255,136,0.08)", border: "1px solid rgba(0,255,136,0.15)" }}
+                    style={{ background: "rgba(58,125,86,0.08)", border: "1px solid rgba(58,125,86,0.15)" }}
                     onClick={() => setActiveDropdown(activeDropdown === "user" ? null : "user")}
                   >
-                    <div className="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-black" style={{ background: "linear-gradient(135deg, #00FF88, #6B4FBB)", color: "#07070F" }}>
+                    <div className="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-black" style={{ background: "linear-gradient(135deg, #3a7d56, #6B4FBB)", color: "#07070F" }}>
                       {user.avatar}
                     </div>
                     <span className="text-sm font-semibold hidden sm:block" style={{ color: "#F2F2F8" }}>{user.firstName}</span>
@@ -860,7 +860,7 @@ export default function Navbar() {
                   {activeDropdown === "user" && (
                     <div
                       className="absolute right-0 top-full mt-2 w-52 rounded-2xl py-1.5 z-50"
-                      style={{ background: "rgba(11,11,22,0.98)", border: "1px solid rgba(0,255,136,0.12)", backdropFilter: "blur(24px)", boxShadow: "0 24px 64px rgba(0,0,0,0.6)" }}
+                      style={{ background: "rgba(11,11,22,0.98)", border: "1px solid rgba(58,125,86,0.12)", backdropFilter: "blur(24px)", boxShadow: "0 24px 64px rgba(0,0,0,0.6)" }}
                     >
                       <div className="px-4 py-3" style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
                         <p className="text-sm font-bold" style={{ color: "#F2F2F8" }}>{user.name}</p>
@@ -877,7 +877,7 @@ export default function Navbar() {
                         { label: "Settings", href: "/settings" },
                       ].map(item => (
                         <a key={item.label} href={item.href} className="flex items-center px-4 py-2.5 text-sm transition-colors" style={{ color: "#8A8AA8" }}
-                          onMouseEnter={e => { e.currentTarget.style.color = "#F2F2F8"; e.currentTarget.style.background = "rgba(0,255,136,0.06)"; }}
+                          onMouseEnter={e => { e.currentTarget.style.color = "#F2F2F8"; e.currentTarget.style.background = "rgba(58,125,86,0.06)"; }}
                           onMouseLeave={e => { e.currentTarget.style.color = "#8A8AA8"; e.currentTarget.style.background = "transparent"; }}
                         >{item.label}</a>
                       ))}
@@ -934,7 +934,7 @@ export default function Navbar() {
                 <div key={link.label}>
                   <button
                     className="w-full text-left flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-semibold"
-                    style={{ color: activeDropdown === link.label ? "#00FF88" : "#C0C0D8" }}
+                    style={{ color: activeDropdown === link.label ? "#3a7d56" : "#C0C0D8" }}
                     onClick={() => setActiveDropdown(activeDropdown === link.label ? null : link.label)}
                   >
                     {link.label}
@@ -944,11 +944,11 @@ export default function Navbar() {
                     />
                   </button>
                   {activeDropdown === link.label && (
-                    <div className="ml-3 mb-1" style={{ borderLeft: "2px solid rgba(0,255,136,0.15)", paddingLeft: "12px" }}>
+                    <div className="ml-3 mb-1" style={{ borderLeft: "2px solid rgba(58,125,86,0.15)", paddingLeft: "12px" }}>
                       {link.sections.map((section, si) => (
                         <div key={section.title}>
                           {si > 0 && <div style={{ height: "1px", background: "rgba(255,255,255,0.04)", margin: "4px 0" }} />}
-                          <div className="px-2 py-1 text-[10px] font-bold uppercase tracking-wider" style={{ color: "#00FF88", opacity: 0.6 }}>
+                          <div className="px-2 py-1 text-[10px] font-bold uppercase tracking-wider" style={{ color: "#3a7d56", opacity: 0.6 }}>
                             {section.title}
                           </div>
                           {section.items.map((item) => (

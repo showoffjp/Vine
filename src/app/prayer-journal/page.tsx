@@ -92,7 +92,7 @@ const VOICES_PJ = [
 const CATEGORIES = ["All", "Guidance", "Healing", "Provision", "Intercession", "Personal", "Thanksgiving", "Warfare", "Confession", "Praise"];
 const MOODS = ["Hopeful", "Burdened", "Grateful", "Anxious", "Uncertain", "Joyful", "Struggling", "Peaceful", "Desperate", "Trusting"];
 const MOOD_COLORS: Record<string, string> = {
-  Hopeful: "#00FF88", Grateful: "#00FF88", Joyful: "#00FF88", Peaceful: "#4FC3F7", Trusting: "#4FC3F7",
+  Hopeful: "#3a7d56", Grateful: "#3a7d56", Joyful: "#3a7d56", Peaceful: "#4FC3F7", Trusting: "#4FC3F7",
   Burdened: "#9898B3", Uncertain: "#FFB347", Anxious: "#FF8C42", Struggling: "#EF4444", Desperate: "#EF4444",
 };
 
@@ -175,7 +175,7 @@ export default function PrayerJournalPage() {
           <h1 style={{ fontSize: 36, fontWeight: 900, marginBottom: 8 }}>Prayer Journal</h1>
           <p style={{ color: "#9898B3", fontSize: 16 }}>Record your prayers and watch God answer</p>
           <div style={{ display: "flex", gap: 12, justifyContent: "center", marginTop: 16, flexWrap: "wrap" }}>
-            <span style={{ background: "rgba(0,255,136,0.1)", color: "#00FF88", border: "1px solid rgba(0,255,136,0.25)", borderRadius: 20, padding: "4px 16px", fontSize: 13, fontWeight: 700 }}>
+            <span style={{ background: "rgba(58,125,86,0.1)", color: "#3a7d56", border: "1px solid rgba(58,125,86,0.25)", borderRadius: 20, padding: "4px 16px", fontSize: 13, fontWeight: 700 }}>
               {entries.length} Prayers
             </span>
             <span style={{ background: "rgba(107,79,187,0.1)", color: "#A080FF", border: "1px solid rgba(107,79,187,0.25)", borderRadius: 20, padding: "4px 16px", fontSize: 13, fontWeight: 700 }}>
@@ -191,7 +191,7 @@ export default function PrayerJournalPage() {
         <div style={{ display: "flex", gap: 4, marginBottom: 24, borderBottom: "1px solid #1E1E32" }}>
           {([["journal", `Active (${unansweredCount})`], ["answered", `Answered (${answeredCount})`], ["write", "Write Prayer"], ["voices", "Voices"], ["videos", "Videos"]] as const).map(([t, label]) => (
             <button key={t} onClick={() => setTab(t)}
-              style={{ padding: "10px 20px", fontSize: 14, fontWeight: 600, background: "none", border: "none", cursor: "pointer", color: tab === t ? "#00FF88" : "#6A6A88", borderBottom: `2px solid ${tab === t ? "#00FF88" : "transparent"}`, marginBottom: -1 }}>
+              style={{ padding: "10px 20px", fontSize: 14, fontWeight: 600, background: "none", border: "none", cursor: "pointer", color: tab === t ? "#3a7d56" : "#6A6A88", borderBottom: `2px solid ${tab === t ? "#3a7d56" : "transparent"}`, marginBottom: -1 }}>
               {label}
             </button>
           ))}
@@ -201,7 +201,7 @@ export default function PrayerJournalPage() {
         {tab === "write" && (
           <div style={{ maxWidth: 680, margin: "0 auto" }}>
             <div style={{ background: "#12121F", borderRadius: 20, padding: 28, border: "1px solid #1E1E32" }}>
-              <h2 style={{ fontSize: 20, fontWeight: 800, marginBottom: 20, color: "#00FF88" }}>Write a Prayer</h2>
+              <h2 style={{ fontSize: 20, fontWeight: 800, marginBottom: 20, color: "#3a7d56" }}>Write a Prayer</h2>
               <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
                 <div>
                   <label style={{ fontSize: 12, fontWeight: 700, color: "#9898B3", textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>Title</label>
@@ -247,7 +247,7 @@ export default function PrayerJournalPage() {
                     style={{ width: "100%", padding: "10px 14px", borderRadius: 10, background: "#0D0D1A", border: "1px solid #1E1E32", color: "#F2F2F8", fontSize: 14, outline: "none", boxSizing: "border-box" }} />
                 </div>
                 <button onClick={addEntry} disabled={!title.trim() || !body.trim()}
-                  style={{ padding: "14px", borderRadius: 12, border: "none", background: title.trim() && body.trim() ? "linear-gradient(135deg, #00FF88, #00CC6A)" : "#1E1E32", color: title.trim() && body.trim() ? "#07070F" : "#4A4A68", cursor: title.trim() && body.trim() ? "pointer" : "not-allowed", fontWeight: 800, fontSize: 15 }}>
+                  style={{ padding: "14px", borderRadius: 12, border: "none", background: title.trim() && body.trim() ? "linear-gradient(135deg, #3a7d56, #00CC6A)" : "#1E1E32", color: title.trim() && body.trim() ? "#07070F" : "#4A4A68", cursor: title.trim() && body.trim() ? "pointer" : "not-allowed", fontWeight: 800, fontSize: 15 }}>
                   {saved ? "✓ Prayer Saved!" : "Save Prayer"}
                 </button>
               </div>
@@ -270,16 +270,16 @@ export default function PrayerJournalPage() {
             <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
               {filtered.map(entry => (
                 <div key={entry.id} onClick={() => setSelected(entry)}
-                  style={{ background: "#12121F", border: `1px solid ${entry.answered ? "rgba(0,255,136,0.25)" : "#1E1E32"}`, borderRadius: 16, padding: 20, cursor: "pointer", transition: "border-color 0.2s" }}
-                  onMouseEnter={e => (e.currentTarget as HTMLDivElement).style.borderColor = "#00FF88"}
-                  onMouseLeave={e => (e.currentTarget as HTMLDivElement).style.borderColor = entry.answered ? "rgba(0,255,136,0.25)" : "#1E1E32"}>
+                  style={{ background: "#12121F", border: `1px solid ${entry.answered ? "rgba(58,125,86,0.25)" : "#1E1E32"}`, borderRadius: 16, padding: 20, cursor: "pointer", transition: "border-color 0.2s" }}
+                  onMouseEnter={e => (e.currentTarget as HTMLDivElement).style.borderColor = "#3a7d56"}
+                  onMouseLeave={e => (e.currentTarget as HTMLDivElement).style.borderColor = entry.answered ? "rgba(58,125,86,0.25)" : "#1E1E32"}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 }}>
                     <div style={{ flex: 1 }}>
                       <div style={{ display: "flex", gap: 8, marginBottom: 6, flexWrap: "wrap", alignItems: "center" }}>
                         <span style={{ fontSize: 12, color: "#6A6A88" }}>{entry.date}</span>
                         <span style={{ fontSize: 11, padding: "2px 8px", borderRadius: 20, background: "rgba(107,79,187,0.15)", color: "#A080FF", border: "1px solid rgba(107,79,187,0.25)" }}>{entry.category}</span>
                         <span style={{ fontSize: 11, padding: "2px 8px", borderRadius: 20, background: `${MOOD_COLORS[entry.mood]}18`, color: MOOD_COLORS[entry.mood] }}>{entry.mood}</span>
-                        {entry.answered && <span style={{ fontSize: 11, padding: "2px 8px", borderRadius: 20, background: "rgba(0,255,136,0.12)", color: "#00FF88", border: "1px solid rgba(0,255,136,0.25)", fontWeight: 700 }}>✓ Answered</span>}
+                        {entry.answered && <span style={{ fontSize: 11, padding: "2px 8px", borderRadius: 20, background: "rgba(58,125,86,0.12)", color: "#3a7d56", border: "1px solid rgba(58,125,86,0.25)", fontWeight: 700 }}>✓ Answered</span>}
                       </div>
                       <h3 style={{ fontSize: 16, fontWeight: 700 }}>{entry.title}</h3>
                     </div>
@@ -298,8 +298,8 @@ export default function PrayerJournalPage() {
                     ))}
                   </div>
                   {entry.answered && entry.answeredNote && (
-                    <div style={{ marginTop: 12, background: "rgba(0,255,136,0.06)", borderRadius: 8, padding: "8px 12px", border: "1px solid rgba(0,255,136,0.15)" }}>
-                      <p style={{ fontSize: 12, color: "#00FF88", fontWeight: 700, marginBottom: 4 }}>🎉 Answered on {entry.answeredDate}</p>
+                    <div style={{ marginTop: 12, background: "rgba(58,125,86,0.06)", borderRadius: 8, padding: "8px 12px", border: "1px solid rgba(58,125,86,0.15)" }}>
+                      <p style={{ fontSize: 12, color: "#3a7d56", fontWeight: 700, marginBottom: 4 }}>🎉 Answered on {entry.answeredDate}</p>
                       <p style={{ fontSize: 12, color: "#C0C0D8" }}>{entry.answeredNote}</p>
                     </div>
                   )}
@@ -311,7 +311,7 @@ export default function PrayerJournalPage() {
               <div style={{ textAlign: "center", padding: "60px 20px", color: "#4A4A68" }}>
                 <div style={{ fontSize: 40, marginBottom: 12 }}>🙏</div>
                 <p style={{ marginBottom: 16 }}>{tab === "answered" ? "No answered prayers yet — keep believing!" : "No prayers found."}</p>
-                <button onClick={() => setTab("write")} style={{ padding: "10px 24px", borderRadius: 12, background: "rgba(0,255,136,0.1)", border: "1px solid rgba(0,255,136,0.3)", color: "#00FF88", cursor: "pointer", fontWeight: 700 }}>
+                <button onClick={() => setTab("write")} style={{ padding: "10px 24px", borderRadius: 12, background: "rgba(58,125,86,0.1)", border: "1px solid rgba(58,125,86,0.3)", color: "#3a7d56", cursor: "pointer", fontWeight: 700 }}>
                   Write First Prayer
                 </button>
               </div>
@@ -321,7 +321,7 @@ export default function PrayerJournalPage() {
         {tab === "videos" && (
           <div>
             <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 24, marginBottom: 24 }}>
-              <h2 style={{ color: "#00FF88", fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <h2 style={{ color: "#3a7d56", fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
               <p style={{ color: "#9898B3", fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
                 Sermons, lectures, and teachings from trusted Christian scholars and pastors.
               </p>
@@ -341,7 +341,7 @@ export default function PrayerJournalPage() {
                       allowFullScreen
                     />
                     <div style={{ padding: "14px 16px" }}>
-                      <h4 style={{ color: "#00FF88", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <h4 style={{ color: "#3a7d56", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
                       <p style={{ color: "#9898B3", fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
                     </div>
@@ -364,12 +364,12 @@ export default function PrayerJournalPage() {
             </div>
             <div style={{ flex: 1 }}>
               <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 28 }}>
-                <h2 style={{ color: "#00FF88", fontWeight: 900, fontSize: 22, margin: "0 0 4px" }}>{voiceItem.name}</h2>
+                <h2 style={{ color: "#3a7d56", fontWeight: 900, fontSize: 22, margin: "0 0 4px" }}>{voiceItem.name}</h2>
                 <div style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 700, marginBottom: 6 }}>{voiceItem.era}</div>
                 <div style={{ color: "#9898B3", fontSize: 13, marginBottom: 16 }}>{voiceItem.context}</div>
                 <p style={{ color: "#F2F2F8", lineHeight: 1.8, fontSize: 15, marginBottom: 20 }}>{voiceItem.bio}</p>
-                <div style={{ background: "#07070F", borderLeft: "3px solid #00FF88", borderRadius: "0 8px 8px 0", padding: "14px 18px", marginBottom: 20 }}>
-                  <p style={{ color: "#00FF88", fontStyle: "italic", fontSize: 15, lineHeight: 1.7, margin: 0 }}>&ldquo;{voiceItem.quote}&rdquo;</p>
+                <div style={{ background: "#07070F", borderLeft: "3px solid #3a7d56", borderRadius: "0 8px 8px 0", padding: "14px 18px", marginBottom: 20 }}>
+                  <p style={{ color: "#3a7d56", fontStyle: "italic", fontSize: 15, lineHeight: 1.7, margin: 0 }}>&ldquo;{voiceItem.quote}&rdquo;</p>
                 </div>
                 <div style={{ background: "rgba(107,79,187,0.15)", borderRadius: 10, padding: 16 }}>
                   <div style={{ color: "#6B4FBB", fontWeight: 700, fontSize: 13, marginBottom: 6 }}>Legacy and Contribution</div>
@@ -391,7 +391,7 @@ export default function PrayerJournalPage() {
                   <span style={{ fontSize: 12, color: "#6A6A88" }}>{selected.date}</span>
                   <span style={{ fontSize: 11, padding: "3px 10px", borderRadius: 20, background: "rgba(107,79,187,0.15)", color: "#A080FF", border: "1px solid rgba(107,79,187,0.25)" }}>{selected.category}</span>
                   <span style={{ fontSize: 11, padding: "3px 10px", borderRadius: 20, background: `${MOOD_COLORS[selected.mood]}18`, color: MOOD_COLORS[selected.mood] }}>{selected.mood}</span>
-                  {selected.answered && <span style={{ fontSize: 11, padding: "3px 10px", borderRadius: 20, background: "rgba(0,255,136,0.12)", color: "#00FF88", border: "1px solid rgba(0,255,136,0.25)", fontWeight: 700 }}>✓ Answered</span>}
+                  {selected.answered && <span style={{ fontSize: 11, padding: "3px 10px", borderRadius: 20, background: "rgba(58,125,86,0.12)", color: "#3a7d56", border: "1px solid rgba(58,125,86,0.25)", fontWeight: 700 }}>✓ Answered</span>}
                 </div>
                 <h2 style={{ fontSize: 22, fontWeight: 800 }}>{selected.title}</h2>
               </div>
@@ -410,8 +410,8 @@ export default function PrayerJournalPage() {
             )}
 
             {selected.answered && selected.answeredNote && (
-              <div style={{ background: "rgba(0,255,136,0.07)", borderRadius: 12, padding: 14, marginBottom: 20, border: "1px solid rgba(0,255,136,0.2)" }}>
-                <p style={{ fontSize: 13, color: "#00FF88", fontWeight: 700, marginBottom: 6 }}>🎉 Answered on {selected.answeredDate}</p>
+              <div style={{ background: "rgba(58,125,86,0.07)", borderRadius: 12, padding: 14, marginBottom: 20, border: "1px solid rgba(58,125,86,0.2)" }}>
+                <p style={{ fontSize: 13, color: "#3a7d56", fontWeight: 700, marginBottom: 6 }}>🎉 Answered on {selected.answeredDate}</p>
                 <p style={{ fontSize: 14, color: "#C0C0D8" }}>{selected.answeredNote}</p>
               </div>
             )}
@@ -425,7 +425,7 @@ export default function PrayerJournalPage() {
             <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
               {!selected.answered && (
                 <button onClick={() => { setShowAnswerModal(selected); setSelected(null); }}
-                  style={{ flex: 1, padding: "12px", borderRadius: 12, border: "1px solid rgba(0,255,136,0.3)", background: "rgba(0,255,136,0.08)", color: "#00FF88", cursor: "pointer", fontWeight: 700, fontSize: 14 }}>
+                  style={{ flex: 1, padding: "12px", borderRadius: 12, border: "1px solid rgba(58,125,86,0.3)", background: "rgba(58,125,86,0.08)", color: "#3a7d56", cursor: "pointer", fontWeight: 700, fontSize: 14 }}>
                   Mark as Answered 🎉
                 </button>
               )}
@@ -441,14 +441,14 @@ export default function PrayerJournalPage() {
       {/* Answer Modal */}
       {showAnswerModal && (
         <div onClick={() => setShowAnswerModal(null)} style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.8)", zIndex: 101, display: "flex", alignItems: "center", justifyContent: "center", padding: "20px" }}>
-          <div onClick={e => e.stopPropagation()} style={{ background: "#12121F", borderRadius: 20, padding: 28, maxWidth: 480, width: "100%", border: "1px solid rgba(0,255,136,0.3)" }}>
-            <h3 style={{ fontSize: 20, fontWeight: 800, marginBottom: 8, color: "#00FF88" }}>🎉 Praise God!</h3>
+          <div onClick={e => e.stopPropagation()} style={{ background: "#12121F", borderRadius: 20, padding: 28, maxWidth: 480, width: "100%", border: "1px solid rgba(58,125,86,0.3)" }}>
+            <h3 style={{ fontSize: 20, fontWeight: 800, marginBottom: 8, color: "#3a7d56" }}>🎉 Praise God!</h3>
             <p style={{ fontSize: 14, color: "#9898B3", marginBottom: 16 }}>How did God answer your prayer? (Optional)</p>
             <textarea value={answerNote} onChange={e => setAnswerNote(e.target.value)} placeholder="Describe how God answered..." rows={4}
               style={{ width: "100%", padding: "10px 14px", borderRadius: 10, background: "#0D0D1A", border: "1px solid #1E1E32", color: "#F2F2F8", fontSize: 14, outline: "none", resize: "vertical", boxSizing: "border-box", marginBottom: 16 }} />
             <div style={{ display: "flex", gap: 10 }}>
               <button onClick={() => markAnswered(showAnswerModal.id, answerNote)}
-                style={{ flex: 1, padding: "12px", borderRadius: 12, border: "none", background: "linear-gradient(135deg, #00FF88, #00CC6A)", color: "#07070F", cursor: "pointer", fontWeight: 800, fontSize: 15 }}>
+                style={{ flex: 1, padding: "12px", borderRadius: 12, border: "none", background: "linear-gradient(135deg, #3a7d56, #00CC6A)", color: "#07070F", cursor: "pointer", fontWeight: 800, fontSize: 15 }}>
                 Record Answer
               </button>
               <button onClick={() => setShowAnswerModal(null)}

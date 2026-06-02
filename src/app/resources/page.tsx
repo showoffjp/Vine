@@ -25,7 +25,7 @@ import {
 } from "lucide-react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 type Tab = "books" | "courses" | "tools" | "videos";
 
@@ -85,12 +85,12 @@ const resources = [
     rating: 4.9,
     saves: 8109,
     topic: "Faith Basics",
-    topicColor: "#00FF88",
+    topicColor: "#3a7d56",
     href: "/video",
   },
   {
     type: "Audio",
-    typeColor: "#00FF88",
+    typeColor: "#3a7d56",
     title: "Financially Faithful: Managing Money God's Way",
     excerpt: "A podcast series covering tithing, budgeting, debt freedom, and investing from a biblically grounded perspective...",
     author: "Marcus & Joy Williams",
@@ -176,7 +176,7 @@ const resources = [
     rating: 4.8,
     saves: 5670,
     topic: "Faith Basics",
-    topicColor: "#00FF88",
+    topicColor: "#3a7d56",
     href: "/prayer",
   },
 ];
@@ -372,11 +372,11 @@ function StarRating({ rating }: { rating: number }) {
         <Star
           key={s}
           size={11}
-          fill={s <= Math.floor(rating) ? "#00FF88" : "none"}
-          style={{ color: s <= Math.floor(rating) ? "#00FF88" : "#3A3A58" }}
+          fill={s <= Math.floor(rating) ? "#3a7d56" : "none"}
+          style={{ color: s <= Math.floor(rating) ? "#3a7d56" : "#3A3A58" }}
         />
       ))}
-      <span className="text-xs ml-1 font-semibold" style={{ color: "#00FF88" }}>
+      <span className="text-xs ml-1 font-semibold" style={{ color: "#3a7d56" }}>
         {rating}
       </span>
     </div>
@@ -386,7 +386,7 @@ function StarRating({ rating }: { rating: number }) {
 function FilterSection({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div className="mb-5">
-      <h4 className="text-[10px] font-black uppercase tracking-widest mb-2.5" style={{ color: "#00FF88" }}>
+      <h4 className="text-[10px] font-black uppercase tracking-widest mb-2.5" style={{ color: "#3a7d56" }}>
         {title}
       </h4>
       {children}
@@ -504,7 +504,7 @@ export default function ResourcesPage() {
                             key={cat.name}
                             onClick={() => setSelectedCategory(cat.name)}
                             className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-left transition-all duration-150 hover:bg-[#18182A]"
-                            style={{ background: active ? "rgba(0,255,136,0.08)" : "transparent" }}
+                            style={{ background: active ? "rgba(58,125,86,0.08)" : "transparent" }}
                           >
                             {active ? (
                               <CheckSquare size={13} style={{ color: GREEN }} />
@@ -533,8 +533,8 @@ export default function ResourcesPage() {
                             onClick={() => setSelectedTopic(active ? null : topic)}
                             className="text-[10px] font-semibold px-2.5 py-1 rounded-full transition-all duration-150"
                             style={{
-                              background: active ? "rgba(0,255,136,0.12)" : "rgba(255,255,255,0.04)",
-                              border: active ? "1px solid rgba(0,255,136,0.3)" : `1px solid ${BORDER}`,
+                              background: active ? "rgba(58,125,86,0.12)" : "rgba(255,255,255,0.04)",
+                              border: active ? "1px solid rgba(58,125,86,0.3)" : `1px solid ${BORDER}`,
                               color: active ? GREEN : "#6A6A88",
                             }}
                           >
@@ -606,7 +606,7 @@ export default function ResourcesPage() {
                       <button
                         onClick={() => setSelectedCategory("All")}
                         className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full"
-                        style={{ background: "rgba(0,255,136,0.08)", border: "1px solid rgba(0,255,136,0.2)", color: GREEN }}
+                        style={{ background: "rgba(58,125,86,0.08)", border: "1px solid rgba(58,125,86,0.2)", color: GREEN }}
                       >
                         {selectedCategory} <X size={11} />
                       </button>
@@ -615,7 +615,7 @@ export default function ResourcesPage() {
                       <button
                         onClick={() => setSelectedTopic(null)}
                         className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full"
-                        style={{ background: "rgba(0,255,136,0.08)", border: "1px solid rgba(0,255,136,0.2)", color: GREEN }}
+                        style={{ background: "rgba(58,125,86,0.08)", border: "1px solid rgba(58,125,86,0.2)", color: GREEN }}
                       >
                         {selectedTopic} <X size={11} />
                       </button>
@@ -635,7 +635,7 @@ export default function ResourcesPage() {
                 <div
                   className="rounded-2xl p-6 mb-6 relative overflow-hidden"
                   style={{
-                    background: "linear-gradient(135deg, rgba(107,79,187,0.18) 0%, rgba(0,255,136,0.08) 100%)",
+                    background: "linear-gradient(135deg, rgba(107,79,187,0.18) 0%, rgba(58,125,86,0.08) 100%)",
                     border: "1px solid rgba(107,79,187,0.3)",
                   }}
                 >
@@ -693,7 +693,7 @@ export default function ResourcesPage() {
                         <button
                           onClick={() => setFeaturedSaved(!featuredSaved)}
                           className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 hover:bg-[#18182A]"
-                          style={{ border: `1px solid ${featuredSaved ? "rgba(0,255,136,0.3)" : BORDER}`, color: featuredSaved ? GREEN : MUTED }}
+                          style={{ border: `1px solid ${featuredSaved ? "rgba(58,125,86,0.3)" : BORDER}`, color: featuredSaved ? GREEN : MUTED }}
                         >
                           <Bookmark size={14} fill={featuredSaved ? GREEN : "none"} />
                           {featuredSaved ? "Saved!" : "Save"}
@@ -737,7 +737,7 @@ export default function ResourcesPage() {
                         </span>
                       </div>
 
-                      <h3 className="text-sm font-bold leading-snug mb-2 flex-1 group-hover:text-[#00FF88] transition-colors" style={{ color: TEXT }}>
+                      <h3 className="text-sm font-bold leading-snug mb-2 flex-1 group-hover:text-[#3a7d56] transition-colors" style={{ color: TEXT }}>
                         {r.title}
                       </h3>
                       <p className="text-xs leading-relaxed mb-3 line-clamp-2" style={{ color: "#6A6A88" }}>
@@ -797,8 +797,8 @@ export default function ResourcesPage() {
                       key={i}
                       className="w-9 h-9 rounded-lg text-sm font-semibold transition-all duration-150"
                       style={{
-                        background: page === 1 ? "rgba(0,255,136,0.15)" : "transparent",
-                        border: page === 1 ? "1px solid rgba(0,255,136,0.3)" : `1px solid ${BORDER}`,
+                        background: page === 1 ? "rgba(58,125,86,0.15)" : "transparent",
+                        border: page === 1 ? "1px solid rgba(58,125,86,0.3)" : `1px solid ${BORDER}`,
                         color: page === 1 ? GREEN : page === "..." ? "#4A4A68" : MUTED,
                       }}
                     >
@@ -860,7 +860,7 @@ export default function ResourcesPage() {
               ))}
             </div>
 
-            <div style={{ marginTop: 40, background: `linear-gradient(135deg, rgba(107,79,187,0.12), rgba(0,255,136,0.08))`, border: `1px solid rgba(107,79,187,0.25)`, borderRadius: 16, padding: "28px 24px", textAlign: "center" }}>
+            <div style={{ marginTop: 40, background: `linear-gradient(135deg, rgba(107,79,187,0.12), rgba(58,125,86,0.08))`, border: `1px solid rgba(107,79,187,0.25)`, borderRadius: 16, padding: "28px 24px", textAlign: "center" }}>
               <p style={{ fontSize: 28, margin: "0 0 10px" }}>🎓</p>
               <h3 style={{ fontSize: 20, fontWeight: 900, marginBottom: 8, color: TEXT }}>Know a great free course?</h3>
               <p style={{ fontSize: 14, color: MUTED, maxWidth: 420, margin: "0 auto 16px" }}>
@@ -893,7 +893,7 @@ export default function ResourcesPage() {
                         <span style={{ fontSize: 11, fontWeight: 600, padding: "2px 8px", borderRadius: 20, background: "rgba(255,255,255,0.05)", color: MUTED }}>
                           {tool.type}
                         </span>
-                        <span style={{ fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 20, background: tool.free ? "rgba(0,255,136,0.12)" : "rgba(107,79,187,0.15)", color: tool.free ? GREEN : PURPLE }}>
+                        <span style={{ fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 20, background: tool.free ? "rgba(58,125,86,0.12)" : "rgba(107,79,187,0.15)", color: tool.free ? GREEN : PURPLE }}>
                           {tool.free ? "Free" : "Paid"}
                         </span>
                       </div>
@@ -908,7 +908,7 @@ export default function ResourcesPage() {
               ))}
             </div>
 
-            <div style={{ marginTop: 40, background: `linear-gradient(135deg, rgba(0,255,136,0.08), rgba(107,79,187,0.12))`, border: `1px solid rgba(0,255,136,0.2)`, borderRadius: 16, padding: "28px 24px", textAlign: "center" }}>
+            <div style={{ marginTop: 40, background: `linear-gradient(135deg, rgba(58,125,86,0.08), rgba(107,79,187,0.12))`, border: `1px solid rgba(58,125,86,0.2)`, borderRadius: 16, padding: "28px 24px", textAlign: "center" }}>
               <p style={{ fontSize: 28, margin: "0 0 10px" }}>🛠️</p>
               <h3 style={{ fontSize: 20, fontWeight: 900, marginBottom: 8, color: TEXT }}>Missing a tool you love?</h3>
               <p style={{ fontSize: 14, color: MUTED, maxWidth: 420, margin: "0 auto 16px" }}>
@@ -952,7 +952,7 @@ export default function ResourcesPage() {
               ))}
             </div>
 
-            <div style={{ marginTop: 40, background: `linear-gradient(135deg, rgba(107,79,187,0.12), rgba(0,255,136,0.08))`, border: `1px solid rgba(107,79,187,0.25)`, borderRadius: 16, padding: "28px 24px", textAlign: "center" }}>
+            <div style={{ marginTop: 40, background: `linear-gradient(135deg, rgba(107,79,187,0.12), rgba(58,125,86,0.08))`, border: `1px solid rgba(107,79,187,0.25)`, borderRadius: 16, padding: "28px 24px", textAlign: "center" }}>
               <p style={{ fontSize: 28, margin: "0 0 10px" }}>🎬</p>
               <h3 style={{ fontSize: 20, fontWeight: 900, marginBottom: 8, color: TEXT }}>Have a video recommendation?</h3>
               <p style={{ fontSize: 14, color: MUTED, maxWidth: 420, margin: "0 auto 16px" }}>

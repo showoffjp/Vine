@@ -355,7 +355,7 @@ const ageGroups = ["All Ages", "13–15", "16–18", "19–22", "23–25"];
 const categories = ["All", "Mindfulness", "Spiritual Growth", "Service", "Scripture", "Identity", "Prayer"];
 
 const difficultyColor: Record<string, string> = {
-  Beginner: "#00FF88",
+  Beginner: "#3a7d56",
   Intermediate: "#F59E0B",
   Advanced: "#EF4444",
 };
@@ -452,7 +452,7 @@ export default function YouthPage() {
             { value: "300+", label: "Open Discussions" },
           ].map((s) => (
             <div key={s.label} style={{ textAlign: "center" }}>
-              <div style={{ fontSize: 28, fontWeight: 700, color: "#00FF88" }}>{s.value}</div>
+              <div style={{ fontSize: 28, fontWeight: 700, color: "#3a7d56" }}>{s.value}</div>
               <div style={{ fontSize: 13, color: "#9898B3" }}>{s.label}</div>
             </div>
           ))}
@@ -592,9 +592,9 @@ export default function YouthPage() {
                         style={{
                           padding: "8px 20px",
                           borderRadius: 8,
-                          border: `1px solid ${joined ? "#6B4FBB" : "#00FF88"}`,
-                          background: joined ? "#6B4FBB20" : "#00FF8820",
-                          color: joined ? "#6B4FBB" : "#00FF88",
+                          border: `1px solid ${joined ? "#6B4FBB" : "#3a7d56"}`,
+                          background: joined ? "#6B4FBB20" : "#3a7d5620",
+                          color: joined ? "#6B4FBB" : "#3a7d56",
                           cursor: "pointer",
                           fontWeight: 600,
                           fontSize: 13,
@@ -621,9 +621,9 @@ export default function YouthPage() {
                   style={{
                     padding: "6px 16px",
                     borderRadius: 20,
-                    border: `1px solid ${selectedAgeGroup === ag ? "#00FF88" : "#1E1E32"}`,
-                    background: selectedAgeGroup === ag ? "#00FF8820" : "transparent",
-                    color: selectedAgeGroup === ag ? "#00FF88" : "#9898B3",
+                    border: `1px solid ${selectedAgeGroup === ag ? "#3a7d56" : "#1E1E32"}`,
+                    background: selectedAgeGroup === ag ? "#3a7d5620" : "transparent",
+                    color: selectedAgeGroup === ag ? "#3a7d56" : "#9898B3",
                     cursor: "pointer",
                     fontSize: 13,
                     fontWeight: 500,
@@ -681,7 +681,7 @@ export default function YouthPage() {
                                   : resource.type === "Podcast"
                                   ? "#8B5CF620"
                                   : resource.type === "Devotional"
-                                  ? "#00FF8820"
+                                  ? "#3a7d5620"
                                   : "#F59E0B20",
                               color:
                                 resource.type === "Video"
@@ -689,7 +689,7 @@ export default function YouthPage() {
                                   : resource.type === "Podcast"
                                   ? "#8B5CF6"
                                   : resource.type === "Devotional"
-                                  ? "#00FF88"
+                                  ? "#3a7d56"
                                   : "#F59E0B",
                               fontSize: 10,
                               fontWeight: 600,
@@ -738,8 +738,8 @@ export default function YouthPage() {
                               padding: "4px 10px",
                               borderRadius: 6,
                               border: "none",
-                              background: liked ? "#00FF8820" : "#1E1E32",
-                              color: liked ? "#00FF88" : "#9898B3",
+                              background: liked ? "#3a7d5620" : "#1E1E32",
+                              color: liked ? "#3a7d56" : "#9898B3",
                               cursor: "pointer",
                               fontSize: 12,
                             }}
@@ -898,12 +898,12 @@ export default function YouthPage() {
             </div>
             <div style={{ flex: 1 }}>
               <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 28 }}>
-                <h2 style={{ color: "#00FF88", fontWeight: 900, fontSize: 22, margin: "0 0 4px" }}>{voiceItem.name}</h2>
+                <h2 style={{ color: "#3a7d56", fontWeight: 900, fontSize: 22, margin: "0 0 4px" }}>{voiceItem.name}</h2>
                 <div style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 700, marginBottom: 6 }}>{voiceItem.era}</div>
                 <div style={{ color: "#9898B3", fontSize: 13, marginBottom: 16 }}>{voiceItem.context}</div>
                 <p style={{ color: "#F2F2F8", lineHeight: 1.8, fontSize: 15, marginBottom: 20 }}>{voiceItem.bio}</p>
-                <div style={{ background: "#07070F", borderLeft: "3px solid #00FF88", borderRadius: "0 8px 8px 0", padding: "14px 18px", marginBottom: 20 }}>
-                  <p style={{ color: "#00FF88", fontStyle: "italic", fontSize: 15, lineHeight: 1.7, margin: 0 }}>&ldquo;{voiceItem.quote}&rdquo;</p>
+                <div style={{ background: "#07070F", borderLeft: "3px solid #3a7d56", borderRadius: "0 8px 8px 0", padding: "14px 18px", marginBottom: 20 }}>
+                  <p style={{ color: "#3a7d56", fontStyle: "italic", fontSize: 15, lineHeight: 1.7, margin: 0 }}>&ldquo;{voiceItem.quote}&rdquo;</p>
                 </div>
                 <div style={{ background: "rgba(107,79,187,0.15)", borderRadius: 10, padding: 16 }}>
                   <div style={{ color: "#6B4FBB", fontWeight: 700, fontSize: 13, marginBottom: 6 }}>Legacy and Contribution</div>
@@ -917,7 +917,7 @@ export default function YouthPage() {
         {activeTab === "videos" && (
           <div>
             <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 24, marginBottom: 24 }}>
-              <h2 style={{ color: "#00FF88", fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <h2 style={{ color: "#3a7d56", fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
               <p style={{ color: "#9898B3", fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
                 Sermons, lectures, and teachings on youth ministry, the next generation, and Christian formation for young believers.
               </p>
@@ -937,7 +937,7 @@ export default function YouthPage() {
                       allowFullScreen
                     />
                     <div style={{ padding: "14px 16px" }}>
-                      <h4 style={{ color: "#00FF88", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <h4 style={{ color: "#3a7d56", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
                       <p style={{ color: "#9898B3", fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
                     </div>
@@ -1045,7 +1045,7 @@ export default function YouthPage() {
                   padding: "12px 20px",
                   borderRadius: 10,
                   border: "none",
-                  background: joinedChallenges.has(selectedChallenge.id) ? "#6B4FBB" : "#00FF88",
+                  background: joinedChallenges.has(selectedChallenge.id) ? "#6B4FBB" : "#3a7d56",
                   color: joinedChallenges.has(selectedChallenge.id) ? "#fff" : "#07070F",
                   cursor: "pointer",
                   fontWeight: 700,
@@ -1141,8 +1141,8 @@ export default function YouthPage() {
                   padding: "12px 20px",
                   borderRadius: 10,
                   border: "none",
-                  background: likedResources.has(selectedResource.id) ? "#00FF8820" : "#1E1E32",
-                  color: likedResources.has(selectedResource.id) ? "#00FF88" : "#9898B3",
+                  background: likedResources.has(selectedResource.id) ? "#3a7d5620" : "#1E1E32",
+                  color: likedResources.has(selectedResource.id) ? "#3a7d56" : "#9898B3",
                   cursor: "pointer",
                   fontWeight: 600,
                   fontSize: 14,

@@ -6,7 +6,7 @@ import { BookOpen, Plus, X, Star, Search, Edit2, Trash2 } from "lucide-react";
 const BG = "#07070F";
 const CARD = "#12121F";
 const BORDER = "#1E1E32";
-const GREEN = "#00FF88";
+const GREEN = "#3a7d56";
 const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
@@ -59,7 +59,7 @@ interface VoiceRead {
 const GENRES = ["Theology", "Devotional", "Biography", "Apologetics", "Church History", "Christian Living", "Commentary", "Prophecy", "Missions", "Psychology & Faith", "Fiction"];
 const GENRE_COLORS: Record<string, string> = {
   "Theology": "#6B4FBB",
-  "Devotional": "#00FF88",
+  "Devotional": "#3a7d56",
   "Biography": "#F59E0B",
   "Apologetics": "#3B82F6",
   "Church History": "#8B5CF6",
@@ -74,7 +74,7 @@ const GENRE_COLORS: Record<string, string> = {
 const COVER_EMOJIS = ["📖", "✝️", "🕊️", "✨", "🙏", "🌿", "📜", "⛪", "🌍", "💡", "🔥", "📿"];
 
 const STATUS_CONFIG: Record<ReadStatus, { label: string; color: string; icon: string }> = {
-  "reading": { label: "Reading", color: "#00FF88", icon: "📚" },
+  "reading": { label: "Reading", color: "#3a7d56", icon: "📚" },
   "want-to-read": { label: "Want to Read", color: "#6B4FBB", icon: "🔖" },
   "completed": { label: "Completed", color: "#F59E0B", icon: "✅" },
   "abandoned": { label: "Abandoned", color: "#4A4A68", icon: "⏸️" },
@@ -465,7 +465,7 @@ export default function ReadingListPage() {
             <div>
               <h1 className="text-4xl sm:text-5xl font-black mb-3">
                 Grow through{" "}
-                <span style={{ background: "linear-gradient(135deg, #00FF88, #6B4FBB)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+                <span style={{ background: "linear-gradient(135deg, #3a7d56, #6B4FBB)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
                   great books.
                 </span>
               </h1>
@@ -476,7 +476,7 @@ export default function ReadingListPage() {
             <button
               onClick={() => { resetForm(); setShowCompose(true); }}
               className="shrink-0 flex items-center gap-2 px-5 py-2.5 rounded-xl font-black text-sm"
-              style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)", color: BG }}
+              style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)", color: BG }}
             >
               <Plus size={15} /> Add Book
             </button>
@@ -537,7 +537,7 @@ export default function ReadingListPage() {
                   <label className="text-xs font-semibold mb-1 block" style={{ color: "#6A6A88" }}>Cover emoji</label>
                   <div className="flex gap-2 flex-wrap">
                     {COVER_EMOJIS.map((e) => (
-                      <button key={e} onClick={() => setForm((f) => ({ ...f, coverEmoji: e }))} className="w-9 h-9 rounded-lg flex items-center justify-center text-xl" style={{ background: form.coverEmoji === e ? "rgba(0,255,136,0.15)" : "rgba(255,255,255,0.04)", border: form.coverEmoji === e ? "1px solid rgba(0,255,136,0.4)" : "1px solid rgba(255,255,255,0.08)" }}>
+                      <button key={e} onClick={() => setForm((f) => ({ ...f, coverEmoji: e }))} className="w-9 h-9 rounded-lg flex items-center justify-center text-xl" style={{ background: form.coverEmoji === e ? "rgba(58,125,86,0.15)" : "rgba(255,255,255,0.04)", border: form.coverEmoji === e ? "1px solid rgba(58,125,86,0.4)" : "1px solid rgba(255,255,255,0.08)" }}>
                         {e}
                       </button>
                     ))}
@@ -554,7 +554,7 @@ export default function ReadingListPage() {
               </div>
               <div className="flex gap-3 mt-5">
                 <button onClick={() => { setShowCompose(false); resetForm(); }} className="flex-1 py-2.5 rounded-xl font-bold text-sm" style={{ background: "rgba(255,255,255,0.04)", color: "#8A8AA8", border: "1px solid rgba(255,255,255,0.08)" }}>Cancel</button>
-                <button onClick={handleSubmit} disabled={!form.title.trim() || !form.author.trim()} className="flex-1 py-2.5 rounded-xl font-black text-sm" style={{ background: (form.title.trim() && form.author.trim()) ? "linear-gradient(135deg, #00FF88, #00BB55)" : "rgba(255,255,255,0.06)", color: (form.title.trim() && form.author.trim()) ? BG : "#4A4A68" }}>
+                <button onClick={handleSubmit} disabled={!form.title.trim() || !form.author.trim()} className="flex-1 py-2.5 rounded-xl font-black text-sm" style={{ background: (form.title.trim() && form.author.trim()) ? "linear-gradient(135deg, #3a7d56, #3a7d56)" : "rgba(255,255,255,0.06)", color: (form.title.trim() && form.author.trim()) ? BG : "#4A4A68" }}>
                   {editingId ? "Save" : "Add Book"}
                 </button>
               </div>
@@ -623,7 +623,7 @@ export default function ReadingListPage() {
                         <div
                           key={book.id}
                           className="rounded-2xl p-5 cursor-pointer transition-all relative group"
-                          style={{ background: selectedBook === book.id ? "rgba(0,255,136,0.06)" : CARD, border: selectedBook === book.id ? "1px solid rgba(0,255,136,0.2)" : `1px solid ${BORDER}` }}
+                          style={{ background: selectedBook === book.id ? "rgba(58,125,86,0.06)" : CARD, border: selectedBook === book.id ? "1px solid rgba(58,125,86,0.2)" : `1px solid ${BORDER}` }}
                           onClick={() => setSelectedBook(selectedBook === book.id ? null : book.id)}
                         >
                           {/* Hover actions */}

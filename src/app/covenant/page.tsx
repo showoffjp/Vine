@@ -4,7 +4,7 @@ import { useState } from "react";
 const BG = "#07070F";
 const CARD = "#12121F";
 const BORDER = "#1E1E32";
-const GREEN = "#00FF88";
+const GREEN = "#3a7d56";
 const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
@@ -385,7 +385,7 @@ export default function CovenantPage() {
                       padding: "12px 16px",
                       borderRadius: 8,
                       border: `1px solid ${selectedCovenant === c.id ? GREEN : BORDER}`,
-                      background: selectedCovenant === c.id ? "rgba(0,255,136,0.07)" : CARD,
+                      background: selectedCovenant === c.id ? "rgba(58,125,86,0.07)" : CARD,
                       color: selectedCovenant === c.id ? GREEN : TEXT,
                       fontWeight: selectedCovenant === c.id ? 700 : 500,
                       fontSize: 14,

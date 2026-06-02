@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const THEOLOGY = [
   { title: "Your Story Is Spiritual Warfare", verse: "Revelation 12:11", body: "'They triumphed over him by the blood of the Lamb and by the word of their testimony' (Revelation 12:11). The testimony is a weapon. When you speak of what God has done, you are not merely sharing a personal narrative — you are asserting the reality of the kingdom of God over the reality of darkness. Testimony defeats the accuser by declaring what Christ has accomplished." },

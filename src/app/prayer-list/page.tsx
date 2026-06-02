@@ -40,7 +40,7 @@ const CATEGORY_COLORS: Record<PrayerCategory, string> = {
   Friend: "#10B981",
   Health: "#3B82F6",
   Work: "#F59E0B",
-  Ministry: "#00FF88",
+  Ministry: "#3a7d56",
   World: "#8B5CF6",
   Praise: "#E07030",
 };
@@ -195,8 +195,8 @@ export default function PrayerListPage() {
           {/* Header */}
           <div className="mb-8">
             <div className="flex items-center gap-2 mb-2">
-              <Heart size={18} style={{ color: "#00FF88" }} />
-              <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#00FF88" }}>My Prayer List</span>
+              <Heart size={18} style={{ color: "#3a7d56" }} />
+              <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#3a7d56" }}>My Prayer List</span>
               <div className="flex items-center gap-1 ml-auto text-xs" style={{ color: "#4A4A68" }}>
                 <Lock size={11} /> Private
               </div>
@@ -209,7 +209,7 @@ export default function PrayerListPage() {
               <button
                 onClick={() => setShowAdd(true)}
                 className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold text-black"
-                style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)" }}
+                style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}
               >
                 <Plus size={14} /> Add Request
               </button>
@@ -221,7 +221,7 @@ export default function PrayerListPage() {
             {[
               { label: "Active Requests", value: activeCount, color: "#6B4FBB" },
               { label: "Answered", value: answeredCount, color: "#10B981" },
-              { label: "Total Prayers", value: totalPrays, color: "#00FF88" },
+              { label: "Total Prayers", value: totalPrays, color: "#3a7d56" },
             ].map((s) => (
               <div key={s.label} className="rounded-xl p-4 text-center" style={{ background: "#12121F", border: "1px solid #1E1E32" }}>
                 <p className="text-2xl font-black mb-0.5" style={{ color: s.color }}>{s.value}</p>
@@ -232,7 +232,7 @@ export default function PrayerListPage() {
 
           {/* Add form */}
           {showAdd && (
-            <div className="rounded-2xl p-6 mb-5" style={{ background: "#12121F", border: "1px solid rgba(0,255,136,0.2)" }}>
+            <div className="rounded-2xl p-6 mb-5" style={{ background: "#12121F", border: "1px solid rgba(58,125,86,0.2)" }}>
               <div className="flex items-center justify-between mb-4">
                 <h3 className="font-black" style={{ color: "#F2F2F8" }}>New Prayer Request</h3>
                 <button onClick={() => setShowAdd(false)} style={{ color: "#6A6A88" }}><X size={16} /></button>
@@ -291,7 +291,7 @@ export default function PrayerListPage() {
                     onClick={addItem}
                     disabled={!newRequest.trim()}
                     className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-bold text-black"
-                    style={{ background: newRequest.trim() ? "linear-gradient(135deg, #00FF88, #00BB55)" : "#1E1E32", color: newRequest.trim() ? "#07070F" : "#4A4A68" }}
+                    style={{ background: newRequest.trim() ? "linear-gradient(135deg, #3a7d56, #3a7d56)" : "#1E1E32", color: newRequest.trim() ? "#07070F" : "#4A4A68" }}
                   >
                     <Heart size={14} /> Add to List
                   </button>
@@ -402,7 +402,7 @@ export default function PrayerListPage() {
                         <p className="text-sm leading-relaxed mt-1 mb-2" style={{ color: "#C0C0D8" }}>{item.request}</p>
 
                         {item.verse && (
-                          <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "rgba(0,255,136,0.08)", color: "#00AA55" }}>
+                          <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "rgba(58,125,86,0.08)", color: "#00AA55" }}>
                             📜 {item.verse}
                           </span>
                         )}
@@ -474,7 +474,7 @@ export default function PrayerListPage() {
           {/* Footer CTA */}
           <div
             className="mt-10 rounded-2xl p-6 text-center"
-            style={{ background: "linear-gradient(135deg, rgba(107,79,187,0.08), rgba(0,255,136,0.06))", border: "1px solid rgba(107,79,187,0.2)" }}
+            style={{ background: "linear-gradient(135deg, rgba(107,79,187,0.08), rgba(58,125,86,0.06))", border: "1px solid rgba(107,79,187,0.2)" }}
           >
             <Sparkles size={20} style={{ color: "#6B4FBB" }} className="mx-auto mb-3" />
             <h3 className="font-black mb-2" style={{ color: "#F2F2F8" }}>Keep a record of God&apos;s faithfulness</h3>
@@ -482,7 +482,7 @@ export default function PrayerListPage() {
               Tracking answered prayers builds your faith. Review this list often — it becomes your personal testimony.
             </p>
             <div className="flex items-center justify-center gap-4">
-              <a href="/prayer" className="flex items-center gap-1.5 text-xs font-semibold" style={{ color: "#00FF88" }}>
+              <a href="/prayer" className="flex items-center gap-1.5 text-xs font-semibold" style={{ color: "#3a7d56" }}>
                 Public Prayer Wall <ChevronRight size={11} />
               </a>
               <a href="/journal" className="flex items-center gap-1.5 text-xs font-semibold" style={{ color: "#6B4FBB" }}>

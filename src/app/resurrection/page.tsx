@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const THEOLOGY = [
   { title: "The Bodily Resurrection", verse: "1 Corinthians 15:3-8", body: "Paul's creed in 1 Corinthians 15:3-8 is among the earliest Christian texts, likely received within 5 years of the crucifixion: 'Christ died for our sins according to the Scriptures, that he was buried, that he was raised on the third day according to the Scriptures, and that he appeared...' The resurrection is not a symbol or metaphor — Paul explicitly argues for a bodily resurrection and treats the physical empty tomb as essential. If Christ was not raised, he writes, 'your faith is futile' (15:17)." },

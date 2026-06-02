@@ -84,19 +84,19 @@ export default function BlogArticleActions({ slug }: Props) {
         onClick={toggleSave}
         className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all"
         style={{
-          background: saved ? "rgba(0,255,136,0.15)" : "rgba(0,255,136,0.08)",
-          color: "#00FF88",
-          border: saved ? "1px solid rgba(0,255,136,0.4)" : "1px solid rgba(0,255,136,0.2)",
+          background: saved ? "rgba(58,125,86,0.15)" : "rgba(58,125,86,0.08)",
+          color: "#3a7d56",
+          border: saved ? "1px solid rgba(58,125,86,0.4)" : "1px solid rgba(58,125,86,0.2)",
         }}
       >
-        <Bookmark size={14} fill={saved ? "#00FF88" : "none"} /> {saved ? "Saved" : "Save"}
+        <Bookmark size={14} fill={saved ? "#3a7d56" : "none"} /> {saved ? "Saved" : "Save"}
       </button>
       <button
         onClick={handleShare}
         className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all"
         style={{
-          background: shared ? "rgba(0,255,136,0.08)" : "rgba(255,255,255,0.04)",
-          color: shared ? "#00FF88" : "#8A8AA8",
+          background: shared ? "rgba(58,125,86,0.08)" : "rgba(255,255,255,0.04)",
+          color: shared ? "#3a7d56" : "#8A8AA8",
           border: "1px solid rgba(255,255,255,0.08)",
         }}
       >

@@ -13,7 +13,7 @@ const liveStreams = [
     flag: "🇬🇭",
     viewers: 4821,
     thumbnail: "🎵",
-    color: "#00FF88",
+    color: "#3a7d56",
     category: "Worship",
     description: "Live worship service with Cornerstone Church of Accra. All are welcome.",
     tags: ["worship", "Sunday", "praise"],
@@ -87,7 +87,7 @@ const upcoming = [
     host: "Tim Challies",
     flag: "🇨🇦",
     time: "Today, 7:00 PM EST",
-    color: "#00FF88",
+    color: "#3a7d56",
     category: "Bible Study",
   },
   {
@@ -136,7 +136,7 @@ export default function LivePage() {
     } catch { return new Set(); }
   });
   const [chatMessages, setChatMessages] = useState<{ user: string; msg: string; color: string }[]>([
-    { user: "Amara K.", msg: "🙏 Blessing from Ghana!", color: "#00FF88" },
+    { user: "Amara K.", msg: "🙏 Blessing from Ghana!", color: "#3a7d56" },
     { user: "Ji-Woo P.", msg: "This worship is incredible", color: "#6B4FBB" },
     { user: "Carlos M.", msg: "¡Gloria a Dios! 🔥", color: "#F59E0B" },
     { user: "Sarah T.", msg: "Praying along from London", color: "#EC4899" },
@@ -184,7 +184,7 @@ export default function LivePage() {
 
   const sendChat = () => {
     if (!chatInput.trim()) return;
-    const colors = ["#00FF88", "#6B4FBB", "#F59E0B", "#EC4899", "#3B82F6", "#EF4444"];
+    const colors = ["#3a7d56", "#6B4FBB", "#F59E0B", "#EC4899", "#3B82F6", "#EF4444"];
     setChatMessages((prev) => [
       ...prev.slice(-19),
       { user: "You", msg: chatInput, color: colors[Math.floor(Math.random() * colors.length)] },
@@ -210,7 +210,7 @@ export default function LivePage() {
           </div>
           <h1 className="text-4xl sm:text-5xl font-black mb-4">
             Live{" "}
-            <span style={{ background: "linear-gradient(135deg, #00FF88, #10B981)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+            <span style={{ background: "linear-gradient(135deg, #3a7d56, #10B981)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
               Church
             </span>
           </h1>
@@ -223,7 +223,7 @@ export default function LivePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
             {/* Featured stream card */}
-            <div className="lg:col-span-2 rounded-2xl overflow-hidden" style={{ background: "#12121F", border: "1px solid rgba(0,255,136,0.2)" }}>
+            <div className="lg:col-span-2 rounded-2xl overflow-hidden" style={{ background: "#12121F", border: "1px solid rgba(58,125,86,0.2)" }}>
               <div
                 className="relative flex items-center justify-center"
                 style={{
@@ -245,7 +245,7 @@ export default function LivePage() {
                   <Eye size={12} style={{ color: "#8A8AA8" }} />
                   <span className="text-xs font-bold" style={{ color: "#F2F2F8" }}>{liveViewers.toLocaleString()}</span>
                 </div>
-                <div className="absolute top-3 right-3 px-2 py-0.5 rounded-full text-xs font-bold" style={{ background: "rgba(0,255,136,0.2)", color: "#00FF88", border: "1px solid rgba(0,255,136,0.3)" }}>
+                <div className="absolute top-3 right-3 px-2 py-0.5 rounded-full text-xs font-bold" style={{ background: "rgba(58,125,86,0.2)", color: "#3a7d56", border: "1px solid rgba(58,125,86,0.3)" }}>
                   {liveStreams[0].category}
                 </div>
               </div>
@@ -257,9 +257,9 @@ export default function LivePage() {
                     onClick={() => toggleJoin(1)}
                     className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold flex-1 justify-center transition-all"
                     style={{
-                      background: joinedStreams.has(1) ? "rgba(0,255,136,0.15)" : "linear-gradient(135deg, #00FF88, #00BB55)",
-                      color: joinedStreams.has(1) ? "#00FF88" : "#07070F",
-                      border: joinedStreams.has(1) ? "1px solid rgba(0,255,136,0.4)" : "none",
+                      background: joinedStreams.has(1) ? "rgba(58,125,86,0.15)" : "linear-gradient(135deg, #3a7d56, #3a7d56)",
+                      color: joinedStreams.has(1) ? "#3a7d56" : "#07070F",
+                      border: joinedStreams.has(1) ? "1px solid rgba(58,125,86,0.4)" : "none",
                     }}
                   >
                     {joinedStreams.has(1) ? (
@@ -278,7 +278,7 @@ export default function LivePage() {
             {/* Live Chat */}
             <div className="rounded-2xl flex flex-col" style={{ background: "#12121F", border: "1px solid #1E1E32", maxHeight: 420 }}>
               <div className="p-4 flex items-center gap-2" style={{ borderBottom: "1px solid #1E1E32" }}>
-                <MessageSquare size={14} style={{ color: "#00FF88" }} />
+                <MessageSquare size={14} style={{ color: "#3a7d56" }} />
                 <span className="text-sm font-bold" style={{ color: "#F2F2F8" }}>Live Chat</span>
                 <span className="ml-auto text-xs" style={{ color: "#4A4A68" }}>{liveViewers.toLocaleString()} viewers</span>
               </div>
@@ -303,7 +303,7 @@ export default function LivePage() {
                   <button
                     onClick={sendChat}
                     className="px-3 py-2 rounded-lg text-xs font-bold"
-                    style={{ background: "rgba(0,255,136,0.15)", color: "#00FF88", border: "1px solid rgba(0,255,136,0.25)" }}
+                    style={{ background: "rgba(58,125,86,0.15)", color: "#3a7d56", border: "1px solid rgba(58,125,86,0.25)" }}
                   >
                     Send
                   </button>
@@ -322,9 +322,9 @@ export default function LivePage() {
                 onClick={() => setActiveCategory(c)}
                 className="px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition-all"
                 style={{
-                  background: activeCategory === c ? "rgba(0,255,136,0.15)" : "rgba(255,255,255,0.03)",
-                  border: activeCategory === c ? "1px solid rgba(0,255,136,0.4)" : "1px solid rgba(255,255,255,0.06)",
-                  color: activeCategory === c ? "#00FF88" : "#8A8AA8",
+                  background: activeCategory === c ? "rgba(58,125,86,0.15)" : "rgba(255,255,255,0.03)",
+                  border: activeCategory === c ? "1px solid rgba(58,125,86,0.4)" : "1px solid rgba(255,255,255,0.06)",
+                  color: activeCategory === c ? "#3a7d56" : "#8A8AA8",
                 }}
               >
                 {c}

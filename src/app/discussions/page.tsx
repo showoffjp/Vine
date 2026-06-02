@@ -31,7 +31,7 @@ import {
 
 const hubs = [
   { icon: BookOpen, name: "Theology & Doctrine", members: "24.1k", color: "#6B4FBB", groupId: "theology-doctrine" },
-  { icon: Heart, name: "Mental Health & Faith", members: "18.7k", color: "#00FF88", groupId: "mental-health-faith" },
+  { icon: Heart, name: "Mental Health & Faith", members: "18.7k", color: "#3a7d56", groupId: "mental-health-faith" },
   { icon: Users, name: "Young Adults", members: "31.2k", color: "#4FBBAA", groupId: "young-adults" },
   { icon: Baby, name: "Christian Parenting", members: "12.4k", color: "#BB4F7A", groupId: "christian-parenting" },
   { icon: Briefcase, name: "Faith & Career", members: "9.8k", color: "#4F8FBB", groupId: "faith-career" },
@@ -86,7 +86,7 @@ const posts = [
     id: 3,
     slug: "depression-therapy-faith-005",
     hub: "Mental Health & Faith",
-    hubColor: "#00FF88",
+    hubColor: "#3a7d56",
     time: "5 hours ago",
     title: "After 3 years of depression and praying for healing, I finally got therapy — and it changed everything.",
     preview: "I used to believe seeking therapy was a lack of faith. My pastor even said once that the Holy Spirit should be enough. But I was drowning. Finally went to a Christian counselor and...",
@@ -123,7 +123,7 @@ const posts = [
     title: "UPDATE: I posted 6 months ago asking for prayer for my dad's stage 4 diagnosis — HE IS CANCER FREE.",
     preview: "I'm shaking as I type this. The doctors called it 'medically inexplicable.' Six months ago 247 of you prayed with me in this thread. I want you all to know — the prayer worked. God heard us...",
     flair: "Praise Report",
-    flairColor: "#00FF88",
+    flairColor: "#3a7d56",
     votes: 5621,
     comments: 891,
     saves: 1204,
@@ -198,7 +198,7 @@ const posts = [
     id: 10,
     slug: "prayer-doesnt-feel-real-009",
     hub: "Prayer Warriors",
-    hubColor: "#00FF88",
+    hubColor: "#3a7d56",
     time: "3 days ago",
     title: "I pray and pray and nothing seems to happen. Is God actually listening?",
     preview: "I know this is vulnerable to share, but I've been praying about the same situation for 3 years. Nothing has changed. I believe God exists. But sometimes in the silence I wonder if prayer is just talking to myself...",
@@ -251,7 +251,7 @@ const posts = [
     title: "Laid off at 47 with three kids in college. Trying to trust God's provision but honestly struggling.",
     preview: "20 years at the same company. Never saw it coming. I know all the right Scripture to quote — Philippians 4:19, Matthew 6:33 — but when you're staring at the bills and the silence, it's harder than the sermons make it sound...",
     flair: "Prayer Request",
-    flairColor: "#00FF88",
+    flairColor: "#3a7d56",
     votes: 3247,
     comments: 418,
     saves: 687,
@@ -283,7 +283,7 @@ const posts = [
     title: "Parents of prodigal children — how do you keep praying when years go by with no change?",
     preview: "My son walked away from faith at 19. He's 27 now. Eight years of praying the same prayers, watching him make destructive choices. I believe in the prodigal son story. But the father in the parable waited — he didn't know how long it would take...",
     flair: "Prayer Request",
-    flairColor: "#00FF88",
+    flairColor: "#3a7d56",
     votes: 5312,
     comments: 724,
     saves: 1344,
@@ -299,7 +299,7 @@ const posts = [
     title: "How do you actually live out your faith at work without being the 'weird Christian'?",
     preview: "I'm a software engineer at a secular tech company. I don't want to hide my faith, but I also don't want to be the person who turns every conversation into an evangelism opportunity. Looking for real, practical stories...",
     flair: "Practical Faith",
-    flairColor: "#00FF88",
+    flairColor: "#3a7d56",
     votes: 3891,
     comments: 312,
     saves: 543,
@@ -534,8 +534,8 @@ export default function DiscussionsPage() {
               <div
                 className="w-full h-16 rounded-xl mb-3 flex items-center justify-center"
                 style={{
-                  background: "linear-gradient(135deg, rgba(107,79,187,0.3) 0%, rgba(0,255,136,0.15) 100%)",
-                  border: "1px solid rgba(0,255,136,0.15)",
+                  background: "linear-gradient(135deg, rgba(107,79,187,0.3) 0%, rgba(58,125,86,0.15) 100%)",
+                  border: "1px solid rgba(58,125,86,0.15)",
                 }}
               >
                 <span className="text-2xl">🕊️</span>
@@ -556,7 +556,7 @@ export default function DiscussionsPage() {
             >
               <h4
                 className="text-xs font-bold uppercase tracking-widest mb-3"
-                style={{ color: "#00FF88" }}
+                style={{ color: "#3a7d56" }}
               >
                 Your Hubs
               </h4>
@@ -594,7 +594,7 @@ export default function DiscussionsPage() {
             >
               <h4
                 className="text-xs font-bold uppercase tracking-widest mb-3"
-                style={{ color: "#00FF88" }}
+                style={{ color: "#3a7d56" }}
               >
                 Discover Hubs
               </h4>
@@ -613,9 +613,9 @@ export default function DiscussionsPage() {
                       onClick={() => toggleHub(hubs.length + si)}
                       className="text-xs px-2.5 py-1 rounded-full font-semibold transition-all duration-200"
                       style={{
-                        background: joinedHubs.has(hubs.length + si) ? "#00FF88" : "transparent",
-                        border: "1px solid rgba(0,255,136,0.3)",
-                        color: joinedHubs.has(hubs.length + si) ? "#07070F" : "#00FF88",
+                        background: joinedHubs.has(hubs.length + si) ? "#3a7d56" : "transparent",
+                        border: "1px solid rgba(58,125,86,0.3)",
+                        color: joinedHubs.has(hubs.length + si) ? "#07070F" : "#3a7d56",
                       }}
                     >
                       {joinedHubs.has(hubs.length + si) ? "✓" : "Join"}
@@ -637,12 +637,12 @@ export default function DiscussionsPage() {
               <div className="flex items-center gap-3 p-3 border-b" style={{ borderColor: "#1E1E32" }}>
                 <div
                   className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold"
-                  style={{ background: "linear-gradient(135deg, #6B4FBB, #00FF88)", color: "#07070F" }}
+                  style={{ background: "linear-gradient(135deg, #6B4FBB, #3a7d56)", color: "#07070F" }}
                 >
                   J
                 </div>
                 <button
-                  className="flex-1 text-left px-4 py-2 rounded-xl text-sm transition-all duration-200 hover:border-[rgba(0,255,136,0.3)]"
+                  className="flex-1 text-left px-4 py-2 rounded-xl text-sm transition-all duration-200 hover:border-[rgba(58,125,86,0.3)]"
                   style={{
                     background: "#07070F",
                     border: "1px solid #1E1E32",
@@ -665,8 +665,8 @@ export default function DiscussionsPage() {
                     onClick={() => setActiveSort(tab.label)}
                     className="flex items-center gap-1.5 px-5 py-3 text-sm font-semibold transition-all duration-200"
                     style={{
-                      color: activeSort === tab.label ? "#00FF88" : "#6A6A88",
-                      borderBottom: activeSort === tab.label ? "2px solid #00FF88" : "2px solid transparent",
+                      color: activeSort === tab.label ? "#3a7d56" : "#6A6A88",
+                      borderBottom: activeSort === tab.label ? "2px solid #3a7d56" : "2px solid transparent",
                     }}
                   >
                     <tab.icon size={14} />
@@ -686,15 +686,15 @@ export default function DiscussionsPage() {
                   style={{
                     background: "#12121F",
                     border: post.pinned
-                      ? "1px solid rgba(0,255,136,0.3)"
+                      ? "1px solid rgba(58,125,86,0.3)"
                       : "1px solid #1E1E32",
                     textDecoration: "none",
                   }}
                 >
                   {post.pinned && (
                     <div className="flex items-center gap-1.5 mb-2">
-                      <Pin size={11} style={{ color: "#00FF88" }} />
-                      <span className="text-[10px] font-bold uppercase tracking-wider" style={{ color: "#00FF88" }}>
+                      <Pin size={11} style={{ color: "#3a7d56" }} />
+                      <span className="text-[10px] font-bold uppercase tracking-wider" style={{ color: "#3a7d56" }}>
                         Pinned Post
                       </span>
                     </div>
@@ -704,9 +704,9 @@ export default function DiscussionsPage() {
                     <div
                       className="inline-flex items-center gap-1.5 text-[10px] font-bold px-2.5 py-1 rounded-full mb-2"
                       style={{
-                        background: "rgba(0,255,136,0.1)",
-                        border: "1px solid rgba(0,255,136,0.25)",
-                        color: "#00FF88",
+                        background: "rgba(58,125,86,0.1)",
+                        border: "1px solid rgba(58,125,86,0.25)",
+                        color: "#3a7d56",
                       }}
                     >
                       <Award size={10} />
@@ -745,7 +745,7 @@ export default function DiscussionsPage() {
                     <button
                       onClick={() => toggleUpvote(post.id)}
                       className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-sm font-semibold transition-all duration-200 hover:bg-[#1E1E32]"
-                      style={{ color: upvotedPosts.has(post.id) ? "#00FF88" : "#8A8AA8" }}
+                      style={{ color: upvotedPosts.has(post.id) ? "#3a7d56" : "#8A8AA8" }}
                     >
                       <ArrowUp size={15} />
                       <span>{(post.votes + (upvotedPosts.has(post.id) ? 1 : 0)) >= 1000 ? `${((post.votes + (upvotedPosts.has(post.id) ? 1 : 0)) / 1000).toFixed(1)}k` : post.votes + (upvotedPosts.has(post.id) ? 1 : 0)}</span>
@@ -760,9 +760,9 @@ export default function DiscussionsPage() {
                     <button
                       onClick={() => toggleSave(post.id)}
                       className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-sm transition-all duration-200 hover:bg-[#1E1E32]"
-                      style={{ color: savedPosts.has(post.id) ? "#00FF88" : "#8A8AA8" }}
+                      style={{ color: savedPosts.has(post.id) ? "#3a7d56" : "#8A8AA8" }}
                     >
-                      <Bookmark size={14} fill={savedPosts.has(post.id) ? "#00FF88" : "none"} />
+                      <Bookmark size={14} fill={savedPosts.has(post.id) ? "#3a7d56" : "none"} />
                       <span>{(post.saves + (savedPosts.has(post.id) ? 1 : 0)) >= 1000 ? `${((post.saves + (savedPosts.has(post.id) ? 1 : 0)) / 1000).toFixed(1)}k` : post.saves + (savedPosts.has(post.id) ? 1 : 0)}</span>
                     </button>
                     <button
@@ -784,13 +784,13 @@ export default function DiscussionsPage() {
             <div
               className="rounded-2xl p-4 verse-card"
             >
-              <p className="text-[10px] font-bold uppercase tracking-widest mb-2" style={{ color: "#00FF88" }}>
+              <p className="text-[10px] font-bold uppercase tracking-widest mb-2" style={{ color: "#3a7d56" }}>
                 Today&apos;s Verse
               </p>
               <p className="text-sm font-medium italic leading-relaxed mb-2" style={{ color: "#F2F2F8" }}>
                 &ldquo;As iron sharpens iron, so one person sharpens another.&rdquo;
               </p>
-              <p className="text-xs font-semibold" style={{ color: "#00FF88" }}>— Proverbs 27:17</p>
+              <p className="text-xs font-semibold" style={{ color: "#3a7d56" }}>— Proverbs 27:17</p>
             </div>
 
             {/* Trending */}
@@ -798,15 +798,15 @@ export default function DiscussionsPage() {
               className="rounded-2xl p-4"
               style={{ background: "#12121F", border: "1px solid #1E1E32" }}
             >
-              <h4 className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#00FF88" }}>
+              <h4 className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#3a7d56" }}>
                 Trending This Week
               </h4>
               <div className="space-y-3">
                 {trending.map((item, i) => (
                   <a key={i} href={item.href} className="flex items-start gap-2.5 group cursor-pointer" style={{ textDecoration: "none" }}>
-                    <TrendingUp size={13} className="mt-0.5 flex-shrink-0" style={{ color: "#00FF88" }} />
+                    <TrendingUp size={13} className="mt-0.5 flex-shrink-0" style={{ color: "#3a7d56" }} />
                     <div>
-                      <p className="text-xs font-medium leading-snug transition-colors group-hover:text-[#00FF88]" style={{ color: "#C0C0D8" }}>
+                      <p className="text-xs font-medium leading-snug transition-colors group-hover:text-[#3a7d56]" style={{ color: "#C0C0D8" }}>
                         {item.title}
                       </p>
                       <p className="text-[10px]" style={{ color: "#6A6A88" }}>
@@ -823,7 +823,7 @@ export default function DiscussionsPage() {
               className="rounded-2xl p-4"
               style={{ background: "#12121F", border: "1px solid #1E1E32" }}
             >
-              <h4 className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#00FF88" }}>
+              <h4 className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#3a7d56" }}>
                 Community Rules
               </h4>
               <div className="space-y-2">
@@ -831,7 +831,7 @@ export default function DiscussionsPage() {
                   <div key={i} className="flex items-start gap-2.5">
                     <div
                       className="w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 text-[9px] font-black"
-                      style={{ background: "rgba(0,255,136,0.12)", color: "#00FF88" }}
+                      style={{ background: "rgba(58,125,86,0.12)", color: "#3a7d56" }}
                     >
                       {i + 1}
                     </div>
@@ -847,11 +847,11 @@ export default function DiscussionsPage() {
             <div
               className="rounded-2xl p-4 text-center"
               style={{
-                background: "linear-gradient(135deg, rgba(107,79,187,0.15) 0%, rgba(0,255,136,0.08) 100%)",
-                border: "1px solid rgba(0,255,136,0.2)",
+                background: "linear-gradient(135deg, rgba(107,79,187,0.15) 0%, rgba(58,125,86,0.08) 100%)",
+                border: "1px solid rgba(58,125,86,0.2)",
               }}
             >
-              <AlertCircle size={24} className="mx-auto mb-2" style={{ color: "#00FF88" }} />
+              <AlertCircle size={24} className="mx-auto mb-2" style={{ color: "#3a7d56" }} />
               <h4 className="font-bold text-sm mb-1" style={{ color: "#F2F2F8" }}>
                 Start a Discussion
               </h4>

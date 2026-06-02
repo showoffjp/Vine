@@ -27,7 +27,7 @@ interface AccountabilityGoal {
 const CATEGORIES = [
   { id: "prayer", label: "Prayer Life", icon: "🙏", color: "#6B4FBB" },
   { id: "scripture", label: "Bible Reading", icon: "📖", color: "#3B82F6" },
-  { id: "purity", label: "Purity", icon: "🛡️", color: "#00FF88" },
+  { id: "purity", label: "Purity", icon: "🛡️", color: "#3a7d56" },
   { id: "sobriety", label: "Sobriety", icon: "🌿", color: "#10B981" },
   { id: "fitness", label: "Physical Discipline", icon: "💪", color: "#F59E0B" },
   { id: "finances", label: "Financial Stewardship", icon: "💰", color: "#EC4899" },
@@ -263,7 +263,7 @@ export default function AccountabilityPage() {
     frequency: "daily" as "daily" | "weekly" | "monthly",
     partnerName: "",
     partnerInitials: "",
-    partnerColor: "#00FF88",
+    partnerColor: "#3a7d56",
   });
 
   useEffect(() => {
@@ -308,7 +308,7 @@ export default function AccountabilityPage() {
     };
     setGoals((prev) => [newGoal, ...prev]);
     setSelectedGoal(newGoal.id);
-    setForm({ title: "", description: "", category: "prayer", frequency: "daily", partnerName: "", partnerInitials: "", partnerColor: "#00FF88" });
+    setForm({ title: "", description: "", category: "prayer", frequency: "daily", partnerName: "", partnerInitials: "", partnerColor: "#3a7d56" });
     setShowCompose(false);
   };
 
@@ -321,7 +321,7 @@ export default function AccountabilityPage() {
   const weekCheckIns = selectedGoalData?.checkIns.filter((c) => thisWeek.includes(c.date)) ?? [];
   const weekCompletedCount = weekCheckIns.filter((c) => c.completed).length;
 
-  const PARTNER_COLORS = ["#00FF88", "#6B4FBB", "#3B82F6", "#EC4899", "#F59E0B", "#10B981", "#EF4444", "#8B5CF6"];
+  const PARTNER_COLORS = ["#3a7d56", "#6B4FBB", "#3B82F6", "#EC4899", "#F59E0B", "#10B981", "#EF4444", "#8B5CF6"];
 
   return (
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
@@ -330,14 +330,14 @@ export default function AccountabilityPage() {
         {/* Header */}
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-8 pt-2">
           <div className="flex items-center gap-2 mb-4">
-            <Shield size={18} style={{ color: "#00FF88" }} />
-            <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#00FF88" }}>Accountability</span>
+            <Shield size={18} style={{ color: "#3a7d56" }} />
+            <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#3a7d56" }}>Accountability</span>
           </div>
           <div className="flex items-start justify-between gap-4">
             <div>
               <h1 className="text-4xl sm:text-5xl font-black mb-3">
                 Iron sharpens{" "}
-                <span style={{ background: "linear-gradient(135deg, #00FF88, #6B4FBB)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+                <span style={{ background: "linear-gradient(135deg, #3a7d56, #6B4FBB)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
                   iron.
                 </span>
               </h1>
@@ -348,7 +348,7 @@ export default function AccountabilityPage() {
             <button
               onClick={() => setShowCompose(true)}
               className="shrink-0 flex items-center gap-2 px-5 py-2.5 rounded-xl font-black text-sm"
-              style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)", color: "#07070F" }}
+              style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)", color: "#07070F" }}
             >
               <Plus size={15} /> New Goal
             </button>
@@ -393,9 +393,9 @@ export default function AccountabilityPage() {
                         onClick={() => setForm((prev) => ({ ...prev, frequency: f }))}
                         className="flex-1 py-2 rounded-lg text-xs font-bold capitalize"
                         style={{
-                          background: form.frequency === f ? "rgba(0,255,136,0.15)" : "rgba(255,255,255,0.03)",
-                          border: form.frequency === f ? "1px solid rgba(0,255,136,0.4)" : "1px solid rgba(255,255,255,0.06)",
-                          color: form.frequency === f ? "#00FF88" : "#6A6A88",
+                          background: form.frequency === f ? "rgba(58,125,86,0.15)" : "rgba(255,255,255,0.03)",
+                          border: form.frequency === f ? "1px solid rgba(58,125,86,0.4)" : "1px solid rgba(255,255,255,0.06)",
+                          color: form.frequency === f ? "#3a7d56" : "#6A6A88",
                         }}
                       >
                         {f}
@@ -461,7 +461,7 @@ export default function AccountabilityPage() {
                   disabled={!form.title.trim() || !form.partnerName.trim()}
                   className="flex-1 py-2.5 rounded-xl font-black text-sm"
                   style={{
-                    background: (form.title.trim() && form.partnerName.trim()) ? "linear-gradient(135deg, #00FF88, #00BB55)" : "rgba(255,255,255,0.06)",
+                    background: (form.title.trim() && form.partnerName.trim()) ? "linear-gradient(135deg, #3a7d56, #3a7d56)" : "rgba(255,255,255,0.06)",
                     color: (form.title.trim() && form.partnerName.trim()) ? "#07070F" : "#4A4A68",
                   }}
                 >
@@ -477,7 +477,7 @@ export default function AccountabilityPage() {
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8" style={{ display: "flex", gap: 2 }}>
             {([["goals", "My Goals"], ["guide", "📖 Guide"], ["voices", "🎓 Voices"], ["questions", "❓ Questions"], ["videos", "🎬 Videos"]] as const).map(([key, label]) => (
               <button key={key} onClick={() => setMainTab(key)}
-                style={{ background: "none", border: "none", borderBottom: mainTab === key ? "2px solid #00FF88" : "2px solid transparent", color: mainTab === key ? "#F2F2F8" : "#9898B3", fontWeight: mainTab === key ? 700 : 500, fontSize: 14, padding: "14px 18px", cursor: "pointer", whiteSpace: "nowrap" }}>
+                style={{ background: "none", border: "none", borderBottom: mainTab === key ? "2px solid #3a7d56" : "2px solid transparent", color: mainTab === key ? "#F2F2F8" : "#9898B3", fontWeight: mainTab === key ? 700 : 500, fontSize: 14, padding: "14px 18px", cursor: "pointer", whiteSpace: "nowrap" }}>
                 {label}
               </button>
             ))}
@@ -495,9 +495,9 @@ export default function AccountabilityPage() {
                     onClick={() => setActiveTab(t)}
                     className="flex-1 py-1.5 rounded-lg text-xs font-bold capitalize"
                     style={{
-                      background: activeTab === t ? "rgba(0,255,136,0.12)" : "rgba(255,255,255,0.03)",
-                      border: activeTab === t ? "1px solid rgba(0,255,136,0.3)" : "1px solid rgba(255,255,255,0.06)",
-                      color: activeTab === t ? "#00FF88" : "#6A6A88",
+                      background: activeTab === t ? "rgba(58,125,86,0.12)" : "rgba(255,255,255,0.03)",
+                      border: activeTab === t ? "1px solid rgba(58,125,86,0.3)" : "1px solid rgba(255,255,255,0.06)",
+                      color: activeTab === t ? "#3a7d56" : "#6A6A88",
                     }}
                   >
                     {t} ({(t === "active" ? activeGoals : completedGoals).length})
@@ -521,7 +521,7 @@ export default function AccountabilityPage() {
                       <div className="flex items-center gap-2 mb-1">
                         <span>{cat.icon}</span>
                         <span className="text-xs font-bold truncate flex-1" style={{ color: "#F2F2F8" }}>{g.title}</span>
-                        {todayDone && <CheckCircle2 size={12} className="shrink-0" style={{ color: "#00FF88" }} />}
+                        {todayDone && <CheckCircle2 size={12} className="shrink-0" style={{ color: "#3a7d56" }} />}
                       </div>
                       <div className="flex items-center gap-2">
                         <div className="w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-black" style={{ background: g.partnerColor, color: "#07070F" }}>
@@ -571,7 +571,7 @@ export default function AccountabilityPage() {
                             <p className="text-[10px]" style={{ color: "#4A4A68" }}>Current streak</p>
                           </div>
                           <div className="rounded-xl p-3 text-center" style={{ background: "rgba(0,0,0,0.2)" }}>
-                            <p className="text-xl font-black" style={{ color: "#00FF88" }}>{weekCompletedCount}/7</p>
+                            <p className="text-xl font-black" style={{ color: "#3a7d56" }}>{weekCompletedCount}/7</p>
                             <p className="text-[10px]" style={{ color: "#4A4A68" }}>This week</p>
                           </div>
                           <div className="rounded-xl p-3 text-center" style={{ background: "rgba(0,0,0,0.2)" }}>
@@ -597,7 +597,7 @@ export default function AccountabilityPage() {
                       </div>
 
                       {/* Today's check-in */}
-                      <div className="rounded-2xl p-5 mb-5" style={{ background: "#12121F", border: todayCI ? (todayCI.completed ? "1px solid rgba(0,255,136,0.3)" : "1px solid rgba(239,68,68,0.2)") : "1px solid #1E1E32" }}>
+                      <div className="rounded-2xl p-5 mb-5" style={{ background: "#12121F", border: todayCI ? (todayCI.completed ? "1px solid rgba(58,125,86,0.3)" : "1px solid rgba(239,68,68,0.2)") : "1px solid #1E1E32" }}>
                         <div className="flex items-center gap-2 mb-3">
                           <Clock size={14} style={{ color: "#4A4A68" }} />
                           <h3 className="font-black text-sm" style={{ color: "#F2F2F8" }}>
@@ -618,7 +618,7 @@ export default function AccountabilityPage() {
                               <button
                                 onClick={() => handleCheckIn(g.id, true)}
                                 className="flex-1 py-2.5 rounded-xl font-black text-sm flex items-center justify-center gap-2"
-                                style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)", color: "#07070F" }}
+                                style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)", color: "#07070F" }}
                               >
                                 <CheckCircle2 size={15} /> Mark Complete
                               </button>
@@ -647,7 +647,7 @@ export default function AccountabilityPage() {
                               <div key={ci.date} className="flex gap-3 p-3 rounded-xl" style={{ background: "rgba(255,255,255,0.02)" }}>
                                 <div className="mt-0.5">
                                   {ci.completed
-                                    ? <CheckCircle2 size={14} style={{ color: "#00FF88" }} />
+                                    ? <CheckCircle2 size={14} style={{ color: "#3a7d56" }} />
                                     : <Circle size={14} style={{ color: "#EF4444" }} />
                                   }
                                 </div>
@@ -672,7 +672,7 @@ export default function AccountabilityPage() {
                   <Shield size={48} className="mx-auto mb-4 opacity-20" />
                   <p className="font-black text-lg mb-2" style={{ color: "#F2F2F8" }}>No goals yet</p>
                   <p className="text-sm mb-4">Create your first accountability goal to get started.</p>
-                  <button onClick={() => setShowCompose(true)} className="flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-sm mx-auto" style={{ background: "rgba(0,255,136,0.1)", color: "#00FF88", border: "1px solid rgba(0,255,136,0.2)" }}>
+                  <button onClick={() => setShowCompose(true)} className="flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-sm mx-auto" style={{ background: "rgba(58,125,86,0.1)", color: "#3a7d56", border: "1px solid rgba(58,125,86,0.2)" }}>
                     <Plus size={14} /> Create Goal
                   </button>
                 </div>
@@ -712,8 +712,8 @@ export default function AccountabilityPage() {
               <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 80 }}>
                 {VOICES_ACCT.map(v => (
                   <button key={v.id} onClick={() => setSelectedVoice(v.id)}
-                    style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? "rgba(0,255,136,0.4)" : "#1E1E32"}`, background: selectedVoice === v.id ? "rgba(0,255,136,0.08)" : "#12121F", cursor: "pointer" }}>
-                    <div style={{ fontSize: 13, fontWeight: 700, color: selectedVoice === v.id ? "#00FF88" : "#F2F2F8", marginBottom: 2 }}>{v.name}</div>
+                    style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? "rgba(58,125,86,0.4)" : "#1E1E32"}`, background: selectedVoice === v.id ? "rgba(58,125,86,0.08)" : "#12121F", cursor: "pointer" }}>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: selectedVoice === v.id ? "#3a7d56" : "#F2F2F8", marginBottom: 2 }}>{v.name}</div>
                     <div style={{ fontSize: 11, color: "#9898B3" }}>{v.era}</div>
                   </button>
                 ))}
@@ -723,7 +723,7 @@ export default function AccountabilityPage() {
                 <h2 style={{ fontSize: 24, fontWeight: 800, marginBottom: 4, color: "#F2F2F8" }}>{voiceItem.name}</h2>
                 <div style={{ fontSize: 13, color: "#9898B3", marginBottom: 20 }}>{voiceItem.era}</div>
                 <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.8, marginBottom: 24 }}>{voiceItem.bio}</p>
-                <div style={{ background: "#07070F", borderRadius: 12, padding: 20, borderLeft: "3px solid #00FF88", marginBottom: 24 }}>
+                <div style={{ background: "#07070F", borderRadius: 12, padding: 20, borderLeft: "3px solid #3a7d56", marginBottom: 24 }}>
                   <p style={{ fontSize: 15, color: "#E0E0F0", lineHeight: 1.75, fontStyle: "italic" }}>&ldquo;{voiceItem.quote}&rdquo;</p>
                 </div>
                 <div>
@@ -745,7 +745,7 @@ export default function AccountabilityPage() {
             </p>
             {QUESTIONS_DATA.map(cat => (
               <div key={cat.id} style={{ marginBottom: 28, background: "#12121F", borderRadius: 12, border: "1px solid #1E1E32", padding: 24 }}>
-                <h3 style={{ color: "#00FF88", fontSize: 17, fontWeight: 800, marginBottom: 16, marginTop: 0 }}>{cat.icon} {cat.category}</h3>
+                <h3 style={{ color: "#3a7d56", fontSize: 17, fontWeight: 800, marginBottom: 16, marginTop: 0 }}>{cat.icon} {cat.category}</h3>
                 <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
                   {cat.questions.map((q, i) => (
                     <li key={i} style={{ padding: "10px 0", borderBottom: i < cat.questions.length - 1 ? "1px solid #1E1E32" : "none", color: "#F2F2F8", fontSize: 15, lineHeight: 1.6 }}>
@@ -761,7 +761,7 @@ export default function AccountabilityPage() {
         {mainTab === "videos" && (
           <div style={{ maxWidth: 900, margin: "0 auto", padding: "32px 24px" }}>
             <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 24, marginBottom: 24 }}>
-              <h2 style={{ color: "#00FF88", fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <h2 style={{ color: "#3a7d56", fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
               <p style={{ color: "#9898B3", fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
                 Sermons, lectures, and teachings from trusted Christian scholars and pastors on discipleship, accountability, and spiritual growth.
               </p>
@@ -781,7 +781,7 @@ export default function AccountabilityPage() {
                       allowFullScreen
                     />
                     <div style={{ padding: "14px 16px" }}>
-                      <h4 style={{ color: "#00FF88", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <h4 style={{ color: "#3a7d56", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                       <p style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
                       <p style={{ color: "#9898B3", fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
                     </div>

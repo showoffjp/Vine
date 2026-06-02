@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 type Stage = { age: string; label: string; emoji: string; color: string; verse: string; verseRef: string; principles: string[]; pitfalls: string[]; practices: string[]; conversation: string; };
 type Rhythm = { id: string; name: string; icon: string; frequency: string; description: string; howTo: string[]; verse: string; verseRef: string; };
@@ -324,15 +324,15 @@ export default function ParentingPage() {
           </div>
           <h1 style={{ fontSize: 40, fontWeight: 900, marginBottom: 16, lineHeight: 1.1 }}>
             Raise Them{" "}
-            <span style={{ background: "linear-gradient(135deg, #EC4899, #00FF88)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+            <span style={{ background: "linear-gradient(135deg, #EC4899, #3a7d56)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
               in the Faith
             </span>
           </h1>
           <p style={{ color: MUTED, fontSize: 17, maxWidth: 580, margin: "0 auto 24px" }}>
             No parent is perfect. But Scripture gives us principles, patterns, and a God who is with us in the hardest moments of raising children. Practical wisdom for every age.
           </p>
-          <div style={{ background: "rgba(0,255,136,0.06)", border: "1px solid rgba(0,255,136,0.18)", borderRadius: 12, padding: "14px 20px", maxWidth: 540, margin: "0 auto" }}>
-            <p style={{ fontSize: 14, color: "#00CC66", fontStyle: "italic", margin: 0 }}>
+          <div style={{ background: "rgba(58,125,86,0.06)", border: "1px solid rgba(58,125,86,0.18)", borderRadius: 12, padding: "14px 20px", maxWidth: 540, margin: "0 auto" }}>
+            <p style={{ fontSize: 14, color: "#4a9e6e", fontStyle: "italic", margin: 0 }}>
               &ldquo;Hear, O Israel: The Lord our God, the Lord is one. Love the Lord your God with all your heart&hellip; Impress them on your children. Talk about them when you sit at home and when you walk along the road.&rdquo;
             </p>
             <p style={{ fontSize: 12, color: MUTED, marginTop: 4, marginBottom: 0 }}>&mdash; Deuteronomy 6:4-7</p>
@@ -479,7 +479,7 @@ export default function ParentingPage() {
                             </div>
                           ))}
                         </div>
-                        <div style={{ background: "rgba(0,255,136,0.05)", border: "1px solid rgba(0,255,136,0.15)", borderRadius: 10, padding: "12px 16px" }}>
+                        <div style={{ background: "rgba(58,125,86,0.05)", border: "1px solid rgba(58,125,86,0.15)", borderRadius: 10, padding: "12px 16px" }}>
                           <p style={{ fontSize: 13, color: "#B0F0C0", fontStyle: "italic", margin: "0 0 4px", lineHeight: 1.6 }}>&ldquo;{r.verse}&rdquo;</p>
                           <span style={{ fontSize: 12, color: GREEN, fontWeight: 700 }}>&mdash; {r.verseRef}</span>
                         </div>

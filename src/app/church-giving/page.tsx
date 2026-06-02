@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const THEOLOGY = [
   { title: "The Tithe", verse: "Malachi 3:10", body: "The tithe — ten percent — is the baseline of OT giving, predating the Mosaic law (Abraham tithed to Melchizedek in Genesis 14) and woven throughout it. The prophetic challenge of Malachi 3:10 ('Bring the whole tithe into the storehouse') frames giving as an act of trust and covenant faithfulness. Jesus affirms tithing in Matthew 23:23 while insisting it should not displace justice and mercy. For most Christians, the tithe is the floor of generosity, not the ceiling." },

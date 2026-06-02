@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 const BG = "#07070F";
 const CARD = "#12121F";
 const BORDER = "#1E1E32";
-const GREEN = "#00FF88";
+const GREEN = "#3a7d56";
 const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
@@ -391,8 +391,8 @@ const VOICES_WPRAYER: VoiceWPrayer[] = [
 ];
 
 const regions = ["All Regions", "South Asia", "East Asia", "Middle East", "West Africa", "East Africa", "Latin America", "Southeast Asia", "Eastern Europe", "Central Asia"];
-const statusColors = { Open: "#00FF88", Restricted: "#F59E0B", Persecuted: "#EF4444" };
-const missionaryColors = { Strong: "#00FF88", Moderate: "#3B82F6", Minimal: "#F59E0B", None: "#EF4444" };
+const statusColors = { Open: "#3a7d56", Restricted: "#F59E0B", Persecuted: "#EF4444" };
+const missionaryColors = { Strong: "#3a7d56", Moderate: "#3B82F6", Minimal: "#F59E0B", None: "#EF4444" };
 
 export default function WorldPrayerPage() {
   const [activeTab, setActiveTab] = useState<Tab>("countries");
@@ -514,7 +514,7 @@ export default function WorldPrayerPage() {
                 <button key={r} onClick={() => setFilterRegion(r)}
                   style={{ padding: "5px 12px", borderRadius: 20, fontSize: 11, cursor: "pointer",
                     border: `1px solid ${filterRegion === r ? GREEN : BORDER}`,
-                    background: filterRegion === r ? "#00FF8815" : "transparent",
+                    background: filterRegion === r ? "#3a7d5615" : "transparent",
                     color: filterRegion === r ? GREEN : MUTED }}>
                   {r}
                 </button>
@@ -529,7 +529,7 @@ export default function WorldPrayerPage() {
                   <div key={c.id}
                     style={{
                       background: CARD,
-                      border: `1px solid ${prayed ? "#00FF8830" : BORDER}`,
+                      border: `1px solid ${prayed ? "#3a7d5630" : BORDER}`,
                       borderRadius: 16, padding: 20, cursor: "pointer",
                     }}
                     onClick={() => setSelected(c)}>
@@ -574,7 +574,7 @@ export default function WorldPrayerPage() {
                       <button onClick={(e) => { e.stopPropagation(); handlePray(c.id); }}
                         style={{
                           flex: 1, padding: "8px 12px", borderRadius: 8, border: "none",
-                          background: prayed ? "#00FF8820" : PURPLE,
+                          background: prayed ? "#3a7d5620" : PURPLE,
                           color: prayed ? GREEN : "#fff",
                           cursor: "pointer", fontWeight: 600, fontSize: 13,
                         }}>
@@ -768,7 +768,7 @@ export default function WorldPrayerPage() {
             <div style={{ display: "flex", gap: 10 }}>
               <button onClick={() => handlePray(selected.id)}
                 style={{ flex: 1, padding: "12px 16px", borderRadius: 10, border: "none",
-                  background: prayedFor.has(selected.id) ? "#00FF8820" : PURPLE,
+                  background: prayedFor.has(selected.id) ? "#3a7d5620" : PURPLE,
                   color: prayedFor.has(selected.id) ? GREEN : "#fff",
                   cursor: "pointer", fontWeight: 700, fontSize: 15 }}>
                 {prayedFor.has(selected.id) ? "🙏 Praying for " + selected.country : "Pray for " + selected.country}

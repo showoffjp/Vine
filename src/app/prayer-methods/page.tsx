@@ -200,7 +200,7 @@ const GUIDED = [
     title: "Healing Prayer",
     duration: "8 min",
     icon: "💚",
-    color: "#00FF88",
+    color: "#3a7d56",
     steps: [
       { instruction: "Begin in stillness. Place your hand on the area of need or simply open your palms upward — a posture of receiving.", verse: "Lord, if you are willing, you can make me clean.", verseRef: "Matthew 8:2" },
       { instruction: "Acknowledge God as the source of all healing — physical, emotional, and spiritual. He is the Great Physician.", verse: "He heals the brokenhearted and binds up their wounds.", verseRef: "Psalm 147:3" },
@@ -480,7 +480,7 @@ export default function PrayerMethodsPage() {
           <h1 style={{ fontSize: 36, fontWeight: 900, marginBottom: 8 }}>Ways to Pray</h1>
           <p style={{ color: "#9898B3", fontSize: 16 }}>Every prayer form that draws us closer to God</p>
           <div style={{ display: "flex", gap: 12, justifyContent: "center", marginTop: 16, flexWrap: "wrap" }}>
-            <span style={{ background: "rgba(0,255,136,0.1)", color: "#00FF88", border: "1px solid rgba(0,255,136,0.25)", borderRadius: 20, padding: "4px 14px", fontSize: 13 }}>
+            <span style={{ background: "rgba(58,125,86,0.1)", color: "#3a7d56", border: "1px solid rgba(58,125,86,0.25)", borderRadius: 20, padding: "4px 14px", fontSize: 13 }}>
               {practiced.size}/{METHODS.length} Practiced
             </span>
             <span style={{ background: "rgba(107,79,187,0.1)", color: "#A080FF", border: "1px solid rgba(107,79,187,0.25)", borderRadius: 20, padding: "4px 14px", fontSize: 13 }}>
@@ -498,7 +498,7 @@ export default function PrayerMethodsPage() {
             ["videos", "Videos"],
           ] as const).map(([t, label]) => (
             <button key={t} onClick={() => setTab(t)}
-              style={{ padding: "10px 20px", fontSize: 14, fontWeight: 600, background: "none", border: "none", cursor: "pointer", color: tab === t ? "#00FF88" : "#6A6A88", borderBottom: `2px solid ${tab === t ? "#00FF88" : "transparent"}`, marginBottom: -1 }}>
+              style={{ padding: "10px 20px", fontSize: 14, fontWeight: 600, background: "none", border: "none", cursor: "pointer", color: tab === t ? "#3a7d56" : "#6A6A88", borderBottom: `2px solid ${tab === t ? "#3a7d56" : "transparent"}`, marginBottom: -1 }}>
               {label}
             </button>
           ))}
@@ -510,23 +510,23 @@ export default function PrayerMethodsPage() {
             <div style={{ display: "flex", gap: 8, marginBottom: 20, flexWrap: "wrap" }}>
               {categories.map(c => (
                 <button key={c} onClick={() => setCatFilter(c)}
-                  style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${catFilter === c ? "#00FF88" : "#1E1E32"}`, background: catFilter === c ? "rgba(0,255,136,0.1)" : "transparent", color: catFilter === c ? "#00FF88" : "#9898B3", fontSize: 13, cursor: "pointer", fontWeight: catFilter === c ? 700 : 400 }}>
+                  style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${catFilter === c ? "#3a7d56" : "#1E1E32"}`, background: catFilter === c ? "rgba(58,125,86,0.1)" : "transparent", color: catFilter === c ? "#3a7d56" : "#9898B3", fontSize: 13, cursor: "pointer", fontWeight: catFilter === c ? 700 : 400 }}>
                   {c}
                 </button>
               ))}
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               {filteredMethods.map(m => (
-                <div key={m.id} style={{ background: "#12121F", borderRadius: 16, overflow: "hidden", border: `1px solid ${openMethod === m.id ? "rgba(0,255,136,0.3)" : practiced.has(m.id) ? "rgba(0,255,136,0.15)" : "#1E1E32"}` }}>
+                <div key={m.id} style={{ background: "#12121F", borderRadius: 16, overflow: "hidden", border: `1px solid ${openMethod === m.id ? "rgba(58,125,86,0.3)" : practiced.has(m.id) ? "rgba(58,125,86,0.15)" : "#1E1E32"}` }}>
                   <div style={{ padding: "18px 22px", display: "flex", justifyContent: "space-between", alignItems: "center", cursor: "pointer" }}
                     onClick={() => setOpenMethod(openMethod === m.id ? null : m.id)}>
                     <div style={{ display: "flex", gap: 14, alignItems: "center", flex: 1 }}>
                       <span style={{ fontSize: 26 }}>{m.icon}</span>
                       <div>
                         <div style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 4, flexWrap: "wrap" }}>
-                          <h3 style={{ fontSize: 16, fontWeight: 700, color: openMethod === m.id ? "#00FF88" : "#F2F2F8" }}>{m.name}</h3>
+                          <h3 style={{ fontSize: 16, fontWeight: 700, color: openMethod === m.id ? "#3a7d56" : "#F2F2F8" }}>{m.name}</h3>
                           <span style={{ fontSize: 11, padding: "2px 8px", borderRadius: 20, background: "rgba(107,79,187,0.15)", color: "#A080FF", border: "1px solid rgba(107,79,187,0.25)" }}>{m.category}</span>
-                          {practiced.has(m.id) && <span style={{ fontSize: 11, padding: "2px 8px", borderRadius: 20, background: "rgba(0,255,136,0.1)", color: "#00FF88" }}>✓ Practiced</span>}
+                          {practiced.has(m.id) && <span style={{ fontSize: 11, padding: "2px 8px", borderRadius: 20, background: "rgba(58,125,86,0.1)", color: "#3a7d56" }}>✓ Practiced</span>}
                         </div>
                         <p style={{ fontSize: 13, color: "#9898B3" }}>{m.description}</p>
                       </div>
@@ -542,10 +542,10 @@ export default function PrayerMethodsPage() {
                   {openMethod === m.id && (
                     <div style={{ padding: "0 22px 22px", borderTop: "1px solid #1E1E32" }}>
                       <div style={{ marginTop: 16, marginBottom: 20 }}>
-                        <h4 style={{ fontSize: 13, fontWeight: 700, color: "#00FF88", textTransform: "uppercase", letterSpacing: 1, marginBottom: 12 }}>How to Practice</h4>
+                        <h4 style={{ fontSize: 13, fontWeight: 700, color: "#3a7d56", textTransform: "uppercase", letterSpacing: 1, marginBottom: 12 }}>How to Practice</h4>
                         {m.howTo.map((step, i) => (
                           <div key={i} style={{ display: "flex", gap: 12, marginBottom: 10 }}>
-                            <div style={{ width: 24, height: 24, borderRadius: "50%", background: "rgba(0,255,136,0.15)", border: "1px solid rgba(0,255,136,0.3)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 700, color: "#00FF88", flexShrink: 0 }}>{i + 1}</div>
+                            <div style={{ width: 24, height: 24, borderRadius: "50%", background: "rgba(58,125,86,0.15)", border: "1px solid rgba(58,125,86,0.3)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 700, color: "#3a7d56", flexShrink: 0 }}>{i + 1}</div>
                             <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.6 }}>{step}</p>
                           </div>
                         ))}
@@ -571,7 +571,7 @@ export default function PrayerMethodsPage() {
                       </div>
 
                       <button onClick={() => togglePracticed(m.id)}
-                        style={{ padding: "10px 20px", borderRadius: 10, border: `1px solid ${practiced.has(m.id) ? "rgba(0,255,136,0.4)" : "#2A2A40"}`, background: practiced.has(m.id) ? "rgba(0,255,136,0.1)" : "#1E1E32", color: practiced.has(m.id) ? "#00FF88" : "#9898B3", cursor: "pointer", fontWeight: 700, fontSize: 14 }}>
+                        style={{ padding: "10px 20px", borderRadius: 10, border: `1px solid ${practiced.has(m.id) ? "rgba(58,125,86,0.4)" : "#2A2A40"}`, background: practiced.has(m.id) ? "rgba(58,125,86,0.1)" : "#1E1E32", color: practiced.has(m.id) ? "#3a7d56" : "#9898B3", cursor: "pointer", fontWeight: 700, fontSize: 14 }}>
                         {practiced.has(m.id) ? "✓ Practiced This Method" : "Mark as Practiced"}
                       </button>
                     </div>
@@ -598,7 +598,7 @@ export default function PrayerMethodsPage() {
                   style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 18, padding: 28 }}
                 >
                   <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 14 }}>
-                    <span style={{ color: "#00FF88", fontWeight: 800, fontSize: 16 }}>{entry.ref}</span>
+                    <span style={{ color: "#3a7d56", fontWeight: 800, fontSize: 16 }}>{entry.ref}</span>
                     <span
                       style={{
                         background: "rgba(107,79,187,0.15)",
@@ -613,7 +613,7 @@ export default function PrayerMethodsPage() {
                       {entry.theme}
                     </span>
                   </div>
-                  <p style={{ color: "#C0C0D8", fontSize: 15, fontStyle: "italic", lineHeight: 1.8, marginBottom: 20, borderLeft: "3px solid #00FF88", paddingLeft: 16 }}>
+                  <p style={{ color: "#C0C0D8", fontSize: 15, fontStyle: "italic", lineHeight: 1.8, marginBottom: 20, borderLeft: "3px solid #3a7d56", paddingLeft: 16 }}>
                     &ldquo;{entry.text}&rdquo;
                   </p>
                   <p style={{ color: "#9898B3", fontSize: 14, lineHeight: 1.9 }}>
@@ -645,7 +645,7 @@ export default function PrayerMethodsPage() {
                     <div>
                       <h3 style={{ color: "#F2F2F8", fontWeight: 800, fontSize: 20, marginBottom: 8 }}>{guide.title}</h3>
                       <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                        <span style={{ background: "rgba(0,255,136,0.1)", color: "#00FF88", border: "1px solid rgba(0,255,136,0.25)", borderRadius: 100, padding: "3px 10px", fontSize: 12, fontWeight: 700 }}>
+                        <span style={{ background: "rgba(58,125,86,0.1)", color: "#3a7d56", border: "1px solid rgba(58,125,86,0.25)", borderRadius: 100, padding: "3px 10px", fontSize: 12, fontWeight: 700 }}>
                           {guide.duration}
                         </span>
                         <span style={{ background: "rgba(107,79,187,0.12)", color: "#A080FF", border: "1px solid rgba(107,79,187,0.25)", borderRadius: 100, padding: "3px 10px", fontSize: 12, fontWeight: 700 }}>
@@ -669,14 +669,14 @@ export default function PrayerMethodsPage() {
                               width: 24,
                               height: 24,
                               borderRadius: "50%",
-                              background: "rgba(0,255,136,0.12)",
-                              border: "1px solid rgba(0,255,136,0.3)",
+                              background: "rgba(58,125,86,0.12)",
+                              border: "1px solid rgba(58,125,86,0.3)",
                               display: "flex",
                               alignItems: "center",
                               justifyContent: "center",
                               fontSize: 11,
                               fontWeight: 700,
-                              color: "#00FF88",
+                              color: "#3a7d56",
                               flexShrink: 0,
                             }}
                           >

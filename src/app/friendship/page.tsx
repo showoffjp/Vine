@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const THEOLOGY = [
   { title: "Friendship Is a Gift of Creation, Not Just Need", verse: "Genesis 2:18", body: "'It is not good for the man to be alone' (Genesis 2:18). God declared this before the Fall — not as a consequence of sin but as a feature of his good creation. Humans were made for community. The desire for friendship is not weakness or codependency — it is the correct desire of creatures made in the image of a God who is himself relational (the Trinity)." },

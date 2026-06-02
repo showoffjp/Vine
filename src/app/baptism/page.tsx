@@ -4,7 +4,7 @@ import { useState } from "react";
 const BG = "#07070F";
 const CARD = "#12121F";
 const BORDER = "#1E1E32";
-const GREEN = "#00FF88";
+const GREEN = "#3a7d56";
 const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
@@ -261,7 +261,7 @@ export default function BaptismPage() {
 
             {view === "overview" && (
               <div style={{ maxWidth: 760, margin: "0 auto" }}>
-                <div style={{ background: "linear-gradient(135deg, rgba(0,255,136,0.08), rgba(107,79,187,0.08))", borderRadius: 20, padding: 28, marginBottom: 32, border: "1px solid rgba(0,255,136,0.15)", textAlign: "center" }}>
+                <div style={{ background: "linear-gradient(135deg, rgba(58,125,86,0.08), rgba(107,79,187,0.08))", borderRadius: 20, padding: 28, marginBottom: 32, border: "1px solid rgba(58,125,86,0.15)", textAlign: "center" }}>
                   <p style={{ fontSize: 20, color: "#C0C0D8", fontStyle: "italic", lineHeight: 1.7, marginBottom: 12 }}>
                     &ldquo;Therefore go and make disciples of all nations, baptizing them in the name of the Father and of the Son and of the Holy Spirit.&rdquo;
                   </p>
@@ -299,7 +299,7 @@ export default function BaptismPage() {
                     { step: "5", title: "Step into the water", desc: "It's normal to feel nervous and joyful. The ceremony is simple. The moment is sacred." },
                   ].map(s => (
                     <div key={s.step} style={{ display: "flex", gap: 16, marginBottom: 16 }}>
-                      <div style={{ width: 36, height: 36, borderRadius: "50%", background: "linear-gradient(135deg, #00FF88, #6B4FBB)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 900, fontSize: 14, color: BG, flexShrink: 0 }}>{s.step}</div>
+                      <div style={{ width: 36, height: 36, borderRadius: "50%", background: "linear-gradient(135deg, #3a7d56, #6B4FBB)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 900, fontSize: 14, color: BG, flexShrink: 0 }}>{s.step}</div>
                       <div style={{ background: CARD, borderRadius: 12, padding: "14px 18px", flex: 1, border: `1px solid ${BORDER}` }}>
                         <h4 style={{ fontSize: 15, fontWeight: 700, marginBottom: 6 }}>{s.title}</h4>
                         <p style={{ fontSize: 13, color: MUTED, lineHeight: 1.6 }}>{s.desc}</p>
@@ -308,16 +308,16 @@ export default function BaptismPage() {
                   ))}
                 </div>
                 {!decided ? (
-                  <div style={{ background: "linear-gradient(135deg, rgba(0,255,136,0.08), rgba(107,79,187,0.08))", borderRadius: 20, padding: 28, textAlign: "center", border: "1px solid rgba(0,255,136,0.2)" }}>
+                  <div style={{ background: "linear-gradient(135deg, rgba(58,125,86,0.08), rgba(107,79,187,0.08))", borderRadius: 20, padding: 28, textAlign: "center", border: "1px solid rgba(58,125,86,0.2)" }}>
                     <h3 style={{ fontSize: 20, fontWeight: 800, marginBottom: 8 }}>Ready to Take the Step?</h3>
                     <p style={{ fontSize: 14, color: MUTED, marginBottom: 20 }}>If you&rsquo;ve decided to be baptized, mark this moment.</p>
                     <button onClick={markDecided}
-                      style={{ padding: "14px 32px", borderRadius: 14, border: "none", background: "linear-gradient(135deg, #00FF88, #00CC6A)", color: BG, fontWeight: 800, fontSize: 16, cursor: "pointer" }}>
+                      style={{ padding: "14px 32px", borderRadius: 14, border: "none", background: "linear-gradient(135deg, #3a7d56, #00CC6A)", color: BG, fontWeight: 800, fontSize: 16, cursor: "pointer" }}>
                       Yes, I&rsquo;m Ready to Be Baptized
                     </button>
                   </div>
                 ) : (
-                  <div style={{ background: "rgba(0,255,136,0.07)", borderRadius: 20, padding: 28, textAlign: "center", border: "1px solid rgba(0,255,136,0.25)" }}>
+                  <div style={{ background: "rgba(58,125,86,0.07)", borderRadius: 20, padding: 28, textAlign: "center", border: "1px solid rgba(58,125,86,0.25)" }}>
                     <div style={{ fontSize: 36, marginBottom: 10 }}>🎉</div>
                     <h3 style={{ fontSize: 20, fontWeight: 800, marginBottom: 8, color: GREEN }}>Amazing! Talk to your pastor!</h3>
                     <p style={{ fontSize: 14, color: MUTED }}>Heaven is celebrating this decision. Don&rsquo;t wait &mdash; reach out to your church this week.</p>
@@ -363,7 +363,7 @@ export default function BaptismPage() {
                       onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = GREEN; (e.currentTarget as HTMLDivElement).style.transform = "translateY(-2px)"; }}
                       onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = BORDER; (e.currentTarget as HTMLDivElement).style.transform = "none"; }}>
                       <div style={{ display: "flex", gap: 12, alignItems: "center", marginBottom: 14 }}>
-                        <div style={{ width: 44, height: 44, borderRadius: 12, background: "linear-gradient(135deg, #00FF8830, #6B4FBB30)", border: "1px solid #2A2A40", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18 }}>💧</div>
+                        <div style={{ width: 44, height: 44, borderRadius: 12, background: "linear-gradient(135deg, #3a7d5630, #6B4FBB30)", border: "1px solid #2A2A40", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18 }}>💧</div>
                         <div>
                           <p style={{ fontWeight: 700, color: TEXT }}>{t.name}</p>
                           <p style={{ fontSize: 12, color: "#6A6A88" }}>{t.location} &middot; {t.method}</p>

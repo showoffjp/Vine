@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 type Tab = "methods" | "stories" | "training" | "videos";
 
@@ -45,7 +45,7 @@ const methods: Method[] = [
     name: "The Romans Road",
     icon: "🛣️",
     description: "A series of verses in Romans that trace the path from human sinfulness to salvation through Christ.",
-    color: "#00FF88",
+    color: "#3a7d56",
     steps: [
       "Start with the problem: Romans 3:23 -- 'All have sinned and fall short.'",
       "Show the consequence: Romans 6:23a -- 'The wages of sin is death.'",
@@ -411,7 +411,7 @@ export default function EvangelismPage() {
 
         {/* Header */}
         <div style={{ textAlign: "center", marginBottom: 40 }}>
-          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(0,255,136,0.1)", border: "1px solid rgba(0,255,136,0.25)", borderRadius: 20, padding: "6px 16px", marginBottom: 16 }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(58,125,86,0.1)", border: "1px solid rgba(58,125,86,0.25)", borderRadius: 20, padding: "6px 16px", marginBottom: 16 }}>
             <span style={{ fontSize: 16 }}>🌱</span>
             <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 2, color: GREEN, textTransform: "uppercase" }}>Evangelism</span>
           </div>
@@ -477,7 +477,7 @@ export default function EvangelismPage() {
                             <div style={{ flex: 1 }}>
                               <div style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 6, flexWrap: "wrap" }}>
                                 <h3 style={{ fontSize: 17, fontWeight: 800, margin: 0, color: TEXT }}>{m.name}</h3>
-                                {practicedMethods.has(m.id) && <span style={{ fontSize: 11, padding: "2px 10px", borderRadius: 20, background: "rgba(0,255,136,0.1)", color: GREEN, fontWeight: 700 }}>✓ Practiced</span>}
+                                {practicedMethods.has(m.id) && <span style={{ fontSize: 11, padding: "2px 10px", borderRadius: 20, background: "rgba(58,125,86,0.1)", color: GREEN, fontWeight: 700 }}>✓ Practiced</span>}
                               </div>
                               <p style={{ fontSize: 14, color: MUTED, margin: 0, lineHeight: 1.6 }}>{m.description}</p>
                             </div>
@@ -512,15 +512,15 @@ export default function EvangelismPage() {
                             <p style={{ fontSize: 13, color: "#C0C0D8", margin: 0 }}>{m.goodFor}</p>
                           </div>
 
-                          <div style={{ background: "rgba(0,255,136,0.04)", borderRadius: 10, padding: "14px 16px", borderLeft: `3px solid ${m.color}`, marginBottom: 20 }}>
+                          <div style={{ background: "rgba(58,125,86,0.04)", borderRadius: 10, padding: "14px 16px", borderLeft: `3px solid ${m.color}`, marginBottom: 20 }}>
                             <p style={{ fontSize: 12, fontWeight: 800, color: m.color, textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 }}>Real Example</p>
                             <p style={{ fontSize: 13, color: "#B0D0B0", lineHeight: 1.7, margin: 0, fontStyle: "italic" }}>{m.example}</p>
                           </div>
 
                           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                            <span style={{ fontSize: 12, padding: "4px 12px", borderRadius: 20, background: "rgba(0,255,136,0.08)", color: GREEN, fontWeight: 600 }}>📖 {m.verse}</span>
+                            <span style={{ fontSize: 12, padding: "4px 12px", borderRadius: 20, background: "rgba(58,125,86,0.08)", color: GREEN, fontWeight: 600 }}>📖 {m.verse}</span>
                             <button onClick={() => togglePracticed(m.id)}
-                              style={{ padding: "8px 18px", borderRadius: 10, border: `1px solid ${practicedMethods.has(m.id) ? GREEN : BORDER}`, background: practicedMethods.has(m.id) ? "rgba(0,255,136,0.1)" : "transparent", color: practicedMethods.has(m.id) ? GREEN : MUTED, cursor: "pointer", fontSize: 13, fontWeight: 700 }}>
+                              style={{ padding: "8px 18px", borderRadius: 10, border: `1px solid ${practicedMethods.has(m.id) ? GREEN : BORDER}`, background: practicedMethods.has(m.id) ? "rgba(58,125,86,0.1)" : "transparent", color: practicedMethods.has(m.id) ? GREEN : MUTED, cursor: "pointer", fontSize: 13, fontWeight: 700 }}>
                               {practicedMethods.has(m.id) ? "✓ Practiced" : "Mark as Practiced"}
                             </button>
                           </div>
@@ -559,7 +559,7 @@ export default function EvangelismPage() {
                     </div>
                   ))}
                 </div>
-                <div style={{ marginTop: 28, background: `linear-gradient(135deg, rgba(0,255,136,0.06), rgba(107,79,187,0.06))`, border: `1px solid rgba(0,255,136,0.2)`, borderRadius: 16, padding: "24px" }}>
+                <div style={{ marginTop: 28, background: `linear-gradient(135deg, rgba(58,125,86,0.06), rgba(107,79,187,0.06))`, border: `1px solid rgba(58,125,86,0.2)`, borderRadius: 16, padding: "24px" }}>
                   <h3 style={{ fontSize: 18, fontWeight: 800, marginBottom: 12 }}>The 3-Minute Rule</h3>
                   <p style={{ fontSize: 14, color: MUTED, lineHeight: 1.7, marginBottom: 0 }}>
                     In any spiritual conversation, spend the first 3 minutes listening before you say anything about your faith. Ask one genuine question about them. People need to feel heard before they can hear &mdash; and a person who feels genuinely understood is ten times more likely to stay in the conversation.
@@ -643,7 +643,7 @@ export default function EvangelismPage() {
             {selectedStory && (
               <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.85)", zIndex: 100, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}
                 onClick={() => setSelectedStory(null)}>
-                <div style={{ background: CARD, border: `1px solid rgba(0,255,136,0.3)`, borderRadius: 20, padding: "32px", maxWidth: 560, width: "100%", maxHeight: "90vh", overflowY: "auto" }}
+                <div style={{ background: CARD, border: `1px solid rgba(58,125,86,0.3)`, borderRadius: 20, padding: "32px", maxWidth: 560, width: "100%", maxHeight: "90vh", overflowY: "auto" }}
                   onClick={e => e.stopPropagation()}>
                   <div style={{ display: "flex", gap: 12, marginBottom: 20, alignItems: "center" }}>
                     <div style={{ width: 52, height: 52, borderRadius: "50%", background: `linear-gradient(135deg, ${PURPLE}, ${GREEN})`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, fontWeight: 900, color: BG }}>{selectedStory.name[0]}</div>
@@ -654,7 +654,7 @@ export default function EvangelismPage() {
                   </div>
                   <p style={{ fontSize: 15, color: "#C0C0D8", lineHeight: 1.8, marginBottom: 20 }}
                     dangerouslySetInnerHTML={{ __html: selectedStory.story }} />
-                  <div style={{ background: "rgba(0,255,136,0.06)", border: "1px solid rgba(0,255,136,0.2)", borderRadius: 10, padding: "12px 16px", marginBottom: 20 }}>
+                  <div style={{ background: "rgba(58,125,86,0.06)", border: "1px solid rgba(58,125,86,0.2)", borderRadius: 10, padding: "12px 16px", marginBottom: 20 }}>
                     <span style={{ fontSize: 13, color: GREEN, fontWeight: 700 }}>📖 {selectedStory.verse}</span>
                   </div>
                   <button onClick={() => setSelectedStory(null)}
@@ -684,7 +684,7 @@ export default function EvangelismPage() {
                     <div style={{ flex: 1 }}>
                       <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 4 }}>
                         <h3 style={{ fontSize: 19, fontWeight: 800, color: TEXT, margin: 0 }}>{mod.title}</h3>
-                        <span style={{ fontSize: 11, padding: "3px 10px", borderRadius: 20, background: "rgba(0,255,136,0.1)", color: GREEN, border: "1px solid rgba(0,255,136,0.25)", fontWeight: 700 }}>{mod.duration}</span>
+                        <span style={{ fontSize: 11, padding: "3px 10px", borderRadius: 20, background: "rgba(58,125,86,0.1)", color: GREEN, border: "1px solid rgba(58,125,86,0.25)", fontWeight: 700 }}>{mod.duration}</span>
                       </div>
                     </div>
                     <div style={{ width: 32, height: 32, borderRadius: "50%", background: "rgba(107,79,187,0.2)", border: "1px solid rgba(107,79,187,0.4)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, fontWeight: 900, color: "#A080FF", flexShrink: 0 }}>{idx + 1}</div>
@@ -696,7 +696,7 @@ export default function EvangelismPage() {
                     <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                       {mod.steps.map((step, i) => (
                         <div key={i} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
-                          <div style={{ width: 24, height: 24, borderRadius: "50%", background: "rgba(0,255,136,0.1)", border: "1px solid rgba(0,255,136,0.25)", color: GREEN, fontSize: 11, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 2 }}>{i + 1}</div>
+                          <div style={{ width: 24, height: 24, borderRadius: "50%", background: "rgba(58,125,86,0.1)", border: "1px solid rgba(58,125,86,0.25)", color: GREEN, fontSize: 11, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 2 }}>{i + 1}</div>
                           <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.7, margin: 0 }}>{step}</p>
                         </div>
                       ))}

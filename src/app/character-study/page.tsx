@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 interface BiblicalCharacter {
   id: string;
@@ -521,7 +521,7 @@ export default function CharacterStudyPage() {
                 const done = completedIds.has(char.id);
                 return (
                   <div key={char.id}
-                    style={{ background: CARD, border: `1px solid ${done ? "#00FF8830" : BORDER}`, borderRadius: 16, padding: 22, cursor: "pointer" }}
+                    style={{ background: CARD, border: `1px solid ${done ? "#3a7d5630" : BORDER}`, borderRadius: 16, padding: 22, cursor: "pointer" }}
                     onClick={() => { setSelected(char); setActiveSection("overview"); }}>
                     <div style={{ display: "flex", gap: 14, marginBottom: 14, alignItems: "flex-start" }}>
                       <div style={{ fontSize: 40 }}>{char.emoji}</div>
@@ -702,9 +702,9 @@ export default function CharacterStudyPage() {
                   {selected.characterTraits.map((t) => (
                     <span key={t.trait} style={{
                       padding: "3px 10px", borderRadius: 20, fontSize: 11,
-                      background: t.positive ? "#00FF8815" : "#EF444415",
+                      background: t.positive ? "#3a7d5615" : "#EF444415",
                       color: t.positive ? GREEN : "#EF4444",
-                      border: `1px solid ${t.positive ? "#00FF8830" : "#EF444430"}`,
+                      border: `1px solid ${t.positive ? "#3a7d5630" : "#EF444430"}`,
                     }}>
                       {t.positive ? "+" : "−"} {t.trait}
                     </span>
@@ -760,7 +760,7 @@ export default function CharacterStudyPage() {
                 {selected.studyQuestions.map((q, i) => (
                   <div key={i} style={{ background: BG, borderRadius: 10, padding: 14 }}>
                     <div style={{ display: "flex", gap: 10 }}>
-                      <div style={{ width: 22, height: 22, borderRadius: "50%", background: "#00FF8815", border: "1px solid #00FF8830", color: GREEN, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, fontWeight: 700, flexShrink: 0 }}>{i + 1}</div>
+                      <div style={{ width: 22, height: 22, borderRadius: "50%", background: "#3a7d5615", border: "1px solid #3a7d5630", color: GREEN, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, fontWeight: 700, flexShrink: 0 }}>{i + 1}</div>
                       <div style={{ fontSize: 13, color: "#D0D0E8", lineHeight: 1.6, paddingTop: 2 }}>{q}</div>
                     </div>
                   </div>
@@ -772,7 +772,7 @@ export default function CharacterStudyPage() {
               <button onClick={() => handleComplete(selected.id)}
                 style={{
                   flex: 1, padding: "11px 16px", borderRadius: 10, border: "none",
-                  background: completedIds.has(selected.id) ? "#00FF8820" : PURPLE,
+                  background: completedIds.has(selected.id) ? "#3a7d5620" : PURPLE,
                   color: completedIds.has(selected.id) ? GREEN : "#fff",
                   cursor: "pointer", fontWeight: 700, fontSize: 15,
                 }}>

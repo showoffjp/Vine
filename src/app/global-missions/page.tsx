@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const THEOLOGY = [
   { title: "The Missio Dei", verse: "John 20:21", body: "'As the Father has sent me, I am sending you' (John 20:21). Mission originates with God, not the church. Before the Great Commission, there is the sent Son — and before the sent Son, there is the Father who sends. The mission is not something the church does for God; it is something God does through the church. We are participants in the mission of a missionary God." },

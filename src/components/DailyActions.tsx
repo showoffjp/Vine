@@ -51,19 +51,19 @@ export default function DailyActions() {
           onClick={() => setSaved(v => !v)}
           className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200"
           style={{
-            color: saved ? "#00FF88" : "#8A8AA8",
-            background: saved ? "rgba(0,255,136,0.08)" : "transparent",
+            color: saved ? "#3a7d56" : "#8A8AA8",
+            background: saved ? "rgba(58,125,86,0.08)" : "transparent",
           }}
           onMouseEnter={e => !saved && (e.currentTarget.style.background = "rgba(255,255,255,0.04)")}
           onMouseLeave={e => !saved && (e.currentTarget.style.background = "transparent")}
         >
-          <Bookmark size={15} fill={saved ? "#00FF88" : "none"} />
+          <Bookmark size={15} fill={saved ? "#3a7d56" : "none"} />
           {saved ? "Saved" : "Save"}
         </button>
         <button
           onClick={handleShare}
           className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all ml-auto"
-          style={{ color: shared ? "#00FF88" : "#8A8AA8" }}
+          style={{ color: shared ? "#3a7d56" : "#8A8AA8" }}
           onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,255,255,0.04)")}
           onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
         >
@@ -77,15 +77,15 @@ export default function DailyActions() {
         <button
           onClick={handleComplete}
           className="w-full py-3 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all"
-          style={{ border: "1px solid rgba(0,255,136,0.2)", color: "#00FF88", background: "rgba(0,255,136,0.04)" }}
-          onMouseEnter={e => { e.currentTarget.style.background = "rgba(0,255,136,0.08)"; }}
-          onMouseLeave={e => { e.currentTarget.style.background = "rgba(0,255,136,0.04)"; }}
+          style={{ border: "1px solid rgba(58,125,86,0.2)", color: "#3a7d56", background: "rgba(58,125,86,0.04)" }}
+          onMouseEnter={e => { e.currentTarget.style.background = "rgba(58,125,86,0.08)"; }}
+          onMouseLeave={e => { e.currentTarget.style.background = "rgba(58,125,86,0.04)"; }}
         >
           <CheckCircle2 size={16} /> Mark Today&apos;s Devotional Complete
         </button>
       ) : (
         <div className="w-full py-3 rounded-xl text-sm font-bold flex items-center justify-center gap-2"
-          style={{ background: "rgba(0,255,136,0.1)", border: "1px solid rgba(0,255,136,0.25)", color: "#00FF88" }}>
+          style={{ background: "rgba(58,125,86,0.1)", border: "1px solid rgba(58,125,86,0.25)", color: "#3a7d56" }}>
           <CheckCircle2 size={16} /> Day {dayIndex + 1} Complete — Streak +1! 🔥
         </div>
       )}

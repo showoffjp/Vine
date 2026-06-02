@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const VOICES_GROWTH = [
   { id: "teresa", name: "Teresa of Avila", era: "1515-1582", context: "The Interior Castle (1577); Doctor of the Church; Carmelite reformer", bio: "Teresa of Avila's Interior Castle is the most systematic and experiential account of the stages of contemplative prayer in Christian history. She describes the soul as a castle with seven mansions — seven stages of increasing union with God. The outer mansions are marked by struggle, distraction, and self-preoccupation; the inner mansions by increasing surrender, peace, and union. Teresa writes from personal experience — not abstract theory — having traversed these stages over decades. Her practicality is remarkable: she addresses temptation, dryness, and self-deception with the precision of someone who has encountered them.", quote: "Let nothing disturb you, let nothing frighten you; all things are passing away. God never changes. Patience obtains all things. Whoever has God lacks nothing; God alone suffices.", contribution: "Provided the most detailed map of the interior journey in the history of Christian spirituality. Her work made the contemplative tradition accessible to women and laypeople who had been excluded from formal theological education." },

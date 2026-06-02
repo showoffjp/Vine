@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const VIEWS_OF_COMMUNION = [
   {
@@ -26,7 +26,7 @@ const VIEWS_OF_COMMUNION = [
   {
     name: "Spiritual Presence (Reformed / Calvinist)",
     icon: "🌿",
-    color: "#00FF88",
+    color: "#3a7d56",
     summary: "Christ is spiritually, genuinely present at the table — received by faith through the Spirit.",
     explanation: "Calvin's view: Christ's body is in heaven (not omnipresent), but the Spirit truly lifts believers to feed on Christ spiritually through the elements. This is not mere symbolism — genuine grace is received. The supper is a 'visible word' that communicates what Scripture preaches.",
     scripture: "I am the living bread that came down from heaven. Whoever eats this bread will live forever. (John 6:51)",
@@ -191,7 +191,7 @@ export default function CommunionPage() {
           <div style={{ fontSize: 40, marginBottom: 12 }}>🍞</div>
           <h1 style={{ fontSize: 36, fontWeight: 900, marginBottom: 8 }}>The Lord&rsquo;s Supper</h1>
           <p style={{ color: MUTED, fontSize: 16 }}>Communion, Eucharist, the Breaking of Bread</p>
-          <div style={{ background: "rgba(0,255,136,0.06)", borderRadius: 14, padding: "12px 20px", marginTop: 20, border: "1px solid rgba(0,255,136,0.15)", maxWidth: 560, margin: "20px auto 0" }}>
+          <div style={{ background: "rgba(58,125,86,0.06)", borderRadius: 14, padding: "12px 20px", marginTop: 20, border: "1px solid rgba(58,125,86,0.15)", maxWidth: 560, margin: "20px auto 0" }}>
             <p style={{ fontSize: 14, color: "#C0C0D8", fontStyle: "italic" }}>
               &ldquo;Do this in remembrance of me.&rdquo;
             </p>
@@ -252,14 +252,14 @@ export default function CommunionPage() {
                 </div>
 
                 {!reflected ? (
-                  <div style={{ background: "rgba(0,255,136,0.06)", borderRadius: 16, padding: 24, border: "1px solid rgba(0,255,136,0.2)", textAlign: "center" }}>
+                  <div style={{ background: "rgba(58,125,86,0.06)", borderRadius: 16, padding: 24, border: "1px solid rgba(58,125,86,0.2)", textAlign: "center" }}>
                     <p style={{ fontSize: 15, color: "#C0C0D8", marginBottom: 16 }}>Next time you take Communion, come ready with all three perspectives: looking back at the cross, looking around at the body, looking forward to the return.</p>
-                    <button onClick={markReflected} style={{ padding: "12px 28px", borderRadius: 12, border: "none", background: "linear-gradient(135deg, #00FF88, #00CC6A)", color: BG, cursor: "pointer", fontWeight: 800, fontSize: 14 }}>
+                    <button onClick={markReflected} style={{ padding: "12px 28px", borderRadius: 12, border: "none", background: "linear-gradient(135deg, #3a7d56, #00CC6A)", color: BG, cursor: "pointer", fontWeight: 800, fontSize: 14 }}>
                       I&rsquo;ll approach it this way
                     </button>
                   </div>
                 ) : (
-                  <div style={{ background: "rgba(0,255,136,0.06)", borderRadius: 16, padding: 20, border: "1px solid rgba(0,255,136,0.2)", textAlign: "center" }}>
+                  <div style={{ background: "rgba(58,125,86,0.06)", borderRadius: 16, padding: 20, border: "1px solid rgba(58,125,86,0.2)", textAlign: "center" }}>
                     <p style={{ fontSize: 15, color: GREEN, fontWeight: 700 }}>&#10003; Great intention! May every Communion be richer for it.</p>
                   </div>
                 )}
@@ -296,11 +296,11 @@ export default function CommunionPage() {
                 <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
                   {HOW_TO.map((h, i) => (
                     <div key={i} style={{ display: "flex", gap: 16 }}>
-                      <div style={{ width: 36, height: 36, borderRadius: "50%", background: "linear-gradient(135deg, #00FF88, #6B4FBB)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 900, fontSize: 14, color: BG, flexShrink: 0, marginTop: 2 }}>{i + 1}</div>
+                      <div style={{ width: 36, height: 36, borderRadius: "50%", background: "linear-gradient(135deg, #3a7d56, #6B4FBB)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 900, fontSize: 14, color: BG, flexShrink: 0, marginTop: 2 }}>{i + 1}</div>
                       <div style={{ background: CARD, borderRadius: 14, padding: "16px 20px", flex: 1, border: `1px solid ${BORDER}` }}>
                         <h4 style={{ fontSize: 16, fontWeight: 700, marginBottom: 8 }}>{h.step}</h4>
                         <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.7, marginBottom: 8 }}>{h.detail}</p>
-                        <span style={{ fontSize: 12, color: GREEN, background: "rgba(0,255,136,0.08)", padding: "2px 8px", borderRadius: 8, border: "1px solid rgba(0,255,136,0.2)" }}>{h.verse}</span>
+                        <span style={{ fontSize: 12, color: GREEN, background: "rgba(58,125,86,0.08)", padding: "2px 8px", borderRadius: 8, border: "1px solid rgba(58,125,86,0.2)" }}>{h.verse}</span>
                       </div>
                     </div>
                   ))}

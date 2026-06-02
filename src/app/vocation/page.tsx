@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const THEOLOGY = [
   { title: "Luther's Revolution: Reforming How We See Work", body: "Martin Luther shattered the medieval hierarchy that divided 'sacred' (priest, monk) from 'secular' (farmer, cobbler) callings. Every legitimate occupation, Luther argued, is a divine vocation — a calling through which God cares for the world. The farmer who grows food is God's hand feeding the hungry. The mother nursing a child is God's hand caring for the weak. No work done faithfully is unspiritual." },

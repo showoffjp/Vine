@@ -23,7 +23,7 @@ const MOODS: Record<number, { emoji: string; label: string; color: string }> = {
   1: { emoji: "😔", label: "Hard day", color: "#6A6A88" },
   2: { emoji: "😐", label: "Okay", color: "#8B9BCC" },
   3: { emoji: "🙂", label: "Good", color: "#10B981" },
-  4: { emoji: "😊", label: "Great", color: "#00FF88" },
+  4: { emoji: "😊", label: "Great", color: "#3a7d56" },
   5: { emoji: "🙌", label: "Blessed", color: "#F59E0B" },
 };
 
@@ -220,12 +220,12 @@ export default function GratitudePage() {
           {/* Header */}
           <div className="text-center mb-8">
             <div className="flex items-center justify-center gap-2 mb-3">
-              <Sparkles size={18} style={{ color: "#00FF88" }} />
-              <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#00FF88" }}>Gratitude Journal</span>
+              <Sparkles size={18} style={{ color: "#3a7d56" }} />
+              <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#3a7d56" }}>Gratitude Journal</span>
             </div>
             <h1 className="text-3xl font-black mb-2">
               Count Your{" "}
-              <span style={{ background: "linear-gradient(135deg, #00FF88, #F59E0B)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+              <span style={{ background: "linear-gradient(135deg, #3a7d56, #F59E0B)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
                 Blessings
               </span>
             </h1>
@@ -258,7 +258,7 @@ export default function GratitudePage() {
           <div className="grid grid-cols-3 gap-4 mb-8">
             {[
               { label: "Day Streak", value: streak, color: "#F59E0B", emoji: "🔥" },
-              { label: "Total Entries", value: entries.length, color: "#00FF88", emoji: "📋" },
+              { label: "Total Entries", value: entries.length, color: "#3a7d56", emoji: "📋" },
               { label: "Gratitudes", value: totalItems, color: "#6B4FBB", emoji: "🙏" },
             ].map((s) => (
               <div key={s.label} className="rounded-xl p-4 text-center" style={{ background: "#12121F", border: "1px solid #1E1E32" }}>
@@ -273,10 +273,10 @@ export default function GratitudePage() {
           {!hasTodayEntry ? (
             <div
               className="rounded-2xl p-6 mb-8"
-              style={{ background: "linear-gradient(135deg, rgba(0,255,136,0.06), rgba(245,158,11,0.04))", border: "1px solid rgba(0,255,136,0.15)" }}
+              style={{ background: "linear-gradient(135deg, rgba(58,125,86,0.06), rgba(245,158,11,0.04))", border: "1px solid rgba(58,125,86,0.15)" }}
             >
               <div className="flex items-center gap-2 mb-1">
-                <Calendar size={14} style={{ color: "#00FF88" }} />
+                <Calendar size={14} style={{ color: "#3a7d56" }} />
                 <h2 className="font-black" style={{ color: "#F2F2F8" }}>Today — {TODAY}</h2>
               </div>
               <p className="text-xs mb-5 italic" style={{ color: "#4A4A68" }}>
@@ -312,7 +312,7 @@ export default function GratitudePage() {
                 <div className="space-y-2">
                   {todayItems.map((item, i) => (
                     <div key={i} className="flex items-center gap-2">
-                      <span className="text-sm font-bold w-5 shrink-0 text-center" style={{ color: "#00FF88" }}>{i + 1}.</span>
+                      <span className="text-sm font-bold w-5 shrink-0 text-center" style={{ color: "#3a7d56" }}>{i + 1}.</span>
                       <input
                         type="text"
                         placeholder={i === 0 ? "I'm grateful for…" : i === 1 ? "Something good that happened…" : "One more blessing…"}
@@ -346,7 +346,7 @@ export default function GratitudePage() {
                 onClick={saveEntry}
                 disabled={filledItems.length === 0}
                 className="w-full flex items-center justify-center gap-2 py-3 rounded-xl font-bold text-sm text-black transition-all"
-                style={{ background: filledItems.length > 0 ? "linear-gradient(135deg, #00FF88, #00BB55)" : "#1E1E32", color: filledItems.length > 0 ? "#07070F" : "#4A4A68" }}
+                style={{ background: filledItems.length > 0 ? "linear-gradient(135deg, #3a7d56, #3a7d56)" : "#1E1E32", color: filledItems.length > 0 ? "#07070F" : "#4A4A68" }}
               >
                 <Heart size={15} /> Save Today&apos;s Gratitude
               </button>
@@ -392,13 +392,13 @@ export default function GratitudePage() {
                       <ul className="space-y-1.5 mb-3">
                         {entry.items.map((item, i) => (
                           <li key={i} className="flex items-start gap-2 text-sm">
-                            <Star size={12} className="mt-0.5 shrink-0" style={{ color: "#00FF88" }} />
+                            <Star size={12} className="mt-0.5 shrink-0" style={{ color: "#3a7d56" }} />
                             <span style={{ color: "#C0C0D8" }}>{item}</span>
                           </li>
                         ))}
                       </ul>
                       {entry.verse && (
-                        <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "rgba(0,255,136,0.08)", color: "#00AA55" }}>
+                        <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "rgba(58,125,86,0.08)", color: "#00AA55" }}>
                           📜 {entry.verse}
                         </span>
                       )}
@@ -418,7 +418,7 @@ export default function GratitudePage() {
               <p className="text-sm" style={{ color: "#9898B3", lineHeight: 1.8 }}>What the Bible actually teaches about gratitude &mdash; deeper than &ldquo;count your blessings.&rdquo;</p>
               {THEOLOGY_GRAT.map(t => (
                 <div key={t.id} className="rounded-xl p-6" style={{ background: "#12121F", border: "1px solid #1E1E32" }}>
-                  <div className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: "#00FF88" }}>{t.verse}</div>
+                  <div className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: "#3a7d56" }}>{t.verse}</div>
                   <h3 className="text-lg font-black mb-3">{t.title}</h3>
                   <p className="text-sm leading-relaxed mb-4" style={{ color: "#F2F2F8" }}>{t.body}</p>
                   <div className="rounded-lg p-3" style={{ background: "#6B4FBB15", border: "1px solid #6B4FBB30" }}>
@@ -451,7 +451,7 @@ export default function GratitudePage() {
                     <h2>{v.name}</h2>
                     <div style={{ color: "#9898B3", fontSize: 13 }}>{v.era} &middot; {v.work}</div>
                     <p style={{ marginTop: 16, lineHeight: 1.8 }}>{v.bio}</p>
-                    <blockquote style={{ borderLeft: `3px solid #00FF88`, paddingLeft: 16, fontStyle: "italic", color: "#9898B3", margin: "20px 0" }}>
+                    <blockquote style={{ borderLeft: `3px solid #3a7d56`, paddingLeft: 16, fontStyle: "italic", color: "#9898B3", margin: "20px 0" }}>
                       &ldquo;{v.quote}&rdquo;
                     </blockquote>
                     <div style={{ background: "#6B4FBB10", border: "1px solid #6B4FBB20", borderRadius: 8, padding: 14 }}>
@@ -520,7 +520,7 @@ export default function GratitudePage() {
           {activeTab === "videos" && (
             <div>
               <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 24, marginBottom: 24 }}>
-                <h2 style={{ color: "#00FF88", fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+                <h2 style={{ color: "#3a7d56", fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
                 <p style={{ color: "#9898B3", fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
                   Sermons, lectures, and teachings from trusted Christian scholars and pastors.
                 </p>
@@ -540,7 +540,7 @@ export default function GratitudePage() {
                         allowFullScreen
                       />
                       <div style={{ padding: "14px 16px" }}>
-                        <h4 style={{ color: "#00FF88", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                        <h4 style={{ color: "#3a7d56", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
                         <p style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
                         <p style={{ color: "#9898B3", fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
                       </div>
@@ -554,7 +554,7 @@ export default function GratitudePage() {
           {/* Footer verse */}
           <div
             className="mt-10 rounded-2xl p-6 text-center"
-            style={{ background: "linear-gradient(135deg, rgba(245,158,11,0.06), rgba(0,255,136,0.04))", border: "1px solid rgba(245,158,11,0.15)" }}
+            style={{ background: "linear-gradient(135deg, rgba(245,158,11,0.06), rgba(58,125,86,0.04))", border: "1px solid rgba(245,158,11,0.15)" }}
           >
             <Sparkles size={18} style={{ color: "#F59E0B" }} className="mx-auto mb-3" />
             <p className="text-sm italic mb-2" style={{ color: "#C0C0D8" }}>
@@ -562,7 +562,7 @@ export default function GratitudePage() {
             </p>
             <p className="text-xs font-bold mb-4" style={{ color: "#4A4A68" }}>— 1 Thessalonians 5:18</p>
             <div className="flex items-center justify-center gap-4">
-              <a href="/journal" className="flex items-center gap-1 text-xs font-semibold" style={{ color: "#00FF88" }}>
+              <a href="/journal" className="flex items-center gap-1 text-xs font-semibold" style={{ color: "#3a7d56" }}>
                 Main Journal <ChevronRight size={11} />
               </a>
               <a href="/prayer-list" className="flex items-center gap-1 text-xs font-semibold" style={{ color: "#F59E0B" }}>

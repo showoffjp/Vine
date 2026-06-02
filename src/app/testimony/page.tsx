@@ -24,13 +24,13 @@ const CATEGORIES = ["All", "Healing", "Salvation", "Provision", "Restoration", "
 
 const CATEGORY_COLORS: Record<string, string> = {
   Healing: "#EF4444",
-  Salvation: "#00FF88",
+  Salvation: "#3a7d56",
   Provision: "#F59E0B",
   Restoration: "#6B4FBB",
   Protection: "#3B82F6",
   Marriage: "#EC4899",
   Career: "#10B981",
-  "Answered Prayer": "#00FF88",
+  "Answered Prayer": "#3a7d56",
   Freedom: "#F97316",
   Community: "#8B5CF6",
   All: "#8A8AA8",
@@ -275,12 +275,12 @@ export default function TestimonyPage() {
         {/* Hero */}
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-10 pt-2">
           <div className="flex items-center gap-2 mb-4">
-            <Sparkles size={18} style={{ color: "#00FF88" }} />
-            <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#00FF88" }}>Testimonies</span>
+            <Sparkles size={18} style={{ color: "#3a7d56" }} />
+            <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#3a7d56" }}>Testimonies</span>
           </div>
           <h1 className="text-4xl sm:text-5xl font-black mb-4">
             God is{" "}
-            <span style={{ background: "linear-gradient(135deg, #00FF88, #6B4FBB)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+            <span style={{ background: "linear-gradient(135deg, #3a7d56, #6B4FBB)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
               still moving.
             </span>
           </h1>
@@ -289,9 +289,9 @@ export default function TestimonyPage() {
           </p>
 
           <div className="flex flex-wrap gap-4 mb-6">
-            <div className="flex items-center gap-2 px-4 py-2 rounded-xl" style={{ background: "rgba(0,255,136,0.08)", border: "1px solid rgba(0,255,136,0.15)" }}>
-              <Heart size={13} style={{ color: "#00FF88" }} />
-              <span className="text-sm font-bold" style={{ color: "#00FF88" }}>{totalLikes.toLocaleString()} encouragements</span>
+            <div className="flex items-center gap-2 px-4 py-2 rounded-xl" style={{ background: "rgba(58,125,86,0.08)", border: "1px solid rgba(58,125,86,0.15)" }}>
+              <Heart size={13} style={{ color: "#3a7d56" }} />
+              <span className="text-sm font-bold" style={{ color: "#3a7d56" }}>{totalLikes.toLocaleString()} encouragements</span>
             </div>
             <div className="flex items-center gap-2 px-4 py-2 rounded-xl" style={{ background: "rgba(107,79,187,0.08)", border: "1px solid rgba(107,79,187,0.2)" }}>
               <Sparkles size={13} style={{ color: "#6B4FBB" }} />
@@ -302,7 +302,7 @@ export default function TestimonyPage() {
           <button
             onClick={() => setShowCompose(true)}
             className="flex items-center gap-2 px-6 py-3 rounded-xl font-black text-sm"
-            style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)", color: "#07070F" }}
+            style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)", color: "#07070F" }}
           >
             <Plus size={16} /> Share Your Testimony
           </button>
@@ -388,7 +388,7 @@ export default function TestimonyPage() {
                   disabled={!form.title.trim() || !form.body.trim()}
                   className="flex-1 py-2.5 rounded-xl font-black text-sm"
                   style={{
-                    background: (form.title.trim() && form.body.trim()) ? "linear-gradient(135deg, #00FF88, #00BB55)" : "rgba(255,255,255,0.06)",
+                    background: (form.title.trim() && form.body.trim()) ? "linear-gradient(135deg, #3a7d56, #3a7d56)" : "rgba(255,255,255,0.06)",
                     color: (form.title.trim() && form.body.trim()) ? "#07070F" : "#4A4A68",
                   }}
                 >
@@ -520,8 +520,8 @@ export default function TestimonyPage() {
                       onClick={() => handleShare(t.id)}
                       className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-semibold transition-all"
                       style={{
-                        background: shared === t.id ? "rgba(0,255,136,0.08)" : "rgba(255,255,255,0.04)",
-                        color: shared === t.id ? "#00FF88" : "#6A6A88",
+                        background: shared === t.id ? "rgba(58,125,86,0.08)" : "rgba(255,255,255,0.04)",
+                        color: shared === t.id ? "#3a7d56" : "#6A6A88",
                         border: "1px solid rgba(255,255,255,0.08)",
                       }}
                     >
@@ -535,7 +535,7 @@ export default function TestimonyPage() {
           </div>
 
           {/* Bottom CTA */}
-          <div className="text-center mt-12 p-8 rounded-2xl" style={{ background: "linear-gradient(135deg, rgba(0,255,136,0.06) 0%, rgba(107,79,187,0.06) 100%)", border: "1px solid rgba(0,255,136,0.12)" }}>
+          <div className="text-center mt-12 p-8 rounded-2xl" style={{ background: "linear-gradient(135deg, rgba(58,125,86,0.06) 0%, rgba(107,79,187,0.06) 100%)", border: "1px solid rgba(58,125,86,0.12)" }}>
             <p className="text-2xl font-black mb-2" style={{ color: "#F2F2F8" }}>Your story matters</p>
             <p className="text-sm mb-5" style={{ color: "#6A6A88" }}>
               Someone somewhere needs to hear exactly what God did for you. Don&apos;t keep it to yourself.
@@ -543,7 +543,7 @@ export default function TestimonyPage() {
             <button
               onClick={() => setShowCompose(true)}
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-black text-sm"
-              style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)", color: "#07070F" }}
+              style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)", color: "#07070F" }}
             >
               <Sparkles size={15} /> Share Your Story
             </button>

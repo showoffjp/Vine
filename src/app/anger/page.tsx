@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const THEOLOGY = [
   { title: "God Gets Angry", verse: "Psalm 7:11", body: "'God is a righteous judge, a God who displays his wrath every day' (Psalm 7:11). The existence of divine anger is not an embarrassment to be explained away — it is a proof of God's moral seriousness. God's wrath is his settled, consistent opposition to everything that violates his good creation and harms his image-bearers. A God who felt nothing about injustice, cruelty, and evil would not be a good God." },

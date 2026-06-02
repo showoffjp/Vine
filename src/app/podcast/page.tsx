@@ -248,12 +248,12 @@ export default function PodcastPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
           <div className="text-center max-w-2xl mx-auto">
             <div className="flex items-center justify-center gap-2 mb-4">
-              <Headphones size={22} style={{ color: "#00FF88" }} />
-              <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#00FF88" }}>Podcasts & Audio</span>
+              <Headphones size={22} style={{ color: "#3a7d56" }} />
+              <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#3a7d56" }}>Podcasts & Audio</span>
             </div>
             <h1 className="text-4xl sm:text-5xl font-black mb-5">
               Faith content for{" "}
-              <span style={{ background: "linear-gradient(135deg, #00FF88, #6B4FBB)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+              <span style={{ background: "linear-gradient(135deg, #3a7d56, #6B4FBB)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
                 your commute.
               </span>
             </h1>
@@ -264,7 +264,7 @@ export default function PodcastPage() {
             {/* Search */}
             <div
               className="flex items-center gap-3 px-4 py-3 rounded-xl max-w-md mx-auto"
-              style={{ background: "#12121F", border: `1px solid ${search ? "rgba(0,255,136,0.3)" : "#1E1E32"}` }}
+              style={{ background: "#12121F", border: `1px solid ${search ? "rgba(58,125,86,0.3)" : "#1E1E32"}` }}
             >
               <Search size={16} style={{ color: "#6A6A88" }} />
               <input
@@ -289,7 +289,7 @@ export default function PodcastPage() {
                 className="text-xs font-semibold px-4 py-2 rounded-full transition-all"
                 style={
                   activeCategory === cat
-                    ? { background: "#00FF88", color: "#000" }
+                    ? { background: "#3a7d56", color: "#000" }
                     : { background: "rgba(255,255,255,0.04)", color: "#8A8AA8", border: "1px solid rgba(255,255,255,0.08)" }
                 }
               >
@@ -312,7 +312,7 @@ export default function PodcastPage() {
             <div className="rounded-2xl p-12 text-center" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
               <p className="text-4xl mb-4">🎙️</p>
               <p className="font-bold text-lg mb-2" style={{ color: "#F2F2F8" }}>No shows found</p>
-              <button onClick={() => { setActiveCategory("All"); setSearch(""); }} className="text-sm mt-1" style={{ color: "#00FF88" }}>Clear filters</button>
+              <button onClick={() => { setActiveCategory("All"); setSearch(""); }} className="text-sm mt-1" style={{ color: "#3a7d56" }}>Clear filters</button>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -377,7 +377,7 @@ export default function PodcastPage() {
         {/* Featured Episodes */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
           <div className="flex items-center gap-2 mb-6">
-            <TrendingUp size={18} style={{ color: "#00FF88" }} />
+            <TrendingUp size={18} style={{ color: "#3a7d56" }} />
             <h2 className="text-2xl font-black" style={{ color: "#F2F2F8" }}>Featured Episodes</h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -434,12 +434,12 @@ export default function PodcastPage() {
                           onClick={() => toggleSave(i)}
                           className="p-1.5 rounded-lg transition-all"
                           style={{
-                            background: saved ? "rgba(0,255,136,0.1)" : "transparent",
-                            border: `1px solid ${saved ? "rgba(0,255,136,0.3)" : "rgba(255,255,255,0.08)"}`,
-                            color: saved ? "#00FF88" : "#6A6A88",
+                            background: saved ? "rgba(58,125,86,0.1)" : "transparent",
+                            border: `1px solid ${saved ? "rgba(58,125,86,0.3)" : "rgba(255,255,255,0.08)"}`,
+                            color: saved ? "#3a7d56" : "#6A6A88",
                           }}
                         >
-                          <Bookmark size={12} fill={saved ? "#00FF88" : "none"} />
+                          <Bookmark size={12} fill={saved ? "#3a7d56" : "none"} />
                         </button>
                       </div>
                     </div>
@@ -455,7 +455,7 @@ export default function PodcastPage() {
           <div
             className="rounded-2xl p-10 text-center"
             style={{
-              background: "linear-gradient(135deg, rgba(107,79,187,0.08) 0%, rgba(0,255,136,0.06) 100%)",
+              background: "linear-gradient(135deg, rgba(107,79,187,0.08) 0%, rgba(58,125,86,0.06) 100%)",
               border: "1px solid rgba(107,79,187,0.2)",
             }}
           >
@@ -470,7 +470,7 @@ export default function PodcastPage() {
                   key={platform}
                   className="px-5 py-2.5 rounded-xl text-sm font-bold transition-all"
                   style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)", color: "#C0C0D8" }}
-                  onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(0,255,136,0.3)"; e.currentTarget.style.color = "#00FF88"; }}
+                  onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(58,125,86,0.3)"; e.currentTarget.style.color = "#3a7d56"; }}
                   onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)"; e.currentTarget.style.color = "#C0C0D8"; }}
                 >
                   {platform}
@@ -487,7 +487,7 @@ export default function PodcastPage() {
           className="fixed bottom-0 left-0 right-0 z-50 px-4 py-3"
           style={{
             background: "#0E0E1A",
-            borderTop: "1px solid rgba(0,255,136,0.15)",
+            borderTop: "1px solid rgba(58,125,86,0.15)",
             backdropFilter: "blur(12px)",
           }}
         >
@@ -507,7 +507,7 @@ export default function PodcastPage() {
               <button
                 onClick={() => setGlobalPlaying(!globalPlaying)}
                 className="w-9 h-9 rounded-full flex items-center justify-center"
-                style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)", border: "none", cursor: "pointer" }}
+                style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)", border: "none", cursor: "pointer" }}
               >
                 {globalPlaying ? <Pause size={14} style={{ color: "#000" }} /> : <Play size={14} style={{ color: "#000", marginLeft: "2px" }} />}
               </button>
@@ -525,7 +525,7 @@ export default function PodcastPage() {
               >
                 <div
                   className="h-full rounded-full"
-                  style={{ width: `${progress}%`, background: "linear-gradient(90deg, #00CC66, #00FF88)" }}
+                  style={{ width: `${progress}%`, background: "linear-gradient(90deg, #4a9e6e, #3a7d56)" }}
                 />
               </div>
               <span className="text-xs" style={{ color: "#6A6A88" }}>{featuredEpisodes[playingEp].duration}</span>

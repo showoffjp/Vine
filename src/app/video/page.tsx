@@ -31,7 +31,7 @@ const featured = {
   title: "The Cross Changes Everything — Easter Sunday 2026",
   channel: "Elevation Church",
   channelAvatar: "EC",
-  channelColor: "#00FF88",
+  channelColor: "#3a7d56",
   views: "2.4M",
   duration: "48:32",
   uploadedAgo: "2 weeks ago",
@@ -57,12 +57,12 @@ const videos = [
     emoji: "📖",
     title: "Romans 8 — The Most Important Chapter in the Bible?",
     channel: "The Bible Project",
-    channelColor: "#00FF88",
+    channelColor: "#3a7d56",
     views: "1.9M",
     duration: "12:41",
     age: "1 week ago",
     tag: "Teaching",
-    tagColor: "#00FF88",
+    tagColor: "#3a7d56",
     liked: true,
   },
   {
@@ -129,18 +129,18 @@ const videos = [
     emoji: "🔥",
     title: "Overcoming Fear — Sunday Message",
     channel: "Gateway Church",
-    channelColor: "#00FF88",
+    channelColor: "#3a7d56",
     views: "312K",
     duration: "41:05",
     age: "6 days ago",
     tag: "Sermon",
-    tagColor: "#00FF88",
+    tagColor: "#3a7d56",
     liked: false,
   },
 ];
 
 const channels = [
-  { name: "Elevation Church", avatar: "EC", color: "#00FF88", subscribers: "4.2M", videos: 847 },
+  { name: "Elevation Church", avatar: "EC", color: "#3a7d56", subscribers: "4.2M", videos: 847 },
   { name: "The Bible Project", avatar: "BP", color: "#6B4FBB", subscribers: "2.8M", videos: 312 },
   { name: "Bethel Music", avatar: "BM", color: "#10B981", subscribers: "1.9M", videos: 521 },
   { name: "Francis Chan", avatar: "FC", color: "#EC4899", subscribers: "1.2M", videos: 184 },
@@ -198,11 +198,11 @@ export default function VideoPage() {
               <div className="flex items-center gap-2 mb-2">
                 <div
                   className="w-9 h-9 rounded-xl flex items-center justify-center"
-                  style={{ background: "linear-gradient(135deg, #00FF88 0%, #6B4FBB 100%)" }}
+                  style={{ background: "linear-gradient(135deg, #3a7d56 0%, #6B4FBB 100%)" }}
                 >
                   <Play size={16} className="text-black" />
                 </div>
-                <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#00FF88" }}>
+                <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#3a7d56" }}>
                   Video Library
                 </span>
               </div>
@@ -210,7 +210,7 @@ export default function VideoPage() {
                 Watch.{" "}
                 <span
                   style={{
-                    background: "linear-gradient(135deg, #00FF88, #6B4FBB)",
+                    background: "linear-gradient(135deg, #3a7d56, #6B4FBB)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                   }}
@@ -241,7 +241,7 @@ export default function VideoPage() {
           {/* Featured */}
           <div
             className="rounded-2xl overflow-hidden mb-10 flex flex-col lg:flex-row"
-            style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(0,255,136,0.12)" }}
+            style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(58,125,86,0.12)" }}
           >
             {/* Thumbnail */}
             <div
@@ -250,7 +250,7 @@ export default function VideoPage() {
             >
               <div
                 className="w-20 h-20 rounded-full flex items-center justify-center cursor-pointer transition-transform hover:scale-110"
-                style={{ background: "rgba(0,255,136,0.9)", boxShadow: "0 0 40px rgba(0,255,136,0.4)" }}
+                style={{ background: "rgba(58,125,86,0.9)", boxShadow: "0 0 40px rgba(58,125,86,0.4)" }}
               >
                 <Play size={32} className="text-black ml-1" />
               </div>
@@ -262,7 +262,7 @@ export default function VideoPage() {
               </div>
               <div
                 className="absolute top-3 left-3 px-2 py-1 rounded-full text-xs font-bold"
-                style={{ background: "rgba(0,255,136,0.9)", color: "#000" }}
+                style={{ background: "rgba(58,125,86,0.9)", color: "#000" }}
               >
                 ⭐ Featured
               </div>
@@ -274,7 +274,7 @@ export default function VideoPage() {
                   <span
                     key={t}
                     className="text-xs font-bold px-2 py-0.5 rounded-full"
-                    style={{ background: "rgba(0,255,136,0.1)", color: "#00FF88" }}
+                    style={{ background: "rgba(58,125,86,0.1)", color: "#3a7d56" }}
                   >
                     {t}
                   </span>
@@ -303,7 +303,7 @@ export default function VideoPage() {
               <div className="flex gap-3">
                 <button
                   className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm text-black"
-                  style={{ background: "linear-gradient(135deg, #00FF88, #00BB55)" }}
+                  style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}
                 >
                   <Play size={14} /> Watch Now
                 </button>
@@ -311,12 +311,12 @@ export default function VideoPage() {
                   onClick={() => setFeaturedSaved(!featuredSaved)}
                   className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all"
                   style={{
-                    background: featuredSaved ? "rgba(0,255,136,0.1)" : "rgba(255,255,255,0.04)",
-                    border: `1px solid ${featuredSaved ? "rgba(0,255,136,0.3)" : "rgba(255,255,255,0.08)"}`,
-                    color: featuredSaved ? "#00FF88" : "#8A8AA8",
+                    background: featuredSaved ? "rgba(58,125,86,0.1)" : "rgba(255,255,255,0.04)",
+                    border: `1px solid ${featuredSaved ? "rgba(58,125,86,0.3)" : "rgba(255,255,255,0.08)"}`,
+                    color: featuredSaved ? "#3a7d56" : "#8A8AA8",
                   }}
                 >
-                  <Bookmark size={14} fill={featuredSaved ? "#00FF88" : "none"} /> {featuredSaved ? "Saved" : "Save"}
+                  <Bookmark size={14} fill={featuredSaved ? "#3a7d56" : "none"} /> {featuredSaved ? "Saved" : "Save"}
                 </button>
               </div>
             </div>
@@ -330,9 +330,9 @@ export default function VideoPage() {
                 onClick={() => setActiveCategory(cat.name)}
                 className="px-4 py-1.5 rounded-full text-sm font-semibold transition-all"
                 style={{
-                  background: activeCategory === cat.name ? "#00FF88" : "rgba(255,255,255,0.04)",
+                  background: activeCategory === cat.name ? "#3a7d56" : "rgba(255,255,255,0.04)",
                   color: activeCategory === cat.name ? "#000" : "#6A6A88",
-                  border: `1px solid ${activeCategory === cat.name ? "#00FF88" : "rgba(255,255,255,0.08)"}`,
+                  border: `1px solid ${activeCategory === cat.name ? "#3a7d56" : "rgba(255,255,255,0.08)"}`,
                 }}
               >
                 {cat.name}
@@ -344,7 +344,7 @@ export default function VideoPage() {
             {/* Video Grid */}
             <div className="lg:col-span-2">
               <div className="flex items-center gap-2 mb-5">
-                <TrendingUp size={16} style={{ color: "#00FF88" }} />
+                <TrendingUp size={16} style={{ color: "#3a7d56" }} />
                 <h2 className="text-lg font-black" style={{ color: "#F2F2F8" }}>
                   {filteredVideos.length === videos.length ? "Trending Videos" : `${filteredVideos.length} Videos Found`}
                 </h2>
@@ -353,7 +353,7 @@ export default function VideoPage() {
                 <div className="rounded-2xl p-8 text-center" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
                   <p className="text-3xl mb-3">🎬</p>
                   <p className="font-bold mb-1" style={{ color: "#F2F2F8" }}>No videos found</p>
-                  <button onClick={() => { setActiveCategory("All"); setSearch(""); }} className="text-sm mt-2" style={{ color: "#00FF88" }}>Clear filters</button>
+                  <button onClick={() => { setActiveCategory("All"); setSearch(""); }} className="text-sm mt-2" style={{ color: "#3a7d56" }}>Clear filters</button>
                 </div>
               )}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -363,7 +363,7 @@ export default function VideoPage() {
                     className="group rounded-xl overflow-hidden cursor-pointer transition-all"
                     style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.borderColor = "rgba(0,255,136,0.2)";
+                      e.currentTarget.style.borderColor = "rgba(58,125,86,0.2)";
                       e.currentTarget.style.background = "rgba(255,255,255,0.04)";
                     }}
                     onMouseLeave={(e) => {
@@ -380,7 +380,7 @@ export default function VideoPage() {
                       <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                         <div
                           className="w-12 h-12 rounded-full flex items-center justify-center"
-                          style={{ background: "rgba(0,255,136,0.9)" }}
+                          style={{ background: "rgba(58,125,86,0.9)" }}
                         >
                           <Play size={18} className="text-black ml-0.5" />
                         </div>
@@ -399,7 +399,7 @@ export default function VideoPage() {
                       </span>
                     </div>
                     <div className="p-3">
-                      <h3 className="font-semibold text-sm mb-1.5 leading-snug group-hover:text-[#00FF88] transition-colors" style={{ color: "#F2F2F8" }}>
+                      <h3 className="font-semibold text-sm mb-1.5 leading-snug group-hover:text-[#3a7d56] transition-colors" style={{ color: "#F2F2F8" }}>
                         {v.title}
                       </h3>
                       <div className="flex items-center justify-between mb-2">
@@ -426,12 +426,12 @@ export default function VideoPage() {
                           onClick={(e) => { e.stopPropagation(); toggleSave(i); }}
                           className="flex items-center gap-1 text-xs px-2 py-1 rounded-lg transition-all"
                           style={{
-                            background: savedVideos.has(i) ? "rgba(0,255,136,0.1)" : "transparent",
-                            border: `1px solid ${savedVideos.has(i) ? "rgba(0,255,136,0.25)" : "rgba(255,255,255,0.06)"}`,
-                            color: savedVideos.has(i) ? "#00FF88" : "#6A6A88",
+                            background: savedVideos.has(i) ? "rgba(58,125,86,0.1)" : "transparent",
+                            border: `1px solid ${savedVideos.has(i) ? "rgba(58,125,86,0.25)" : "rgba(255,255,255,0.06)"}`,
+                            color: savedVideos.has(i) ? "#3a7d56" : "#6A6A88",
                           }}
                         >
-                          <Bookmark size={11} fill={savedVideos.has(i) ? "#00FF88" : "none"} />
+                          <Bookmark size={11} fill={savedVideos.has(i) ? "#3a7d56" : "none"} />
                         </button>
                         <button className="flex items-center gap-1 text-xs px-2 py-1 rounded-lg ml-auto" style={{ color: "#4A4A68", border: "1px solid rgba(255,255,255,0.06)" }}>
                           <Share2 size={11} />
@@ -451,8 +451,8 @@ export default function VideoPage() {
                 style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
               >
                 <div className="flex items-center gap-2 mb-4">
-                  <Star size={15} style={{ color: "#00FF88" }} />
-                  <h3 className="text-sm font-bold uppercase tracking-widest" style={{ color: "#00FF88" }}>
+                  <Star size={15} style={{ color: "#3a7d56" }} />
+                  <h3 className="text-sm font-bold uppercase tracking-widest" style={{ color: "#3a7d56" }}>
                     Top Channels
                   </h3>
                 </div>
@@ -466,7 +466,7 @@ export default function VideoPage() {
                         {ch.avatar}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-semibold group-hover:text-[#00FF88] transition-colors truncate" style={{ color: "#E0E0F0" }}>
+                        <p className="text-sm font-semibold group-hover:text-[#3a7d56] transition-colors truncate" style={{ color: "#E0E0F0" }}>
                           {ch.name}
                         </p>
                         <p className="text-xs" style={{ color: "#4A4A68" }}>
@@ -477,9 +477,9 @@ export default function VideoPage() {
                         onClick={() => toggleFollow(ch.name)}
                         className="text-xs px-2.5 py-1 rounded-full font-semibold shrink-0 transition-all"
                         style={{
-                          background: followedChannels.has(ch.name) ? "rgba(0,255,136,0.2)" : "rgba(0,255,136,0.1)",
-                          color: "#00FF88",
-                          border: `1px solid ${followedChannels.has(ch.name) ? "rgba(0,255,136,0.4)" : "rgba(0,255,136,0.2)"}`,
+                          background: followedChannels.has(ch.name) ? "rgba(58,125,86,0.2)" : "rgba(58,125,86,0.1)",
+                          color: "#3a7d56",
+                          border: `1px solid ${followedChannels.has(ch.name) ? "rgba(58,125,86,0.4)" : "rgba(58,125,86,0.2)"}`,
                         }}
                       >
                         {followedChannels.has(ch.name) ? "✓ Following" : "Follow"}
@@ -493,7 +493,7 @@ export default function VideoPage() {
               <div
                 className="rounded-2xl p-5"
                 style={{
-                  background: "linear-gradient(135deg, rgba(107,79,187,0.1) 0%, rgba(0,255,136,0.06) 100%)",
+                  background: "linear-gradient(135deg, rgba(107,79,187,0.1) 0%, rgba(58,125,86,0.06) 100%)",
                   border: "1px solid rgba(107,79,187,0.2)",
                 }}
               >
@@ -509,7 +509,7 @@ export default function VideoPage() {
                     <div key={i} className="flex items-center gap-2">
                       <div
                         className="w-1.5 h-1.5 rounded-full shrink-0"
-                        style={{ background: i === 0 ? "#00FF88" : "#4A4A68" }}
+                        style={{ background: i === 0 ? "#3a7d56" : "#4A4A68" }}
                       />
                       <span className="text-xs" style={{ color: i === 0 ? "#F2F2F8" : "#4A4A68" }}>{song}</span>
                     </div>
@@ -528,7 +528,7 @@ export default function VideoPage() {
                 className="rounded-2xl p-5"
                 style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
               >
-                <h3 className="text-sm font-bold mb-4 uppercase tracking-widest" style={{ color: "#00FF88" }}>
+                <h3 className="text-sm font-bold mb-4 uppercase tracking-widest" style={{ color: "#3a7d56" }}>
                   Library Stats
                 </h3>
                 {[

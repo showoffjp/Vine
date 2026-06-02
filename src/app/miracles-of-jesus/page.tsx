@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const SERIF = "var(--font-cormorant, Georgia, serif)";
 
@@ -14,7 +14,7 @@ type MType = "All" | "Healing" | "Nature" | "Exorcism" | "Raising the Dead";
 const TYPES: MType[] = ["All", "Healing", "Nature", "Exorcism", "Raising the Dead"];
 
 const TYPE_COLOR: Record<string, string> = {
-  Healing: "#00FF88",
+  Healing: "#3a7d56",
   Nature: "#3B82F6",
   Exorcism: "#EF4444",
   "Raising the Dead": "#F59E0B",
@@ -259,7 +259,7 @@ const REVEAL_POINTS = [
   },
   {
     title: "He Is the Great Physician",
-    color: "#00FF88",
+    color: "#3a7d56",
     body:
       "The healings fulfill the messianic promise that 'the eyes of the blind shall be opened, and the ears of the deaf unstopped' (Isaiah 35:5). But Jesus heals the whole person — body and soul. He links healing to forgiveness (the paralytic), restores the unclean to community (the leper, the bleeding woman), and shows that He has come to make all things whole. His compassion is never detached; He touches, He weeps, He restores dignity.",
   },

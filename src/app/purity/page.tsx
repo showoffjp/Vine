@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const THEOLOGY = [
   { title: "The Body Is Not the Enemy", verse: "1 Corinthians 6:19-20", body: "The Christian sexual ethic begins not with rules but with a theology of the body. 'Your body is a temple of the Holy Spirit' (1 Corinthians 6:19). The body is not a problem to be managed — it is a good gift from a good Creator, set apart for God's purposes. Purity is not body-hatred disguised as religion; it is the conviction that the body is worth protecting because it is holy." },

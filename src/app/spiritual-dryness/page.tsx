@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const CAUSES = [
   { cause: "Sin Blocking the Way", color: "#EF4444", desc: "Unconfessed sin creates a distance in the relationship with God that is often experienced as dryness. David describes it: 'When I kept silent, my bones wasted away through my groaning all day long' (Psalm 32:3). The resolution is confession — not only the feeling of remorse but the specific naming of the specific sin. Psalm 51 is the model.", response: "Examine your conscience specifically, not generally. Name the sin to God and, where appropriate, to another person. Receive absolution or assurance of forgiveness. The dryness often lifts when the sin is brought into the light." },

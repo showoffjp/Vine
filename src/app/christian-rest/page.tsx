@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 const THEOLOGY = [
   { title: "Sabbath as Creation Pattern", verse: "Genesis 2:2-3", body: "'By the seventh day God had finished the work he had been doing; so on the seventh day he rested from all his work. Then God blessed the seventh day and made it holy, because on it he rested from all the work of creating that he had done' (Genesis 2:2-3). God's rest on the seventh day is not a divine nap — it is the completion of creation, the crowning of the week. The Sabbath is written into the structure of time before the Law. It is a creation ordinance, not merely a Mosaic regulation." },

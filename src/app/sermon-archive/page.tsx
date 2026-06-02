@@ -314,7 +314,7 @@ export default function SermonArchivePage() {
             { value: "12+", label: "Preachers" },
           ].map((s) => (
             <div key={s.label}>
-              <div style={{ fontSize: 24, fontWeight: 700, color: "#00FF88" }}>{s.value}</div>
+              <div style={{ fontSize: 24, fontWeight: 700, color: "#3a7d56" }}>{s.value}</div>
               <div style={{ fontSize: 12, color: "#9898B3" }}>{s.label}</div>
             </div>
           ))}
@@ -386,7 +386,7 @@ export default function SermonArchivePage() {
                         {sermon.type}
                       </span>
                       <span style={{ padding: "1px 8px", borderRadius: 20, background: "#6B4FBB20", color: "#6B4FBB", fontSize: 10 }}>{sermon.topic}</span>
-                      {hasNote && <span style={{ padding: "1px 8px", borderRadius: 20, background: "#00FF8815", color: "#00FF88", fontSize: 10 }}>📝</span>}
+                      {hasNote && <span style={{ padding: "1px 8px", borderRadius: 20, background: "#3a7d5615", color: "#3a7d56", fontSize: 10 }}>📝</span>}
                     </div>
                     <h3 style={{ fontSize: 14, fontWeight: 700, color: "#F2F2F8", margin: 0, lineHeight: 1.3 }}>{sermon.title}</h3>
                   </div>
@@ -405,7 +405,7 @@ export default function SermonArchivePage() {
                   </div>
                   <div style={{ display: "flex", gap: 6 }}>
                     <button onClick={(e) => { e.stopPropagation(); handleLike(sermon.id); }}
-                      style={{ padding: "4px 8px", borderRadius: 6, border: "none", background: liked ? "#00FF8815" : "#1E1E32", color: liked ? "#00FF88" : "#9898B3", cursor: "pointer", fontSize: 12 }}>
+                      style={{ padding: "4px 8px", borderRadius: 6, border: "none", background: liked ? "#3a7d5615" : "#1E1E32", color: liked ? "#3a7d56" : "#9898B3", cursor: "pointer", fontSize: 12 }}>
                       ♥
                     </button>
                     <button onClick={(e) => { e.stopPropagation(); handleSave(sermon.id); }}
@@ -444,7 +444,7 @@ export default function SermonArchivePage() {
               <div key={i} style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 14, padding: 22, marginBottom: 14 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}>
                   <span style={{ fontSize: 24 }}>{item.icon}</span>
-                  <h3 style={{ fontSize: 16, fontWeight: 700, color: "#00FF88", margin: 0 }}>{item.title}</h3>
+                  <h3 style={{ fontSize: 16, fontWeight: 700, color: "#3a7d56", margin: 0 }}>{item.title}</h3>
                 </div>
                 <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.75, margin: 0 }}>{item.desc}</p>
               </div>
@@ -457,8 +457,8 @@ export default function SermonArchivePage() {
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 80 }}>
               {VOICES_SERM.map(v => (
                 <button key={v.id} onClick={() => setSelectedVoice(v.id)}
-                  style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? "rgba(0,255,136,0.4)" : "#1E1E32"}`, background: selectedVoice === v.id ? "rgba(0,255,136,0.08)" : "#12121F", cursor: "pointer" }}>
-                  <div style={{ fontSize: 13, fontWeight: 700, color: selectedVoice === v.id ? "#00FF88" : "#F2F2F8", marginBottom: 2 }}>{v.name}</div>
+                  style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? "rgba(58,125,86,0.4)" : "#1E1E32"}`, background: selectedVoice === v.id ? "rgba(58,125,86,0.08)" : "#12121F", cursor: "pointer" }}>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: selectedVoice === v.id ? "#3a7d56" : "#F2F2F8", marginBottom: 2 }}>{v.name}</div>
                   <div style={{ fontSize: 11, color: "#9898B3" }}>{v.era}</div>
                 </button>
               ))}
@@ -468,7 +468,7 @@ export default function SermonArchivePage() {
               <h2 style={{ fontSize: 24, fontWeight: 800, marginBottom: 4, color: "#F2F2F8" }}>{voiceItem.name}</h2>
               <div style={{ fontSize: 13, color: "#9898B3", marginBottom: 20 }}>{voiceItem.era}</div>
               <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.8, marginBottom: 24 }}>{voiceItem.bio}</p>
-              <div style={{ background: "#07070F", borderRadius: 12, padding: 20, borderLeft: "3px solid #00FF88", marginBottom: 24 }}>
+              <div style={{ background: "#07070F", borderRadius: 12, padding: 20, borderLeft: "3px solid #3a7d56", marginBottom: 24 }}>
                 <p style={{ fontSize: 15, color: "#E0E0F0", lineHeight: 1.75, fontStyle: "italic" }}>&ldquo;{voiceItem.quote}&rdquo;</p>
               </div>
               <div>
@@ -566,7 +566,7 @@ export default function SermonArchivePage() {
                   <button onClick={() => handleSaveNote(selectedSermon)}
                     disabled={!noteText.trim()}
                     style={{ padding: "8px 20px", borderRadius: 8, border: "none",
-                      background: noteText.trim() ? "#00FF88" : "#1E1E32",
+                      background: noteText.trim() ? "#3a7d56" : "#1E1E32",
                       color: noteText.trim() ? "#07070F" : "#9898B3",
                       cursor: noteText.trim() ? "pointer" : "default", fontWeight: 600, fontSize: 13 }}>
                     Save Notes
@@ -587,8 +587,8 @@ export default function SermonArchivePage() {
             <div style={{ display: "flex", gap: 10 }}>
               <button onClick={() => handleLike(selectedSermon.id)}
                 style={{ flex: 1, padding: "11px 16px", borderRadius: 10, border: "none",
-                  background: likedIds.has(selectedSermon.id) ? "#00FF8815" : "#1E1E32",
-                  color: likedIds.has(selectedSermon.id) ? "#00FF88" : "#9898B3",
+                  background: likedIds.has(selectedSermon.id) ? "#3a7d5615" : "#1E1E32",
+                  color: likedIds.has(selectedSermon.id) ? "#3a7d56" : "#9898B3",
                   cursor: "pointer", fontWeight: 600, fontSize: 14 }}>
                 ♥ {likedIds.has(selectedSermon.id) ? "Liked" : "Like"}
               </button>

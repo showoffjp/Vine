@@ -71,7 +71,7 @@ interface LentProgress {
 }
 
 export default function LentPage() {
-  const [activeTab, setActiveTab] = useState<"weeks" | "voices" | "practices" | "tracker">("weeks");
+  const [activeTab, setActiveTab] = useState<"weeks" | "voices" | "practices" | "tracker" | "videos">("weeks");
   const [selectedVoice, setSelectedVoice] = useState("chrysostom");
   const voiceItem = VOICES_LENT.find(v => v.id === selectedVoice)!;
   const [selectedWeek, setSelectedWeek] = useState(1);
@@ -103,6 +103,7 @@ export default function LentPage() {
             { id: "voices" as const, label: "Voices", icon: "💬" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
             { id: "tracker" as const, label: "Tracker", icon: "✅" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -230,6 +231,39 @@ export default function LentPage() {
                 })}
               </div>
             ))}
+          </div>
+        )}
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "RieYtSHfeU8", title: "Rooted in Prayer and Fasting", channel: "Tim Keller", description: "Keller preaches on prayer and fasting as disciplines of surrender — why Jesus assumed his followers would fast, and what fasting accomplishes in the soul." },
+                  { videoId: "iZu5Zx2lTCM", title: "Feasting and Fasting: Spiritual Symmetry", channel: "The Bible Project / Tim Mackie", description: "Tim Mackie explores the biblical rhythm of feasting and fasting — how these two practices together shape a life of dependence on God and anticipation of his kingdom." },
+                  { videoId: "_QwQ-tLnDRU", title: "40 Global Days of Prayer and Fasting: Reaching Your City with the Gospel", channel: "Tim Keller", description: "Keller on the spiritual power of corporate prayer and fasting as the foundation for gospel advance in the city — the connection between seeking God and missional fruitfulness." },
+                  { videoId: "VHy60qCDfRY", title: "Ash Wednesday Homily: Remember, You Are Dust", channel: "Catholic Homily / Matthew 6", description: "An Ash Wednesday homily on Matthew 6:1-6, 16-18 — the summons to secret fasting, prayer, and almsgiving that marks the beginning of Lent's forty-day journey." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

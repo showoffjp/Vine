@@ -64,7 +64,7 @@ const PRACTICES = [
   { title: "Let Hope Shape Present Action", desc: "The coming kingdom is not only a future comfort but a present summons. Because there will be new creation, creation care matters now. Because there will be justice, the pursuit of justice matters now. Eschatology is not escapism but motivation — 'your labor in the Lord is not in vain' (1 Corinthians 15:58).", icon: "🌍" },
 ];
 
-type Tab = "theology" | "thinkers" | "views" | "practices";
+type Tab = "theology" | "thinkers" | "views" | "practices" | "videos";
 
 const THINKERS = [
   {
@@ -139,6 +139,7 @@ export default function EschatologyViewsPage() {
             { id: "thinkers" as const, label: "Thinkers", icon: "💡" },
             { id: "views" as const, label: "The Views", icon: "🗺️" },
             { id: "practices" as const, label: "Implications", icon: "🛠️" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -251,6 +252,39 @@ export default function EschatologyViewsPage() {
                   <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{p.desc}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Video teachings on eschatology, the millennium, and the Christian hope from leading theologians and scholars.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "4S0TQ2dXnms", title: "What Happens After We Die? N.T. Wright on Resurrection", channel: "N.T. Wright Online", description: "Wright unpacks the biblical hope — not 'going to heaven' but the resurrection of the body and the renewal of all creation. Essential viewing for anyone rethinking Christian eschatology." },
+                  { videoId: "W75bzrvJtLs", title: "The Millennium: Four Views Explained", channel: "Ligonier Ministries", description: "A clear, fair overview of premillennialism, amillennialism, and postmillennialism — what each view teaches and the key texts each relies on." },
+                  { videoId: "-a-4XwDYTMU", title: "Amillennialism: What It Is and Why It Matters", channel: "Sam Storms", description: "Sam Storms makes the case for amillennialism as the most consistent reading of Revelation 20 in context, addressing common objections from dispensational readers." },
+                  { videoId: "oKid6NYb0oU", title: "Surprised by Hope — A Summary", channel: "The Gospel Coalition", description: "A concise overview of N.T. Wright's landmark book on Christian eschatology, covering why the resurrection and new creation are the proper horizon of Christian hope." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

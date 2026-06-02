@@ -20,7 +20,7 @@ const STRUCTURE = [
   { step: "Wait and Listen", icon: "🤫", color: "#10B981", desc: "Lament does not always end with resolution — Psalm 88 doesn't. But it does end with having spoken. After pouring out, be still. Don't rush to fill the silence with noise.", example: "Simply sit. 5 minutes of silence. Let the prayer stand." },
 ];
 
-type Tab = "howto" | "psalms" | "voices" | "write";
+type Tab = "howto" | "psalms" | "voices" | "write" | "videos";
 
 const VOICES = [
   {
@@ -122,6 +122,7 @@ export default function LamentPage() {
             { id: "psalms" as const, label: "Psalms", icon: "📜" },
             { id: "voices" as const, label: "Voices", icon: "💬" },
             { id: "write" as const, label: "Write a Lament", icon: "✍️" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -248,6 +249,39 @@ export default function LamentPage() {
                 </div>
               </div>
             )}
+          </div>
+        )}
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "Iy68YXttAvw", title: "Spiritual Depression in the Psalms", channel: "John Piper", description: "Piper explores Psalm 42 and how the psalmist models honest speech in the direction of God when the soul is cast down — the biblical pattern of lament." },
+                  { videoId: "DNl_OZM59Is", title: "Psalm 13: Lessons in Lament", channel: "Psalms Sermon Series", description: "A verse-by-verse walk through Psalm 13 — the fourfold 'How long, O Lord?' — as a model for praying honestly to God in seasons of delay and suffering." },
+                  { videoId: "ExYcadtFlwk", title: "Into the Psalms with John Piper", channel: "The Worship Initiative", description: "John Piper on how the Psalms teach us to pray with honesty, including the laments that address God directly in the midst of anguish." },
+                  { videoId: "enxKd2YKgjI", title: "How Should You Read the Psalms?", channel: "Desiring God", description: "John Piper provides a framework for reading the Psalms — including the laments — as the Spirit-inspired language of honest prayer before God." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

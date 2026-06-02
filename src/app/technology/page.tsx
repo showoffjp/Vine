@@ -52,7 +52,7 @@ const QUESTIONS = [
   { q: "When did I last read a book, sit in silence, or create something without a screen?", cat: "Embodiment" },
 ];
 
-type Tab = "theology" | "thinkers" | "practices" | "audit";
+type Tab = "theology" | "thinkers" | "practices" | "audit" | "videos";
 
 const THINKERS = [
   {
@@ -142,6 +142,7 @@ export default function TechnologyPage() {
             { id: "thinkers" as const, label: "Thinkers", icon: "💡" },
             { id: "practices" as const, label: "Practices", icon: "✅" },
             { id: "audit" as const, label: "Self-Audit", icon: "🔍" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -242,6 +243,41 @@ export default function TechnologyPage() {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors on Christians and technology.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "gmojQk1lgDc", title: "A Theology of Technology | Genesis 4", channel: "Andrew Wilson", description: "Andrew Wilson unpacks what Genesis 4 teaches about the origins of human technology, its possibilities, and its dangers — and how Christians should think Christianly about it." },
+                  { videoId: "Bk_n34xGhBI", title: "A Theology of Technology | Genesis 4:19-22", channel: "Gordon-Conwell Theological Seminary", description: "A seminary lecture examining what the Bible has to say about technology, smartphones, computers, and more, rooted in the earliest chapters of Scripture." },
+                  { videoId: "5YuvgAUj1X0", title: "The Christian Response to AI & Technology", channel: "Church Teaching", description: "A message exploring how AI is reshaping the way people live, work, think, and communicate — and what a faithful Christian response looks like." },
+                  { videoId: "QL1kViROrKM", title: "How Should Christians Engage with Technology?", channel: "Christian Teaching", description: "A thoughtful exploration of Christian engagement with apps, AI, social media, and modern communication — and the discernment required to use them well." },
+                  { videoId: "0kNXJYa3Mqk", title: "A History of Technology and Christianity", channel: "Wes Huff", description: "Wes Huff traces the historical relationship between technology and Christianity, showing how the church has engaged — for better and worse — with technological change across centuries." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

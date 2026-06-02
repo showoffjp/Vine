@@ -141,7 +141,7 @@ export default function DailyExamenPage() {
   const [history, setHistory] = useState<ExamenEntry[]>(() => {
     try { const s = localStorage.getItem("vine_examen_history"); return s ? JSON.parse(s) : []; } catch { return []; }
   });
-  const [activeTab, setActiveTab] = useState<"practice" | "history" | "about" | "voices">("about");
+  const [activeTab, setActiveTab] = useState<"practice" | "history" | "about" | "voices" | "videos">("about");
   const [selectedVoice, setSelectedVoice] = useState("ignatius");
   const voiceItem = VOICES_EXAMEN.find(v => v.id === selectedVoice)!;
   const [saved, setSaved] = useState(false);
@@ -187,6 +187,7 @@ export default function DailyExamenPage() {
             { id: "practice" as const, label: "Tonight's Examen", icon: "🌙" },
             { id: "history" as const, label: "My History", icon: "📅" },
             { id: "voices" as const, label: "Voices", icon: "🎓" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -363,6 +364,40 @@ export default function DailyExamenPage() {
               <div>
                 <div style={{ fontSize: 11, fontWeight: 700, color: PURPLE, textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>Contribution</div>
                 <p style={{ fontSize: 14, color: TEXT, lineHeight: 1.75 }}>{voiceItem.contribution}</p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Guided prayers, explanations, and teachings on the Ignatian Examen and daily reflective prayer practice.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "kqtFCtGOS-I", title: "Ignatius Loyola's Jesuit Daily Examen", channel: "Ignatian Spirituality", description: "A guided walk-through of the Daily Examen as Ignatius of Loyola taught it — a method of reflective prayer for finding God in the events of each day." },
+                  { videoId: "fkmMs0rW6ok", title: "The Daily Examen — A Guided Journey Through Reflective Prayer", channel: "Ignatian Spirituality", description: "A guided journey through the five steps of the Examen, designed for daily use as a tool for discernment and spiritual growth." },
+                  { videoId: "mVE6UlP8sl0", title: "5-Minute Guided Daily Examen Prayer", channel: "Ignatian Spirituality", description: "A brief, accessible guided practice of the Examen — based on St. Ignatius's Spiritual Exercises and suitable for daily use." },
+                  { videoId: "pDQgjzJINdk", title: "Ignatian Spirituality: The Examen", channel: "Jesuit Institute", description: "An introduction to the Examen from the Jesuit Institute — its history, theological basis, and how to integrate it into daily prayer." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

@@ -4,7 +4,7 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "days" | "theology" | "observance" | "voices";
+type Tab = "days" | "theology" | "observance" | "voices" | "videos";
 
 const THEOLOGY_BLOCKS = [
   {
@@ -238,6 +238,7 @@ export default function HolyWeekPage() {
             { id: "theology" as const, label: "Theology", icon: "📖" },
             { id: "observance" as const, label: "Observance", icon: "🕯️" },
             { id: "voices" as const, label: "Voices", icon: "🎓" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -355,6 +356,39 @@ export default function HolyWeekPage() {
               <div>
                 <div style={{ fontSize: 11, fontWeight: 700, color: PURPLE, textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>Contribution</div>
                 <p style={{ fontSize: 14, color: TEXT, lineHeight: 1.75 }}>{voiceItem.contribution}</p>
+              </div>
+            </div>
+          </div>
+        )}
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Video teachings on Holy Week — the days, the theology, and the events that stand at the center of the Christian story.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "59L1CkF1y98", title: "The Story of Holy Week — Day by Day", channel: "The Bible Project", description: "An animated walk through each day of Holy Week — Palm Sunday through Easter — showing how the events fulfill the Old Testament and reveal the nature of Jesus's kingdom." },
+                  { videoId: "ofwzpwE9lZQ", title: "Why Did Jesus Have to Die? The Theology of the Cross", channel: "N.T. Wright Online", description: "Wright explains the atonement — what the cross accomplished, how to understand substitution in its Jewish context, and why it remains the center of the Christian gospel." },
+                  { videoId: "zRhQJT9PsMo", title: "Good Friday: The Meaning of the Crucifixion", channel: "Desiring God", description: "A meditation on the cross — the darkness of Good Friday, what was accomplished at Calvary, and why Christians call the worst day in history 'good.'" },
+                  { videoId: "B4vvN5DGe50", title: "He Is Risen: The Historical Evidence for the Resurrection", channel: "Ravi Zacharias International Ministries", description: "Making the case for the bodily resurrection of Jesus — the empty tomb, the appearances, the transformation of the disciples, and why alternative explanations fail." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

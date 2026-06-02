@@ -104,7 +104,7 @@ const PRACTICES = [
 ];
 
 export default function SermonOnTheMountPage() {
-  const [activeTab, setActiveTab] = useState<"sections" | "interpretations" | "practices" | "scholars">("sections");
+  const [activeTab, setActiveTab] = useState<"sections" | "interpretations" | "practices" | "scholars" | "videos">("sections");
   const [selectedScholar, setSelectedScholar] = useState("stott-jrw");
   const scholarItem = SCHOLARS_SOTM.find(s => s.id === selectedScholar)!;
   const [selectedSection, setSelectedSection] = useState("The Beatitudes");
@@ -128,6 +128,7 @@ export default function SermonOnTheMountPage() {
             { id: "interpretations" as const, label: "Interpretations", icon: "🔍" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
             { id: "scholars" as const, label: "Scholars", icon: "🎓" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -228,6 +229,41 @@ export default function SermonOnTheMountPage() {
                   <div style={{ color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>Legacy and Contribution</div>
                   <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, margin: 0 }}>{scholarItem.contribution}</p>
                 </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors on the Sermon on the Mount.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "1OkWF6UU8lU", title: "The Inside Out Kingdom", channel: "Timothy Keller", description: "Tim Keller opens his Sermon on the Mount series, examining how Jesus contrasts two groups who appear the same on the outside but have radically different motivations." },
+                  { videoId: "FTZ3GfL9yQM", title: "The Upside Down Kingdom", channel: "Timothy Keller", description: "Keller unpacks how Jesus introduces a revolutionary kingdom in the Sermon on the Mount — one that subverts every human expectation of power and greatness." },
+                  { videoId: "--mRYu2B4jU", title: "Authentic Christianity", channel: "Timothy Keller", description: "The concluding sermon in Keller's Sermon on the Mount series, drawing together the radical demands of Jesus and the grace that makes obedience possible." },
+                  { videoId: "ho1VMQ_Ac-U", title: "The Sermon on the Mount: True Happiness (Matt. 5:1-12)", channel: "Gospel Teaching", description: "A verse-by-verse exposition of the Beatitudes — the counter-intuitive blessings of the kingdom that redefine what it means to flourish." },
+                  { videoId: "TQRH8o6MCts", title: "Blessed Are the Meek", channel: "Desiring God / John Piper", description: "John Piper's classic exposition of the third Beatitude, exploring what meekness means in the kingdom of God and why it inherits the earth." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

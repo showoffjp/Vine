@@ -4,7 +4,7 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "persons" | "theologians" | "heresies" | "implications";
+type Tab = "persons" | "theologians" | "heresies" | "implications" | "videos";
 
 const THEOLOGIANS = [
   {
@@ -128,6 +128,7 @@ export default function TrinityPage() {
             { id: "theologians" as const, label: "Theologians", icon: "📜" },
             { id: "heresies" as const, label: "Classic Errors", icon: "🚫" },
             { id: "implications" as const, label: "Why It Matters", icon: "💡" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -248,6 +249,41 @@ export default function TrinityPage() {
                 <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 15, margin: 0 }}>{imp.body}</p>
               </div>
             ))}
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors on the doctrine of the Trinity.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "Sh72wgZEcKk", title: "R.C. Sproul: For the Doctrine of the Trinity", channel: "Ligonier Ministries", description: "Sproul explains why Christians must stand firm in proclaiming the one living and true God revealed in Scripture — Father, Son, and Holy Spirit." },
+                  { videoId: "LUCDrhB19cE", title: "Is the Trinity a Contradiction?", channel: "Ligonier Ministries / R.C. Sproul", description: "Sproul addresses the charge that the doctrine of the Trinity is logically contradictory — explaining why one God in three persons is a mystery but not an irrationality." },
+                  { videoId: "UqQyle8vq-0", title: "The Biblical Witness: The Mystery of the Trinity", channel: "Ligonier Ministries / R.C. Sproul", description: "A careful examination of the biblical texts that reveal the triune nature of God — exploring how the New Testament authors came to understand the Trinity." },
+                  { videoId: "e9T2K8f6W3o", title: "One in Essence, Three in Person", channel: "Ligonier Ministries / R.C. Sproul", description: "The precise formulation of Trinitarian doctrine — what it means to say God is one in essence yet three in person, and why that distinction matters." },
+                  { videoId: "cJlenDjSsVA", title: "Fifth-Century Heresies: The Mystery of the Trinity", channel: "Ligonier Ministries / R.C. Sproul", description: "An examination of early church heresies about the Trinity — Arianism, Modalism, and Tritheism — and how the councils refined orthodox Trinitarian doctrine." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

@@ -3,7 +3,7 @@ import { useState } from "react";
 
 const BG = "#07070F"; const CARD = "#12121F"; const BORDER = "#1E1E32"; const GREEN = "#00FF88"; const PURPLE = "#6B4FBB"; const TEXT = "#F2F2F8"; const MUTED = "#9898B3";
 
-type Tab = "elders" | "deacons" | "training" | "resources";
+type Tab = "elders" | "deacons" | "training" | "resources" | "videos";
 
 const ELDERS = [
   {
@@ -210,7 +210,7 @@ export default function ElderDeaconTrainingPage() {
         </div>
 
         <div style={{ display: "flex", gap: 4, marginBottom: 24, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
-          {(["elders", "deacons", "training", "resources"] as Tab[]).map(t => (
+          {(["elders", "deacons", "training", "resources", "videos"] as Tab[]).map(t => (
             <button
               key={t}
               onClick={() => setTab(t)}
@@ -225,7 +225,7 @@ export default function ElderDeaconTrainingPage() {
                 cursor: "pointer",
               }}
             >
-              {t === "elders" ? "Elders / Overseers" : t === "deacons" ? "Deacons" : t === "training" ? "Training Pathway" : "Resources"}
+              {t === "elders" ? "Elders / Overseers" : t === "deacons" ? "Deacons" : t === "training" ? "Training Pathway" : t === "resources" ? "Resources" : "🎬 Videos"}
             </button>
           ))}
         </div>

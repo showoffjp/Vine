@@ -248,7 +248,7 @@ export default function AccountabilityPage() {
     } catch { return seedGoals; }
   });
 
-  const [mainTab, setMainTab] = useState<"goals" | "guide" | "voices" | "questions">("goals");
+  const [mainTab, setMainTab] = useState<"goals" | "guide" | "voices" | "questions" | "videos">("goals");
   const [selectedVoice, setSelectedVoice] = useState("wesley-j");
   const [showCompose, setShowCompose] = useState(false);
   const [selectedGoal, setSelectedGoal] = useState<string | null>(goals[0]?.id ?? null);
@@ -475,7 +475,7 @@ export default function AccountabilityPage() {
         {/* Main tab bar */}
         <div style={{ borderBottom: "1px solid #1E1E32", background: "#0A0A16", position: "sticky", top: 0, zIndex: 10, marginBottom: 24 }}>
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8" style={{ display: "flex", gap: 2 }}>
-            {([["goals", "My Goals"], ["guide", "📖 Guide"], ["voices", "🎓 Voices"], ["questions", "❓ Questions"]] as const).map(([key, label]) => (
+            {([["goals", "My Goals"], ["guide", "📖 Guide"], ["voices", "🎓 Voices"], ["questions", "❓ Questions"], ["videos", "🎬 Videos"]] as const).map(([key, label]) => (
               <button key={key} onClick={() => setMainTab(key)}
                 style={{ background: "none", border: "none", borderBottom: mainTab === key ? "2px solid #00FF88" : "2px solid transparent", color: mainTab === key ? "#F2F2F8" : "#9898B3", fontWeight: mainTab === key ? 700 : 500, fontSize: 14, padding: "14px 18px", cursor: "pointer", whiteSpace: "nowrap" }}>
                 {label}
@@ -755,6 +755,40 @@ export default function AccountabilityPage() {
                 </ul>
               </div>
             ))}
+          </div>
+        )}
+
+        {mainTab === "videos" && (
+          <div style={{ maxWidth: 900, margin: "0 auto", padding: "32px 24px" }}>
+            <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: "#00FF88", fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: "#9898B3", fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors on discipleship, accountability, and spiritual growth.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "t3ZYiRM0PN8", title: "John Piper and Darrin Patrick on Biblical Manhood (Part 1)", channel: "Desiring God", description: "Piper and Patrick discuss what it means to build deep, accountable friendships among Christian men — the kind that ask hard questions." },
+                  { videoId: "DUVKRVJYzYc", title: "Helping Relationships: Course Lecture by Ed Welch", channel: "CCEF School of Biblical Counseling", description: "Ed Welch teaches how to build genuine, Christ-centered accountability and care in relationships — drawn from his work at CCEF." },
+                  { videoId: "GfdP2o5NXWI", title: "Hope and Power to Change", channel: "CCEF", description: "A CCEF teaching on how the gospel provides the actual power for lasting change — the foundation of any real accountability relationship." },
+                  { videoId: "LA7GitzS-bY", title: "What Is Biblical Counseling?", channel: "Edward T. Welch / CCEF", description: "Ed Welch explains what biblical counseling is and how the Scriptures speak practically into the struggles of real life." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: "#07070F", border: "1px solid #1E1E32", borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: "#00FF88", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: "#9898B3", fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

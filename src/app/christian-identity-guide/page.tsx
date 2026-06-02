@@ -24,7 +24,7 @@ const IDENTITY_STATEMENTS = [
 
 const CATEGORIES = ["All", "Belonging", "Position", "Purpose", "Security", "Future"];
 
-type Tab = "statements" | "voices" | "lies" | "practice";
+type Tab = "statements" | "voices" | "lies" | "practice" | "videos";
 
 const VOICES_IDENTITY_GUIDE = [
   {
@@ -108,6 +108,7 @@ export default function ChristianIdentityGuidePage() {
             { id: "voices" as const, label: "Teachers", icon: "💬" },
             { id: "lies" as const, label: "Common Lies", icon: "❌" },
             { id: "practice" as const, label: "Apply It", icon: "🙏" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -217,6 +218,39 @@ export default function ChristianIdentityGuidePage() {
                 <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{p.desc}</p>
               </div>
             ))}
+          </div>
+        )}
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "sJfwUt-UjYk", title: "Identity In Christ", channel: "Tim Keller", description: "Tim Keller unpacks what it means that your identity is received from God in Christ, not achieved by your performance." },
+                  { videoId: "A1jHQE3YmPU", title: "What Is Your Identity?", channel: "Tim Keller", description: "Keller examines the question of identity at its root — why the gospel offers a more stable foundation than anything culture provides." },
+                  { videoId: "Ehw87PqTwKw", title: "Our Identity: The Christian Alternative to Late Modernity's Story", channel: "Tim Keller", description: "A lecture at Wheaton College exploring how the Christian account of identity differs from and surpasses late modernity's narrative." },
+                  { videoId: "ZbLrZUJZSVw", title: "Christian Identity Is Received, Not Achieved", channel: "Tim Keller Sermon Jam", description: "A powerful sermon jam on the core truth that what God says about you in Christ is not based on your achievements or failures." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

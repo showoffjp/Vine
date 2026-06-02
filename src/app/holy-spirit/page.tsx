@@ -74,7 +74,7 @@ const SCHOLARS_HS = [
 ];
 
 export default function HolySpiritPage() {
-  const [activeTab, setActiveTab] = useState<"doctrines" | "scholars" | "traditions" | "practice">("doctrines");
+  const [activeTab, setActiveTab] = useState<"doctrines" | "scholars" | "traditions" | "practice" | "videos">("doctrines");
   const [selectedScholar, setSelectedScholar] = useState("fee");
   const scholar = SCHOLARS_HS.find(s => s.id === selectedScholar)!;
   const [selectedDoc, setSelectedDoc] = useState("person");
@@ -104,6 +104,7 @@ export default function HolySpiritPage() {
             { id: "scholars" as const, label: "Scholars", icon: "🏛️" },
             { id: "traditions" as const, label: "Traditions", icon: "⚖️" },
             { id: "practice" as const, label: "Walking in the Spirit", icon: "🚶" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 6px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
@@ -224,6 +225,39 @@ export default function HolySpiritPage() {
               <textarea value={journalText} onChange={e => setJournalText(e.target.value)}
                 placeholder={"Where do I sense the Spirit most active in my life right now?\n\nWhere am I quenching or grieving the Spirit?\n\nWhat is one change I want to make in how I relate to the Spirit?"}
                 style={{ width: "100%", minHeight: 160, background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: 16, color: TEXT, fontSize: 14, lineHeight: 1.7, resize: "vertical", boxSizing: "border-box", fontFamily: "inherit" }} />
+            </div>
+          </div>
+        )}
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "rKlMk098oYM", title: "Who Is the Holy Spirit?", channel: "John Piper / Desiring God", description: "Piper answers the foundational question of the Spirit's person and nature — why he is fully God, fully personal, and distinct from Father and Son." },
+                  { videoId: "I6oS9i25Lx4", title: "How to Seek the Holy Spirit", channel: "John Piper", description: "A practical and theological message on how believers can actively and prayerfully seek fresh filling of the Holy Spirit in daily life." },
+                  { videoId: "EcjZrdQTX10", title: "The Spirit Helps Us in Our Weakness", channel: "John Piper", description: "Piper expounds Romans 8:26 — the Spirit's ministry of intercession when we don't know how to pray, carrying our groaning to the Father." },
+                  { videoId: "qvMCdCRWaMI", title: "Preaching in the Holy Spirit", channel: "John Piper / PasCon2018", description: "Piper on the indispensable role of the Holy Spirit in preaching — and what it means for any Christian to speak about God with Spirit-given power." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

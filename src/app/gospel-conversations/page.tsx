@@ -97,7 +97,7 @@ const VOICES_GOSP = [
 ];
 
 export default function GospelConversationsPage() {
-  const [activeTab, setActiveTab] = useState<"methods" | "voices" | "objections" | "tips">("methods");
+  const [activeTab, setActiveTab] = useState<"methods" | "voices" | "objections" | "tips" | "videos">("methods");
   const [selectedVoice, setSelectedVoice] = useState("schaeffer");
   const voiceItem = VOICES_GOSP.find(v => v.id === selectedVoice)!;
   const [selectedMethod, setSelectedMethod] = useState<string | null>(null);
@@ -121,6 +121,7 @@ export default function GospelConversationsPage() {
             { id: "voices" as const, label: "Voices", icon: "💬" },
             { id: "objections" as const, label: "Objections", icon: "❓" },
             { id: "tips" as const, label: "Practical Tips", icon: "💡" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -268,6 +269,39 @@ export default function GospelConversationsPage() {
                 <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{tip.desc}</p>
               </div>
             ))}
+          </div>
+        )}
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "hLD4kCkme2Q", title: "The Gospel-Centered Church: Evangelism", channel: "Tim Keller", description: "Keller lays out what gospel-centered evangelism looks like — not merely technique but a posture of love for people and confidence in the power of the gospel." },
+                  { videoId: "DHQBoLo31Ns", title: "Evangelism in the 21st Century", channel: "Tim Keller", description: "How to contextualize the gospel for a secular, post-Christian world without compromising it — Keller's framework for reaching people who reject traditional religious categories." },
+                  { videoId: "f_JDoMWZaRk", title: "Messengers", channel: "Timothy Keller", description: "Keller preaches on the disciple's calling as Christ's messenger — what it means to be sent, to speak, and to bear the news that changes everything." },
+                  { videoId: "zNve3Hexh28", title: "How to Bring the Gospel to Post-Christian America", channel: "Tim Keller", description: "Practical guidance for sharing Christ in an increasingly skeptical culture — how the gospel addresses the real questions people are actually asking." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

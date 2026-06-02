@@ -31,7 +31,7 @@ const PITFALLS = [
   { pitfall: "Too long, too much detail", fix: "Edit ruthlessly. Every detail must serve the central story. Religious experiences, theological nuances, and church politics rarely help the listener. Focus on the turning point and its fruit." },
 ];
 
-type Tab = "theology" | "witnesses" | "structure" | "write";
+type Tab = "theology" | "witnesses" | "structure" | "write" | "videos";
 
 const WITNESSES = [
   {
@@ -118,6 +118,7 @@ export default function TestimonyWritingPage() {
             { id: "witnesses" as const, label: "Witnesses", icon: "🕯️" },
             { id: "structure" as const, label: "Structure", icon: "🏗️" },
             { id: "write" as const, label: "Write It", icon: "✍️" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -242,6 +243,41 @@ export default function TestimonyWritingPage() {
                 />
               </div>
             ))}
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Practical guidance and biblical teaching on sharing your personal testimony effectively.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "9q6KrV2CDI0", title: "How to Share Your Personal Christian Testimony in 3-5 Minutes", channel: "Breaking Truth Ministries", description: "A clear, practical guide to crafting and sharing your personal testimony for evangelism — covering structure, focus, and what to include." },
+                  { videoId: "YN1bnmbjuv0", title: "How To Share Your Testimony", channel: "Christian Teaching", description: "A personal testimony is the Gospel presented in terms of your own experience. This video teaches you how to tell that story powerfully." },
+                  { videoId: "k4gi3k8thsE", title: "Your Story Is His Story", channel: "Christian Teaching", description: "A simple outline and practical tips to help you share your personal testimony — because your story of God's grace is one of the most powerful tools you have." },
+                  { videoId: "kLPFLwDaUTE", title: "The Power of Sharing Your Testimony", channel: "Christian Teaching", description: "Key steps for constructing and sharing your story of faith, with biblical foundations and practical application for real conversations." },
+                  { videoId: "udQltBlxyVo", title: "How to Share Your Testimony | UNcomplicated", channel: "UNcomplicated", description: "Beginning with 1 Peter 3:15, this video provides a simple, repeatable framework for sharing your faith story in any context." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

@@ -9,7 +9,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "weeks" | "practices" | "resources";
+type Tab = "theology" | "weeks" | "practices" | "resources" | "videos";
 
 const THEOLOGY_ITEMS = [
   {
@@ -159,6 +159,7 @@ const TABS: { id: Tab; label: string }[] = [
   { id: "weeks", label: "The Four Weeks" },
   { id: "practices", label: "Advent Practices" },
   { id: "resources", label: "Resources" },
+  { id: "videos", label: "🎬 Videos" },
 ];
 
 export default function AdventDevotionalPage() {
@@ -595,6 +596,40 @@ export default function AdventDevotionalPage() {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors on Advent, incarnation, and the waiting season.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "w_nEa4-yXLc", title: "Advent Day 1: Prepare the Way", channel: "John Piper / Desiring God", description: "John Piper opens the Advent season with a devotional on preparing the way of the Lord — the prophetic call to expectant waiting." },
+                  { videoId: "cefE418Z9IY", title: "Advent: The Glory of the Incarnation", channel: "Timothy Keller", description: "Tim Keller preaches on the astonishing claim at the center of Advent: that the eternal Word became flesh and dwelt among us." },
+                  { videoId: "IkzzdfaqJ2k", title: "Advent: The Word", channel: "Timothy Keller", description: "Keller opens John 1 to show why Advent begins not in Bethlehem but before creation — in the eternal being of the Son." },
+                  { videoId: "tXJqa6ISZng", title: "Advent Day 24: Two Purposes for Christmas", channel: "John Piper / Desiring God", description: "Piper closes the Advent season exploring the two purposes behind the incarnation: glory to God and peace to those he loves." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

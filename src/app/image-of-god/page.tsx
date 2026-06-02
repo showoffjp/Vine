@@ -9,7 +9,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "views" | "implications" | "distortion";
+type Tab = "theology" | "views" | "implications" | "distortion" | "videos";
 
 const THEOLOGY_ITEMS = [
   {
@@ -228,6 +228,7 @@ export default function ImageOfGodPage() {
     { id: "views", label: "Three Views on the Imago" },
     { id: "implications", label: "Implications" },
     { id: "distortion", label: "Distortions of the Image" },
+    { id: "videos", label: "🎬 Videos" },
   ];
 
   return (
@@ -556,6 +557,39 @@ export default function ImageOfGodPage() {
                 onToggle={toggleAccordion}
               />
             ))}
+          </div>
+        )}
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "CN96ct3vDGU", title: "Created in God's Image", channel: "John Piper / Desiring God", description: "Piper unpacks Genesis 1:26-28 — what it means that every human being is made in the image of God, and why this is the foundation of human dignity." },
+                  { videoId: "XO_grEhvezw", title: "Imago Dei", channel: "Matt Chandler", description: "Chandler preaches on Genesis 1:24-31 — the theological significance of humanity as image-bearers of God and the implications for how we see every person." },
+                  { videoId: "mhA4LsexMrQ", title: "Imago Dei: Made in the Image of God", channel: "Christian Teaching", description: "A clear theological presentation of the doctrine of the imago Dei — its biblical foundation, its historical interpretation, and its contemporary application." },
+                  { videoId: "4XwRaIuxJ_U", title: "Image of God and Christian Political Engagement", channel: "Faith & Flourishing Sermon Series", description: "How the imago Dei reshapes Christian engagement with politics and public life — seeing every person as image-bearer regardless of their view or status." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

@@ -9,7 +9,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "views" | "practice" | "history";
+type Tab = "theology" | "views" | "practice" | "history" | "videos";
 
 const THEOLOGY_ITEMS = [
   {
@@ -263,6 +263,7 @@ export default function BaptismTheologyPage() {
     { id: "views", label: "Views on Baptism" },
     { id: "practice", label: "Practice" },
     { id: "history", label: "History of Baptism" },
+    { id: "videos", label: "🎬 Videos" },
   ];
 
   return (
@@ -683,6 +684,40 @@ export default function BaptismTheologyPage() {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Lectures and debates on baptism theology — from paedobaptism to credobaptism, and the meaning of the sacrament in Christian life.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "gLRX1WP2wg4", title: "Baptism Debate: A Paedobaptist Position with R.C. Sproul", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul presents the historic Reformed case for infant baptism — the covenant continuity argument — in a formal theological debate." },
+                  { videoId: "0JdwtcFNVU4", title: "What Is the Doctrine of Baptism? — Reformed Theology", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul explains what baptism signifies within a Reformed sacramental framework, connecting it to circumcision and the covenant of grace." },
+                  { videoId: "ALsluAKBZ-c", title: "Old Testament Summary: A Complete Animated Overview", channel: "BibleProject", description: "Understanding the Old Testament covenant structure is essential for the baptism debate — BibleProject provides the clearest visual overview available." },
+                  { videoId: "Q0BrP8bqj0c", title: "New Testament Summary: A Complete Animated Overview", channel: "BibleProject", description: "The New Testament's development of the covenant and its signs — including baptism — explained through BibleProject's acclaimed animated overview." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

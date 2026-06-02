@@ -20,7 +20,7 @@ import {
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "principles" | "leaders" | "ethics" | "voices";
+type Tab = "principles" | "leaders" | "ethics" | "voices" | "videos";
 
 const principles = [
   {
@@ -345,10 +345,10 @@ export default function WorkLeadershipPage() {
         {/* Tab Bar */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
           <div style={{ display: "flex", gap: 6, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 6, width: "fit-content" }}>
-            {(["principles", "leaders", "ethics", "voices"] as const).map(t => (
+            {(["principles", "leaders", "ethics", "voices", "videos"] as const).map(t => (
               <button key={t} onClick={() => setActiveTab(t)}
                 style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-                {t === "principles" ? "Principles" : t === "leaders" ? "Leaders" : t === "ethics" ? "Ethics" : "Voices"}
+                {t === "principles" ? "Principles" : t === "leaders" ? "Leaders" : t === "ethics" ? "Ethics" : t === "voices" ? "Voices" : "Videos"}
               </button>
             ))}
           </div>
@@ -650,6 +650,41 @@ export default function WorkLeadershipPage() {
                   <div style={{ color: GREEN, fontSize: 11, fontWeight: 700, marginBottom: 8 }}>LASTING CONTRIBUTION</div>
                   <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0 }}>{voice.contribution}</p>
                 </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors on work and leadership.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "4KjjPr-6Wl4", title: "The Qualities of a Leader", channel: "Billy Graham Evangelistic Association", description: "Billy Graham's classic sermon on the qualities God looks for in a leader — character, humility, integrity, and servant-heartedness rooted in biblical truth." },
+                  { videoId: "tz464hHSCHc", title: "Servant Leadership | Christian Ethics", channel: "The Theology Academy", description: "A theological exploration of servant leadership from a Christian ethics perspective — showing why Jesus's model of leadership is both radical and essential." },
+                  { videoId: "OgjR2N9OQ58", title: "Lessons on Leadership from the Bible | The Heart of a King", channel: "Church Teaching", description: "Character, not accomplishment, is the most important quality of a leader — this sermon unpacks what biblical kingship reveals about godly leadership in any context." },
+                  { videoId: "rAC5ILbsDOc", title: "John C. Maxwell — Leadership Principles from the Bible", channel: "John C. Maxwell", description: "Maxwell draws leadership principles directly from Scripture — showing how biblical wisdom has shaped great leaders across history and cultures." },
+                  { videoId: "R1Z6sxuQqP4", title: "Qualities of a Christian Leader: Lessons from 2 Corinthians 1", channel: "Church Teaching", description: "An insightful sermon on the key characteristics of a Christian leader drawn from Paul's second letter to the Corinthians." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

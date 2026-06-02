@@ -97,7 +97,7 @@ const CHARACTERS = [
 
 const FILTERS = ["All", "OT", "NT", "Patriarch", "Exodus", "Judges", "Divided Kingdom", "New Testament"];
 
-type Tab = "characters" | "women" | "typology" | "study";
+type Tab = "characters" | "women" | "typology" | "study" | "videos";
 
 const WOMEN_CHARS = [
   {
@@ -200,6 +200,7 @@ export default function BibleCharactersPage() {
             { id: "women" as const, label: "Women", icon: "👩" },
             { id: "typology" as const, label: "Typology", icon: "✝️" },
             { id: "study" as const, label: "How to Study", icon: "📖" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -333,6 +334,40 @@ export default function BibleCharactersPage() {
                 <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{s.desc}</p>
               </div>
             ))}
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings on Bible characters — how to read their stories and see how they point to Jesus Christ.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "Dj16ick5VSA", title: "What Is Typology? How to Use It in Bible Study", channel: "Ligonier Ministries", description: "Sinclair Ferguson explains what biblical typology is and how to use it responsibly — essential for reading Old Testament characters as they point to Christ." },
+                  { videoId: "KH4RaAbqlXw", title: "How David Is a Type of Christ", channel: "Bible Study Channel", description: "An examination of the specific ways King David prefigures Jesus — shepherd, king, sufferer, and conqueror — across the Psalms and the Gospels." },
+                  { videoId: "mDmOI05npxU", title: "Ways That Moses Is a Type of Christ", channel: "Bible Study Channel", description: "Moses as deliverer, lawgiver, mediator, and prophet — each role pointing forward to the greater Moses who fulfills what Moses only foreshadowed." },
+                  { videoId: "Me9BErWlPlU", title: "Biblical Typology: A Deep Bible Study", channel: "Bible Study", description: "A comprehensive guide to reading the Old Testament typologically — understanding how characters, events, and institutions foreshadow Christ." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

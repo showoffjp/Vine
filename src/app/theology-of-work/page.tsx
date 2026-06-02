@@ -4,7 +4,7 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "theology" | "vocation" | "marketplace" | "rest";
+type Tab = "theology" | "vocation" | "marketplace" | "rest" | "videos";
 
 const THEOLOGY_ITEMS = [
   {
@@ -207,6 +207,7 @@ export default function TheologyOfWorkPage() {
     { id: "vocation", label: "Vocation & Calling" },
     { id: "marketplace", label: "Faith in the Marketplace" },
     { id: "rest", label: "Work and Rest" },
+    { id: "videos", label: "Videos" },
   ];
 
   const selectedVocation = VOCATION_TOPICS.find(t => t.id === vocabSelected) ?? VOCATION_TOPICS[0];
@@ -350,6 +351,41 @@ export default function TheologyOfWorkPage() {
                 onToggle={() => toggle("rest_" + item.title)}
               />
             ))}
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors on theology of work and vocation.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "fGH5bhUwMB4", title: "Redefining Work", channel: "Timothy Keller / The Gospel Coalition", description: "Tim Keller unfolds a comprehensive theology of vocation, showing why all work has dignity before God and how the gospel transforms our relationship to our calling." },
+                  { videoId: "m0YyheSD6gM", title: "Faith and Work", channel: "Timothy Keller", description: "Delivered at Samford University on 'Every Good Endeavor: Connecting Your Work to God's Work' — Keller's most sustained treatment of how faith reshapes work." },
+                  { videoId: "rTVIvdBIuLE", title: "Why Work Matters", channel: "Timothy Keller", description: "Keller argues that all Christians are engaged in God's work — not merely those in full-time ministry — and shows what it means to work 'as unto the Lord.'" },
+                  { videoId: "F-DwK-Rzci0", title: "Our Work and Our Character", channel: "Timothy Keller", description: "A sermon examining the deep connection between the work we do and the character we form — how faithfulness in work shapes the soul." },
+                  { videoId: "P8u8Cxpel94", title: "A Biblical Theology of Work — The Doctrine of Vocation", channel: "Adult Sunday School", description: "A thorough adult Sunday school session on the biblical doctrine of vocation, tracing the theology of work from creation through redemption to new creation." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
 

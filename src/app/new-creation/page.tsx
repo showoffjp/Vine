@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import React, { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -77,7 +77,7 @@ const PRACTICES = [
   { title: "Pray with Eschatological Hope", desc: "Jesus taught us to pray: 'Your kingdom come, your will be done, on earth as it is in heaven' (Matthew 6:10). This is not resignation but petition — calling on God to bring his new creation reality into the present.", icon: "🙏" },
 ];
 
-type Tab = "theology" | "contrasts" | "voices" | "practices";
+type Tab = "theology" | "contrasts" | "voices" | "practices" | "videos";
 
 export default function NewCreationPage() {
   const [activeTab, setActiveTab] = useState<Tab>("theology");
@@ -102,6 +102,7 @@ export default function NewCreationPage() {
             { id: "contrasts" as const, label: "Misunderstandings", icon: "⚖️" },
             { id: "voices" as const, label: "Key Voices", icon: "💡" },
             { id: "practices" as const, label: "Living It Now", icon: "🌱" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -203,6 +204,40 @@ export default function NewCreationPage() {
               <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>
                 Revelation 22 ends with a river of life flowing through the city, the tree of life bearing fruit for the healing of the nations, and the face of God seen at last without mediation. This is the telos — the goal toward which all of history moves. The Christian life is not treading water until this arrives; it is participating in its arrival. Every prayer, every act of love, every moment of justice is a stitch in the tapestry of the new creation that God is weaving.
               </p>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings on new creation, resurrection, and the Christian hope for the renewal of all things.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "_7watmvWVN4", title: "Resurrection and the Renewal of Creation", channel: "N.T. Wright", description: "Wright's landmark lecture on why resurrection is not escape from the physical world but the beginning of its renewal — foundational for understanding new creation theology." },
+                  { videoId: "2uEKxYgqlRo", title: "New Creation, Resurrection, and God's Ultimate Homecoming", channel: "N.T. Wright", description: "A rich exposition of Revelation 21-22 and Paul's new creation theology, showing that Christian hope is the transformation of this world, not its abandonment." },
+                  { videoId: "yf2SJb55iJ0", title: "History, Eschatology and New Creation", channel: "N.T. Wright", description: "Wright traces the biblical narrative from creation through fall and redemption to new creation, showing how history is moving toward God's purpose to make all things new." },
+                  { videoId: "8li-yWVDbBc", title: "What Do We Mean by Heaven?", channel: "N.T. Wright", description: "Wright corrects popular misconceptions about heaven and the afterlife, explaining the biblical vision of bodily resurrection and new creation as the ultimate Christian hope." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

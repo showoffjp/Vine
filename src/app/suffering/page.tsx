@@ -4,7 +4,7 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "theology" | "lament" | "voices" | "hope";
+type Tab = "theology" | "lament" | "voices" | "hope" | "videos";
 
 const THEOLOGY_ITEMS = [
   {
@@ -254,6 +254,7 @@ export default function SufferingPage() {
     { id: "lament", label: "The Practice of Lament" },
     { id: "voices", label: "Voices in the Dark" },
     { id: "hope", label: "Finding Hope" },
+    { id: "videos", label: "🎬 Videos" },
   ];
 
   return (
@@ -710,6 +711,40 @@ export default function SufferingPage() {
               <p style={{ color: MUTED, fontSize: 13, margin: 0 }}>
                 Written by Paul — in chains.
               </p>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors on suffering, theodicy, and hope.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "9naBgHYWTXg", title: "Suffering and The Sovereignty of God", channel: "Desiring God (John Piper)", description: "John Piper explores how God's sovereignty intersects with the reality of human suffering — and why this truth is the only solid ground for the suffering believer." },
+                  { videoId: "NCh190ZzuWU", title: "Christianity Is About Suffering, Not Prosperity", channel: "Desiring God (John Piper)", description: "A short but penetrating message that challenges the prosperity gospel and calls Christians to embrace the suffering that is central to following Christ." },
+                  { videoId: "BSAhDUZZToo", title: "How Our Suffering Glorifies the Greatness of God's Grace", channel: "Desiring God (John Piper)", description: "Piper unpacks Romans 8 and 2 Corinthians 12 to show how weakness and suffering become the stage on which God's power is most visibly displayed." },
+                  { videoId: "A84x5t3-210", title: "The Pain of the World and the Purposes of God", channel: "Westside Church", description: "A deep theological exploration of why God permits suffering and what his purposes are in allowing pain — from creation through the cross to the new creation." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

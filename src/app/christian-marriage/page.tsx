@@ -77,7 +77,7 @@ const PRACTICES = [
   { title: "Invest Before Crisis", desc: "Marriage counseling as a last resort means the problems have had years to calcify. The most effective couples investment is early and regular — a weekend retreat, a few sessions of counseling annually, a marriage enrichment program when things are good. Prevention is cheaper than repair.", icon: "🛡️" },
 ];
 
-type Tab = "theology" | "seasons" | "voices" | "practices";
+type Tab = "theology" | "seasons" | "voices" | "practices" | "videos";
 
 export default function ChristianMarriagePage() {
   const [activeTab, setActiveTab] = useState<Tab>("theology");
@@ -104,6 +104,7 @@ export default function ChristianMarriagePage() {
             { id: "seasons" as const, label: "Seasons", icon: "🌱" },
             { id: "voices" as const, label: "Voices", icon: "💬" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -200,6 +201,40 @@ export default function ChristianMarriagePage() {
                   <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{p.desc}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings on Christian marriage — the theology of covenant, the meaning of marriage, and how to build a lasting union.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "xICD5Ycsu04", title: "A Covenant Relationship", channel: "Timothy Keller", description: "Keller explains why the Bible describes marriage as a covenant rather than a contract — and what that distinction means for how we love our spouse." },
+                  { videoId: "JvAbHOfLIyY", title: "Marriage as Commitment and Priority", channel: "Timothy Keller", description: "A sermon on how being filled with the Spirit transforms marriage — and how commitment, not feeling, is the foundation of a lasting union." },
+                  { videoId: "OYrRoafD3OU", title: "Tim Keller and Kathy Keller on The Christian Marriage", channel: "Desiring God / Gospel Coalition", description: "Tim and Kathy Keller discuss what a Christian marriage actually looks like — how the gospel shapes sacrifice, forgiveness, and the daily practice of love." },
+                  { videoId: "XoxYPXqqO34", title: "The Meaning of Marriage Bible Study — Session One", channel: "Timothy and Kathy Keller", description: "Session one of the Kellers' Meaning of Marriage Bible study — exploring what God's word says about the purpose and design of marriage." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

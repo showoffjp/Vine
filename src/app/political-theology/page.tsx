@@ -4,7 +4,7 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "foundations" | "models" | "issues" | "engagement";
+type Tab = "foundations" | "models" | "issues" | "engagement" | "videos";
 
 const FOUNDATIONS = [
   { title: "The Kingdom of God is not the kingdom of America — or any nation", color: GREEN, ref: "John 18:36; Philippians 3:20; Revelation 11:15", content: "Jesus told Pilate 'My kingdom is not of this world.' This is the foundational political statement of Christianity — not that Christians should be politically disengaged, but that their primary citizenship is elsewhere. Paul tells the Philippians that 'our citizenship is in heaven.' The church's loyalty to Jesus Christ is prior to and more ultimate than its loyalty to any political entity. When these loyalties conflict — as they inevitably do — the church must choose its King." },

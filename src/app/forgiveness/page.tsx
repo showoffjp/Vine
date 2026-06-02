@@ -63,7 +63,7 @@ interface ForgivenessEntry {
 }
 
 export default function ForgivenessPage() {
-  const [activeTab, setActiveTab] = useState<"theology" | "voices" | "howto" | "practice">("theology");
+  const [activeTab, setActiveTab] = useState<"theology" | "voices" | "howto" | "practice" | "videos">("theology");
   const [selectedVoice, setSelectedVoice] = useState("smedes");
   const voiceItem = VOICES_FORGIVE.find(v => v.id === selectedVoice)!;
   const [entries, setEntries] = useState<ForgivenessEntry[]>(() => {
@@ -99,6 +99,7 @@ export default function ForgivenessPage() {
             { id: "voices" as const, label: "Voices", icon: "💬" },
             { id: "howto" as const, label: "How to Forgive", icon: "🛠️" },
             { id: "practice" as const, label: "My Practice", icon: "✍️" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -244,6 +245,39 @@ export default function ForgivenessPage() {
                 ))}
               </div>
             )}
+          </div>
+        )}
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Video teachings on forgiveness — the theology, the practice, and what it looks like to release debts we never wanted to cancel.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "-qsl3hwGkCk", title: "The Freedom of Forgiveness — Tim Keller", channel: "Gospel in Life", description: "Keller's classic sermon on why forgiveness is possible — grounded in understanding how much we have been forgiven. The gospel transforms both the motive and the mechanism for forgiving others." },
+                  { videoId: "pMJiB9fuiEA", title: "Forgiveness: What It Is and What It Isn't", channel: "The Bible Project", description: "An animated overview of the biblical concept of forgiveness — unpacking the Greek and Hebrew words, the difference between forgiveness and reconciliation, and why the cross is the foundation for Christian forgiveness." },
+                  { videoId: "fRlGs9hz_ho", title: "No Future Without Forgiveness — Desmond Tutu", channel: "On Being", description: "Desmond Tutu reflects on what he learned about forgiveness from the South Africa Truth and Reconciliation Commission — what forgiveness is not, what it costs, and why it is necessary for any future." },
+                  { videoId: "hgJgo7fbdcA", title: "How to Forgive Those Who Have Hurt You Deeply", channel: "Focus on the Family", description: "Practical teaching on the stages of forgiveness — acknowledging the wound, choosing to release the debt, praying for the person, and distinguishing forgiveness from reconciliation." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

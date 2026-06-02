@@ -268,7 +268,7 @@ const CFW_ERAS = [
   },
 ];
 
-type Tab = "writings" | "themes" | "howto" | "eras";
+type Tab = "writings" | "themes" | "howto" | "eras" | "videos";
 
 export default function ChurchFathersWritingsPage() {
   const [activeTab, setActiveTab] = useState<Tab>("writings");
@@ -291,10 +291,10 @@ export default function ChurchFathersWritingsPage() {
         </div>
 
         <div style={{ display: "flex", gap: 6, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 6, marginBottom: 32, width: "fit-content" }}>
-          {(["writings", "themes", "howto", "eras"] as const).map(t => (
+          {(["writings", "themes", "howto", "eras", "videos"] as const).map(t => (
             <button key={t} onClick={() => setActiveTab(t)}
               style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-              {t === "writings" ? "Writings" : t === "themes" ? "Themes" : t === "howto" ? "How To Read" : "Eras"}
+              {t === "writings" ? "Writings" : t === "themes" ? "Themes" : t === "howto" ? "How To Read" : t === "eras" ? "Eras" : "🎬 Videos"}
             </button>
           ))}
         </div>
@@ -444,6 +444,40 @@ export default function ChurchFathersWritingsPage() {
                 </div>
               </div>
             ))}
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings on the Church Fathers, early church history, and their enduring theological contributions.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "Dp3LnNXACZ8", title: "Life in the Early Church (Acts 2:40–47)", channel: "Ligonier Ministries / R.C. Sproul", description: "R.C. Sproul examines the life of the apostolic church as they participated in doctrine, fellowship, the Lord's Supper, and prayer — connecting to the church fathers." },
+                  { videoId: "-I2VcMxXH0w", title: "Early Church Fathers & R.C. Sproul on the Birth of Jesus", channel: "Ligonier Ministries", description: "Excerpts from early church fathers on Jesus's birth, read alongside commentary from R.C. Sproul on their theological significance." },
+                  { videoId: "-QofkM5vXT8", title: "Apostles and Deacons (Acts 6:1–7)", channel: "Ligonier Ministries / R.C. Sproul", description: "R.C. Sproul on the early church's structure — the foundation for the ecclesiology developed by Ignatius, Cyprian, and the Fathers." },
+                  { videoId: "AtYCVDlV9kE", title: "Early Church Heresies: Modalistic Monarchianism", channel: "Ligonier Ministries / R.C. Sproul", description: "R.C. Sproul on the early heresies that forced the church fathers to articulate the doctrine of the Trinity with precision." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
 

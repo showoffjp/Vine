@@ -94,7 +94,7 @@ const VOICES_SIMP = [
 ];
 
 export default function SimplicityPage() {
-  const [activeTab, setActiveTab] = useState<"why" | "voices" | "areas" | "detox">("why");
+  const [activeTab, setActiveTab] = useState<"why" | "voices" | "areas" | "detox" | "videos">("why");
   const [selectedVoice, setSelectedVoice] = useState("francis");
   const voiceItem = VOICES_SIMP.find(v => v.id === selectedVoice)!;
   const [selectedArea, setSelectedArea] = useState("possessions");
@@ -127,6 +127,7 @@ export default function SimplicityPage() {
             { id: "voices" as const, label: "Voices", icon: "💬" },
             { id: "areas" as const, label: "Life Areas", icon: "🎯" },
             { id: "detox" as const, label: "30-Day Detox", icon: "🗓️" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -293,6 +294,40 @@ export default function SimplicityPage() {
               <div style={{ marginTop: 16, background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 14, display: "flex", justifyContent: "space-between" }}>
                 <span style={{ color: MUTED, fontSize: 14 }}>Progress</span>
                 <span style={{ color: GREEN, fontWeight: 700 }}>{Array.from(checkedPractices).filter(k => k.startsWith("detox-")).length} / 30</span>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings on simplicity, detachment, and the spiritual disciplines of freedom from possessions and distraction.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "HeMJorECvMM", title: "Simplicity — Celebration of Discipline Video Curriculum", channel: "Richard Foster", description: "Richard Foster — author of Celebration of Discipline, the definitive modern guide to simplicity — teaches on the spiritual discipline of simplicity from his landmark book." },
+                  { videoId: "J0jZb5iJzno", title: "An Inward Life of Confidence Before God", channel: "Wheaton College (Richard Foster)", description: "Foster on the interior dimension of simplicity — how outward simplicity flows from inward freedom from the need to possess, impress, and accumulate." },
+                  { videoId: "owXD1g0w1_0", title: "Worthy of a Changed Life", channel: "Francis Chan / Crazy Love Ministries", description: "Francis Chan challenges Christians to consider whether their life choices — including consumption and lifestyle — reflect genuine transformation or cultural Christianity." },
+                  { videoId: "HOzIKZs0ymE", title: "The Power of a Quiet Life", channel: "Francis Chan / Crazy Love Ministries", description: "A call to radically redefine ambition — advocating for a life of quiet humility, diligent work, and personal integrity over the noise and accumulation of consumer culture." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

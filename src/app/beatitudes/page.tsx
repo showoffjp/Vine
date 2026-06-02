@@ -143,7 +143,7 @@ const COMMENTATORS = [
   },
 ];
 
-type Tab = "beatitudes" | "background" | "commentators" | "formation";
+type Tab = "beatitudes" | "background" | "commentators" | "formation" | "videos";
 
 export default function BeatitudesPage() {
   const [activeTab, setActiveTab] = useState<Tab>("beatitudes");
@@ -170,6 +170,7 @@ export default function BeatitudesPage() {
             { id: "background" as const, label: "Background", icon: "📜" },
             { id: "commentators" as const, label: "Commentators", icon: "🧠" },
             { id: "formation" as const, label: "Formation", icon: "🌱" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -284,6 +285,39 @@ export default function BeatitudesPage() {
                 <p style={{ fontSize: 14, color: TEXT, lineHeight: 1.75, margin: 0 }}>{item.practice}</p>
               </div>
             ))}
+          </div>
+        )}
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Video teachings on the Beatitudes and the Sermon on the Mount — from scholars and pastors who have given their lives to understanding this text.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "FTZ3GfL9yQM", title: "The Beatitudes — An Introduction", channel: "The Bible Project", description: "An animated overview of the Beatitudes in the context of the Sermon on the Mount, tracing their connection to the Old Testament and their radical reversal of the world's values." },
+                  { videoId: "1OkWF6UU8lU", title: "Blessed Are the Poor in Spirit — Dallas Willard", channel: "Dallas Willard Ministries", description: "Willard's reading of the first beatitude as an announcement of availability — the kingdom is for the spiritually bankrupt, not the spiritually accomplished." },
+                  { videoId: "GRmMccP1A9M", title: "The Sermon on the Mount — Bonhoeffer's Interpretation", channel: "Theology Explained", description: "Exploring Bonhoeffer's radical reading of the Beatitudes from The Cost of Discipleship — not ideals but descriptions of those who have literally left everything to follow Jesus." },
+                  { videoId: "poV1w0ZZIWw", title: "Living the Beatitudes Today", channel: "N.T. Wright Online", description: "Wright situates the Beatitudes in their first-century Jewish apocalyptic context, showing how they announce the in-breaking of God's kingdom and what that means for Christian formation today." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

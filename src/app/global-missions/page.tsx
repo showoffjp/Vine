@@ -77,7 +77,7 @@ const HOWTO = [
   { title: "Support Local Partners", desc: "The most effective missionary work is done by local believers from within unreached cultures. Supporting indigenous church planters, Bible translators, and local evangelists is often more strategic and cost-effective than sending Western missionaries.", icon: "🌱" },
 ];
 
-type Tab = "theology" | "regions" | "pioneers" | "howto";
+type Tab = "theology" | "regions" | "pioneers" | "howto" | "videos";
 
 export default function GlobalMissionsPage() {
   const [activeTab, setActiveTab] = useState<Tab>("theology");
@@ -104,6 +104,7 @@ export default function GlobalMissionsPage() {
             { id: "regions" as const, label: "Regions", icon: "🗺️" },
             { id: "pioneers" as const, label: "Pioneers", icon: "✝️" },
             { id: "howto" as const, label: "How to Engage", icon: "🚀" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -204,6 +205,39 @@ export default function GlobalMissionsPage() {
                   <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{h.desc}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Video teachings on global missions, unreached people groups, and the biblical mandate to take the gospel to every nation.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "4TTiA_dpsvc", title: "The Great Commission: What Jesus Actually Said", channel: "The Bible Project", description: "An animated overview of Matthew 28:18-20 in its full biblical context — the scope of 'all nations,' the authority grounding the command, and what making disciples actually entails." },
+                  { videoId: "NUjs-pL3k7I", title: "Unreached People Groups: Who Are They and Why Does It Matter?", channel: "Joshua Project", description: "A clear explanation of what makes a people group 'unreached,' the geography of the 10/40 Window, and why the least-reached peoples represent the primary frontier of Christian mission." },
+                  { videoId: "QqTlFSkuA4w", title: "Radical Generosity and Global Mission", channel: "David Platt", description: "Platt on the connection between sacrificial giving, simple living, and the global mission to unreached peoples — what the gospel demands of comfortable Western Christians." },
+                  { videoId: "GTnN_hstHec", title: "William Carey: The Father of Modern Missions", channel: "Christianity Today", description: "The story of William Carey — English cobbler, linguist, and pioneer who went to India and never returned, translating the Bible into dozens of languages and founding modern mission methodology." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

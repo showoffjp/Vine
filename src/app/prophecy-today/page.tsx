@@ -4,7 +4,7 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "prophecies" | "theology" | "discernment" | "voices";
+type Tab = "prophecies" | "theology" | "discernment" | "voices" | "videos";
 
 const TOPIC_FILTERS = ["All", "Israel & Middle East", "Persecution & Church", "Global Events", "Signs & Seasons", "Study Resources"];
 
@@ -348,10 +348,10 @@ export default function ProphecyTodayPage() {
 
         {/* Tab Bar */}
         <div style={{ display: "flex", gap: 4, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 6, marginBottom: 32, flexWrap: "wrap" }}>
-          {(["prophecies", "theology", "discernment", "voices"] as const).map(t => (
+          {(["prophecies", "theology", "discernment", "voices", "videos"] as const).map(t => (
             <button key={t} onClick={() => setActiveTab(t)}
               style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-              {t === "prophecies" ? "Prophecies" : t === "theology" ? "Theology" : t === "discernment" ? "Discernment" : "Voices"}
+              {t === "prophecies" ? "Prophecies" : t === "theology" ? "Theology" : t === "discernment" ? "Discernment" : t === "voices" ? "Voices" : "🎬 Videos"}
             </button>
           ))}
         </div>
@@ -510,6 +510,40 @@ export default function ProphecyTodayPage() {
                 </div>
               </div>
             )}
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 24 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                Video teachings on biblical prophecy, spiritual discernment, and testing the spirits — from trusted Reformed and evangelical voices.
+              </p>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 20 }}>
+              {[
+                { id: "u-cBlGvk0pQ", title: "Continuation vs. Cessation of Gifts", teacher: "John Piper vs. John MacArthur" },
+                { id: "CCi2yWeP5qA", title: "God's Demand for Discernment", teacher: "John MacArthur" },
+                { id: "A8zjZ9NAzvQ", title: "A Call to Discernment", teacher: "John MacArthur" },
+                { id: "P9TILEkaNq8", title: "The Holy Spirit, Discernment and Charismatic Pressure", teacher: "John MacArthur" },
+              ].map(v => (
+                <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
+                    <iframe
+                      src={`https://www.youtube.com/embed/${v.id}`}
+                      title={v.title}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
+                    />
+                  </div>
+                  <div style={{ padding: "14px 16px" }}>
+                    <div style={{ color: TEXT, fontWeight: 700, fontSize: 14, marginBottom: 4 }}>{v.title}</div>
+                    <div style={{ color: MUTED, fontSize: 12 }}>{v.teacher}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         )}
       </div>

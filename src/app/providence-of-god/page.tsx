@@ -4,7 +4,7 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "theology" | "aspects" | "stories" | "practices";
+type Tab = "theology" | "aspects" | "stories" | "practices" | "videos";
 
 const THEOLOGY = [
   { title: "What Is Providence?", verse: "Colossians 1:17", body: "Providence is God's ongoing governance of creation — not only that he made the world but that he continually sustains, directs, and orders it toward his purposes. The word comes from the Latin providere (to foresee, to provide). In Christ all things hold together (Colossians 1:17); the creation does not run on its own momentum but is upheld moment by moment by God's power. Providence distinguishes the living God of Scripture from both the deist's absent watchmaker and the pagan's capricious fate." },
@@ -105,6 +105,7 @@ export default function ProvidenceOfGodPage() {
             { id: "aspects" as Tab, label: "Six Aspects", icon: "⚙️" },
             { id: "stories" as Tab, label: "Stories", icon: "📜" },
             { id: "practices" as Tab, label: "Practices", icon: "🛠️" },
+            { id: "videos" as Tab, label: "Videos", icon: "▶️" },
           ].map(t => (
             <button key={t.id} onClick={() => setTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -205,6 +206,40 @@ export default function ProvidenceOfGodPage() {
                   <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{p.desc}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {tab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "fn0I20M1KJI", title: "Providence: The Purposeful Sovereignty of God", channel: "Desiring God", description: "John Piper presents a comprehensive vision of God's meticulous providence over all things — from the fall of sparrows to the rise and fall of empires." },
+                  { videoId: "8WXGM5SZIGc", title: "John Piper's Big Book on the Providence of God", channel: "Desiring God", description: "An overview of John Piper's definitive work on providence, tracing the doctrine through Scripture and showing its implications for Christian life." },
+                  { videoId: "3VxyGP7z2rk", title: "If God Is Sovereign, Why Pray?", channel: "Ligonier Ministries", description: "R.C. Sproul addresses the most common objection to the doctrine of providence and shows how God's sovereignty makes prayer more meaningful, not less." },
+                  { videoId: "iyVRcomeHVg", title: "Joseph — A Study in God's Sovereignty", channel: "Ligonier Ministries", description: "R.C. Sproul traces the life of Joseph as a case study in how God's providence works through human betrayal, suffering, and redemption." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

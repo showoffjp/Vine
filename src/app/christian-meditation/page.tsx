@@ -9,7 +9,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "practices" | "psalmist" | "pitfalls";
+type Tab = "theology" | "practices" | "psalmist" | "pitfalls" | "videos";
 
 const theologyPoints = [
   {
@@ -176,7 +176,8 @@ export default function ChristianMeditationPage() {
     { id: "theology", label: "Biblical Foundation" },
     { id: "practices", label: "Practices" },
     { id: "psalmist", label: "Psalmist's Example" },
-    { id: "pitfalls", label: "Pitfalls & Discernment" }
+    { id: "pitfalls", label: "Pitfalls & Discernment" },
+    { id: "videos", label: "🎬 Videos" }
   ];
 
   return (
@@ -378,6 +379,39 @@ export default function ChristianMeditationPage() {
                 )}
               </div>
             ))}
+          </div>
+        )}
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "oT2dE1cTgCw", title: "How to Meditate on a Verse (Philippians 3:1)", channel: "John Piper / Desiring God", description: "John Piper shows how to slow down and meditate on a single phrase of Scripture — a practical model of biblical meditation distinct from Eastern emptying." },
+                  { videoId: "aaghlXGnN_A", title: "Meditation on God's Word Made Simple", channel: "Christian Teaching", description: "A clear explanation of how biblical meditation differs from Eastern meditation, with practical steps for filling the mind with Scripture." },
+                  { videoId: "Gt7OwHtLVDE", title: "The Missing Link Between Bible and Prayer", channel: "Desiring God", description: "Why Bible meditation is the most important and misunderstood spiritual practice — and how it bridges Scripture reading and prayer in daily life." },
+                  { videoId: "VIDRl_M-R_M", title: "Lectio Divina Explained: A Monk's Guide", channel: "Fr. Michael Casey OCSO", description: "A deep exploration of the ancient practice of sacred reading — the four movements of Lectio Divina as a way of hearing God through Scripture." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

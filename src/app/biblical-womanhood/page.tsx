@@ -4,7 +4,7 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "theology" | "questions" | "figures" | "history";
+type Tab = "theology" | "questions" | "figures" | "history" | "videos";
 
 const THEOLOGY = [
   { title: "Created in the Image of God", verse: "Genesis 1:27", body: "The foundation of all Christian ethics for women (and men) is the imago dei: 'So God created mankind in his own image, in the image of God he created them; male and female he created them' (Genesis 1:27). Women bear the image of God completely and fully. Dignity, worth, and value are not derived from role or marital status — they are inherent in what God declared at creation." },
@@ -105,6 +105,7 @@ export default function BiblicalWomanhoodPage() {
             { id: "questions" as Tab, label: "Hard Questions", icon: "❓" },
             { id: "figures" as Tab, label: "Biblical Women", icon: "⭐" },
             { id: "history" as Tab, label: "Church History", icon: "🏛️" },
+            { id: "videos" as Tab, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -191,6 +192,40 @@ export default function BiblicalWomanhoodPage() {
                   <div style={{ color: GREEN, fontSize: 11, fontWeight: 700, letterSpacing: 1, marginBottom: 6 }}>HISTORICAL SIGNIFICANCE</div>
                   <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, margin: 0 }}>{historyFigure.significance}</p>
                 </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {tab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "LD-emNf-VjE", title: "Biblical Womanhood in Five Minutes", channel: "Desiring God", description: "A concise Ask Pastor John episode explaining the core of biblical womanhood — what it is and what it is not — rooted in Genesis and the New Testament." },
+                  { videoId: "44-fMXjL5gI", title: "The Beauty and Behavior of a Godly Woman", channel: "Desiring God / John Piper", description: "John Piper expounds on what Scripture celebrates in a godly woman — not primarily roles but character, courage, and faith-filled trust in God." },
+                  { videoId: "EAim9C2hiGw", title: "Biblical Womanhood Is Not House Arrest", channel: "Desiring God", description: "A corrective teaching that biblical womanhood encompasses far more than domestic roles — it is about flourishing in God's calling, wherever that leads." },
+                  { videoId: "FUXkcZqV0SU", title: "John Piper on Christian Womanhood", channel: "Desiring God", description: "Piper discusses the distinctive calling of Christian women — grounded not in cultural roles but in the image of God and the redemption Christ brings." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

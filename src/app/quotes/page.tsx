@@ -92,7 +92,7 @@ export default function QuotesPage() {
   const [filterEra, setFilterEra] = useState("All Eras");
   const [sortBy, setSortBy] = useState("Most Liked");
   const [search, setSearch] = useState("");
-  const [activeTab, setActiveTab] = useState<"all" | "saved" | "thinkers" | "themes">("all");
+  const [activeTab, setActiveTab] = useState<"all" | "saved" | "thinkers" | "themes" | "videos">("all");
   const [selectedThinker, setSelectedThinker] = useState("lewis-cs");
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
@@ -192,7 +192,7 @@ export default function QuotesPage() {
         {/* Tabs + search */}
         <div style={{ display: "flex", gap: 12, alignItems: "center", marginBottom: 20, flexWrap: "wrap" }}>
           <div style={{ display: "flex", background: "#12121F", border: "1px solid #1E1E32", borderRadius: 10, padding: 4, gap: 4 }}>
-            {(["all", "saved", "thinkers", "themes"] as const).map((tab) => (
+            {(["all", "saved", "thinkers", "themes", "videos"] as const).map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
@@ -203,7 +203,7 @@ export default function QuotesPage() {
                   cursor: "pointer", fontWeight: 600, fontSize: 13,
                 }}
               >
-                {tab === "all" ? `All (${allQuotes.length})` : tab === "saved" ? `Saved (${savedIds.size})` : tab === "thinkers" ? "🎓 Thinkers" : "📚 Themes"}
+                {tab === "all" ? `All (${allQuotes.length})` : tab === "saved" ? `Saved (${savedIds.size})` : tab === "thinkers" ? "🎓 Thinkers" : tab === "themes" ? "📚 Themes" : "🎬 Videos"}
               </button>
             ))}
           </div>
@@ -410,6 +410,40 @@ export default function QuotesPage() {
                   <div style={{ fontSize: 12, color: "#9898B3" }}>Key voices: {item.authors}</div>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: "#00FF88", fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: "#9898B3", fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from the voices behind some of the most enduring Christian quotes.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "QecyvLgSuN8", title: "John Piper and Tim Keller Wrestle with Sanctification", channel: "Desiring God / The Gospel Coalition", description: "Two of the most-quoted contemporary Christian thinkers sit down to discuss sanctification, grace, and the ongoing work of transformation in the believer's life." },
+                  { videoId: "d6eqCIGhOxw", title: "The Lord's Prayer — Explained by John Piper", channel: "Desiring God (John Piper)", description: "John Piper unpacks the words of the Lord's Prayer, illuminating why these few verses from Matthew 6 contain the entire theology of prayer." },
+                  { videoId: "J0jZb5iJzno", title: "An Inward Life of Confidence Before God", channel: "Wheaton College (Richard Foster)", description: "Richard Foster — author of Celebration of Discipline and one of the most quoted writers on spiritual formation — on the inward life and what it means to live before God." },
+                  { videoId: "4R87Hl52fgY", title: "The Sanctuary of the Soul", channel: "Wheaton College (Richard Foster)", description: "Foster explores the interior castle of the soul — drawing on the great Christian mystics and their most enduring sayings about prayer and the inner life." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: "#07070F", border: "1px solid #1E1E32", borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: "#00FF88", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: "#9898B3", fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

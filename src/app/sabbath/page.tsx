@@ -74,7 +74,7 @@ const RHYTHMS = [
 ];
 
 export default function SabbathPage() {
-  const [activeTab, setActiveTab] = useState<"why" | "practices" | "planner" | "rhythm">("why");
+  const [activeTab, setActiveTab] = useState<"why" | "practices" | "planner" | "rhythm" | "videos">("why");
   const [checkedPractices, setCheckedPractices] = useState<Set<string>>(() => {
     try { const s = localStorage.getItem("vine_sabbath_checked"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
   });
@@ -120,6 +120,7 @@ export default function SabbathPage() {
             { id: "practices" as const, label: "Practices", icon: "✅" },
             { id: "rhythm" as const, label: "Day's Rhythm", icon: "⏱️" },
             { id: "planner" as const, label: "My Sabbath", icon: "📝" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 6px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
@@ -221,6 +222,40 @@ export default function SabbathPage() {
               <textarea value={planText} onChange={e => setPlanText(e.target.value)}
                 placeholder={"My Sabbath this week:\n\nI will STOP:\n- \n\nI will REST in:\n- \n\nI will WORSHIP through:\n- \n\nI will DELIGHT in:\n- \n\nWho I'll share it with:"}
                 style={{ width: "100%", minHeight: 240, background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: 16, color: TEXT, fontSize: 14, lineHeight: 1.8, resize: "vertical", boxSizing: "border-box", fontFamily: "inherit" }} />
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 24 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                Video teachings on the Sabbath — its theology, history, and what it looks like to practice rest in the Christian life.
+              </p>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 20 }}>
+              {[
+                { id: "uJBsBaCFywU", title: "Lord of the Sabbath", teacher: "R.C. Sproul" },
+                { id: "ux0_5zctrsI", title: "Work and Rest", teacher: "Timothy Keller" },
+                { id: "7AXrC2oer_o", title: "The Origin of the Sabbath", teacher: "W. Robert Godfrey" },
+                { id: "pmVRojMUmFw", title: "The Lord's Day as Sabbath", teacher: "W. Robert Godfrey" },
+              ].map(v => (
+                <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
+                    <iframe
+                      src={`https://www.youtube.com/embed/${v.id}`}
+                      title={v.title}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
+                    />
+                  </div>
+                  <div style={{ padding: "14px 16px" }}>
+                    <div style={{ color: TEXT, fontWeight: 700, fontSize: 14, marginBottom: 4 }}>{v.title}</div>
+                    <div style={{ color: MUTED, fontSize: 12 }}>{v.teacher}</div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         )}

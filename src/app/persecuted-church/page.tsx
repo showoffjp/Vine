@@ -140,7 +140,7 @@ const WITNESSES = [
 export default function PerisecutedChurchPage() {
   const [region, setRegion] = useState("All");
   const [selected, setSelected] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<"countries" | "witnesses" | "orgs" | "prayer">("countries");
+  const [activeTab, setActiveTab] = useState<"countries" | "witnesses" | "orgs" | "prayer" | "videos">("countries");
   const [selectedWitness, setSelectedWitness] = useState("polycarp-p");
   const witnessItem = WITNESSES.find(w => w.id === selectedWitness)!;
 
@@ -164,6 +164,7 @@ export default function PerisecutedChurchPage() {
             { id: "witnesses" as const, label: "Witnesses", icon: "✝️" },
             { id: "orgs" as const, label: "Organizations", icon: "🤝" },
             { id: "prayer" as const, label: "How to Pray", icon: "🙏" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -327,6 +328,40 @@ export default function PerisecutedChurchPage() {
                 <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{item.body}</p>
               </div>
             ))}
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Documentaries, testimonies, and teachings on the persecuted church — stories that call us to stand with our suffering brothers and sisters.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "_xo_umOy2Ik", title: "When Faith Is Tested — Stories from the Persecuted Church", channel: "Voice of the Martyrs", description: "Todd Nettleton of Voice of the Martyrs shares first-hand stories of believers whose faith has been tested by violence, imprisonment, and loss — and who have not abandoned Christ." },
+                  { videoId: "mFtsQES8txw", title: "Faith Under Fire: Stories of Persecuted Christians", channel: "Voice of the Martyrs (Todd Nettleton)", description: "A series of powerful testimonies from persecuted believers around the world, drawn from decades of field reporting by Voice of the Martyrs." },
+                  { videoId: "JZe3oVZUifw", title: "Life as a Persecuted Christian in North Korea: Bae's Story", channel: "Open Doors UK & Ireland", description: "Bae faces a lifetime sentence of hard labor for her faith in North Korea — ranked the world's most dangerous country for Christians. Her story calls the global church to pray." },
+                  { videoId: "-F8ITaF-Yxg", title: "Persecuted Pastor Brutally Beaten, Imprisoned Before 'Mind-Blowing' Miracle", channel: "CBN / Christian News", description: "A pastor's harrowing account of imprisonment and violence for his faith — and the miraculous story of what God did in and through it. A testimony of the power of faithfulness under fire." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

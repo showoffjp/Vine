@@ -86,7 +86,7 @@ const VOICES_LD = [
 ];
 
 export default function LectioDivinaPage() {
-  const [activeTab, setActiveTab] = useState<"guide" | "practice" | "voices" | "history">("guide");
+  const [activeTab, setActiveTab] = useState<"guide" | "practice" | "voices" | "history" | "videos">("guide");
   const [selectedVoice, setSelectedVoice] = useState("guigo-ld");
   const voiceItem = VOICES_LD.find(v => v.id === selectedVoice)!;
   const [selectedPassage, setSelectedPassage] = useState(0);
@@ -133,6 +133,7 @@ export default function LectioDivinaPage() {
             { id: "practice" as const, label: "Practice Now", icon: "🙏" },
             { id: "voices" as const, label: "Voices", icon: "💬" },
             { id: "history" as const, label: "My Sessions", icon: "📅" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -333,6 +334,39 @@ export default function LectioDivinaPage() {
                 ))}
               </div>
             )}
+          </div>
+        )}
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "VIDRl_M-R_M", title: "Lectio Divina Explained: A Monk's Guide to Hearing God Through Scripture", channel: "Fr. Michael Casey OCSO", description: "A deep exploration of lectio divina by a Cistercian monk — what the four movements mean, how they work together, and why this practice transforms the reader." },
+                  { videoId: "mF2c5ytdwQw", title: "Lectio Divina — The Art of Sacred Reading", channel: "Christian Contemplative Teaching", description: "An introduction to lectio divina as a spiritual art — how to approach Scripture not merely for information but for formation and communion with God." },
+                  { videoId: "Bt5Y7Su-tPg", title: "Introduction to Lectio Divina", channel: "Fr. Jonathan Smith", description: "A clear, accessible introduction to the practice of lectio divina — its history, its four movements, and how to integrate it into daily prayer." },
+                  { videoId: "8eDV-wcKI_Y", title: "Lectio Divina: Praying with Scripture (Mark 4:35-41)", channel: "Scripture and Prayer", description: "A guided demonstration of lectio divina using Mark 4:35-41 — showing how the four movements work with an actual biblical text." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

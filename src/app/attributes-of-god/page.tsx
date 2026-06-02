@@ -322,7 +322,7 @@ const DEVOTIONAL_AOG: { id: string; title: string; attribute: string; verse: str
 export default function AttributesOfGodPage() {
   const [category, setCategory] = useState("All");
   const [selected, setSelected] = useState<string | null>(null);
-  type Tab = "attributes" | "voices" | "practices" | "devotional";
+  type Tab = "attributes" | "voices" | "practices" | "devotional" | "videos";
   const [activeTab, setActiveTab] = useState<Tab>("attributes");
   const [selectedVoice, setSelectedVoice] = useState("tozer-aw");
 
@@ -346,6 +346,7 @@ export default function AttributesOfGodPage() {
             { id: "voices" as const, label: "Voices", icon: "🎓" },
             { id: "practices" as const, label: "Practices", icon: "🙏" },
             { id: "devotional" as const, label: "Devotional", icon: "📖" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ]).map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none",
@@ -504,6 +505,40 @@ export default function AttributesOfGodPage() {
                 </div>
               </div>
             ))}
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings on the attributes of God — his holiness, sovereignty, love, and majesty — from trusted scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "TSDuiULbFf4", title: "Holiness and Justice: The Holiness of God", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul examines what it means that God is holy — and how his holiness is inseparable from his justice, transforming how we understand both." },
+                  { videoId: "X5x3SPQrDbU", title: "Ministry Reflections with John Piper and R.C. Sproul", channel: "John Piper & R.C. Sproul", description: "Piper and Sproul reflect on what their ministries have taught them about the nature and character of God — two giants of Reformed theology in conversation." },
+                  { videoId: "wGhLw1ULGFk", title: "R.C. Sproul on God's Being and Apologetics", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul explores the philosophical and theological dimensions of God's being — what it means that God is, and how that grounds Christian faith." },
+                  { videoId: "MJks19pBBXI", title: "Introduction to Apologetics: Defending Your Faith", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul introduces the rational basis for belief in a holy, personal God — the starting point for all Christian theology." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
 

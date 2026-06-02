@@ -4,7 +4,7 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "theology" | "scholars" | "positions" | "practices";
+type Tab = "theology" | "scholars" | "positions" | "practices" | "videos";
 
 const SCHOLARS = [
   {
@@ -130,6 +130,7 @@ export default function WomenInMinistryPage() {
             { id: "scholars" as const, label: "Scholars", icon: "🎓" },
             { id: "positions" as const, label: "Positions", icon: "⚖️" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -242,6 +243,41 @@ export default function WomenInMinistryPage() {
                   <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{p.desc}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors on women in ministry.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "_QLc70CzTSA", title: "Women in Ministry: Finding Biblical Balance Between Complementarian & Egalitarian Views", channel: "Church Teaching", description: "A balanced discussion of the complementarian and egalitarian debate, exploring what the Bible actually teaches and how churches can honor women well." },
+                  { videoId: "kfkYAQiQRgo", title: "Complementarian or Egalitarian? Biblical Gender Roles Explained", channel: "Ask NT Wright Anything", description: "NT Wright shares his approach to biblical gender roles in the church, explaining the exegetical and theological reasoning behind his position." },
+                  { videoId: "Bb5zHAT7e50", title: "Egalitarianism and Complementarianism — The Essential Role of Women in the Church", channel: "Church Teaching", description: "Dr. Thomas Schreiner and Dr. Weaver discuss the roles of women in the church and in the home from both sides of the debate." },
+                  { videoId: "2eg5cCQCAE0", title: "Complementarian vs. Egalitarian: Where Do I Stand?", channel: "Alisa Childers", description: "Alisa Childers tackles one of the most common questions she receives — examining Scripture carefully to explain where she stands on women in ministry." },
+                  { videoId: "4hWDmxmY77Y", title: "Complementarian vs Egalitarian: Which View Is Biblically Correct?", channel: "Church Teaching", description: "A careful examination of the key biblical texts on women in ministry, helping Christians understand the strongest arguments on both sides." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

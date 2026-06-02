@@ -96,7 +96,7 @@ const PRACTICES = [
   { title: "A Theology of the Body", desc: "Read and internalize a positive theology of sexuality — not rules but a vision of what sex is for and why it is good and bounded. C.S. Lewis, Tim Keller, Christopher West, and Wesley Hill all write helpfully from different traditions.", icon: "📚" },
 ];
 
-type Tab = "theology" | "struggles" | "voices" | "practices";
+type Tab = "theology" | "struggles" | "voices" | "practices" | "videos";
 
 export default function PurityPage() {
   const [activeTab, setActiveTab] = useState<Tab>("theology");
@@ -123,6 +123,7 @@ export default function PurityPage() {
             { id: "struggles" as const, label: "Struggles", icon: "⚔️" },
             { id: "voices" as const, label: "Voices", icon: "💡" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -216,6 +217,40 @@ export default function PurityPage() {
                   <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{p.desc}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian pastors on sexuality, purity, and the grace that enables holiness.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "VCBLVWKviso", title: "Paul Washer on Purity and Sexual Sin", channel: "HeartCry Missionary Society (Paul Washer)", description: "A candid and biblically grounded conversation about sexual sin, purity, and the power of the gospel to break strongholds and produce genuine holiness." },
+                  { videoId: "HDGGeXiU4bo", title: "Fight for Purity — Sermon Jam", channel: "HeartCry Missionary Society (Paul Washer)", description: "Paul Washer calls Christians to fight for holiness with urgency — not from fear but from love, and not by willpower alone but through the Spirit's power." },
+                  { videoId: "vb2VA6SYUMg", title: "Flee from Lust and Sexual Sin!", channel: "HeartCry Missionary Society (Paul Washer)", description: "A powerful sermon jam on the biblical call to flee sexual immorality — not manage it, not moderate it, but flee. Based on 1 Corinthians 6:18." },
+                  { videoId: "LekUgWtWG2c", title: "The Holiness of God", channel: "HeartCry Missionary Society (Paul Washer)", description: "Understanding God's holiness is the foundation for any genuine pursuit of purity. This message reframes purity not as rule-keeping but as delight in a holy God." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

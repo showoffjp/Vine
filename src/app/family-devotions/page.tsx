@@ -96,7 +96,7 @@ const VOICES_FAM = [
 interface FavPlan { id: string; name: string; }
 
 export default function FamilyDevotionsPage() {
-  const [activeTab, setActiveTab] = useState<"ages" | "formats" | "plans" | "voices">("ages");
+  const [activeTab, setActiveTab] = useState<"ages" | "formats" | "plans" | "voices" | "videos">("ages");
   const [selectedVoice, setSelectedVoice] = useState("tullian-t");
   const voiceItem = VOICES_FAM.find(v => v.id === selectedVoice)!;
   const [selectedAge, setSelectedAge] = useState("elementary");
@@ -121,6 +121,7 @@ export default function FamilyDevotionsPage() {
             { id: "formats" as const, label: "Formats", icon: "🗓️" },
             { id: "plans" as const, label: "Devotional Plans", icon: "📖" },
             { id: "voices" as const, label: "Voices", icon: "📣" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -246,6 +247,40 @@ export default function FamilyDevotionsPage() {
                   <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, margin: 0 }}>{voiceItem.contribution}</p>
                 </div>
               </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 24 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                Practical guidance on leading family worship and devotions at home — for every age and season of family life.
+              </p>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 20 }}>
+              {[
+                { id: "Qj192ODnYc0", title: "How to Lead Your Family in the Lord", teacher: "Dr. Joel Beeke" },
+                { id: "OvhfqW91V3o", title: "How Do I Do Family Worship with My Kids?", teacher: "Pastor Adriel Sanchez" },
+                { id: "BwslrrPm1Q0", title: "How to Make Family Devotions Fun", teacher: "Family Ministry" },
+                { id: "AbPvS799_5Q", title: "How To Do Family Worship", teacher: "Family Devotional Guide" },
+              ].map(v => (
+                <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
+                    <iframe
+                      src={`https://www.youtube.com/embed/${v.id}`}
+                      title={v.title}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
+                    />
+                  </div>
+                  <div style={{ padding: "14px 16px" }}>
+                    <div style={{ color: TEXT, fontWeight: 700, fontSize: 14, marginBottom: 4 }}>{v.title}</div>
+                    <div style={{ color: MUTED, fontSize: 12 }}>{v.teacher}</div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         )}

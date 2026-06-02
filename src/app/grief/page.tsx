@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 interface GriefStory {
   id: string;
@@ -165,7 +165,7 @@ const moodOptions = ["🌧️ Dark", "😶 Numb", "😢 Sad", "😤 Angry", "�
 export default function GriefPage() {
   const [likedStories, setLikedStories] = useState<Set<string>>(new Set());
   const [journalEntries, setJournalEntries] = useState<JournalEntry[]>([]);
-  const [activeTab, setActiveTab] = useState<"stories" | "voices" | "journal" | "resources">("stories");
+  const [activeTab, setActiveTab] = useState<"stories" | "voices" | "journal" | "resources" | "videos">("stories");
   const [selectedVoice, setSelectedVoice] = useState("lewis");
   const voiceItem = VOICES_GRIEF.find(v => v.id === selectedVoice)!;
   const [selectedStory, setSelectedStory] = useState<GriefStory | null>(null);
@@ -251,7 +251,7 @@ export default function GriefPage() {
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "28px 24px" }}>
         {/* Tabs */}
         <div style={{ display: "flex", background: "#12121F", border: "1px solid #1E1E32", borderRadius: 10, padding: 4, gap: 4, marginBottom: 28 }}>
-          {(["stories", "voices", "journal", "resources"] as const).map((tab) => (
+          {(["stories", "voices", "journal", "resources", "videos"] as const).map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
@@ -262,7 +262,7 @@ export default function GriefPage() {
                 cursor: "pointer", fontWeight: 600, fontSize: 14,
               }}
             >
-              {tab === "stories" ? "Stories" : tab === "voices" ? "Voices" : tab === "journal" ? `Journal${journalEntries.length ? ` (${journalEntries.length})` : ""}` : "Resources"}
+              {tab === "stories" ? "Stories" : tab === "voices" ? "Voices" : tab === "journal" ? `Journal${journalEntries.length ? ` (${journalEntries.length})` : ""}` : tab === "resources" ? "Resources" : "🎬 Videos"}
             </button>
           ))}
         </div>
@@ -486,6 +486,39 @@ export default function GriefPage() {
               </div>
               <div style={{ fontSize: 13, color: "#9898B3", marginTop: 4 }}>
                 Crisis Text Line: text <span style={{ color: "#00FF88" }}>HOME</span> to 741741
+              </div>
+            </div>
+          </div>
+        )}
+        {activeTab === "videos" && (
+          <div style={{ maxWidth: 720, margin: "0 auto" }}>
+            <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: "#00FF88", fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: "#9898B3", fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Video teachings on grief, lament, and finding God in loss — for those who are walking through darkness or supporting others who are.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "3DoW8ntjSbA", title: "When Grief Feels Unbearable — Finding God in Loss", channel: "Desiring God", description: "Honest pastoral teaching on grief — what the Bible says about mourning, why God invites lament rather than suppressing it, and how the Psalms give us language for the darkest seasons." },
+                  { videoId: "XCzd0qF3Mlg", title: "The Psalms of Lament: Permission to Grieve", channel: "The Bible Project", description: "An exploration of the lament psalms — how they model honest, raw prayer in the midst of suffering and why the church needs to recover the practice of bringing grief to God." },
+                  { videoId: "DxOWWWVDGD0", title: "Walking Through Grief: Practical Wisdom for the Journey", channel: "Focus on the Family", description: "Practical and compassionate guidance for those in grief — the stages, the timeline, what helps and what doesn't, and how to support others who are grieving." },
+                  { videoId: "jKYUeGJ5-fM", title: "Why Does God Allow Suffering? The Christian Answer", channel: "Ravi Zacharias International Ministries", description: "Engaging the deepest question that grief raises — why does a good God allow suffering and loss? What the Christian answer is, and why it differs from every other worldview." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: "#07070F", border: "1px solid #1E1E32", borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: "#00FF88", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: "#9898B3", fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

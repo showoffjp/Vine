@@ -214,7 +214,7 @@ const HOWTO_CWH: { id: string; principle: string; example: string; application: 
 export default function ChristiansWhoChangedHistoryPage() {
   const [domain, setDomain] = useState("All");
   const [selected, setSelected] = useState<string | null>(null);
-  type Tab = "figures" | "movements" | "principles" | "howto";
+  type Tab = "figures" | "movements" | "principles" | "howto" | "videos";
   const [activeTab, setActiveTab] = useState<Tab>("figures");
 
   const filtered = FIGURES.filter(f => domain === "All" || f.domain === domain);
@@ -244,6 +244,7 @@ export default function ChristiansWhoChangedHistoryPage() {
             { id: "movements" as const, label: "Movements", icon: "🔥" },
             { id: "principles" as const, label: "Principles", icon: "🎯" },
             { id: "howto" as const, label: "Apply It", icon: "⚡" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ]).map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none",
@@ -441,6 +442,40 @@ export default function ChristiansWhoChangedHistoryPage() {
                 <p style={{ color: TEXT, fontSize: 15, fontWeight: 600, margin: 0 }}>
                   What is the one thing you could do in the next 24 hours &mdash; however small &mdash; that moves you toward the cause you were made for?
                 </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Documentaries and teachings on Christians who shaped history through their faith and obedience.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "Fgq73nEGxB0", title: "The Story of William Wilberforce — Documentary", channel: "Documentary", description: "A short documentary on Christian politician and abolitionist William Wilberforce, who spent 46 years fighting to end the British slave trade." },
+                  { videoId: "VzRZINYCwKw", title: "The Better Hour — The Christian Legacy of William Wilberforce", channel: "Documentary", description: "The story of how Wilberforce's Christian faith and biblical principles drove one of history's greatest human rights achievements." },
+                  { videoId: "lHJ55xly5pI", title: "The Faith of William Wilberforce", channel: "Dr Joe Boot", description: "Dr. Joe Boot, Director of the Wilberforce Academy, discusses how Wilberforce's Christian faith was inseparable from his public life and political work." },
+                  { videoId: "silPnlvRezY", title: "Christians and Social Justice: Lessons from William Wilberforce", channel: "Peter Saunders", description: "What Christians today can learn from Wilberforce's model of faith-driven social engagement." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

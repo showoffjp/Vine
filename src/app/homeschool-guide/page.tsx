@@ -4,7 +4,7 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "why" | "approaches" | "curriculum" | "community";
+type Tab = "why" | "approaches" | "curriculum" | "community" | "videos";
 
 const WHY = [
   { reason: "Discipleship is the parent's calling, not the school's", color: GREEN, ref: "Deuteronomy 6:4-9; Ephesians 6:4", content: "The Shema — Israel's foundational confession — was to be taught by parents to children when sitting, walking, lying down, and rising. The Hebrew model of education was life-integrated, parent-led, and theologically saturated. Ephesians 6:4 commands fathers to raise children in the 'discipline and instruction of the Lord' — not to delegate that to professionals. Homeschooling is not an educational choice; it is a discipleship model." },
@@ -116,10 +116,10 @@ export default function HomeschoolGuidePage() {
         </div>
 
         <div style={{ display: "flex", gap: 4, marginBottom: 24, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
-          {(["why", "approaches", "curriculum", "community"] as Tab[]).map(t => (
+          {(["why", "approaches", "curriculum", "community", "videos"] as Tab[]).map(t => (
             <button key={t} onClick={() => setTab(t)}
               style={{ padding: "8px 16px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
-              {t === "why" ? "Why Homeschool" : t === "approaches" ? "Approaches & Methods" : t === "curriculum" ? "Curriculum Guide" : "Community & Legal"}
+              {t === "why" ? "Why Homeschool" : t === "approaches" ? "Approaches & Methods" : t === "curriculum" ? "Curriculum Guide" : t === "community" ? "Community & Legal" : "Videos"}
             </button>
           ))}
         </div>
@@ -218,6 +218,40 @@ export default function HomeschoolGuidePage() {
                 <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{c.desc}</p>
               </div>
             ))}
+          </div>
+        )}
+
+        {tab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "U16tDdh4IZo", title: "Francis Chan on the House Church Movement", channel: "Francis Chan", description: "Chan on recapturing the simplicity of early church community — directly relevant to families who are building a home-centered discipleship model through homeschooling." },
+                  { videoId: "FTZ3GfL9yQM", title: "The Upside Down Kingdom", channel: "Tim Keller / Gospel Coalition", description: "Keller on how the Kingdom of God inverts worldly wisdom — including how we think about education, success, and what it means to raise children for God's purposes." },
+                  { videoId: "y3Bn7ihYyvw", title: "The Simple Gospel", channel: "Francis Chan", description: "Chan on returning to biblical simplicity — the same impulse that drives many families to homeschool: recovering what matters most and stripping away institutional complexity." },
+                  { videoId: "NfwOd9mbL3U", title: "Become a Little Child", channel: "Tim Keller / Redeemer Presbyterian", description: "Keller on the significance of children in the Kingdom of God — a theological foundation for the high calling of intentional, faith-saturated parenting and education at home." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

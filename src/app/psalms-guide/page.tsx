@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import React, { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -84,7 +84,7 @@ const SCHOLARS_PSALMS = [
 ];
 
 export default function PsalmsGuidePage() {
-  const [activeTab, setActiveTab] = useState<"types" | "theology" | "scholars" | "plans">("types");
+  const [activeTab, setActiveTab] = useState<"types" | "theology" | "scholars" | "plans" | "videos">("types");
   const [selectedScholar, setSelectedScholar] = useState("lewis");
   const scholarItem = SCHOLARS_PSALMS.find(s => s.id === selectedScholar)!;
   const [selectedType, setSelectedType] = useState("Lament");
@@ -108,6 +108,7 @@ export default function PsalmsGuidePage() {
             { id: "theology" as const, label: "Theology", icon: "📖" },
             { id: "scholars" as const, label: "Scholars", icon: "💬" },
             { id: "plans" as const, label: "Reading Plans", icon: "📅" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -223,6 +224,39 @@ export default function PsalmsGuidePage() {
               <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>
                 If you have never read the Psalms intentionally, begin here: Psalm 1 (the gateway), Psalm 22 (the forsaken one who trusts), Psalm 23 (the shepherd psalm), Psalm 51 (the confession), Psalm 100 (pure praise), Psalm 121 (the Lord watches), Psalm 139 (known and searched), Psalm 150 (the final doxology). These eight psalms span the full range of the Psalter and will orient you to its territory.
               </p>
+            </div>
+          </div>
+        )}
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings on the Psalms — how to read them, pray them, and live from them.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "QgwzuFG5LCk", title: "Let the Psalms Teach You to Pray", channel: "Tim Keller", description: "Keller on why the Psalms are the church's prayer book — how they give us language to bring the full range of human experience honestly before God." },
+                  { videoId: "oJgY5YiOBto", title: "Discovering How to Pray the Psalms", channel: "Tim Keller", description: "Practical guidance on using the Psalms as your own prayers — how to inhabit their language, appropriate their honesty, and pray their theology as your own." },
+                  { videoId: "i3vFjcJfurg", title: "How to Pray the Psalms", channel: "Gospel Coalition", description: "A step-by-step guide to praying through individual psalms — including lament psalms, praise psalms, and penitential psalms — with pastoral application." },
+                  { videoId: "_hLI-vUPrEM", title: "Answering God: Psalms as Tools for Prayer", channel: "Eugene Peterson", description: "Eugene Peterson on his landmark book Answering God — how the Psalms are not devotional decoration but a school in which we learn to respond to God in his own words." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

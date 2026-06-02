@@ -4,7 +4,7 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "theology" | "questions" | "redflags" | "practices";
+type Tab = "theology" | "questions" | "redflags" | "practices" | "videos";
 
 const THEOLOGY = [
   { title: "The Purpose of Dating", verse: "Proverbs 18:22", body: "Christian dating exists to evaluate suitability for marriage — not as an end in itself. The question dating asks is: is this the person I should covenant with for life? This clarifies everything: how long you date, how physically intimate you become, what conversations you have, and when you end a relationship. If the answer becomes clearly no, the relationship has served its purpose and should end." },
@@ -104,6 +104,7 @@ export default function ChristianDatingPage() {
             { id: "questions" as Tab, label: "Questions", icon: "❓" },
             { id: "redflags" as Tab, label: "Red Flags", icon: "🚩" },
             { id: "practices" as Tab, label: "Practices", icon: "🛠️" },
+            { id: "videos" as Tab, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -200,6 +201,40 @@ export default function ChristianDatingPage() {
                   <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{p.desc}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {tab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "IYFGIz8v4bM", title: "Marriage in Light of Eternity", channel: "Francis Chan / Navigators", description: "Francis Chan speaks on how a proper eternal perspective shapes how Christians should approach dating and marriage — not as ends in themselves but as covenant pointing to Christ." },
+                  { videoId: "yhykiuTPlfA", title: "Marriage: The Picture of Christ and His Church", channel: "Francis Chan", description: "Chan preaches on Ephesians 5 and why Christian marriage is designed to display the gospel — the husband's sacrificial love and the wife's trusting response." },
+                  { videoId: "4vAq9sWgZ74", title: "Marriage Is About Christ and the Church", channel: "Desiring God / John Piper", description: "John Piper explains why Christian marriage exists primarily to display Christ's covenant love for the church — and how this shapes who and how we marry." },
+                  { videoId: "_OC8M_bgV-M", title: "Dating vs Courtship: What's God's Way?", channel: "Christian Relationship Talk", description: "A biblical examination of the principles that should guide Christian dating — purposefulness, purity, community accountability, and covenant orientation." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

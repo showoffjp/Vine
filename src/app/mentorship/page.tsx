@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 interface Mentor {
   id: string;
@@ -231,7 +231,7 @@ export default function MentorshipPage() {
   const [requestModal, setRequestModal] = useState<Mentor | null>(null);
   const [filterExpertise, setFilterExpertise] = useState("All");
   const [filterAvailability, setFilterAvailability] = useState("All");
-  const [activeTab, setActiveTab] = useState<"browse" | "my-mentors" | "voices" | "guide">("browse");
+  const [activeTab, setActiveTab] = useState<"browse" | "my-mentors" | "voices" | "guide" | "videos">("browse");
   const [selectedVoice, setSelectedVoice] = useState("stanley-p");
   const voiceItem = VOICES_MENT.find(v => v.id === selectedVoice)!;
 

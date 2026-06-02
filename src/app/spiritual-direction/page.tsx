@@ -9,13 +9,14 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "what" | "tradition" | "finding" | "session";
+type Tab = "what" | "tradition" | "finding" | "session" | "videos";
 
 const TABS: { id: Tab; label: string }[] = [
   { id: "what", label: "What Is Spiritual Direction?" },
   { id: "tradition", label: "The Tradition" },
   { id: "finding", label: "Finding a Director" },
   { id: "session", label: "What Happens in a Session?" },
+  { id: "videos", label: "🎬 Videos" },
 ];
 
 const WHAT_ITEMS = [
@@ -559,6 +560,39 @@ export default function SpiritualDirectionPage() {
         {activeTab === "finding" && <TabFinding />}
         {activeTab === "session" && (
           <TabSession expanded={expanded} toggle={toggle} />
+        )}
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings on spiritual direction, contemplative prayer, and the practice of listening for God.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "ZIl-SaUTOis", title: "Contemplative Prayer — Spiritual Directions Podcast", channel: "Spiritual Directions", description: "A practical introduction to contemplative prayer for those who want to go deeper in their relationship with God but can't find a formal spiritual director." },
+                  { videoId: "J0jZb5iJzno", title: "An Inward Life of Confidence Before God", channel: "Wheaton College (Richard Foster)", description: "Richard Foster — author of Celebration of Discipline — on cultivating the interior life and the practice of spiritual direction as an ancient Christian tradition." },
+                  { videoId: "4R87Hl52fgY", title: "The Sanctuary of the Soul", channel: "Wheaton College (Richard Foster)", description: "Foster explores the deep interior life — drawing on the great Christian directors from Ignatius to Teresa of Avila — and what it means to create space for God in the soul." },
+                  { videoId: "FDiH992tO_o", title: "Ignatian Contemplation Prayer — Discernment Series", channel: "Ignatian Spirituality", description: "An introduction to Ignatian contemplative prayer — the method developed by Ignatius of Loyola and used by spiritual directors for 500 years to help believers encounter Christ in Scripture." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         )}
       </div>
     </div>

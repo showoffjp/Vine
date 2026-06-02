@@ -359,7 +359,7 @@ const mostSaved = [
 ];
 
 export default function LifeHacksPage() {
-  const [mainTab, setMainTab] = useState<"hacks" | "theology" | "rhythms" | "voices">("hacks");
+  const [mainTab, setMainTab] = useState<"hacks" | "theology" | "rhythms" | "voices" | "videos">("hacks");
   const [selectedVoiceLH, setSelectedVoiceLH] = useState(VOICES_LH[0]);
   const [activeCategory, setActiveCategory] = useState("All");
   const [submitted, setSubmitted] = useState(false);
@@ -511,10 +511,10 @@ export default function LifeHacksPage() {
 
         {/* MAIN TAB BAR */}
         <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 24px", borderBottom: "1px solid #1E1E32", display: "flex", gap: 0 }}>
-          {(["hacks", "theology", "rhythms", "voices"] as const).map(tab => (
+          {(["hacks", "theology", "rhythms", "voices", "videos"] as const).map(tab => (
             <button key={tab} onClick={() => setMainTab(tab)}
               style={{ background: "none", border: "none", borderBottom: mainTab === tab ? "2px solid #00FF88" : "2px solid transparent", color: mainTab === tab ? "#F2F2F8" : "#9898B3", fontWeight: mainTab === tab ? 700 : 500, fontSize: 14, padding: "14px 18px", cursor: "pointer" }}>
-              {tab === "hacks" ? "Life Hacks" : tab === "theology" ? "📖 Theology" : tab === "rhythms" ? "⏰ Rhythms" : "🎓 Voices"}
+              {tab === "hacks" ? "Life Hacks" : tab === "theology" ? "📖 Theology" : tab === "rhythms" ? "⏰ Rhythms" : tab === "voices" ? "🎓 Voices" : "🎬 Videos"}
             </button>
           ))}
         </div>
@@ -1090,6 +1090,41 @@ export default function LifeHacksPage() {
                   <p style={{ color: "#00FF88", fontSize: "11px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", marginBottom: "6px" }}>Key Contribution</p>
                   <p style={{ color: "#C0C0D8", fontSize: "13px", lineHeight: 1.7 }}>{selectedVoiceLH.contribution}</p>
                 </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* VIDEOS TAB */}
+        {mainTab === "videos" && (
+          <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "40px 24px 80px" }}>
+            <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: "#00FF88", fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: "#9898B3", fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "vd8f7EGjY1s", title: "Discipling Your Church into Spiritual Practices", channel: "John Mark Comer / Vineyard Insights", description: "Comer on how to form a congregation into people who actually practice the spiritual disciplines — not just know about them." },
+                  { videoId: "LiEG629mpoE", title: "John Mark Comer's Call to Practice, Not Performance", channel: "John Mark Comer", description: "What it means to be a 'practicing Christian' — an exploration of how intentional spiritual disciplines form us into apprentices of Jesus." },
+                  { videoId: "c9Clqp737uA", title: "Spiritual Formation and Emotional Health", channel: "John Mark Comer", description: "Comer on the connection between spiritual formation and the interior life — why hurry is the enemy of formation and how to build life-giving rhythms." },
+                  { videoId: "w6-exryo5LQ", title: "Practicing the Way: Apprentice to Jesus", channel: "John Mark Comer / Practicing the Way", description: "The foundational episode of Comer's Practicing the Way series — what it means to be an apprentice of Jesus and take his yoke seriously." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: "#07070F", border: "1px solid #1E1E32", borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: "#00FF88", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: "#9898B3", fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

@@ -220,7 +220,7 @@ const SCRIPTURE_PWH: { id: string; ref: string; text: string; warrior: string; h
 export default function PrayerWarriorHistoryPage() {
   const [era, setEra] = useState("All");
   const [selected, setSelected] = useState<string | null>(null);
-  type Tab = "warriors" | "principles" | "scripture" | "practices";
+  type Tab = "warriors" | "principles" | "scripture" | "practices" | "videos";
   const [activeTab, setActiveTab] = useState<Tab>("warriors");
 
   const filtered = WARRIORS.filter(w => era === "All" || w.era === era);
@@ -243,6 +243,7 @@ export default function PrayerWarriorHistoryPage() {
             { id: "principles" as const, label: "Principles", icon: "🎯" },
             { id: "scripture" as const, label: "Scripture", icon: "📖" },
             { id: "practices" as const, label: "Practices", icon: "✍️" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ]).map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none",
@@ -422,6 +423,40 @@ export default function PrayerWarriorHistoryPage() {
                 <p style={{ color: TEXT, lineHeight: 1.8, margin: 0 }}>{habit.description}</p>
               </div>
             ))}
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 24 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                Video teachings on prayer, intercession, and following in the footsteps of history's great prayer warriors.
+              </p>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 20 }}>
+              {[
+                { id: "LnaxpQa1Xyk", title: "Prayer Causes Things to Happen", teacher: "John Piper" },
+                { id: "_Kq3k1JZjBE", title: "Prayer, Fasting and the Course of History", teacher: "John Piper" },
+                { id: "hcZgXh-u7i8", title: "How To Be an Intercessory Prayer Warrior", teacher: "Prayer Ministry" },
+                { id: "yZkFk3zb8mE", title: "Two Types of Effective Prayer", teacher: "Paul Washer" },
+              ].map(v => (
+                <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
+                    <iframe
+                      src={`https://www.youtube.com/embed/${v.id}`}
+                      title={v.title}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
+                    />
+                  </div>
+                  <div style={{ padding: "14px 16px" }}>
+                    <div style={{ color: TEXT, fontWeight: 700, fontSize: 14, marginBottom: 4 }}>{v.title}</div>
+                    <div style={{ color: MUTED, fontSize: 12 }}>{v.teacher}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         )}
 

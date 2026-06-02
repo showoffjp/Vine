@@ -4,7 +4,7 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "theology" | "actions" | "voices" | "churches";
+type Tab = "theology" | "actions" | "voices" | "churches" | "videos";
 
 const THEOLOGY_ITEMS = [
   {
@@ -242,6 +242,7 @@ export default function CreationCareActionPage() {
     { id: "actions", label: "30 Action Steps" },
     { id: "voices", label: "Prophetic Voices" },
     { id: "churches", label: "Churches Taking Action" },
+    { id: "videos", label: "🎬 Videos" },
   ];
 
   return (
@@ -525,6 +526,40 @@ export default function CreationCareActionPage() {
               <p style={{ color: MUTED, fontSize: 14, fontStyle: "italic", margin: 0 }}>
                 "The earth is the LORD's, and everything in it." — Psalm 24:1
               </p>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors on creation care, stewardship, and the theology of the environment.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "wvsqrFizQ7k", title: "John Stott London Lecture 2013: Creation Care", channel: "Langham Partnership", description: "A lecture on creation care connected to John Stott's foundational theological work on Christian stewardship of the earth." },
+                  { videoId: "tec5WWgA0mk", title: "Creation Care and Why Environmental Stewardship is a Biblical Principle", channel: "YouTube", description: "Exploring the biblical foundations for why Christians are called to care for creation as faithful stewards of what belongs to God." },
+                  { videoId: "wGthaQWzC0M", title: "What Does the Bible Say About Creation Care?", channel: "YouTube", description: "A recent message examining what Scripture actually teaches about Christian environmental stewardship from Genesis to Revelation." },
+                  { videoId: "vrSzEdLjE_w", title: "Why We Should Care About Stewardship of God's Creation", channel: "YouTube", description: "A theological exploration of why creation care is not a political issue but a matter of faithful obedience to the Creator." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

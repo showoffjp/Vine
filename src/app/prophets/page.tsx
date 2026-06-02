@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import React, { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -114,7 +114,7 @@ const CHRISTOLOGICAL_PROPHECIES = [
 ];
 
 export default function ProphetsPage() {
-  const [activeTab, setActiveTab] = useState<"prophets" | "scholars" | "christological" | "howto">("prophets");
+  const [activeTab, setActiveTab] = useState<"prophets" | "scholars" | "christological" | "howto" | "videos">("prophets");
   const [selectedScholar, setSelectedScholar] = useState("motyer");
   const scholarItem = SCHOLARS_PROPHETS.find(s => s.id === selectedScholar)!;
   const [selected, setSelected] = useState("Isaiah");
@@ -138,6 +138,7 @@ export default function ProphetsPage() {
             { id: "scholars" as const, label: "Scholars", icon: "🏛️" },
             { id: "christological" as const, label: "Christ in Prophecy", icon: "✝️" },
             { id: "howto" as const, label: "How to Read", icon: "📖" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -265,6 +266,40 @@ export default function ProphetsPage() {
                   <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{h.desc}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings on the Old Testament prophets and their fulfillment in Christ.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "ACrxFNSHnSY", title: "Introduction to the Old Testament Prophets", channel: "The Bible Project", description: "An animated overview of the prophetic literature — what prophets were, how they functioned in Israel's history, and how their words point toward Jesus." },
+                  { videoId: "pk4CNj1gOKQ", title: "The Suffering Servant of Isaiah 53", channel: "R.C. Sproul / Ligonier", description: "Sproul expounds Isaiah 53 — the most quoted OT passage in the New Testament — and shows why it is the theological center of biblical soteriology." },
+                  { videoId: "3XOAQ8vJQjY", title: "Jeremiah: The Weeping Prophet", channel: "The Bible Project", description: "An overview of the book of Jeremiah — his call, his suffering, his proclamation of the new covenant, and his enduring hope in God's faithfulness." },
+                  { videoId: "g9M2ovB-MpE", title: "Christ in the Old Testament Prophets", channel: "Desiring God", description: "A teaching on how Jesus understood himself as the fulfillment of the prophets (Luke 24:44), with attention to specific messianic passages and their New Testament fulfillment." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

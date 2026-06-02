@@ -9,7 +9,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "cardinal" | "theological" | "formation";
+type Tab = "theology" | "cardinal" | "theological" | "formation" | "videos";
 
 const THEOLOGY_ITEMS = [
   {
@@ -359,6 +359,7 @@ export default function ChristianVirtuePage() {
     { id: "cardinal", label: "The Cardinal Virtues" },
     { id: "theological", label: "The Theological Virtues" },
     { id: "formation", label: "Virtue Formation" },
+    { id: "videos", label: "🎬 Videos" },
   ];
 
   return (
@@ -509,6 +510,40 @@ export default function ChristianVirtuePage() {
                 toggle={toggle}
               />
             ))}
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors on virtue, character, and spiritual formation.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "cFzsGeSFnqQ", title: "Desiring God, Part 1", channel: "Desiring God / John Piper", description: "John Piper on the foundation of Christian character: how joy in God is not the enemy of holiness but its very source." },
+                  { videoId: "_f12xZekF54", title: "Developing Godly Character", channel: "Wednesday Service", description: "A teaching on the biblical basis for developing godly character through spiritual disciplines and community accountability." },
+                  { videoId: "JaFRMaqHAdY", title: "The Gospel in 6 Minutes", channel: "Desiring God / John Piper", description: "John Piper on how the gospel is the foundation for all genuine virtue — character formed by grace, not mere effort." },
+                  { videoId: "NUB4I5vO12o", title: "What is the Gospel?", channel: "Desiring God / John Piper", description: "A clear exposition of the gospel that forms the theological foundation for understanding Christian virtue and character formation." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

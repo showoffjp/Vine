@@ -368,7 +368,7 @@ export default function ReadingListPage() {
     } catch { return seedBooks; }
   });
 
-  const [mainTab, setMainTab] = useState<"list" | "recommendations" | "guides" | "voices">("list");
+  const [mainTab, setMainTab] = useState<"list" | "recommendations" | "guides" | "voices" | "videos">("list");
   const [activeStatus, setActiveStatus] = useState<ReadStatus | "all">("all");
   const [activeGenre, setActiveGenre] = useState("All");
   const [search, setSearch] = useState("");
@@ -501,10 +501,10 @@ export default function ReadingListPage() {
         {/* Main Tab Bar */}
         <div style={{ borderBottom: `1px solid ${BORDER}`, marginBottom: 28 }}>
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8" style={{ display: "flex" }}>
-            {(["list", "recommendations", "guides", "voices"] as const).map(tab => (
+            {(["list", "recommendations", "guides", "voices", "videos"] as const).map(tab => (
               <button key={tab} onClick={() => setMainTab(tab)}
                 style={{ background: "none", border: "none", borderBottom: mainTab === tab ? `2px solid ${GREEN}` : "2px solid transparent", color: mainTab === tab ? TEXT : MUTED, fontWeight: mainTab === tab ? 700 : 500, fontSize: 14, padding: "14px 18px", cursor: "pointer" }}>
-                {tab === "list" ? "My List" : tab === "recommendations" ? "Recommendations" : tab === "guides" ? "Reading Guides" : "🎓 Voices"}
+                {tab === "list" ? "My List" : tab === "recommendations" ? "Recommendations" : tab === "guides" ? "Reading Guides" : tab === "voices" ? "🎓 Voices" : "🎬 Videos"}
               </button>
             ))}
           </div>
@@ -779,6 +779,41 @@ export default function ReadingListPage() {
                     </div>
                   );
                 })}
+              </div>
+            </div>
+          )}
+
+          {/* Videos Tab */}
+          {mainTab === "videos" && (
+            <div>
+              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 24 }}>
+                <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                  Video recommendations and guidance on building a rich Christian reading life — from trusted pastors and scholars.
+                </p>
+              </div>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 20 }}>
+                {[
+                  { id: "uc9NRtCgNDA", title: "Christian Books and Bible Commentaries", teacher: "Tim Keller" },
+                  { id: "9nY2mCJzBmk", title: "Tim Keller's Recommended Reading", teacher: "Tim Keller" },
+                  { id: "Cct9oRGBK3g", title: "My 7 Most-Recommended Books on Theology", teacher: "Theology Reading" },
+                  { id: "FYBA9M_wWGA", title: "Theology Reading List", teacher: "Christian Education" },
+                ].map(v => (
+                  <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                    <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
+                      <iframe
+                        src={`https://www.youtube.com/embed/${v.id}`}
+                        title={v.title}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
+                      />
+                    </div>
+                    <div style={{ padding: "14px 16px" }}>
+                      <div style={{ color: TEXT, fontWeight: 700, fontSize: 14, marginBottom: 4 }}>{v.title}</div>
+                      <div style={{ color: MUTED, fontSize: 12 }}>{v.teacher}</div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           )}

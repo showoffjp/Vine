@@ -101,7 +101,7 @@ export default function PrayerJournalPage() {
     try { const s = localStorage.getItem("vine_prayer_journal_entries"); return s ? JSON.parse(s) : SEED_ENTRIES; } catch { return SEED_ENTRIES; }
   });
 
-  const [tab, setTab] = useState<"journal" | "answered" | "write" | "voices">("journal");
+  const [tab, setTab] = useState<"journal" | "answered" | "write" | "voices" | "videos">("journal");
   const [selectedVoice, setSelectedVoice] = useState("journal-bounds");
   const voiceItem = VOICES_PJ.find(v => v.id === selectedVoice)!;
   const [catFilter, setCatFilter] = useState("All");
@@ -189,7 +189,7 @@ export default function PrayerJournalPage() {
 
         {/* Tabs */}
         <div style={{ display: "flex", gap: 4, marginBottom: 24, borderBottom: "1px solid #1E1E32" }}>
-          {([["journal", `Active (${unansweredCount})`], ["answered", `Answered (${answeredCount})`], ["write", "Write Prayer"], ["voices", "Voices"]] as const).map(([t, label]) => (
+          {([["journal", `Active (${unansweredCount})`], ["answered", `Answered (${answeredCount})`], ["write", "Write Prayer"], ["voices", "Voices"], ["videos", "Videos"]] as const).map(([t, label]) => (
             <button key={t} onClick={() => setTab(t)}
               style={{ padding: "10px 20px", fontSize: 14, fontWeight: 600, background: "none", border: "none", cursor: "pointer", color: tab === t ? "#00FF88" : "#6A6A88", borderBottom: `2px solid ${tab === t ? "#00FF88" : "transparent"}`, marginBottom: -1 }}>
               {label}
@@ -317,6 +317,39 @@ export default function PrayerJournalPage() {
               </div>
             )}
           </>
+        )}
+        {tab === "videos" && (
+          <div>
+            <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: "#00FF88", fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: "#9898B3", fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "pJG8EWLEjQo", title: "Consistent Spiritual Discipline Is Not Legalism", channel: "Desiring God", description: "John Piper explains how disciplined prayer and journaling is an expression of grace-driven desire for God, not legalistic rule-keeping." },
+                  { videoId: "JxX6s9-DzCU", title: "Desiring God Through Fasting and Prayer", channel: "Desiring God", description: "John Piper teaches on prayer as a longing for God, with practical guidance for developing a consistent, journal-anchored prayer life." },
+                  { videoId: "3VxyGP7z2rk", title: "If God is Sovereign, Why Pray?", channel: "Ligonier Ministries", description: "R.C. Sproul addresses one of the most common obstacles to consistent prayer, showing why God's sovereignty is the foundation of prayer, not an obstacle to it." },
+                  { videoId: "WLUWBPY_s9s", title: "What Is the Place of Faith in My Unanswered Prayers?", channel: "Desiring God", description: "A pastoral exploration of how to keep a prayer journal when God seems silent, and how recording prayers reveals God's faithfulness over time." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: "#07070F", border: "1px solid #1E1E32", borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: "#00FF88", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: "#9898B3", fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         )}
         {tab === "voices" && (
           <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>

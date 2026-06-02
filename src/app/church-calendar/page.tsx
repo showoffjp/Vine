@@ -180,7 +180,7 @@ const VOICES_CAL = [
 
 export default function ChurchCalendarPage() {
   const [selectedSeason, setSelectedSeason] = useState<string | null>("advent");
-  const [activeTab, setActiveTab] = useState<"seasons" | "holidays" | "guide" | "voices">("seasons");
+  const [activeTab, setActiveTab] = useState<"seasons" | "holidays" | "guide" | "voices" | "videos">("seasons");
   const [selectedVoice, setSelectedVoice] = useState("webber-r");
   const voiceItem = VOICES_CAL.find(v => v.id === selectedVoice)!;
 
@@ -221,6 +221,7 @@ export default function ChurchCalendarPage() {
             { id: "holidays" as const, label: "Special Days", icon: "✨" },
             { id: "guide" as const, label: "Living the Year", icon: "📖" },
             { id: "voices" as const, label: "Voices", icon: "📣" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -346,6 +347,40 @@ export default function ChurchCalendarPage() {
                   <div style={{ color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>Legacy and Contribution</div>
                   <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, margin: 0 }}>{voiceItem.contribution}</p>
                 </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors on the liturgical year, Advent, Lent, and living the church calendar.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "cefE418Z9IY", title: "Advent: The Glory of the Incarnation", channel: "Timothy Keller / Gospel in Life", description: "Tim Keller preaches on the theological depth of Advent — waiting for the coming of Christ as a posture of the soul." },
+                  { videoId: "IkzzdfaqJ2k", title: "Advent: The Word", channel: "Timothy Keller / Gospel in Life", description: "Tim Keller on John 1 and the meaning of the Word becoming flesh — the theological center of the Advent season." },
+                  { videoId: "3KL_u820fcc", title: "Jesus, Our God — Advent Sermon", channel: "Timothy Keller / Gospel in Life", description: "Tim Keller on the divinity of Christ as the cornerstone of Advent worship and anticipation." },
+                  { videoId: "hOwe-54Bigo", title: "Advent: Born Again", channel: "Timothy Keller / Gospel in Life", description: "Tim Keller on the new birth and how it connects to the Advent season's themes of darkness, longing, and the arrival of light." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

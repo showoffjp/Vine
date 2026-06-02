@@ -244,7 +244,7 @@ const VOICES_BIBLE: BibleVoice[] = [
   },
 ];
 
-type Tab = "books" | "themes" | "timeline" | "voices";
+type Tab = "books" | "themes" | "timeline" | "voices" | "videos";
 
 export default function BibleOverviewPage() {
   const [activeTab, setActiveTab] = useState<Tab>("books");
@@ -324,10 +324,10 @@ export default function BibleOverviewPage() {
         {/* Tab Bar */}
         <div style={{ marginBottom: 28 }}>
           <div style={{ display: "flex", gap: 6, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}`, width: "fit-content" }}>
-            {(["books", "themes", "timeline", "voices"] as const).map(t => (
+            {(["books", "themes", "timeline", "voices", "videos"] as const).map(t => (
               <button key={t} onClick={() => setActiveTab(t)}
                 style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-                {t === "books" ? "Books" : t === "themes" ? "Themes" : t === "timeline" ? "Timeline" : "Voices"}
+                {t === "books" ? "Books" : t === "themes" ? "Themes" : t === "timeline" ? "Timeline" : t === "voices" ? "Voices" : "🎬 Videos"}
               </button>
             ))}
           </div>
@@ -502,6 +502,39 @@ export default function BibleOverviewPage() {
                   <div style={{ fontSize: 11, color: GREEN, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>Lasting Contribution</div>
                   <p style={{ fontSize: 13, color: MUTED, lineHeight: 1.7, margin: 0 }}>{selectedVoice.contribution}</p>
                 </div>
+              </div>
+            </div>
+          </div>
+        )}
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Animated overviews and lectures on the Bible — its structure, themes, and how each book fits into the one story of redemption.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "ALsluAKBZ-c", title: "Old Testament Summary: A Complete Animated Overview", channel: "BibleProject", description: "BibleProject's acclaimed animated overview of the entire Old Testament — its structure, major themes, and how it all points toward Christ." },
+                  { videoId: "Q0BrP8bqj0c", title: "New Testament Summary: A Complete Animated Overview", channel: "BibleProject", description: "A complete animated survey of the New Testament showing how the story begun in the Old Testament reaches its fulfillment in Jesus and the church." },
+                  { videoId: "NR29yHJxnxI", title: "Every Book of the Old Testament Explained", channel: "Bible Study Guide", description: "An ultimate Bible study guide walking through every Old Testament book — its content, purpose, and key theological contributions." },
+                  { videoId: "Ve28leEL2oU", title: "Old Testament Survey Online Course", channel: "John H. Walton & Andrew E. Hill", description: "A scholarly survey of the Old Testament by two leading evangelical professors — engaging the literary, historical, and theological dimensions of each book." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

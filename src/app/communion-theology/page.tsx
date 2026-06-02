@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-type Tab = "theology" | "views" | "practice" | "history";
+type Tab = "theology" | "views" | "practice" | "history" | "videos";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -323,6 +323,7 @@ export default function CommunionTheologyPage() {
     { id: "views", label: "Views on the Lord's Supper" },
     { id: "practice", label: "Practice" },
     { id: "history", label: "History" },
+    { id: "videos", label: "🎬 Videos" },
   ];
 
   return (
@@ -684,6 +685,40 @@ export default function CommunionTheologyPage() {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors on the Lord's Supper, its theology, and its meaning for the church.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "2eORFeyfYt8", title: "The Lord's Supper (Luke 22:1–7)", channel: "Ligonier Ministries / R.C. Sproul", description: "R.C. Sproul examines Jesus's institution of the Lord's Supper and what it means that he said 'This is the new covenant in my blood.'" },
+                  { videoId: "JhqB-WibRM8", title: "The Last Supper (Mark 14:10–26)", channel: "Ligonier Ministries / R.C. Sproul", description: "R.C. Sproul on the significance and meaning of the Last Supper — the night Jesus instituted the meal that would define Christian worship." },
+                  { videoId: "fth_FkAk968", title: "The Institution of the Lord's Supper: Kingdom Feast", channel: "Ligonier Ministries / R.C. Sproul", description: "R.C. Sproul on how the Lord's Supper is a kingdom feast — a foretaste of the wedding supper of the Lamb." },
+                  { videoId: "5uOY0luQsao", title: "Is Christ Present in the Lord's Supper?", channel: "Ligonier Ministries", description: "A careful examination of the different views on Christ's presence in the Eucharist — Real Presence, spiritual presence, and memorial — and what Scripture teaches." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

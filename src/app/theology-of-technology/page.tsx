@@ -10,7 +10,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "ai" | "socialmedia" | "practices";
+type Tab = "theology" | "ai" | "socialmedia" | "practices" | "videos";
 
 const STATS = [
   "Average American spends 7 hours/day on screens",
@@ -163,6 +163,7 @@ const TABS: { id: Tab; label: string }[] = [
   { id: "ai", label: "AI and Faith" },
   { id: "socialmedia", label: "Social Media and the Soul" },
   { id: "practices", label: "Practices for Wisdom" },
+  { id: "videos", label: "Videos" },
 ];
 
 function AccordionItem({ title, body }: { title: string; body: string }) {
@@ -514,6 +515,41 @@ export default function TheologyOfTechnologyPage() {
                   steps={card.steps}
                 />
               ))}
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors on theology of technology and AI.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "d5iV8Nc6DkQ", title: "Technology, AI, and the Christian Life", channel: "Oxford Collaboration on Theology & AI", description: "Rev. Lyndon Drake of Oxford discusses how Christians should engage with AI and modern technology in light of Scripture and Christian anthropology." },
+                  { videoId: "K2j8053yxbE", title: "Spiritual Formation and AI: A Deep Dive with Andy Crouch and Jay Kim", channel: "Gospel Teaching", description: "Andy Crouch and Jay Kim discuss how technologies like the smartphone and social media have transformed the way we relate to God and to each other." },
+                  { videoId: "wN9hU4hDqL8", title: "AI, Faith, and the Future: A Conversation Christians Must Hear", channel: "Christian Teaching", description: "A conversation about how artificial intelligence is reshaping culture, business, education, and the way we think about human identity and dignity." },
+                  { videoId: "QL1kViROrKM", title: "How Should Christians Engage with Technology?", channel: "Christian Teaching", description: "A thoughtful exploration of Christian engagement with apps, AI, social media, and modern communication — and the discernment required to use them wisely." },
+                  { videoId: "HzvQKLMKDA4", title: "A Christian Theological Approach to Technology and Ethics", channel: "Dr. Jordan B. Cooper", description: "A theological and ethical framework for thinking about technology from a Christian perspective, addressing questions of human dignity, creation, and the common good." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

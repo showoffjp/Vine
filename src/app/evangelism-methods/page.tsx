@@ -4,7 +4,7 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "methods" | "evangelists" | "essentials" | "objections";
+type Tab = "methods" | "evangelists" | "essentials" | "objections" | "videos";
 
 const EVANGELISTS = [
   {
@@ -173,6 +173,7 @@ export default function EvangelismMethodsPage() {
             { id: "evangelists" as const, label: "Evangelists", icon: "🔥" },
             { id: "essentials" as const, label: "The Essentials", icon: "🔑" },
             { id: "objections" as const, label: "Objections", icon: "❓" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -282,6 +283,39 @@ export default function EvangelismMethodsPage() {
                 <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{o.response}</p>
               </div>
             ))}
+          </div>
+        )}
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Video teachings on evangelism — how to share the gospel naturally, handle objections, and lead someone toward faith in Christ.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "G4-WT4NvC14", title: "How to Share the Gospel Simply and Clearly", channel: "The Gospel Coalition", description: "A practical guide to presenting the gospel clearly in everyday conversation — the core content every evangelist needs to know and how to communicate it without jargon or pressure." },
+                  { videoId: "uJseEBHjQDQ", title: "Friendship Evangelism: Sharing Faith Through Relationship", channel: "Cru", description: "How to share the gospel naturally through authentic friendship — listening first, asking good questions, and letting the gospel emerge from genuine relationship rather than scripted presentations." },
+                  { videoId: "tx-wnK8isWk", title: "Answering Tough Questions About the Faith", channel: "Ravi Zacharias International Ministries", description: "Practical training for handling the hardest objections to Christianity — intellectual, moral, and experiential — with both conviction and grace." },
+                  { videoId: "Hbdt_sPkluA", title: "The Fear That Keeps Christians from Evangelizing", channel: "Desiring God", description: "Why Christians don't share their faith — and what the gospel itself says about the fear of rejection. Practical encouragement for those who know they should evangelize but don't." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

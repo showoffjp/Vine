@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import React, { useState } from "react";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -9,7 +9,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "journey" | "practices" | "holyweek";
+type Tab = "theology" | "journey" | "practices" | "holyweek" | "videos";
 
 const THEOLOGY_ITEMS = [
   {
@@ -174,6 +174,7 @@ const TABS: { id: Tab; label: string }[] = [
   { id: "journey", label: "The Lenten Journey" },
   { id: "practices", label: "Lenten Practices" },
   { id: "holyweek", label: "Holy Week Guide" },
+  { id: "videos", label: "🎬 Videos" },
 ];
 
 export default function LentDevotionalPage() {
@@ -641,6 +642,40 @@ export default function LentDevotionalPage() {
                     </div>
                   );
                 })()}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings on Lent, repentance, and the journey toward Holy Week.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "P8rAp7Jc4CQ", title: "What Is Lent? Prayer, Fasting, Almsgiving", channel: "Bishop Robert Barron", description: "Barron explains the three pillars of Lent — prayer, fasting, and almsgiving — and why this ancient season of preparation remains vital for the church today." },
+                  { videoId: "Fi7sknKv1Mw", title: "Lent: A Season of Repentance", channel: "Gospel Coalition", description: "A biblical and pastoral exploration of Lent as a season that invites Christians into the practices of repentance, self-examination, and renewed dependence on grace." },
+                  { videoId: "GAUv_rziMzE", title: "Lent Series: Returning to the Heart of God", channel: "St. Andrew's Church", description: "A series on Lent as a journey of returning — tracing the movements of the prodigal son as a template for the Lenten journey from wandering to homecoming." },
+                  { videoId: "YSqYJBNXzbQ", title: "The Meaning and Purpose of Lent", channel: "Catholic Answers", description: "An accessible overview of the history and spiritual purpose of Lent, including how Protestant and Catholic traditions approach this season of preparation differently." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

@@ -322,7 +322,7 @@ const RESOURCES_ST: { id: string; title: string; author: string; level: string; 
 ];
 
 export default function SystematicTheology101Page() {
-  type Tab = "loci" | "thinkers" | "debates" | "resources";
+  type Tab = "loci" | "thinkers" | "debates" | "resources" | "videos";
   const [activeTab, setActiveTab] = useState<Tab>("loci");
   const [selected, setSelected] = useState<string | null>(null);
   const [selectedThinker, setSelectedThinker] = useState("calvin-j");
@@ -345,6 +345,7 @@ export default function SystematicTheology101Page() {
             { id: "thinkers" as const, label: "Thinkers", icon: "🎓" },
             { id: "debates" as const, label: "Debates", icon: "⚡" },
             { id: "resources" as const, label: "Resources", icon: "📚" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ]).map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none",
@@ -506,6 +507,41 @@ export default function SystematicTheology101Page() {
                 <div style={{ marginTop: 12, background: `${GREEN}10`, border: `1px solid ${GREEN}20`, borderRadius: 8, padding: "8px 12px", fontSize: 12, color: GREEN }}>Best for: {r.best_for}</div>
               </div>
             ))}
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors on systematic theology.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "D1J3LNvy5w8", title: "Foundations (1 of 59): What Is Theology?", channel: "Ligonier Ministries / R.C. Sproul", description: "The opening lecture in R.C. Sproul's landmark 'Foundations' series — an overview of systematic theology and why every Christian should care about doctrine." },
+                  { videoId: "bIRbcmVC1Q0", title: "What Is Theology? — An Overview of Systematic Theology", channel: "Ligonier Ministries / R.C. Sproul", description: "Sproul defines theology and shows how God's revelation fits together coherently, setting the stage for the entire systematic theology curriculum." },
+                  { videoId: "1mP8ZCayUAs", title: "Sanctification — Foundations Overview", channel: "Ligonier Ministries / R.C. Sproul", description: "A focused lecture on the doctrine of sanctification — what it is, how it works, and its relationship to justification and glorification." },
+                  { videoId: "9iqENsZmB9g", title: "Three in Person — The Trinity", channel: "Ligonier Ministries / R.C. Sproul", description: "Sproul unpacks the doctrine of the Trinity with clarity and depth, addressing why this central doctrine matters for every Christian." },
+                  { videoId: "uuJzRf5_Gww", title: "Perseverance of the Saints — Foundations", channel: "Ligonier Ministries / R.C. Sproul", description: "A theological examination of the perseverance of the saints, its biblical foundations, and its pastoral implications for assurance and faith." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
 

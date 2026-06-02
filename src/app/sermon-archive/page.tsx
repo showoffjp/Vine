@@ -233,7 +233,7 @@ export default function SermonArchivePage() {
   const [filterTopic, setFilterTopic] = useState("All");
   const [filterType, setFilterType] = useState("All");
   const [search, setSearch] = useState("");
-  const [activeTab, setActiveTab] = useState<"all" | "saved" | "voices" | "howto">("all");
+  const [activeTab, setActiveTab] = useState<"all" | "saved" | "voices" | "howto" | "videos">("all");
   const [selectedVoice, setSelectedVoice] = useState("piper-j");
   const voiceItem = VOICES_SERM.find(v => v.id === selectedVoice)!;
   const [noteMode, setNoteMode] = useState(false);
@@ -325,13 +325,13 @@ export default function SermonArchivePage() {
         {/* Search + tabs */}
         <div style={{ display: "flex", gap: 12, marginBottom: 20, flexWrap: "wrap", alignItems: "center" }}>
           <div style={{ display: "flex", background: "#12121F", border: "1px solid #1E1E32", borderRadius: 10, padding: 4, gap: 4 }}>
-            {(["all", "saved", "howto", "voices"] as const).map((tab) => (
+            {(["all", "saved", "howto", "voices", "videos"] as const).map((tab) => (
               <button key={tab} onClick={() => setActiveTab(tab)}
                 style={{ padding: "7px 18px", borderRadius: 7, border: "none",
                   background: activeTab === tab ? "#6B4FBB" : "transparent",
                   color: activeTab === tab ? "#fff" : "#9898B3",
                   cursor: "pointer", fontWeight: 600, fontSize: 13 }}>
-                {tab === "all" ? "All Sermons" : tab === "saved" ? `Saved (${savedIds.size})` : tab === "howto" ? "📝 How to Listen" : "🎓 Preachers"}
+                {tab === "all" ? "All Sermons" : tab === "saved" ? `Saved (${savedIds.size})` : tab === "howto" ? "📝 How to Listen" : tab === "voices" ? "🎓 Preachers" : "🎬 Videos"}
               </button>
             ))}
           </div>
@@ -475,6 +475,40 @@ export default function SermonArchivePage() {
                 <div style={{ fontSize: 11, fontWeight: 700, color: "#6B4FBB", textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>Contribution</div>
                 <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.75 }}>{voiceItem.contribution}</p>
               </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 22, marginBottom: 24 }}>
+              <p style={{ color: "#F2F2F8", fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                Sermons and teachings from some of the most faithful preachers of our generation — to model what great preaching looks and sounds like.
+              </p>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 20 }}>
+              {[
+                { id: "OxwTqGJI9gM", title: "The Best of John Piper — Sermon Compilation", teacher: "John Piper" },
+                { id: "PsoE9GxSIcA", title: "Having a Heart on Fire for God", teacher: "John Piper" },
+                { id: "JaFRMaqHAdY", title: "The Gospel in 6 Minutes", teacher: "John Piper" },
+                { id: "ApIg22vigBI", title: "The Renewed Mind and How to Have It", teacher: "John Piper" },
+              ].map(v => (
+                <div key={v.id} style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, overflow: "hidden" }}>
+                  <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
+                    <iframe
+                      src={`https://www.youtube.com/embed/${v.id}`}
+                      title={v.title}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
+                    />
+                  </div>
+                  <div style={{ padding: "14px 16px" }}>
+                    <div style={{ color: "#F2F2F8", fontWeight: 700, fontSize: 14, marginBottom: 4 }}>{v.title}</div>
+                    <div style={{ color: "#9898B3", fontSize: 12 }}>{v.teacher}</div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         )}

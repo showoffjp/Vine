@@ -9,7 +9,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "practices" | "teachers" | "resources";
+type Tab = "theology" | "practices" | "teachers" | "resources" | "videos";
 
 const THEOLOGY_POINTS = [
   {
@@ -225,6 +225,7 @@ export default function WomensMinistryGuidePage() {
               { id: "practices" as Tab, label: "Practices", icon: "&#9881;&#65039;" },
               { id: "teachers" as Tab, label: "Teachers", icon: "&#128105;&#8205;&#127979;" },
               { id: "resources" as Tab, label: "Resources", icon: "&#128218;" },
+              { id: "videos" as Tab, label: "Videos", icon: "&#127909;" },
             ] as { id: Tab; label: string; icon: string }[]
           ).map((t) => (
             <button
@@ -426,6 +427,41 @@ export default function WomensMinistryGuidePage() {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian women teachers and pastors on women's ministry.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "RPHncZhzeJA", title: "You Go Through More Because You're Called to More", channel: "Priscilla Shirer / Women of Faith on TBN", description: "Priscilla Shirer shares how God's faithfulness equips you for what he has called you to do — and why the weight of your calling is matched by the power of his grace." },
+                  { videoId: "WZl_zE6T7VI", title: "Walk in the Power of God in You — Full Sermon", channel: "Priscilla Shirer / Women of Faith on TBN", description: "A full sermon from Priscilla Shirer on your identity in Christ and how you can walk in the supernatural power of the Holy Spirit living within you." },
+                  { videoId: "WXVXbTVE0Ks", title: "Grow Your Faith & Trust in God — Full Sermon", channel: "Lisa Harper / Women of Faith on TBN", description: "Lisa Harper teaches about walking with Jesus through every season of life, sharing what it means to grow your faith and trust in God when circumstances are difficult." },
+                  { videoId: "nuHtKlrrSdk", title: "Women's Ministry in the Local Church", channel: "Susan Hunt", description: "Susan Hunt examines what Scripture says about gender distinctiveness and the areas of service within the local church where women are called to lead and disciple." },
+                  { videoId: "1X_oXpL4mGs", title: "Know Who You Are in Christ", channel: "Lisa Bevere / Women of Faith on TBN", description: "Lisa Bevere offers a message to inspire women to become who God has uniquely made them to be — grounded in their identity in Christ rather than in the world's definitions." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

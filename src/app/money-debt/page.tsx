@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -44,7 +44,7 @@ const SEED_DEBTS: DebtEntry[] = [
 ];
 
 export default function MoneyDebtPage() {
-  const [activeTab, setActiveTab] = useState<"theology" | "voices" | "principles" | "tracker">("theology");
+  const [activeTab, setActiveTab] = useState<"theology" | "voices" | "principles" | "tracker" | "videos">("theology");
   const [selectedVoice, setSelectedVoice] = useState("wesley");
   const voiceItem = VOICES_DEBT.find(v => v.id === selectedVoice)!;
   const [debts, setDebts] = useState<DebtEntry[]>(() => {
@@ -86,6 +86,7 @@ export default function MoneyDebtPage() {
             { id: "voices" as const, label: "Voices", icon: "💬" },
             { id: "principles" as const, label: "Principles", icon: "📊" },
             { id: "tracker" as const, label: "Tracker", icon: "📉" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -231,6 +232,40 @@ export default function MoneyDebtPage() {
             <div style={{ background: `${PURPLE}10`, border: `1px solid ${PURPLE}30`, borderRadius: 12, padding: 18, marginTop: 16 }}>
               <div style={{ color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 8 }}>DEBT ELIMINATION STRATEGY</div>
               <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0 }}>Pay minimums on all debts. Then put every extra dollar toward the top-ranked debt (highest interest rate). When it is paid off, add its payment to the next one. This "avalanche" method minimizes interest paid. The "snowball" method (smallest balance first) costs more but provides faster psychological wins.</p>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings on a biblical theology of money, debt, generosity, and financial stewardship.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "JitXn_jtMbg", title: "Proven Biblical Money Principles", channel: "Dave Ramsey", description: "Ramsey teaches the core biblical principles behind his financial framework — why God's design for money leads to freedom, and what debt really costs." },
+                  { videoId: "oh2JJqOPYlY", title: "Should Christians Be in Debt?", channel: "Randy Alcorn", description: "Alcorn examines the biblical data on debt — what Scripture warns about, when debt may be permissible, and why financial freedom matters for generosity." },
+                  { videoId: "x6BicdamiIc", title: "How Should Christians View Money?", channel: "Randy Alcorn", description: "A theology of money from Randy Alcorn — exploring what the Bible actually says about wealth, possessions, and the relationship between money and the heart." },
+                  { videoId: "dto8n0NFzjs", title: "How to Manage Your Money God's Way", channel: "Dave Ramsey", description: "Practical biblical guidance on budgeting, saving, giving, and getting out of debt — applying Scripture's wisdom to real financial decisions." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

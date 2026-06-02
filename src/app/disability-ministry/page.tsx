@@ -10,7 +10,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "joni" | "practical" | "resources";
+type Tab = "theology" | "joni" | "practical" | "resources" | "videos";
 
 type AccordionItem = {
   title: string;
@@ -178,6 +178,7 @@ export default function DisabilityMinistryPage() {
     { id: "joni", label: "Joni Eareckson Tada" },
     { id: "practical", label: "Practical Guide" },
     { id: "resources", label: "Resources" },
+    { id: "videos", label: "🎬 Videos" },
   ];
 
   return (
@@ -496,6 +497,40 @@ export default function DisabilityMinistryPage() {
               >
                 Visit Joni and Friends
               </a>
+            </div>
+          </div>
+        )}
+
+        {tab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "bUVv8YVE5Rk", title: "Disability Ministry: Life and Lessons Learned", channel: "Joni Eareckson Tada", description: "Joni Eareckson Tada gives her vision for disability ministry and shares life lessons learned through decades of living with quadriplegia and ministering to people with disabilities." },
+                  { videoId: "lw5dA-K97qc", title: "Why You Should Start a Disability Ministry", channel: "Joni Eareckson Tada / Joni and Friends", description: "Joni Eareckson Tada makes the compelling biblical and practical case for why every local church should have an intentional disability ministry." },
+                  { videoId: "6paYQ8Gdd28", title: "The Indispensable Church", channel: "Joni Eareckson Tada", description: "Joni encourages believers toward a deeper trust in the church as the community where people with disabilities belong and are truly needed." },
+                  { videoId: "zgvxOeoTrm4", title: "Beyond Suffering: A Christian View on Disability Ministry", channel: "Joni and Friends", description: "An introduction to the curriculum for studying disability ministry from a biblical perspective — suffering, the body of Christ, and the call to welcome all people." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

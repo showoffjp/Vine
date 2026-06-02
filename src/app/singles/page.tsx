@@ -110,7 +110,7 @@ const PRACTICES = [
 ];
 
 export default function SinglesPage() {
-  const [activeTab, setActiveTab] = useState<"chapters" | "voices" | "practices" | "journal">("chapters");
+  const [activeTab, setActiveTab] = useState<"chapters" | "voices" | "practices" | "journal" | "videos">("chapters");
   const [selectedChapter, setSelectedChapter] = useState("identity");
   const [selectedVoice, setSelectedVoice] = useState("lewis");
   const [checkedPractices, setCheckedPractices] = useState<Set<string>>(() => {
@@ -143,6 +143,7 @@ export default function SinglesPage() {
             { id: "voices" as const, label: "Voices", icon: "💬" },
             { id: "practices" as const, label: "Practices", icon: "✅" },
             { id: "journal" as const, label: "Reflection", icon: "✍️" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -260,6 +261,40 @@ export default function SinglesPage() {
               <textarea value={journalText} onChange={e => setJournalText(e.target.value)}
                 placeholder={"What I'm grateful for about this season:\n\nWhat I'm struggling with:\n\nWhat God seems to be forming in me:\n\nWhat I sense I'm being called toward:\n\nA prayer for this season:"}
                 style={{ width: "100%", minHeight: 280, background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: 16, color: TEXT, fontSize: 14, lineHeight: 1.8, resize: "vertical", boxSizing: "border-box", fontFamily: "inherit" }} />
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings on singleness, desire, community, and faithful Christian life outside marriage.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "9a-t2eIP-po", title: "The Gift of Singleness — 1 Corinthians 7:32–35", channel: "Our Daily Bread", description: "A rich devotional teaching on 1 Corinthians 7 — Paul's extraordinary vision of singleness as a gift that enables undivided devotion to the Lord." },
+                  { videoId: "70ydFy-FJr0", title: "Singleness and the Gospel: 1 Corinthians 7", channel: "Gospel-Centered Teaching", description: "How Christ transforms the meaning of singleness — moving from cultural stigma to a distinct calling that reflects the coming kingdom where marriage is no more." },
+                  { videoId: "NWa7HgimjXI", title: "1 Corinthians 7:25–40 | Singleness and the Believer", channel: "Expository Bible Teaching", description: "An expository walk through Paul's teaching on singleness and celibacy in 1 Corinthians 7 — what Paul actually says, and what it demands of the church today." },
+                  { videoId: "HOzIKZs0ymE", title: "The Power of a Quiet Life", channel: "Francis Chan / Crazy Love Ministries", description: "Francis Chan's challenge to radically redefine ambition — advocating for a life of quiet humility, diligent work, and personal integrity over platform and recognition." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

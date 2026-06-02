@@ -4,7 +4,7 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "theology" | "givers" | "organizations" | "practical";
+type Tab = "theology" | "givers" | "organizations" | "practical" | "videos";
 
 const GIVERS = [
   {
@@ -103,10 +103,10 @@ export default function ChristianGivingGuidePage() {
         </div>
 
         <div style={{ display: "flex", gap: 4, marginBottom: 28, background: CARD, borderRadius: 10, padding: 4, width: "fit-content" }}>
-          {(["theology", "givers", "organizations", "practical"] as Tab[]).map(t => (
+          {(["theology", "givers", "organizations", "practical", "videos"] as Tab[]).map(t => (
             <button key={t} onClick={() => setTab(t)}
               style={{ padding: "8px 18px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", textTransform: "capitalize" }}>
-              {t === "theology" ? "Theology of Giving" : t === "givers" ? "Models of Generosity" : t === "organizations" ? "Where to Give" : "Practical Tips"}
+              {t === "theology" ? "Theology of Giving" : t === "givers" ? "Models of Generosity" : t === "organizations" ? "Where to Give" : t === "practical" ? "Practical Tips" : "🎬 Videos"}
             </button>
           ))}
         </div>

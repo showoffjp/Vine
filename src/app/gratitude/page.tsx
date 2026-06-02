@@ -152,7 +152,7 @@ const SAMPLE_ENTRIES: GratitudeEntry[] = [
 ];
 
 export default function GratitudePage() {
-  type Tab = "journal" | "theology" | "voices" | "practices";
+  type Tab = "journal" | "theology" | "voices" | "practices" | "videos";
   const [activeTab, setActiveTab] = useState<Tab>("journal");
   const [selectedVoice, setSelectedVoice] = useState("voskamp-a");
 
@@ -241,6 +241,7 @@ export default function GratitudePage() {
               { id: "theology" as const, label: "Theology", icon: "📖" },
               { id: "voices" as const, label: "Voices", icon: "🎓" },
               { id: "practices" as const, label: "Practices", icon: "🙏" },
+              { id: "videos" as const, label: "Videos", icon: "🎬" },
             ]).map(t => (
               <button key={t.id} onClick={() => setActiveTab(t.id)}
                 className="flex-1 py-2.5 px-2 rounded-lg text-sm font-bold transition-all"
@@ -512,6 +513,41 @@ export default function GratitudePage() {
                   </div>
                 </div>
               ))}
+            </div>
+          )}
+
+          {/* Videos Tab */}
+          {activeTab === "videos" && (
+            <div>
+              <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 24, marginBottom: 24 }}>
+                <h2 style={{ color: "#00FF88", fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+                <p style={{ color: "#9898B3", fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                  Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+                </p>
+                <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                  {[
+                    { videoId: "-mnidQuLZ1Y", title: "Christian Gratitude", channel: "John Piper / Desiring God", description: "Piper on the theological depth of gratitude — why thankfulness is not a feeling to be manufactured but a response to the reality of God's character and gifts." },
+                    { videoId: "ojsBIxU5dKM", title: "One Thousand Gifts: Session 1 — Attitude of Gratitude", channel: "Ann Voskamp", description: "Ann Voskamp opens her landmark Bible study on eucharistia — why thanksgiving is an act of worship, not just a sentiment, and how to practice it daily." },
+                    { videoId: "siAj2cwxdSk", title: "How Thankfulness Can Become Habitual", channel: "Ann Voskamp", description: "Practical teaching on how gratitude moves from occasional feeling to habitual posture — the spiritual discipline of noticing and naming gifts." },
+                    { videoId: "dzYfsF1sWVk", title: "Gratitude: A Dare to Cultivate Joy", channel: "Ann Voskamp / The Gospel Coalition", description: "A TGC Women's Conference message on how cultivating gratitude is a daring act of faith — especially in seasons of suffering and loss." },
+                  ].map(v => (
+                    <div key={v.videoId} style={{ background: "#07070F", border: "1px solid #1E1E32", borderRadius: 10, overflow: "hidden" }}>
+                      <iframe
+                        width="100%"
+                        style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                        src={`https://www.youtube.com/embed/${v.videoId}`}
+                        title={v.title}
+                        allowFullScreen
+                      />
+                      <div style={{ padding: "14px 16px" }}>
+                        <h4 style={{ color: "#00FF88", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                        <p style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                        <p style={{ color: "#9898B3", fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           )}
 

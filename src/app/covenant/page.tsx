@@ -9,7 +9,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "what" | "covenants" | "views" | "application";
+type Tab = "what" | "covenants" | "views" | "application" | "videos";
 
 const WHAT_ITEMS = [
   {
@@ -260,6 +260,7 @@ export default function CovenantPage() {
     { key: "covenants", label: "The Biblical Covenants" },
     { key: "views", label: "Theological Views" },
     { key: "application", label: "Application" },
+    { key: "videos", label: "🎬 Videos" },
   ];
 
   return (
@@ -553,6 +554,40 @@ export default function CovenantPage() {
                 onToggle={() => toggleExpanded(item.id)}
               />
             ))}
+          </div>
+        )}
+
+        {tab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "mW1X8j4kCus", title: "Covenant: What Is Reformed Theology?", channel: "R.C. Sproul / Ligonier Ministries", description: "R.C. Sproul introduces covenant theology — the Reformed understanding of how God has structured all of redemptive history around a series of binding covenants." },
+                  { videoId: "uKNIPNbnHgw", title: "R.C. Sproul: The Covenant", channel: "Ligonier Ministries", description: "A foundational lecture on what a covenant is in Scripture — how it differs from a contract, and why covenant is the organizing principle of the entire Bible." },
+                  { videoId: "C9LWyRuWCFA", title: "The Meaning of Covenant", channel: "Ligonier Ministries", description: "Ligonier teaching on how the history of redemption is shaped by the covenants that God has made with his people from creation to the new covenant in Christ." },
+                  { videoId: "SkV5zp873MU", title: "The Covenant of Redemption", channel: "R.C. Sproul / Ligonier Ministries", description: "R.C. Sproul traces God's plan of salvation back to eternity itself — the covenant of redemption between Father and Son before the foundation of the world." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

@@ -218,7 +218,7 @@ const FIELDS_MM: { id: string; region: string; icon: string; unreached: string; 
 ];
 
 export default function ModernMissionariesPage() {
-  type Tab = "missionaries" | "principles" | "fields" | "callyou";
+  type Tab = "missionaries" | "principles" | "fields" | "callyou" | "videos";
   const [activeTab, setActiveTab] = useState<Tab>("missionaries");
   const [region, setRegion] = useState("All");
   const [selected, setSelected] = useState<string | null>(null);
@@ -250,6 +250,7 @@ export default function ModernMissionariesPage() {
             { id: "principles" as const, label: "Principles", icon: "🎯" },
             { id: "fields" as const, label: "Fields", icon: "🌍" },
             { id: "callyou" as const, label: "Called?", icon: "🙏" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ]).map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none",
@@ -470,6 +471,40 @@ export default function ModernMissionariesPage() {
                     <div>
                       <div style={{ color: item.color, fontWeight: 700, fontSize: 14, marginBottom: 4 }}>{item.step}</div>
                       <p style={{ color: MUTED, fontSize: 13, margin: 0, lineHeight: 1.6 }}>{item.detail}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "WU7BC_TS-So", title: "Elisabeth Elliot — Jim Elliot Story", channel: "Christian Missions History", description: "The story of Jim and Elisabeth Elliot — their calling, their sacrifice, and the extraordinary aftermath in which Elisabeth returned to live among the people who killed her husband." },
+                  { videoId: "931r5rHafZE", title: "Jim Elliot: Missionary Martyr and a Life of Faith", channel: "Hall of Faith Stories", description: "A documentary-style account of Jim Elliot's life, convictions, and martyrdom — and why his story continues to call a new generation to mission." },
+                  { videoId: "gWrH5-HXL-I", title: "He Is No Fool: The Story of Jim Elliot", channel: "Christian Biography", description: "The full story of Jim Elliot — the young man who gave what he could not keep to gain what he could not lose, and the movement his death unleashed." },
+                  { videoId: "Mhpiioj7cPI", title: "EVERY Missionary Story #4: Jim Elliot", channel: "EVERY Sermon Series", description: "Jim Elliot's story placed within the broader sweep of missionary history — what made him remarkable and what his example demands of believers today." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
                     </div>
                   </div>
                 ))}

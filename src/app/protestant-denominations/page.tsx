@@ -4,7 +4,7 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "denominations" | "history" | "comparison" | "voices";
+type Tab = "denominations" | "history" | "comparison" | "voices" | "videos";
 
 const FAMILIES = ["All", "Reformed", "Baptist", "Lutheran", "Wesleyan", "Anglican", "Pentecostal", "Nondenominational"];
 
@@ -302,10 +302,10 @@ export default function ProtestantDenominationsPage() {
 
         {/* Tab Bar */}
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 6, width: "fit-content" }}>
-          {(["denominations", "history", "comparison", "voices"] as const).map(t => (
+          {(["denominations", "history", "comparison", "voices", "videos"] as const).map(t => (
             <button key={t} onClick={() => setActiveTab(t)}
               style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-              {t === "denominations" ? "Denominations" : t === "history" ? "History" : t === "comparison" ? "Comparison" : "Voices"}
+              {t === "denominations" ? "Denominations" : t === "history" ? "History" : t === "comparison" ? "Comparison" : t === "voices" ? "Voices" : "🎬 Videos"}
             </button>
           ))}
         </div>
@@ -493,6 +493,40 @@ export default function ProtestantDenominationsPage() {
                   <div style={{ color: GREEN, fontSize: 11, fontWeight: 700, marginBottom: 8 }}>LASTING CONTRIBUTION</div>
                   <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0 }}>{voice.contribution}</p>
                 </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings on Protestant denominations, church history, and theological distinctives.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "jzg-QN3mtx4", title: "Lutheran, Reformed, Methodist & Baptist: What's the Difference?", channel: "Gospel Simplicity", description: "A clear comparison of four major Protestant families — their theological commitments, historical origins, and what makes each distinctive." },
+                  { videoId: "OLy6LNzrbKg", title: "Pentecostals, Baptists, Presbyterians, and Methodists: The Differences", channel: "Gospel Simplicity", description: "An accessible introduction to four major Protestant traditions, covering their theology of salvation, worship, sacraments, and church governance." },
+                  { videoId: "tzLS4O7YaUg", title: "All Christian Denominations Explained in 12 Minutes", channel: "Christianity Facts", description: "A rapid overview of the entire Christian denominational landscape — from Roman Catholic to Eastern Orthodox to the full range of Protestant traditions." },
+                  { videoId: "8B8jTX4ayHQ", title: "10 Denominations Explained — Which Ones Still Follow the Bible?", channel: "Redeemed Zoomer", description: "A biblically grounded analysis of ten major Christian denominations, examining their doctrinal commitments, strengths, and weaknesses." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

@@ -82,7 +82,7 @@ const MENTORS_NB = [
 ];
 
 export default function NewBelieverPage() {
-  const [activeTab, setActiveTab] = useState<"steps" | "mentors" | "questions" | "reading">("steps");
+  const [activeTab, setActiveTab] = useState<"steps" | "mentors" | "questions" | "reading" | "videos">("steps");
   const [selectedMentor, setSelectedMentor] = useState("stott");
   const mentorItem = MENTORS_NB.find(m => m.id === selectedMentor)!;
   const [completed, setCompleted] = useState<Set<number>>(() => {
@@ -120,6 +120,7 @@ export default function NewBelieverPage() {
             { id: "mentors" as const, label: "Mentors", icon: "💬" },
             { id: "questions" as const, label: "Questions", icon: "❓" },
             { id: "reading" as const, label: "Reading", icon: "📖" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -224,6 +225,39 @@ export default function NewBelieverPage() {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "DEy5rrMVW6g", title: "What Is a Christian?", channel: "Francis Chan / RightNow Media", description: "Francis Chan answers the foundational question for new believers — what it actually means to be a Christian, and what that changes about how you live." },
+                  { videoId: "y3Bn7ihYyvw", title: "The Simple Gospel", channel: "Francis Chan", description: "Chan distills the gospel to its essentials — what God has done in Christ, what it requires of us, and why it is the most important news in the world." },
+                  { videoId: "21yE6AT8tCw", title: "Faith Over Fear", channel: "Francis Chan", description: "Chan addresses the call to bold, whole-life trust in God — especially important for new believers navigating the difference between cultural Christianity and genuine discipleship." },
+                  { videoId: "whuEOv18Ulw", title: "Stop Debating, Start Obeying (Holy Spirit, Pt. 3)", channel: "Francis Chan", description: "A challenge for new and established believers alike — Jesus calls us not merely to understand the faith but to obey it and walk in the Spirit's power." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

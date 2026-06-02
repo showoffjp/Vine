@@ -85,7 +85,7 @@ const TEACHERS_POSTURE = [
 ];
 
 export default function PrayerPosturesPage() {
-  const [activeTab, setActiveTab] = useState<"postures" | "teachers" | "traditions" | "faq">("postures");
+  const [activeTab, setActiveTab] = useState<"postures" | "teachers" | "traditions" | "faq" | "videos">("postures");
   const [selectedTeacher, setSelectedTeacher] = useState("teresa");
   const teacherItem = TEACHERS_POSTURE.find(t => t.id === selectedTeacher)!;
   const [selected, setSelected] = useState<string | null>("Standing");
@@ -109,6 +109,7 @@ export default function PrayerPosturesPage() {
             { id: "teachers" as const, label: "Teachers", icon: "💬" },
             { id: "traditions" as const, label: "By Tradition", icon: "⛪" },
             { id: "faq" as const, label: "Questions", icon: "❓" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -227,6 +228,40 @@ export default function PrayerPosturesPage() {
                 <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{p.a}</p>
               </div>
             ))}
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings on bodily prayer, posture, and the embodied disciplines of Christian worship.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "d6eqCIGhOxw", title: "The Lord's Prayer — Explained by John Piper", channel: "Desiring God (John Piper)", description: "Piper unpacks the Lord's Prayer as a model for all prayer — including the posture of the heart that must accompany the words of the mouth." },
+                  { videoId: "IvWmwvdJ-mU", title: "How to Pray: Prayer with R.C. Sproul", channel: "Ligonier Ministries", description: "R.C. Sproul on the theology of approaching God in prayer — what posture of soul is required when we enter the presence of the Holy One." },
+                  { videoId: "43cnijCzHaY", title: "How Kneeling in Church Changed My Spiritual Life", channel: "Catholic / Liturgical Testimony", description: "A personal testimony on how the physical practice of kneeling transformed the interior life of prayer — a reminder that embodied practice shapes spiritual reality." },
+                  { videoId: "ZIl-SaUTOis", title: "Contemplative Prayer — Spiritual Directions Podcast", channel: "Spiritual Directions", description: "An exploration of contemplative prayer traditions and how posture, silence, and attentiveness to God work together in the classical Christian understanding of prayer." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

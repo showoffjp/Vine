@@ -9,7 +9,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "practices" | "curriculum" | "resources";
+type Tab = "theology" | "practices" | "curriculum" | "resources" | "videos";
 
 const theologyPoints = [
   {
@@ -230,7 +230,8 @@ export default function MensMinistryGuidePage() {
     { id: "theology", label: "Theology of Brotherhood" },
     { id: "practices", label: "Core Practices" },
     { id: "curriculum", label: "Curriculum Guide" },
-    { id: "resources", label: "Resources" }
+    { id: "resources", label: "Resources" },
+    { id: "videos", label: "🎬 Videos" }
   ];
 
   return (
@@ -405,6 +406,39 @@ export default function MensMinistryGuidePage() {
                 )}
               </div>
             ))}
+          </div>
+        )}
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "AIKn3DyjOUY", title: "The Strongest Warning I've Ever Given to Men", channel: "Pastor Mark Driscoll", description: "A direct, serious challenge to men about their responsibilities as husbands, fathers, and leaders — what Scripture demands and what is at stake." },
+                  { videoId: "LP4Y26hsrtM", title: "How a Real Man Takes Ground", channel: "Pastor Mark Driscoll", description: "Driscoll on what it means for a man to take spiritual ground in his home, his work, and his community — not through domination but through servant leadership." },
+                  { videoId: "_sSH3ULpA4Y", title: "David Murrow Interviews Mark Driscoll on Men and Church", channel: "David Murrow", description: "A revealing conversation between the author of Why Men Hate Going to Church and the pastor who built one of the most male-attended churches in America." },
+                  { videoId: "g4-Igb1rb1w", title: "Real Men: Vision for Men's Ministry", channel: "Pastor Mark Driscoll", description: "A vision for what genuine men's ministry looks like — not retreats and devotionals but covenant brotherhood, accountability, and mission-driven discipleship." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

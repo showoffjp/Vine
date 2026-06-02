@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Globe, Heart, Users, ChevronRight, MapPin, Flame, BookOpen, CheckCircle2 } from "lucide-react";
 
 const BG = "#07070F";
@@ -276,7 +276,7 @@ const VOICES_MISS = [
   },
 ];
 
-type Tab = "regions" | "theology" | "getting-involved" | "voices";
+type Tab = "regions" | "theology" | "getting-involved" | "voices" | "videos";
 
 export default function MissionsPage() {
   const [activeTab, setActiveTab] = useState<Tab>("regions");
@@ -363,10 +363,10 @@ export default function MissionsPage() {
         {/* Tab Bar */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
           <div className="flex gap-2 flex-wrap" style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 6, display: "inline-flex" }}>
-            {(["regions", "theology", "getting-involved", "voices"] as const).map(t => (
+            {(["regions", "theology", "getting-involved", "voices", "videos"] as const).map(t => (
               <button key={t} onClick={() => setActiveTab(t)}
                 style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-                {t === "regions" ? "Regions" : t === "theology" ? "Theology" : t === "getting-involved" ? "Getting Involved" : "Voices"}
+                {t === "regions" ? "Regions" : t === "theology" ? "Theology" : t === "getting-involved" ? "Getting Involved" : t === "voices" ? "Voices" : "🎬 Videos"}
               </button>
             ))}
           </div>
@@ -607,6 +607,40 @@ export default function MissionsPage() {
                   <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: GREEN }}>Key Contribution</p>
                   <p className="text-sm leading-relaxed" style={{ color: "#C0C0D8" }}>{selectedVoice.contribution}</p>
                 </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings on missions, evangelism, and God's heart for the nations.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "SeNCNa2NxAo", title: "Let All the Peoples Praise Him", channel: "John Piper / Desiring God", description: "Piper makes the biblical case that God's ultimate passion is his own glory among all nations — and that missions flows from worship, not guilt." },
+                  { videoId: "7vLRAB_t3T8", title: "God's Pursuit of Worshipers from Every Nation", channel: "John Piper / Desiring God", description: "A foundational teaching on the missio Dei — God's mission to gather worshipers from every tribe, tongue, and nation, grounded in Revelation 5 and 7." },
+                  { videoId: "hgKQYak54b4", title: "Make Your Life Count for the Nations", channel: "John Piper / Desiring God", description: "Piper challenges believers to consider how they can invest their lives in the cause of reaching unreached peoples, whether by going, sending, or praying." },
+                  { videoId: "XBdXKAKwb1g", title: "The Invincible Power of Joy for Missions", channel: "John Piper / Desiring God", description: "Joy as the fuel of missions — why sustainable missionary work is rooted not in duty or guilt but in the overflow of delight in God and his purposes." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

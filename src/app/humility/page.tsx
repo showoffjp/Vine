@@ -9,7 +9,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "teachers" | "pride" | "practices";
+type Tab = "theology" | "teachers" | "pride" | "practices" | "videos";
 
 const THEOLOGY_ITEMS = [
   {
@@ -165,6 +165,7 @@ export default function HumilityPage() {
     { id: "teachers" as Tab, label: "Teachers on Humility", icon: "🎓" },
     { id: "pride" as Tab, label: "Pride's Disguises", icon: "🎭" },
     { id: "practices" as Tab, label: "Practices", icon: "🛠️" },
+    { id: "videos" as Tab, label: "Videos", icon: "🎬" },
   ];
 
   return (
@@ -298,6 +299,40 @@ export default function HumilityPage() {
                   <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0 }}>{p.desc}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {tab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "wQ5cclvdWjo", title: "If God Is Sovereign, How Can Man Be Free?", channel: "R.C. Sproul / Ligonier Ministries", description: "R.C. Sproul examines the relationship between divine sovereignty and human freedom — foundational for understanding humility before a sovereign God." },
+                  { videoId: "FTZ3GfL9yQM", title: "The Upside Down Kingdom", channel: "Timothy Keller / Gospel in Life", description: "Tim Keller explores how Jesus's kingdom reverses the world's pride-driven hierarchies, calling his followers to the posture of the humble." },
+                  { videoId: "KA4pSZxrwRs", title: "The Joy That Produces Radical Obedience", channel: "Desiring God / John Piper", description: "John Piper shows how genuine humility flows not from self-contempt but from being captured by the greatness and joy of God." },
+                  { videoId: "y3Bn7ihYyvw", title: "The Simple Gospel", channel: "Francis Chan", description: "Francis Chan strips away religious performance and pride to return to the simple, humble posture the gospel demands." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

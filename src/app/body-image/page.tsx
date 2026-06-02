@@ -12,7 +12,7 @@ const THEOLOGY = [
   { title: "The Renewal of the Mind", verse: "Romans 12:2", body: "Body image is primarily a mind issue. 'Be transformed by the renewing of your mind' (Romans 12:2). The patterns of thought about the body — comparison, shame, disgust, obsession — are formed by the world and must be renewed by the Spirit. This is not positive thinking but a genuine reorientation of perception toward what God declares true about the body." },
 ];
 
-type Tab = "theology" | "voices" | "struggles" | "practices";
+type Tab = "theology" | "voices" | "struggles" | "practices" | "videos";
 
 const VOICES_BODY = [
   {
@@ -102,6 +102,7 @@ export default function BodyImagePage() {
             { id: "voices" as const, label: "Voices", icon: "💬" },
             { id: "struggles" as const, label: "Common Struggles", icon: "⚠️" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -201,6 +202,40 @@ export default function BodyImagePage() {
                   <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{p.desc}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Teachings on body image, self-worth, and a Christian theology of the body — grounding identity in Christ rather than appearance.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "uz_z89dNSqc", title: "A Biblical Perspective on Body Image with Heather Creekmore", channel: "Revive Our Hearts / Grounded", description: "Heather Creekmore examines what the Bible actually says about body image and how comparing ourselves to cultural standards steals joy and distorts identity." },
+                  { videoId: "XaHYTtVcskE", title: "How Should Christians Think About Body Image?", channel: "Christian Teaching", description: "A biblical examination of how Christians should understand and relate to their bodies — grounding self-worth in being made in God's image." },
+                  { videoId: "hVfwKpoxP2U", title: "Body Image & Relationships: How God Redeems Our Imperfections", channel: "Sadie Robertson Huff & Natalie Grant", description: "Sadie Robertson Huff and Natalie Grant discuss how God redeems our struggles with body image and self-worth within the context of relationships." },
+                  { videoId: "_DNZctFekHI", title: "What Does the Bible Teach Us About Body Image?", channel: "Biblical Teaching", description: "An exploration of key biblical passages that speak to how God views the human body and what that means for how we view ourselves." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

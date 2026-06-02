@@ -111,7 +111,7 @@ const HERESIES = [
   },
 ];
 
-type Tab = "heresies" | "defenders" | "councils" | "patterns";
+type Tab = "heresies" | "defenders" | "councils" | "patterns" | "videos";
 
 const DEFENDERS = [
   { id: "athanasius", name: "Athanasius of Alexandria", era: "c. 296-373", context: "Bishop of Alexandria; 'Athanasius contra mundum'", bio: "Athanasius devoted his entire ministry to defending the full divinity of Christ against Arianism, which had gained imperial favor after Nicaea. He was exiled five times for refusing to compromise — three times by emperors who favored the Arian cause — and returned each time more resolute. His De Incarnatione remains one of the greatest Christological texts ever written. His slogan: 'Whatever is true of the Father is true of the Son, except being the Father.' He died as bishop of Alexandria after a career of unparalleled theological courage.", quote: "The Son of God became man so that we might become God. He was not made man and then became God, but being God he became man to deify us.", contribution: "Held the Trinitarian faith against the full weight of imperial power and theological confusion for decades. Without Athanasius, Arianism might have become the orthodox position of the Western church. He is the paradigm of faithful orthodoxy under pressure." },
@@ -163,6 +163,7 @@ export default function ClassicHeresiesPage() {
             { id: "defenders" as Tab, label: "Defenders", icon: "🛡️" },
             { id: "councils" as Tab, label: "Councils", icon: "📜" },
             { id: "patterns" as Tab, label: "Patterns", icon: "🔄" },
+            { id: "videos" as Tab, label: "Videos", icon: "🎬" },
           ]).map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", cursor: "pointer", fontWeight: 700, fontSize: 13, background: activeTab === t.id ? GREEN : "transparent", color: activeTab === t.id ? BG : MUTED, transition: "all 0.15s" }}>
@@ -314,6 +315,40 @@ export default function ClassicHeresiesPage() {
                 <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.75, margin: 0 }}>{p.desc}</p>
               </div>
             ))}
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Learn from R.C. Sproul and other theologians about the classic heresies of church history — what was taught, why it was wrong, and how the church responded to defend orthodoxy.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "AtYCVDlV9kE", title: "Heresies of the Early Church", channel: "Ligonier Ministries", description: "R.C. Sproul surveys the major heresies that threatened the early church — Arianism, Gnosticism, Docetism, and more — and explains how the councils responded to preserve orthodox doctrine." },
+                  { videoId: "7-utwkfgyyI", title: "Wolf in Sheep's Clothing", channel: "Ligonier Ministries", description: "R.C. Sproul examines how false teaching infiltrates the church and the theological vigilance required to identify and refute it, drawing on the councils and creeds of the early church." },
+                  { videoId: "T5R9JmJTtOM", title: "Introduction to Reformed Theology", channel: "Ligonier Ministries", description: "R.C. Sproul introduces the theological framework that grew directly from the church's battles against heresy — explaining how orthodox doctrine was hammered out in the crucible of controversy." },
+                  { videoId: "VITwhgPNtPM", title: "Original Sin", channel: "Ligonier Ministries", description: "R.C. Sproul explains the doctrine of original sin — including Augustine's battle against Pelagianism — and why this foundational doctrine is still contested and essential today." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

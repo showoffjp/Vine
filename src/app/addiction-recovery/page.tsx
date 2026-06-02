@@ -78,7 +78,7 @@ const VOICES = [
   },
 ];
 
-type Tab = "theology" | "types" | "voices" | "steps";
+type Tab = "theology" | "types" | "voices" | "steps" | "videos";
 
 export default function AddictionRecoveryPage() {
   const [tab, setTab] = useState<Tab>("theology");
@@ -105,6 +105,7 @@ export default function AddictionRecoveryPage() {
             { id: "types" as const, label: "Types", icon: "🔍" },
             { id: "voices" as const, label: "Voices", icon: "🗣️" },
             { id: "steps" as const, label: "Recovery Steps", icon: "🪜" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -200,6 +201,40 @@ export default function AddictionRecoveryPage() {
                 </div>
               </div>
             ))}
+          </div>
+        )}
+
+        {tab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "H93FRozCMpk", title: "Is Addiction a Sign That Someone Is Not a Christian?", channel: "Ligonier Ministries", description: "Burk Parsons addresses whether ongoing addiction disqualifies someone from faith, and what steps toward repentance and freedom look like in Christ." },
+                  { videoId: "x7wB9Azs-hk", title: "How to Overcome Your Addictions", channel: "Tony Evans", description: "Dr. Tony Evans preaches on overcoming addiction through the power of the Holy Spirit, grounding recovery in the truth that Christ sets captives free." },
+                  { videoId: "lDF2t5D7Cmg", title: "How Do I Get Free from Addiction for Good?", channel: "Bible Teaching", description: "A biblical teaching on breaking the cycle of addiction, addressing the spiritual roots of bondage and the path to lasting freedom in Christ." },
+                  { videoId: "YIUN-ZR5xzM", title: "Stand for Life: Francis Chan and John Piper", channel: "Desiring God", description: "Francis Chan and John Piper at a 2014 event on living faithfully, including a discussion of gospel freedom from the compulsions that enslave." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

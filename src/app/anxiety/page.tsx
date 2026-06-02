@@ -28,7 +28,7 @@ const SCRIPTURE_REMEDIES = [
   { verse: "Isaiah 26:3", text: "You will keep in perfect peace those whose minds are steadfast, because they trust in you.", focus: "Trust produces peace" },
 ];
 
-type Tab = "foundations" | "voices" | "practices" | "journal";
+type Tab = "foundations" | "voices" | "practices" | "journal" | "videos";
 
 const VOICES = [
   {
@@ -122,6 +122,7 @@ export default function AnxietyPage() {
             { id: "voices" as const, label: "Voices", icon: "💬" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
             { id: "journal" as const, label: "Fear Journal", icon: "✍️" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -251,6 +252,40 @@ export default function AnxietyPage() {
                 </div>
               </div>
             )}
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors on anxiety, fear, and finding peace in God.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "-8tdA8YMOYM", title: "Praying Our Fears", channel: "Timothy Keller", description: "Keller explores how honest prayer — not denial — is the biblical pathway through anxiety, drawing on the Psalms and Philippians 4." },
+                  { videoId: "haZPE6KxzPs", title: "Peace: Overcoming Anxiety", channel: "Timothy Keller", description: "A sermon on how many believers are cast down because they have not learned what Scripture teaches about Christian peace." },
+                  { videoId: "cajScztdhJA", title: "Peace", channel: "Timothy Keller", description: "Keller shows that Christian peace is not the absence of trouble but a settled confidence in God that the world cannot give or take away." },
+                  { videoId: "F9oOD0Hlewo", title: "Don't Worry", channel: "Timothy Keller Sermons", description: "An exposition of Matthew 6:25–34 — why Jesus commands us not to worry and what it looks like to live free from anxiety." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import React, { useState } from "react";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -9,7 +9,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "seasons" | "theology" | "practices" | "resources";
+type Tab = "seasons" | "theology" | "practices" | "resources" | "videos";
 
 const seasons = [
   {
@@ -254,7 +254,8 @@ export default function LiturgicalYearPage() {
     { id: "seasons", label: "The Seasons" },
     { id: "theology", label: "Theology of Time" },
     { id: "practices", label: "Key Practices" },
-    { id: "resources", label: "Resources" }
+    { id: "resources", label: "Resources" },
+    { id: "videos", label: "🎬 Videos" }
   ];
 
   return (
@@ -427,6 +428,40 @@ export default function LiturgicalYearPage() {
                 )}
               </div>
             ))}
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings on the liturgical year, the Christian calendar, and marking time with the church.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "t2vPuW7xrbM", title: "What Is the Church Calendar?", channel: "Desiring God", description: "An accessible introduction to the liturgical year — what it is, why the church developed it, and how following the Christian calendar can shape the whole of life." },
+                  { videoId: "FFh2vemurik", title: "The Liturgical Year", channel: "Catholic Central", description: "An engaging overview of the seasons of the liturgical year — Advent, Christmas, Lent, Easter, Pentecost, and Ordinary Time — and the theology behind each." },
+                  { videoId: "crjlFjXrE7Y", title: "The Liturgical Year Explained", channel: "Catechism Series", description: "A clear, visual guide to the liturgical calendar for those new to Christian traditions, explaining how the seasons correspond to the life of Christ." },
+                  { videoId: "pb2Op6jmitw", title: "Seasons in the Liturgical Calendar", channel: "Church Calendar Series", description: "A deep dive into how the liturgical seasons form Christian communities over time, shaping what we pray, sing, preach, and celebrate throughout the year." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

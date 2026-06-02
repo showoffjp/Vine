@@ -146,7 +146,7 @@ const DOCTRINES = [
 ];
 
 export default function AtonementPage() {
-  const [activeTab, setActiveTab] = useState<"theories" | "scripture" | "thinkers" | "doctrines">("theories");
+  const [activeTab, setActiveTab] = useState<"theories" | "scripture" | "thinkers" | "doctrines" | "videos">("theories");
   const [selected, setSelected] = useState("Penal Substitution");
   const [selectedThinker, setSelectedThinker] = useState("anselm");
   const [selectedScripture, setSelectedScripture] = useState(0);
@@ -172,6 +172,7 @@ export default function AtonementPage() {
             { id: "scripture" as const, label: "Scripture", icon: "📜" },
             { id: "thinkers" as const, label: "Thinkers", icon: "🧠" },
             { id: "doctrines" as const, label: "Doctrines", icon: "📖" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -283,6 +284,40 @@ export default function AtonementPage() {
               <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>
                 Every theory of the atonement illuminates something real and leaves something unexplained. The cross is a mystery — not in the sense of being irrational, but in the sense that the love of God expressed in it exceeds our full comprehension. Paul ends his atonement section in Romans 11 not with a formula but with a doxology: "Oh, the depth of the riches of the wisdom and knowledge of God!" The appropriate response to the cross is ultimately not explanation but worship.
               </p>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings on the atonement — why Jesus had to die, what the cross accomplished, and what it means for us.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "YrGYoRdNOes", title: "The Necessity of the Atonement", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul explains why atonement is not optional — God's justice, holiness, and righteousness made it necessary that sin be dealt with in the death of Christ." },
+                  { videoId: "qfNSoxQb0is", title: "The Atonement — A Sermon (Mark 15:33–41)", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul preaches on the crucifixion account in Mark — the darkness, the cry of dereliction, and what happened on the cross between the Father and the Son." },
+                  { videoId: "0JdwtcFNVU4", title: "What Is the Doctrine of Limited Atonement?", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul examines one of the most debated atonement doctrines — for whom did Christ die, and what does the Scripture actually teach?" },
+                  { videoId: "tQ3N8YTjEpc", title: "Limited Atonement: What Is Reformed Theology?", channel: "R.C. Sproul / Ligonier Ministries", description: "Part of Sproul's series on Reformed theology, this session grounds the particularity of the atonement in the nature of God's saving purpose." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

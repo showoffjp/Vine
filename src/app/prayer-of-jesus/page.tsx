@@ -1,10 +1,10 @@
 "use client";
-import { useState } from "react";
+import React, { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "petitions" | "commentators" | "history" | "models";
+type Tab = "petitions" | "commentators" | "history" | "models" | "videos";
 
 const PETITIONS = [
   {
@@ -170,6 +170,7 @@ export default function PrayerOfJesusPage() {
             { id: "commentators" as const, label: "Commentators", icon: "💬" },
             { id: "history" as const, label: "History of Use", icon: "📜" },
             { id: "models" as const, label: "How to Pray It", icon: "📖" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -286,6 +287,40 @@ export default function PrayerOfJesusPage() {
                 <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{m.body}</p>
               </div>
             ))}
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings on the Lord's Prayer from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "IvWmwvdJ-mU", title: "How to Pray", channel: "R.C. Sproul / Ligonier", description: "Sproul walks through the structure of the Lord's Prayer as a model for Christian prayer, explaining each petition and its theological significance." },
+                  { videoId: "vqxXABgRhVo", title: "The Basis of Prayer: Our Father", channel: "Tim Keller", description: "Keller unpacks 'Our Father in heaven' — the opening address that shapes everything else in the Lord's Prayer — and what it means to pray as a child of God." },
+                  { videoId: "3VxyGP7z2rk", title: "If God Is Sovereign, Why Pray?", channel: "R.C. Sproul / Ligonier", description: "Sproul addresses the most common intellectual objection to prayer, arguing from Scripture why intercessory prayer is both necessary and effective despite divine sovereignty." },
+                  { videoId: "IWj00KJ6Jow", title: "Adoration — The First Movement of Prayer", channel: "R.C. Sproul / Ligonier", description: "A teaching on how 'hallowed be your name' grounds all prayer in the worship of God — adoration before petition." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

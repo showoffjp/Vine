@@ -4,7 +4,7 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "theology" | "parables" | "thinkers" | "practices";
+type Tab = "theology" | "parables" | "thinkers" | "practices" | "videos";
 
 const THEOLOGY = [
   { title: "The Kingdom Is Jesus's Central Message", verse: "Mark 1:15", body: "'The time has come. The kingdom of God has come near. Repent and believe the good news' (Mark 1:15). This was Jesus's first proclamation. Not 'how to have eternal life' or 'how to be saved' but the announcement of God's reign breaking into history. Understanding the kingdom is the key to understanding everything Jesus said and did. The parables, the miracles, the Sermon on the Mount — all are about the kingdom." },
@@ -99,6 +99,7 @@ export default function KingdomOfGodPage() {
             { id: "parables" as Tab, label: "Kingdom Parables", icon: "🌾" },
             { id: "thinkers" as Tab, label: "Key Thinkers", icon: "🎓" },
             { id: "practices" as Tab, label: "Practices", icon: "🛠️" },
+            { id: "videos" as Tab, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -187,6 +188,39 @@ export default function KingdomOfGodPage() {
                   <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{p.desc}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+        {tab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "FTZ3GfL9yQM", title: "The Upside Down Kingdom", channel: "Timothy Keller / Gospel in Life", description: "Tim Keller examines how Jesus introduces a revolutionary, counterintuitive kingdom in the Sermon on the Mount — reversing every expectation of power and greatness." },
+                  { videoId: "KA4pSZxrwRs", title: "The Joy That Produces Radical Obedience", channel: "Desiring God / John Piper", description: "John Piper on the kingdom's hidden treasure and pearl of great price — how finding the kingdom produces the joy that makes total surrender logical and willing." },
+                  { videoId: "0bafE4k4YXU", title: "The Essential Elements of the Great Commission", channel: "Paul Washer", description: "Paul Washer grounds the church's mission in the kingdom's global scope — making disciples of all nations as the outward expression of kingdom life." },
+                  { videoId: "wQ5cclvdWjo", title: "If God Is Sovereign, How Can Man Be Free?", channel: "R.C. Sproul / Ligonier Ministries", description: "R.C. Sproul explores the sovereignty that undergirds the kingdom of God — how God's reign over all things is the foundation of Christian hope." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

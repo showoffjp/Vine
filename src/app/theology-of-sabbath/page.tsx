@@ -9,7 +9,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "history" | "practice" | "rest";
+type Tab = "theology" | "history" | "practice" | "rest" | "videos";
 
 const theologyItems = [
   {
@@ -222,6 +222,7 @@ export default function TheologyOfSabbathPage() {
     { id: "history", label: "History of Sabbath Practice" },
     { id: "practice", label: "Sabbath Practice" },
     { id: "rest", label: "Rest and the Soul" },
+    { id: "videos", label: "Videos" },
   ];
 
   const selectedHistoryItem =
@@ -419,6 +420,41 @@ export default function TheologyOfSabbathPage() {
             expanded={expanded}
             onToggle={toggle}
           />
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors on sabbath and rest.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "ux0_5zctrsI", title: "Work and Rest", channel: "Timothy Keller", description: "Tim Keller explores the theology of sabbath, examining how religious leaders in Jesus's time had distorted it and how Jesus restores its true meaning." },
+                  { videoId: "Oh4_Iks09Zk", title: "Jesus Gives You Deep Rest of the Soul", channel: "Timothy Keller", description: "A sermon jam from Keller on how Jesus offers the deep soul-rest that Sabbath always pointed to — rest that no amount of leisure or sleep can provide." },
+                  { videoId: "Gn9DygofZyc", title: "Balancing Work and Rest: Timothy Keller's Biblical Wisdom", channel: "Timothy Keller", description: "Keller addresses the modern world's inability to rest, drawing on biblical wisdom about the relationship between meaningful work and genuine rest." },
+                  { videoId: "T6XtUdUkuN8", title: "Work and Rest — God's Message for You", channel: "Timothy Keller", description: "A reflective teaching from Keller on how the gospel transforms our relationship to both work and rest, freeing us from both workaholism and sloth." },
+                  { videoId: "1qtig6ARbY4", title: "The Sabbath Practice: Week Three — Delight", channel: "Church Teaching", description: "A teaching on what it looks like to practice sabbath as delight rather than duty — turning the day of rest into a day of genuine renewal." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         )}
       </div>
     </div>

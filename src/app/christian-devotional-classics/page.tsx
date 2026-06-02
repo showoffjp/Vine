@@ -293,7 +293,7 @@ const VOICES_CDC = [
   },
 ];
 
-type Tab = "classics" | "themes" | "reading-guide" | "voices";
+type Tab = "classics" | "themes" | "reading-guide" | "voices" | "videos";
 
 export default function ChristianDevotionalClassicsPage() {
   const [activeTab, setActiveTab] = useState<Tab>("classics");
@@ -317,10 +317,10 @@ export default function ChristianDevotionalClassicsPage() {
         </div>
 
         <div style={{ display: "flex", gap: 6, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 6, marginBottom: 32, width: "fit-content" }}>
-          {(["classics", "themes", "reading-guide", "voices"] as const).map(t => (
+          {(["classics", "themes", "reading-guide", "voices", "videos"] as const).map(t => (
             <button key={t} onClick={() => setActiveTab(t)}
               style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-              {t === "classics" ? "Classics" : t === "themes" ? "Themes" : t === "reading-guide" ? "Reading Guide" : "Voices"}
+              {t === "classics" ? "Classics" : t === "themes" ? "Themes" : t === "reading-guide" ? "Reading Guide" : t === "voices" ? "Voices" : "🎬 Videos"}
             </button>
           ))}
         </div>
@@ -469,6 +469,40 @@ export default function ChristianDevotionalClassicsPage() {
               <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 8, padding: 14 }}>
                 <div style={{ color: GREEN, fontWeight: 700, fontSize: 10, marginBottom: 6 }}>CONTRIBUTION</div>
                 <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{voice.contribution}</p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Lectures and teachings on the great devotional classics — Augustine, Thomas à Kempis, and the spiritual formation tradition.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "aqh5JgFOFqY", title: "Thomas à Kempis: Lessons on Devotion and Spiritual Growth", channel: "Spiritual Formation", description: "An introduction to Thomas à Kempis's life and the enduring lessons of 'The Imitation of Christ' — the most-read Christian book after the Bible." },
+                  { videoId: "5mZpN90XMew", title: "The Imitation of Christ by Thomas à Kempis — Summary & Review", channel: "Christian Classics Review", description: "A summary and review of 'The Imitation of Christ,' exploring why this 15th-century devotional has shaped more Christians than almost any other book." },
+                  { videoId: "WhMFn8syhCE", title: "Thomas à Kempis: The Imitation of Christ", channel: "Harvard Classics Lecture Series", description: "A scholarly lecture on 'The Imitation of Christ' from the Harvard Classics series — placing it in historical and literary context." },
+                  { videoId: "7z2MiXsR3L0", title: "Thomas à Kempis: The Monk Who Wrote The Imitation of Christ", channel: "Christian Author Series", description: "A biographical and theological portrait of Thomas à Kempis — who he was, why he wrote, and how his words have endured for 600 years." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

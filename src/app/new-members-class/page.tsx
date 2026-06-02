@@ -9,7 +9,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "why" | "sessions" | "covenant" | "resources";
+type Tab = "why" | "sessions" | "covenant" | "resources" | "videos";
 
 const whyPoints = [
   {
@@ -206,7 +206,8 @@ export default function NewMembersClassPage() {
     { id: "why", label: "Why Membership?" },
     { id: "sessions", label: "5-Session Outline" },
     { id: "covenant", label: "The Covenant" },
-    { id: "resources", label: "Resources" }
+    { id: "resources", label: "Resources" },
+    { id: "videos", label: "🎬 Videos" }
   ];
 
   return (
@@ -352,6 +353,39 @@ export default function NewMembersClassPage() {
                 )}
               </div>
             ))}
+          </div>
+        )}
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "0nFBwqzrAaw", title: "Church Membership", channel: "Mark Dever / Faithful Conference 2022", description: "Dever makes the biblical and practical case for meaningful church membership — why it matters, what it commits you to, and what the church commits to you." },
+                  { videoId: "PBARrC7Z1Tw", title: "What Is Church Membership? (Part 4)", channel: "Mark Dever / 9Marks", description: "Dever explains what meaningful membership looks like in practice — attendance, giving, prayer, service — and why a covenantal view of membership transforms church culture." },
+                  { videoId: "EjjHixkUv4M", title: "9Marks at Southeastern 2014: Regaining Meaningful Church Membership", channel: "Mark Dever / 9Marks", description: "Dever on how evangelical churches lost the meaning of membership and how to recover it — with practical guidance for pastors leading a new members class." },
+                  { videoId: "aA5J6epd7D4", title: "9 Marks of a Healthy Church", channel: "Mark Dever", description: "Dever's landmark teaching on what distinguishes a healthy church — the nine marks that any prospective new member should look for before joining." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

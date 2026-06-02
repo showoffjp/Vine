@@ -9,7 +9,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "types" | "reading" | "psalms" | "pray";
+type Tab = "types" | "reading" | "psalms" | "pray" | "videos";
 type PsalmType = "All" | "Lament" | "Praise" | "Royal" | "Wisdom" | "Historical" | "Penitential" | "Imprecatory" | "Pilgrimage";
 
 const TYPE_COLORS: Record<string, string> = {
@@ -388,6 +388,7 @@ export default function PsalmsDeepDivePage() {
     reading: "How to Read a Psalm",
     psalms: "Five Books",
     pray: "Praying Through the Psalms",
+    videos: "Videos",
   };
 
   return (
@@ -477,7 +478,7 @@ export default function PsalmsDeepDivePage() {
             flexWrap: "wrap",
           }}
         >
-          {(["types", "reading", "psalms", "pray"] as Tab[]).map((t) => (
+          {(["types", "reading", "psalms", "pray", "videos"] as Tab[]).map((t) => (
             <button
               key={t}
               onClick={() => setTab(t)}
@@ -975,6 +976,40 @@ export default function PsalmsDeepDivePage() {
                 </div>
               );
             })}
+          </div>
+        )}
+
+        {tab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "enxKd2YKgjI", title: "How Should You Read the Psalms?", channel: "Desiring God", description: "John Piper explains the proper approach to reading and praying the Psalms, seeing them as God's own prayer book for his people." },
+                  { videoId: "QgwzuFG5LCk", title: "Let the Psalms Teach You to Pray", channel: "Desiring God", description: "A practical guide to using the Psalter as a school of prayer, letting each psalm shape and expand your vocabulary before God." },
+                  { videoId: "tHPRGR3TGUM", title: "Isaiah: Dust to Glory", channel: "Ligonier Ministries", description: "R.C. Sproul explores how the prophetic books, like the Psalms, point forward to the Messiah — essential context for reading the Psalter." },
+                  { videoId: "G_A-alJl1ps", title: "The Resurrection (Mark 16:1–13)", channel: "Ligonier Ministries", description: "R.C. Sproul preaches through the climax of the Psalms' Messianic hope — the resurrection that the royal psalms anticipated." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

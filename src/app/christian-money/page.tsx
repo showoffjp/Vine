@@ -12,7 +12,7 @@ const THEOLOGY = [
   { title: "Generous and Content", verse: "Philippians 4:11-12", body: "Paul's testimony from prison: 'I have learned, in whatever state I am, to be content. I know how to be brought low, and I know how to abound. In any and every circumstance, I have learned the secret of facing plenty and hunger' (Philippians 4:11-12). Contentment is learned — it is a practiced skill, not a passive feeling. The secret Paul discovered is Christ as the source of sufficiency (4:13). Contentment and generosity are the double fruit of a life secured in God rather than money." },
 ];
 
-type Tab = "theology" | "voices" | "pitfalls" | "practices";
+type Tab = "theology" | "voices" | "pitfalls" | "practices" | "videos";
 
 const VOICES_MONEY = [
   {
@@ -102,6 +102,7 @@ export default function ChristianMoneyPage() {
             { id: "voices" as const, label: "Voices", icon: "💬" },
             { id: "pitfalls" as const, label: "Common Pitfalls", icon: "⚠️" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -201,6 +202,40 @@ export default function ChristianMoneyPage() {
                   <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{p.desc}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors on money, generosity, and stewardship.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "oBuDK7bQB-4", title: "What Does the Bible Say About Giving Money?", channel: "Desiring God", description: "John Piper walks through key biblical texts on giving, generosity, and the heart's relationship to wealth." },
+                  { videoId: "vT4XMSgD2_w", title: "David Platt & John Piper — Materialism of Our Hearts", channel: "Desiring God", description: "A conversation between David Platt and John Piper on how materialism quietly corrupts the Christian heart." },
+                  { videoId: "nZJF3vQohqE", title: "John Piper Interviews David Platt", channel: "Desiring God", description: "John Piper and David Platt discuss radical generosity, global mission, and what it costs to follow Christ with money." },
+                  { videoId: "XfM8l_Gxo-E", title: "The Truth About Tithing", channel: "Voddie Baucham", description: "Voddie Baucham examines what the Bible actually teaches about tithing and giving, correcting common misunderstandings." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

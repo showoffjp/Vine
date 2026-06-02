@@ -21,7 +21,7 @@ const PRINCIPLES = [
   { title: "Give Generously, Then Give More", desc: "Many financially wise Christians practice percentage increases: give 10%, then find one year to give 11%, then 12%, working upward as income and debt freedom allow. The goal is generosity that costs something — the widow's offering (Mark 12:41-44) is not commended for its amount but for the proportion. Systematic increases in giving counteract the lifestyle inflation that tends to absorb every income increase." },
 ];
 
-type Tab = "theology" | "thinkers" | "principles" | "resources";
+type Tab = "theology" | "thinkers" | "principles" | "resources" | "videos";
 
 const THINKERS_FINANCE = [
   {
@@ -102,6 +102,7 @@ export default function ChristianFinancialGuidePage() {
             { id: "thinkers" as const, label: "Thinkers", icon: "💡" },
             { id: "principles" as const, label: "Principles", icon: "📊" },
             { id: "resources" as const, label: "Resources", icon: "🔗" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -201,6 +202,40 @@ export default function ChristianFinancialGuidePage() {
                 </a>
               </div>
             ))}
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings on biblical financial stewardship — generosity, tithing, contentment, and the theology of money.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "VbnJtsF4SII", title: "Stewardship 101: Biblical Principles for Money, Giving & Contentment", channel: "Christian Financial Teaching", description: "An overview of the biblical principles for managing money — stewardship, generosity, contentment, and how money shapes our relationship with God." },
+                  { videoId: "GF-405SxcyY", title: "A Biblical Worldview of Tithing and Giving", channel: "Bob & Shawn", description: "An examination of why generosity is central in Scripture — what tithing means, how giving transforms us, and why Jesus talked about money so much." },
+                  { videoId: "xS4zJBXswwc", title: "Is Tithing Only for the Old Testament? The Truth About Biblical Giving", channel: "Biblical Finance", description: "Pastor Josh McPherson examines whether New Testament Christians are bound by the tithe — and what a gospel-driven approach to giving actually looks like." },
+                  { videoId: "Qlllx4IvujI", title: "Am I Generous? Biblical Giving, Tithing, Offerings & God's Heart for Money", channel: "Money Myths Series", description: "A teaching that goes beyond the tithe to explore God's heart for generous giving and how our finances reveal what we actually treasure." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

@@ -79,7 +79,7 @@ const PRACTICES = [
 ];
 
 export default function EcclesiologyPage() {
-  const [activeTab, setActiveTab] = useState<"theology" | "models" | "thinkers" | "practices">("theology");
+  const [activeTab, setActiveTab] = useState<"theology" | "models" | "thinkers" | "practices" | "videos">("theology");
   const [selectedModel, setSelectedModel] = useState("Body of Christ");
   const [selectedThinker, setSelectedThinker] = useState("luther");
 
@@ -103,6 +103,7 @@ export default function EcclesiologyPage() {
             { id: "models" as const, label: "Models", icon: "🔭" },
             { id: "thinkers" as const, label: "Thinkers", icon: "🧠" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -200,6 +201,39 @@ export default function EcclesiologyPage() {
                   <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{p.desc}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Video teachings on the theology of the church — what the church is, why it matters, and how to participate in it faithfully.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "5bYg6JL84rU", title: "What Is the Church? A Biblical Theology", channel: "The Bible Project", description: "An animated overview of the church's identity in the New Testament — ekklesia, body of Christ, temple of the Spirit — and why belonging to a local church is not optional." },
+                  { videoId: "LhUc3Z4J8B0", title: "The Marks of the True Church — Luther and Calvin", channel: "Ligonier Ministries", description: "Exploring the Reformation's answer to the question: what makes a church a church? Word, sacrament, and discipline as the marks that distinguish the true church." },
+                  { videoId: "21tY0ut8zvc", title: "Why You Need the Local Church — N.T. Wright", channel: "N.T. Wright Online", description: "Wright on the church as the advance community of new creation — not a gathering of souls waiting to escape earth, but the present sign and foretaste of God's renewed world." },
+                  { videoId: "vzk7zbuV2sg", title: "Life Together — Bonhoeffer on Christian Community", channel: "Theology Explained", description: "Exploring Bonhoeffer's vision of Christian community from Life Together — what genuine Christian fellowship costs and why we must love the real community rather than our dream of it." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

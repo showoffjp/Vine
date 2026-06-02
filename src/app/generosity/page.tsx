@@ -68,7 +68,7 @@ const SEED_GOALS: GivingGoal[] = [
 ];
 
 export default function GenerosityPage() {
-  const [activeTab, setActiveTab] = useState<"theology" | "voices" | "practical" | "goals">("theology");
+  const [activeTab, setActiveTab] = useState<"theology" | "voices" | "practical" | "goals" | "videos">("theology");
   const [selectedVoice, setSelectedVoice] = useState("muller");
   const voiceItem = VOICES_GENEROSITY.find(v => v.id === selectedVoice)!;
   const [goals, setGoals] = useState<GivingGoal[]>(() => {
@@ -101,6 +101,7 @@ export default function GenerosityPage() {
             { id: "voices" as const, label: "Voices", icon: "💬" },
             { id: "practical" as const, label: "Practical Guide", icon: "🛠️" },
             { id: "goals" as const, label: "Giving Goals", icon: "🎯" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -226,6 +227,39 @@ export default function GenerosityPage() {
                 </div>
               </div>
             ))}
+          </div>
+        )}
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Video teachings on Christian generosity, stewardship, and breaking money's hold on the heart — from the Bible and from those who have lived it.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "P9AG4VNptUA", title: "The Treasure Principle — Randy Alcorn", channel: "Eternal Perspective Ministries", description: "Alcorn unpacks Jesus's teaching on treasure in heaven — why giving is not sacrifice but investment, and how radical generosity is the primary antidote to materialism's grip on the heart." },
+                  { videoId: "YEpfbN5VltI", title: "Why Christians Should Give Generously", channel: "Desiring God", description: "John Piper on the theology of Christian giving — how God's own generous character in the gospel transforms how we hold money and possessions, freeing us to give liberally." },
+                  { videoId: "tdqz2DCkisQ", title: "Stewardship: Everything Belongs to God", channel: "The Bible Project", description: "A biblical overview of stewardship — how the concept of human beings as managers of God's world runs from creation through the New Testament and reshapes how we understand ownership and giving." },
+                  { videoId: "QqTlFSkuA4w", title: "Radical Generosity: Living Beyond Yourself", channel: "David Platt", description: "Platt's challenge to the compatibility of the American Dream and Christian discipleship — what global need and the gospel together demand of comfortable Western Christians." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

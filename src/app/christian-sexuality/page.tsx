@@ -4,7 +4,7 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "theology" | "body" | "purity" | "questions";
+type Tab = "theology" | "body" | "purity" | "questions" | "videos";
 
 // ── TAB 1 DATA ─────────────────────────────────────────────────────────────
 const THEOLOGY_ITEMS = [
@@ -163,6 +163,7 @@ export default function ChristianSexualityPage() {
     { id: "body", label: "Body & Soul", icon: "✝️" },
     { id: "purity", label: "Purity Culture", icon: "🌱" },
     { id: "questions", label: "Honest Questions", icon: "❓" },
+    { id: "videos", label: "Videos", icon: "🎬" },
   ];
 
   return (
@@ -474,6 +475,40 @@ export default function ChristianSexualityPage() {
               <p style={{ color: MUTED, fontSize: 13, marginTop: 14, fontStyle: "italic" }}>
                 &ldquo;And that is what some of you were. But you were washed, you were sanctified, you were justified.&rdquo; — 1 Corinthians 6:11
               </p>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors on sexuality, marriage, and biblical ethics.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "WaYKyRLjxzI", title: "Sexuality and Christian Hope", channel: "Timothy Keller", description: "Tim Keller explores Christianity's revolutionary view of sex, singleness, and marriage — and why it offers more hope than the culture's alternatives." },
+                  { videoId: "jUWnE6GeOiE", title: "Love and Lust", channel: "Timothy Keller", description: "A comprehensive biblical view of sexuality, desire, and what Scripture says about the difference between love and lust." },
+                  { videoId: "ZACkRe_W4Gg", title: "Marriage for the Glory of God", channel: "Paul Washer / John Piper / Voddie Baucham", description: "Paul Washer, John Piper, and Voddie Baucham on the foundational biblical concept that marriage is God's doing and exists for his glory." },
+                  { videoId: "XoxYPXqqO34", title: "The Meaning of Marriage — Session One", channel: "Timothy & Kathy Keller", description: "Tim and Kathy Keller teach the biblical framework for marriage from their widely-used Bible study series." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

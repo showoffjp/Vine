@@ -77,7 +77,7 @@ const PRACTICES = [
   { title: "Speak in Your Church", desc: "Raise the topic in your church context — in small groups, in conversation with pastors. You don't need to be an expert. You need to be someone who refuses comfortable silence on a matter the Bible addresses directly.", icon: "🎙️" },
 ];
 
-type Tab = "theology" | "barriers" | "voices" | "practices";
+type Tab = "theology" | "barriers" | "voices" | "practices" | "videos";
 
 export default function RaceReconciliationPage() {
   const [activeTab, setActiveTab] = useState<Tab>("theology");
@@ -103,6 +103,7 @@ export default function RaceReconciliationPage() {
             { id: "barriers" as const, label: "Barriers", icon: "🚧" },
             { id: "voices" as const, label: "Voices", icon: "🎙️" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -196,6 +197,41 @@ export default function RaceReconciliationPage() {
                   <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{p.desc}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors on race and reconciliation.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "zohRZjxwsss", title: "Race and the Christian: Q&A with Tim Keller, John Piper & Anthony Bradley", channel: "Redeemer Presbyterian Church", description: "Tim Keller and John Piper discuss what the Bible teaches about race, the church's responsibility, and the path toward genuine reconciliation." },
+                  { videoId: "EhJJcTKTVGo", title: "Racism and Corporate Evil: A White Guy's Perspective", channel: "Timothy Keller", description: "Tim Keller addresses how corporate evil and systemic sin relate to racial injustice, and what the gospel demands of white Christians." },
+                  { videoId: "pYV9FCS34eM", title: "Hope, Race and Power", channel: "Timothy Keller", description: "A sermon exploring how Christian hope shapes our approach to race-related issues and the power dynamics that fuel division." },
+                  { videoId: "E9bF2gjVPu8", title: "Race, Repentance, and Rejoicing: Ethnicity in the Kingdom", channel: "Desiring God / John Piper", description: "John Piper preaches on the biblical vision of ethnic diversity in God's kingdom and what genuine repentance and joy look like across racial lines." },
+                  { videoId: "lcNIyJZ2bbU", title: "Reconciliation", channel: "Timothy Keller", description: "A Keller sermon on reconciliation rooted in Joseph's story — the costly, Spirit-powered work of breaking down walls the gospel has already torn down." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

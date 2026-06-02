@@ -27,7 +27,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "resources" | "theology" | "support" | "voices";
+type Tab = "resources" | "theology" | "support" | "voices" | "videos";
 
 const entryPoints = [
   {
@@ -417,10 +417,10 @@ export default function MentalHealthPage() {
         {/* TAB BAR */}
         <div style={{ maxWidth: "1100px", margin: "0 auto", padding: "0 24px" }}>
           <div style={{ display: "flex", gap: 4, padding: "8px 0 0", background: "transparent" }}>
-            {(["resources", "theology", "support", "voices"] as const).map(t => (
+            {(["resources", "theology", "support", "voices", "videos"] as const).map(t => (
               <button key={t} onClick={() => setActiveTab(t)}
                 style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-                {t === "resources" ? "Resources" : t === "theology" ? "Theology" : t === "support" ? "Support Types" : "Voices"}
+                {t === "resources" ? "Resources" : t === "theology" ? "Theology" : t === "support" ? "Support Types" : t === "voices" ? "Voices" : "🎬 Videos"}
               </button>
             ))}
           </div>
@@ -1001,6 +1001,40 @@ export default function MentalHealthPage() {
                     <p style={{ color: GREEN, fontSize: 11, fontWeight: 700, letterSpacing: "0.06em", marginBottom: 6 }}>CONTRIBUTION</p>
                     <p style={{ color: "#C0C0D8", fontSize: 14 }}>{selectedVoice.contribution}</p>
                   </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === "videos" && (
+            <div style={{ maxWidth: "1100px", margin: "0 auto", padding: "0 24px 60px" }}>
+              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+                <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+                <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                  Sermons, lectures, and teachings on mental health, depression, anxiety, and the intersection of faith and psychological wellbeing.
+                </p>
+                <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                  {[
+                    { videoId: "2W_Bl99wNJk", title: "Dealing With Depression: A Biblical Answer to Emotional Suffering", channel: "Dr. David Jeremiah", description: "Dr. David Jeremiah addresses depression with pastoral compassion, drawing from Job's darkest moments to offer a biblical framework for navigating emotional suffering." },
+                    { videoId: "817xla1jZPk", title: "To the Christian Battling Depression, Anxiety, and Fear", channel: "Gospel-Centered Teaching", description: "A direct, honest message to believers who struggle with mental health — affirming that God is not angry at you for your weakness and that Scripture speaks to the depths of emotional pain." },
+                    { videoId: "_Mussj71QxE", title: "Everything Christians Need to Know About Anxiety, Depression & Godly Joy", channel: "Biblical Counseling", description: "A comprehensive teaching covering what the Bible says about anxiety and depression — distinguishing between spiritual, biological, and circumstantial roots, and offering biblical responses to each." },
+                    { videoId: "I0xDryrxp7o", title: "The Biblical Cure for Anxiety — Philippians 4 Explained", channel: "Expository Bible Teaching", description: "An expository examination of Philippians 4:6–7 — the most concentrated biblical passage on anxiety — unpacking what Paul's command to 'not be anxious' actually requires of us." },
+                  ].map(v => (
+                    <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                      <iframe
+                        width="100%"
+                        style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                        src={`https://www.youtube.com/embed/${v.videoId}`}
+                        title={v.title}
+                        allowFullScreen
+                      />
+                      <div style={{ padding: "14px 16px" }}>
+                        <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                        <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                        <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>

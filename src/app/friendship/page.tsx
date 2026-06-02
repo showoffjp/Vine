@@ -95,7 +95,7 @@ const SEED: Friend[] = [
 ];
 
 export default function FriendshipPage() {
-  const [activeTab, setActiveTab] = useState<"theology" | "voices" | "obstacles" | "practice">("theology");
+  const [activeTab, setActiveTab] = useState<"theology" | "voices" | "obstacles" | "practice" | "videos">("theology");
   const [selectedVoice, setSelectedVoice] = useState("lewis");
   const voiceItem = VOICES_FRIENDSHIP.find(v => v.id === selectedVoice)!;
   const [friends, setFriends] = useState<Friend[]>(() => {
@@ -136,6 +136,7 @@ export default function FriendshipPage() {
             { id: "voices" as const, label: "Voices", icon: "💬" },
             { id: "obstacles" as const, label: "Obstacles", icon: "🚧" },
             { id: "practice" as const, label: "My Friends", icon: "🤝" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -262,6 +263,39 @@ export default function FriendshipPage() {
                   </div>
                 );
               })}
+            </div>
+          </div>
+        )}
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "8Tc4VIQrXdE", title: "Friendship", channel: "Timothy Keller", description: "Keller preaches on the biblical vision of friendship — why wise people are skilled at choosing, forging, and keeping deep friendships, and what the gospel makes possible." },
+                  { videoId: "i9iUYsQuY3w", title: "Spiritual Friendship", channel: "Timothy Keller", description: "Keller explores how the gospel of Jesus Christ creates and calls us into spiritual friendships — a category the modern church has largely lost." },
+                  { videoId: "poswQjoLG6I", title: "Real Friendship and the Pleading Priest", channel: "Timothy Keller", description: "Keller on what it looks like when Christ's love shapes our friendships — the costly, loyal, truthful love that distinguished David and Jonathan." },
+                  { videoId: "oNkFUdo7P8o", title: "Jesus's Death as an Act of Friendship", channel: "Tim Keller / The Gospel Coalition", description: "Keller meditates on John 15:13 — 'greater love has no one than this' — and what it means that Jesus calls his disciples friends rather than servants." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

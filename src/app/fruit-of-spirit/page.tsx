@@ -156,7 +156,7 @@ const VOICES_FRUIT = [
   },
 ];
 
-type Tab = "fruit" | "theology" | "practices" | "voices";
+type Tab = "fruit" | "theology" | "practices" | "voices" | "videos";
 
 export default function FruitOfSpiritPage() {
   const [activeTab, setActiveTab] = useState<Tab>("fruit");
@@ -183,6 +183,7 @@ export default function FruitOfSpiritPage() {
             { id: "theology" as const, label: "Theology", icon: "📖" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
             { id: "voices" as const, label: "Voices", icon: "🎓" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -295,6 +296,40 @@ export default function FruitOfSpiritPage() {
                 <div style={{ fontSize: 11, fontWeight: 700, color: PURPLE, textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>Contribution</div>
                 <p style={{ fontSize: 14, color: TEXT, lineHeight: 1.75 }}>{voiceItem.contribution}</p>
               </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 24 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                Video teachings on the fruit of the Spirit — what they are, how they grow, and what the Holy Spirit produces in the life of a believer.
+              </p>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 20 }}>
+              {[
+                { id: "VGyBrSmiyFA", title: "The Fruit of the Spirit Is the Fruit of Faith", teacher: "John Piper" },
+                { id: "BqiocPRa5kg", title: "A Deep Study of Galatians 5", teacher: "Bible Study" },
+                { id: "fTBsK-KILEc", title: "The Fruit of the Spirit — Galatians 5:22-24", teacher: "Expository Sermon" },
+                { id: "LEK8_hlpPYY", title: "Fruit of the Holy Spirit", teacher: "Biblical Teaching" },
+              ].map(v => (
+                <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
+                    <iframe
+                      src={`https://www.youtube.com/embed/${v.id}`}
+                      title={v.title}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
+                    />
+                  </div>
+                  <div style={{ padding: "14px 16px" }}>
+                    <div style={{ color: TEXT, fontWeight: 700, fontSize: 14, marginBottom: 4 }}>{v.title}</div>
+                    <div style={{ color: MUTED, fontSize: 12 }}>{v.teacher}</div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         )}

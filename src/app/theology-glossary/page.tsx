@@ -229,7 +229,7 @@ const VOICES_THEO: TheologicalVoice[] = [
   },
 ];
 
-type Tab = "glossary" | "doctrines" | "history" | "voices";
+type Tab = "glossary" | "doctrines" | "history" | "voices" | "videos";
 
 export default function TheologyGlossaryPage() {
   const [activeTab, setActiveTab] = useState<Tab>("glossary");
@@ -303,10 +303,10 @@ export default function TheologyGlossaryPage() {
       {/* Tab Bar */}
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "20px 24px 0" }}>
         <div style={{ display: "flex", gap: 6, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}`, width: "fit-content" }}>
-          {(["glossary", "doctrines", "history", "voices"] as const).map(t => (
+          {(["glossary", "doctrines", "history", "voices", "videos"] as const).map(t => (
             <button key={t} onClick={() => setActiveTab(t)}
               style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-              {t === "glossary" ? "Glossary" : t === "doctrines" ? "Core Doctrines" : t === "history" ? "History" : "Voices"}
+              {t === "glossary" ? "Glossary" : t === "doctrines" ? "Core Doctrines" : t === "history" ? "History" : t === "voices" ? "Voices" : "Videos"}
             </button>
           ))}
         </div>
@@ -495,6 +495,41 @@ export default function TheologyGlossaryPage() {
                   <div style={{ fontSize: 11, color: GREEN, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>Lasting Contribution</div>
                   <p style={{ fontSize: 13, color: MUTED, lineHeight: 1.7, margin: 0 }}>{selectedVoice.contribution}</p>
                 </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars on Christian doctrine and theology.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "bIRbcmVC1Q0", title: "What Is Theology? — An Overview of Systematic Theology", channel: "Ligonier Ministries / R.C. Sproul", description: "Sproul defines theology and explains why every Christian is a theologian — showing how the truths of Scripture relate to each other in perfect harmony." },
+                  { videoId: "tx4qzI7az1U", title: "What's So Important About Theology?", channel: "Ligonier Ministries / R.C. Sproul", description: "An explanation of why understanding doctrine matters for knowing God better — and why theological ignorance is never spiritually neutral." },
+                  { videoId: "T5R9JmJTtOM", title: "Introduction: What Is Reformed Theology?", channel: "Ligonier Ministries / R.C. Sproul", description: "Sproul introduces the major theological traditions and what distinguishes Reformed theology from Liberal, Catholic, Dispensational, and Pentecostal approaches." },
+                  { videoId: "aXcLCPtWu08", title: "R.C. Sproul: Back to Basics", channel: "Ligonier Ministries", description: "A return to the foundational doctrines of the Christian faith — examining the core beliefs that have sustained the church through centuries of controversy and change." },
+                  { videoId: "S93jvC3Xf8A", title: "What Is the Trinity? | Crucial Questions", channel: "Ligonier Ministries / R.C. Sproul", description: "Sproul's accessible introduction to the doctrine of the Trinity — one of the most misunderstood and most important doctrines in all of Christian theology." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

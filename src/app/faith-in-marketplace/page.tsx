@@ -4,7 +4,7 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "theology" | "ethics" | "leaders" | "resources";
+type Tab = "theology" | "ethics" | "leaders" | "resources" | "videos";
 
 const THEOLOGY = [
   { title: "Work is not a result of the Fall — it is part of creation's goodness", color: GREEN, ref: "Genesis 1:28; Genesis 2:15; Proverbs 14:23", content: "The mandate to 'fill the earth and subdue it' (Gen 1:28) was given before the Fall, not as a consequence of it. Adam was placed in the garden 'to work it and keep it' (Gen 2:15). Work is a creation ordinance — one of the fundamental ways humans bear the image of God, who himself works (John 5:17). The Fall introduced toil and frustration into work, but it did not create work. A theology of business begins here: enterprise is not a necessary evil but a created good." },
@@ -64,10 +64,10 @@ export default function FaithInMarketplacePage() {
         </div>
 
         <div style={{ display: "flex", gap: 4, marginBottom: 24, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
-          {(["theology", "ethics", "leaders", "resources"] as Tab[]).map(t => (
+          {(["theology", "ethics", "leaders", "resources", "videos"] as Tab[]).map(t => (
             <button key={t} onClick={() => setTab(t)}
               style={{ padding: "8px 16px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
-              {t === "theology" ? "Theology of Work" : t === "ethics" ? "Business Ethics" : t === "leaders" ? "Faith-Driven Leaders" : "Resources"}
+              {t === "theology" ? "Theology of Work" : t === "ethics" ? "Business Ethics" : t === "leaders" ? "Faith-Driven Leaders" : t === "resources" ? "Resources" : "🎬 Videos"}
             </button>
           ))}
         </div>

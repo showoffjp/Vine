@@ -4,7 +4,7 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "catechisms" | "questions" | "history" | "voices";
+type Tab = "catechisms" | "questions" | "history" | "voices" | "videos";
 
 const CATECHISMS = [
   {
@@ -307,10 +307,10 @@ export default function CatechismGuidePage() {
 
         {/* Tab bar */}
         <div style={{ display: "flex", gap: 4, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 4, marginBottom: 28, width: "fit-content" }}>
-          {(["catechisms", "questions", "history", "voices"] as const).map(t => (
+          {(["catechisms", "questions", "history", "voices", "videos"] as const).map(t => (
             <button key={t} onClick={() => setActiveTab(t)}
               style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-              {t === "catechisms" ? "Catechisms" : t === "questions" ? "Famous Q&As" : t === "history" ? "History" : "Voices"}
+              {t === "catechisms" ? "Catechisms" : t === "questions" ? "Famous Q&As" : t === "history" ? "History" : t === "voices" ? "Voices" : "🎬 Videos"}
             </button>
           ))}
         </div>
@@ -518,6 +518,40 @@ export default function CatechismGuidePage() {
                   <div style={{ color: GREEN, fontWeight: 700, fontSize: 10, marginBottom: 6 }}>CONTRIBUTION</div>
                   <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{voice.contribution}</p>
                 </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Lectures and teachings on catechism — the Westminster Shorter Catechism, the New City Catechism, and the history of catechesis in the church.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "-1g8SUeW6Oo", title: "Introduction to the Westminster Shorter Catechism", channel: "Westminster Shorter Catechism Course", description: "An introduction to the Westminster Shorter Catechism — its history, purpose, and how to use it for personal and family discipleship." },
+                  { videoId: "TQI6LGaBJsc", title: "Westminster Shorter Catechism Q. 1 — Lesson 2", channel: "Westminster Shorter Catechism Course", description: "A careful study of the most famous question in the catechism: 'What is the chief end of man?' — and why the answer still shapes Christian living." },
+                  { videoId: "haJ_3n0upv0", title: "Sunday School Lesson 1: The Westminster Shorter Catechism", channel: "Sunday School Catechism", description: "The first lesson in a Sunday school series teaching the Westminster Shorter Catechism — accessible for all ages and backgrounds." },
+                  { videoId: "IpdSuDt46kU", title: "Three Resources for Families on the Westminster Shorter Catechism", channel: "Ligonier Ministries", description: "Ligonier recommends three key resources for families who want to teach the catechism to their children — practical guidance for household discipleship." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

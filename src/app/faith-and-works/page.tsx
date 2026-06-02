@@ -9,7 +9,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "paul" | "james" | "living";
+type Tab = "theology" | "paul" | "james" | "living" | "videos";
 
 const THEOLOGY_ITEMS = [
   {
@@ -198,6 +198,7 @@ export default function FaithAndWorksPage() {
     { id: "paul", label: "Paul on Justification" },
     { id: "james", label: "James 2:14-26" },
     { id: "living", label: "Living Faith" },
+    { id: "videos", label: "Videos" },
   ];
 
   return (
@@ -522,6 +523,40 @@ export default function FaithAndWorksPage() {
                 onToggle={() => toggle(`lv-${i}`)}
               />
             ))}
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 24 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                Video teachings on faith, works, justification, and how Paul and James speak with one voice on the gospel.
+              </p>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 20 }}>
+              {[
+                { id: "4aBTTEbDvW4", title: "Does James Contradict Paul?", teacher: "John Piper" },
+                { id: "QecyvLgSuN8", title: "Piper & Keller on Sanctification", teacher: "John Piper & Tim Keller" },
+                { id: "x2ZUeFYlk-I", title: "Faith and Work", teacher: "Timothy Keller" },
+                { id: "VGyBrSmiyFA", title: "The Fruit of Faith: Galatians 5", teacher: "John Piper" },
+              ].map(v => (
+                <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
+                    <iframe
+                      src={`https://www.youtube.com/embed/${v.id}`}
+                      title={v.title}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
+                    />
+                  </div>
+                  <div style={{ padding: "14px 16px" }}>
+                    <div style={{ color: TEXT, fontWeight: 700, fontSize: 14, marginBottom: 4 }}>{v.title}</div>
+                    <div style={{ color: MUTED, fontSize: 12 }}>{v.teacher}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         )}
       </div>

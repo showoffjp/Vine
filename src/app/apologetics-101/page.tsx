@@ -9,7 +9,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "what" | "methods" | "arguments" | "common";
+type Tab = "what" | "methods" | "arguments" | "common" | "videos";
 
 const WHAT_ITEMS = [
   {
@@ -160,6 +160,7 @@ export default function Apologetics101Page() {
     { id: "methods", label: "Apologetic Methods" },
     { id: "arguments", label: "Core Arguments for God" },
     { id: "common", label: "Common Objections" },
+    { id: "videos", label: "🎬 Videos" },
   ];
 
   const currentMethod = METHODS.find(m => m.id === selectedMethod);
@@ -414,6 +415,40 @@ export default function Apologetics101Page() {
                 )}
               </div>
             ))}
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Lectures and conversations introducing the discipline of Christian apologetics — how to think, how to engage, and how to give a reason for the hope within you.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "CaDF4FtRoUc", title: "The Task of Apologetics", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul defines what apologetics is and is not — its proper goal, its limits, and why every Christian should have a basic competency in it." },
+                  { videoId: "4uIvOniW8xA", title: "Making Sense of God: An Invitation to the Skeptical", channel: "Tim Keller / Talks at Google", description: "Keller addresses a Google audience with characteristic clarity — why belief in God is not irrational, and what makes Christianity uniquely compelling." },
+                  { videoId: "qOE6jJ4EGqg", title: "Questioning Christianity: Faith & Proof", channel: "Timothy Keller", description: "Keller explores how we decide what to believe, how faith and reason relate, and why skeptical questions deserve thoughtful Christian engagement." },
+                  { videoId: "L9jHlrMRJAo", title: "Reason for God: Belief in an Age of Skepticism", channel: "Tim Keller at Columbia University", description: "A Q&A session at Columbia University where Keller engages hard questions about Christianity from a skeptical academic audience." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

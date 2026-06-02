@@ -9,7 +9,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "howto" | "movements" | "faq";
+type Tab = "theology" | "howto" | "movements" | "faq" | "videos";
 
 // ─── Theology Data ────────────────────────────────────────────────────────────
 
@@ -446,6 +446,7 @@ const TABS: { id: Tab; label: string }[] = [
   { id: "howto", label: "How to Start a House Church" },
   { id: "movements", label: "Movements Worldwide" },
   { id: "faq", label: "FAQ" },
+  { id: "videos", label: "Videos" },
 ];
 
 export default function HouseChurchGuidePage() {
@@ -637,6 +638,40 @@ export default function HouseChurchGuidePage() {
               Frequently Asked Questions
             </h2>
             <Accordion items={faqItems} />
+          </div>
+        )}
+
+        {tab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "U16tDdh4IZo", title: "Francis Chan On The House Church Movement", channel: "Francis Chan", description: "Francis Chan shares his heart about the house church movement and why he believes smaller, relational gatherings better reflect the New Testament church." },
+                  { videoId: "2qheANo68eo", title: "We Are Church Documentary", channel: "Francis Chan / We Are Church", description: "An inside look at Francis Chan's house church network — what it looks like to do church in homes, focused on community and discipleship." },
+                  { videoId: "tSrPom_WV3Y", title: "The Leaders of the Church", channel: "Francis Chan", description: "Francis Chan examines what biblical church leadership looks like — servant-hearted elders shepherding small communities rather than institutional hierarchies." },
+                  { videoId: "FTZ3GfL9yQM", title: "The Upside Down Kingdom", channel: "Timothy Keller / Gospel in Life", description: "Tim Keller explores how the kingdom of God operates through smallness, hiddenness, and ordinary community — exactly the ethos of the house church." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

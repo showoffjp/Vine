@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -78,7 +78,7 @@ const VOICES_INTER = [
 ];
 
 export default function IntercessionPage() {
-  const [activeTab, setActiveTab] = useState<"list" | "models" | "voices" | "howto">("list");
+  const [activeTab, setActiveTab] = useState<"list" | "models" | "voices" | "howto" | "videos">("list");
   const [selectedVoice, setSelectedVoice] = useState("bounds");
   const voiceItem = VOICES_INTER.find(v => v.id === selectedVoice)!;
   const [items, setItems] = useState<PrayerItem[]>(() => {
@@ -158,6 +158,7 @@ export default function IntercessionPage() {
             { id: "models" as const, label: "Biblical Models", icon: "📖" },
             { id: "voices" as const, label: "Voices", icon: "💬" },
             { id: "howto" as const, label: "How to Intercede", icon: "🗺️" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -342,6 +343,40 @@ export default function IntercessionPage() {
                 </ul>
               </div>
             ))}
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors on intercession and prayer.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "poswQjoLG6I", title: "Real Friendship & Pleading as Priest", channel: "Tim Keller", description: "Keller explores the intercessory dimension of friendship — how true care for others naturally expresses itself in prayer on their behalf." },
+                  { videoId: "C2RuS8dPBjw", title: "Petitions, Prayers, Intercessions", channel: "Gospel Coalition", description: "A biblical exposition of 1 Timothy 2:1 unpacking the four types of prayer Paul commands, with special attention to intercession for all people." },
+                  { videoId: "J_rViLK1vG4", title: "Does Prayer Really Change Things?", channel: "Tim Keller", description: "Keller addresses the classic philosophical question about prayer and divine sovereignty, showing why intercession matters even if God is in control." },
+                  { videoId: "EuaBCmk4L_I", title: "Prayer: Experiencing Awe and Intimacy", channel: "Tim Keller", description: "A rich exposition of the nature of prayer as both access to a sovereign God and intimacy with a loving Father — the two impulses that sustain intercession." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

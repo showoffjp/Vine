@@ -366,7 +366,7 @@ export default function YouthPage() {
   const [likedResources, setLikedResources] = useState<Set<string>>(new Set());
   const [selectedChallenge, setSelectedChallenge] = useState<Challenge | null>(null);
   const [selectedResource, setSelectedResource] = useState<Resource | null>(null);
-  const [activeTab, setActiveTab] = useState<"challenges" | "resources" | "discuss" | "voices">("challenges");
+  const [activeTab, setActiveTab] = useState<"challenges" | "resources" | "discuss" | "voices" | "videos">("challenges");
   const [selectedVoice, setSelectedVoice] = useState("smith-jk");
   const voiceItem = VOICES_YOUTH.find(v => v.id === selectedVoice)!;
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -472,7 +472,7 @@ export default function YouthPage() {
             border: "1px solid #1E1E32",
           }}
         >
-          {(["challenges", "resources", "discuss", "voices"] as const).map((tab) => (
+          {(["challenges", "resources", "discuss", "voices", "videos"] as const).map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
@@ -489,7 +489,7 @@ export default function YouthPage() {
                 color: activeTab === tab ? "#fff" : "#9898B3",
               }}
             >
-              {tab === "challenges" ? "🔥 Challenges" : tab === "resources" ? "📚 Resources" : tab === "discuss" ? "💬 Discuss" : "🎓 Voices"}
+              {tab === "challenges" ? "🔥 Challenges" : tab === "resources" ? "📚 Resources" : tab === "discuss" ? "💬 Discuss" : tab === "voices" ? "🎓 Voices" : "🎬 Videos"}
             </button>
           ))}
         </div>
@@ -909,6 +909,40 @@ export default function YouthPage() {
                   <div style={{ color: "#6B4FBB", fontWeight: 700, fontSize: 13, marginBottom: 6 }}>Legacy and Contribution</div>
                   <p style={{ color: "#F2F2F8", fontSize: 14, lineHeight: 1.7, margin: 0 }}>{voiceItem.contribution}</p>
                 </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: "#00FF88", fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: "#9898B3", fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings on youth ministry, the next generation, and Christian formation for young believers.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "7a8i3EAWwxY", title: "The Centrality of the Home in Discipling the Next Generation", channel: "Voddie Baucham Ministries", description: "Voddie Baucham's foundational sermon on why the home — not the youth group — is the primary context for evangelism and discipleship of the next generation." },
+                  { videoId: "ZddfeDuOLrU", title: "Voddie Baucham on Youth Ministry", channel: "Voddie Baucham Ministries", description: "A comprehensive and direct assessment of modern youth ministry — its history, its structural problems, and what a biblically grounded alternative looks like." },
+                  { videoId: "1kYD52tVPrY", title: "Raising the Next Generation in Turbulent Times", channel: "Voddie Baucham Ministries", description: "Practical and theological guidance for parents and church leaders navigating the cultural pressures facing the next generation of Christian young people." },
+                  { videoId: "0H3w6mB1y4o", title: "Can Youth Ministry Be Fixed?", channel: "Voddie Baucham Ministries", description: "A direct examination of whether conventional youth ministry can be reformed — and what a church that genuinely forms young disciples looks like." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: "#07070F", border: "1px solid #1E1E32", borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: "#00FF88", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: "#9898B3", fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

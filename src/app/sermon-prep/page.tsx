@@ -23,7 +23,7 @@ const STEPS = [
   { n: 8, title: "Write, Practice, Revise", color: "#F97316", desc: "Write a full draft even if you won't preach from a manuscript. Writing forces clarity. Then practice aloud — preaching is oral, and what reads well often sounds flat. Notice where you stumble or lose energy. Revise ruthlessly. Cut everything that doesn't serve the central idea. Practice until the structure is internalized, then preach from the text and your people — not from the paper." },
 ];
 
-type Tab = "principles" | "preachers" | "process" | "notes";
+type Tab = "principles" | "preachers" | "process" | "notes" | "videos";
 
 const PREACHERS = [
   {
@@ -126,6 +126,7 @@ export default function SermonPrepPage() {
             { id: "preachers" as const, label: "Preachers", icon: "🎙️" },
             { id: "process" as const, label: "The Process", icon: "🔄" },
             { id: "notes" as const, label: "My Sermons", icon: "📝" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -237,6 +238,40 @@ export default function SermonPrepPage() {
                 </div>
               </div>
             ))}
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Lectures and workshops from master preachers on the craft and theology of expository preaching.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "SWe1E8AMMr8", title: "Preaching to the Heart", channel: "The Gospel Coalition (Tim Keller)", description: "Tim Keller's workshop from TGC's 2015 National Conference — how to move from head to heart in preaching, and why cognitive content alone never transforms." },
+                  { videoId: "iEwtnsEuLJc", title: "John Piper, Tim Keller, and Richard Coekin on Expositional Preaching", channel: "The Gospel Coalition", description: "Three master preachers discuss what expository preaching is, why it matters, and how they approach the work of preparing and delivering a biblical message." },
+                  { videoId: "ZYmk3DiPJVI", title: "Desiring God Through Fasting and Prayer: Session 1", channel: "Desiring God (John Piper)", description: "Piper on the spiritual disciplines that undergird genuine preaching — how prayer and fasting shape the preacher before they shape the sermon." },
+                  { videoId: "7wVTwlm_bbc", title: "Praying in the Closet and in the Spirit", channel: "Desiring God (John Piper)", description: "How disciplined and spontaneous prayer should flow from confidence that God is on our side — essential teaching for any preacher who wants power beyond technique." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

@@ -4,7 +4,7 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "hymns" | "theology" | "history" | "voices";
+type Tab = "hymns" | "theology" | "history" | "voices" | "videos";
 
 const ERA_FILTERS = ["All", "17th Century", "18th Century", "19th Century", "20th Century"];
 
@@ -332,10 +332,10 @@ export default function GreatHymnsExplainedPage() {
 
         {/* Tab bar */}
         <div style={{ display: "flex", gap: 6, marginBottom: 28, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 6, flexWrap: "wrap" }}>
-          {(["hymns", "theology", "history", "voices"] as const).map(t => (
+          {(["hymns", "theology", "history", "voices", "videos"] as const).map(t => (
             <button key={t} onClick={() => setActiveTab(t)}
               style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-              {t === "hymns" ? "Hymns" : t === "theology" ? "Theology" : t === "history" ? "History" : "Voices"}
+              {t === "hymns" ? "Hymns" : t === "theology" ? "Theology" : t === "history" ? "History" : t === "voices" ? "Voices" : "🎬 Videos"}
             </button>
           ))}
         </div>
@@ -501,6 +501,40 @@ export default function GreatHymnsExplainedPage() {
                 <div style={{ color: PURPLE, fontWeight: 700, fontSize: 10, marginBottom: 8 }}>CONTRIBUTION TO HYMNODY</div>
                 <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0 }}>{activeVoice.contribution}</p>
               </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 24 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                Video explorations of the great Christian hymns — their history, theology, and the stories behind their composition.
+              </p>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 20 }}>
+              {[
+                { id: "uohh6i_tQII", title: "Amazing Grace: The Story Behind the 250-Year-Old Hymn", teacher: "Hymn History" },
+                { id: "qX9M1fDzmDA", title: "The Story Behind the Song: Amazing Grace", teacher: "John Newton's Journey" },
+                { id: "xz6jfUQGwZI", title: "Amazing Grace: The Life of Minister John Newton", teacher: "Church History" },
+                { id: "8m8AHHduTM0", title: "Amazing Grace: The Story Behind the Song", teacher: "Christian Music History" },
+              ].map(v => (
+                <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
+                    <iframe
+                      src={`https://www.youtube.com/embed/${v.id}`}
+                      title={v.title}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
+                    />
+                  </div>
+                  <div style={{ padding: "14px 16px" }}>
+                    <div style={{ color: TEXT, fontWeight: 700, fontSize: 14, marginBottom: 4 }}>{v.title}</div>
+                    <div style={{ color: MUTED, fontSize: 12 }}>{v.teacher}</div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         )}

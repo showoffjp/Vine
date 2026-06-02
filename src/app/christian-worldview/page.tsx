@@ -143,7 +143,7 @@ const CHALLENGES_DATA = [
   },
 ];
 
-type Tab = "narrative" | "applications" | "thinkers" | "challenges";
+type Tab = "narrative" | "applications" | "thinkers" | "challenges" | "videos";
 
 export default function ChristianWorldviewPage() {
   const [activeTab, setActiveTab] = useState<Tab>("narrative");
@@ -170,6 +170,7 @@ export default function ChristianWorldviewPage() {
             { id: "applications" as const, label: "Applications", icon: "🌍" },
             { id: "thinkers" as const, label: "Thinkers", icon: "🧠" },
             { id: "challenges" as const, label: "Challenges", icon: "⚔️" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -293,6 +294,39 @@ export default function ChristianWorldviewPage() {
                 <div style={{ fontSize: 12, color: PURPLE, fontStyle: "italic" }}>{c.scripture}</div>
               </div>
             ))}
+          </div>
+        )}
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "qKnaqb0reDE", title: "Why Creation, Fall, and Redemption Are Essential to the Christian Worldview", channel: "Christian Worldview Teaching", description: "An accessible explanation of why the four-act story — creation, fall, redemption, new creation — is the framework for understanding everything the Christian believes." },
+                  { videoId: "OvoYMvJDXg0", title: "The Big Story", channel: "Christian Teaching", description: "The Christian metanarrative presented as a whole — how creation, fall, redemption, and restoration form a coherent account of reality that no other worldview matches." },
+                  { videoId: "ClRGMCnimgo", title: "The Song of Creation", channel: "Timothy Keller", description: "Keller preaches on Genesis and the goodness of creation — why the material world matters, and what it means that God called it very good." },
+                  { videoId: "Hkepw1xh3KQ", title: "What Is a Christian Worldview?", channel: "TRUELIFE / Bruce Ashford", description: "Dr. Bruce Ashford walks through creation, fall, and redemption as the lens through which Christians understand science, culture, politics, and suffering." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

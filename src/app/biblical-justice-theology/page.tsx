@@ -4,7 +4,7 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "foundations" | "ot" | "nt" | "today";
+type Tab = "foundations" | "ot" | "nt" | "today" | "videos";
 
 const FOUNDATIONS = [
   {
@@ -195,10 +195,10 @@ export default function BiblicalJusticeTheologyPage() {
         </div>
 
         <div style={{ display: "flex", gap: 4, marginBottom: 28, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
-          {(["foundations", "ot", "nt", "today"] as Tab[]).map(t => (
+          {(["foundations", "ot", "nt", "today", "videos"] as Tab[]).map(t => (
             <button key={t} onClick={() => setTab(t)}
               style={{ padding: "8px 18px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer", transition: "all 0.15s" }}>
-              {t === "foundations" ? "Biblical Foundations" : t === "ot" ? "Old Testament" : t === "nt" ? "New Testament" : "Justice Today"}
+              {t === "foundations" ? "Biblical Foundations" : t === "ot" ? "Old Testament" : t === "nt" ? "New Testament" : t === "today" ? "Justice Today" : "🎬 Videos"}
             </button>
           ))}
         </div>
@@ -303,6 +303,40 @@ export default function BiblicalJusticeTheologyPage() {
                 </div>
               </div>
             ))}
+          </div>
+        )}
+
+        {tab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "73BIN1myTqg", title: "Justice", channel: "Tim Keller / Gospel in Life", description: "Keller preaches on the biblical concept of justice — what mishpat and tzedakah really mean, and why justice for the poor is not optional for Christians." },
+                  { videoId: "u8Fn4vTTXHM", title: "Doing Justice and Mercy", channel: "Tim Keller / Gospel in Life", description: "Keller unpacks Micah 6:8's call to do justice, love hesed, and walk humbly with God — and what this demands of the Christian community in practice." },
+                  { videoId: "dtEDBtC7aRo", title: "A Biblical Critique of Secular Justice and Critical Theory", channel: "Tim Keller", description: "Keller examines secular justice frameworks through a biblical lens, distinguishing what the Bible affirms from what it challenges in contemporary justice discourse." },
+                  { videoId: "Ic2DAoS4tJM", title: "Biblical Foundations for Seeking God's Justice in a Sinful World", channel: "Tim Keller / The Gospel Coalition", description: "Keller and others provide a theological framework for justice work grounded in the whole Bible — not just the prophets but also Paul and the New Testament." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
 

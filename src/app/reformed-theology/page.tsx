@@ -91,7 +91,7 @@ const REFORMED_RESOURCES = [
 ];
 
 export default function ReformedTheologyPage() {
-  const [activeTab, setActiveTab] = useState<"tulip" | "confessions" | "figures" | "resources">("tulip");
+  const [activeTab, setActiveTab] = useState<"tulip" | "confessions" | "figures" | "resources" | "videos">("tulip");
   const [selectedTulip, setSelectedTulip] = useState<string | null>(null);
   const tulip = TULIP.find(t => t.letter === selectedTulip);
 
@@ -112,6 +112,7 @@ export default function ReformedTheologyPage() {
             { id: "confessions" as const, label: "Confessions", icon: "📜" },
             { id: "figures" as const, label: "Key Figures", icon: "👤" },
             { id: "resources" as const, label: "Resources", icon: "📚" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -236,6 +237,40 @@ export default function ReformedTheologyPage() {
                     </div>
                   </div>
                   <p style={{ fontSize: 13, color: MUTED, lineHeight: 1.6, margin: 0 }}>{r.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 24 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                Video teachings on Reformed theology — the TULIP, God's sovereignty, the confessions, and the Reformation legacy.
+              </p>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 20 }}>
+              {[
+                { id: "qT8gts0FkPI", title: "What Is Reformed Theology?", teacher: "R.C. Sproul" },
+                { id: "RvUpyxnqAow", title: "Total Depravity — Reformed Theology", teacher: "R.C. Sproul" },
+                { id: "tQ3N8YTjEpc", title: "Limited Atonement — Reformed Theology", teacher: "R.C. Sproul" },
+                { id: "loXh8PqrR3Y", title: "Irresistible Grace — Reformed Theology", teacher: "R.C. Sproul" },
+              ].map(v => (
+                <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
+                    <iframe
+                      src={`https://www.youtube.com/embed/${v.id}`}
+                      title={v.title}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
+                    />
+                  </div>
+                  <div style={{ padding: "14px 16px" }}>
+                    <div style={{ color: TEXT, fontWeight: 700, fontSize: 14, marginBottom: 4 }}>{v.title}</div>
+                    <div style={{ color: MUTED, fontSize: 12 }}>{v.teacher}</div>
+                  </div>
                 </div>
               ))}
             </div>

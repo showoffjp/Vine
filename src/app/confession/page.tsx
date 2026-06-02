@@ -54,7 +54,7 @@ const BARRIERS = [
 ];
 
 export default function ConfessionPage() {
-  const [activeTab, setActiveTab] = useState<"why" | "how" | "barriers" | "guide">("why");
+  const [activeTab, setActiveTab] = useState<"why" | "how" | "barriers" | "guide" | "videos">("why");
   const [expandedFramework, setExpandedFramework] = useState<string>("ACTS");
   const [journalText, setJournalText] = useState(() => {
     try { return localStorage.getItem("vine_confession_journal") || ""; } catch { return ""; }
@@ -84,6 +84,7 @@ export default function ConfessionPage() {
             { id: "how" as const, label: "How To", icon: "🗺️" },
             { id: "barriers" as const, label: "Barriers", icon: "🧱" },
             { id: "guide" as const, label: "Personal Guide", icon: "✍️" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>

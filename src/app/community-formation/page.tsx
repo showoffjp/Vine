@@ -77,7 +77,7 @@ const PRACTICES = [
   { title: "Celebrate and Mourn Together", desc: "Community is formed in celebrations and laments as much as in ordinary weeks. Show up when people are married, when children are born, when parents die. The presence at the milestone is what distinguishes community from acquaintance.", icon: "🎉" },
 ];
 
-type Tab = "theology" | "obstacles" | "models" | "practices";
+type Tab = "theology" | "obstacles" | "models" | "practices" | "videos";
 
 export default function CommunityFormationPage() {
   const [tab, setTab] = useState<Tab>("theology");
@@ -103,6 +103,7 @@ export default function CommunityFormationPage() {
             { id: "obstacles" as const, label: "Obstacles", icon: "⚠️" },
             { id: "models" as const, label: "Historical Models", icon: "🏛️" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -204,6 +205,40 @@ export default function CommunityFormationPage() {
                   <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{p.desc}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {tab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "D13B2uGgklA", title: "How to Have Real Community", channel: "Francis Chan", description: "Francis Chan challenges believers to move beyond Sunday attendance into the kind of deep, costly community that mirrors the early church in Acts." },
+                  { videoId: "2qheANo68eo", title: "We Are Church Documentary", channel: "Francis Chan", description: "An exploration of what the church is actually meant to be — a living community, not a religious institution — and what it looks like to recapture that." },
+                  { videoId: "H_H1se2L1vo", title: "A Community of Life", channel: "Matt Chandler / The Village Church", description: "Matt Chandler preaches on how believers are called to be a community that cherishes life together and exists to love God and make disciples." },
+                  { videoId: "Oe_mi-svLQk", title: "God's Design for Church", channel: "Francis Chan", description: "Francis Chan addresses the question of what the church is designed to be and how genuine community is central to that design from the New Testament." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

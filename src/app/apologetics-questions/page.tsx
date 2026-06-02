@@ -4,7 +4,7 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "questions" | "methods" | "thinkers" | "resources";
+type Tab = "questions" | "methods" | "thinkers" | "resources" | "videos";
 
 const TOPIC_FILTERS = ["All", "Existence of God", "Problem of Evil", "Jesus & Resurrection", "Bible", "Science & Faith", "Morality", "Other Religions"];
 
@@ -356,10 +356,10 @@ export default function ApologeticsQuestionsPage() {
 
         {/* Tab bar */}
         <div style={{ display: "flex", gap: 4, marginBottom: 28, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 6 }}>
-          {(["questions", "methods", "thinkers", "resources"] as const).map(t => (
+          {(["questions", "methods", "thinkers", "resources", "videos"] as const).map(t => (
             <button key={t} onClick={() => setActiveTab(t)}
               style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer", flex: 1 }}>
-              {t === "questions" ? "Questions" : t === "methods" ? "Methods" : t === "thinkers" ? "Thinkers" : "Resources"}
+              {t === "questions" ? "Questions" : t === "methods" ? "Methods" : t === "thinkers" ? "Thinkers" : t === "resources" ? "Resources" : "🎬 Videos"}
             </button>
           ))}
         </div>
@@ -555,6 +555,40 @@ export default function ApologeticsQuestionsPage() {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Lectures, debates, and responses to the toughest questions skeptics raise about Christianity — from leading apologists and scholars.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "REFLtsGRTho", title: "John Lennox Answers Questions on God, Science and Faith", channel: "John Lennox / Premier Unbelievable", description: "A live Q&A where Professor John Lennox takes hard questions about God, science, miracles, and the evidence for Christianity." },
+                  { videoId: "1C_nQHQ1epc", title: "John Lennox Explains Suffering and It Will Blow Your Mind", channel: "John Lennox", description: "Lennox addresses the problem of evil and suffering — perhaps the single most common objection to Christian faith — with philosophical rigor and pastoral warmth." },
+                  { videoId: "NpJm-qX3rW0", title: "God, Science & the Big Questions: Responding to the New Atheism", channel: "Leading Christian Thinkers", description: "A panel of Christian scholars — including John Lennox — respond to the arguments of the New Atheism with careful, reasoned replies." },
+                  { videoId: "g5r4l55MUe0", title: "Why Science Buries Atheism, Not God", channel: "Professor John Lennox", description: "Lennox argues that modern science, far from undermining faith, actually points strongly toward the existence of a Creator and Designer." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

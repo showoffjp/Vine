@@ -119,7 +119,7 @@ const DAYS = [
   },
 ];
 
-type Tab = "guide" | "voices" | "methods" | "corporate";
+type Tab = "guide" | "voices" | "methods" | "corporate" | "videos";
 
 const VOICES_PRAYER = [
   {
@@ -199,6 +199,7 @@ export default function WeeklyPrayerGuidePage() {
     { id: "voices", label: "Voices on Prayer", icon: "💬" },
     { id: "methods", label: "Methods", icon: "🙏" },
     { id: "corporate", label: "Corporate Prayer", icon: "👥" },
+    { id: "videos", label: "Videos", icon: "🎬" },
   ];
 
   return (
@@ -339,6 +340,40 @@ export default function WeeklyPrayerGuidePage() {
                 <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.75, margin: 0 }}>{c.desc}</p>
               </div>
             ))}
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings on prayer — how to pray, why we pray, and how prayer shapes the Christian life.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "d6eqCIGhOxw", title: "The Lord's Prayer — Explained by John Piper", channel: "Desiring God (John Piper)", description: "John Piper unpacks Matthew 6:9–13 phrase by phrase — revealing why Jesus gave us this model prayer and what each petition demands from our lives." },
+                  { videoId: "V-_lmGR9EdE", title: "Teach Us to Pray", channel: "Desiring God (John Piper)", description: "A four-minute devotional by John Piper on the Lord's Prayer — rehearsing the most profound and familiar words ever spoken and helping us pray them with fresh depth." },
+                  { videoId: "IvWmwvdJ-mU", title: "How to Pray: Prayer with R.C. Sproul", channel: "Ligonier Ministries", description: "R.C. Sproul explores how prayer is far more than casual conversation — it is an audience with the King, and how we approach it reveals what we believe about God." },
+                  { videoId: "ZYmk3DiPJVI", title: "Desiring God Through Fasting and Prayer", channel: "Desiring God (John Piper)", description: "John Piper on fasting and prayer as disciplines that train the soul to want God more than comfort — essential teaching for anyone seeking to deepen their prayer life." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

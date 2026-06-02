@@ -4,7 +4,7 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "what" | "hours" | "resources" | "howto";
+type Tab = "what" | "hours" | "resources" | "howto" | "videos";
 
 const HOURS = [
   { hour: "Vigils / Matins", time: "3–6 AM", latin: "Vigilia / Matutinum", color: PURPLE, tradition: "Monastic", psalm: "Psalm 63:1-8", desc: "The overnight office — practiced by monastic communities who rise in the night to pray before dawn. Based on Psalm 119:62 ('At midnight I rise to praise you') and Luke 6:12 (Jesus praying all night before choosing the Twelve). In the Anglican tradition, Matins (Morning Prayer) absorbed this office and moved it to early morning. Most lay Christians encounter only a liturgical echo of this hour.", modern: "Occasional night prayer; retreat-based vigil services; Holy Saturday vigil (the Great Vigil of Easter)." },
@@ -53,10 +53,10 @@ export default function DailyOfficePage() {
         </div>
 
         <div style={{ display: "flex", gap: 4, marginBottom: 24, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
-          {(["what", "hours", "resources", "howto"] as Tab[]).map(t => (
+          {(["what", "hours", "resources", "howto", "videos"] as Tab[]).map(t => (
             <button key={t} onClick={() => setTab(t)}
               style={{ padding: "8px 16px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
-              {t === "what" ? "Why the Daily Office" : t === "hours" ? "The Seven Hours" : t === "resources" ? "Resources" : "How to Begin"}
+              {t === "what" ? "Why the Daily Office" : t === "hours" ? "The Seven Hours" : t === "resources" ? "Resources" : t === "howto" ? "How to Begin" : "🎬 Videos"}
             </button>
           ))}
         </div>

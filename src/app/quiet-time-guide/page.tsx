@@ -156,7 +156,7 @@ const VOICES_QT = [
 ];
 
 export default function QuietTimeGuidePage() {
-  const [activeTab, setActiveTab] = useState<"methods" | "voices" | "schedules" | "obstacles">("methods");
+  const [activeTab, setActiveTab] = useState<"methods" | "voices" | "schedules" | "obstacles" | "videos">("methods");
   const [selectedVoice, setSelectedVoice] = useState("murray");
   const voiceItem = VOICES_QT.find(v => v.id === selectedVoice)!;
   const [selectedMethod, setSelectedMethod] = useState<string | null>(null);
@@ -179,6 +179,7 @@ export default function QuietTimeGuidePage() {
             { id: "voices" as const, label: "Voices", icon: "💬" },
             { id: "schedules" as const, label: "Schedules", icon: "⏰" },
             { id: "obstacles" as const, label: "Obstacles", icon: "⚠️" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -312,6 +313,40 @@ export default function QuietTimeGuidePage() {
                 </div>
               </div>
             ))}
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 24 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                Practical video guidance on developing a consistent, fruitful daily quiet time with God.
+              </p>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 20 }}>
+              {[
+                { id: "cRmWSB1c6L8", title: "How to Study the Bible", teacher: "R.C. Sproul" },
+                { id: "72F48OWejh4", title: "7 Powerful Bible Study / Quiet Time Ideas", teacher: "Daily Disciple" },
+                { id: "Cjju49Zsst0", title: "My Morning Quiet Time Routine", teacher: "Christian Devotional" },
+                { id: "nryZyL59Gh8", title: "Level Up Your Quiet Time with God", teacher: "Spiritual Formation" },
+              ].map(v => (
+                <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
+                    <iframe
+                      src={`https://www.youtube.com/embed/${v.id}`}
+                      title={v.title}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
+                    />
+                  </div>
+                  <div style={{ padding: "14px 16px" }}>
+                    <div style={{ color: TEXT, fontWeight: 700, fontSize: 14, marginBottom: 4 }}>{v.title}</div>
+                    <div style={{ color: MUTED, fontSize: 12 }}>{v.teacher}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         )}
       </div>

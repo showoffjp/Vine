@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Target,
   Plus,
@@ -74,7 +74,7 @@ export default function GoalsPage() {
     } catch { return []; }
   });
   const [showAdd, setShowAdd] = useState(false);
-  const [activeTab, setActiveTab] = useState<"active" | "completed" | "theology" | "voices">("active");
+  const [activeTab, setActiveTab] = useState<"active" | "completed" | "theology" | "voices" | "videos">("active");
   const [selectedVoice, setSelectedVoice] = useState("smith-jka");
   const voiceItem = VOICES_GOALS.find(v => v.id === selectedVoice)!;
 
@@ -188,7 +188,7 @@ export default function GoalsPage() {
 
           {/* Tabs */}
           <div className="flex gap-1 p-1 rounded-xl mb-6" style={{ background: "#12121F", border: "1px solid #1E1E32" }}>
-            {(["active", "completed", "theology", "voices"] as const).map((tab) => (
+            {(["active", "completed", "theology", "voices", "videos"] as const).map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
@@ -199,7 +199,7 @@ export default function GoalsPage() {
                   border: activeTab === tab ? "1px solid rgba(0,255,136,0.2)" : "1px solid transparent",
                 }}
               >
-                {tab === "active" ? `Active (${active.length})` : tab === "completed" ? `Done (${completed.length})` : tab === "theology" ? "📖 Theology" : "🎓 Voices"}
+                {tab === "active" ? `Active (${active.length})` : tab === "completed" ? `Done (${completed.length})` : tab === "theology" ? "📖 Theology" : tab === "voices" ? "🎓 Voices" : "🎬 Videos"}
               </button>
             ))}
           </div>
@@ -541,6 +541,40 @@ export default function GoalsPage() {
                 <div>
                   <div style={{ fontSize: 11, fontWeight: 700, color: "#6B4FBB", textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>Contribution</div>
                   <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.75 }}>{voiceItem.contribution}</p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === "videos" && (
+            <div>
+              <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 24, marginBottom: 24 }}>
+                <h2 style={{ color: "#00FF88", fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+                <p style={{ color: "#9898B3", fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                  Video teachings on setting faith goals, spiritual growth, and pursuing God's calling with intentionality.
+                </p>
+                <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                  {[
+                    { videoId: "G4-WT4NvC14", title: "How to Set Spiritual Goals That Actually Stick", channel: "The Gospel Coalition", description: "Practical wisdom for setting goals that are grounded in the gospel — not performance-driven, but grace-fueled. How to pursue growth without turning it into works-righteousness." },
+                    { videoId: "7SbckqNUDm0", title: "The Discipleship Life: Intentional Formation", channel: "Dallas Willard Ministries", description: "Willard on why intentionality matters in the Christian life — how deliberate training in godliness differs from mere willpower, and what it means to arrange your life for spiritual growth." },
+                    { videoId: "poXKoL5y4Lo", title: "Living with Purpose: The Called Life", channel: "The Gospel Coalition", description: "What it means to live in response to God's calling — how your specific gifts, circumstances, and opportunities fit into a life of intentional discipleship and mission." },
+                    { videoId: "tspDy2KIyeI", title: "Seasons of Spiritual Growth", channel: "Renovaré", description: "Understanding the different seasons of spiritual growth — how God works differently in different stages of the journey, and how to cooperate with what he is doing in each season." },
+                  ].map(v => (
+                    <div key={v.videoId} style={{ background: "#07070F", border: "1px solid #1E1E32", borderRadius: 10, overflow: "hidden" }}>
+                      <iframe
+                        width="100%"
+                        style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                        src={`https://www.youtube.com/embed/${v.videoId}`}
+                        title={v.title}
+                        allowFullScreen
+                      />
+                      <div style={{ padding: "14px 16px" }}>
+                        <h4 style={{ color: "#00FF88", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                        <p style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                        <p style={{ color: "#9898B3", fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>

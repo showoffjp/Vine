@@ -40,7 +40,7 @@ const BOOKS = [
   { title: "Spiritual Leadership", author: "J. Oswald Sanders", year: 1967, category: "Leadership", color: GREEN, rating: 5, desc: "The classic text on Christian leadership — what makes a person fit to lead the people of God. Sanders works through biblical, historical, and practical dimensions of spiritual leadership with the directness and wisdom of a man who spent a lifetime in Christian ministry. Particularly strong on the relationship between personal holiness and leadership effectiveness.", buy: "https://www.amazon.com/Spiritual-Leadership-Principles-Excellence-Christian/dp/0802416136", initials: "SL" },
 ];
 
-type Tab = "books" | "readers" | "plans" | "tips";
+type Tab = "books" | "readers" | "plans" | "tips" | "videos";
 
 const READERS = [
   {
@@ -187,6 +187,7 @@ export default function ChristianBooksGuidePage() {
             { id: "readers" as const, label: "Great Readers", icon: "💬" },
             { id: "plans" as const, label: "Reading Plans", icon: "📋" },
             { id: "tips" as const, label: "How to Read", icon: "🧠" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -322,6 +323,40 @@ export default function ChristianBooksGuidePage() {
                 <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{tip.desc}</p>
               </div>
             ))}
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Recommendations, reviews, and teachings on the most important books for Christian growth — from classics to modern theology.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "TfdBujxKuqY", title: "The 5 Most Profound C.S. Lewis Books Every Christian Should Read", channel: "Christian Books", description: "A guide to the most formative C.S. Lewis books — from Mere Christianity to The Problem of Pain — and why every Christian should read them." },
+                  { videoId: "Cct9oRGBK3g", title: "My 7 Most-Recommended Books on Theology", channel: "Theology Reading Guide", description: "Seven essential theology books recommended for Christians who want to go deeper — from foundational works to more advanced systematic theology." },
+                  { videoId: "3MniW8a9Elk", title: "These 10 Books Influenced My Theology the Most", channel: "Theological Formation", description: "A pastor and scholar shares the ten books that most shaped his understanding of Scripture, God, and the Christian life — with explanations of why." },
+                  { videoId: "mEpk1U-Uyk4", title: "Best John Piper Books for Beginners", channel: "Ask Pastor John / Desiring God", description: "Piper's own recommendations for where to start reading his work — which books have most shaped the people who read them, and in what order." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

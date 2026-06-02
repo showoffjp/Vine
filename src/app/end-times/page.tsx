@@ -115,7 +115,7 @@ const THINKERS_ESC = [
 ];
 
 export default function EndTimesPage() {
-  const [activeTab, setActiveTab] = useState<"views" | "thinkers" | "essentials" | "practical">("essentials");
+  const [activeTab, setActiveTab] = useState<"views" | "thinkers" | "essentials" | "practical" | "videos">("essentials");
   const [selectedView, setSelectedView] = useState("amillennial");
   const [selectedThinker, setSelectedThinker] = useState("wright");
   const [expanded, setExpanded] = useState<string | null>(null);
@@ -140,6 +140,7 @@ export default function EndTimesPage() {
             { id: "views" as const, label: "Views", icon: "📖" },
             { id: "thinkers" as const, label: "Thinkers", icon: "🏛️" },
             { id: "practical" as const, label: "Q&A", icon: "❓" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -262,6 +263,39 @@ export default function EndTimesPage() {
                 )}
               </div>
             ))}
+          </div>
+        )}
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Video teachings on end times, eschatology, and the Christian hope — what the Bible actually says about the last things.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "4S0TQ2dXnms", title: "What Happens After We Die? N.T. Wright on Resurrection", channel: "N.T. Wright Online", description: "Wright's definitive explanation of the Christian hope: not escape to a disembodied heaven, but the resurrection of the body and the renewal of creation. Challenges much popular end-times thinking." },
+                  { videoId: "yqWn5Ovv8V0", title: "The Second Coming of Christ — What Does the Bible Teach?", channel: "Desiring God", description: "John Piper walks through the key New Testament passages on Christ's return, clarifying what all Christians agree on and where the major debates lie." },
+                  { videoId: "-a-4XwDYTMU", title: "Amillennialism vs. Premillennialism: A Fair Debate", channel: "Sam Storms", description: "A gracious, scholarly comparison of the two dominant evangelical views on the millennium, with attention to the key passages in Revelation 20 and Daniel." },
+                  { videoId: "3ijQGmgF5nE", title: "Reading Revelation: How to Approach the Last Book of the Bible", channel: "The Bible Project", description: "An accessible guide to reading Revelation as its first-century audience would have — as apocalyptic literature full of symbols, not a prophetic timeline." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

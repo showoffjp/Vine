@@ -203,7 +203,7 @@ const THEOLOGY_CS: { id: string; title: string; verse: string; body: string }[] 
 ];
 
 export default function ConversionStoriesPage() {
-  type Tab = "stories" | "patterns" | "theology" | "yourstory";
+  type Tab = "stories" | "patterns" | "theology" | "yourstory" | "videos";
   const [activeTab, setActiveTab] = useState<Tab>("stories");
   const [era, setEra] = useState("All");
   const [selected, setSelected] = useState<string | null>(null);
@@ -236,6 +236,7 @@ export default function ConversionStoriesPage() {
             { id: "patterns" as const, label: "Patterns", icon: "🔍" },
             { id: "theology" as const, label: "Theology", icon: "📖" },
             { id: "yourstory" as const, label: "Your Story", icon: "✍️" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ]).map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none",
@@ -452,6 +453,40 @@ export default function ConversionStoriesPage() {
               </div>
             </div>
 
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors on conversion, grace, and the transforming power of the gospel.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "M5KLV1Mhc9g", title: "An Evening of Eschatology — Piper, Wilson, Storms, Hamilton", channel: "Desiring God", description: "A roundtable discussion featuring John Piper on the themes of God's sovereignty and grace that undergird every conversion story." },
+                  { videoId: "HaEQyNeaFZs", title: "My Journey from Atheism to Christianity", channel: "Francis Collins", description: "Dr. Francis Collins, former director of the NIH, describes his personal journey from atheism to Christian faith — a powerful modern conversion story." },
+                  { videoId: "dih7LHCYw5s", title: "C.S. Lewis: The Story of His Journey to Faith", channel: "YouTube", description: "The remarkable story of C.S. Lewis's reluctant conversion from atheism to Christianity, one of the most influential conversions of the 20th century." },
+                  { videoId: "-cRkUt4glaE", title: "How God Made Me Happy in Him: John Piper's Journey to Joy", channel: "Desiring God", description: "John Piper tells the story of how God connected the dots between glory and joy in his own faith journey and spiritual formation." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
 

@@ -4,7 +4,7 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "commentaries" | "howto" | "traditions" | "voices";
+type Tab = "commentaries" | "howto" | "traditions" | "voices" | "videos";
 
 const TYPE_FILTERS = ["All", "One-Volume", "Expository", "Word Studies", "Academic", "Devotional"];
 
@@ -326,10 +326,10 @@ export default function CommentaryGuidePage() {
 
         {/* Tab Bar */}
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 6, width: "fit-content" }}>
-          {(["commentaries", "howto", "traditions", "voices"] as const).map(t => (
+          {(["commentaries", "howto", "traditions", "voices", "videos"] as const).map(t => (
             <button key={t} onClick={() => setActiveTab(t)}
               style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-              {t === "commentaries" ? "Commentaries" : t === "howto" ? "How to Use" : t === "traditions" ? "Traditions" : "Voices"}
+              {t === "commentaries" ? "Commentaries" : t === "howto" ? "How to Use" : t === "traditions" ? "Traditions" : t === "voices" ? "Voices" : "🎬 Videos"}
             </button>
           ))}
         </div>
@@ -533,6 +533,39 @@ export default function CommentaryGuidePage() {
               <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}15`, borderRadius: 8, padding: 12 }}>
                 <div style={{ color: GREEN, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>KEY CONTRIBUTION</div>
                 <p style={{ color: TEXT, fontSize: 13, margin: 0, lineHeight: 1.6 }}>{voice.contribution}</p>
+              </div>
+            </div>
+          </div>
+        )}
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "cRmWSB1c6L8", title: "How to Study the Bible", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul gives a masterclass in Bible study method — the tools, disciplines, and habits that make a serious reader of Scripture and a wise user of commentaries." },
+                  { videoId: "N4WkOkKu9nA", title: "Why Study the Bible? (Knowing Scripture)", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul makes the case for why every Christian has a responsibility to study Scripture carefully — and why good tools like commentaries are part of that calling." },
+                  { videoId: "NWZHL_MoDvY", title: "Literal Interpretation (Knowing Scripture)", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul on how to interpret Scripture literally — what that actually means, how it differs from wooden literalism, and why commentaries help you read texts in their proper genre." },
+                  { videoId: "QG4fcVyHCxM", title: "The Science of Interpretation (Knowing Scripture)", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul's introduction to hermeneutics — the principles that govern sound interpretation of Scripture and how to use commentaries as tools rather than authorities." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

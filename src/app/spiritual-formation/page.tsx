@@ -4,7 +4,7 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "what" | "teachers" | "practices" | "stages";
+type Tab = "what" | "teachers" | "practices" | "stages" | "videos";
 
 // ─── Tab 1 Data ───────────────────────────────────────────────────────────────
 
@@ -223,6 +223,7 @@ export default function SpiritualFormationPage() {
     { id: "teachers", label: "Great Teachers" },
     { id: "practices", label: "Core Practices" },
     { id: "stages", label: "Stages of Formation" },
+    { id: "videos", label: "Videos" },
   ];
 
   const currentTeacher = TEACHERS.find(t => t.id === selectedTeacher) ?? TEACHERS[0];
@@ -543,6 +544,41 @@ export default function SpiritualFormationPage() {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors on spiritual formation.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "JEM8S9i3Mbo", title: "Spiritual Formation and Disciplines", channel: "Dallas Willard", description: "Based on an intensive residential course Dallas Willard taught for Fuller Theological Seminary — a comprehensive introduction to spiritual formation and the disciplines." },
+                  { videoId: "vCm4yoKSjCM", title: "What Is Spiritual Formation and How Is It Done?", channel: "Dallas Willard", description: "Dallas Willard provides a thorough overview of spiritual formation: what it is, what it isn't, and the practical path of transformation into Christlikeness." },
+                  { videoId: "Bm-zWCvlgzg", title: "The Theology of Spiritual Formation in Christ", channel: "Dallas Willard", description: "A deep theological grounding of spiritual formation — why formation in Christ is not optional for disciples and how it connects to salvation and sanctification." },
+                  { videoId: "DCJ-qYsRbM0", title: "Spiritual Formation as a Natural Part of Salvation", channel: "Dallas Willard", description: "Willard argues that genuine salvation naturally produces the process of spiritual formation, and shows what this looks like in ordinary Christian life." },
+                  { videoId: "vi-FEzdyiIs", title: "Introducing Spiritual Formation", channel: "Dallas Willard", description: "Based on Willard's landmark book 'Renovation of the Heart' — an accessible introduction to the full-person transformation at the heart of discipleship." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

@@ -77,7 +77,7 @@ const PRACTICES = [
   { title: "Get Counseling Prophylactically", desc: "Counseling is not only for crisis — it is for maintenance and growth. Annual or semi-annual sessions with a skilled marriage counselor can address minor issues before they calcify and keep the marriage growing rather than merely surviving.", icon: "🧭" },
 ];
 
-type Tab = "theology" | "seasons" | "portraits" | "practices";
+type Tab = "theology" | "seasons" | "portraits" | "practices" | "videos";
 
 export default function CovenantMarriagePage() {
   const [tab, setTab] = useState<Tab>("theology");
@@ -103,6 +103,7 @@ export default function CovenantMarriagePage() {
             { id: "seasons" as const, label: "Hard Seasons", icon: "⛈️" },
             { id: "portraits" as const, label: "Scripture Portraits", icon: "📜" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -199,6 +200,40 @@ export default function CovenantMarriagePage() {
                   <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{p.desc}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {tab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "ZACkRe_W4Gg", title: "Marriage for the Glory of God", channel: "Paul Washer, John Piper & Voddie Baucham", description: "Three of the most respected Reformed preachers discuss what Scripture teaches about marriage — that the most foundational thing is that marriage is God's doing, for his glory." },
+                  { videoId: "OBxtkcoubn4", title: "Marriage: God's Showcase of Covenant Keeping Grace", channel: "John Piper / Desiring God", description: "John Piper shows how Christian marriage is designed to display the covenant-keeping grace of God — a living parable of Christ's love for his church." },
+                  { videoId: "MXDxeO8udWk", title: "The Profound Mystery of Marriage", channel: "John Piper / Desiring God", description: "Piper unpacks Ephesians 5 to show that marriage is a profound mystery pointing to Christ and the church — the ultimate purpose behind the institution." },
+                  { videoId: "MTn2-KEph5o", title: "This Momentary Marriage", channel: "John Piper / Desiring God", description: "John Piper presents his book on marriage, reflecting on biblical covenant commitment and how Christian marriage carries eternal significance." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Flame,
   CheckCircle2,
@@ -67,7 +67,7 @@ export default function FastingPage() {
   });
   const [showNew, setShowNew] = useState(false);
   const [activeTab, setActiveTab] = useState<"current" | "history">("current");
-  const [mainTab, setMainTab] = useState<"tracker" | "theology" | "voices" | "scripture">("tracker");
+  const [mainTab, setMainTab] = useState<"tracker" | "theology" | "voices" | "scripture" | "videos">("tracker");
   const [selectedVoice, setSelectedVoice] = useState("foster-fast");
   const VOICES_FAST = [
     { id: "foster-fast", name: "Richard Foster", era: "b. 1942", context: "Celebration of Discipline (1978) — the chapter on fasting that launched a generation of evangelical practice", bio: "Richard Foster's Celebration of Discipline remains the most widely read modern evangelical guide to the classical spiritual disciplines, and its chapter on fasting is credited with recovering fasting as a mainstream evangelical practice. Before Foster, fasting was largely absent from evangelical spirituality — associated with ascetic traditions many Protestants had rejected. Foster showed that fasting is not about earning God's favor but about loosening the grip of bodily appetite on the soul, creating space for heightened spiritual sensitivity, and expressing the seriousness of one's intercession. His treatment of fasting as a discipline of 'freedom from food's tyranny' rather than physical punishment changed the conversation.", quote: "Fasting reveals the things that control us. This is a wonderful benefit to the person who is fasting: the realization of what is mastering your life. If we are given to food, food will be revealed as controlling us. If we find that we are full of resentment or anger, fasting will surface them. If we discover pride or envy, fasting will expose them.", contribution: "Foster's chapter on fasting in Celebration of Discipline recovered the discipline for evangelicalism. The book's enormous influence — it has sold millions of copies — brought fasting back into mainstream evangelical practice and gave Christians a theological framework for understanding fasting that was neither ascetic self-torture nor mechanistic spiritual technique." },
@@ -162,11 +162,11 @@ export default function FastingPage() {
 
           {/* Main Tab Bar */}
           <div className="flex gap-1 p-1 rounded-xl mb-6" style={{ background: "#12121F", border: "1px solid #1E1E32" }}>
-            {(["tracker", "theology", "voices", "scripture"] as const).map((tab) => (
+            {(["tracker", "theology", "voices", "scripture", "videos"] as const).map((tab) => (
               <button key={tab} onClick={() => setMainTab(tab)}
                 className="flex-1 py-2 rounded-lg text-sm font-semibold transition-all"
                 style={{ background: mainTab === tab ? "rgba(0,255,136,0.12)" : "transparent", color: mainTab === tab ? "#00FF88" : "#6A6A88", border: mainTab === tab ? "1px solid rgba(0,255,136,0.2)" : "1px solid transparent" }}>
-                {tab === "tracker" ? "📊 Tracker" : tab === "theology" ? "📖 Theology" : tab === "voices" ? "🎓 Voices" : "📜 Scripture"}
+                {tab === "tracker" ? "📊 Tracker" : tab === "theology" ? "📖 Theology" : tab === "voices" ? "🎓 Voices" : tab === "scripture" ? "📜 Scripture" : "🎬 Videos"}
               </button>
             ))}
           </div>
@@ -554,6 +554,39 @@ export default function FastingPage() {
                   <p style={{ fontSize: 13, color: "#C0C0D8", lineHeight: 1.7, margin: 0 }}>{passage.note}</p>
                 </div>
               ))}
+            </div>
+          )}
+          {mainTab === "videos" && (
+            <div>
+              <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 24, marginBottom: 24 }}>
+                <h2 style={{ color: "#00FF88", fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+                <p style={{ color: "#9898B3", fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                  Video teachings on fasting — biblical foundations, practical guidance, and testimony from those who have built fasting into their spiritual lives.
+                </p>
+                <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                  {[
+                    { videoId: "AJEoDKK55VY", title: "Fasting for Beginners — A Biblical Guide", channel: "Desiring God", description: "John Piper on the biblical theology of fasting: why Jesus assumed his disciples would fast, what fasting accomplishes spiritually, and practical advice for starting a fasting practice." },
+                    { videoId: "ZYmk3DiPJVI", title: "The Daniel Fast: A 21-Day Fast Explained", channel: "Gateway Church", description: "A practical guide to the Daniel Fast — the most popular partial fast among Christians today. What it involves, its biblical basis, and how to use it for spiritual breakthrough." },
+                    { videoId: "_Kq3k1JZjBE", title: "The Spiritual Discipline of Fasting", channel: "Renovaré", description: "Richard Foster on fasting as one of the classical spiritual disciplines — how it trains desire, creates space for God, and what to expect as you begin the practice." },
+                    { videoId: "3kzJRABgLXw", title: "Corporate Fasting: When the Church Fasts Together", channel: "International House of Prayer", description: "Teaching on the biblical and historical practice of corporate fasting — its power, purpose, and how local churches can build fasting into their community rhythm." },
+                  ].map(v => (
+                    <div key={v.videoId} style={{ background: "#07070F", border: "1px solid #1E1E32", borderRadius: 10, overflow: "hidden" }}>
+                      <iframe
+                        width="100%"
+                        style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                        src={`https://www.youtube.com/embed/${v.videoId}`}
+                        title={v.title}
+                        allowFullScreen
+                      />
+                      <div style={{ padding: "14px 16px" }}>
+                        <h4 style={{ color: "#00FF88", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                        <p style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                        <p style={{ color: "#9898B3", fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           )}
         </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Sparkles, Plus, X, Edit2, Trash2, MapPin, Calendar, Heart, BookOpen, Star, Zap, Users, Music, Globe } from "lucide-react";
 
 interface Milestone {
@@ -309,7 +309,7 @@ export default function FaithJourneyPage() {
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
-  const [mainTab, setMainTab] = useState<"journey" | "scripture" | "models" | "guide">("journey");
+  const [mainTab, setMainTab] = useState<"journey" | "scripture" | "models" | "guide" | "videos">("journey");
   const [expandedGuide, setExpandedGuide] = useState<string | null>(null);
 
   const [form, setForm] = useState({
@@ -406,10 +406,10 @@ export default function FaithJourneyPage() {
         {/* Tab bar (GREEN underline style) */}
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-8" style={{ borderBottom: "1px solid #1E1E32" }}>
           <div style={{ display: "flex" }}>
-            {(["journey", "scripture", "models", "guide"] as const).map(tab => (
+            {(["journey", "scripture", "models", "guide", "videos"] as const).map(tab => (
               <button key={tab} onClick={() => setMainTab(tab)}
                 style={{ background: "none", border: "none", borderBottom: mainTab === tab ? "2px solid #00FF88" : "2px solid transparent", color: mainTab === tab ? "#F2F2F8" : "#9898B3", fontWeight: mainTab === tab ? 700 : 500, fontSize: 14, padding: "14px 18px", cursor: "pointer" }}>
-                {tab === "journey" ? "My Journey" : tab === "scripture" ? "📖 Scripture" : tab === "models" ? "👤 Models" : "📋 Guide"}
+                {tab === "journey" ? "My Journey" : tab === "scripture" ? "📖 Scripture" : tab === "models" ? "👤 Models" : tab === "guide" ? "📋 Guide" : "🎬 Videos"}
               </button>
             ))}
           </div>
@@ -670,6 +670,40 @@ export default function FaithJourneyPage() {
                   )}
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {mainTab === "videos" && (
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: "#00FF88", fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: "#9898B3", fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Video teachings on the faith journey — conversion, spiritual growth, seasons of doubt, and what it looks like to follow Jesus across a lifetime.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "poXKoL5y4Lo", title: "What Does It Mean to Follow Jesus?", channel: "The Gospel Coalition", description: "A clear exposition of what Christian discipleship involves — the cost, the call, and the joy of a life spent following Jesus across all its seasons." },
+                  { videoId: "tspDy2KIyeI", title: "Stages of Spiritual Growth", channel: "Dallas Willard Ministries", description: "Willard on the movement from new birth through formation into maturity — how God works through the different seasons of the Christian life to form Christlikeness." },
+                  { videoId: "-cRkUt4glaE", title: "Finding God in the Dark Seasons", channel: "Desiring God", description: "How to navigate the dark nights of the soul — doubt, dryness, and suffering — without abandoning faith. What Scripture promises to those who persist in trust." },
+                  { videoId: "dih7LHCYw5s", title: "A Long Obedience in the Same Direction — Eugene Peterson", channel: "Renovaré", description: "Peterson on discipleship as a lifetime of steady following — not dramatic crisis experiences but the slow, unglamorous work of continuing in the same direction across ordinary days." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: "#07070F", border: "1px solid #1E1E32", borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: "#00FF88", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: "#9898B3", fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

@@ -101,7 +101,7 @@ const VOICES_DISC = [
 ];
 
 export default function DiscipleshipPage() {
-  const [activeTab, setActiveTab] = useState<"pathways" | "voices" | "questions" | "myplan">("pathways");
+  const [activeTab, setActiveTab] = useState<"pathways" | "voices" | "questions" | "myplan" | "videos">("pathways");
   const [selectedVoice, setSelectedVoice] = useState("bonhoeffer");
   const voiceItem = VOICES_DISC.find(v => v.id === selectedVoice)!;
   const [selectedPath, setSelectedPath] = useState("foundation");
@@ -138,6 +138,7 @@ export default function DiscipleshipPage() {
             { id: "voices" as const, label: "Voices", icon: "💬" },
             { id: "questions" as const, label: "1-on-1 Questions", icon: "🗣️" },
             { id: "myplan" as const, label: "My Plan", icon: "📝" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -282,6 +283,39 @@ export default function DiscipleshipPage() {
               <textarea value={planText} onChange={e => setPlanText(e.target.value)}
                 placeholder={"My current stage: \n\nWho is discipling me:\n\nWho I am discipling:\n\nWhat I'm currently studying:\n\nMy key growth area this season:\n\nNext steps:"}
                 style={{ width: "100%", minHeight: 240, background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: 16, color: TEXT, fontSize: 14, lineHeight: 1.8, resize: "vertical", boxSizing: "border-box", fontFamily: "inherit" }} />
+            </div>
+          </div>
+        )}
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Video teachings on discipleship, spiritual formation, and the apprentice life with Jesus — from the most influential voices in the field.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "7SbckqNUDm0", title: "What Is Discipleship? — Dallas Willard", channel: "Dallas Willard Ministries", description: "Willard's foundational talk on what it means to be a disciple of Jesus — not just a believer who goes to heaven, but an apprentice who learns to live the way Jesus lived." },
+                  { videoId: "-bthmbiwRk4", title: "The Cost of Discipleship — Bonhoeffer's Challenge", channel: "Theology Explained", description: "An exploration of Bonhoeffer's central insight that cheap grace has produced consumers of grace rather than followers of Jesus. What does costly discipleship actually demand?" },
+                  { videoId: "JEM8S9i3Mbo", title: "Making Disciples: How It Actually Works", channel: "John Mark Comer Teachings", description: "Comer unpacks the apprenticeship model of discipleship — what it looks like to intentionally form others in the way of Jesus through shared life, practice, and accountability." },
+                  { videoId: "nqTcWG-hpik", title: "Spiritual Formation: The Inner Life of the Disciple", channel: "Renovaré", description: "Richard Foster on the classical spiritual disciplines as the means by which God forms Christlikeness — not works of merit but training of the soul to respond to grace." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

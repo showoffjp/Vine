@@ -335,7 +335,7 @@ const difficultyColors: Record<string, string> = {
 };
 
 export default function ApologeticsPage() {
-  const [tab, setTab] = useState<"cases" | "thinkers" | "resources" | "methods">("cases");
+  const [tab, setTab] = useState<"cases" | "thinkers" | "resources" | "methods" | "videos">("cases");
   const [selectedMethod, setSelectedMethod] = useState("classical");
   const methodItem = APOL_METHODS.find(m => m.id === selectedMethod)!;
   const [categoryFilter, setCategoryFilter] = useState("All");
@@ -418,6 +418,7 @@ export default function ApologeticsPage() {
             { id: "thinkers", label: "🧑‍🏫 Thinkers" },
             { id: "resources", label: "📚 Resources" },
             { id: "methods", label: "🗺️ Methods" },
+            { id: "videos", label: "🎬 Videos" },
           ].map(t => (
             <button key={t.id} onClick={() => setTab(t.id as typeof tab)}
               style={{ padding: "10px 20px", borderRadius: "10px 10px 0 0", border: "none", cursor: "pointer", fontWeight: 700, fontSize: 14, background: tab === t.id ? CARD : "transparent", color: tab === t.id ? TEXT : MUTED, borderBottom: tab === t.id ? `2px solid ${GREEN}` : "2px solid transparent" }}>
@@ -705,6 +706,41 @@ export default function ApologeticsPage() {
               <a href="/discussions" style={{ display: "inline-block", padding: "12px 28px", borderRadius: 12, background: `linear-gradient(135deg, ${PURPLE}, ${GREEN})`, color: BG, fontWeight: 800, fontSize: 14, textDecoration: "none" }}>
                 Ask in Discussions →
               </a>
+            </div>
+          </div>
+        )}
+
+        {/* VIDEOS TAB */}
+        {tab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "Kxup3OS5ZhQ", title: "The Reason for God", channel: "Tim Keller at Google", description: "Keller presents his landmark case for Christian faith to an audience at Google, addressing the most common intellectual objections with clarity and grace." },
+                  { videoId: "v6xk8e7gdMA", title: "The Holiness of God", channel: "Ligonier / R.C. Sproul", description: "Sproul's classic teaching on the defining attribute of God — his holiness — and why it is the foundation of every other Christian doctrine." },
+                  { videoId: "by8ykv7-A3c", title: "The Supremacy of Christ and Truth in a Postmodern World", channel: "Voddie Baucham / Desiring God", description: "Baucham's powerful conference address on holding fast to absolute truth and the lordship of Christ against postmodern relativism." },
+                  { videoId: "YrGYoRdNOes", title: "The Necessity of the Atonement", channel: "Ligonier / R.C. Sproul", description: "R.C. Sproul explains why the atonement was necessary given the nature of God's justice and holiness — a foundational apologetics argument." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

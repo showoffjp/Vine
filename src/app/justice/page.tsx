@@ -95,7 +95,7 @@ const ACTION_STEPS = [
   ]},
 ];
 
-type Tab = "foundations" | "tensions" | "voices" | "action";
+type Tab = "foundations" | "tensions" | "voices" | "action" | "videos";
 
 export default function JusticePage() {
   const [tab, setTab] = useState<Tab>("foundations");
@@ -120,6 +120,7 @@ export default function JusticePage() {
             { id: "tensions" as const, label: "Key Tensions", icon: "⚖️" },
             { id: "voices" as const, label: "Key Voices", icon: "🗣️" },
             { id: "action" as const, label: "How to Act", icon: "✊" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -207,6 +208,39 @@ export default function JusticePage() {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+        {tab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "FTZ3GfL9yQM", title: "The Upside Down Kingdom", channel: "Timothy Keller / Gospel in Life", description: "Tim Keller unpacks how Jesus's kingdom reverses the world's power structures, placing the poor, marginalized, and meek at the center of God's concern." },
+                  { videoId: "0bafE4k4YXU", title: "The Essential Elements of the Great Commission", channel: "Paul Washer / HeartCry Missionary Society", description: "Paul Washer explains the inseparable connection between gospel proclamation and genuine compassion for those suffering — both word and deed." },
+                  { videoId: "GKYDGK2XDNw", title: "Missions Week Sermon 1", channel: "Paul Washer", description: "Paul Washer preaches on the theological foundations of caring for the least, the lost, and the last as the authentic fruit of genuine Christian faith." },
+                  { videoId: "KA4pSZxrwRs", title: "The Joy That Produces Radical Obedience", channel: "Desiring God / John Piper", description: "John Piper connects the joy of the gospel to radical generosity and service to others — the motivational foundation for sustained justice work." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

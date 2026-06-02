@@ -1,137 +1,335 @@
 "use client";
 
-import { ArrowRight, Users, BookOpen, Flame, Globe } from "lucide-react";
+import { useState, useEffect } from "react";
 
-const stats = [
-  { icon: Users, value: "2.1M+", label: "Christians Connected" },
-  { icon: Globe, value: "184", label: "Countries Represented" },
-  { icon: BookOpen, value: "18,400+", label: "Videos & Resources" },
-  { icon: Flame, value: "12,000", label: "Daily Prayer Requests" },
-];
+interface Particle {
+  id: number;
+  x: number;
+  size: number;
+  dur: number;
+  delay: number;
+  color: string;
+}
+
+const CROSS_COLORS = ["#c9a227", "#3a7d56", "#e8c162", "#52a876"];
+
+const NOISE_SVG = `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E")`;
 
 export default function Hero() {
+  const [particles, setParticles] = useState<Particle[]>([]);
+
+  useEffect(() => {
+    setParticles(
+      Array.from({ length: 22 }, (_, i) => ({
+        id: i,
+        x: Math.random() * 100,
+        size: 10 + Math.random() * 18,
+        dur: 12 + Math.random() * 18,
+        delay: i * 0.45,
+        color: CROSS_COLORS[Math.floor(Math.random() * CROSS_COLORS.length)],
+      }))
+    );
+  }, []);
+
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden" style={{ paddingTop: "var(--header-height, 64px)" }}>
-      {/* Background radial glow */}
-      <div className="absolute inset-0 hero-glow pointer-events-none" />
+    <section
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
+        position: "relative",
+        overflow: "hidden",
+        padding: "calc(var(--header-height, 72px) + 60px) 4vw 80px",
+        background: "#050e07",
+      }}
+    >
+      {/* Noise texture */}
       <div
-        className="absolute inset-0 pointer-events-none"
         style={{
+          position: "absolute",
+          inset: 0,
+          backgroundImage: NOISE_SVG,
+          pointerEvents: "none",
+          opacity: 0.4,
+          zIndex: 0,
+        }}
+      />
+
+      {/* Radial green glow */}
+      <div
+        style={{
+          position: "absolute",
+          top: "-20%",
+          left: "50%",
+          transform: "translateX(-50%)",
+          width: 900,
+          height: 900,
           background:
-            "radial-gradient(ellipse 50% 50% at 50% 100%, rgba(107,79,187,0.06) 0%, transparent 70%)",
+            "radial-gradient(ellipse, rgba(58,125,86,0.2) 0%, transparent 65%)",
+          pointerEvents: "none",
+          zIndex: 0,
         }}
       />
 
-      {/* Subtle grid */}
+      {/* Bottom gradient fade */}
       <div
-        className="absolute inset-0 pointer-events-none opacity-[0.03]"
         style={{
-          backgroundImage:
-            "linear-gradient(rgba(0,255,136,1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,255,136,1) 1px, transparent 1px)",
-          backgroundSize: "80px 80px",
+          position: "absolute",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          height: 300,
+          background: "linear-gradient(to bottom, transparent, #050e07)",
+          pointerEvents: "none",
+          zIndex: 0,
         }}
       />
 
-      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 text-center">
-        {/* Badge */}
-        <div className="inline-flex items-center gap-2 mb-8">
-          <div
-            className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold"
-            style={{
-              background: "rgba(0,255,136,0.08)",
-              border: "1px solid rgba(0,255,136,0.2)",
-              color: "#00FF88",
-            }}
+      {/* Cross particles */}
+      {particles.map((p) => (
+        <div
+          key={p.id}
+          style={{
+            position: "absolute",
+            left: `${p.x}%`,
+            bottom: -40,
+            opacity: 0,
+            animation: `floatUp ${p.dur}s linear ${p.delay}s infinite`,
+            zIndex: 1,
+            pointerEvents: "none",
+          }}
+        >
+          <svg
+            viewBox="0 0 20 20"
+            width={p.size}
+            height={p.size}
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
           >
-            <span
-              className="w-2 h-2 rounded-full"
-              style={{ background: "#00FF88", boxShadow: "0 0 8px #00FF88" }}
-            />
-            The World&apos;s First All-In-One Christian Platform
-          </div>
+            <rect x="8" y="2" width="4" height="16" rx="1.5" fill={p.color} opacity="0.5" />
+            <rect x="2" y="7" width="16" height="4" rx="1.5" fill={p.color} opacity="0.5" />
+          </svg>
+        </div>
+      ))}
+
+      {/* Main content */}
+      <div
+        style={{
+          position: "relative",
+          zIndex: 2,
+          maxWidth: 820,
+          animation: "heroFadeIn 1.2s ease forwards",
+        }}
+      >
+        {/* Eyebrow */}
+        <div
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 8,
+            fontSize: "0.75rem",
+            fontWeight: 500,
+            letterSpacing: "0.14em",
+            textTransform: "uppercase",
+            color: "#c9a227",
+            marginBottom: "1.5rem",
+            padding: "0.35rem 0.9rem",
+            border: "0.5px solid rgba(201,162,39,0.25)",
+            borderRadius: 2,
+            fontFamily: "var(--font-jost, system-ui, sans-serif)",
+          }}
+        >
+          <span
+            style={{
+              display: "inline-block",
+              width: 18,
+              height: 1,
+              background: "#c9a227",
+              flexShrink: 0,
+            }}
+          />
+          Christianity&apos;s All-In-One Platform
         </div>
 
-        {/* Main headline */}
+        {/* Headline */}
         <h1
-          className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-[0.95] tracking-tight mb-6"
-          style={{ color: "#F2F2F8" }}
+          style={{
+            fontFamily: "var(--font-cormorant, 'Cormorant Garamond', Georgia, serif)",
+            fontSize: "clamp(3.2rem, 7vw, 6rem)",
+            fontWeight: 300,
+            lineHeight: 1.06,
+            color: "#f2e6c8",
+            marginBottom: "1.6rem",
+            letterSpacing: "-0.01em",
+          }}
         >
-          Grow. Connect.{" "}
+          Every branch.
           <br />
-          <span className="gold-gradient">Thrive in Faith.</span>
+          Every believer.
+          <br />
+          <em style={{ fontStyle: "italic", color: "#e8c162" }}>
+            Connected.
+          </em>
         </h1>
 
         {/* Subheadline */}
         <p
-          className="text-lg sm:text-xl md:text-2xl max-w-3xl mx-auto mb-4 leading-relaxed"
-          style={{ color: "#8A8AA8" }}
+          style={{
+            fontSize: "1.05rem",
+            fontWeight: 300,
+            color: "#9a8f72",
+            maxWidth: 540,
+            lineHeight: 1.75,
+            marginBottom: "2.5rem",
+            fontFamily: "var(--font-jost, system-ui, sans-serif)",
+          }}
         >
-          Vine is where Christians worldwide find community, resources, guidance,
-          and truth — all in one place. Discussions, devotionals, life hacks,
-          mental health support, and more.
-        </p>
-
-        {/* Verse */}
-        <p
-          className="text-sm mb-10 italic"
-          style={{ color: "rgba(0,255,136,0.6)" }}
-        >
-          &ldquo;I am the vine; you are the branches.&rdquo; — John 15:5
+          The world&apos;s first truly comprehensive Christian platform &mdash;
+          community, Scripture, mental wellness, life guides, theology, video,
+          and more. One home for every stage of your faith.
         </p>
 
         {/* CTAs */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
-          <a href="/feed" className="btn-gold px-8 py-4 rounded-xl text-base flex items-center gap-2 group" style={{ textDecoration: "none" }}>
-            Join the Community — It&apos;s Free
-            <ArrowRight
-              size={18}
-              className="transition-transform group-hover:translate-x-1"
-            />
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "1.2rem",
+            flexWrap: "wrap",
+          }}
+        >
+          <a
+            href="/feed"
+            style={{
+              background: "#c9a227",
+              color: "#1a0e00",
+              border: "none",
+              padding: "0.85rem 2.2rem",
+              borderRadius: 3,
+              fontFamily: "var(--font-jost, system-ui, sans-serif)",
+              fontSize: "0.9rem",
+              fontWeight: 600,
+              letterSpacing: "0.08em",
+              textTransform: "uppercase",
+              cursor: "pointer",
+              textDecoration: "none",
+              display: "inline-block",
+              transition: "all 0.25s",
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLAnchorElement).style.background = "#e8c162";
+              (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(-2px)";
+              (e.currentTarget as HTMLAnchorElement).style.boxShadow =
+                "0 8px 32px rgba(201,162,39,0.3)";
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLAnchorElement).style.background = "#c9a227";
+              (e.currentTarget as HTMLAnchorElement).style.transform = "none";
+              (e.currentTarget as HTMLAnchorElement).style.boxShadow = "none";
+            }}
+          >
+            Join The Vine &mdash; Free
           </a>
-          <a href="/explore" className="btn-outline-gold px-8 py-4 rounded-xl text-base font-semibold" style={{ textDecoration: "none" }}>
-            Explore Vine
+          <a
+            href="/explore"
+            style={{
+              background: "none",
+              color: "#c9b98a",
+              border: "0.5px solid rgba(242,230,200,0.25)",
+              padding: "0.85rem 2.2rem",
+              borderRadius: 3,
+              fontFamily: "var(--font-jost, system-ui, sans-serif)",
+              fontSize: "0.9rem",
+              fontWeight: 400,
+              letterSpacing: "0.06em",
+              textTransform: "uppercase",
+              cursor: "pointer",
+              textDecoration: "none",
+              display: "inline-block",
+              transition: "all 0.25s",
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLAnchorElement).style.borderColor =
+                "rgba(242,230,200,0.6)";
+              (e.currentTarget as HTMLAnchorElement).style.color = "#f2e6c8";
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLAnchorElement).style.borderColor =
+                "rgba(242,230,200,0.25)";
+              (e.currentTarget as HTMLAnchorElement).style.color = "#c9b98a";
+            }}
+          >
+            Explore Hubs
           </a>
-        </div>
-
-        {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
-          {stats.map(({ icon: Icon, value, label }) => (
-            <div
-              key={label}
-              className="flex flex-col items-center gap-2 p-4 rounded-2xl"
-              style={{
-                background: "rgba(18,18,31,0.8)",
-                border: "1px solid rgba(0,255,136,0.08)",
-              }}
-            >
-              <Icon size={20} style={{ color: "#00FF88" }} />
-              <span
-                className="text-2xl font-black"
-                style={{ color: "#F2F2F8" }}
-              >
-                {value}
-              </span>
-              <span className="text-xs text-center" style={{ color: "#8A8AA8" }}>
-                {label}
-              </span>
-            </div>
-          ))}
         </div>
       </div>
 
-      {/* Scroll hint */}
+      {/* Bottom-right verse */}
       <div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-        style={{ color: "rgba(0,255,136,0.3)" }}
+        style={{
+          position: "absolute",
+          bottom: 56,
+          right: "4vw",
+          zIndex: 2,
+          textAlign: "right",
+          animation: "heroFadeIn 1.6s ease forwards",
+        }}
       >
-        <span className="text-xs tracking-widest uppercase">Scroll</span>
-        <div
-          className="w-px h-8"
+        <p
           style={{
-            background:
-              "linear-gradient(to bottom, rgba(0,255,136,0.4), transparent)",
+            fontFamily: "var(--font-cormorant, 'Cormorant Garamond', Georgia, serif)",
+            fontStyle: "italic",
+            fontSize: "1.05rem",
+            color: "#9a8f72",
+            lineHeight: 1.5,
+          }}
+        >
+          &ldquo;I am the vine; you are the branches.&rdquo;
+        </p>
+        <cite
+          style={{
+            fontFamily: "var(--font-jost, system-ui, sans-serif)",
+            fontSize: "0.72rem",
+            fontStyle: "normal",
+            letterSpacing: "0.1em",
+            color: "#c9a227",
+            textTransform: "uppercase",
+            marginTop: 4,
+            display: "block",
+          }}
+        >
+          John 15:5
+        </cite>
+      </div>
+
+      {/* Bottom-left scroll hint */}
+      <div
+        style={{
+          position: "absolute",
+          bottom: 56,
+          left: "4vw",
+          zIndex: 2,
+          display: "flex",
+          alignItems: "center",
+          gap: 10,
+          fontSize: "0.72rem",
+          fontWeight: 500,
+          letterSpacing: "0.12em",
+          textTransform: "uppercase",
+          color: "#9a8f72",
+          animation: "heroFadeIn 2s ease forwards",
+          fontFamily: "var(--font-jost, system-ui, sans-serif)",
+        }}
+      >
+        <div
+          style={{
+            width: 1,
+            height: 36,
+            background: "linear-gradient(to bottom, transparent, #c9a227)",
+            animation: "scrollLinePulse 2s ease infinite",
           }}
         />
+        Scroll
       </div>
     </section>
   );

@@ -1,5 +1,8 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
+import HubsGrid from "@/components/HubsGrid";
+import VerseBanner from "@/components/VerseBanner";
+import PersonasSection from "@/components/PersonasSection";
 import TrustBar from "@/components/TrustBar";
 import TrendingTicker from "@/components/TrendingTicker";
 import PlatformPillars from "@/components/PlatformPillars";
@@ -32,6 +35,8 @@ export default function Home() {
       <Navbar />
       <main className="flex flex-col flex-1">
         <Hero />
+        <HubsGrid />
+        <VerseBanner />
         <TrustBar />
         <TrendingTicker />
         <FadeIn><PlatformPillars /></FadeIn>
@@ -48,6 +53,7 @@ export default function Home() {
         <FadeIn><EventsSection /></FadeIn>
         <FadeIn><TopicBrowser /></FadeIn>
         <FadeIn><Testimonials /></FadeIn>
+        <PersonasSection />
         <FadeIn delay={50}><AppDownload /></FadeIn>
         <FadeIn><NewsletterSignup /></FadeIn>
         <FadeIn><JoinCTA /></FadeIn>

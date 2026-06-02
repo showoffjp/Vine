@@ -141,9 +141,190 @@ const ATTRIBUTES = [
   },
 ];
 
+const VOICES_AOG: { id: string; name: string; era: string; work: string; bio: string; quote: string; contribution: string }[] = [
+  {
+    id: "tozer-aw",
+    name: "A.W. Tozer",
+    era: "1897-1963",
+    work: "The Knowledge of the Holy",
+    bio: "A.W. Tozer was a pastor and author who served in the Christian and Missionary Alliance. Largely self-educated, he became one of the most influential evangelical voices of the twentieth century. His writing combined prophetic urgency with deep mystical piety, calling the church back to awe, reverence, and the pursuit of God himself rather than the benefits of religion.",
+    quote: "What comes into our minds when we think about God is the most important thing about us.",
+    contribution: "Restored the awe of God's holiness to popular evangelical piety at a time when American Christianity was drifting toward sentimentalism and pragmatism.",
+  },
+  {
+    id: "packer-ji",
+    name: "J.I. Packer",
+    era: "1926-2020",
+    work: "Knowing God",
+    bio: "J.I. Packer was a British-born Anglican theologian who spent much of his career at Regent College in Vancouver. A defender of Reformed orthodoxy and biblical inerrancy, he had a rare gift for making rigorous theology accessible to ordinary Christians. Knowing God remains one of the best-selling works of Christian theology ever published.",
+    quote: "Knowing about God is crucially different from knowing God. The difference is like that between reading about a person and actually meeting them.",
+    contribution: "Brought classical theism and Reformed doctrine to accessible evangelical writing, demonstrating that theological depth and pastoral warmth are not in conflict.",
+  },
+  {
+    id: "bavinck-herman",
+    name: "Herman Bavinck",
+    era: "1854-1921",
+    work: "Reformed Dogmatics Vol. 2",
+    bio: "Herman Bavinck was a Dutch Reformed theologian and professor at the Free University of Amsterdam. His four-volume Reformed Dogmatics is widely regarded as the greatest systematic theology in the Dutch Reformed tradition. Bavinck was deeply engaged with modern philosophy and science, yet remained committed to the full range of classical Christian doctrine.",
+    quote: "God is incomprehensible, yet he is not unknown. He has revealed himself, and that revelation is reliable — but the reality behind it infinitely exceeds what we grasp.",
+    contribution: "Provided the most thorough systematic treatment of the divine attributes in the Dutch Reformed tradition, integrating patristic, medieval, and Reformation sources with modern thought.",
+  },
+  {
+    id: "charnock-stephen",
+    name: "Stephen Charnock",
+    era: "1628-1680",
+    work: "Existence and Attributes of God",
+    bio: "Stephen Charnock was a Puritan minister who served in England and Ireland. His massive work on the existence and attributes of God, published posthumously, began as a series of sermons and grew into the most exhaustive treatment of theology proper in the Puritan tradition. Though dense, it remains in print and is still referenced as a standard work.",
+    quote: "God is a being of absolute self-sufficiency. He had a fullness before the creation of the world, and he retains that fullness after the fall of the world.",
+    contribution: "Produced the most exhaustive Puritan treatment of the divine attributes, covering each attribute with philosophical rigor, scriptural depth, and practical application — still considered the standard reference.",
+  },
+  {
+    id: "frame-john",
+    name: "John Frame",
+    era: "b. 1939",
+    work: "The Doctrine of God",
+    bio: "John Frame is a Reformed philosopher-theologian who taught for many years at Westminster Theological Seminary and Reformed Theological Seminary. He is best known for his tri-perspectival method, which approaches theological questions from the perspectives of norms, situations, and persons. His Doctrine of God is the most comprehensive English-language treatment of theology proper in the Reformed tradition in the last fifty years.",
+    quote: "Every perspective on God illuminates something the others do not. The normative, situational, and existential perspectives are not competing but complementing ways of knowing the one God.",
+    contribution: "Developed a tri-perspectival approach to theology proper, bringing fresh philosophical clarity to debates about divine attributes, sovereignty, and the nature of God's knowledge.",
+  },
+];
+
+const PRACTICES_AOG: { id: string; title: string; icon: string; frequency: string; description: string; steps: string[] }[] = [
+  {
+    id: "attribute-meditation",
+    title: "Attribute Meditation",
+    icon: "🙏",
+    frequency: "Daily",
+    description: "Slowly read one attribute, pausing on each phrase to let it settle. The goal is not to finish the reading but to encounter the God behind the words.",
+    steps: [
+      "Read the definition of one attribute slowly, stopping at any phrase that strikes you.",
+      "Identify one way this attribute changes your view of your current situation or concern.",
+      "Pray accordingly — address God by this attribute and let it shape what you ask and how you ask it.",
+    ],
+  },
+  {
+    id: "attribute-led-prayer",
+    title: "Attribute-Led Prayer",
+    icon: "📖",
+    frequency: "Daily",
+    description: "Use one of God's attributes as the lens for your entire prayer session, letting it shape your praise, confession, and petition.",
+    steps: [
+      "Choose one attribute as the theme for today's prayer.",
+      "Spend several minutes praising God specifically for this attribute, naming concrete ways you have seen it.",
+      "Confess specific ways you have doubted or failed to trust this attribute in the past week.",
+      "Ask God for faith to rest in this attribute in whatever you are facing today.",
+    ],
+  },
+  {
+    id: "attribute-journaling",
+    title: "Attribute Journaling",
+    icon: "✍️",
+    frequency: "Weekly",
+    description: "Write about how one of God's attributes has shown up — or should have shown up — in your week.",
+    steps: [
+      "Pick one attribute that has been on your mind or that seems relevant to your week.",
+      "Recall a specific moment from the week — a decision, a fear, a conversation, a failure.",
+      "Write three sentences: what the moment was, what this attribute says about it, and what you want to remember.",
+    ],
+  },
+  {
+    id: "catechism-review",
+    title: "Catechism Review",
+    icon: "📚",
+    frequency: "Weekly",
+    description: "Use the Westminster Shorter Catechism Q4 — 'What is God?' — as a structured review of divine attributes.",
+    steps: [
+      "Read Q4 and its answer slowly: 'God is a Spirit, infinite, eternal, and unchangeable in his being, wisdom, power, holiness, justice, goodness, and truth.'",
+      "Pause on each word or phrase. Ask: what does it mean that God is infinite in power? In holiness?",
+      "Choose one quality named in the answer and spend five minutes meditating on a Scripture passage that illustrates it.",
+      "Close by writing or praying one sentence of thanks for that quality.",
+    ],
+  },
+  {
+    id: "attribute-prayer-mapping",
+    title: "Attribute-to-Prayer Mapping",
+    icon: "🗺️",
+    frequency: "Monthly",
+    description: "Map each of God's attributes to a specific category of prayer in your life, creating a structured prayer framework rooted in theology.",
+    steps: [
+      "List the major areas of your life where you regularly pray: relationships, work, health, church, world events.",
+      "For each area, assign one attribute of God that is most relevant to how you should pray about it.",
+      "For the next month, lead your prayer in each area with the assigned attribute — praise God for it before making any requests.",
+      "At the end of the month, reflect: how did focusing on God's nature change how you prayed?",
+    ],
+  },
+  {
+    id: "sharing-with-others",
+    title: "Sharing with Others",
+    icon: "💬",
+    frequency: "Monthly",
+    description: "Teach what you have learned about one attribute to someone else. Teaching is one of the most effective ways to deepen your own understanding.",
+    steps: [
+      "Choose one attribute you have been studying and feel you understand well enough to explain.",
+      "Find one person — a friend, family member, or small group — and spend 5-10 minutes sharing what you have learned.",
+      "Invite their questions and reactions. What did they find surprising? What would they add?",
+      "Reflect afterward: what did explaining it teach you that merely reading it did not?",
+    ],
+  },
+];
+
+const DEVOTIONAL_AOG: { id: string; title: string; attribute: string; verse: string; body: string; prayer: string }[] = [
+  {
+    id: "dev-aseity",
+    title: "The God Who Needs Nothing",
+    attribute: "Aseity",
+    verse: "Psalm 50:10-12",
+    body: "We spend most of our lives trying to make ourselves valuable — to our employers, our families, our churches, even to God. We offer our service, our attendance, our sacrifice, as if God were a larger version of the people in our lives whose approval we need. But the God of Psalm 50 will not be domesticated. 'If I were hungry, I would not tell you, for the world and its fullness are mine.' He does not need your offerings. He does not need you. And this is, strangely, the most liberating truth in the universe. Because a God who needs nothing from you is a God who loves you freely. He did not create you to fill a void in himself. He created you out of the overflow of a love that was already complete within the Trinity. You are not his project. You are his delight. Rest in the God who is already full.",
+    prayer: "Father, forgive me for turning you into a need I must meet. You lack nothing. Everything I bring to you, you already have. Help me to rest in the God who is complete, and to love you not as a creditor I owe but as the Father who delights in me for no reason other than your own love.",
+  },
+  {
+    id: "dev-immutability",
+    title: "The Unchanging One",
+    attribute: "Immutability",
+    verse: "Malachi 3:6",
+    body: "The world shifts beneath us constantly. The people we love change. Our bodies change. The institutions we trusted prove unreliable. The emotions that felt certain last week are foreign to us today. Into this endless flux, Malachi 3:6 speaks with unusual force: 'I the LORD do not change.' This is not a claim about God's inflexibility. God acts, responds, grieves, and delights throughout Scripture. What does not change is his character — his love, his purposes, his covenant commitments. The God who loved you when he chose you before the foundation of the world (Ephesians 1:4) loves you now with the same love. He has not revised his opinion of you in Christ. When everything around you shifts, you are held by the one fixed point in the universe — not a doctrine, but a Person who cannot be otherwise than he is.",
+    prayer: "Lord, when I am unstable and the world feels unreliable, remind me that you are not. Your love for me in Christ is not subject to revision. Your promises are not conditional on my consistency. Ground me today in your unchanging character, and let that be enough.",
+  },
+  {
+    id: "dev-omnipresence",
+    title: "Nowhere to Run, Nowhere to Hide",
+    attribute: "Omnipresence",
+    verse: "Psalm 139:7-12",
+    body: "David's question in Psalm 139 is not rhetorical despair but wondering astonishment: 'Where shall I go from your Spirit? Where shall I flee from your presence?' The answer he finds is not threatening but enveloping. Even in Sheol — the place of death and absence — God is there. Even in the uttermost parts of the sea, God's hand will hold him. The omnipresence of God is not surveillance. It is companionship. The God who is everywhere is not tracking your failures from a distance. He is with you in the dark places you would be most afraid for anyone else to see. He was there in the worst thing that ever happened to you. He is here now, fully, not partially. There is nowhere you can go where you would need to feel alone.",
+    prayer: "God of every place, I confess I have sometimes wanted to hide from you. I have gone to the dark places hoping you were not there. But you were. And your presence in those places was not judgment but mercy. Help me today to stop running and to rest in the reality that I am never, in any moment, outside of your presence.",
+  },
+  {
+    id: "dev-holiness",
+    title: "The Weight of Holiness",
+    attribute: "Holiness",
+    verse: "Isaiah 6:3",
+    body: "Isaiah's vision in the temple is one of the most terrifying passages in all of Scripture. The seraphim do not stand casually before God. They cover their faces. They cover their feet. They cry to each other in a kind of holy alarm: 'Holy, holy, holy is the LORD of hosts.' The repetition is not poetic flourish — in Hebrew, it is the superlative of superlatives. The holiest thing in existence. And Isaiah's response is not warm devotion. It is collapse: 'Woe is me! For I am lost; for I am a man of unclean lips.' This is what happens when a human being actually encounters the holiness of God. But notice: the story does not end in destruction. It ends in cleansing, commissioning, and sending. The coal from the altar touches Isaiah's lips. 'Your guilt is taken away, and your sin atoned for.' Holiness does not simply destroy the impure. Through the blood of Christ, it restores us to stand before it.",
+    prayer: "Holy God, I confess that I approach you too casually. I have flattened you into a friendly companion rather than the Lord of terrible holiness. Undo me where I need to be undone. Then restore me, as you restored Isaiah, so that I can stand before you not in my own righteousness but in the righteousness of your Son.",
+  },
+  {
+    id: "dev-love",
+    title: "Love That Won't Let Go",
+    attribute: "Love",
+    verse: "Romans 8:38-39",
+    body: "Paul ends Romans 8 not with a doctrinal statement but with a doxology of certainty. He has just walked through the sufferings of the present age, the groaning of creation, and the intercession of the Spirit for our weakness. And his conclusion is not a cautious hope but a triumphant declaration: nothing — not death, not life, not angels, not rulers, not things present, not things to come, not powers, not height, not depth, not anything else in all creation — will be able to separate us from the love of God in Christ Jesus. This is not a promise that nothing bad will happen to you. It is a promise that whatever happens to you, you will not be separated from the love that holds you. The love of God is not a feeling God has about you when you are performing well. It is a bond forged before the foundation of the world and secured at the cross. Nothing you do can sever it. Nothing done to you can sever it.",
+    prayer: "Father, I thank you that your love is not a reward I can lose or earn. It is a gift you secured at infinite cost and will not take back. On the days when I feel most unlovable and most afraid, remind me: nothing can separate me from your love in Christ. Let that be the ground I stand on today.",
+  },
+  {
+    id: "dev-glory",
+    title: "Worthy of Worship",
+    attribute: "Glory",
+    verse: "Isaiah 42:8",
+    body: "God's glory is not one interest among many that he pursues. It is the goal of everything. 'I am the LORD; that is my name; my glory I give to no other' (Isaiah 42:8). This can sound, to modern ears, like divine ego — a God obsessed with his own fame. But consider what God's glory actually is: it is the radiance of his perfect being, the display of everything he is. When God acts for his glory, he is acting to reveal truth, beauty, holiness, love, and justice in their ultimate form. There is nothing higher to aim at. The goal of creation is not human happiness as an end in itself — it is human happiness in God, which means participating in and reflecting his glory. We were made to worship, which means we were made for our highest and most fulfilling activity when we turn our faces toward him. The universe is a theater built for the display of God's glory, and you have a part in the performance.",
+    prayer: "Lord, recalibrate my desires. I confess that I have often made myself — my comfort, my reputation, my success — the goal of my life. But you created me for something infinitely larger: to reflect your glory back to you and out to the world. Restore in me the joy of living for your name rather than my own.",
+  },
+];
+
 export default function AttributesOfGodPage() {
   const [category, setCategory] = useState("All");
   const [selected, setSelected] = useState<string | null>(null);
+  type Tab = "attributes" | "voices" | "practices" | "devotional" | "videos";
+  const [activeTab, setActiveTab] = useState<Tab>("attributes");
+  const [selectedVoice, setSelectedVoice] = useState("tozer-aw");
 
   const filtered = ATTRIBUTES.filter(a => category === "All" || a.category === category);
   const attr = ATTRIBUTES.find(a => a.name === selected);
@@ -155,88 +336,212 @@ export default function AttributesOfGodPage() {
           <div style={{ fontSize: 48, marginBottom: 12 }}>✨</div>
           <h1 style={{ fontSize: 32, fontWeight: 900, marginBottom: 8 }}>The Attributes of God</h1>
           <p style={{ color: MUTED, fontSize: 16, maxWidth: 580, margin: "0 auto" }}>
-            Theology proper — the study of God's nature and character — is the foundation of all Christian thought. What we believe about God shapes everything else. These are the attributes Scripture reveals.
+            Theology proper &mdash; the study of God&rsquo;s nature and character &mdash; is the foundation of all Christian thought. What we believe about God shapes everything else. These are the attributes Scripture reveals.
           </p>
         </div>
 
-        <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, marginBottom: 24 }}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16, textAlign: "center" }}>
-            {[
-              { label: "Incommunicable", desc: "Unique to God alone", color: PURPLE },
-              { label: "Communicable", desc: "Shared (derivatively) with humans", color: GREEN },
-              { label: "Moral", desc: "God's ethical character", color: "#EF4444" },
-            ].map((t, i) => (
-              <div key={i}>
-                <div style={{ color: t.color, fontWeight: 800, fontSize: 14, marginBottom: 4 }}>{t.label}</div>
-                <div style={{ color: MUTED, fontSize: 12 }}>{t.desc}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 28 }}>
-          {ATTRIBUTE_CATEGORIES.map(c => (
-            <button key={c} onClick={() => setCategory(c)}
-              style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${category === c ? GREEN : BORDER}`, background: category === c ? `${GREEN}15` : "transparent", color: category === c ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
-              {c}
+        <div style={{ display: "flex", gap: 6, marginBottom: 24, background: CARD, padding: 6, borderRadius: 10, border: `1px solid ${BORDER}` }}>
+          {([
+            { id: "attributes" as const, label: "Attributes", icon: "✨" },
+            { id: "voices" as const, label: "Voices", icon: "🎓" },
+            { id: "practices" as const, label: "Practices", icon: "🙏" },
+            { id: "devotional" as const, label: "Devotional", icon: "📖" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
+          ]).map(t => (
+            <button key={t.id} onClick={() => setActiveTab(t.id)}
+              style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none",
+                background: activeTab === t.id ? PURPLE : "transparent",
+                color: activeTab === t.id ? "#fff" : MUTED,
+                fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+              {t.icon} {t.label}
             </button>
           ))}
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: attr ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
-          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            {filtered.map((a, i) => (
-              <button key={i} onClick={() => setSelected(selected === a.name ? null : a.name)}
-                style={{ background: selected === a.name ? `${a.color}12` : CARD, border: `1px solid ${selected === a.name ? a.color + "50" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left", transition: "all 0.15s" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                  <div style={{ width: 44, height: 44, borderRadius: 10, background: `${a.color}20`, border: `1px solid ${a.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: a.color, fontWeight: 900, fontSize: 11, flexShrink: 0 }}>
-                    {a.latin.split(" ")[0].substring(0, 3).toUpperCase()}
+        {activeTab === "attributes" && (
+          <>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, marginBottom: 24 }}>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16, textAlign: "center" }}>
+                {[
+                  { label: "Incommunicable", desc: "Unique to God alone", color: PURPLE },
+                  { label: "Communicable", desc: "Shared (derivatively) with humans", color: GREEN },
+                  { label: "Moral", desc: "God's ethical character", color: "#EF4444" },
+                ].map((t, i) => (
+                  <div key={i}>
+                    <div style={{ color: t.color, fontWeight: 800, fontSize: 14, marginBottom: 4 }}>{t.label}</div>
+                    <div style={{ color: MUTED, fontSize: 12 }}>{t.desc}</div>
                   </div>
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-                      <span style={{ color: TEXT, fontWeight: 800, fontSize: 15 }}>{a.name}</span>
-                      <span style={{ background: `${a.color}15`, color: a.color, padding: "1px 8px", borderRadius: 8, fontSize: 10, fontWeight: 700 }}>{a.category}</span>
-                    </div>
-                    <div style={{ color: MUTED, fontSize: 12, marginTop: 2, fontStyle: "italic" }}>{a.latin} · {a.verse}</div>
-                  </div>
-                </div>
-              </button>
-            ))}
-          </div>
-
-          {attr && (
-            <div style={{ background: CARD, border: `1px solid ${attr.color}30`, borderRadius: 14, padding: 28, position: "sticky", top: 100 }}>
-              <div style={{ display: "flex", alignItems: "flex-start", gap: 12, marginBottom: 14 }}>
-                <div>
-                  <h2 style={{ color: attr.color, fontWeight: 900, fontSize: 22, margin: "0 0 2px" }}>{attr.name}</h2>
-                  <div style={{ color: MUTED, fontSize: 12, fontStyle: "italic" }}>{attr.latin}</div>
-                </div>
-              </div>
-
-              <div style={{ display: "flex", gap: 6, marginBottom: 14 }}>
-                <span style={{ background: `${attr.color}12`, color: attr.color, padding: "2px 10px", borderRadius: 8, fontSize: 12, fontWeight: 600 }}>{attr.category}</span>
-                <span style={{ background: `${BORDER}`, color: MUTED, padding: "2px 10px", borderRadius: 8, fontSize: 12 }}>{attr.verse}</span>
-              </div>
-
-              <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, marginBottom: 14 }}>{attr.definition}</p>
-
-              <div style={{ background: `${attr.color}08`, border: `1px solid ${attr.color}20`, borderRadius: 8, padding: 12, marginBottom: 12 }}>
-                <div style={{ color: attr.color, fontWeight: 700, fontSize: 10, marginBottom: 6 }}>THEOLOGICAL SIGNIFICANCE</div>
-                <p style={{ color: TEXT, fontSize: 13, margin: 0, lineHeight: 1.65 }}>{attr.significance}</p>
-              </div>
-
-              <div style={{ background: `${PURPLE}08`, border: `1px solid ${PURPLE}20`, borderRadius: 8, padding: 12, marginBottom: 12 }}>
-                <div style={{ color: PURPLE, fontWeight: 700, fontSize: 10, marginBottom: 6 }}>THEOLOGIAN QUOTE</div>
-                <p style={{ color: TEXT, fontSize: 13, fontStyle: "italic", margin: 0, lineHeight: 1.65 }}>"{attr.quote}"</p>
-              </div>
-
-              <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 8, padding: 12 }}>
-                <div style={{ color: GREEN, fontWeight: 700, fontSize: 10, marginBottom: 6 }}>PERSONAL APPLICATION</div>
-                <p style={{ color: TEXT, fontSize: 13, margin: 0, lineHeight: 1.65 }}>{attr.application}</p>
+                ))}
               </div>
             </div>
-          )}
-        </div>
+
+            <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 28 }}>
+              {ATTRIBUTE_CATEGORIES.map(c => (
+                <button key={c} onClick={() => setCategory(c)}
+                  style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${category === c ? GREEN : BORDER}`, background: category === c ? `${GREEN}15` : "transparent", color: category === c ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
+                  {c}
+                </button>
+              ))}
+            </div>
+
+            <div style={{ display: "grid", gridTemplateColumns: attr ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                {filtered.map((a, i) => (
+                  <button key={i} onClick={() => setSelected(selected === a.name ? null : a.name)}
+                    style={{ background: selected === a.name ? `${a.color}12` : CARD, border: `1px solid ${selected === a.name ? a.color + "50" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left", transition: "all 0.15s" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                      <div style={{ width: 44, height: 44, borderRadius: 10, background: `${a.color}20`, border: `1px solid ${a.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: a.color, fontWeight: 900, fontSize: 11, flexShrink: 0 }}>
+                        {a.latin.split(" ")[0].substring(0, 3).toUpperCase()}
+                      </div>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                          <span style={{ color: TEXT, fontWeight: 800, fontSize: 15 }}>{a.name}</span>
+                          <span style={{ background: `${a.color}15`, color: a.color, padding: "1px 8px", borderRadius: 8, fontSize: 10, fontWeight: 700 }}>{a.category}</span>
+                        </div>
+                        <div style={{ color: MUTED, fontSize: 12, marginTop: 2, fontStyle: "italic" }}>{a.latin} · {a.verse}</div>
+                      </div>
+                    </div>
+                  </button>
+                ))}
+              </div>
+
+              {attr && (
+                <div style={{ background: CARD, border: `1px solid ${attr.color}30`, borderRadius: 14, padding: 28, position: "sticky", top: 100 }}>
+                  <div style={{ display: "flex", alignItems: "flex-start", gap: 12, marginBottom: 14 }}>
+                    <div>
+                      <h2 style={{ color: attr.color, fontWeight: 900, fontSize: 22, margin: "0 0 2px" }}>{attr.name}</h2>
+                      <div style={{ color: MUTED, fontSize: 12, fontStyle: "italic" }}>{attr.latin}</div>
+                    </div>
+                  </div>
+
+                  <div style={{ display: "flex", gap: 6, marginBottom: 14 }}>
+                    <span style={{ background: `${attr.color}12`, color: attr.color, padding: "2px 10px", borderRadius: 8, fontSize: 12, fontWeight: 600 }}>{attr.category}</span>
+                    <span style={{ background: `${BORDER}`, color: MUTED, padding: "2px 10px", borderRadius: 8, fontSize: 12 }}>{attr.verse}</span>
+                  </div>
+
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, marginBottom: 14 }}>{attr.definition}</p>
+
+                  <div style={{ background: `${attr.color}08`, border: `1px solid ${attr.color}20`, borderRadius: 8, padding: 12, marginBottom: 12 }}>
+                    <div style={{ color: attr.color, fontWeight: 700, fontSize: 10, marginBottom: 6 }}>THEOLOGICAL SIGNIFICANCE</div>
+                    <p style={{ color: TEXT, fontSize: 13, margin: 0, lineHeight: 1.65 }}>{attr.significance}</p>
+                  </div>
+
+                  <div style={{ background: `${PURPLE}08`, border: `1px solid ${PURPLE}20`, borderRadius: 8, padding: 12, marginBottom: 12 }}>
+                    <div style={{ color: PURPLE, fontWeight: 700, fontSize: 10, marginBottom: 6 }}>THEOLOGIAN QUOTE</div>
+                    <p style={{ color: TEXT, fontSize: 13, fontStyle: "italic", margin: 0, lineHeight: 1.65 }}>&ldquo;{attr.quote}&rdquo;</p>
+                  </div>
+
+                  <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 8, padding: 12 }}>
+                    <div style={{ color: GREEN, fontWeight: 700, fontSize: 10, marginBottom: 6 }}>PERSONAL APPLICATION</div>
+                    <p style={{ color: TEXT, fontSize: 13, margin: 0, lineHeight: 1.65 }}>{attr.application}</p>
+                  </div>
+                </div>
+              )}
+            </div>
+          </>
+        )}
+
+        {activeTab === "voices" && (
+          <div style={{ display: "grid", gridTemplateColumns: "210px 1fr", gap: 20, alignItems: "start" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 100 }}>
+              {VOICES_AOG.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ background: selectedVoice === v.id ? `${PURPLE}20` : CARD,
+                    border: `1px solid ${selectedVoice === v.id ? PURPLE : BORDER}`,
+                    borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: selectedVoice === v.id ? "#fff" : TEXT, fontWeight: 700, fontSize: 14 }}>{v.name}</div>
+                  <div style={{ color: MUTED, fontSize: 11 }}>{v.era}</div>
+                </button>
+              ))}
+            </div>
+            {(() => {
+              const v = VOICES_AOG.find(x => x.id === selectedVoice)!;
+              return (
+                <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28 }}>
+                  <h2>{v.name}</h2>
+                  <div style={{ color: MUTED, fontSize: 13 }}>{v.era} &middot; {v.work}</div>
+                  <p style={{ marginTop: 16, lineHeight: 1.8 }}>{v.bio}</p>
+                  <blockquote style={{ borderLeft: `3px solid ${GREEN}`, paddingLeft: 16, fontStyle: "italic", color: MUTED, margin: "20px 0" }}>
+                    &ldquo;{v.quote}&rdquo;
+                  </blockquote>
+                  <div style={{ background: `${PURPLE}10`, border: `1px solid ${PURPLE}20`, borderRadius: 8, padding: 14 }}>
+                    <div style={{ color: PURPLE, fontWeight: 700, fontSize: 11, marginBottom: 6 }}>CONTRIBUTION</div>
+                    <p style={{ color: TEXT, margin: 0 }}>{v.contribution}</p>
+                  </div>
+                </div>
+              );
+            })()}
+          </div>
+        )}
+
+        {activeTab === "practices" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+            {PRACTICES_AOG.map(p => (
+              <div key={p.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 }}>
+                  <h3 style={{ margin: 0 }}>{p.icon} {p.title}</h3>
+                  <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "3px 10px", borderRadius: 8, fontSize: 11, fontWeight: 700 }}>{p.frequency}</span>
+                </div>
+                <p style={{ color: MUTED }}>{p.description}</p>
+                <ol style={{ paddingLeft: 16, marginTop: 12 }}>
+                  {p.steps.map((s, i) => <li key={i} style={{ color: TEXT, fontSize: 13, lineHeight: 1.7 }}>{s}</li>)}
+                </ol>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {activeTab === "devotional" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {DEVOTIONAL_AOG.map(d => (
+              <div key={d.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 28 }}>
+                <div style={{ color: GREEN, fontWeight: 700, fontSize: 11, marginBottom: 4 }}>{d.attribute.toUpperCase()}</div>
+                <h3 style={{ marginBottom: 8 }}>{d.title}</h3>
+                <div style={{ color: PURPLE, fontSize: 12, marginBottom: 14 }}>{d.verse}</div>
+                <p style={{ lineHeight: 1.9 }}>{d.body}</p>
+                <div style={{ background: `${PURPLE}10`, border: `1px solid ${PURPLE}20`, borderRadius: 8, padding: 16, marginTop: 16 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 11, marginBottom: 6 }}>PRAYER</div>
+                  <p style={{ color: TEXT, fontStyle: "italic", margin: 0 }}>{d.prayer}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings on the attributes of God — his holiness, sovereignty, love, and majesty — from trusted scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "TSDuiULbFf4", title: "Holiness and Justice: The Holiness of God", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul examines what it means that God is holy — and how his holiness is inseparable from his justice, transforming how we understand both." },
+                  { videoId: "X5x3SPQrDbU", title: "Ministry Reflections with John Piper and R.C. Sproul", channel: "John Piper & R.C. Sproul", description: "Piper and Sproul reflect on what their ministries have taught them about the nature and character of God — two giants of Reformed theology in conversation." },
+                  { videoId: "wGhLw1ULGFk", title: "R.C. Sproul on God's Being and Apologetics", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul explores the philosophical and theological dimensions of God's being — what it means that God is, and how that grounds Christian faith." },
+                  { videoId: "MJks19pBBXI", title: "Introduction to Apologetics: Defending Your Faith", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul introduces the rational basis for belief in a holy, personal God — the starting point for all Christian theology." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
       </div>
     </div>
   );

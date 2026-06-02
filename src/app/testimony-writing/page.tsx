@@ -31,6 +31,56 @@ const PITFALLS = [
   { pitfall: "Too long, too much detail", fix: "Edit ruthlessly. Every detail must serve the central story. Religious experiences, theological nuances, and church politics rarely help the listener. Focus on the turning point and its fruit." },
 ];
 
+type Tab = "theology" | "witnesses" | "structure" | "write" | "videos";
+
+const WITNESSES = [
+  {
+    id: "augustine",
+    name: "Augustine of Hippo",
+    era: "354-430",
+    context: "Confessions, c. 397 AD",
+    bio: "The Confessions is the most influential personal testimony in Christian history and the first great autobiography in Western literature. Augustine tells the story of his brilliant, restless mind and its inability to rest anywhere but God — from his Carthaginian youth, through his Manichaean years, through his dalliance with Neo-Platonism, to the garden in Milan where he heard a child's voice say 'Take up and read.' His mother Monica's faithful tears over decades form a second testimony woven throughout. He writes in second-person address to God — the testimony is not performance but prayer.",
+    quote: "You have made us for yourself, O Lord, and our heart is restless until it rests in You. And now, O Lord our God, I give thanks to You for this good gift.",
+    contribution: "Augustine's Confessions created the template for all subsequent Christian testimony: honest about sin without glorifying it, specific about the moment of turning, and deeply relational (God is addressed, not merely described). His 'before' is unflinching — adulterous relationships, intellectual pride, spiritual searching in wrong places. His 'after' is not triumphalist but quietly confident. Every subsequent conversion narrative is in some sense responding to Augustine's.",
+  },
+  {
+    id: "newton",
+    name: "John Newton",
+    era: "1725-1807",
+    context: "Slave trader turned abolitionist pastor; author of Amazing Grace",
+    bio: "Newton's testimony is one of the most remarkable in Christian history. A sailor and slave trader by profession, he experienced a violent storm in 1748 that he later called the beginning of his serious religion. He continued in the slave trade for years after his conversion — a sobering reminder that conversion does not immediately resolve every moral blindness. Decades later, as an elderly abolitionist, he testified before Parliament against the slave trade. He composed 'Amazing Grace' (1772) as a meditation on his own conversion: 'a wretch like me.'",
+    quote: "I am not what I ought to be. I am not what I wish to be. I am not what I hope to be. But by the grace of God, I am not what I was.",
+    contribution: "Newton's testimony demonstrates the importance of long-arc honesty in witness. He did not edit out the years of moral failure that followed his initial conversion, nor did he minimize the wickedness of his involvement in the slave trade. His willingness to name himself as 'the chief of sinners' without false humility (he meant it literally) gave Amazing Grace its peculiar power — the wonder is not theatrical but genuine. His testimony is also a caution: conversion begins a process; it does not complete it.",
+  },
+  {
+    id: "lewis",
+    name: "C.S. Lewis",
+    era: "1898-1963",
+    context: "Surprised by Joy, 1955; Mere Christianity, 1952",
+    bio: "Lewis's intellectual conversion is the most influential account of Christianity for the modern secular mind. He describes himself as 'the most reluctant convert in all England' — a philosophical materialist dragged kicking and screaming into a theism he found compelling but didn't want. His account traces the role of Joy (Sehnsucht — an unsatisfied longing that the world couldn't fill), the intellectual demolition of his materialist worldview, and his eventual recognition that atheism was the one worldview that left human experience most inexplicable.",
+    quote: "You must picture me alone in that room in Magdalen, night after night, feeling, whenever my mind lifted even for a second from my work, the steady, unrelenting approach of Him whom I so earnestly desired not to meet.",
+    contribution: "Lewis showed that conversion could be intellectually respectable — that a rigorous, skeptical, highly educated person could be argued into faith. His use of Joy (the stabbing desire for something beyond the world) as evidence for transcendence opened a new apologetic pathway. His testimony particularly resonates with intellectual seekers who find emotional or experiential accounts insufficient. 'Surprised by Joy' and 'Mere Christianity' together constitute the most widely-read evangelistic testimony of the 20th century.",
+  },
+  {
+    id: "tenboom",
+    name: "Corrie ten Boom",
+    era: "1892-1983",
+    context: "The Hiding Place, 1971; survivor of Ravensbruck concentration camp",
+    bio: "Ten Boom's testimony is set in one of history's darkest contexts — her family's work hiding Jewish people in Nazi-occupied Holland, their arrest and imprisonment, and her sister Betsie's death in Ravensbruck. The Hiding Place is not a traditional conversion narrative (Corrie was raised in a devout Christian home) but a testimony of faith sustained through extremity. The central moment: after the war, encountering a former prison guard, Corrie was asked to extend forgiveness. She describes having to pray for the willingness to forgive, and the supernatural grace that came when she did.",
+    quote: "There is no pit so deep that He is not deeper still. When we are powerless to do a thing, it is a great joy that we can come and step inside the ability of Jesus.",
+    contribution: "Ten Boom's testimony demonstrates that Christian witness is not only about initial conversion but about sustaining faith through suffering. Her account of forgiving the prison guard — not through emotional resolution but through obedient prayer for grace — became one of the most cited examples of the radical nature of gospel forgiveness. Her story also makes credible the claim that faith deepens under pressure rather than being destroyed by it.",
+  },
+  {
+    id: "morrison",
+    name: "Latasha Morrison",
+    era: "1975-present",
+    context: "Author of Be the Bridge; racial reconciliation speaker",
+    bio: "Morrison's testimony is that of a Black Christian woman whose faith led her into the uncomfortable work of racial reconciliation in the American church. Raised in a Christian home, her witness is not a dramatic conversion narrative but an account of how the gospel's logic — of enemies reconciled to God and to each other through the cross — compelled her to work for the reconciliation that the church had avoided. She describes the personal cost: the anger of other Black Christians who saw the work as accommodation, and the defensiveness of white Christians who saw it as accusation.",
+    quote: "The gospel is not just about personal salvation — it is about the reconciliation of all things. You cannot say you love God and not love your neighbor. And you cannot love your neighbor without knowing their pain.",
+    contribution: "Morrison's testimony demonstrates that personal witness includes systemic dimensions — that what God has done in an individual necessarily moves them toward what God is doing in the world. Her story challenges the privatized, individualized testimony tradition by showing that the gospel creates not only personal peace but social engagement. She also models that testimony includes the ongoing story of sanctification, not just the initial turning point.",
+  },
+];
+
 interface TestimonyDraft {
   before: string;
   during: string;
@@ -39,7 +89,9 @@ interface TestimonyDraft {
 }
 
 export default function TestimonyWritingPage() {
-  const [activeTab, setActiveTab] = useState<"theology" | "structure" | "write">("theology");
+  const [activeTab, setActiveTab] = useState<Tab>("theology");
+  const [selectedWitness, setSelectedWitness] = useState("augustine");
+  const witness = WITNESSES.find(w => w.id === selectedWitness)!;
   const [draft, setDraft] = useState<TestimonyDraft>(() => {
     try { const s = localStorage.getItem("vine_testimony_draft"); return s ? JSON.parse(s) : { before: "", during: "", after: "", invitation: "" }; } catch { return { before: "", during: "", after: "", invitation: "" }; }
   });
@@ -63,8 +115,10 @@ export default function TestimonyWritingPage() {
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
             { id: "theology" as const, label: "Why It Matters", icon: "📖" },
+            { id: "witnesses" as const, label: "Witnesses", icon: "🕯️" },
             { id: "structure" as const, label: "Structure", icon: "🏗️" },
             { id: "write" as const, label: "Write It", icon: "✍️" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -97,6 +151,38 @@ export default function TestimonyWritingPage() {
                     <p style={{ color: TEXT, fontSize: 13, fontStyle: "italic", lineHeight: 1.6, margin: 0 }}>Example: {v.example}</p>
                   </div>
                 ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "witnesses" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 210, flexShrink: 0 }}>
+              {WITNESSES.map(w => (
+                <button key={w.id} onClick={() => setSelectedWitness(w.id)}
+                  style={{ width: "100%", background: selectedWitness === w.id ? `${PURPLE}18` : "transparent", border: `1px solid ${selectedWitness === w.id ? PURPLE + "70" : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 6, cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: selectedWitness === w.id ? PURPLE : TEXT, fontWeight: 800, fontSize: 13, marginBottom: 2 }}>{w.name}</div>
+                  <div style={{ color: MUTED, fontSize: 11 }}>{w.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ background: CARD, border: `1px solid ${PURPLE}30`, borderRadius: 14, padding: 28 }}>
+                <div style={{ marginBottom: 20 }}>
+                  <div style={{ color: MUTED, fontWeight: 700, fontSize: 11, marginBottom: 4 }}>{witness.era}</div>
+                  <h2 style={{ color: PURPLE, fontWeight: 900, fontSize: 24, marginBottom: 4 }}>{witness.name}</h2>
+                  <div style={{ color: MUTED, fontSize: 13 }}>{witness.context}</div>
+                </div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, marginBottom: 20 }}>{witness.bio}</p>
+                <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 10, padding: 18, marginBottom: 16 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 11, marginBottom: 10 }}>IN THEIR OWN WORDS</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0, fontStyle: "italic" }}>&ldquo;{witness.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: BG, borderRadius: 10, padding: 16 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>WHAT WE LEARN</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{witness.contribution}</p>
+                </div>
               </div>
             </div>
           </div>
@@ -157,6 +243,41 @@ export default function TestimonyWritingPage() {
                 />
               </div>
             ))}
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Practical guidance and biblical teaching on sharing your personal testimony effectively.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "9q6KrV2CDI0", title: "How to Share Your Personal Christian Testimony in 3-5 Minutes", channel: "Breaking Truth Ministries", description: "A clear, practical guide to crafting and sharing your personal testimony for evangelism — covering structure, focus, and what to include." },
+                  { videoId: "YN1bnmbjuv0", title: "How To Share Your Testimony", channel: "Christian Teaching", description: "A personal testimony is the Gospel presented in terms of your own experience. This video teaches you how to tell that story powerfully." },
+                  { videoId: "k4gi3k8thsE", title: "Your Story Is His Story", channel: "Christian Teaching", description: "A simple outline and practical tips to help you share your personal testimony — because your story of God's grace is one of the most powerful tools you have." },
+                  { videoId: "kLPFLwDaUTE", title: "The Power of Sharing Your Testimony", channel: "Christian Teaching", description: "Key steps for constructing and sharing your story of faith, with biblical foundations and practical application for real conversations." },
+                  { videoId: "udQltBlxyVo", title: "How to Share Your Testimony | UNcomplicated", channel: "UNcomplicated", description: "Beginning with 1 Peter 3:15, this video provides a simple, repeatable framework for sharing your faith story in any context." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

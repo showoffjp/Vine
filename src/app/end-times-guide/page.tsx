@@ -9,7 +9,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "timeline" | "rapture" | "millennium" | "keys";
+type Tab = "timeline" | "rapture" | "millennium" | "keys" | "videos";
 
 const TIMELINE_EVENTS = [
   {
@@ -241,6 +241,7 @@ export default function EndTimesGuidePage() {
     { id: "rapture", label: "The Rapture Debate" },
     { id: "millennium", label: "Millennium Views" },
     { id: "keys", label: "Keys for Studying Prophecy" },
+    { id: "videos", label: "🎬 Videos" },
   ];
 
   const activeRapture = RAPTURE_POSITIONS.find((p) => p.id === selectedRapture) ?? RAPTURE_POSITIONS[0];
@@ -509,6 +510,39 @@ export default function EndTimesGuidePage() {
                   )}
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+        {tab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "W75bzrvJtLs", title: "An Evening of Eschatology", channel: "John Piper, Sam Storms, Doug Wilson & James Hamilton", description: "A landmark roundtable where four respected scholars representing different millennial views discuss end-times theology with charity and rigor." },
+                  { videoId: "dILQHlaqINg", title: "The Rapture: The Last Days According to Jesus", channel: "R.C. Sproul / Ligonier Ministries", description: "R.C. Sproul examines the rapture debate — what 1 Thessalonians 4 actually teaches and how Christians disagree about the manner and timing of Christ's return." },
+                  { videoId: "Ejd4ZAnXmMM", title: "The Millennium: The Last Days According to Jesus", channel: "R.C. Sproul / Ligonier Ministries", description: "R.C. Sproul surveys the four main views of the millennium in Revelation 20 — premillennialism, amillennialism, postmillennialism — with their strengths and weaknesses." },
+                  { videoId: "n22MRa0P6_I", title: "Crisis in Eschatology: The Last Days According to Jesus", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul examines the study of the last days using Jesus's own words in the Olivet Discourse — addressing what Jesus meant and when he expected fulfillment." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

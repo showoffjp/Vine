@@ -4,6 +4,57 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
+type Tab = "theology" | "traps" | "voices" | "practices" | "videos";
+
+const VOICES = [
+  {
+    id: "nouwen",
+    name: "Henri Nouwen",
+    era: "1932-1996",
+    context: "Dutch Catholic priest; professor at Harvard, Yale, Daybreak Community",
+    bio: "Nouwen is the unlikely patron of a certain kind of Christian manhood — one formed by vulnerability, prayer, and the willingness to be known in weakness. His 'The Return of the Prodigal Son' meditates on the father who runs, embraces, weeps, and feasts — arguing that the masculine calling is not to be the elder brother (correct but joyless) but to become the father: a man whose wounds have become a source of compassion for others. Nouwen's own struggles with loneliness and his life at L'Arche shaped a manhood that bears pain without hiding it.",
+    quote: "The greatest trap in our life is not success, popularity, or power, but self-rejection. Becoming the Beloved is the great spiritual journey every man is invited to take.",
+    contribution: "Nouwen gave Christian men permission to be emotionally honest — to name loneliness, failure, and spiritual hunger without shame. His work challenged the performance-based masculinity common in evangelical culture by insisting that belovedness, not achievement, is the foundation of Christian identity. His integration of the Prodigal Son's father as a masculine archetype has been enormously influential on men's ministry and spiritual direction.",
+  },
+  {
+    id: "eldredge",
+    name: "John Eldredge",
+    era: "1960-present",
+    context: "American author and counselor; Ransomed Heart Ministries",
+    bio: "Eldredge's 'Wild at Heart' (2001) became the most widely-read book on Christian masculinity of the 21st century. His central claim: God made men with a warrior heart, an adventure, and a beauty to rescue — and the church has domesticated men into passivity by asking them to be nice rather than fierce. Whatever its critics say about its cultural assumptions, Wild at Heart opened a generation of men to a bigger vision of Christian manhood and gave them language for a longing that most had suppressed.",
+    quote: "Deep in his heart, every man longs for a battle to fight, an adventure to live, and a beauty to rescue. These are not the result of the fall; they are the image of God in the heart of a man.",
+    contribution: "Eldredge popularized the conversation about authentic masculine formation in the church, creating space for men to talk about desire, wound, and calling. His critique of passive, domesticated Christianity in church settings resonated with millions of men who had experienced exactly that. Whatever one thinks of his theological anthropology, he succeeded in making masculine spiritual formation a central concern for pastors and men's ministry leaders.",
+  },
+  {
+    id: "ortlund",
+    name: "Dane Ortlund",
+    era: "1978-present",
+    context: "Reformed pastor and author; Naperville Presbyterian Church",
+    bio: "Ortlund's 'Gentle and Lowly' (2020) centers Christian manhood not on warrior archetypes or heroic achievement but on the heart of Christ — gentle and lowly in heart (Matthew 11:29). Ortlund argues that the defining characteristic of Christ's masculinity is his tender approachability: he is 'the one to whom the heavy-burdened are invited.' A man formed in Christ's image is not primarily fierce but gentle — accessible, tender, and safe. This challenges both secular toughness and religious harshness.",
+    quote: "Jesus is not trigger-happy. Not harsh, reactionary, or easily exasperated. He is the most understanding person in the universe. The posture of his heart is gentle and lowly.",
+    contribution: "Ortlund provided a Christological corrective to the warrior-centered models of Christian masculinity. By centering Jesus's own self-description ('gentle and lowly') as the heart of the matter, he gave men a different north star: not strength in the sense of domination or fearlessness, but strength as tenderness, approachability, and welcome. This has had wide influence on how younger evangelical men think about pastoral calling and fatherhood.",
+  },
+  {
+    id: "sanders",
+    name: "J. Oswald Sanders",
+    era: "1902-1992",
+    context: "New Zealand Christian leader; director of China Inland Mission",
+    bio: "Sanders's 'Spiritual Leadership' (1967) is the standard text on Christian male leadership in the evangelical world. Written from the experience of leading one of the world's largest mission agencies, Sanders argued that Christian leadership is fundamentally different from secular leadership: it flows not from talent or ambition but from spiritual depth, prayer, and self-sacrifice. The leader who does not pray is not leading from the right source. Sanders took the servant-leader model seriously as a description, not just an aspiration.",
+    quote: "Leadership is influence — nothing more, nothing less. The man who influences others toward Christlikeness has done the highest work that can be done.",
+    contribution: "Sanders gave generations of evangelical men a clear-eyed account of what genuine Christian leadership looks like and costs. His emphasis on prayer as the foundation of leadership — not strategy or charisma — cut against the business-book models that often dominate men's ministry. His chapters on the cost of leadership (loneliness, criticism, pressure, the temptation to manage rather than lead spiritually) remain the most honest treatment of pastoral calling available.",
+  },
+  {
+    id: "chan",
+    name: "Francis Chan",
+    era: "1967-present",
+    context: "American pastor and author; Crazy Love, We Are Church movement",
+    bio: "Chan represents a certain kind of counter-cultural Christian masculinity — the man who gave away a comfortable pastorate and successful Christian platform to go where the church was weak and the work was hard. His 'Crazy Love' challenged men to stop living safe, comfortable, domesticated Christian lives and actually follow Jesus into risk. For Chan, biblical manhood is fundamentally about obedience — doing what Jesus said even when it is costly, foolish by the world's standards, and inconvenient.",
+    quote: "Stop praying for God to change your circumstances. Start asking him to change you so that you can serve faithfully in the circumstances he has already given you.",
+    contribution: "Chan modeled a counter-cultural masculine faithfulness that resonated especially with younger men who were tired of Christianity as a comfortable lifestyle accessory. By actually doing what his theology demanded — giving his house away, leaving his megachurch, moving into hard places — he demonstrated that convictions are revealed by costs. His example has challenged a generation of men to ask what obedience actually requires rather than what comfort allows.",
+  },
+];
+
+
 const THEOLOGY = [
   { title: "Made in the Image of God", verse: "Genesis 1:26-27", body: "Both male and female are made in the image of God (Genesis 1:27) — which means maleness itself is a good gift, not a social construct or a problem to be overcome. The image of God is not distributed equally between the sexes; both bear it fully. Biblical manhood does not begin with a list of behaviors but with a theological conviction: being male is a created, dignified, purposeful reality." },
   { title: "Headship as Servant Leadership", verse: "Ephesians 5:25-28", body: "Paul's language of headship (Ephesians 5:23) is immediately interpreted by the command that follows: 'Husbands, love your wives, just as Christ loved the church and gave himself up for her.' The model of male headship is cruciform. The husband does not lead by demanding but by giving; not by asserting authority but by sacrificing for the good of his wife. Headship is a weight, not a privilege." },
@@ -37,9 +88,11 @@ const MODELS = [
 ];
 
 export default function BiblicalManhoodPage() {
-  const [activeTab, setActiveTab] = useState<"theology" | "traps" | "practices">("theology");
+  const [activeTab, setActiveTab] = useState<Tab>("theology");
   const [selectedModel, setSelectedModel] = useState("Joseph");
   const [expanded, setExpanded] = useState<string | null>(null);
+  const [selectedVoice, setSelectedVoice] = useState("nouwen");
+  const voice = VOICES.find(v => v.id === selectedVoice)!;
 
   const model = MODELS.find(m => m.name === selectedModel)!;
 
@@ -58,7 +111,9 @@ export default function BiblicalManhoodPage() {
           {[
             { id: "theology" as const, label: "Theology", icon: "📖" },
             { id: "traps" as const, label: "Common Traps", icon: "⚠️" },
+            { id: "voices" as const, label: "Voices", icon: "💡" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -134,6 +189,38 @@ export default function BiblicalManhoodPage() {
           </div>
         )}
 
+        {activeTab === "voices" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 210, flexShrink: 0 }}>
+              {VOICES.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ width: "100%", background: selectedVoice === v.id ? `${PURPLE}18` : "transparent", border: `1px solid ${selectedVoice === v.id ? PURPLE + "70" : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 6, cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: selectedVoice === v.id ? PURPLE : TEXT, fontWeight: 800, fontSize: 13, marginBottom: 2 }}>{v.name}</div>
+                  <div style={{ color: MUTED, fontSize: 11 }}>{v.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ background: CARD, border: `1px solid ${PURPLE}30`, borderRadius: 14, padding: 28 }}>
+                <div style={{ marginBottom: 20 }}>
+                  <div style={{ color: MUTED, fontWeight: 700, fontSize: 11, marginBottom: 4 }}>{voice.era}</div>
+                  <h2 style={{ color: PURPLE, fontWeight: 900, fontSize: 24, marginBottom: 4 }}>{voice.name}</h2>
+                  <div style={{ color: MUTED, fontSize: 13 }}>{voice.context}</div>
+                </div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, marginBottom: 20 }}>{voice.bio}</p>
+                <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 10, padding: 18, marginBottom: 16 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 11, marginBottom: 10 }}>IN THEIR OWN WORDS</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0, fontStyle: "italic" }}>&ldquo;{voice.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: BG, borderRadius: 10, padding: 16 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>KEY CONTRIBUTION</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{voice.contribution}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {activeTab === "practices" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
@@ -151,6 +238,40 @@ export default function BiblicalManhoodPage() {
                   <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{p.desc}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings on biblical manhood — what Scripture says about being a godly man, husband, and leader.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "t3ZYiRM0PN8", title: "John Piper and Darrin Patrick on Biblical Manhood (Part 1)", channel: "Desiring God", description: "Piper and Patrick discuss what genuine biblical masculinity looks like — servant leadership, courage, and sacrificial love grounded in the gospel." },
+                  { videoId: "-OcSYqaQVuY", title: "John Piper and Darrin Patrick on Biblical Manhood (Part 2)", channel: "Desiring God", description: "The conversation continues — addressing the specific failures men face and what it looks like to recover a biblical vision of manhood in the local church." },
+                  { videoId: "kD7HKwMFUdY", title: "The Value of Masculine Ministry", channel: "John Piper / Desiring God", description: "Piper's address from the 2012 Pastors Conference on God, manhood, and ministry — what it means for men to lead the church with strength and gentleness." },
+                  { videoId: "7n7Orxcvh6M", title: "Pursuing Biblical Manhood and Womanhood, Part 1", channel: "John Piper", description: "Piper presents a theological framework for biblical complementarity — what Scripture teaches about the distinct callings of men and women." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

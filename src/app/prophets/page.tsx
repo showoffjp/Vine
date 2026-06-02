@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import React, { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -96,8 +96,27 @@ const HOWTO = [
   { title: "Read Alongside the New Testament", desc: "The prophets are most fully understood in light of their fulfillment. Read Isaiah 53 alongside Mark 10:45 and 1 Peter 2:24. Read Jeremiah 31 alongside Hebrews 8. The NT authors understood themselves as living in the fulfillment of prophetic promise.", icon: "✝️" },
 ];
 
+const SCHOLARS_PROPHETS = [
+  { id: "motyer", name: "J. Alec Motyer", era: "1924-2016", context: "Isaiah commentaries; Tyndale OT series", bio: "Motyer wrote what many consider the finest evangelical commentary on Isaiah (The Prophecy of Isaiah, 1993) and was a master of the whole prophetic literature. He insisted on reading each prophet as a unified literary whole rather than a collection of fragments, which made him an outlier in the critical tradition but right about the texts. His attention to the Hebrew poetry and his Christological reading of the servant songs have made him indispensable for those who want both scholarly rigor and devotional depth.", quote: "Isaiah 53 is the most important chapter in the Old Testament — the theological center of biblical soteriology, written seven centuries before the event.", contribution: "Established the literary unity and theological coherence of Isaiah against the critical tradition's fragmentation. His servant song expositions remain the standard evangelical treatment of messianic prophecy." },
+  { id: "bright", name: "John Bright", era: "1908-1995", context: "A History of Israel; Jeremiah (Anchor Bible)", bio: "Bright's A History of Israel remains the classic evangelical account of Israelite history and is indispensable for reading the prophets in context. His Anchor Bible commentary on Jeremiah is the most detailed English treatment. He brought archaeological and historical rigor to OT study while maintaining the historical reliability of the biblical narrative — a combination that made him influential across evangelical and mainline scholarship.", quote: "The prophet is not primarily a predictor of future events but a proclaimer of the divine word into a specific historical situation. The prediction serves the proclamation.", contribution: "Gave evangelical scholars the historical-critical tools necessary to read the prophets in their historical context without abandoning their theological authority. His History of Israel set the framework for OT historical study for a generation." },
+  { id: "oswalt", name: "John Oswalt", era: "b. 1940", context: "Isaiah (NICOT); Asbury Theological Seminary", bio: "Oswalt's two-volume commentary on Isaiah in the New International Commentary on the Old Testament (NICOT) is the most comprehensive evangelical treatment of the book. He defends the unity of Isaiah and provides detailed exegesis of every pericope, with particular attention to the theology of holiness (the 'Holy One of Israel' as Isaiah's distinctive divine name) and the servant songs. His engagement with critical scholarship is thorough and his evangelical conclusions are carefully argued.", quote: "Isaiah's vision of the Holy One of Israel is the controlling theological center of the whole book — a God so utterly other that only his servant can approach and only his grace can reach human beings.", contribution: "Provided the definitive evangelical commentary on Isaiah. His treatment of the servant of the LORD is the most careful and thorough available in the evangelical tradition." },
+  { id: "brueggemann", name: "Walter Brueggemann", era: "b. 1933", context: "The Prophetic Imagination (1978); Columbia Theological Seminary", bio: "Brueggemann's The Prophetic Imagination is a landmark in prophetic theology. His argument: the prophets perform two functions — criticizing the dominant consciousness (naming what is wrong with the current order) and energizing an alternative community (offering a vision of what God intends). Moses and Jesus are the paradigmatic prophets. This framework has been enormously influential in pastoral theology and social ethics, giving Christians a way to understand the prophets as speaking to present realities rather than merely predicting future events.", quote: "The task of prophetic ministry is to nurture, nourish, and evoke a consciousness and perception alternative to the consciousness and perception of the dominant culture.", contribution: "Made prophetic theology politically and pastorally relevant. His framework of prophetic criticism and energizing has shaped how seminary-trained pastors understand the prophetic task of the church in society." },
+  { id: "longman", name: "Tremper Longman III", era: "b. 1952", context: "How to Read the Prophets; Regent College", bio: "Longman's introduction to the prophetic literature gives students and non-specialists the literary and hermeneutical tools necessary to read the prophets well. He addresses the genres within prophetic literature (oracles of judgment, oracles of salvation, woe oracles, visions), the mechanics of prophetic fulfillment (how an OT prophecy can have multiple fulfillments), and the Christological reading of messianic passages. His framework prevents both over-literal and over-allegorical readings.", quote: "Prophecy is not a newspaper of future events but a covenant lawsuit — the prophet is God's attorney, bringing charges against a faithless people and declaring the verdict.", contribution: "Gave students the interpretive framework for reading prophetic literature as a literary genre rather than a collection of predictions. His treatment of typological and Christological prophecy is the best short introduction available." }
+];
+
+const CHRISTOLOGICAL_PROPHECIES = [
+  { prophet: "Isaiah", passage: "Isaiah 7:14", theme: "Born of a Virgin", detail: "Immanuel — God with us. Matthew 1:23 applies this to Jesus. Isaiah spoke to Ahaz of a sign in his immediate context, but Matthew sees a deeper fulfillment: the one who is truly Immanuel is born of Mary. Typological prophecy: the pattern established in Isaiah's time finds its ultimate expression in Jesus.", ref: "Matthew 1:23" },
+  { prophet: "Isaiah", passage: "Isaiah 53:4-6", theme: "Suffering Servant", detail: "The most explicitly substitutionary passage in the Old Testament: he bore our griefs, carried our sorrows, was pierced for our transgressions, crushed for our iniquities. The NT authors quoted Isaiah 53 more than any other OT passage in interpreting the cross. Matthew 8:17, Acts 8:32-33, 1 Peter 2:24-25 — all direct citation.", ref: "1 Peter 2:24-25" },
+  { prophet: "Micah", passage: "Micah 5:2", theme: "Born in Bethlehem", detail: "The ruler of Israel will come from Bethlehem of Ephrathah. Matthew 2:6 cites this when describing Herod's advisors locating the Messiah. Micah spoke of a new Davidic ruler — one whose origins are ancient, from eternity — who would come from David's own birthplace.", ref: "Matthew 2:6" },
+  { prophet: "Zechariah", passage: "Zechariah 9:9", theme: "Humble King on a Donkey", detail: "Rejoice greatly, daughter of Zion — your king comes to you, righteous and victorious, lowly and riding on a donkey. All four Gospels record this as the frame through which to understand the Triumphal Entry (Matthew 21:5, John 12:15). Jesus intentionally fulfills this prophecy, claiming the identity of Zechariah's king.", ref: "Matthew 21:5" },
+  { prophet: "Zechariah", passage: "Zechariah 12:10", theme: "The Pierced One", detail: "They will look on me, the one they have pierced. John 19:37 quotes this at the crucifixion when the soldier pierces Jesus's side. Revelation 1:7 applies it to the Second Coming. A passage originally about mourning in Jerusalem is fulfilled in the death of Jesus — and still awaiting final fulfillment.", ref: "John 19:37" },
+  { prophet: "Daniel", passage: "Daniel 7:13-14", theme: "Son of Man on Clouds", detail: "One like a son of man comes on the clouds of heaven. Jesus identifies himself as this figure before the Sanhedrin (Matthew 26:64) — a claim they recognize as messianic, which is why they charge him with blasphemy. 'Son of Man' was Jesus's preferred self-designation, rooted in this Danielic vision of heavenly authority.", ref: "Matthew 26:64" }
+];
+
 export default function ProphetsPage() {
-  const [activeTab, setActiveTab] = useState<"prophets" | "howto">("prophets");
+  const [activeTab, setActiveTab] = useState<"prophets" | "scholars" | "christological" | "howto" | "videos">("prophets");
+  const [selectedScholar, setSelectedScholar] = useState("motyer");
+  const scholarItem = SCHOLARS_PROPHETS.find(s => s.id === selectedScholar)!;
   const [selected, setSelected] = useState("Isaiah");
 
   const prophet = PROPHETS.find(p => p.name === selected)!;
@@ -116,7 +135,10 @@ export default function ProphetsPage() {
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
             { id: "prophets" as const, label: "The Prophets", icon: "🔥" },
-            { id: "howto" as const, label: "How to Read Them", icon: "📖" },
+            { id: "scholars" as const, label: "Scholars", icon: "🏛️" },
+            { id: "christological" as const, label: "Christ in Prophecy", icon: "✝️" },
+            { id: "howto" as const, label: "How to Read", icon: "📖" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -167,6 +189,66 @@ export default function ProphetsPage() {
           </div>
         )}
 
+        {activeTab === "scholars" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 210, flexShrink: 0 }}>
+              {SCHOLARS_PROPHETS.map(s => (
+                <button key={s.id} onClick={() => setSelectedScholar(s.id)}
+                  style={{ width: "100%", background: selectedScholar === s.id ? `${PURPLE}18` : "transparent", border: `1px solid ${selectedScholar === s.id ? PURPLE + "80" : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 6, cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: selectedScholar === s.id ? TEXT : MUTED, fontWeight: 700, fontSize: 13 }}>{s.name}</div>
+                  <div style={{ color: MUTED, fontSize: 11, marginTop: 2 }}>{s.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ background: CARD, border: `1px solid ${PURPLE}30`, borderRadius: 14, padding: 28 }}>
+                <div style={{ marginBottom: 18 }}>
+                  <h2 style={{ color: TEXT, fontWeight: 900, fontSize: 22, marginBottom: 4 }}>{scholarItem.name}</h2>
+                  <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                    <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700 }}>{scholarItem.era}</span>
+                    <span style={{ background: `${GREEN}15`, color: GREEN, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700 }}>{scholarItem.context}</span>
+                  </div>
+                </div>
+                <div style={{ marginBottom: 18 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>LIFE & CONTRIBUTION</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>{scholarItem.bio}</p>
+                </div>
+                <div style={{ background: BG, borderLeft: `3px solid ${PURPLE}`, borderRadius: "0 10px 10px 0", padding: 18, marginBottom: 18 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 11, marginBottom: 8 }}>CHARACTERISTIC QUOTE</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0, fontStyle: "italic" }}>&ldquo;{scholarItem.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 10, padding: 16 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>CONTRIBUTION</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{scholarItem.contribution}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "christological" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, marginBottom: 20 }}>
+              <h3 style={{ color: TEXT, fontWeight: 900, fontSize: 18, marginBottom: 8 }}>Christ in the Prophets</h3>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Jesus said: &ldquo;Everything written about me in the Law of Moses and the Prophets and the Psalms must be fulfilled&rdquo; (Luke 24:44). The prophets did not merely predict Jesus — they shaped the categories through which the NT authors interpreted him. These six passages show the depth of the connection.</p>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+              {CHRISTOLOGICAL_PROPHECIES.map((p, i) => (
+                <div key={i} style={{ background: CARD, border: `1px solid ${PURPLE}25`, borderRadius: 12, padding: 22 }}>
+                  <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 10 }}>
+                    <div>
+                      <div style={{ color: GREEN, fontWeight: 800, fontSize: 16, marginBottom: 2 }}>{p.passage}</div>
+                      <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "1px 8px", borderRadius: 6, fontSize: 11, fontWeight: 700 }}>{p.theme}</span>
+                    </div>
+                    <span style={{ background: `${GREEN}15`, color: GREEN, padding: "2px 10px", borderRadius: 8, fontSize: 12, fontWeight: 700, flexShrink: 0, marginLeft: 12 }}>→ {p.ref}</span>
+                  </div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{p.detail}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {activeTab === "howto" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
@@ -184,6 +266,40 @@ export default function ProphetsPage() {
                   <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{h.desc}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings on the Old Testament prophets and their fulfillment in Christ.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "ACrxFNSHnSY", title: "Introduction to the Old Testament Prophets", channel: "The Bible Project", description: "An animated overview of the prophetic literature — what prophets were, how they functioned in Israel's history, and how their words point toward Jesus." },
+                  { videoId: "pk4CNj1gOKQ", title: "The Suffering Servant of Isaiah 53", channel: "R.C. Sproul / Ligonier", description: "Sproul expounds Isaiah 53 — the most quoted OT passage in the New Testament — and shows why it is the theological center of biblical soteriology." },
+                  { videoId: "3XOAQ8vJQjY", title: "Jeremiah: The Weeping Prophet", channel: "The Bible Project", description: "An overview of the book of Jeremiah — his call, his suffering, his proclamation of the new covenant, and his enduring hope in God's faithfulness." },
+                  { videoId: "g9M2ovB-MpE", title: "Christ in the Old Testament Prophets", channel: "Desiring God", description: "A teaching on how Jesus understood himself as the fulfillment of the prophets (Luke 24:44), with attention to specific messianic passages and their New Testament fulfillment." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

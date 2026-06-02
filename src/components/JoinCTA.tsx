@@ -1,8 +1,6 @@
 "use client";
 
-import { ArrowRight, CheckCircle2 } from "lucide-react";
-
-const perks = [
+const PERKS = [
   "Access every resource, guide, and article — free forever",
   "Join discussions and connect with Christians worldwide",
   "Daily verse, devotional, and personalized reading plans",
@@ -13,69 +11,126 @@ const perks = [
 
 export default function JoinCTA() {
   return (
-    <section className="py-24 relative overflow-hidden" id="join">
-      <div className="absolute inset-0 pointer-events-none">
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            background:
-              "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(0,255,136,0.07) 0%, transparent 70%)",
-          }}
-        />
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            backgroundImage:
-              "linear-gradient(rgba(0,255,136,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,255,136,0.03) 1px, transparent 1px)",
-            backgroundSize: "60px 60px",
-          }}
-        />
-      </div>
+    <section
+      style={{
+        background: "#0a1a0e",
+        textAlign: "center",
+        borderTop: "0.5px solid rgba(201,162,39,0.18)",
+        padding: "120px 4vw",
+        position: "relative",
+        overflow: "hidden",
+      }}
+      id="join"
+    >
+      {/* Radial glow */}
+      <div
+        style={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          width: 700,
+          height: 700,
+          background:
+            "radial-gradient(ellipse, rgba(58,125,86,0.14) 0%, transparent 65%)",
+          pointerEvents: "none",
+        }}
+      />
 
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 text-center relative z-10">
+      <div
+        style={{
+          maxWidth: 680,
+          margin: "0 auto",
+          position: "relative",
+          zIndex: 1,
+        }}
+      >
         {/* Badge */}
         <div
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold mb-8"
           style={{
-            background: "rgba(0,255,136,0.08)",
-            border: "1px solid rgba(0,255,136,0.2)",
-            color: "#00FF88",
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 8,
+            fontSize: "0.75rem",
+            fontWeight: 500,
+            letterSpacing: "0.14em",
+            textTransform: "uppercase",
+            color: "#c9a227",
+            marginBottom: "2rem",
+            padding: "0.35rem 1rem",
+            border: "0.5px solid rgba(201,162,39,0.25)",
+            borderRadius: 2,
+            fontFamily: "var(--font-jost, system-ui, sans-serif)",
           }}
         >
-          🌿 Free Forever. No Ads. No Catch.
+          Free Forever. No Ads. No Catch.
         </div>
 
+        {/* Headline */}
         <h2
-          className="text-5xl sm:text-6xl md:text-7xl font-black leading-[0.95] tracking-tight mb-6"
-          style={{ color: "#F2F2F8" }}
+          style={{
+            fontFamily:
+              "var(--font-cormorant, 'Cormorant Garamond', Georgia, serif)",
+            fontSize: "clamp(2.4rem, 5vw, 4.5rem)",
+            fontWeight: 300,
+            color: "#f2e6c8",
+            lineHeight: 1.1,
+            marginBottom: "1.5rem",
+          }}
         >
-          Your Faith.
+          Ready to put down roots
           <br />
-          <span className="gold-gradient">Your Community.</span>
-          <br />
-          Your Home.
+          in{" "}
+          <em style={{ fontStyle: "italic", color: "#e8c162" }}>The Vine?</em>
         </h2>
 
         <p
-          className="text-xl max-w-2xl mx-auto mb-10 leading-relaxed"
-          style={{ color: "#8A8AA8" }}
+          style={{
+            fontSize: "1rem",
+            color: "#9a8f72",
+            fontWeight: 300,
+            maxWidth: 440,
+            margin: "0 auto 2.5rem",
+            lineHeight: 1.7,
+            fontFamily: "var(--font-jost, system-ui, sans-serif)",
+          }}
         >
-          Join thousands of Christians who have already found their place on
-          Vine — the platform built for every season, every question, and
-          every dimension of following Christ.
+          Join the world&apos;s most comprehensive Christian community. Free forever
+          for every believer, everywhere.
         </p>
 
-        {/* Perks list */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-2xl mx-auto mb-12 text-left">
-          {perks.map((perk, i) => (
-            <div key={i} className="flex items-start gap-3">
-              <CheckCircle2
-                size={18}
-                style={{ color: "#00FF88", flexShrink: 0, marginTop: "2px" }}
+        {/* Perks */}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: "0.7rem",
+            maxWidth: 520,
+            margin: "0 auto 2.5rem",
+            textAlign: "left",
+          }}
+        >
+          {PERKS.map((perk, i) => (
+            <div
+              key={i}
+              style={{
+                display: "flex",
+                alignItems: "flex-start",
+                gap: 8,
+                fontFamily: "var(--font-jost, system-ui, sans-serif)",
+              }}
+            >
+              <span
+                style={{
+                  display: "inline-block",
+                  width: 14,
+                  height: 0.5,
+                  background: "#c9a227",
+                  flexShrink: 0,
+                  marginTop: 9,
+                }}
               />
-              <span className="text-sm" style={{ color: "#A0A0C0" }}>
+              <span style={{ fontSize: "0.82rem", color: "#9a8f72", lineHeight: 1.5 }}>
                 {perk}
               </span>
             </div>
@@ -83,35 +138,118 @@ export default function JoinCTA() {
         </div>
 
         {/* CTA Buttons */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
-          <a href="/feed" className="btn-gold px-10 py-4 rounded-2xl text-base flex items-center gap-2 group" style={{ textDecoration: "none" }}>
-            Join Vine — It&apos;s Free
-            <ArrowRight
-              size={18}
-              className="group-hover:translate-x-1 transition-transform"
-            />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            gap: "1rem",
+            flexWrap: "wrap",
+            marginBottom: "1.2rem",
+          }}
+        >
+          <a
+            href="/feed"
+            style={{
+              background: "#c9a227",
+              color: "#1a0e00",
+              border: "none",
+              padding: "0.9rem 2.4rem",
+              borderRadius: 3,
+              fontFamily: "var(--font-jost, system-ui, sans-serif)",
+              fontSize: "0.9rem",
+              fontWeight: 600,
+              letterSpacing: "0.08em",
+              textTransform: "uppercase",
+              cursor: "pointer",
+              textDecoration: "none",
+              display: "inline-block",
+              transition: "all 0.25s",
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLAnchorElement).style.background = "#e8c162";
+              (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(-2px)";
+              (e.currentTarget as HTMLAnchorElement).style.boxShadow =
+                "0 8px 32px rgba(201,162,39,0.3)";
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLAnchorElement).style.background = "#c9a227";
+              (e.currentTarget as HTMLAnchorElement).style.transform = "none";
+              (e.currentTarget as HTMLAnchorElement).style.boxShadow = "none";
+            }}
+          >
+            Create Your Free Account
           </a>
-          <a href="/about" className="btn-outline-gold px-8 py-4 rounded-2xl text-base font-semibold" style={{ textDecoration: "none" }}>
-            Learn More
+          <a
+            href="/about"
+            style={{
+              background: "none",
+              color: "#c9b98a",
+              border: "0.5px solid rgba(242,230,200,0.25)",
+              padding: "0.9rem 2.4rem",
+              borderRadius: 3,
+              fontFamily: "var(--font-jost, system-ui, sans-serif)",
+              fontSize: "0.9rem",
+              fontWeight: 400,
+              letterSpacing: "0.06em",
+              textTransform: "uppercase",
+              cursor: "pointer",
+              textDecoration: "none",
+              display: "inline-block",
+            }}
+          >
+            See All Features
           </a>
         </div>
 
-        <p className="text-xs" style={{ color: "#4A4A68" }}>
-          No credit card required. No ads. Built by believers, for believers.
+        <p
+          style={{
+            fontSize: "0.72rem",
+            color: "#9a8f72",
+            letterSpacing: "0.06em",
+            fontFamily: "var(--font-jost, system-ui, sans-serif)",
+          }}
+        >
+          No ads. No algorithm abuse. Built on faith, not engagement metrics.
         </p>
 
         {/* Verse */}
-        <div className="mt-16 verse-card rounded-3xl p-8 max-w-xl mx-auto">
+        <div
+          style={{
+            marginTop: "4rem",
+            background: "#0f2318",
+            border: "0.5px solid rgba(201,162,39,0.18)",
+            borderRadius: 4,
+            padding: "2rem 2.5rem",
+            maxWidth: 560,
+            margin: "4rem auto 0",
+          }}
+        >
           <p
-            className="text-xl font-bold italic mb-3 leading-relaxed"
-            style={{ color: "#F2F2F8" }}
+            style={{
+              fontFamily:
+                "var(--font-cormorant, 'Cormorant Garamond', Georgia, serif)",
+              fontStyle: "italic",
+              fontSize: "1.2rem",
+              color: "#f2e6c8",
+              lineHeight: 1.55,
+              marginBottom: "0.7rem",
+            }}
           >
             &ldquo;And let us consider how to stir up one another to love and good
             works, not neglecting to meet together.&rdquo;
           </p>
-          <p className="text-sm font-semibold" style={{ color: "#00FF88" }}>
-            Hebrews 10:24–25 (ESV)
-          </p>
+          <cite
+            style={{
+              fontFamily: "var(--font-jost, system-ui, sans-serif)",
+              fontStyle: "normal",
+              fontSize: "0.72rem",
+              letterSpacing: "0.1em",
+              color: "#c9a227",
+              textTransform: "uppercase",
+            }}
+          >
+            Hebrews 10:24&ndash;25
+          </cite>
         </div>
       </div>
     </section>

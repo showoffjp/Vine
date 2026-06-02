@@ -119,14 +119,93 @@ const DAYS = [
   },
 ];
 
+type Tab = "guide" | "voices" | "methods" | "corporate" | "videos";
+
+const VOICES_PRAYER = [
+  {
+    id: "foster",
+    name: "Richard Foster",
+    era: "b. 1942",
+    context: "Quaker author; Celebration of Discipline (1978)",
+    bio: "Foster's Celebration of Discipline — which has sold over a million copies — treats prayer as one of twelve spiritual disciplines, situated within a life of inward, outward, and corporate practices. He distinguishes between simple prayer (honest conversation with God), prayer of examination, intercessory prayer, contemplative prayer, and liturgical prayer. His central conviction: prayer is not a technique but a relationship, and like all relationships it requires time, vulnerability, and practice.",
+    quote: "To pray is to change. Prayer is the central avenue God uses to transform us. If we are unwilling to change, we will abandon prayer as a noticeable characteristic of our lives.",
+    contribution: "Made the classical tradition of prayer accessible to evangelical Protestants who had no language for contemplation, fixed-hour prayer, or embodied spiritual practices. Celebration of Discipline sparked a generation of spiritual formation literature."
+  },
+  {
+    id: "bounds",
+    name: "E.M. Bounds",
+    era: "1835-1913",
+    context: "Confederate chaplain turned Methodist pastor; prolific writer on prayer",
+    bio: "Bounds reportedly rose at 4am every morning to pray for three hours before beginning his day. He wrote eight books on prayer, all published posthumously, the most famous being Power Through Prayer (originally titled Preacher and Prayer). His argument is relentlessly simple: the church's lack of power is a prayer problem. Every reformation, revival, and advance of the gospel has been preceded and sustained by prayer. Preachers who do not pray cannot preach with power; churches that do not pray cannot grow in grace.",
+    quote: "The man who mobilizes the Christian church to pray will make the greatest contribution to world evangelization in history.",
+    contribution: "Made prayer the central accountability question for ministry and spiritual seriousness. His focus on volume, consistency, and early morning prayer has shaped evangelical prayer culture for more than a century."
+  },
+  {
+    id: "merton",
+    name: "Thomas Merton",
+    era: "1915-1968",
+    context: "Trappist monk; The Seven Storey Mountain; Contemplative Prayer",
+    bio: "Merton entered the Abbey of Gethsemani in 1941 and spent the rest of his life in contemplative monastic community. His The Seven Storey Mountain (1948) was a sensation — a young intellectual choosing silence and prayer over the world. Contemplative Prayer is his most sustained treatment of what prayer becomes when stripped of everything but presence: not words to God but resting in God. He recovered the apophatic tradition — prayer as the surrender of concepts, images, and words to the bare presence of God.",
+    quote: "Prayer is not only the 'lifting up of the mind and heart to God' but it is also the response to God within us, the discovery of God within us, the awakening of the divine life within us.",
+    contribution: "Recovered contemplative prayer for a generation of Protestant readers who had no category for it. His influence crossed denominational lines and shaped figures as different as Henri Nouwen, Dallas Willard, and Eugene Peterson."
+  },
+  {
+    id: "murray",
+    name: "Andrew Murray",
+    era: "1828-1917",
+    context: "Dutch Reformed pastor, South Africa; With Christ in the School of Prayer",
+    bio: "Murray's With Christ in the School of Prayer works through Jesus's teaching on prayer in the Gospels, passage by passage. His premise: the disciples asked Jesus to teach them to pray — the right question, and one we rarely ask with the same seriousness. Murray emphasized prevailing prayer (the kind that does not give up), the necessity of abiding in Christ as the prerequisite of effective prayer, and the connection between answered prayer and conformity to Christ's will.",
+    quote: "The man who mobilizes the Christian church to pray will make the greatest contribution to world evangelization in history. I have so much to do that I shall spend the first three hours in prayer.",
+    contribution: "Produced the most sustained biblical exposition of prayer as a discipline in the Protestant evangelical tradition. With Christ in the School of Prayer has never gone out of print and has shaped the prayer practices of more missionaries and pastors than almost any other book."
+  },
+  {
+    id: "underhill",
+    name: "Evelyn Underhill",
+    era: "1875-1941",
+    context: "Anglican laywoman; Mysticism (1911); The School of Prayer (1928)",
+    bio: "Underhill was the first woman to lecture on theology at an Oxford college and one of the most important writers on prayer and mysticism in the 20th century. Her work retrieves the Christian mystical tradition — Meister Eckhart, Julian of Norwich, The Cloud of Unknowing — for ordinary Christians. She distinguished between the active and contemplative lives without pitting them against each other, and mapped the stages of the soul's journey toward union with God: awakening, purgation, illumination, dark night, and union.",
+    quote: "Prayer, in its highest expression, is not asking for things. It is the soul's orientation toward God — a movement of the whole person toward the Source of all being.",
+    contribution: "Made the Catholic mystical tradition accessible to Anglican and Protestant readers. Her mapping of the contemplative journey has become standard reference material for spiritual directors and anyone guiding others in prayer."
+  }
+];
+
+const PRAYER_METHODS = [
+  { name: "ACTS", icon: "🙏", color: GREEN, steps: ["Adoration — Begin by praising God for who he is, not for what he gives. Spend 2-3 minutes naming his attributes: holy, faithful, merciful, powerful, near.", "Confession — Bring specific sins honestly. Name them rather than hiding behind categories. Receive the assurance of 1 John 1:9 over each one.", "Thanksgiving — Name specific gifts from the past day or week. Be particular: not 'my health' but the meal, the conversation, the unexpected moment of grace.", "Supplication — Make your requests. For yourself, for others, for situations. This comes last, not first — shaped by adoration, cleared by confession, warmed by gratitude."], time: "10-20 min" },
+  { name: "The Examen", icon: "🪞", color: PURPLE, steps: ["Gratitude — Look back over the past 24 hours. What specific moments or gifts stand out? Give thanks for each one specifically.", "Awareness — Where did you sense God's presence? What consolations (movements toward God) did you experience? What desolations (movements away)?", "Review — Walk through your day honestly. Where did you fall short? Where did love fail? Where did fear govern instead of faith?", "Forgiveness — Bring what the review revealed. Receive forgiveness. This is not groveling — it is the honest exchange that keeps the relationship clean.", "Intention — Ask for what you need for tomorrow. For one specific grace. For eyes to see one specific opportunity."], time: "15-20 min" },
+  { name: "Lectio Divina", icon: "📖", color: "#3B82F6", steps: ["Lectio (Read) — Read a short Scripture passage slowly, 2-3 times. Listen for a word or phrase that catches your attention. Don't analyze — just notice.", "Meditatio (Meditate) — Sit with the word or phrase that struck you. Let it resonate. How does it connect to your life right now? What is God saying?", "Oratio (Pray) — Respond to what you received in prayer. Let the text become conversation. Speak to God from what he spoke to you.", "Contemplatio (Contemplate) — Rest. Stop words and ideas. Simply be present to God. Not asking, not speaking — resting in the awareness of his presence."], time: "20-30 min" },
+  { name: "The Jesus Prayer", icon: "☦️", color: "#F59E0B", steps: ["The prayer: 'Lord Jesus Christ, Son of God, have mercy on me, a sinner.' Eight words from the Eastern Orthodox tradition, rooted in Luke 18:13 and Psalm 51.", "Rhythm: Breathe in on 'Lord Jesus Christ, Son of God' — breathing in the name and nature of Christ. Breathe out on 'have mercy on me, a sinner' — releasing self into God's mercy.", "Repetition: The goal is not incantation but formation. As the prayer becomes habitual, it begins to reshape the interior life — turning the heart toward God in the gaps and ordinary moments of the day.", "History: The Prayer of the Heart has been practiced by Eastern Christians since the Desert Fathers. The Philokalia is the primary source. Its Western popularizer was the anonymous classic The Way of a Pilgrim (19th century Russia)."], time: "Any length" },
+  { name: "Breath Prayer", icon: "💨", color: "#10B981", steps: ["Choose a short, personalized prayer — 6-8 syllables that fit your breathing rhythm. Classic: 'You are my strength' / 'Here I am, Lord.' Or from Scripture: 'Be still and know / that you are God.'", "Inhale on the first phrase, exhale on the second. Let the breathing itself become a form of prayer — the body participating in what the spirit intends.", "Use it in the spaces: waiting in line, commuting, transitioning between tasks. The goal is to turn ordinary moments into moments of orientation toward God.", "Personalize it: What is your deepest spiritual need right now? What truth do you most need to receive? Let your breath prayer address that need directly."], time: "Any length" },
+  { name: "Fixed-Hour Prayer", icon: "⏰", color: "#EF4444", steps: ["Morning Prayer (Lauds): As the day begins. Includes psalms, a canticle, a Bible reading, the Lord's Prayer, and intercessions. Set the day's intention.", "Midday Prayer (Sext): A brief pause at noon. 2-3 psalms, a reading, a prayer. A reminder that God is Lord of the work hours, not just the devotional ones.", "Vespers (Evening Prayer): As the day ends. Longer — psalms, Magnificat (Luke 1:46-55), intercessions, confession. Review the day in God's presence.", "Compline (Night Prayer): Before bed. Brief and quiet — a psalm, a short reading, the Nunc Dimittis (Luke 2:29-32), a blessing. Entrust the night to God."], time: "5-20 min each" }
+];
+
+const CORPORATE = [
+  { title: "Small Group Prayer", icon: "👥", color: "#3B82F6", desc: "Effective small group prayer is specific, short, and faith-filled — not performance, not catchup session, not therapy. Teach groups to: pray one topic at a time, keep individual prayers brief (under 60 seconds), respond to each other's prayers rather than moving to new topics, and include silence. Silence in corporate prayer is not awkwardness — it is space for the Spirit." },
+  { title: "Responsive Liturgical Prayer", icon: "📜", color: PURPLE, desc: "The tradition of corporate prayer using fixed forms — the Book of Common Prayer, Lutheran liturgies, the Roman rite — has kept the church praying through centuries when individual motivation flagged. The congregation prays together what they could not have written alone. The liturgy carries the community through all the moods and seasons of the soul, whether or not any individual feels like praying that day." },
+  { title: "24/7 Prayer", icon: "🌐", color: GREEN, desc: "The 24/7 Prayer movement, begun in Chichester, UK in 1999, challenges communities to maintain continuous prayer for 24 hours, 7 days a week, in 'boiler rooms' of intercession. The International House of Prayer (IHOP) in Kansas City has maintained night-and-day prayer since 1999. The concept is ancient — the Psalmist describes the Temple as a house of prayer; medieval monastic communities prayed through every hour. The rhythm is unusual; the theology is not." },
+  { title: "Prayer Walking", icon: "🚶", color: "#F59E0B", desc: "Praying on foot through a specific neighborhood, city, or area — bringing intercession to bear on the physical space. Pray for what you see: the businesses, the schools, the homes, the people on the street. Prayer walking connects intercession to presence and cultivates awareness of the spiritual dimension of ordinary spaces. Groups of 2-3 work better than large groups — quieter, less conspicuous, more relational." },
+  { title: "Corporate Fasting", icon: "⚡", color: "#EF4444", desc: "When a community fasts together, prayer intensifies because discomfort unites and focuses the community's attention. Biblical precedent: Nehemiah 9 (fasting and confession of national sin), Esther 4 (three days of corporate fasting before Esther's approach to the king), Acts 13 (fasting and worship before sending Paul and Barnabas). Corporate fasting should have a specific focus, defined duration, and shared times of prayer — not just individual abstinence from food." },
+  { title: "Intercessory Prayer Teams", icon: "🛡️", color: "#10B981", desc: "Structured teams of intercessors who pray systematically for: the congregation's specific prayer requests, the leadership of the church, the surrounding community, global mission partners, and ongoing spiritual warfare. The most effective prayer teams meet weekly, use a shared prayer list updated regularly, and report answered prayers back to the congregation — building corporate faith that prayer matters." }
+];
+
 export default function WeeklyPrayerGuidePage() {
+  const [activeTab, setActiveTab] = useState<Tab>("guide");
   const [selectedDay, setSelectedDay] = useState("Sunday");
+  const [selectedVoice, setSelectedVoice] = useState("foster");
   const day = DAYS.find(d => d.day === selectedDay)!;
+  const voiceItem = VOICES_PRAYER.find(v => v.id === selectedVoice)!;
+
+  const TABS: { id: Tab; label: string; icon: string }[] = [
+    { id: "guide", label: "Weekly Guide", icon: "🗓️" },
+    { id: "voices", label: "Voices on Prayer", icon: "💬" },
+    { id: "methods", label: "Methods", icon: "🙏" },
+    { id: "corporate", label: "Corporate Prayer", icon: "👥" },
+    { id: "videos", label: "Videos", icon: "🎬" },
+  ];
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 40 }}>
       <div style={{ maxWidth: 880, margin: "0 auto", padding: "0 20px 60px" }}>
-        <div style={{ textAlign: "center", marginBottom: 40 }}>
+        <div style={{ textAlign: "center", marginBottom: 32 }}>
           <div style={{ fontSize: 48, marginBottom: 12 }}>🗓️</div>
           <h1 style={{ fontSize: 32, fontWeight: 900, marginBottom: 8 }}>Weekly Prayer Guide</h1>
           <p style={{ color: MUTED, fontSize: 16, maxWidth: 560, margin: "0 auto" }}>
@@ -134,49 +213,169 @@ export default function WeeklyPrayerGuidePage() {
           </p>
         </div>
 
-        <div style={{ display: "flex", gap: 8, marginBottom: 32, flexWrap: "wrap" }}>
-          {DAYS.map(d => (
-            <button key={d.day} onClick={() => setSelectedDay(d.day)}
-              style={{ flex: "1 1 80px", padding: "12px 8px", borderRadius: 10, border: `1px solid ${selectedDay === d.day ? d.color : BORDER}`, background: selectedDay === d.day ? `${d.color}20` : CARD, cursor: "pointer", textAlign: "center" }}>
-              <div style={{ color: selectedDay === d.day ? d.color : MUTED, fontWeight: 900, fontSize: 10, marginBottom: 2 }}>{d.short}</div>
-              <div style={{ color: selectedDay === d.day ? d.color : TEXT, fontWeight: 700, fontSize: 12 }}>{d.day}</div>
+        <div style={{ display: "flex", gap: 8, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
+          {TABS.map(tab => (
+            <button key={tab.id} onClick={() => setActiveTab(tab.id)}
+              style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", cursor: "pointer", fontWeight: 700, fontSize: 13, background: activeTab === tab.id ? GREEN : "transparent", color: activeTab === tab.id ? BG : MUTED, transition: "all 0.15s" }}>
+              {tab.icon} {tab.label}
             </button>
           ))}
         </div>
 
-        <div style={{ background: CARD, border: `1px solid ${day.color}30`, borderRadius: 16, padding: 32 }}>
-          <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 20 }}>
-            <div>
-              <div style={{ color: day.color, fontWeight: 700, fontSize: 12, marginBottom: 4 }}>{day.day.toUpperCase()}</div>
-              <h2 style={{ color: TEXT, fontWeight: 900, fontSize: 26, margin: "0 0 4px" }}>{day.theme}</h2>
-              <div style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 8, fontSize: 12, fontWeight: 600, display: "inline-block" }}>{day.verse}</div>
+        {activeTab === "guide" && (
+          <>
+            <div style={{ display: "flex", gap: 8, marginBottom: 32, flexWrap: "wrap" }}>
+              {DAYS.map(d => (
+                <button key={d.day} onClick={() => setSelectedDay(d.day)}
+                  style={{ flex: "1 1 80px", padding: "12px 8px", borderRadius: 10, border: `1px solid ${selectedDay === d.day ? d.color : BORDER}`, background: selectedDay === d.day ? `${d.color}20` : CARD, cursor: "pointer", textAlign: "center" }}>
+                  <div style={{ color: selectedDay === d.day ? d.color : MUTED, fontWeight: 900, fontSize: 10, marginBottom: 2 }}>{d.short}</div>
+                  <div style={{ color: selectedDay === d.day ? d.color : TEXT, fontWeight: 700, fontSize: 12 }}>{d.day}</div>
+                </button>
+              ))}
+            </div>
+
+            <div style={{ background: CARD, border: `1px solid ${day.color}30`, borderRadius: 16, padding: 32 }}>
+              <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 20 }}>
+                <div>
+                  <div style={{ color: day.color, fontWeight: 700, fontSize: 12, marginBottom: 4 }}>{day.day.toUpperCase()}</div>
+                  <h2 style={{ color: TEXT, fontWeight: 900, fontSize: 26, margin: "0 0 4px" }}>{day.theme}</h2>
+                  <div style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 8, fontSize: 12, fontWeight: 600, display: "inline-block" }}>{day.verse}</div>
+                </div>
+              </div>
+
+              <div style={{ background: `${day.color}08`, border: `1px solid ${day.color}20`, borderRadius: 10, padding: 18, marginBottom: 24 }}>
+                <div style={{ color: day.color, fontWeight: 700, fontSize: 11, marginBottom: 8 }}>OPENING PRAYER</div>
+                <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.8, margin: 0, fontStyle: "italic" }}>{day.opening}</p>
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {day.prompts.map((p, i) => (
+                  <div key={i} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+                      <div style={{ width: 28, height: 28, borderRadius: 6, background: `${day.color}20`, border: `1px solid ${day.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: day.color, fontWeight: 900, fontSize: 13, flexShrink: 0 }}>
+                        {i + 1}
+                      </div>
+                      <div style={{ color: day.color, fontWeight: 800, fontSize: 15 }}>{p.title}</div>
+                    </div>
+                    <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{p.text}</p>
+                  </div>
+                ))}
+              </div>
+
+              <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 10, padding: 18, marginTop: 20 }}>
+                <div style={{ color: GREEN, fontWeight: 700, fontSize: 11, marginBottom: 8 }}>CLOSING PRAYER</div>
+                <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.8, margin: 0, fontStyle: "italic" }}>{day.closing}</p>
+              </div>
+            </div>
+          </>
+        )}
+
+        {activeTab === "voices" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 210, flexShrink: 0 }}>
+              {VOICES_PRAYER.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ width: "100%", background: selectedVoice === v.id ? `${PURPLE}18` : "transparent", border: `1px solid ${selectedVoice === v.id ? PURPLE + "80" : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 6, cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: selectedVoice === v.id ? TEXT : MUTED, fontWeight: 700, fontSize: 13 }}>{v.name}</div>
+                  <div style={{ color: MUTED, fontSize: 11, marginTop: 2 }}>{v.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ background: CARD, border: `1px solid ${PURPLE}30`, borderRadius: 14, padding: 28 }}>
+                <div style={{ marginBottom: 18 }}>
+                  <h2 style={{ color: TEXT, fontWeight: 900, fontSize: 22, marginBottom: 4 }}>{voiceItem.name}</h2>
+                  <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                    <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700 }}>{voiceItem.era}</span>
+                    <span style={{ background: `${GREEN}15`, color: GREEN, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700 }}>{voiceItem.context}</span>
+                  </div>
+                </div>
+                <div style={{ marginBottom: 18 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>LIFE & TEACHING</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>{voiceItem.bio}</p>
+                </div>
+                <div style={{ background: BG, borderLeft: `3px solid ${PURPLE}`, borderRadius: "0 10px 10px 0", padding: 18, marginBottom: 18 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 11, marginBottom: 8 }}>CHARACTERISTIC QUOTE</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0, fontStyle: "italic" }}>&ldquo;{voiceItem.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 10, padding: 16 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>CONTRIBUTION</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{voiceItem.contribution}</p>
+                </div>
+              </div>
             </div>
           </div>
+        )}
 
-          <div style={{ background: `${day.color}08`, border: `1px solid ${day.color}20`, borderRadius: 10, padding: 18, marginBottom: 24 }}>
-            <div style={{ color: day.color, fontWeight: 700, fontSize: 11, marginBottom: 8 }}>OPENING PRAYER</div>
-            <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.8, margin: 0, fontStyle: "italic" }}>{day.opening}</p>
-          </div>
-
-          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-            {day.prompts.map((p, i) => (
-              <div key={i} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18 }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
-                  <div style={{ width: 28, height: 28, borderRadius: 6, background: `${day.color}20`, border: `1px solid ${day.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: day.color, fontWeight: 900, fontSize: 13, flexShrink: 0 }}>
-                    {i + 1}
+        {activeTab === "methods" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            {PRAYER_METHODS.map(m => (
+              <div key={m.name} style={{ background: CARD, border: `1px solid ${m.color}30`, borderRadius: 14, padding: 24 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
+                  <span style={{ fontSize: 28 }}>{m.icon}</span>
+                  <div>
+                    <h3 style={{ color: m.color, fontWeight: 900, fontSize: 18, margin: 0 }}>{m.name}</h3>
+                    <span style={{ background: `${m.color}15`, color: m.color, padding: "1px 8px", borderRadius: 6, fontSize: 11, fontWeight: 700 }}>{m.time}</span>
                   </div>
-                  <div style={{ color: day.color, fontWeight: 800, fontSize: 15 }}>{p.title}</div>
                 </div>
-                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{p.text}</p>
+                <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                  {m.steps.map((step, i) => (
+                    <div key={i} style={{ display: "flex", gap: 12, background: BG, borderRadius: 8, padding: 14 }}>
+                      <div style={{ width: 22, height: 22, borderRadius: "50%", background: `${m.color}20`, border: `1px solid ${m.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: m.color, fontWeight: 800, fontSize: 11, flexShrink: 0, marginTop: 1 }}>{i + 1}</div>
+                      <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0 }}>{step}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
             ))}
           </div>
+        )}
 
-          <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 10, padding: 18, marginTop: 20 }}>
-            <div style={{ color: GREEN, fontWeight: 700, fontSize: 11, marginBottom: 8 }}>CLOSING PRAYER</div>
-            <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.8, margin: 0, fontStyle: "italic" }}>{day.closing}</p>
+        {activeTab === "corporate" && (
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+            {CORPORATE.map(c => (
+              <div key={c.title} style={{ background: CARD, border: `1px solid ${c.color}30`, borderRadius: 14, padding: 22 }}>
+                <div style={{ fontSize: 28, marginBottom: 10 }}>{c.icon}</div>
+                <h3 style={{ color: c.color, fontWeight: 900, fontSize: 16, marginBottom: 10 }}>{c.title}</h3>
+                <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.75, margin: 0 }}>{c.desc}</p>
+              </div>
+            ))}
           </div>
-        </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings on prayer — how to pray, why we pray, and how prayer shapes the Christian life.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "d6eqCIGhOxw", title: "The Lord's Prayer — Explained by John Piper", channel: "Desiring God (John Piper)", description: "John Piper unpacks Matthew 6:9–13 phrase by phrase — revealing why Jesus gave us this model prayer and what each petition demands from our lives." },
+                  { videoId: "V-_lmGR9EdE", title: "Teach Us to Pray", channel: "Desiring God (John Piper)", description: "A four-minute devotional by John Piper on the Lord's Prayer — rehearsing the most profound and familiar words ever spoken and helping us pray them with fresh depth." },
+                  { videoId: "IvWmwvdJ-mU", title: "How to Pray: Prayer with R.C. Sproul", channel: "Ligonier Ministries", description: "R.C. Sproul explores how prayer is far more than casual conversation — it is an audience with the King, and how we approach it reveals what we believe about God." },
+                  { videoId: "ZYmk3DiPJVI", title: "Desiring God Through Fasting and Prayer", channel: "Desiring God (John Piper)", description: "John Piper on fasting and prayer as disciplines that train the soul to want God more than comfort — essential teaching for anyone seeking to deepen their prayer life." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

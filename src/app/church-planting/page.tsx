@@ -97,7 +97,7 @@ const RESOURCES = [
 ];
 
 export default function ChurchPlantingPage() {
-  const [activeTab, setActiveTab] = useState<"phases" | "models" | "resources" | "journal">("phases");
+  const [activeTab, setActiveTab] = useState<"phases" | "models" | "resources" | "journal" | "videos">("phases");
   const [selectedPhase, setSelectedPhase] = useState("call");
   const [checkedQuestions, setCheckedQuestions] = useState<Set<string>>(() => {
     try { const s = localStorage.getItem("vine_cp_checked"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
@@ -128,6 +128,7 @@ export default function ChurchPlantingPage() {
             { id: "models" as const, label: "Models", icon: "🏛️" },
             { id: "resources" as const, label: "Resources", icon: "📚" },
             { id: "journal" as const, label: "My Notes", icon: "📝" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 6px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
@@ -224,6 +225,40 @@ export default function ChurchPlantingPage() {
             <textarea value={journalText} onChange={e => setJournalText(e.target.value)}
               placeholder={"My call story:\n\nWhere I sense God sending me:\n\nMy current preparation stage:\n\nKey people who are part of this:\n\nMy biggest questions right now:\n\nNext concrete steps:"}
               style={{ width: "100%", minHeight: 320, background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: 16, color: TEXT, fontSize: 14, lineHeight: 1.8, resize: "vertical", boxSizing: "border-box", fontFamily: "inherit" }} />
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors on church planting, multiplication, and pastoral calling.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "fY4Yt8gRz3A", title: "Interview with Tim Keller: Church Planting — Networks, Denominations, and Broader Ministry", channel: "Timothy Keller", description: "Tim Keller reflects on his model for church planting, the role of networks and denominations, and what makes urban church planting distinctive." },
+                  { videoId: "R3MO7CtP6WU", title: "How Gospel-Shaped Ministry Looks", channel: "The Gospel Coalition / Tim Keller", description: "Tim Keller on what gospel-centered ministry looks like in practice — the theological and practical foundations for planting healthy churches." },
+                  { videoId: "X_r8IMU647g", title: "The Depth of the Gospel", channel: "Matt Chandler / The Village Church", description: "Matt Chandler on how a deep, gospel-centered foundation is the essential prerequisite for every church plant that wants to last." },
+                  { videoId: "1R4wP4xIydU", title: "Thrones & Thorns — Week 1", channel: "Matt Chandler / The Village Church", description: "Matt Chandler on servant leadership — the character model every church planter must embody before they can build a healthy community." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

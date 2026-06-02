@@ -9,7 +9,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "seasons" | "calling" | "legacy";
+type Tab = "theology" | "seasons" | "calling" | "legacy" | "videos";
 
 const STATS = [
   { label: "Average American retires at 64" },
@@ -159,6 +159,7 @@ const TABS: { id: Tab; label: string }[] = [
   { id: "seasons", label: "Seasons" },
   { id: "calling", label: "Calling" },
   { id: "legacy", label: "Legacy" },
+  { id: "videos", label: "🎬 Videos" },
 ];
 
 export default function ChristianRetirementPage() {
@@ -665,6 +666,40 @@ export default function ChristianRetirementPage() {
                 </div>
               );
             })}
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors on aging, retirement, and finishing well.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "71DvW_rU3ec", title: "Don't Waste Your Retirement — Part 1", channel: "Desiring God / John Piper", description: "John Piper challenges Christians to think biblically about retirement — not as cessation of meaningful work, but as a new chapter of Kingdom investment." },
+                  { videoId: "aBq5HvbrSrU", title: "Seven Resolutions for Aging and Dying Well", channel: "Desiring God / John Piper", description: "John Piper offers seven specific commitments for how to age and die in a way that honors God and blesses others." },
+                  { videoId: "9yNK2Xf43mk", title: "John Piper at 80: Personal Reflections on Life and Ministry", channel: "Desiring God", description: "John Piper at 80 years old reflects on what he has learned about God, ministry, suffering, and the Christian life." },
+                  { videoId: "JHdB1dYAteA", title: "Don't Waste Your Life", channel: "Desiring God / John Piper", description: "John Piper's foundational challenge to live a life that counts for eternity — relevant at every stage, especially in the final decades." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

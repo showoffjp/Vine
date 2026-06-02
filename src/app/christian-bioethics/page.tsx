@@ -9,7 +9,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "foundations" | "issues" | "endoflife" | "emerging";
+type Tab = "foundations" | "issues" | "endoflife" | "emerging" | "videos";
 
 const FOUNDATION_ITEMS = [
   {
@@ -145,6 +145,7 @@ export default function ChristianBioethicsPage() {
     { id: "issues" as Tab, label: "Core Issues", icon: "⚖️" },
     { id: "endoflife" as Tab, label: "End of Life", icon: "🕊️" },
     { id: "emerging" as Tab, label: "Emerging Questions", icon: "🔬" },
+    { id: "videos" as Tab, label: "Videos", icon: "🎬" },
   ];
 
   return (
@@ -295,6 +296,40 @@ export default function ChristianBioethicsPage() {
                   <div key={i} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: 12 }}>
                     <div style={{ color: TEXT, fontWeight: 700, fontSize: 13 }}>{r.title}</div>
                     <div style={{ color: MUTED, fontSize: 12 }}>{r.author}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {tab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "aliAlmiUyB0", title: "Bioethics: The Christian Response to Euthanasia and Gene Manipulation", channel: "Andy Moore & Calum Miller", description: "A scholarly Christian examination of euthanasia and genetic engineering — exploring the image of God, human dignity, and what faithfulness looks like at medicine's frontiers." },
+                  { videoId: "Fjoj-ydn7hA", title: "A Belief That Prevents Abortion", channel: "Desiring God / John Piper", description: "Piper argues that the single most powerful barrier to abortion is the conviction that every human being — from conception — bears the image of God." },
+                  { videoId: "vMY1sW3Swno", title: "A Biblical Perspective on Abortion and Euthanasia", channel: "Bible Teaching", description: "A careful biblical examination of the sanctity of human life from conception to natural death, applied to the contemporary challenges of abortion and euthanasia." },
+                  { videoId: "MZC9jCqGSS4", title: "Should Christians Support 'Death with Dignity'?", channel: "Biblical Worldview", description: "A biblical response to assisted suicide movements — arguing from the image of God and the sanctity of life that there is no such thing as undignified natural death." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
                   </div>
                 ))}
               </div>

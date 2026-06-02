@@ -46,6 +46,14 @@ const HARD_CASES = [
   { q: "What if I need to forgive God?", a: "Technically, God does not sin against us — but we often carry anger toward him for things that happened under his watch. Bringing that honestly to God — naming the anger, the disappointment, the confusion — is itself an act of trust. The Psalms do this repeatedly. God can handle our honest anger. Pretending we're not angry at God doesn't make us more faithful." },
 ];
 
+const VOICES_FORGIVE = [
+  { id: "smedes", name: "Lewis Smedes", era: "1921-2002", context: "Forgive and Forget: Healing the Hurts We Don't Deserve (1984)", bio: "Smedes was a Calvin College professor whose Forgive and Forget became the most widely read Christian book on forgiveness of the 20th century. He insisted that forgiveness is a gift to yourself as much as to the person who wronged you: 'When you release the wrongdoer from the wrong, you cut a malignant tumor out of your inner life.' His careful distinction between forgiving and forgetting, forgiving and reconciling, and forgiving and condoning gave millions of people permission to forgive without pretending the wrong never happened.", quote: "When you release the wrongdoer from the wrong, you cut a malignant tumor out of your inner life.", contribution: "Gave ordinary Christians a theologically sound and psychologically honest vocabulary for forgiveness. Forgive and Forget made forgiveness accessible to people who had been told to 'just forgive' without any practical guidance on how." },
+  { id: "volf", name: "Miroslav Volf", era: "b. 1956", context: "Exclusion and Embrace (1996); Free of Charge (2005); Yale Divinity School", bio: "Volf wrote Exclusion and Embrace in the shadow of the Balkan wars, having been personally interrogated by Yugoslav military intelligence. His theologian's question: can forgiveness and embrace be right responses to genuine evil — not just personal slights but ethnic cleansing? His answer draws on the cross as the paradigmatic act of embrace that neither denies the reality of sin nor gives up on the sinner. Free of Charge extends this to the everyday practice of giving and forgiving — showing how both flow from God's own character.", quote: "The will to embrace precedes any action on the part of the other. There is no advance payment required before the embrace can happen.", contribution: "Extended the theology of forgiveness from interpersonal conflict to political and ethnic violence. His account of forgiving in the context of genuine evil — not just hurt feelings — gave forgiveness theology moral seriousness it had sometimes lacked." },
+  { id: "tutu", name: "Desmond Tutu", era: "1931-2021", context: "No Future Without Forgiveness (1999); Truth and Reconciliation Commission Chair", bio: "As chair of South Africa's Truth and Reconciliation Commission, Tutu presided over one of the most ambitious national experiments in forgiveness in history — a process that asked victims of apartheid to hear the confessions of those who tortured and killed their family members, and offered amnesty in exchange for full disclosure. His book reflects on what happened and what forgiveness requires: not amnesia, not minimization, but the costly work of naming the truth and choosing not to be consumed by it. 'Forgiveness is not forgetting,' he wrote. 'It is choosing not to use the past as the defining factor for the future.'", quote: "Without forgiveness, there is no future. Forgiveness is the only way to break the cycle of blame and counter-blame, vengeance and counter-vengeance.", contribution: "Demonstrated that forgiveness is not only a personal spiritual discipline but a political and social necessity. The TRC — however imperfect — stands as evidence that a society can move toward healing without pretending injustice never happened." },
+  { id: "keller-f", name: "Tim Keller", era: "1950-2023", context: "The Freedom of Self-Forgetfulness (2012); various sermons on forgiveness", bio: "Keller's approach to forgiveness is grounded in his characteristic move: showing how the gospel transforms rather than merely commands. He argued that forgiving others is not essentially a matter of moral willpower but of understanding how much you have been forgiven. The person who grasps the depth of their own sin and the height of God's grace will find forgiving others difficult but possible — because they no longer need the other person's contrition to complete their sense of justice. Justice has already been done at the cross.", quote: "The more you see your own flaws and sins, the more precious, luminous, and amazing God's grace appears to you. But the more amazing God's grace appears to you, the more you want to show it to others.", contribution: "Showed that the gospel — properly understood — is not just the motive for forgiveness but the mechanism. Seeing ourselves clearly as sinners forgiven by grace removes the psychological blocks to forgiving others." },
+  { id: "allender", name: "Dan Allender", era: "b. 1952", context: "The Wounded Heart (1990); Bold Love (1992); The Allender Center", bio: "Allender's Bold Love is the most psychologically honest and theologically serious account of what forgiving truly harmful people actually looks like in practice. He distinguishes between forgiving the 'fool' (someone who causes ordinary harm), the 'evil person' (someone who actively seeks to harm), and the 'normal sinner' (most of us, most of the time). His account of forgiveness refuses to minimize the wound or the wrongdoer, and insists that genuine forgiveness requires grieving rather than bypassing the pain — and that this is harder and longer than most Christian teaching acknowledges.", quote: "True forgiveness does not minimize the damage done by the offense. Instead, it involves a full acknowledgment of the wrong, grief over its effects, and a choice to release the debt.", contribution: "Brought psychological depth and therapeutic realism to forgiveness theology. His work gave counselors, pastors, and abuse survivors a framework that neither minimized harm nor made forgiveness a performance of Christian niceness." },
+];
+
 interface ForgivenessEntry {
   id: string;
   date: string;
@@ -55,7 +63,9 @@ interface ForgivenessEntry {
 }
 
 export default function ForgivenessPage() {
-  const [activeTab, setActiveTab] = useState<"theology" | "howto" | "practice">("theology");
+  const [activeTab, setActiveTab] = useState<"theology" | "voices" | "howto" | "practice" | "videos">("theology");
+  const [selectedVoice, setSelectedVoice] = useState("smedes");
+  const voiceItem = VOICES_FORGIVE.find(v => v.id === selectedVoice)!;
   const [entries, setEntries] = useState<ForgivenessEntry[]>(() => {
     try { const s = localStorage.getItem("vine_forgiveness_list"); return s ? JSON.parse(s) : []; } catch { return []; }
   });
@@ -86,8 +96,10 @@ export default function ForgivenessPage() {
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
             { id: "theology" as const, label: "Theology", icon: "📖" },
+            { id: "voices" as const, label: "Voices", icon: "💬" },
             { id: "howto" as const, label: "How to Forgive", icon: "🛠️" },
             { id: "practice" as const, label: "My Practice", icon: "✍️" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -122,6 +134,35 @@ export default function ForgivenessPage() {
                 <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{t.body}</p>
               </div>
             ))}
+          </div>
+        )}
+
+        {activeTab === "voices" && (
+          <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
+            <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
+              {VOICES_FORGIVE.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ background: selectedVoice === v.id ? PURPLE : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: TEXT, fontWeight: 700, fontSize: 14 }}>{v.name}</div>
+                  <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{v.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 28 }}>
+                <h2 style={{ color: GREEN, fontWeight: 900, fontSize: 22, margin: "0 0 4px" }}>{voiceItem.name}</h2>
+                <div style={{ color: PURPLE, fontSize: 13, fontWeight: 700, marginBottom: 6 }}>{voiceItem.era}</div>
+                <div style={{ color: MUTED, fontSize: 13, marginBottom: 16 }}>{voiceItem.context}</div>
+                <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 15, marginBottom: 20 }}>{voiceItem.bio}</p>
+                <div style={{ background: BG, borderLeft: `3px solid ${GREEN}`, borderRadius: "0 8px 8px 0", padding: "14px 18px", marginBottom: 20 }}>
+                  <p style={{ color: GREEN, fontStyle: "italic", fontSize: 15, lineHeight: 1.7, margin: 0 }}>&ldquo;{voiceItem.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: `${PURPLE}15`, borderRadius: 10, padding: 16 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>Contribution to Forgiveness Theology</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, margin: 0 }}>{voiceItem.contribution}</p>
+                </div>
+              </div>
+            </div>
           </div>
         )}
 
@@ -204,6 +245,39 @@ export default function ForgivenessPage() {
                 ))}
               </div>
             )}
+          </div>
+        )}
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Video teachings on forgiveness — the theology, the practice, and what it looks like to release debts we never wanted to cancel.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "-qsl3hwGkCk", title: "The Freedom of Forgiveness — Tim Keller", channel: "Gospel in Life", description: "Keller's classic sermon on why forgiveness is possible — grounded in understanding how much we have been forgiven. The gospel transforms both the motive and the mechanism for forgiving others." },
+                  { videoId: "pMJiB9fuiEA", title: "Forgiveness: What It Is and What It Isn't", channel: "The Bible Project", description: "An animated overview of the biblical concept of forgiveness — unpacking the Greek and Hebrew words, the difference between forgiveness and reconciliation, and why the cross is the foundation for Christian forgiveness." },
+                  { videoId: "fRlGs9hz_ho", title: "No Future Without Forgiveness — Desmond Tutu", channel: "On Being", description: "Desmond Tutu reflects on what he learned about forgiveness from the South Africa Truth and Reconciliation Commission — what forgiveness is not, what it costs, and why it is necessary for any future." },
+                  { videoId: "hgJgo7fbdcA", title: "How to Forgive Those Who Have Hurt You Deeply", channel: "Focus on the Family", description: "Practical teaching on the stages of forgiveness — acknowledging the wound, choosing to release the debt, praying for the person, and distinguishing forgiveness from reconciliation." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

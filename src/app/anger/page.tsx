@@ -76,7 +76,7 @@ const STORIES = [
   },
 ];
 
-type Tab = "theology" | "types" | "stories" | "practices";
+type Tab = "theology" | "types" | "stories" | "practices" | "videos";
 
 export default function AngerPage() {
   const [tab, setTab] = useState<Tab>("theology");
@@ -102,6 +102,7 @@ export default function AngerPage() {
             { id: "types" as const, label: "Types of Anger", icon: "🔍" },
             { id: "stories" as const, label: "Scripture Stories", icon: "📜" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -204,6 +205,40 @@ export default function AngerPage() {
                   <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{p.desc}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {tab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "8x4zogEftfc", title: "The Root of Sinful Anger", channel: "Desiring God", description: "John Piper and David Powlison explore the deep roots of sinful anger in the human heart and how the gospel addresses them at the source." },
+                  { videoId: "Lwypv1EFiRk", title: "How Do I Let Go of Anger over Past Wrongs?", channel: "Desiring God", description: "John Piper answers a listener's question about releasing long-held anger over past wrongs, grounding the answer in the forgiveness of the gospel." },
+                  { videoId: "trPWNIeJL6Y", title: "The Problem of Anger", channel: "Paul David Tripp", description: "Paul Tripp examines how anger reveals what we truly worship and how Christ transforms our hearts to respond with grace rather than wrath." },
+                  { videoId: "dTxs2vw9oKY", title: "Righteous Anger vs. Sinful Anger", channel: "Bible Study", description: "A biblical examination of the difference between righteous anger — anger at injustice and sin — and sinful anger driven by pride and self-interest." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

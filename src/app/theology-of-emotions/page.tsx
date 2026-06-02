@@ -9,7 +9,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "jesus" | "emotions" | "practices";
+type Tab = "theology" | "jesus" | "emotions" | "practices" | "videos";
 
 const STATS = [
   { label: "Jesus wept (John 11:35)", sub: "the shortest verse in Scripture" },
@@ -207,6 +207,7 @@ export default function TheologyOfEmotionsPage() {
               { id: "jesus" as Tab, label: "Jesus's Emotions" },
               { id: "emotions" as Tab, label: "Emotions in Scripture" },
               { id: "practices" as Tab, label: "Practices" },
+              { id: "videos" as Tab, label: "Videos" },
             ] as { id: Tab; label: string }[]
           ).map((t) => (
             <button
@@ -440,6 +441,41 @@ export default function TheologyOfEmotionsPage() {
                 )}
               </div>
             ))}
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors on the theology of emotions.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "OtUenqxT9p8", title: "A Theology of Emotions", channel: "Christian Teaching", description: "A foundational session exploring what Scripture teaches about human emotions, their role in the spiritual life, and how they relate to our knowledge of God." },
+                  { videoId: "bjQ2zr3rAVY", title: "Understanding Emotions — Full Sermon", channel: "Joyce Meyer Ministries", description: "A practical biblical sermon on the nature of emotions, why Christians struggle with them, and how God's truth transforms our emotional lives." },
+                  { videoId: "3yyxPAlF4Dc", title: "As a Christian, Do My Emotions Matter?", channel: "Theocast", description: "A theological conversation on whether and how emotions matter in the Christian life, and what a healthy relationship with our feelings looks like." },
+                  { videoId: "Eb3IUHzB2rE", title: "Untangle Your Emotions — Bible Study Session 1", channel: "Jennie Allen", description: "Jennie Allen opens her Bible study series on emotions, helping Christians understand the God-designed purpose of their emotional experiences." },
+                  { videoId: "ZoKI2BmTCgo", title: "God's Design for Mental Health: The Role of Emotions in Christian Life", channel: "Church Teaching", description: "A sermon from John 11:1-44 on how Jesus modeled emotional health and what his example teaches us about grief, compassion, and authentic faith." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

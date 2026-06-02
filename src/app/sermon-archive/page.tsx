@@ -216,6 +216,14 @@ const sermons: Sermon[] = [
 
 const topics = ["All", "Grace", "Identity", "Faith", "Purpose", "Suffering", "Gospel", "Justice", "Prayer", "Generosity", "Healing", "Community", "Sabbath", "God's Love"];
 
+const VOICES_SERM = [
+  { id: "piper-j", name: "John Piper", era: "b. 1946", context: "Bethlehem Baptist, Minneapolis; Desiring God ministry — champion of expository preaching and Christian hedonism", bio: "John Piper served Bethlehem Baptist Church in Minneapolis for 33 years before founding the Desiring God ministry. His preaching philosophy — rooted in Jonathan Edwards's vision that God is most glorified when we are most satisfied in him — combines meticulous biblical exposition with intense personal passion. Piper's sermons are characterized by their density of Scripture, their insistence on the supremacy of God in all things, and their emotional force. His preaching helped spark a reform movement in evangelical pulpits toward verse-by-verse expository preaching in the 1990s and 2000s, and his thousands of freely available sermons at DesiringGod.org have made his voice globally accessible.", quote: "The power of a sermon comes not from its organization or its eloquence — it comes from the Word of God, owned by the Spirit of God, preached by a man of God who believes what he says.", contribution: "Piper's emphasis on expository preaching, combined with his passion for the glory of God and his Christian hedonism framework, influenced a generation of preachers toward verse-by-verse biblical preaching. His willingness to make all his sermons freely available online established a model that has democratized access to quality expository preaching worldwide." },
+  { id: "keller-t", name: "Tim Keller", era: "1950-2023", context: "Redeemer Presbyterian, Manhattan — cultural apologetic preaching; The Reason for God (2008)", bio: "Timothy Keller founded Redeemer Presbyterian Church in Manhattan in 1989 and built it into one of the most influential evangelical congregations in the world. His preaching was distinctive in its engagement with secular intellectual culture — he preached to skeptics and believers simultaneously, taking objections seriously while showing how the gospel answers them. His sermon preparation was legendary: he is reported to have spent 20+ hours preparing every sermon. His books (The Reason for God, The Prodigal God, Prayer) grew out of his preaching and reached audiences far beyond his congregation. His death from pancreatic cancer in 2023 was mourned across denominational lines.", quote: "Every sermon should do three things: it should make people say, 'That's true,' then 'I never thought of it that way,' and finally, 'What must I do?' If you're only getting the first, you're lecturing. If you're only getting the second, you're performing. All three is preaching.", contribution: "Keller demonstrated that rigorous biblical preaching could engage secular, educated, skeptical audiences in one of the most unchurched cities in the world. His integration of cultural apologetics with expository preaching created a model that has been widely imitated by urban church planters. His freely available sermons and books have given pastors worldwide access to his approach." },
+  { id: "edwards-j", name: "Jonathan Edwards", era: "1703-1758", context: "Northampton, Massachusetts; first Great Awakening preacher; America's greatest theologian", bio: "Jonathan Edwards is widely regarded as the greatest theological mind produced by American Christianity. His role in the First Great Awakening of the 1740s, his meticulous documentation of the revival phenomena in A Faithful Narrative and The Distinguishing Marks, and his systematic theological work (Freedom of the Will, Religious Affections, The Nature of True Virtue) established him as a figure of both historical and ongoing significance. His sermon Sinners in the Hands of an Angry God is the most famous sermon in American history. His Religious Affections — a careful psychological analysis of what genuine religious experience looks like — remains the most sophisticated evangelical treatment of spiritual emotion ever written.", quote: "God is glorified not only by His glory's being seen, but by its being rejoiced in. When those that see it, delight in it, God is more glorified than if they only see it. His glory is then received by the whole soul.", contribution: "Edwards gave American Christianity its most rigorous theological tradition and its most careful analysis of revival and spiritual experience. His Religious Affections remains the standard by which evangelical assessments of religious experience are measured. His influence on Piper, Mohler, and the reformed evangelical movement of the late 20th century was profound and direct." },
+  { id: "robinson-h", name: "Haddon Robinson", era: "1931-2017", context: "Biblical Preaching (1980) — the most used homiletics textbook in evangelical seminaries", bio: "Haddon Robinson's Biblical Preaching: The Development and Delivery of Expository Messages is the most widely used homiletics textbook in evangelical seminaries — it has shaped how more than a generation of pastors think about sermon preparation and delivery. Robinson's concept of the 'big idea' — every sermon should have one main proposition, derived from the text, that the entire sermon illuminates and drives home — gave preachers a practical framework for biblical exposition that was both theologically serious and communicatively clear. Robinson taught at Dallas Theological Seminary, Gordon-Conwell, and Denver Seminary, and his influence through his students has been enormous.", quote: "Expository preaching is the communication of a biblical concept derived from and transmitted through a historical, grammatical, and literary study of a passage in its context, which the Holy Spirit applies first to the heart of the preacher and then through him to his hearers.", contribution: "Robinson's Biblical Preaching established the framework for expository sermon preparation that has been used in evangelical seminaries for four decades. His 'big idea' concept gave preachers a practical tool for ensuring that their sermons were driven by the text rather than by illustration or application. His influence through thousands of students has shaped expository preaching culture across denominations." },
+  { id: "lloyd-jones-m", name: "D. Martyn Lloyd-Jones", era: "1899-1981", context: "Westminster Chapel, London — the supreme example of Reformed expository preaching in the 20th century", bio: "David Martyn Lloyd-Jones gave up a promising medical career to preach and served Westminster Chapel in London for thirty years, drawing large congregations through rigorous exposition of Scripture. His preaching on Romans (14 volumes), Ephesians (8 volumes), and the Sermon on the Mount established a model of extended, systematic, verse-by-verse preaching that influenced the Reformed world profoundly. Lloyd-Jones was skeptical of revivalism, evangelistic gimmicks, and psychological approaches to preaching — he believed the preacher's only tool was the Word of God and the Spirit of God, and that the church's problems were fundamentally theological, not methodological. His Preaching and Preachers (1971) is the most demanding and uncompromising theology of preaching in modern evangelical literature.", quote: "The work of preaching is the highest and the greatest and the most glorious calling to which anyone can ever be called... I would say without any hesitation that the most urgent need in the Christian Church today is true preaching.", contribution: "Lloyd-Jones's multi-volume expository series on Romans, Ephesians, and other passages established a model of sustained, verse-by-verse exposition that has influenced Reformed preachers worldwide. His Preaching and Preachers is required reading in many Reformed seminary homiletics courses and continues to challenge preachers toward theological seriousness and Spirit-dependence." },
+];
+
 export default function SermonArchivePage() {
   const [savedIds, setSavedIds] = useState<Set<string>>(new Set());
   const [likedIds, setLikedIds] = useState<Set<string>>(new Set());
@@ -225,7 +233,9 @@ export default function SermonArchivePage() {
   const [filterTopic, setFilterTopic] = useState("All");
   const [filterType, setFilterType] = useState("All");
   const [search, setSearch] = useState("");
-  const [activeTab, setActiveTab] = useState<"all" | "saved">("all");
+  const [activeTab, setActiveTab] = useState<"all" | "saved" | "voices" | "howto" | "videos">("all");
+  const [selectedVoice, setSelectedVoice] = useState("piper-j");
+  const voiceItem = VOICES_SERM.find(v => v.id === selectedVoice)!;
   const [noteMode, setNoteMode] = useState(false);
 
   useEffect(() => {
@@ -315,13 +325,13 @@ export default function SermonArchivePage() {
         {/* Search + tabs */}
         <div style={{ display: "flex", gap: 12, marginBottom: 20, flexWrap: "wrap", alignItems: "center" }}>
           <div style={{ display: "flex", background: "#12121F", border: "1px solid #1E1E32", borderRadius: 10, padding: 4, gap: 4 }}>
-            {(["all", "saved"] as const).map((tab) => (
+            {(["all", "saved", "howto", "voices", "videos"] as const).map((tab) => (
               <button key={tab} onClick={() => setActiveTab(tab)}
                 style={{ padding: "7px 18px", borderRadius: 7, border: "none",
                   background: activeTab === tab ? "#6B4FBB" : "transparent",
                   color: activeTab === tab ? "#fff" : "#9898B3",
                   cursor: "pointer", fontWeight: 600, fontSize: 13 }}>
-                {tab === "all" ? "All Sermons" : `Saved (${savedIds.size})`}
+                {tab === "all" ? "All Sermons" : tab === "saved" ? `Saved (${savedIds.size})` : tab === "howto" ? "📝 How to Listen" : tab === "voices" ? "🎓 Preachers" : "🎬 Videos"}
               </button>
             ))}
           </div>
@@ -337,6 +347,7 @@ export default function SermonArchivePage() {
           </select>
         </div>
 
+        {(activeTab === "all" || activeTab === "saved") && <>
         {/* Topic filters */}
         <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 24 }}>
           {topics.map((t) => (
@@ -412,6 +423,93 @@ export default function SermonArchivePage() {
           <div style={{ textAlign: "center", padding: "60px 24px" }}>
             <div style={{ fontSize: 40, marginBottom: 12 }}>🔍</div>
             <div style={{ color: "#9898B3" }}>No sermons match your filters.</div>
+          </div>
+        )}
+        </>}
+
+        {activeTab === "howto" && (
+          <div style={{ maxWidth: 760, margin: "0 auto" }}>
+            <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 8, color: "#F2F2F8" }}>How to Listen to a Sermon</h2>
+            <p style={{ color: "#9898B3", fontSize: 14, marginBottom: 24, lineHeight: 1.6 }}>
+              Passive listening extracts entertainment. Active listening extracts transformation. Here is how to get more from every sermon you hear.
+            </p>
+            {[
+              { icon: "📖", title: "Read the Passage Before the Service", desc: "If you know the preaching text ahead of time (most church websites or apps post it), read it slowly the day before. Ask yourself: what does this passage say? What confuses me? What do I already notice? Coming with questions makes you an active listener rather than a passive audience member." },
+              { icon: "✍️", title: "Take Notes — But Don't Try to Write Everything", desc: "Note-taking improves retention, but transcription kills attention. Write the big idea (one sentence), the key move that surprised you, and one application point. Three things, written clearly, are worth more than pages of shorthand you'll never review." },
+              { icon: "🔍", title: "Look Up the Passage Afterward", desc: "Read the passage again after the sermon with the preacher's main point in mind. Does the text actually support what was said? This is not suspicion — it is the Berean discipline (Acts 17:11). The best preachers welcome it." },
+              { icon: "💬", title: "Discuss It with Someone", desc: "Sermon retention roughly doubles when you discuss the message with another person within 24 hours. This is why Sunday lunch, small groups, and family devotionals built around the sermon are so valuable — the conversation cements what the sermon planted." },
+              { icon: "⚡", title: "Identify One Action", desc: "Every sermon should produce one specific thing you will do differently. Not a vague intention ('I should pray more') but a specific action ('I will pray for my neighbor John by name every morning this week'). If you leave without a specific action, the sermon has not yet done its work." },
+              { icon: "🗂️", title: "Keep a Sermon Journal", desc: "Over months and years, a simple record of main points and personal applications becomes a map of your spiritual formation. You can return to it in dry seasons, track what God has been saying to you over time, and notice which themes keep appearing in your life." },
+            ].map((item, i) => (
+              <div key={i} style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 14, padding: 22, marginBottom: 14 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}>
+                  <span style={{ fontSize: 24 }}>{item.icon}</span>
+                  <h3 style={{ fontSize: 16, fontWeight: 700, color: "#00FF88", margin: 0 }}>{item.title}</h3>
+                </div>
+                <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.75, margin: 0 }}>{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {activeTab === "voices" && (
+          <div style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
+            <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 80 }}>
+              {VOICES_SERM.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? "rgba(0,255,136,0.4)" : "#1E1E32"}`, background: selectedVoice === v.id ? "rgba(0,255,136,0.08)" : "#12121F", cursor: "pointer" }}>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: selectedVoice === v.id ? "#00FF88" : "#F2F2F8", marginBottom: 2 }}>{v.name}</div>
+                  <div style={{ fontSize: 11, color: "#9898B3" }}>{v.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1, background: "#12121F", border: "1px solid #1E1E32", borderRadius: 16, padding: 28 }}>
+              <div style={{ fontSize: 12, color: "#9898B3", fontStyle: "italic", marginBottom: 6 }}>{voiceItem.context}</div>
+              <h2 style={{ fontSize: 24, fontWeight: 800, marginBottom: 4, color: "#F2F2F8" }}>{voiceItem.name}</h2>
+              <div style={{ fontSize: 13, color: "#9898B3", marginBottom: 20 }}>{voiceItem.era}</div>
+              <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.8, marginBottom: 24 }}>{voiceItem.bio}</p>
+              <div style={{ background: "#07070F", borderRadius: 12, padding: 20, borderLeft: "3px solid #00FF88", marginBottom: 24 }}>
+                <p style={{ fontSize: 15, color: "#E0E0F0", lineHeight: 1.75, fontStyle: "italic" }}>&ldquo;{voiceItem.quote}&rdquo;</p>
+              </div>
+              <div>
+                <div style={{ fontSize: 11, fontWeight: 700, color: "#6B4FBB", textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>Contribution</div>
+                <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.75 }}>{voiceItem.contribution}</p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 22, marginBottom: 24 }}>
+              <p style={{ color: "#F2F2F8", fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                Sermons and teachings from some of the most faithful preachers of our generation — to model what great preaching looks and sounds like.
+              </p>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 20 }}>
+              {[
+                { id: "OxwTqGJI9gM", title: "The Best of John Piper — Sermon Compilation", teacher: "John Piper" },
+                { id: "PsoE9GxSIcA", title: "Having a Heart on Fire for God", teacher: "John Piper" },
+                { id: "JaFRMaqHAdY", title: "The Gospel in 6 Minutes", teacher: "John Piper" },
+                { id: "ApIg22vigBI", title: "The Renewed Mind and How to Have It", teacher: "John Piper" },
+              ].map(v => (
+                <div key={v.id} style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, overflow: "hidden" }}>
+                  <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
+                    <iframe
+                      src={`https://www.youtube.com/embed/${v.id}`}
+                      title={v.title}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
+                    />
+                  </div>
+                  <div style={{ padding: "14px 16px" }}>
+                    <div style={{ color: "#F2F2F8", fontWeight: 700, fontSize: 14, marginBottom: 4 }}>{v.title}</div>
+                    <div style={{ color: "#9898B3", fontSize: 12 }}>{v.teacher}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         )}
       </div>

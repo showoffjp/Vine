@@ -9,13 +9,14 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "tongues" | "prophecy" | "healing";
+type Tab = "theology" | "tongues" | "prophecy" | "healing" | "videos";
 
 const TABS: { id: Tab; label: string }[] = [
   { id: "theology", label: "Theology of Charismatic Gifts" },
   { id: "tongues", label: "Tongues" },
   { id: "prophecy", label: "Prophecy" },
   { id: "healing", label: "Healing" },
+  { id: "videos", label: "🎬 Videos" },
 ];
 
 const THEOLOGY_ITEMS = [
@@ -447,6 +448,40 @@ export default function CharismaticGiftsTheologyPage() {
                 onToggle={toggleAccordion}
               />
             ))}
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Lectures, debates, and teachings on the charismatic gifts — tongues, prophecy, healing — and the cessationism vs. continuationism question.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "hRgaZNBYOjo", title: "The Debate Over Holy Spirit Gifts: Cessationism vs Continuationism", channel: "Theological Debate", description: "A clear presentation of both sides of the debate — do miraculous gifts like tongues and prophecy continue today, or did they cease with the apostles?" },
+                  { videoId: "qy5Tyra2qTM", title: "What Is Cessationism? A Continuationist Perspective", channel: "Sam Storms", description: "Sam Storms, a leading continuationist theologian, explains what cessationism claims and why he believes the biblical case for continuing gifts is stronger." },
+                  { videoId: "P-DMS1hVYRM", title: "Tongues, Healing, Prophecy: For Today?", channel: "Theological Discussion", description: "A balanced examination of what the New Testament actually teaches about tongues, prophecy, and healing — and whether those gifts are available to the church today." },
+                  { videoId: "bI3P0TYp94c", title: "Miraculous Gifts Today — Debating Cessationism vs. Continuationism Pt. 1", channel: "Theology Debate", description: "A formal debate between cessationists and continuationists on whether miraculous gifts have ceased or continue in the contemporary church." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

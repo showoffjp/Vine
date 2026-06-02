@@ -76,8 +76,18 @@ const PRACTICAL = [
   { q: "Is there a 'right' posture for prayer?", a: "No single posture is prescribed as universal in Scripture. Posture serves prayer — it does not constitute it. The goal is a body that is engaged and a soul that is present. Whatever posture best achieves that for you in a given moment is the right one." },
 ];
 
+const TEACHERS_POSTURE = [
+  { id: "teresa", name: "Teresa of Avila", era: "1515-1582", context: "Carmelite mystic; Interior Castle; Way of Perfection", bio: "Teresa reformed the Carmelite order and wrote the most detailed map of contemplative prayer in the Christian tradition. Interior Castle describes the soul's journey toward union with God through seven 'dwelling places,' moving from surface religiosity to the innermost room where the soul rests in God's presence. Her Way of Perfection includes extensive practical guidance on mental prayer, recollection (gathering scattered attention toward God), and the relationship between contemplation and action.", quote: "Prayer in my opinion is nothing else than an intimate sharing between friends; it means taking time frequently to be alone with Him who we know loves us.", contribution: "Mapped the interior life of prayer with precision and beauty unmatched in Western Christian literature. Her work gave embodied, experiential language to contemplative prayer that the Western church had lacked." },
+  { id: "calvin", name: "John Calvin", era: "1509-1564", context: "Institutes of the Christian Religion, Book III, Chapter 20", bio: "Calvin's treatment of prayer in the Institutes is the most thorough Reformed theology of prayer. He identified four rules of prayer: reverence (recognizing God's majesty), sincerity (praying from the heart, not performing), humility (approaching without presumption, in Christ's name), and confidence (trusting that God hears and answers). He grounded prayer in the doctrine of adoption: we pray as beloved children to a Father who delights to give.", quote: "To know God as the Master and Bestower of all good things, who invites us to request them of him, and still not go to him and not ask of him — this would be of as little profit as for a man to neglect a treasure, buried and hidden in the earth, after it had been pointed out to him.", contribution: "Established the Reformed theology of prayer on the doctrine of adoption. His four rules of prayer remain the most useful set of principles for evaluating whether one's prayer life is healthy." },
+  { id: "barth", name: "Karl Barth", era: "1886-1968", context: "Prayer (1952, lectures on the Lord's Prayer); Basel, Switzerland", bio: "Barth's short book Prayer consists of lectures on the Lord's Prayer — working through each petition in the light of his theology of revelation and grace. His controlling conviction: prayer is our response to God's prior address to us. We do not call God's attention to ourselves; God has already spoken, acted, and invited. Prayer is the human side of the divine-human conversation that God initiated. This grounds prayer in grace rather than technique and removes the anxious question of whether we are praying 'correctly.'", quote: "To clasp hands in prayer is the beginning of an uprising against the disorder of the world.", contribution: "Reframed prayer as the human response to God's prior speech rather than the human initiation of contact with an absent God. This Barthian reversal liberates prayer from performance anxiety and grounds it in the reality of revelation." },
+  { id: "peterson", name: "Eugene Peterson", era: "1932-2018", context: "Answering God: The Psalms as Tools for Prayer (1989); The Message", bio: "Peterson's Answering God argues that prayer is not primarily talking to God but responding to God — hence the Psalms (God's inspired words addressed to God) are the primary school of prayer. To learn to pray is to learn to speak the Psalms — the full range of human experience (despair, rage, praise, confusion, longing) offered to God in the words he himself provided. Peterson also wrote the entire Bible in The Message (a translation/paraphrase) as an act of liturgical service to people who could not hear the original languages.", quote: "Prayer is not a technique for getting things from God. Prayer is the life of faith — and the Psalms are its practice material.", contribution: "Recovered the Psalms as the primary school of Christian prayer. His insistence that genuine prayer includes complaint, lament, and rage — not just praise and petition — gave Christians permission to be honest with God in ways pietism had discouraged." },
+  { id: "lewis_pr", name: "C.S. Lewis", era: "1898-1963", context: "Letters to Malcolm: Chiefly on Prayer (1963)", bio: "Lewis's final book before his death is his most intimate treatment of prayer — written as letters to a fictional friend, working through the problems prayer poses: the mechanics of petition, what it means that God 'answers' prayer, the relationship between prayer and providence, and the experience of God's seeming absence. He does not resolve the difficulties neatly but enters them honestly. His chapter on the experience of dryness in prayer — the periods when God seems absent — is the most honest treatment in popular Christian literature.", quote: "We must lay before Him what is in us, not what ought to be in us.", contribution: "Modeled honest intellectual engagement with prayer's difficulties rather than premature resolution. His willingness to say 'I don't know' while still praying created permission for millions of Christians to continue praying through doubt, dryness, and unanswered petition." }
+];
+
 export default function PrayerPosturesPage() {
-  const [activeTab, setActiveTab] = useState<"postures" | "traditions" | "faq">("postures");
+  const [activeTab, setActiveTab] = useState<"postures" | "teachers" | "traditions" | "faq" | "videos">("postures");
+  const [selectedTeacher, setSelectedTeacher] = useState("teresa");
+  const teacherItem = TEACHERS_POSTURE.find(t => t.id === selectedTeacher)!;
   const [selected, setSelected] = useState<string | null>("Standing");
 
   const selectedPosture = POSTURES.find(p => p.name === selected);
@@ -96,8 +106,10 @@ export default function PrayerPosturesPage() {
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
             { id: "postures" as const, label: "The Postures", icon: "🧎" },
+            { id: "teachers" as const, label: "Teachers", icon: "💬" },
             { id: "traditions" as const, label: "By Tradition", icon: "⛪" },
             { id: "faq" as const, label: "Questions", icon: "❓" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -147,6 +159,43 @@ export default function PrayerPosturesPage() {
           </div>
         )}
 
+        {activeTab === "teachers" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 210, flexShrink: 0 }}>
+              {TEACHERS_POSTURE.map(t => (
+                <button key={t.id} onClick={() => setSelectedTeacher(t.id)}
+                  style={{ width: "100%", background: selectedTeacher === t.id ? `${PURPLE}18` : "transparent", border: `1px solid ${selectedTeacher === t.id ? PURPLE + "80" : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 6, cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: selectedTeacher === t.id ? TEXT : MUTED, fontWeight: 700, fontSize: 13 }}>{t.name}</div>
+                  <div style={{ color: MUTED, fontSize: 11, marginTop: 2 }}>{t.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ background: CARD, border: `1px solid ${PURPLE}30`, borderRadius: 14, padding: 28 }}>
+                <div style={{ marginBottom: 18 }}>
+                  <h2 style={{ color: TEXT, fontWeight: 900, fontSize: 22, marginBottom: 4 }}>{teacherItem.name}</h2>
+                  <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                    <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700 }}>{teacherItem.era}</span>
+                    <span style={{ background: `${GREEN}15`, color: GREEN, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700 }}>{teacherItem.context}</span>
+                  </div>
+                </div>
+                <div style={{ marginBottom: 18 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>LIFE & TEACHING</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>{teacherItem.bio}</p>
+                </div>
+                <div style={{ background: BG, borderLeft: `3px solid ${PURPLE}`, borderRadius: "0 10px 10px 0", padding: 18, marginBottom: 18 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 11, marginBottom: 8 }}>CHARACTERISTIC QUOTE</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0, fontStyle: "italic" }}>&ldquo;{teacherItem.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 10, padding: 16 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>CONTRIBUTION</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{teacherItem.contribution}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {activeTab === "traditions" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
@@ -179,6 +228,40 @@ export default function PrayerPosturesPage() {
                 <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{p.a}</p>
               </div>
             ))}
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings on bodily prayer, posture, and the embodied disciplines of Christian worship.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "d6eqCIGhOxw", title: "The Lord's Prayer — Explained by John Piper", channel: "Desiring God (John Piper)", description: "Piper unpacks the Lord's Prayer as a model for all prayer — including the posture of the heart that must accompany the words of the mouth." },
+                  { videoId: "IvWmwvdJ-mU", title: "How to Pray: Prayer with R.C. Sproul", channel: "Ligonier Ministries", description: "R.C. Sproul on the theology of approaching God in prayer — what posture of soul is required when we enter the presence of the Holy One." },
+                  { videoId: "43cnijCzHaY", title: "How Kneeling in Church Changed My Spiritual Life", channel: "Catholic / Liturgical Testimony", description: "A personal testimony on how the physical practice of kneeling transformed the interior life of prayer — a reminder that embodied practice shapes spiritual reality." },
+                  { videoId: "ZIl-SaUTOis", title: "Contemplative Prayer — Spiritual Directions Podcast", channel: "Spiritual Directions", description: "An exploration of contemplative prayer traditions and how posture, silence, and attentiveness to God work together in the classical Christian understanding of prayer." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

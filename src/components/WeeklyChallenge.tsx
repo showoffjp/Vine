@@ -1,55 +1,45 @@
 "use client";
 
 import { useState } from "react";
-import { CheckCircle2, Circle, Flame, Users, ArrowRight, Trophy, BookOpen, Star } from "lucide-react";
+import { CheckCircle2, Circle, Users, ArrowRight, BookOpen, Star, Trophy } from "lucide-react";
 
-const mainChallenge = {
+const MAIN = {
   title: "7 Days of Intentional Prayer",
   description:
     "Transform your prayer life in one week. Each day focuses on a different dimension of prayer — adoration, confession, gratitude, intercession, and more.",
   totalDays: 7,
   completedDays: 3,
   participants: "14,280",
-  tag: "Prayer",
 };
 
-const days = [
+const DAYS = [
   { day: 1, task: "Adoration Only", desc: "Spend 15 min praising God for who He is — nothing else." },
-  { day: 2, task: "Confession & Repentance", desc: "A quiet, honest hour of examining your heart before God." },
-  { day: 3, task: "Gratitude Journal", desc: "Write 20 things you are thankful for. Pray over each one." },
-  { day: 4, task: "Intercession for Others", desc: "Pray specifically for 5 people in your life by name." },
-  { day: 5, task: "Listening Prayer", desc: "Sit in silence for 20 minutes. Just listen." },
-  { day: 6, task: "Scripture-Led Prayer", desc: "Pray through Psalm 91 line by line." },
-  { day: 7, task: "Corporate Prayer", desc: "Join or lead a prayer group — online or in person." },
+  { day: 2, task: "Confession", desc: "A quiet, honest hour examining your heart before God." },
+  { day: 3, task: "Gratitude", desc: "Write 20 things you are thankful for. Pray over each one." },
+  { day: 4, task: "Intercession", desc: "Pray specifically for 5 people in your life by name." },
+  { day: 5, task: "Listening", desc: "Sit in silence for 20 minutes. Just listen." },
+  { day: 6, task: "Scripture", desc: "Pray through Psalm 91 line by line." },
+  { day: 7, task: "Corporate", desc: "Join or lead a prayer group — online or in person." },
 ];
 
-const otherChallenges = [
+const OTHER = [
   {
-    icon: <BookOpen size={20} />,
+    icon: BookOpen,
     title: "30-Day Scripture Memory",
     description: "One verse per day. Transform your mind with God's Word.",
     participants: "8,940",
-    color: "#2E7D52",
-    accentBg: "rgba(46,125,82,0.12)",
-    accentBorder: "rgba(46,125,82,0.3)",
   },
   {
-    icon: <Star size={20} />,
+    icon: Star,
     title: "21-Day Gratitude Journal",
     description: "Daily written gratitude rewires your heart toward joy.",
     participants: "22,113",
-    color: "#00FF88",
-    accentBg: "rgba(0,255,136,0.12)",
-    accentBorder: "rgba(0,255,136,0.3)",
   },
   {
-    icon: <Trophy size={20} />,
+    icon: Trophy,
     title: "14-Day Fasting Guide",
     description: "A structured approach to fasting with daily devotionals.",
     participants: "5,672",
-    color: "#6B4FBB",
-    accentBg: "rgba(107,79,187,0.12)",
-    accentBorder: "rgba(107,79,187,0.3)",
   },
 ];
 
@@ -59,91 +49,68 @@ export default function WeeklyChallenge() {
   return (
     <section
       style={{
-        background: "#07070F",
-        padding: "80px 0",
+        background: "#050e07",
+        padding: "100px 4vw",
+        borderTop: "0.5px solid rgba(201,162,39,0.18)",
         position: "relative",
         overflow: "hidden",
       }}
     >
-      {/* Glow background */}
       <div
         style={{
           position: "absolute",
-          inset: 0,
-          background:
-            "radial-gradient(ellipse 60% 50% at 50% 50%, rgba(0,255,136,0.05) 0%, transparent 70%)",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          width: 700,
+          height: 700,
+          background: "radial-gradient(ellipse, rgba(58,125,86,0.06) 0%, transparent 65%)",
           pointerEvents: "none",
         }}
       />
 
-      <div
-        style={{
-          maxWidth: "1200px",
-          margin: "0 auto",
-          padding: "0 24px",
-          position: "relative",
-          zIndex: 1,
-        }}
-      >
+      <div style={{ maxWidth: 1200, margin: "0 auto", position: "relative", zIndex: 1 }}>
         {/* Header */}
-        <div style={{ marginBottom: "40px" }}>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "8px",
-              marginBottom: "8px",
-            }}
-          >
-            <Flame size={16} style={{ color: "#00FF88" }} />
-            <span
-              style={{
-                color: "#00FF88",
-                fontSize: "0.75rem",
-                fontWeight: 700,
-                letterSpacing: "0.15em",
-                textTransform: "uppercase",
-              }}
-            >
-              Spiritual Growth
-            </span>
+        <div style={{ marginBottom: "3rem" }}>
+          <div className="vine-eyebrow" style={{ marginBottom: "0.9rem" }}>
+            Spiritual Growth
           </div>
           <h2
             style={{
-              color: "#F2F2F8",
-              fontSize: "clamp(1.6rem, 3.5vw, 2.4rem)",
-              fontWeight: 900,
+              fontFamily: "var(--font-cormorant, 'Cormorant Garamond', Georgia, serif)",
+              fontSize: "clamp(2rem, 4vw, 3.4rem)",
+              fontWeight: 300,
+              color: "#f2e6c8",
+              lineHeight: 1.15,
               margin: 0,
             }}
           >
-            This Week&apos;s <span className="gold-gradient">Challenge</span>
+            This week&apos;s
+            <em style={{ fontStyle: "italic", color: "#e8c162" }}> Challenge.</em>
           </h2>
         </div>
 
-        {/* Featured challenge card */}
+        {/* Featured challenge */}
         <div
           style={{
-            background: "#12121F",
-            borderRadius: "24px",
-            padding: "40px 44px",
-            border: "1px solid rgba(0,255,136,0.18)",
-            boxShadow: "0 0 60px rgba(0,255,136,0.05)",
-            marginBottom: "32px",
+            background: "#0f2318",
+            border: "0.5px solid rgba(201,162,39,0.22)",
+            borderRadius: 3,
+            padding: "2.5rem",
+            marginBottom: "2rem",
             position: "relative",
             overflow: "hidden",
           }}
         >
-          {/* Background decoration */}
           <div
             style={{
               position: "absolute",
-              top: "-60px",
-              right: "-60px",
-              width: "280px",
-              height: "280px",
+              top: -60,
+              right: -60,
+              width: 260,
+              height: 260,
               borderRadius: "50%",
-              background:
-                "radial-gradient(circle, rgba(0,255,136,0.06) 0%, transparent 70%)",
+              background: "radial-gradient(circle, rgba(201,162,39,0.05) 0%, transparent 70%)",
               pointerEvents: "none",
             }}
           />
@@ -154,66 +121,67 @@ export default function WeeklyChallenge() {
               alignItems: "flex-start",
               justifyContent: "space-between",
               flexWrap: "wrap",
-              gap: "24px",
-              marginBottom: "32px",
+              gap: 24,
+              marginBottom: "2rem",
             }}
           >
-            <div>
+            <div style={{ flex: 1 }}>
               <div
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
-                  gap: "6px",
+                  gap: 6,
                   padding: "4px 12px",
-                  borderRadius: "999px",
-                  background: "rgba(0,255,136,0.1)",
-                  border: "1px solid rgba(0,255,136,0.25)",
-                  color: "#00FF88",
-                  fontSize: "0.65rem",
+                  borderRadius: 2,
+                  background: "rgba(201,162,39,0.1)",
+                  border: "0.5px solid rgba(201,162,39,0.3)",
+                  color: "#c9a227",
+                  fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                  fontSize: "0.62rem",
                   fontWeight: 700,
-                  letterSpacing: "0.1em",
+                  letterSpacing: "0.14em",
                   textTransform: "uppercase",
-                  marginBottom: "14px",
+                  marginBottom: "1rem",
                 }}
               >
-                <Flame size={11} />
                 Featured This Week
               </div>
               <h3
                 style={{
-                  color: "#F2F2F8",
-                  fontSize: "clamp(1.2rem, 2.5vw, 1.75rem)",
-                  fontWeight: 900,
-                  marginBottom: "12px",
+                  fontFamily: "var(--font-cormorant, 'Cormorant Garamond', Georgia, serif)",
+                  fontSize: "clamp(1.3rem, 2.5vw, 2rem)",
+                  fontWeight: 600,
+                  color: "#f2e6c8",
+                  marginBottom: "0.7rem",
                 }}
               >
-                {mainChallenge.title}
+                {MAIN.title}
               </h3>
               <p
                 style={{
-                  color: "#8A8AA8",
-                  fontSize: "0.9rem",
+                  fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                  fontSize: "0.88rem",
+                  color: "#9a8f72",
                   lineHeight: 1.65,
-                  maxWidth: "520px",
-                  marginBottom: "16px",
+                  fontWeight: 300,
+                  maxWidth: 520,
+                  marginBottom: "1rem",
                 }}
               >
-                {mainChallenge.description}
+                {MAIN.description}
               </p>
               <div
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  gap: "6px",
-                  color: "#8A8AA8",
+                  gap: 6,
+                  fontFamily: "var(--font-jost, system-ui, sans-serif)",
                   fontSize: "0.8rem",
+                  color: "#9a8f72",
                 }}
               >
-                <Users size={14} />
-                <strong style={{ color: "#00FF88" }}>
-                  {mainChallenge.participants}
-                </strong>{" "}
-                participants joined
+                <Users size={13} />
+                <strong style={{ color: "#c9a227" }}>{MAIN.participants}</strong> participants joined
               </div>
             </div>
 
@@ -221,23 +189,22 @@ export default function WeeklyChallenge() {
             <div style={{ textAlign: "center", flexShrink: 0 }}>
               <div
                 style={{
-                  width: "100px",
-                  height: "100px",
+                  width: 90,
+                  height: 90,
                   borderRadius: "50%",
-                  background: `conic-gradient(#00FF88 ${(mainChallenge.completedDays / mainChallenge.totalDays) * 360}deg, rgba(0,255,136,0.1) 0deg)`,
+                  background: `conic-gradient(#c9a227 ${(MAIN.completedDays / MAIN.totalDays) * 360}deg, rgba(201,162,39,0.1) 0deg)`,
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  margin: "0 auto 10px",
-                  position: "relative",
+                  margin: "0 auto 8px",
                 }}
               >
                 <div
                   style={{
-                    width: "78px",
-                    height: "78px",
+                    width: 70,
+                    height: 70,
                     borderRadius: "50%",
-                    background: "#12121F",
+                    background: "#0f2318",
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
@@ -246,24 +213,33 @@ export default function WeeklyChallenge() {
                 >
                   <span
                     style={{
-                      color: "#00FF88",
-                      fontWeight: 900,
+                      fontFamily: "var(--font-cormorant, Georgia, serif)",
+                      fontWeight: 700,
                       fontSize: "1.5rem",
+                      color: "#c9a227",
                       lineHeight: 1,
                     }}
                   >
-                    {mainChallenge.completedDays}
+                    {MAIN.completedDays}
                   </span>
-                  <span style={{ color: "#6A6A88", fontSize: "0.65rem" }}>
-                    of {mainChallenge.totalDays}
+                  <span
+                    style={{
+                      fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                      fontSize: "0.6rem",
+                      color: "#9a8f72",
+                    }}
+                  >
+                    of {MAIN.totalDays}
                   </span>
                 </div>
               </div>
               <p
                 style={{
-                  color: "#8A8AA8",
-                  fontSize: "0.75rem",
-                  fontWeight: 600,
+                  fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                  fontSize: "0.72rem",
+                  fontWeight: 500,
+                  color: "#9a8f72",
+                  letterSpacing: "0.06em",
                 }}
               >
                 Days Complete
@@ -272,104 +248,94 @@ export default function WeeklyChallenge() {
           </div>
 
           {/* Progress bar */}
-          <div style={{ marginBottom: "28px" }}>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                marginBottom: "8px",
-              }}
-            >
-              <span style={{ color: "#8A8AA8", fontSize: "0.75rem" }}>
+          <div style={{ marginBottom: "2rem" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+              <span
+                style={{
+                  fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                  fontSize: "0.72rem",
+                  color: "#9a8f72",
+                }}
+              >
                 Progress
               </span>
-              <span style={{ color: "#00FF88", fontSize: "0.75rem", fontWeight: 700 }}>
-                {Math.round(
-                  (mainChallenge.completedDays / mainChallenge.totalDays) * 100
-                )}
-                % complete
+              <span
+                style={{
+                  fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                  fontSize: "0.72rem",
+                  fontWeight: 600,
+                  color: "#c9a227",
+                }}
+              >
+                {Math.round((MAIN.completedDays / MAIN.totalDays) * 100)}% complete
               </span>
             </div>
             <div
               style={{
-                height: "8px",
-                borderRadius: "999px",
-                background: "rgba(255,255,255,0.06)",
+                height: 4,
+                borderRadius: 999,
+                background: "rgba(201,162,39,0.12)",
                 overflow: "hidden",
               }}
             >
               <div
                 style={{
                   height: "100%",
-                  width: `${(mainChallenge.completedDays / mainChallenge.totalDays) * 100}%`,
-                  borderRadius: "999px",
-                  background:
-                    "linear-gradient(90deg, #00CC66 0%, #44FFAA 100%)",
-                  transition: "width 0.6s ease",
+                  width: `${(MAIN.completedDays / MAIN.totalDays) * 100}%`,
+                  borderRadius: 999,
+                  background: "linear-gradient(90deg, #c9a227 0%, #e8c162 100%)",
                 }}
               />
             </div>
           </div>
 
           {/* Day cards */}
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(7, 1fr)",
-              gap: "10px",
-            }}
-          >
-            {days.map((d) => {
-              const complete = d.day <= mainChallenge.completedDays;
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: 8 }}>
+            {DAYS.map((d) => {
+              const complete = d.day <= MAIN.completedDays;
               return (
                 <div
                   key={d.day}
                   title={d.desc}
                   style={{
-                    background: complete
-                      ? "rgba(0,255,136,0.08)"
-                      : "rgba(255,255,255,0.02)",
+                    background: complete ? "rgba(201,162,39,0.08)" : "rgba(201,162,39,0.02)",
                     border: complete
-                      ? "1px solid rgba(0,255,136,0.3)"
-                      : "1px solid rgba(255,255,255,0.06)",
-                    borderRadius: "12px",
-                    padding: "12px 8px",
+                      ? "0.5px solid rgba(201,162,39,0.35)"
+                      : "0.5px solid rgba(201,162,39,0.1)",
+                    borderRadius: 2,
+                    padding: "10px 6px",
                     textAlign: "center",
                     cursor: "pointer",
                     transition: "all 0.2s",
                   }}
                 >
-                  <div style={{ marginBottom: "6px" }}>
+                  <div style={{ marginBottom: 5 }}>
                     {complete ? (
-                      <CheckCircle2
-                        size={20}
-                        style={{ color: "#00FF88", margin: "0 auto" }}
-                      />
+                      <CheckCircle2 size={18} style={{ color: "#c9a227", margin: "0 auto" }} />
                     ) : (
-                      <Circle
-                        size={20}
-                        style={{ color: "#3A3A55", margin: "0 auto" }}
-                      />
+                      <Circle size={18} style={{ color: "rgba(201,162,39,0.25)", margin: "0 auto" }} />
                     )}
                   </div>
                   <p
                     style={{
-                      color: "#00FF88",
-                      fontSize: "0.6rem",
-                      fontWeight: 800,
-                      letterSpacing: "0.05em",
+                      fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                      fontSize: "0.58rem",
+                      fontWeight: 700,
+                      letterSpacing: "0.08em",
                       textTransform: "uppercase",
-                      marginBottom: "4px",
+                      color: "#c9a227",
+                      marginBottom: 3,
                     }}
                   >
                     Day {d.day}
                   </p>
                   <p
                     style={{
-                      color: complete ? "#D4D4E8" : "#6A6A88",
-                      fontSize: "0.62rem",
-                      lineHeight: 1.4,
-                      fontWeight: complete ? 600 : 400,
+                      fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                      fontSize: "0.6rem",
+                      color: complete ? "#c9b98a" : "#9a8f72",
+                      lineHeight: 1.35,
+                      fontWeight: complete ? 500 : 400,
                     }}
                   >
                     {d.task}
@@ -383,10 +349,11 @@ export default function WeeklyChallenge() {
         {/* Other challenges */}
         <h3
           style={{
-            color: "#F2F2F8",
-            fontSize: "1.2rem",
-            fontWeight: 700,
-            marginBottom: "20px",
+            fontFamily: "var(--font-cormorant, 'Cormorant Garamond', Georgia, serif)",
+            fontSize: "1.4rem",
+            fontWeight: 600,
+            color: "#f2e6c8",
+            marginBottom: "1.2rem",
           }}
         >
           More Challenges to Join
@@ -394,116 +361,107 @@ export default function WeeklyChallenge() {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
-            gap: "20px",
+            gridTemplateColumns: "repeat(3, 1fr)",
+            gap: 2,
+            background: "rgba(201,162,39,0.04)",
           }}
         >
-          {otherChallenges.map((ch) => {
+          {OTHER.map((ch) => {
             const isJoined = joined[ch.title];
+            const Icon = ch.icon;
             return (
               <div
                 key={ch.title}
-                className="card-glow"
                 style={{
-                  background: "#12121F",
-                  borderRadius: "16px",
-                  padding: "24px",
+                  background: "#050e07",
+                  padding: "2rem",
+                  position: "relative",
                 }}
               >
-                {/* Icon */}
                 <div
                   style={{
-                    width: "48px",
-                    height: "48px",
-                    borderRadius: "12px",
-                    background: ch.accentBg,
-                    border: `1px solid ${ch.accentBorder}`,
+                    position: "absolute",
+                    top: 0,
+                    left: "2rem",
+                    right: "2rem",
+                    height: "0.5px",
+                    background: "rgba(201,162,39,0.07)",
+                  }}
+                />
+                <div
+                  style={{
+                    width: 40,
+                    height: 40,
+                    borderRadius: 2,
+                    background: "rgba(201,162,39,0.08)",
+                    border: "0.5px solid rgba(201,162,39,0.22)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    color: ch.color,
-                    marginBottom: "16px",
+                    marginBottom: "1rem",
                   }}
                 >
-                  {ch.icon}
+                  <Icon size={18} style={{ color: "#c9a227" }} />
                 </div>
-
                 <h4
                   style={{
-                    color: "#F2F2F8",
-                    fontSize: "1rem",
-                    fontWeight: 700,
-                    marginBottom: "8px",
+                    fontFamily: "var(--font-cormorant, 'Cormorant Garamond', Georgia, serif)",
+                    fontSize: "1.1rem",
+                    fontWeight: 600,
+                    color: "#f2e6c8",
+                    marginBottom: "0.5rem",
                   }}
                 >
                   {ch.title}
                 </h4>
                 <p
                   style={{
-                    color: "#8A8AA8",
-                    fontSize: "0.82rem",
+                    fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                    fontSize: "0.83rem",
+                    color: "#9a8f72",
                     lineHeight: 1.6,
-                    marginBottom: "16px",
+                    fontWeight: 300,
+                    marginBottom: "1.2rem",
                   }}
                 >
                   {ch.description}
                 </p>
-
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    gap: "12px",
-                    flexWrap: "wrap",
-                  }}
-                >
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
                   <div
                     style={{
                       display: "flex",
                       alignItems: "center",
-                      gap: "5px",
-                      color: "#6A6A88",
-                      fontSize: "0.75rem",
+                      gap: 5,
+                      fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                      fontSize: "0.72rem",
+                      color: "#9a8f72",
                     }}
                   >
-                    <Users size={12} />
-                    <span style={{ color: ch.color, fontWeight: 700 }}>
-                      {ch.participants}
-                    </span>{" "}
-                    joined
+                    <Users size={11} />
+                    <strong style={{ color: "#c9a227" }}>{ch.participants}</strong> joined
                   </div>
                   <button
-                    onClick={() =>
-                      setJoined((prev) => ({ ...prev, [ch.title]: !prev[ch.title] }))
-                    }
+                    onClick={() => setJoined((prev) => ({ ...prev, [ch.title]: !prev[ch.title] }))}
                     style={{
                       display: "inline-flex",
                       alignItems: "center",
-                      gap: "6px",
-                      padding: "8px 18px",
-                      borderRadius: "10px",
-                      background: isJoined
-                        ? `${ch.accentBg}`
-                        : "transparent",
-                      border: `1px solid ${ch.accentBorder}`,
-                      color: ch.color,
-                      fontSize: "0.78rem",
-                      fontWeight: 700,
+                      gap: 6,
+                      padding: "6px 14px",
+                      borderRadius: 2,
+                      background: isJoined ? "rgba(201,162,39,0.1)" : "transparent",
+                      border: "0.5px solid rgba(201,162,39,0.3)",
+                      color: "#c9a227",
+                      fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                      fontSize: "0.72rem",
+                      fontWeight: 600,
                       cursor: "pointer",
                       transition: "all 0.2s",
                     }}
                   >
                     {isJoined ? (
-                      <>
-                        <CheckCircle2 size={13} />
-                        Joined
-                      </>
+                      <><CheckCircle2 size={12} /> Joined</>
                     ) : (
-                      <>
-                        Join Challenge
-                        <ArrowRight size={13} />
-                      </>
+                      <>Join Challenge <ArrowRight size={12} /></>
                     )}
                   </button>
                 </div>

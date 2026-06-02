@@ -41,7 +41,7 @@ const MISSIONARIES = [
     color: "#EC4899",
     role: "Missionary to inland China; saved over 100 children",
     story: "Gladys Aylward was a domestic servant from London who was rejected by the China Inland Mission (deemed too old and too poorly educated). She saved her own money and traveled alone to China by train in 1930, crossing Russia in the middle of winter during a Sino-Soviet border conflict. She eventually worked as an innkeeper, learned Mandarin, and became a foot-unbound inspector for the Chinese government. When Japanese forces invaded, she led over 100 children on a treacherous 12-day mountain journey to safety.",
-    legacy: "The Inn of the Sixth Happiness (1958 film starring Ingrid Bergman) made her famous globally, though Aylward disliked many aspects of the film. She returned to Taiwan in 1958 and worked with children there until her death in 1970. Her story of an 'unqualified' woman who was used mightily by God remains one of the most inspiring missionary biographies.",
+    legacy: "The Inn of the Sixth Happiness (1958 film starring Ingrid Bergman) made her famous globally, though Aylward disliked many aspects of the film. She returned to Taiwan in 1958 and worked with children there until her death in 1970. Her story of an 'unqualified' woman who was used mightily by God remains one of the most inspiring missionary missionary biographies.",
     famous_quote: "I wasn't God's first choice for what I've done for China — I don't know who it was. It must have been a great man... a well-educated man. I don't know what happened. Perhaps he died. Perhaps he wasn't willing... and God looked down and saw Gladys Aylward.",
     impact: "Pioneer of women in missions, perseverance in the face of institutional rejection, and heroic care for the most vulnerable.",
     initials: "GA",
@@ -126,7 +126,100 @@ const MISSIONARIES = [
   },
 ];
 
+const PRINCIPLES_MM: { id: string; principle: string; icon: string; missionary: string; explanation: string; application: string }[] = [
+  {
+    id: "unreached",
+    principle: "Go to the Unreached",
+    icon: "🌍",
+    missionary: "Jim Elliot",
+    explanation: "There are still people groups with no access to the gospel. An &ldquo;unreached people group&rdquo; is defined as an ethnic group with less than 2% evangelical Christian presence &mdash; meaning there is no indigenous church capable of evangelizing the rest. Today approximately 3 billion people live in such groups, with no Bible, no church, and no missionary in their language.",
+    application: "Pray for one unreached people group by name this week. Look up the Joshua Project or Frontier Ventures to find one.",
+  },
+  {
+    id: "language",
+    principle: "Learn the Language, Live the Life",
+    icon: "🗣️",
+    missionary: "Hudson Taylor & W.C. Townsend",
+    explanation: "Real contextualization means becoming genuinely embedded in a culture &mdash; not just visiting it. Cameron Townsend founded Wycliffe Bible Translators on the conviction that every person deserves Scripture in their heart language. Hudson Taylor shocked 19th-century missionaries by adopting Chinese dress and customs. Both saw breakthroughs others missed because they stopped being tourists.",
+    application: "Learn one thing about a culture different from your own this week. Not to judge it &mdash; to understand it.",
+  },
+  {
+    id: "suffering",
+    principle: "Suffering Is Part of the Call",
+    icon: "✝️",
+    missionary: "Jim & Elisabeth Elliot",
+    explanation: "The cross is not incidental to missions &mdash; it is the shape of missions. Five men were killed on a riverbank in Ecuador in 1956. Their wives and families returned to that same tribe. The story did not end with death; it continued with resurrection. The Huaorani who murdered Jim Elliot later became an elder in the church and baptized Jim&rsquo;s own son.",
+    application: "What would you be willing to lose for the gospel? Name it honestly before God.",
+  },
+  {
+    id: "women",
+    principle: "Women Are Missionaries Too",
+    icon: "💪",
+    missionary: "Elisabeth Elliot & Gladys Aylward",
+    explanation: "Two of the most impactful missionaries in modern history were women who were underestimated or rejected by institutions. Gladys Aylward was turned away by the China Inland Mission. Elisabeth Elliot was widowed at 29 with a young daughter. Both went anyway. Both saw more fruit than the institutions that dismissed them. Institutional rejection is not God&rsquo;s rejection.",
+    application: "Who around you has been dismissed by institutions but shows clear evidence of God&rsquo;s call? How could you encourage them?",
+  },
+  {
+    id: "ordinary",
+    principle: "Ordinary People, Extraordinary God",
+    icon: "🙏",
+    missionary: "Gladys Aylward",
+    explanation: "The &ldquo;unqualified&rdquo; domestic servant became one of the most famous missionaries in the history of China. She had no degree, no institutional backing, no money. She had only a call. God&rsquo;s consistent pattern throughout Scripture and history is using the weak to shame the strong &mdash; so that no human being may boast in his presence.",
+    application: "What &ldquo;disqualifies&rdquo; you that God might actually use? Bring it to him as an offering rather than an obstacle.",
+  },
+];
+
+const FIELDS_MM: { id: string; region: string; icon: string; unreached: string; context: string; opportunity: string; organizations: string }[] = [
+  {
+    id: "muslim",
+    region: "The Muslim World",
+    icon: "🌙",
+    unreached: "Largest bloc of unreached people &mdash; approximately 1.9 billion",
+    context: "Spanning North Africa, the Middle East, and Central Asia, the Muslim world represents the single largest concentration of people without access to the gospel. Many nations in this bloc restrict or criminalize Christian witness.",
+    opportunity: "Insider movements, diaspora missions among Muslim immigrants in the West, and digital evangelism through Arabic-language media are creating new openings previously unimaginable.",
+    organizations: "Frontiers, SAT-7, Arab World Ministries",
+  },
+  {
+    id: "hindu",
+    region: "The Hindu World",
+    icon: "🪷",
+    unreached: "1.1 billion Hindus; less than 1% Christian",
+    context: "India and Nepal are home to more unreached people than any other region. Hinduism&rsquo;s caste system has historically made cross-caste evangelism difficult, and much of the church growth has stayed within social boundaries.",
+    opportunity: "The caste system is breaking down under economic modernization. Digital evangelism and church-planting movements among lower castes are seeing rapid growth in parts of India.",
+    organizations: "Gospel for Asia, India Gospel League",
+  },
+  {
+    id: "buddhist",
+    region: "The Buddhist World",
+    icon: "🏔️",
+    unreached: "520 million Buddhists; very few Christians",
+    context: "China, Japan, and much of Southeast Asia are formally or culturally Buddhist. The gospel has advanced rapidly in China despite persecution, but Japan &mdash; one of the most sophisticated nations on earth &mdash; remains one of the least evangelized.",
+    opportunity: "Rapid urbanization is breaking down traditional community ties. Youth disillusionment with materialism is creating spiritual openness in major cities across East Asia.",
+    organizations: "OMF International, East Asia Outreach",
+  },
+  {
+    id: "tribal",
+    region: "Unreached Tribal Peoples",
+    icon: "🌿",
+    unreached: "Thousands of small people groups with no Scripture in their language",
+    context: "In the Amazon basin, the highlands of Papua New Guinea, and remote regions of Africa, thousands of small tribal groups still have no Bible in their mother tongue and no church that speaks their language.",
+    opportunity: "The Bible translation movement is closer than ever to its goal of beginning translation in every remaining language. Modern linguistic technology and national translators are accelerating the pace dramatically.",
+    organizations: "Wycliffe Bible Translators, SIL International",
+  },
+  {
+    id: "west",
+    region: "The Post-Christian West",
+    icon: "⛪",
+    unreached: "Europe and North America increasingly secular; millions leaving the church",
+    context: "Churches are closing across Western Europe at an alarming rate. North America&rsquo;s fastest-growing religious category is &ldquo;none.&rdquo; The West, which sent missionaries to the world, now needs missionaries itself.",
+    opportunity: "New monasticism, apologetics ministries, and intentional community formation are reaching people the traditional church no longer can. The Global South church is beginning to send missionaries back to Europe.",
+    organizations: "European Mission Fellowship, Alpha",
+  },
+];
+
 export default function ModernMissionariesPage() {
+  type Tab = "missionaries" | "principles" | "fields" | "callyou" | "videos";
+  const [activeTab, setActiveTab] = useState<Tab>("missionaries");
   const [region, setRegion] = useState("All");
   const [selected, setSelected] = useState<string | null>(null);
 
@@ -138,7 +231,7 @@ export default function ModernMissionariesPage() {
       <div style={{ maxWidth: 960, margin: "0 auto", padding: "0 20px 60px" }}>
         <div style={{ textAlign: "center", marginBottom: 40 }}>
           <div style={{ fontSize: 48, marginBottom: 12 }}>🌍</div>
-          <h1 style={{ fontSize: 32, fontWeight: 900, marginBottom: 8 }}>Modern Missionaries & Their Stories</h1>
+          <h1 style={{ fontSize: 32, fontWeight: 900, marginBottom: 8 }}>Modern Missionaries &amp; Their Stories</h1>
           <p style={{ color: MUTED, fontSize: 16, maxWidth: 600, margin: "0 auto" }}>
             The men and women of the last 100 years who left comfort behind to bring the gospel to the ends of the earth. Their lives are evidence that the mission of God is still moving.
           </p>
@@ -147,79 +240,279 @@ export default function ModernMissionariesPage() {
         <div style={{ background: CARD, border: `1px solid ${GREEN}20`, borderRadius: 12, padding: 18, marginBottom: 24, display: "flex", gap: 12, alignItems: "flex-start" }}>
           <span style={{ fontSize: 24, flexShrink: 0 }}>📣</span>
           <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>
-            "Go therefore and make disciples of all nations" (Matthew 28:19) has been taken seriously by thousands of ordinary people in the last century. These are among the most significant — not the only ones, but the ones whose stories have inspired the most others to go.
+            &ldquo;Go therefore and make disciples of all nations&rdquo; (Matthew 28:19) has been taken seriously by thousands of ordinary people in the last century. These are among the most significant &mdash; not the only ones, but the ones whose stories have inspired the most others to go.
           </p>
         </div>
 
-        <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 28 }}>
-          {REGION_FILTERS.map(r => (
-            <button key={r} onClick={() => setRegion(r)}
-              style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${region === r ? GREEN : BORDER}`, background: region === r ? `${GREEN}15` : "transparent", color: region === r ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
-              {r}
+        <div style={{ display: "flex", gap: 6, marginBottom: 24, background: CARD, padding: 6, borderRadius: 10, border: `1px solid ${BORDER}` }}>
+          {([
+            { id: "missionaries" as const, label: "Missionaries", icon: "✝️" },
+            { id: "principles" as const, label: "Principles", icon: "🎯" },
+            { id: "fields" as const, label: "Fields", icon: "🌍" },
+            { id: "callyou" as const, label: "Called?", icon: "🙏" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
+          ]).map(t => (
+            <button key={t.id} onClick={() => setActiveTab(t.id)}
+              style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none",
+                background: activeTab === t.id ? PURPLE : "transparent",
+                color: activeTab === t.id ? "#fff" : MUTED,
+                fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+              {t.icon} {t.label}
             </button>
           ))}
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: missionary ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
-          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            {filtered.map((m, i) => (
-              <button key={i} onClick={() => setSelected(selected === m.name ? null : m.name)}
-                style={{ background: selected === m.name ? `${m.color}12` : CARD, border: `1px solid ${selected === m.name ? m.color + "50" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left", transition: "all 0.15s" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                  <div style={{ width: 44, height: 44, borderRadius: 10, background: `${m.color}20`, border: `1px solid ${m.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: m.color, fontWeight: 900, fontSize: 10, flexShrink: 0 }}>
-                    {m.initials}
-                  </div>
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-                      <span style={{ color: TEXT, fontWeight: 800, fontSize: 15 }}>{m.name}</span>
-                      <span style={{ background: `${m.color}15`, color: m.color, padding: "1px 8px", borderRadius: 8, fontSize: 10, fontWeight: 700 }}>{m.region}</span>
+        {activeTab === "missionaries" && (
+          <div>
+            <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 28 }}>
+              {REGION_FILTERS.map(r => (
+                <button key={r} onClick={() => setRegion(r)}
+                  style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${region === r ? GREEN : BORDER}`, background: region === r ? `${GREEN}15` : "transparent", color: region === r ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
+                  {r}
+                </button>
+              ))}
+            </div>
+
+            <div style={{ display: "grid", gridTemplateColumns: missionary ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                {filtered.map((m, i) => (
+                  <button key={i} onClick={() => setSelected(selected === m.name ? null : m.name)}
+                    style={{ background: selected === m.name ? `${m.color}12` : CARD, border: `1px solid ${selected === m.name ? m.color + "50" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left", transition: "all 0.15s" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                      <div style={{ width: 44, height: 44, borderRadius: 10, background: `${m.color}20`, border: `1px solid ${m.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: m.color, fontWeight: 900, fontSize: 10, flexShrink: 0 }}>
+                        {m.initials}
+                      </div>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                          <span style={{ color: TEXT, fontWeight: 800, fontSize: 15 }}>{m.name}</span>
+                          <span style={{ background: `${m.color}15`, color: m.color, padding: "1px 8px", borderRadius: 8, fontSize: 10, fontWeight: 700 }}>{m.region}</span>
+                        </div>
+                        <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{m.years} · {m.country}</div>
+                      </div>
                     </div>
-                    <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{m.years} · {m.country}</div>
+                  </button>
+                ))}
+              </div>
+
+              {missionary && (
+                <div style={{ background: CARD, border: `1px solid ${missionary.color}30`, borderRadius: 14, padding: 28, position: "sticky", top: 100 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 14 }}>
+                    <div style={{ width: 52, height: 52, borderRadius: 12, background: `${missionary.color}20`, border: `1px solid ${missionary.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: missionary.color, fontWeight: 900, fontSize: 11, flexShrink: 0 }}>
+                      {missionary.initials}
+                    </div>
+                    <div>
+                      <h2 style={{ color: missionary.color, fontWeight: 900, fontSize: 18, margin: "0 0 2px" }}>{missionary.name}</h2>
+                      <div style={{ color: MUTED, fontSize: 12 }}>{missionary.years} · {missionary.country}</div>
+                    </div>
+                  </div>
+
+                  <div style={{ background: `${missionary.color}08`, border: `1px solid ${missionary.color}15`, borderRadius: 8, padding: 10, marginBottom: 12 }}>
+                    <div style={{ color: missionary.color, fontWeight: 700, fontSize: 10, marginBottom: 3 }}>ROLE</div>
+                    <p style={{ color: TEXT, fontSize: 12, margin: 0 }}>{missionary.role}</p>
+                  </div>
+
+                  <div style={{ marginBottom: 12 }}>
+                    <div style={{ color: missionary.color, fontWeight: 700, fontSize: 10, marginBottom: 6 }}>THE STORY</div>
+                    <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0 }}>{missionary.story}</p>
+                  </div>
+
+                  <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 8, padding: 12, marginBottom: 12 }}>
+                    <div style={{ color: GREEN, fontWeight: 700, fontSize: 10, marginBottom: 6 }}>LEGACY &amp; IMPACT</div>
+                    <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{missionary.legacy}</p>
+                  </div>
+
+                  <div style={{ background: `${PURPLE}08`, border: `1px solid ${PURPLE}20`, borderRadius: 8, padding: 12, marginBottom: 12 }}>
+                    <div style={{ color: PURPLE, fontWeight: 700, fontSize: 10, marginBottom: 6 }}>FAMOUS QUOTE</div>
+                    <p style={{ color: TEXT, fontSize: 13, fontStyle: "italic", margin: 0, lineHeight: 1.6 }}>&ldquo;{missionary.famous_quote}&rdquo;</p>
+                  </div>
+
+                  <div style={{ background: "#3B82F608", border: "1px solid #3B82F615", borderRadius: 8, padding: 10 }}>
+                    <div style={{ color: "#3B82F6", fontWeight: 700, fontSize: 10, marginBottom: 3 }}>WHY IT MATTERS</div>
+                    <p style={{ color: TEXT, fontSize: 12, margin: 0 }}>{missionary.impact}</p>
                   </div>
                 </div>
-              </button>
+              )}
+            </div>
+          </div>
+        )}
+
+        {activeTab === "principles" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+            <p style={{ color: MUTED, lineHeight: 1.7 }}>Five principles distilled from the lives of modern missionaries.</p>
+            {PRINCIPLES_MM.map(p => (
+              <div key={p.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 }}>
+                  <h3 style={{ margin: 0 }}>{p.icon} {p.principle}</h3>
+                  <span style={{ background: `${GREEN}15`, color: GREEN, padding: "3px 10px", borderRadius: 8, fontSize: 11, fontWeight: 700 }}>From {p.missionary}</span>
+                </div>
+                <p style={{ color: TEXT, lineHeight: 1.8 }} dangerouslySetInnerHTML={{ __html: p.explanation }} />
+                <div style={{ background: `${PURPLE}10`, border: `1px solid ${PURPLE}20`, borderRadius: 8, padding: 14, marginTop: 12 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 11, marginBottom: 6 }}>APPLY</div>
+                  <p style={{ color: TEXT, margin: 0, fontSize: 14 }}>{p.application}</p>
+                </div>
+              </div>
             ))}
           </div>
+        )}
 
-          {missionary && (
-            <div style={{ background: CARD, border: `1px solid ${missionary.color}30`, borderRadius: 14, padding: 28, position: "sticky", top: 100 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 14 }}>
-                <div style={{ width: 52, height: 52, borderRadius: 12, background: `${missionary.color}20`, border: `1px solid ${missionary.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: missionary.color, fontWeight: 900, fontSize: 11, flexShrink: 0 }}>
-                  {missionary.initials}
+        {activeTab === "fields" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+            <p style={{ color: MUTED, lineHeight: 1.7 }}>The five major mission fields of the 21st century and how Christians are engaging them.</p>
+            {FIELDS_MM.map(f => (
+              <div key={f.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24 }}>
+                <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 12 }}>
+                  <span style={{ fontSize: 28 }}>{f.icon}</span>
+                  <div>
+                    <h3 style={{ margin: 0 }}>{f.region}</h3>
+                    <span style={{ color: MUTED, fontSize: 12 }} dangerouslySetInnerHTML={{ __html: f.unreached }} />
+                  </div>
                 </div>
-                <div>
-                  <h2 style={{ color: missionary.color, fontWeight: 900, fontSize: 18, margin: "0 0 2px" }}>{missionary.name}</h2>
-                  <div style={{ color: MUTED, fontSize: 12 }}>{missionary.years} · {missionary.country}</div>
+                <p style={{ color: TEXT, lineHeight: 1.8 }} dangerouslySetInnerHTML={{ __html: f.context }} />
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginTop: 12 }}>
+                  <div style={{ background: `${GREEN}10`, border: `1px solid ${GREEN}20`, borderRadius: 8, padding: 12 }}>
+                    <div style={{ color: GREEN, fontWeight: 700, fontSize: 11, marginBottom: 4 }}>OPPORTUNITY</div>
+                    <p style={{ color: TEXT, fontSize: 12, margin: 0 }}>{f.opportunity}</p>
+                  </div>
+                  <div style={{ background: `${PURPLE}10`, border: `1px solid ${PURPLE}20`, borderRadius: 8, padding: 12 }}>
+                    <div style={{ color: PURPLE, fontWeight: 700, fontSize: 11, marginBottom: 4 }}>KEY ORGS</div>
+                    <p style={{ color: TEXT, fontSize: 12, margin: 0 }}>{f.organizations}</p>
+                  </div>
                 </div>
               </div>
+            ))}
+          </div>
+        )}
 
-              <div style={{ background: `${missionary.color}08`, border: `1px solid ${missionary.color}15`, borderRadius: 8, padding: 10, marginBottom: 12 }}>
-                <div style={{ color: missionary.color, fontWeight: 700, fontSize: 10, marginBottom: 3 }}>ROLE</div>
-                <p style={{ color: TEXT, fontSize: 12, margin: 0 }}>{missionary.role}</p>
-              </div>
+        {activeTab === "callyou" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+            <p style={{ color: MUTED, lineHeight: 1.7 }}>Personal discernment questions for anyone asking whether God is calling them to missions.</p>
 
-              <div style={{ marginBottom: 12 }}>
-                <div style={{ color: missionary.color, fontWeight: 700, fontSize: 10, marginBottom: 6 }}>THE STORY</div>
-                <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0 }}>{missionary.story}</p>
-              </div>
-
-              <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 8, padding: 12, marginBottom: 12 }}>
-                <div style={{ color: GREEN, fontWeight: 700, fontSize: 10, marginBottom: 6 }}>LEGACY & IMPACT</div>
-                <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{missionary.legacy}</p>
-              </div>
-
-              <div style={{ background: `${PURPLE}08`, border: `1px solid ${PURPLE}20`, borderRadius: 8, padding: 12, marginBottom: 12 }}>
-                <div style={{ color: PURPLE, fontWeight: 700, fontSize: 10, marginBottom: 6 }}>FAMOUS QUOTE</div>
-                <p style={{ color: TEXT, fontSize: 13, fontStyle: "italic", margin: 0, lineHeight: 1.6 }}>"{missionary.famous_quote}"</p>
-              </div>
-
-              <div style={{ background: "#3B82F608", border: "1px solid #3B82F615", borderRadius: 8, padding: 10 }}>
-                <div style={{ color: "#3B82F6", fontWeight: 700, fontSize: 10, marginBottom: 3 }}>WHY IT MATTERS</div>
-                <p style={{ color: TEXT, fontSize: 12, margin: 0 }}>{missionary.impact}</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24 }}>
+              <h3 style={{ margin: "0 0 12px" }}>Are You Called?</h3>
+              <p style={{ color: TEXT, lineHeight: 1.8, margin: "0 0 14px" }}>
+                The Great Commission (Matthew 28:18&ndash;20) was not given to a special class of &ldquo;professional missionaries.&rdquo; It was given to the whole church. Every Christian is either a <strong style={{ color: GREEN }}>goer</strong>, a <strong style={{ color: PURPLE }}>sender</strong>, or a <strong style={{ color: TEXT }}>welcomer</strong> &mdash; someone who makes disciples of the nations who have come to them. The question is not whether you are called to the mission. The question is: <em>what is your role?</em>
+              </p>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10 }}>
+                <div style={{ background: `${GREEN}10`, border: `1px solid ${GREEN}20`, borderRadius: 8, padding: 12 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 11, marginBottom: 4 }}>GOER</div>
+                  <p style={{ color: TEXT, fontSize: 12, margin: 0 }}>Leave your culture and live among another people group to bring the gospel.</p>
+                </div>
+                <div style={{ background: `${PURPLE}10`, border: `1px solid ${PURPLE}20`, borderRadius: 8, padding: 12 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 11, marginBottom: 4 }}>SENDER</div>
+                  <p style={{ color: TEXT, fontSize: 12, margin: 0 }}>Support goers through prayer, finances, and encouragement. You share in the work.</p>
+                </div>
+                <div style={{ background: `${BORDER}80`, border: `1px solid ${BORDER}`, borderRadius: 8, padding: 12 }}>
+                  <div style={{ color: TEXT, fontWeight: 700, fontSize: 11, marginBottom: 4 }}>WELCOMER</div>
+                  <p style={{ color: TEXT, fontSize: 12, margin: 0 }}>The nations are already coming to your city. Make disciples of the ones God brings to you.</p>
+                </div>
               </div>
             </div>
-          )}
-        </div>
+
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24 }}>
+              <h3 style={{ margin: "0 0 12px" }}>Signs of a Missionary Call</h3>
+              <p style={{ color: TEXT, lineHeight: 1.8, margin: "0 0 14px" }}>
+                There is no single formula for recognizing a missionary call, but history and Scripture suggest four consistent indicators. These are not guarantees &mdash; they are questions worth sitting with honestly.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                {[
+                  { label: "A burden for a specific people or place", desc: "Not just general compassion, but a specific weight for a people, region, or need that won't leave you alone." },
+                  { label: "Willingness to sacrifice comfort", desc: "Not masochism, but a genuine freedom from the idol of ease. The missionary call costs something real." },
+                  { label: "Gifting for cross-cultural communication", desc: "An ability to learn, adapt, and communicate across cultural and linguistic distance. This can be developed, but it usually shows early." },
+                  { label: "Confirmation from community", desc: "The local church has always been the sending unit. If your community sees no gifts or call in you that you claim to have, pause and listen." },
+                ].map((item, i) => (
+                  <div key={i} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
+                    <div style={{ width: 28, height: 28, borderRadius: 8, background: `${GREEN}15`, border: `1px solid ${GREEN}30`, display: "flex", alignItems: "center", justifyContent: "center", color: GREEN, fontWeight: 900, fontSize: 13, flexShrink: 0 }}>
+                      {i + 1}
+                    </div>
+                    <div>
+                      <div style={{ color: TEXT, fontWeight: 700, fontSize: 14, marginBottom: 3 }}>{item.label}</div>
+                      <p style={{ color: MUTED, fontSize: 13, margin: 0, lineHeight: 1.6 }}>{item.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24 }}>
+              <h3 style={{ margin: "0 0 12px" }}>Not Everyone Goes Overseas</h3>
+              <p style={{ color: TEXT, lineHeight: 1.8, margin: "0 0 14px" }}>
+                Missions does not begin on the other side of an ocean. It begins at your doorstep. The unreached world has come to the West in the form of refugees, international students, immigrants, and diaspora communities. Your neighbor, your coworker, the international student eating alone in the dining hall &mdash; these are mission fields that require no passport.
+              </p>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10 }}>
+                {[
+                  { label: "Your Neighbor", color: GREEN, desc: "Do you know their name? Their country of origin? Their spiritual background?" },
+                  { label: "Your Coworker", color: PURPLE, desc: "Eight hours a day, five days a week. That is more time than most missionaries spend with the people they serve." },
+                  { label: "International Students", color: "#3B82F6", desc: "400,000+ international students are in the US alone, often lonely and spiritually open in ways they never were at home." },
+                ].map((item, i) => (
+                  <div key={i} style={{ background: `${item.color}10`, border: `1px solid ${item.color}20`, borderRadius: 8, padding: 12 }}>
+                    <div style={{ color: item.color, fontWeight: 700, fontSize: 11, marginBottom: 6 }}>{item.label}</div>
+                    <p style={{ color: TEXT, fontSize: 12, margin: 0, lineHeight: 1.6 }}>{item.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24 }}>
+              <h3 style={{ margin: "0 0 12px" }}>First Steps</h3>
+              <p style={{ color: TEXT, lineHeight: 1.8, margin: "0 0 14px" }}>
+                Discernment without action is delay. If you sense any movement toward missions &mdash; as a goer, sender, or welcomer &mdash; here are four concrete actions you can take this month.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                {[
+                  { step: "Pray for one unreached people group by name", detail: "Use the Joshua Project app or website. Pick a group. Learn their name. Pray for them every day for 30 days.", color: GREEN },
+                  { step: "Give to one missions organization", detail: "Even a small monthly gift to Wycliffe, Frontiers, HeartCry, or OMF makes you a sender &mdash; a partner in the work.", color: PURPLE },
+                  { step: "Take a short-term trip", detail: "Not as a tourist, but as a learner. Go to serve, to listen, and to discern whether God is calling you to go long-term.", color: "#F59E0B" },
+                  { step: "Contact a sending organization", detail: "YWAM, Pioneers, SIM, and dozens of others have assessment processes to help you discern and prepare. The conversation costs nothing.", color: "#3B82F6" },
+                ].map((item, i) => (
+                  <div key={i} style={{ display: "flex", gap: 12, alignItems: "flex-start", background: `${item.color}08`, border: `1px solid ${item.color}15`, borderRadius: 8, padding: 14 }}>
+                    <div style={{ width: 32, height: 32, borderRadius: 8, background: `${item.color}20`, border: `1px solid ${item.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: item.color, fontWeight: 900, fontSize: 14, flexShrink: 0 }}>
+                      {i + 1}
+                    </div>
+                    <div>
+                      <div style={{ color: item.color, fontWeight: 700, fontSize: 14, marginBottom: 4 }}>{item.step}</div>
+                      <p style={{ color: MUTED, fontSize: 13, margin: 0, lineHeight: 1.6 }}>{item.detail}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "WU7BC_TS-So", title: "Elisabeth Elliot — Jim Elliot Story", channel: "Christian Missions History", description: "The story of Jim and Elisabeth Elliot — their calling, their sacrifice, and the extraordinary aftermath in which Elisabeth returned to live among the people who killed her husband." },
+                  { videoId: "931r5rHafZE", title: "Jim Elliot: Missionary Martyr and a Life of Faith", channel: "Hall of Faith Stories", description: "A documentary-style account of Jim Elliot's life, convictions, and martyrdom — and why his story continues to call a new generation to mission." },
+                  { videoId: "gWrH5-HXL-I", title: "He Is No Fool: The Story of Jim Elliot", channel: "Christian Biography", description: "The full story of Jim Elliot — the young man who gave what he could not keep to gain what he could not lose, and the movement his death unleashed." },
+                  { videoId: "Mhpiioj7cPI", title: "EVERY Missionary Story #4: Jim Elliot", channel: "EVERY Sermon Series", description: "Jim Elliot's story placed within the broader sweep of missionary history — what made him remarkable and what his example demands of believers today." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
       </div>
     </div>
   );

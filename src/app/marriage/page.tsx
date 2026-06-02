@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -77,6 +77,14 @@ const PILLARS = [
   },
 ];
 
+const VOICES_MARRIAGE = [
+  { id: "thomas", name: "Gary Thomas", era: "b. 1961", context: "Sacred Marriage (2000); Sacred Pathways; Cherish (2017)", bio: "Thomas's central question in Sacred Marriage — 'What if God designed marriage to make us holy more than to make us happy?' — reframed Christian marriage for a generation. He argues that marriage is not primarily a vehicle for personal fulfillment but a crucible for sanctification: the very things that frustrate us about our spouses are the things God uses to form us. This is not a counsel of despair but of hope — it means every marriage season, including the hard ones, is spiritually meaningful. His later book Cherish shows the positive complement: when we cherish our spouse, we reflect God's own love.", quote: "What if God designed marriage to make us holy more than to make us happy?", contribution: "Shifted the evangelical conversation about marriage from fulfillment to formation. Sacred Marriage has sold over a million copies and permanently changed how countless couples understand the purpose and meaning of the covenant they're in." },
+  { id: "keller-m", name: "Tim & Kathy Keller", era: "1950-2023 / b. 1950", context: "The Meaning of Marriage (2011); decades of pastoral ministry at Redeemer Presbyterian", bio: "The Meaning of Marriage is one of the most theologically serious and practically useful marriage books written in the past 30 years. Keller grounds his account of marriage in the gospel — the covenant relationship between Christ and the church — and argues that true love is not a feeling you have before commitment but a practice you develop within it. The chapters on singleness, gender roles, and the role of sex in marriage are among the most balanced and biblically grounded treatments available. Kathy Keller contributes a chapter on gender and roles that is both complementarian and careful.", quote: "The gospel is this: We are more sinful and flawed in ourselves than we ever dared believe, yet at the same time we are more loved and accepted in Jesus Christ than we ever dared hope.", contribution: "Integrated the gospel narrative into the theology of marriage at a depth most marriage books do not attempt. The Meaning of Marriage gave evangelical couples a framework for understanding their marriage as a participation in something cosmic and redemptive." },
+  { id: "chapman", name: "Gary Chapman", era: "b. 1938", context: "The Five Love Languages (1992); 30+ years as a marriage counselor", bio: "Chapman's Five Love Languages — words of affirmation, acts of service, receiving gifts, quality time, and physical touch — has become the most widely used practical framework for marriage communication in American Christianity. The insight is simple but profound: people give and receive love in different primary ways, and most marital frustration comes from spouses speaking different languages. The book has sold over 20 million copies in 50 languages. Chapman's pastoral instinct is sound: know how your spouse receives love, and give it in that language even if it costs you.", quote: "People tend to criticize their spouse most loudly in the area where they themselves have the deepest emotional need.", contribution: "Gave ordinary married couples a practical vocabulary for diagnosing and addressing emotional disconnection. The Five Love Languages has arguably done more practical good in Christian marriages than any other book of the past 30 years." },
+  { id: "elliot", name: "Elisabeth Elliot", era: "1926-2015", context: "Let Me Be a Woman (1976); The Mark of a Man; widowed twice", bio: "Elliot's marriage theology is inseparable from her biography: her first husband Jim Elliot was killed by the Auca people in Ecuador; her second husband died of cancer; her third marriage lasted until her own death from dementia. She wrote Let Me Be a Woman as a wedding gift to her daughter — a series of meditations on biblical womanhood, sacrifice, and the nature of love. Her vision of marriage is one of cross-bearing, not self-fulfillment: 'The fact that I am a woman does not make me a different kind of Christian, but the fact that I am a Christian makes me a different kind of woman.'", quote: "The fact that I am a woman does not make me a different kind of Christian, but the fact that I am a Christian makes me a different kind of woman.", contribution: "Modeled the relationship between faith, suffering, and marriage in a life that carried more authority than any book. Her willingness to return to the people who killed her first husband — and to forgive publicly — gave her marriage theology a moral weight few writers can match." },
+  { id: "wangerin", name: "Walter Wangerin Jr.", era: "1944-2021", context: "As For Me and My House (1987); novelist and pastor", bio: "Wangerin's As For Me and My House is the most psychologically honest and narratively alive book about Christian marriage ever written — a memoir of his own marriage, its near-collapse, and its restoration. He traces the patterns of what he calls 'fighting to win' and 'fighting to reconcile' — and the slow discovery that he was a far more difficult spouse than he had thought. His training as a fiction writer gives his prose precision that most pastoral books lack. The book ends not with triumph but with hard-won peace: love as a practice learned slowly in the long middle of a real marriage.", quote: "Marriage is not the destination. It is the journey. And the journey is the point.", contribution: "Demonstrated that the most honest form of marriage writing is memoir — showing the actual interior of a real marriage — and that genuine restoration is possible for couples who thought it wasn't. As For Me and My House gave generations of struggling couples hope that was not cheap." },
+];
+
 const DEVOTIONAL_PROMPTS = [
   "What is one thing you appreciate about your spouse that you haven't said in a while?",
   "What was the best moment of your marriage this past month?",
@@ -89,7 +97,9 @@ const DEVOTIONAL_PROMPTS = [
 ];
 
 export default function MarriagePage() {
-  const [activeTab, setActiveTab] = useState<"pillars" | "devotional" | "checkup">("pillars");
+  const [activeTab, setActiveTab] = useState<"pillars" | "voices" | "devotional" | "checkup" | "videos">("pillars");
+  const [selectedVoice, setSelectedVoice] = useState("thomas");
+  const voiceItem = VOICES_MARRIAGE.find(v => v.id === selectedVoice)!;
   const [selectedPillar, setSelectedPillar] = useState("covenant");
   const [expandedPillar, setExpandedPillar] = useState<string | null>("covenant");
   const [checkupAnswers, setCheckupAnswers] = useState<Record<string, number>>(() => {
@@ -134,8 +144,10 @@ export default function MarriagePage() {
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
             { id: "pillars" as const, label: "Pillars", icon: "🏛️" },
+            { id: "voices" as const, label: "Voices", icon: "💬" },
             { id: "devotional" as const, label: "Couple Devotional", icon: "💑" },
             { id: "checkup" as const, label: "Marriage Check-Up", icon: "📊" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -171,6 +183,35 @@ export default function MarriagePage() {
                 <ul style={{ margin: 0, paddingLeft: 20 }}>
                   {pillar.practices.map((p, i) => <li key={i} style={{ color: TEXT, fontSize: 14, lineHeight: 1.65, marginBottom: 8 }}>{p}</li>)}
                 </ul>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "voices" && (
+          <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
+            <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
+              {VOICES_MARRIAGE.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ background: selectedVoice === v.id ? PURPLE : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: TEXT, fontWeight: 700, fontSize: 14 }}>{v.name}</div>
+                  <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{v.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 28 }}>
+                <h2 style={{ color: GREEN, fontWeight: 900, fontSize: 22, margin: "0 0 4px" }}>{voiceItem.name}</h2>
+                <div style={{ color: PURPLE, fontSize: 13, fontWeight: 700, marginBottom: 6 }}>{voiceItem.era}</div>
+                <div style={{ color: MUTED, fontSize: 13, marginBottom: 16 }}>{voiceItem.context}</div>
+                <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 15, marginBottom: 20 }}>{voiceItem.bio}</p>
+                <div style={{ background: BG, borderLeft: `3px solid ${GREEN}`, borderRadius: "0 8px 8px 0", padding: "14px 18px", marginBottom: 20 }}>
+                  <p style={{ color: GREEN, fontStyle: "italic", fontSize: 15, lineHeight: 1.7, margin: 0 }}>&ldquo;{voiceItem.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: `${PURPLE}15`, borderRadius: 10, padding: 16 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>Contribution to Marriage Theology</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, margin: 0 }}>{voiceItem.contribution}</p>
+                </div>
               </div>
             </div>
           </div>
@@ -244,6 +285,40 @@ export default function MarriagePage() {
                 </p>
               </div>
             )}
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings on Christian marriage, covenant love, and building a lasting partnership.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "Mi-wj8Jey9M", title: "Why Marriage Is a Sacred Covenant", channel: "Tim Keller", description: "Keller explains why marriage is a covenant and not merely a contract, and what it means to make and keep vows before God — even when it is costly." },
+                  { videoId: "XoxYPXqqO34", title: "The Meaning of Marriage Bible Study", channel: "Tim & Kathy Keller", description: "Tim and Kathy Keller lead through the core ideas in their book The Meaning of Marriage — how the gospel reshapes everything we thought we knew about love and commitment." },
+                  { videoId: "xICD5Ycsu04", title: "A Covenant Relationship", channel: "Tim Keller", description: "A teaching on what it means to understand marriage as a covenant relationship — modeled on God's covenant with his people — rather than a consumer arrangement." },
+                  { videoId: "OYrRoafD3OU", title: "Tim and Kathy Keller on Christian Marriage", channel: "Gospel Coalition", description: "Tim and Kathy Keller in conversation about the realities of long Christian marriage — sanctification, conflict, intimacy, and the grace that sustains a covenant across decades." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

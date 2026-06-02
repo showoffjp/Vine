@@ -7,7 +7,6 @@ const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3"
 
 type IceBreaker = { question: string; category: string; depth: "Light" | "Medium" | "Deep"; };
 type StudyGuide = { id: string; title: string; passage: string; weeks: number; theme: string; color: string; description: string; weekOutlines: { week: number; title: string; passage: string; bigQuestion: string; }[]; };
-type LeaderTip = { title: string; description: string; example: string; category: string; };
 
 const iceBreakers: IceBreaker[] = [
   { question: "What's one thing you're grateful for this week that you almost missed?", category: "Gratitude", depth: "Medium" },
@@ -82,52 +81,111 @@ const studyGuides: StudyGuide[] = [
   }
 ];
 
-const leaderTips: LeaderTip[] = [
+const depthColors = { "Light": "#10B981", "Medium": "#F59E0B", "Deep": "#EF4444" };
+
+// ── DATA ─────────────────────────────────────────────────────────────────────
+
+const VOICES_SG = [
   {
-    category: "Discussion",
-    title: "The power of silence",
-    description: "After asking a question, wait 7-10 seconds before moving on. It feels uncomfortable — but that discomfort produces depth. People need time to formulate honest answers.",
-    example: "Ask: 'What is God saying to you through this passage?' Then wait. The first answer is often the surface one. The third answer is often the real one."
+    id: "bonhoeffer",
+    name: "Dietrich Bonhoeffer",
+    era: "1906-1945",
+    context: "Life Together (1939) — written from the underground seminary at Finkenwalde",
+    bio: "Dietrich Bonhoeffer wrote Life Together in 1939, reflecting on the experiment in intentional Christian community he had led at the Finkenwalde seminary under the Nazi regime. The book is the most theologically serious short treatment of Christian community ever written — simultaneously practical and profound. Bonhoeffer had observed communities fracture under romantic idealism, members destroying fellowship by imposing their vision of what community should be rather than receiving the community God actually gives. His corrective is still radical: community is not a human achievement but a divine gift, and the person who demands more from community than God gives has turned community into an idol.",
+    quote: "Christian community is not an ideal we must realize but a reality we must receive as given by grace.",
+    contribution: "Life Together has shaped more small group leaders, campus ministry workers, and intentional community practitioners than any other single book. Its diagnosis of 'visionary dreaming' — the destruction of community by the imposition of ideals — remains the most penetrating analysis of why Christian communities fail.",
   },
   {
-    category: "Discussion",
-    title: "Redirect, don't lecture",
-    description: "When someone gives a theologically questionable answer, don't immediately correct them. Ask: 'What does the rest of the group think?' Let the community work it out.",
-    example: "If someone says 'God helped me because I prayed hard enough,' ask: 'What do others think about what God's response depends on?' Let others engage before you add your perspective."
+    id: "crabb",
+    name: "Larry Crabb",
+    era: "1944-2021",
+    context: "Connecting (1997) — on the soul-healing power of ordinary Christian relationship",
+    bio: "Larry Crabb spent decades as a Christian psychologist before concluding that the most powerful agent of soul transformation is not professional therapy but the ordinary quality of Christian relationships in community. His book Connecting argues that when Christians learn to move toward one another in genuine soul-care — releasing what he calls 'connecting energy' — the result is more therapeutic than any clinical intervention. Crabb challenged the church to stop outsourcing its healing ministry to professionals and recover the New Testament pattern of one-another ministry. His later work, including Soul Talk and The PAPA Prayer, deepened this vision of community as the arena of spiritual transformation.",
+    quote: "When two people connect at the level of the soul, something is released in both that nothing else can release. The church has been given the most powerful healing resource in the world and rarely uses it.",
+    contribution: "Crabb's Connecting redirected evangelical thinking about spiritual formation from individual disciplines to communal life. His insistence that ordinary Christians are equipped to provide what hurting people most need — real encounter with another human soul that mediates divine grace — gave small group leaders a framework for pastoral ministry that does not require professional credentials.",
   },
   {
-    category: "Pastoral",
-    title: "Follow up between gatherings",
-    description: "The most powerful pastoral moment is not at the group meeting — it's the text you send on Wednesday about what someone shared on Sunday.",
-    example: "Sarah shared something vulnerable. Monday morning: 'Hey, still thinking about what you shared. Praying for you today.' This is what makes a group a community."
+    id: "boren",
+    name: "Scott Boren",
+    era: "contemporary",
+    context: "Missional Small Groups (2010) — aligning small groups with the church's mission in the world",
+    bio: "Scott Boren has been one of the most persistent voices for reconfiguring small groups around missional purpose rather than member consumption. His Missional Small Groups argues that the dominant model of small groups in North American evangelicalism — groups organized primarily around relational need, Bible study, and emotional support — has produced inward-facing communities that grow spiritually while contracting socially. Boren draws on the missional theology of Lesslie Newbigin, Alan Hirsch, and others to propose a model of small groups organized around neighborhood presence, service, and disciple-making rather than primarily around the felt needs of existing members.",
+    quote: "A small group that exists only to serve its members is not a small group — it is a club. The question is not whether your group is comfortable but whether it is going anywhere.",
+    contribution: "Boren's work has been influential in the church-planting and missional church movements, where the inherited model of small groups as pastoral care units has been interrogated and reconstructed around the church's sending identity. His framework has helped church planters design groups that are simultaneously formational and missional from the start.",
   },
   {
-    category: "Prayer",
-    title: "Don't let prayer become monologue",
-    description: "When one person tends to pray long prayers, gently introduce a 'one-sentence prayer' format. It democratizes prayer and keeps energy in the room.",
-    example: "Introduce it positively: 'Tonight, let's pray in one sentence each — it forces us to be specific and leaves room for everyone to pray.'"
+    id: "donahue",
+    name: "Bill Donahue",
+    era: "contemporary",
+    context: "Leading Life-Changing Small Groups (Willow Creek, 1996; revised 2012)",
+    bio: "Bill Donahue served as Vice President of Small Group Ministries at Willow Creek Community Church and became one of the most widely read practitioners of small group ministry in North American evangelicalism. His Leading Life-Changing Small Groups provides a comprehensive framework for small group leadership that is both theologically grounded and practically detailed — covering everything from how to facilitate discussion to how to handle conflict, from how to handle the person who dominates to how to pray with your group in a way that is not performative. The book has been used in hundreds of church small group leader training programs.",
+    quote: "The goal of small group leadership is not to manage a meeting — it is to create conditions in which life change can occur. Those are very different things.",
+    contribution: "Donahue's work at Willow Creek helped establish the infrastructure for cell-based small group ministry in large evangelical churches across North America. His books and training materials have shaped the small group culture of thousands of congregations, giving leaders a practical toolkit for transformational community.",
   },
   {
-    category: "Dynamics",
-    title: "Manage the dominant voice",
-    description: "Every group has one. Address it early and privately — not in the meeting. 'I value your contributions. I want to draw out others who don't speak as readily. Can I count on you to hold back sometimes?'",
-    example: "In the meeting, use body language and direct invitation: 'Let's hear from someone who hasn't spoken yet tonight.'"
-  },
-  {
-    category: "Growth",
-    title: "Plan your multiplication from day one",
-    description: "If your group never plans to multiply, it eventually becomes an exclusive club. From the beginning, name the intention: 'In 12-18 months, we want to birth another group.'",
-    example: "Identify an emerging leader within the group early. Begin giving them responsibilities. The greatest gift you can give a group is another group."
+    id: "frazee",
+    name: "Randy Frazee",
+    era: "contemporary",
+    context: "The Connecting Church (2001) — recovering shared Christian life in neighborhood community",
+    bio: "Randy Frazee's The Connecting Church argues that the modern pattern of church life — in which members drive from scattered residential locations to a weekend event and then return to isolated suburban lives — has made genuine Christian community structurally impossible. His proposal is radical by evangelical standards: Christians should live in geographic proximity to one another, organize their small groups around neighborhoods rather than affinity, and recover the shared daily life that characterized the earliest Christian communities. Frazee draws on Acts 2 and the monastic tradition to argue that the church's problem is not a lack of programs but a lack of proximity.",
+    quote: "The early church did not have small groups — it was a small group. The question is not how to add community to church life but how to make church life genuinely communal again.",
+    contribution: "Frazee's work has influenced a generation of pastors and church planners who have questioned the commuter church model and sought to relocate themselves and their congregations in particular neighborhoods. His vision of the neighborhood church has been influential in both the missional church movement and in traditional evangelical congregations seeking to move from attractional to incarnational ministry.",
   },
 ];
 
-const depthColors = { "Light": "#10B981", "Medium": "#F59E0B", "Deep": "#EF4444" };
-const categoryColors: Record<string, string> = {
-  "Discussion": PURPLE, "Pastoral": "#EC4899", "Prayer": "#3B82F6", "Dynamics": "#F59E0B", "Growth": GREEN
-};
+const SG_VIDEOS = [
+  {
+    id: "sg-v1",
+    title: "The Supremacy of Christ",
+    preacher: "Voddie Baucham",
+    videoId: "by8ykv7-A3c",
+    description: "Baucham on what Christ-centered community looks like when his supremacy is taken seriously",
+  },
+  {
+    id: "sg-v2",
+    title: "Forgotten God Part 1",
+    preacher: "Francis Chan",
+    videoId: "sWMjg7CxIKk",
+    description: "Chan challenges small groups to stop doing church without the Holy Spirit",
+  },
+  {
+    id: "sg-v3",
+    title: "Holding Fast to the Gospel",
+    preacher: "Matt Chandler",
+    videoId: "QuxmiIFN8yE",
+    description: "What small groups must center on to avoid drifting into merely social gatherings",
+  },
+  {
+    id: "sg-v4",
+    title: "The Prodigal God: Elder Brother",
+    preacher: "Tim Keller",
+    videoId: "OasF7lWlX_M",
+    description: "Keller unpacks the self-righteous community member &mdash; the most common small group dynamic",
+  },
+  {
+    id: "sg-v5",
+    title: "How Great Is Our God",
+    preacher: "Louie Giglio",
+    videoId: "X1rPalyUshw",
+    description: "Giglio&rsquo;s cosmic vision of God gives small groups a sense of proportion and wonder",
+  },
+  {
+    id: "sg-v6",
+    title: "Radical: Passion 2011",
+    preacher: "David Platt",
+    videoId: "yhiHSf_L6_E",
+    description: "Platt challenges small groups to be communities on mission, not communities of comfort",
+  },
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+
+type Tab = "guides" | "icebreakers" | "voices" | "videos";
 
 export default function SmallGroupsPage() {
-  const [tab, setTab] = useState<"icebreakers" | "studies" | "leader" | "prayer">("icebreakers");
+  const [activeTab, setActiveTab] = useState<Tab>("guides");
+  const [selectedVoice, setSelectedVoice] = useState("bonhoeffer");
+  const voiceItem = VOICES_SG.find(v => v.id === selectedVoice)!;
   const [selectedGuide, setSelectedGuide] = useState<StudyGuide | null>(null);
   const [depthFilter, setDepthFilter] = useState<"All" | "Light" | "Medium" | "Deep">("All");
   const [expandedWeek, setExpandedWeek] = useState<number | null>(null);
@@ -137,11 +195,6 @@ export default function SmallGroupsPage() {
   const [savedGuides, setSavedGuides] = useState<Set<string>>(() => {
     try { const s = localStorage.getItem("vine_sg_saved_guides"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
   });
-  const [groupPrayer, setGroupPrayer] = useState(() => {
-    try { return localStorage.getItem("vine_sg_prayer") || ""; } catch { return ""; }
-  });
-  const [prayerSaved, setPrayerSaved] = useState(false);
-
   useEffect(() => {
     try { localStorage.setItem("vine_sg_used_icebreakers", JSON.stringify([...usedIceBreakers])); } catch {}
   }, [usedIceBreakers]);
@@ -155,12 +208,6 @@ export default function SmallGroupsPage() {
   const filteredBreakers = iceBreakers.filter(q => depthFilter === "All" || q.depth === depthFilter);
   const unusedCount = iceBreakers.filter((_, i) => !usedIceBreakers.has(i)).length;
 
-  const saveGroupPrayer = () => {
-    try { localStorage.setItem("vine_sg_prayer", groupPrayer); } catch {}
-    setPrayerSaved(true);
-    setTimeout(() => setPrayerSaved(false), 2000);
-  };
-
   return (
     <div style={{ minHeight: "100vh", background: BG, color: TEXT, fontFamily: "inherit" }}>
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "40px 16px 80px" }}>
@@ -168,7 +215,7 @@ export default function SmallGroupsPage() {
         {/* Header */}
         <div style={{ textAlign: "center", marginBottom: 40 }}>
           <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(0,255,136,0.1)", border: "1px solid rgba(0,255,136,0.25)", borderRadius: 20, padding: "6px 16px", marginBottom: 16 }}>
-            <span style={{ fontSize: 16 }}>👥</span>
+            <span style={{ fontSize: 16 }}>&#128101;</span>
             <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 2, color: GREEN, textTransform: "uppercase" }}>Small Groups</span>
           </div>
           <h1 style={{ fontSize: 40, fontWeight: 900, marginBottom: 16, lineHeight: 1.1 }}>
@@ -194,62 +241,17 @@ export default function SmallGroupsPage() {
           </div>
         </div>
 
-        {/* Tabs */}
-        <div style={{ display: "flex", gap: 8, marginBottom: 28, borderBottom: `1px solid ${BORDER}`, flexWrap: "wrap" }}>
-          {[
-            { id: "icebreakers", label: "🎯 Ice Breakers" },
-            { id: "studies", label: "📖 Study Guides" },
-            { id: "leader", label: "🎓 Leader Tips" },
-            { id: "prayer", label: "🙏 Group Prayer" },
-          ].map(t => (
-            <button key={t.id} onClick={() => setTab(t.id as typeof tab)}
-              style={{ padding: "10px 18px", borderRadius: "10px 10px 0 0", border: "none", cursor: "pointer", fontWeight: 700, fontSize: 13, background: tab === t.id ? CARD : "transparent", color: tab === t.id ? TEXT : MUTED, borderBottom: tab === t.id ? `2px solid ${GREEN}` : "2px solid transparent" }}>
-              {t.label}
+        {/* Tab Bar */}
+        <div style={{ display: "flex", gap: 4, marginBottom: 28, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 4 }}>
+          {(["guides", "icebreakers", "voices", "videos"] as const).map(t => (
+            <button key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer", flex: 1 }}>
+              {t === "guides" ? "Study Guides" : t === "icebreakers" ? "Ice Breakers" : t === "voices" ? "Voices" : "Videos"}
             </button>
           ))}
         </div>
 
-        {/* ICE BREAKERS */}
-        {tab === "icebreakers" && (
-          <div>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20, flexWrap: "wrap", gap: 10 }}>
-              <p style={{ color: MUTED, fontSize: 14, margin: 0 }}>Mark questions as used to track what you've asked. Filter by depth level.</p>
-              <div style={{ display: "flex", gap: 6 }}>
-                {(["All", "Light", "Medium", "Deep"] as const).map(d => (
-                  <button key={d} onClick={() => setDepthFilter(d)}
-                    style={{ padding: "5px 12px", borderRadius: 20, border: `1px solid ${depthFilter === d && d !== "All" ? (depthColors[d] || BORDER) : depthFilter === d ? GREEN : BORDER}`, background: depthFilter === d && d !== "All" ? `${depthColors[d] || "#3B82F6"}15` : depthFilter === d ? `${GREEN}15` : "transparent", color: depthFilter === d && d !== "All" ? depthColors[d] : depthFilter === d ? GREEN : MUTED, fontSize: 12, fontWeight: 600, cursor: "pointer" }}>
-                    {d}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-              {filteredBreakers.map((q, i) => {
-                const origIndex = iceBreakers.indexOf(q);
-                const used = usedIceBreakers.has(origIndex);
-                return (
-                  <div key={i} style={{ background: used ? "rgba(255,255,255,0.01)" : CARD, border: `1px solid ${used ? "rgba(255,255,255,0.04)" : BORDER}`, borderRadius: 14, padding: "16px 20px", display: "flex", gap: 14, alignItems: "flex-start", opacity: used ? 0.5 : 1 }}>
-                    <div style={{ flex: 1 }}>
-                      <div style={{ display: "flex", gap: 8, marginBottom: 8, flexWrap: "wrap" }}>
-                        <span style={{ fontSize: 11, padding: "2px 10px", borderRadius: 20, background: "rgba(255,255,255,0.05)", color: MUTED, fontWeight: 700 }}>{q.category}</span>
-                        <span style={{ fontSize: 11, padding: "2px 10px", borderRadius: 20, background: `${depthColors[q.depth]}15`, color: depthColors[q.depth], fontWeight: 700 }}>{q.depth}</span>
-                      </div>
-                      <p style={{ fontSize: 15, color: used ? MUTED : TEXT, margin: 0, lineHeight: 1.6, fontStyle: "italic" }}>"{q.question}"</p>
-                    </div>
-                    <button onClick={() => toggleUsed(origIndex)}
-                      style={{ width: 36, height: 36, borderRadius: 10, border: `1px solid ${used ? GREEN + "40" : BORDER}`, background: used ? "rgba(0,255,136,0.08)" : "rgba(255,255,255,0.03)", cursor: "pointer", fontSize: 14, color: used ? GREEN : MUTED, flexShrink: 0 }}>
-                      {used ? "✓" : "○"}
-                    </button>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
-
-        {/* STUDY GUIDES */}
-        {tab === "studies" && (
+        {/* ── GUIDES TAB ── */}
+        {activeTab === "guides" && (
           <div>
             <p style={{ color: MUTED, marginBottom: 24, fontSize: 15 }}>Multi-week studies with week-by-week outlines and discussion questions for each session.</p>
             <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
@@ -311,21 +313,108 @@ export default function SmallGroupsPage() {
           </div>
         )}
 
-        {/* LEADER TIPS */}
-        {tab === "leader" && (
+        {/* ── ICE BREAKERS TAB ── */}
+        {activeTab === "icebreakers" && (
           <div>
-            <p style={{ color: MUTED, marginBottom: 24, fontSize: 15 }}>Practical wisdom for small group leaders — on discussion dynamics, pastoral care, and group health.</p>
-            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-              {leaderTips.map((tip, i) => (
-                <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: "22px 24px" }}>
-                  <div style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 10 }}>
-                    <span style={{ fontSize: 11, fontWeight: 700, padding: "2px 10px", borderRadius: 20, background: `${categoryColors[tip.category] || PURPLE}15`, color: categoryColors[tip.category] || PURPLE }}>{tip.category}</span>
-                    <h3 style={{ fontSize: 16, fontWeight: 800, margin: 0 }}>{tip.title}</h3>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20, flexWrap: "wrap", gap: 10 }}>
+              <p style={{ color: MUTED, fontSize: 14, margin: 0 }}>Mark questions as used to track what you&rsquo;ve asked. Filter by depth level.</p>
+              <div style={{ display: "flex", gap: 6 }}>
+                {(["All", "Light", "Medium", "Deep"] as const).map(d => (
+                  <button key={d} onClick={() => setDepthFilter(d)}
+                    style={{ padding: "5px 12px", borderRadius: 20, border: `1px solid ${depthFilter === d && d !== "All" ? (depthColors[d] || BORDER) : depthFilter === d ? GREEN : BORDER}`, background: depthFilter === d && d !== "All" ? `${depthColors[d] || "#3B82F6"}15` : depthFilter === d ? `${GREEN}15` : "transparent", color: depthFilter === d && d !== "All" ? depthColors[d] : depthFilter === d ? GREEN : MUTED, fontSize: 12, fontWeight: 600, cursor: "pointer" }}>
+                    {d}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              {filteredBreakers.map((q, i) => {
+                const origIndex = iceBreakers.indexOf(q);
+                const used = usedIceBreakers.has(origIndex);
+                return (
+                  <div key={i} style={{ background: used ? "rgba(255,255,255,0.01)" : CARD, border: `1px solid ${used ? "rgba(255,255,255,0.04)" : BORDER}`, borderRadius: 14, padding: "16px 20px", display: "flex", gap: 14, alignItems: "flex-start", opacity: used ? 0.5 : 1 }}>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ display: "flex", gap: 8, marginBottom: 8, flexWrap: "wrap" }}>
+                        <span style={{ fontSize: 11, padding: "2px 10px", borderRadius: 20, background: "rgba(255,255,255,0.05)", color: MUTED, fontWeight: 700 }}>{q.category}</span>
+                        <span style={{ fontSize: 11, padding: "2px 10px", borderRadius: 20, background: `${depthColors[q.depth]}15`, color: depthColors[q.depth], fontWeight: 700 }}>{q.depth}</span>
+                      </div>
+                      <p style={{ fontSize: 15, color: used ? MUTED : TEXT, margin: 0, lineHeight: 1.6, fontStyle: "italic" }}>&ldquo;{q.question}&rdquo;</p>
+                    </div>
+                    <button onClick={() => toggleUsed(origIndex)}
+                      style={{ width: 36, height: 36, borderRadius: 10, border: `1px solid ${used ? GREEN + "40" : BORDER}`, background: used ? "rgba(0,255,136,0.08)" : "rgba(255,255,255,0.03)", cursor: "pointer", fontSize: 14, color: used ? GREEN : MUTED, flexShrink: 0 }}>
+                      {used ? "✓" : "○"}
+                    </button>
                   </div>
-                  <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.7, marginBottom: 14 }}>{tip.description}</p>
-                  <div style={{ background: "rgba(0,255,136,0.05)", border: "1px solid rgba(0,255,136,0.12)", borderRadius: 10, padding: "12px 16px" }}>
-                    <p style={{ fontSize: 12, fontWeight: 800, color: GREEN, textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 }}>Example</p>
-                    <p style={{ fontSize: 13, color: "#A0A0C0", lineHeight: 1.7, margin: 0, fontStyle: "italic" }}>{tip.example}</p>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* ── VOICES TAB ── */}
+        {activeTab === "voices" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 24 }}>
+              <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>
+                Five essential voices on small group community &mdash; from Bonhoeffer&rsquo;s theology of life together to contemporary practitioners who have shaped how evangelical churches organize shared Christian life.
+              </p>
+            </div>
+            <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
+              <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
+                {VOICES_SG.map(v => (
+                  <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                    style={{ background: selectedVoice === v.id ? PURPLE : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
+                    <div style={{ color: TEXT, fontWeight: 700, fontSize: 14 }}>{v.name}</div>
+                    <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{v.era}</div>
+                  </button>
+                ))}
+              </div>
+              <div style={{ flex: 1 }}>
+                <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 28 }}>
+                  <h2 style={{ color: GREEN, fontWeight: 900, fontSize: 22, margin: "0 0 4px" }}>{voiceItem.name}</h2>
+                  <div style={{ color: PURPLE, fontSize: 13, fontWeight: 700, marginBottom: 6 }}>{voiceItem.era}</div>
+                  <div style={{ color: MUTED, fontSize: 13, marginBottom: 16 }}>{voiceItem.context}</div>
+                  <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 15, marginBottom: 20 }}>{voiceItem.bio}</p>
+                  <div style={{ background: BG, borderLeft: `3px solid ${GREEN}`, borderRadius: "0 8px 8px 0", padding: "14px 18px", marginBottom: 20 }}>
+                    <p style={{ color: GREEN, fontStyle: "italic", fontSize: 15, lineHeight: 1.7, margin: 0 }}>&ldquo;{voiceItem.quote}&rdquo;</p>
+                  </div>
+                  <div style={{ background: "rgba(107,79,187,0.15)", borderRadius: 10, padding: 16 }}>
+                    <div style={{ color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>Legacy &amp; Contribution</div>
+                    <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, margin: 0 }}>{voiceItem.contribution}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ── VIDEOS TAB ── */}
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 28 }}>
+              <h2 style={{ fontSize: 20, fontWeight: 800, marginBottom: 8 }}>Preaching on Community</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>
+                Six messages on what makes Christian community genuine &mdash; centered on Christ, empowered by the Spirit, and oriented outward in mission rather than inward in comfort.
+              </p>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(380px, 1fr))", gap: 24 }}>
+              {SG_VIDEOS.map(v => (
+                <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, overflow: "hidden" }}>
+                  <iframe
+                    width="100%"
+                    style={{ aspectRatio: "16/9", border: "none", borderRadius: 0, display: "block" }}
+                    src={`https://www.youtube.com/embed/${v.videoId}`}
+                    title={v.title}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                  <div style={{ padding: "16px 18px" }}>
+                    <div style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 8 }}>
+                      <span style={{ fontSize: 11, fontWeight: 800, padding: "3px 10px", borderRadius: 20, background: `rgba(107,79,187,0.15)`, color: PURPLE, border: `1px solid rgba(107,79,187,0.3)` }}>{v.preacher}</span>
+                    </div>
+                    <h3 style={{ fontSize: 15, fontWeight: 800, marginBottom: 6, color: TEXT }}>{v.title}</h3>
+                    <p style={{ fontSize: 13, color: MUTED, lineHeight: 1.6, margin: 0 }} dangerouslySetInnerHTML={{ __html: v.description }} />
                   </div>
                 </div>
               ))}
@@ -333,50 +422,6 @@ export default function SmallGroupsPage() {
           </div>
         )}
 
-        {/* GROUP PRAYER */}
-        {tab === "prayer" && (
-          <div>
-            <p style={{ color: MUTED, marginBottom: 24, fontSize: 15 }}>
-              Record prayer requests for your group. Track them over time and celebrate answers.
-            </p>
-
-            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: "24px", marginBottom: 20 }}>
-              <h3 style={{ fontSize: 16, fontWeight: 800, marginBottom: 16 }}>Group Prayer Requests</h3>
-              <textarea value={groupPrayer} onChange={e => setGroupPrayer(e.target.value)}
-                placeholder="Record your group's prayer requests here..."
-                rows={8}
-                style={{ width: "100%", padding: "14px 16px", borderRadius: 12, border: `1px solid ${BORDER}`, background: "rgba(255,255,255,0.03)", color: TEXT, fontSize: 14, resize: "none", outline: "none", lineHeight: 1.7, marginBottom: 12, boxSizing: "border-box" }} />
-              <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                <button onClick={saveGroupPrayer}
-                  style={{ padding: "10px 22px", borderRadius: 10, border: "none", background: prayerSaved ? "rgba(0,255,136,0.15)" : `linear-gradient(135deg, ${PURPLE}, ${GREEN})`, color: prayerSaved ? GREEN : BG, cursor: "pointer", fontSize: 14, fontWeight: 800 }}>
-                  {prayerSaved ? "✓ Saved" : "Save Requests"}
-                </button>
-              </div>
-            </div>
-
-            {/* Prayer postures */}
-            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: "24px" }}>
-              <h3 style={{ fontSize: 16, fontWeight: 800, marginBottom: 14 }}>Ways to Pray Together</h3>
-              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                {[
-                  { icon: "🔄", name: "Popcorn Prayer", desc: "Short, spontaneous prayers, one after another. No long monologues. Anyone can pray at any moment." },
-                  { icon: "👥", name: "Triads", desc: "Break into groups of 3. Pray specifically for each person in your trio. Most intimate form of group prayer." },
-                  { icon: "🎵", name: "Worship as Prayer", desc: "Play one worship song and invite people to pray quietly or aloud in response. Music creates space." },
-                  { icon: "📝", name: "Written Prayer", desc: "Everyone writes their prayer in 3-4 sentences. Then read them aloud. For groups where spoken prayer feels intimidating." },
-                  { icon: "🕊️", name: "Contemplative Silence", desc: "5 minutes of guided silence. Leader offers a Scripture verse. Let the Spirit move. Underused in most groups." },
-                ].map(p => (
-                  <div key={p.name} style={{ display: "flex", gap: 12, padding: "14px 16px", background: "rgba(255,255,255,0.02)", borderRadius: 12, border: `1px solid ${BORDER}` }}>
-                    <span style={{ fontSize: 20, flexShrink: 0 }}>{p.icon}</span>
-                    <div>
-                      <p style={{ fontSize: 14, fontWeight: 800, margin: "0 0 4px" }}>{p.name}</p>
-                      <p style={{ fontSize: 13, color: MUTED, margin: 0, lineHeight: 1.6 }}>{p.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-type Tab = "theology" | "gifts" | "discover" | "cessation";
+type Tab = "theology" | "gifts" | "discover" | "cessation" | "videos";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -567,6 +567,7 @@ export default function SpiritualGiftsPage() {
     { id: "gifts", label: "The Gifts" },
     { id: "discover", label: "Discovering Your Gifts" },
     { id: "cessation", label: "The Cessationism Debate" },
+    { id: "videos", label: "🎬 Videos" },
   ];
 
   return (
@@ -697,6 +698,40 @@ export default function SpiritualGiftsPage() {
               <strong style={{ color: TEXT }}>Note on fairness:</strong> This section presents both cessationist and continuationist arguments as charitably as possible. The goal is informed, humble engagement — not a verdict. Christians in your congregation likely hold both views.
             </div>
             <Accordion items={cessationItems} />
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, debates, and teachings on spiritual gifts — including the historic cessationism vs. continuationism debate.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "u-cBlGvk0pQ", title: "Have the Spiritual Gifts Ceased? — John Piper vs. John MacArthur", channel: "Comparison / Debate", description: "A presentation of the continuation vs. cessation debate featuring arguments from both John Piper (continuationist) and John MacArthur (cessationist) — the two most prominent evangelical voices on opposite sides." },
+                  { videoId: "T3026rUjisI", title: "John MacArthur Explains Continuationist vs. Cessationist", channel: "Grace to You (John MacArthur)", description: "MacArthur directly explains the theological positions — what cessationism teaches, why he holds it, and his critique of continuationist practice in contemporary charismatic movements." },
+                  { videoId: "hRgaZNBYOjo", title: "The Debate Over Holy Spirit Gifts: Cessationism vs. Continuationism", channel: "Theological Comparison", description: "A balanced exploration of how the debate over spiritual gifts shapes how believers experience faith today — covering the key biblical texts on both sides." },
+                  { videoId: "OnJAqxnLv8M", title: "The Debate on Spiritual Gifts: John MacArthur vs. Dr. Michael Brown", channel: "Debate Series", description: "A direct debate between the two most prominent evangelical figures on opposite sides of the gifts debate — cessationist John MacArthur and continuationist Michael Brown." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

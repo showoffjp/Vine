@@ -4,6 +4,8 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
+type Tab = "podcasts" | "topics" | "howto" | "videos";
+
 const CATEGORY_FILTERS = ["All", "Theology & Doctrine", "Bible Exposition", "Apologetics", "Culture & Current Events", "Prayer & Devotional", "Missions & Global Church", "Family & Relationships"];
 
 const PODCASTS = [
@@ -165,7 +167,120 @@ const PODCASTS = [
   },
 ];
 
+const PODCAST_TOPICS = [
+  {
+    id: 1,
+    topic: "Theology & Doctrine",
+    icon: "🎓",
+    bestFor: "Go deep on what Christians believe and why",
+    podcasts: ["Theology in the Raw", "The Gospel Coalition Podcast", "Reformed Forum"],
+  },
+  {
+    id: 2,
+    topic: "Apologetics",
+    icon: "🛡️",
+    bestFor: "Learn to defend your faith",
+    podcasts: ["Unbelievable? (Premier)", "CrossExamined (Frank Turek)", "The Alisa Childers Podcast"],
+  },
+  {
+    id: 3,
+    topic: "Spiritual Formation",
+    icon: "🌱",
+    bestFor: "Grow in your walk with God",
+    podcasts: ["The Bible Project Podcast", "You and Me Both (Lisa Anderson)", "Pray As You Go"],
+  },
+  {
+    id: 4,
+    topic: "Marriage & Family",
+    icon: "❤️",
+    bestFor: "Strengthen your relationships",
+    podcasts: ["Focus on the Family Broadcast", "The Art of Relationships", "FamilyLife Today"],
+  },
+  {
+    id: 5,
+    topic: "Cultural Engagement",
+    icon: "🌍",
+    bestFor: "Think Christianly about culture",
+    podcasts: ["The Briefing (Mohler)", "BreakPoint", "The World and Everything In It (WORLD)"],
+  },
+  {
+    id: 6,
+    topic: "Missions & Global Church",
+    icon: "✈️",
+    bestFor: "Stay connected to the global body",
+    podcasts: ["Radical Podcast (Platt)", "Missions Podcast", "30 Days of Prayer"],
+  },
+];
+
+const PODCAST_GUIDE = [
+  {
+    id: 1,
+    title: "Build a Listening Rhythm",
+    icon: "⏰",
+    description: "Intentional consumption beats passive background noise. Set specific contexts for podcast listening so your mind is actually engaged with what you hear rather than treating teaching like ambient sound.",
+    tips: [
+      "Reserve morning drives for theological content when your mind is fresh",
+      "Use walks and outdoor time for longer-form teaching episodes",
+      "Save lighter devotional content for household chores and routine tasks",
+    ],
+  },
+  {
+    id: 2,
+    title: "Take Notes as You Listen",
+    icon: "📝",
+    description: "Treat podcast time as learning time, not entertainment time. The act of writing forces active engagement with ideas and creates a retrievable record of what you have learned.",
+    tips: [
+      "Keep a dedicated notebook or note app open while listening",
+      "Write down one key insight, one question, and one application per episode",
+      "Review your notes weekly to reinforce what you have heard",
+    ],
+  },
+  {
+    id: 3,
+    title: "Discuss What You Hear",
+    icon: "👥",
+    description: "Learning deepens through conversation. Sharing an insight with another person forces you to articulate it clearly, which reveals whether you actually understood it.",
+    tips: [
+      "Share one insight per week with a friend, spouse, or small group member",
+      "Ask others what they are currently listening to and why",
+      "Use podcast content as a prompt for family or discipleship conversations",
+    ],
+  },
+  {
+    id: 4,
+    title: "Evaluate Theologically",
+    icon: "⚖️",
+    description: "Not every popular podcast is theologically sound. Popularity is not a mark of orthodoxy. Compare what you hear with Scripture and with the teaching of your local church.",
+    tips: [
+      "Ask your pastor whether a podcast you enjoy is theologically reliable",
+      "Check whether the host holds to historic Christian orthodoxy on core doctrines",
+      "Note when a podcast consistently avoids difficult biblical texts or doctrines",
+    ],
+  },
+  {
+    id: 5,
+    title: "Avoid Substituting Podcasts for Church",
+    icon: "⛪",
+    description: "Podcasts can supplement but cannot replace the embodied community of a local church. Sacraments, accountability, physical presence, and shared suffering are irreplaceable — no podcast can deliver them.",
+    tips: [
+      "If a podcast feels more like church than your actual church, examine why",
+      "Use podcast content to deepen your engagement with your local congregation, not escape it",
+      "Remember that discipleship requires presence, not just information",
+    ],
+  },
+];
+
+const PODCAST_VIDEOS = [
+  { id: "Kxup3OS5ZhQ", title: "The Reason for God", preacher: "Tim Keller" },
+  { id: "by8ykv7-A3c", title: "Supremacy of Christ and Truth", preacher: "Voddie Baucham" },
+  { id: "v6xk8e7gdMA", title: "The Holiness of God", preacher: "R.C. Sproul" },
+  { id: "JHdB1dYAteA", title: "Don't Waste Your Life", preacher: "John Piper" },
+  { id: "yhiHSf_L6_E", title: "Radical — Passion 2011", preacher: "David Platt" },
+  { id: "X1rPalyUshw", title: "How Great Is Our God", preacher: "Louie Giglio" },
+];
+
 export default function ChristianPodcastsGuidePage() {
+  const [activeTab, setActiveTab] = useState<Tab>("podcasts");
   const [category, setCategory] = useState("All");
   const [selected, setSelected] = useState<string | null>(null);
 
@@ -190,64 +305,165 @@ export default function ChristianPodcastsGuidePage() {
           <div style={{ fontSize: 48, marginBottom: 12 }}>🎧</div>
           <h1 style={{ fontSize: 32, fontWeight: 900, marginBottom: 8 }}>The Essential Christian Podcasts</h1>
           <p style={{ color: MUTED, fontSize: 16, maxWidth: 640, margin: "0 auto" }}>
-            From Renewing Your Mind to Lectio 365 — the podcasts that provide the deepest, most consistent spiritual and theological nourishment available on-demand. Curated for substance, not popularity.
+            From Renewing Your Mind to Lectio 365 &mdash; the podcasts that provide the deepest, most consistent spiritual and theological nourishment available on-demand. Curated for substance, not popularity.
           </p>
         </div>
 
-        <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 28 }}>
-          {CATEGORY_FILTERS.map(c => (
-            <button key={c} onClick={() => setCategory(c)}
-              style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${category === c ? GREEN : BORDER}`, background: category === c ? `${GREEN}15` : "transparent", color: category === c ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
-              {c}
+        {/* Tab Bar */}
+        <div style={{ display: "flex", gap: 6, marginBottom: 28, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 6, width: "fit-content" }}>
+          {(["podcasts", "topics", "howto", "videos"] as const).map(t => (
+            <button key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+              {t === "podcasts" ? "Podcasts" : t === "topics" ? "By Topic" : t === "howto" ? "How to Listen" : "Videos"}
             </button>
           ))}
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: podcast ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
-          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            {filtered.map((p, i) => (
-              <button key={i} onClick={() => setSelected(selected === p.name ? null : p.name)}
-                style={{ background: selected === p.name ? `${p.color}12` : CARD, border: `1px solid ${selected === p.name ? p.color + "50" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                  <div style={{ width: 44, height: 44, borderRadius: 10, background: `${p.color}20`, border: `1px solid ${p.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: p.color, fontWeight: 900, fontSize: 9, flexShrink: 0 }}>
-                    {p.initials}
-                  </div>
-                  <div style={{ flex: 1 }}>
-                    <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
-                      <span style={{ color: TEXT, fontWeight: 800, fontSize: 15 }}>{p.name}</span>
-                      <span style={{ background: `${CAT_COLOR[p.category] || GREEN}15`, color: CAT_COLOR[p.category] || GREEN, padding: "1px 8px", borderRadius: 8, fontSize: 10, fontWeight: 700 }}>{p.category}</span>
+        {/* Podcasts Tab */}
+        {activeTab === "podcasts" && (
+          <>
+            <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 28 }}>
+              {CATEGORY_FILTERS.map(c => (
+                <button key={c} onClick={() => setCategory(c)}
+                  style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${category === c ? GREEN : BORDER}`, background: category === c ? `${GREEN}15` : "transparent", color: category === c ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
+                  {c}
+                </button>
+              ))}
+            </div>
+
+            <div style={{ display: "grid", gridTemplateColumns: podcast ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                {filtered.map((p, i) => (
+                  <button key={i} onClick={() => setSelected(selected === p.name ? null : p.name)}
+                    style={{ background: selected === p.name ? `${p.color}12` : CARD, border: `1px solid ${selected === p.name ? p.color + "50" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                      <div style={{ width: 44, height: 44, borderRadius: 10, background: `${p.color}20`, border: `1px solid ${p.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: p.color, fontWeight: 900, fontSize: 9, flexShrink: 0 }}>
+                        {p.initials}
+                      </div>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
+                          <span style={{ color: TEXT, fontWeight: 800, fontSize: 15 }}>{p.name}</span>
+                          <span style={{ background: `${CAT_COLOR[p.category] || GREEN}15`, color: CAT_COLOR[p.category] || GREEN, padding: "1px 8px", borderRadius: 8, fontSize: 10, fontWeight: 700 }}>{p.category}</span>
+                        </div>
+                        <div style={{ color: MUTED, fontSize: 12, marginTop: 3 }}>{p.host} &middot; {p.frequency} &middot; {p.length}</div>
+                      </div>
                     </div>
-                    <div style={{ color: MUTED, fontSize: 12, marginTop: 3 }}>{p.host} · {p.frequency} · {p.length}</div>
+                  </button>
+                ))}
+              </div>
+
+              {podcast && (
+                <div style={{ background: CARD, border: `1px solid ${podcast.color}30`, borderRadius: 14, padding: 28, position: "sticky", top: 100 }}>
+                  <h2 style={{ color: podcast.color, fontWeight: 900, fontSize: 18, margin: "0 0 2px" }}>{podcast.name}</h2>
+                  <div style={{ color: MUTED, fontSize: 13, marginBottom: 14 }}>{podcast.host} &middot; {podcast.frequency} &middot; {podcast.length}</div>
+
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, marginBottom: 14 }}>{podcast.description}</p>
+
+                  <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}15`, borderRadius: 8, padding: 12, marginBottom: 10 }}>
+                    <div style={{ color: GREEN, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>WHY LISTEN</div>
+                    <p style={{ color: TEXT, fontSize: 13, margin: 0, lineHeight: 1.65 }}>{podcast.why_listen}</p>
+                  </div>
+
+                  <div style={{ background: `${PURPLE}08`, border: `1px solid ${PURPLE}15`, borderRadius: 8, padding: 10, marginBottom: 10 }}>
+                    <div style={{ color: PURPLE, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>BEST EPISODES TO START WITH</div>
+                    <p style={{ color: TEXT, fontSize: 12, margin: 0, lineHeight: 1.6 }}>{podcast.best_episodes}</p>
+                  </div>
+
+                  <div style={{ background: `${podcast.color}08`, border: `1px solid ${podcast.color}20`, borderRadius: 8, padding: 10 }}>
+                    <div style={{ color: podcast.color, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>WHERE TO LISTEN</div>
+                    <p style={{ color: TEXT, fontSize: 12, margin: 0 }}>{podcast.listen_at}</p>
                   </div>
                 </div>
-              </button>
-            ))}
-          </div>
-
-          {podcast && (
-            <div style={{ background: CARD, border: `1px solid ${podcast.color}30`, borderRadius: 14, padding: 28, position: "sticky", top: 100 }}>
-              <h2 style={{ color: podcast.color, fontWeight: 900, fontSize: 18, margin: "0 0 2px" }}>{podcast.name}</h2>
-              <div style={{ color: MUTED, fontSize: 13, marginBottom: 14 }}>{podcast.host} · {podcast.frequency} · {podcast.length}</div>
-
-              <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, marginBottom: 14 }}>{podcast.description}</p>
-
-              <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}15`, borderRadius: 8, padding: 12, marginBottom: 10 }}>
-                <div style={{ color: GREEN, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>WHY LISTEN</div>
-                <p style={{ color: TEXT, fontSize: 13, margin: 0, lineHeight: 1.65 }}>{podcast.why_listen}</p>
-              </div>
-
-              <div style={{ background: `${PURPLE}08`, border: `1px solid ${PURPLE}15`, borderRadius: 8, padding: 10, marginBottom: 10 }}>
-                <div style={{ color: PURPLE, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>BEST EPISODES TO START WITH</div>
-                <p style={{ color: TEXT, fontSize: 12, margin: 0, lineHeight: 1.6 }}>{podcast.best_episodes}</p>
-              </div>
-
-              <div style={{ background: `${podcast.color}08`, border: `1px solid ${podcast.color}20`, borderRadius: 8, padding: 10 }}>
-                <div style={{ color: podcast.color, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>WHERE TO LISTEN</div>
-                <p style={{ color: TEXT, fontSize: 12, margin: 0 }}>{podcast.listen_at}</p>
-              </div>
+              )}
             </div>
-          )}
-        </div>
+          </>
+        )}
+
+        {/* Topics Tab */}
+        {activeTab === "topics" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 28, display: "flex", gap: 12, alignItems: "flex-start" }}>
+              <span style={{ fontSize: 24, flexShrink: 0 }}>🗺️</span>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>
+                Not sure where to start? Use this topic guide to find the right podcasts for what you need most right now &mdash; whether you&rsquo;re building doctrine, defending faith, or deepening prayer.
+              </p>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 16 }}>
+              {PODCAST_TOPICS.map(topic => (
+                <div key={topic.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 22 }}>
+                  <div style={{ fontSize: 32, marginBottom: 10 }}>{topic.icon}</div>
+                  <h3 style={{ color: TEXT, fontWeight: 800, fontSize: 16, margin: "0 0 6px" }}>{topic.topic}</h3>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6, marginBottom: 14 }}>{topic.bestFor}</p>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                    {topic.podcasts.map((name, pi) => (
+                      <div key={pi} style={{ background: `${PURPLE}10`, border: `1px solid ${PURPLE}20`, borderRadius: 8, padding: "6px 12px", color: TEXT, fontSize: 13, fontWeight: 600 }}>
+                        {name}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* How to Listen Tab */}
+        {activeTab === "howto" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 28, display: "flex", gap: 12, alignItems: "flex-start" }}>
+              <span style={{ fontSize: 24, flexShrink: 0 }}>📖</span>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>
+                Listening to podcasts is not the same as learning from them. These five practices will help you get maximum spiritual and intellectual value from the time you invest.
+              </p>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+              {PODCAST_GUIDE.map(item => (
+                <div key={item.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24 }}>
+                  <div style={{ display: "flex", alignItems: "flex-start", gap: 16, marginBottom: 12 }}>
+                    <div style={{ fontSize: 32, flexShrink: 0 }}>{item.icon}</div>
+                    <div>
+                      <h3 style={{ color: TEXT, fontWeight: 800, fontSize: 17, margin: "0 0 6px" }}>{item.title}</h3>
+                      <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>{item.description}</p>
+                    </div>
+                  </div>
+                  <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}15`, borderRadius: 8, padding: 14 }}>
+                    <div style={{ color: GREEN, fontWeight: 700, fontSize: 10, marginBottom: 8 }}>PRACTICAL TIPS</div>
+                    <ul style={{ margin: 0, paddingLeft: 18 }}>
+                      {item.tips.map((tip, ti) => (
+                        <li key={ti} style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, marginBottom: ti < item.tips.length - 1 ? 6 : 0 }}>{tip}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Videos Tab */}
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 28, display: "flex", gap: 12, alignItems: "flex-start" }}>
+              <span style={{ fontSize: 24, flexShrink: 0 }}>🎬</span>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>
+                Essential video teaching from some of the most important Christian voices of our generation &mdash; the same preachers behind the most influential Christian podcasts.
+              </p>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(420px, 1fr))", gap: 20 }}>
+              {PODCAST_VIDEOS.map(v => (
+                <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, overflow: "hidden" }}>
+                  <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", borderRadius: 0 }}
+                    src={`https://www.youtube.com/embed/${v.id}`} title={v.title}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+                  <div style={{ padding: "14px 18px" }}>
+                    <div style={{ color: TEXT, fontWeight: 700, fontSize: 14, marginBottom: 4 }}>{v.title}</div>
+                    <div style={{ color: GREEN, fontSize: 12, fontWeight: 600 }}>{v.preacher}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
       </div>
     </div>
   );

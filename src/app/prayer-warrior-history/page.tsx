@@ -10,7 +10,7 @@ const WARRIORS = [
   {
     name: "George Müller",
     era: "19th Century",
-    years: "1805–1898",
+    years: "1805-1898",
     nationality: "German / British",
     color: GREEN,
     known_for: "Faith-based orphanages; prayer as sole means of provision",
@@ -24,7 +24,7 @@ const WARRIORS = [
   {
     name: "Hudson Taylor",
     era: "19th Century",
-    years: "1832–1905",
+    years: "1832-1905",
     nationality: "British",
     color: "#F59E0B",
     known_for: "China Inland Mission; prayer for the interior of China",
@@ -38,7 +38,7 @@ const WARRIORS = [
   {
     name: "Rees Howells",
     era: "20th Century",
-    years: "1879–1950",
+    years: "1879-1950",
     nationality: "Welsh",
     color: PURPLE,
     known_for: "Intercession for World War II; the Bible College of Wales",
@@ -52,7 +52,7 @@ const WARRIORS = [
   {
     name: "Praying Hyde (John Hyde)",
     era: "19th Century",
-    years: "1865–1912",
+    years: "1865-1912",
     nationality: "American",
     color: "#3B82F6",
     known_for: "Missionary in India; hours-long prayer marathons",
@@ -66,7 +66,7 @@ const WARRIORS = [
   {
     name: "Amy Carmichael",
     era: "19th Century",
-    years: "1867–1951",
+    years: "1867-1951",
     nationality: "Irish",
     color: "#EC4899",
     known_for: "Dohnavur Fellowship; rescuing temple children in India",
@@ -80,7 +80,7 @@ const WARRIORS = [
   {
     name: "E.M. Bounds",
     era: "19th Century",
-    years: "1835–1913",
+    years: "1835-1913",
     nationality: "American",
     color: "#EF4444",
     known_for: "Classic books on prayer; pre-dawn prayer discipline",
@@ -94,7 +94,7 @@ const WARRIORS = [
   {
     name: "C.H. Spurgeon",
     era: "19th Century",
-    years: "1834–1892",
+    years: "1834-1892",
     nationality: "British",
     color: "#A855F7",
     known_for: "The Prince of Preachers; prayer meetings at Metropolitan Tabernacle",
@@ -108,7 +108,7 @@ const WARRIORS = [
   {
     name: "Brother Andrew",
     era: "20th Century",
-    years: "1928–2022",
+    years: "1928-2022",
     nationality: "Dutch",
     color: "#10B981",
     known_for: "Smuggling Bibles behind the Iron Curtain; Open Doors",
@@ -121,9 +121,107 @@ const WARRIORS = [
   },
 ];
 
+const PRINCIPLES_PWH: { id: string; principle: string; icon: string; warrior: string; explanation: string; practice: string }[] = [
+  {
+    id: "specific",
+    principle: "Specific Prayer",
+    icon: "🎯",
+    warrior: "George Müller",
+    explanation: "Müller kept detailed journals of specific requests and their answers, recording over 50,000 answered prayers in his lifetime. Vague prayers produce vague faith. When you name exactly what you are asking God for, you create a clear record of his faithfulness — and a powerful test of whether you truly believe he will act. Specificity forces honesty before God about what you actually want and expect.",
+    practice: "Write one specific, concrete prayer request each morning. Date it. Leave space to record when and how God answers.",
+  },
+  {
+    id: "persevering",
+    principle: "Persevering Prayer",
+    icon: "🔥",
+    warrior: "George Müller",
+    explanation: "Müller prayed for the conversion of five specific friends for 52 years. One was converted at his funeral. Perseverance in prayer is not about twisting God's arm — it is about aligning your will with his over time, staying in relationship with him around a burden, and refusing to let go of what you believe he has promised. The length of the wait is often the measure of the depth of the work.",
+    practice: "Keep a 'long-term list' of prayers you will not give up on — people, situations, and promises you believe God has laid on your heart. Review and pray through this list every week.",
+  },
+  {
+    id: "scripture-soaked",
+    principle: "Scripture-Soaked Prayer",
+    icon: "📖",
+    warrior: "Hudson Taylor",
+    explanation: "Taylor prayed biblical promises back to God, turning Scripture into the language of his intercession. Praying God's own Word back to him aligns your requests with his revealed will, builds faith as you recall his character and past faithfulness, and gives your prayers a precision that comes from divine authorship. The Bible is not just a resource for understanding God — it is fuel for talking to him.",
+    practice: "Take one Scripture promise per day and pray it back to God in your own words. Start with Matthew 7:7, Philippians 4:6-7, or Jeremiah 33:3.",
+  },
+  {
+    id: "corporate",
+    principle: "Corporate Intercession",
+    icon: "👥",
+    warrior: "Rees Howells",
+    explanation: "Howells gathered an entire community of intercessors at the Bible College of Wales, believing that corporate prayer carried a weight that individual prayer could not. When believers agree together in prayer, there is a multiplication of faith, accountability, and spiritual authority. Jesus promised special presence where two or three are gathered in his name. The great revivals in history have almost always been preceded by communities praying together.",
+    practice: "Find one person to commit to praying with weekly. Fix a time. Start with 20 minutes. Pray out loud together for specific people and situations.",
+  },
+  {
+    id: "sacrificial",
+    principle: "Sacrificial Prayer",
+    icon: "⚔️",
+    warrior: "Rees Howells",
+    explanation: "Howells taught that true intercession costs something — it requires identification with the one prayed for, entering into their suffering and bearing it before God. Prayer that costs nothing may accomplish nothing. Fasting is one ancient form of this: voluntarily embracing hunger to express the urgency of your dependence on God and your seriousness about what you are asking. The body's hunger becomes a physical prayer.",
+    practice: "Fast one meal per week, using that time to pray for a specific person or situation rather than eating. Begin with one meal; build from there.",
+  },
+  {
+    id: "bold-faith",
+    principle: "Bold Faith",
+    icon: "🚀",
+    warrior: "Brother Andrew",
+    explanation: "Andrew prayed specific, seemingly impossible prayers before every border crossing — and saw specific, impossible answers. Bold faith is not presumption; it is taking God at his word in situations where the odds are humanly impossible. It asks for what only God can do, which is the only kind of prayer that requires faith. Small, safe prayers do not stretch faith; bold prayers do.",
+    practice: "Add one 'impossible request' to your prayer list every month — something that would require clear divine intervention. Track what God does.",
+  },
+];
+
+const SCRIPTURE_PWH: { id: string; ref: string; text: string; warrior: string; how_used: string }[] = [
+  {
+    id: "matt77",
+    ref: "Matthew 7:7-8",
+    text: "Ask and it will be given to you; seek and you will find; knock and the door will be opened to you. For everyone who asks receives; the one who seeks finds; and to the one who knocks, the door will be opened.",
+    warrior: "George Müller",
+    how_used: "Müller quoted this verse when people asked how he could pray for provision without ever making public financial appeals. He took the promise literally: ask, and it will be given. His entire orphanage ministry was a 60-year demonstration of this verse.",
+  },
+  {
+    id: "phil46",
+    ref: "Philippians 4:6-7",
+    text: "Do not be anxious about anything, but in every situation, by prayer and petition, with thanksgiving, present your requests to God. And the peace of God, which transcends all understanding, will guard your hearts and your minds in Christ Jesus.",
+    warrior: "C.H. Spurgeon",
+    how_used: "Spurgeon preached on this passage repeatedly, connecting the promise of peace directly with the practice of specific prayer. He taught that anxiety is what happens when we carry burdens we were meant to give to God, and that the cure is not willpower but prayer.",
+  },
+  {
+    id: "rom826",
+    ref: "Romans 8:26-27",
+    text: "The Spirit helps us in our weakness. We do not know what we ought to pray for, but the Spirit himself intercedes for us through wordless groans. And he who searches our hearts knows the mind of the Spirit, because the Spirit intercedes for God's people in accordance with the will of God.",
+    warrior: "Rees Howells",
+    how_used: "Howells taught this as the foundation of Holy Spirit-led intercession. He believed that the deepest intercession was not self-generated but Spirit-initiated — God himself placing burdens on the intercessor that the intercessor could not manufacture. His entire theology of intercession was built on this passage.",
+  },
+  {
+    id: "jas516",
+    ref: "James 5:16",
+    text: "Therefore confess your sins to each other and pray for each other so that you may be healed. The prayer of a righteous person is powerful and effective.",
+    warrior: "Hudson Taylor",
+    how_used: "Taylor cited this verse when he needed workers and resources for the China Inland Mission. He believed that prayer offered in righteousness — in right relationship with God — carried real spiritual power. He called his missionaries to live holy lives precisely so their prayers would be effective.",
+  },
+  {
+    id: "1jn514",
+    ref: "1 John 5:14-15",
+    text: "This is the confidence we have in approaching God: that if we ask anything according to his will, he hears us. And if we know that he hears us — whatever we ask — we know that we have what we asked of him.",
+    warrior: "Brother Andrew",
+    how_used: "Andrew prayed 'according to his will' before every border crossing, trusting that God knew what needed to get through and what did not. He did not demand specific outcomes; he asked God to do what aligned with his purposes — and then watched, repeatedly, as Bibles crossed borders that should have stopped them.",
+  },
+  {
+    id: "jer333",
+    ref: "Jeremiah 33:3",
+    text: "Call to me and I will answer you and tell you great and unsearchable things you do not know.",
+    warrior: "All the warriors",
+    how_used: "Known informally as 'God's telephone number' (333) among generations of prayer warriors, this verse was a touchstone for Müller, Taylor, Hyde, and the others. It is a direct divine invitation to ask — with a promise of answers that exceed human expectation. Many of these intercessors returned to it again and again as their warrant for bold prayer.",
+  },
+];
+
 export default function PrayerWarriorHistoryPage() {
   const [era, setEra] = useState("All");
   const [selected, setSelected] = useState<string | null>(null);
+  type Tab = "warriors" | "principles" | "scripture" | "practices" | "videos";
+  const [activeTab, setActiveTab] = useState<Tab>("warriors");
 
   const filtered = WARRIORS.filter(w => era === "All" || w.era === era);
   const warrior = WARRIORS.find(w => w.name === selected);
@@ -135,90 +233,233 @@ export default function PrayerWarriorHistoryPage() {
           <div style={{ fontSize: 48, marginBottom: 12 }}>🙏</div>
           <h1 style={{ fontSize: 32, fontWeight: 900, marginBottom: 8 }}>Great Prayer Warriors of History</h1>
           <p style={{ color: MUTED, fontSize: 16, maxWidth: 600, margin: "0 auto" }}>
-            The men and women who took prayer seriously enough to let it reshape their lives — and through whom God moved nations, opened closed countries, and fed thousands of orphans.
+            The men and women who took prayer seriously enough to let it reshape their lives &mdash; and through whom God moved nations, opened closed countries, and fed thousands of orphans.
           </p>
         </div>
 
-        <div style={{ background: CARD, border: `1px solid ${GREEN}20`, borderRadius: 12, padding: 18, marginBottom: 24, display: "flex", gap: 12, alignItems: "flex-start" }}>
-          <span style={{ fontSize: 24, flexShrink: 0 }}>📖</span>
-          <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>
-            "The history of the church is the history of answered prayer. These men and women did not have extraordinary gifts — they had extraordinary faith that God would do what he promised." Reading the biographies of the great intercessors is one of the most faith-building exercises available to Christians.
-          </p>
-        </div>
-
-        <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 28 }}>
-          {ERA_FILTERS.map(e => (
-            <button key={e} onClick={() => setEra(e)}
-              style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${era === e ? GREEN : BORDER}`, background: era === e ? `${GREEN}15` : "transparent", color: era === e ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
-              {e}
+        <div style={{ display: "flex", gap: 6, marginBottom: 24, background: CARD, padding: 6, borderRadius: 10, border: `1px solid ${BORDER}` }}>
+          {([
+            { id: "warriors" as const, label: "Warriors", icon: "🙏" },
+            { id: "principles" as const, label: "Principles", icon: "🎯" },
+            { id: "scripture" as const, label: "Scripture", icon: "📖" },
+            { id: "practices" as const, label: "Practices", icon: "✍️" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
+          ]).map(t => (
+            <button key={t.id} onClick={() => setActiveTab(t.id)}
+              style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none",
+                background: activeTab === t.id ? PURPLE : "transparent",
+                color: activeTab === t.id ? "#fff" : MUTED,
+                fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+              {t.icon} {t.label}
             </button>
           ))}
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: warrior ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
-          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            {filtered.map((w, i) => (
-              <button key={i} onClick={() => setSelected(selected === w.name ? null : w.name)}
-                style={{ background: selected === w.name ? `${w.color}12` : CARD, border: `1px solid ${selected === w.name ? w.color + "50" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left", transition: "all 0.15s" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                  <div style={{ width: 44, height: 44, borderRadius: 10, background: `${w.color}20`, border: `1px solid ${w.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: w.color, fontWeight: 900, fontSize: 10, flexShrink: 0 }}>
-                    {w.initials}
-                  </div>
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-                      <span style={{ color: TEXT, fontWeight: 800, fontSize: 15 }}>{w.name}</span>
-                      <span style={{ background: `${w.color}15`, color: w.color, padding: "1px 8px", borderRadius: 8, fontSize: 10, fontWeight: 700 }}>{w.era}</span>
+        {activeTab === "warriors" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${GREEN}20`, borderRadius: 12, padding: 18, marginBottom: 24, display: "flex", gap: 12, alignItems: "flex-start" }}>
+              <span style={{ fontSize: 24, flexShrink: 0 }}>📖</span>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>
+                &ldquo;The history of the church is the history of answered prayer. These men and women did not have extraordinary gifts &mdash; they had extraordinary faith that God would do what he promised.&rdquo; Reading the biographies of the great intercessors is one of the most faith-building exercises available to Christians.
+              </p>
+            </div>
+
+            <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 28 }}>
+              {ERA_FILTERS.map(e => (
+                <button key={e} onClick={() => setEra(e)}
+                  style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${era === e ? GREEN : BORDER}`, background: era === e ? `${GREEN}15` : "transparent", color: era === e ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
+                  {e}
+                </button>
+              ))}
+            </div>
+
+            <div style={{ display: "grid", gridTemplateColumns: warrior ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                {filtered.map((w, i) => (
+                  <button key={i} onClick={() => setSelected(selected === w.name ? null : w.name)}
+                    style={{ background: selected === w.name ? `${w.color}12` : CARD, border: `1px solid ${selected === w.name ? w.color + "50" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left", transition: "all 0.15s" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                      <div style={{ width: 44, height: 44, borderRadius: 10, background: `${w.color}20`, border: `1px solid ${w.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: w.color, fontWeight: 900, fontSize: 10, flexShrink: 0 }}>
+                        {w.initials}
+                      </div>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                          <span style={{ color: TEXT, fontWeight: 800, fontSize: 15 }}>{w.name}</span>
+                          <span style={{ background: `${w.color}15`, color: w.color, padding: "1px 8px", borderRadius: 8, fontSize: 10, fontWeight: 700 }}>{w.era}</span>
+                        </div>
+                        <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{w.years} · {w.nationality} · {w.known_for.split(";")[0]}</div>
+                      </div>
                     </div>
-                    <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{w.years} · {w.nationality} · {w.known_for.split(";")[0]}</div>
+                  </button>
+                ))}
+              </div>
+
+              {warrior && (
+                <div style={{ background: CARD, border: `1px solid ${warrior.color}30`, borderRadius: 14, padding: 28, position: "sticky", top: 100 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 14 }}>
+                    <div style={{ width: 52, height: 52, borderRadius: 12, background: `${warrior.color}20`, border: `1px solid ${warrior.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: warrior.color, fontWeight: 900, fontSize: 11, flexShrink: 0 }}>
+                      {warrior.initials}
+                    </div>
+                    <div>
+                      <h2 style={{ color: warrior.color, fontWeight: 900, fontSize: 18, margin: "0 0 2px" }}>{warrior.name}</h2>
+                      <div style={{ color: MUTED, fontSize: 12 }}>{warrior.years} · {warrior.nationality}</div>
+                    </div>
+                  </div>
+
+                  <div style={{ background: `${warrior.color}08`, border: `1px solid ${warrior.color}15`, borderRadius: 8, padding: 10, marginBottom: 12 }}>
+                    <div style={{ color: warrior.color, fontWeight: 700, fontSize: 10, marginBottom: 3 }}>KNOWN FOR</div>
+                    <p style={{ color: TEXT, fontSize: 12, margin: 0 }}>{warrior.known_for}</p>
+                  </div>
+
+                  <div style={{ marginBottom: 12 }}>
+                    <div style={{ color: warrior.color, fontWeight: 700, fontSize: 10, marginBottom: 6 }}>BACKGROUND</div>
+                    <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0 }}>{warrior.background}</p>
+                  </div>
+
+                  <div style={{ background: `${PURPLE}08`, border: `1px solid ${PURPLE}20`, borderRadius: 8, padding: 12, marginBottom: 12 }}>
+                    <div style={{ color: PURPLE, fontWeight: 700, fontSize: 10, marginBottom: 6 }}>PRAYER LIFE</div>
+                    <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0 }}>{warrior.prayer_life}</p>
+                  </div>
+
+                  <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 8, padding: 12, marginBottom: 12 }}>
+                    <div style={{ color: GREEN, fontWeight: 700, fontSize: 10, marginBottom: 6 }}>FAMOUS STORY</div>
+                    <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{warrior.famous_story}</p>
+                  </div>
+
+                  <div style={{ background: `${warrior.color}08`, border: `1px solid ${warrior.color}20`, borderRadius: 8, padding: 12, marginBottom: 12 }}>
+                    <div style={{ color: warrior.color, fontWeight: 700, fontSize: 10, marginBottom: 6 }}>QUOTE</div>
+                    <p style={{ color: TEXT, fontSize: 13, fontStyle: "italic", margin: 0, lineHeight: 1.6 }}>&ldquo;{warrior.quote}&rdquo;</p>
+                  </div>
+
+                  <div style={{ color: MUTED, fontSize: 12 }}>
+                    📚 <span style={{ fontWeight: 600 }}>Read more:</span> {warrior.read_more}
                   </div>
                 </div>
-              </button>
+              )}
+            </div>
+          </div>
+        )}
+
+        {activeTab === "principles" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+            <p style={{ color: MUTED, fontSize: 15, lineHeight: 1.7 }}>Six principles distilled from the lives of history&rsquo;s greatest prayer warriors.</p>
+            {PRINCIPLES_PWH.map(p => (
+              <div key={p.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 }}>
+                  <h3 style={{ margin: 0 }}>{p.icon} {p.principle}</h3>
+                  <span style={{ background: `${GREEN}15`, color: GREEN, padding: "3px 10px", borderRadius: 8, fontSize: 11, fontWeight: 700 }}>Learned from {p.warrior}</span>
+                </div>
+                <p style={{ color: TEXT, lineHeight: 1.8 }}>{p.explanation}</p>
+                <div style={{ background: `${PURPLE}10`, border: `1px solid ${PURPLE}20`, borderRadius: 8, padding: 14, marginTop: 12 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 11, marginBottom: 6 }}>PRACTICE TODAY</div>
+                  <p style={{ color: TEXT, margin: 0, fontSize: 14 }}>{p.practice}</p>
+                </div>
+              </div>
             ))}
           </div>
+        )}
 
-          {warrior && (
-            <div style={{ background: CARD, border: `1px solid ${warrior.color}30`, borderRadius: 14, padding: 28, position: "sticky", top: 100 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 14 }}>
-                <div style={{ width: 52, height: 52, borderRadius: 12, background: `${warrior.color}20`, border: `1px solid ${warrior.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: warrior.color, fontWeight: 900, fontSize: 11, flexShrink: 0 }}>
-                  {warrior.initials}
+        {activeTab === "scripture" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+            <p style={{ color: MUTED, fontSize: 15, lineHeight: 1.7 }}>The verses that fueled the prayer lives of history&rsquo;s greatest intercessors.</p>
+            {SCRIPTURE_PWH.map(s => (
+              <div key={s.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24 }}>
+                <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 14 }}>
+                  <span style={{ color: GREEN, fontWeight: 800, fontSize: 15 }}>{s.ref}</span>
+                  <span style={{ color: MUTED, fontSize: 12 }}>&mdash; {s.warrior}</span>
                 </div>
-                <div>
-                  <h2 style={{ color: warrior.color, fontWeight: 900, fontSize: 18, margin: "0 0 2px" }}>{warrior.name}</h2>
-                  <div style={{ color: MUTED, fontSize: 12 }}>{warrior.years} · {warrior.nationality}</div>
+                <blockquote style={{ borderLeft: `3px solid ${GREEN}`, paddingLeft: 16, fontStyle: "italic", color: TEXT, margin: "0 0 14px" }}>
+                  &ldquo;{s.text}&rdquo;
+                </blockquote>
+                <div style={{ background: `${PURPLE}10`, border: `1px solid ${PURPLE}20`, borderRadius: 8, padding: 12 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 11, marginBottom: 4 }}>HOW THEY USED IT</div>
+                  <p style={{ color: TEXT, fontSize: 13, margin: 0 }}>{s.how_used}</p>
                 </div>
               </div>
+            ))}
+          </div>
+        )}
 
-              <div style={{ background: `${warrior.color}08`, border: `1px solid ${warrior.color}15`, borderRadius: 8, padding: 10, marginBottom: 12 }}>
-                <div style={{ color: warrior.color, fontWeight: 700, fontSize: 10, marginBottom: 3 }}>KNOWN FOR</div>
-                <p style={{ color: TEXT, fontSize: 12, margin: 0 }}>{warrior.known_for}</p>
+        {activeTab === "practices" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+            <p style={{ color: MUTED, fontSize: 15, lineHeight: 1.7 }}>Five habits drawn from the lives of the great prayer warriors &mdash; simple enough to start today.</p>
+            {[
+              {
+                icon: "📓",
+                title: "Daily Prayer Journal",
+                description: "Each morning, write three specific prayer requests and one thanksgiving before you do anything else. Dating each entry creates a record of God's faithfulness over time — and forces the specificity that Müller practiced for 60 years.",
+                time: "5 min / day",
+              },
+              {
+                icon: "📋",
+                title: "Long-Term Intercession List",
+                description: "Keep a separate list of five to ten &ldquo;impossible&rdquo; prayers you will not give up on &mdash; people who need to come to faith, situations that seem intractable, promises you believe God has given you. Review this list weekly and pray through it. Müller prayed 52 years for one name on his list.",
+                time: "Weekly review",
+              },
+              {
+                icon: "📖",
+                title: "Scripture-Prayer",
+                description: "Choose one Bible verse or promise per day. Read it slowly. Then pray it back to God in your own words, letting the text shape what you ask and how you ask it. Hudson Taylor built his entire prayer life on praying biblical promises back to the God who made them.",
+                time: "10 min / day",
+              },
+              {
+                icon: "👥",
+                title: "Corporate Prayer",
+                description: "Commit to one fixed weekly prayer time with at least one other person. It does not need to be long &mdash; 20 to 30 minutes is enough to start. Rees Howells believed that corporate intercession carried a spiritual weight that solitary prayer could not. Jesus promised special presence where two or three gather in his name.",
+                time: "30 min / week",
+              },
+              {
+                icon: "🚶",
+                title: "Prayer Walk",
+                description: "Once a month, walk a neighborhood, campus, or workplace in prayer. Pray out loud quietly or silently for the people you pass, the buildings you see, and the spiritual climate of the place. This practice connects intercession to geography and makes your prayers concrete and local.",
+                time: "30 min / month",
+              },
+            ].map((habit, i) => (
+              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 }}>
+                  <h3 style={{ margin: 0, fontSize: 17 }}>{habit.icon} {habit.title}</h3>
+                  <span style={{ background: `${GREEN}15`, color: GREEN, padding: "3px 10px", borderRadius: 8, fontSize: 11, fontWeight: 700, whiteSpace: "nowrap", marginLeft: 12 }}>{habit.time}</span>
+                </div>
+                <p style={{ color: TEXT, lineHeight: 1.8, margin: 0 }}>{habit.description}</p>
               </div>
+            ))}
+          </div>
+        )}
 
-              <div style={{ marginBottom: 12 }}>
-                <div style={{ color: warrior.color, fontWeight: 700, fontSize: 10, marginBottom: 6 }}>BACKGROUND</div>
-                <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0 }}>{warrior.background}</p>
-              </div>
-
-              <div style={{ background: `${PURPLE}08`, border: `1px solid ${PURPLE}20`, borderRadius: 8, padding: 12, marginBottom: 12 }}>
-                <div style={{ color: PURPLE, fontWeight: 700, fontSize: 10, marginBottom: 6 }}>PRAYER LIFE</div>
-                <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0 }}>{warrior.prayer_life}</p>
-              </div>
-
-              <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 8, padding: 12, marginBottom: 12 }}>
-                <div style={{ color: GREEN, fontWeight: 700, fontSize: 10, marginBottom: 6 }}>FAMOUS STORY</div>
-                <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{warrior.famous_story}</p>
-              </div>
-
-              <div style={{ background: `${warrior.color}08`, border: `1px solid ${warrior.color}20`, borderRadius: 8, padding: 12, marginBottom: 12 }}>
-                <div style={{ color: warrior.color, fontWeight: 700, fontSize: 10, marginBottom: 6 }}>QUOTE</div>
-                <p style={{ color: TEXT, fontSize: 13, fontStyle: "italic", margin: 0, lineHeight: 1.6 }}>"{warrior.quote}"</p>
-              </div>
-
-              <div style={{ color: MUTED, fontSize: 12 }}>
-                📚 <span style={{ fontWeight: 600 }}>Read more:</span> {warrior.read_more}
-              </div>
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 24 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                Video teachings on prayer, intercession, and following in the footsteps of history's great prayer warriors.
+              </p>
             </div>
-          )}
-        </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 20 }}>
+              {[
+                { id: "LnaxpQa1Xyk", title: "Prayer Causes Things to Happen", teacher: "John Piper" },
+                { id: "_Kq3k1JZjBE", title: "Prayer, Fasting and the Course of History", teacher: "John Piper" },
+                { id: "hcZgXh-u7i8", title: "How To Be an Intercessory Prayer Warrior", teacher: "Prayer Ministry" },
+                { id: "yZkFk3zb8mE", title: "Two Types of Effective Prayer", teacher: "Paul Washer" },
+              ].map(v => (
+                <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
+                    <iframe
+                      src={`https://www.youtube.com/embed/${v.id}`}
+                      title={v.title}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
+                    />
+                  </div>
+                  <div style={{ padding: "14px 16px" }}>
+                    <div style={{ color: TEXT, fontWeight: 700, fontSize: 14, marginBottom: 4 }}>{v.title}</div>
+                    <div style={{ color: MUTED, fontSize: 12 }}>{v.teacher}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
       </div>
     </div>
   );

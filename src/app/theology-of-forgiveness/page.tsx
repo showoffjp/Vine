@@ -9,7 +9,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "jesus" | "process" | "hard";
+type Tab = "theology" | "jesus" | "process" | "hard" | "videos";
 
 const THEOLOGY_ITEMS = [
   {
@@ -203,6 +203,7 @@ export default function TheologyOfForgivenessPage() {
     { id: "jesus", label: "Jesus and Forgiveness" },
     { id: "process", label: "The Process of Forgiveness" },
     { id: "hard", label: "Hard Cases" },
+    { id: "videos", label: "🎬 Videos" },
   ];
 
   const currentEpisode = JESUS_EPISODES.find((e) => e.id === activeEpisode) ?? JESUS_EPISODES[0];
@@ -491,6 +492,40 @@ export default function TheologyOfForgivenessPage() {
                 onToggle={() => toggle(`hard-${i}`)}
               />
             ))}
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings on forgiveness — its biblical foundation, its practice, and its hardest cases.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "k0W7h8zLztQ", title: "Guilt and Forgiveness: Pleasing God", channel: "Ligonier Ministries (R.C. Sproul)", description: "R.C. Sproul examines the central message of Scripture — forgiveness — and what it means for the guilty conscience to be fully and finally released." },
+                  { videoId: "WZMY748_U1o", title: "Forgiveness, Resurrection, and Life Everlasting", channel: "Ligonier Ministries (R.C. Sproul)", description: "Because of our sin, all human beings share one desperate need: the need for forgiveness. Sproul traces how the resurrection grounds the promise of forgiveness." },
+                  { videoId: "SWe1E8AMMr8", title: "Preaching to the Heart", channel: "The Gospel Coalition (Tim Keller)", description: "Tim Keller on how the gospel — including the message of forgiveness — must reach the heart, not just the mind, to produce genuine transformation." },
+                  { videoId: "iEwtnsEuLJc", title: "John Piper and Tim Keller on Expositional Preaching", channel: "The Gospel Coalition", description: "Piper and Keller discuss preaching the whole gospel, including the difficult dimensions of sin, judgment, and the radical forgiveness that only the cross can provide." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

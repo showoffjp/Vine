@@ -77,7 +77,7 @@ const PRACTICES = [
   { title: "Release with Prayer and Hope", desc: "The work of parenting is ultimately the work of releasing — progressively giving more freedom, trusting the formation that has happened, and committing your child to God's care. The anxiety of release is real; so is the promise: the God who called you to faithfulness is also the God who pursues your child with a love greater than yours.", icon: "🕊️" },
 ];
 
-type Tab = "theology" | "challenges" | "voices" | "practices";
+type Tab = "theology" | "challenges" | "voices" | "practices" | "videos";
 
 export default function ChristianParentingTheologyPage() {
   const [activeTab, setActiveTab] = useState<Tab>("theology");
@@ -103,6 +103,7 @@ export default function ChristianParentingTheologyPage() {
             { id: "challenges" as const, label: "Challenges", icon: "⚠️" },
             { id: "voices" as const, label: "Voices", icon: "💡" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -199,6 +200,39 @@ export default function ChristianParentingTheologyPage() {
                   <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{p.desc}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "3FwbLGjCelM", title: "Parenting Is Gospel Ministry", channel: "Paul David Tripp", description: "Tripp makes the case that biblical parenting is not about behavior management but heart transformation — it is gospel ministry in the home." },
+                  { videoId: "CXDyYvfAoOw", title: "This Is What Parenting Is", channel: "Paul David Tripp", description: "Tripp strips parenting down to its biblical essence: the call to shepherd your child's heart with the same grace God extends to you." },
+                  { videoId: "MDlMI7B4a2A", title: "Parenting: 14 Gospel Principles — Session 1", channel: "Paul David Tripp", description: "The first session of Tripp's landmark parenting course, grounding the entire project in God's calling, the parent's identity, and the gospel's centrality." },
+                  { videoId: "y9tux8kuQ7U", title: "Paul Tripp on Gospel-Shaped Parenthood", channel: "The Gospel Coalition", description: "An accessible TGC conversation with Paul Tripp on what it looks like to raise children under the cross rather than under pressure." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

@@ -9,7 +9,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "howto" | "major" | "minor" | "themes";
+type Tab = "howto" | "major" | "minor" | "themes" | "videos";
 
 const STATS = [
   { value: "17", label: "prophetic books in the OT" },
@@ -244,6 +244,7 @@ export default function ReadingProphetsPage() {
     { id: "major", label: "Major Prophets" },
     { id: "minor", label: "Minor Prophets" },
     { id: "themes", label: "Major Themes" },
+    { id: "videos", label: "Videos" },
   ];
 
   return (
@@ -684,6 +685,40 @@ export default function ReadingProphetsPage() {
         )}
 
         {/* Tab: Major Themes */}
+        {tab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "tHPRGR3TGUM", title: "Isaiah: Dust to Glory", channel: "Ligonier Ministries", description: "R.C. Sproul examines the book of Isaiah — how the prophet was commissioned to warn Judah and how his writings more than any other OT book clearly reveal the coming Messiah." },
+                  { videoId: "lvDd0NmV2EE", title: "Covenant with Abraham: Dust to Glory", channel: "Ligonier Ministries", description: "R.C. Sproul traces the Abrahamic promise that the prophets interpret and expand — essential context for reading the prophetic literature." },
+                  { videoId: "fn0I20M1KJI", title: "Providence: The Purposeful Sovereignty of God", channel: "Desiring God", description: "John Piper explains how God's sovereign providence is the controlling theme that makes the prophets' proclamations coherent and urgent." },
+                  { videoId: "enxKd2YKgjI", title: "How Should You Read the Psalms?", channel: "Desiring God", description: "John Piper's approach to poetic Scripture applies equally to the prophets — read for encounter, not just information." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
         {tab === "themes" && (
           <div>
             <div

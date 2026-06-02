@@ -23,6 +23,56 @@ const STEPS = [
   { n: 8, title: "Write, Practice, Revise", color: "#F97316", desc: "Write a full draft even if you won't preach from a manuscript. Writing forces clarity. Then practice aloud — preaching is oral, and what reads well often sounds flat. Notice where you stumble or lose energy. Revise ruthlessly. Cut everything that doesn't serve the central idea. Practice until the structure is internalized, then preach from the text and your people — not from the paper." },
 ];
 
+type Tab = "principles" | "preachers" | "process" | "notes" | "videos";
+
+const PREACHERS = [
+  {
+    id: "chrysostom",
+    name: "John Chrysostom",
+    era: "c. 349-407",
+    context: "Archbishop of Constantinople; named 'golden-mouthed' for his preaching",
+    bio: "Chrysostom is the greatest preacher of the ancient church and the standard against which all subsequent Christian preaching has been measured. His 90 homilies on Matthew, 88 on John, and 32 on Romans remain the finest expository commentaries on those books produced in the first millennium. He preached to enormous crowds in Antioch for twelve years before becoming Archbishop of Constantinople, and his preaching of social justice — denouncing the wealth of the court while the poor starved — eventually led to his exile.",
+    quote: "If you cannot find Christ in the beggar at the church door, you will not find him in the chalice. Preaching that does not reach the poor has not reached Christ.",
+    contribution: "Chrysostom established the expository homily as the form of Christian preaching. His method: read the text, explain what it says, apply it to his congregation's actual lives. He did not allegorize (as was fashionable) but read the text plainly and applied it plainly. His social preaching demonstrated that exposition without application to the concrete conditions of life is incomplete — and his courage in applying the text to the powerful made him dangerous enough to exile.",
+  },
+  {
+    id: "whitefield",
+    name: "George Whitefield",
+    era: "1714-1770",
+    context: "English evangelist; central figure of the First Great Awakening",
+    bio: "Whitefield was the most gifted natural orator in the history of Christian preaching. He preached over 18,000 sermons in his lifetime, often to crowds of 10,000-30,000 in open fields. His voice was legendary — Benjamin Franklin calculated it could carry to 30,000 people in the open air. But his power was not merely acoustic. He preached with emotional urgency that made abstract doctrine viscerally personal: he wept while preaching, acted out biblical scenes, and spoke of hell and heaven as immediate realities. He created the model for evangelical proclamation.",
+    quote: "It is a poor sermon that gives no offense; that neither makes the hearer displeased with himself nor with the preacher.",
+    contribution: "Whitefield invented the outdoor, crowd-preaching model that shaped evangelical revivalism for two centuries. He proved that the gospel could reach people who would never enter a church building, that preaching could move hearts as well as minds, and that doctrinal content (he was a rigorous Calvinist) was compatible with emotional power. His partnership and disagreement with Wesley produced the two streams of evangelical preaching that still flow today.",
+  },
+  {
+    id: "spurgeon",
+    name: "C.H. Spurgeon",
+    era: "1834-1892",
+    context: "Victorian Baptist pastor; Metropolitan Tabernacle, London",
+    bio: "Spurgeon is the most widely-read preacher in Christian history. He preached to 6,000 people weekly at the Metropolitan Tabernacle for 38 years, and his printed sermons — distributed worldwide during his lifetime — fill 63 volumes. He was entirely self-taught, never attending seminary, but his command of Scripture, his gift for illustration, and his combination of doctrinal depth with pastoral warmth made him the model expository preacher of the modern era. He is still widely read because his sermons remain strikingly direct and alive.",
+    quote: "A good character is the best tombstone. Those who loved you and were helped by you will remember you when forget-me-nots have withered. Carve your name on hearts, not on marble.",
+    contribution: "Spurgeon demonstrated that Calvinist theology, full-blooded exposition, and popular preaching are perfectly compatible. He destroyed the assumption that serious doctrine requires dull delivery or that popular appeal requires doctrinal shallowness. His principles of preaching — preach Christ in every sermon, illustrate from life, apply specifically to the conscience — remain the best practical guide to expository preaching. His 'Lectures to My Students' is still the most useful book on the craft of preaching.",
+  },
+  {
+    id: "stott",
+    name: "John Stott",
+    era: "1921-2011",
+    context: "Anglican rector of All Souls Langham Place; founder of Langham Partnership",
+    bio: "Stott was the most influential preacher of the 20th century evangelical world and the most important Anglican voice in global Christianity. His 'Between Two Worlds' (1982) is the definitive modern theology of preaching: the preacher stands between the ancient world of the text and the contemporary world of the congregation, building a bridge between them through exposition and application. He preached at All Souls for 50 years and mentored a generation of global evangelical leaders through Langham Partnership.",
+    quote: "The expositor's task is to open up the Scriptures in such a way that they speak afresh to the contemporary world. The preacher must live in two worlds at once — ancient and modern — and refuse to be at home entirely in either.",
+    contribution: "Stott gave the modern evangelical world its best theological account of why preaching is central to Christian life and mission. His insistence that exposition requires equal commitment to the text and to the congregation — that you cannot shortchange either without betraying both — remains the gold standard for homiletical method. His social engagement alongside his evangelical orthodoxy modeled a form of preaching that takes the whole gospel seriously.",
+  },
+  {
+    id: "keller",
+    name: "Tim Keller",
+    era: "1950-2023",
+    context: "Presbyterian pastor; Redeemer Presbyterian Church, New York City",
+    bio: "Keller was the most influential Reformed preacher of the late 20th and early 21st centuries. His 23 years at Redeemer in Manhattan — a secular, educated, skeptical context — forced him to develop a form of preaching that could address non-Christians in the room while feeding believers. His 'Preaching' (2015) is the best recent book on expository preaching for post-Christian contexts. He combined rigorous exposition with deep engagement with secular objections, resulting in sermons that were theologically rich and intellectually accessible simultaneously.",
+    quote: "Every text of Scripture should be preached in a way that would make sense to an unbeliever in the room and challenge a believer in the pew — not dumbed down for one or alienating to the other.",
+    contribution: "Keller developed the model of contextual expository preaching for secular Western contexts. His method: understand the cultural stories and assumptions your congregation lives inside, expose how the text addresses and subverts those assumptions, and show how the gospel is both more demanding and more satisfying than any cultural alternative. He made Reformed preaching credible and compelling to the most resistant audience in America — urban secular intellectuals.",
+  },
+];
+
 interface SermonNote {
   id: number;
   passage: string;
@@ -37,7 +87,9 @@ const SEED_NOTES: SermonNote[] = [
 ];
 
 export default function SermonPrepPage() {
-  const [activeTab, setActiveTab] = useState<"principles" | "process" | "notes">("principles");
+  const [activeTab, setActiveTab] = useState<Tab>("principles");
+  const [selectedPreacher, setSelectedPreacher] = useState("chrysostom");
+  const preacher = PREACHERS.find(p => p.id === selectedPreacher)!;
   const [notes, setNotes] = useState<SermonNote[]>(() => {
     try { const s = localStorage.getItem("vine_sermon_notes"); return s ? JSON.parse(s) : SEED_NOTES; } catch { return SEED_NOTES; }
   });
@@ -71,8 +123,10 @@ export default function SermonPrepPage() {
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
             { id: "principles" as const, label: "Principles", icon: "📖" },
+            { id: "preachers" as const, label: "Preachers", icon: "🎙️" },
             { id: "process" as const, label: "The Process", icon: "🔄" },
             { id: "notes" as const, label: "My Sermons", icon: "📝" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -92,6 +146,38 @@ export default function SermonPrepPage() {
                 <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 15, margin: 0 }}>{p.body}</p>
               </div>
             ))}
+          </div>
+        )}
+
+        {activeTab === "preachers" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 210, flexShrink: 0 }}>
+              {PREACHERS.map(p => (
+                <button key={p.id} onClick={() => setSelectedPreacher(p.id)}
+                  style={{ width: "100%", background: selectedPreacher === p.id ? `${PURPLE}18` : "transparent", border: `1px solid ${selectedPreacher === p.id ? PURPLE + "70" : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 6, cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: selectedPreacher === p.id ? PURPLE : TEXT, fontWeight: 800, fontSize: 13, marginBottom: 2 }}>{p.name}</div>
+                  <div style={{ color: MUTED, fontSize: 11 }}>{p.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ background: CARD, border: `1px solid ${PURPLE}30`, borderRadius: 14, padding: 28 }}>
+                <div style={{ marginBottom: 20 }}>
+                  <div style={{ color: MUTED, fontWeight: 700, fontSize: 11, marginBottom: 4 }}>{preacher.era}</div>
+                  <h2 style={{ color: PURPLE, fontWeight: 900, fontSize: 24, marginBottom: 4 }}>{preacher.name}</h2>
+                  <div style={{ color: MUTED, fontSize: 13 }}>{preacher.context}</div>
+                </div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, marginBottom: 20 }}>{preacher.bio}</p>
+                <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 10, padding: 18, marginBottom: 16 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 11, marginBottom: 10 }}>IN THEIR OWN WORDS</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0, fontStyle: "italic" }}>&ldquo;{preacher.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: BG, borderRadius: 10, padding: 16 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>KEY CONTRIBUTION</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{preacher.contribution}</p>
+                </div>
+              </div>
+            </div>
           </div>
         )}
 
@@ -152,6 +238,40 @@ export default function SermonPrepPage() {
                 </div>
               </div>
             ))}
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Lectures and workshops from master preachers on the craft and theology of expository preaching.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "SWe1E8AMMr8", title: "Preaching to the Heart", channel: "The Gospel Coalition (Tim Keller)", description: "Tim Keller's workshop from TGC's 2015 National Conference — how to move from head to heart in preaching, and why cognitive content alone never transforms." },
+                  { videoId: "iEwtnsEuLJc", title: "John Piper, Tim Keller, and Richard Coekin on Expositional Preaching", channel: "The Gospel Coalition", description: "Three master preachers discuss what expository preaching is, why it matters, and how they approach the work of preparing and delivering a biblical message." },
+                  { videoId: "ZYmk3DiPJVI", title: "Desiring God Through Fasting and Prayer: Session 1", channel: "Desiring God (John Piper)", description: "Piper on the spiritual disciplines that undergird genuine preaching — how prayer and fasting shape the preacher before they shape the sermon." },
+                  { videoId: "7wVTwlm_bbc", title: "Praying in the Closet and in the Spirit", channel: "Desiring God (John Piper)", description: "How disciplined and spontaneous prayer should flow from confidence that God is on our side — essential teaching for any preacher who wants power beyond technique." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

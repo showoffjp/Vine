@@ -464,6 +464,54 @@ function saveClaimCounts(counts: Record<string, number>) {
   }
 }
 
+const VOICES_PROM = [
+  {
+    id: "spurgeon-ch",
+    name: "Charles Spurgeon",
+    era: "1834–1892 · Particular Baptist",
+    context: "Victorian Era Preacher & Promise Devotionalist",
+    bio: "Charles Haddon Spurgeon devoted a lifetime to mining the promises of Scripture. His devotional Faith's Checkbook (1888) compiled 365 daily promises, treating them as literal checks to be cashed at the bank of heaven. Spurgeon preached at Metropolitan Tabernacle to 6,000 weekly and produced over 3,500 sermons. His conviction: God's promises are not decorative poetry but contractual obligations the Almighty has bound Himself to keep.",
+    quote: "The promises of God are not given that we should fold them up and lock them in the casket of our memories — they are given that we should use them as our daily bread.",
+    contribution: "Spurgeon's Faith's Checkbook pioneered daily promise devotionals, treating specific Scripture promises as provisions to be actively claimed for specific situations. His homiletical approach showed believers how to apply promises practically and influenced generations of preachers and laypeople.",
+  },
+  {
+    id: "pink-aw",
+    name: "A.W. Pink",
+    era: "1886–1952 · Reformed Baptist",
+    context: "Covenant Theologian & Exegete",
+    bio: "Arthur Walkington Pink was a British Reformed Baptist whose prolific studies outlasted his obscure life. His work The Divine Covenants examined God's promises through covenant theology. Pink insisted that promises must be understood covenantally — not extracted from God's redemptive framework. He brought necessary rigor to popular treatments of the subject, insisting that context and conditions of promises must be carefully discerned.",
+    quote: "Before a promise of God can be rightly applied to oneself, the soul must discover to whom it is addressed, under what conditions it is given, and upon what basis it rests.",
+    contribution: "Pink's covenant framework helped readers distinguish unconditional promises (rooted in God's sovereign will) from conditional ones (requiring human response), providing a theological map for navigating Scripture's many promises responsibly.",
+  },
+  {
+    id: "carson-da",
+    name: "D.A. Carson",
+    era: "b. 1946 · Reformed Evangelical",
+    context: "NT Scholar, Trinity Evangelical Divinity School",
+    bio: "Donald Arthur Carson, Research Professor of NT at Trinity Evangelical Divinity School and co-founder of The Gospel Coalition, is among the most influential evangelical scholars of his generation. His commentary on 2 Corinthians addresses the nature of divine promises centrally. Carson emphasizes that all of God's promises find their yes and amen in Christ (2 Cor. 1:20) — Christ is the hermeneutical key for every promise.",
+    quote: "The promises of God are not raw materials to be deployed in theological argument; they are invitations into a person. Every promise points to Christ, and every promise is fulfilled in Christ.",
+    contribution: "Carson's Christ-centered hermeneutic for reading God's promises shaped a generation of evangelical preachers. His emphasis on 2 Corinthians 1:20 keeps promise-claiming from becoming transactional and grounds it in relational union with Christ.",
+  },
+  {
+    id: "henry-m",
+    name: "Matthew Henry",
+    era: "1662–1714 · Nonconformist",
+    context: "Author of the Complete Commentary",
+    bio: "Matthew Henry, Welsh-born nonconformist minister, produced his monumental six-volume Commentary on the Whole Bible (1704–1714). His practical, devotional approach made the promises of Scripture accessible to ordinary believers. Henry was remarkable for synthesizing doctrinal precision with warm application — rarely commenting on a promise without explaining what it means and how to live in its light.",
+    quote: "A promise from God may very well outweigh a thousand dangers. Let us always meet a threatening providence with a promising Scripture.",
+    contribution: "Henry's commentary remains among the most read in church history. He modeled how to hold doctrine and devotion together — showing readers how to stand on promises during difficulty. His influence on preachers from Whitefield to Spurgeon (who read it four times on his knees) is incalculable.",
+  },
+  {
+    id: "tada-jet",
+    name: "Joni Eareckson Tada",
+    era: "b. 1949 · Reformed Evangelical",
+    context: "Disability Advocate & Promise Theologian",
+    bio: "Joni Eareckson Tada, founder of Joni and Friends, has spent over 55 years as a quadriplegic exploring what it means to stand on the promises of God in severe suffering. Her book A Place of Healing (2010) wrestles directly with promises of healing and sovereignty. Her theology of promise is forged in lived experience — she does not read the promises of God from a comfortable chair.",
+    quote: "God's promises are not written in the language of ease. They were written to people in dungeons, on battlefields, in exile, in grief. If they held then, they will hold now.",
+    contribution: "Tada's life and writing gave the church a robust theology of suffering and promise. She demonstrated that claiming God's promises does not mean expecting them to eliminate suffering but trusting they are sufficient within it — essential reading for anyone wrestling with unanswered prayer.",
+  },
+];
+
 // ── Sub-components ───────────────────────────────────────────────────────────
 
 function CategoryBadge({ category }: { category: string }) {
@@ -724,7 +772,8 @@ export default function PromisesPage() {
   const [claimCounts, setClaimCounts] = useState<Record<string, number>>(() => loadClaimCounts());
 
   // ── State: UI ────────────────────────────────────────────────────────────
-  const [activeTab, setActiveTab] = useState<"all" | "category" | "myclaims">("all");
+  const [activeTab, setActiveTab] = useState<"all" | "category" | "myclaims" | "thinkers">("all");
+  const [selectedThinker, setSelectedThinker] = useState("spurgeon-ch");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [testamentFilter, setTestamentFilter] = useState<"All" | "Old Testament" | "New Testament">("All");
@@ -990,6 +1039,7 @@ export default function PromisesPage() {
                 { key: "all", label: "All Promises", count: SEED_PROMISES.length },
                 { key: "category", label: "By Category", count: ALL_CATEGORIES.length },
                 { key: "myclaims", label: "My Claims", count: userTotalClaims },
+                { key: "thinkers", label: "🎓 Thinkers", count: VOICES_PROM.length },
               ] as const
             ).map((tab) => (
               <button
@@ -1435,6 +1485,36 @@ export default function PromisesPage() {
               )}
             </div>
           )}
+
+          {activeTab === "thinkers" && (() => {
+            const t = VOICES_PROM.find(v => v.id === selectedThinker)!;
+            return (
+              <div style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
+                <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 80 }}>
+                  {VOICES_PROM.map(v => (
+                    <button key={v.id} onClick={() => setSelectedThinker(v.id)}
+                      style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedThinker === v.id ? "rgba(0,255,136,0.4)" : "#1E1E32"}`, background: selectedThinker === v.id ? "rgba(0,255,136,0.08)" : "#12121F", cursor: "pointer" }}>
+                      <div style={{ fontSize: 13, fontWeight: 700, color: selectedThinker === v.id ? "#00FF88" : "#F2F2F8", marginBottom: 2 }}>{v.name}</div>
+                      <div style={{ fontSize: 11, color: "#9898B3" }}>{v.era}</div>
+                    </button>
+                  ))}
+                </div>
+                <div style={{ flex: 1, background: "#12121F", border: "1px solid #1E1E32", borderRadius: 16, padding: 28 }}>
+                  <div style={{ fontSize: 12, color: "#9898B3", fontStyle: "italic", marginBottom: 6 }}>{t.context}</div>
+                  <h2 style={{ fontSize: 24, fontWeight: 800, marginBottom: 4, color: "#F2F2F8" }}>{t.name}</h2>
+                  <div style={{ fontSize: 13, color: "#9898B3", marginBottom: 20 }}>{t.era}</div>
+                  <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.8, marginBottom: 24 }}>{t.bio}</p>
+                  <div style={{ background: "#07070F", borderRadius: 12, padding: 20, borderLeft: "3px solid #00FF88", marginBottom: 24 }}>
+                    <p style={{ fontSize: 15, color: "#E0E0F0", lineHeight: 1.75, fontStyle: "italic" }}>&ldquo;{t.quote}&rdquo;</p>
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 11, fontWeight: 700, color: "#6B4FBB", textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>Contribution</div>
+                    <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.75 }}>{t.contribution}</p>
+                  </div>
+                </div>
+              </div>
+            );
+          })()}
         </div>
       </div>
     </>

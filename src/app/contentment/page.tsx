@@ -76,7 +76,7 @@ const PRACTICES = [
   { title: "Delight in What You Have", desc: "Identify one thing you already own that you have stopped noticing. Use it this week with full attention and gratitude, as if it were new. Familiarity breeds contempt; intentionality reverses it.", verse: "Ecclesiastes 9:9" },
 ];
 
-type Tab = "theology" | "discontentment" | "teachers" | "practices";
+type Tab = "theology" | "discontentment" | "teachers" | "practices" | "videos";
 
 export default function ContentmentPage() {
   const [tab, setTab] = useState<Tab>("theology");
@@ -101,6 +101,7 @@ export default function ContentmentPage() {
             { id: "discontentment" as const, label: "Discontentment", icon: "🔍" },
             { id: "teachers" as const, label: "Great Teachers", icon: "📚" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -185,6 +186,40 @@ export default function ContentmentPage() {
                 <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{p.desc}</p>
               </div>
             ))}
+          </div>
+        )}
+
+        {tab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "fYs-ZiFf-i0", title: "How Does True Contentment Come? (Philippians 4:10–13)", channel: "Desiring God", description: "John Piper unpacks the secret of contentment Paul reveals in Philippians 4 — learning to be content through Christ who strengthens us in both abundance and need." },
+                  { videoId: "2S58mv1jmtA", title: "The Secret of Contentment", channel: "Gospel Coalition", description: "A sermon on how in our competitive culture we can find genuine contentment not through circumstances but through trust in the God who provides." },
+                  { videoId: "ykxFEnApABU", title: "The Secret of Contentment (Philippians 4:10-13)", channel: "Biblical Preaching", description: "A verse-by-verse exposition of Paul's famous passage on contentment, showing that it is a learned discipline forged through faith in Christ." },
+                  { videoId: "OBxtkcoubn4", title: "Marriage God's Showcase of Covenant Keeping Grace", channel: "Desiring God / John Piper", description: "John Piper on how God's covenant grace is the foundation of contentment — receiving what God gives rather than demanding what we think we deserve." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

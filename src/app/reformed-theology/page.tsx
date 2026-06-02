@@ -78,8 +78,20 @@ const FIGURES = [
   { name: "D.A. Carson", dates: "1946-present", role: "Trinity Evangelical Divinity School", contribution: "NT scholarship; The Gospel Coalition co-founder; hermeneutics and biblical theology", color: "#10B981" },
 ];
 
+const REFORMED_RESOURCES = [
+  { title: "Institutes of the Christian Religion", author: "John Calvin (1536, expanded 1559)", type: "Classic", desc: "The most comprehensive Reformation-era systematic theology. Books I-IV cover the knowledge of God, faith, repentance, and the church. Still the gold standard of Reformed theological writing.", icon: "📖", level: "Advanced" },
+  { title: "The Westminster Confession of Faith", author: "Westminster Assembly (1646)", type: "Confession", desc: "The doctrinal standard of Presbyterian and Reformed churches worldwide. Along with the Shorter and Larger Catechisms, it remains the most complete and widely accepted Reformed confessional statement.", icon: "📜", level: "Intermediate" },
+  { title: "Knowing God", author: "J.I. Packer (1973)", type: "Book", desc: "The most widely read accessible introduction to Reformed theology. Packer's account of God's attributes (sovereignty, wisdom, holiness, love, grace, wrath) is both doctrinally rigorous and devotionally warm.", icon: "📖", level: "Beginner" },
+  { title: "The Sovereignty of God", author: "A.W. Pink (1918)", type: "Book", desc: "A classic defense of God's absolute sovereignty in salvation. Pink traces the doctrine through Scripture with unusual thoroughness. Still the most comprehensive single-volume treatment of divine sovereignty.", icon: "📖", level: "Intermediate" },
+  { title: "Reformed Theology: An Introduction", author: "Michael Allen (2010)", type: "Book", desc: "A modern academic introduction to Reformed theology, covering its history, methods, and doctrines. Suitable for seminary students and educated laypeople.", icon: "📖", level: "Advanced" },
+  { title: "Chosen by God", author: "R.C. Sproul (1986)", type: "Book", desc: "The best accessible introduction to Reformed soteriology (predestination, election, total depravity, etc.) for laypeople. Sproul's clarity and pastoral warmth make difficult doctrines comprehensible.", icon: "📖", level: "Beginner" },
+  { title: "The Goldsworthy Trilogy", author: "Graeme Goldsworthy", type: "Book", desc: "Three books (Gospel and Kingdom; Gospel and Wisdom; The Gospel in Revelation) that demonstrate the Reformed method of reading all Scripture as pointing to Christ. Foundational for biblical theology.", icon: "📖", level: "Intermediate" },
+  { title: "Ligonier Ministries (ligonier.org)", author: "R.C. Sproul's legacy", type: "Website", desc: "The leading Reformed resource website — thousands of articles, sermons, and courses on Reformed theology. Free digital access to the Reformation Study Bible notes. R.C. Sproul's teaching archive.", icon: "🌐", level: "All levels" },
+  { title: "The Gospel Coalition (thegospelcoalition.org)", author: "D.A. Carson & Tim Keller (founded 2005)", type: "Website", desc: "Articles, sermons, and courses from Reformed evangelicals. Particularly strong on application of Reformed theology to pastoral ministry, culture, and ethics.", icon: "🌐", level: "All levels" },
+];
+
 export default function ReformedTheologyPage() {
-  const [activeTab, setActiveTab] = useState<"tulip" | "confessions" | "figures">("tulip");
+  const [activeTab, setActiveTab] = useState<"tulip" | "confessions" | "figures" | "resources" | "videos">("tulip");
   const [selectedTulip, setSelectedTulip] = useState<string | null>(null);
   const tulip = TULIP.find(t => t.letter === selectedTulip);
 
@@ -99,6 +111,8 @@ export default function ReformedTheologyPage() {
             { id: "tulip" as const, label: "TULIP", icon: "🌷" },
             { id: "confessions" as const, label: "Confessions", icon: "📜" },
             { id: "figures" as const, label: "Key Figures", icon: "👤" },
+            { id: "resources" as const, label: "Resources", icon: "📚" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -199,6 +213,64 @@ export default function ReformedTheologyPage() {
                     </div>
                   </div>
                   <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{f.contribution}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+        {activeTab === "resources" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 16 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                The best resources for going deeper into Reformed theology — from the Reformation classics to modern introductions, confessions, and online resources.
+              </p>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 14 }}>
+              {REFORMED_RESOURCES.map((r, i) => (
+                <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                  <div style={{ display: "flex", gap: 12, marginBottom: 10 }}>
+                    <div style={{ fontSize: 24 }}>{r.icon}</div>
+                    <div>
+                      <div style={{ fontSize: 11, color: MUTED, marginBottom: 2 }}>{r.type} · {r.level}</div>
+                      <h3 style={{ fontSize: 14, fontWeight: 700, color: TEXT, margin: 0, lineHeight: 1.3 }}>{r.title}</h3>
+                      <div style={{ fontSize: 12, color: MUTED }}>{r.author}</div>
+                    </div>
+                  </div>
+                  <p style={{ fontSize: 13, color: MUTED, lineHeight: 1.6, margin: 0 }}>{r.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 24 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                Video teachings on Reformed theology — the TULIP, God's sovereignty, the confessions, and the Reformation legacy.
+              </p>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 20 }}>
+              {[
+                { id: "qT8gts0FkPI", title: "What Is Reformed Theology?", teacher: "R.C. Sproul" },
+                { id: "RvUpyxnqAow", title: "Total Depravity — Reformed Theology", teacher: "R.C. Sproul" },
+                { id: "tQ3N8YTjEpc", title: "Limited Atonement — Reformed Theology", teacher: "R.C. Sproul" },
+                { id: "loXh8PqrR3Y", title: "Irresistible Grace — Reformed Theology", teacher: "R.C. Sproul" },
+              ].map(v => (
+                <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
+                    <iframe
+                      src={`https://www.youtube.com/embed/${v.id}`}
+                      title={v.title}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
+                    />
+                  </div>
+                  <div style={{ padding: "14px 16px" }}>
+                    <div style={{ color: TEXT, fontWeight: 700, fontSize: 14, marginBottom: 4 }}>{v.title}</div>
+                    <div style={{ color: MUTED, fontSize: 12 }}>{v.teacher}</div>
+                  </div>
                 </div>
               ))}
             </div>

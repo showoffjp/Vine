@@ -1,174 +1,138 @@
 "use client";
 
-import {
-  MessageSquare,
-  BookOpen,
-  Heart,
-  Lightbulb,
-  Video,
-  Users,
-  Brain,
-  Flame,
-  Globe,
-  Sparkles,
-  Music,
-  Shield,
-} from "lucide-react";
-
-const pillars = [
+const FEATURES = [
   {
-    icon: MessageSquare,
-    title: "Discussion Hubs",
-    desc: "Reddit-style communities for every topic — theology, parenting, doubt, career, culture, and more.",
-    tag: "Community",
-    color: "#6B4FBB",
+    num: "01",
+    title: "Interest-Based Matching",
+    desc: "Tell The Vine what you're passionate about — hiking, homeschooling, hip-hop, hermeneutics — and we surface communities, content, and connections that actually fit your life and faith.",
   },
   {
-    icon: BookOpen,
-    title: "Bible Tools",
-    desc: "Search, cross-reference, read plans, and dive deep with commentaries and study guides.",
-    tag: "Scripture",
-    color: "#00FF88",
+    num: "02",
+    title: "AI-Powered Bible Study",
+    desc: "Cross-reference any passage with commentaries, original Greek and Hebrew, systematic theology, and community notes. The Word Hub is the deepest free Bible tool on the internet.",
   },
   {
-    icon: Heart,
-    title: "Prayer Wall",
-    desc: "Share needs, pray for others, and receive prayer from Christians around the globe.",
-    tag: "Prayer",
-    color: "#C0506A",
+    num: "03",
+    title: "Faith-Integrated Wellness",
+    desc: "The Well bridges evidence-based psychology and Christian spirituality. Access guided exercises, connect with licensed Christian counselors, and find peer support communities.",
   },
   {
-    icon: Lightbulb,
-    title: "Life Hacks",
-    desc: "Faith-informed tips on productivity, finances, relationships, parenting, and daily living.",
-    tag: "Lifehacker",
-    color: "#E8A020",
+    num: "04",
+    title: "Creator Ecosystem",
+    desc: "Vine TV gives every teacher, pastor, musician, and content creator a platform without algorithm hostility. Post sermons, devotionals, worship sets, or podcasts and reach believers worldwide.",
   },
   {
-    icon: Brain,
-    title: "Mental Health",
-    desc: "Resources, guides, and community for anxiety, depression, grief, and inner healing.",
-    tag: "Wellness",
-    color: "#3A9E72",
+    num: "05",
+    title: "Denomination-Agnostic",
+    desc: "From Catholic to Calvinist, Pentecostal to Presbyterian — every tradition has a home. The Vine is not a church; it's the porch where every church can gather. Respectful difference is a feature, not a bug.",
   },
   {
-    icon: Video,
-    title: "Video Library",
-    desc: "Sermons, testimonies, worship sessions, and Christian creators — all curated and searchable.",
-    tag: "Media",
-    color: "#4A80D4",
-  },
-  {
-    icon: Users,
-    title: "Global Connect",
-    desc: "Find Christians who share your interests, denomination, language, or location.",
-    tag: "Networking",
-    color: "#6B4FBB",
-  },
-  {
-    icon: Flame,
-    title: "Daily Devotionals",
-    desc: "Fresh devotionals every morning — short, deep, and written by real believers.",
-    tag: "Daily Bread",
-    color: "#00FF88",
-  },
-  {
-    icon: Sparkles,
-    title: "Motivation",
-    desc: "Curated quotes, stories, testimonies, and encouragement to keep your faith burning.",
-    tag: "Inspiration",
-    color: "#C0506A",
-  },
-  {
-    icon: Globe,
-    title: "World Church",
-    desc: "Explore Christianity across cultures, traditions, and denominations worldwide.",
-    tag: "Culture",
-    color: "#3A9E72",
-  },
-  {
-    icon: Music,
-    title: "Worship",
-    desc: "Playlists, chord sheets, lyrics, and worship communities for every style of praise.",
-    tag: "Worship",
-    color: "#4A80D4",
-  },
-  {
-    icon: Shield,
-    title: "Apologetics",
-    desc: "Defend the faith with confidence. Evidence, arguments, and answers to life's hardest questions.",
-    tag: "Theology",
-    color: "#E8A020",
+    num: "06",
+    title: "Global by Design",
+    desc: "Multilingual from launch. Connect with the persecuted church in China, the explosive revival in sub-Saharan Africa, and the contemplative communities in South America — the Body of Christ, undivided.",
   },
 ];
 
 export default function PlatformPillars() {
   return (
-    <section className="relative py-24 overflow-hidden" id="features">
-      <div className="section-glow absolute inset-0 pointer-events-none" />
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section
+      style={{
+        background: "#050e07",
+        padding: "100px 4vw",
+        position: "relative",
+      }}
+      id="features"
+    >
+      <div style={{ maxWidth: 1200, margin: "0 auto" }}>
         {/* Header */}
-        <div className="text-center mb-16">
-          <p className="tag-pill inline-block mb-4">Everything You Need</p>
+        <div style={{ marginBottom: "4rem" }}>
+          <div className="vine-eyebrow" style={{ marginBottom: "0.9rem" }}>
+            Why The Vine
+          </div>
           <h2
-            className="text-4xl sm:text-5xl md:text-6xl font-black leading-tight mb-4"
-            style={{ color: "#F2F2F8" }}
+            style={{
+              fontFamily:
+                "var(--font-cormorant, 'Cormorant Garamond', Georgia, serif)",
+              fontSize: "clamp(2rem, 4vw, 3.4rem)",
+              fontWeight: 300,
+              color: "#f2e6c8",
+              lineHeight: 1.15,
+            }}
           >
-            One Platform.
+            Built different.
             <br />
-            <span className="gold-gradient">Infinite Growth.</span>
+            <em style={{ fontStyle: "italic", color: "#e8c162" }}>
+              Built for believers.
+            </em>
           </h2>
-          <p className="text-lg max-w-2xl mx-auto" style={{ color: "#8A8AA8" }}>
-            Everything a Christian could ever need — from deep theology to
-            practical life tips — under one roof, in one community.
-          </p>
         </div>
 
-        {/* Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {pillars.map(({ icon: Icon, title, desc, tag, color }) => (
+        {/* Feature grid */}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(3, 1fr)",
+            gap: 2,
+            background: "rgba(242,230,200,0.05)",
+          }}
+        >
+          {FEATURES.map((f) => (
             <div
-              key={title}
-              className="card-glow group relative p-5 rounded-2xl cursor-pointer"
-              style={{ background: "var(--bg-card)" }}
+              key={f.num}
+              style={{
+                background: "#050e07",
+                padding: "2.5rem 2rem",
+                position: "relative",
+              }}
             >
-              {/* Icon */}
+              {/* Top rule */}
               <div
-                className="w-10 h-10 rounded-xl flex items-center justify-center mb-4"
-                style={{ background: `${color}18`, border: `1px solid ${color}30` }}
-              >
-                <Icon size={20} style={{ color }} />
-              </div>
-
-              {/* Tag */}
-              <span
-                className="text-xs font-bold uppercase tracking-wider mb-2 block"
-                style={{ color: `${color}CC` }}
-              >
-                {tag}
-              </span>
-
-              {/* Title */}
-              <h3
-                className="text-base font-bold mb-2 group-hover:text-white transition-colors"
-                style={{ color: "#E0E0F0" }}
-              >
-                {title}
-              </h3>
-
-              {/* Desc */}
-              <p className="text-sm leading-relaxed" style={{ color: "#6A6A88" }}>
-                {desc}
-              </p>
-
-              {/* Hover accent */}
-              <div
-                className="absolute bottom-0 left-0 right-0 h-0.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                 style={{
-                  background: `linear-gradient(90deg, transparent, ${color}, transparent)`,
+                  position: "absolute",
+                  top: 0,
+                  left: "2rem",
+                  right: "2rem",
+                  height: "0.5px",
+                  background: "rgba(242,230,200,0.07)",
                 }}
               />
+              <div
+                style={{
+                  fontFamily:
+                    "var(--font-cormorant, 'Cormorant Garamond', Georgia, serif)",
+                  fontSize: "4rem",
+                  fontWeight: 700,
+                  color: "#1a3d26",
+                  lineHeight: 1,
+                  marginBottom: "1.2rem",
+                  opacity: 0.7,
+                }}
+              >
+                {f.num}
+              </div>
+              <div
+                style={{
+                  fontFamily:
+                    "var(--font-cormorant, 'Cormorant Garamond', Georgia, serif)",
+                  fontSize: "1.3rem",
+                  fontWeight: 600,
+                  color: "#f2e6c8",
+                  marginBottom: "0.7rem",
+                }}
+              >
+                {f.title}
+              </div>
+              <p
+                style={{
+                  fontSize: "0.85rem",
+                  color: "#9a8f72",
+                  lineHeight: 1.7,
+                  fontWeight: 300,
+                  fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                }}
+              >
+                {f.desc}
+              </p>
             </div>
           ))}
         </div>

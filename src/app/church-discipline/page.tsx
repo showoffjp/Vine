@@ -9,7 +9,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "process" | "cases" | "restoration";
+type Tab = "theology" | "process" | "cases" | "restoration" | "videos";
 
 const THEOLOGY_ITEMS = [
   {
@@ -235,6 +235,7 @@ export default function ChurchDisciplinePage() {
     { id: "process", label: "The Process" },
     { id: "cases", label: "Case Studies" },
     { id: "restoration", label: "Restoration" },
+    { id: "videos", label: "🎬 Videos" },
   ];
 
   return (
@@ -564,6 +565,39 @@ export default function ChurchDisciplinePage() {
                 onToggle={handleToggle}
               />
             ))}
+          </div>
+        )}
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "Qg9yD4NbuRE", title: "Church Discipline and the Restoration of a Sinner in Matthew 18", channel: "Biblical Teaching", description: "A thorough exposition of Matthew 18:15-20 — the graduated process Jesus gave the church, its goal of restoration, and why every step matters." },
+                  { videoId: "fGpWbvdloz4", title: "Church Discipline and Restoration: Matthew 18:15-21", channel: "Pastoral Teaching", description: "A pastor walks through the Matthew 18 process step by step, explaining the theology behind each stage and what restoration looks like in practice." },
+                  { videoId: "SnOaTn_ASLg", title: "Membership, Discipline, and Authority in the Local Church", channel: "Biblical Exposition", description: "How Matthew 18:12-20 grounds the local church's authority in discipline — and why meaningful membership and meaningful discipline are inseparable." },
+                  { videoId: "X2EZ-kTH3C4", title: "Church Discipline and the Keys of the Kingdom", channel: "Reformed Teaching", description: "The theological weight of Matthew 18:18 — binding and loosing — and what it means that the church exercises real spiritual authority in discipline and restoration." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

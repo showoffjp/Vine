@@ -4,7 +4,55 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "centers" | "howto" | "traditions";
+type Tab = "centers" | "howto" | "traditions" | "voices";
+
+const VOICES_SR = [
+  {
+    id: "merton-t",
+    name: "Thomas Merton",
+    era: "1915–1968 · Trappist Monk",
+    context: "New Seeds of Contemplation",
+    bio: "Thomas Merton, Trappist monk at the Abbey of Gethsemani in Kentucky, became the 20th century's most widely read guide to contemplative retreat. His autobiography The Seven Storey Mountain (1948) sold 600,000 copies and inspired thousands to explore monastic life or contemplative practice. His New Seeds of Contemplation remains the most accessible guide to contemplative prayer. Merton saw solitude not as escape from the world but as the place where genuine encounter with God — and therefore genuine encounter with one's true self and others — becomes possible.",
+    quote: "In the solitude of the hermitage, I realize that I love the world more than I did when I was in it. Not because I am apart from it — but because I am closer to what gives it life.",
+    contribution: "Merton introduced contemplative retreat practice to millions of Protestant and evangelical readers who would never have approached monastic spirituality without his accessible prose. His insistence that contemplation is not a specialist practice but the depth dimension of all Christian life opened the retreat tradition to a far wider audience.",
+  },
+  {
+    id: "nouwen-hj",
+    name: "Henri Nouwen",
+    era: "1932–1996 · Catholic",
+    context: "The Way of the Heart",
+    bio: "Henri Nouwen, Dutch Catholic priest who taught at Harvard and Yale before spending his final years at the L'Arche Daybreak community in Toronto, wrote some of the most widely read books on solitude, retreat, and the interior life. The Way of the Heart (1981) — based on the desert fathers and mothers — made solitude, silence, and unceasing prayer the framework for his entire spirituality. Nouwen's profound honesty about his own interior struggles made his writing unusually trustworthy.",
+    quote: "Solitude is not a private therapeutic place. Rather, it is the place of conversion, the place where the old self dies and the new self is born, the place where the emergence of the new person becomes possible.",
+    contribution: "Nouwen's ability to connect the ancient wisdom of the desert fathers to the psychological and spiritual struggles of contemporary people made him the primary pastoral guide for retreat spirituality in the late 20th century. His books are still given by spiritual directors to people beginning the retreat journey.",
+  },
+  {
+    id: "barton-rh",
+    name: "Ruth Haley Barton",
+    era: "b. 1956 · Evangelical",
+    context: "Invitation to Retreat",
+    bio: "Ruth Haley Barton's Invitation to Retreat (2018) is the most comprehensive evangelical guide to retreat practice in print. Co-founder of the Transforming Center, Barton brought the retreat tradition into evangelical and ministry contexts where it had been largely absent. Her work distinguishes different types of retreat (from quiet days to 30-day silent retreats), addresses the particular obstacles leaders face in practicing silence, and provides structured guidance for planning and leading retreats.",
+    quote: "A retreat is not a vacation. It is not an escape. It is an intentional movement toward God in the quiet — a willingness to be with Him without an agenda beyond being with Him.",
+    contribution: "Barton's Invitation to Retreat filled a significant gap in evangelical spirituality by making the retreat tradition accessible to leaders and laypeople who had never experienced extended solitude with God. Her work has become the standard evangelical text on retreat practice.",
+  },
+  {
+    id: "crabb-l",
+    name: "Larry Crabb",
+    era: "b. 1944 · Evangelical",
+    context: "Shattered Dreams",
+    bio: "Larry Crabb, Christian psychologist and spiritual director, has written extensively on the retreat experience as an encounter with God in the depths of one's disappointment and longing. His Shattered Dreams (2001) argues that broken expectations and unanswered longings are actually God's invitation to a deeper encounter — and that the retreat is the place where this invitation can be heard. Crabb's integration of depth psychology with contemplative spirituality has made him a formative voice in Christian interior life.",
+    quote: "God doesn't fix our problems in order to satisfy our cravings. He uses our problems to awaken us to a deeper hunger that only He can satisfy. Retreat is where we meet that hunger.",
+    contribution: "Crabb's work gave the retreat tradition a psychological language that made it accessible to counselors, therapists, and people in pain. His integration of the desert tradition of encountering God in emptiness with contemporary understanding of the human psyche has shaped Christian counseling and spiritual direction in North America.",
+  },
+  {
+    id: "willard-d",
+    name: "Dallas Willard",
+    era: "1935–2013 · Evangelical",
+    context: "The Spirit of the Disciplines",
+    bio: "Dallas Willard treated solitude as the foundational discipline from which all others flow. In The Spirit of the Disciplines and Renovation of the Heart, he argued that without extended periods of solitude — which require retreat from ordinary life — the other disciplines cannot function properly. Willard was himself known for practicing extended retreats, and he believed that Jesus' regular withdrawal to solitary places was not incidental to his ministry but constitutive of it. The power of Jesus' public ministry flowed from his private disciplines.",
+    quote: "The soul cannot be formed by hurry. The deep work of God in a person requires the slow, long engagement of solitude — a willingness to be with God when nothing else is demanding our attention.",
+    contribution: "Willard's theological framework for solitude as the foundational discipline provided the strongest systematic argument for why busy, productive Christians need extended retreat. His argument that Jesus' retreat practice was a model, not an exception, gave retreat practice its most theologically rigorous evangelical foundation.",
+  },
+];
 
 const CENTERS = [
   {
@@ -170,6 +218,8 @@ export default function SpiritualRetreatsPage() {
   const [tab, setTab] = useState<Tab>("centers");
   const [selected, setSelected] = useState<string | null>(null);
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
+  const [selectedVoice, setSelectedVoice] = useState("merton-t");
+  const voiceItem = VOICES_SR.find(v => v.id === selectedVoice)!;
 
   const center = CENTERS.find(c => c.name === selected);
 
@@ -186,10 +236,10 @@ export default function SpiritualRetreatsPage() {
         </div>
 
         <div style={{ display: "flex", gap: 4, marginBottom: 28, background: CARD, borderRadius: 10, padding: 4, width: "fit-content" }}>
-          {(["centers", "howto", "traditions"] as Tab[]).map(t => (
+          {(["centers", "howto", "traditions", "voices"] as Tab[]).map(t => (
             <button key={t} onClick={() => { setTab(t); setSelected(null); }}
               style={{ padding: "8px 18px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-              {t === "centers" ? "Retreat Centers" : t === "howto" ? "How to Retreat" : "Traditions"}
+              {t === "centers" ? "Retreat Centers" : t === "howto" ? "How to Retreat" : t === "traditions" ? "Traditions" : "🎓 Voices"}
             </button>
           ))}
         </div>
@@ -281,6 +331,33 @@ export default function SpiritualRetreatsPage() {
                 <div style={{ color: MUTED, fontSize: 11 }}>Learn more: {t.url}</div>
               </div>
             ))}
+          </div>
+        )}
+
+        {tab === "voices" && (
+          <div style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
+            <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 80 }}>
+              {VOICES_SR.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? "rgba(0,255,136,0.4)" : BORDER}`, background: selectedVoice === v.id ? "rgba(0,255,136,0.08)" : CARD, cursor: "pointer" }}>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: selectedVoice === v.id ? GREEN : TEXT, marginBottom: 2 }}>{v.name}</div>
+                  <div style={{ fontSize: 11, color: MUTED }}>{v.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 28 }}>
+              <div style={{ fontSize: 12, color: MUTED, fontStyle: "italic", marginBottom: 6 }}>{voiceItem.context}</div>
+              <h2 style={{ fontSize: 24, fontWeight: 800, marginBottom: 4, color: TEXT }}>{voiceItem.name}</h2>
+              <div style={{ fontSize: 13, color: MUTED, marginBottom: 20 }}>{voiceItem.era}</div>
+              <p style={{ fontSize: 14, color: TEXT, lineHeight: 1.8, marginBottom: 24 }}>{voiceItem.bio}</p>
+              <div style={{ background: BG, borderRadius: 12, padding: 20, borderLeft: `3px solid ${GREEN}`, marginBottom: 24 }}>
+                <p style={{ fontSize: 15, color: TEXT, lineHeight: 1.75, fontStyle: "italic" }}>&ldquo;{voiceItem.quote}&rdquo;</p>
+              </div>
+              <div>
+                <div style={{ fontSize: 11, fontWeight: 700, color: PURPLE, textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>Contribution</div>
+                <p style={{ fontSize: 14, color: TEXT, lineHeight: 1.75 }}>{voiceItem.contribution}</p>
+              </div>
+            </div>
           </div>
         )}
       </div>

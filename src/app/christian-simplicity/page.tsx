@@ -10,7 +10,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "voices" | "practices" | "obstacles";
+type Tab = "theology" | "voices" | "practices" | "obstacles" | "videos";
 
 // ─── DATA ────────────────────────────────────────────────────────────────────
 
@@ -229,6 +229,7 @@ export default function ChristianSimplicityPage() {
     { id: "voices", label: "Voices" },
     { id: "practices", label: "30 Practices" },
     { id: "obstacles", label: "Obstacles" },
+    { id: "videos", label: "🎬 Videos" },
   ];
 
   return (
@@ -848,6 +849,40 @@ export default function ChristianSimplicityPage() {
                 </div>
               );
             })}
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors on simplicity, spiritual disciplines, and freedom from materialism.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "PqAiVyBwsog", title: "Celebration of Discipline: The Path to Spiritual Growth", channel: "Dr. Richard J. Foster", description: "Richard Foster's foundational teaching on spiritual disciplines including simplicity — the full documentary film." },
+                  { videoId: "D3724f98vkI", title: "Simplicity — Celebration of Discipline Curriculum", channel: "Richard Foster", description: "Richard Foster specifically on the spiritual discipline of simplicity: what it is, why it matters, and how to practice it." },
+                  { videoId: "cYHDDeuqcoU", title: "Spiritual Discipline: Door to Liberation", channel: "Richard Foster", description: "Foster on how spiritual disciplines free us from ingrained habits of sin and possessiveness that keep us from knowing true joy." },
+                  { videoId: "vT4XMSgD2_w", title: "David Platt & John Piper — Materialism of Our Hearts", channel: "Desiring God", description: "David Platt and John Piper on how materialism quietly corrupts the Christian heart — and what simplicity as a spiritual discipline looks like in practice." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

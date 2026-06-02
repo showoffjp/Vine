@@ -4,7 +4,7 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "thinkers" | "arguments" | "resources";
+type Tab = "thinkers" | "arguments" | "resources" | "voices";
 
 const THINKERS = [
   {
@@ -169,9 +169,59 @@ const RESOURCE_LIST = [
   { title: "Think Biblically Podcast (Biola)", author: "Biola University", type: "Podcast", description: "Regular podcast from Biola University featuring faculty from the philosophy and theology departments. Covers current philosophical, cultural, and theological topics from a rigorous evangelical perspective. Free at biola.edu/think-biblically.", color: GREEN },
 ];
 
+const VOICES_CP = [
+  {
+    id: "plantinga-a",
+    name: "Alvin Plantinga",
+    era: "b. 1932 · Reformed Epistemologist",
+    context: "Warranted Christian Belief",
+    bio: "Alvin Plantinga, Professor Emeritus at Notre Dame and Calvin University, is the most influential Christian philosopher of the 20th century. His work on the epistemology of religious belief — culminating in his trilogy on warrant (Warrant: The Current Debate, Warrant and Proper Function, Warranted Christian Belief) — demolished the 'evidentialist challenge' to theism. Plantinga argued that belief in God can be 'properly basic' — rational without requiring evidential argument — when produced by properly functioning cognitive faculties in an appropriate environment.",
+    quote: "The theist need not be embarrassed by his theism. He need not try to justify it in terms of some other, more basic beliefs he holds. Belief in God is properly basic.",
+    contribution: "Plantinga's reformed epistemology transformed Christian philosophy from a defensive discipline to a confident one. His free will defense against the logical problem of evil, and his ontological argument for God's existence, gave academic philosophy two of its most rigorous contemporary theistic arguments. He essentially created the field of analytic philosophy of religion as a serious discipline.",
+  },
+  {
+    id: "kreeft-p",
+    name: "Peter Kreeft",
+    era: "b. 1937 · Catholic",
+    context: "Philosophy of Thomas Aquinas",
+    bio: "Peter Kreeft, Professor of Philosophy at Boston College, is the most prolific and accessible Christian philosopher writing for popular audiences. His dozens of books range from Socratic dialogues between historical figures to Socratic arguments for God's existence, the problem of evil, and Christian ethics. Kreeft works primarily in the Thomistic tradition, arguing that Aquinas's philosophy remains the most rigorous and coherent framework available for Christian thought.",
+    quote: "Aquinas is not a dinosaur. He is a prophet. His philosophy answers the questions that modern people are actually asking — they just don't know it yet.",
+    contribution: "Kreeft has made the tradition of Christian philosophy — from Socrates through Aquinas to C.S. Lewis — accessible to millions of readers who would never approach academic philosophy. His ability to argue with rigor while writing with wit has made him the most effective popularizer of Thomistic philosophy in contemporary English.",
+  },
+  {
+    id: "swinburne-r",
+    name: "Richard Swinburne",
+    era: "b. 1934 · Anglican",
+    context: "The Coherence of Theism",
+    bio: "Richard Swinburne, Nolloth Professor of Philosophy of Christian Religion at Oxford, has produced the most comprehensive analytic case for Christian theism in the English-speaking world. His trilogy — The Coherence of Theism, The Existence of God, and Faith and Reason — applies Bayesian probability theory to theistic arguments, concluding that the existence of God is more probable than not on the available evidence. Swinburne's rigorous probabilistic approach has made his work essential reading in analytic philosophy of religion.",
+    quote: "God is a person without a body — a spirit — who is eternal, free, able to do anything, knows everything, is perfectly good, and is the creator and sustainer of the universe.",
+    contribution: "Swinburne's probabilistic case for theism provided Christian philosophy with its most technically sophisticated apologetic framework. His application of Bayesian reasoning to the cosmological, teleological, and moral arguments for God's existence has shaped the professional apologetics landscape for fifty years.",
+  },
+  {
+    id: "mcgrath-a",
+    name: "Alister McGrath",
+    era: "b. 1953 · Anglican Evangelical",
+    context: "A Fine-Tuned Universe",
+    bio: "Alister McGrath, Professor of Theology at Oxford, bridges the philosophy of religion and natural theology. His work on science and faith — particularly A Fine-Tuned Universe: The Quest for God in Science and Theology — explores the philosophical significance of the anthropic fine-tuning argument. McGrath engages both Richard Dawkins (he wrote The Dawkins Delusion) and academic philosophy, arguing that Christian theism provides the most elegant explanation for the intelligibility of the universe.",
+    quote: "Science can take us to the edge of the universe, but it cannot take us beyond. The question of why there is something rather than nothing — and why it is ordered and intelligible — is fundamentally philosophical, not scientific.",
+    contribution: "McGrath's work at the interface of philosophy, theology, and natural science has given Christian philosophy its most accessible engagement with the 'New Atheist' challenge. His scientific background (doctorate in molecular biophysics from Oxford) and theological expertise make him uniquely positioned to address both sides of the science-faith conversation.",
+  },
+  {
+    id: "copan-p",
+    name: "Paul Copan",
+    era: "b. 1962 · Evangelical",
+    context: "Is God a Moral Monster?",
+    bio: "Paul Copan, Professor of Philosophy and Ethics at Palm Beach Atlantic University, has done the most accessible contemporary work on Christian moral philosophy and the problem of divine ethics in the Old Testament. His book Is God a Moral Monster? (2011) tackles the most common philosophical objection to Christianity — that the God of the Old Testament is morally monstrous. Copan argues from philosophy, history, and exegesis that these objections misread ancient texts through modern lenses.",
+    quote: "The God who commanded Israelite warfare is the same God who said love your enemies. The coherence of these commands requires understanding the progressive nature of revelation and the particular vocation of ancient Israel.",
+    contribution: "Copan's work gave Christian philosophy its most thorough contemporary response to the moral objections against theism — particularly those raised by the New Atheists. His combination of philosophical rigor with biblical scholarship and historical context has made him the primary reference for Christians engaging the 'divine command' and 'genocide' objections.",
+  },
+];
+
 export default function ChristianPhilosophyPage() {
   const [tab, setTab] = useState<Tab>("thinkers");
   const [selected, setSelected] = useState<string | null>(null);
+  const [selectedVoice, setSelectedVoice] = useState("plantinga-a");
+  const voiceItem = VOICES_CP.find(v => v.id === selectedVoice)!;
 
   const thinker = THINKERS.find(t => t.name === selected);
   const argument = ARGUMENTS.find(a => a.name === selected);
@@ -189,10 +239,10 @@ export default function ChristianPhilosophyPage() {
         </div>
 
         <div style={{ display: "flex", gap: 4, marginBottom: 28, background: CARD, borderRadius: 10, padding: 4, width: "fit-content" }}>
-          {(["thinkers", "arguments", "resources"] as Tab[]).map(t => (
+          {(["thinkers", "arguments", "resources", "voices"] as Tab[]).map(t => (
             <button key={t} onClick={() => { setTab(t); setSelected(null); }}
               style={{ padding: "8px 18px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", textTransform: "capitalize" }}>
-              {t === "thinkers" ? "Key Thinkers" : t === "arguments" ? "Core Arguments" : "Resources"}
+              {t === "thinkers" ? "Key Thinkers" : t === "arguments" ? "Core Arguments" : t === "resources" ? "Resources" : "🎓 Voices"}
             </button>
           ))}
         </div>
@@ -293,6 +343,33 @@ export default function ChristianPhilosophyPage() {
                 <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{r.description}</p>
               </div>
             ))}
+          </div>
+        )}
+
+        {tab === "voices" && (
+          <div style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
+            <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 80 }}>
+              {VOICES_CP.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? "rgba(0,255,136,0.4)" : BORDER}`, background: selectedVoice === v.id ? "rgba(0,255,136,0.08)" : CARD, cursor: "pointer" }}>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: selectedVoice === v.id ? GREEN : TEXT, marginBottom: 2 }}>{v.name}</div>
+                  <div style={{ fontSize: 11, color: MUTED }}>{v.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 28 }}>
+              <div style={{ fontSize: 12, color: MUTED, fontStyle: "italic", marginBottom: 6 }}>{voiceItem.context}</div>
+              <h2 style={{ fontSize: 24, fontWeight: 800, marginBottom: 4, color: TEXT }}>{voiceItem.name}</h2>
+              <div style={{ fontSize: 13, color: MUTED, marginBottom: 20 }}>{voiceItem.era}</div>
+              <p style={{ fontSize: 14, color: TEXT, lineHeight: 1.8, marginBottom: 24 }}>{voiceItem.bio}</p>
+              <div style={{ background: BG, borderRadius: 12, padding: 20, borderLeft: `3px solid ${GREEN}`, marginBottom: 24 }}>
+                <p style={{ fontSize: 15, color: TEXT, lineHeight: 1.75, fontStyle: "italic" }}>&ldquo;{voiceItem.quote}&rdquo;</p>
+              </div>
+              <div>
+                <div style={{ fontSize: 11, fontWeight: 700, color: PURPLE, textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>Contribution</div>
+                <p style={{ fontSize: 14, color: TEXT, lineHeight: 1.75 }}>{voiceItem.contribution}</p>
+              </div>
+            </div>
           </div>
         )}
       </div>

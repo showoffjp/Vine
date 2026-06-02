@@ -58,12 +58,22 @@ const PRACTICES = [
   { title: "Silence", desc: "Many people find Lent a natural time to add a period of silence — 10-15 minutes before the usual morning routine begins. Not structured prayer, but simply stopping before the noise begins. The soul needs quiet to hear what God is saying.", icon: "🤫" },
 ];
 
+const VOICES_LENT = [
+  { id: "chrysostom", name: "John Chrysostom", era: "c. 347-407", context: "Archbishop of Constantinople; Golden Mouth preacher", bio: "Chrysostom's Easter sermon (read in Orthodox churches every Easter night) is one of the greatest homilies in Christian history. His preaching on fasting was explicit and demanding: fasting without almsgiving is no fasting at all. If you fast from food but not from sin — from wrath, slander, and injustice — you have missed the point entirely. His social preaching connecting Lent to justice made him powerful enemies and led to his exile.", quote: "The fast is incomplete if it consists only of abstinence from food. Let us fast in a manner acceptable to the Lord. True fasting is the rejection of evil, temperance of tongue, abstinence from anger, separation from lusts, slander, lying, and every kind of evil.", contribution: "Established the social and moral dimensions of fasting: fasting from food without fasting from sin is hypocrisy. His connection of Lent to care for the poor made him the church's most powerful voice on Christian social responsibility." },
+  { id: "willard", name: "Dallas Willard", era: "1935-2013", context: "The Spirit of the Disciplines (1988); USC philosophy professor", bio: "Willard's treatment of fasting in The Spirit of the Disciplines is the most intellectually rigorous evangelical account. He argues that fasting, rightly understood, trains the body to be subservient to the spirit — not through punishment but through practice. The person who cannot fast cannot fully trust God, because their body has too strong a claim on their decision-making. Fasting reveals what we are actually depending on rather than what we think we are depending on.", quote: "Fasting is, above all, an expression of feeling that in this moment nothing — not even food — is as important as God and whatever God wants to do in my life.", contribution: "Rescued fasting from asceticism on one side and dismissal on the other. His argument that fasting is training rather than penance — and that it reveals the true hierarchy of our dependencies — has made it accessible to evangelical Christians who had abandoned it." },
+  { id: "schmemann", name: "Alexander Schmemann", era: "1921-1983", context: "Great Lent (1969); St. Vladimir's Orthodox Theological Seminary", bio: "Schmemann's Great Lent is the definitive theological account of the Orthodox Lenten season. His argument: Lent is not primarily about guilt and penance but about journey — a journey toward Pascha (Easter), which is itself a journey toward the Kingdom. Lent is the school of the church, training the faithful through fasting, prayer, and almsgiving to become what they already are in Christ. His liturgical theology makes the Lenten services themselves (especially Forgiveness Sunday and the Liturgy of the Presanctified Gifts) the primary teaching text.", quote: "Lent is the spring of the spirit, when we willingly undertake the effort of Christian struggle, the fight against sin and passions, so that in Pascha we might truly rise with Christ into the new life.", contribution: "Gave the Western church a window into the Orthodox theological depth of Lent as journey rather than punishment. His work has influenced liturgical renewal across Catholic, Anglican, and Reformed traditions." },
+  { id: "rutledge", name: "Fleming Rutledge", era: "b. 1937", context: "The Crucifixion (2015); Anglican priest and preacher", bio: "Rutledge's The Crucifixion is the most important English-language theology of the atonement published in the 21st century. Her Lenten preaching consistently foregrounds what modern Christianity often avoids: the gravity of sin, the wrath of God, and the radical costliness of the cross. For Rutledge, Lent without honest engagement with sin and judgment produces an empty Easter — the resurrection is only good news if the problem it solves is real.", quote: "The cross is not a symbol of God's love in the abstract. It is the specific event in which God's justice and God's love come together at their sharpest point — and the result is not sentiment but rescue.", contribution: "Recovered the theological seriousness of Lent for a generation that had domesticated it. Her insistence that Lent without honest engagement with sin produces an empty Easter has challenged comfortable Christianity across denominational lines." },
+  { id: "merton", name: "Thomas Merton", era: "1915-1968", context: "Seasons of Celebration (1965); Trappist monk", bio: "Merton's reflections on Lent consistently point to its contemplative heart: the desert is not punishment but preparation. Jesus went into the wilderness before his public ministry; Lent invites Christians into their own desert, where the false self is stripped away and the true self in God can emerge. His Lenten preaching emphasizes silence, simplicity, and the willingness to face oneself honestly before God — not to earn grace but to receive it more fully.", quote: "In Lent we should try to free ourselves from the tyranny of the self so that we can begin to feel the reality of God's love and understand something of the love of Christ for the Father and for man.", contribution: "Recovered the desert spiritual tradition for Lent — the sense that Lent is not primarily about giving things up but about going deeper into solitude with God. His contemplative Lent has influenced Christians across traditions who found the penitential model insufficient." }
+];
+
 interface LentProgress {
   [key: string]: boolean;
 }
 
 export default function LentPage() {
-  const [activeTab, setActiveTab] = useState<"weeks" | "practices" | "tracker">("weeks");
+  const [activeTab, setActiveTab] = useState<"weeks" | "voices" | "practices" | "tracker" | "videos">("weeks");
+  const [selectedVoice, setSelectedVoice] = useState("chrysostom");
+  const voiceItem = VOICES_LENT.find(v => v.id === selectedVoice)!;
   const [selectedWeek, setSelectedWeek] = useState(1);
   const [done, setDone] = useState<LentProgress>(() => {
     try { const s = localStorage.getItem("vine_lent_progress"); return s ? JSON.parse(s) : {}; } catch { return {}; }
@@ -90,8 +100,10 @@ export default function LentPage() {
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
             { id: "weeks" as const, label: "Week Guide", icon: "📖" },
+            { id: "voices" as const, label: "Voices", icon: "💬" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
-            { id: "tracker" as const, label: "Reading Tracker", icon: "✅" },
+            { id: "tracker" as const, label: "Tracker", icon: "✅" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -130,6 +142,43 @@ export default function LentPage() {
                 <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 10, padding: 18 }}>
                   <div style={{ color: GREEN, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>THIS WEEK'S PRACTICE</div>
                   <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{week.practice}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "voices" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 210, flexShrink: 0 }}>
+              {VOICES_LENT.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ width: "100%", background: selectedVoice === v.id ? `${PURPLE}18` : "transparent", border: `1px solid ${selectedVoice === v.id ? PURPLE + "80" : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 6, cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: selectedVoice === v.id ? TEXT : MUTED, fontWeight: 700, fontSize: 13 }}>{v.name}</div>
+                  <div style={{ color: MUTED, fontSize: 11, marginTop: 2 }}>{v.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ background: CARD, border: `1px solid ${PURPLE}30`, borderRadius: 14, padding: 28 }}>
+                <div style={{ marginBottom: 18 }}>
+                  <h2 style={{ color: TEXT, fontWeight: 900, fontSize: 22, marginBottom: 4 }}>{voiceItem.name}</h2>
+                  <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                    <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700 }}>{voiceItem.era}</span>
+                    <span style={{ background: `${GREEN}15`, color: GREEN, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700 }}>{voiceItem.context}</span>
+                  </div>
+                </div>
+                <div style={{ marginBottom: 18 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>LIFE & TEACHING ON LENT</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>{voiceItem.bio}</p>
+                </div>
+                <div style={{ background: BG, borderLeft: `3px solid ${PURPLE}`, borderRadius: "0 10px 10px 0", padding: 18, marginBottom: 18 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 11, marginBottom: 8 }}>CHARACTERISTIC QUOTE</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0, fontStyle: "italic" }}>&ldquo;{voiceItem.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 10, padding: 16 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>CONTRIBUTION</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{voiceItem.contribution}</p>
                 </div>
               </div>
             </div>
@@ -182,6 +231,39 @@ export default function LentPage() {
                 })}
               </div>
             ))}
+          </div>
+        )}
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "RieYtSHfeU8", title: "Rooted in Prayer and Fasting", channel: "Tim Keller", description: "Keller preaches on prayer and fasting as disciplines of surrender — why Jesus assumed his followers would fast, and what fasting accomplishes in the soul." },
+                  { videoId: "iZu5Zx2lTCM", title: "Feasting and Fasting: Spiritual Symmetry", channel: "The Bible Project / Tim Mackie", description: "Tim Mackie explores the biblical rhythm of feasting and fasting — how these two practices together shape a life of dependence on God and anticipation of his kingdom." },
+                  { videoId: "_QwQ-tLnDRU", title: "40 Global Days of Prayer and Fasting: Reaching Your City with the Gospel", channel: "Tim Keller", description: "Keller on the spiritual power of corporate prayer and fasting as the foundation for gospel advance in the city — the connection between seeking God and missional fruitfulness." },
+                  { videoId: "VHy60qCDfRY", title: "Ash Wednesday Homily: Remember, You Are Dust", channel: "Catholic Homily / Matthew 6", description: "An Ash Wednesday homily on Matthew 6:1-6, 16-18 — the summons to secret fasting, prayer, and almsgiving that marks the beginning of Lent's forty-day journey." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

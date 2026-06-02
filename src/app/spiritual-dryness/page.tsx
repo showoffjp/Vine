@@ -76,7 +76,7 @@ const PRACTICES = [
   { title: "Trust the Long Arc", desc: "No spiritual season lasts forever. The Psalms that begin in darkness do not (usually) end there. Trust the testimony of Christians across two thousand years who have described dryness, endured it faithfully, and found themselves in a different place. The ending of dryness is often quiet — not dramatic restoration but a gradual return of warmth.", icon: "🌅" },
 ];
 
-type Tab = "causes" | "saints" | "psalms" | "practices";
+type Tab = "causes" | "saints" | "psalms" | "practices" | "videos";
 
 export default function SpiritualDrynessPage() {
   const [tab, setTab] = useState<Tab>("causes");
@@ -105,6 +105,7 @@ export default function SpiritualDrynessPage() {
             { id: "saints" as const, label: "You Are Not Alone", icon: "👁️" },
             { id: "psalms" as const, label: "Lament Psalms", icon: "📜" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
+            { id: "videos" as const, label: "Videos", icon: "▶️" },
           ].map(t => (
             <button key={t.id} onClick={() => setTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -210,6 +211,40 @@ export default function SpiritualDrynessPage() {
                   <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{p.desc}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {tab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "3lMlHSu0_zA", title: "Overcoming Spiritual Dryness", channel: "Desiring God", description: "John Piper's series on how to fight for joy when God feels distant — practical and theologically grounded guidance for dry seasons." },
+                  { videoId: "g6UgMDx9rJY", title: "If God Is Good, Why Do I Suffer?", channel: "Ligonier Ministries", description: "R.C. Sproul addresses the hard question of why God permits suffering and spiritual desolation, with pastoral wisdom for those in the valley." },
+                  { videoId: "QgwzuFG5LCk", title: "Let the Psalms Teach You to Pray", channel: "Desiring God", description: "How the lament psalms give language for spiritual dryness and model bringing our darkest experiences honestly before God." },
+                  { videoId: "Txtb3VNjsuU", title: "What We Need to Know About Evil", channel: "Desiring God", description: "John Piper helps Christians understand suffering and spiritual darkness within God's sovereign purposes — essential for seasons of dryness." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

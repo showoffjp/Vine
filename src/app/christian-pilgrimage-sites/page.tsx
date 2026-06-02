@@ -4,6 +4,8 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
+type Tab = "sites" | "theology" | "planning" | "videos";
+
 const REGION_FILTERS = ["All", "Israel", "Europe", "Middle East", "Asia", "Americas"];
 
 const SITES = [
@@ -153,7 +155,143 @@ const SITES = [
   },
 ];
 
+const PILGRIMAGE_THEOLOGY = [
+  {
+    id: 1,
+    theme: "We Are Strangers and Aliens",
+    icon: "🚶",
+    scripture: "Hebrews 11:13-16; 1 Peter 2:11",
+    description: "Christians are always on pilgrimage; earth is not our home. To go on pilgrimage is not to do something unusual for a Christian — it is to make visible what is always already true. We are a people in transit, moving toward a city whose architect and builder is God.",
+    application: "Loosen your grip on comfort and security. Physical pilgrimage trains the soul to hold this world lightly. The pilgrim who returns from Jerusalem, Iona, or Santiago has practiced detachment from the permanent and attachment to the eternal.",
+  },
+  {
+    id: 2,
+    theme: "The Journey as Formation",
+    icon: "🛤️",
+    scripture: "Deuteronomy 8:2",
+    description: "God used Israel's wilderness journey to form character — to humble them, to test them, to reveal what was in their hearts. Physical pilgrimage mirrors spiritual formation. The difficulty is not incidental to the journey; it is the point. The blisters are pedagogical.",
+    application: "Physical pilgrimage mirrors spiritual formation. Choose pilgrimage routes with enough physical difficulty to be meaningful. Walk rather than ride where possible. Carry what you need and no more. Let the body teach the soul.",
+  },
+  {
+    id: 3,
+    theme: "Sacred Places in Scripture",
+    icon: "🏛️",
+    scripture: "Genesis 28:16-17",
+    description: "&ldquo;Surely the LORD is in this place, and I did not know it.&rdquo; Bethel, Jerusalem, and Sinai were encounter sites — places where God broke into human history in ways that made the ground holy. Physical space matters to God. He chose to be born in a specific stable, to die on a specific hill, to rise in a specific garden.",
+    application: "Physical space matters to God. Visit the sites of biblical encounter not as a tourist but as one seeking the same God who met Jacob, Moses, and Mary Magdalene there. Come expecting encounter, not merely information.",
+  },
+  {
+    id: 4,
+    theme: "The Communion of Saints",
+    icon: "☁️",
+    scripture: "Hebrews 12:1",
+    description: "We are surrounded by a great cloud of witnesses. To walk where the martyrs walked is to join the ongoing story of the church across time. When you stand in the Colosseum, in the Catacombs, in Iona Abbey, you are standing in the company of those who suffered and died for the same faith you now hold.",
+    application: "Walking where the martyrs walked connects us to the ongoing story. Research the saints who lived and died at each site you visit. Read their words. Pray their prayers. Let their courage challenge your own.",
+  },
+  {
+    id: 5,
+    theme: "Pilgrimage as Protest",
+    icon: "✊",
+    scripture: "Psalm 84:5-7",
+    description: "&ldquo;Blessed are those whose strength is in you, whose hearts are set on pilgrimage.&rdquo; To go on pilgrimage in a culture of comfort is a countercultural act. It is to say that spiritual reality is worth physical inconvenience, that the unseen is worth more than the seen, that God is worth the cost of the journey.",
+    application: "To go on pilgrimage is to reorder your priorities against the idol of comfort. Choose inconvenience deliberately. Refuse upgrades. Sleep simply. The sacrifice is part of the statement — I am going because this matters more than my comfort.",
+  },
+];
+
+const PILGRIMAGE_PLANNING = [
+  {
+    id: 1,
+    destination: "Jerusalem & Holy Land",
+    region: "Israel / Palestinian Territory",
+    duration: "7-14 days",
+    bestFor: "Every Christian",
+    description: "Walk where Jesus walked. The Via Dolorosa, the Garden Tomb, the Sea of Galilee, the Mount of Beatitudes, Capernaum, Bethlehem — these are the places where the events of the Gospels occurred. No amount of reading Scripture fully substitutes for standing in these locations. The land reads the Bible back to you.",
+    tips: [
+      "Book a guided Christian tour — an expert guide transforms the experience",
+      "Allocate at least 3 full days in Jerusalem alone; the Old City deserves extended time",
+      "Include a day on the Sea of Galilee; a sunrise boat ride is one of the most moving experiences available",
+      "Visit Yad Vashem; it provides essential historical context for the modern state and Christian responsibility",
+      "Read Gary Burge's Whose Land? Whose Promise? before traveling for theological context",
+      "Bring a good Bible and read the relevant passages at each site",
+    ],
+  },
+  {
+    id: 2,
+    destination: "Rome & Vatican",
+    region: "Italy",
+    duration: "5-7 days",
+    bestFor: "Catholic, Anglican, and Church History enthusiasts",
+    description: "The city where Peter and Paul were martyred and where the Western church was headquartered for over a millennium. The Vatican, the Catacombs, the Basilica of San Clemente (three layers of history beneath your feet), and the Appian Way make Rome one of the richest sites for Christian pilgrimage outside Israel.",
+    tips: [
+      "Book Vatican Museum tickets months in advance — day-of entry is nearly impossible",
+      "Visit San Clemente Basilica for a stunning multilayered history of the church",
+      "The Catacombs of Domitilla are less crowded than Callixtus and equally significant",
+      "Attend Mass at St. Peter's — even non-Catholics will find it meaningful",
+      "Walk the Appian Way on Sunday morning when it is closed to cars",
+      "Allow one full day simply to walk the ancient streets without a schedule",
+    ],
+  },
+  {
+    id: 3,
+    destination: "Canterbury",
+    region: "England",
+    duration: "2-3 days",
+    bestFor: "Anglican and Protestant pilgrims",
+    description: "The mother church of the Anglican Communion and the destination of the greatest pilgrimage tradition in English history. Thomas Becket was murdered here in 1170 and became the most venerated martyr of medieval England. Chaucer's Canterbury Tales memorialized the pilgrims who walked from London to his shrine.",
+    tips: [
+      "Walk the Pilgrims' Way from Winchester to Canterbury if time permits — 115 miles of medieval countryside",
+      "Attend Evensong in the Cathedral for an incomparable Anglican choral experience",
+      "Visit during Easter Week for the most liturgically rich services",
+      "The Crypt is older than the current cathedral and deeply atmospheric",
+      "Combine with visits to nearby Richborough (one of Britain's most important early Christian sites) and Dover",
+      "Read T.S. Eliot's Murder in the Cathedral before visiting the Becket site",
+    ],
+  },
+  {
+    id: 4,
+    destination: "Santiago de Compostela",
+    region: "Spain",
+    duration: "30+ days walking (shorter routes available)",
+    bestFor: "Spiritual seekers; anyone at a major life transition",
+    description: "The Camino Frances — the French Way — begins at Saint-Jean-Pied-de-Port in France and ends 780km later at the Cathedral of Santiago in northwest Spain. It is one of the most spiritually profound journeys available to a person in the modern world. The walking, the community, the simplicity, and the cumulative weight of a thousand years of pilgrimage create a transformative experience unlike any other.",
+    tips: [
+      "Train for 3-4 months before attempting the Camino Frances; blisters and knee injuries are the main dangers",
+      "Pack light — most pilgrims carry too much and mail half home by day three",
+      "The Camino Portugues (from Porto) is a beautiful shorter alternative at 240km",
+      "Stay in albergues (pilgrim hostels) to experience the Camino community",
+      "Obtain a Credencial (pilgrim passport) and collect stamps at each stop",
+      "The last 100km from Sarria is the minimum for receiving the Compostela certificate",
+    ],
+  },
+  {
+    id: 5,
+    destination: "Iona",
+    region: "Scotland",
+    duration: "3-5 days",
+    bestFor: "Celtic spirituality seekers; those seeking contemplative retreat",
+    description: "The island of Columba — where Irish Christianity came to evangelize Scotland and northern England in 563 AD. Iona is tiny (3 miles by 1.5 miles), remote, and extraordinarily beautiful. The Iona Community offers a rhythm of daily worship, work, and study that has formed pilgrims for generations. Celtic Christianity&rsquo;s vision of thin places — locations where the distance between heaven and earth seems especially small — is nowhere more felt than here.",
+    tips: [
+      "Book accommodation months in advance; the island has very limited beds",
+      "Participate in the Iona Community's daily worship rhythm: morning and evening prayer in the Abbey",
+      "Walk to St. Columba's Bay (where Columba landed) and collect a green stone as is traditional",
+      "The Machair (western beaches) at sunset is one of the most beautiful places in Britain",
+      "Read the Iona Community's Iona Abbey Worship Book before visiting",
+      "The journey — train to Oban, ferry to Mull, bus, ferry — is itself part of the pilgrimage; embrace it",
+    ],
+  },
+];
+
+const VIDEOS = [
+  { id: "v6xk8e7gdMA", title: "The Holiness of God", speaker: "R.C. Sproul" },
+  { id: "7CBgp74UwbU", title: "The Trauma of Holiness", speaker: "R.C. Sproul" },
+  { id: "X1rPalyUshw", title: "How Great Is Our God", speaker: "Louie Giglio" },
+  { id: "JHdB1dYAteA", title: "Don't Waste Your Life", speaker: "John Piper" },
+  { id: "lsTzXI7cJGA", title: "The Prodigal Sons", speaker: "Tim Keller" },
+  { id: "by8ykv7-A3c", title: "Supremacy of Christ and Truth", speaker: "Voddie Baucham" },
+];
+
 export default function ChristianPilgrimageSitesPage() {
+  const [activeTab, setActiveTab] = useState<Tab>("sites");
   const [region, setRegion] = useState("All");
   const [selected, setSelected] = useState<string | null>(null);
 
@@ -165,80 +303,176 @@ export default function ChristianPilgrimageSitesPage() {
       <div style={{ maxWidth: 960, margin: "0 auto", padding: "0 20px 60px" }}>
         <div style={{ textAlign: "center", marginBottom: 40 }}>
           <div style={{ fontSize: 48, marginBottom: 12 }}>🗺️</div>
-          <h1 style={{ fontSize: 32, fontWeight: 900, marginBottom: 8 }}>Christian Pilgrimage & Holy Sites</h1>
+          <h1 style={{ fontSize: 32, fontWeight: 900, marginBottom: 8 }}>Christian Pilgrimage &amp; Holy Sites</h1>
           <p style={{ color: MUTED, fontSize: 16, maxWidth: 600, margin: "0 auto" }}>
-            The places where Christian history happened — from the hills of Galilee to the Reformation church at Wittenberg. Visiting these sites is among the most spiritually formative experiences available to Christians.
+            The places where Christian history happened &mdash; from the hills of Galilee to the Reformation church at Wittenberg. Visiting these sites is among the most spiritually formative experiences available to Christians.
           </p>
         </div>
 
-        <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 24, display: "flex", gap: 12, alignItems: "flex-start" }}>
-          <span style={{ fontSize: 24, flexShrink: 0 }}>✈️</span>
-          <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>
-            Pilgrimage is one of the oldest Christian practices. Christians have been traveling to Jerusalem since the 4th century. The purpose is not to earn God's favor but to let the places shape your imagination and deepen your connection to the story of God's people. Every site on this list will change how you read Scripture.
-          </p>
-        </div>
-
-        <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 28 }}>
-          {REGION_FILTERS.map(r => (
-            <button key={r} onClick={() => setRegion(r)}
-              style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${region === r ? GREEN : BORDER}`, background: region === r ? `${GREEN}15` : "transparent", color: region === r ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
-              {r}
+        {/* Tab bar */}
+        <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 6, width: "fit-content" }}>
+          {(["sites", "theology", "planning", "videos"] as const).map(t => (
+            <button key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+              {t === "sites" ? "Sites" : t === "theology" ? "Theology" : t === "planning" ? "Planning" : "Videos"}
             </button>
           ))}
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: site ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
-          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            {filtered.map((s, i) => (
-              <button key={i} onClick={() => setSelected(selected === s.name ? null : s.name)}
-                style={{ background: selected === s.name ? `${s.color}12` : CARD, border: `1px solid ${selected === s.name ? s.color + "50" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left", transition: "all 0.15s" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                  <div style={{ width: 44, height: 44, borderRadius: 10, background: `${s.color}20`, border: `1px solid ${s.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: s.color, fontWeight: 900, fontSize: 9, flexShrink: 0 }}>
-                    {s.initials}
-                  </div>
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-                      <span style={{ color: TEXT, fontWeight: 800, fontSize: 15 }}>{s.name}</span>
-                      <span style={{ background: `${s.color}15`, color: s.color, padding: "1px 8px", borderRadius: 8, fontSize: 10, fontWeight: 700 }}>{s.region}</span>
+        {/* Sites tab */}
+        {activeTab === "sites" && (
+          <>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 24, display: "flex", gap: 12, alignItems: "flex-start" }}>
+              <span style={{ fontSize: 24, flexShrink: 0 }}>✈️</span>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>
+                Pilgrimage is one of the oldest Christian practices. Christians have been traveling to Jerusalem since the 4th century. The purpose is not to earn God&rsquo;s favor but to let the places shape your imagination and deepen your connection to the story of God&rsquo;s people. Every site on this list will change how you read Scripture.
+              </p>
+            </div>
+
+            <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 28 }}>
+              {REGION_FILTERS.map(r => (
+                <button key={r} onClick={() => setRegion(r)}
+                  style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${region === r ? GREEN : BORDER}`, background: region === r ? `${GREEN}15` : "transparent", color: region === r ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
+                  {r}
+                </button>
+              ))}
+            </div>
+
+            <div style={{ display: "grid", gridTemplateColumns: site ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                {filtered.map((s, i) => (
+                  <button key={i} onClick={() => setSelected(selected === s.name ? null : s.name)}
+                    style={{ background: selected === s.name ? `${s.color}12` : CARD, border: `1px solid ${selected === s.name ? s.color + "50" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left", transition: "all 0.15s" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                      <div style={{ width: 44, height: 44, borderRadius: 10, background: `${s.color}20`, border: `1px solid ${s.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: s.color, fontWeight: 900, fontSize: 9, flexShrink: 0 }}>
+                        {s.initials}
+                      </div>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                          <span style={{ color: TEXT, fontWeight: 800, fontSize: 15 }}>{s.name}</span>
+                          <span style={{ background: `${s.color}15`, color: s.color, padding: "1px 8px", borderRadius: 8, fontSize: 10, fontWeight: 700 }}>{s.region}</span>
+                        </div>
+                        <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{s.country}</div>
+                      </div>
                     </div>
-                    <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{s.country}</div>
+                  </button>
+                ))}
+              </div>
+
+              {site && (
+                <div style={{ background: CARD, border: `1px solid ${site.color}30`, borderRadius: 14, padding: 28, position: "sticky", top: 100 }}>
+                  <div style={{ display: "flex", alignItems: "flex-start", gap: 12, marginBottom: 14 }}>
+                    <div>
+                      <h2 style={{ color: site.color, fontWeight: 900, fontSize: 18, margin: "0 0 2px" }}>{site.name}</h2>
+                      <div style={{ color: MUTED, fontSize: 12 }}>{site.country} · {site.region}</div>
+                    </div>
+                  </div>
+
+                  <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 8, fontSize: 12, fontWeight: 600, marginBottom: 14, display: "inline-block" }}>{site.scripture}</span>
+
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, marginBottom: 14, marginTop: 10 }}>{site.significance}</p>
+
+                  <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}15`, borderRadius: 8, padding: 10, marginBottom: 10 }}>
+                    <div style={{ color: GREEN, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>MUST SEE</div>
+                    <p style={{ color: TEXT, fontSize: 12, margin: 0, lineHeight: 1.6 }}>{site.must_see}</p>
+                  </div>
+
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 10 }}>
+                    <div style={{ background: `${site.color}08`, border: `1px solid ${site.color}15`, borderRadius: 8, padding: 10 }}>
+                      <div style={{ color: site.color, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>BEST TIME</div>
+                      <p style={{ color: TEXT, fontSize: 12, margin: 0, lineHeight: 1.5 }}>{site.best_time}</p>
+                    </div>
+                    <div style={{ background: `${PURPLE}08`, border: `1px solid ${PURPLE}15`, borderRadius: 8, padding: 10 }}>
+                      <div style={{ color: PURPLE, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>PRACTICAL TIPS</div>
+                      <p style={{ color: TEXT, fontSize: 12, margin: 0, lineHeight: 1.5 }}>{site.practical}</p>
+                    </div>
                   </div>
                 </div>
-              </button>
+              )}
+            </div>
+          </>
+        )}
+
+        {/* Theology tab */}
+        {activeTab === "theology" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+            <p style={{ color: MUTED, fontSize: 15, lineHeight: 1.7, margin: "0 0 8px" }}>
+              Pilgrimage is not tourism with a Bible. It is a theological practice rooted in the conviction that physical space, embodied journey, and sacred encounter are categories God takes seriously. These five themes form the doctrinal foundation for why Christians go on pilgrimage.
+            </p>
+            {PILGRIMAGE_THEOLOGY.map(entry => (
+              <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 12 }}>
+                  <span style={{ fontSize: 36 }}>{entry.icon}</span>
+                  <div>
+                    <h2 style={{ color: TEXT, fontWeight: 900, fontSize: 20, margin: "0 0 4px" }}>{entry.theme}</h2>
+                    <span style={{ background: `${PURPLE}18`, color: PURPLE, padding: "2px 10px", borderRadius: 8, fontSize: 11, fontWeight: 700 }}>{entry.scripture}</span>
+                  </div>
+                </div>
+                <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.75, marginBottom: 14 }} dangerouslySetInnerHTML={{ __html: entry.description }} />
+                <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 8, padding: 12 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>APPLICATION</div>
+                  <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{entry.application}</p>
+                </div>
+              </div>
             ))}
           </div>
+        )}
 
-          {site && (
-            <div style={{ background: CARD, border: `1px solid ${site.color}30`, borderRadius: 14, padding: 28, position: "sticky", top: 100 }}>
-              <div style={{ display: "flex", alignItems: "flex-start", gap: 12, marginBottom: 14 }}>
-                <div>
-                  <h2 style={{ color: site.color, fontWeight: 900, fontSize: 18, margin: "0 0 2px" }}>{site.name}</h2>
-                  <div style={{ color: MUTED, fontSize: 12 }}>{site.country} · {site.region}</div>
+        {/* Planning tab */}
+        {activeTab === "planning" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+            <p style={{ color: MUTED, fontSize: 15, lineHeight: 1.7, margin: "0 0 8px" }}>
+              Practical planning guides for the five most significant Christian pilgrimage destinations &mdash; including duration, best fit, and on-the-ground tips gathered from experienced pilgrims and spiritual directors.
+            </p>
+            {PILGRIMAGE_PLANNING.map(entry => (
+              <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28 }}>
+                <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", flexWrap: "wrap", gap: 12, marginBottom: 14 }}>
+                  <div>
+                    <h2 style={{ color: TEXT, fontWeight: 900, fontSize: 20, margin: "0 0 4px" }}>{entry.destination}</h2>
+                    <div style={{ color: MUTED, fontSize: 13 }}>{entry.region}</div>
+                  </div>
+                  <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                    <span style={{ background: `${GREEN}12`, color: GREEN, padding: "4px 12px", borderRadius: 8, fontSize: 12, fontWeight: 700 }}>{entry.duration}</span>
+                    <span style={{ background: `${PURPLE}12`, color: PURPLE, padding: "4px 12px", borderRadius: 8, fontSize: 12, fontWeight: 700 }}>{entry.bestFor}</span>
+                  </div>
+                </div>
+                <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.75, marginBottom: 16 }}>{entry.description}</p>
+                <div style={{ background: `${BORDER}40`, borderRadius: 10, padding: 16 }}>
+                  <div style={{ color: TEXT, fontWeight: 700, fontSize: 11, marginBottom: 10, textTransform: "uppercase", letterSpacing: "0.06em" }}>Planning Tips</div>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                    {entry.tips.map((tip, idx) => (
+                      <div key={idx} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
+                        <span style={{ color: GREEN, fontWeight: 900, fontSize: 13, flexShrink: 0, marginTop: 1 }}>{idx + 1}.</span>
+                        <span style={{ color: TEXT, fontSize: 13, lineHeight: 1.65 }}>{tip}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
+            ))}
+          </div>
+        )}
 
-              <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 8, fontSize: 12, fontWeight: 600, marginBottom: 14, display: "inline-block" }}>{site.scripture}</span>
-
-              <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, marginBottom: 14, marginTop: 10 }}>{site.significance}</p>
-
-              <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}15`, borderRadius: 8, padding: 10, marginBottom: 10 }}>
-                <div style={{ color: GREEN, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>MUST SEE</div>
-                <p style={{ color: TEXT, fontSize: 12, margin: 0, lineHeight: 1.6 }}>{site.must_see}</p>
-              </div>
-
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 10 }}>
-                <div style={{ background: `${site.color}08`, border: `1px solid ${site.color}15`, borderRadius: 8, padding: 10 }}>
-                  <div style={{ color: site.color, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>BEST TIME</div>
-                  <p style={{ color: TEXT, fontSize: 12, margin: 0, lineHeight: 1.5 }}>{site.best_time}</p>
+        {/* Videos tab */}
+        {activeTab === "videos" && (
+          <div>
+            <p style={{ color: MUTED, fontSize: 15, lineHeight: 1.7, marginBottom: 28 }}>
+              Teaching on the holiness, greatness, and beauty of God &mdash; the convictions that send pilgrims on the road and sustain them when the journey is hard.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
+              {VIDEOS.map(v => (
+                <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, overflow: "hidden" }}>
+                  <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", borderRadius: 8 }}
+                    src={`https://www.youtube.com/embed/${v.id}`} title={v.title}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+                  <div style={{ padding: "14px 16px" }}>
+                    <div style={{ color: TEXT, fontWeight: 800, fontSize: 14 }}>{v.title}</div>
+                    <div style={{ color: MUTED, fontSize: 12, marginTop: 4 }}>{v.speaker}</div>
+                  </div>
                 </div>
-                <div style={{ background: `${PURPLE}08`, border: `1px solid ${PURPLE}15`, borderRadius: 8, padding: 10 }}>
-                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>PRACTICAL TIPS</div>
-                  <p style={{ color: TEXT, fontSize: 12, margin: 0, lineHeight: 1.5 }}>{site.practical}</p>
-                </div>
-              </div>
+              ))}
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );

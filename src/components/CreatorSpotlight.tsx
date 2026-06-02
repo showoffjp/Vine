@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { ChevronLeft, ChevronRight, Video, FileText, Mic, Users, Star, PlusCircle } from "lucide-react";
+import { ChevronLeft, ChevronRight, Video, FileText, Mic, Users, PlusCircle } from "lucide-react";
 
-const creators = [
+const CREATORS = [
   {
     name: "Dr. Rachel Osei",
     country: "Ghana",
@@ -11,7 +11,6 @@ const creators = [
     title: "Bible Teacher & Theologian",
     followers: "42.8K",
     initials: "RO",
-    color: "#6B4FBB",
     types: ["Video", "Articles"],
     bio: "Bridging academic theology and everyday faith. Known for her deep dives into Romans and practical discipleship tools.",
   },
@@ -22,7 +21,6 @@ const creators = [
     title: "Preacher & Podcaster",
     followers: "118K",
     initials: "MW",
-    color: "#00FF88",
     types: ["Video", "Podcast"],
     bio: "Senior pastor turned digital minister. His Sunday sermons reach over 100K listeners weekly across 40 countries.",
   },
@@ -33,7 +31,6 @@ const creators = [
     title: "Worship Leader & Songwriter",
     followers: "67.2K",
     initials: "MS",
-    color: "#2E7D52",
     types: ["Video", "Podcast"],
     bio: "Award-winning worship songwriter whose music has been sung in churches from São Paulo to Seoul.",
   },
@@ -44,9 +41,8 @@ const creators = [
     title: "Christian Finance Educators",
     followers: "29.4K",
     initials: "JN",
-    color: "#1565C0",
     types: ["Articles", "Podcast"],
-    bio: "Helping families steward God's resources with wisdom. Creators of the 'Kingdom Budget' framework used globally.",
+    bio: "Helping families steward God's resources with wisdom. Creators of the Kingdom Budget framework used globally.",
   },
   {
     name: "Prof. Emmanuel Adeyemi",
@@ -55,7 +51,6 @@ const creators = [
     title: "Apologist & Author",
     followers: "55.1K",
     initials: "EA",
-    color: "#B71C1C",
     types: ["Video", "Articles"],
     bio: "Philosophy professor and passionate defender of the faith. His debates have been watched over 8 million times.",
   },
@@ -66,22 +61,15 @@ const creators = [
     title: "Youth Ministry Leader",
     followers: "18.7K",
     initials: "SA",
-    color: "#7B2FBE",
     types: ["Video", "Articles", "Podcast"],
     bio: "Reaching the next generation for Christ through creative storytelling, art, and community-driven ministry.",
   },
 ];
 
-const typeIcons: Record<string, React.ReactNode> = {
+const TYPE_ICONS: Record<string, React.ReactNode> = {
   Video: <Video size={10} />,
   Articles: <FileText size={10} />,
   Podcast: <Mic size={10} />,
-};
-
-const typeColors: Record<string, string> = {
-  Video: "#6B4FBB",
-  Articles: "#2E7D52",
-  Podcast: "#00FF88",
 };
 
 export default function CreatorSpotlight() {
@@ -89,147 +77,92 @@ export default function CreatorSpotlight() {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const scroll = (dir: "left" | "right") => {
-    if (!scrollRef.current) return;
-    scrollRef.current.scrollBy({
-      left: dir === "right" ? 340 : -340,
-      behavior: "smooth",
-    });
-  };
-
-  const toggleFollow = (name: string) => {
-    setFollowed((prev) => ({ ...prev, [name]: !prev[name] }));
+    scrollRef.current?.scrollBy({ left: dir === "right" ? 320 : -320, behavior: "smooth" });
   };
 
   return (
     <section
       style={{
-        background: "#07070F",
-        padding: "80px 0",
+        background: "#0a1a0e",
+        padding: "100px 4vw",
+        borderTop: "0.5px solid rgba(201,162,39,0.18)",
         position: "relative",
         overflow: "hidden",
       }}
     >
-      {/* Background glow */}
       <div
         style={{
           position: "absolute",
-          inset: 0,
-          background:
-            "radial-gradient(ellipse 60% 50% at 80% 50%, rgba(0,255,136,0.04) 0%, transparent 70%)",
+          top: "30%",
+          right: "-5%",
+          width: 500,
+          height: 500,
+          background: "radial-gradient(ellipse, rgba(58,125,86,0.06) 0%, transparent 65%)",
           pointerEvents: "none",
         }}
       />
 
-      <div
-        style={{
-          maxWidth: "1200px",
-          margin: "0 auto",
-          padding: "0 24px",
-          position: "relative",
-          zIndex: 1,
-        }}
-      >
+      <div style={{ maxWidth: 1200, margin: "0 auto", position: "relative", zIndex: 1 }}>
         {/* Header */}
         <div
           style={{
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            marginBottom: "36px",
+            marginBottom: "3rem",
             flexWrap: "wrap",
-            gap: "16px",
+            gap: 16,
           }}
         >
           <div>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "8px",
-                marginBottom: "8px",
-              }}
-            >
-              <Star size={16} style={{ color: "#00FF88" }} />
-              <span
-                style={{
-                  color: "#00FF88",
-                  fontSize: "0.75rem",
-                  fontWeight: 700,
-                  letterSpacing: "0.15em",
-                  textTransform: "uppercase",
-                }}
-              >
-                Featured Voices
-              </span>
+            <div className="vine-eyebrow" style={{ marginBottom: "0.9rem" }}>
+              Featured Voices
             </div>
             <h2
               style={{
-                color: "#F2F2F8",
-                fontSize: "clamp(1.6rem, 3.5vw, 2.4rem)",
-                fontWeight: 900,
+                fontFamily: "var(--font-cormorant, 'Cormorant Garamond', Georgia, serif)",
+                fontSize: "clamp(2rem, 4vw, 3.4rem)",
+                fontWeight: 300,
+                color: "#f2e6c8",
+                lineHeight: 1.15,
                 margin: 0,
               }}
             >
-              Creator <span className="gold-gradient">Spotlight</span>
+              Creator
+              <em style={{ fontStyle: "italic", color: "#e8c162" }}> Spotlight.</em>
             </h2>
           </div>
 
           {/* Scroll arrows */}
-          <div style={{ display: "flex", gap: "10px" }}>
-            <button
-              onClick={() => scroll("left")}
-              style={{
-                width: "40px",
-                height: "40px",
-                borderRadius: "50%",
-                border: "1px solid rgba(0,255,136,0.3)",
-                background: "transparent",
-                color: "#00FF88",
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                transition: "all 0.2s",
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLButtonElement).style.background =
-                  "rgba(0,255,136,0.1)";
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLButtonElement).style.background =
-                  "transparent";
-              }}
-              aria-label="Scroll left"
-            >
-              <ChevronLeft size={18} />
-            </button>
-            <button
-              onClick={() => scroll("right")}
-              style={{
-                width: "40px",
-                height: "40px",
-                borderRadius: "50%",
-                border: "1px solid rgba(0,255,136,0.3)",
-                background: "transparent",
-                color: "#00FF88",
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                transition: "all 0.2s",
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLButtonElement).style.background =
-                  "rgba(0,255,136,0.1)";
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLButtonElement).style.background =
-                  "transparent";
-              }}
-              aria-label="Scroll right"
-            >
-              <ChevronRight size={18} />
-            </button>
+          <div style={{ display: "flex", gap: 8 }}>
+            {(["left", "right"] as const).map((dir) => (
+              <button
+                key={dir}
+                onClick={() => scroll(dir)}
+                style={{
+                  width: 38,
+                  height: 38,
+                  borderRadius: "50%",
+                  border: "0.5px solid rgba(201,162,39,0.3)",
+                  background: "transparent",
+                  color: "#c9a227",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  transition: "all 0.2s",
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLButtonElement).style.background = "rgba(201,162,39,0.1)";
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLButtonElement).style.background = "transparent";
+                }}
+                aria-label={`Scroll ${dir}`}
+              >
+                {dir === "left" ? <ChevronLeft size={16} /> : <ChevronRight size={16} />}
+              </button>
+            ))}
           </div>
         </div>
 
@@ -238,72 +171,79 @@ export default function CreatorSpotlight() {
           ref={scrollRef}
           style={{
             display: "flex",
-            gap: "20px",
+            gap: "1rem",
             overflowX: "auto",
-            paddingBottom: "12px",
+            paddingBottom: 12,
             scrollbarWidth: "none",
             msOverflowStyle: "none",
           }}
         >
-          {creators.map((creator) => {
+          {CREATORS.map((creator) => {
             const isFollowed = followed[creator.name];
             return (
               <div
                 key={creator.name}
-                className="card-glow"
                 style={{
-                  background: "#12121F",
-                  borderRadius: "20px",
-                  padding: "28px 24px",
-                  minWidth: "280px",
-                  maxWidth: "280px",
+                  background: "#050e07",
+                  border: "0.5px solid rgba(201,162,39,0.13)",
+                  borderRadius: 3,
+                  padding: "1.8rem 1.5rem",
+                  minWidth: 260,
+                  maxWidth: 260,
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
                   textAlign: "center",
                   flexShrink: 0,
                   position: "relative",
-                  overflow: "hidden",
+                  transition: "border-color 0.2s",
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(201,162,39,0.3)";
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(201,162,39,0.13)";
                 }}
               >
-                {/* Subtle top accent */}
+                {/* Top accent line */}
                 <div
                   style={{
                     position: "absolute",
                     top: 0,
-                    left: 0,
-                    right: 0,
-                    height: "3px",
-                    background: `linear-gradient(90deg, transparent, ${creator.color}, transparent)`,
+                    left: "2rem",
+                    right: "2rem",
+                    height: "0.5px",
+                    background: "linear-gradient(90deg, transparent, rgba(201,162,39,0.4), transparent)",
                   }}
                 />
 
                 {/* Avatar */}
                 <div
                   style={{
-                    width: "72px",
-                    height: "72px",
+                    width: 66,
+                    height: 66,
                     borderRadius: "50%",
-                    background: creator.color,
+                    background: "rgba(201,162,39,0.1)",
+                    border: "0.5px solid rgba(201,162,39,0.35)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    color: "#fff",
-                    fontWeight: 800,
-                    fontSize: "1.1rem",
+                    fontFamily: "var(--font-cormorant, Georgia, serif)",
+                    fontSize: "1.2rem",
+                    fontWeight: 700,
+                    color: "#c9a227",
                     letterSpacing: "0.05em",
-                    marginBottom: "16px",
-                    boxShadow: `0 0 24px ${creator.color}55`,
-                    border: "3px solid rgba(255,255,255,0.15)",
+                    marginBottom: "0.9rem",
                     position: "relative",
+                    flexShrink: 0,
                   }}
                 >
                   {creator.initials}
                   <span
                     style={{
                       position: "absolute",
-                      bottom: "-2px",
-                      right: "-2px",
+                      bottom: -2,
+                      right: -2,
                       fontSize: "1rem",
                       lineHeight: 1,
                     }}
@@ -312,111 +252,108 @@ export default function CreatorSpotlight() {
                   </span>
                 </div>
 
-                {/* Name & title */}
                 <h3
                   style={{
-                    color: "#F2F2F8",
-                    fontSize: "1rem",
-                    fontWeight: 700,
-                    marginBottom: "4px",
+                    fontFamily: "var(--font-cormorant, 'Cormorant Garamond', Georgia, serif)",
+                    fontSize: "1.05rem",
+                    fontWeight: 600,
+                    color: "#f2e6c8",
+                    marginBottom: 3,
                   }}
                 >
                   {creator.name}
                 </h3>
                 <p
                   style={{
-                    color: "#8A8AA8",
-                    fontSize: "0.75rem",
-                    marginBottom: "10px",
+                    fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                    fontSize: "0.72rem",
+                    color: "#9a8f72",
+                    marginBottom: 8,
                   }}
                 >
                   {creator.title}
                 </p>
 
-                {/* Follower count */}
                 <div
                   style={{
                     display: "flex",
                     alignItems: "center",
-                    gap: "6px",
-                    marginBottom: "14px",
-                    color: "#00FF88",
+                    gap: 5,
+                    marginBottom: 10,
+                    fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                    fontSize: "0.75rem",
                   }}
                 >
-                  <Users size={13} />
-                  <span
-                    style={{
-                      fontSize: "0.8rem",
-                      fontWeight: 700,
-                      color: "#00FF88",
-                    }}
-                  >
-                    {creator.followers}
-                  </span>
-                  <span style={{ color: "#6A6A88", fontSize: "0.75rem" }}>
-                    followers
-                  </span>
+                  <Users size={11} style={{ color: "#c9a227" }} />
+                  <strong style={{ color: "#c9a227" }}>{creator.followers}</strong>
+                  <span style={{ color: "#9a8f72" }}>followers</span>
                 </div>
 
-                {/* Content type badges */}
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "6px",
-                    flexWrap: "wrap",
-                    justifyContent: "center",
-                    marginBottom: "14px",
-                  }}
-                >
+                {/* Type badges */}
+                <div style={{ display: "flex", gap: 5, flexWrap: "wrap", justifyContent: "center", marginBottom: 10 }}>
                   {creator.types.map((type) => (
                     <span
                       key={type}
                       style={{
                         display: "inline-flex",
                         alignItems: "center",
-                        gap: "4px",
-                        padding: "3px 10px",
-                        borderRadius: "999px",
-                        fontSize: "0.65rem",
-                        fontWeight: 700,
-                        background: `${typeColors[type]}22`,
-                        color: typeColors[type],
-                        border: `1px solid ${typeColors[type]}44`,
+                        gap: 4,
+                        padding: "2px 8px",
+                        borderRadius: 1,
+                        fontSize: "0.6rem",
+                        fontWeight: 600,
+                        letterSpacing: "0.08em",
+                        background: "rgba(201,162,39,0.08)",
+                        color: "#c9a227",
+                        border: "0.5px solid rgba(201,162,39,0.2)",
+                        fontFamily: "var(--font-jost, system-ui, sans-serif)",
                       }}
                     >
-                      {typeIcons[type]}
+                      {TYPE_ICONS[type]}
                       {type}
                     </span>
                   ))}
                 </div>
 
-                {/* Bio */}
                 <p
                   style={{
-                    color: "#6A6A88",
+                    fontFamily: "var(--font-jost, system-ui, sans-serif)",
                     fontSize: "0.75rem",
+                    color: "#9a8f72",
                     lineHeight: 1.6,
-                    marginBottom: "20px",
+                    fontWeight: 300,
+                    marginBottom: "1.2rem",
                     display: "-webkit-box",
                     WebkitLineClamp: 3,
-                    WebkitBoxOrient: "vertical",
+                    WebkitBoxOrient: "vertical" as const,
                     overflow: "hidden",
                   }}
                 >
                   {creator.bio}
                 </p>
 
-                {/* Follow button */}
                 <button
-                  onClick={() => toggleFollow(creator.name)}
-                  className={isFollowed ? "btn-outline-gold" : "btn-gold"}
+                  onClick={() => setFollowed((prev) => ({ ...prev, [creator.name]: !prev[creator.name] }))}
                   style={{
                     width: "100%",
-                    padding: "9px 0",
-                    borderRadius: "10px",
-                    fontSize: "0.8rem",
-                    fontWeight: 700,
+                    padding: "8px 0",
+                    borderRadius: 2,
+                    fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                    fontSize: "0.75rem",
+                    fontWeight: 600,
+                    letterSpacing: "0.1em",
+                    textTransform: "uppercase",
                     cursor: "pointer",
+                    transition: "all 0.2s",
+                    background: isFollowed ? "transparent" : "#c9a227",
+                    color: isFollowed ? "#c9a227" : "#1a0e00",
+                    border: isFollowed ? "0.5px solid rgba(201,162,39,0.4)" : "none",
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!isFollowed) (e.currentTarget as HTMLButtonElement).style.background = "#e8c162";
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isFollowed) (e.currentTarget as HTMLButtonElement).style.background = "#c9a227";
                   }}
                 >
                   {isFollowed ? "Following" : "Follow"}
@@ -429,30 +366,28 @@ export default function CreatorSpotlight() {
         {/* Become a Creator CTA */}
         <div
           style={{
-            marginTop: "40px",
-            background: "#12121F",
-            borderRadius: "20px",
-            padding: "40px 48px",
-            border: "1px solid rgba(0,255,136,0.15)",
+            marginTop: "2.5rem",
+            background: "#0f2318",
+            border: "0.5px solid rgba(201,162,39,0.2)",
+            borderRadius: 3,
+            padding: "2.5rem",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            gap: "32px",
+            gap: "2rem",
             flexWrap: "wrap",
             position: "relative",
             overflow: "hidden",
           }}
         >
-          {/* Background accent */}
           <div
             style={{
               position: "absolute",
-              right: "0",
-              top: "0",
-              bottom: "0",
+              right: 0,
+              top: 0,
+              bottom: 0,
               width: "40%",
-              background:
-                "radial-gradient(ellipse 80% 80% at 100% 50%, rgba(0,255,136,0.06) 0%, transparent 70%)",
+              background: "radial-gradient(ellipse 80% 80% at 100% 50%, rgba(201,162,39,0.04) 0%, transparent 70%)",
               pointerEvents: "none",
             }}
           />
@@ -462,43 +397,46 @@ export default function CreatorSpotlight() {
               style={{
                 display: "inline-flex",
                 alignItems: "center",
-                gap: "6px",
+                gap: 6,
                 padding: "4px 12px",
-                borderRadius: "999px",
-                background: "rgba(0,255,136,0.1)",
-                border: "1px solid rgba(0,255,136,0.25)",
-                color: "#00FF88",
-                fontSize: "0.65rem",
+                borderRadius: 2,
+                background: "rgba(201,162,39,0.1)",
+                border: "0.5px solid rgba(201,162,39,0.3)",
+                color: "#c9a227",
+                fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                fontSize: "0.62rem",
                 fontWeight: 700,
-                letterSpacing: "0.1em",
+                letterSpacing: "0.14em",
                 textTransform: "uppercase",
-                marginBottom: "14px",
+                marginBottom: "1rem",
               }}
             >
-              <PlusCircle size={11} />
+              <PlusCircle size={10} />
               Open Applications
             </div>
             <h3
               style={{
-                color: "#F2F2F8",
-                fontSize: "clamp(1.2rem, 2.5vw, 1.8rem)",
-                fontWeight: 900,
-                marginBottom: "10px",
+                fontFamily: "var(--font-cormorant, 'Cormorant Garamond', Georgia, serif)",
+                fontSize: "clamp(1.3rem, 2.5vw, 2rem)",
+                fontWeight: 600,
+                color: "#f2e6c8",
+                marginBottom: "0.6rem",
               }}
             >
-              Become a Creator on Vine
+              Become a Creator on The Vine
             </h3>
             <p
               style={{
-                color: "#8A8AA8",
-                fontSize: "0.9rem",
-                lineHeight: 1.6,
-                maxWidth: "500px",
+                fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                fontSize: "0.88rem",
+                color: "#9a8f72",
+                lineHeight: 1.65,
+                fontWeight: 300,
+                maxWidth: 520,
               }}
             >
-              Do you have a gift to share? Whether you preach, teach, sing, or
-              write, the global church needs your voice. Join 2,400+ creators
-              already building their ministry on Vine.
+              Whether you preach, teach, sing, or write — the global Church needs your voice.
+              Join 2,400+ creators already building their ministry on The Vine.
             </p>
           </div>
 
@@ -506,32 +444,44 @@ export default function CreatorSpotlight() {
             style={{
               display: "flex",
               flexDirection: "column",
-              gap: "12px",
+              gap: 10,
               flexShrink: 0,
               position: "relative",
               zIndex: 1,
             }}
           >
             <button
-              className="btn-gold"
               style={{
-                padding: "14px 32px",
-                borderRadius: "12px",
-                fontSize: "0.95rem",
-                fontWeight: 700,
+                padding: "0.85rem 2rem",
+                borderRadius: 2,
+                background: "#c9a227",
+                color: "#1a0e00",
+                border: "none",
+                fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                fontSize: "0.82rem",
+                fontWeight: 600,
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
                 cursor: "pointer",
                 whiteSpace: "nowrap",
+                transition: "background 0.2s",
               }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "#e8c162"; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "#c9a227"; }}
             >
               Apply as a Creator
             </button>
             <button
-              className="btn-outline-gold"
               style={{
-                padding: "12px 32px",
-                borderRadius: "12px",
-                fontSize: "0.85rem",
-                fontWeight: 600,
+                padding: "0.75rem 2rem",
+                borderRadius: 2,
+                background: "transparent",
+                color: "#c9b98a",
+                border: "0.5px solid rgba(201,162,39,0.25)",
+                fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                fontSize: "0.78rem",
+                fontWeight: 400,
+                letterSpacing: "0.06em",
                 cursor: "pointer",
                 whiteSpace: "nowrap",
               }}

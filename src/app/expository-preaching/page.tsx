@@ -4,7 +4,7 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "what" | "process" | "series" | "preachers";
+type Tab = "what" | "process" | "series" | "preachers" | "videos";
 
 const PROCESS_STEPS = [
   { step: 1, title: "Choose Your Text", color: GREEN, content: "The best expository preaching follows a book-by-book approach (lectio continua) — working through an entire book of the Bible consecutively. This prevents the preacher from avoiding hard texts, prevents the congregation from hearing only the preacher's favorite themes, and allows the Holy Spirit to set the agenda through the biblical canon. Start by asking: which book does this congregation most need? Which book is the Spirit putting before you? Then read the entire book in one sitting to grasp its argument." },

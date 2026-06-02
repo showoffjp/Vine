@@ -77,7 +77,7 @@ const PRACTICES = [
   { title: "Wonder at Divinization", desc: "Athanasius's formula — he became what we are so that we might become what he is — points to the goal of salvation: participation in the divine nature (2 Peter 1:4). This is theosis or divinization — not that we become God, but that through union with Christ we share in his divine life. Let this expand your vision of what salvation means.", icon: "✨" },
 ];
 
-type Tab = "theology" | "heresies" | "thinkers" | "practices";
+type Tab = "theology" | "heresies" | "thinkers" | "practices" | "videos";
 
 export default function IncarnationPage() {
   const [activeTab, setActiveTab] = useState<Tab>("theology");
@@ -104,6 +104,7 @@ export default function IncarnationPage() {
             { id: "heresies" as const, label: "Historic Errors", icon: "⚠️" },
             { id: "thinkers" as const, label: "Key Thinkers", icon: "💡" },
             { id: "practices" as const, label: "Implications", icon: "🛠️" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -214,6 +215,39 @@ export default function IncarnationPage() {
                   <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{p.desc}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Video teachings on the Incarnation — the Word become flesh, its theological meaning, and why it stands at the center of Christian faith.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "SUWBelEa_6o", title: "The Incarnation: God Became Human", channel: "The Bible Project", description: "An animated exploration of John 1:14 — what it means that the eternal Word became flesh, how this fulfills the Old Testament temple theme, and why the Incarnation matters for how we understand salvation." },
+                  { videoId: "oXEgbM2tSXs", title: "Fully God and Fully Human: The Council of Chalcedon", channel: "Ligonier Ministries", description: "The story of how the church arrived at the Chalcedonian definition — two natures, one person, without confusion or separation — and why each of the rejected heresies was a pastoral as well as theological failure." },
+                  { videoId: "kv46yYW66pA", title: "Why the Incarnation? Athanasius and the Logic of the Cross", channel: "Theology Explained", description: "Athanasius's answer to why God became human — to restore the divine image in corrupted humanity, to defeat death from within, and to open the way to divinization. The Incarnation as the hinge of salvation history." },
+                  { videoId: "smqK6ebkXiU", title: "The Permanent Humanity of Christ", channel: "N.T. Wright Online", description: "Wright on the astonishing implication that the Incarnation did not end at the resurrection — Jesus rose and ascended bodily, and there is now a human being at the right hand of the Father." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

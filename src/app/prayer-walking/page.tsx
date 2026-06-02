@@ -83,8 +83,18 @@ const GETTING_STARTED = [
   { icon: "🔄", title: "Make It a Rhythm", text: "The power of prayer walking is in consistency. A weekly 20-minute neighborhood walk done for a year transforms both you and your neighborhood in ways that aren't immediately visible." },
 ];
 
+const VOICES_PW = [
+  { id: "hawthorne-s", name: "Steve Hawthorne", era: "b. 1950s", context: "Prayerwalking: Praying On-Site With Insight (1993) — the definitive guide to prayer walking as a spiritual practice", bio: "Steve Hawthorne, along with Graham Kendrick, wrote Prayerwalking: Praying On-Site With Insight, which popularized prayer walking as a distinct spiritual discipline for the modern church. Hawthorne argued that praying while physically present in a location connects intercessory prayer to specific places in a way that armchair intercession cannot. Walking through a neighborhood, a city, or a region while praying for it engages not only the mind but the body, the senses, and the imagination — making prayer more specific, more sustained, and more emotionally engaged. The book provided the theological rationale, practical methodology, and historical precedents for organized prayer walking movements worldwide.", quote: "Prayerwalking is not walking while thinking about prayer — it is praying while walking through the places God has called us to love. The feet carry the heart to the place where it is most needed.", contribution: "Prayerwalking catalyzed an international movement of organized prayer walking in the 1990s and 2000s. Hawthorne's work with the U.S. Center for World Mission and his teaching on strategic intercession influenced how mission organizations and local churches approach prayer for their communities. His methodology has been adopted by thousands of churches worldwide." },
+  { id: "kendrick-g", name: "Graham Kendrick", era: "b. 1950", context: "March for Jesus movement (1980s-1990s); pioneer of public, processional praise and prayer walking", bio: "Graham Kendrick, British songwriter and worship leader, is best known for worship songs like Shine, Jesus, Shine and The Servant King, but his role in pioneering public, processional prayer walking is equally significant. The March for Jesus movement, which he co-founded in the late 1980s, brought Christians into the streets for public worship and prayer walking in cities worldwide, culminating in coordinated global marches in the early 1990s that involved tens of millions of participants. Kendrick's theology of praise and prayer walking was rooted in the biblical tradition of processional worship — from Israel's march around Jericho to the triumphal entry of Jesus into Jerusalem.", quote: "When we take worship into the streets, we are not invading enemy territory — we are reclaiming what belongs to God. The earth is the Lord's, and prayer walking is one way of saying so.", contribution: "Kendrick's March for Jesus movement introduced prayer walking to millions of Christians who had never heard of the practice, and demonstrated that prayer walking could be done publicly, communally, and joyfully — not just quietly and individually. His influence catalyzed prayer walking movements in hundreds of cities worldwide." },
+  { id: "sheets-d", name: "Dutch Sheets", era: "b. 1953", context: "Intercessory Prayer (1996); Watchman Prayer (2000) — on strategic intercession for places and regions", bio: "Dutch Sheets is a charismatic pastor and author whose Intercessory Prayer became one of the most widely read books on intercession in the late 20th century. His theology of intercession emphasizes the watchman function of prayer — believers called to stand guard over particular places, people, and situations, praying with authority against spiritual forces that operate in specific locations. His Watchman Prayer developed this concept specifically for geographic intercession, providing a theological framework for why praying on-site differs from praying at a distance. Sheets argues that physical presence in a location can intensify intercession by engaging all the senses and connecting the prayer directly to the specific spiritual dynamics of the place.", quote: "Watchman prayer is not passive waiting — it is active engagement with the spiritual forces that shape a community. The intercessor who walks the streets is writing history on their knees.", contribution: "Sheets's theological framework for geographic and strategic intercession gave prayer walking a coherent theological basis within charismatic evangelical theology. His books on intercession, combined with his conferences and teaching ministry, have trained tens of thousands of intercessors in prayer walking and strategic intercession." },
+  { id: "barton-rt", name: "Ruth Haley Barton", era: "b. 1956", context: "Sacred Rhythms (2006); contemplative walking prayer as embodied presence", bio: "Ruth Haley Barton is a spiritual director and founder of the Transforming Center whose work emphasizes contemplative practices of prayer, including walking prayer as a form of contemplative presence. While Hawthorne and Sheets approach prayer walking primarily through the lens of intercession and spiritual warfare, Barton's approach is contemplative: walking as a form of embodied prayer that connects us to the present moment, to the created world, and to the God who inhabits both. Drawing on the Christian contemplative tradition — including Ignatian walking meditation and Celtic pilgrimage — she offers an approach to prayer walking that is less about strategic intercession and more about receptive, listening presence.", quote: "Walking prayer is the practice of putting your body where your soul is going. When we pray while walking, we give our whole selves — not just our minds — to God's presence.", contribution: "Barton's contemplative approach to prayer walking expanded the practice beyond its charismatic and intercessory roots, making it available to Christians in liturgical, Reformed, and contemplative traditions. Her integration of walking prayer into broader spiritual direction practice has helped thousands of Christians develop an embodied prayer life." },
+  { id: "ortlund-r", name: "Ray Ortlund", era: "b. 1952", context: "Immanuel Church Nashville; prayer walking as pastoral love for community", bio: "Ray Ortlund, pastor of Immanuel Church Nashville, has written and preached extensively on prayer as the central practice of pastoral ministry. His approach to prayer walking is pastoral rather than strategic: walking through his neighborhood as a practice of love and pastoral presence, praying for the specific families and situations he encounters. His teaching has given many pastors a model for prayer walking as an expression of pastoral care rather than spiritual warfare — a way of loving a community by interceding specifically for what you see while walking through it.", quote: "I walk my neighborhood because I love it. And I pray while I walk because love and prayer are inseparable. You cannot genuinely love what you don't pray for.", contribution: "Ortlund's pastoral model of prayer walking has influenced how evangelical pastors understand their relationship to the communities they serve. His emphasis on prayer walking as pastoral love — rather than spiritual warfare — has given the practice accessibility for pastors and church members who were put off by more combative presentations." },
+];
+
 export default function PrayerWalkingPage() {
-  const [activeTab, setActiveTab] = useState<"routes" | "guide" | "journal">("guide");
+  const [activeTab, setActiveTab] = useState<"routes" | "guide" | "journal" | "voices">("guide");
+  const [selectedVoice, setSelectedVoice] = useState("hawthorne-s");
+  const voiceItem = VOICES_PW.find(v => v.id === selectedVoice)!;
   const [selectedRoute, setSelectedRoute] = useState<string>("neighborhood");
   const [completedStops, setCompletedStops] = useState<Set<string>>(() => {
     try { const s = localStorage.getItem("vine_pw_stops"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
@@ -129,6 +139,7 @@ export default function PrayerWalkingPage() {
             { id: "guide" as const, label: "Getting Started", icon: "📋" },
             { id: "routes" as const, label: "Prayer Routes", icon: "🗺️" },
             { id: "journal" as const, label: "Walk Journal", icon: "✍️" },
+            { id: "voices" as const, label: "Voices", icon: "📣" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -227,6 +238,34 @@ export default function PrayerWalkingPage() {
               <div style={{ marginTop: 8, display: "flex", justifyContent: "space-between" }}>
                 <span style={{ color: MUTED, fontSize: 12 }}>Saved automatically</span>
                 <span style={{ color: MUTED, fontSize: 12 }}>{journalText.split("\n").filter(Boolean).length} lines</span>
+              </div>
+            </div>
+          </div>
+        )}
+        {activeTab === "voices" && (
+          <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
+            <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
+              {VOICES_PW.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ background: selectedVoice === v.id ? PURPLE : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: TEXT, fontWeight: 700, fontSize: 14 }}>{v.name}</div>
+                  <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{v.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 28 }}>
+                <h2 style={{ color: GREEN, fontWeight: 900, fontSize: 22, margin: "0 0 4px" }}>{voiceItem.name}</h2>
+                <div style={{ color: PURPLE, fontSize: 13, fontWeight: 700, marginBottom: 6 }}>{voiceItem.era}</div>
+                <div style={{ color: MUTED, fontSize: 13, marginBottom: 16 }}>{voiceItem.context}</div>
+                <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 15, marginBottom: 20 }}>{voiceItem.bio}</p>
+                <div style={{ background: BG, borderLeft: `3px solid ${GREEN}`, borderRadius: "0 8px 8px 0", padding: "14px 18px", marginBottom: 20 }}>
+                  <p style={{ color: GREEN, fontStyle: "italic", fontSize: 15, lineHeight: 1.7, margin: 0 }}>&ldquo;{voiceItem.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: `${PURPLE}15`, borderRadius: 10, padding: 16 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>Legacy and Contribution</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, margin: 0 }}>{voiceItem.contribution}</p>
+                </div>
               </div>
             </div>
           </div>

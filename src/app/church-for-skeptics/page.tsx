@@ -4,7 +4,7 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "wounds" | "process" | "finding" | "voices";
+type Tab = "wounds" | "process" | "finding" | "voices" | "videos";
 
 // ─── Tab 1: Wounds ───────────────────────────────────────────────────────────
 
@@ -229,6 +229,7 @@ export default function ChurchForSkepticsPage() {
     { id: "process", label: "The Healing Process" },
     { id: "finding", label: "Finding a Healthy Church" },
     { id: "voices", label: "Voices That Help" },
+    { id: "videos", label: "🎬 Videos" },
   ];
 
   const currentPanel = CHURCH_PANELS.find(p => p.id === selectedPanel) ?? CHURCH_PANELS[0];
@@ -435,6 +436,40 @@ export default function ChurchForSkepticsPage() {
               <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>
                 These voices represent a range of theological positions. Some hold more traditional views; others are more progressive. What they share is intellectual honesty, pastoral care for wounded people, and a refusal to minimize harm for the sake of institutional comfort. You don't have to agree with everything any of them says to find their work valuable.
               </p>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "qOE6jJ4EGqg", title: "Questioning Christianity: Faith and Proof", channel: "Timothy Keller", description: "The first episode of Keller's seven-part series for skeptics — addressing how faith and reason relate and why doubting is not incompatible with genuine Christianity." },
+                  { videoId: "4uIvOniW8xA", title: "Making Sense of God: An Invitation to the Skeptical", channel: "Tim Keller / Talks at Google", description: "Keller's talk at Google headquarters on why Christianity makes more sense of the human experience than secular alternatives, given before a largely skeptical audience." },
+                  { videoId: "AYLEymhsEHg", title: "Pastor to Skeptics: Becoming a Christian and Dealing with Doubt", channel: "Tim Keller / Unbelievable?", description: "Keller reflects on his urban ministry to doubters and skeptics — what draws people toward faith, how to hold questions honestly, and what genuine conversion looks like." },
+                  { videoId: "QXZ2qN1XBPQ", title: "Questioning Christianity: Meaning", channel: "Timothy Keller", description: "Keller explores how Christianity offers a richer account of meaning and purpose than secular alternatives — and why the skeptic's own longings point toward the gospel." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

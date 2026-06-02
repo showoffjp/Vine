@@ -9,7 +9,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "practice" | "curriculum" | "resources";
+type Tab = "theology" | "practice" | "curriculum" | "resources" | "videos";
 
 const theologyPoints = [
   {
@@ -237,7 +237,8 @@ export default function YouthMinistryGuidePage() {
     { id: "theology", label: "Theology of Youth Ministry" },
     { id: "practice", label: "Core Practices" },
     { id: "curriculum", label: "Curriculum Guide" },
-    { id: "resources", label: "Resources" }
+    { id: "resources", label: "Resources" },
+    { id: "videos", label: "Videos" },
   ];
 
   return (

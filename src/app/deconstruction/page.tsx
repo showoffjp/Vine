@@ -9,7 +9,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "what" | "causes" | "voices" | "reconstruction";
+type Tab = "what" | "causes" | "voices" | "reconstruction" | "videos";
 
 const WHAT_ITEMS = [
   {
@@ -160,6 +160,7 @@ export default function DeconstructionPage() {
     { id: "causes" as Tab, label: "Common Causes", icon: "🔍" },
     { id: "voices" as Tab, label: "Voices That Help", icon: "🕊️" },
     { id: "reconstruction" as Tab, label: "Path Forward", icon: "🏗️" },
+    { id: "videos" as Tab, label: "Videos", icon: "🎬" },
   ];
 
   return (
@@ -291,6 +292,40 @@ export default function DeconstructionPage() {
               <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>
                 The worst thing to do is to panic, argue, or issue ultimatums. The best thing: ask genuine questions and listen. Be curious about their experience without needing to defend the institution. Let them know that your relationship is not contingent on their belief. Pray. Be present. Trust God with the outcome. Most people who deconstruct do not lose faith entirely — they find a better version of it. Your job is not to prevent the process but to be someone they want to stay in relationship with while it happens.
               </p>
+            </div>
+          </div>
+        )}
+
+        {tab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "FS-otLUeeTg", title: "Deconstruction & Reconstructing Faith: Navigating a Faith Crisis", channel: "Gospel Teaching", description: "A deep exploration of what deconstruction means, why it happens, and how Christians can navigate a faith crisis toward genuine reconstruction." },
+                  { videoId: "FTZ3GfL9yQM", title: "The Upside Down Kingdom", channel: "Timothy Keller / Gospel in Life", description: "Tim Keller examines how Jesus introduces a revolutionary kingdom that overturns our assumptions about power, worth, and belonging." },
+                  { videoId: "y3Bn7ihYyvw", title: "The Simple Gospel", channel: "Francis Chan", description: "Francis Chan shares the core of what Christian faith is — cutting through layers of cultural Christianity to the simple, transforming message of Jesus." },
+                  { videoId: "_ChnTOiYXcA", title: "God's Sovereignty: Chosen By God", channel: "R.C. Sproul / Ligonier Ministries", description: "R.C. Sproul grounds faith in the sovereign grace of God — essential for those rebuilding their understanding of salvation and assurance." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

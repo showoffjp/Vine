@@ -4,6 +4,57 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
+type Tab = "persons" | "theologians" | "heresies" | "implications" | "videos";
+
+const THEOLOGIANS = [
+  {
+    id: "athanasius",
+    name: "Athanasius",
+    era: "c. 296-373",
+    context: "Bishop of Alexandria; 'Athanasius contra mundum'",
+    bio: "Athanasius is the hero of Nicene orthodoxy. He attended the Council of Nicaea (325 AD) as a young deacon and spent the next five decades defending its conclusions against Arianism — being exiled five times by four emperors ('Athanasius against the world'). His 'On the Incarnation' is the greatest short treatment of why the Son of God had to become human: only one who is truly God can truly save, because only God can give what we cannot give ourselves. He identified that Arianism made salvation impossible — a creature cannot redeem creatures.",
+    quote: "He became what we are that we might become what he is. The Word of God became human that we might be made divine.",
+    contribution: "Athanasius grounded trinitarian theology in soteriology: the doctrine of the Trinity is not speculation but the necessary grammar of salvation. If the Son is not fully God, the incarnation cannot save. His argument — that a semi-divine mediator saves nobody, because salvation requires the full weight of divine life — became the permanent defense of homoousios (same substance). His exiles demonstrate that theological conviction has a cost, and that orthodoxy is often won by a minority who refuse to capitulate to political pressure.",
+  },
+  {
+    id: "cappadocians",
+    name: "The Cappadocians",
+    era: "4th century",
+    context: "Basil of Caesarea, Gregory of Nyssa, Gregory of Nazianzus",
+    bio: "The three Cappadocian fathers gave the church its technical vocabulary for trinitarian theology and resolved the late-4th century crisis by distinguishing ousia (essence/substance) from hypostasis (person). God is one ousia in three hypostaseis — one divine essence shared by three distinct persons. This formula, formalized at Constantinople (381 AD), has been the orthodox Christian grammar ever since. Gregory of Nazianzus wrote the theological orations; Gregory of Nyssa explored the ineffability of the divine essence; Basil provided the practical ecclesial framework.",
+    quote: "We do not confess three gods. We confess one Godhead, one power, one substance of the Father, Son, and Holy Spirit. — Basil of Caesarea",
+    contribution: "The Cappadocians resolved the terminological confusion that plagued early trinitarian debate: Nicaea had affirmed homoousios but not clearly defined what 'person' meant. Their ousia/hypostasis distinction gave the church stable language for speaking about both the unity and diversity of the Trinity. Gregory of Nyssa also developed the concept of perichoresis — the mutual indwelling of the three persons — which became a central theme in 20th-century trinitarian renewal.",
+  },
+  {
+    id: "augustine",
+    name: "Augustine of Hippo",
+    era: "354-430",
+    context: "Bishop of Hippo; author of De Trinitate",
+    bio: "Augustine's 'On the Trinity' (De Trinitate, c. 400-420 AD) is the greatest theological text in the Western Christian tradition. Augustine approached the Trinity from the inside out: rather than beginning with the three persons and working toward unity (Eastern approach), he began with the unity of the divine essence and worked toward the persons. His use of psychological analogies (memory/understanding/will in the human mind as a trace of the Trinity) has been enormously influential — and enormously debated. He also formulated the filioque: the Spirit proceeds from the Father and the Son.",
+    quote: "Our heart is restless until it rests in you. You have made us for yourself, O Lord — and in the Trinity we begin to see what you are and what love means.",
+    contribution: "Augustine shaped Western trinitarian theology for a millennium. His starting point — the divine unity — gave Latin theology a different flavor from Greek theology. The filioque ('and the Son') he formulated was inserted into the Creed by the Western church, becoming the central point of division between Eastern Orthodoxy and Western Christianity in the Great Schism (1054). His psychological analogies, despite their problems, gave the church a way to speak about the Trinity from human experience rather than purely from abstract categories.",
+  },
+  {
+    id: "barth",
+    name: "Karl Barth",
+    era: "1886-1968",
+    context: "Swiss Reformed theologian; Church Dogmatics",
+    bio: "Barth's massive Church Dogmatics (13 part-volumes) placed the doctrine of the Trinity at the beginning — not the end — of Christian theology. His argument: revelation is the starting point of theology, and God's revelation is irreducibly trinitarian. The one who reveals (Father), the content of revelation (Son), and the act of revelation reaching the human (Spirit) are all genuinely God. The Trinity is thus not a conclusion from natural reason but the shape of God's self-disclosure. This reversed the typical 19th-century order (natural theology first, then revelation).",
+    quote: "The doctrine of the Trinity is not a speculation about God's inner being. It is the grammar of what God has actually done in revealing himself to us. Revelation is the starting point, and the Trinity is its shape.",
+    contribution: "Barth's placing of the Trinity at the beginning of dogmatics (rather than at the end, as in Schleiermacher) was a revolution in Protestant theology. He insisted that Christian theology must begin with who God has revealed himself to be — not with human religious experience or natural theology. His trinitarian account of revelation (God reveals God through God) provided the framework for 20th-century trinitarian renewal, including the Social Trinity theologies of Moltmann and Zizioulas.",
+  },
+  {
+    id: "zizioulas",
+    name: "John Zizioulas",
+    era: "1931-2023",
+    context: "Greek Orthodox Metropolitan of Pergamon; Being as Communion",
+    bio: "Zizioulas's 'Being as Communion' (1985) is the most significant work in Orthodox trinitarian theology since the Cappadocians. His central argument: personhood and communion are ontologically primary. The Father, Son, and Spirit exist as who they are in relation — not as pre-relational substances who then relate. This means that existence is always communal; to be is to be-in-relation. His theology has influenced Catholic, Orthodox, and Protestant thinkers and has had enormous impact on ecclesiology: the church is an icon of the Trinity — a community of persons in communion.",
+    quote: "Being is communion. There is no true being without communion. This is the deepest truth of the Trinity — and it is the deepest truth of what we are made to be.",
+    contribution: "Zizioulas gave the 20th century its most developed account of what it means to say that God is relational at the deepest level of his being. His distinction between hypostasis (person) and ousia (nature) re-read the Cappadocians to argue that personhood is constitutive of being, not additional to it. His work has been enormously influential in ecumenical dialogue — especially between Orthodox and Catholic traditions — and has generated the 'Social Trinity' movement in Protestant theology (Moltmann, Miroslav Volf, Stanley Grenz).",
+  },
+];
+
+
 const PERSONS = [
   {
     id: "father",
@@ -53,8 +104,10 @@ const IMPLICATIONS = [
 ];
 
 export default function TrinityPage() {
-  const [activeTab, setActiveTab] = useState<"persons" | "heresies" | "implications">("persons");
+  const [activeTab, setActiveTab] = useState<Tab>("persons");
   const [selected, setSelected] = useState("father");
+  const [selectedTheologian, setSelectedTheologian] = useState("athanasius");
+  const theologian = THEOLOGIANS.find(t => t.id === selectedTheologian)!;
 
   const person = PERSONS.find(p => p.id === selected)!;
 
@@ -72,8 +125,10 @@ export default function TrinityPage() {
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
             { id: "persons" as const, label: "Three Persons", icon: "👥" },
+            { id: "theologians" as const, label: "Theologians", icon: "📜" },
             { id: "heresies" as const, label: "Classic Errors", icon: "🚫" },
             { id: "implications" as const, label: "Why It Matters", icon: "💡" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -123,6 +178,38 @@ export default function TrinityPage() {
           </div>
         )}
 
+        {activeTab === "theologians" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 210, flexShrink: 0 }}>
+              {THEOLOGIANS.map(t => (
+                <button key={t.id} onClick={() => setSelectedTheologian(t.id)}
+                  style={{ width: "100%", background: selectedTheologian === t.id ? `${PURPLE}18` : "transparent", border: `1px solid ${selectedTheologian === t.id ? PURPLE + "70" : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 6, cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: selectedTheologian === t.id ? PURPLE : TEXT, fontWeight: 800, fontSize: 13, marginBottom: 2 }}>{t.name}</div>
+                  <div style={{ color: MUTED, fontSize: 11 }}>{t.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ background: CARD, border: `1px solid ${PURPLE}30`, borderRadius: 14, padding: 28 }}>
+                <div style={{ marginBottom: 20 }}>
+                  <div style={{ color: MUTED, fontWeight: 700, fontSize: 11, marginBottom: 4 }}>{theologian.era}</div>
+                  <h2 style={{ color: PURPLE, fontWeight: 900, fontSize: 24, marginBottom: 4 }}>{theologian.name}</h2>
+                  <div style={{ color: MUTED, fontSize: 13 }}>{theologian.context}</div>
+                </div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, marginBottom: 20 }}>{theologian.bio}</p>
+                <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 10, padding: 18, marginBottom: 16 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 11, marginBottom: 10 }}>IN THEIR OWN WORDS</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0, fontStyle: "italic" }}>&ldquo;{theologian.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: BG, borderRadius: 10, padding: 16 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>KEY CONTRIBUTION</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{theologian.contribution}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {activeTab === "heresies" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 16 }}>
@@ -162,6 +249,41 @@ export default function TrinityPage() {
                 <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 15, margin: 0 }}>{imp.body}</p>
               </div>
             ))}
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors on the doctrine of the Trinity.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "Sh72wgZEcKk", title: "R.C. Sproul: For the Doctrine of the Trinity", channel: "Ligonier Ministries", description: "Sproul explains why Christians must stand firm in proclaiming the one living and true God revealed in Scripture — Father, Son, and Holy Spirit." },
+                  { videoId: "LUCDrhB19cE", title: "Is the Trinity a Contradiction?", channel: "Ligonier Ministries / R.C. Sproul", description: "Sproul addresses the charge that the doctrine of the Trinity is logically contradictory — explaining why one God in three persons is a mystery but not an irrationality." },
+                  { videoId: "UqQyle8vq-0", title: "The Biblical Witness: The Mystery of the Trinity", channel: "Ligonier Ministries / R.C. Sproul", description: "A careful examination of the biblical texts that reveal the triune nature of God — exploring how the New Testament authors came to understand the Trinity." },
+                  { videoId: "e9T2K8f6W3o", title: "One in Essence, Three in Person", channel: "Ligonier Ministries / R.C. Sproul", description: "The precise formulation of Trinitarian doctrine — what it means to say God is one in essence yet three in person, and why that distinction matters." },
+                  { videoId: "cJlenDjSsVA", title: "Fifth-Century Heresies: The Mystery of the Trinity", channel: "Ligonier Ministries / R.C. Sproul", description: "An examination of early church heresies about the Trinity — Arianism, Modalism, and Tritheism — and how the councils refined orthodox Trinitarian doctrine." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

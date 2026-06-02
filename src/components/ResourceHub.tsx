@@ -1,27 +1,15 @@
 "use client";
 
-import { ChevronRight, Clock, Eye, Star } from "lucide-react";
+import { ChevronRight, Clock, Eye } from "lucide-react";
 
-const categories = [
-  { label: "All", active: true },
-  { label: "Life & Faith" },
-  { label: "Mental Health" },
-  { label: "Theology" },
-  { label: "Relationships" },
-  { label: "Parenting" },
-  { label: "Finances" },
-  { label: "Leadership" },
-];
-
-const featured = {
+const FEATURED = {
   tag: "Featured Guide",
-  tagColor: "#00FF88",
   title: "The Complete Christian Guide to Mental Health",
   subtitle:
     "A comprehensive, faith-informed resource covering anxiety, depression, trauma, and inner healing — with practical steps, Scripture, and professional insights.",
   readTime: "25 min read",
   views: "184K",
-  rating: 4.9,
+  rating: "4.9",
   author: "Dr. Angela Osei & Pastor Tim Reeves",
   sections: [
     "Understanding Anxiety Through a Biblical Lens",
@@ -32,34 +20,30 @@ const featured = {
   ],
 };
 
-const articles = [
+const ARTICLES = [
   {
-    tag: "Life Hack",
-    tagColor: "#E8A020",
+    tag: "Finance",
     title: "7 Biblical Principles for Financial Freedom",
-    desc: "From tithing to stewardship, these time-tested biblical principles will transform your relationship with money.",
+    desc: "From tithing to stewardship, these time-tested principles will transform your relationship with money.",
     readTime: "8 min",
     views: "42K",
   },
   {
     tag: "Relationships",
-    tagColor: "#C0506A",
     title: "How to Have Hard Conversations With Grace",
-    desc: "James 1:19 gives us a framework that actually works. Here's how to apply it in marriage, friendships, and the workplace.",
+    desc: "James 1:19 gives us a framework that actually works in marriage, friendships, and the workplace.",
     readTime: "6 min",
     views: "38K",
   },
   {
     tag: "Theology",
-    tagColor: "#6B4FBB",
     title: "What the Bible Actually Says About Suffering",
-    desc: "A deep dive into Job, Romans 8, and the consistent thread of redemptive suffering across Scripture.",
+    desc: "A deep dive into Job, Romans 8, and the consistent thread of redemptive suffering across all of Scripture.",
     readTime: "12 min",
     views: "61K",
   },
   {
     tag: "Parenting",
-    tagColor: "#3A9E72",
     title: "Raising Kids in a Digital Age With Christian Values",
     desc: "Practical guidelines for screen time, social media, and teaching discernment to the next generation.",
     readTime: "9 min",
@@ -67,150 +51,274 @@ const articles = [
   },
   {
     tag: "Leadership",
-    tagColor: "#4A80D4",
-    title: "Servant Leadership: Jesus' Model for the Modern Workplace",
+    title: "Servant Leadership: Jesus' Model for Today",
     desc: "What does it look like to lead like Christ in a secular organization? Real examples, real challenges.",
     readTime: "7 min",
     views: "35K",
   },
   {
-    tag: "Life Hack",
-    tagColor: "#E8A020",
-    title: "The Sabbath Principle Applied to Modern Productivity",
-    desc: "Rest is not laziness. Here's the science and Scripture behind why rest makes you more productive, not less.",
+    tag: "Rest",
+    title: "The Sabbath Principle and Modern Productivity",
+    desc: "Rest is not laziness. Here is the science and Scripture behind why rest makes us more fruitful, not less.",
     readTime: "5 min",
     views: "51K",
   },
 ];
 
+const CATEGORIES = ["All", "Life & Faith", "Mental Health", "Theology", "Relationships", "Parenting", "Finance", "Leadership"];
+
 export default function ResourceHub() {
   return (
-    <section className="py-24 relative" id="resources">
+    <section
+      style={{
+        background: "#050e07",
+        padding: "100px 4vw",
+        borderTop: "0.5px solid rgba(201,162,39,0.18)",
+        position: "relative",
+      }}
+      id="resources"
+    >
       <div
-        className="absolute inset-0 pointer-events-none"
         style={{
-          background:
-            "radial-gradient(ellipse 60% 40% at 80% 30%, rgba(0,255,136,0.04) 0%, transparent 70%)",
+          position: "absolute",
+          top: "20%",
+          right: "-5%",
+          width: 500,
+          height: 500,
+          background: "radial-gradient(ellipse, rgba(58,125,86,0.06) 0%, transparent 65%)",
+          pointerEvents: "none",
         }}
       />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div style={{ maxWidth: 1200, margin: "0 auto", position: "relative", zIndex: 1 }}>
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
+        <div
+          style={{
+            display: "flex",
+            alignItems: "flex-end",
+            justifyContent: "space-between",
+            marginBottom: "3rem",
+            flexWrap: "wrap",
+            gap: 16,
+          }}
+        >
           <div>
-            <p className="tag-pill inline-block mb-4">Resource Library</p>
+            <div className="vine-eyebrow" style={{ marginBottom: "0.9rem" }}>
+              Resource Library
+            </div>
             <h2
-              className="text-4xl sm:text-5xl font-black leading-tight"
-              style={{ color: "#F2F2F8" }}
+              style={{
+                fontFamily: "var(--font-cormorant, 'Cormorant Garamond', Georgia, serif)",
+                fontSize: "clamp(2rem, 4vw, 3.4rem)",
+                fontWeight: 300,
+                color: "#f2e6c8",
+                lineHeight: 1.15,
+              }}
             >
-              Deep Dives &{" "}
-              <span className="gold-gradient">Life Guides</span>
+              Deep dives &
+              <em style={{ fontStyle: "italic", color: "#e8c162" }}> life guides.</em>
             </h2>
           </div>
           <a
             href="/resources"
-            className="flex items-center gap-1 text-sm font-semibold whitespace-nowrap"
-            style={{ color: "#00FF88" }}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 6,
+              fontFamily: "var(--font-jost, system-ui, sans-serif)",
+              fontSize: "0.78rem",
+              fontWeight: 500,
+              letterSpacing: "0.1em",
+              textTransform: "uppercase",
+              color: "#c9a227",
+              textDecoration: "none",
+              whiteSpace: "nowrap",
+            }}
           >
             Browse Library <ChevronRight size={14} />
           </a>
         </div>
 
         {/* Category tabs */}
-        <div className="flex gap-2 mb-8 overflow-x-auto scrollbar-hide pb-2">
-          {categories.map((c) => (
+        <div
+          style={{
+            display: "flex",
+            gap: 6,
+            marginBottom: "2.5rem",
+            overflowX: "auto",
+            paddingBottom: 4,
+          }}
+        >
+          {CATEGORIES.map((c, i) => (
             <button
-              key={c.label}
-              className="whitespace-nowrap px-4 py-2 rounded-full text-sm font-semibold transition-all"
-              style={
-                c.active
-                  ? {
-                      background: "#00FF88",
-                      color: "#07070F",
-                    }
-                  : {
-                      background: "rgba(255,255,255,0.04)",
-                      color: "#8A8AA8",
-                      border: "1px solid rgba(255,255,255,0.06)",
-                    }
-              }
+              key={c}
+              style={{
+                whiteSpace: "nowrap",
+                padding: "5px 16px",
+                borderRadius: 2,
+                fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                fontSize: "0.75rem",
+                fontWeight: i === 0 ? 600 : 400,
+                letterSpacing: "0.06em",
+                background: i === 0 ? "#c9a227" : "transparent",
+                color: i === 0 ? "#1a0e00" : "#9a8f72",
+                border: i === 0 ? "none" : "0.5px solid rgba(201,162,39,0.2)",
+                cursor: "pointer",
+                transition: "all 0.2s",
+              }}
             >
-              {c.label}
+              {c}
             </button>
           ))}
         </div>
 
-        {/* Featured Article */}
+        {/* Featured article */}
         <div
-          className="card-glow rounded-3xl p-6 sm:p-8 mb-6 cursor-pointer group relative overflow-hidden"
           style={{
-            background:
-              "linear-gradient(135deg, rgba(0,255,136,0.06) 0%, rgba(107,79,187,0.04) 100%)",
-            border: "1px solid rgba(0,255,136,0.15)",
+            background: "#0f2318",
+            border: "0.5px solid rgba(201,162,39,0.22)",
+            borderRadius: 3,
+            padding: "2.5rem",
+            marginBottom: "1.5rem",
+            cursor: "pointer",
+            transition: "border-color 0.2s",
+          }}
+          onMouseEnter={(e) => {
+            (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(201,162,39,0.45)";
+          }}
+          onMouseLeave={(e) => {
+            (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(201,162,39,0.22)";
           }}
         >
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2.5rem", alignItems: "center" }}>
             <div>
               <span
-                className="text-xs font-bold uppercase tracking-wider mb-3 block"
-                style={{ color: featured.tagColor }}
+                style={{
+                  fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                  fontSize: "0.65rem",
+                  fontWeight: 700,
+                  letterSpacing: "0.14em",
+                  textTransform: "uppercase",
+                  color: "#c9a227",
+                  display: "block",
+                  marginBottom: "0.8rem",
+                }}
               >
-                {featured.tag}
+                {FEATURED.tag}
               </span>
               <h3
-                className="text-2xl sm:text-3xl font-black mb-3 leading-tight group-hover:text-white transition-colors"
-                style={{ color: "#F2F2F8" }}
+                style={{
+                  fontFamily: "var(--font-cormorant, 'Cormorant Garamond', Georgia, serif)",
+                  fontSize: "clamp(1.4rem, 2.5vw, 2rem)",
+                  fontWeight: 600,
+                  color: "#f2e6c8",
+                  lineHeight: 1.25,
+                  marginBottom: "0.8rem",
+                }}
               >
-                {featured.title}
+                {FEATURED.title}
               </h3>
-              <p className="text-sm leading-relaxed mb-4" style={{ color: "#8A8AA8" }}>
-                {featured.subtitle}
+              <p
+                style={{
+                  fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                  fontSize: "0.85rem",
+                  color: "#9a8f72",
+                  lineHeight: 1.65,
+                  marginBottom: "1rem",
+                  fontWeight: 300,
+                }}
+              >
+                {FEATURED.subtitle}
               </p>
-              <div className="flex items-center gap-4 text-xs mb-5">
-                <span
-                  className="flex items-center gap-1"
-                  style={{ color: "#6A6A88" }}
-                >
-                  <Clock size={12} /> {featured.readTime}
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 16,
+                  fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                  fontSize: "0.72rem",
+                  color: "#9a8f72",
+                  marginBottom: "1.2rem",
+                }}
+              >
+                <span style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                  <Clock size={11} /> {FEATURED.readTime}
                 </span>
-                <span
-                  className="flex items-center gap-1"
-                  style={{ color: "#6A6A88" }}
-                >
-                  <Eye size={12} /> {featured.views} views
+                <span style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                  <Eye size={11} /> {FEATURED.views} views
                 </span>
-                <span
-                  className="flex items-center gap-1"
-                  style={{ color: "#00FF88" }}
-                >
-                  <Star size={12} fill="#00FF88" /> {featured.rating}
-                </span>
+                <span style={{ color: "#c9a227" }}>★ {FEATURED.rating}</span>
               </div>
-              <button className="btn-gold px-5 py-2.5 rounded-xl text-sm">
+              <a
+                href="/resources"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 8,
+                  background: "#c9a227",
+                  color: "#1a0e00",
+                  padding: "0.7rem 1.6rem",
+                  borderRadius: 2,
+                  fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                  fontSize: "0.78rem",
+                  fontWeight: 600,
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase",
+                  textDecoration: "none",
+                  transition: "background 0.2s",
+                }}
+                onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = "#e8c162"; }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.background = "#c9a227"; }}
+              >
                 Read Full Guide
-              </button>
+              </a>
             </div>
 
             <div
-              className="p-5 rounded-2xl"
               style={{
-                background: "rgba(7,7,15,0.5)",
-                border: "1px solid rgba(0,255,136,0.1)",
+                background: "rgba(5,14,7,0.6)",
+                border: "0.5px solid rgba(201,162,39,0.12)",
+                borderRadius: 2,
+                padding: "1.5rem",
               }}
             >
-              <p className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: "#6A6A88" }}>
+              <p
+                style={{
+                  fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                  fontSize: "0.65rem",
+                  fontWeight: 600,
+                  letterSpacing: "0.14em",
+                  textTransform: "uppercase",
+                  color: "#9a8f72",
+                  marginBottom: "1rem",
+                }}
+              >
                 In this guide:
               </p>
-              <div className="space-y-2">
-                {featured.sections.map((s, i) => (
-                  <div key={i} className="flex items-start gap-3">
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                {FEATURED.sections.map((s, i) => (
+                  <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
                     <span
-                      className="text-xs font-bold mt-0.5 w-5 shrink-0"
-                      style={{ color: "#00FF88" }}
+                      style={{
+                        fontFamily: "var(--font-cormorant, Georgia, serif)",
+                        fontSize: "0.75rem",
+                        fontWeight: 700,
+                        color: "rgba(201,162,39,0.5)",
+                        minWidth: 18,
+                        lineHeight: 1.6,
+                      }}
                     >
                       {String(i + 1).padStart(2, "0")}
                     </span>
-                    <span className="text-sm" style={{ color: "#A0A0C0" }}>
+                    <span
+                      style={{
+                        fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                        fontSize: "0.83rem",
+                        color: "#c9b98a",
+                        lineHeight: 1.5,
+                        fontWeight: 300,
+                      }}
+                    >
                       {s}
                     </span>
                   </div>
@@ -221,37 +329,97 @@ export default function ResourceHub() {
         </div>
 
         {/* Article Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {articles.map((a, i) => (
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(3, 1fr)",
+            gap: 2,
+            background: "rgba(201,162,39,0.04)",
+          }}
+        >
+          {ARTICLES.map((a, i) => (
             <div
               key={i}
-              className="card-glow p-5 rounded-2xl cursor-pointer group"
-              style={{ background: "var(--bg-card)" }}
+              style={{
+                background: "#050e07",
+                padding: "1.8rem",
+                cursor: "pointer",
+                transition: "background 0.2s",
+                position: "relative",
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLDivElement).style.background = "#0a1a0e";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLDivElement).style.background = "#050e07";
+              }}
             >
+              <div
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: "1.8rem",
+                  right: "1.8rem",
+                  height: "0.5px",
+                  background: "rgba(201,162,39,0.07)",
+                }}
+              />
               <span
-                className="text-xs font-bold uppercase tracking-wider mb-3 block"
-                style={{ color: a.tagColor }}
+                style={{
+                  fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                  fontSize: "0.62rem",
+                  fontWeight: 700,
+                  letterSpacing: "0.14em",
+                  textTransform: "uppercase",
+                  color: "#c9a227",
+                  display: "block",
+                  marginBottom: "0.7rem",
+                }}
               >
                 {a.tag}
               </span>
               <h4
-                className="font-bold leading-snug mb-2 group-hover:text-white transition-colors"
-                style={{ color: "#E0E0F0" }}
+                style={{
+                  fontFamily: "var(--font-cormorant, 'Cormorant Garamond', Georgia, serif)",
+                  fontSize: "1.1rem",
+                  fontWeight: 600,
+                  color: "#f2e6c8",
+                  lineHeight: 1.3,
+                  marginBottom: "0.5rem",
+                }}
               >
                 {a.title}
               </h4>
               <p
-                className="text-sm leading-relaxed line-clamp-2 mb-4"
-                style={{ color: "#6A6A88" }}
+                style={{
+                  fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                  fontSize: "0.8rem",
+                  color: "#9a8f72",
+                  lineHeight: 1.6,
+                  marginBottom: "0.9rem",
+                  fontWeight: 300,
+                  display: "-webkit-box",
+                  WebkitLineClamp: 2,
+                  WebkitBoxOrient: "vertical" as const,
+                  overflow: "hidden",
+                }}
               >
                 {a.desc}
               </p>
-              <div className="flex items-center gap-3 text-xs" style={{ color: "#6A6A88" }}>
-                <span className="flex items-center gap-1">
-                  <Clock size={11} /> {a.readTime}
+              <div
+                style={{
+                  display: "flex",
+                  gap: 14,
+                  fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                  fontSize: "0.7rem",
+                  color: "#9a8f72",
+                }}
+              >
+                <span style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                  <Clock size={10} /> {a.readTime}
                 </span>
-                <span className="flex items-center gap-1">
-                  <Eye size={11} /> {a.views}
+                <span style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                  <Eye size={10} /> {a.views}
                 </span>
               </div>
             </div>

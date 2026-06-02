@@ -85,8 +85,18 @@ const QUOTES = [
   { quote: "I have learned, in whatever situation I am, to be content.", author: "Paul — Philippians 4:11" },
 ];
 
+const VOICES_SIMP = [
+  { id: "francis", name: "Francis of Assisi", era: "1181-1226", context: "Founder of the Franciscan Order; famous for radical voluntary poverty and love of creation", bio: "Francis was the son of a wealthy cloth merchant who gave away his inheritance, stripped himself naked in the town square of Assisi, and spent the rest of his life in radical voluntary poverty — caring for lepers, rebuilding crumbling churches, and living as a wandering preacher. His form of life was so simple and so joyful that thousands followed him. He saw creation as a reflection of God's beauty (his Canticle of the Creatures is one of the oldest Italian poems) and poverty not as deprivation but as freedom: the simplest man in the room was also the freest. His order was initially refused by the Pope, who reportedly saw Francis in a dream holding up a crumbling building.", quote: "It is no use walking anywhere to preach unless our walking is our preaching.", contribution: "Made simplicity a positive spiritual program rather than mere asceticism. Francis's joyful poverty became the most powerful counter-cultural witness in medieval Europe and continues to challenge materialist Christianity in every century." },
+  { id: "foster-s", name: "Richard Foster", era: "b. 1942", context: "Freedom of Simplicity (1981); Celebration of Discipline (1978); Renovare movement", bio: "Foster's Freedom of Simplicity is the most comprehensive Protestant theological treatment of Christian simplicity. He argues that simplicity is not primarily about material poverty but about a single-minded orientation toward God — the inner simplicity of a focused heart that produces outer simplicity as a natural overflow. He distinguishes between simplicity as discipline (something we practice) and simplicity as grace (something received). He traces the theme through Scripture, the Quakers, the monastics, and the Reformation, showing that simplicity is a consistent thread in the entire Christian tradition — not a medieval add-on.", quote: "Simplicity is freedom. Duplicity is bondage. Simplicity brings joy and balance. Duplicity brings anxiety and fear.", contribution: "Recovered the theology of simplicity for Protestants who had largely ignored it since the Reformation. Freedom of Simplicity gave evangelical Christians a robust theological justification for what many had intuited but couldn't articulate." },
+  { id: "claiborne", name: "Shane Claiborne", era: "b. 1975", context: "The Irresistible Revolution (2006); Simple Way Community, Philadelphia", bio: "Claiborne is the most prominent voice for voluntary poverty and simple living in American evangelicalism in the early 21st century. After spending time with Mother Teresa in Calcutta, he helped found the Simple Way — an intentional Christian community in a poor neighborhood of Philadelphia — and wrote The Irresistible Revolution as a provocative challenge to evangelical Christianity's accommodation to consumerism. His lifestyle is a radical performance of his theology: he grows food, makes his own clothes, and lives communally in a neighborhood that most evangelicals drive past. His critics say he's too political; his fans say he's too conservative.", quote: "I want to give them the most radical thing I can imagine — not a new idea, not a new program, but a new way of life.", contribution: "Made the Simple Way community a living example of urban Christian simplicity — and made the conversation about wealth and poverty unavoidable in evangelical spaces that had preferred to discuss it abstractly." },
+  { id: "willard-s", name: "Dallas Willard", era: "1935-2013", context: "The Spirit of the Disciplines (1988); chapter on simplicity and solitude", bio: "Willard's treatment of simplicity in The Spirit of the Disciplines is not about voluntary poverty but about the training effect of simplicity on the soul. He argues that simplicity disciplines the mind to stop grasping — and that much of our spiritual distress comes from the endless mental energy devoted to accumulation, maintenance, and worry about what we have. Simplicity trains the will toward God and away from the competing kingdom of consumer comfort. His practical advice: choose the simpler option consistently, especially in small things, as a form of soul training.", quote: "Simplicity is not a spiritual discipline that earns merit. It is a training exercise that trains the soul toward the one thing necessary.", contribution: "Grounded simplicity in the discipline-and-formation framework that made it actionable rather than merely prophetic. His account of simplicity as soul-training rather than social protest gave evangelicals a practical rationale for pursuing it." },
+  { id: "swenson", name: "Richard Swenson", era: "b. 1950", context: "Margin (1992); The Overload Syndrome (1998); physician and futurist", bio: "Swenson is a physician who diagnosed the modern epidemic of overloaded lives — too many commitments, too little time, too little space between what we're carrying and what we can bear. His concept of 'margin' — the space between our load and our limits — gave evangelical Christians a medical and practical framework for what Scripture teaches about Sabbath and simplicity. His research showed that chronic overloading produces not only physical stress but spiritual deadness: the person who has no margin has no time for God, for family, or for the unexpected call to generosity.", quote: "Margin is the space between our load and our limits. It is the gap between rest and exhaustion, the space between breathing freely and suffocating.", contribution: "Gave the evangelical conversation about simplicity a medical and empirical foundation. Margin made the case for simplicity in terms that busy Christians could hear: the overloaded life is not only spiritually impoverished but physically unsustainable." },
+];
+
 export default function SimplicityPage() {
-  const [activeTab, setActiveTab] = useState<"why" | "areas" | "detox">("why");
+  const [activeTab, setActiveTab] = useState<"why" | "voices" | "areas" | "detox" | "videos">("why");
+  const [selectedVoice, setSelectedVoice] = useState("francis");
+  const voiceItem = VOICES_SIMP.find(v => v.id === selectedVoice)!;
   const [selectedArea, setSelectedArea] = useState("possessions");
   const [checkedPractices, setCheckedPractices] = useState<Set<string>>(() => {
     try { const s = localStorage.getItem("vine_simplicity_checked"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
@@ -114,8 +124,10 @@ export default function SimplicityPage() {
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
             { id: "why" as const, label: "The Theology", icon: "📖" },
+            { id: "voices" as const, label: "Voices", icon: "💬" },
             { id: "areas" as const, label: "Life Areas", icon: "🎯" },
             { id: "detox" as const, label: "30-Day Detox", icon: "🗓️" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -145,6 +157,35 @@ export default function SimplicityPage() {
                   <p style={{ color: PURPLE, fontSize: 12, fontWeight: 700, margin: 0 }}>— {q.author}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {activeTab === "voices" && (
+          <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
+            <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
+              {VOICES_SIMP.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ background: selectedVoice === v.id ? PURPLE : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: TEXT, fontWeight: 700, fontSize: 14 }}>{v.name}</div>
+                  <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{v.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 28 }}>
+                <h2 style={{ color: GREEN, fontWeight: 900, fontSize: 22, margin: "0 0 4px" }}>{voiceItem.name}</h2>
+                <div style={{ color: PURPLE, fontSize: 13, fontWeight: 700, marginBottom: 6 }}>{voiceItem.era}</div>
+                <div style={{ color: MUTED, fontSize: 13, marginBottom: 16 }}>{voiceItem.context}</div>
+                <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 15, marginBottom: 20 }}>{voiceItem.bio}</p>
+                <div style={{ background: BG, borderLeft: `3px solid ${GREEN}`, borderRadius: "0 8px 8px 0", padding: "14px 18px", marginBottom: 20 }}>
+                  <p style={{ color: GREEN, fontStyle: "italic", fontSize: 15, lineHeight: 1.7, margin: 0 }}>&ldquo;{voiceItem.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: `${PURPLE}15`, borderRadius: 10, padding: 16 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>Contribution to Simplicity Theology</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, margin: 0 }}>{voiceItem.contribution}</p>
+                </div>
+              </div>
             </div>
           </div>
         )}
@@ -253,6 +294,40 @@ export default function SimplicityPage() {
               <div style={{ marginTop: 16, background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 14, display: "flex", justifyContent: "space-between" }}>
                 <span style={{ color: MUTED, fontSize: 14 }}>Progress</span>
                 <span style={{ color: GREEN, fontWeight: 700 }}>{Array.from(checkedPractices).filter(k => k.startsWith("detox-")).length} / 30</span>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings on simplicity, detachment, and the spiritual disciplines of freedom from possessions and distraction.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "HeMJorECvMM", title: "Simplicity — Celebration of Discipline Video Curriculum", channel: "Richard Foster", description: "Richard Foster — author of Celebration of Discipline, the definitive modern guide to simplicity — teaches on the spiritual discipline of simplicity from his landmark book." },
+                  { videoId: "J0jZb5iJzno", title: "An Inward Life of Confidence Before God", channel: "Wheaton College (Richard Foster)", description: "Foster on the interior dimension of simplicity — how outward simplicity flows from inward freedom from the need to possess, impress, and accumulate." },
+                  { videoId: "owXD1g0w1_0", title: "Worthy of a Changed Life", channel: "Francis Chan / Crazy Love Ministries", description: "Francis Chan challenges Christians to consider whether their life choices — including consumption and lifestyle — reflect genuine transformation or cultural Christianity." },
+                  { videoId: "HOzIKZs0ymE", title: "The Power of a Quiet Life", channel: "Francis Chan / Crazy Love Ministries", description: "A call to radically redefine ambition — advocating for a life of quiet humility, diligent work, and personal integrity over the noise and accumulation of consumer culture." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

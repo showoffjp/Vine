@@ -1,152 +1,348 @@
 "use client";
 
-type LinkEntry = { label: string; href: string };
+const HUBS = [
+  { label: "The Branches", href: "/discussions" },
+  { label: "The Word", href: "/bible" },
+  { label: "The Well", href: "/mental-health" },
+  { label: "The Light", href: "/daily" },
+  { label: "The Scroll", href: "/resources" },
+  { label: "The Garden", href: "/life-hacks" },
+  { label: "The Flock", href: "/community" },
+  { label: "Vine TV", href: "/video" },
+];
 
-const footerLinks: Record<string, LinkEntry[]> = {
-  Platform: [
-    { label: "Discussions", href: "/discussions" },
-    { label: "Bible Tools", href: "/bible" },
-    { label: "Daily Devotionals", href: "/daily" },
-    { label: "Video Library", href: "/video" },
-    { label: "Podcasts", href: "/podcast" },
-    { label: "Prayer Wall", href: "/prayer" },
-    { label: "Live Church", href: "/live" },
-    { label: "AI Companion", href: "/ai-companion" },
-    { label: "Reading Plan", href: "/reading-plan" },
-    { label: "Worship", href: "/worship" },
-    { label: "Events", href: "/events" },
-    { label: "Search", href: "/search" },
-  ],
-  "Life & Faith": [
-    { label: "Life Hacks", href: "/life-hacks" },
-    { label: "Mental Health", href: "/mental-health" },
-    { label: "Relationships", href: "/relationships" },
-    { label: "Finances", href: "/finances" },
-    { label: "Parenting", href: "/parenting" },
-    { label: "Work & Leadership", href: "/work-leadership" },
-    { label: "Missions", href: "/missions" },
-    { label: "Apologetics", href: "/apologetics" },
-  ],
-  Community: [
-    { label: "My Feed", href: "/feed" },
-    { label: "Groups", href: "/groups" },
-    { label: "Stories", href: "/stories" },
-    { label: "Global Connect", href: "/global-connect" },
-    { label: "Leaderboard", href: "/leaderboard" },
-    { label: "Trending Topics", href: "/topics" },
-    { label: "Blog", href: "/blog" },
-    { label: "Creators", href: "/creators" },
-    { label: "Challenges", href: "/challenges" },
-    { label: "My Journal", href: "/journal" },
-  ],
-  Company: [
-    { label: "About Vine", href: "/about" },
-    { label: "Newsletter", href: "/newsletter" },
-    { label: "Contact", href: "/contact" },
-    { label: "Give", href: "/giving" },
-    { label: "Settings", href: "/settings" },
-  ],
-};
+const COMMUNITY_LINKS = [
+  { label: "Discussions", href: "/discussions" },
+  { label: "Groups", href: "/groups" },
+  { label: "Events", href: "/events" },
+  { label: "Prayer Wall", href: "/prayer-wall" },
+  { label: "Find a Church", href: "/church-finder" },
+  { label: "Creators", href: "/creators" },
+  { label: "Global Connect", href: "/global-connect" },
+];
+
+const RESOURCES_LINKS = [
+  { label: "Bible Reader", href: "/bible" },
+  { label: "Devotionals", href: "/daily" },
+  { label: "Commentaries", href: "/commentary-guide" },
+  { label: "Study Tools", href: "/bible-study" },
+  { label: "Apologetics", href: "/apologetics" },
+  { label: "Theology 101", href: "/theology" },
+  { label: "Podcast Library", href: "/podcast" },
+  { label: "Reading Plans", href: "/reading-plan" },
+];
+
+const COMPANY_LINKS = [
+  { label: "About", href: "/about" },
+  { label: "Blog", href: "/blog" },
+  { label: "Newsletter", href: "/newsletter" },
+  { label: "Contact", href: "/contact" },
+  { label: "Give", href: "/giving" },
+  { label: "Settings", href: "/settings" },
+  { label: "Privacy Policy", href: "/privacy" },
+  { label: "Terms", href: "/terms" },
+];
+
+function FooterLink({ label, href }: { label: string; href: string }) {
+  return (
+    <li>
+      <a
+        href={href}
+        style={{
+          color: "#9a8f72",
+          textDecoration: "none",
+          fontSize: "0.82rem",
+          fontWeight: 300,
+          fontFamily: "var(--font-jost, system-ui, sans-serif)",
+          transition: "color 0.15s",
+          display: "inline-block",
+        }}
+        onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "#f2e6c8")}
+        onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "#9a8f72")}
+      >
+        {label}
+      </a>
+    </li>
+  );
+}
 
 export default function Footer() {
   return (
     <footer
-      className="relative border-t"
-      style={{ borderColor: "rgba(0,255,136,0.08)" }}
+      style={{
+        background: "#050e07",
+        borderTop: "0.5px solid rgba(201,162,39,0.18)",
+        padding: "60px 4vw 40px",
+      }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
+      <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+        {/* Top: brand + links */}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "260px 1fr",
+            gap: "5rem",
+            marginBottom: "3rem",
+            paddingBottom: "3rem",
+            borderBottom: "0.5px solid rgba(242,230,200,0.06)",
+          }}
+        >
           {/* Brand */}
-          <div className="lg:col-span-1">
-            <div className="flex items-center gap-3 mb-4">
-              <div
-                className="w-9 h-9 rounded-xl flex items-center justify-center"
+          <div>
+            <a
+              href="/"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 10,
+                textDecoration: "none",
+                marginBottom: "1rem",
+              }}
+            >
+              <svg
+                width="30"
+                height="30"
+                viewBox="0 0 34 34"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <rect x="15" y="4" width="4" height="18" rx="1.5" fill="#c9a227" />
+                <rect x="8" y="10" width="18" height="4" rx="1.5" fill="#c9a227" />
+                <path
+                  d="M17 22 Q11 26 8 30"
+                  stroke="#3a7d56"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                />
+                <path
+                  d="M17 22 Q23 26 26 30"
+                  stroke="#3a7d56"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                />
+                <circle cx="8" cy="30" r="2" fill="#3a7d56" opacity="0.8" />
+                <circle cx="26" cy="30" r="2" fill="#3a7d56" opacity="0.8" />
+              </svg>
+              <span
                 style={{
-                  background:
-                    "linear-gradient(135deg, #00FF88 0%, #8B6FDB 100%)",
+                  fontFamily:
+                    "var(--font-cormorant, 'Cormorant Garamond', Georgia, serif)",
+                  fontSize: "1.5rem",
+                  fontWeight: 600,
+                  color: "#f2e6c8",
+                  letterSpacing: "0.04em",
                 }}
               >
-                <span className="text-black font-black text-base">V</span>
-              </div>
-              <span
-                className="text-xl font-black"
-                style={{ color: "#F2F2F8" }}
-              >
-                Vine
+                The<span style={{ color: "#c9a227" }}> Vine</span>
               </span>
-            </div>
-            <p className="text-sm leading-relaxed mb-6" style={{ color: "#6A6A88" }}>
-              The world&apos;s first all-in-one platform for Christians everywhere.
-              Grow. Connect. Thrive in faith.
+            </a>
+            <p
+              style={{
+                fontSize: "0.83rem",
+                color: "#9a8f72",
+                lineHeight: 1.7,
+                fontWeight: 300,
+                fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                marginBottom: "1.2rem",
+              }}
+            >
+              Christianity&apos;s first all-in-one platform &mdash; community,
+              Scripture, wellness, life guides, and more, for every believer on
+              earth.
             </p>
-            <p className="text-xs italic" style={{ color: "rgba(0,255,136,0.5)" }}>
-              &ldquo;I am the vine; you are the branches.&rdquo;<br />— John 15:5
+            <p
+              style={{
+                fontFamily:
+                  "var(--font-cormorant, 'Cormorant Garamond', Georgia, serif)",
+                fontStyle: "italic",
+                fontSize: "0.9rem",
+                color: "#9a8f72",
+              }}
+            >
+              &ldquo;I am the vine; you are the branches.&rdquo;
+              <br />
+              <span
+                style={{
+                  fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                  fontStyle: "normal",
+                  fontSize: "0.7rem",
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                  color: "#c9a227",
+                  display: "block",
+                  marginTop: 4,
+                }}
+              >
+                John 15:5
+              </span>
             </p>
           </div>
 
-          {/* Links */}
-          {Object.entries(footerLinks).map(([section, links]) => (
-            <div key={section}>
-              <h4
-                className="text-xs font-bold uppercase tracking-widest mb-4"
-                style={{ color: "#00FF88" }}
+          {/* Link columns */}
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(4, 1fr)",
+              gap: "2rem",
+            }}
+          >
+            {/* Hubs */}
+            <div>
+              <div
+                style={{
+                  fontSize: "0.68rem",
+                  fontWeight: 600,
+                  letterSpacing: "0.12em",
+                  textTransform: "uppercase",
+                  color: "#c9a227",
+                  marginBottom: "1rem",
+                  fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                }}
               >
-                {section}
-              </h4>
-              <ul className="space-y-2.5">
-                {links.map((link) => (
-                  <li key={link.label}>
-                    <a
-                      href={link.href}
-                      className="text-sm transition-colors duration-150"
-                      style={{ color: "#6A6A88" }}
-                      onMouseEnter={(e) =>
-                        (e.currentTarget.style.color = "#C0C0D8")
-                      }
-                      onMouseLeave={(e) =>
-                        (e.currentTarget.style.color = "#6A6A88")
-                      }
-                    >
-                      {link.label}
-                    </a>
-                  </li>
+                Hubs
+              </div>
+              <ul
+                style={{
+                  listStyle: "none",
+                  padding: 0,
+                  margin: 0,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "0.6rem",
+                }}
+              >
+                {HUBS.map((l) => (
+                  <FooterLink key={l.label} {...l} />
                 ))}
               </ul>
             </div>
-          ))}
+
+            {/* Community */}
+            <div>
+              <div
+                style={{
+                  fontSize: "0.68rem",
+                  fontWeight: 600,
+                  letterSpacing: "0.12em",
+                  textTransform: "uppercase",
+                  color: "#c9a227",
+                  marginBottom: "1rem",
+                  fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                }}
+              >
+                Community
+              </div>
+              <ul
+                style={{
+                  listStyle: "none",
+                  padding: 0,
+                  margin: 0,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "0.6rem",
+                }}
+              >
+                {COMMUNITY_LINKS.map((l) => (
+                  <FooterLink key={l.label} {...l} />
+                ))}
+              </ul>
+            </div>
+
+            {/* Resources */}
+            <div>
+              <div
+                style={{
+                  fontSize: "0.68rem",
+                  fontWeight: 600,
+                  letterSpacing: "0.12em",
+                  textTransform: "uppercase",
+                  color: "#c9a227",
+                  marginBottom: "1rem",
+                  fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                }}
+              >
+                Resources
+              </div>
+              <ul
+                style={{
+                  listStyle: "none",
+                  padding: 0,
+                  margin: 0,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "0.6rem",
+                }}
+              >
+                {RESOURCES_LINKS.map((l) => (
+                  <FooterLink key={l.label} {...l} />
+                ))}
+              </ul>
+            </div>
+
+            {/* Company */}
+            <div>
+              <div
+                style={{
+                  fontSize: "0.68rem",
+                  fontWeight: 600,
+                  letterSpacing: "0.12em",
+                  textTransform: "uppercase",
+                  color: "#c9a227",
+                  marginBottom: "1rem",
+                  fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                }}
+              >
+                Company
+              </div>
+              <ul
+                style={{
+                  listStyle: "none",
+                  padding: 0,
+                  margin: 0,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "0.6rem",
+                }}
+              >
+                {COMPANY_LINKS.map((l) => (
+                  <FooterLink key={l.label} {...l} />
+                ))}
+              </ul>
+            </div>
+          </div>
         </div>
 
         {/* Bottom bar */}
         <div
-          className="mt-12 pt-6 border-t flex flex-col sm:flex-row items-center justify-between gap-4"
-          style={{ borderColor: "rgba(255,255,255,0.04)" }}
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            flexWrap: "wrap",
+            gap: "0.5rem",
+          }}
         >
-          <p className="text-xs" style={{ color: "#4A4A68" }}>
-            © 2026 Vine. Built with faith, for faith. All rights reserved.
+          <p
+            style={{
+              fontSize: "0.72rem",
+              color: "#9a8f72",
+              fontWeight: 300,
+              fontFamily: "var(--font-jost, system-ui, sans-serif)",
+            }}
+          >
+            &copy; 2026 The Vine. Built for the Body of Christ.
           </p>
-          <div className="flex items-center gap-6">
-            {[
-              { label: "Privacy Policy", href: "/privacy" },
-              { label: "Terms of Service", href: "/terms" },
-              { label: "Community Guidelines", href: "/community-guidelines" },
-            ].map(({ label, href }) => (
-                <a
-                  key={label}
-                  href={href}
-                  className="text-xs transition-colors"
-                  style={{ color: "#4A4A68" }}
-                  onMouseEnter={(e) =>
-                    (e.currentTarget.style.color = "#8A8AA8")
-                  }
-                  onMouseLeave={(e) =>
-                    (e.currentTarget.style.color = "#4A4A68")
-                  }
-                >
-                  {label}
-                </a>
-              )
-            )}
-          </div>
+          <p
+            style={{
+              fontFamily:
+                "var(--font-cormorant, 'Cormorant Garamond', Georgia, serif)",
+              fontStyle: "italic",
+              fontSize: "0.9rem",
+              color: "#9a8f72",
+            }}
+          >
+            &ldquo;I am the vine; you are the branches.&rdquo; &mdash; John 15:5
+          </p>
         </div>
       </div>
     </footer>

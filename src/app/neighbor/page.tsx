@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -50,6 +50,14 @@ const OBSTACLES = [
   { obstacle: "I'm afraid of awkwardness.", response: "Awkwardness is temporary; regret is longer. Most people are quietly lonely and grateful when someone makes the first move. The risk of awkwardness is worth the possibility of friendship." },
 ];
 
+const VOICES_NEIGH = [
+  { id: "pohl-c", name: "Christine Pohl", era: "b. 1951", context: "Making Room: Recovering Hospitality as a Christian Tradition (1999) — the definitive theological account of hospitality", bio: "Christine Pohl's Making Room is the most important theological treatment of Christian hospitality in the modern era. Drawing on church history, Scripture, and sociological research with contemporary hospitality communities, Pohl argues that welcoming the stranger was the central identifying practice of the early church — not a secondary virtue but a primary witness. The church's loss of its hospitable identity has impoverished both its mission and its internal life. She traces how hospitality was recovered by communities like L'Arche and the Catholic Worker movement, and argues that recovering it is essential for the church's credibility and faithfulness.", quote: "Hospitality was not a nice addition to Christian practice in the early church. It was the central expression of Christian community — the place where theological conviction became embodied reality.", contribution: "Pohl's Making Room recovered hospitality as a serious theological category after centuries in which it had been reduced to entertaining guests at dinner. Her work has influenced how seminaries teach about community and mission, and has inspired hundreds of Christian intentional communities, houses of hospitality, and welcoming churches." },
+  { id: "nouwen-h", name: "Henri Nouwen", era: "1932-1996", context: "Reaching Out (1975); The Wounded Healer (1972) — on hospitality as creating space for the stranger", bio: "Henri Nouwen defined hospitality not as entertainment but as the creation of space — free and friendly space — where the stranger can enter and become a friend, where the enemy can discover that they are known and loved. This definition, developed in Reaching Out, transformed how Christians think about neighboring. Hospitality is not primarily about giving things (food, shelter) but about giving space — the space to be known, to speak, to be present without pretension. Nouwen practiced this in his own life, eventually leaving academic theology to live at L'Arche Daybreak in Toronto, where he was formed as much as he formed others.", quote: "Hospitality is not to change people, but to offer them space where change can take place. It is not to bring men and women over to our side, but to offer freedom not disturbed by dividing lines.", contribution: "Nouwen's definition of hospitality as creating free and friendly space has become one of the most influential ideas in spiritual formation literature. It reframed neighboring from transactional giving to genuine presence, and has shaped the practice of pastoral care, spiritual direction, and community ministry across denominations." },
+  { id: "keller-tj", name: "Tim Keller", era: "1950-2023", context: "Generous Justice (2010); The Reason for God (2008) — on neighbor love as the test of genuine faith", bio: "Tim Keller argued consistently throughout his ministry that the quality of our love for neighbor is the test of the genuineness of our love for God. Drawing from 1 John, the Sermon on the Mount, and the Parable of the Good Samaritan, he challenged New York City Christians to take their geographic location as a missional context — not to flee the city for suburbs but to build lives of permanence, generosity, and neighbor love in the places they inhabited. Generous Justice draws the theological line from the gospel of grace to the works of mercy and justice: those who have been shown mercy by God are formed by that mercy into merciful neighbors.", quote: "If I am truly moved by grace, I will seek justice. The gospel creates people who are both spiritually and socially transformed — who love their neighbors not as a means but as an end.", contribution: "Keller's urban ministry theology, centered on New York City, gave evangelical churches a model for engaged, neighbor-loving presence in difficult urban contexts. His articulation of the connection between gospel grace and social mercy has influenced how a generation of evangelical churches think about justice, neighboring, and mission." },
+  { id: "berry-w", name: "Wendell Berry", era: "b. 1934", context: "It All Turns on Affection (2012); Port William fiction; poet, farmer, and essayist on place and neighbor", bio: "Wendell Berry is not primarily a theologian but his poetry, fiction, and essays constitute the most sustained contemporary meditation on what it means to be a neighbor in the deepest sense — rooted in place, known to the people around you, accountable to the community you inhabit. His Port William fiction (Hannah Coulter, Jayber Crow, A Place on Earth) depicts a small Kentucky community across generations, showing what genuine neighboring looks like when it is practiced as a way of life rather than a spiritual discipline. Berry's critique of American mobility — the endless movement away from place and community — is implicitly theological: you cannot love your neighbor if you don't stay long enough to know them.", quote: "It may be that when we no longer know what to do, we have come to our real work, and when we no longer know which way to go, we have begun our real journey. The mind that is not baffled is not employed.", contribution: "Berry's fiction and poetry have given Christians a vision of what deep neighboring looks like when it is embedded in place, loyalty, and long-term commitment rather than mere activity. His influence has been particularly strong among younger evangelicals drawn to practices of rootedness, local food, and intentional community." },
+  { id: "mcneil-b", name: "Brenda Salter McNeil", era: "b. 1955", context: "Roadmap to Reconciliation (2015); A Credible Witness (2008) — on reconciliation as the deepest act of neighboring", bio: "Brenda Salter McNeil argues that genuine neighboring, in a racially and economically divided society, requires the harder work of reconciliation — crossing the lines of race, class, and culture that make easy neighboring impossible. Her Roadmap to Reconciliation provides a framework for understanding how communities move through the stages of realization, identification, preparation, and activation to become genuinely reconciling communities. Her A Credible Witness argues that the church's racial divisions have destroyed its witness in the world — that a segregated church cannot be a credible neighbor to a diverse world.", quote: "Reconciliation is not just about fixing the past. It is about creating a new future — one where people who were once separated by race, class, and culture learn to live as genuine neighbors.", contribution: "McNeil's work on reconciliation as the deepest form of neighboring has influenced how evangelical churches think about racial justice, cross-cultural ministry, and the witness of a diverse church. Her framework for reconciliation has been used in churches, seminaries, and Christian organizations across the country." },
+];
+
 interface NeighborEntry {
   id: string;
   name: string;
@@ -65,7 +73,9 @@ const SEED_NEIGHBORS: NeighborEntry[] = [
 ];
 
 export default function NeighborPage() {
-  const [activeTab, setActiveTab] = useState<"theology" | "practices" | "neighbors">("theology");
+  const [activeTab, setActiveTab] = useState<"theology" | "practices" | "neighbors" | "voices" | "videos">("theology");
+  const [selectedVoice, setSelectedVoice] = useState("pohl-c");
+  const voiceItem = VOICES_NEIGH.find(v => v.id === selectedVoice)!;
   const [neighbors, setNeighbors] = useState<NeighborEntry[]>(() => {
     try { const s = localStorage.getItem("vine_neighbor_list"); return s ? JSON.parse(s) : SEED_NEIGHBORS; } catch { return SEED_NEIGHBORS; }
   });
@@ -103,6 +113,8 @@ export default function NeighborPage() {
             { id: "theology" as const, label: "Theology", icon: "📖" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
             { id: "neighbors" as const, label: "My Neighbors", icon: "🏠" },
+            { id: "voices" as const, label: "Voices", icon: "📣" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -198,6 +210,68 @@ export default function NeighborPage() {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+        {activeTab === "voices" && (
+          <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
+            <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
+              {VOICES_NEIGH.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ background: selectedVoice === v.id ? PURPLE : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: TEXT, fontWeight: 700, fontSize: 14 }}>{v.name}</div>
+                  <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{v.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 28 }}>
+                <h2 style={{ color: GREEN, fontWeight: 900, fontSize: 22, margin: "0 0 4px" }}>{voiceItem.name}</h2>
+                <div style={{ color: PURPLE, fontSize: 13, fontWeight: 700, marginBottom: 6 }}>{voiceItem.era}</div>
+                <div style={{ color: MUTED, fontSize: 13, marginBottom: 16 }}>{voiceItem.context}</div>
+                <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 15, marginBottom: 20 }}>{voiceItem.bio}</p>
+                <div style={{ background: BG, borderLeft: `3px solid ${GREEN}`, borderRadius: "0 8px 8px 0", padding: "14px 18px", marginBottom: 20 }}>
+                  <p style={{ color: GREEN, fontStyle: "italic", fontSize: 15, lineHeight: 1.7, margin: 0 }}>&ldquo;{voiceItem.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: `${PURPLE}15`, borderRadius: 10, padding: 16 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>Legacy and Contribution</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, margin: 0 }}>{voiceItem.contribution}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons and teachings on loving your neighbor, the Good Samaritan, and the call to practical compassion.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "AWPYQcTTcKQ", title: "The Good Samaritan: On Love of Neighbor", channel: "Tim Keller", description: "Keller unpacks the parable of the Good Samaritan and what it means to love your neighbor — even when your neighbor is someone you would rather avoid." },
+                  { videoId: "UM-6IUUO6Qw", title: "Blueprint for Revival: Social Concern", channel: "Tim Keller", description: "Keller argues that genuine Christian revival always produces social concern — that love of God and love of neighbor cannot be separated in the life of the church." },
+                  { videoId: "DGw_BouGdq4", title: "Good Samaritan: Go and Do Likewise", channel: "Gospel Coalition", description: "A teaching on the mandate of Luke 10:37 — 'go and do likewise' — and what it looks like to embody the neighbor-love Jesus commends in today's world." },
+                  { videoId: "U2djv2fBzYE", title: "Love in the Neighborhood", channel: "Tim Keller", description: "Practical and theological reflection on what it means to intentionally love the specific neighbors God has placed around you — people, not concepts." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

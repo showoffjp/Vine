@@ -48,6 +48,11 @@ const navLinks: NavLink[] = [
           { label: "Bible Book Overview", href: "/bible-overview" },
           { label: "Character Studies", href: "/character-study" },
           { label: "Bible Characters", href: "/bible-characters" },
+          { label: "Parables of Jesus", href: "/parables-of-jesus" },
+          { label: "Miracles of Jesus", href: "/miracles-of-jesus" },
+          { label: "The Lord's Prayer", href: "/lords-prayer" },
+          { label: "The Armor of God", href: "/armor-of-god" },
+          { label: "Fruit of the Spirit", href: "/fruit-of-the-spirit" },
           { label: "Biblical Archaeology", href: "/biblical-archaeology" },
           { label: "The Prophets", href: "/prophets" },
           { label: "Reading the Prophets", href: "/reading-prophets" },
@@ -65,6 +70,8 @@ const navLinks: NavLink[] = [
           { label: "Theology Glossary", href: "/theology-glossary" },
           { label: "Theology in Plain English", href: "/theology" },
           { label: "The Holy Trinity", href: "/trinity" },
+          { label: "Names of God", href: "/names-of-god" },
+          { label: "Names of Jesus", href: "/names-of-jesus" },
           { label: "Fatherhood of God", href: "/fatherhood-of-god" },
           { label: "The Resurrection", href: "/resurrection" },
           { label: "Resurrection Evidence", href: "/resurrection-evidence" },
@@ -112,9 +119,13 @@ const navLinks: NavLink[] = [
           { label: "Famous Conversions", href: "/conversion-stories" },
           { label: "Christians Who Changed History", href: "/christians-who-changed-history" },
           { label: "Creeds & Historic Prayers", href: "/creeds" },
+          { label: "The Apostles' Creed", href: "/apostles-creed" },
           { label: "Historic Confessions", href: "/confessions" },
           { label: "Classic Heresies Explained", href: "/classic-heresies" },
           { label: "Protestant Denominations", href: "/protestant-denominations" },
+          { label: "The Catholic Faith", href: "/catholic-faith" },
+          { label: "Eastern Orthodoxy", href: "/eastern-orthodox" },
+          { label: "Pentecostalism", href: "/pentecostalism" },
           { label: "Reformed Theology", href: "/reformed-theology" },
           { label: "Christian Art Guide", href: "/christian-art-guide" },
         ],
@@ -237,6 +248,8 @@ const navLinks: NavLink[] = [
           { label: "Worship", href: "/worship" },
           { label: "Theology of Worship", href: "/worship-theology" },
           { label: "Essential Worship Songs", href: "/christian-worship-songs" },
+          { label: "Great Hymns of the Faith", href: "/hymns" },
+          { label: "Christian Music History", href: "/christian-music-history" },
           { label: "Christian Music", href: "/christian-music" },
           { label: "Essential Christian Albums", href: "/christian-albums" },
           { label: "Live Church", href: "/live" },
@@ -346,6 +359,7 @@ const navLinks: NavLink[] = [
           { label: "Theology of Communion", href: "/communion-theology" },
           { label: "Evangelism Training", href: "/evangelism" },
           { label: "Evangelism Methods", href: "/evangelism-methods" },
+          { label: "Sharing the Gospel", href: "/gospel-presentation" },
           { label: "Gospel Conversations", href: "/gospel-conversations" },
           { label: "Interfaith Conversations", href: "/interfaith-conversations" },
           { label: "House Church Guide", href: "/house-church" },
@@ -545,15 +559,15 @@ export default function Navbar() {
         <div
           className="flex items-center justify-center gap-2 px-4 py-2 text-xs sm:text-sm relative"
           style={{
-            background: "linear-gradient(90deg, rgba(107,79,187,0.25) 0%, rgba(0,255,136,0.12) 50%, rgba(107,79,187,0.25) 100%)",
-            borderBottom: "1px solid rgba(0,255,136,0.15)",
+            background: "linear-gradient(90deg, rgba(58,125,86,0.2) 0%, rgba(201,162,39,0.12) 50%, rgba(58,125,86,0.2) 100%)",
+            borderBottom: "0.5px solid rgba(201,162,39,0.2)",
           }}
         >
-          <Sparkles size={12} style={{ color: "#00FF88", flexShrink: 0 }} />
-          <span style={{ color: "#C0C0D8" }}>
-            <span className="font-bold" style={{ color: "#00FF88" }}>Vine Beta is live.</span>{" "}
+          <Sparkles size={12} style={{ color: "#c9a227", flexShrink: 0 }} />
+          <span style={{ color: "#c9b98a", fontFamily: "var(--font-jost, system-ui, sans-serif)", fontSize: "0.8rem" }}>
+            <span className="font-bold" style={{ color: "#e8c162" }}>The Vine Beta is live.</span>{" "}
             <span className="hidden sm:inline">Join early and shape the future of Christian community.</span>{" "}
-            <button onClick={() => { setAuthMode("signup"); setAuthOpen(true); }} className="underline font-semibold" style={{ color: "#44FFAA" }}>
+            <button onClick={() => { setAuthMode("signup"); setAuthOpen(true); }} className="underline font-semibold" style={{ color: "#c9a227" }}>
               Join free →
             </button>
           </span>
@@ -571,9 +585,9 @@ export default function Navbar() {
       {/* Main Navbar */}
       <nav
         style={{
-          background: scrolled ? "rgba(7,7,15,0.96)" : "rgba(7,7,15,0.0)",
-          backdropFilter: scrolled ? "blur(24px)" : "none",
-          borderBottom: scrolled ? "1px solid rgba(0,255,136,0.08)" : "1px solid transparent",
+          background: scrolled ? "rgba(5,14,7,0.95)" : "rgba(5,14,7,0.0)",
+          backdropFilter: scrolled ? "blur(20px)" : "none",
+          borderBottom: scrolled ? "0.5px solid rgba(201,162,39,0.15)" : "0.5px solid transparent",
           transition: "all 300ms",
         }}
       >
@@ -581,19 +595,23 @@ export default function Navbar() {
           <div className="flex items-center justify-between h-16">
 
             {/* Logo */}
-            <a href="/" className="flex items-center gap-2.5 shrink-0">
-              <div
-                className="w-8 h-8 rounded-lg flex items-center justify-center"
-                style={{ background: "linear-gradient(135deg, #00FF88 0%, #8B6FDB 100%)" }}
-              >
-                <span className="text-black font-black text-sm">V</span>
-              </div>
-              <span className="text-xl font-black tracking-tight" style={{ color: "#F2F2F8" }}>
-                Vine
+            <a href="/" className="flex items-center gap-2.5 shrink-0" style={{ textDecoration: "none" }}>
+              <svg width="32" height="32" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="15" y="4" width="4" height="18" rx="1.5" fill="#c9a227"/>
+                <rect x="8" y="10" width="18" height="4" rx="1.5" fill="#c9a227"/>
+                <path d="M17 22 Q11 26 8 30" stroke="#3a7d56" strokeWidth="1.5" strokeLinecap="round"/>
+                <path d="M17 22 Q23 26 26 30" stroke="#3a7d56" strokeWidth="1.5" strokeLinecap="round"/>
+                <circle cx="8" cy="30" r="2" fill="#3a7d56" opacity="0.8"/>
+                <circle cx="26" cy="30" r="2" fill="#3a7d56" opacity="0.8"/>
+                <circle cx="11" cy="27" r="1.5" fill="#3a7d56" opacity="0.5"/>
+                <circle cx="23" cy="27" r="1.5" fill="#3a7d56" opacity="0.5"/>
+              </svg>
+              <span style={{ fontFamily: "var(--font-cormorant, 'Cormorant Garamond', Georgia, serif)", fontSize: "1.45rem", fontWeight: 600, color: "#f2e6c8", letterSpacing: "0.03em" }}>
+                The<span style={{ color: "#c9a227" }}> Vine</span>
               </span>
               <span
                 className="text-[10px] font-bold px-1.5 py-0.5 rounded-full hidden sm:block"
-                style={{ background: "rgba(0,255,136,0.1)", color: "#00FF88", border: "1px solid rgba(0,255,136,0.2)" }}
+                style={{ background: "rgba(201,162,39,0.12)", color: "#c9a227", border: "1px solid rgba(201,162,39,0.25)", fontFamily: "var(--font-jost, system-ui, sans-serif)", letterSpacing: "0.08em" }}
               >
                 BETA
               </span>

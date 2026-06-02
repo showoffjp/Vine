@@ -82,7 +82,7 @@ const PRACTICES = [
   { title: "Sit with Luke 14 Regularly", desc: "Return to the counting-the-cost passage (Luke 14:25-33) annually. What was the cost you assessed when you first committed to following Christ? Has that cost remained, grown, or been subtly reduced to something more comfortable? Renewal begins with honest assessment.", icon: "🔄" },
 ];
 
-type Tab = "passages" | "myths" | "lives" | "practices";
+type Tab = "passages" | "myths" | "lives" | "practices" | "videos";
 
 export default function DiscipleshipCostPage() {
   const [tab, setTab] = useState<Tab>("passages");
@@ -114,6 +114,7 @@ export default function DiscipleshipCostPage() {
             { id: "myths" as const, label: "Common Myths", icon: "⚠️" },
             { id: "lives" as const, label: "Lives of Cost", icon: "🕊️" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -208,6 +209,40 @@ export default function DiscipleshipCostPage() {
                   <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{p.desc}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {tab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "MJeBE5KQZ2Y", title: "Luke 14:25-33 — Count the Cost", channel: "Gospel Preaching", description: "A sermon on Jesus's call to count the cost of discipleship before following him — the builder, the king, and the disciple who gives up everything." },
+                  { videoId: "Tl6KAgzwmrM", title: "Dietrich Bonhoeffer: The Cost of Discipleship", channel: "Christian Biography", description: "An exploration of Bonhoeffer's famous work and life — the pastor who paid the ultimate cost for his discipleship by being executed by the Nazis in 1945." },
+                  { videoId: "QBO1IuDmmaM", title: "The Cost of Discipleship", channel: "Reformed Teaching", description: "A teaching on what Jesus means when he says those who do not take up their cross cannot be his disciples — real sacrifice for real following." },
+                  { videoId: "79hBaQFnS6Y", title: "The Cost of Discipleship: Doing Righteousness", channel: "Biblical Exposition", description: "An expository look at the demands of Christ upon those who follow him, showing that discipleship is not merely intellectual assent but whole-life surrender." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

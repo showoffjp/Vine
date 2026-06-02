@@ -69,6 +69,22 @@ const categories = ["All", "Faith", "God's Love", "Prayer", "Scripture", "Grace"
 const eras = ["All Eras", "Early Church", "Medieval", "16th Century", "17th Century", "18th Century", "19th Century", "20th Century", "Contemporary"];
 const sortOptions = ["Most Liked", "Newest", "Alphabetical (Author)"];
 
+const THINKERS_Q = [
+  { id: "lewis-cs", name: "C.S. Lewis", era: "1898-1963", role: "Oxford/Cambridge don, lay theologian, novelist", bio: "Clive Staples Lewis is the most widely read Christian apologist of the 20th century and arguably the most quoted Christian writer in the English-speaking world. A former atheist who was converted to Christianity in 1931, Lewis brought the skills of a rigorous Oxford literary scholar and philosopher to Christian apologetics. He wrote in almost every genre: children's fiction (The Chronicles of Narnia), scholarly literary criticism, space fiction, autobiography (Surprised by Joy), and popular theology (Mere Christianity, The Problem of Pain, Miracles). His ability to make theological truth vivid through metaphor and story has made his work perennially accessible and his quotes permanently circulating.", quote: "I believe in Christianity as I believe the sun has risen: not only because I see it, but because by it I see everything else.", contribution: "Lewis gave the 20th-century church a vision of what rigorous, winsome, intellectually serious Christianity could look like in the modern academy. His apologetic method — meeting skepticism on its own ground, taking objections seriously, using imaginative literature to bypass the intellectual defenses — continues to shape how Christians engage secular culture." },
+  { id: "spurgeon-c", name: "Charles Spurgeon", era: "1834-1892", role: "Victorian Baptist preacher, Metropolitan Tabernacle, London", bio: "Charles Haddon Spurgeon is the most published Christian author in church history — his sermons fill 63 volumes and were printed in newspapers worldwide during his lifetime. Preaching to over 10 million people in his ministry and founding an orphanage, a college, and a theological library, Spurgeon embodied Victorian Calvinist evangelicalism at its most expansive. His preaching was marked by extraordinary vividness, wit, doctrinal clarity, and pastoral warmth. His Treasury of David (commentary on the Psalms) and Morning and Evening (daily devotional) remain in continuous print. His personal struggle with depression — which he wrote about candidly — has made him a touchstone for Christians dealing with mental suffering.", quote: "A Bible that's falling apart usually belongs to someone who isn't.", contribution: "Spurgeon's sermons created a gold standard for expository preaching that shaped subsequent generations of preachers. His commitment to doctrinal clarity combined with pastoral warmth, his extraordinary output, and his willingness to address personal suffering publicly created a model of ministry that continues to influence evangelical preaching worldwide." },
+  { id: "tozer-aw", name: "A.W. Tozer", era: "1897-1963", role: "Christian and Missionary Alliance pastor, Chicago; editor of Alliance Life", bio: "Aiden Wilson Tozer was a self-educated pastor who became one of the most penetrating spiritual writers of the 20th century. He read voraciously across Christian mysticism, patristics, and Reformed theology, combining them into a voice that was simultaneously prophetic and devotional. His The Pursuit of God (1948) and The Knowledge of the Holy (1961) are among the most widely read devotional books of the 20th century. Tozer was a fierce critic of what he saw as a shallow, comfort-seeking Christianity that had lost its awe of God — his diagnosis of evangelical domestication of the divine remains as sharp today as it was in the 1950s.", quote: "What comes into our minds when we think about God is the most important thing about us.", contribution: "Tozer's insistence that the church's fundamental problem is a deficient vision of God — not technique, strategy, or programming — gave his voice a prophetic edge that remains relevant. The Pursuit of God and The Knowledge of the Holy have introduced generations of evangelicals to the mystical and contemplative dimensions of Christian faith that their tradition had often minimized." },
+  { id: "augustine", name: "Augustine of Hippo", era: "354-430", role: "Bishop of Hippo, North Africa; Doctor of the Church", bio: "Augustine of Hippo is arguably the most influential theologian in Western Christianity, shaping both the Catholic and the Protestant traditions in ways that are still being worked out. His Confessions — the first Christian autobiography and a masterpiece of world literature — narrated his intellectual and moral journey from Manichaeism through Neoplatonism to Christianity, and gave Western culture the language of the interior life: the restless heart, the divided will, the soul's pilgrimage toward God. His City of God, written in response to the sack of Rome, established the framework for thinking about the relationship between Christianity and political order that shaped Western political theology for a thousand years.", quote: "You have made us for yourself, O Lord, and our heart is restless until it rests in you.", contribution: "Augustine's theological categories — original sin, grace, free will, the two cities — became the basic architecture of Western Christian thought. His Confessions gave the world a new form of literature (the spiritual autobiography) and a new language for interiority. His Trinitarian theology, his anti-Pelagian writings, and his biblical interpretation shaped both medieval Catholicism and Reformation Protestantism." },
+  { id: "chesterton-gk", name: "G.K. Chesterton", era: "1874-1936", role: "Journalist, novelist, poet, apologist; lay Catholic convert", bio: "Gilbert Keith Chesterton was the master of the paradox — his ability to turn conventional wisdom upside down and reveal the stranger truth beneath was unmatched in 20th-century Christian writing. A prodigious journalist and essayist who wrote on almost every subject, Chesterton converted to Catholicism in 1922 after a long journey he documented in Orthodoxy (1908) and Heretics (1905). His Father Brown detective stories, his biographies of Aquinas and Francis, and his enormous output of journalism combined to make him one of the most quoted authors of the century. His critics called him facile; his admirers (who included both C.S. Lewis and Marshall McLuhan) called him prophetic.", quote: "The Christian ideal has not been tried and found wanting. It has been found difficult; and left untried.", contribution: "Chesterton's apologetic method — using paradox, imagination, and humor to destabilize secular assumptions — influenced C.S. Lewis directly and established a tradition of imaginative Christian apologetics that continues in writers like Peter Kreeft. His social criticism (distributism, anti-capitalism, pro-family) was ahead of its time, and his Orthodoxy remains one of the most penetrating accounts of Christian conversion in English literature." },
+];
+
+const THEMES_Q = [
+  { theme: "Grace", icon: "🤍", desc: "Quotes on grace reveal a consistent pattern: grace is always larger than the recipient expects. Augustine's 'our heart is restless' is answered by a grace that pursues. Lewis's 'inexcusable' is absorbed by a forgiveness that costs everything. Grace-quotes tend to shock because grace itself is shocking — it gives what cannot be earned and forgives what should not be forgivable.", authors: "Augustine, Lewis, Luther, Spurgeon, Barth" },
+  { theme: "Prayer", icon: "🙏", desc: "The great prayer quotes share a conviction that prayer changes the one who prays more than it changes circumstances. Tozer's 'prayer is not overcoming God's reluctance' and Murray's 'prayer is not monologue' both resist the vending-machine model. Prayer quotes at their best describe an encounter, not a transaction.", authors: "Tozer, E.M. Bounds, Andrew Murray, Thomas Merton, George Müller" },
+  { theme: "Suffering", icon: "💧", desc: "The most quoted Christian writers on suffering have generally suffered themselves. Spurgeon wrote on depression while fighting it. Lewis wrote The Problem of Pain before his wife died and A Grief Observed after — two very different books. The best suffering-quotes do not explain away pain; they locate it inside a story where suffering is not the final word.", authors: "C.S. Lewis, Spurgeon, Bonhoeffer, Elisabeth Elliot, Joni Eareckson Tada" },
+  { theme: "Faith", icon: "⚓", desc: "Faith-quotes divide between those that emphasize faith as intellectual assent (believing the right things) and those that emphasize it as trust (resting in a person). The most quoted tend toward the latter: faith is not certainty but fidelity, not the absence of doubt but the commitment to walk toward God despite doubt.", authors: "Luther, Calvin, Kierkegaard, Spurgeon, Lewis, Barth" },
+  { theme: "Worship", icon: "🎶", desc: "Worship-quotes cluster around a consistent theme: worship is the reorientation of the whole self toward God, not a service to attend. Tozer's 'what comes into our minds when we think about God' locates worship in the imagination. Lewis's 'Joy is the serious business of Heaven' relocates the center of gravity. The best worship-quotes are disorienting — they reveal how small our vision of God has become.", authors: "Tozer, Lewis, Piper, Chesterton, Clarkson" },
+];
+
 export default function QuotesPage() {
   const [savedIds, setSavedIds] = useState<Set<string>>(new Set());
   const [likedIds, setLikedIds] = useState<Set<string>>(new Set());
@@ -76,7 +92,8 @@ export default function QuotesPage() {
   const [filterEra, setFilterEra] = useState("All Eras");
   const [sortBy, setSortBy] = useState("Most Liked");
   const [search, setSearch] = useState("");
-  const [activeTab, setActiveTab] = useState<"all" | "saved">("all");
+  const [activeTab, setActiveTab] = useState<"all" | "saved" | "thinkers" | "themes" | "videos">("all");
+  const [selectedThinker, setSelectedThinker] = useState("lewis-cs");
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -175,7 +192,7 @@ export default function QuotesPage() {
         {/* Tabs + search */}
         <div style={{ display: "flex", gap: 12, alignItems: "center", marginBottom: 20, flexWrap: "wrap" }}>
           <div style={{ display: "flex", background: "#12121F", border: "1px solid #1E1E32", borderRadius: 10, padding: 4, gap: 4 }}>
-            {(["all", "saved"] as const).map((tab) => (
+            {(["all", "saved", "thinkers", "themes", "videos"] as const).map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
@@ -186,7 +203,7 @@ export default function QuotesPage() {
                   cursor: "pointer", fontWeight: 600, fontSize: 13,
                 }}
               >
-                {tab === "all" ? `All (${allQuotes.length})` : `Saved (${savedIds.size})`}
+                {tab === "all" ? `All (${allQuotes.length})` : tab === "saved" ? `Saved (${savedIds.size})` : tab === "thinkers" ? "🎓 Thinkers" : tab === "themes" ? "📚 Themes" : "🎬 Videos"}
               </button>
             ))}
           </div>
@@ -211,6 +228,7 @@ export default function QuotesPage() {
         </div>
 
         {/* Filters */}
+        {(activeTab === "all" || activeTab === "saved") && <>
         <div style={{ marginBottom: 24 }}>
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 8 }}>
             {categories.slice(0, 12).map((c) => (
@@ -341,6 +359,92 @@ export default function QuotesPage() {
           <div style={{ textAlign: "center", padding: "60px 24px" }}>
             <div style={{ fontSize: 40, marginBottom: 12 }}>🔍</div>
             <div style={{ color: "#9898B3" }}>No quotes match your filters.</div>
+          </div>
+        )}
+        </>}
+
+        {activeTab === "thinkers" && (
+          <div style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
+            <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 80 }}>
+              {THINKERS_Q.map(t => (
+                <button key={t.id} onClick={() => setSelectedThinker(t.id)}
+                  style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedThinker === t.id ? "rgba(107,79,187,0.5)" : "#1E1E32"}`, background: selectedThinker === t.id ? "rgba(107,79,187,0.12)" : "#12121F", cursor: "pointer" }}>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: selectedThinker === t.id ? "#A080FF" : "#F2F2F8", marginBottom: 2 }}>{t.name}</div>
+                  <div style={{ fontSize: 11, color: "#9898B3" }}>{t.era}</div>
+                </button>
+              ))}
+            </div>
+            {(() => { const t = THINKERS_Q.find(x => x.id === selectedThinker)!; return (
+              <div style={{ flex: 1, background: "#12121F", border: "1px solid #1E1E32", borderRadius: 16, padding: 28 }}>
+                <div style={{ fontSize: 12, color: "#9898B3", fontStyle: "italic", marginBottom: 6 }}>{t.role}</div>
+                <h2 style={{ fontSize: 24, fontWeight: 800, marginBottom: 4, color: "#F2F2F8" }}>{t.name}</h2>
+                <div style={{ fontSize: 13, color: "#9898B3", marginBottom: 20 }}>{t.era}</div>
+                <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.8, marginBottom: 24 }}>{t.bio}</p>
+                <div style={{ background: "#07070F", borderRadius: 12, padding: 20, borderLeft: "3px solid #6B4FBB", marginBottom: 24 }}>
+                  <p style={{ fontSize: 15, color: "#E0E0F0", lineHeight: 1.75, fontStyle: "italic" }}>&ldquo;{t.quote}&rdquo;</p>
+                  <div style={{ fontSize: 12, color: "#A080FF", marginTop: 8 }}>— {t.name}</div>
+                </div>
+                <div>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: "#6B4FBB", textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>Legacy</div>
+                  <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.75 }}>{t.contribution}</p>
+                </div>
+              </div>
+            ); })()}
+          </div>
+        )}
+
+        {activeTab === "themes" && (
+          <div>
+            <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 8 }}>Themes in Christian Quotation</h2>
+            <p style={{ color: "#9898B3", fontSize: 14, marginBottom: 24, lineHeight: 1.6 }}>
+              What the great Christian voices have said about life&apos;s most important subjects — and why those quotes endure.
+            </p>
+            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+              {THEMES_Q.map((item, i) => (
+                <div key={i} style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 14, padding: 22 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
+                    <span style={{ fontSize: 24 }}>{item.icon}</span>
+                    <h3 style={{ fontSize: 17, fontWeight: 800, color: "#00FF88", margin: 0 }}>{item.theme}</h3>
+                  </div>
+                  <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.75, marginBottom: 10 }}>{item.desc}</p>
+                  <div style={{ fontSize: 12, color: "#9898B3" }}>Key voices: {item.authors}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: "#00FF88", fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: "#9898B3", fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from the voices behind some of the most enduring Christian quotes.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "QecyvLgSuN8", title: "John Piper and Tim Keller Wrestle with Sanctification", channel: "Desiring God / The Gospel Coalition", description: "Two of the most-quoted contemporary Christian thinkers sit down to discuss sanctification, grace, and the ongoing work of transformation in the believer's life." },
+                  { videoId: "d6eqCIGhOxw", title: "The Lord's Prayer — Explained by John Piper", channel: "Desiring God (John Piper)", description: "John Piper unpacks the words of the Lord's Prayer, illuminating why these few verses from Matthew 6 contain the entire theology of prayer." },
+                  { videoId: "J0jZb5iJzno", title: "An Inward Life of Confidence Before God", channel: "Wheaton College (Richard Foster)", description: "Richard Foster — author of Celebration of Discipline and one of the most quoted writers on spiritual formation — on the inward life and what it means to live before God." },
+                  { videoId: "4R87Hl52fgY", title: "The Sanctuary of the Soul", channel: "Wheaton College (Richard Foster)", description: "Foster explores the interior castle of the soul — drawing on the great Christian mystics and their most enduring sayings about prayer and the inner life." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: "#07070F", border: "1px solid #1E1E32", borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: "#00FF88", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: "#9898B3", fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

@@ -1,6 +1,8 @@
 "use client";
 import { useState } from "react";
 
+type Tab = "methods" | "scripture" | "guides" | "videos";
+
 const METHODS = [
   {
     id: "acts",
@@ -262,8 +264,171 @@ const PLANS = [
   { id: "psalms-30", title: "Praying Through the Psalms", description: "30 days with one psalm per day — read, reflect, and respond in prayer. From lament to praise.", days: 30, dailyTime: "12 min", icon: "📖" },
 ];
 
+const VOICES_PM = [
+  { id: "bounds-em", name: "E.M. Bounds", era: "1835-1913", context: "Power Through Prayer (1907); The Necessity of Prayer; spent four hours in prayer every morning", bio: "Edward McKendree Bounds was a Civil War chaplain who spent the last seventeen years of his life rising at 4am to pray until 7am before beginning his day's work. He wrote eleven books on prayer, all posthumously published, that constitute the most intense advocacy for prayer as the central work of the Christian minister in the English language. Bounds argued that the church's weakness is primarily a prayer weakness — that all the organization, education, and technique in the world will not substitute for the power that comes from protracted, earnest prayer. His books on prayer are among the most demanding and convicting in the entire devotional tradition.", quote: "Prayer is not preparation for the battle — prayer is the battle. The real work of the church is done on our knees. Everything else is just follow-through.", contribution: "Bounds's books on prayer, particularly Power Through Prayer, have been in continuous print for over a century and have formed generations of ministers who take prayer seriously as a discipline. His intensity and demands are excessive for many readers — but his core conviction, that prayer is primary and everything else is secondary, has never been successfully refuted." },
+  { id: "murray-a", name: "Andrew Murray", era: "1828-1917", context: "With Christ in the School of Prayer (1885); The Ministry of Intercession (1898); South African Reformed pastor", bio: "Andrew Murray was a South African Dutch Reformed pastor who wrote over 200 books and pamphlets on the Christian life, with prayer as the central theme of his life's work. With Christ in the School of Prayer, structured around the Lord's Prayer and the disciples' request 'Lord, teach us to pray,' remains the most systematic devotional treatment of prayer as a discipline to be learned. Murray argued that prayer is not natural to fallen humanity — it must be taught, practiced, and developed through faithful discipline, just as a musician develops through practice. His chapter on intercession and his treatment of faith in prayer have been particularly influential.", quote: "The man who kneels before God can stand before anything. Prayer is not preparation for battle — prayer is the mightiest weapon in battle.", contribution: "Murray's With Christ in the School of Prayer has guided more Christians into structured, disciplined prayer than almost any other 19th-century devotional book. It remains in print, has been translated into dozens of languages, and continues to form the prayer lives of Christians around the world." },
+  { id: "hallesby-o", name: "Ole Hallesby", era: "1879-1961", context: "Prayer (1931) — possibly the most widely read systematic treatment of prayer in Scandinavian Christianity", bio: "Ole Hallesby was a Norwegian Lutheran theologian whose book Prayer remains one of the most beloved treatments of the subject in the 20th century. Where Bounds emphasizes intensity and Murray emphasizes discipline, Hallesby emphasizes helplessness: prayer, he argues, is the cry of the helpless to the all-sufficient God, and it is precisely our helplessness — rightly understood — that is the primary qualification for prayer. His famous definition: 'To pray is to let Jesus come into our helplessness.' Hallesby was imprisoned during the Nazi occupation of Norway for his public Christian witness and emerged from prison with an even deeper prayer life.", quote: "To pray is to let Jesus come into our helplessness. It is the cry of the needy to the one who has all we need. Prayer is not our strength — it is our surrender.", contribution: "Prayer has guided generations of Norwegian, Scandinavian, and globally translated readers into a prayer life grounded in grace rather than effort. Its emphasis on helplessness as a prayer qualification — rather than a disqualification — has given permission to many struggling Christians to pray without pretense." },
+  { id: "foster-rf", name: "Richard Foster", era: "b. 1942", context: "Prayer: Finding the Heart's True Home (1992); Celebration of Discipline (1978)", bio: "Richard Foster's Prayer: Finding the Heart's True Home is the most comprehensive survey of Christian prayer forms in contemporary evangelical literature — covering adoration, simple prayer, prayer of the forsaken, sacramental prayer, healing prayer, contemplative prayer, and intercessory prayer, among many others. Where most books on prayer focus on one method or tradition, Foster drew on the full breadth of Christian history to show that prayer is a many-roomed house. No single form exhausts what prayer can be. His Celebration of Discipline, with its chapter on prayer, first introduced millions of evangelicals to the broader Christian tradition of spiritual disciplines.", quote: "Prayer catapults us onto the frontier of the spiritual life. Of all the spiritual disciplines, prayer is the most central because it ushers us into perpetual communion with the Father.", contribution: "Foster's Prayer gave evangelicals permission to explore the full range of Christian prayer traditions — including contemplative and charismatic forms — without abandoning their evangelical commitments. It remains the standard introductory text for survey courses on Christian spirituality and prayer in evangelical seminaries." },
+  { id: "willard-dpr", name: "Dallas Willard", era: "1935-2013", context: "Hearing God (1984); The Spirit of the Disciplines (1988) — prayer as conversational relationship with God", bio: "Dallas Willard approached prayer primarily as conversation — the two-way communication that constitutes a genuine relationship with God. Where many prayer books focus on what we say to God, Willard argued that the transforming dimension of prayer is hearing God speak. His Hearing God explored the ways God speaks to those who are listening — through Scripture, through the inner voice, through others — and gave Christians a framework for discerning God's communication in prayer. His Spirit of the Disciplines placed prayer within a comprehensive account of how the spiritual disciplines transform human character by putting us in the presence and under the influence of the Kingdom of God.", quote: "Prayer is not performance — it is conversation. And God's part of the conversation is as important as ours. The person who learns to hear God speak has discovered the secret of prayer.", contribution: "Willard's conversational model of prayer, developed across multiple books, gave Christians a framework that was simultaneously relational (it's dialogue, not monologue), practical (he addressed how to discern God's voice), and theologically grounded (prayer as Kingdom participation). It has been especially influential among younger evangelical readers drawn to the spiritual formation tradition." },
+];
+
+const PRAYER_SCRIPTURE = [
+  {
+    id: "lords-prayer-text",
+    ref: "Matthew 6:9-13",
+    text: "Our Father in heaven, hallowed be your name, your kingdom come, your will be done, on earth as it is in heaven. Give us today our daily bread. And forgive us our debts, as we also have forgiven our debtors. And lead us not into temptation, but deliver us from the evil one.",
+    theme: "Pattern for Prayer",
+    devotional: "The Lord's Prayer is not merely a prayer to be recited but a curriculum to be inhabited. Jesus gives us six movements: adoration of the Father, submission to his kingdom, dependence on his provision, the exchange of forgiveness, protection from temptation, and deliverance from evil. Every essential element of the Christian life is compressed into these few lines. When Jesus says 'This, then, is how you should pray,' he is handing us not a script but a map — a map to the full geography of prayer. Spend five minutes in each movement and a simple prayer becomes a thirty-minute encounter.",
+  },
+  {
+    id: "philippians-peace",
+    ref: "Philippians 4:6-7",
+    text: "Do not be anxious about anything, but in every situation, by prayer and petition, with thanksgiving, present your requests to God. And the peace of God, which transcends all understanding, will guard your hearts and your minds in Christ Jesus.",
+    theme: "Prayer and Peace",
+    devotional: "Paul writes from prison, not from a retreat center. His command not to be anxious is not wishful thinking — it is grounded in a practice: bring everything to God with thanksgiving. The thanksgiving is not a requirement to feel happy about hard things; it is an acknowledgment that God is already at work before we bring our request. The result Paul promises — a peace that transcends understanding — is not the absence of difficulty but a supernatural guarding of the heart and mind. Prayer does not always change our circumstances; it consistently changes what our circumstances do to us.",
+  },
+  {
+    id: "persistent-widow",
+    ref: "Luke 18:1-8",
+    text: "Then Jesus told his disciples a parable to show them that they should always pray and not give up. He said: 'In a certain town there was a judge who neither feared God nor cared what people thought. And there was a widow in that town who kept coming to him with the plea, Grant me justice against my adversary.'",
+    theme: "Perseverance in Prayer",
+    devotional: "Jesus tells this parable to a specific end: so that his disciples would always pray and not give up. The parable's logic is from lesser to greater — if an unjust judge eventually grants justice to a persistent widow, how much more will a loving Father respond to his children who cry out day and night? The parable does not teach that God needs to be worn down; it teaches that persistent prayer keeps us oriented toward God as the source of justice and provision. The danger Jesus addresses is not that God won't answer, but that we will lose faith and stop asking. The question at the end is searching: when the Son of Man comes, will he find faith on the earth?",
+  },
+  {
+    id: "spirit-intercedes",
+    ref: "Romans 8:26-27",
+    text: "In the same way, the Spirit helps us in our weakness. We do not know what we ought to pray for, but the Spirit himself intercedes for us through wordless groans. And he who searches our hearts knows the mind of the Spirit, because the Spirit intercedes for God's people in accordance with the will of God.",
+    theme: "The Spirit's Help",
+    devotional: "This passage is a lifeline for every believer who has sat in prayer not knowing what to say. Paul does not see this as a failure — he describes it as normal Christian experience. We do not know what we ought to pray for. But the Spirit himself intercedes for us with groans that go beyond language. The Spirit within us is already praying in alignment with the Father's will, even when we cannot articulate what we need. When words fail, this passage invites us to simply be present — to offer our silence, our groaning, our confusion — trusting that the Spirit is translating our wordless need into perfect intercession before the throne.",
+  },
+  {
+    id: "pray-without-ceasing",
+    ref: "1 Thessalonians 5:16-18",
+    text: "Rejoice always, pray continually, give thanks in all circumstances; for this is God's will for you in Christ Jesus.",
+    theme: "Continuous Prayer",
+    devotional: "Three commands in nine words: rejoice always, pray continually, give thanks in all circumstances. The Greek word translated 'continually' (adialeiptos) means without interruption — not that every moment is a formal prayer session, but that there is an unbroken orientation of the heart toward God throughout the day. Brother Lawrence called this 'practicing the presence of God' — turning every ordinary moment into a conversation with the Father. The breath prayer tradition, the Jesus Prayer, the practice of offering the day's first and last thoughts to God — all are attempts to embody this command. The goal is not more religious activity; it is a life in which nothing is outside the sphere of prayer.",
+  },
+  {
+    id: "pour-out-hearts",
+    ref: "Psalm 62:8",
+    text: "Trust in him at all times, you people; pour out your hearts to him, for God is our refuge.",
+    theme: "Raw Honesty Before God",
+    devotional: "The invitation to 'pour out your hearts' to God is an invitation to radical honesty — not the sanitized, performance-ready version of ourselves we often bring to prayer, but the actual contents: the fear, the anger, the doubt, the grief, the confusion, the longing. The Psalms model this throughout: Psalm 22 begins with abandonment, Psalm 88 ends in darkness, Psalm 139 asks God to search and know even the anxious thoughts. God is not honored by our pretense that we are fine when we are not. He is a refuge — a refuge is for people who need shelter, not for those who have it all together. Pour out what is actually there.",
+  },
+];
+
+const PRAYER_GUIDES = [
+  {
+    id: "daily-office",
+    title: "The Daily Office",
+    icon: "⏰",
+    duration: "15-20 min",
+    audience: "Beginners",
+    description: "Fixed-hour prayer rooted in the ancient practice of morning and evening prayer. Based on Psalms and Scripture readings, this structure has ordered Christian worship for over 1,500 years — from the desert fathers through Benedictine monasteries to the Book of Common Prayer. It anchors the day in the rhythms of Scripture rather than the rhythms of productivity.",
+    schedule: [
+      "Morning Psalm — read aloud one Psalm slowly, as prayer",
+      "New Testament Reading — one short passage, read twice",
+      "The Lord's Prayer — spoken slowly, phrase by phrase",
+      "Intercession — brief prayers for self, family, church, world",
+      "Closing Collect — a short written prayer committing the day to God",
+    ],
+  },
+  {
+    id: "examen",
+    title: "The Prayer of Examen",
+    icon: "🕯️",
+    duration: "15 min",
+    audience: "Intermediate",
+    description: "Developed by Ignatius of Loyola in the 16th century, the Examen is a daily review of the soul — not a guilt audit, but a prayerful looking back over the day to notice where God was present and where we responded well or poorly. Ignatius considered it so foundational that he said if a Jesuit could only pray once a day, it should be the Examen rather than formal meditation. It trains the soul to see God's fingerprints in ordinary moments.",
+    schedule: [
+      "Gratitude — name three specific gifts from the past 24 hours",
+      "Review — walk slowly through the day, hour by hour, noticing",
+      "Sorrow — acknowledge moments of failure, sin, or missed grace",
+      "Resolution — name one concrete intention for tomorrow",
+      "Look Forward — offer tomorrow to God with one line of surrender",
+    ],
+  },
+  {
+    id: "acts-couples",
+    title: "ACTS for Couples",
+    icon: "👫",
+    duration: "10 min",
+    audience: "Couples",
+    description: "Praying together is one of the most intimate and most avoided practices in marriage. This structured 10-minute guide uses the ACTS framework to give couples a container for shared prayer without the awkwardness of not knowing who should say what. Regular couples prayer is consistently linked in research to higher marital satisfaction, greater emotional intimacy, and reduced conflict — but more importantly, it keeps the couple oriented toward God as the center of the marriage.",
+    schedule: [
+      "Adoration — one sentence each: who is God to you today?",
+      "Confession — one sentence each: where did I fall short this week? (spoken to God, not each other)",
+      "Thanksgiving — two or three things each: what are you grateful for together?",
+      "Supplication — pray for each other by name, then for your household, then for one person outside your marriage",
+    ],
+  },
+  {
+    id: "intercessory-journal",
+    title: "Intercessory Prayer Journal",
+    icon: "📓",
+    duration: "30 min",
+    audience: "Advanced",
+    description: "Systematic intercession requires a system — otherwise the same people get prayed for while others are forgotten. This 30-minute journal method uses a rotating structure to ensure that prayer covers the full scope of concern: from personal confession to global mission. Keeping a written record transforms intercession from a vague activity into a specific, trackable practice with a documented history of answered and unanswered prayer.",
+    schedule: [
+      "Praise — 5 minutes of written adoration: attributes of God, specific acts of faithfulness",
+      "Personal Confession — 5 minutes: specific sins, failures, patterns requiring repentance",
+      "Family & Friends — 10 minutes: name by name intercession for those closest to you",
+      "Church & Local Community — 5 minutes: pastor, staff, specific needs in the congregation",
+      "Nation & Government — 3 minutes: leaders, justice, cultural issues",
+      "World Mission — 2 minutes: unreached people groups, persecuted church, specific missionaries",
+    ],
+  },
+];
+
+const PRAYER_VIDEOS = [
+  {
+    id: "chan-forgotten-god-1",
+    title: "Forgotten God: Why Do I Need the Spirit?",
+    preacher: "Francis Chan",
+    videoId: "sWMjg7CxIKk",
+    description: "Chan challenges Christians to experience the Holy Spirit's role in genuine prayer",
+  },
+  {
+    id: "chan-forgotten-god-2",
+    title: "Forgotten God: Theology of the Holy Spirit",
+    preacher: "Francis Chan",
+    videoId: "SCUEicqda1g",
+    description: "Part 3 of Chan's Forgotten God series exploring how the Spirit prays through us",
+  },
+  {
+    id: "keller-prodigal",
+    title: "The Prodigal Sons",
+    preacher: "Tim Keller",
+    videoId: "lsTzXI7cJGA",
+    description: "Keller's exposition of Luke 15 showing the Father who runs to meet us — the posture of prayer",
+  },
+  {
+    id: "sproul-holiness-prayer",
+    title: "The Holiness of God",
+    preacher: "R.C. Sproul",
+    videoId: "v6xk8e7gdMA",
+    description: "Understanding God's holiness transforms how we approach him in prayer",
+  },
+  {
+    id: "piper-waste-life",
+    title: "Don't Waste Your Life",
+    preacher: "John Piper",
+    videoId: "JHdB1dYAteA",
+    description: "Piper's vision for a life of radical God-centeredness that includes a life of prayer",
+  },
+  {
+    id: "washer-shocking",
+    title: "Shocking Youth Message",
+    preacher: "Paul Washer",
+    videoId: "uuabITeO4l8",
+    description: "Washer's call to examine the reality of one's prayer life and relationship with Christ",
+  },
+];
+
 export default function PrayerMethodsPage() {
-  const [tab, setTab] = useState<"methods" | "guided" | "plans">("methods");
+  const [tab, setTab] = useState<Tab>("methods");
+  const [selectedVoice, setSelectedVoice] = useState("bounds-em");
+  const voiceItem = VOICES_PM.find(v => v.id === selectedVoice)!;
   const [practiced, setPracticed] = useState<Set<string>>(() => {
     try { const s = localStorage.getItem("vine_prayer_methods_practiced"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
   });
@@ -326,7 +491,12 @@ export default function PrayerMethodsPage() {
 
         {/* Tabs */}
         <div style={{ display: "flex", gap: 4, marginBottom: 28, borderBottom: "1px solid #1E1E32" }}>
-          {([["methods", "Methods"], ["guided", "Guided Prayer"], ["plans", "Prayer Plans"]] as const).map(([t, label]) => (
+          {([
+            ["methods", "Methods"],
+            ["scripture", "Scripture"],
+            ["guides", "Prayer Guides"],
+            ["videos", "Videos"],
+          ] as const).map(([t, label]) => (
             <button key={t} onClick={() => setTab(t)}
               style={{ padding: "10px 20px", fontSize: 14, fontWeight: 600, background: "none", border: "none", cursor: "pointer", color: tab === t ? "#00FF88" : "#6A6A88", borderBottom: `2px solid ${tab === t ? "#00FF88" : "transparent"}`, marginBottom: -1 }}>
               {label}
@@ -412,108 +582,172 @@ export default function PrayerMethodsPage() {
           </>
         )}
 
-        {/* Guided Prayer Tab */}
-        {tab === "guided" && !guidedActive && (
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 20 }}>
-            {GUIDED.map(g => (
-              <div key={g.id} style={{ background: "#12121F", borderRadius: 18, padding: 24, border: "1px solid #1E1E32" }}>
-                <div style={{ fontSize: 32, marginBottom: 12 }}>{g.icon}</div>
-                <h3 style={{ fontSize: 18, fontWeight: 800, marginBottom: 6 }}>{g.title}</h3>
-                <p style={{ fontSize: 13, color: "#9898B3", marginBottom: 16 }}>{g.duration} · {g.steps.length} steps</p>
-                <button onClick={() => { setGuidedActive(g); setGuidedStep(0); }}
-                  style={{ width: "100%", padding: "12px", borderRadius: 12, border: `1px solid ${g.color}40`, background: `${g.color}20`, color: g.color, cursor: "pointer", fontWeight: 700, fontSize: 14 }}>
-                  Begin Prayer
-                </button>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* Guided Prayer Modal */}
-        {tab === "guided" && guidedActive && (
-          <div style={{ maxWidth: 640, margin: "0 auto" }}>
-            <div style={{ background: "#12121F", borderRadius: 20, padding: 32, border: "1px solid rgba(0,255,136,0.2)" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
-                <div>
-                  <h2 style={{ fontSize: 22, fontWeight: 800 }}>{guidedActive.title}</h2>
-                  <p style={{ fontSize: 13, color: "#9898B3" }}>Step {guidedStep + 1} of {guidedActive.steps.length}</p>
+        {/* Scripture Tab */}
+        {tab === "scripture" && (
+          <div>
+            <div style={{ textAlign: "center", marginBottom: 40 }}>
+              <h2 style={{ fontSize: 28, fontWeight: 900, marginBottom: 8 }}>Scripture on Prayer</h2>
+              <p style={{ color: "#9898B3", fontSize: 15, maxWidth: 580, margin: "0 auto" }}>
+                Six passages that define, deepen, and transform the practice of prayer &mdash; with devotional reflections for each.
+              </p>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+              {PRAYER_SCRIPTURE.map(entry => (
+                <div
+                  key={entry.id}
+                  style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 18, padding: 28 }}
+                >
+                  <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 14 }}>
+                    <span style={{ color: "#00FF88", fontWeight: 800, fontSize: 16 }}>{entry.ref}</span>
+                    <span
+                      style={{
+                        background: "rgba(107,79,187,0.15)",
+                        color: "#A080FF",
+                        border: "1px solid rgba(107,79,187,0.3)",
+                        borderRadius: 100,
+                        padding: "3px 12px",
+                        fontSize: 12,
+                        fontWeight: 700,
+                      }}
+                    >
+                      {entry.theme}
+                    </span>
+                  </div>
+                  <p style={{ color: "#C0C0D8", fontSize: 15, fontStyle: "italic", lineHeight: 1.8, marginBottom: 20, borderLeft: "3px solid #00FF88", paddingLeft: 16 }}>
+                    &ldquo;{entry.text}&rdquo;
+                  </p>
+                  <p style={{ color: "#9898B3", fontSize: 14, lineHeight: 1.9 }}>
+                    {entry.devotional}
+                  </p>
                 </div>
-                <button onClick={() => setGuidedActive(null)} style={{ background: "none", border: "1px solid #2A2A40", color: "#6A6A88", cursor: "pointer", padding: "4px 10px", borderRadius: 8 }}>✕ Exit</button>
-              </div>
-
-              {/* Progress dots */}
-              <div style={{ display: "flex", gap: 6, marginBottom: 24, justifyContent: "center" }}>
-                {guidedActive.steps.map((_, i) => (
-                  <div key={i} style={{ width: i === guidedStep ? 20 : 8, height: 8, borderRadius: 4, background: i === guidedStep ? "#00FF88" : i < guidedStep ? "rgba(0,255,136,0.4)" : "#1E1E32", transition: "all 0.3s" }} />
-                ))}
-              </div>
-
-              <div style={{ background: "#0D0D1A", borderRadius: 14, padding: 22, marginBottom: 20 }}>
-                <p style={{ fontSize: 16, color: "#F2F2F8", lineHeight: 1.8, marginBottom: 16 }}>{guidedActive.steps[guidedStep].instruction}</p>
-                <div style={{ borderTop: "1px solid #1E1E32", paddingTop: 14 }}>
-                  <p style={{ fontSize: 14, color: "#C0C0D8", fontStyle: "italic", lineHeight: 1.6 }}>"{guidedActive.steps[guidedStep].verse}"</p>
-                  <p style={{ fontSize: 12, color: "#00FF88", marginTop: 6 }}>— {guidedActive.steps[guidedStep].verseRef}</p>
-                </div>
-              </div>
-
-              <div style={{ display: "flex", gap: 12 }}>
-                {guidedStep > 0 && (
-                  <button onClick={() => setGuidedStep(s => s - 1)}
-                    style={{ flex: 1, padding: "12px", borderRadius: 12, border: "1px solid #2A2A40", background: "#1E1E32", color: "#9898B3", cursor: "pointer", fontWeight: 700, fontSize: 14 }}>
-                    ← Previous
-                  </button>
-                )}
-                {guidedStep < guidedActive.steps.length - 1 ? (
-                  <button onClick={() => setGuidedStep(s => s + 1)}
-                    style={{ flex: 2, padding: "12px", borderRadius: 12, border: "none", background: "linear-gradient(135deg, #00FF88, #00CC6A)", color: "#07070F", cursor: "pointer", fontWeight: 800, fontSize: 14 }}>
-                    Next Step →
-                  </button>
-                ) : (
-                  <button onClick={() => setGuidedActive(null)}
-                    style={{ flex: 2, padding: "12px", borderRadius: 12, border: "none", background: "linear-gradient(135deg, #00FF88, #00CC6A)", color: "#07070F", cursor: "pointer", fontWeight: 800, fontSize: 14 }}>
-                    🙏 Amen — Complete
-                  </button>
-                )}
-              </div>
+              ))}
             </div>
           </div>
         )}
 
-        {/* Plans Tab */}
-        {tab === "plans" && (
-          <div style={{ display: "flex", flexDirection: "column", gap: 20, maxWidth: 700, margin: "0 auto" }}>
-            {PLANS.map(p => (
-              <div key={p.id} style={{ background: "#12121F", borderRadius: 18, padding: 24, border: `1px solid ${planStarted[p.id] ? "rgba(0,255,136,0.25)" : "#1E1E32"}` }}>
-                <div style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
-                  <span style={{ fontSize: 32 }}>{p.icon}</span>
-                  <div style={{ flex: 1 }}>
-                    <h3 style={{ fontSize: 18, fontWeight: 800, marginBottom: 6 }}>{p.title}</h3>
-                    <p style={{ fontSize: 14, color: "#9898B3", lineHeight: 1.6, marginBottom: 12 }}>{p.description}</p>
-                    <div style={{ display: "flex", gap: 12, marginBottom: 14, flexWrap: "wrap" }}>
-                      <span style={{ fontSize: 13, padding: "3px 10px", borderRadius: 8, background: "#1E1E32", color: "#9898B3" }}>{p.days} days</span>
-                      <span style={{ fontSize: 13, padding: "3px 10px", borderRadius: 8, background: "#1E1E32", color: "#9898B3" }}>{p.dailyTime}/day</span>
-                      {planStarted[p.id] && <span style={{ fontSize: 13, padding: "3px 10px", borderRadius: 8, background: "rgba(0,255,136,0.1)", color: "#00FF88" }}>Started {planStarted[p.id]}</span>}
-                    </div>
-                    {planStarted[p.id] && (
-                      <div style={{ marginBottom: 14 }}>
-                        <div style={{ height: 6, background: "#1E1E32", borderRadius: 3, overflow: "hidden" }}>
-                          <div style={{ height: "100%", width: "15%", background: "linear-gradient(90deg, #00FF88, #6B4FBB)", borderRadius: 3 }} />
-                        </div>
-                        <p style={{ fontSize: 12, color: "#6A6A88", marginTop: 4 }}>Day 3 of {p.days}</p>
+        {/* Prayer Guides Tab */}
+        {tab === "guides" && (
+          <div>
+            <div style={{ textAlign: "center", marginBottom: 40 }}>
+              <h2 style={{ fontSize: 28, fontWeight: 900, marginBottom: 8 }}>Prayer Guides</h2>
+              <p style={{ color: "#9898B3", fontSize: 15, maxWidth: 580, margin: "0 auto" }}>
+                Structured frameworks for different stages of the prayer life &mdash; from daily office to systematic intercession.
+              </p>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(480px, 1fr))", gap: 24 }}>
+              {PRAYER_GUIDES.map(guide => (
+                <div
+                  key={guide.id}
+                  style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 20, padding: 28 }}
+                >
+                  <div style={{ display: "flex", alignItems: "flex-start", gap: 14, marginBottom: 16 }}>
+                    <span style={{ fontSize: 32, flexShrink: 0 }}>{guide.icon}</span>
+                    <div>
+                      <h3 style={{ color: "#F2F2F8", fontWeight: 800, fontSize: 20, marginBottom: 8 }}>{guide.title}</h3>
+                      <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                        <span style={{ background: "rgba(0,255,136,0.1)", color: "#00FF88", border: "1px solid rgba(0,255,136,0.25)", borderRadius: 100, padding: "3px 10px", fontSize: 12, fontWeight: 700 }}>
+                          {guide.duration}
+                        </span>
+                        <span style={{ background: "rgba(107,79,187,0.12)", color: "#A080FF", border: "1px solid rgba(107,79,187,0.25)", borderRadius: 100, padding: "3px 10px", fontSize: 12, fontWeight: 700 }}>
+                          {guide.audience}
+                        </span>
                       </div>
-                    )}
-                    {!planStarted[p.id] && (
-                      <button onClick={() => startPlan(p.id)}
-                        style={{ padding: "10px 22px", borderRadius: 12, border: "1px solid rgba(0,255,136,0.3)", background: "rgba(0,255,136,0.08)", color: "#00FF88", cursor: "pointer", fontWeight: 700, fontSize: 14 }}>
-                        Start This Plan
-                      </button>
-                    )}
+                    </div>
+                  </div>
+                  <p style={{ color: "#C0C0D8", fontSize: 14, lineHeight: 1.8, marginBottom: 20 }}>
+                    {guide.description}
+                  </p>
+                  <div>
+                    <p style={{ color: "#9898B3", fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 12 }}>
+                      Steps
+                    </p>
+                    <ol style={{ margin: 0, padding: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: 10 }}>
+                      {guide.schedule.map((step, i) => (
+                        <li key={i} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
+                          <div
+                            style={{
+                              width: 24,
+                              height: 24,
+                              borderRadius: "50%",
+                              background: "rgba(0,255,136,0.12)",
+                              border: "1px solid rgba(0,255,136,0.3)",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              fontSize: 11,
+                              fontWeight: 700,
+                              color: "#00FF88",
+                              flexShrink: 0,
+                            }}
+                          >
+                            {i + 1}
+                          </div>
+                          <span style={{ color: "#C0C0D8", fontSize: 14, lineHeight: 1.6, paddingTop: 2 }}>{step}</span>
+                        </li>
+                      ))}
+                    </ol>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         )}
+
+
+        {/* Videos Tab */}
+        {tab === "videos" && (
+          <div>
+            <div style={{ textAlign: "center", marginBottom: 40 }}>
+              <h2 style={{ fontSize: 28, fontWeight: 900, marginBottom: 8 }}>Prayer Videos</h2>
+              <p style={{ color: "#9898B3", fontSize: 15, maxWidth: 580, margin: "0 auto" }}>
+                Messages from preachers and teachers who will challenge and deepen your prayer life.
+              </p>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(480px, 1fr))", gap: 28 }}>
+              {PRAYER_VIDEOS.map(video => (
+                <div
+                  key={video.id}
+                  style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 20, overflow: "hidden" }}
+                >
+                  <div style={{ padding: "20px 20px 0" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+                      <span
+                        style={{
+                          background: "rgba(107,79,187,0.2)",
+                          color: "#A080FF",
+                          border: "1px solid rgba(107,79,187,0.35)",
+                          borderRadius: 100,
+                          padding: "4px 12px",
+                          fontSize: 12,
+                          fontWeight: 700,
+                        }}
+                      >
+                        {video.preacher}
+                      </span>
+                    </div>
+                    <h3 style={{ color: "#F2F2F8", fontWeight: 800, fontSize: 17, marginBottom: 8 }}>
+                      {video.title}
+                    </h3>
+                    <p style={{ color: "#9898B3", fontSize: 13, lineHeight: 1.6, marginBottom: 16 }}>
+                      {video.description}
+                    </p>
+                  </div>
+                  <div style={{ padding: "0 20px 20px" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", borderRadius: 8 }}
+                      src={`https://www.youtube.com/embed/${video.videoId}`}
+                      title={video.title}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
       </div>
     </div>
   );

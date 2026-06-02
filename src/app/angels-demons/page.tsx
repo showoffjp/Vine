@@ -4,7 +4,7 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "angels" | "theology" | "warfare" | "practices";
+type Tab = "angels" | "theology" | "warfare" | "practices" | "videos";
 
 const ANGELS = [
   { name: "Ordinary Angels", color: GREEN, role: "Messengers and servants", desc: "The word 'angel' (Hebrew: malak; Greek: angelos) simply means 'messenger.' Angels are created spiritual beings who serve God and minister to his people. They delivered divine messages (Luke 1:26-38), protected (Psalm 91:11-12), guided (Acts 8:26), and strengthened (Matthew 4:11). Scripture is restrained about their nature — they are neither human nor divine but serve as agents of God's purposes." },
@@ -92,6 +92,7 @@ export default function AngelsDemonsPage() {
             { id: "theology" as Tab, label: "Theology", icon: "📖" },
             { id: "warfare" as Tab, label: "Spiritual Warfare", icon: "⚔️" },
             { id: "practices" as Tab, label: "Practices", icon: "🛡️" },
+            { id: "videos" as Tab, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -182,6 +183,40 @@ export default function AngelsDemonsPage() {
                   <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{p.desc}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {tab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "NxTbV_zeIQg", title: "The Angel of 'Light': Angels and Demons", channel: "Ligonier Ministries / R.C. Sproul", description: "R.C. Sproul examines the biblical teaching on angels and demons, including Satan's nature as a fallen angel who disguises himself as an angel of light." },
+                  { videoId: "804lSn41ohU", title: "Spiritual Warfare According to the Bible: Angels and Demons", channel: "Bible Teaching", description: "A comprehensive biblical overview of what Scripture teaches about the angelic realm, demonic powers, and how Christians engage in spiritual warfare." },
+                  { videoId: "7SCDIZNgpDw", title: "Secret Church 7: Spiritual Warfare", channel: "David Platt / Radical", description: "David Platt's intensive Secret Church session on what the Bible teaches about spiritual warfare, angels, and how believers stand firm against the enemy." },
+                  { videoId: "tsrLyOCBU7Q", title: "How Angels and Demons Fight Out a War in the Heavens", channel: "Derek Prince Ministries", description: "Derek Prince teaches on the unseen spiritual conflict described in Daniel 10, where angelic warfare operates behind earthly events and prayer." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

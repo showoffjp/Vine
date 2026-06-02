@@ -4,6 +4,84 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
+type Tab = "methods" | "evangelists" | "essentials" | "objections" | "videos";
+
+const EVANGELISTS = [
+  {
+    id: "paul",
+    name: "Paul of Tarsus",
+    era: "c. 5-67 AD",
+    context: "Apostle; planted churches across the Roman Empire",
+    bio: "Paul is the paradigm of Christian evangelism. His method was versatile and context-sensitive: in synagogues he argued from Scripture (Acts 17:2-3), in Athens he engaged Greek philosophy and natural theology (Acts 17:22-31), in Lystra he addressed pagan polytheism from creation (Acts 14:15-17). He was not a one-method evangelist. He adapted his point of entry — not his message — to each audience. His stated goal: 'I have become all things to all people so that by all possible means I might save some' (1 Cor 9:22).",
+    quote: "I am not ashamed of the gospel, because it is the power of God that brings salvation to everyone who believes: first to the Jew, then to the Gentile.",
+    contribution: "Paul gave the church its foundational model of cross-cultural, context-sensitive evangelism. He also gave the clearest summary of gospel content (1 Cor 15:1-8) and the most rigorous theology of evangelism (Romans 10:14-17). His understanding that faith comes by hearing, and hearing by the word of Christ, grounds all evangelism in proclamation rather than merely lifestyle witness.",
+  },
+  {
+    id: "graham",
+    name: "Billy Graham",
+    era: "1918-2018",
+    context: "American evangelist; the Billy Graham Evangelistic Association",
+    bio: "Graham preached the gospel to more people than any individual in human history — an estimated 215 million in person across 185 countries. His Crusades combined mass-media communication, careful organizational preparation, local church partnerships, and a simple, urgent, consistent gospel message. He preached the same core content for 60 years: you are a sinner, Christ died for you, repent and believe. His longevity and consistency were as remarkable as his reach. He counseled every US President from Truman to Obama.",
+    quote: "God has given us two hands — one to receive with and the other to give with. We are not cisterns made for hoarding; we are channels made for sharing.",
+    contribution: "Graham demonstrated that mass evangelism could be conducted with integrity — he was meticulous about financial accountability, refused to separate from racially segregated audiences, and always channeled converts to local churches. His organizational model for crusade evangelism (community preparation, local church follow-up, decision counseling) became the template for large-scale evangelism worldwide.",
+  },
+  {
+    id: "stott",
+    name: "John Stott",
+    era: "1921-2011",
+    context: "Anglican rector; author of Basic Christianity and The Cross of Christ",
+    bio: "Stott was the foremost evangelical theologian of evangelism in the 20th century. His 'Basic Christianity' (1958) became one of the most widely-used evangelism texts in the English-speaking world. His 'Christian Mission in the Modern World' (1975) resolved the decade-long evangelical debate about the relationship between evangelism and social action: both flow from the gospel, neither replaces the other. Stott insisted that genuine evangelism includes the full gospel — including its social implications — while refusing to collapse evangelism into social work.",
+    quote: "Mission is the total task God has given the church for the world: evangelism and social concern are equally components of it, like the two wings of a bird.",
+    contribution: "Stott helped the evangelical world hold together what it had falsely separated — the proclamation of the gospel and the pursuit of justice. He gave intellectual credibility to a holistic evangelism that neither reduced the gospel to social improvement nor separated it from social concern. 'Basic Christianity' remains one of the most effective evangelism tools ever written because it presents the gospel with intellectual honesty and relational warmth simultaneously.",
+  },
+  {
+    id: "pippert",
+    name: "Rebecca Manley Pippert",
+    era: "1945-present",
+    context: "Author and evangelist; Out of the Saltshaker",
+    bio: "Pippert's 'Out of the Saltshaker and into the World' (1979) redefined how evangelical Christians thought about evangelism for a generation. Her central argument: evangelism is not a program, a technique, or a special event. It is the natural overflow of a life genuinely shaped by the gospel — the way Christians live, love, ask questions, and talk about God in ordinary conversations. Her relational model of evangelism gave permission to millions of ordinary Christians who were terrified of confrontational methods to share their faith in ways that felt authentic.",
+    quote: "We need to see evangelism not as a task but as a way of life — the natural overflow of a life that has encountered the living God.",
+    contribution: "Pippert shifted the evangelical paradigm from program-based evangelism to lifestyle-integrated evangelism. Her Jesus-centered approach — look at how Jesus actually engaged people: with curiosity, questions, and genuine relationship — gave ordinary Christians a model they could follow without feeling like salespeople. She also made the critical point that the Holy Spirit, not human technique, is the agent of conversion — freeing evangelists from the burden of having to manufacture results.",
+  },
+  {
+    id: "schaeffer",
+    name: "Francis Schaeffer",
+    era: "1912-1984",
+    context: "Philosopher-theologian; L'Abri Fellowship, Switzerland",
+    bio: "Schaeffer built L'Abri in the Swiss Alps as a community where intellectually serious seekers could come and have their genuine questions taken seriously. His approach to evangelism was apologetic and dialogical: he would spend weeks and months engaging a person's actual worldview, exposing its internal contradictions, and showing how Christianity addressed what secular philosophies could not. His books ('The God Who is There,' 'Escape from Reason') documented how to engage post-Christian culture with rigorous intellectual honesty.",
+    quote: "There is no place for a safe, flabby faith. Truth demands confrontation — lovingly, but still confrontation. A co-existence that does not confront is not love — it is, in the end, a kind of contempt.",
+    contribution: "Schaeffer pioneered the model of presuppositional evangelism for secular intellectuals — taking their worldview seriously enough to engage it philosophically, then showing how it inevitably collapses under its own weight. His insistence on intellectual honesty in evangelism (never giving easy answers to hard questions) and his hospitality at L'Abri (welcoming the doubter and the skeptic rather than fearing them) created a template for engaging post-Christian culture that is more relevant now than when he wrote it.",
+  },
+];
+
+const OBJECTIONS = [
+  {
+    objection: "All religions lead to God.",
+    response: "This sounds tolerant, but it actually contradicts itself — different religions make mutually exclusive claims. If all paths lead to the same place, then Jesus was wrong to say 'I am the way, the truth, and the life' (John 14:6). The question is not which religion feels most tolerant, but which claims are actually true. We can be respectful and still disagree with specific claims.",
+  },
+  {
+    objection: "Christians are hypocrites.",
+    response: "Yes — some are. So are atheists, Buddhists, and everyone else. Hypocrisy is a human problem, not a uniquely Christian one. But more importantly: the existence of hypocrites doesn't disprove Christianity — it actually confirms it. Christianity teaches that all humans are broken and in need of grace. The hypocrisy of Christians is evidence for the doctrine of human sin, not against the gospel. The question to ask is: 'What do you make of Jesus himself?'",
+  },
+  {
+    objection: "The Bible has been changed and mistranslated so many times.",
+    response: "This is historically inaccurate. We have more than 5,800 Greek manuscripts of the New Testament — more than any ancient document. Textual scholars can compare them to identify any variations, which are minor and well-documented. The manuscripts we have today match the manuscripts from the earliest centuries remarkably well. The Bible hasn't been 'changed through translations' — each translation works from original language manuscripts, not from previous translations.",
+  },
+  {
+    objection: "God wouldn't send good people to hell.",
+    response: "This assumes that good people deserve heaven — but heaven is not the reward for being good enough; it is a relationship with a holy God. The question is not 'Am I good enough?' but 'Am I reconciled to God?' No one is naturally reconciled to God (Romans 3:23). The good news is that God sent his Son so that reconciliation is possible for anyone who receives it. The alternative to receiving it is simply remaining as we are — separated from God.",
+  },
+  {
+    objection: "I'm not ready to give up my lifestyle.",
+    response: "This is the most honest objection — and it deserves an honest response. Christianity does require change. Jesus says, 'Take up your cross and follow me' — that is genuinely costly. But the question is not 'Is Christianity easy?' but 'Is it true?' If Jesus rose from the dead, the question of cost is secondary to the question of reality. And what most people discover is that the things they feared losing were less satisfying than what they find.",
+  },
+  {
+    objection: "I believe in science, not religion.",
+    response: "Science and Christianity are not competitors — they address different questions. Science asks 'How does the physical world operate?' Christianity asks 'Why is there something rather than nothing? What does it mean? What went wrong and how can it be fixed?' Many of the founders of modern science (Galileo, Newton, Faraday, Mendel) were Christians. The question is not science vs. religion but 'What evidence exists for or against the resurrection?' That is a historical question, not a scientific one.",
+  },
+];
+
+
 const METHODS = [
   {
     name: "Friendship Evangelism",
@@ -71,8 +149,10 @@ const ESSENTIALS = [
 ];
 
 export default function EvangelismMethodsPage() {
-  const [activeTab, setActiveTab] = useState<"methods" | "essentials">("methods");
+  const [activeTab, setActiveTab] = useState<Tab>("methods");
   const [selected, setSelected] = useState("Friendship Evangelism");
+  const [selectedEvangelist, setSelectedEvangelist] = useState("paul");
+  const evangelist = EVANGELISTS.find(e => e.id === selectedEvangelist)!;
 
   const method = METHODS.find(m => m.name === selected)!;
 
@@ -90,7 +170,10 @@ export default function EvangelismMethodsPage() {
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
             { id: "methods" as const, label: "Methods", icon: "📋" },
+            { id: "evangelists" as const, label: "Evangelists", icon: "🔥" },
             { id: "essentials" as const, label: "The Essentials", icon: "🔑" },
+            { id: "objections" as const, label: "Objections", icon: "❓" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -135,6 +218,38 @@ export default function EvangelismMethodsPage() {
           </div>
         )}
 
+        {activeTab === "evangelists" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 210, flexShrink: 0 }}>
+              {EVANGELISTS.map(e => (
+                <button key={e.id} onClick={() => setSelectedEvangelist(e.id)}
+                  style={{ width: "100%", background: selectedEvangelist === e.id ? `${PURPLE}18` : "transparent", border: `1px solid ${selectedEvangelist === e.id ? PURPLE + "70" : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 6, cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: selectedEvangelist === e.id ? PURPLE : TEXT, fontWeight: 800, fontSize: 13, marginBottom: 2 }}>{e.name}</div>
+                  <div style={{ color: MUTED, fontSize: 11 }}>{e.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ background: CARD, border: `1px solid ${PURPLE}30`, borderRadius: 14, padding: 28 }}>
+                <div style={{ marginBottom: 20 }}>
+                  <div style={{ color: MUTED, fontWeight: 700, fontSize: 11, marginBottom: 4 }}>{evangelist.era}</div>
+                  <h2 style={{ color: PURPLE, fontWeight: 900, fontSize: 24, marginBottom: 4 }}>{evangelist.name}</h2>
+                  <div style={{ color: MUTED, fontSize: 13 }}>{evangelist.context}</div>
+                </div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, marginBottom: 20 }}>{evangelist.bio}</p>
+                <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 10, padding: 18, marginBottom: 16 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 11, marginBottom: 10 }}>IN THEIR OWN WORDS</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0, fontStyle: "italic" }}>&ldquo;{evangelist.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: BG, borderRadius: 10, padding: 16 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>KEY CONTRIBUTION</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{evangelist.contribution}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {activeTab === "essentials" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
@@ -152,6 +267,54 @@ export default function EvangelismMethodsPage() {
                   <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{e.desc}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+        {activeTab === "objections" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                These are the six most common objections to Christian faith that arise in evangelistic conversations. Knowing how to respond — not to win arguments, but to remove barriers — is part of loving the people you are talking with.
+              </p>
+            </div>
+            {OBJECTIONS.map((o, i) => (
+              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 12 }}>
+                <div style={{ color: "#F59E0B", fontWeight: 700, fontSize: 15, marginBottom: 12, fontStyle: "italic" }}>&ldquo;{o.objection}&rdquo;</div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{o.response}</p>
+              </div>
+            ))}
+          </div>
+        )}
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Video teachings on evangelism — how to share the gospel naturally, handle objections, and lead someone toward faith in Christ.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "G4-WT4NvC14", title: "How to Share the Gospel Simply and Clearly", channel: "The Gospel Coalition", description: "A practical guide to presenting the gospel clearly in everyday conversation — the core content every evangelist needs to know and how to communicate it without jargon or pressure." },
+                  { videoId: "uJseEBHjQDQ", title: "Friendship Evangelism: Sharing Faith Through Relationship", channel: "Cru", description: "How to share the gospel naturally through authentic friendship — listening first, asking good questions, and letting the gospel emerge from genuine relationship rather than scripted presentations." },
+                  { videoId: "tx-wnK8isWk", title: "Answering Tough Questions About the Faith", channel: "Ravi Zacharias International Ministries", description: "Practical training for handling the hardest objections to Christianity — intellectual, moral, and experiential — with both conviction and grace." },
+                  { videoId: "Hbdt_sPkluA", title: "The Fear That Keeps Christians from Evangelizing", channel: "Desiring God", description: "Why Christians don't share their faith — and what the gospel itself says about the fear of rejection. Practical encouragement for those who know they should evangelize but don't." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

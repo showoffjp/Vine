@@ -273,6 +273,53 @@ const resources = [
   { title: "ReasonableFaith.org", author: "William Lane Craig", type: "Website", level: "All Levels", description: "Free essays, podcasts, debates, and Q&A covering every major apologetics topic. The most comprehensive free apologetics resource online.", color: "#EC4899" },
 ];
 
+const APOL_VIDEOS = [
+  {
+    videoId: "Kxup3OS5ZhQ",
+    preacher: "Tim Keller",
+    title: "The Reason for God",
+    description: "Keller presents his landmark case for Christian faith to an audience at Google, addressing the most common intellectual objections to belief in an accessible and winsome style.",
+  },
+  {
+    videoId: "by8ykv7-A3c",
+    preacher: "Voddie Baucham",
+    title: "The Supremacy of Christ and Truth in a Postmodern World",
+    description: "Baucham's powerful 2006 Desiring God Conference address on how Christians must hold fast to absolute truth and the lordship of Christ against the rising tide of postmodern relativism.",
+  },
+  {
+    videoId: "gySaWKg-NQQ",
+    preacher: "Tim Keller",
+    title: "The Reason for God - Big Think",
+    description: "A concentrated and intellectually sharp presentation of Keller's argument for Christian faith, filmed for Big Think and covering doubt, suffering, and the exclusivity of Christ.",
+  },
+  {
+    videoId: "F4rX1pTRbuo",
+    preacher: "Voddie Baucham",
+    title: "The Supremacy of Christ - Sermon Jam",
+    description: "A stirring sermon jam drawn from Baucham's preaching on the supremacy and sufficiency of Jesus Christ over every philosophy and cultural narrative.",
+  },
+  {
+    videoId: "v6xk8e7gdMA",
+    preacher: "R.C. Sproul",
+    title: "The Holiness of God",
+    description: "Sproul's classic teaching on the defining attribute of God -- his holiness -- and why a right understanding of it is the foundation of every other doctrine in Christian theology.",
+  },
+  {
+    videoId: "svt8i4Vh-gI",
+    preacher: "Tim Keller",
+    title: "Keller vs. Bacrac: The Reason for God Debate",
+    description: "Tim Keller debates atheist Norman Bacrac on \"The Reason for God,\" modeling respectful and rigorous Christian engagement with unbelief in a live forum setting.",
+  },
+];
+
+const APOL_METHODS = [
+  { id: "classical", name: "Classical Apologetics", era: "Aquinas to Craig", context: "Two-step method: natural theology establishes theism, then historical evidence establishes Christianity", bio: "Classical apologetics proceeds in two stages. First, arguments from natural theology (cosmological, teleological, ontological, moral) establish that God exists. Only then, once theism is defensible, does the apologist present historical evidences for Jesus, the resurrection, and Scripture's reliability. The logic: it is worth examining Christian historical claims only if theism is coherent. Key practitioners include Thomas Aquinas (13th century), R.C. Sproul, and William Lane Craig. Craig's debates typically follow this two-step structure explicitly: establishing a philosophical case for theism, then making a historical case for the resurrection.", quote: "The theist can appeal to a whole series of arguments for God's existence which, taken individually, are powerful and which, taken collectively, may constitute a virtually irresistible case for theism.", contribution: "Classical apologetics has dominated formal philosophical apologetics. It produced the most technically rigorous arguments for Christian theism and remains the dominant model in academic philosophy of religion. Its weakness: critics argue that most people don't come to faith through syllogisms." },
+  { id: "evidential", name: "Evidential Apologetics", era: "Montgomery, Strobel, Habermas", context: "Single-step: historical and archaeological evidences for Christianity, without first proving theism", bio: "Evidential apologetics presents historical, scientific, and archaeological evidence for Christian claims directly — without first requiring the inquirer to accept theism. John Warwick Montgomery argues that a historian using ordinary principles of historical investigation should conclude the resurrection occurred. Gary Habermas's 'Minimal Facts' approach presents only facts that virtually all critical scholars affirm, then shows the resurrection is the best explanation. Lee Strobel's popular-level work follows this approach, interviewing experts across disciplines. The assumption: evidence can be assessed objectively without prior theological commitments.", quote: "The weight of the evidence is, in fact, so great that no historian of the first century has successfully argued that Jesus did not exist.", contribution: "Evidential apologetics has been enormously influential in popular Christian outreach. Works like The Case for Christ and The Case for the Resurrection have reached millions. Its weakness: critics argue it underestimates how philosophical presuppositions affect evidence assessment." },
+  { id: "presuppositional", name: "Presuppositional Apologetics", era: "Cornelius Van Til, Greg Bahnsen", context: "Begin with Scripture's authority as the only foundation for knowledge; expose the unbeliever's borrowed capital", bio: "Presuppositional apologetics, developed by Cornelius Van Til and popularized by Greg Bahnsen, argues that there is no neutral ground. Every person — Christian or not — operates from a starting point (presupposition) that shapes how they evaluate evidence. The apologist's task is not to meet the unbeliever on 'neutral ground' but to show that the unbeliever's worldview is internally incoherent. Key move: the 'transcendental argument' — only the Christian worldview provides the necessary preconditions for the intelligibility of human experience (logic, science, morality). The unbeliever borrows capital from the Christian worldview while trying to deny it.", quote: "The atheist must borrow from the Christian worldview in order to argue against it. He uses laws of logic, assumes the uniformity of nature, and appeals to moral categories — all of which require the God of Christianity to make sense.", contribution: "Van Til's approach has been enormously influential in Reformed circles and has had a renaissance with the internet generation of apologists. Its strength is forcing engagement with worldview-level questions. Its weakness: critics argue it can become unfalsifiable and difficult to use in ordinary conversation." },
+  { id: "reformed-epist", name: "Reformed Epistemology", era: "Alvin Plantinga, Nicholas Wolterstorff", context: "Belief in God is 'properly basic' — it requires no argument to be rationally held", bio: "Reformed Epistemology, developed by Alvin Plantinga, Nicholas Wolterstorff, and William Alston, argues that belief in God can be 'properly basic' — held rationally without being based on argument. Just as we don't need arguments to justify our belief in other minds, the external world, or the reality of the past, belief in God can be the starting point of a rational noetic structure. Plantinga's 'Sensus Divinitatis' — the God-given human faculty for perceiving God — grounds belief without inference. Reformed Epistemology doesn't argue that proofs are wrong; it argues they are not required for rational theistic belief.", quote: "It is entirely right, rational, reasonable, and proper to believe in God without any evidence or argument at all — this does not mean, of course, that there aren't powerful arguments for God's existence.", contribution: "Reformed Epistemology fundamentally changed analytic philosophy of religion. By arguing that belief in God is properly basic, Plantinga shifted the burden of proof: the atheist must show theism is irrational, not merely that it lacks certain proofs. It has influenced apologetics by legitimizing non-argumentative paths to faith." },
+  { id: "cumulative", name: "Cumulative Case Apologetics", era: "C.S. Lewis, Basil Mitchell, Richard Swinburne", context: "No single argument proves Christianity; many threads woven together constitute a compelling case", bio: "Cumulative case apologetics argues that Christianity is not established by a single proof but by the convergence of many independent lines of evidence — each insufficient alone but powerfully corroborating together. C.S. Lewis exemplified this in Mere Christianity: the moral argument, the longing for 'Joy,' the claims of Jesus, the historical evidence. Richard Swinburne applies Bayesian probability theory: each piece of evidence raises the probability of Christian theism incrementally. Basil Mitchell's analogy of the partisan who trusts the stranger despite contrary evidence captures the nature of cumulative reasoning under uncertainty.", quote: "I believe in Christianity as I believe that the sun has risen: not only because I see it, but because by it I see everything else.", contribution: "The cumulative case approach resonates most with how ordinary people actually come to faith — through a convergence of reasons rather than a decisive single proof. Its weakness is that it can be difficult to quantify or formalize, though Swinburne's Bayesian version addresses this for technically-minded audiences." },
+];
+
 const categoryColors: Record<string, string> = {
   "God's Existence": "#6B4FBB",
   "Historical Evidence": GREEN,
@@ -288,7 +335,9 @@ const difficultyColors: Record<string, string> = {
 };
 
 export default function ApologeticsPage() {
-  const [tab, setTab] = useState<"cases" | "thinkers" | "resources">("cases");
+  const [tab, setTab] = useState<"cases" | "thinkers" | "resources" | "methods" | "videos">("cases");
+  const [selectedMethod, setSelectedMethod] = useState("classical");
+  const methodItem = APOL_METHODS.find(m => m.id === selectedMethod)!;
   const [categoryFilter, setCategoryFilter] = useState("All");
   const [diffFilter, setDiffFilter] = useState("All");
   const [expandedCase, setExpandedCase] = useState<string | null>(null);
@@ -368,6 +417,8 @@ export default function ApologeticsPage() {
             { id: "cases", label: "📋 Cases" },
             { id: "thinkers", label: "🧑‍🏫 Thinkers" },
             { id: "resources", label: "📚 Resources" },
+            { id: "methods", label: "🗺️ Methods" },
+            { id: "videos", label: "🎬 Videos" },
           ].map(t => (
             <button key={t.id} onClick={() => setTab(t.id as typeof tab)}
               style={{ padding: "10px 20px", borderRadius: "10px 10px 0 0", border: "none", cursor: "pointer", fontWeight: 700, fontSize: 14, background: tab === t.id ? CARD : "transparent", color: tab === t.id ? TEXT : MUTED, borderBottom: tab === t.id ? `2px solid ${GREEN}` : "2px solid transparent" }}>
@@ -560,6 +611,36 @@ export default function ApologeticsPage() {
           </div>
         )}
 
+        {/* METHODS TAB */}
+        {tab === "methods" && (
+          <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
+            <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
+              {APOL_METHODS.map(v => (
+                <button key={v.id} onClick={() => setSelectedMethod(v.id)}
+                  style={{ background: selectedMethod === v.id ? PURPLE : CARD, border: `1px solid ${selectedMethod === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: TEXT, fontWeight: 700, fontSize: 14 }}>{v.name}</div>
+                  <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{v.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 28 }}>
+                <h2 style={{ color: GREEN, fontWeight: 900, fontSize: 22, margin: "0 0 4px" }}>{methodItem.name}</h2>
+                <div style={{ color: PURPLE, fontSize: 13, fontWeight: 700, marginBottom: 6 }}>{methodItem.era}</div>
+                <div style={{ color: MUTED, fontSize: 13, marginBottom: 16 }}>{methodItem.context}</div>
+                <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 15, marginBottom: 20 }}>{methodItem.bio}</p>
+                <div style={{ background: BG, borderLeft: `3px solid ${GREEN}`, borderRadius: "0 8px 8px 0", padding: "14px 18px", marginBottom: 20 }}>
+                  <p style={{ color: GREEN, fontStyle: "italic", fontSize: 15, lineHeight: 1.7, margin: 0 }}>&ldquo;{methodItem.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: `${PURPLE}15`, borderRadius: 10, padding: 16 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>Strengths and Weaknesses</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, margin: 0 }}>{methodItem.contribution}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* RESOURCES TAB */}
         {tab === "resources" && (
           <div>
@@ -581,6 +662,40 @@ export default function ApologeticsPage() {
               ))}
             </div>
 
+            {/* Video Section */}
+            <div style={{ marginTop: 40 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
+                <span style={{ fontSize: 20 }}>🎬</span>
+                <h2 style={{ fontSize: 20, fontWeight: 900, color: TEXT, margin: 0 }}>Apologetics on Video</h2>
+              </div>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 24 }}>
+                Watch leading apologists and preachers defend the faith&mdash;ideal for personal study or sharing with a skeptical friend.
+              </p>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(380px, 1fr))", gap: 24 }}>
+                {APOL_VIDEOS.map(v => (
+                  <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, overflow: "hidden" }}>
+                    <div style={{ padding: "0" }}>
+                      <iframe
+                        width="100%"
+                        style={{ aspectRatio: "16/9", border: "none", borderRadius: "8px 8px 0 0", display: "block" }}
+                        src={`https://www.youtube.com/embed/${v.videoId}`}
+                        title={v.title}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      />
+                    </div>
+                    <div style={{ padding: "16px 20px" }}>
+                      <span style={{ display: "inline-block", fontSize: 11, fontWeight: 700, padding: "3px 10px", borderRadius: 20, background: "rgba(107,79,187,0.18)", color: PURPLE, marginBottom: 8 }}>
+                        {v.preacher}
+                      </span>
+                      <h3 style={{ fontSize: 15, fontWeight: 800, color: TEXT, margin: "0 0 8px", lineHeight: 1.3 }}>{v.title}</h3>
+                      <p style={{ fontSize: 13, color: MUTED, lineHeight: 1.6, margin: 0 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
             {/* CTA Banner */}
             <div style={{ marginTop: 32, background: `linear-gradient(135deg, rgba(107,79,187,0.12), rgba(0,255,136,0.08))`, border: `1px solid rgba(107,79,187,0.25)`, borderRadius: 16, padding: "28px 24px", textAlign: "center" }}>
               <p style={{ fontSize: 28, marginBottom: 10 }}>🛡️</p>
@@ -591,6 +706,41 @@ export default function ApologeticsPage() {
               <a href="/discussions" style={{ display: "inline-block", padding: "12px 28px", borderRadius: 12, background: `linear-gradient(135deg, ${PURPLE}, ${GREEN})`, color: BG, fontWeight: 800, fontSize: 14, textDecoration: "none" }}>
                 Ask in Discussions →
               </a>
+            </div>
+          </div>
+        )}
+
+        {/* VIDEOS TAB */}
+        {tab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "Kxup3OS5ZhQ", title: "The Reason for God", channel: "Tim Keller at Google", description: "Keller presents his landmark case for Christian faith to an audience at Google, addressing the most common intellectual objections with clarity and grace." },
+                  { videoId: "v6xk8e7gdMA", title: "The Holiness of God", channel: "Ligonier / R.C. Sproul", description: "Sproul's classic teaching on the defining attribute of God — his holiness — and why it is the foundation of every other Christian doctrine." },
+                  { videoId: "by8ykv7-A3c", title: "The Supremacy of Christ and Truth in a Postmodern World", channel: "Voddie Baucham / Desiring God", description: "Baucham's powerful conference address on holding fast to absolute truth and the lordship of Christ against postmodern relativism." },
+                  { videoId: "YrGYoRdNOes", title: "The Necessity of the Atonement", channel: "Ligonier / R.C. Sproul", description: "R.C. Sproul explains why the atonement was necessary given the nature of God's justice and holiness — a foundational apologetics argument." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

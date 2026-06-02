@@ -9,7 +9,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "phases" | "models" | "networks";
+type Tab = "theology" | "phases" | "models" | "networks" | "videos";
 
 const theologyPoints = [
   {
@@ -259,7 +259,8 @@ export default function ChurchPlantingGuidePage() {
     { id: "theology", label: "Theology of Planting" },
     { id: "phases", label: "The Six Phases" },
     { id: "models", label: "Planting Models" },
-    { id: "networks", label: "Networks & Support" }
+    { id: "networks", label: "Networks & Support" },
+    { id: "videos", label: "🎬 Videos" }
   ];
 
   return (
@@ -458,6 +459,39 @@ export default function ChurchPlantingGuidePage() {
                 </a>
               </div>
             ))}
+          </div>
+        )}
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "fY4Yt8gRz3A", title: "Church Planting: Networks, Denominations, and Broader Ministry", channel: "Tim Keller", description: "Keller on the strategic and theological dimensions of church planting — how networks, denominations, and sending structures shape the health and reach of new churches." },
+                  { videoId: "FoDYwlqSCXY", title: "Why Is Church Planting So Important in Cities?", channel: "Tim Keller", description: "Keller makes the case for urban church planting — why cities are strategic, why new churches reach new people more effectively, and what the gospel demands of the church." },
+                  { videoId: "hKzoG1dgpAM", title: "The Benefits of Church Planting Networks", channel: "Tim Keller", description: "Keller explains the practical and theological benefits of planting within a network — accountability, training, funding, and the power of shared mission." },
+                  { videoId: "7Foqi7GiwJ0", title: "A New Community", channel: "Timothy Keller", description: "Keller preaches on what a new gospel community looks like — the distinctive marks of a church plant that is genuinely different from the surrounding culture." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

@@ -4,7 +4,7 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "theology" | "kinds" | "debates" | "response";
+type Tab = "theology" | "kinds" | "debates" | "response" | "videos";
 
 const THEOLOGY_ITEMS = [
   {
@@ -219,6 +219,7 @@ export default function GracePage() {
     { id: "kinds", label: "Kinds of Grace" },
     { id: "debates", label: "The Great Debates" },
     { id: "response", label: "Responding to Grace" },
+    { id: "videos", label: "Videos" },
   ];
 
   return (
@@ -374,6 +375,40 @@ export default function GracePage() {
               </p>
             </div>
             <Accordion items={RESPONSE_ITEMS} />
+          </div>
+        )}
+
+        {tab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "wQ5cclvdWjo", title: "If God Is Sovereign, How Can Man Be Free?", channel: "Ligonier Ministries / R.C. Sproul", description: "R.C. Sproul explores God's sovereign grace — the foundation for understanding why saving grace works, and why it is entirely God's gift and not a human achievement." },
+                  { videoId: "FTZ3GfL9yQM", title: "The Upside Down Kingdom", channel: "Tim Keller / Gospel Coalition", description: "Tim Keller on the radical nature of the Kingdom of God and how grace overturns all human systems of earning and merit — the good news that levels every hierarchy." },
+                  { videoId: "_ChnTOiYXcA", title: "God's Sovereignty: Chosen by God", channel: "Ligonier Ministries / R.C. Sproul", description: "Sproul's landmark teaching on election and irresistible grace — one of the most careful and clear expositions of Reformed soteriology available." },
+                  { videoId: "KA4pSZxrwRs", title: "The Joy That Produces Radical Obedience", channel: "Desiring God", description: "John Piper on how grace-rooted joy — not duty or fear — is what produces true obedience. Addresses the relationship between grace received and transformed living." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

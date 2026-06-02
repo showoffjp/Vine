@@ -1,11 +1,10 @@
 "use client";
 
-import { Zap, Heart, DollarSign, Baby, Briefcase, TrendingUp, Moon, Coffee } from "lucide-react";
+import { Coffee, DollarSign, Heart, Moon, Baby, Briefcase } from "lucide-react";
 
-const lifehacks = [
+const HACKS = [
   {
     icon: Coffee,
-    color: "#E8A020",
     title: "Morning Routines That Actually Stick",
     hack: "Replace your phone alarm with a physical alarm. Your first screen-free 30 minutes set the tone for your entire day.",
     verse: "Psalm 5:3",
@@ -13,15 +12,13 @@ const lifehacks = [
   },
   {
     icon: DollarSign,
-    color: "#3A9E72",
     title: "The 10-10-80 Money Method",
-    hack: "Tithe 10%, save 10%, live on 80%. Simple, biblical, and battle-tested by millions. Start even when it's scary.",
+    hack: "Tithe 10%, save 10%, live on 80%. Simple, biblical, and battle-tested by millions. Start even when it feels scary.",
     verse: "Proverbs 3:9",
     verseText: "Honor the Lord with your wealth.",
   },
   {
     icon: Heart,
-    color: "#C0506A",
     title: "Conflict Resolution in 3 Steps",
     hack: "Listen fully before responding, find the truth in their perspective, speak only to reconcile — not to win.",
     verse: "Matthew 18:15",
@@ -29,25 +26,22 @@ const lifehacks = [
   },
   {
     icon: Moon,
-    color: "#6B4FBB",
     title: "The Sabbath Productivity Reset",
-    hack: "One full day of rest per week isn't a luxury — it's a divine design feature. Try it for one month and track your output.",
+    hack: "One full day of rest per week is not a luxury — it is a divine design feature. Try it for one month and track your output.",
     verse: "Exodus 20:8",
     verseText: "Remember the Sabbath day, to keep it holy.",
   },
   {
     icon: Baby,
-    color: "#4A80D4",
-    title: "Parenting Through Questions, Not Commands",
-    hack: "Ask \"What do you think Jesus would do?\" before answering for them. You're raising discernment, not compliance.",
+    title: "Parenting Through Questions",
+    hack: "Ask \"What do you think Jesus would do?\" before answering for them. You are raising discernment, not compliance.",
     verse: "Proverbs 22:6",
     verseText: "Train up a child in the way he should go.",
   },
   {
     icon: Briefcase,
-    color: "#00FF88",
     title: "Work as Worship",
-    hack: "Before each task, ask: 'Can I do this excellently, as unto the Lord?' It transforms your motivation and your output.",
+    hack: "Before each task, ask: can I do this excellently, as unto the Lord? It transforms your motivation and your output.",
     verse: "Colossians 3:23",
     verseText: "Work heartily, as for the Lord and not for men.",
   },
@@ -55,105 +49,230 @@ const lifehacks = [
 
 export default function LifeFaith() {
   return (
-    <section className="py-24 relative overflow-hidden" id="life-faith">
+    <section
+      style={{
+        background: "#0a1a0e",
+        padding: "100px 4vw",
+        borderTop: "0.5px solid rgba(201,162,39,0.18)",
+        position: "relative",
+        overflow: "hidden",
+      }}
+      id="life-faith"
+    >
       <div
-        className="absolute inset-0 pointer-events-none"
         style={{
-          background:
-            "radial-gradient(ellipse 60% 50% at 30% 50%, rgba(0,255,136,0.03) 0%, transparent 70%)",
+          position: "absolute",
+          top: "30%",
+          left: "-5%",
+          width: 500,
+          height: 500,
+          background: "radial-gradient(ellipse, rgba(58,125,86,0.06) 0%, transparent 65%)",
+          pointerEvents: "none",
         }}
       />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <p className="tag-pill inline-block mb-4">Life + Faith</p>
+      <div style={{ maxWidth: 1200, margin: "0 auto", position: "relative", zIndex: 1 }}>
+        {/* Header */}
+        <div style={{ textAlign: "center", marginBottom: "4rem" }}>
+          <div className="vine-eyebrow" style={{ marginBottom: "0.9rem" }}>
+            Life + Faith
+          </div>
           <h2
-            className="text-4xl sm:text-5xl md:text-6xl font-black leading-tight mb-4"
-            style={{ color: "#F2F2F8" }}
+            style={{
+              fontFamily: "var(--font-cormorant, 'Cormorant Garamond', Georgia, serif)",
+              fontSize: "clamp(2rem, 4vw, 3.4rem)",
+              fontWeight: 300,
+              color: "#f2e6c8",
+              lineHeight: 1.15,
+              marginBottom: "1rem",
+            }}
           >
-            Biblical Wisdom.
+            Biblical wisdom.
             <br />
-            <span className="gold-gradient">Practical Life.</span>
+            <em style={{ fontStyle: "italic", color: "#e8c162" }}>Practical life.</em>
           </h2>
-          <p className="text-lg max-w-2xl mx-auto" style={{ color: "#8A8AA8" }}>
-            Faith isn&apos;t just for Sunday. Vine brings biblical wisdom into money,
+          <p
+            style={{
+              fontFamily: "var(--font-jost, system-ui, sans-serif)",
+              fontSize: "0.95rem",
+              color: "#9a8f72",
+              fontWeight: 300,
+              maxWidth: 500,
+              margin: "0 auto",
+              lineHeight: 1.65,
+            }}
+          >
+            Faith is not just for Sunday. The Vine brings biblical wisdom into money,
             relationships, sleep, work, parenting, and every corner of life.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {lifehacks.map(({ icon: Icon, color, title, hack, verse, verseText }) => (
+        {/* Grid */}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(3, 1fr)",
+            gap: 2,
+            background: "rgba(201,162,39,0.04)",
+            marginBottom: "2.5rem",
+          }}
+        >
+          {HACKS.map(({ icon: Icon, title, hack, verse, verseText }) => (
             <div
               key={title}
-              className="card-glow p-6 rounded-2xl group cursor-pointer relative overflow-hidden"
-              style={{ background: "var(--bg-card)" }}
+              style={{
+                background: "#0a1a0e",
+                padding: "2rem",
+                cursor: "pointer",
+                position: "relative",
+                transition: "background 0.2s",
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLDivElement).style.background = "#0f2318";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLDivElement).style.background = "#0a1a0e";
+              }}
             >
+              {/* Top rule */}
+              <div
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: "2rem",
+                  right: "2rem",
+                  height: "0.5px",
+                  background: "rgba(201,162,39,0.07)",
+                }}
+              />
+
               {/* Icon */}
               <div
-                className="w-10 h-10 rounded-xl flex items-center justify-center mb-4"
                 style={{
-                  background: `${color}18`,
-                  border: `1px solid ${color}30`,
+                  width: 40,
+                  height: 40,
+                  borderRadius: 2,
+                  background: "rgba(201,162,39,0.08)",
+                  border: "0.5px solid rgba(201,162,39,0.22)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginBottom: "1rem",
                 }}
               >
-                <Icon size={20} style={{ color }} />
+                <Icon size={18} style={{ color: "#c9a227" }} />
               </div>
 
-              {/* Hack label */}
-              <div className="flex items-center gap-1.5 mb-2">
-                <Zap size={11} style={{ color }} />
-                <span
-                  className="text-xs font-bold uppercase tracking-wider"
-                  style={{ color }}
-                >
-                  Life Hack
-                </span>
+              {/* Label */}
+              <div
+                style={{
+                  fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                  fontSize: "0.62rem",
+                  fontWeight: 700,
+                  letterSpacing: "0.14em",
+                  textTransform: "uppercase",
+                  color: "#c9a227",
+                  marginBottom: "0.5rem",
+                }}
+              >
+                Life Hack
               </div>
 
-              {/* Title */}
               <h3
-                className="font-bold text-base mb-3 group-hover:text-white transition-colors leading-snug"
-                style={{ color: "#E0E0F0" }}
+                style={{
+                  fontFamily: "var(--font-cormorant, 'Cormorant Garamond', Georgia, serif)",
+                  fontSize: "1.2rem",
+                  fontWeight: 600,
+                  color: "#f2e6c8",
+                  lineHeight: 1.3,
+                  marginBottom: "0.7rem",
+                }}
               >
                 {title}
               </h3>
 
-              {/* Hack text */}
-              <p className="text-sm leading-relaxed mb-4" style={{ color: "#6A6A88" }}>
+              <p
+                style={{
+                  fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                  fontSize: "0.83rem",
+                  color: "#9a8f72",
+                  lineHeight: 1.65,
+                  fontWeight: 300,
+                  marginBottom: "1rem",
+                }}
+              >
                 {hack}
               </p>
 
               {/* Verse anchor */}
               <div
-                className="flex items-start gap-2 p-3 rounded-xl"
                 style={{
-                  background: `${color}08`,
-                  border: `1px solid ${color}15`,
+                  display: "flex",
+                  alignItems: "flex-start",
+                  gap: 10,
+                  padding: "0.7rem 0.9rem",
+                  background: "rgba(201,162,39,0.06)",
+                  border: "0.5px solid rgba(201,162,39,0.15)",
+                  borderRadius: 2,
                 }}
               >
-                <span className="text-xs font-bold shrink-0" style={{ color }}>
+                <span
+                  style={{
+                    fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                    fontSize: "0.65rem",
+                    fontWeight: 700,
+                    color: "#c9a227",
+                    flexShrink: 0,
+                  }}
+                >
                   {verse}
                 </span>
-                <span className="text-xs italic" style={{ color: "#6A6A88" }}>
+                <span
+                  style={{
+                    fontFamily: "var(--font-cormorant, 'Cormorant Garamond', Georgia, serif)",
+                    fontStyle: "italic",
+                    fontSize: "0.88rem",
+                    color: "#9a8f72",
+                    lineHeight: 1.5,
+                  }}
+                >
                   &ldquo;{verseText}&rdquo;
                 </span>
               </div>
-
-              {/* Hover bottom bar */}
-              <div
-                className="absolute bottom-0 left-0 right-0 h-0.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-                style={{
-                  background: `linear-gradient(90deg, transparent, ${color}, transparent)`,
-                }}
-              />
             </div>
           ))}
         </div>
 
-        <div className="text-center mt-10">
-          <button className="btn-outline-gold px-8 py-3 rounded-xl text-sm font-semibold">
-            Browse All Life Hacks
-          </button>
+        <div style={{ textAlign: "center" }}>
+          <a
+            href="/resources"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              padding: "0.9rem 2.2rem",
+              border: "0.5px solid rgba(201,162,39,0.25)",
+              borderRadius: 2,
+              fontFamily: "var(--font-jost, system-ui, sans-serif)",
+              fontSize: "0.82rem",
+              fontWeight: 500,
+              letterSpacing: "0.1em",
+              textTransform: "uppercase",
+              color: "#c9b98a",
+              textDecoration: "none",
+              transition: "all 0.2s",
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(201,162,39,0.5)";
+              (e.currentTarget as HTMLAnchorElement).style.color = "#e8c162";
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(201,162,39,0.25)";
+              (e.currentTarget as HTMLAnchorElement).style.color = "#c9b98a";
+            }}
+          >
+            Browse All Life Guides
+          </a>
         </div>
       </div>
     </section>

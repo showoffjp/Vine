@@ -4,6 +4,8 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
+type Tab = "commentaries" | "howto" | "traditions" | "voices" | "videos";
+
 const TYPE_FILTERS = ["All", "One-Volume", "Expository", "Word Studies", "Academic", "Devotional"];
 
 const COMMENTARIES = [
@@ -169,12 +171,139 @@ const COMMENTARIES = [
   },
 ];
 
+const COMMENTARY_HOWTO = [
+  {
+    id: 1,
+    step: 1,
+    title: "Identify the genre of the passage",
+    description: "Before opening any commentary, determine what kind of literature you are reading — narrative, prophecy, epistle, wisdom, apocalyptic, law, gospel. Each genre has different rules of interpretation. A commentary on Revelation should be read differently than one on Romans. Knowing the genre tells you which questions to bring and which commentary types to prioritize.",
+    tip: "Ask: Is this poetry or prose? Law or narrative? Prophecy or letter? Historical genre shapes everything.",
+  },
+  {
+    id: 2,
+    step: 2,
+    title: "Read the passage multiple times first",
+    description: "Read the text itself — slowly, repeatedly — before consulting any commentary. Observe what is actually there: repeated words, structural patterns, questions the text raises, things you do not understand. Write down your observations and questions. A commentary answers questions; you have to bring the questions. Students who read the commentary first read the text through the commentator's eyes rather than their own.",
+    tip: "Read the passage in two different translations before opening any commentary. Note every word or phrase you do not fully understand.",
+  },
+  {
+    id: 3,
+    step: 3,
+    title: "Use multiple commentaries, not just one",
+    description: "No single commentator sees everything, and every commentator has blind spots shaped by their tradition, era, and theological commitments. The best approach uses at least three: a devotional commentary for spiritual texture, an academic commentary for historical-grammatical grounding, and a background commentary for cultural context. When multiple independent scholars reach the same interpretation, confidence increases.",
+    tip: "Minimum three: one devotional (Matthew Henry or Guzik), one academic (NICNT/WBC), one background (IVP Bible Background Commentary).",
+  },
+  {
+    id: 4,
+    step: 4,
+    title: "Cross-reference with systematic theology",
+    description: "A commentary tells you what a specific passage means; systematic theology tells you how that passage fits the whole of Scripture's teaching on a topic. After working through the commentary, ask: where does this fit in the overall biblical teaching on this subject? Use a systematic theology (Grudem, Berkhof, or Horton) and the Treasury of Scripture Knowledge cross-references to see how the passage connects to the rest of the canon.",
+    tip: "Doctrine is distilled exegesis. If your commentary interpretation contradicts clear biblical teaching elsewhere, reconsider the interpretation.",
+  },
+  {
+    id: 5,
+    step: 5,
+    title: "Apply — move from observation to application",
+    description: "Exegesis without application is incomplete. The goal of Bible study is not merely understanding what the text meant to the original audience — it is understanding what the living God is saying to you through this text today. After establishing the text's meaning, ask: what does this require of me? What must I believe, repent of, do, or trust? The commentary serves the sermon, the study, or the transformation — it is never the final goal.",
+    tip: "Ask three application questions: What does this reveal about God? What does this require of me? What does this promise to those who believe?",
+  },
+];
+
+const COMMENTARY_TRADITIONS = [
+  {
+    id: 1,
+    tradition: "Reformed / Calvinist",
+    description: "The Reformed tradition reads Scripture through the lens of the five solas — sola scriptura, sola fide, sola gratia, solus Christus, soli Deo gloria — and the theological framework of John Calvin's Institutes. Reformed commentaries emphasize covenant theology, the sovereignty of God, the depth of human depravity, the sufficiency of grace, and the unity of the Old and New Testaments. They are typically rigorous in historical-grammatical exegesis but theologically confessional.",
+    emphasis: "Covenant, sovereignty, grace, Scripture alone",
+    example_commentators: ["John Calvin", "Matthew Henry", "Charles Spurgeon", "John MacArthur", "Douglas Moo"],
+  },
+  {
+    id: 2,
+    tradition: "Dispensational",
+    description: "Dispensationalism reads the Bible as a history of distinct epochs (dispensations) in which God relates to humanity differently. It employs a consistently literal hermeneutic, especially in prophecy, and maintains a sharp distinction between Israel and the Church. Dispensational commentaries are strong on the prophetic books, detailed on the structure of biblical covenants, and careful about the future fulfillment of Old Testament promises to Israel.",
+    emphasis: "Literal hermeneutic, prophecy, Israel-Church distinction",
+    example_commentators: ["C.I. Scofield", "John Walvoord", "Charles Ryrie", "J. Dwight Pentecost", "Thomas Ice"],
+  },
+  {
+    id: 3,
+    tradition: "Catholic / Orthodox",
+    description: "Catholic and Orthodox commentaries read Scripture within and alongside the living Tradition of the Church — the writings of the Church Fathers, the decisions of ecumenical councils, and the ongoing Magisterium (Catholic) or conciliar authority (Orthodox). Scripture is not read independently of Tradition but as one stream within the full deposit of faith. These commentaries are strong on Patristic interpretation, liturgical readings, and the allegorical or typological dimensions of the text.",
+    emphasis: "Tradition, Patristics, Magisterium, allegory, liturgy",
+    example_commentators: ["Origen", "Augustine", "Thomas Aquinas", "Scott Hahn", "Metropolitan Kallistos Ware"],
+  },
+  {
+    id: 4,
+    tradition: "Critical-Historical",
+    description: "The historical-critical method approaches Scripture as ancient literature produced in specific historical contexts, using the tools of archaeology, linguistics, form criticism, redaction criticism, and source criticism. It asks: what did this text mean to its original author and audience? What sources did the author use? How was the text composed and edited over time? Critical-historical commentaries are strong on ancient background but vary widely on theological conclusions.",
+    emphasis: "Archaeology, original languages, composition history, ancient context",
+    example_commentators: ["Craig Keener", "John Walton", "Raymond Brown", "Joseph Fitzmyer", "John Meier"],
+  },
+  {
+    id: 5,
+    tradition: "Narrative / Literary",
+    description: "Literary and narrative approaches read Scripture as unified literary wholes — attending to story structure, characterization, plot, rhetorical artistry, and intertextual allusions. Rather than dismembering the text into sources and redactions, narrative critics ask: how does this story work as a story? What does the narrator emphasize? How do characters develop? These approaches have renewed appreciation for the aesthetic dimension of Scripture and the sophistication of its authors.",
+    emphasis: "Story, character, plot, rhetoric, literary artistry",
+    example_commentators: ["Robert Alter", "Meir Sternberg", "Richard Bauckham", "N.T. Wright", "Leland Ryken"],
+  },
+];
+
+const VOICES_COM = [
+  {
+    id: 1,
+    name: "Origen of Alexandria",
+    era: "c. 184-253 AD",
+    context: "Early Church, Alexandria",
+    bio: "Origen was the most prolific biblical commentator of the early Church — writing commentaries, homilies, and scholia on nearly every book of Scripture. He founded the allegorical method of interpretation, arguing that Scripture has three senses: literal (body), moral (soul), and spiritual (spirit). His Hexapla was the most sophisticated textual critical work of antiquity. Though later condemned for speculative theology, his exegetical work shaped the entire subsequent history of Christian interpretation.",
+    quote: "The Holy Scriptures were not composed by human wisdom, but were written by the inspiration of the Holy Spirit, at the will of the Father of all things through Jesus Christ.",
+    contribution: "Established the principle that Scripture has multiple levels of meaning; produced the most sophisticated biblical text of antiquity (the Hexapla); shaped allegorical interpretation for a millennium",
+  },
+  {
+    id: 2,
+    name: "John Chrysostom",
+    era: "c. 347-407 AD",
+    context: "Antioch & Constantinople, Early Church",
+    bio: "John Chrysostom — whose surname means 'golden-mouthed' — was the greatest preacher of the early Church and the primary representative of the Antiochene school of literal-historical interpretation. Against Origen's allegory, Chrysostom insisted that the literal, historical, grammatical sense of the text was primary. His homilies on Matthew, John, Romans, and the Pauline letters remain masterpieces of expository preaching and are still read as models. He was Archbishop of Constantinople until political enemies exiled him.",
+    quote: "This is the cause of all evils — the not knowing the Scriptures. We go into battle without arms, and how ought we to come off other than wounded?",
+    contribution: "Established the literal-historical method over against allegory; produced incomparable expository homilies still used by preachers; modeled pastoral application of Scripture in sermons",
+  },
+  {
+    id: 3,
+    name: "John Calvin",
+    era: "1509-1564",
+    context: "Geneva, Protestant Reformation",
+    bio: "Calvin wrote commentaries on nearly every book of the Bible — works that remain in print and in use 500 years later. His method was rigorously grammatical and historical, deliberately brief in order to serve the preacher rather than overwhelm the reader, and unswervingly focused on the author's intended meaning. He established the Reformed hermeneutical tradition that would shape evangelical interpretation for centuries: Scripture interprets Scripture, the literal sense is primary, and the aim of interpretation is understanding what the Holy Spirit intended through the human author.",
+    quote: "Let this be our first principle: that to know God, we must not seek him in our imagination but in his Word.",
+    contribution: "Produced the most influential Protestant commentaries in history; established the grammatical-historical method as the norm for Reformed exegesis; his Institutes organized the theology behind the exegesis",
+  },
+  {
+    id: 4,
+    name: "Matthew Henry",
+    era: "1662-1714",
+    context: "England, Puritan/Nonconformist",
+    bio: "Matthew Henry was a Nonconformist minister in Chester whose six-volume commentary on the entire Bible became the most widely-read devotional commentary in the history of English Christianity. He wrote with warmth, practical application, and Puritan theological depth. Every verse received explanation, application, and often a devotional meditation that could become a prayer. His commentary has been in continuous print for over 300 years and shaped the private Bible study of millions of English and American Christians.",
+    quote: "Those who would not sin against God must be afraid of the occasions of sin, and must keep at a distance from all appearance of evil.",
+    contribution: "Produced the most beloved devotional commentary in English; shaped Protestant private Bible reading for three centuries; demonstrated that rigorous exegesis and warm piety are not opposites",
+  },
+  {
+    id: 5,
+    name: "N.T. Wright",
+    era: "b. 1948",
+    context: "Contemporary, Anglican, United Kingdom",
+    bio: "N.T. Wright is arguably the most influential New Testament scholar of the late twentieth and early twenty-first centuries. His multi-volume series 'Christian Origins and the Question of God' (including 'Jesus and the Victory of God' and 'The Resurrection of the Son of God') reframes the entire historical-critical discussion of the New Testament within the context of first-century Jewish apocalyptic thought. His 'For Everyone' commentary series makes his scholarship accessible to ordinary readers. He holds together historical rigor and theological commitment in a way that has influenced scholars across traditions.",
+    quote: "The resurrection is not a strange other-worldly event; it is the launching of the new creation, the transformation of the whole cosmos beginning with one human being.",
+    contribution: "Renewed historical-critical scholarship's engagement with resurrection and eschatology; reframed Paul's theology within first-century Judaism; produced accessible commentaries bridging academy and church",
+  },
+];
+
 export default function CommentaryGuidePage() {
+  const [activeTab, setActiveTab] = useState<Tab>("commentaries");
   const [type, setType] = useState("All");
   const [selected, setSelected] = useState<string | null>(null);
+  const [selectedVoice, setSelectedVoice] = useState<number>(VOICES_COM[0].id);
 
   const filtered = COMMENTARIES.filter(c => type === "All" || c.type === type);
   const commentary = COMMENTARIES.find(c => c.title === selected);
+  const voice = VOICES_COM.find(v => v.id === selectedVoice)!;
 
   const LEVEL_COLOR: Record<string, string> = {
     "Beginner to Intermediate": GREEN,
@@ -191,98 +320,256 @@ export default function CommentaryGuidePage() {
           <div style={{ fontSize: 48, marginBottom: 12 }}>📖</div>
           <h1 style={{ fontSize: 32, fontWeight: 900, marginBottom: 8 }}>Bible Commentary Guide</h1>
           <p style={{ color: MUTED, fontSize: 16, maxWidth: 600, margin: "0 auto" }}>
-            The best commentaries for every level and purpose — from devotional reading to academic exegesis. Commentaries are tools; knowing which tool to use changes everything.
+            The best commentaries for every level and purpose &mdash; from devotional reading to academic exegesis. Commentaries are tools; knowing which tool to use changes everything.
           </p>
         </div>
 
-        <div style={{ background: CARD, border: `1px solid ${GREEN}20`, borderRadius: 12, padding: 18, marginBottom: 24 }}>
-          <div style={{ color: GREEN, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>START HERE: THE RIGHT COMMENTARY FOR YOUR PURPOSE</div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 8 }}>
-            {[
-              { purpose: "Quick daily reference", rec: "Guzik's Enduring Word (free)" },
-              { purpose: "Devotional depth", rec: "Matthew Henry or Spurgeon's Psalms" },
-              { purpose: "Cultural context", rec: "IVP Bible Background Commentary" },
-              { purpose: "NT expository preaching", rec: "MacArthur NTC or NICNT" },
-              { purpose: "Academic/seminary", rec: "Word Biblical Commentary (WBC)" },
-              { purpose: "One resource only", rec: "ESV Study Bible" },
-            ].map((r, i) => (
-              <div key={i} style={{ background: BG, borderRadius: 8, padding: "8px 10px" }}>
-                <div style={{ color: MUTED, fontSize: 11 }}>{r.purpose}</div>
-                <div style={{ color: TEXT, fontSize: 12, fontWeight: 700, marginTop: 2 }}>{r.rec}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 28 }}>
-          {TYPE_FILTERS.map(t => (
-            <button key={t} onClick={() => setType(t)}
-              style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${type === t ? GREEN : BORDER}`, background: type === t ? `${GREEN}15` : "transparent", color: type === t ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
-              {t}
+        {/* Tab Bar */}
+        <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 6, width: "fit-content" }}>
+          {(["commentaries", "howto", "traditions", "voices", "videos"] as const).map(t => (
+            <button key={t} onClick={() => setActiveTab(t)}
+              style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+              {t === "commentaries" ? "Commentaries" : t === "howto" ? "How to Use" : t === "traditions" ? "Traditions" : t === "voices" ? "Voices" : "🎬 Videos"}
             </button>
           ))}
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: commentary ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
-          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            {filtered.map((c, i) => (
-              <button key={i} onClick={() => setSelected(selected === c.title ? null : c.title)}
-                style={{ background: selected === c.title ? `${c.color}12` : CARD, border: `1px solid ${selected === c.title ? c.color + "50" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left", transition: "all 0.15s" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                  <div style={{ width: 44, height: 44, borderRadius: 10, background: `${c.color}20`, border: `1px solid ${c.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: c.color, fontWeight: 900, fontSize: 9, flexShrink: 0 }}>
-                    {c.initials}
+        {/* Commentaries Tab */}
+        {activeTab === "commentaries" && (
+          <>
+            <div style={{ background: CARD, border: `1px solid ${GREEN}20`, borderRadius: 12, padding: 18, marginBottom: 24 }}>
+              <div style={{ color: GREEN, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>START HERE: THE RIGHT COMMENTARY FOR YOUR PURPOSE</div>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 8 }}>
+                {[
+                  { purpose: "Quick daily reference", rec: "Guzik's Enduring Word (free)" },
+                  { purpose: "Devotional depth", rec: "Matthew Henry or Spurgeon's Psalms" },
+                  { purpose: "Cultural context", rec: "IVP Bible Background Commentary" },
+                  { purpose: "NT expository preaching", rec: "MacArthur NTC or NICNT" },
+                  { purpose: "Academic/seminary", rec: "Word Biblical Commentary (WBC)" },
+                  { purpose: "One resource only", rec: "ESV Study Bible" },
+                ].map((r, i) => (
+                  <div key={i} style={{ background: BG, borderRadius: 8, padding: "8px 10px" }}>
+                    <div style={{ color: MUTED, fontSize: 11 }}>{r.purpose}</div>
+                    <div style={{ color: TEXT, fontSize: 12, fontWeight: 700, marginTop: 2 }}>{r.rec}</div>
                   </div>
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-                      <span style={{ color: TEXT, fontWeight: 800, fontSize: 15 }}>{c.title}</span>
-                      <span style={{ background: `${c.color}15`, color: c.color, padding: "1px 8px", borderRadius: 8, fontSize: 10, fontWeight: 700 }}>{c.type}</span>
-                    </div>
-                    <div style={{ display: "flex", gap: 8, marginTop: 3, flexWrap: "wrap" }}>
-                      <span style={{ color: MUTED, fontSize: 12 }}>{c.author.split("(")[0].trim()}</span>
-                      <span style={{ color: LEVEL_COLOR[c.level] || GREEN, fontSize: 10, fontWeight: 700 }}>{c.level}</span>
-                    </div>
-                  </div>
-                </div>
-              </button>
-            ))}
-          </div>
-
-          {commentary && (
-            <div style={{ background: CARD, border: `1px solid ${commentary.color}30`, borderRadius: 14, padding: 28, position: "sticky", top: 100 }}>
-              <div style={{ display: "flex", alignItems: "flex-start", gap: 12, marginBottom: 14 }}>
-                <div>
-                  <h2 style={{ color: commentary.color, fontWeight: 900, fontSize: 18, margin: "0 0 2px" }}>{commentary.title}</h2>
-                  <div style={{ color: MUTED, fontSize: 12 }}>{commentary.author}</div>
-                  <div style={{ color: MUTED, fontSize: 11, marginTop: 2 }}>{commentary.publisher} · {commentary.pages}</div>
-                </div>
-              </div>
-
-              <div style={{ display: "flex", gap: 6, marginBottom: 14, flexWrap: "wrap" }}>
-                <span style={{ background: `${commentary.color}12`, color: commentary.color, padding: "2px 10px", borderRadius: 8, fontSize: 12, fontWeight: 600 }}>{commentary.type}</span>
-                <span style={{ background: `${(LEVEL_COLOR[commentary.level] || GREEN)}15`, color: LEVEL_COLOR[commentary.level] || GREEN, padding: "2px 10px", borderRadius: 8, fontSize: 12, fontWeight: 600 }}>{commentary.level}</span>
-                <span style={{ background: `${BORDER}`, color: MUTED, padding: "2px 10px", borderRadius: 8, fontSize: 12 }}>{commentary.price_range}</span>
-              </div>
-
-              <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, marginBottom: 14 }}>{commentary.description}</p>
-
-              <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}15`, borderRadius: 8, padding: 10, marginBottom: 10 }}>
-                <div style={{ color: GREEN, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>BEST FOR</div>
-                <p style={{ color: TEXT, fontSize: 13, margin: 0 }}>{commentary.best_for}</p>
-              </div>
-
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
-                <div style={{ background: `${commentary.color}08`, border: `1px solid ${commentary.color}15`, borderRadius: 8, padding: 10 }}>
-                  <div style={{ color: commentary.color, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>STRENGTHS</div>
-                  <p style={{ color: TEXT, fontSize: 12, margin: 0, lineHeight: 1.5 }}>{commentary.strengths}</p>
-                </div>
-                <div style={{ background: "#EF444408", border: "1px solid #EF444415", borderRadius: 8, padding: 10 }}>
-                  <div style={{ color: "#EF4444", fontWeight: 700, fontSize: 10, marginBottom: 4 }}>LIMITATIONS</div>
-                  <p style={{ color: TEXT, fontSize: 12, margin: 0, lineHeight: 1.5 }}>{commentary.weaknesses}</p>
-                </div>
+                ))}
               </div>
             </div>
-          )}
-        </div>
+
+            <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 28 }}>
+              {TYPE_FILTERS.map(t => (
+                <button key={t} onClick={() => setType(t)}
+                  style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${type === t ? GREEN : BORDER}`, background: type === t ? `${GREEN}15` : "transparent", color: type === t ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
+                  {t}
+                </button>
+              ))}
+            </div>
+
+            <div style={{ display: "grid", gridTemplateColumns: commentary ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                {filtered.map((c, i) => (
+                  <button key={i} onClick={() => setSelected(selected === c.title ? null : c.title)}
+                    style={{ background: selected === c.title ? `${c.color}12` : CARD, border: `1px solid ${selected === c.title ? c.color + "50" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left", transition: "all 0.15s" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                      <div style={{ width: 44, height: 44, borderRadius: 10, background: `${c.color}20`, border: `1px solid ${c.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: c.color, fontWeight: 900, fontSize: 9, flexShrink: 0 }}>
+                        {c.initials}
+                      </div>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                          <span style={{ color: TEXT, fontWeight: 800, fontSize: 15 }}>{c.title}</span>
+                          <span style={{ background: `${c.color}15`, color: c.color, padding: "1px 8px", borderRadius: 8, fontSize: 10, fontWeight: 700 }}>{c.type}</span>
+                        </div>
+                        <div style={{ display: "flex", gap: 8, marginTop: 3, flexWrap: "wrap" }}>
+                          <span style={{ color: MUTED, fontSize: 12 }}>{c.author.split("(")[0].trim()}</span>
+                          <span style={{ color: LEVEL_COLOR[c.level] || GREEN, fontSize: 10, fontWeight: 700 }}>{c.level}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </button>
+                ))}
+              </div>
+
+              {commentary && (
+                <div style={{ background: CARD, border: `1px solid ${commentary.color}30`, borderRadius: 14, padding: 28, position: "sticky", top: 100 }}>
+                  <div style={{ display: "flex", alignItems: "flex-start", gap: 12, marginBottom: 14 }}>
+                    <div>
+                      <h2 style={{ color: commentary.color, fontWeight: 900, fontSize: 18, margin: "0 0 2px" }}>{commentary.title}</h2>
+                      <div style={{ color: MUTED, fontSize: 12 }}>{commentary.author}</div>
+                      <div style={{ color: MUTED, fontSize: 11, marginTop: 2 }}>{commentary.publisher} &middot; {commentary.pages}</div>
+                    </div>
+                  </div>
+
+                  <div style={{ display: "flex", gap: 6, marginBottom: 14, flexWrap: "wrap" }}>
+                    <span style={{ background: `${commentary.color}12`, color: commentary.color, padding: "2px 10px", borderRadius: 8, fontSize: 12, fontWeight: 600 }}>{commentary.type}</span>
+                    <span style={{ background: `${(LEVEL_COLOR[commentary.level] || GREEN)}15`, color: LEVEL_COLOR[commentary.level] || GREEN, padding: "2px 10px", borderRadius: 8, fontSize: 12, fontWeight: 600 }}>{commentary.level}</span>
+                    <span style={{ background: `${BORDER}`, color: MUTED, padding: "2px 10px", borderRadius: 8, fontSize: 12 }}>{commentary.price_range}</span>
+                  </div>
+
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, marginBottom: 14 }}>{commentary.description}</p>
+
+                  <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}15`, borderRadius: 8, padding: 10, marginBottom: 10 }}>
+                    <div style={{ color: GREEN, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>BEST FOR</div>
+                    <p style={{ color: TEXT, fontSize: 13, margin: 0 }}>{commentary.best_for}</p>
+                  </div>
+
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+                    <div style={{ background: `${commentary.color}08`, border: `1px solid ${commentary.color}15`, borderRadius: 8, padding: 10 }}>
+                      <div style={{ color: commentary.color, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>STRENGTHS</div>
+                      <p style={{ color: TEXT, fontSize: 12, margin: 0, lineHeight: 1.5 }}>{commentary.strengths}</p>
+                    </div>
+                    <div style={{ background: "#EF444408", border: "1px solid #EF444415", borderRadius: 8, padding: 10 }}>
+                      <div style={{ color: "#EF4444", fontWeight: 700, fontSize: 10, marginBottom: 4 }}>LIMITATIONS</div>
+                      <p style={{ color: TEXT, fontSize: 12, margin: 0, lineHeight: 1.5 }}>{commentary.weaknesses}</p>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </>
+        )}
+
+        {/* How to Use Tab */}
+        {activeTab === "howto" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            <div style={{ background: CARD, border: `1px solid ${PURPLE}20`, borderRadius: 12, padding: 18, marginBottom: 8 }}>
+              <div style={{ color: PURPLE, fontWeight: 700, fontSize: 12, marginBottom: 6 }}>HOW TO USE A COMMENTARY WELL</div>
+              <p style={{ color: MUTED, fontSize: 14, margin: 0 }}>
+                A commentary is a tool, not a substitute for reading Scripture. These five steps will help you get the most out of any commentary — from beginner to academic level.
+              </p>
+            </div>
+            {COMMENTARY_HOWTO.map(h => (
+              <div key={h.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24 }}>
+                <div style={{ display: "flex", alignItems: "flex-start", gap: 16 }}>
+                  <div style={{ width: 40, height: 40, borderRadius: "50%", background: PURPLE, display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontWeight: 900, fontSize: 16, flexShrink: 0 }}>
+                    {h.step}
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <h3 style={{ color: TEXT, fontWeight: 800, fontSize: 17, margin: "0 0 10px" }}>{h.title}</h3>
+                    <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: "0 0 14px" }}>{h.description}</p>
+                    <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 8, padding: "10px 14px", display: "flex", alignItems: "flex-start", gap: 8 }}>
+                      <span style={{ color: GREEN, fontWeight: 900, fontSize: 11, flexShrink: 0, paddingTop: 1 }}>PRO TIP</span>
+                      <p style={{ color: GREEN, fontSize: 13, margin: 0, lineHeight: 1.6 }}>{h.tip}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Traditions Tab */}
+        {activeTab === "traditions" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            <div style={{ background: CARD, border: `1px solid ${PURPLE}20`, borderRadius: 12, padding: 18, marginBottom: 8 }}>
+              <div style={{ color: PURPLE, fontWeight: 700, fontSize: 12, marginBottom: 6 }}>FIVE MAJOR INTERPRETIVE TRADITIONS</div>
+              <p style={{ color: MUTED, fontSize: 14, margin: 0 }}>
+                Every commentator reads Scripture from within a tradition. Understanding these traditions helps you identify a commentary&rsquo;s assumptions, strengths, and blind spots.
+              </p>
+            </div>
+            {COMMENTARY_TRADITIONS.map(tr => (
+              <div key={tr.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
+                  <h3 style={{ color: TEXT, fontWeight: 900, fontSize: 18, margin: 0, flex: 1 }}>{tr.tradition}</h3>
+                  <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "3px 12px", borderRadius: 20, fontSize: 11, fontWeight: 700, whiteSpace: "nowrap" }}>{tr.emphasis.split(",")[0].trim()}</span>
+                </div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: "0 0 14px" }}>{tr.description}</p>
+                <div style={{ background: BG, borderRadius: 8, padding: "10px 14px", marginBottom: 10 }}>
+                  <div style={{ color: MUTED, fontWeight: 700, fontSize: 10, marginBottom: 6 }}>EMPHASIS</div>
+                  <p style={{ color: MUTED, fontSize: 13, margin: 0 }}>{tr.emphasis}</p>
+                </div>
+                <div>
+                  <div style={{ color: MUTED, fontWeight: 700, fontSize: 10, marginBottom: 8 }}>EXAMPLE COMMENTATORS</div>
+                  <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                    {tr.example_commentators.map((name, i) => (
+                      <span key={i} style={{ background: `${BORDER}`, color: TEXT, padding: "3px 10px", borderRadius: 8, fontSize: 12, fontWeight: 600 }}>{name}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Voices Tab */}
+        {activeTab === "voices" && (
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, alignItems: "start" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              {VOICES_COM.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ background: selectedVoice === v.id ? `${PURPLE}15` : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE + "60" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left", transition: "all 0.15s" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                    <div style={{ width: 44, height: 44, borderRadius: "50%", background: `${PURPLE}25`, border: `1px solid ${PURPLE}40`, display: "flex", alignItems: "center", justifyContent: "center", color: PURPLE, fontWeight: 900, fontSize: 13, flexShrink: 0 }}>
+                      {v.name.split(" ").map(w => w[0]).join("").slice(0, 2)}
+                    </div>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ color: TEXT, fontWeight: 800, fontSize: 15, marginBottom: 2 }}>{v.name}</div>
+                      <div style={{ color: MUTED, fontSize: 12 }}>{v.era}</div>
+                      <div style={{ color: MUTED, fontSize: 11 }}>{v.context}</div>
+                    </div>
+                  </div>
+                </button>
+              ))}
+            </div>
+
+            <div style={{ background: CARD, border: `1px solid ${PURPLE}30`, borderRadius: 14, padding: 28, position: "sticky", top: 100 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 16 }}>
+                <div style={{ width: 52, height: 52, borderRadius: "50%", background: `${PURPLE}25`, border: `1px solid ${PURPLE}50`, display: "flex", alignItems: "center", justifyContent: "center", color: PURPLE, fontWeight: 900, fontSize: 16, flexShrink: 0 }}>
+                  {voice.name.split(" ").map(w => w[0]).join("").slice(0, 2)}
+                </div>
+                <div>
+                  <h2 style={{ color: PURPLE, fontWeight: 900, fontSize: 20, margin: "0 0 2px" }}>{voice.name}</h2>
+                  <div style={{ color: MUTED, fontSize: 12 }}>{voice.era}</div>
+                  <div style={{ color: MUTED, fontSize: 11 }}>{voice.context}</div>
+                </div>
+              </div>
+
+              <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: "0 0 16px" }}>{voice.bio}</p>
+
+              <div style={{ background: `${PURPLE}08`, border: `1px solid ${PURPLE}20`, borderRadius: 8, padding: 14, marginBottom: 14 }}>
+                <div style={{ color: PURPLE, fontWeight: 700, fontSize: 10, marginBottom: 6 }}>IN THEIR OWN WORDS</div>
+                <p style={{ color: TEXT, fontSize: 13, fontStyle: "italic", margin: 0, lineHeight: 1.7 }}>&ldquo;{voice.quote}&rdquo;</p>
+              </div>
+
+              <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}15`, borderRadius: 8, padding: 12 }}>
+                <div style={{ color: GREEN, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>KEY CONTRIBUTION</div>
+                <p style={{ color: TEXT, fontSize: 13, margin: 0, lineHeight: 1.6 }}>{voice.contribution}</p>
+              </div>
+            </div>
+          </div>
+        )}
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "cRmWSB1c6L8", title: "How to Study the Bible", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul gives a masterclass in Bible study method — the tools, disciplines, and habits that make a serious reader of Scripture and a wise user of commentaries." },
+                  { videoId: "N4WkOkKu9nA", title: "Why Study the Bible? (Knowing Scripture)", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul makes the case for why every Christian has a responsibility to study Scripture carefully — and why good tools like commentaries are part of that calling." },
+                  { videoId: "NWZHL_MoDvY", title: "Literal Interpretation (Knowing Scripture)", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul on how to interpret Scripture literally — what that actually means, how it differs from wooden literalism, and why commentaries help you read texts in their proper genre." },
+                  { videoId: "QG4fcVyHCxM", title: "The Science of Interpretation (Knowing Scripture)", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul's introduction to hermeneutics — the principles that govern sound interpretation of Scripture and how to use commentaries as tools rather than authorities." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

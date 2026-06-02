@@ -20,6 +20,8 @@ const PREACHERS = [
     website: "https://gospelinlife.com",
     quote: "The gospel is this: We are more sinful and flawed in ourselves than we ever dared believe, yet at the very same time we are more loved and accepted in Jesus Christ than we ever dared hope.",
     initials: "TK",
+    featuredVideoId: "KRsuCQe7aVk",
+    featuredVideoTitle: "The Gospel and Your Self – Timothy Keller",
   },
   {
     name: "John Piper",
@@ -34,6 +36,8 @@ const PREACHERS = [
     website: "https://www.desiringgod.org",
     quote: "God is most glorified in us when we are most satisfied in him.",
     initials: "JP",
+    featuredVideoId: "BkeS-kWbD-4",
+    featuredVideoTitle: "Don't Waste Your Life – John Piper (Passion OneDay)",
   },
   {
     name: "Alistair Begg",
@@ -48,6 +52,8 @@ const PREACHERS = [
     website: "https://www.truthforlife.org",
     quote: "The Bible is not a book of moral stories. It is the revelation of God — who he is, what he has done, what he requires, and what he promises.",
     initials: "AB",
+    featuredVideoId: "SYbeUzSYE0A",
+    featuredVideoTitle: "Anxiety – Alistair Begg (Full Sermon)",
   },
   {
     name: "John MacArthur",
@@ -62,6 +68,8 @@ const PREACHERS = [
     website: "https://www.gty.org",
     quote: "The church's singular task is to preach the Word of God — not the felt needs of the congregation, not the spirit of the age, but the whole counsel of God.",
     initials: "JM",
+    featuredVideoId: "jRqD89ZBWyg",
+    featuredVideoTitle: "Strange Fire – John MacArthur",
   },
   {
     name: "Francis Chan",
@@ -76,6 +84,8 @@ const PREACHERS = [
     website: "https://www.crazyloveministry.com",
     quote: "Our greatest fear should not be of failure but of succeeding at things in life that don't really matter.",
     initials: "FC",
+    featuredVideoId: "EUD4pkTDCJ4",
+    featuredVideoTitle: "Crazy Love – Francis Chan",
   },
   {
     name: "R.C. Sproul",
@@ -90,6 +100,8 @@ const PREACHERS = [
     website: "https://www.ligonier.org",
     quote: "God is not a cosmic bellhop. He's not there to wait on us and cater to our every whim. He is the Sovereign Lord of the universe.",
     initials: "RCS",
+    featuredVideoId: "P9RXKQQoJlQ",
+    featuredVideoTitle: "The Holiness of Christ – R.C. Sproul",
   },
   {
     name: "David Platt",
@@ -104,6 +116,8 @@ const PREACHERS = [
     website: "https://radical.net",
     quote: "We are not owners of our possessions — we are stewards. And a steward who lives like an owner is a thief.",
     initials: "DP",
+    featuredVideoId: "4TTiA_dpsvc",
+    featuredVideoTitle: "God's Heart for the World – David Platt",
   },
   {
     name: "Sinclair Ferguson",
@@ -118,6 +132,8 @@ const PREACHERS = [
     website: "https://www.ligonier.org",
     quote: "The greatest antidote to legalism is not antinomianism but a profound, experiential understanding of the grace of God in the gospel.",
     initials: "SF",
+    featuredVideoId: "tDecMmxcHrU",
+    featuredVideoTitle: "The Power of the Holy Spirit – Sinclair Ferguson",
   },
 ];
 
@@ -195,6 +211,20 @@ export default function FeaturedPreachersPage() {
                     </div>
                   ))}
                 </div>
+              </div>
+              {/* Featured Sermon */}
+              <div style={{ marginBottom: 16 }}>
+                <div style={{ color: preacher.color, fontWeight: 700, fontSize: 11, marginBottom: 8 }}>FEATURED SERMON</div>
+                <div style={{ borderRadius: 8, overflow: "hidden", marginBottom: 8 }}>
+                  <iframe
+                    width="100%"
+                    style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                    src={`https://www.youtube.com/embed/${preacher.featuredVideoId}`}
+                    title={preacher.featuredVideoTitle}
+                    allowFullScreen
+                  />
+                </div>
+                <p style={{ color: MUTED, fontSize: 12, margin: 0 }}>{preacher.featuredVideoTitle}</p>
               </div>
               <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
                 <a href={preacher.youtube} target="_blank" rel="noopener noreferrer"

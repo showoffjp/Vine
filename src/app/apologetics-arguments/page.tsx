@@ -83,10 +83,69 @@ const PRACTICES = [
   { title: "Personal Testimony as Evidence", desc: "Your own experience of God — answered prayer, transformed life, encountered grace — is genuine evidence. It is not conclusive for someone else, but it is real. The combination of philosophical argument and personal testimony has persuaded many. Don't neglect either.", icon: "🗣️" },
 ];
 
+const APOLOGISTS = [
+  {
+    id: "plantinga",
+    name: "Alvin Plantinga",
+    era: "b. 1932",
+    context: "Notre Dame; Calvin College; Reformed Epistemology",
+    bio: "Plantinga is the most important Christian philosopher of the 20th century. His Reformed Epistemology argues that belief in God can be 'properly basic' — rational without being inferred from other beliefs, just as perceptual beliefs and memory beliefs are basic. His free will defense to the problem of evil is the standard philosophical response. His Warranted Christian Belief argues that Christian belief can have positive epistemic status even without successful natural theology.",
+    quote: "The evidentialist objection to theistic belief is rooted in classical foundationalism — which is self-referentially incoherent and clearly false.",
+    contribution: "Established that Christian belief does not require philosophical proof to be rational — it can be properly basic. His free will defense to the problem of evil is the most carefully argued response in Christian philosophy."
+  },
+  {
+    id: "craig",
+    name: "William Lane Craig",
+    era: "b. 1949",
+    context: "Biola University; Talbot School of Theology",
+    bio: "Craig is the most prolific popular Christian apologist of the current era. His Reasonable Faith and his debates with leading atheists have given millions of Christians both the arguments and the confidence to engage skeptics. He is the leading contemporary proponent of the Kalam Cosmological Argument and has done extensive work on the historical evidence for the resurrection. His debate style has been criticized for prioritizing scoring points over genuine inquiry, but his scholarly output is formidable.",
+    quote: "The question is not whether God exists but whether the man who thinks God does not exist has examined the evidence carefully enough.",
+    contribution: "Made the Kalam cosmological argument the most-used version of the cosmological argument in contemporary Christian apologetics. His work on the historical resurrection has shaped how a generation of Christians think about the evidential basis of Easter."
+  },
+  {
+    id: "chesterton",
+    name: "G.K. Chesterton",
+    era: "1874-1936",
+    context: "English journalist, novelist, theologian; Orthodoxy (1908)",
+    bio: "Chesterton is the most enjoyable apologist in the Christian tradition. Orthodoxy — which he described as 'a sort of slovenly autobiography' — traces his journey from skepticism to orthodox Christianity through paradox, imagination, and wonder. His method is not argument alone but perception: he tries to make the reader see the world freshly, which makes Christianity seem not just true but inevitable. The Man Who Was Thursday, The Napoleon of Notting Hill, and Father Brown fiction carry the same apologetic weight through story.",
+    quote: "The Christian ideal has not been tried and found wanting. It has been found difficult; and left untried.",
+    contribution: "Pioneered imaginative apologetics — the argument through delight, paradox, and wonder rather than syllogism. His influence on C.S. Lewis was decisive. His journalism made orthodox Christianity intellectually credible at a time when the intelligentsia had largely abandoned it."
+  },
+  {
+    id: "schaeffer",
+    name: "Francis Schaeffer",
+    era: "1912-1984",
+    context: "L'Abri Fellowship, Switzerland; The God Who Is There (1968)",
+    bio: "Schaeffer built L'Abri in the Swiss Alps as a place where the questions of any honest seeker would receive honest answers. His presuppositional apologetics argued that every worldview rests on unprovable assumptions, and that the Christian worldview's assumptions produce a coherent account of truth, beauty, morality, and personality — while secular worldviews cannot. He engaged philosophy, art, music, and film as apologetic territory when evangelical Christianity was largely ignoring culture.",
+    quote: "Christianity is not a series of truths in the plural, but rather Truth spelled with a capital T. Truth about total reality, not just religious things.",
+    contribution: "Brought presuppositional apologetics to popular audiences and made cultural engagement a Christian apologetic strategy. L'Abri shaped a generation of intellectuals, artists, and pastors who went on to lead Christian cultural engagement across many fields."
+  },
+  {
+    id: "lewis",
+    name: "C.S. Lewis",
+    era: "1898-1963",
+    context: "Oxford and Cambridge; Mere Christianity (1952)",
+    bio: "Lewis came to faith as an adult atheist through the moral argument and the evidence for the resurrection. Mere Christianity — originally BBC radio talks — is the most widely read apologetics text of the 20th century. His trilemma ('liar, lunatic, or Lord') forces a decision about Jesus that makes casual dismissal impossible. The Problem of Pain, Miracles, and Surprised by Joy engage specific intellectual objections to Christianity. His fiction (The Chronicles of Narnia, Space Trilogy, The Screwtape Letters) carries apologetic freight through imagination.",
+    quote: "I believe in Christianity as I believe that the sun has risen — not only because I see it, but because by it I see everything else.",
+    contribution: "Made the moral argument for God's existence accessible to ordinary readers. The liar/lunatic/Lord trilemma remains the most memorable challenge to the view that Jesus was merely a good moral teacher. His combination of rational argument and imaginative fiction has drawn more people to serious Christianity than perhaps any other single writer."
+  }
+];
+
+const MAJOR_OBJECTIONS = [
+  { obj: "How can a good God allow suffering?", color: "#EF4444", response: "The problem of evil is the most emotionally serious objection to theism. Philosophically, Plantinga's free will defense shows the logical problem of evil is not valid: it is possible that God has morally sufficient reasons for permitting evil, even if we cannot name them. The evidential problem — that the amount and distribution of suffering makes God's existence unlikely — is answered by noting that we are not in a position to assess what God's reasons might be. Practically: the Christian answer is not an explanation but a person. Christ entered suffering rather than preventing it. The cross makes theodicy not a theory but a story." },
+  { obj: "Science explains everything; we don't need God", color: "#3B82F6", response: "Scientism — the view that science can answer all meaningful questions — is itself a philosophical position, not a scientific one. Science cannot prove scientism. Science explains how the universe works; it cannot explain why there is something rather than nothing, why the universe is mathematically intelligible, why moral obligations are real, or why consciousness exists. These questions require philosophy and theology. The conflict is not between science and Christianity but between scientism and any worldview that makes metaphysical claims." },
+  { obj: "Religion has caused most historical violence", color: "#F59E0B", response: "The historical record is more complex. The 20th century's worst atrocities — Stalinism, Nazism, Maoism — were explicitly secular and atheistic in ideology and killed more people than all religious wars combined. The claim that religion is uniquely violent requires selective reading of history. Moreover, individual believers' failures do not disprove the truth claims of Christianity any more than scientists' failures disprove science. The question is not whether Christians have behaved badly but whether Jesus's resurrection is true." },
+  { obj: "The Bible is full of contradictions and errors", color: "#8B5CF6", response: "Most alleged contradictions dissolve under careful reading: different authors emphasizing different details, different orderings of events (topical vs. chronological), complementary rather than contradictory accounts. Genuine difficulties exist — difficult passages, apparent historical inconsistencies — and scholars debate them. But the cumulative manuscript evidence for the New Testament is stronger than for any other ancient document: over 5,800 Greek manuscripts. The text we have is reliable. And the central claims — death, burial, resurrection, appearances — are multiply attested in sources hostile to Christianity." },
+  { obj: "Christianity is just one religion among many", color: "#10B981", response: "Religious pluralism — the view that all religions are equally valid paths to the same ultimate reality — requires ignoring that major world religions make contradictory claims. Christianity claims Jesus rose bodily; Islam denies the resurrection happened; Buddhism does not have a personal God to rise. These cannot all be true simultaneously. The question is not whether any religion is true — it is which one (if any) is true. Christianity's truth claims rest on historical evidence, particularly the resurrection, that can be examined." },
+  { obj: "Faith is just believing without evidence", color: "#EC4899", response: "This misunderstands what Christian faith is. In the biblical tradition, faith (pistis) is not belief without evidence but trust based on evidence — like trusting a bridge after inspecting it. Hebrews 11's 'faith hall of fame' is full of people who acted on what they had seen God do. C.S. Lewis distinguished faith from opinion: faith is acting on what you have reason to believe even when emotions, moods, or circumstances suggest otherwise. Christian faith is historical, evidential, and reasonable — while also involving personal trust and commitment." }
+];
+
 export default function ApologeticsArgumentsPage() {
-  const [activeTab, setActiveTab] = useState<"arguments" | "practices">("arguments");
+  const [activeTab, setActiveTab] = useState<"arguments" | "apologists" | "practices" | "objections" | "videos">("arguments");
   const [selectedArg, setSelectedArg] = useState("Cosmological");
   const [expandedObj, setExpandedObj] = useState<string | null>(null);
+  const [selectedApologist, setSelectedApologist] = useState("lewis");
+  const apologist = APOLOGISTS.find(a => a.id === selectedApologist)!;
 
   const arg = ARGUMENTS.find(a => a.name === selectedArg)!;
 
@@ -103,8 +162,11 @@ export default function ApologeticsArgumentsPage() {
 
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
-            { id: "arguments" as const, label: "The Arguments", icon: "⚖️" },
+            { id: "arguments" as const, label: "Arguments", icon: "⚖️" },
+            { id: "apologists" as const, label: "Apologists", icon: "🏛️" },
+            { id: "objections" as const, label: "Objections", icon: "❓" },
             { id: "practices" as const, label: "Using Them", icon: "🗣️" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -163,6 +225,57 @@ export default function ApologeticsArgumentsPage() {
           </div>
         )}
 
+        {activeTab === "apologists" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 210, flexShrink: 0 }}>
+              {APOLOGISTS.map(a => (
+                <button key={a.id} onClick={() => setSelectedApologist(a.id)}
+                  style={{ width: "100%", background: selectedApologist === a.id ? `${PURPLE}18` : "transparent", border: `1px solid ${selectedApologist === a.id ? PURPLE + "80" : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 6, cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: selectedApologist === a.id ? TEXT : MUTED, fontWeight: 700, fontSize: 13 }}>{a.name}</div>
+                  <div style={{ color: MUTED, fontSize: 11, marginTop: 2 }}>{a.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ background: CARD, border: `1px solid ${PURPLE}30`, borderRadius: 14, padding: 28 }}>
+                <div style={{ marginBottom: 18 }}>
+                  <h2 style={{ color: TEXT, fontWeight: 900, fontSize: 22, marginBottom: 4 }}>{apologist.name}</h2>
+                  <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                    <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700 }}>{apologist.era}</span>
+                    <span style={{ background: `${GREEN}15`, color: GREEN, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700 }}>{apologist.context}</span>
+                  </div>
+                </div>
+                <div style={{ marginBottom: 18 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>LIFE & METHOD</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>{apologist.bio}</p>
+                </div>
+                <div style={{ background: BG, borderLeft: `3px solid ${PURPLE}`, borderRadius: "0 10px 10px 0", padding: 18, marginBottom: 18 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 11, marginBottom: 8 }}>CHARACTERISTIC QUOTE</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0, fontStyle: "italic" }}>&ldquo;{apologist.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 10, padding: 16 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>CONTRIBUTION</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{apologist.contribution}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "objections" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, marginBottom: 20 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>The six most common objections to Christianity — with substantive (not dismissive) responses. Knowing these prepares you for real conversations and strengthens your own faith.</p>
+            </div>
+            {MAJOR_OBJECTIONS.map((o, i) => (
+              <div key={i} style={{ background: CARD, border: `1px solid ${o.color}25`, borderRadius: 12, padding: 22, marginBottom: 12 }}>
+                <h3 style={{ color: o.color, fontWeight: 900, fontSize: 16, marginBottom: 12 }}>{o.obj}</h3>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>{o.response}</p>
+              </div>
+            ))}
+          </div>
+        )}
+
         {activeTab === "practices" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
@@ -180,6 +293,40 @@ export default function ApologeticsArgumentsPage() {
                   <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{p.desc}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Lectures and debates on the classical arguments for God's existence from leading Christian thinkers and apologists.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "gO1MOpiF0-g", title: "The Law of Causality and the Cosmological Argument", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul examines the causal principle and how the Kalam Cosmological Argument makes a compelling rational case for a First Cause." },
+                  { videoId: "vO2jIT26X8c", title: "The Case for God: Defending Your Faith", channel: "R.C. Sproul / Ligonier Ministries", description: "Sproul presents multiple lines of evidence for God's existence and shows why theism is intellectually defensible against skeptical objections." },
+                  { videoId: "khpEek6bvcY", title: "Natural Theology Developed: Defending Your Faith", channel: "R.C. Sproul / Ligonier Ministries", description: "A deeper dive into natural theology — what can be known about God through reason and creation, and how to use that in apologetics." },
+                  { videoId: "TamlDfiJqD0", title: "If God Is Good, Why Is There Evil and Suffering?", channel: "John Lennox & Neil deGrasse Tyson", description: "Professor John Lennox engages one of the most common objections to God's existence — the problem of evil — in a live dialogue." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

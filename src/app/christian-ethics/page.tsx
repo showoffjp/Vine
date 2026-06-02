@@ -4,7 +4,7 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "foundations" | "issues" | "contemporary" | "methods";
+type Tab = "foundations" | "issues" | "contemporary" | "methods" | "videos";
 
 const FOUNDATIONS = [
   { title: "Ethics Grounded in Character", verse: "Matthew 5:3-10", body: "The Sermon on the Mount does not begin with 'do not do' but with 'blessed are' — a description of character, not a list of rules. Jesus is not primarily a moral legislator; he is a character transformer. Christian ethics begins with the question 'what kind of person should I be?' rather than 'what should I do?' Rules can be followed without character; character produces the right action even when no rule covers the situation." },
@@ -132,6 +132,7 @@ export default function ChristianEthicsPage() {
             { id: "issues" as Tab, label: "Classic Issues", icon: "⚖️" },
             { id: "contemporary" as Tab, label: "Today's Hard Issues", icon: "🌐" },
             { id: "methods" as Tab, label: "Methods", icon: "🔬" },
+            { id: "videos" as Tab, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -231,6 +232,40 @@ export default function ChristianEthicsPage() {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {tab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "b43cgj26wS8", title: "Questioning Christianity: Morality", channel: "Tim Keller", description: "Keller explores the foundations of Christian morality — why objective moral values exist, how they are grounded in God, and what this means for ethical decision-making." },
+                  { videoId: "8i9McgNOUnA", title: "Ethics and the Good Life", channel: "Tim Keller at Columbia University", description: "Keller and philosopher Philip Kitcher debate the foundations of ethics and the good life at the Veritas Forum — a rigorous engagement with secular moral philosophy." },
+                  { videoId: "jMLp2mYN_D8", title: "Postmodernism and Christian Truth", channel: "Tim Keller at Desiring God", description: "Keller addresses postmodern challenges to Christian ethics and truth claims, arguing that Christianity provides the only coherent ground for moral reality." },
+                  { videoId: "4uIvOniW8xA", title: "Making Sense of God: An Invitation to the Skeptical", channel: "Tim Keller at Google", description: "Keller presents a comprehensive case for why Christian ethical and metaphysical claims make more sense of human experience than secular alternatives." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

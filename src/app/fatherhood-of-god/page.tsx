@@ -9,7 +9,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "adoption" | "fatherwound" | "practices";
+type Tab = "theology" | "adoption" | "fatherwound" | "practices" | "videos";
 
 const THEOLOGY_ITEMS = [
   {
@@ -182,6 +182,7 @@ export default function FatherhoodOfGodPage() {
     { id: "adoption" as Tab, label: "Adoption & Sonship", icon: "🏠" },
     { id: "fatherwound" as Tab, label: "Healing Father Wounds", icon: "💚" },
     { id: "practices" as Tab, label: "Living as Beloved", icon: "✨" },
+    { id: "videos" as Tab, label: "Videos", icon: "🎬" },
   ];
 
   return (
@@ -322,6 +323,40 @@ export default function FatherhoodOfGodPage() {
                   </ul>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {tab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "E5yoWkvp-k0", title: "God Our Father", channel: "Timothy Keller", description: "Tim Keller teaches that the biblical God is a father and a friend and a lover and a king — exploring what it means to know God as your personal Father." },
+                  { videoId: "qcpkVgGYJ8A", title: "John Piper on Fatherhood", channel: "John Piper / Desiring God", description: "John Piper reflects on fatherhood — both God's fatherhood and human fatherhood — and what it means to live as children of the heavenly Father." },
+                  { videoId: "OasF7lWlX_M", title: "The Prodigal God: The Elder Brother", channel: "Timothy Keller", description: "Tim Keller unpacks the parable of the prodigal son to show both sons' misunderstanding of the Father — and the radical grace the running Father displays." },
+                  { videoId: "t0lo8AP7imU", title: "Fathers, Bring Them Up in the Discipline and Instruction of the Lord", channel: "Biblical Preaching", description: "A sermon on Ephesians 6:4 — the call to fathers to raise children in the nurture of the Lord, reflecting the Father-heart of God in the home." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

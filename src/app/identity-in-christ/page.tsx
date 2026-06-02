@@ -22,6 +22,56 @@ const IDENTITY_STATEMENTS = [
   { ref: "Romans 8:38-39", statement: "Nothing can separate me from God's love.", category: "Security", verse: "For I am convinced that neither death nor life, neither angels nor demons, neither the present nor the future, nor any powers, neither height nor depth, nor anything else in all creation, will be able to separate us from the love of God that is in Christ Jesus our Lord." },
 ];
 
+type Tab = "who" | "voices" | "false" | "meditate";
+
+const VOICES_IDENTITY = [
+  {
+    id: "nouwen",
+    name: "Henri Nouwen",
+    era: "1932-1996",
+    context: "Dutch Catholic priest; Harvard, Yale, Daybreak Community",
+    bio: "Nouwen's 'Life of the Beloved' (1992) is the most direct treatment of identity in Christ in the spiritual direction tradition. His framework: the spiritual life begins with being 'claimed as God's Beloved' — not as something to achieve but as something to receive and believe. Against the culture's three temptations (to be relevant, to be spectacular, to be powerful), Nouwen set the identity Jesus received at his baptism: 'You are my beloved Son, in whom I am well pleased.' The work of the Christian life is allowing this to be true.",
+    quote: "The spiritual life is not a life before, after, or beyond our everyday existence. No, the spiritual life can only be real when it is lived in the midst of the pains and joys of the here and now. But that is only possible when we believe that in Christ, we are beloved.",
+    contribution: "Nouwen made 'belovedness' the central category of Christian identity in a way that has had enormous pastoral influence. His identification of the three temptations (relevance, spectacle, power) as the primary alternatives to identity in Christ mapped directly onto the psychological landscape of contemporary people — especially high-achievers who had never been given permission to simply receive God's love. His work at L'Arche — living with people who could not perform — deepened his conviction that love precedes performance.",
+  },
+  {
+    id: "anderson",
+    name: "Neil T. Anderson",
+    era: "1942-present",
+    context: "Author; Biola University; Victory Over the Darkness",
+    bio: "Anderson's 'Victory Over the Darkness' (1990) popularized the concept of 'who you are in Christ' for evangelical lay readers. His framework: most spiritual struggle comes from believers trying to live up to an identity they don't believe they actually have. The enemy's primary strategy is to destabilize identity: 'If you are the Son of God...' (Matthew 4:3). Christians who do not know their identity in Christ are functionally living in the old nature even after regeneration. Anderson provided the most systematic list of 'who I am in Christ' statements in evangelical literature.",
+    quote: "You are not primarily a sinner — you are a saint who sometimes sins. The difference matters enormously. How you see yourself is how you will live.",
+    contribution: "Anderson gave evangelical discipleship its most widely-used framework for identity-based sanctification. His 'who I am in Christ' affirmations — drawn from specific Scripture passages — have been used in small groups, counseling, and personal devotion worldwide. He helped evangelicals move from a guilt/performance framework to a grace/identity framework: transformation follows from believing what is already true about you in Christ, not from trying harder to become something you are not.",
+  },
+  {
+    id: "tripp",
+    name: "Paul David Tripp",
+    era: "1950-present",
+    context: "Biblical counselor; pastor; author of New Morning Mercies",
+    bio: "Tripp's approach to identity comes through his theology of the heart — the center of human desire, orientation, and identity. In 'Instruments in the Redeemer's Hands' (2002) and 'New Morning Mercies' (2014), he argues that most spiritual and relational problems stem from misplaced identity — finding one's fundamental worth in performance, relationships, or circumstances rather than in the unchanging grace of God. His daily devotional format made the daily renewal of identity-in-Christ a practical discipline rather than an abstract concept.",
+    quote: "You will never be more valuable than you are right now. Not because of what you have achieved, but because of who Christ is and what he has done. This is either the most liberating truth you have ever heard or the most uncomfortable.",
+    contribution: "Tripp made identity renewal a daily, practical discipline — not a one-time theological conviction. His devotional approach helped Christians see that the re-grounding of identity in Christ is the work of each morning, not a settled achievement. His integration of heart-theology with practical biblical counseling gave pastors and counselors a framework for addressing identity-related struggles (shame, people-pleasing, performance anxiety) that was both theologically grounded and psychologically sophisticated.",
+  },
+  {
+    id: "manning",
+    name: "Brennan Manning",
+    era: "1934-2013",
+    context: "Franciscan priest; author of The Ragamuffin Gospel",
+    bio: "Manning's 'The Ragamuffin Gospel' (1990) addressed the failure of Christians to actually believe they are loved and accepted by God. A recovering alcoholic and former priest, Manning wrote from the experience of having failed catastrophically and discovered that God's love did not depend on his performance. His concept of the 'ragamuffin' — the broken, failed, inconsistent believer who is nonetheless fully accepted — cut against the performance-Christianity he had experienced. His central claim: the most important thing about you is not your faith, your failures, or your achievements but that God calls you 'Beloved.'",
+    quote: "God loves you as you are, not as you should be. Because none of us is what we should be. We are who we are — ragamuffins, all of us.",
+    contribution: "Manning's work reached people who had experienced Christianity as fundamentally conditional — where God's love was available in theory but not felt in practice because of ongoing failure. His willingness to be publicly honest about his own failures (alcoholism, broken vows) made his witness credible in a way that more polished spiritual authority could not be. The Ragamuffin Gospel gave permission to broken people to receive grace rather than earn it.",
+  },
+  {
+    id: "wright_n",
+    name: "N.T. Wright",
+    era: "1948-present",
+    context: "Anglican Bishop; NT scholar; Simply Christian",
+    bio: "Wright approaches identity through his larger narrative of new creation: who we are in Christ is not merely a psychological category but a cosmological one. In 'Surprised by Hope' and 'After You Believe,' he argues that Christian identity is fundamentally vocational — we are 'image-bearers' of the God who is renewing the world, called to be agents of that renewal in the present. 'Who you are in Christ' is not just about what God thinks of you — it is about what you are being equipped to do in God's new creation project.",
+    quote: "You are not who you think you are. You are not what others think you are. You are who God declares you to be, and he declares you to be a co-heir with Christ, a bearer of his image, and a participant in the renewal of all things.",
+    contribution: "Wright gave the identity-in-Christ tradition an eschatological and missional dimension that purely therapeutic accounts miss. He showed that 'knowing who you are in Christ' is inseparable from 'knowing what you are for in Christ' — and that this calling (to be God's image-bearing agents in the world) is what gives identity its full scope. This integration of identity and vocation has influenced an entire generation of evangelical leaders who want a bigger framework than individual self-understanding.",
+  },
+];
+
 const CATEGORIES = ["All", "Belonging", "Freedom", "Renewal", "Purpose", "Strength", "Dignity", "Sufficiency", "Access", "Security"];
 
 const CATEGORY_COLORS: Record<string, string> = {
@@ -40,7 +90,9 @@ const FALSE_IDENTITIES = [
 ];
 
 export default function IdentityInChristPage() {
-  const [activeTab, setActiveTab] = useState<"who" | "false" | "meditate">("who");
+  const [activeTab, setActiveTab] = useState<Tab>("who");
+  const [selectedVoice, setSelectedVoice] = useState("nouwen");
+  const voiceItem = VOICES_IDENTITY.find(v => v.id === selectedVoice)!;
   const [catFilter, setCatFilter] = useState("All");
   const [memorized, setMemorized] = useState<Set<string>>(() => {
     try { const s = localStorage.getItem("vine_identity_mem"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
@@ -72,6 +124,7 @@ export default function IdentityInChristPage() {
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
             { id: "who" as const, label: "Who I Am", icon: "👑" },
+            { id: "voices" as const, label: "Voices", icon: "💬" },
             { id: "false" as const, label: "False Identities", icon: "🚫" },
             { id: "meditate" as const, label: "Meditate", icon: "🙏" },
           ].map(t => (
@@ -120,6 +173,38 @@ export default function IdentityInChristPage() {
             </div>
             <div style={{ marginTop: 16, color: MUTED, fontSize: 13, textAlign: "center" }}>
               {memorized.size} of {IDENTITY_STATEMENTS.length} statements marked as known
+            </div>
+          </div>
+        )}
+
+        {activeTab === "voices" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8 }}>
+              {VOICES_IDENTITY.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ background: selectedVoice === v.id ? `${PURPLE}20` : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", textAlign: "left", cursor: "pointer" }}>
+                  <div style={{ color: TEXT, fontWeight: 700, fontSize: 13 }}>{v.name}</div>
+                  <div style={{ color: MUTED, fontSize: 11, marginTop: 2 }}>{v.era}</div>
+                  <div style={{ color: MUTED, fontSize: 11 }}>{v.context}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28 }}>
+                <div style={{ marginBottom: 20 }}>
+                  <div style={{ color: TEXT, fontWeight: 900, fontSize: 20, marginBottom: 4 }}>{voiceItem.name}</div>
+                  <div style={{ color: MUTED, fontSize: 13 }}>{voiceItem.era} &middot; {voiceItem.context}</div>
+                </div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, marginBottom: 20 }}>{voiceItem.bio}</p>
+                <div style={{ background: BG, border: `1px solid ${PURPLE}40`, borderRadius: 10, padding: 20, marginBottom: 20 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>KEY QUOTE</div>
+                  <p style={{ color: TEXT, fontSize: 14, fontStyle: "italic", lineHeight: 1.7, margin: 0 }}>&ldquo;{voiceItem.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: BG, borderRadius: 10, padding: 20 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>CONTRIBUTION</div>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.7, margin: 0 }}>{voiceItem.contribution}</p>
+                </div>
+              </div>
             </div>
           </div>
         )}

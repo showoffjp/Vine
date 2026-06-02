@@ -17,6 +17,8 @@ const DOCS = [
     streaming: "Available on various Christian streaming platforms; check Asbury's official channels",
     rating: "Highly Recommended",
     initials: "ASB",
+    trailerVideoId: "6KnFutsE3X8",
+    trailerTitle: "Asbury Revival: Desperate for More — Official Trailer",
   },
   {
     title: "Finger of God",
@@ -28,6 +30,8 @@ const DOCS = [
     streaming: "Wanderlust Productions; available on Amazon Prime and other platforms",
     rating: "Thought-Provoking",
     initials: "FOG",
+    trailerVideoId: "SeghFM0SL6Y",
+    trailerTitle: "Finger of God — Official Trailer",
   },
   {
     title: "Furious Love",
@@ -39,6 +43,8 @@ const DOCS = [
     streaming: "Wanderlust Productions; check Amazon and Christian streaming services",
     rating: "Mature Content",
     initials: "FRL",
+    trailerVideoId: "GdrBsL7PZ2g",
+    trailerTitle: "Furious Love — Official Trailer",
   },
   {
     title: "The Insanity of God",
@@ -50,6 +56,8 @@ const DOCS = [
     streaming: "Lifeway Films; available on YouTube and Christian streaming platforms",
     rating: "Essential",
     initials: "IOG",
+    trailerVideoId: "XX6SWxwKZSE",
+    trailerTitle: "The Insanity of God — Official Trailer",
   },
   {
     title: "Holy Ghost",
@@ -61,6 +69,8 @@ const DOCS = [
     streaming: "WP Films; Amazon Prime and other platforms",
     rating: "Recommended",
     initials: "HGH",
+    trailerVideoId: "Yq_NL7Ofj9k",
+    trailerTitle: "Holy Ghost — Official Trailer",
   },
   {
     title: "Living on the Edge: Christianity",
@@ -72,6 +82,8 @@ const DOCS = [
     streaming: "Various platforms",
     rating: "Recommended",
     initials: "LOE",
+    trailerVideoId: "ynemn4tMQdA",
+    trailerTitle: "Living on the Edge — Practical Tools for Christian Living",
   },
   {
     title: "For the Life of the World: Letters to the Exiles",
@@ -83,6 +95,8 @@ const DOCS = [
     streaming: "Acton Institute; available free on YouTube",
     rating: "Highly Recommended",
     initials: "FLW",
+    trailerVideoId: "YRLpuo3rKD0",
+    trailerTitle: "For the Life of the World: Letters to the Exiles — Official Trailer",
   },
   {
     title: "The Drop Box",
@@ -94,6 +108,8 @@ const DOCS = [
     streaming: "Focus on the Family; available on DVD and selected streaming platforms",
     rating: "Essential",
     initials: "TDB",
+    trailerVideoId: "gKkpgvcehCM",
+    trailerTitle: "The Drop Box — Official Trailer",
   },
   {
     title: "The Case for Christ (Documentary)",
@@ -105,6 +121,8 @@ const DOCS = [
     streaming: "Available on Amazon Prime; YouTube; various Christian platforms",
     rating: "Highly Recommended",
     initials: "CFC",
+    trailerVideoId: "DaW4Q8l-5B0",
+    trailerTitle: "The Case for Christ — Documentary Trailer",
   },
   {
     title: "Is Genesis History?",
@@ -116,6 +134,8 @@ const DOCS = [
     streaming: "Amazon Prime; Compass Cinema",
     rating: "Recommended for Context",
     initials: "IGH",
+    trailerVideoId: "hw7VcIrV5dA",
+    trailerTitle: "Is Genesis History? — Official Trailer",
   },
   {
     title: "Come What May",
@@ -127,6 +147,8 @@ const DOCS = [
     streaming: "Various Christian platforms",
     rating: "Good for Teaching",
     initials: "CWM",
+    trailerVideoId: "H4og6ukEmPg",
+    trailerTitle: "Come What May (2009) — Official Trailer",
   },
   {
     title: "Patterns of Evidence: Exodus",
@@ -138,6 +160,8 @@ const DOCS = [
     streaming: "Amazon Prime; Thinking Man Films website",
     rating: "Recommended",
     initials: "POE",
+    trailerVideoId: "sTKuIELrMWE",
+    trailerTitle: "Patterns of Evidence: The Exodus — Official Trailer",
   },
 ];
 
@@ -217,6 +241,21 @@ export default function ChristianDocumentariesPage() {
               </div>
 
               <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, marginBottom: 14 }}>{doc.description}</p>
+
+              {doc.trailerVideoId && (
+                <div style={{ marginBottom: 14 }}>
+                  <div style={{ color: MUTED, fontWeight: 700, fontSize: 10, marginBottom: 6, letterSpacing: "0.05em" }}>WATCH TRAILER</div>
+                  <div style={{ borderRadius: 8, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${doc.trailerVideoId}`}
+                      title={doc.trailerTitle}
+                      allowFullScreen
+                    />
+                  </div>
+                </div>
+              )}
 
               <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}15`, borderRadius: 8, padding: 12, marginBottom: 10 }}>
                 <div style={{ color: GREEN, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>WHY WATCH</div>

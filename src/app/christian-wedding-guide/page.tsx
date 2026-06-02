@@ -9,7 +9,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "ceremony" | "premarital" | "vows";
+type Tab = "theology" | "ceremony" | "premarital" | "vows" | "videos";
 
 const theologyPoints = [
   {
@@ -225,7 +225,8 @@ export default function ChristianWeddingGuidePage() {
     { id: "theology", label: "Theology of Marriage" },
     { id: "ceremony", label: "The Ceremony" },
     { id: "premarital", label: "Premarital Topics" },
-    { id: "vows", label: "Traditional Vows" }
+    { id: "vows", label: "Traditional Vows" },
+    { id: "videos", label: "🎬 Videos" },
   ];
 
   return (
@@ -412,6 +413,40 @@ export default function ChristianWeddingGuidePage() {
                   <div key={j} style={{ display: "flex", gap: 8, marginBottom: 8 }}>
                     <div style={{ color: GREEN, flexShrink: 0 }}>✓</div>
                     <div style={{ fontSize: 13, color: MUTED }}>{tip}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors on Christian marriage, wedding theology, and covenant love.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "4vAq9sWgZ74", title: "Marriage is About Christ and the Church", channel: "Desiring God / John Piper", description: "John Piper on Ephesians 5 — the theological foundation that makes Christian marriage different from every other understanding of marriage." },
+                  { videoId: "FHy34yGR57k", title: "The Making and Meaning of Marriage", channel: "Voddie Baucham", description: "Voddie Baucham on the biblical definition of marriage as covenant — what it means, why it matters, and how it reflects the gospel." },
+                  { videoId: "ZACkRe_W4Gg", title: "Marriage for the Glory of God", channel: "Paul Washer / John Piper / Voddie Baucham", description: "Three of evangelical Christianity's strongest voices on the foundational biblical concept that marriage belongs to God and exists for his glory." },
+                  { videoId: "MTn2-KEph5o", title: "This Momentary Marriage", channel: "Desiring God / John Piper", description: "John Piper on marriage as a covenant that portrays Christ's love for the church — and why that makes it both glorious and urgent." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
                   </div>
                 ))}
               </div>

@@ -705,7 +705,7 @@ const RESOURCE_TYPES = ["All", "Book", "Program", "Hotline"];
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function HealingPage() {
-  const [activeTab, setActiveTab] = useState<"paths" | "scriptures" | "testimonies" | "resources">("paths");
+  const [activeTab, setActiveTab] = useState<"paths" | "scriptures" | "testimonies" | "resources" | "videos">("paths");
 
   // Saved verses (Set of IDs)
   const [savedVerses, setSavedVerses] = useState<Set<string>>(() => {
@@ -897,6 +897,7 @@ export default function HealingPage() {
             { key: "scriptures", label: "Scriptures", icon: "📖" },
             { key: "testimonies", label: "Testimonies", icon: "✨" },
             { key: "resources", label: "Resources", icon: "📚" },
+            { key: "videos", label: "Videos", icon: "🎬" },
           ] as const
         ).map((tab) => (
           <button
@@ -1540,6 +1541,40 @@ export default function HealingPage() {
                   </div>
                 );
               })}
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: "#00FF88", fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: "#9898B3", fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "rwTdOh7ru0g", title: "Healing and Prayer", channel: "Timothy Keller", description: "Tim Keller examines what Scripture teaches about healing and prayer — what God promises, what we can ask, and how to trust him in illness and suffering." },
+                  { videoId: "54wB8FNdnlc", title: "The Healing", channel: "Timothy Keller", description: "Keller preaches on a healing account in the Gospels, drawing out its implications for understanding what Christ came to restore in body, soul, and community." },
+                  { videoId: "31BsnbECTjo", title: "Prayer That God Hears", channel: "Francis Chan", description: "Francis Chan unpacks Hebrews 5:7 and challenges the way we approach prayer, especially in seasons of suffering and the cry for healing." },
+                  { videoId: "DxOWWWVDGD0", title: "Praying Our Tears", channel: "Timothy Keller", description: "Keller explores how suffering is inevitable and teaches how to bring tears and grief honestly to God in prayer rather than pretending all is well." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: "#07070F", border: "1px solid #1E1E32", borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: "#00FF88", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: "#9898B3", fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

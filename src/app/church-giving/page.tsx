@@ -78,7 +78,7 @@ const GENEROUS_LIVES = [
   },
 ];
 
-type Tab = "theology" | "questions" | "givers" | "practices";
+type Tab = "theology" | "questions" | "givers" | "practices" | "videos";
 
 export default function ChurchGivingPage() {
   const [activeTab, setActiveTab] = useState<Tab>("theology");
@@ -104,6 +104,7 @@ export default function ChurchGivingPage() {
             { id: "questions" as const, label: "Questions", icon: "❓" },
             { id: "givers" as const, label: "Generous Lives", icon: "💎" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -191,6 +192,40 @@ export default function ChurchGivingPage() {
                   <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{p.desc}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors on giving, generosity, and biblical stewardship.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "oBuDK7bQB-4", title: "What Does the Bible Say About Giving Money?", channel: "Desiring God / John Piper", description: "John Piper walks through key biblical texts on giving and generosity, showing why cheerful giving is rooted in the gospel." },
+                  { videoId: "XfM8l_Gxo-E", title: "The Truth About Tithing", channel: "Voddie Baucham", description: "Voddie Baucham on what the Bible actually teaches about tithing — cutting through common misconceptions with careful exegesis." },
+                  { videoId: "ErE0o6g7Fks", title: "Teaching Children About Tithes and Offerings", channel: "Desiring God", description: "Practical wisdom on how to train children in generosity and the spiritual habit of giving from an early age." },
+                  { videoId: "vT4XMSgD2_w", title: "David Platt & John Piper — Materialism of Our Hearts", channel: "Desiring God", description: "A conversation on how materialism competes with the gospel for the heart — and why generosity is the antidote." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

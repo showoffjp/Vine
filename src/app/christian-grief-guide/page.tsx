@@ -9,7 +9,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "stages" | "scripture" | "community";
+type Tab = "theology" | "stages" | "scripture" | "community" | "videos";
 
 // ─── Tab 1: Theology of Grief ─────────────────────────────────────────────────
 
@@ -227,6 +227,7 @@ export default function ChristianGriefGuidePage() {
     { id: "stages", label: "Stages & Forms" },
     { id: "scripture", label: "Scripture for the Grieving" },
     { id: "community", label: "Grieving in Community" },
+    { id: "videos", label: "🎬 Videos" },
   ];
 
   return (
@@ -450,6 +451,41 @@ export default function ChristianGriefGuidePage() {
                   </p>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {/* ── Tab 5: Videos ── */}
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors on grief, suffering, and hope.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "3DoW8ntjSbA", title: "Walking with God through Pain and Suffering", channel: "Timothy Keller", description: "A comprehensive talk on how Christians can walk faithfully with God through seasons of deep pain and loss." },
+                  { videoId: "F_Wkilqwjjo", title: "Two Grieving Sisters Encounter Jesus", channel: "Timothy Keller", description: "Tim Keller preaches on the story of Mary and Martha at the tomb of Lazarus — a profound meditation on grief and resurrection." },
+                  { videoId: "XCzd0qF3Mlg", title: "Questions of Suffering", channel: "Timothy Keller", description: "A sermon addressing the hardest theological questions that arise when we or those we love suffer deeply." },
+                  { videoId: "ulmaUtbayGY", title: "How to Deal with Dark Times", channel: "Timothy Keller", description: "Keller offers pastoral wisdom for navigating spiritual darkness, drawing on Psalm 88 and the tradition of lament." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

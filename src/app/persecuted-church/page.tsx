@@ -129,10 +129,20 @@ const ORGS = [
   { name: "Elam Ministries", desc: "Focused specifically on the Middle East, particularly Iran. Supports the rapidly growing underground Iranian church through discipleship resources, training, and broadcasting.", url: "https://www.elam.com/", focus: "Iran / Middle East" },
 ];
 
+const WITNESSES = [
+  { id: "polycarp-p", name: "Polycarp of Smyrna", era: "c. 69-155", context: "Bishop of Smyrna; disciple of the Apostle John; one of the earliest detailed martyrdom accounts", bio: "Polycarp was bishop of Smyrna and a disciple of the Apostle John — which makes him one of the last direct links between the apostolic generation and the early church. When he was arrested at age 86, the Roman proconsul urged him to renounce Christ and be released. His response is one of the most famous sentences in early Christian history: 'Eighty-six years I have served him, and he has done me no wrong. How then can I blaspheme my King who saved me?' He was burned at the stake, and when the flames reportedly did not consume him, he was stabbed. The Martyrdom of Polycarp is the earliest detailed Christian martyrdom account outside the New Testament.", quote: "Eighty-six years I have served him, and he has done me no wrong. How then can I blaspheme my King who saved me?", contribution: "Demonstrated in death what he had demonstrated in life: that Christian loyalty to Christ cannot be revoked by political power. His martyrdom account became the template for how the early church told the stories of its witnesses." },
+  { id: "perpetua", name: "Perpetua and Felicitas", era: "d. 203", context: "Carthage; executed in the arena under Emperor Septimius Severus", bio: "Vibia Perpetua was a 22-year-old noblewoman, nursing mother, and new Christian convert who was arrested in Carthage in 203 AD along with her slave Felicitas (who gave birth days before their execution) and several other catechumens. The Passion of Perpetua and Felicitas — part of which appears to have been written by Perpetua herself in prison — is one of the earliest documents we have written by a Christian woman. She refused repeated appeals from her father to recant, was imprisoned with her newborn, had visions, and was ultimately executed in the arena during games celebrating the emperor's birthday.", quote: "We were condemned to the beasts, and we returned to prison in high spirits. Then came the day of their victory, and they marched from the prison to the amphitheater joyfully as though they were going to heaven.", contribution: "The Passion of Perpetua is one of the most extraordinary early Christian documents — a first-person account of arrest, imprisonment, visions, and impending martyrdom by a young mother who chose death over apostasy. It demonstrates that persecution touched women, slaves, and young mothers, not only male church leaders." },
+  { id: "wurmbrand", name: "Richard Wurmbrand", era: "1909-2001", context: "Tortured for Christ (1967); Voice of the Martyrs founder; Romanian Lutheran pastor", bio: "Wurmbrand was a Romanian Jewish convert to Christianity who spent 14 years in Communist prisons — including three years in solitary confinement — for his faith. After his release and emigration to the West, he appeared before the US Senate subcommittee on Communist exploitation of religion, stripped off his shirt to show 18 deep scars from torture, and founded Voice of the Martyrs to advocate for persecuted Christians worldwide. His Tortured for Christ remains the most widely read firsthand account of Communist persecution of Christians.", quote: "The cruelest thing the Communists did to us was not the physical torture — it was trying to make us betray our brothers and sisters. But love is stronger than fear.", contribution: "Founded the modern Western awareness of the persecuted church. Voice of the Martyrs — which he established in 1967 — remains the largest organization in the world dedicated to serving persecuted Christians, operating in 70+ countries." },
+  { id: "ten-boom", name: "Corrie ten Boom", era: "1892-1983", context: "The Hiding Place (1971); Dutch Reformed watchmaker who hid Jews during WWII", bio: "Ten Boom hid Jewish refugees in a secret room in her family's watch shop in Haarlem, Netherlands during the Nazi occupation. Betrayed in 1944, she and her family were arrested; her father died in prison days later, her sister Betsie died in Ravensbrück concentration camp. Corrie survived and spent the rest of her long life speaking worldwide about forgiveness and the love of God in the darkest suffering. Her account of meeting a former Nazi guard after the war — and choosing to extend the forgiveness she had just spoken about — is one of the most powerful testimonies to the reality of Christian grace.", quote: "No pit is so deep that He is not deeper still; with Jesus, even in our darkest moments, the best remains and the very best is yet to be.", contribution: "Made the theology of forgiveness in the face of genuine evil credible through personal testimony. The Hiding Place has been translated into dozens of languages and has introduced more people to Christian forgiveness as a response to persecution than any other 20th-century memoir." },
+  { id: "elliot-j", name: "Jim Elliot", era: "1927-1956", context: "Martyred by the Auca (Huaorani) people in Ecuador; five missionaries killed January 8, 1956", bio: "Jim Elliot, along with four other missionaries, was killed by the Huaorani people of Ecuador in January 1956 while attempting first contact. His wife Elisabeth Elliot later returned to live among the people who killed her husband — a witness to forgiveness that resulted in the conversion of many, including some who had participated in the killings. Jim's journals, published by Elisabeth as Shadow of the Almighty, contain some of the most searching meditations on martyrdom, mission, and the cost of discipleship in modern evangelical literature.", quote: "He is no fool who gives what he cannot keep to gain what he cannot lose.", contribution: "Became the defining image of evangelical missionary sacrifice in the second half of the 20th century. The Ecuador martyrdoms — and Elisabeth Elliot's subsequent return and forgiveness — inspired a generation of missionaries and gave the American church a contemporary martyrdom narrative." },
+];
+
 export default function PerisecutedChurchPage() {
   const [region, setRegion] = useState("All");
   const [selected, setSelected] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<"countries" | "orgs" | "prayer">("countries");
+  const [activeTab, setActiveTab] = useState<"countries" | "witnesses" | "orgs" | "prayer" | "videos">("countries");
+  const [selectedWitness, setSelectedWitness] = useState("polycarp-p");
+  const witnessItem = WITNESSES.find(w => w.id === selectedWitness)!;
 
   const filtered = COUNTRIES.filter(c => region === "All" || c.region === region);
   const country = COUNTRIES.find(c => c.country === selected);
@@ -151,8 +161,10 @@ export default function PerisecutedChurchPage() {
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
             { id: "countries" as const, label: "Countries", icon: "🌍" },
+            { id: "witnesses" as const, label: "Witnesses", icon: "✝️" },
             { id: "orgs" as const, label: "Organizations", icon: "🤝" },
             { id: "prayer" as const, label: "How to Pray", icon: "🙏" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -243,6 +255,35 @@ export default function PerisecutedChurchPage() {
           </div>
         )}
 
+        {activeTab === "witnesses" && (
+          <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
+            <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
+              {WITNESSES.map(v => (
+                <button key={v.id} onClick={() => setSelectedWitness(v.id)}
+                  style={{ background: selectedWitness === v.id ? PURPLE : CARD, border: `1px solid ${selectedWitness === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: TEXT, fontWeight: 700, fontSize: 14 }}>{v.name}</div>
+                  <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{v.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 28 }}>
+                <h2 style={{ color: GREEN, fontWeight: 900, fontSize: 22, margin: "0 0 4px" }}>{witnessItem.name}</h2>
+                <div style={{ color: PURPLE, fontSize: 13, fontWeight: 700, marginBottom: 6 }}>{witnessItem.era}</div>
+                <div style={{ color: MUTED, fontSize: 13, marginBottom: 16 }}>{witnessItem.context}</div>
+                <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 15, marginBottom: 20 }}>{witnessItem.bio}</p>
+                <div style={{ background: BG, borderLeft: `3px solid ${GREEN}`, borderRadius: "0 8px 8px 0", padding: "14px 18px", marginBottom: 20 }}>
+                  <p style={{ color: GREEN, fontStyle: "italic", fontSize: 15, lineHeight: 1.7, margin: 0 }}>&ldquo;{witnessItem.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: `${PURPLE}15`, borderRadius: 10, padding: 16 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>Legacy and Contribution</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, margin: 0 }}>{witnessItem.contribution}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {activeTab === "orgs" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 16 }}>
@@ -287,6 +328,40 @@ export default function PerisecutedChurchPage() {
                 <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{item.body}</p>
               </div>
             ))}
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Documentaries, testimonies, and teachings on the persecuted church — stories that call us to stand with our suffering brothers and sisters.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "_xo_umOy2Ik", title: "When Faith Is Tested — Stories from the Persecuted Church", channel: "Voice of the Martyrs", description: "Todd Nettleton of Voice of the Martyrs shares first-hand stories of believers whose faith has been tested by violence, imprisonment, and loss — and who have not abandoned Christ." },
+                  { videoId: "mFtsQES8txw", title: "Faith Under Fire: Stories of Persecuted Christians", channel: "Voice of the Martyrs (Todd Nettleton)", description: "A series of powerful testimonies from persecuted believers around the world, drawn from decades of field reporting by Voice of the Martyrs." },
+                  { videoId: "JZe3oVZUifw", title: "Life as a Persecuted Christian in North Korea: Bae's Story", channel: "Open Doors UK & Ireland", description: "Bae faces a lifetime sentence of hard labor for her faith in North Korea — ranked the world's most dangerous country for Christians. Her story calls the global church to pray." },
+                  { videoId: "-F8ITaF-Yxg", title: "Persecuted Pastor Brutally Beaten, Imprisoned Before 'Mind-Blowing' Miracle", channel: "CBN / Christian News", description: "A pastor's harrowing account of imprisonment and violence for his faith — and the miraculous story of what God did in and through it. A testimony of the power of faithfulness under fire." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

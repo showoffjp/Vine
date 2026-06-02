@@ -77,7 +77,7 @@ const PRACTICES = [
   { title: "Work with Delight", desc: "Colossians 3:23 transforms work into worship. When you do your work as for the Lord rather than for approval, it is accompanied by the joy of serving the right audience.", verse: "Colossians 3:23" },
 ];
 
-type Tab = "theology" | "thieves" | "stories" | "practices";
+type Tab = "theology" | "thieves" | "stories" | "practices" | "videos";
 
 export default function JoyPage() {
   const [tab, setTab] = useState<Tab>("theology");

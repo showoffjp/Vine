@@ -178,6 +178,14 @@ const partners: Partner[] = [
   },
 ];
 
+const VOICES_PP = [
+  { id: "intercess-bounds", name: "E.M. Bounds", era: "1835-1913", context: "Power Through Prayer; The Necessity of Prayer — on sustained, partnered intercession", bio: "E.M. Bounds's writings on prayer, though primarily addressed to individual intercessors, contain some of the most powerful treatment of corporate and partnered prayer in evangelical literature. Bounds argued that the most powerful prayer is specific, sustained, and shared — where two or more agree together in a common petition over an extended period. His account of the prayer partnerships that shaped great revival movements (particularly the 18th-century awakenings) showed that prayer partnership is not a devotional nicety but a spiritual discipline with historical consequences. His description of how prayer partners supported Whitefield and Wesley's revival preaching has inspired prayer partnership movements across denominations.", quote: "When two agree to pray — really agree, not just coincidentally ask for the same thing — heaven takes notice. The prayer of agreement is the most powerful force in the universe.", contribution: "Bounds's writings on corporate and partnered prayer gave the prayer partnership movement its theological foundation. His conviction that shared, sustained intercession has historically preceded and accompanied every great spiritual awakening has been used by prayer movements worldwide to motivate believers toward disciplined, ongoing prayer partnerships." },
+  { id: "havner-v", name: "Vance Havner", era: "1901-1986", context: "All the Days; Though I Walk Through the Valley — on the solace and power of prayer partnership in hardship", bio: "Vance Havner, a revival preacher and beloved Southern Baptist pastor, wrote movingly about prayer partnership from personal experience. After his wife Sara died, he wrote Though I Walk Through the Valley — a meditation on grief, faith, and the sustaining power of prayer — that showed what prayer partnership looks like in the valley as much as on the mountaintop. Havner and Sara had prayed together daily throughout their marriage, and his grief after her death was inseparable from the loss of his primary prayer partner. His writing on prayer partnership is therefore grounded in the deepest human experience of what it means to have someone pray with you through every season of life.", quote: "The greatest gift one Christian can give another is to pray with them — not just for them. To kneel together is to know each other in the deepest way.", contribution: "Havner's testimony about prayer partnership in his marriage and ministry has inspired countless believers to take their prayer relationships more seriously. His honest account of what it costs to lose a prayer partner — and what it meant to have had one — has been used by many pastors and teachers to motivate Christians to invest in regular prayer partnerships." },
+  { id: "yancey-ppart", name: "Philip Yancey", era: "b. 1949", context: "Prayer: Does It Make Any Difference? (2006) — on accountability in prayer partnership", bio: "Philip Yancey devoted significant attention in Prayer: Does It Make Any Difference? to the role of prayer partnerships in sustaining an active prayer life. His honest admission that he struggles to pray alone — and that his most consistent prayer practice has been in partnership with others — resonated with millions of readers who had the same experience. Yancey argued that prayer partnership provides accountability, breadth (the partner prays for things you wouldn't think to pray for), and encouragement in the face of unanswered prayer. His practical suggestions for prayer partnership — including what to do when partners disagree about how to pray — have been widely adopted in small groups and church prayer ministries.", quote: "I pray best with a partner. Alone, my mind wanders and my faith falters. With someone else, I am held — held accountable, held up, held to it. Prayer partnership is the grace of not having to pray alone.", contribution: "Yancey's honest treatment of prayer partnership gave permission to the many Christians who struggle to pray alone to seek out partners without feeling spiritually inadequate. His practical framework for what makes prayer partnerships work — and why they sometimes don't — has been used by small group leaders and pastoral counselors worldwide." },
+  { id: "foster-prayer", name: "Richard Foster", era: "b. 1942", context: "Prayer: Finding the Heart's True Home (1992) — on intercessory prayer partnerships", bio: "Richard Foster's Prayer devotes extended attention to intercessory prayer as a shared practice — the discipline of bearing one another's burdens in prayer over time. Foster drew on the Quaker tradition of centered prayer and the monastic tradition of the Divine Office to show how structured, shared prayer can deepen both individual and corporate prayer life. His treatment of 'prayer partners' specifically emphasizes the spiritual discipline of committing to pray for another person consistently over a sustained period — not the casual exchange of prayer requests but genuine sustained intercession. Foster's own experience in Quaker communities, where shared silence and shared prayer are the heart of worship, gave his treatment of prayer partnership an experiential depth.", quote: "To pray for another person over time is one of the most costly and most transforming acts of love. It changes the one prayed for — but it changes the one who prays even more.", contribution: "Foster's Prayer gave the prayer partnership practice a contemplative theological depth that more activist treatments often lack. His integration of the Quaker tradition of shared silence, the monastic tradition of fixed-hour prayer, and the evangelical tradition of specific intercession gave prayer partners a rich repertoire of practices beyond simple conversational petition." },
+  { id: "hybels-ppart", name: "Bill Hybels", era: "b. 1951", context: "Too Busy Not to Pray (1988) — on prayer partnership as pastoral accountability", bio: "Bill Hybels's Too Busy Not to Pray included one of the most widely read sections on prayer partnership in 20th-century evangelical literature — the chapter on 'praying with a partner.' Hybels argued that prayer partnership is not a luxury but a necessity for sustained spiritual vitality, and his account of his own prayer partnerships in leading Willow Creek gave the practice credibility in the pragmatic evangelical culture of the 1980s and 1990s. His practical suggestions — meeting weekly, sharing specific requests, following up on previous prayers, holding each other accountable to personal spiritual disciplines — were adopted by small group ministries, pastoral teams, and individual believers across the evangelical world.", quote: "The prayer partner who holds you accountable to pray is worth more to your spiritual life than any number of spiritual conferences or books. Accountability is the secret of sustained prayer.", contribution: "Hybels's treatment of prayer partnership in Too Busy Not to Pray gave the practice practical credibility in evangelical leadership culture. His model of weekly accountability-based prayer partnership, developed in his own pastoral practice, was adopted by thousands of churches as a framework for small group prayer, staff accountability, and lay leadership development." },
+];
+
 const focusAreaOptions = ["All", "Healing", "Family", "Nations", "Youth", "Mental Health", "Missions", "Revival", "Justice", "Marriage"];
 const frequencyOptions = ["Any", "Daily", "3x per week", "Weekly", "2x per week"];
 
@@ -188,7 +196,9 @@ export default function PrayerPartnerPage() {
   const [selectedPartner, setSelectedPartner] = useState<Partner | null>(null);
   const [filterFocus, setFilterFocus] = useState("All");
   const [filterFreq, setFilterFreq] = useState("Any");
-  const [activeTab, setActiveTab] = useState<"find" | "my-partners" | "sessions">("find");
+  const [activeTab, setActiveTab] = useState<"find" | "my-partners" | "sessions" | "voices">("find");
+  const [selectedVoice, setSelectedVoice] = useState("intercess-bounds");
+  const voiceItem = VOICES_PP.find(v => v.id === selectedVoice)!;
   const [sessionModal, setSessionModal] = useState<Partner | null>(null);
   const [sessionForm, setSessionForm] = useState({ duration: 20, topic: "", verse: "", notes: "" });
 
@@ -284,7 +294,7 @@ export default function PrayerPartnerPage() {
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "28px 24px" }}>
         {/* Tabs */}
         <div style={{ display: "flex", background: "#12121F", border: "1px solid #1E1E32", borderRadius: 10, padding: 4, gap: 4, marginBottom: 24, maxWidth: 500 }}>
-          {([["find", "Find Partners"], ["my-partners", `My Partners (${myPartners.length})`], ["sessions", `Sessions (${sessions.length})`]] as const).map(([tab, label]) => (
+          {([["find", "Find Partners"], ["my-partners", `My Partners (${myPartners.length})`], ["sessions", `Sessions (${sessions.length})`], ["voices", "Voices"]] as const).map(([tab, label]) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
@@ -480,6 +490,34 @@ export default function PrayerPartnerPage() {
                 </div>
               </>
             )}
+          </div>
+        )}
+        {activeTab === "voices" && (
+          <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
+            <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
+              {VOICES_PP.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ background: selectedVoice === v.id ? "#6B4FBB" : "#12121F", border: `1px solid ${selectedVoice === v.id ? "#6B4FBB" : "#1E1E32"}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: "#F2F2F8", fontWeight: 700, fontSize: 14 }}>{v.name}</div>
+                  <div style={{ color: "#9898B3", fontSize: 12, marginTop: 2 }}>{v.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 28 }}>
+                <h2 style={{ color: "#00FF88", fontWeight: 900, fontSize: 22, margin: "0 0 4px" }}>{voiceItem.name}</h2>
+                <div style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 700, marginBottom: 6 }}>{voiceItem.era}</div>
+                <div style={{ color: "#9898B3", fontSize: 13, marginBottom: 16 }}>{voiceItem.context}</div>
+                <p style={{ color: "#F2F2F8", lineHeight: 1.8, fontSize: 15, marginBottom: 20 }}>{voiceItem.bio}</p>
+                <div style={{ background: "#07070F", borderLeft: "3px solid #00FF88", borderRadius: "0 8px 8px 0", padding: "14px 18px", marginBottom: 20 }}>
+                  <p style={{ color: "#00FF88", fontStyle: "italic", fontSize: 15, lineHeight: 1.7, margin: 0 }}>&ldquo;{voiceItem.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: "rgba(107,79,187,0.15)", borderRadius: 10, padding: 16 }}>
+                  <div style={{ color: "#6B4FBB", fontWeight: 700, fontSize: 13, marginBottom: 6 }}>Legacy and Contribution</div>
+                  <p style={{ color: "#F2F2F8", fontSize: 14, lineHeight: 1.7, margin: 0 }}>{voiceItem.contribution}</p>
+                </div>
+              </div>
+            </div>
           </div>
         )}
       </div>

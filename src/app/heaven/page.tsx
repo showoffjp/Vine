@@ -9,7 +9,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "misunderstandings" | "voices" | "living";
+type Tab = "theology" | "misunderstandings" | "voices" | "living" | "videos";
 
 const THEOLOGY_ITEMS = [
   {
@@ -178,6 +178,7 @@ export default function HeavenPage() {
     { id: "misunderstandings" as Tab, label: "Correcting Myths", icon: "⚖️" },
     { id: "voices" as Tab, label: "Great Christian Voices", icon: "🎓" },
     { id: "living" as Tab, label: "Living with Eternal Hope", icon: "✨" },
+    { id: "videos" as Tab, label: "Videos", icon: "🎬" },
   ];
 
   return (
@@ -314,6 +315,40 @@ export default function HeavenPage() {
               <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>
                 Revelation 22 ends with a river of life flowing through the city, the tree of life bearing fruit for the healing of the nations, and the face of God seen at last without mediation. This is the telos — the goal toward which all of history moves. The Christian life is not treading water until this arrives; it is participating in its arrival. Every prayer, every act of love, every moment of justice is a stitch in the tapestry of the new creation that God is weaving.
               </p>
+            </div>
+          </div>
+        )}
+
+        {tab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "in9PgXqYbeA", title: "The Hope of Heaven", channel: "John Piper, Scott Swain & Randy Alcorn", description: "A Gospel Coalition conversation on the Christian hope of heaven — the resurrection body, the new earth, and what it means to be with Christ forever." },
+                  { videoId: "EkGNQKICp-I", title: "Blessed Hope: Resurrection and Eternal Life", channel: "John Piper / Desiring God", description: "John Piper preaches on the resurrection as the anchor of Christian hope — not escape from the body but bodily resurrection into a renewed creation." },
+                  { videoId: "fTyW7Vit_9M", title: "Heaven", channel: "Randy Alcorn", description: "Randy Alcorn teaches on what Scripture actually says about heaven — correcting popular myths and showing the physical, relational, joyful reality of the new creation." },
+                  { videoId: "XdhlYZLqom8", title: "How Heaven Energizes the Unwasted Life", channel: "Randy Alcorn / Desiring God", description: "Randy Alcorn shows how the genuine hope of heaven motivates faithful, fruitful living now — the future pulls us forward into present obedience and love." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

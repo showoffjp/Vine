@@ -46,8 +46,19 @@ const LIFE_HACKS = [
 
 const CATEGORIES = ["All", "Bible", "Prayer", "App", "Journaling", "Community", "Habit", "Digital", "Podcast", "Reading"];
 
+const PODCASTS = [
+  { name: "Ask Pastor John", host: "John Piper", freq: "Daily", desc: "John Piper answers a listener question every weekday — spanning theology, life, relationships, suffering, and Scripture. Over 1,900 episodes. The deepest daily podcast in Christian media. Searchable by topic.", focus: "Theology & Life", color: PURPLE },
+  { name: "The Bible Project Podcast", host: "Tim Mackie & Jon Collins", freq: "Weekly", desc: "Extended, detailed exploration of the themes, literary structures, and theology behind the Bible Project's animated videos. Tim Mackie's Bible scholarship made accessible. One of the best resources for understanding Scripture's big picture.", focus: "Biblical Theology", color: GREEN },
+  { name: "The Briefing", host: "Al Mohler", freq: "Daily", desc: "20-30 minutes of news analysis from a distinctly Christian worldview. Mohler surveys major news stories and cultural developments through the lens of Christian theology and ethics. Five days a week; indispensable for Christians who want to think carefully about the world.", focus: "Culture & Ethics", color: "#EF4444" },
+  { name: "Truth For Life", host: "Alistair Begg", freq: "Daily", desc: "Alistair Begg's expository preaching from Parkside Church — warm, faithful, and deeply textual. Daily episodes run 20-25 minutes. One of the finest preachers in English. Decades of content available free.", focus: "Expository Preaching", color: "#F59E0B" },
+  { name: "The Gospel Coalition Podcast", host: "Multiple Hosts", freq: "Weekly", desc: "Interviews, panel discussions, and cultural commentary from TGC's network. Features pastors, theologians, and authors on theology, church life, and cultural engagement. Wide range of Reformed evangelical voices.", focus: "Theology & Culture", color: "#3B82F6" },
+  { name: "Mere Fidelity", host: "Alastair Roberts, Andrew Wilson et al.", freq: "Biweekly", desc: "Serious theological and cultural discussion from a classically Orthodox Anglican perspective. Episodes go deep on hermeneutics, ethics, ecclesiology, and culture. For the intellectually serious Christian who wants more than surface-level engagement.", focus: "Classical Orthodoxy", color: "#8B5CF6" },
+  { name: "Life & Books & Everything", host: "Kevin DeYoung, Scott Swain, Todd Pruitt", freq: "Weekly", desc: "Reformed pastors discuss books, theology, church life, and cultural issues in a relaxed, collegial format. Warm and substantive. A good model of Christian intellectual friendship.", focus: "Reformed Theology", color: "#10B981" },
+  { name: "The Bible Recap", host: "Tara-Leigh Cobble", freq: "Daily", desc: "Daily 20-minute recap of that day's Bible reading — designed for the Bible Recap reading plan that covers the whole Bible in a year. Accessible, enthusiastic, and faithful. Used by millions; perfect for commutes.", focus: "Bible Reading", color: "#EC4899" },
+];
+
 export default function ChristianMediaHubPage() {
-  const [activeSection, setActiveSection] = useState<"channels" | "websites" | "hacks">("hacks");
+  const [activeSection, setActiveSection] = useState<"channels" | "websites" | "hacks" | "podcasts">("hacks");
   const [hackCat, setHackCat] = useState("All");
 
   const filteredHacks = hackCat === "All" ? LIFE_HACKS : LIFE_HACKS.filter(h => h.category === hackCat);
@@ -65,9 +76,10 @@ export default function ChristianMediaHubPage() {
 
         <div style={{ display: "flex", gap: 6, marginBottom: 36, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
-            { id: "hacks" as const, label: "Christian Life Hacks", icon: "⚡" },
-            { id: "channels" as const, label: "YouTube Channels", icon: "▶️" },
-            { id: "websites" as const, label: "Trusted Websites", icon: "🌐" },
+            { id: "hacks" as const, label: "Life Hacks", icon: "⚡" },
+            { id: "channels" as const, label: "YouTube", icon: "▶️" },
+            { id: "websites" as const, label: "Websites", icon: "🌐" },
+            { id: "podcasts" as const, label: "Podcasts", icon: "🎙️" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveSection(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeSection === t.id ? PURPLE : "transparent", color: activeSection === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -164,6 +176,36 @@ export default function ChristianMediaHubPage() {
                     style={{ background: `${site.color}12`, border: `1px solid ${site.color}25`, color: site.color, padding: "7px 14px", borderRadius: 8, fontSize: 12, fontWeight: 700, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 6 }}>
                     Visit Site →
                   </a>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {activeSection === "podcasts" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 24 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                The best Christian podcasts for theology, preaching, Bible study, and cultural engagement. All free, all worth subscribing. Listen while commuting, exercising, or doing anything that lets your mind be fed.
+              </p>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+              {PODCASTS.map((pod, i) => (
+                <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22 }}>
+                  <div style={{ display: "flex", alignItems: "flex-start", gap: 16, flexWrap: "wrap" }}>
+                    <div style={{ width: 48, height: 48, borderRadius: 12, background: `${pod.color}20`, border: `1px solid ${pod.color}40`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                      <span style={{ fontSize: 20 }}>🎙️</span>
+                    </div>
+                    <div style={{ flex: 1, minWidth: 200 }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", marginBottom: 4 }}>
+                        <span style={{ color: TEXT, fontWeight: 800, fontSize: 16 }}>{pod.name}</span>
+                        <span style={{ background: `${pod.color}15`, color: pod.color, padding: "1px 8px", borderRadius: 8, fontSize: 11, fontWeight: 700 }}>{pod.focus}</span>
+                        <span style={{ background: `${BORDER}`, color: MUTED, padding: "1px 8px", borderRadius: 8, fontSize: 11, fontWeight: 700 }}>{pod.freq}</span>
+                      </div>
+                      <div style={{ color: MUTED, fontSize: 12, marginBottom: 8 }}>Hosted by {pod.host}</div>
+                      <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, margin: 0 }}>{pod.desc}</p>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>

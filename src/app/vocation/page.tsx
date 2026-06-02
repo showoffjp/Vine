@@ -43,7 +43,7 @@ interface VocationEntry {
 }
 
 export default function VocationPage() {
-  const [activeTab, setActiveTab] = useState<"theology" | "calling" | "discern" | "journal">("theology");
+  const [activeTab, setActiveTab] = useState<"theology" | "calling" | "discern" | "journal" | "videos">("theology");
   const [journal, setJournal] = useState<VocationEntry[]>(() => {
     try { const s = localStorage.getItem("vine_vocation_journal"); return s ? JSON.parse(s) : []; } catch { return []; }
   });
@@ -84,6 +84,7 @@ export default function VocationPage() {
             { id: "calling" as const, label: "Types of Calling", icon: "🎯" },
             { id: "discern" as const, label: "Discernment", icon: "🧭" },
             { id: "journal" as const, label: "My Journal", icon: "✍️" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -196,6 +197,41 @@ export default function VocationPage() {
                 ))}
               </div>
             )}
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors on vocation and calling.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "fGH5bhUwMB4", title: "Redefining Work", channel: "Timothy Keller / The Gospel Coalition", description: "Tim Keller unfolds a theology of vocation at The Gospel Coalition's Faith at Work conference — showing how all work participates in God's redemptive purposes." },
+                  { videoId: "rTVIvdBIuLE", title: "Why Work Matters", channel: "Timothy Keller", description: "Keller argues that all Christians are engaged in God's work, not merely those in full-time ministry — and shows what faithful vocation looks like in every sphere of life." },
+                  { videoId: "cFBt5LKClsk", title: "How Can We Discern Our Own Vocation or Calling in Life?", channel: "Christian Teaching", description: "A practical discussion of vocation discernment — how to understand what God is calling you to and how to test that sense of calling against Scripture and community." },
+                  { videoId: "UvSBbOnIeTE", title: "The Theology of Work: What the Bible Says About Vocation", channel: "Christian Teaching", description: "A biblical theology of vocation tracing God's design for work from creation through fall to redemption — and what each stage means for how Christians work today." },
+                  { videoId: "eBLa0s8Nr8o", title: "What Is the Practice of Vocation?", channel: "Christian Teaching", description: "A practical exploration of how to live out your calling day by day — integrating faith, work, and the specific gifts and opportunities God has given you." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

@@ -9,7 +9,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "jesus" | "forms" | "obstacles";
+type Tab = "theology" | "jesus" | "forms" | "obstacles" | "videos";
 
 const THEOLOGY_ITEMS = [
   {
@@ -242,6 +242,7 @@ export default function TheologyOfPrayerPage() {
     { id: "jesus", label: "Jesus on Prayer" },
     { id: "forms", label: "Forms of Prayer" },
     { id: "obstacles", label: "Obstacles to Prayer" },
+    { id: "videos", label: "Videos" },
   ];
 
   return (
@@ -482,6 +483,41 @@ export default function TheologyOfPrayerPage() {
                 </div>
               );
             })}
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors on prayer.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "LnaxpQa1Xyk", title: "Prayer Causes Things to Happen", channel: "Desiring God / John Piper", description: "John Piper unpacks the biblical theology of intercessory prayer — why and how prayer actually causes things to happen in God's sovereign purposes." },
+                  { videoId: "40AiZnMH9Do", title: "Prayer and the Victory of God", channel: "Desiring God / John Piper", description: "Piper shows how prayer is not merely a spiritual practice but a weapon in the cosmic battle — and what it means to pray in partnership with God's purposes." },
+                  { videoId: "4_dCFApRdzY", title: "What Makes the Lord's Prayer a Christian Prayer?", channel: "Desiring God / John Piper", description: "Piper examines what is distinctively Christian about the Lord's Prayer and why its structure is a model for all Christian prayer." },
+                  { videoId: "4K2mPNUWPCQ", title: "Hallowed Be Your Name — The Lord's Prayer, Part 2", channel: "Desiring God / John Piper", description: "A sermon on the opening petition of the Lord's Prayer — what it means to pray that God's name is glorified, adored, and honored as holy throughout the earth." },
+                  { videoId: "9wFp7ytj9g8", title: "Prayer Vocalizes Our Abiding in Christ", channel: "Desiring God / John Piper", description: "Based on John 15:1-11, Piper explores the deep connection between abiding in Christ and the practice of prayer — why prayer is not just a discipline but a relationship." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
 

@@ -4,7 +4,7 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "guide" | "types" | "psalms" | "howto";
+type Tab = "guide" | "types" | "psalms" | "howto" | "videos";
 
 const PSALM_TYPES = [
   { type: "Lament (Individual)", color: "#EF4444", count: "~40 Psalms", examples: "3, 4, 5, 6, 7, 13, 22, 31, 38, 42-43, 51, 55, 57, 61, 64, 69, 71, 86, 88, 102, 109, 130, 140, 141, 142, 143", structure: "Address to God → Complaint → Confession of Trust → Petition → Vow of Praise", why_pray: "These psalms give voice to the darkest interior states — abandonment, betrayal, illness, depression, anger at God. They legitimize the full range of human experience before God and provide language for what feels unspeakable.", example_psalm: 88, example_note: "The only Psalm with no resolution or praise — it ends in darkness. Model for those who cannot yet move to hope." },
@@ -56,10 +56,10 @@ export default function PsalmsAsPrayerPage() {
         </div>
 
         <div style={{ display: "flex", gap: 4, marginBottom: 28, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
-          {(["guide", "types", "psalms", "howto"] as Tab[]).map(t => (
+          {(["guide", "types", "psalms", "howto", "videos"] as Tab[]).map(t => (
             <button key={t} onClick={() => { setTab(t); setSelected(null); }}
               style={{ padding: "8px 16px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
-              {t === "guide" ? "Why Pray Psalms" : t === "types" ? "Psalm Types" : t === "psalms" ? "Key Psalms" : "How to Pray"}
+              {t === "guide" ? "Why Pray Psalms" : t === "types" ? "Psalm Types" : t === "psalms" ? "Key Psalms" : t === "howto" ? "How to Pray" : "Videos"}
             </button>
           ))}
         </div>
@@ -171,6 +171,40 @@ export default function PsalmsAsPrayerPage() {
                 </div>
               </div>
             ))}
+          </div>
+        )}
+
+        {tab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "QgwzuFG5LCk", title: "Let the Psalms Teach You to Pray", channel: "Desiring God", description: "A practical guide to using the Psalter as a school of prayer, letting each psalm shape and expand your vocabulary before God." },
+                  { videoId: "enxKd2YKgjI", title: "How Should You Read the Psalms?", channel: "Desiring God", description: "John Piper explains how to read the Psalms as prayer — slowly, personally, and with Christ as the primary voice." },
+                  { videoId: "3VxyGP7z2rk", title: "If God Is Sovereign, Why Pray?", channel: "Ligonier Ministries", description: "R.C. Sproul shows why God's sovereignty is the foundation of prayer, not an objection to it — rooted in the theology of the Psalms." },
+                  { videoId: "pJG8EWLEjQo", title: "Consistent Spiritual Discipline Is Not Legalism", channel: "Desiring God", description: "John Piper addresses the concern that structured, psalm-based prayer becomes mechanical, showing how discipline flows from desire." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

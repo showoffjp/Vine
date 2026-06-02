@@ -4,7 +4,7 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "theology" | "masterworks" | "architecture" | "contemporary";
+type Tab = "theology" | "masterworks" | "architecture" | "contemporary" | "videos";
 
 const THEOLOGY = [
   { title: "All beauty points to God — the Transcendentals", color: GREEN, content: "Medieval Christian theology identified three transcendental properties of being: Truth, Goodness, and Beauty — each of which is a name of God. Jonathan Edwards wrote that 'the beauty of the world is a communication of God's beauty.' Augustine's Confessions opens with the agonized recognition: 'our heart is restless until it repose in Thee' — that beauty disordered him before it was rightly ordered toward God. Great Christian art does not depict religious content; it participates in divine beauty." },
@@ -143,10 +143,10 @@ export default function ChristianArtGuidePage() {
         </div>
 
         <div style={{ display: "flex", gap: 4, marginBottom: 24, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
-          {(["theology", "masterworks", "architecture", "contemporary"] as Tab[]).map(t => (
+          {(["theology", "masterworks", "architecture", "contemporary", "videos"] as Tab[]).map(t => (
             <button key={t} onClick={() => setTab(t)}
               style={{ padding: "8px 16px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer", textTransform: "capitalize" }}>
-              {t === "theology" ? "Theology of Art" : t === "masterworks" ? "Masterworks" : t === "architecture" ? "Sacred Spaces" : "Contemporary Artists"}
+              {t === "theology" ? "Theology of Art" : t === "masterworks" ? "Masterworks" : t === "architecture" ? "Sacred Spaces" : t === "contemporary" ? "Contemporary Artists" : "🎬 Videos"}
             </button>
           ))}
         </div>
@@ -219,6 +219,40 @@ export default function ChristianArtGuidePage() {
                 <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{c.desc}</p>
               </div>
             ))}
+          </div>
+        )}
+
+        {tab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "lHdViyfMzNo", title: "Makoto Fujimura: Art and Faith", channel: "No Small Endeavor", description: "Renowned Christian artist Makoto Fujimura discusses the theology of art-making, the Incarnation's implications for material creativity, and what it means to make beauty in a broken world." },
+                  { videoId: "heYEh7DwueE", title: "Is God in Charge of Art?", channel: "Francis Schaeffer", description: "Francis Schaeffer challenges evangelicals to take art seriously — arguing that Christians relegated art to the fringe of life and why that must change." },
+                  { videoId: "rMm6NA1v4V8", title: "Art and the Bible: Francis Schaeffer Updated", channel: "L'Abri / Schaeffer Study", description: "An exploration of Schaeffer's landmark work 'Art and the Bible' and why his framework for Christian engagement with art remains vital today." },
+                  { videoId: "WoAE15gtEzg", title: "C.S. Lewis and J.R.R. Tolkien on the Power of Fiction", channel: "Tim Keller", description: "Keller discusses how Lewis and Tolkien understood fiction and imagination as theological categories — sub-creation as participation in the Creator's work." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

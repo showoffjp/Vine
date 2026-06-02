@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import React, { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -75,8 +75,18 @@ const READING_PLANS = [
   { name: "The Seven Penitentials", desc: "Psalms 6, 32, 38, 51, 102, 130, 143 — prayed as a cycle over seven weeks. Used by the church since the early medieval period as preparation for seasons of repentance." },
 ];
 
+const SCHOLARS_PSALMS = [
+  { id: "lewis", name: "C.S. Lewis", era: "1898-1963", context: "Reflections on the Psalms (1958)", bio: "Lewis's Reflections on the Psalms is the most accessible introduction to the Psalms for modern readers. He engages directly with what troubles contemporary readers: the imprecatory psalms (calls for God to destroy enemies), the self-righteousness of some psalms, the apparent celebration of law. His central insight: the Psalms are honest. They bring the full range of human experience — including rage and revenge — before God, which is more spiritually healthy than pretending we don't feel those things.", quote: "I think we delight to praise what we enjoy because the praise not merely expresses but completes the enjoyment; it is its appointed consummation.", contribution: "Made the Psalms accessible to modern readers who found them morally difficult. His handling of the imprecatory psalms — as honest expressions of legitimate anger that need to be brought to God rather than acted on — gave Christians permission to pray the whole Psalter honestly." },
+  { id: "peterson", name: "Eugene Peterson", era: "1932-2018", context: "Answering God: The Psalms as Tools for Prayer (1989); The Message", bio: "Peterson argued that the Psalms are the church's prayer book — not devotional decoration but the structured school in which Christians learn to speak to God. His central claim: prayer is not primarily talking to God but responding to God. The Psalms give us God's own words addressed back to God. He translated the entire Psalter in The Message to make it visceral and immediate, capturing the emotional register of the Hebrew rather than its formal churchiness.", quote: "Prayer is not a technique for getting things from God. The Psalms are prayer material — the raw stuff of the Christian's conversation with God, not formulas to be recited but a language to be learned.", contribution: "Established the Psalms as the primary school of prayer for a generation of pastors and spiritual directors. His emphasis on the Psalms' honesty — including lament, complaint, and rage — gave the contemporary church permission to bring unresolved pain to God." },
+  { id: "kidner", name: "Derek Kidner", era: "1913-2008", context: "Kidner Psalms (Tyndale Old Testament Commentary)", bio: "Kidner's two-volume commentary on the Psalms in the Tyndale series is the finest short commentary on the Psalter for the non-specialist. He combines exegetical precision with spiritual sensitivity — noting the literary structure, the Hebrew wordplay, the historical context, and the theological significance, all in compact, clear prose. His introductory essay on the types of psalms and their use in Christian worship is worth reading on its own.", quote: "The Psalms are the school of prayer. They teach us to address God in the full range of human experience — from ecstasy to despair, from confident trust to bitter complaint.", contribution: "Provided the evangelical church with the most usable one-volume commentary on the Psalms. His work models how to read the Psalms both historically (in their ancient context) and devotionally (as live words for today)." },
+  { id: "brueggemann", name: "Walter Brueggemann", era: "b. 1933", context: "The Message of the Psalms (1984); Columbia Theological Seminary", bio: "Brueggemann's influential interpretive schema divides the Psalms into three movements: orientation (confident praise, settled order), disorientation (lament, chaos, suffering), and new orientation (surprised praise after suffering). He argues that most Christian churches use only orientation and new orientation psalms — skipping lament — and that this impoverishes Christian worship by excluding the actual experience of suffering and doubt. The lament psalm is, for Brueggemann, a form of protest that affirms God's sovereignty even in the act of complaint.", quote: "The lament psalms are the most honest prayers in the Bible. They say what we dare not say in polite church — and they say it to God.", contribution: "Made lament psalms central to Christian spirituality and worship. His orientation/disorientation/new orientation framework has shaped how pastors and spiritual directors understand the emotional arc of the Psalter and of spiritual formation." },
+  { id: "longman", name: "Tremper Longman III", era: "b. 1952", context: "How to Read the Psalms (1988); Regent College", bio: "Longman's How to Read the Psalms is the best introduction to Psalms hermeneutics — how to interpret the Psalms as poetry rather than prose, how to read them in their canonical context, and how to move from original meaning to contemporary application. He pays special attention to the poetic devices the Psalmists use (parallelism, imagery, acrostic structure) and argues that understanding the literary form is essential for understanding the theological content.", quote: "The Psalms are poetry — and poetry means we must slow down, notice the images, and let the form carry its own meaning. You cannot summarize a Psalm without losing it.", contribution: "Gave students and pastors the literary tools necessary to read the Psalms well. His treatment of Hebrew poetry — especially parallelism and imagery — has become standard in seminary education and popular Bible study training." }
+];
+
 export default function PsalmsGuidePage() {
-  const [activeTab, setActiveTab] = useState<"types" | "theology" | "plans">("types");
+  const [activeTab, setActiveTab] = useState<"types" | "theology" | "scholars" | "plans" | "videos">("types");
+  const [selectedScholar, setSelectedScholar] = useState("lewis");
+  const scholarItem = SCHOLARS_PSALMS.find(s => s.id === selectedScholar)!;
   const [selectedType, setSelectedType] = useState("Lament");
 
   const type = TYPES.find(t => t.type === selectedType)!;
@@ -94,9 +104,11 @@ export default function PsalmsGuidePage() {
 
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
-            { id: "types" as const, label: "Types of Psalms", icon: "🗂️" },
+            { id: "types" as const, label: "Types", icon: "🗂️" },
             { id: "theology" as const, label: "Theology", icon: "📖" },
+            { id: "scholars" as const, label: "Scholars", icon: "💬" },
             { id: "plans" as const, label: "Reading Plans", icon: "📅" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -155,6 +167,43 @@ export default function PsalmsGuidePage() {
           </div>
         )}
 
+        {activeTab === "scholars" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 210, flexShrink: 0 }}>
+              {SCHOLARS_PSALMS.map(s => (
+                <button key={s.id} onClick={() => setSelectedScholar(s.id)}
+                  style={{ width: "100%", background: selectedScholar === s.id ? `${PURPLE}18` : "transparent", border: `1px solid ${selectedScholar === s.id ? PURPLE + "80" : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 6, cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: selectedScholar === s.id ? TEXT : MUTED, fontWeight: 700, fontSize: 13 }}>{s.name}</div>
+                  <div style={{ color: MUTED, fontSize: 11, marginTop: 2 }}>{s.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ background: CARD, border: `1px solid ${PURPLE}30`, borderRadius: 14, padding: 28 }}>
+                <div style={{ marginBottom: 18 }}>
+                  <h2 style={{ color: TEXT, fontWeight: 900, fontSize: 22, marginBottom: 4 }}>{scholarItem.name}</h2>
+                  <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                    <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700 }}>{scholarItem.era}</span>
+                    <span style={{ background: `${GREEN}15`, color: GREEN, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700 }}>{scholarItem.context}</span>
+                  </div>
+                </div>
+                <div style={{ marginBottom: 18 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>LIFE & TEACHING</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>{scholarItem.bio}</p>
+                </div>
+                <div style={{ background: BG, borderLeft: `3px solid ${PURPLE}`, borderRadius: "0 10px 10px 0", padding: 18, marginBottom: 18 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 11, marginBottom: 8 }}>CHARACTERISTIC QUOTE</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0, fontStyle: "italic" }}>&ldquo;{scholarItem.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 10, padding: 16 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>CONTRIBUTION</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{scholarItem.contribution}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {activeTab === "plans" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
@@ -175,6 +224,39 @@ export default function PsalmsGuidePage() {
               <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>
                 If you have never read the Psalms intentionally, begin here: Psalm 1 (the gateway), Psalm 22 (the forsaken one who trusts), Psalm 23 (the shepherd psalm), Psalm 51 (the confession), Psalm 100 (pure praise), Psalm 121 (the Lord watches), Psalm 139 (known and searched), Psalm 150 (the final doxology). These eight psalms span the full range of the Psalter and will orient you to its territory.
               </p>
+            </div>
+          </div>
+        )}
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings on the Psalms — how to read them, pray them, and live from them.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "QgwzuFG5LCk", title: "Let the Psalms Teach You to Pray", channel: "Tim Keller", description: "Keller on why the Psalms are the church's prayer book — how they give us language to bring the full range of human experience honestly before God." },
+                  { videoId: "oJgY5YiOBto", title: "Discovering How to Pray the Psalms", channel: "Tim Keller", description: "Practical guidance on using the Psalms as your own prayers — how to inhabit their language, appropriate their honesty, and pray their theology as your own." },
+                  { videoId: "i3vFjcJfurg", title: "How to Pray the Psalms", channel: "Gospel Coalition", description: "A step-by-step guide to praying through individual psalms — including lament psalms, praise psalms, and penitential psalms — with pastoral application." },
+                  { videoId: "_hLI-vUPrEM", title: "Answering God: Psalms as Tools for Prayer", channel: "Eugene Peterson", description: "Eugene Peterson on his landmark book Answering God — how the Psalms are not devotional decoration but a school in which we learn to respond to God in his own words." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

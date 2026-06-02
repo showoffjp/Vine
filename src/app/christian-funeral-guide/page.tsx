@@ -9,7 +9,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "service" | "pastoral" | "resources";
+type Tab = "theology" | "service" | "pastoral" | "resources" | "videos";
 
 const theologyPoints = [
   {
@@ -215,7 +215,8 @@ export default function ChristianFuneralGuidePage() {
     { id: "theology", label: "Theology of Death" },
     { id: "service", label: "The Service" },
     { id: "pastoral", label: "Pastoral Situations" },
-    { id: "resources", label: "Resources" }
+    { id: "resources", label: "Resources" },
+    { id: "videos", label: "🎬 Videos" },
   ];
 
   return (
@@ -347,6 +348,40 @@ export default function ChristianFuneralGuidePage() {
                 )}
               </div>
             ))}
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors on death, funerals, and resurrection hope.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "Os6BbIwrZR8", title: "R.C. Sproul Memorial Service", channel: "Ligonier Ministries", description: "A memorial service honoring Dr. R.C. Sproul, modeling what a gospel-centered funeral looks like in practice." },
+                  { videoId: "J-MXmGZxN7w", title: "John Piper's Funeral Prayer for a Family of Five", channel: "Desiring God", description: "John Piper shares a funeral prayer and pastoral counsel for a family who lost five members in a tragedy." },
+                  { videoId: "AIe9kF2RbJQ", title: "Do You Conduct Funerals for Non-Christians?", channel: "Desiring God", description: "John Piper addresses the hard pastoral question of how to handle funerals for those who showed no faith in Christ." },
+                  { videoId: "0k9kGCmY6Jg", title: "R.C. Sproul's Final Sermon: A Great Salvation", channel: "Ligonier Ministries", description: "Dr. R.C. Sproul's final sermon, preached weeks before his death — a powerful testimony to how Christians face death." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

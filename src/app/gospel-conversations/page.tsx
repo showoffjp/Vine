@@ -88,8 +88,18 @@ const OBJECTIONS = [
   { obj: "I can't believe in a God who sends people to hell", response: "That's a real theological difficulty and I don't want to dismiss it. Can I push back gently on one thing? If God is real, what he actually is like isn't up to our preferences — any more than gravity is. The question isn't 'What kind of God am I comfortable with?' but 'What kind of God actually exists?' Jesus talked about hell more than anyone else in the NT — and also wept over Jerusalem. The person most serious about judgment was also the one who came to take it." },
 ];
 
+const VOICES_GOSP = [
+  { id: "schaeffer", name: "Francis Schaeffer", era: "1912-1984", context: "L'Abri Fellowship; The God Who Is There (1968); Escape from Reason (1968)", bio: "Schaeffer created L'Abri (French: 'the shelter') in the Swiss Alps as a place where intellectually honest seekers could come with their hardest questions and receive serious engagement. His approach to evangelism was entirely different from the tract-and-decision model: he would spend hours — sometimes days — in genuine philosophical conversation before the gospel even came up. His insight was that every person operates from a worldview with internal contradictions, and the evangelist's task is to press on those contradictions until the need for something more coherent becomes apparent. He showed how secular thought systems eventually 'push below the line of despair' — failing on their own terms.", quote: "We must meet people where they really are, not where we think they should be, and enter their thought world as the first step in the conversation.", contribution: "Established intellectual hospitality as an evangelistic discipline. L'Abri demonstrated that taking people's questions seriously — rather than deflecting them with easy answers — is itself a form of witness, and that the gosple can withstand rigorous intellectual scrutiny." },
+  { id: "pippert", name: "Rebecca Manley Pippert", era: "b. 1945", context: "Out of the Saltshaker (1979); IVF staff evangelist; speaker and trainer", bio: "Pippert's Out of the Saltshaker is the book that changed how a generation of campus ministry leaders thought about evangelism. Her core argument: Jesus did not run a tract distribution operation — he entered people's lives, ate with sinners, asked questions, told stories, and loved people into the kingdom. Evangelism that doesn't look like Jesus is not Christian evangelism. Her model is relational, curious, and incarnational — showing up in people's actual lives rather than presenting a scripted message to strangers. Her personal stories of evangelism are disarmingly ordinary and deeply convicting.", quote: "Evangelism is not a production. It is a lifestyle. It's being who you are and letting that point to who Jesus is.", contribution: "Recovered the relational and incarnational model of Jesus's own evangelism for campus and lay ministry. Out of the Saltshaker shifted evangelism from a program Christians do to a posture Christians inhabit — and made it accessible to introverts who had been told they couldn't evangelize." },
+  { id: "keller-g", name: "Tim Keller", era: "1950-2023", context: "The Reason for God (2008); Center Church (2012); Redeemer Presbyterian, New York City", bio: "Keller spent decades doing evangelism in Manhattan — one of the most secularly sophisticated cities in America — and his approach was refined in that crucible. The Reason for God answered the intellectual objections of educated secular New Yorkers with historical, philosophical, and cultural arguments of equivalent sophistication. His evangelistic model: begin with the questioner's own framework, find what they already believe that Christianity can fulfill or explain better, and show how the gospel is the most rational account of what they already know. He also insisted that the gathered worship of the church — properly done — is itself an evangelistic event.", quote: "The gospel is not a set of information to be passed on. It is a story of which we are all a part — and invitation to join.", contribution: "Made intellectual apologetic evangelism normative in urban church planting. His model — taking secular objections seriously, engaging culture without capitulating to it — shaped thousands of church planters in secular cities worldwide." },
+  { id: "green", name: "Michael Green", era: "1930-2019", context: "Evangelism in the Early Church (1970); Evangelism Through the Local Church (1990)", bio: "Green was the premier evangelical scholar of early Christian evangelism — his Evangelism in the Early Church traced how the first Christians actually spread the gospel and identified the patterns that made it spread so rapidly. His conclusion: the first Christians evangelized primarily through personal relationships, hospitality, and the quality of their common life — not through professional preachers or public crusades. His later practical books applied this scholarship to contemporary church practice, arguing that every Christian is called to be an evangelist in their network of existing relationships.", quote: "The early church grew not because Christians converted strangers but because they shared the gospel with the people they already knew and loved.", contribution: "Established the historical and biblical case for relational evangelism as the primary New Testament model. His scholarship gave practical evangelism training a historical foundation it had often lacked." },
+  { id: "newman", name: "Randy Newman", era: "b. 1956", context: "Questioning Evangelism (2004); Bringing the Gospel Home (2011); Campus Crusade staff", bio: "Newman developed the questioning evangelism model from his observation that Jesus used questions far more than declarations in his evangelistic encounters. In a postmodern context where truth claims are immediately resisted, asking good questions is often more effective than making good arguments. His model: ask questions that help people discover their own assumptions, find the internal contradictions in their current worldview, and become curious about the gospel on their own terms. This approach also treats the other person as an intelligent adult rather than a conversion target — which is itself a form of respect.", quote: "Asking questions is often more powerful than making statements. Questions invite people into discovery rather than putting them on the defensive.", contribution: "Made the questioning method of evangelism practically accessible to ordinary Christians, not just trained apologists. Questioning Evangelism gave a generation of campus workers a conversational approach they could actually use in real relationships." },
+];
+
 export default function GospelConversationsPage() {
-  const [activeTab, setActiveTab] = useState<"methods" | "objections" | "tips">("methods");
+  const [activeTab, setActiveTab] = useState<"methods" | "voices" | "objections" | "tips" | "videos">("methods");
+  const [selectedVoice, setSelectedVoice] = useState("schaeffer");
+  const voiceItem = VOICES_GOSP.find(v => v.id === selectedVoice)!;
   const [selectedMethod, setSelectedMethod] = useState<string | null>(null);
   const [expanded, setExpanded] = useState<string | null>(null);
   const method = METHODS.find(m => m.name === selectedMethod);
@@ -108,8 +118,10 @@ export default function GospelConversationsPage() {
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
             { id: "methods" as const, label: "Methods", icon: "📋" },
+            { id: "voices" as const, label: "Voices", icon: "💬" },
             { id: "objections" as const, label: "Objections", icon: "❓" },
             { id: "tips" as const, label: "Practical Tips", icon: "💡" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -186,6 +198,35 @@ export default function GospelConversationsPage() {
           </div>
         )}
 
+        {activeTab === "voices" && (
+          <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
+            <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
+              {VOICES_GOSP.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ background: selectedVoice === v.id ? PURPLE : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: TEXT, fontWeight: 700, fontSize: 14 }}>{v.name}</div>
+                  <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{v.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 28 }}>
+                <h2 style={{ color: GREEN, fontWeight: 900, fontSize: 22, margin: "0 0 4px" }}>{voiceItem.name}</h2>
+                <div style={{ color: PURPLE, fontSize: 13, fontWeight: 700, marginBottom: 6 }}>{voiceItem.era}</div>
+                <div style={{ color: MUTED, fontSize: 13, marginBottom: 16 }}>{voiceItem.context}</div>
+                <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 15, marginBottom: 20 }}>{voiceItem.bio}</p>
+                <div style={{ background: BG, borderLeft: `3px solid ${GREEN}`, borderRadius: "0 8px 8px 0", padding: "14px 18px", marginBottom: 20 }}>
+                  <p style={{ color: GREEN, fontStyle: "italic", fontSize: 15, lineHeight: 1.7, margin: 0 }}>&ldquo;{voiceItem.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: `${PURPLE}15`, borderRadius: 10, padding: 16 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>Contribution to Evangelism</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, margin: 0 }}>{voiceItem.contribution}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {activeTab === "objections" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 16 }}>
@@ -228,6 +269,39 @@ export default function GospelConversationsPage() {
                 <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{tip.desc}</p>
               </div>
             ))}
+          </div>
+        )}
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "hLD4kCkme2Q", title: "The Gospel-Centered Church: Evangelism", channel: "Tim Keller", description: "Keller lays out what gospel-centered evangelism looks like — not merely technique but a posture of love for people and confidence in the power of the gospel." },
+                  { videoId: "DHQBoLo31Ns", title: "Evangelism in the 21st Century", channel: "Tim Keller", description: "How to contextualize the gospel for a secular, post-Christian world without compromising it — Keller's framework for reaching people who reject traditional religious categories." },
+                  { videoId: "f_JDoMWZaRk", title: "Messengers", channel: "Timothy Keller", description: "Keller preaches on the disciple's calling as Christ's messenger — what it means to be sent, to speak, and to bear the news that changes everything." },
+                  { videoId: "zNve3Hexh28", title: "How to Bring the Gospel to Post-Christian America", channel: "Tim Keller", description: "Practical guidance for sharing Christ in an increasingly skeptical culture — how the gospel addresses the real questions people are actually asking." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

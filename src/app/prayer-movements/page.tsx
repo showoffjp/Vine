@@ -4,6 +4,8 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
+type Tab = "movements" | "history" | "voices" | "videos";
+
 const TYPE_FILTERS = ["All", "24/7 Prayer Houses", "Missions Prayer", "Intercession Networks", "Youth & Campus", "Historical Movements"];
 
 const MOVEMENTS = [
@@ -156,90 +158,326 @@ const STATS = [
   { label: "Operation World nations covered", value: "232" },
 ];
 
+const PRAYER_HISTORY = [
+  {
+    id: 1,
+    era: "1727-1827",
+    movement: "The Moravian Prayer Watch",
+    location: "Herrnhut, Germany",
+    leader: "Count Zinzendorf",
+    description: "On August 13, 1727, the Moravian Brethren at Herrnhut experienced a powerful outpouring of the Holy Spirit during a communion service. From this moment they launched a 24/7 prayer watch divided into 2-hour shifts, maintained without interruption for 100 years. The prayer watch became the engine of the first large-scale Protestant missions movement, sending missionaries to the Caribbean, Greenland, Africa, and North America.",
+    impact: "100 years of unbroken intercessory prayer; launched modern Protestant missions; inspired John Wesley, Hudson Taylor, and every subsequent 24/7 prayer movement",
+  },
+  {
+    id: 2,
+    era: "1857-1858",
+    movement: "The Prayer Meeting Revival",
+    location: "New York City",
+    leader: "Jeremiah Lanphier",
+    description: "On September 23, 1857, Dutch Reformed layman Jeremiah Lanphier opened a noonday prayer meeting in New York City. The first meeting drew only 6 people. Within weeks it was overflowing. Within months, 10,000 prayer meetings were meeting daily across America. The financial panic of 1857 drove people to their knees, and the revival that followed became the greatest numerical awakening in American history.",
+    impact: "Estimated 1 million conversions in 2 years; transformed cities from New York to Chicago; shaped the theology of the D.L. Moody generation",
+  },
+  {
+    id: 3,
+    era: "1904-1905",
+    movement: "The Welsh Revival",
+    location: "Wales",
+    leader: "Evan Roberts",
+    description: "Twenty-six-year-old Evan Roberts, after years of intense prayer and longing for revival, began preaching across Wales in late 1904. Within months, 100,000 people were converted. The revival was marked by spontaneous singing, public confession of sin, and an absence of preaching — the Holy Spirit seemed to move before any sermon was given. Crime rates plummeted. Taverns emptied. Coal miners reported that their pit ponies could not understand commands because the miners had stopped swearing.",
+    impact: "100,000 conversions in 5 months; dramatic drops in crime, drunkenness, and domestic violence; influenced revival movements in India, Korea, and globally",
+  },
+  {
+    id: 4,
+    era: "1906-1909",
+    movement: "The Azusa Street Revival",
+    location: "Los Angeles",
+    leader: "William Seymour",
+    description: "Son of former slaves William Seymour led a prayer meeting at 312 Azusa Street in Los Angeles beginning April 9, 1906. What began as a small gathering broke into extraordinary manifestations of tongues, healing, and what participants described as an overwhelming divine presence. Services ran three times daily, seven days a week, for three years. People from around the world came and brought the Pentecostal experience home with them.",
+    impact: "Launched the global Pentecostal movement, now the fastest-growing segment of Christianity worldwide with over 500 million adherents",
+  },
+  {
+    id: 5,
+    era: "1907-present",
+    movement: "The Korean Prayer Movement",
+    location: "Pyongyang/Seoul",
+    leader: "Sun Chu Kil",
+    description: "The Great Korean Revival of 1907 began in Pyongyang during extended prayer meetings led by missionary William Blair and Korean pastor Sun Chu Kil. Mass public confession of sin, weeping, and reconciliation between enemies marked the meetings. Out of this revival came a distinctive Korean church practice: the early morning prayer meeting (Saebyeok Gido), gathering before dawn, often at 5am, to seek God before the workday begins. This practice has never ceased.",
+    impact: "Early morning prayer became a Korean church standard; South Korea now sends more Christian missionaries per capita than any nation on earth; Korean megachurches maintain early morning prayer to this day",
+  },
+  {
+    id: 6,
+    era: "1999-present",
+    movement: "The 24/7 Prayer Movement",
+    location: "Global",
+    leader: "Pete Greig",
+    description: "In September 1999, a group of young adults in Chichester, England began praying without stopping — and did not stop for months. Pete Greig, who started the prayer room, wrote the poem The Vision during one of those sessions. That poem, and the movement it sparked, spread across the world. Today 24-7 Prayer International operates in over 120 countries, combining ancient contemplative prayer practices with radical mission in the world's hardest places.",
+    impact: "Continuous prayer rooms in 120 nations; over 100 million prayer sessions logged; the Lectio 365 app serves over 1 million daily users; rediscovering contemplative prayer for a post-Christian generation",
+  },
+];
+
+const VOICES_PRM = [
+  {
+    id: 1,
+    name: "E.M. Bounds",
+    era: "1835-1913",
+    context: "Power Through Prayer, Prayer and Praying Men",
+    bio: "Edward McKendree Bounds was a Methodist Episcopal minister who served as a chaplain in the Confederate Army and spent the last 17 years of his life rising at 4am daily to pray for three hours before breakfast. He wrote 8 books on prayer, none published during his lifetime. He is the most quoted writer on intercessory prayer in the evangelical tradition.",
+    quote: "Prayer is not a preparation for the battle — it is the battle.",
+    contribution: "Defined the theological weight of prayer as the primary work of the church, not supplementary to it. His 8-volume work on prayer remains the deepest and most comprehensive treatment of the subject in English.",
+  },
+  {
+    id: 2,
+    name: "Andrew Murray",
+    era: "1828-1917",
+    context: "With Christ in the School of Prayer, The Prayer Life",
+    bio: "South African Dutch Reformed pastor and author of over 240 books and pamphlets. Murray experienced personal revival during the South African prayer awakening of 1860 and spent the rest of his life teaching on prayer, holiness, and the deeper Christian life. His books circled the globe and still define intercessory prayer for millions.",
+    quote: "Prayer is not monologue but dialogue. God's voice in response to mine is its most essential part.",
+    contribution: "Systematized the theology of intercessory prayer in a way that was both doctrinally rigorous and practically accessible. With Christ in the School of Prayer remains the best introductory book on the subject.",
+  },
+  {
+    id: 3,
+    name: "Rees Howells",
+    era: "1879-1950",
+    context: "Rees Howells: Intercessor (biography by Norman Grubb)",
+    bio: "Welsh coal miner turned missionary who became one of the most remarkable intercessors of the 20th century. Howells founded the Bible College of Wales and believed that intercession was a distinct calling requiring total identification with the object of prayer, full surrender of self-interest, and the ability to prevail in prayer until the answer came. During World War II he led his college community in sustained intercession for key battles.",
+    quote: "The intercessor must be identified with the one for whom he prays, and so he becomes their substitute — bearing what they bear.",
+    contribution: "Defined intercession as a distinct spiritual calling, not merely an intensified form of petition. His understanding of identification, agony, and authority in prayer shaped the global intercession movement.",
+  },
+  {
+    id: 4,
+    name: "Pete Greig",
+    era: "b. 1966",
+    context: "Red Moon Rising, God on Mute",
+    bio: "British pastor, author, and co-founder of 24-7 Prayer International. Greig wrote the poem The Vision that sparked the global 24-7 prayer movement, and has since built one of the most geographically diverse prayer networks in history. His book God on Mute, written during his wife's serious illness, is the most honest and theologically thoughtful book on unanswered prayer in contemporary Christianity.",
+    quote: "I am learning to love the questions themselves, as Rilke says, and to live into the answers.",
+    contribution: "Founded the 24-7 Prayer movement now in 120 nations; wrote the defining contemporary book on unanswered prayer; translated ancient contemplative prayer practices for a post-Christian generation.",
+  },
+  {
+    id: 5,
+    name: "Dutch Sheets",
+    era: "b. 1951",
+    context: "Intercessory Prayer, Watchman Prayer",
+    bio: "American pastor and teacher who has become one of the most systematic and influential teachers on intercession and spiritual warfare prayer in the charismatic-evangelical tradition. His book Intercessory Prayer provides a comprehensive biblical theology of intercession, while Watchman Prayer addresses the specific calling of those who pray for their cities and nations.",
+    quote: "Intercession is not trying to get God to do something He doesn't want to do. It is partnering with God to accomplish what He does want to do.",
+    contribution: "Provided the most systematic biblical theology of intercession available in the charismatic tradition; clarified the relationship between intercession, spiritual warfare, and God's sovereign will.",
+  },
+];
+
+const VIDEOS_PRM = [
+  { id: "sWMjg7CxIKk", title: "Forgotten God Part 1", speaker: "Francis Chan" },
+  { id: "SCUEicqda1g", title: "Forgotten God Part 3: Theology of the Holy Spirit", speaker: "Francis Chan" },
+  { id: "JHdB1dYAteA", title: "Don't Waste Your Life", speaker: "John Piper" },
+  { id: "lsTzXI7cJGA", title: "The Prodigal Sons", speaker: "Tim Keller" },
+  { id: "uuabITeO4l8", title: "Shocking Youth Message", speaker: "Paul Washer" },
+  { id: "by8ykv7-A3c", title: "Supremacy of Christ and Truth", speaker: "Voddie Baucham" },
+];
+
 export default function PrayerMovementsPage() {
+  const [activeTab, setActiveTab] = useState<Tab>("movements");
   const [type, setType] = useState("All");
   const [selected, setSelected] = useState<string | null>(null);
+  const [selectedVoice, setSelectedVoice] = useState<number | null>(null);
 
   const filtered = MOVEMENTS.filter(m => type === "All" || m.type === type);
   const movement = MOVEMENTS.find(m => m.name === selected);
+  const voice = VOICES_PRM.find(v => v.id === selectedVoice);
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 40 }}>
       <div style={{ maxWidth: 1000, margin: "0 auto", padding: "0 20px 60px" }}>
 
-        <div style={{ textAlign: "center", marginBottom: 40 }}>
+        <div style={{ textAlign: "center", marginBottom: 32 }}>
           <div style={{ fontSize: 48, marginBottom: 12 }}>🔥</div>
           <h1 style={{ fontSize: 32, fontWeight: 900, marginBottom: 8 }}>Global Prayer Movements</h1>
           <p style={{ color: MUTED, fontSize: 16, maxWidth: 640, margin: "0 auto" }}>
-            From the Moravian 100-year prayer watch to IHOP to 24-7 Prayer — God is raising up intercessors across the world. The global prayer movement is one of the most significant signs of our time.
+            From the Moravian 100-year prayer watch to IHOP to 24-7 Prayer &mdash; God is raising up intercessors across the world. The global prayer movement is one of the most significant signs of our time.
           </p>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 10, marginBottom: 28 }}>
-          {STATS.map((s, i) => (
-            <div key={i} style={{ background: CARD, border: `1px solid ${GREEN}20`, borderRadius: 10, padding: "14px 16px", textAlign: "center" }}>
-              <div style={{ color: GREEN, fontWeight: 900, fontSize: 22, marginBottom: 4 }}>{s.value}</div>
-              <div style={{ color: MUTED, fontSize: 11, lineHeight: 1.4 }}>{s.label}</div>
-            </div>
-          ))}
-        </div>
-
-        <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 28 }}>
-          {TYPE_FILTERS.map(t => (
-            <button key={t} onClick={() => setType(t)}
-              style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${type === t ? GREEN : BORDER}`, background: type === t ? `${GREEN}15` : "transparent", color: type === t ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
-              {t}
+        {/* Tab bar */}
+        <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
+          {(["movements", "history", "voices", "videos"] as const).map(t => (
+            <button key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+              {t === "movements" ? "Movements" : t === "history" ? "History" : t === "voices" ? "Voices" : "Videos"}
             </button>
           ))}
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: movement ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
-          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            {filtered.map((m, i) => (
-              <button key={i} onClick={() => setSelected(selected === m.name ? null : m.name)}
-                style={{ background: selected === m.name ? `${m.color}12` : CARD, border: `1px solid ${selected === m.name ? m.color + "50" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                  <div style={{ width: 44, height: 44, borderRadius: 10, background: `${m.color}20`, border: `1px solid ${m.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: m.color, fontWeight: 900, fontSize: 9, flexShrink: 0 }}>
-                    {m.initials}
+        {/* MOVEMENTS TAB */}
+        {activeTab === "movements" && (
+          <>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 10, marginBottom: 28 }}>
+              {STATS.map((s, i) => (
+                <div key={i} style={{ background: CARD, border: `1px solid ${GREEN}20`, borderRadius: 10, padding: "14px 16px", textAlign: "center" }}>
+                  <div style={{ color: GREEN, fontWeight: 900, fontSize: 22, marginBottom: 4 }}>{s.value}</div>
+                  <div style={{ color: MUTED, fontSize: 11, lineHeight: 1.4 }}>{s.label}</div>
+                </div>
+              ))}
+            </div>
+
+            <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 28 }}>
+              {TYPE_FILTERS.map(t => (
+                <button key={t} onClick={() => setType(t)}
+                  style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${type === t ? GREEN : BORDER}`, background: type === t ? `${GREEN}15` : "transparent", color: type === t ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
+                  {t}
+                </button>
+              ))}
+            </div>
+
+            <div style={{ display: "grid", gridTemplateColumns: movement ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                {filtered.map((m, i) => (
+                  <button key={i} onClick={() => setSelected(selected === m.name ? null : m.name)}
+                    style={{ background: selected === m.name ? `${m.color}12` : CARD, border: `1px solid ${selected === m.name ? m.color + "50" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                      <div style={{ width: 44, height: 44, borderRadius: 10, background: `${m.color}20`, border: `1px solid ${m.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: m.color, fontWeight: 900, fontSize: 9, flexShrink: 0 }}>
+                        {m.initials}
+                      </div>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
+                          <span style={{ color: TEXT, fontWeight: 800, fontSize: 14 }}>{m.name}</span>
+                        </div>
+                        <div style={{ display: "flex", gap: 8, marginTop: 3, flexWrap: "wrap" }}>
+                          <span style={{ background: `${m.color}15`, color: m.color, padding: "1px 8px", borderRadius: 8, fontSize: 10, fontWeight: 700 }}>{m.type}</span>
+                          <span style={{ color: MUTED, fontSize: 11 }}>Founded {m.founded}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </button>
+                ))}
+              </div>
+
+              {movement && (
+                <div style={{ background: CARD, border: `1px solid ${movement.color}30`, borderRadius: 14, padding: 28, position: "sticky", top: 100 }}>
+                  <h2 style={{ color: movement.color, fontWeight: 900, fontSize: 17, margin: "0 0 2px" }}>{movement.name}</h2>
+                  <div style={{ color: MUTED, fontSize: 13, marginBottom: 14 }}>Founded {movement.founded} &middot; {movement.location}</div>
+
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, marginBottom: 14 }}>{movement.description}</p>
+
+                  <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}15`, borderRadius: 8, padding: 12, marginBottom: 10 }}>
+                    <div style={{ color: GREEN, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>WHAT THEY DO</div>
+                    <p style={{ color: TEXT, fontSize: 13, margin: 0, lineHeight: 1.65 }}>{movement.what_they_do}</p>
                   </div>
-                  <div style={{ flex: 1 }}>
-                    <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
-                      <span style={{ color: TEXT, fontWeight: 800, fontSize: 14 }}>{m.name}</span>
-                    </div>
-                    <div style={{ display: "flex", gap: 8, marginTop: 3, flexWrap: "wrap" }}>
-                      <span style={{ background: `${m.color}15`, color: m.color, padding: "1px 8px", borderRadius: 8, fontSize: 10, fontWeight: 700 }}>{m.type}</span>
-                      <span style={{ color: MUTED, fontSize: 11 }}>Founded {m.founded}</span>
-                    </div>
+
+                  <div style={{ background: `${PURPLE}08`, border: `1px solid ${PURPLE}15`, borderRadius: 8, padding: 10, marginBottom: 10 }}>
+                    <div style={{ color: PURPLE, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>IMPACT</div>
+                    <p style={{ color: TEXT, fontSize: 12, margin: 0, lineHeight: 1.6 }}>{movement.impact}</p>
+                  </div>
+
+                  <div style={{ background: `${movement.color}08`, border: `1px solid ${movement.color}20`, borderRadius: 8, padding: 10 }}>
+                    <div style={{ color: movement.color, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>KEY RESOURCE</div>
+                    <p style={{ color: TEXT, fontSize: 12, margin: 0 }}>{movement.key_resource}</p>
                   </div>
                 </div>
-              </button>
-            ))}
-          </div>
-
-          {movement && (
-            <div style={{ background: CARD, border: `1px solid ${movement.color}30`, borderRadius: 14, padding: 28, position: "sticky", top: 100 }}>
-              <h2 style={{ color: movement.color, fontWeight: 900, fontSize: 17, margin: "0 0 2px" }}>{movement.name}</h2>
-              <div style={{ color: MUTED, fontSize: 13, marginBottom: 14 }}>Founded {movement.founded} · {movement.location}</div>
-
-              <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, marginBottom: 14 }}>{movement.description}</p>
-
-              <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}15`, borderRadius: 8, padding: 12, marginBottom: 10 }}>
-                <div style={{ color: GREEN, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>WHAT THEY DO</div>
-                <p style={{ color: TEXT, fontSize: 13, margin: 0, lineHeight: 1.65 }}>{movement.what_they_do}</p>
-              </div>
-
-              <div style={{ background: `${PURPLE}08`, border: `1px solid ${PURPLE}15`, borderRadius: 8, padding: 10, marginBottom: 10 }}>
-                <div style={{ color: PURPLE, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>IMPACT</div>
-                <p style={{ color: TEXT, fontSize: 12, margin: 0, lineHeight: 1.6 }}>{movement.impact}</p>
-              </div>
-
-              <div style={{ background: `${movement.color}08`, border: `1px solid ${movement.color}20`, borderRadius: 8, padding: 10 }}>
-                <div style={{ color: movement.color, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>KEY RESOURCE</div>
-                <p style={{ color: TEXT, fontSize: 12, margin: 0 }}>{movement.key_resource}</p>
-              </div>
+              )}
             </div>
-          )}
-        </div>
+          </>
+        )}
+
+        {/* HISTORY TAB */}
+        {activeTab === "history" && (
+          <div>
+            <div style={{ marginBottom: 28 }}>
+              <h2 style={{ fontSize: 22, fontWeight: 900, marginBottom: 6 }}>Historical Prayer Movements</h2>
+              <p style={{ color: MUTED, fontSize: 14, margin: 0 }}>
+                The church has always prayed &mdash; but certain seasons of history have been marked by extraordinary corporate intercession that changed nations.
+              </p>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+              {PRAYER_HISTORY.map(h => (
+                <div key={h.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24 }}>
+                  <div style={{ display: "flex", alignItems: "flex-start", gap: 16, marginBottom: 14 }}>
+                    <div style={{ background: `${PURPLE}20`, border: `1px solid ${PURPLE}40`, borderRadius: 8, padding: "4px 12px", flexShrink: 0 }}>
+                      <span style={{ color: PURPLE, fontWeight: 900, fontSize: 12 }}>{h.era}</span>
+                    </div>
+                    <div>
+                      <h3 style={{ color: TEXT, fontWeight: 900, fontSize: 17, margin: "0 0 2px" }}>{h.movement}</h3>
+                      <div style={{ color: MUTED, fontSize: 12 }}>{h.location} &middot; Led by {h.leader}</div>
+                    </div>
+                  </div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: "0 0 12px" }}>{h.description}</p>
+                  <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 8, padding: "10px 14px" }}>
+                    <div style={{ color: GREEN, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>IMPACT</div>
+                    <p style={{ color: TEXT, fontSize: 13, margin: 0, lineHeight: 1.6 }}>{h.impact}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* VOICES TAB */}
+        {activeTab === "voices" && (
+          <div>
+            <div style={{ marginBottom: 28 }}>
+              <h2 style={{ fontSize: 22, fontWeight: 900, marginBottom: 6 }}>Voices on Corporate Prayer</h2>
+              <p style={{ color: MUTED, fontSize: 14, margin: 0 }}>
+                The writers and teachers who have most shaped how the church understands intercession &mdash; from E.M. Bounds rising at 4am to Pete Greig wrestling with unanswered prayer.
+              </p>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: voice ? "210px 1fr" : "1fr", gap: 14, alignItems: "start" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                {VOICES_PRM.map(v => (
+                  <button key={v.id} onClick={() => setSelectedVoice(selectedVoice === v.id ? null : v.id)}
+                    style={{ background: selectedVoice === v.id ? `${PURPLE}18` : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE + "60" : BORDER}`, borderRadius: 10, padding: "14px 16px", cursor: "pointer", textAlign: "left" }}>
+                    <div style={{ color: TEXT, fontWeight: 800, fontSize: 14, marginBottom: 3 }}>{v.name}</div>
+                    <div style={{ color: MUTED, fontSize: 11, marginBottom: 4 }}>{v.era}</div>
+                    <div style={{ color: PURPLE, fontSize: 11, fontStyle: "italic" }}>{v.context}</div>
+                  </button>
+                ))}
+              </div>
+
+              {voice && (
+                <div style={{ background: CARD, border: `1px solid ${PURPLE}30`, borderRadius: 14, padding: 28, position: "sticky", top: 100 }}>
+                  <h3 style={{ color: TEXT, fontWeight: 900, fontSize: 20, margin: "0 0 2px" }}>{voice.name}</h3>
+                  <div style={{ color: MUTED, fontSize: 13, marginBottom: 16 }}>{voice.era} &middot; {voice.context}</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, marginBottom: 16 }}>{voice.bio}</p>
+                  <div style={{ background: `${PURPLE}10`, border: `1px solid ${PURPLE}30`, borderRadius: 8, padding: "14px 18px", marginBottom: 14 }}>
+                    <div style={{ color: PURPLE, fontWeight: 700, fontSize: 10, marginBottom: 6 }}>MEMORABLE QUOTE</div>
+                    <p style={{ color: TEXT, fontSize: 14, fontStyle: "italic", margin: 0, lineHeight: 1.7 }}>
+                      &ldquo;{voice.quote}&rdquo;
+                    </p>
+                  </div>
+                  <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 8, padding: "12px 16px" }}>
+                    <div style={{ color: GREEN, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>CONTRIBUTION</div>
+                    <p style={{ color: TEXT, fontSize: 13, margin: 0, lineHeight: 1.65 }}>{voice.contribution}</p>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* VIDEOS TAB */}
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ marginBottom: 28 }}>
+              <h2 style={{ fontSize: 22, fontWeight: 900, marginBottom: 6 }}>Recommended Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, margin: 0 }}>
+                Foundational messages on prayer, the Holy Spirit, and the Christian life &mdash; from some of the most important teachers of our generation.
+              </p>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(440px, 1fr))", gap: 20 }}>
+              {VIDEOS_PRM.map(v => (
+                <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <iframe
+                    width="100%"
+                    style={{ aspectRatio: "16/9", border: "none", borderRadius: 0, display: "block" }}
+                    src={`https://www.youtube.com/embed/${v.id}`}
+                    title={v.title}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                  <div style={{ padding: "14px 16px" }}>
+                    <div style={{ color: TEXT, fontWeight: 700, fontSize: 14, marginBottom: 3 }}>{v.title}</div>
+                    <div style={{ color: PURPLE, fontSize: 12, fontWeight: 600 }}>{v.speaker}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
       </div>
     </div>
   );

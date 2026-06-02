@@ -9,7 +9,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "types" | "practice" | "history";
+type Tab = "theology" | "types" | "practice" | "history" | "videos";
 
 const theologyPoints = [
   {
@@ -177,7 +177,8 @@ export default function FastingGuidePage() {
     { id: "theology", label: "Biblical Theology" },
     { id: "types", label: "Types of Fasting" },
     { id: "practice", label: "How to Fast" },
-    { id: "history", label: "Church History" }
+    { id: "history", label: "Church History" },
+    { id: "videos", label: "Videos" }
   ];
 
   return (
@@ -341,6 +342,37 @@ export default function FastingGuidePage() {
                 </div>
               </div>
             ))}
+          </div>
+        )}
+        {/* Videos */}
+        {activeTab === "videos" && (
+          <div style={{ maxWidth: 720 }}>
+            <p style={{ color: MUTED, lineHeight: 1.7, marginBottom: 28 }}>
+              Video teachings on fasting — biblical foundations, practical guidance, and testimony from those who have made fasting a regular discipline.
+            </p>
+            <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+              {[
+                { videoId: "AJEoDKK55VY", title: "Fasting for Beginners — A Biblical Guide", channel: "Desiring God", description: "John Piper on the biblical theology of fasting: why Jesus assumed his disciples would fast, what fasting accomplishes spiritually, and practical advice for starting." },
+                { videoId: "_Kq3k1JZjBE", title: "The Spiritual Discipline of Fasting", channel: "Renovaré", description: "Richard Foster on fasting as one of the classical spiritual disciplines — how it trains desire, creates space for God, and what to expect in the practice." },
+                { videoId: "tXOPtQqQiRs", title: "How to Fast: Practical Steps for Every Believer", channel: "Gateway Church", description: "Practical teaching on how to fast — preparing your body, what to do during the fast, how to break it, and how to make fasting a regular rhythm of life." },
+                { videoId: "3kzJRABgLXw", title: "Corporate Fasting: When the Church Fasts Together", channel: "International House of Prayer", description: "Teaching on the biblical and historical practice of corporate fasting — its power, purpose, and how local churches can build fasting into their community life." },
+              ].map(v => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                  <iframe
+                    width="100%"
+                    style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                    src={`https://www.youtube.com/embed/${v.videoId}`}
+                    title={v.title}
+                    allowFullScreen
+                  />
+                  <div style={{ padding: "14px 16px" }}>
+                    <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                    <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                    <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         )}
       </div>

@@ -144,6 +144,186 @@ const plans = [
   { id: "crisis", label: "When Marriage Is Hard", description: "Coming soon — for couples in a difficult season" },
 ];
 
+const VOICES_CD = [
+  {
+    id: "keller-t",
+    name: "Timothy & Kathy Keller",
+    era: "b. 1950 / b. 1951 · Presbyterian",
+    context: "The Meaning of Marriage",
+    bio: "Timothy Keller's The Meaning of Marriage (2011), co-written with his wife Kathy, is the most influential contemporary evangelical treatment of marriage theology. Drawing on the creation narrative, Paul's letter to the Ephesians, and decades of pastoral experience in New York City, the Kellers argue that marriage is not fundamentally a romantic partnership but a covenant that mirrors Christ's relationship to the church. Their treatment of love as commitment rather than feeling, and of marriage as the place where two sinners pursue holiness together, has shaped a generation of couples.",
+    quote: "To be loved but not known is comforting but superficial. To be known and not loved is our greatest fear. But to be fully known and truly loved is — well, a lot like being loved by God. It is what we need more than anything.",
+    contribution: "The Meaning of Marriage gave evangelical couples a theological framework that transformed marriage from a personal preference to a covenantal vocation. The Kellers' honest integration of the gospel into the difficulties of actual marriage — not just the ideal — made it the most trusted pastoral resource for engaged and married couples in its generation.",
+  },
+  {
+    id: "thomas-g",
+    name: "Gary Thomas",
+    era: "b. 1958 · Evangelical",
+    context: "Sacred Marriage",
+    bio: "Gary Thomas's Sacred Marriage (2000) asked a transforming question: 'What if God designed marriage to make us holy more than to make us happy?' Thomas argued that the difficulties of marriage — the friction, the disappointment, the exposure of our selfishness — are not failures of the institution but its primary mechanism. Marriage is a spiritual discipline, and the spouse who aggravates you most is often doing the most profound formation work on your soul. His book has been given to millions of couples entering or struggling in marriage.",
+    quote: "What if God didn't design marriage to be easy? What if God actually designed marriage to make you more like Jesus? And what if your marital problems are God's greatest tool for transforming your soul?",
+    contribution: "Thomas's reframing of marriage as spiritual formation rather than romantic fulfillment gave couples in difficult marriages a theologically grounded reason to persevere. His work shifted the question from 'Am I happy?' to 'Am I becoming more Christlike?' — and in doing so, extended the staying power of countless struggling marriages.",
+  },
+  {
+    id: "gottman-j",
+    name: "John & Julie Gottman",
+    era: "b. 1942 · Research-Based",
+    context: "The Seven Principles for Making Marriage Work",
+    bio: "John Gottman, psychologist and researcher at the University of Washington, spent 40 years studying what makes marriages succeed or fail. His ability to predict divorce with 90%+ accuracy from brief observation led to the development of his Seven Principles framework. While not written from a Christian perspective, his research on contempt, criticism, defensiveness, and stonewalling (the 'Four Horsemen of the Apocalypse' for marriage) maps remarkably onto biblical warnings about pride, harsh words, and hardness of heart.",
+    quote: "The antidote to contempt is a culture of appreciation and respect. Couples who regularly express gratitude and admiration for each other build an emotional buffer that weathers the inevitable conflicts.",
+    contribution: "The Gottmans' research-based approach to marriage gave Christian couples and counselors empirical data to accompany theological argument. Their identification of contempt as the single most corrosive force in marriage aligns with the biblical call to honor one another, and their practical repair tools have been integrated into Christian marriage counseling widely.",
+  },
+  {
+    id: "tripp-pd",
+    name: "Paul David Tripp",
+    era: "b. 1950 · Reformed",
+    context: "What Did You Expect?",
+    bio: "Paul David Tripp's What Did You Expect? (2010) is the most theologically honest treatment of marriage in print. Tripp begins with an unflinching admission: every marriage is a union of two sinners, and the most dangerous expectations in marriage are the ones about your spouse's perfection. His gospel-centered approach acknowledges that marriage exposes our own sin as much as our spouse's — and that the cross is the only sufficient foundation for forgiveness, renewal, and sustainable love.",
+    quote: "Your marriage is always being shaped by some kind of theology. The only question is whether that theology is true or false. Marriage requires a bigger theology than romance.",
+    contribution: "Tripp's application of redemptive counseling principles to marriage gave couples and counselors a framework for understanding marital conflict not just as a communication problem but as a gospel problem. His integration of biblical anthropology — particularly the doctrine of indwelling sin — into marital counseling has made What Did You Expect? a standard text in biblical counseling training.",
+  },
+  {
+    id: "chapmant-g",
+    name: "Gary Chapman",
+    era: "b. 1938 · Baptist",
+    context: "The Five Love Languages",
+    bio: "Gary Chapman, pastor and marriage counselor in Winston-Salem, North Carolina, wrote The Five Love Languages (1992) after three decades of marriage counseling. His observation that people express and receive love in different ways — words of affirmation, acts of service, receiving gifts, quality time, physical touch — gave couples a practical vocabulary for understanding why they felt unloved even in intact marriages. The book has sold over 20 million copies and been translated into 50 languages.",
+    quote: "Seldom do a husband and wife have the same primary love language. We tend to speak our own love language — expressing love in the way we would most want to receive it. But we need to learn our spouse's love language.",
+    contribution: "Chapman's Five Love Languages gave ordinary couples a simple, actionable framework for understanding and improving their marriage. While not primarily a theological work, its practical wisdom aligned with the biblical call to know and serve one's spouse, and it has been integrated into virtually every Christian pre-marital counseling curriculum in the English-speaking world.",
+  },
+];
+
+const PRACTICES_CD: { id: string; title: string; icon: string; frequency: string; time: string; description: string; howto: string[] }[] = [
+  {
+    id: "daily-prayer",
+    title: "Daily Prayer Together",
+    icon: "🙏",
+    frequency: "Daily",
+    time: "5-10 min",
+    description: "Praying together as a couple each morning or night is one of the most transformative habits a marriage can build. Shared prayer creates vulnerability, aligns priorities, and invites God into the ordinary rhythms of your life together.",
+    howto: [
+      "Choose a consistent time — morning before parting or evening before sleep works best for most couples.",
+      "Keep it simple: one person leads, the other agrees. No performance required.",
+      "Each person shares one thing they are grateful for and one thing they are trusting God with.",
+      "Close with a brief prayer for your marriage, your family, and anything pressing on either heart.",
+    ],
+  },
+  {
+    id: "scripture-reading",
+    title: "Scripture Reading Together",
+    icon: "📖",
+    frequency: "Daily",
+    time: "15-20 min",
+    description: "Reading the same passage of Scripture together and sharing one observation each creates a shared spiritual vocabulary and invites the Word into the center of your marriage.",
+    howto: [
+      "Select a book of the Bible to read through together — start with a shorter epistle like Philippians or Colossians.",
+      "Each person reads the passage silently, then one reads it aloud.",
+      "Each person shares one observation: something that stood out, convicted, or encouraged them.",
+      "Close by asking: 'What is one way we could live this out together this week?'",
+    ],
+  },
+  {
+    id: "sabbath-meal",
+    title: "Weekly Sabbath Meal",
+    icon: "🍽️",
+    frequency: "Weekly",
+    time: "1-2 hrs",
+    description: "An intentional Sabbath practice as a couple — no phones, candles lit, gratitude shared, the week reviewed. This ritual creates a weekly rhythm of reconnection and rest that protects the marriage from the erosion of busyness.",
+    howto: [
+      "Set a recurring day and time — Friday evening or Sunday lunch are common anchor points.",
+      "No phones at the table. Light a candle or set something that marks the meal as intentional.",
+      "Each person shares one high and one low from the week, and one thing they are grateful for in the other.",
+      "Close with a short prayer of thanksgiving and rest — nothing needs to be solved at this meal.",
+    ],
+  },
+  {
+    id: "monthly-checkin",
+    title: "Monthly Spiritual Check-in",
+    icon: "💬",
+    frequency: "Monthly",
+    time: "30-60 min",
+    description: "A structured monthly conversation on each person's spiritual state — where they feel close to God, where they feel dry, what they are learning, and what they need from their spouse spiritually.",
+    howto: [
+      "Schedule it like an appointment. Put it on the calendar at the start of each month.",
+      "Each person answers: How is your soul right now? Where do you feel God's presence? Where do you feel distance?",
+      "Share what you are currently reading, praying about, or struggling to believe.",
+      "Ask: 'What is one way I can support your spiritual life this month?' Then actually do it.",
+    ],
+  },
+  {
+    id: "quarterly-retreat",
+    title: "Quarterly Retreat Day",
+    icon: "⛺",
+    frequency: "Quarterly",
+    time: "Half day",
+    description: "Getting away together four times a year — even for a half day — to review your goals, pray over the season ahead, and rest together without the noise of normal life creates a powerful rhythm of intentional marriage leadership.",
+    howto: [
+      "Book a simple location: a cabin, a hotel room, a friend's empty house, or even a park with good weather.",
+      "Review the last three months: What went well? What was hard? What did we learn?",
+      "Pray together for each area of life: faith, marriage, children, finances, health, calling.",
+      "Set 1-3 intentions for the next quarter. Write them down and revisit them at the next retreat.",
+    ],
+  },
+  {
+    id: "covenant-renewal",
+    title: "Annual Marriage Covenant Renewal",
+    icon: "✝️",
+    frequency: "Annual",
+    time: "1-2 hrs",
+    description: "Once a year — on your anniversary or another chosen date — reread your vows, pray over the year together, and celebrate what God has done in and through your marriage.",
+    howto: [
+      "Find your wedding vows or write new ones that reflect where you are now.",
+      "Read them aloud to each other in a quiet, intentional setting.",
+      "Each person prays a prayer of gratitude for the other — specific and personal.",
+      "Share one word that describes your hope for the coming year of marriage, then commit it to God together.",
+    ],
+  },
+];
+
+const SCRIPTURE_CD: { id: string; ref: string; text: string; theme: string; reflection: string }[] = [
+  {
+    id: "gen-2-24",
+    ref: "Genesis 2:24",
+    text: "Therefore a man shall leave his father and his mother and hold fast to his wife, and they shall become one flesh.",
+    theme: "Covenant",
+    reflection: "The leaving, cleaving, and weaving of Genesis 2:24 establishes marriage as a covenant act — not a contract of convenience but a permanent bond that reorders loyalties and identities. The word 'hold fast' in Hebrew carries the image of clinging, of determined attachment. Marriage asks both partners to choose each other above every other human relationship, again and again.",
+  },
+  {
+    id: "eph-5-25-33",
+    ref: "Ephesians 5:25-33",
+    text: "Husbands, love your wives, as Christ loved the church and gave himself up for her... This mystery is profound, and I am saying that it refers to Christ and the church.",
+    theme: "Sacrificial Love",
+    reflection: "Paul's vision of marriage in Ephesians 5 is not a hierarchy of power but a theology of sacrifice. The husband is called to love with the same costly, self-emptying love that took Christ to the cross. When this passage is read primarily as a call to male authority rather than male sacrifice, the weight of its demand is lost. The mystery Paul points to is breathtaking: Christian marriage is a visible sign of the gospel.",
+  },
+  {
+    id: "1cor-13-4-7",
+    ref: "1 Corinthians 13:4-7",
+    text: "Love is patient and kind; love does not envy or boast; it is not arrogant or rude. It does not insist on its own way; it is not irritable or resentful; it does not rejoice at wrongdoing, but rejoices with the truth. Love bears all things, believes all things, hopes all things, endures all things.",
+    theme: "Love's Nature",
+    reflection: "Every phrase of 1 Corinthians 13 is a mirror held up to the face of a marriage. Patient, kind, not irritable, not resentful — these are not aspirational emotions but active choices made in the daily friction of life together. Paul's love is not a feeling that comes and goes; it is a direction of the will. Read this passage slowly and let each phrase become a question: Is this what our love looks like?",
+  },
+  {
+    id: "col-3-18-19",
+    ref: "Colossians 3:18-19",
+    text: "Wives, submit to your husbands, as is fitting in the Lord. Husbands, love your wives, and do not be harsh with them.",
+    theme: "Mutual Submission",
+    reflection: "Read in context of Colossians 3:12-17 — which calls all believers to compassion, humility, meekness, and forbearance — the household code of verses 18-19 is not a hierarchy imposed from outside but an expression of the mutual submission already called for in verse 13. The husband's specific charge is not to lead but not to be harsh. The tenderness required of him is the more demanding call.",
+  },
+  {
+    id: "prov-31-10-12",
+    ref: "Proverbs 31:10-12",
+    text: "An excellent wife who can find? She is far more precious than jewels. The heart of her husband trusts in her, and he will have no lack of gain. She does him good, and not harm, all the days of her life.",
+    theme: "Godly Character",
+    reflection: "The Proverbs 31 woman is not a performance standard but a poem of praise — written by a mother to her son about what to look for, and by extension a portrait of character worth cultivating. The word translated 'excellent' is the Hebrew chayil, meaning strength, valor, and capability. The passage begins not with her productivity but with the trust her husband places in her. Trust is the foundation.",
+  },
+  {
+    id: "eccl-4-9-12",
+    ref: "Ecclesiastes 4:9-12",
+    text: "Two are better than one, because they have a good reward for their toil. For if they fall, one will lift up his fellow. But woe to him who is alone when he falls and has not another to lift him up... And though a man might prevail against one who is alone, two will withstand him — a threefold cord is not quickly broken.",
+    theme: "Partnership",
+    reflection: "Qohelet's wisdom here is earthy and practical before it is romantic: two people can accomplish more, recover faster, and withstand harder pressure than one person alone. The famous threefold cord is not the couple plus a spiritual principle — it is the couple plus God, the third strand that makes the union more than human. Marriage built on that cord has a resilience that purely human partnership cannot manufacture.",
+  },
+];
+
 export default function CouplesDevotionalPage() {
   const [progress, setProgress] = useState<Progress>({
     completedDays: [],
@@ -155,6 +335,9 @@ export default function CouplesDevotionalPage() {
   const [editingName, setEditingName] = useState(false);
   const [nameInput, setNameInput] = useState("");
   const [activeSection, setActiveSection] = useState<"husband" | "wife" | "together">("together");
+  const [mainTab, setMainTab] = useState<"devotionals" | "voices" | "practices" | "scripture">("devotionals");
+  const [selectedVoice, setSelectedVoice] = useState("keller-t");
+  const voiceItem = VOICES_CD.find(v => v.id === selectedVoice)!;
 
   useEffect(() => {
     try {
@@ -229,7 +412,19 @@ export default function CouplesDevotionalPage() {
         )}
       </div>
 
-      <div style={{ maxWidth: 900, margin: "0 auto", padding: "28px 24px" }}>
+      {/* Main tab bar */}
+      <div style={{ borderBottom: "1px solid #1E1E32", background: "#0A0A16", position: "sticky", top: 0, zIndex: 10 }}>
+        <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 24px", display: "flex", gap: 2 }}>
+          {([["devotionals", "💑 Devotionals"], ["practices", "✝️ Practices"], ["scripture", "📖 Scripture"], ["voices", "🎓 Voices"]] as const).map(([key, label]) => (
+            <button key={key} onClick={() => setMainTab(key)}
+              style={{ background: "none", border: "none", borderBottom: mainTab === key ? "2px solid #00FF88" : "2px solid transparent", color: mainTab === key ? "#F2F2F8" : "#9898B3", fontWeight: mainTab === key ? 700 : 500, fontSize: 14, padding: "14px 18px", cursor: "pointer", whiteSpace: "nowrap" }}>
+              {label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {mainTab === "devotionals" && <div style={{ maxWidth: 900, margin: "0 auto", padding: "28px 24px" }}>
         {/* Progress bar */}
         <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 14, padding: 20, marginBottom: 24 }}>
           <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 10 }}>
@@ -309,7 +504,7 @@ export default function CouplesDevotionalPage() {
             );
           })}
         </div>
-      </div>
+      </div>}
 
       {/* Devotional Detail Modal */}
       {selectedDay && (
@@ -385,6 +580,86 @@ export default function CouplesDevotionalPage() {
               </button>
             </div>
           </div>
+        </div>
+      )}
+
+      {mainTab === "voices" && (
+        <div style={{ maxWidth: 900, margin: "0 auto", padding: "28px 24px" }}>
+          <div style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
+            <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 80 }}>
+              {VOICES_CD.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? "rgba(0,255,136,0.4)" : "#1E1E32"}`, background: selectedVoice === v.id ? "rgba(0,255,136,0.08)" : "#12121F", cursor: "pointer" }}>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: selectedVoice === v.id ? "#00FF88" : "#F2F2F8", marginBottom: 2 }}>{v.name}</div>
+                  <div style={{ fontSize: 11, color: "#9898B3" }}>{v.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1, background: "#12121F", border: "1px solid #1E1E32", borderRadius: 16, padding: 28 }}>
+              <div style={{ fontSize: 12, color: "#9898B3", fontStyle: "italic", marginBottom: 6 }}>{voiceItem.context}</div>
+              <h2 style={{ fontSize: 24, fontWeight: 800, marginBottom: 4, color: "#F2F2F8" }}>{voiceItem.name}</h2>
+              <div style={{ fontSize: 13, color: "#9898B3", marginBottom: 20 }}>{voiceItem.era}</div>
+              <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.8, marginBottom: 24 }}>{voiceItem.bio}</p>
+              <div style={{ background: "#07070F", borderRadius: 12, padding: 20, borderLeft: "3px solid #00FF88", marginBottom: 24 }}>
+                <p style={{ fontSize: 15, color: "#E0E0F0", lineHeight: 1.75, fontStyle: "italic" }}>&ldquo;{voiceItem.quote}&rdquo;</p>
+              </div>
+              <div>
+                <div style={{ fontSize: 11, fontWeight: 700, color: "#6B4FBB", textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>Contribution</div>
+                <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.75 }}>{voiceItem.contribution}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {mainTab === "practices" && (
+        <div style={{ maxWidth: 900, margin: "0 auto", padding: "32px 24px" }}>
+          <h2 style={{ fontSize: 26, fontWeight: 700, color: "#F2F2F8", marginBottom: 8 }}>Spiritual Practices for Couples</h2>
+          <p style={{ fontSize: 15, color: "#9898B3", lineHeight: 1.7, marginBottom: 32, maxWidth: 680 }}>
+            The health of a marriage is shaped by its rhythms. These practices — drawn from spiritual direction, pastoral tradition, and the ordinary wisdom of couples who have built lasting faith together — are designed to be adopted one at a time, not all at once.
+          </p>
+          {PRACTICES_CD.map(p => (
+            <div key={p.id} style={{ marginBottom: 28, background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 24 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 12 }}>
+                <span style={{ fontSize: 28 }}>{p.icon}</span>
+                <div style={{ flex: 1 }}>
+                  <h3 style={{ fontSize: 18, fontWeight: 700, color: "#F2F2F8", margin: 0, marginBottom: 4 }}>{p.title}</h3>
+                  <div style={{ display: "flex", gap: 8 }}>
+                    <span style={{ fontSize: 11, fontWeight: 600, color: "#07070F", background: "#00FF88", borderRadius: 6, padding: "2px 8px" }}>{p.frequency}</span>
+                    <span style={{ fontSize: 11, fontWeight: 600, color: "#9898B3", background: "#1E1E32", borderRadius: 6, padding: "2px 8px" }}>{p.time}</span>
+                  </div>
+                </div>
+              </div>
+              <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.75, marginBottom: 16 }}>{p.description}</p>
+              <h4 style={{ fontSize: 13, fontWeight: 700, color: "#6B4FBB", textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 10 }}>How to Practice</h4>
+              <ol style={{ margin: 0, paddingLeft: 20, display: "flex", flexDirection: "column", gap: 8 }}>
+                {p.howto.map((step, i) => (
+                  <li key={i} style={{ fontSize: 13, color: "#9898B3", lineHeight: 1.65 }}>{step}</li>
+                ))}
+              </ol>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {mainTab === "scripture" && (
+        <div style={{ maxWidth: 900, margin: "0 auto", padding: "32px 24px" }}>
+          <h2 style={{ fontSize: 26, fontWeight: 700, color: "#F2F2F8", marginBottom: 8 }}>Marriage in Scripture</h2>
+          <p style={{ fontSize: 15, color: "#9898B3", lineHeight: 1.7, marginBottom: 32, maxWidth: 680 }}>
+            The Bible does not offer a single theology of marriage but a collection of images, commands, poems, and promises that together form a rich and sometimes surprising vision of what it means to be joined to another person before God.
+          </p>
+          {SCRIPTURE_CD.map(s => (
+            <div key={s.id} style={{ marginBottom: 24, background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 24 }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16, flexWrap: "wrap", gap: 8 }}>
+                <h3 style={{ fontSize: 18, fontWeight: 700, color: "#F2F2F8", margin: 0 }}>{s.ref}</h3>
+                <span style={{ fontSize: 11, fontWeight: 600, color: "#6B4FBB", background: "rgba(107,79,187,0.15)", border: "1px solid rgba(107,79,187,0.3)", borderRadius: 6, padding: "3px 10px" }}>{s.theme}</span>
+              </div>
+              <blockquote style={{ borderLeft: "3px solid #00FF88", paddingLeft: 16, margin: "0 0 12px 0", fontStyle: "italic" }}>
+                <p style={{ fontSize: 15, color: "#E0E0F0", lineHeight: 1.75, margin: 0 }}>&ldquo;{s.text}&rdquo;</p>
+              </blockquote>
+              <p style={{ fontSize: 14, color: "#9898B3", lineHeight: 1.75, marginTop: 12, marginBottom: 0 }}>{s.reflection}</p>
+            </div>
+          ))}
         </div>
       )}
     </div>

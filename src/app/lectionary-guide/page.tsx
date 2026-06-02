@@ -9,7 +9,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "what" | "years" | "using" | "resources";
+type Tab = "what" | "years" | "using" | "resources" | "videos";
 
 const whatItems = [
   {
@@ -248,6 +248,7 @@ export default function LectionaryGuidePage() {
               { id: "years", label: "Year A / B / C" },
               { id: "using", label: "How to Use It" },
               { id: "resources", label: "Resources" },
+              { id: "videos", label: "Videos" },
             ] as { id: Tab; label: string }[]
           ).map((t) => (
             <button
@@ -429,6 +430,39 @@ export default function LectionaryGuidePage() {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+        {tab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "zWizZ53RFVw", title: "R.C. Sproul: What Is the Gospel?", channel: "R.C. Sproul / Ligonier Ministries", description: "R.C. Sproul provides a clear, precise answer to the question every preacher must answer before opening Scripture — foundational for any approach to lectionary preaching." },
+                  { videoId: "FTZ3GfL9yQM", title: "The Upside Down Kingdom", channel: "Timothy Keller / Gospel in Life", description: "Tim Keller models how to preach a biblical text with theological depth and cultural engagement — an example of the kind of preaching the lectionary is designed to support." },
+                  { videoId: "4v_N2gxMnWQ", title: "Why All Sermons Should Be Christ-Centered", channel: "Timothy Keller / Gospel in Life", description: "Tim Keller explains the hermeneutical principle that should govern every lectionary sermon: all Scripture points to Christ." },
+                  { videoId: "wQ5cclvdWjo", title: "If God Is Sovereign, How Can Man Be Free?", channel: "R.C. Sproul / Ligonier Ministries", description: "R.C. Sproul demonstrates careful biblical exposition — the kind of preaching that treats every text as God's authoritative Word." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

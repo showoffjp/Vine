@@ -20,6 +20,54 @@ const BARRIERS = [
   { barrier: "The Politicization Trap", desc: "Race and reconciliation have become politically coded — which causes Christians to take political rather than biblical positions. When a biblical topic (justice, unity, imago dei) gets reduced to a partisan talking point, many Christians disengage precisely when engagement is most needed.", response: "Distinguish political tribes from biblical truth. Let Scripture, not party affiliation, shape your view of human dignity, justice, and what the church is called to be." },
 ];
 
+const VOICES = [
+  {
+    id: "king",
+    name: "Martin Luther King Jr.",
+    era: "1929 – 1968",
+    context: "Baptist pastor and civil rights leader, Letter from Birmingham Jail",
+    bio: "Martin Luther King Jr. is the most theologically significant figure in the American racial justice movement. His Letter from Birmingham Jail (1963), written to white moderate clergy who called his protests 'untimely,' is a masterwork of biblical argumentation: he grounds the civil rights movement in natural law, Augustine, Aquinas, and a deep reading of the prophets. His sermon 'I Have a Dream' is usually excerpted from its full theological context — a vision of the Beloved Community, rooted in Isaiah 40, where valleys are exalted and mountains made low. King was not a secular activist who used religious language; he was a theologian who understood that the justice of God demanded what American democracy had not yet delivered.",
+    quote: "Injustice anywhere is a threat to justice everywhere. We are caught in an inescapable network of mutuality, tied in a single garment of destiny. Whatever affects one directly, affects all indirectly.",
+    contribution: "King showed that the American church's complicity in racial injustice was not a peripheral issue but a theological betrayal — a failure to believe the gospel it preached. His deployment of Scripture against his Christian critics was devastating and unanswerable. The Letter from Birmingham Jail remains required reading for any Christian who wants to understand what faithful engagement with racial injustice looks like — and how comfortable Christianity colludes with evil by counseling patience over justice.",
+  },
+  {
+    id: "perkins",
+    name: "John Perkins",
+    era: "Born 1930",
+    context: "Evangelical pioneer of racial reconciliation, Voice of Calvary Fellowship",
+    bio: "John Perkins grew up in Mississippi sharecropper poverty, left for California after his brother was shot by a police officer, became a Christian, and then — remarkably — returned to Mississippi in 1960 to do evangelism and community development in the most racially hostile state in America. He was arrested and severely beaten by highway patrol officers in 1970. Instead of leaving, he stayed and articulated a theology of racial reconciliation built on three R's: Relocation (living among the poor), Redistribution (using resources for justice), and Reconciliation (the gospel as the power of genuine racial reconciliation). He founded the Christian Community Development Association, which has trained thousands of community developers.",
+    quote: "Love is the final fight. I believe in a God who can take no-count people and make them count for his Kingdom.",
+    contribution: "Perkins demonstrated that racial reconciliation was not primarily an academic or political project but a costly, embodied, long-term Christian practice. His willingness to return to Mississippi after being beaten, to minister across racial lines, and to build institutions that served both Black and white communities showed that the gospel had power to break the deepest American divisions. The CCDA movement he founded has shaped evangelical community development for 50 years.",
+  },
+  {
+    id: "tisby",
+    name: "Jemar Tisby",
+    era: "Born 1982",
+    context: "African-American historian and theologian, The Color of Compromise (2019)",
+    bio: "Jemar Tisby's The Color of Compromise: The Truth About the American Church's Complicity in Racism is the most rigorous recent historical treatment of how white American Christianity has accommodated, enabled, and sometimes championed racial injustice from the colonial era to the present. Tisby is a historian, and his argument is historical: he documents case after case in which American churches chose comfort and cultural accommodation over prophetic witness. The Compromise of his title is not a single event but a pattern — the path of least resistance that allowed slaveholders to receive communion, lynchers to be deacons, and segregationists to be respected church leaders.",
+    quote: "Complicity with racism has always been the path of least resistance for white Christians. It has been easier to accommodate to the racial mores of the surrounding culture than to challenge them.",
+    contribution: "Tisby's historical work made it harder for American Christians to claim ignorance about the church's racial history. By documenting specific instances of ecclesiastical complicity — not in fringe movements but in the mainstream of American Christianity — he showed that racial injustice in the church was not incidental but structural. His subsequent book How to Fight Racism (2021) moved from history to practice: what does repentance and change actually look like in a local church context.",
+  },
+  {
+    id: "morrison",
+    name: "Latasha Morrison",
+    era: "Born 1978",
+    context: "Founder of Be the Bridge, author of Be the Bridge (2019)",
+    bio: "Latasha Morrison founded the Be the Bridge ministry in 2016 with a single Facebook group and a conviction that the American church needed both honest conversation about racial injustice and a practical framework for reconciliation. The group grew to hundreds of thousands of members and spawned a curriculum, a book, and a network of bridge-building groups in churches across the country. Morrison's approach is distinctively Christian: it begins with lament, moves through honest historical reckoning, and aims at genuine reconciliation built on relationships and shared commitment. She is equally willing to challenge Black Christians toward forgiveness and white Christians toward repentance.",
+    quote: "I believe that bridge-building is our divine calling. Not just because it's the kind thing to do, but because it reflects the reconciling heart of God.",
+    contribution: "Morrison created one of the most practically effective racial reconciliation frameworks in the contemporary evangelical church. Be the Bridge curriculum is being used in churches of every denomination across the country to facilitate honest, structured, relationally grounded conversations about race. Her emphasis on lament as the necessary starting point — not political argument, not quick solutions, but honest grief — has been particularly important for moving white evangelicals toward genuine engagement.",
+  },
+  {
+    id: "stevenson",
+    name: "Bryan Stevenson",
+    era: "Born 1959",
+    context: "Founder of Equal Justice Initiative, author of Just Mercy (2014)",
+    bio: "Bryan Stevenson is not primarily a theologian, but Just Mercy is saturated in Black church theology and the prophetic tradition. Stevenson founded the Equal Justice Initiative in Montgomery, Alabama, to provide legal representation to those wrongly condemned or unfairly sentenced, with particular focus on the incarceration of children and the legacy of racial terror. He has argued before the Supreme Court, exonerated over 140 wrongly convicted prisoners, and established the National Memorial for Peace and Justice — the first memorial in America to document the racial terror of lynching. His book Just Mercy is both a legal memoir and a theological meditation on mercy, justice, and the worth of every human life.",
+    quote: "Each of us is more than the worst thing we have ever done. We are all broken by something. We all share in the condition of brokenness even if our brokenness is not equivalent.",
+    contribution: "Stevenson's work has challenged the American church to see mass incarceration and criminal justice as a central justice issue, not a political one. His argument — that proximity to suffering is transformative, that 'you can't understand most of the important things from a distance' — is deeply consonant with the Incarnation: God did not stay at a distance but moved into the neighborhood. Just Mercy has been assigned in seminaries and churches and has shaped a generation's understanding of criminal justice as a gospel issue.",
+  },
+];
+
 const PRACTICES = [
   { title: "Cross-Cultural Friendship", desc: "Seek genuine friendship across racial lines — not for diversity points but for shared life. Attend events, visit neighborhoods, build relationships that expose you to different experiences of America and of the church.", icon: "🤝" },
   { title: "Read and Listen", desc: "Read books by Black, Latino, and Asian Christian leaders. Listen to podcasts and sermons from diverse traditions. Expand your theological and experiential frame beyond your own cultural context.", icon: "📚" },
@@ -29,17 +77,14 @@ const PRACTICES = [
   { title: "Speak in Your Church", desc: "Raise the topic in your church context — in small groups, in conversation with pastors. You don't need to be an expert. You need to be someone who refuses comfortable silence on a matter the Bible addresses directly.", icon: "🎙️" },
 ];
 
-const VOICES = [
-  { name: "Bryan Stevenson", book: "Just Mercy", quote: "Each of us is more than the worst thing we have ever done.", tradition: "African-American, Evangelical" },
-  { name: "Martin Luther King Jr.", book: "Letter from Birmingham Jail", quote: "Injustice anywhere is a threat to justice everywhere.", tradition: "African-American Baptist" },
-  { name: "Jemar Tisby", book: "The Color of Compromise", quote: "Complicity with racism has always been the path of least resistance for white Christians.", tradition: "African-American, Reformed" },
-  { name: "John Perkins", book: "Let Justice Roll Down", quote: "Love is the final fight.", tradition: "African-American, evangelical reconciliation pioneer" },
-  { name: "Tim Keller", book: "Generous Justice", quote: "If you are not committed to the poor, you cannot say you are committed to Christ.", tradition: "White, Reformed" },
-];
+type Tab = "theology" | "barriers" | "voices" | "practices" | "videos";
 
 export default function RaceReconciliationPage() {
-  const [activeTab, setActiveTab] = useState<"theology" | "barriers" | "practices">("theology");
+  const [activeTab, setActiveTab] = useState<Tab>("theology");
   const [expanded, setExpanded] = useState<string | null>(null);
+  const [selectedVoice, setSelectedVoice] = useState("king");
+
+  const voice = VOICES.find(v => v.id === selectedVoice)!;
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 40 }}>
@@ -56,7 +101,9 @@ export default function RaceReconciliationPage() {
           {[
             { id: "theology" as const, label: "Theology", icon: "📖" },
             { id: "barriers" as const, label: "Barriers", icon: "🚧" },
+            { id: "voices" as const, label: "Voices", icon: "🎙️" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -76,21 +123,6 @@ export default function RaceReconciliationPage() {
                 <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 15, margin: 0 }}>{t.body}</p>
               </div>
             ))}
-            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22 }}>
-              <h3 style={{ color: PURPLE, fontWeight: 800, fontSize: 17, marginBottom: 14 }}>Voices Worth Hearing</h3>
-              {VOICES.map((v, i) => (
-                <div key={i} style={{ background: BG, borderRadius: 10, padding: 16, marginBottom: 10 }}>
-                  <p style={{ color: TEXT, fontSize: 14, fontStyle: "italic", lineHeight: 1.65, marginBottom: 8 }}>"{v.quote}"</p>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <div>
-                      <div style={{ color: GREEN, fontSize: 13, fontWeight: 700 }}>{v.name}</div>
-                      <div style={{ color: MUTED, fontSize: 12 }}>{v.book}</div>
-                    </div>
-                    <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 8px", borderRadius: 8, fontSize: 11, fontWeight: 700 }}>{v.tradition}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
           </div>
         )}
 
@@ -106,7 +138,7 @@ export default function RaceReconciliationPage() {
                 <button onClick={() => setExpanded(expanded === b.barrier ? null : b.barrier)}
                   style={{ width: "100%", background: CARD, border: `1px solid ${BORDER}`, borderRadius: expanded === b.barrier ? "10px 10px 0 0" : 10, padding: "14px 18px", color: TEXT, fontWeight: 700, fontSize: 14, cursor: "pointer", display: "flex", justifyContent: "space-between", textAlign: "left" }}>
                   <span>{b.barrier}</span>
-                  <span style={{ color: MUTED, flexShrink: 0 }}>{expanded === b.barrier ? "−" : "+"}</span>
+                  <span style={{ color: MUTED, flexShrink: 0 }}>{expanded === b.barrier ? "-" : "+"}</span>
                 </button>
                 {expanded === b.barrier && (
                   <div style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: "0 0 10px 10px", borderTop: "none", padding: 18 }}>
@@ -119,6 +151,32 @@ export default function RaceReconciliationPage() {
                 )}
               </div>
             ))}
+          </div>
+        )}
+
+        {activeTab === "voices" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 6 }}>
+              {VOICES.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ width: "100%", background: selectedVoice === v.id ? `${PURPLE}20` : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", textAlign: "left", cursor: "pointer" }}>
+                  <div style={{ color: selectedVoice === v.id ? GREEN : TEXT, fontWeight: 700, fontSize: 13, marginBottom: 2 }}>{v.name}</div>
+                  <div style={{ color: MUTED, fontSize: 11 }}>{v.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 26 }}>
+              <h2 style={{ color: GREEN, fontWeight: 900, fontSize: 22, margin: 0 }}>{voice.name}</h2>
+              <p style={{ color: MUTED, fontSize: 13, fontStyle: "italic", marginBottom: 16 }}>{voice.context}</p>
+              <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, marginBottom: 20 }}>{voice.bio}</p>
+              <blockquote style={{ margin: "0 0 20px", padding: "12px 16px", borderLeft: `3px solid ${GREEN}`, background: `${GREEN}08`, borderRadius: "0 8px 8px 0" }}>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, margin: 0, fontStyle: "italic" }}>"{voice.quote}"</p>
+              </blockquote>
+              <div style={{ background: `${PURPLE}08`, border: `1px solid ${PURPLE}20`, borderRadius: 10, padding: 16 }}>
+                <div style={{ color: PURPLE, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>CONTRIBUTION</div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{voice.contribution}</p>
+              </div>
+            </div>
           </div>
         )}
 
@@ -139,6 +197,41 @@ export default function RaceReconciliationPage() {
                   <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{p.desc}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors on race and reconciliation.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "zohRZjxwsss", title: "Race and the Christian: Q&A with Tim Keller, John Piper & Anthony Bradley", channel: "Redeemer Presbyterian Church", description: "Tim Keller and John Piper discuss what the Bible teaches about race, the church's responsibility, and the path toward genuine reconciliation." },
+                  { videoId: "EhJJcTKTVGo", title: "Racism and Corporate Evil: A White Guy's Perspective", channel: "Timothy Keller", description: "Tim Keller addresses how corporate evil and systemic sin relate to racial injustice, and what the gospel demands of white Christians." },
+                  { videoId: "pYV9FCS34eM", title: "Hope, Race and Power", channel: "Timothy Keller", description: "A sermon exploring how Christian hope shapes our approach to race-related issues and the power dynamics that fuel division." },
+                  { videoId: "E9bF2gjVPu8", title: "Race, Repentance, and Rejoicing: Ethnicity in the Kingdom", channel: "Desiring God / John Piper", description: "John Piper preaches on the biblical vision of ethnic diversity in God's kingdom and what genuine repentance and joy look like across racial lines." },
+                  { videoId: "lcNIyJZ2bbU", title: "Reconciliation", channel: "Timothy Keller", description: "A Keller sermon on reconciliation rooted in Joseph's story — the costly, Spirit-powered work of breaking down walls the gospel has already torn down." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

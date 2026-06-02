@@ -9,7 +9,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "elements" | "debates" | "formation";
+type Tab = "theology" | "elements" | "debates" | "formation" | "videos";
 
 const THEOLOGY_ITEMS = [
   {
@@ -167,6 +167,7 @@ export default function WorshipTheologyPage() {
     { id: "elements", label: "Elements of Worship" },
     { id: "debates", label: "The Worship Debates" },
     { id: "formation", label: "Worship as Formation" },
+    { id: "videos", label: "Videos" },
   ];
 
   return (

@@ -1,8 +1,59 @@
 "use client";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+
+type Tab = "theology" | "thinkers" | "practices" | "objections" | "videos";
+
+const THINKERS = [
+  {
+    id: "francis",
+    name: "Francis of Assisi",
+    era: "1181-1226",
+    context: "Italian friar, founder of the Franciscan Order",
+    bio: "Francis is the patron saint of ecology and the most beloved Christian figure in the creation care tradition. His 'Canticle of the Sun' (1224) praised God for 'Brother Sun,' 'Sister Moon,' 'Brother Wind,' 'Sister Water,' 'Brother Fire,' and 'Sister Earth.' For Francis, creation was not merely a resource but a community of praise — each creature glorifying God in its own way. His embrace of poverty was inseparable from his love of creation: those who possess nothing need not exploit anything.",
+    quote: "Praise be to You, my Lord, through our Sister, Mother Earth, who sustains and governs us, and who produces various fruit with colored flowers and herbs.",
+    contribution: "Francis demonstrated that creation care flows naturally from simplicity, poverty of spirit, and the contemplative tradition. He did not argue for environmental ethics from philosophical principles; he simply lived and loved creation as God's gift. His example has been more persuasive across centuries than most theological treatises. Pope John Paul II named him patron of ecologists in 1979.",
+  },
+  {
+    id: "calvin",
+    name: "John Calvin",
+    era: "1509-1564",
+    context: "French-Swiss Reformer; systematized Protestant theology",
+    bio: "Calvin is rarely cited in creation care discussions, but he provides one of the most robust theological foundations for it. His doctrine of 'accommodation' teaches that God speaks in creation at a level humans can receive — creation is God's theater of glory, a spectacle set for our benefit and instruction. Calvin insisted that the whole world is a mirror of divine glory, and that those with eyes of faith can read God's goodness and power in every creature.",
+    quote: "There is not one little blade of grass, there is no color in this world that is not intended to make men rejoice.",
+    contribution: "Calvin's concept of creation as 'theater of glory' (theatrum gloriae Dei) gives creation intrinsic theological significance beyond mere resource. Reformed creation care theology — including the work of Cornelius Plantinga and Steven Bouma-Prediger — builds heavily on this Calvinist foundation. Calvin also emphasized stewardship over ownership: we receive creation from God as its users, not its possessors.",
+  },
+  {
+    id: "berry",
+    name: "Wendell Berry",
+    era: "1934-present",
+    context: "Kentucky farmer, poet, essayist, and Christian social critic",
+    bio: "Wendell Berry is America's most important Christian agrarian voice. A farmer, novelist, poet, and essayist, Berry has spent decades articulating a vision of faithful land stewardship rooted in both Christian tradition and the practical wisdom of farming communities. He is a fierce critic of industrial agriculture, monoculture, and the assumption that the economy is the measure of all things. His essays in 'The Unsettling of America' and 'Sex, Economy, Freedom and Community' are landmarks of Christian creation care thought.",
+    quote: "The ecological teaching of the Bible is simply inescapable: God made the world because He wanted it made. He thinks the world is good, and He loves it. It is His world; He has never relinquished title to it.",
+    contribution: "Berry made the connection between Christian faith and love of place — the particular, local, embodied land — unavoidable for thoughtful Christians. He argued that creation care is not primarily a policy agenda but a set of daily practices tied to a specific piece of land. His concept of 'membership' in a community of creatures and people has influenced a generation of Christian farmers, pastors, and thinkers who want to care faithfully for their local places.",
+  },
+  {
+    id: "bouma",
+    name: "Steven Bouma-Prediger",
+    era: "1955-present",
+    context: "Reformed theologian; professor at Hope College",
+    bio: "Bouma-Prediger is the leading evangelical academic theologian of creation care. His 'For the Beauty of the Earth' (2001, 2010) is the standard textbook for Christian environmental ethics. He argues that creation care is not peripheral but central to Christian discipleship — that 'earthkeeping' is the natural fruit of loving God and neighbor. Drawing on Richard Mouw, the Dutch Reformed tradition, and Francis of Assisi, he offers a systematic account of why Christians should care for creation and what that looks like in practice.",
+    quote: "Earthkeeping is not merely a good thing to do but something Christians are called to do as stewards of God's good creation. It flows from who we are, not merely from what we should do.",
+    contribution: "Bouma-Prediger helped move creation care from a marginal concern of the Christian left to a theologically grounded, broadly evangelical commitment. He introduced the concept of 'ecological virtues' — a set of character traits (wonder, humility, self-restraint, frugality, generosity, justice, solidarity, compassion) that a creation-caring Christian cultivates. This virtue-ethics framework allowed evangelicals to engage creation care without reducing it to politics.",
+  },
+  {
+    id: "bauckham",
+    name: "Richard Bauckham",
+    era: "1946-present",
+    context: "British NT scholar and biblical theologian; St. Andrews, Cambridge",
+    bio: "Bauckham's 'Bible and Ecology' (2010) is the most careful biblical examination of creation care in the evangelical world. He argues against anthropocentrism — the assumption that Scripture is entirely human-focused — and shows that creation has its own voice, its own relationship with God, and its own purposes independent of human use. Psalm 148, Job 38-41, and Revelation 4-5 all portray creation praising God on its own terms. Bauckham also reclaims the concept of 'dominion' — which, properly understood, means something closer to shepherding than to exploitation.",
+    quote: "Creation is not merely the backdrop to the human drama of salvation; it is itself caught up in the story of redemption. The praise of all creatures matters to God.",
+    contribution: "Bauckham provided the exegetical grounding that many evangelicals needed to take creation care seriously as a biblical commitment. By showing that creation has its own relationship with God — that the whole creation praises God, not merely as a backdrop to human praise but in its own voice — he gave theological weight to the intuition that environmental destruction is not merely wasteful but sacrilegious.",
+  },
+];
+
 
 const THEOLOGY = [
   { title: "The Earth Is the Lord's", verse: "Psalm 24:1", body: "The foundational premise of Christian environmental ethics: 'The earth is the Lord's, and everything in it, the world, and all who live in it' (Psalm 24:1). Creation is not ours — it belongs to God. We are tenants and stewards, not owners. The question 'What do I do with my property?' becomes 'How do I care for God's property that has been entrusted to me?'" },
@@ -54,7 +105,9 @@ interface CheckItem {
 }
 
 export default function CreationCarePage() {
-  const [activeTab, setActiveTab] = useState<"theology" | "practices" | "objections">("theology");
+  const [activeTab, setActiveTab] = useState<Tab>("theology");
+  const [selectedThinker, setSelectedThinker] = useState("francis");
+  const thinker = THINKERS.find(t => t.id === selectedThinker)!;
   const [checklist, setChecklist] = useState<CheckItem[]>(() => {
     try {
       const s = localStorage.getItem("vine_creation_checks");
@@ -84,8 +137,10 @@ export default function CreationCarePage() {
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
             { id: "theology" as const, label: "Biblical Basis", icon: "📖" },
+            { id: "thinkers" as const, label: "Thinkers", icon: "💡" },
             { id: "practices" as const, label: "Practices", icon: "✅" },
             { id: "objections" as const, label: "Common Objections", icon: "❓" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -105,6 +160,38 @@ export default function CreationCarePage() {
                 <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 15, margin: 0 }}>{t.body}</p>
               </div>
             ))}
+          </div>
+        )}
+
+        {activeTab === "thinkers" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 210, flexShrink: 0 }}>
+              {THINKERS.map(t => (
+                <button key={t.id} onClick={() => setSelectedThinker(t.id)}
+                  style={{ width: "100%", background: selectedThinker === t.id ? `${PURPLE}18` : "transparent", border: `1px solid ${selectedThinker === t.id ? PURPLE + "70" : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 6, cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: selectedThinker === t.id ? PURPLE : TEXT, fontWeight: 800, fontSize: 13, marginBottom: 2 }}>{t.name}</div>
+                  <div style={{ color: MUTED, fontSize: 11 }}>{t.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ background: CARD, border: `1px solid ${PURPLE}30`, borderRadius: 14, padding: 28 }}>
+                <div style={{ marginBottom: 20 }}>
+                  <div style={{ color: MUTED, fontWeight: 700, fontSize: 11, marginBottom: 4 }}>{thinker.era}</div>
+                  <h2 style={{ color: PURPLE, fontWeight: 900, fontSize: 24, marginBottom: 4 }}>{thinker.name}</h2>
+                  <div style={{ color: MUTED, fontSize: 13 }}>{thinker.context}</div>
+                </div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, marginBottom: 20 }}>{thinker.bio}</p>
+                <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 10, padding: 18, marginBottom: 16 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 11, marginBottom: 10 }}>IN THEIR OWN WORDS</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0, fontStyle: "italic" }}>&ldquo;{thinker.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: BG, borderRadius: 10, padding: 16 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>KEY CONTRIBUTION</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{thinker.contribution}</p>
+                </div>
+              </div>
+            </div>
           </div>
         )}
 
@@ -148,6 +235,40 @@ export default function CreationCarePage() {
                 <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{o.ans}</p>
               </div>
             ))}
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings on creation care, environmental stewardship, and a biblical theology of the earth.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "AHn1TrRgQ-E", title: "Christians and Creation Care", channel: "Sandra Richter", description: "OT scholar Sandra Richter makes the biblical case for environmental stewardship, arguing that caring for creation is central to the Abrahamic covenant and not a liberal import." },
+                  { videoId: "wGthaQWzC0M", title: "What Does the Bible Say About Creation Care?", channel: "BioLogos", description: "An accessible overview of the biblical foundations for creation care — from Genesis 1-2 mandate to the new creation vision of Revelation — showing that stewardship is a core Christian calling." },
+                  { videoId: "me3WSUmz5i0", title: "Creation Care: A Biblical Theology", channel: "Moo / Crossway", description: "Jonathan and Douglas Moo present the biblical theology case for creation care, working through the Old and New Testament witness to human responsibility for the natural world." },
+                  { videoId: "pjbSx53afWo", title: "The Essential Christian Practice of Creation Care", channel: "Steven Bouma-Prediger", description: "Bouma-Prediger argues that caring for the earth is not optional for Christians but flows necessarily from the character of God as Creator and sustainer of all things." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

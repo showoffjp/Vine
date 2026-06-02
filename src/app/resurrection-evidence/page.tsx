@@ -4,7 +4,7 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "facts" | "theories" | "historians" | "significance";
+type Tab = "facts" | "theories" | "historians" | "significance" | "videos";
 
 const MINIMAL_FACTS = [
   { fact: "Jesus died by Roman crucifixion", color: GREEN, scholarly: "Virtually unanimous among historians — including non-Christian historians", evidence: "Multiple independent sources: Tacitus (Annals 15.44), Josephus (Antiquities 18.3), Lucian of Samosata, Mara bar Serapion, plus all four canonical Gospels. Roman crucifixion was the most efficient execution method in the ancient world. The Roman soldier's spear through the side (John 19:34) confirms death.", why_matters: "The resurrection requires that Jesus actually died. Swoon theories (Jesus merely fainted and recovered) fail against the medical evidence of crucifixion and the Roman confirmation process.", source: "Gary Habermas has catalogued over 2,200 scholarly sources on the resurrection; virtually all affirm the death by crucifixion." },
@@ -66,10 +66,10 @@ export default function ResurrectionEvidencePage() {
         </div>
 
         <div style={{ display: "flex", gap: 4, marginBottom: 24, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
-          {(["facts", "theories", "historians", "significance"] as Tab[]).map(t => (
+          {(["facts", "theories", "historians", "significance", "videos"] as Tab[]).map(t => (
             <button key={t} onClick={() => setTab(t)}
               style={{ padding: "8px 16px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
-              {t === "facts" ? "Minimal Facts" : t === "theories" ? "Alternative Theories" : t === "historians" ? "Key Scholars" : "Why It Matters"}
+              {t === "facts" ? "Minimal Facts" : t === "theories" ? "Alternative Theories" : t === "historians" ? "Key Scholars" : t === "significance" ? "Why It Matters" : "Videos"}
             </button>
           ))}
         </div>
@@ -145,6 +145,40 @@ export default function ResurrectionEvidencePage() {
                 )}
               </div>
             ))}
+          </div>
+        )}
+
+        {tab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "Z8lkuuhVkOI", title: "Evidence for the Resurrection", channel: "William Lane Craig", description: "Dr. William Lane Craig presents the historical evidence for the bodily resurrection of Jesus using the minimal facts methodology." },
+                  { videoId: "Hr3PkGXYRvI", title: "The Resurrection of Christ", channel: "Ligonier Ministries", description: "R.C. Sproul defends the historical and theological significance of the bodily resurrection of Jesus Christ." },
+                  { videoId: "E9P76VJIcRY", title: "Is the Resurrection Essential?", channel: "Ligonier Ministries", description: "R.C. Sproul addresses what Christianity means if the historical resurrection is rejected — and why no Christian compromise on this point is possible." },
+                  { videoId: "dXxmSDhvbHY", title: "A Living Hope Through the Resurrection", channel: "Desiring God", description: "John Piper preaches on the resurrection as the ground of Christian hope — an indestructible life that secures the believer's future." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

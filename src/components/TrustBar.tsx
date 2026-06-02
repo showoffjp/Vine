@@ -1,75 +1,68 @@
-const publications = [
-  "Christianity Today",
-  "The Gospel Coalition",
-  "Relevant Magazine",
-  "Church Leaders",
-  "Desiring God",
-];
-
-const stats = [
-  { emoji: "🌍", value: "184 countries", label: "believers reached" },
-  { emoji: "🙏", value: "4.8M prayers", label: "submitted worldwide" },
-  { emoji: "⭐", value: "4.9/5 rating", label: "from our community" },
+const STATS = [
+  { value: "2.4B+", label: "Christians Worldwide" },
+  { value: "341+", label: "Topics & Resources" },
+  { value: "66", label: "Books of the Bible" },
+  { value: "One", label: "Platform for All of It" },
 ];
 
 export default function TrustBar() {
   return (
     <div
       style={{
-        background: "#0C0C1A",
-        borderTop: "1px solid rgba(30,30,50,0.8)",
-        borderBottom: "1px solid rgba(30,30,50,0.8)",
+        background: "#0a1a0e",
+        borderTop: "0.5px solid rgba(201,162,39,0.18)",
+        borderBottom: "0.5px solid rgba(201,162,39,0.18)",
+        padding: "2rem 4vw",
       }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 py-3">
-          {/* Left: trusted by */}
-          <div className="flex flex-wrap items-center gap-2">
-            <span
-              className="text-xs font-semibold whitespace-nowrap"
-              style={{ color: "#6A6A88" }}
-            >
-              Trusted by believers from:
-            </span>
-            {publications.map((pub) => (
-              <span
-                key={pub}
-                className="text-[11px] font-bold px-2.5 py-0.5 rounded-md"
-                style={{
-                  background: "rgba(255,255,255,0.04)",
-                  color: "#8A8AA8",
-                  border: "1px solid rgba(255,255,255,0.06)",
-                }}
-              >
-                {pub}
-              </span>
-            ))}
-          </div>
-
-          {/* Divider */}
+      <div
+        style={{
+          maxWidth: 1200,
+          margin: "0 auto",
+          display: "grid",
+          gridTemplateColumns: "repeat(4, 1fr)",
+          gap: 1,
+        }}
+      >
+        {STATS.map((s, i) => (
           <div
-            className="hidden sm:block w-px self-stretch"
-            style={{ background: "#1E1E32" }}
-          />
-
-          {/* Right: live stats */}
-          <div className="flex items-center gap-5 flex-shrink-0">
-            {stats.map((stat, i) => (
-              <div key={stat.value} className="flex items-center gap-1.5">
-                <span className="text-sm">{stat.emoji}</span>
-                <span className="text-xs font-black" style={{ color: "#00FF88" }}>
-                  {stat.value}
-                </span>
-                {i < stats.length - 1 && (
-                  <span
-                    className="ml-3 w-px h-4 hidden sm:block"
-                    style={{ background: "#1E1E32" }}
-                  />
-                )}
-              </div>
-            ))}
+            key={s.label}
+            style={{
+              padding: "0 2rem",
+              borderRight:
+                i < STATS.length - 1
+                  ? "0.5px solid rgba(201,162,39,0.18)"
+                  : "none",
+              textAlign: "center",
+            }}
+          >
+            <div
+              style={{
+                fontFamily:
+                  "var(--font-cormorant, 'Cormorant Garamond', Georgia, serif)",
+                fontSize: "2.4rem",
+                fontWeight: 600,
+                color: "#e8c162",
+                lineHeight: 1,
+                marginBottom: "0.3rem",
+              }}
+            >
+              {s.value}
+            </div>
+            <div
+              style={{
+                fontSize: "0.73rem",
+                fontWeight: 500,
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+                color: "#9a8f72",
+                fontFamily: "var(--font-jost, system-ui, sans-serif)",
+              }}
+            >
+              {s.label}
+            </div>
           </div>
-        </div>
+        ))}
       </div>
     </div>
   );

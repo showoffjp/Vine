@@ -111,6 +111,135 @@ const seedGoals: AccountabilityGoal[] = [
   },
 ];
 
+const VOICES_ACCT = [
+  {
+    id: "wesley-j",
+    name: "John Wesley",
+    era: "1703–1791 · Methodist",
+    context: "Founder of Methodist Class Meetings",
+    bio: "John Wesley pioneered one of history's most effective accountability structures: the Methodist class meeting. Small groups of 10–12 believers met weekly, led by a class leader who asked each member searching questions about their spiritual state, sins, and progress. Wesley required attendance for membership. His Bands (more intimate, same-gender groups) gave ordinary people a structured framework for mutual confession and encouragement that drove the 18th-century revival.",
+    quote: "Solitary religion is not to be found in the gospel. The Bible knows nothing of a holy hermit. Christianity is essentially a social religion; to turn it into a solitary one is indeed to destroy it.",
+    contribution: "Wesley's class meetings gave the modern church its foundational model for small-group accountability. The practice of regular, structured, honest examination in community — where specific questions are asked and answered — is traceable directly to his societies. Virtually every accountability structure since owes a debt to Wesley.",
+  },
+  {
+    id: "bonhoeffer-d",
+    name: "Dietrich Bonhoeffer",
+    era: "1906–1945 · Lutheran",
+    context: "Life Together & Confessing Church",
+    bio: "Dietrich Bonhoeffer's Life Together (1939), written from his experience running the underground Finkenwalde seminary, remains the definitive theological account of Christian community. His chapter on confession argues boldly: private confession to a brother breaks the power of secret sin in a way private confession to God alone often does not — because sin loves secrecy, and exposure to a human witness shatters its power.",
+    quote: "The more isolated a person is, the more destructive will be the power of sin over him. Sin wants to remain unknown. In the darkness of what is left unsaid it poisons the whole being.",
+    contribution: "Bonhoeffer gave the modern accountability movement its theological grounding. His argument that sin loses its power when confessed to a trusted brother, and that breakthrough to community happens through confession, is the foundational theology for why one-on-one accountability works.",
+  },
+  {
+    id: "foster-r",
+    name: "Richard Foster",
+    era: "b. 1942 · Quaker",
+    context: "Celebration of Discipline",
+    bio: "Richard Foster's Celebration of Discipline (1978), which has sold over 2 million copies, devoted a full chapter to Confession as a corporate spiritual discipline. Foster emphasized that confession to a trusted, mature Christian is not optional for serious disciples — it breaks patterns of sin that private prayer alone cannot dissolve. He argued that isolated Christianity produces stunted growth.",
+    quote: "To confess our sins to one another is to forsake the illusion that we can handle our own failures in the closet. It is to open ourselves to the community's knowledge of us.",
+    contribution: "Foster's Celebration of Discipline introduced a generation of evangelicals to spiritual disciplines in an accessible form. His treatment of confession and accountability helped Protestant readers recover a practice largely abandoned since the Reformation, making it theologically respectable in non-Catholic contexts.",
+  },
+  {
+    id: "willard-d",
+    name: "Dallas Willard",
+    era: "1935–2013 · Evangelical",
+    context: "The Spirit of the Disciplines",
+    bio: "Dallas Willard's The Spirit of the Disciplines (1988) argued that spiritual transformation requires deliberate training through embodied practices — including fellowship and submission. Willard stressed that accountability structures work because spiritual formation is not merely cognitive: our bodies, habits, and communities must change. He placed accountability within 'disciplines of engagement,' requiring sustained effort within community.",
+    quote: "Grace is not opposed to effort, it is opposed to earning. Effort is action, earning is attitude. Grace requires that we show up to the training.",
+    contribution: "Willard's philosophical framework gave accountability its best answer to the criticism that it is works-based. His distinction between grace and effort, and his argument that disciplines are training rather than earning, freed evangelicals to embrace structured accountability without theological guilt.",
+  },
+  {
+    id: "cloud-h",
+    name: "Henry Cloud",
+    era: "b. 1956 · Evangelical",
+    context: "Boundaries, Integrity",
+    bio: "Henry Cloud, psychologist and Christian author, has written on accountability through Boundaries (with John Townsend), Integrity, and Necessary Endings. Cloud bridges psychological and theological frameworks: healthy accountability requires clear structures, honest feedback, and willingness to face reality about oneself. His work is especially influential in recovery communities, pastoral care, and Christian leadership development.",
+    quote: "We are only as sick as our secrets. The things we hide have power over us. The things we expose and bring into the light lose that power.",
+    contribution: "Cloud brought psychological literature on accountability, honesty, and self-deception into the Christian framework. His Boundaries framework became foundational in Christian counseling and pastoral care, and his accessible writing style made these concepts available to practitioners who might not engage with more academic theology.",
+  },
+];
+
+const QUESTIONS_DATA: { id: string; category: string; icon: string; questions: string[] }[] = [
+  {
+    id: "personal-holiness",
+    category: "Personal Holiness",
+    icon: "🙏",
+    questions: [
+      "Have you been with a woman or man anywhere this week that would embarrass you if your spouse or pastor had seen you?",
+      "Have you exposed yourself to any sexually explicit material this week?",
+      "Have you spent consistent time in Scripture and prayer each day this week?",
+      "Are there any sins you are concealing that you have not confessed to God or to a trusted brother?",
+      "Have you been covetous, proud, envious, or tempted to manipulate someone this week?",
+      "Is there any area of your thought life you would be ashamed to have Jesus observe?",
+    ],
+  },
+  {
+    id: "relationships-marriage",
+    category: "Relationships & Marriage",
+    icon: "❤️",
+    questions: [
+      "Have you invested genuine, undistracted time with your spouse or closest family members this week?",
+      "Have you spoken to your spouse or a family member in a way you regret — critical, dismissive, or harsh?",
+      "Are you harboring bitterness, resentment, or unforgiveness toward anyone?",
+      "Have you prioritized your phone or work over the people who matter most to you?",
+      "Is there a relationship in your life that needs repair, and have you taken any steps toward reconciliation?",
+      "Have you prayed for your spouse, children, or close friends by name this week?",
+    ],
+  },
+  {
+    id: "work-integrity",
+    category: "Work & Integrity",
+    icon: "⚡",
+    questions: [
+      "Have you lied about anything this week — in word, in omission, or by letting a false impression stand?",
+      "Have you been diligent and fully present in your work, or have you been lazy or distracted?",
+      "Have you taken anything that does not belong to you — time, credit, resources?",
+      "Have you treated everyone under your authority with dignity and fairness?",
+      "Is there any professional situation in which you compromised your integrity to protect yourself or advance your interests?",
+      "Would your colleagues describe your conduct this week as consistent with the person you claim to be on Sunday?",
+    ],
+  },
+  {
+    id: "money-stewardship",
+    category: "Money & Stewardship",
+    icon: "💰",
+    questions: [
+      "Have you made any financial decisions this week driven by fear, greed, or status rather than wisdom?",
+      "Are you giving generously and consistently, or have you found reasons to defer it?",
+      "Have you spent money in a way you would be embarrassed to disclose to your accountability partner?",
+      "Is debt, spending, or financial anxiety controlling more of your mental energy than you want to admit?",
+      "Have you been a faithful steward of what God has entrusted to you — time as well as money?",
+      "Is your financial life ordered in a way that reflects your stated values and priorities?",
+    ],
+  },
+  {
+    id: "mind-media",
+    category: "Mind & Media",
+    icon: "🧠",
+    questions: [
+      "What have you been reading, watching, or listening to this week, and is it building you up or tearing you down?",
+      "Have you allowed anger, cynicism, or despair to take root through news or social media consumption?",
+      "Have you been feeding your mind on things that are true, honorable, just, pure, and commendable, as Paul commands in Philippians 4?",
+      "Have you spent more time consuming content than you have spent in prayer and Scripture?",
+      "Is there anything you have been watching or reading in private that you would not want your brothers to know about?",
+      "Have you guarded your imagination and your thought life, or have you let your mind drift into destructive territory?",
+    ],
+  },
+  {
+    id: "faith-mission",
+    category: "Faith & Mission",
+    icon: "🌍",
+    questions: [
+      "Have you had any gospel conversations this week, or have you kept your faith entirely private?",
+      "Are you actively discipling someone, and did you invest in that relationship this week?",
+      "Is there someone in your sphere of influence who needs to hear about Jesus, and are you praying for them by name?",
+      "Have you served anyone this week in a way that cost you something — time, comfort, or resources?",
+      "Is your faith growing, plateauing, or declining right now, and what is the honest reason?",
+      "Are you living as though eternity is real, or are you functionally living for this life only?",
+    ],
+  },
+];
+
 export default function AccountabilityPage() {
   const [goals, setGoals] = useState<AccountabilityGoal[]>(() => {
     try {
@@ -119,10 +248,13 @@ export default function AccountabilityPage() {
     } catch { return seedGoals; }
   });
 
+  const [mainTab, setMainTab] = useState<"goals" | "guide" | "voices" | "questions" | "videos">("goals");
+  const [selectedVoice, setSelectedVoice] = useState("wesley-j");
   const [showCompose, setShowCompose] = useState(false);
   const [selectedGoal, setSelectedGoal] = useState<string | null>(goals[0]?.id ?? null);
   const [checkInNote, setCheckInNote] = useState("");
   const [activeTab, setActiveTab] = useState<"active" | "completed">("active");
+  const voiceItem = VOICES_ACCT.find(v => v.id === selectedVoice)!;
 
   const [form, setForm] = useState({
     title: "",
@@ -340,7 +472,19 @@ export default function AccountabilityPage() {
           </div>
         )}
 
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Main tab bar */}
+        <div style={{ borderBottom: "1px solid #1E1E32", background: "#0A0A16", position: "sticky", top: 0, zIndex: 10, marginBottom: 24 }}>
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8" style={{ display: "flex", gap: 2 }}>
+            {([["goals", "My Goals"], ["guide", "📖 Guide"], ["voices", "🎓 Voices"], ["questions", "❓ Questions"], ["videos", "🎬 Videos"]] as const).map(([key, label]) => (
+              <button key={key} onClick={() => setMainTab(key)}
+                style={{ background: "none", border: "none", borderBottom: mainTab === key ? "2px solid #00FF88" : "2px solid transparent", color: mainTab === key ? "#F2F2F8" : "#9898B3", fontWeight: mainTab === key ? 700 : 500, fontSize: 14, padding: "14px 18px", cursor: "pointer", whiteSpace: "nowrap" }}>
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {mainTab === "goals" && <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex gap-6">
             {/* Left: Goal list */}
             <div className="w-72 shrink-0">
@@ -535,7 +679,118 @@ export default function AccountabilityPage() {
               </div>
             )}
           </div>
-        </div>
+        </div>}
+
+        {mainTab === "guide" && (
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div style={{ maxWidth: 720 }}>
+              <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 6, color: "#F2F2F8" }}>How Biblical Accountability Works</h2>
+              <p style={{ fontSize: 14, color: "#9898B3", marginBottom: 28, lineHeight: 1.7 }}>Accountability is not surveillance — it is a covenant of mutual encouragement toward holiness. Here are the principles that make it work.</p>
+              {[
+                { icon: "🤝", title: "Choose Wisely", body: "An accountability partner should be someone who is slightly further along than you spiritually, who will tell you the truth even when it is uncomfortable, and who has demonstrated discretion. Avoid choosing someone you are romantically interested in or someone who will always agree with you. James 5:16 calls for mutual confession — which means both parties are vulnerable, not just one." },
+                { icon: "📋", title: "Use Specific Questions", body: "Vague accountability produces vague results. Write out 3–5 specific, concrete questions to ask at each meeting. Wesley's bands asked: 'What known sins have you committed since our last meeting? What temptations have you met with? How were you delivered? What have you thought, said, or done, of which you doubt whether it be sin or not?' Specificity is mercy — it closes the gap where self-deception hides." },
+                { icon: "🔒", title: "Maintain Confidentiality", body: "Nothing destroys accountability faster than broken confidence. What is shared in an accountability relationship stays there, period. Before the relationship begins, be explicit: 'What we share here stays here.' The only exception is an immediate threat of harm to self or others. Proverbs 11:13 says a trustworthy person keeps a confidence — this is the bedrock of the entire relationship." },
+                { icon: "📅", title: "Meet Regularly and Consistently", body: "The value of accountability compounds with regularity. Monthly meetings produce some fruit. Weekly meetings produce real transformation. Whatever frequency you choose, protect it. Cancel rarely. Treat it like a doctor's appointment for your soul. Wesley's class meetings were weekly without exception — their consistency was a feature, not a burden." },
+                { icon: "🌱", title: "Celebrate Progress, Not Just Failure", body: "Accountability is not just about sin management — it is about growth toward Christlikeness. When progress is made, name it and celebrate it. Positive reinforcement of growth is as important as honest confrontation of failure. Hebrews 10:24 says 'spur one another on toward love and good deeds' — the goal is positive trajectory, not just sin elimination." },
+                { icon: "✝️", title: "Anchor It in Grace", body: "The accountability relationship must be saturated in the gospel. When failure is confessed, it should be met with the words of 1 John 1:9 and Romans 8:1 — not condemnation, not minimizing, but gospel-grounded grace that simultaneously takes sin seriously and takes the cross more seriously. Partners who become merely moral scorekeepers will produce shame, not transformation." },
+              ].map(item => (
+                <div key={item.title} style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 16, padding: "20px 24px", marginBottom: 14, display: "flex", gap: 16 }}>
+                  <div style={{ fontSize: 24, flexShrink: 0 }}>{item.icon}</div>
+                  <div>
+                    <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 6, color: "#F2F2F8" }}>{item.title}</div>
+                    <p style={{ fontSize: 13, color: "#C0C0D8", lineHeight: 1.7, margin: 0 }}>{item.body}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {mainTab === "voices" && (
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
+              <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 80 }}>
+                {VOICES_ACCT.map(v => (
+                  <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                    style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? "rgba(0,255,136,0.4)" : "#1E1E32"}`, background: selectedVoice === v.id ? "rgba(0,255,136,0.08)" : "#12121F", cursor: "pointer" }}>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: selectedVoice === v.id ? "#00FF88" : "#F2F2F8", marginBottom: 2 }}>{v.name}</div>
+                    <div style={{ fontSize: 11, color: "#9898B3" }}>{v.era}</div>
+                  </button>
+                ))}
+              </div>
+              <div style={{ flex: 1, background: "#12121F", border: "1px solid #1E1E32", borderRadius: 16, padding: 28 }}>
+                <div style={{ fontSize: 12, color: "#9898B3", fontStyle: "italic", marginBottom: 6 }}>{voiceItem.context}</div>
+                <h2 style={{ fontSize: 24, fontWeight: 800, marginBottom: 4, color: "#F2F2F8" }}>{voiceItem.name}</h2>
+                <div style={{ fontSize: 13, color: "#9898B3", marginBottom: 20 }}>{voiceItem.era}</div>
+                <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.8, marginBottom: 24 }}>{voiceItem.bio}</p>
+                <div style={{ background: "#07070F", borderRadius: 12, padding: 20, borderLeft: "3px solid #00FF88", marginBottom: 24 }}>
+                  <p style={{ fontSize: 15, color: "#E0E0F0", lineHeight: 1.75, fontStyle: "italic" }}>&ldquo;{voiceItem.quote}&rdquo;</p>
+                </div>
+                <div>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: "#6B4FBB", textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>Contribution</div>
+                  <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.75 }}>{voiceItem.contribution}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {mainTab === "questions" && (
+          <div style={{ maxWidth: 900, margin: "0 auto", padding: "32px 24px" }}>
+            <h2 style={{ fontSize: 26, fontWeight: 800, marginBottom: 10, color: "#F2F2F8" }}>Accountability Questions</h2>
+            <p style={{ color: "#9898B3", marginBottom: 32, fontSize: 15, lineHeight: 1.75, maxWidth: 680 }}>
+              These questions are drawn from the Wesleyan band-meeting tradition and the practice of serious disciples across church history.
+              Bring them to your next meeting. Ask them honestly. Answer them honestly.
+              The goal is not condemnation &mdash; it is the freedom that comes from walking in the light together.
+            </p>
+            {QUESTIONS_DATA.map(cat => (
+              <div key={cat.id} style={{ marginBottom: 28, background: "#12121F", borderRadius: 12, border: "1px solid #1E1E32", padding: 24 }}>
+                <h3 style={{ color: "#00FF88", fontSize: 17, fontWeight: 800, marginBottom: 16, marginTop: 0 }}>{cat.icon} {cat.category}</h3>
+                <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+                  {cat.questions.map((q, i) => (
+                    <li key={i} style={{ padding: "10px 0", borderBottom: i < cat.questions.length - 1 ? "1px solid #1E1E32" : "none", color: "#F2F2F8", fontSize: 15, lineHeight: 1.6 }}>
+                      {q}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {mainTab === "videos" && (
+          <div style={{ maxWidth: 900, margin: "0 auto", padding: "32px 24px" }}>
+            <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: "#00FF88", fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: "#9898B3", fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors on discipleship, accountability, and spiritual growth.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "t3ZYiRM0PN8", title: "John Piper and Darrin Patrick on Biblical Manhood (Part 1)", channel: "Desiring God", description: "Piper and Patrick discuss what it means to build deep, accountable friendships among Christian men — the kind that ask hard questions." },
+                  { videoId: "DUVKRVJYzYc", title: "Helping Relationships: Course Lecture by Ed Welch", channel: "CCEF School of Biblical Counseling", description: "Ed Welch teaches how to build genuine, Christ-centered accountability and care in relationships — drawn from his work at CCEF." },
+                  { videoId: "GfdP2o5NXWI", title: "Hope and Power to Change", channel: "CCEF", description: "A CCEF teaching on how the gospel provides the actual power for lasting change — the foundation of any real accountability relationship." },
+                  { videoId: "LA7GitzS-bY", title: "What Is Biblical Counseling?", channel: "Edward T. Welch / CCEF", description: "Ed Welch explains what biblical counseling is and how the Scriptures speak practically into the struggles of real life." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: "#07070F", border: "1px solid #1E1E32", borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: "#00FF88", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: "#9898B3", fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -66,12 +66,62 @@ const PRACTICAL = [
   { q: "Should Christians care about the world if it's ending?", a: "Yes. The coming new creation vindicates creation — it is not destroyed but renewed. Our care for the earth, for people, for culture is anticipatory of the coming restoration. The final state is not escapism; it is the world made right." },
 ];
 
+const THINKERS_ESC = [
+  {
+    id: "wright",
+    name: "N.T. Wright",
+    era: "b. 1948",
+    context: "Bishop of Durham; New Testament scholar; University of St Andrews",
+    bio: "Wright has done more than any living scholar to recover the Jewish apocalyptic context of early Christian eschatology. His work Surprised by Hope (2008) argues that the Christian hope is not 'going to heaven when you die' but bodily resurrection and the renewal of the whole creation. He emphasizes that the future new creation is not a replacement of the present world but its restoration and glorification — and that this changes how Christians should think about creation care, justice, and culture.",
+    quote: "The whole point of what Jesus was doing and saying was that the Kingdom of God was arriving in the present, not just in the future.",
+    contribution: "Recovered the creational, bodily, and this-worldly nature of Christian hope. His critique of 'Platonic escapism' in Christian eschatology has reoriented a generation of pastors and scholars toward the genuine NT hope."
+  },
+  {
+    id: "edwards",
+    name: "Jonathan Edwards",
+    era: "1703-1758",
+    context: "Puritan pastor; America's greatest theologian",
+    bio: "Edwards held a form of postmillennialism — he believed the gospel would advance until large portions of the world were converted, ushering in a golden age before Christ's return. His History of the Work of Redemption traces the unfolding of God's redemptive purposes across history as a coherent narrative moving toward the consummation. The Great Awakening he helped lead seemed to him a foretaste of what was coming. His optimism about the gospel's power shaped American evangelicalism profoundly.",
+    quote: "The work of redemption is a work that God carries on from the fall of man to the end of the world. God makes all the successive events of Providence in the world subservient to this great design.",
+    contribution: "Articulated a coherent theology of history in which God's redemptive purposes move from creation through fall, redemption, and restoration. His postmillennial hope produced serious engagement with culture and extraordinary missionary ambition."
+  },
+  {
+    id: "bavinck",
+    name: "Herman Bavinck",
+    era: "1854-1921",
+    context: "Dutch Reformed theologian; Free University of Amsterdam",
+    bio: "Bavinck's treatment of eschatology in Reformed Dogmatics vol. 4 remains one of the most thorough and careful systematic treatments in Protestant theology. He holds an amillennial position but with unusual nuance and breadth — engaging with the whole history of interpretation, the nature of the intermediate state, the resurrection body, heaven, hell, and new creation. His central thesis: grace restores nature. The eschaton does not abolish creation but redeems it.",
+    quote: "The foundation of eschatology is Christology. Christ's resurrection is the beginning of the new creation, and his return will complete it.",
+    contribution: "Produced the most comprehensive Reformed systematic eschatology of the modern era. His nature/grace framework — grace restores nature rather than replacing it — has become foundational for Reformed eschatology and worldview thinking."
+  },
+  {
+    id: "ladd",
+    name: "George Eldon Ladd",
+    era: "1911-1982",
+    context: "Fuller Theological Seminary; New Testament scholar",
+    bio: "Ladd was the most important American biblical theologian of the 20th century on the kingdom of God and eschatology. His The Presence of the Future (1964) and A Theology of the New Testament established that the New Testament presents the kingdom of God as both already present (in Jesus' ministry) and not yet fully realized (awaiting the parousia). This 'already/not yet' framework has become the standard evangelical paradigm for understanding kingdom eschatology.",
+    quote: "The kingdom of God is the redemptive reign of God dynamically active to establish his rule among human beings, and that this kingdom, which will appear as an apocalyptic act at the end of the age, has already come into human history in the person and mission of Jesus.",
+    contribution: "Established the already/not yet kingdom framework that now dominates evangelical New Testament theology. His work gave the church a way to read the Gospels, Acts, and the epistles as a coherent eschatological narrative."
+  },
+  {
+    id: "bauckham",
+    name: "Richard Bauckham",
+    era: "b. 1946",
+    context: "Cambridge; University of St Andrews; New Testament and Patristics scholar",
+    bio: "Bauckham's The Theology of the Book of Revelation (1993) remains the definitive short treatment of Revelation's eschatological vision. He argues that Revelation is not a prediction manual but a prophetic letter calling persecuted Christians to faithful witness in the knowledge of God's ultimate sovereignty. Its vision of the new Jerusalem is about God's presence — not real estate — and its language of judgment calls the church to take evil seriously without mapping it onto contemporary events.",
+    quote: "The Revelation is given not so that we may see the future as it were mapped out in advance, but so that we may see the present world in the light of its future destiny.",
+    contribution: "Corrected misreadings of Revelation by recovering its historical and rhetorical context. His work has helped a generation of preachers and teachers use Revelation pastorally rather than speculatively."
+  }
+];
+
 export default function EndTimesPage() {
-  const [activeTab, setActiveTab] = useState<"views" | "essentials" | "practical">("essentials");
+  const [activeTab, setActiveTab] = useState<"views" | "thinkers" | "essentials" | "practical" | "videos">("essentials");
   const [selectedView, setSelectedView] = useState("amillennial");
+  const [selectedThinker, setSelectedThinker] = useState("wright");
   const [expanded, setExpanded] = useState<string | null>(null);
 
   const view = VIEWS.find(v => v.id === selectedView)!;
+  const thinker = THINKERS_ESC.find(t => t.id === selectedThinker)!;
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 40 }}>
@@ -86,9 +136,11 @@ export default function EndTimesPage() {
 
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
-            { id: "essentials" as const, label: "What All Agree On", icon: "✝️" },
-            { id: "views" as const, label: "Millennial Views", icon: "📖" },
-            { id: "practical" as const, label: "Practical Questions", icon: "❓" },
+            { id: "essentials" as const, label: "Essentials", icon: "✝️" },
+            { id: "views" as const, label: "Views", icon: "📖" },
+            { id: "thinkers" as const, label: "Thinkers", icon: "🏛️" },
+            { id: "practical" as const, label: "Q&A", icon: "❓" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -157,6 +209,43 @@ export default function EndTimesPage() {
           </div>
         )}
 
+        {activeTab === "thinkers" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 210, flexShrink: 0 }}>
+              {THINKERS_ESC.map(t => (
+                <button key={t.id} onClick={() => setSelectedThinker(t.id)}
+                  style={{ width: "100%", background: selectedThinker === t.id ? `${PURPLE}18` : "transparent", border: `1px solid ${selectedThinker === t.id ? PURPLE + "80" : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 6, cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: selectedThinker === t.id ? TEXT : MUTED, fontWeight: 700, fontSize: 13 }}>{t.name}</div>
+                  <div style={{ color: MUTED, fontSize: 11, marginTop: 2 }}>{t.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ background: CARD, border: `1px solid ${PURPLE}30`, borderRadius: 14, padding: 28 }}>
+                <div style={{ marginBottom: 18 }}>
+                  <h2 style={{ color: TEXT, fontWeight: 900, fontSize: 22, marginBottom: 4 }}>{thinker.name}</h2>
+                  <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                    <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700 }}>{thinker.era}</span>
+                    <span style={{ background: `${GREEN}15`, color: GREEN, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700 }}>{thinker.context}</span>
+                  </div>
+                </div>
+                <div style={{ marginBottom: 18 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>LIFE & CONTRIBUTION</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>{thinker.bio}</p>
+                </div>
+                <div style={{ background: BG, borderLeft: `3px solid ${PURPLE}`, borderRadius: "0 10px 10px 0", padding: 18, marginBottom: 18 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 11, marginBottom: 8 }}>CHARACTERISTIC QUOTE</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0, fontStyle: "italic" }}>&ldquo;{thinker.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 10, padding: 16 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>KEY CONTRIBUTION</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{thinker.contribution}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {activeTab === "practical" && (
           <div>
             {PRACTICAL.map((p, i) => (
@@ -174,6 +263,39 @@ export default function EndTimesPage() {
                 )}
               </div>
             ))}
+          </div>
+        )}
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Video teachings on end times, eschatology, and the Christian hope — what the Bible actually says about the last things.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "4S0TQ2dXnms", title: "What Happens After We Die? N.T. Wright on Resurrection", channel: "N.T. Wright Online", description: "Wright's definitive explanation of the Christian hope: not escape to a disembodied heaven, but the resurrection of the body and the renewal of creation. Challenges much popular end-times thinking." },
+                  { videoId: "yqWn5Ovv8V0", title: "The Second Coming of Christ — What Does the Bible Teach?", channel: "Desiring God", description: "John Piper walks through the key New Testament passages on Christ's return, clarifying what all Christians agree on and where the major debates lie." },
+                  { videoId: "-a-4XwDYTMU", title: "Amillennialism vs. Premillennialism: A Fair Debate", channel: "Sam Storms", description: "A gracious, scholarly comparison of the two dominant evangelical views on the millennium, with attention to the key passages in Revelation 20 and Daniel." },
+                  { videoId: "3ijQGmgF5nE", title: "Reading Revelation: How to Approach the Last Book of the Bible", channel: "The Bible Project", description: "An accessible guide to reading Revelation as its first-century audience would have — as apocalyptic literature full of symbols, not a prophetic timeline." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

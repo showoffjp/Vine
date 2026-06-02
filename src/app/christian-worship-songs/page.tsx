@@ -4,6 +4,8 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
+type Tab = "songs" | "theology" | "history" | "videos";
+
 const ERAS = ["All", "Classic Hymn", "Modern Hymn", "Contemporary", "Global"];
 
 const SONGS = [
@@ -165,7 +167,111 @@ const SONGS = [
   },
 ];
 
+const SONG_THEOLOGY = [
+  {
+    id: "atonement",
+    doctrine: "The Atonement",
+    icon: "✝️",
+    scripture: "Col 1:20, 1 Peter 2:24",
+    description: "Worship songs have been one of the primary ways Christians learn and internalize the doctrine of Christ's substitutionary death. Songs like 'In Christ Alone' sparked denominational controversy precisely because they stated the doctrine clearly.",
+    examples: ["In Christ Alone (Keith Getty & Stuart Townend)", "When I Survey the Wondrous Cross (Isaac Watts)", "Before the Throne of God Above (Charitie Bancroft)"],
+  },
+  {
+    id: "trinity",
+    doctrine: "The Trinity",
+    icon: "🔺",
+    scripture: "Matt 28:19, 2 Cor 13:14",
+    description: "Trinitarian worship songs hold together what the creeds teach: Father, Son, and Spirit are distinct persons in one being. The great Trinitarian hymns have formed orthodox instincts in Christians who never read systematic theology.",
+    examples: ["Holy Holy Holy (Reginald Heber)", "Come Thou Almighty King (anon., 18th c.)", "Praise God from Whom All Blessings Flow (Thomas Ken)"],
+  },
+  {
+    id: "sovereignty",
+    doctrine: "God's Sovereignty",
+    icon: "👑",
+    scripture: "Psalm 46, Romans 8:28",
+    description: "A God who reigns over all circumstances is a God worth singing to. Songs of divine sovereignty have sustained Christians through persecution, disease, and loss for five centuries.",
+    examples: ["A Mighty Fortress Is Our God (Martin Luther)", "He Is Lord (anon.)", "This Is My Father's World (Maltbie Babcock)"],
+  },
+  {
+    id: "grace",
+    doctrine: "Grace & Mercy",
+    icon: "🕊️",
+    scripture: "Eph 2:8-9",
+    description: "The song 'Amazing Grace' has introduced more people to the doctrine of divine grace than most sermons. John Newton wrote it from firsthand experience of being rescued from the slave trade and his own sin.",
+    examples: ["Amazing Grace (John Newton)", "Grace Greater Than Our Sin (Julia Johnston)", "O the Deep Deep Love of Jesus (Samuel Trevor Francis)"],
+  },
+  {
+    id: "hope",
+    doctrine: "The Second Coming & Hope",
+    icon: "🌅",
+    scripture: "Rev 22:20",
+    description: "Christian hope is not optimism but eschatology — the confident expectation that Christ will return and make all things new. Songs of hope have historically sustained Christians through exile, suffering, and death.",
+    examples: ["How Great Thou Art (Carl Boberg / Stuart K. Hine)", "Crown Him with Many Crowns (Matthew Bridges)", "This Is My Father's World (Maltbie Babcock)"],
+  },
+];
+
+const SONG_HISTORY = [
+  {
+    id: "early",
+    era: "Psalms & Early Church Hymns",
+    period: "1st-4th Century",
+    key_figures: ["Gregory of Nyssa", "Ambrose of Milan"],
+    description: "The earliest Christian worship was rooted in the Jewish Psalter. Paul and Silas sang hymns in prison (Acts 16:25). Early church fathers like Ambrose composed hymns to combat heresy. The Te Deum — 'We praise you, O God' — dates to this era and is still sung in churches worldwide.",
+    iconic_song: "Te Deum Laudamus (4th c.)",
+  },
+  {
+    id: "chant",
+    era: "Gregorian Chant",
+    period: "6th-9th Century",
+    key_figures: ["Gregory the Great (attributed)", "Benedictine monks"],
+    description: "Monastic communities developed the rich tradition of Gregorian chant — unaccompanied, single melodic lines sung by monks in the daily liturgy. The music was designed to subordinate itself to the text, creating an atmosphere of contemplation and wonder. It remains the longest continuous musical tradition in Western civilization.",
+    iconic_song: "Kyrie Eleison (Lord, Have Mercy)",
+  },
+  {
+    id: "reformation",
+    era: "Reformation Hymns",
+    period: "16th Century",
+    key_figures: ["Martin Luther", "John Calvin", "Genevan Psalter"],
+    description: "Martin Luther's Reformation gave hymn-singing back to the congregation. His 'A Mighty Fortress Is Our God' became the anthem of the Reformation. Calvin insisted on metrical psalm-singing in Geneva. Both traditions restored the voices of ordinary worshippers to the act of praise.",
+    iconic_song: "A Mighty Fortress Is Our God (Martin Luther, 1529)",
+  },
+  {
+    id: "great-hymns",
+    era: "Great Hymn Tradition",
+    period: "17th-19th Century",
+    key_figures: ["Isaac Watts", "Charles Wesley", "John Newton"],
+    description: "Isaac Watts wrote 'When I Survey the Wondrous Cross' and over 700 other hymns, essentially inventing modern English hymnody. Charles Wesley wrote over 6,000 hymns for the Methodist revival. John Newton, the former slave-trader turned Anglican rector, wrote 'Amazing Grace.' This era produced more enduring congregational songs than any other.",
+    iconic_song: "When I Survey the Wondrous Cross (Isaac Watts, 1707)",
+  },
+  {
+    id: "gospel",
+    era: "Gospel Songs & Spirituals",
+    period: "19th-20th Century",
+    key_figures: ["Fanny Crosby", "Philip Bliss", "African American spiritual tradition"],
+    description: "Fanny Crosby, blind from infancy, wrote over 8,000 gospel songs including 'Blessed Assurance' and 'To God Be the Glory.' African American spirituals — forged in the experience of slavery — are among the most theologically profound and emotionally honest songs in Christian history, including 'Swing Low, Sweet Chariot' and 'Go Down, Moses.'",
+    iconic_song: "Blessed Assurance (Fanny Crosby, 1873)",
+  },
+  {
+    id: "contemporary",
+    era: "Contemporary Worship",
+    period: "1970s-Present",
+    key_figures: ["Keith & Kristyn Getty", "Matt Redman", "Vineyard Movement"],
+    description: "The contemporary worship movement began with the Vineyard churches in the 1970s and exploded globally with Hillsong in the 1990s. Keith and Kristyn Getty launched a 'modern hymn' movement seeking to combine contemporary accessibility with theological depth. Today worship music is a global industry — and a genuinely global conversation, with songs emerging from Nigeria, South Korea, Brazil, and beyond.",
+    iconic_song: "In Christ Alone (Getty & Townend, 2001)",
+  },
+];
+
+const SONG_VIDEOS = [
+  { id: "X1rPalyUshw", title: "How Great Is Our God", speaker: "Louie Giglio", venue: "Passion" },
+  { id: "RE8QkBA0Syg", title: "How Great Is Our God (Universe)", speaker: "Louie Giglio", venue: "Passion" },
+  { id: "v6xk8e7gdMA", title: "The Holiness of God", speaker: "R.C. Sproul", venue: "Ligonier" },
+  { id: "7CBgp74UwbU", title: "The Trauma of Holiness", speaker: "R.C. Sproul", venue: "Ligonier" },
+  { id: "JHdB1dYAteA", title: "Don't Waste Your Life", speaker: "John Piper", venue: "Passion" },
+  { id: "lsTzXI7cJGA", title: "The Prodigal Sons", speaker: "Tim Keller", venue: "Redeemer" },
+];
+
 export default function ChristianWorshipSongsPage() {
+  const [activeTab, setActiveTab] = useState<Tab>("songs");
   const [era, setEra] = useState("All");
   const [selected, setSelected] = useState<string | null>(null);
 
@@ -179,69 +285,156 @@ export default function ChristianWorshipSongsPage() {
           <div style={{ fontSize: 48, marginBottom: 12 }}>🎵</div>
           <h1 style={{ fontSize: 32, fontWeight: 900, marginBottom: 8 }}>Essential Christian Worship Songs</h1>
           <p style={{ color: MUTED, fontSize: 16, maxWidth: 600, margin: "0 auto" }}>
-            12 songs that have shaped how Christians worship — from 19th-century hymns to this decade's anthems. Each with its backstory, theology, and where to find it.
+            12 songs that have shaped how Christians worship &mdash; from 19th-century hymns to this decade&rsquo;s anthems. Each with its backstory, theology, and where to find it.
           </p>
         </div>
 
-        <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 28 }}>
-          {ERAS.map(e => (
-            <button key={e} onClick={() => setEra(e)}
-              style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${era === e ? GREEN : BORDER}`, background: era === e ? `${GREEN}15` : "transparent", color: era === e ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
-              {e}
+        {/* Tab Bar */}
+        <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 6, width: "fit-content" }}>
+          {(["songs", "theology", "history", "videos"] as const).map(t => (
+            <button key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+              {t === "songs" ? "Songs" : t === "theology" ? "Theology" : t === "history" ? "History" : "Videos"}
             </button>
           ))}
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: song ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
-          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            {filtered.map((s, i) => (
-              <button key={i} onClick={() => setSelected(selected === s.title ? null : s.title)}
-                style={{ background: selected === s.title ? `${s.color}12` : CARD, border: `1px solid ${selected === s.title ? s.color + "50" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left", transition: "all 0.15s" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                  <div style={{ width: 44, height: 44, borderRadius: 10, background: `${s.color}20`, border: `1px solid ${s.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: s.color, fontWeight: 900, fontSize: 10, flexShrink: 0 }}>
-                    {s.initials}
-                  </div>
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-                      <span style={{ color: TEXT, fontWeight: 800, fontSize: 15 }}>{s.title}</span>
-                      <span style={{ background: `${s.color}15`, color: s.color, padding: "1px 8px", borderRadius: 8, fontSize: 10, fontWeight: 700 }}>{s.era}</span>
+        {/* Songs Tab */}
+        {activeTab === "songs" && (
+          <>
+            <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 28 }}>
+              {ERAS.map(e => (
+                <button key={e} onClick={() => setEra(e)}
+                  style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${era === e ? GREEN : BORDER}`, background: era === e ? `${GREEN}15` : "transparent", color: era === e ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
+                  {e}
+                </button>
+              ))}
+            </div>
+
+            <div style={{ display: "grid", gridTemplateColumns: song ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                {filtered.map((s, i) => (
+                  <button key={i} onClick={() => setSelected(selected === s.title ? null : s.title)}
+                    style={{ background: selected === s.title ? `${s.color}12` : CARD, border: `1px solid ${selected === s.title ? s.color + "50" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left", transition: "all 0.15s" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                      <div style={{ width: 44, height: 44, borderRadius: 10, background: `${s.color}20`, border: `1px solid ${s.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: s.color, fontWeight: 900, fontSize: 10, flexShrink: 0 }}>
+                        {s.initials}
+                      </div>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                          <span style={{ color: TEXT, fontWeight: 800, fontSize: 15 }}>{s.title}</span>
+                          <span style={{ background: `${s.color}15`, color: s.color, padding: "1px 8px", borderRadius: 8, fontSize: 10, fontWeight: 700 }}>{s.era}</span>
+                        </div>
+                        <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{s.artist} &middot; {s.year}</div>
+                      </div>
+                      <span style={{ color: MUTED, fontSize: 11, flexShrink: 0 }}>{s.theme}</span>
                     </div>
-                    <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{s.artist} · {s.year}</div>
+                  </button>
+                ))}
+              </div>
+
+              {song && (
+                <div style={{ background: CARD, border: `1px solid ${song.color}30`, borderRadius: 14, padding: 28, position: "sticky", top: 100 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 14 }}>
+                    <div style={{ width: 52, height: 52, borderRadius: 12, background: `${song.color}20`, border: `1px solid ${song.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: song.color, fontWeight: 900, fontSize: 12, flexShrink: 0 }}>
+                      {song.initials}
+                    </div>
+                    <div>
+                      <h2 style={{ color: song.color, fontWeight: 900, fontSize: 20, margin: "0 0 2px" }}>{song.title}</h2>
+                      <div style={{ color: MUTED, fontSize: 12 }}>{song.artist} &middot; {song.year} &middot; {song.era}</div>
+                    </div>
                   </div>
-                  <span style={{ color: MUTED, fontSize: 11, flexShrink: 0 }}>{s.theme}</span>
+                  <div style={{ background: `${song.color}08`, border: `1px solid ${song.color}20`, borderRadius: 10, padding: 14, marginBottom: 16 }}>
+                    <div style={{ color: song.color, fontWeight: 700, fontSize: 10, marginBottom: 6 }}>KEY LINE</div>
+                    <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0, fontStyle: "italic" }}>&ldquo;{song.key_line}&rdquo;</p>
+                  </div>
+                  <div style={{ marginBottom: 14 }}>
+                    <div style={{ color: song.color, fontWeight: 700, fontSize: 10, marginBottom: 6 }}>THEME</div>
+                    <span style={{ background: `${song.color}12`, color: song.color, padding: "2px 10px", borderRadius: 8, fontSize: 12, fontWeight: 600 }}>{song.theme}</span>
+                    <span style={{ background: `${PURPLE}12`, color: PURPLE, padding: "2px 10px", borderRadius: 8, fontSize: 12, fontWeight: 600, marginLeft: 6 }}>{song.verse}</span>
+                  </div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, marginBottom: 16 }}>{song.why}</p>
+                  <a href={song.youtube} target="_blank" rel="noopener noreferrer"
+                    style={{ background: "#FF000015", border: "1px solid #FF000030", color: "#FF4444", padding: "9px 16px", borderRadius: 9, fontSize: 13, fontWeight: 700, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 6 }}>
+                    ▶ Find on YouTube
+                  </a>
                 </div>
-              </button>
+              )}
+            </div>
+          </>
+        )}
+
+        {/* Theology Tab */}
+        {activeTab === "theology" && (
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 18 }}>
+            {SONG_THEOLOGY.map(doc => (
+              <div key={doc.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24 }}>
+                <div style={{ fontSize: 32, marginBottom: 10 }}>{doc.icon}</div>
+                <h3 style={{ color: TEXT, fontWeight: 800, fontSize: 17, margin: "0 0 6px" }}>{doc.doctrine}</h3>
+                <div style={{ background: `${PURPLE}12`, color: PURPLE, padding: "3px 10px", borderRadius: 8, fontSize: 11, fontWeight: 700, display: "inline-block", marginBottom: 12 }}>{doc.scripture}</div>
+                <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.65, margin: "0 0 16px" }}>{doc.description}</p>
+                <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 10, marginBottom: 2 }}>EXAMPLE SONGS</div>
+                  {doc.examples.map((ex, i) => (
+                    <div key={i} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "9px 12px", color: TEXT, fontSize: 12 }}>{ex}</div>
+                  ))}
+                </div>
+              </div>
             ))}
           </div>
+        )}
 
-          {song && (
-            <div style={{ background: CARD, border: `1px solid ${song.color}30`, borderRadius: 14, padding: 28, position: "sticky", top: 100 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 14 }}>
-                <div style={{ width: 52, height: 52, borderRadius: 12, background: `${song.color}20`, border: `1px solid ${song.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: song.color, fontWeight: 900, fontSize: 12, flexShrink: 0 }}>
-                  {song.initials}
+        {/* History Tab */}
+        {activeTab === "history" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+            {SONG_HISTORY.map((h, i) => (
+              <div key={h.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24 }}>
+                <div style={{ display: "flex", alignItems: "flex-start", gap: 20 }}>
+                  <div style={{ flexShrink: 0, width: 48, height: 48, borderRadius: 12, background: `${PURPLE}20`, border: `1px solid ${PURPLE}40`, display: "flex", alignItems: "center", justifyContent: "center", color: PURPLE, fontWeight: 900, fontSize: 15 }}>
+                    {i + 1}
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", marginBottom: 6 }}>
+                      <h3 style={{ color: TEXT, fontWeight: 800, fontSize: 16, margin: 0 }}>{h.era}</h3>
+                      <span style={{ background: `${GREEN}15`, color: GREEN, padding: "2px 10px", borderRadius: 8, fontSize: 11, fontWeight: 700 }}>{h.period}</span>
+                    </div>
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 12 }}>
+                      {h.key_figures.map((f, fi) => (
+                        <span key={fi} style={{ background: `${PURPLE}10`, color: PURPLE, padding: "3px 10px", borderRadius: 6, fontSize: 11, fontWeight: 600 }}>{f}</span>
+                      ))}
+                    </div>
+                    <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.7, margin: "0 0 12px" }}>{h.description}</p>
+                    <div style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px" }}>
+                      <span style={{ color: MUTED, fontSize: 10, fontWeight: 700 }}>ICONIC SONG &mdash; </span>
+                      <span style={{ color: TEXT, fontSize: 13, fontWeight: 600 }}>{h.iconic_song}</span>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <h2 style={{ color: song.color, fontWeight: 900, fontSize: 20, margin: "0 0 2px" }}>{song.title}</h2>
-                  <div style={{ color: MUTED, fontSize: 12 }}>{song.artist} · {song.year} · {song.era}</div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Videos Tab */}
+        {activeTab === "videos" && (
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(440px, 1fr))", gap: 24 }}>
+            {SONG_VIDEOS.map(v => (
+              <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, overflow: "hidden" }}>
+                <iframe
+                  width="100%"
+                  style={{ aspectRatio: "16/9", border: "none", display: "block" }}
+                  src={`https://www.youtube.com/embed/${v.id}`}
+                  title={v.title}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+                <div style={{ padding: "14px 16px" }}>
+                  <div style={{ color: TEXT, fontWeight: 800, fontSize: 14, marginBottom: 4 }}>{v.title}</div>
+                  <div style={{ color: MUTED, fontSize: 12 }}>{v.speaker} &middot; {v.venue}</div>
                 </div>
               </div>
-              <div style={{ background: `${song.color}08`, border: `1px solid ${song.color}20`, borderRadius: 10, padding: 14, marginBottom: 16 }}>
-                <div style={{ color: song.color, fontWeight: 700, fontSize: 10, marginBottom: 6 }}>KEY LINE</div>
-                <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0, fontStyle: "italic" }}>"{song.key_line}"</p>
-              </div>
-              <div style={{ marginBottom: 14 }}>
-                <div style={{ color: song.color, fontWeight: 700, fontSize: 10, marginBottom: 6 }}>THEME</div>
-                <span style={{ background: `${song.color}12`, color: song.color, padding: "2px 10px", borderRadius: 8, fontSize: 12, fontWeight: 600 }}>{song.theme}</span>
-                <span style={{ background: `${PURPLE}12`, color: PURPLE, padding: "2px 10px", borderRadius: 8, fontSize: 12, fontWeight: 600, marginLeft: 6 }}>{song.verse}</span>
-              </div>
-              <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, marginBottom: 16 }}>{song.why}</p>
-              <a href={song.youtube} target="_blank" rel="noopener noreferrer"
-                style={{ background: "#FF000015", border: "1px solid #FF000030", color: "#FF4444", padding: "9px 16px", borderRadius: 9, fontSize: 13, fontWeight: 700, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 6 }}>
-                ▶ Find on YouTube
-              </a>
-            </div>
-          )}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

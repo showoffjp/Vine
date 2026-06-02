@@ -9,7 +9,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "howto" | "orgs" | "reentry";
+type Tab = "theology" | "howto" | "orgs" | "reentry" | "videos";
 
 const STATS = [
   { value: "2.3 million", label: "incarcerated in the U.S." },

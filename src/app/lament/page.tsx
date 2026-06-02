@@ -20,6 +20,56 @@ const STRUCTURE = [
   { step: "Wait and Listen", icon: "🤫", color: "#10B981", desc: "Lament does not always end with resolution — Psalm 88 doesn't. But it does end with having spoken. After pouring out, be still. Don't rush to fill the silence with noise.", example: "Simply sit. 5 minutes of silence. Let the prayer stand." },
 ];
 
+type Tab = "howto" | "psalms" | "voices" | "write" | "videos";
+
+const VOICES = [
+  {
+    id: "brueggemann",
+    name: "Walter Brueggemann",
+    era: "1933-present",
+    context: "OT scholar; Columbia Theological Seminary",
+    bio: "Brueggemann's 'The Message of the Psalms' (1984) and 'Israel's Praise' (1988) gave the modern church its most influential recovery of the lament tradition. He argued that the psalms of lament are not merely ancient poetry but a grammar for an alternative consciousness — a way of living in the world that refuses both the false positivity of success-culture and the cynical despair of defeat. Lament, for Brueggemann, is the voice of the community speaking truth to power — including the power of God — and is thus inherently political as well as spiritual.",
+    quote: "Lament is the voice of the communal experience that refuses to accept the way things are as the way they must be. It insists that the present arrangement of power and pain is not God's last word.",
+    contribution: "Brueggemann identified the suppression of lament in the modern church as a theological problem, not merely a liturgical one. When lament is absent, the church loses its capacity for prophetic speech — it can only celebrate what is, not cry out for what should be. He showed that psalms of lament move from plea to praise through the middle of honest grief, not by bypassing it. His work recovered lament as a legitimate, necessary, and powerful form of Christian prayer.",
+  },
+  {
+    id: "peterson",
+    name: "Eugene Peterson",
+    era: "1932-2018",
+    context: "Presbyterian pastor; professor at Regent College; translator of The Message",
+    bio: "Peterson's 'Answering God: The Psalms as Tools for Prayer' (1989) offered a pastoral account of learning to pray the Psalms — including the laments — as one's own language. His central insight: the Psalms are God's gift to teach us how to pray, not our natural expression that God receives. When we feel like praising, we praise in the Psalms' language. When we feel like lamenting, we lament in the Psalms' language. The Psalms school our emotions rather than merely express them.",
+    quote: "Psalm prayer is not the prayer I feel like praying. It is the prayer God is calling me to. The Psalms teach me a language for God that is richer, more honest, and more trustworthy than anything I generate on my own.",
+    contribution: "Peterson gave ordinary pastors and churchgoers a practical, accessible account of praying the laments. His insistence that the Psalms school us in honest speech — rather than merely expressing emotions we already have — was pastoral rather than academic. The Message translation of the Psalms brought their emotional range into contemporary language that made the laments feel like permission rather than ancient obligation.",
+  },
+  {
+    id: "vroegop",
+    name: "Mark Vroegop",
+    era: "1974-present",
+    context: "Baptist pastor; College Park Church, Indianapolis",
+    bio: "Vroegop's 'Dark Clouds, Deep Mercy: Discovering the Grace of Lament' (2019) is the most practically useful contemporary evangelical treatment of lament. Written after the loss of a child, it reads as both theological reflection and personal testimony. He structures lament as Turn (turning to God), Complain (honest speech), Ask (specific petition), and Trust (reorientation toward faith) — giving ordinary Christians a framework they can actually use. His work helped a generation of evangelical churches recover lament in corporate worship.",
+    quote: "Lament is the prayer of the suffering. It is the honest, reverent, trusting speech of a person in pain who refuses to turn away from God. It is not the language of unbelief. It is the language of those who still believe — barely.",
+    contribution: "Vroegop's TCAT framework (Turn, Complain, Ask, Trust) democratized lament by giving ordinary Christians a concrete method. His integration of personal loss and biblical theology made the book both intellectually respectable and emotionally accessible. He also made the case for corporate lament in the Sunday service — arguing that a church that never laments together is not honest about the world it inhabits.",
+  },
+  {
+    id: "willard",
+    name: "Dallas Willard",
+    era: "1935-2013",
+    context: "Philosopher; professor at USC; spiritual formation writer",
+    bio: "Willard addressed lament through the lens of spiritual formation — the process by which the soul is progressively conformed to Christ. His 'The Spirit of the Disciplines' and 'The Divine Conspiracy' treat suffering and honest prayer as essential disciplines rather than interruptions to the spiritual life. For Willard, the person who never laments is likely the person who has not been honest enough with God or with themselves — and honest prayer is the oxygen of the inner life. Lament is one of the most important disciplines precisely because it is the most difficult.",
+    quote: "Prayer is not a way of getting God to do what we want. It is a way of becoming the kind of person whose wants are worth having God fulfill. Lament is how we tell God the truth about what we want — and let him form our wanting in the process.",
+    contribution: "Willard located lament within the larger framework of spiritual formation rather than treating it as an isolated practice. His concept of 'soul training' — that spiritual practices change us through their regular use — applies to lament: regular honest prayer before God gradually forms a soul that is more honest, more trusting, and more deeply oriented toward God regardless of circumstances. He helped evangelicals see lament not as a temporary coping mechanism but as an ongoing discipline.",
+  },
+  {
+    id: "wright",
+    name: "N.T. Wright",
+    era: "1948-present",
+    context: "Anglican Bishop; NT scholar; University of St. Andrews",
+    bio: "Wright's treatment of lament comes primarily through his writing on suffering, resurrection, and eschatology. In 'Evil and the Justice of God' (2006) and 'Surprised by Hope' (2008), he argues that the Christian response to evil is neither optimistic denial ('everything will work out') nor cynical acceptance ('this is just the way it is') but lament and resistance — honest grief that comes from believing that the present order is not how things are supposed to be and that God has promised to fix what is broken. The resurrection creates the proper context for lament: we cry out because we know evil is not the last word.",
+    quote: "Grief is not the opposite of faith. It is the voice of faith confronting a world that is not yet what it is promised to become. Without resurrection hope, lament has no object. With it, lament becomes prayer.",
+    contribution: "Wright's eschatological framing of lament gives it theological depth: lament is proper only in a universe where something better is promised. He also identified that much Christian triumphalism — the refusal to lament — is actually a failure of eschatological seriousness rather than a surplus of faith. His reading of Jesus's tears at Lazarus's tomb as both fully human grief and fully divine purpose became a touchstone for understanding how God himself enters into lament rather than standing above it.",
+  },
+];
+
 interface LamentEntry {
   id: string;
   date: string;
@@ -29,7 +79,9 @@ interface LamentEntry {
 }
 
 export default function LamentPage() {
-  const [activeTab, setActiveTab] = useState<"psalms" | "howto" | "write">("howto");
+  const [activeTab, setActiveTab] = useState<Tab>("howto");
+  const [selectedVoice, setSelectedVoice] = useState("brueggemann");
+  const voice = VOICES.find(v => v.id === selectedVoice)!;
   const [laments, setLaments] = useState<LamentEntry[]>(() => {
     try { const s = localStorage.getItem("vine_lament_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
   });
@@ -67,8 +119,10 @@ export default function LamentPage() {
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
             { id: "howto" as const, label: "How to Lament", icon: "📖" },
-            { id: "psalms" as const, label: "Psalms of Lament", icon: "📜" },
+            { id: "psalms" as const, label: "Psalms", icon: "📜" },
+            { id: "voices" as const, label: "Voices", icon: "💬" },
             { id: "write" as const, label: "Write a Lament", icon: "✍️" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -124,6 +178,38 @@ export default function LamentPage() {
           </div>
         )}
 
+        {activeTab === "voices" && (
+          <div style={{ display: "flex", gap: 20 }}>
+            <div style={{ width: 210, flexShrink: 0 }}>
+              {VOICES.map(v => (
+                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  style={{ width: "100%", background: selectedVoice === v.id ? `${PURPLE}18` : "transparent", border: `1px solid ${selectedVoice === v.id ? PURPLE + "70" : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 6, cursor: "pointer", textAlign: "left" }}>
+                  <div style={{ color: selectedVoice === v.id ? PURPLE : TEXT, fontWeight: 800, fontSize: 13, marginBottom: 2 }}>{v.name}</div>
+                  <div style={{ color: MUTED, fontSize: 11 }}>{v.era}</div>
+                </button>
+              ))}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ background: CARD, border: `1px solid ${PURPLE}30`, borderRadius: 14, padding: 28 }}>
+                <div style={{ marginBottom: 20 }}>
+                  <div style={{ color: MUTED, fontWeight: 700, fontSize: 11, marginBottom: 4 }}>{voice.era}</div>
+                  <h2 style={{ color: PURPLE, fontWeight: 900, fontSize: 24, marginBottom: 4 }}>{voice.name}</h2>
+                  <div style={{ color: MUTED, fontSize: 13 }}>{voice.context}</div>
+                </div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, marginBottom: 20 }}>{voice.bio}</p>
+                <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 10, padding: 18, marginBottom: 16 }}>
+                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 11, marginBottom: 10 }}>IN THEIR OWN WORDS</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0, fontStyle: "italic" }}>&ldquo;{voice.quote}&rdquo;</p>
+                </div>
+                <div style={{ background: BG, borderRadius: 10, padding: 16 }}>
+                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>KEY CONTRIBUTION</div>
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{voice.contribution}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {activeTab === "write" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 26 }}>
@@ -163,6 +249,39 @@ export default function LamentPage() {
                 </div>
               </div>
             )}
+          </div>
+        )}
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
+                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                {[
+                  { videoId: "Iy68YXttAvw", title: "Spiritual Depression in the Psalms", channel: "John Piper", description: "Piper explores Psalm 42 and how the psalmist models honest speech in the direction of God when the soul is cast down — the biblical pattern of lament." },
+                  { videoId: "DNl_OZM59Is", title: "Psalm 13: Lessons in Lament", channel: "Psalms Sermon Series", description: "A verse-by-verse walk through Psalm 13 — the fourfold 'How long, O Lord?' — as a model for praying honestly to God in seasons of delay and suffering." },
+                  { videoId: "ExYcadtFlwk", title: "Into the Psalms with John Piper", channel: "The Worship Initiative", description: "John Piper on how the Psalms teach us to pray with honesty, including the laments that address God directly in the midst of anguish." },
+                  { videoId: "enxKd2YKgjI", title: "How Should You Read the Psalms?", channel: "Desiring God", description: "John Piper provides a framework for reading the Psalms — including the laments — as the Spirit-inspired language of honest prayer before God." },
+                ].map(v => (
+                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allowFullScreen
+                    />
+                    <div style={{ padding: "14px 16px" }}>
+                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
       </div>

@@ -11,6 +11,10 @@ type Doctrine = {
   commonMisunderstandings: string[]; denominationViews: { name: string; view: string }[];
   thinkers: string[]; difficulty: "Foundational" | "Intermediate" | "Deep Dive";
 };
+type Council = { id: string; name: string; year: string; location: string; issue: string; decision: string; creed: string; significance: string; };
+type Creed = { id: string; name: string; year: string; origin: string; fullText: string; keyLine: string; explanation: string; };
+type TheoVideo = { id: string; preacher: string; title: string; description: string; videoId: string; };
+type Tab = "doctrines" | "councils" | "creeds" | "videos";
 
 const doctrines: Doctrine[] = [
   {
@@ -131,7 +135,7 @@ const doctrines: Doctrine[] = [
       { name: "Reformed / Lutheran / Catholic", view: "Amillennialism; no rapture separate from second coming; more symbolic reading of Revelation" },
       { name: "Eastern Orthodox", view: "Strong theosis emphasis; less systematic on details; cosmic renewal as central" },
     ],
-    thinkers: ["N.T. Wright", "George Eldon Ladd", "Anthony Hoekema", "Jürgen Moltmann", "C.S. Lewis"],
+    thinkers: ["N.T. Wright", "George Eldon Ladd", "Anthony Hoekema", "Jurgen Moltmann", "C.S. Lewis"],
   },
   {
     id: "sanctification",
@@ -159,6 +163,162 @@ const doctrines: Doctrine[] = [
   }
 ];
 
+const THEO_COUNCILS: Council[] = [
+  {
+    id: "nicaea",
+    name: "Council of Nicaea",
+    year: "325 AD",
+    location: "Nicaea (modern Turkey)",
+    issue: "Is the Son of the same substance as the Father, or a created being subordinate to him?",
+    decision: "Homoousios — the Son is of the same substance (essence) as the Father. Arianism condemned.",
+    creed: "Nicene Creed (original form)",
+    significance: "The first great ecumenical council; settled the doctrine of the Trinity for all subsequent Christian theology. Without Nicaea, Christianity might have become a form of ethical monotheism rather than Trinitarian faith."
+  },
+  {
+    id: "constantinople",
+    name: "Council of Constantinople",
+    year: "381 AD",
+    location: "Constantinople (modern Istanbul)",
+    issue: "Is the Holy Spirit truly divine, or a lesser divine being subordinate to Father and Son?",
+    decision: "The Holy Spirit is fully divine, co-equal with Father and Son. The Pneumatomachians (Spirit-fighters) condemned.",
+    creed: "Nicene-Constantinopolitan Creed — the full Trinitarian formula recited in churches today",
+    significance: "Completed the Trinitarian formula still confessed in the Nicene Creed. Established that all three persons of the Trinity are fully and equally divine — the theological foundation for Christian worship."
+  },
+  {
+    id: "ephesus",
+    name: "Council of Ephesus",
+    year: "431 AD",
+    location: "Ephesus (modern Turkey)",
+    issue: "Are Christ's two natures so separate that Mary should only be called 'Christotokos' (Christ-bearer), not 'Theotokos' (God-bearer)?",
+    decision: "Nestorius condemned. Mary affirmed as Theotokos. The unity of Christ's person — one person, not two — upheld.",
+    creed: "No new creed; reaffirmed Nicaea",
+    significance: "Upheld the unity of Christ's person against Nestorian division. If Christ were two persons, his death would not be the death of God incarnate — and the atonement would be fundamentally different."
+  },
+  {
+    id: "chalcedon",
+    name: "Council of Chalcedon",
+    year: "451 AD",
+    location: "Chalcedon (near Constantinople)",
+    issue: "Does Christ have one nature (divine absorbing human — Monophysitism) or two complete natures?",
+    decision: "Two natures, one person — fully divine and fully human, without confusion, mixture, separation, or division. The Chalcedonian Definition.",
+    creed: "Chalcedonian Definition — 'one and the same Son... perfect in divinity and perfect in humanity'",
+    significance: "The most precise Christological statement in church history. The four negative adverbs — without confusion, without change, without division, without separation — remain the standard for orthodox Christology across Catholic, Orthodox, and Protestant traditions."
+  },
+  {
+    id: "worms",
+    name: "Diet of Worms",
+    year: "1521 AD",
+    location: "Worms, Germany",
+    issue: "Are Luther's writings heresy requiring recantation, or legitimate reform grounded in Scripture?",
+    decision: "Luther refused to recant unless shown by Scripture or plain reason that he was wrong. The Emperor declared him an outlaw. Luther's famous stand: 'Here I stand; I can do no other.'",
+    creed: "No creed; led directly to the Augsburg Confession (1530)",
+    significance: "The pivotal moment of the Protestant Reformation. Luther's refusal established the principle of Sola Scriptura in practice — that Scripture, not papal authority, is the supreme arbiter of Christian doctrine."
+  },
+  {
+    id: "trent",
+    name: "Council of Trent",
+    year: "1545-1563 AD",
+    location: "Trent (northern Italy)",
+    issue: "How should the Catholic Church respond to Protestant Reformation claims about Scripture, justification, and the sacraments?",
+    decision: "Affirmed Scripture and Tradition as co-equal sources; condemned the Lutheran doctrine of justification by faith alone; confirmed seven sacraments; standardized the Mass.",
+    creed: "Tridentine decrees — the basis of Catholic doctrine for four centuries",
+    significance: "Defined Catholic identity in contrast to Protestantism in terms that held for 400 years. The Council of Trent made reconciliation between Rome and the Reformers impossible in the 16th century, but also produced a reformed and more disciplined Catholic Church."
+  }
+];
+
+const THEO_CREEDS: Creed[] = [
+  {
+    id: "apostles",
+    name: "Apostles' Creed",
+    year: "c. 140 AD",
+    origin: "Developed from early baptismal confessions in Rome; reached its current form by the 7th century. Used in Western churches for catechesis and baptism.",
+    fullText: "I believe in God, the Father Almighty, Creator of heaven and earth, and in Jesus Christ, his only Son, our Lord, who was conceived by the Holy Spirit, born of the Virgin Mary, suffered under Pontius Pilate, was crucified, died, and was buried; he descended into hell; on the third day he rose again from the dead; he ascended into heaven, and is seated at the right hand of God the Father Almighty; from there he will come to judge the living and the dead. I believe in the Holy Spirit, the holy catholic church, the communion of saints, the forgiveness of sins, the resurrection of the body, and life everlasting. Amen.",
+    keyLine: "I believe in God, the Father Almighty, Creator of heaven and earth",
+    explanation: "The Apostles' Creed is the oldest summary of Christian faith still in universal use. It moves through the three persons of the Trinity — God the Father (Creator), God the Son (the narrative of Christ's life, death, and resurrection), and God the Holy Spirit (the church, forgiveness, resurrection). It is not a philosophical treatise but a narrative confession — faith summarized as a story."
+  },
+  {
+    id: "nicene",
+    name: "Nicene Creed",
+    year: "325/381 AD",
+    origin: "Formulated at the Council of Nicaea (325) and expanded at Constantinople (381) to address Arian and Pneumatomachian heresies. Used in the Eucharist across Catholic, Orthodox, and most Protestant traditions.",
+    fullText: "We believe in one God, the Father Almighty, maker of heaven and earth, of all things visible and invisible. And in one Lord Jesus Christ, the only Son of God, eternally begotten of the Father, God from God, Light from Light, true God from true God, begotten, not made, of one Being with the Father; through him all things were made. For us and for our salvation he came down from heaven, was incarnate of the Holy Spirit and the Virgin Mary and became truly human. For our sake he was crucified under Pontius Pilate; he suffered death and was buried. On the third day he rose again in accordance with the Scriptures; he ascended into heaven and is seated at the right hand of the Father. He will come again in glory to judge the living and the dead, and his kingdom will have no end. And we believe in the Holy Spirit, the Lord, the giver of life, who proceeds from the Father and the Son, who with the Father and the Son is worshiped and glorified, who has spoken through the prophets. We believe in one holy catholic and apostolic church. We acknowledge one baptism for the forgiveness of sins. We look for the resurrection of the dead, and the life of the world to come. Amen.",
+    keyLine: "of one Being with the Father; through him all things were made",
+    explanation: "The Nicene Creed is the most universally accepted statement of Christian faith. Written to refute Arianism, it uses the philosophical term homoousios ('of one Being') to assert that Jesus is not a lesser divine being but fully and truly God. The phrase 'eternally begotten, not made' is the theological heart: Jesus was not created but has always been the eternal Son."
+  },
+  {
+    id: "chalcedonian",
+    name: "Chalcedonian Definition",
+    year: "451 AD",
+    origin: "Formulated at the Council of Chalcedon to resolve the Monophysite controversy. Accepted by Catholic, Orthodox (with some exceptions), and Protestant churches as the standard of orthodox Christology.",
+    fullText: "We confess one and the same Son, our Lord Jesus Christ, the same perfect in divinity and perfect in humanity, the same truly God and truly human, consisting of a rational soul and a body, of one being with the Father as regards his divinity, and the same of one being with us as regards his humanity, like us in all respects except for sin; begotten before the ages from the Father as regards his divinity, and in the last days the same for us and for our salvation from Mary, the virgin God-bearer, as regards his humanity; one and the same Christ, Son, Lord, only-begotten, acknowledged in two natures which undergo no confusion, no change, no division, no separation; at no point was the difference between the natures taken away through the union, but rather the property of both natures is preserved and comes together into a single person and a single subsistent being.",
+    keyLine: "acknowledged in two natures which undergo no confusion, no change, no division, no separation",
+    explanation: "The Chalcedonian Definition is the most precise Christological statement in Christian history. Its four negative adverbs — no confusion, no change, no division, no separation — rule out the two major heresies: Monophysitism (which confuses or mixes the natures) and Nestorianism (which divides them into two persons). The result is a paradox that resists reduction: Jesus is fully God and fully human, one person, forever."
+  },
+  {
+    id: "athanasian",
+    name: "Athanasian Creed",
+    year: "c. 500 AD",
+    origin: "Not actually written by Athanasius; likely composed in southern Gaul in the late 5th century. Known for its precise Trinitarian and Christological formulations and its stark language about salvation.",
+    fullText: "Whoever desires to be saved must, above all, hold the Catholic faith. Whoever does not keep it whole and unbroken will doubtless perish eternally. Now this is the Catholic faith: that we worship one God in Trinity and the Trinity in Unity, neither confusing the persons nor dividing the divine being. For the Father is one person, the Son is another, and the Holy Spirit is still another. But the divinity of the Father, Son, and Holy Spirit is one: equal in glory, coeternal in majesty... Such as the Father is, such is the Son, and such is the Holy Spirit... The Father is not made, nor created, nor begotten by anyone. The Son is not made, nor created, but begotten of the Father alone. The Holy Spirit is not made, nor created, nor begotten, but proceeds from the Father and the Son... This is the Trinity: Father, Son, and Holy Spirit — one God.",
+    keyLine: "We worship one God in Trinity and the Trinity in Unity, neither confusing the persons nor dividing the divine being",
+    explanation: "The Athanasian Creed is the most theologically precise of the three historic creeds. Its distinctive contribution is its relentless parallelism: it works through each person of the Trinity in turn, carefully asserting what is common to all three (one divine nature) and what is distinct to each (the Father is unbegotten; the Son is eternally begotten; the Spirit eternally proceeds). Its opening and closing warnings about salvation have made it controversial, but its Trinitarian formulations are considered among the most precise ever produced."
+  },
+  {
+    id: "westminster",
+    name: "Westminster Confession of Faith, Chapter 1",
+    year: "1646",
+    origin: "Produced by the Westminster Assembly (1643-1649), a gathering of English and Scottish theologians. Chapter 1 addresses the doctrine of Scripture — the foundational question of Reformed theology.",
+    fullText: "Although the light of nature, and the works of creation and providence, do so far manifest the goodness, wisdom, and power of God, as to leave men inexcusable; yet are they not sufficient to give that knowledge of God, and of his will, which is necessary unto salvation; therefore it pleased the Lord, at sundry times, and in divers manners, to reveal himself, and to declare that his will unto his church; and afterwards for the better preserving and propagating of the truth, and for the more sure establishment and comfort of the church against the corruption of the flesh, and the malice of Satan and of the world, to commit the same wholly unto writing; which maketh the Holy Scripture to be most necessary... The authority of the Holy Scripture, for which it ought to be believed and obeyed, dependeth not upon the testimony of any man or church, but wholly upon God (who is truth itself), the author thereof; and therefore it is to be received, because it is the Word of God... The whole counsel of God, concerning all things necessary for his own glory, man's salvation, faith, and life, is either expressly set down in Scripture, or by good and necessary consequence may be deduced from Scripture.",
+    keyLine: "The authority of the Holy Scripture... dependeth not upon the testimony of any man or church, but wholly upon God, the author thereof",
+    explanation: "Westminster Confession Chapter 1 is the most thorough and influential Reformed statement on Scripture ever produced. It addresses the necessity of Scripture (natural revelation is insufficient for salvation), the inspiration and canonicity of the Bible, its authority (which rests on God alone, not church tradition), its clarity (perspicuity — ordinary people can understand the saving message), and its sufficiency (Scripture contains everything necessary for faith and life). It has been the standard for Presbyterian and Reformed confessional theology for nearly 400 years."
+  }
+];
+
+const THEOLOGY_VIDEOS: TheoVideo[] = [
+  {
+    id: "keller-google",
+    preacher: "Tim Keller",
+    title: "The Reason for God",
+    description: "Keller makes the intellectual case for Christian theism before a Google audience, covering doubt, evil, and justice with characteristic clarity and cultural engagement.",
+    videoId: "Kxup3OS5ZhQ"
+  },
+  {
+    id: "sproul-holiness",
+    preacher: "R.C. Sproul",
+    title: "The Holiness of God",
+    description: "Sproul's landmark lecture on the attribute that distinguishes God from everything else — the foundation of all Christian theology and the lost note of modern Christianity.",
+    videoId: "v6xk8e7gdMA"
+  },
+  {
+    id: "sproul-trauma",
+    preacher: "R.C. Sproul",
+    title: "The Trauma of Holiness",
+    description: "Lecture 2 from Sproul's series — why encountering the holy God undoes and remakes the human person. The pattern of Isaiah 6 as the shape of all genuine conversion.",
+    videoId: "7CBgp74UwbU"
+  },
+  {
+    id: "baucham-supremacy",
+    preacher: "Voddie Baucham",
+    title: "The Supremacy of Christ and Truth",
+    description: "A rigorous theological defense of Christ's exclusive supremacy delivered at the 2006 Desiring God Conference — addressing pluralism, postmodernism, and the claims of the gospel.",
+    videoId: "by8ykv7-A3c"
+  },
+  {
+    id: "chan-spirit",
+    preacher: "Francis Chan",
+    title: "Forgotten God: Theology of the Holy Spirit",
+    description: "Chan's accessible teaching on the person and work of the Holy Spirit in the Christian life — the most neglected person of the Trinity in contemporary evangelical churches.",
+    videoId: "SCUEicqda1g"
+  },
+  {
+    id: "piper-waste",
+    preacher: "John Piper",
+    title: "Don't Waste Your Life",
+    description: "Piper roots radical living in deep theology: because God is God and human life is brief, there is a purpose that demands all of us — and anything less is a wasted life.",
+    videoId: "JHdB1dYAteA"
+  }
+];
+
 const categories = ["All", "God", "Salvation", "Bible", "Future", "Christian Life"];
 const difficulties = ["All", "Foundational", "Intermediate", "Deep Dive"];
 
@@ -168,21 +328,12 @@ const diffColors: Record<string, string> = {
   "Deep Dive": "#EF4444"
 };
 
-const THINKERS_THEOL = [
-  { id: "calvin-j", name: "John Calvin", era: "1509-1564", context: "Institutes of the Christian Religion (1536/1559) — the most comprehensive systematic theology of the Reformation", bio: "John Calvin's Institutes of the Christian Religion, first published in 1536 and expanded through five editions to its definitive 1559 form, is the most comprehensive and influential systematic theology produced by the Reformation. Calvin organized theology around the knowledge of God and the knowledge of humanity — arguing that they are inseparable: we cannot know ourselves rightly without knowing God, and we cannot know God rightly without knowing ourselves. The Institutes covers Scripture, the Trinity, the person of Christ, salvation, the church, and the sacraments with extraordinary logical rigor and pastoral warmth. Calvin's influence on Protestant theology — especially Reformed, Presbyterian, and Baptist traditions — is incalculable.", quote: "Nearly all the wisdom we possess, that is to say, true and sound wisdom, consists of two parts: the knowledge of God and of ourselves.", contribution: "The Institutes established Reformed theology as a comprehensive, intellectually coherent alternative to Catholic scholasticism. Calvin's doctrine of sovereign grace, covenant theology, and the authority of Scripture have shaped Presbyterian, Reformed, and Baptist traditions for five centuries. His theological method — anchored in Scripture, organized systematically, and applied pastorally — remains the template for Reformed systematic theology." },
-  { id: "barth-k", name: "Karl Barth", era: "1886-1968", context: "Church Dogmatics (1932-1967) — the greatest theological achievement of the 20th century; 13 volumes", bio: "Karl Barth's Church Dogmatics is the most ambitious and comprehensive theological work of the 20th century — thirteen massive volumes covering the doctrine of the Word of God, the doctrine of God, creation, reconciliation, and (incomplete) eschatology. Barth began as a liberal Protestant, trained under the leading liberal theologians of his era. The outbreak of World War One — and his horror at watching his teachers sign a declaration supporting the Kaiser's war — drove him back to Scripture and to a wholly other God who cannot be derived from human experience or culture. His Epistle to the Romans (1919) announced a theological revolution. The Church Dogmatics is its systematic development.", quote: "God is who he is in the act of his revelation. There is no God behind the back of Jesus Christ. The Father is exactly like the Son.", contribution: "Barth's Church Dogmatics reinvigorated Protestant theology after decades of liberal accommodation to culture and Enlightenment rationalism. His Christocentric method — reading all of theology through the lens of Jesus Christ — has been the dominant influence in 20th-century Protestant systematics. Even theologians who disagree with Barth define themselves in relation to him." },
-  { id: "bavinck-h", name: "Herman Bavinck", era: "1854-1921", context: "Reformed Dogmatics (1895-1901) — the greatest Reformed systematic theology; recently translated into English", bio: "Herman Bavinck's four-volume Reformed Dogmatics is the most thorough and sophisticated systematic theology in the Reformed tradition — surpassing even Calvin's Institutes in its scope and engagement with the history of doctrine. Bavinck engaged seriously with modern philosophy, biblical scholarship, and natural science, producing a Reformed theology that was intellectually rigorous without being culturally defensive. His organizing theme was the 'organic unity' of creation and redemption: grace does not destroy nature but restores and perfects it. This motif — captured in his famous phrase 'grace restores nature' — has become the foundation of neo-Calvinist cultural theology in the tradition of Abraham Kuyper.", quote: "Grace restores nature. The goal of grace is not to take us out of creation but to transform us within it — to make us fully human as God intended.", contribution: "Bavinck's Reformed Dogmatics, only fully translated into English in the early 2000s, has had a remarkable renaissance among Reformed evangelicals in the 21st century. His synthesis of orthodox Reformed theology with deep engagement with modern thought has given a generation of pastors and scholars a model for serious, culturally engaged Reformed theology." },
-  { id: "aquinas-t", name: "Thomas Aquinas", era: "1225-1274", context: "Summa Theologica (1265-1274) — the most comprehensive theological synthesis of the medieval church", bio: "Thomas Aquinas's Summa Theologica is the greatest achievement of medieval Christian theology — a comprehensive synthesis of Christian revelation and Aristotelian philosophy that structured Catholic theology for seven centuries and continues to shape it today. Aquinas organized theology as a science proceeding from God as its primary subject. He addressed the existence and nature of God (the Five Ways), creation, anthropology, the virtues, Christ, and the sacraments with extraordinary precision and comprehensiveness. His method — stating objections, replying to each, then giving the positive answer — became the model for systematic theology across traditions. His natural theology (the Five Ways) remains the standard formulation of cosmological, teleological, and ontological arguments.", quote: "All that I have written seems to me like straw compared to what I have seen and what has been revealed to me. I can write no more.", contribution: "Aquinas established the framework for Catholic systematic theology that persists to this day. His synthesis of faith and reason, grace and nature, Scripture and philosophy, has been the standard for Catholic theology since the Council of Trent. His Five Ways for God's existence remain the most cited philosophical arguments for theism in academic philosophy." },
-  { id: "wright-nt2", name: "N.T. Wright", era: "b. 1948", context: "Christian Origins and the Question of God series (5 vols.); Paul and the Faithfulness of God (2013)", bio: "N.T. Wright is the most prolific and influential New Testament scholar of the late 20th and early 21st century, with a particular focus on historical Jesus research, Pauline theology, and the relationship between the New Testament and the Old. His five-volume Christian Origins series — The New Testament and the People of God, Jesus and the Victory of God, The Resurrection of the Son of God, Paul and the Faithfulness of God, and The Day the Revolution Began — constitutes the most ambitious attempt in modern scholarship to read the entire New Testament within its Jewish and Roman historical context. His 'New Perspective on Paul' has reshaped how scholars and pastors understand justification, the law, and the mission of Israel.", quote: "The resurrection is not a happy ending to a sad story. It is the beginning of God's new world — the first eruption of the coming Kingdom into the present age.", contribution: "Wright's work has given pastors, scholars, and educated laypeople access to the most significant developments in New Testament scholarship in a form that is readable and theologically serious. His emphasis on the Kingdom of God, new creation, and the continuity between the Testaments has reshaped preaching and theological education across evangelical traditions." },
-];
-
 export default function TheologyPage() {
-  const [tab, setTab] = useState<"doctrines" | "compare" | "glossary" | "thinkers">("doctrines");
-  const [selectedThinker, setSelectedThinker] = useState("calvin-j");
-  const thinkerItem = THINKERS_THEOL.find(t => t.id === selectedThinker)!;
+  const [activeTab, setActiveTab] = useState<Tab>("doctrines");
   const [catFilter, setCatFilter] = useState("All");
   const [diffFilter, setDiffFilter] = useState("All");
   const [expandedDoc, setExpandedDoc] = useState<string | null>(null);
+  const [selectedCreed, setSelectedCreed] = useState<string>("apostles");
   const [studiedDocs, setStudiedDocs] = useState<Set<string>>(() => {
     try { const s = localStorage.getItem("vine_theology_studied"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
   });
@@ -205,75 +356,7 @@ export default function TheologyPage() {
     (diffFilter === "All" || d.difficulty === diffFilter)
   );
 
-  const glossaryTerms = [
-    { term: "Theism", def: "Belief in a personal God who created and sustains the universe" },
-    { term: "Monotheism", def: "Belief in one God (Judaism, Christianity, Islam)" },
-    { term: "Incarnation", def: "The eternal Son of God taking on human flesh in Jesus of Nazareth" },
-    { term: "Justification", def: "Being declared righteous before God through faith in Christ" },
-    { term: "Sanctification", def: "The ongoing process of becoming more like Christ" },
-    { term: "Glorification", def: "The final stage of salvation: bodily resurrection and perfection" },
-    { term: "Soteriology", def: "The study of salvation (from Greek 'soter' = savior)" },
-    { term: "Pneumatology", def: "The study of the Holy Spirit" },
-    { term: "Christology", def: "The study of the person and work of Jesus Christ" },
-    { term: "Ecclesiology", def: "The study of the church — its nature, structure, and purpose" },
-    { term: "Eschatology", def: "The study of last things: return of Christ, resurrection, judgment, new creation" },
-    { term: "Hermeneutics", def: "The science and art of biblical interpretation" },
-    { term: "Exegesis", def: "Drawing out the meaning of a text in its original context" },
-    { term: "Eisegesis", def: "Reading meaning INTO a text (what to avoid)" },
-    { term: "Propitiation", def: "Satisfying God's just wrath against sin (see Rom 3:25)" },
-    { term: "Expiation", def: "The removal/cleansing of sin's guilt" },
-    { term: "Imputation", def: "The act of crediting something to someone's account" },
-    { term: "Infallibility", def: "The Bible will not fail in its ultimate purpose and central teachings" },
-    { term: "Inerrancy", def: "The Bible is without error in all that it affirms" },
-    { term: "Imago Dei", def: "Image of God — the status of humans as bearers of God's image (Gen 1:27)" },
-    { term: "Kenosis", def: "Christ 'emptying himself' (Phil 2:7) by taking on human limitations" },
-    { term: "Hypostatic Union", def: "Jesus is one person with two natures — fully God, fully human" },
-    { term: "Theosis", def: "Participation in God's divine nature (2 Pet 1:4) — central in Orthodox theology" },
-    { term: "Antinomianism", def: "The false view that grace eliminates any moral obligation" },
-  ];
-
-  const comparisonDenominations = [
-    {
-      name: "Roman Catholic",
-      color: "#F59E0B",
-      salvation: "Faith + works + sacraments; completed in purgatory if needed",
-      bible: "Scripture + Tradition; interpreted by Magisterium",
-      church: "Hierarchical; Pope as head; apostolic succession essential",
-      sacraments: "7 sacraments; Eucharist is real presence (transubstantiation)"
-    },
-    {
-      name: "Eastern Orthodox",
-      color: "#EC4899",
-      salvation: "Theosis — participation in divine life; emphasis on ascent",
-      bible: "Scripture + Tradition; Council decisions; less juridical than Catholics",
-      church: "Conciliar; patriarchs; no single earthly head",
-      sacraments: "7 sacraments (called 'mysteries'); real presence affirmed"
-    },
-    {
-      name: "Reformed (Presbyterian)",
-      color: PURPLE,
-      salvation: "Grace alone, faith alone, in Christ alone; unconditional election",
-      bible: "Scripture alone is supreme authority; perspicuous on salvation",
-      church: "Elder-governed; presbyterian polity",
-      sacraments: "2 sacraments; spiritual presence in communion (not physical)"
-    },
-    {
-      name: "Evangelical Baptist",
-      color: "#3B82F6",
-      salvation: "Grace through faith; believer's decision; eternal security",
-      bible: "Scripture alone; inerrant in original autographs",
-      church: "Congregational; believer's church; no infant baptism",
-      sacraments: "2 ordinances (not sacraments): baptism (believer's) and Lord's Supper (memorial)"
-    },
-    {
-      name: "Pentecostal / Charismatic",
-      color: GREEN,
-      salvation: "Grace through faith; Spirit baptism as a second distinct experience",
-      bible: "Scripture inerrant; ongoing prophecy and revelation possible",
-      church: "Apostolic/prophetic leadership common; revival culture",
-      sacraments: "2 ordinances; emphasis on physical healing and miracles"
-    }
-  ];
+  const activeCreed = THEO_CREEDS.find(c => c.id === selectedCreed)!;
 
   return (
     <div style={{ minHeight: "100vh", background: BG, color: TEXT, fontFamily: "inherit" }}>
@@ -308,23 +391,17 @@ export default function TheologyPage() {
           </div>
         </div>
 
-        {/* Tabs */}
-        <div style={{ display: "flex", gap: 8, marginBottom: 28, borderBottom: `1px solid ${BORDER}` }}>
-          {[
-            { id: "doctrines", label: "📋 Doctrines" },
-            { id: "compare", label: "⚖️ Traditions Compared" },
-            { id: "glossary", label: "📖 Glossary" },
-            { id: "thinkers", label: "🎓 Thinkers" },
-          ].map(t => (
-            <button key={t.id} onClick={() => setTab(t.id as typeof tab)}
-              style={{ padding: "10px 20px", borderRadius: "10px 10px 0 0", border: "none", cursor: "pointer", fontWeight: 700, fontSize: 14, background: tab === t.id ? CARD : "transparent", color: tab === t.id ? TEXT : MUTED, borderBottom: tab === t.id ? `2px solid ${GREEN}` : "2px solid transparent" }}>
-              {t.label}
+        {/* Tab Bar */}
+        <div style={{ display: "flex", gap: 6, marginBottom: 28, padding: "6px", background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, flexWrap: "wrap" }}>
+          {(["doctrines", "councils", "creeds", "videos"] as const).map(t => (
+            <button key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+              {t === "doctrines" ? "Doctrines" : t === "councils" ? "Historic Councils" : t === "creeds" ? "Creeds & Confessions" : "Watch & Learn"}
             </button>
           ))}
         </div>
 
         {/* DOCTRINES TAB */}
-        {tab === "doctrines" && (
+        {activeTab === "doctrines" && (
           <div>
             {/* Filters */}
             <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 24 }}>
@@ -361,7 +438,7 @@ export default function TheologyPage() {
                               <h3 style={{ fontSize: 18, fontWeight: 800, margin: 0 }}>{doc.name}</h3>
                               <span style={{ fontSize: 11, padding: "2px 10px", borderRadius: 20, background: `${doc.color}15`, color: doc.color, fontWeight: 700 }}>{doc.category}</span>
                               <span style={{ fontSize: 11, padding: "2px 10px", borderRadius: 20, background: `${diffColors[doc.difficulty]}15`, color: diffColors[doc.difficulty], fontWeight: 700 }}>{doc.difficulty}</span>
-                              {studiedDocs.has(doc.id) && <span style={{ fontSize: 11, padding: "2px 10px", borderRadius: 20, background: "rgba(0,255,136,0.1)", color: GREEN, fontWeight: 700 }}>✓ Studied</span>}
+                              {studiedDocs.has(doc.id) && <span style={{ fontSize: 11, padding: "2px 10px", borderRadius: 20, background: "rgba(0,255,136,0.1)", color: GREEN, fontWeight: 700 }}>&#x2713; Studied</span>}
                             </div>
                             <p style={{ fontSize: 14, color: MUTED, margin: 0, lineHeight: 1.6 }}>{doc.headline}</p>
                           </div>
@@ -381,7 +458,6 @@ export default function TheologyPage() {
 
                     {isExp && (
                       <div style={{ borderTop: `1px solid ${BORDER}`, padding: "24px" }}>
-                        {/* Plain English */}
                         <div style={{ marginBottom: 24 }}>
                           <h4 style={{ fontSize: 13, fontWeight: 800, color: doc.color, textTransform: "uppercase", letterSpacing: 1, marginBottom: 12 }}>In Plain English</h4>
                           {doc.plainEnglish.split("\n").map((p, i) => (
@@ -389,30 +465,26 @@ export default function TheologyPage() {
                           ))}
                         </div>
 
-                        {/* Key Verse */}
                         <div style={{ background: `${doc.color}08`, border: `1px solid ${doc.color}25`, borderRadius: 12, padding: "16px", marginBottom: 24 }}>
-                          <p style={{ fontSize: 14, fontStyle: "italic", color: "#C0C0D8", lineHeight: 1.7, margin: "0 0 8px" }}>"{doc.keyVerse}"</p>
-                          <p style={{ fontSize: 12, fontWeight: 700, color: doc.color, margin: 0 }}>— {doc.keyVerseRef}</p>
+                          <p style={{ fontSize: 14, fontStyle: "italic", color: "#C0C0D8", lineHeight: 1.7, margin: "0 0 8px" }}>&ldquo;{doc.keyVerse}&rdquo;</p>
+                          <p style={{ fontSize: 12, fontWeight: 700, color: doc.color, margin: 0 }}>&mdash; {doc.keyVerseRef}</p>
                         </div>
 
-                        {/* Why It Matters */}
                         <div style={{ marginBottom: 24 }}>
                           <h4 style={{ fontSize: 13, fontWeight: 800, color: GREEN, textTransform: "uppercase", letterSpacing: 1, marginBottom: 10 }}>Why It Matters</h4>
                           <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.7, margin: 0 }}>{doc.whyItMatters}</p>
                         </div>
 
-                        {/* Misunderstandings */}
                         <div style={{ marginBottom: 24 }}>
                           <h4 style={{ fontSize: 13, fontWeight: 800, color: "#EF4444", textTransform: "uppercase", letterSpacing: 1, marginBottom: 10 }}>Common Misunderstandings</h4>
                           {doc.commonMisunderstandings.map((m, i) => (
                             <div key={i} style={{ display: "flex", gap: 10, marginBottom: 8 }}>
-                              <span style={{ color: "#EF4444", fontWeight: 900, flexShrink: 0 }}>✗</span>
+                              <span style={{ color: "#EF4444", fontWeight: 900, flexShrink: 0 }}>&#x2717;</span>
                               <p style={{ fontSize: 14, color: "#C0C0D8", margin: 0, lineHeight: 1.6 }}>{m}</p>
                             </div>
                           ))}
                         </div>
 
-                        {/* Denomination Views */}
                         <div style={{ marginBottom: 20 }}>
                           <h4 style={{ fontSize: 13, fontWeight: 800, color: MUTED, textTransform: "uppercase", letterSpacing: 1, marginBottom: 12 }}>How Traditions Differ</h4>
                           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -425,16 +497,15 @@ export default function TheologyPage() {
                           </div>
                         </div>
 
-                        {/* Thinkers & Action */}
                         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
                           <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
                             {doc.thinkers.map(t => (
-                              <span key={t} style={{ fontSize: 12, padding: "4px 12px", borderRadius: 20, background: "rgba(107,79,187,0.1)", color: PURPLE, fontWeight: 600 }}>👤 {t}</span>
+                              <span key={t} style={{ fontSize: 12, padding: "4px 12px", borderRadius: 20, background: "rgba(107,79,187,0.1)", color: PURPLE, fontWeight: 600 }}>&#x1F464; {t}</span>
                             ))}
                           </div>
                           <button onClick={() => toggleStudied(doc.id)}
                             style={{ padding: "8px 18px", borderRadius: 10, border: `1px solid ${studiedDocs.has(doc.id) ? GREEN : BORDER}`, background: studiedDocs.has(doc.id) ? "rgba(0,255,136,0.1)" : "transparent", color: studiedDocs.has(doc.id) ? GREEN : MUTED, cursor: "pointer", fontSize: 13, fontWeight: 700 }}>
-                            {studiedDocs.has(doc.id) ? "✓ Studied" : "Mark as Studied"}
+                            {studiedDocs.has(doc.id) ? "&#x2713; Studied" : "Mark as Studied"}
                           </button>
                         </div>
                       </div>
@@ -446,111 +517,125 @@ export default function TheologyPage() {
           </div>
         )}
 
-        {/* COMPARE TAB */}
-        {tab === "compare" && (
+        {/* COUNCILS TAB */}
+        {activeTab === "councils" && (
           <div>
             <p style={{ color: MUTED, marginBottom: 24, fontSize: 15 }}>
-              Christians agree on a great deal — the Trinity, the Incarnation, the resurrection, grace through faith, the authority of Scripture. Where we disagree is often in the details of how these doctrines are applied and structured.
+              The great councils of church history were not abstract academic exercises &mdash; they were moments of crisis in which the church had to decide what it actually believed about God, Christ, and salvation. These decisions still shape Christianity today.
             </p>
-            <div style={{ overflowX: "auto" }}>
-              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
-                <thead>
-                  <tr style={{ borderBottom: `2px solid ${BORDER}` }}>
-                    <th style={{ textAlign: "left", padding: "12px 16px", color: MUTED, fontWeight: 800, fontSize: 12, textTransform: "uppercase", letterSpacing: 1 }}>Topic</th>
-                    {comparisonDenominations.map(d => (
-                      <th key={d.name} style={{ textAlign: "left", padding: "12px 16px", fontWeight: 800, color: d.color, fontSize: 12 }}>{d.name}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {[
-                    { label: "Salvation", key: "salvation" },
-                    { label: "Bible", key: "bible" },
-                    { label: "Church", key: "church" },
-                    { label: "Sacraments", key: "sacraments" },
-                  ].map((row, ri) => (
-                    <tr key={row.label} style={{ borderBottom: `1px solid ${BORDER}`, background: ri % 2 === 0 ? "rgba(255,255,255,0.01)" : "transparent" }}>
-                      <td style={{ padding: "14px 16px", fontWeight: 800, color: TEXT, verticalAlign: "top" }}>{row.label}</td>
-                      {comparisonDenominations.map(d => (
-                        <td key={d.name} style={{ padding: "14px 16px", color: MUTED, verticalAlign: "top", lineHeight: 1.6 }}>
-                          {d[row.key as keyof typeof d]}
-                        </td>
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-
-            <div style={{ marginTop: 28, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: "24px" }}>
-              <h3 style={{ fontSize: 16, fontWeight: 800, marginBottom: 12, color: GREEN }}>What All Christians Agree On</h3>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 10 }}>
-                {[
-                  "One God, Creator of all",
-                  "The Trinity: Father, Son, Spirit",
-                  "Jesus is fully God and fully human",
-                  "The death and resurrection of Jesus",
-                  "Salvation through faith in Christ",
-                  "The authority of Scripture",
-                  "The Church as the Body of Christ",
-                  "The physical return of Jesus",
-                  "Bodily resurrection of the dead",
-                  "The New Creation / eternal life",
-                ].map(item => (
-                  <div key={item} style={{ display: "flex", gap: 8, padding: "10px 14px", background: "rgba(0,255,136,0.04)", borderRadius: 10, border: "1px solid rgba(0,255,136,0.12)" }}>
-                    <span style={{ color: GREEN, fontWeight: 900 }}>✓</span>
-                    <p style={{ fontSize: 13, color: "#C0C0D8", margin: 0 }}>{item}</p>
+            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+              {THEO_COUNCILS.map((c, idx) => (
+                <div key={c.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, overflow: "hidden" }}>
+                  <div style={{ padding: "22px 24px" }}>
+                    <div style={{ display: "flex", gap: 14, alignItems: "flex-start", marginBottom: 14 }}>
+                      <div style={{ flexShrink: 0, width: 48, height: 48, borderRadius: 12, background: `${PURPLE}20`, border: `1px solid ${PURPLE}40`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13, fontWeight: 900, color: PURPLE }}>
+                        {idx + 1}
+                      </div>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap", marginBottom: 6 }}>
+                          <h3 style={{ fontSize: 18, fontWeight: 900, margin: 0, color: TEXT }}>{c.name}</h3>
+                          <span style={{ fontSize: 11, padding: "3px 10px", borderRadius: 20, background: `${GREEN}15`, color: GREEN, fontWeight: 700 }}>{c.year}</span>
+                          <span style={{ fontSize: 11, padding: "3px 10px", borderRadius: 20, background: `${PURPLE}15`, color: PURPLE, fontWeight: 700 }}>{c.location}</span>
+                        </div>
+                        <p style={{ fontSize: 14, color: MUTED, margin: 0, fontStyle: "italic", lineHeight: 1.5 }}>&ldquo;{c.issue}&rdquo;</p>
+                      </div>
+                    </div>
+                    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 12 }}>
+                      <div style={{ background: "rgba(0,255,136,0.05)", border: "1px solid rgba(0,255,136,0.15)", borderRadius: 10, padding: "12px 14px" }}>
+                        <p style={{ fontSize: 11, fontWeight: 800, color: GREEN, textTransform: "uppercase", letterSpacing: 1, margin: "0 0 6px" }}>Decision</p>
+                        <p style={{ fontSize: 13, color: "#C0C0D8", margin: 0, lineHeight: 1.6 }}>{c.decision}</p>
+                      </div>
+                      <div style={{ background: `${PURPLE}08`, border: `1px solid ${PURPLE}20`, borderRadius: 10, padding: "12px 14px" }}>
+                        <p style={{ fontSize: 11, fontWeight: 800, color: PURPLE, textTransform: "uppercase", letterSpacing: 1, margin: "0 0 6px" }}>Resulting Creed</p>
+                        <p style={{ fontSize: 13, color: "#C0C0D8", margin: 0, lineHeight: 1.6 }}>{c.creed}</p>
+                      </div>
+                    </div>
+                    <div style={{ marginTop: 12, background: "rgba(255,255,255,0.02)", borderRadius: 10, padding: "12px 14px" }}>
+                      <p style={{ fontSize: 11, fontWeight: 800, color: MUTED, textTransform: "uppercase", letterSpacing: 1, margin: "0 0 6px" }}>Why It Matters</p>
+                      <p style={{ fontSize: 13, color: MUTED, margin: 0, lineHeight: 1.6 }}>{c.significance}</p>
+                    </div>
                   </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* GLOSSARY TAB */}
-        {tab === "glossary" && (
-          <div>
-            <p style={{ color: MUTED, marginBottom: 24, fontSize: 15 }}>
-              Theological vocabulary — defined simply. Knowing the words unlocks the tradition.
-            </p>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 10 }}>
-              {glossaryTerms.map(term => (
-                <div key={term.term} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "14px 18px" }}>
-                  <p style={{ fontSize: 14, fontWeight: 800, color: PURPLE, margin: "0 0 6px" }}>{term.term}</p>
-                  <p style={{ fontSize: 13, color: MUTED, margin: 0, lineHeight: 1.6 }}>{term.def}</p>
                 </div>
               ))}
             </div>
           </div>
         )}
-        {tab === "thinkers" && (
-          <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
-            <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
-              {THINKERS_THEOL.map(v => (
-                <button key={v.id} onClick={() => setSelectedThinker(v.id)}
-                  style={{ background: selectedThinker === v.id ? PURPLE : CARD, border: `1px solid ${selectedThinker === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
-                  <div style={{ color: TEXT, fontWeight: 700, fontSize: 14 }}>{v.name}</div>
-                  <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{v.era}</div>
+
+        {/* CREEDS TAB */}
+        {activeTab === "creeds" && (
+          <div>
+            <p style={{ color: MUTED, marginBottom: 24, fontSize: 15 }}>
+              The creeds are the church&rsquo;s most careful and durable attempts to summarize what Scripture teaches. They were written in controversy, tested in persecution, and refined across centuries &mdash; they deserve to be known and prayed.
+            </p>
+            <div style={{ display: "flex", gap: 8, marginBottom: 20, flexWrap: "wrap" }}>
+              {THEO_CREEDS.map(c => (
+                <button key={c.id} onClick={() => setSelectedCreed(c.id)}
+                  style={{ padding: "8px 16px", borderRadius: 10, border: `1px solid ${selectedCreed === c.id ? PURPLE : BORDER}`, background: selectedCreed === c.id ? `${PURPLE}20` : "transparent", color: selectedCreed === c.id ? TEXT : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+                  {c.name}
                 </button>
               ))}
             </div>
-            <div style={{ flex: 1 }}>
-              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 28 }}>
-                <h2 style={{ color: GREEN, fontWeight: 900, fontSize: 22, margin: "0 0 4px" }}>{thinkerItem.name}</h2>
-                <div style={{ color: PURPLE, fontSize: 13, fontWeight: 700, marginBottom: 6 }}>{thinkerItem.era}</div>
-                <div style={{ color: MUTED, fontSize: 13, marginBottom: 16 }}>{thinkerItem.context}</div>
-                <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 15, marginBottom: 20 }}>{thinkerItem.bio}</p>
-                <div style={{ background: BG, borderLeft: `3px solid ${GREEN}`, borderRadius: "0 8px 8px 0", padding: "14px 18px", marginBottom: 20 }}>
-                  <p style={{ color: GREEN, fontStyle: "italic", fontSize: 15, lineHeight: 1.7, margin: 0 }}>&ldquo;{thinkerItem.quote}&rdquo;</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: "28px" }}>
+              <div style={{ display: "flex", gap: 10, alignItems: "flex-start", marginBottom: 20, flexWrap: "wrap" }}>
+                <div style={{ flex: 1 }}>
+                  <h2 style={{ fontSize: 22, fontWeight: 900, color: TEXT, margin: "0 0 4px" }}>{activeCreed.name}</h2>
+                  <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                    <span style={{ fontSize: 12, padding: "3px 10px", borderRadius: 20, background: `${GREEN}15`, color: GREEN, fontWeight: 700 }}>{activeCreed.year}</span>
+                  </div>
                 </div>
-                <div style={{ background: `${PURPLE}15`, borderRadius: 10, padding: 16 }}>
-                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>Legacy and Contribution</div>
-                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, margin: 0 }}>{thinkerItem.contribution}</p>
-                </div>
+              </div>
+              <div style={{ background: "rgba(255,255,255,0.02)", border: `1px solid ${BORDER}`, borderRadius: 10, padding: "14px 16px", marginBottom: 20 }}>
+                <p style={{ fontSize: 12, fontWeight: 800, color: MUTED, textTransform: "uppercase", letterSpacing: 1, margin: "0 0 8px" }}>Origin</p>
+                <p style={{ fontSize: 14, color: MUTED, margin: 0, lineHeight: 1.6 }}>{activeCreed.origin}</p>
+              </div>
+              <div style={{ background: BG, borderLeft: `3px solid ${GREEN}`, borderRadius: "0 8px 8px 0", padding: "14px 18px", marginBottom: 20 }}>
+                <p style={{ fontSize: 11, fontWeight: 800, color: MUTED, textTransform: "uppercase", letterSpacing: 1, margin: "0 0 8px" }}>Key Line</p>
+                <p style={{ color: GREEN, fontStyle: "italic", fontSize: 15, lineHeight: 1.7, margin: 0 }}>&ldquo;{activeCreed.keyLine}&rdquo;</p>
+              </div>
+              <div style={{ background: "rgba(255,255,255,0.02)", border: `1px solid ${BORDER}`, borderRadius: 10, padding: "16px 18px", marginBottom: 20 }}>
+                <p style={{ fontSize: 12, fontWeight: 800, color: PURPLE, textTransform: "uppercase", letterSpacing: 1, margin: "0 0 10px" }}>Full Text</p>
+                <p style={{ fontSize: 14, color: "#C0C0D8", margin: 0, lineHeight: 1.9, fontStyle: "italic" }}>{activeCreed.fullText}</p>
+              </div>
+              <div style={{ background: `${PURPLE}10`, border: `1px solid ${PURPLE}25`, borderRadius: 10, padding: "16px 18px" }}>
+                <p style={{ fontSize: 12, fontWeight: 800, color: PURPLE, textTransform: "uppercase", letterSpacing: 1, margin: "0 0 10px" }}>What It Addresses &amp; Why It Matters</p>
+                <p style={{ fontSize: 14, color: TEXT, margin: 0, lineHeight: 1.7 }}>{activeCreed.explanation}</p>
               </div>
             </div>
           </div>
         )}
+
+        {/* VIDEOS TAB */}
+        {activeTab === "videos" && (
+          <div>
+            <p style={{ color: MUTED, marginBottom: 24, fontSize: 15 }}>
+              These lectures and sermons represent some of the finest theological teaching available. Each addresses a different dimension of Christian doctrine &mdash; not abstract speculation, but truth that transforms.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(380px, 1fr))", gap: 20 }}>
+              {THEOLOGY_VIDEOS.map(v => (
+                <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, overflow: "hidden" }}>
+                  <div style={{ padding: "20px 20px 16px" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
+                      <span style={{ fontSize: 11, padding: "4px 12px", borderRadius: 20, background: PURPLE, color: "#fff", fontWeight: 700 }}>{v.preacher}</span>
+                    </div>
+                    <h3 style={{ fontSize: 17, fontWeight: 800, margin: "0 0 10px", color: TEXT }}>{v.title}</h3>
+                    <p style={{ fontSize: 14, color: MUTED, margin: 0, lineHeight: 1.6 }}>{v.description}</p>
+                  </div>
+                  <div style={{ padding: "0 20px 20px" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", borderRadius: 8 }}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
       </div>
     </div>
   );

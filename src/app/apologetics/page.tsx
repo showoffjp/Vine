@@ -289,13 +289,13 @@ const APOL_VIDEOS = [
   {
     videoId: "gySaWKg-NQQ",
     preacher: "Tim Keller",
-    title: "The Reason for God — Big Think",
+    title: "The Reason for God - Big Think",
     description: "A concentrated and intellectually sharp presentation of Keller's argument for Christian faith, filmed for Big Think and covering doubt, suffering, and the exclusivity of Christ.",
   },
   {
     videoId: "F4rX1pTRbuo",
     preacher: "Voddie Baucham",
-    title: "The Supremacy of Christ — Sermon Jam",
+    title: "The Supremacy of Christ - Sermon Jam",
     description: "A stirring sermon jam drawn from Baucham's preaching on the supremacy and sufficiency of Jesus Christ over every philosophy and cultural narrative.",
   },
   {

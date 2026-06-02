@@ -4,6 +4,8 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
+type Tab = "apps" | "comparison" | "guides" | "videos";
+
 const CATEGORIES = ["All", "Bible Reading", "Study Tools", "Devotionals", "Memorization", "Prayer"];
 
 const APPS = [
@@ -152,7 +154,142 @@ const APPS = [
   },
 ];
 
+const APP_COMPARISON = [
+  {
+    id: 1,
+    app: "Logos Bible Software",
+    translations: "200+",
+    originalLanguage: true,
+    commentaries: "40,000+ books",
+    readingPlans: true,
+    free: false,
+    bestFor: "Serious scholars",
+  },
+  {
+    id: 2,
+    app: "Blue Letter Bible",
+    translations: "20+",
+    originalLanguage: true,
+    commentaries: "50+ free commentaries",
+    readingPlans: true,
+    free: true,
+    bestFor: "Word studies, beginners",
+  },
+  {
+    id: 3,
+    app: "YouVersion",
+    translations: "2,000+",
+    originalLanguage: false,
+    commentaries: "Limited",
+    readingPlans: true,
+    free: true,
+    bestFor: "Daily reading, mobile first",
+  },
+  {
+    id: 4,
+    app: "Bible Gateway",
+    translations: "200+",
+    originalLanguage: false,
+    commentaries: "Limited online",
+    readingPlans: true,
+    free: true,
+    bestFor: "Translation comparison",
+  },
+  {
+    id: 5,
+    app: "Olive Tree",
+    translations: "100+",
+    originalLanguage: true,
+    commentaries: "500+ books",
+    readingPlans: true,
+    free: false,
+    bestFor: "Mobile study with depth",
+  },
+  {
+    id: 6,
+    app: "Accordance",
+    translations: "200+",
+    originalLanguage: true,
+    commentaries: "300+ books",
+    readingPlans: false,
+    free: false,
+    bestFor: "Mac users, academics",
+  },
+];
+
+const APP_GUIDES = [
+  {
+    id: 1,
+    title: "For Daily Reading",
+    icon: "📖",
+    audience: "Beginners",
+    description: "Start with YouVersion or Bible Gateway and pick a structured reading plan. Consistency over intensity — 15 minutes every day beats 2 hours on Saturday. A reading plan removes the daily decision of where to read, which eliminates the most common barrier to daily Bible reading.",
+    steps: [
+      "Open YouVersion and navigate to Plans — search for a plan that fits your season (New Testament in 90 days, Psalms, or a topical plan)",
+      "Enable daily notifications at a time you will realistically read — morning commute, lunch break, or before bed",
+      "Track your progress streak — the streak feature creates positive accountability",
+      "Share a verse weekly with one friend or family member to create relational accountability",
+      "When you finish a plan, immediately start another — the gap between plans is where habits die",
+    ],
+  },
+  {
+    id: 2,
+    title: "For Word Studies",
+    icon: "🔤",
+    audience: "Intermediate",
+    description: "Blue Letter Bible makes original language study accessible to anyone without seminary training. Understanding the Hebrew and Greek behind key words transforms how you read familiar passages. Every serious Bible student should learn to use Strong's numbers.",
+    steps: [
+      "Navigate to blueletterbible.org and search for any verse — for example, John 3:16",
+      "Click the blue Interlinear/Concordance button (Tools) next to any word",
+      "Click the Strong's number (G25 for agape, H2617 for hesed, etc.) to open the lexicon entry",
+      "Read the lexicon definition and scroll down to see every occurrence of that word in Scripture",
+      "Cross-reference the word's use in 5-10 other passages to understand the full semantic range",
+      "Note your findings in a journal or digital note — word study insights compound over time",
+    ],
+  },
+  {
+    id: 3,
+    title: "For Sermon Prep",
+    icon: "📝",
+    audience: "Pastors & Teachers",
+    description: "Logos Bible Software is the industry standard for professional sermon and Bible study preparation. Its Passage Guide feature — which instantly aggregates commentaries, cross-references, original language data, and theological dictionary entries for any passage — saves hours of manual research.",
+    steps: [
+      "Open Logos and navigate to Guides > Passage Guide; enter your preaching text",
+      "Read through the Exegetical Guide section to identify key Greek or Hebrew terms worth exploring",
+      "Open 2-3 commentaries side by side using the parallel panel feature; note areas of scholarly agreement and disagreement",
+      "Use the Cross-References section to identify where this passage's themes appear elsewhere in Scripture",
+      "Run a Factbook search on key persons, places, or concepts mentioned in the passage",
+      "Use the Sermon Editor to draft your outline within Logos, keeping all resources accessible",
+    ],
+  },
+  {
+    id: 4,
+    title: "For Small Group Study",
+    icon: "👥",
+    audience: "Group Leaders",
+    description: "Bible Gateway's translation comparison feature is ideal for small group contexts — reading the same passage in three or four translations surfaces different nuances and generates natural discussion. No specialized knowledge required; the translations do the interpretive work together.",
+    steps: [
+      "Go to biblegateway.com and search for your passage in the ESV (a more literal translation)",
+      "Use the Compare button to open the same passage in NIV, NLT, and The Message simultaneously",
+      "Identify words or phrases that translate differently across versions — these are the most discussion-rich points",
+      "Prepare 3-5 questions based on the passage that begin with 'What does this tell us about God?' and 'What does this ask of us?'",
+      "Begin your group by reading the passage aloud in two different translations",
+      "Close with a specific application question: 'What is one thing from this passage you want to act on this week?'",
+    ],
+  },
+];
+
+const VIDEOS = [
+  { id: "Kxup3OS5ZhQ", title: "The Reason for God at Google", speaker: "Tim Keller" },
+  { id: "v6xk8e7gdMA", title: "The Holiness of God", speaker: "R.C. Sproul" },
+  { id: "JHdB1dYAteA", title: "Don't Waste Your Life", speaker: "John Piper" },
+  { id: "lsTzXI7cJGA", title: "The Prodigal Sons", speaker: "Tim Keller" },
+  { id: "sWMjg7CxIKk", title: "Forgotten God Part 1", speaker: "Francis Chan" },
+  { id: "X1rPalyUshw", title: "How Great Is Our God", speaker: "Louie Giglio" },
+];
+
 export default function BibleStudyAppsPage() {
+  const [activeTab, setActiveTab] = useState<Tab>("apps");
   const [category, setCategory] = useState("All");
   const [selected, setSelected] = useState<string | null>(null);
 
@@ -164,80 +301,194 @@ export default function BibleStudyAppsPage() {
       <div style={{ maxWidth: 960, margin: "0 auto", padding: "0 20px 60px" }}>
         <div style={{ textAlign: "center", marginBottom: 40 }}>
           <div style={{ fontSize: 48, marginBottom: 12 }}>📱</div>
-          <h1 style={{ fontSize: 32, fontWeight: 900, marginBottom: 8 }}>Bible & Prayer Apps Guide</h1>
+          <h1 style={{ fontSize: 32, fontWeight: 900, marginBottom: 8 }}>Bible &amp; Prayer Apps Guide</h1>
           <p style={{ color: MUTED, fontSize: 16, maxWidth: 600, margin: "0 auto" }}>
-            The apps that help Christians read, study, memorize, and pray — from YouVersion's 500 million downloads to Logos's seminary-grade tools. Find the one that fits how you actually work.
+            The apps that help Christians read, study, memorize, and pray &mdash; from YouVersion&rsquo;s 500 million downloads to Logos&rsquo;s seminary-grade tools. Find the one that fits how you actually work.
           </p>
         </div>
 
-        <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 28 }}>
-          {CATEGORIES.map(c => (
-            <button key={c} onClick={() => setCategory(c)}
-              style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${category === c ? GREEN : BORDER}`, background: category === c ? `${GREEN}15` : "transparent", color: category === c ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
-              {c}
+        {/* Tab bar */}
+        <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 6, width: "fit-content" }}>
+          {(["apps", "comparison", "guides", "videos"] as const).map(t => (
+            <button key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+              {t === "apps" ? "Apps" : t === "comparison" ? "Comparison" : t === "guides" ? "Guides" : "Videos"}
             </button>
           ))}
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: app ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
-          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            {filtered.map((a, i) => (
-              <button key={i} onClick={() => setSelected(selected === a.name ? null : a.name)}
-                style={{ background: selected === a.name ? `${a.color}12` : CARD, border: `1px solid ${selected === a.name ? a.color + "50" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left", transition: "all 0.15s" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                  <div style={{ width: 44, height: 44, borderRadius: 10, background: `${a.color}20`, border: `1px solid ${a.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: a.color, fontWeight: 900, fontSize: 10, flexShrink: 0 }}>
-                    {a.initials}
-                  </div>
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-                      <span style={{ color: TEXT, fontWeight: 800, fontSize: 15 }}>{a.name}</span>
-                      <span style={{ background: `${a.color}15`, color: a.color, padding: "1px 8px", borderRadius: 8, fontSize: 10, fontWeight: 700 }}>{a.category}</span>
+        {/* Apps tab */}
+        {activeTab === "apps" && (
+          <>
+            <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 28 }}>
+              {CATEGORIES.map(c => (
+                <button key={c} onClick={() => setCategory(c)}
+                  style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${category === c ? GREEN : BORDER}`, background: category === c ? `${GREEN}15` : "transparent", color: category === c ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
+                  {c}
+                </button>
+              ))}
+            </div>
+
+            <div style={{ display: "grid", gridTemplateColumns: app ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                {filtered.map((a, i) => (
+                  <button key={i} onClick={() => setSelected(selected === a.name ? null : a.name)}
+                    style={{ background: selected === a.name ? `${a.color}12` : CARD, border: `1px solid ${selected === a.name ? a.color + "50" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left", transition: "all 0.15s" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                      <div style={{ width: 44, height: 44, borderRadius: 10, background: `${a.color}20`, border: `1px solid ${a.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: a.color, fontWeight: 900, fontSize: 10, flexShrink: 0 }}>
+                        {a.initials}
+                      </div>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                          <span style={{ color: TEXT, fontWeight: 800, fontSize: 15 }}>{a.name}</span>
+                          <span style={{ background: `${a.color}15`, color: a.color, padding: "1px 8px", borderRadius: 8, fontSize: 10, fontWeight: 700 }}>{a.category}</span>
+                        </div>
+                        <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{a.developer} · {a.price}</div>
+                      </div>
+                      <span style={{ color: MUTED, fontSize: 11, flexShrink: 0 }}>{a.platform.split(",")[0]}</span>
                     </div>
-                    <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{a.developer} · {a.price}</div>
+                  </button>
+                ))}
+              </div>
+
+              {app && (
+                <div style={{ background: CARD, border: `1px solid ${app.color}30`, borderRadius: 14, padding: 28, position: "sticky", top: 100 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 14 }}>
+                    <div style={{ width: 52, height: 52, borderRadius: 12, background: `${app.color}20`, border: `1px solid ${app.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: app.color, fontWeight: 900, fontSize: 11, flexShrink: 0 }}>
+                      {app.initials}
+                    </div>
+                    <div>
+                      <h2 style={{ color: app.color, fontWeight: 900, fontSize: 18, margin: "0 0 2px" }}>{app.name}</h2>
+                      <div style={{ color: MUTED, fontSize: 12 }}>{app.developer} · {app.price}</div>
+                    </div>
                   </div>
-                  <span style={{ color: MUTED, fontSize: 11, flexShrink: 0 }}>{a.platform.split(",")[0]}</span>
+
+                  <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 14 }}>
+                    <span style={{ background: `${app.color}12`, color: app.color, padding: "2px 10px", borderRadius: 8, fontSize: 12, fontWeight: 600 }}>{app.category}</span>
+                    <span style={{ background: `${BORDER}`, color: MUTED, padding: "2px 10px", borderRadius: 8, fontSize: 12 }}>{app.platform}</span>
+                  </div>
+
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, marginBottom: 14 }}>{app.description}</p>
+
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 16 }}>
+                    <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}15`, borderRadius: 8, padding: 10 }}>
+                      <div style={{ color: GREEN, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>BEST FOR</div>
+                      <p style={{ color: TEXT, fontSize: 12, margin: 0, lineHeight: 1.5 }}>{app.best_for}</p>
+                    </div>
+                    <div style={{ background: `${PURPLE}08`, border: `1px solid ${PURPLE}15`, borderRadius: 8, padding: 10 }}>
+                      <div style={{ color: PURPLE, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>STANDOUT FEATURE</div>
+                      <p style={{ color: TEXT, fontSize: 12, margin: 0, lineHeight: 1.5 }}>{app.standout_feature}</p>
+                    </div>
+                  </div>
+
+                  <a href={app.url} target="_blank" rel="noopener noreferrer"
+                    style={{ background: `${app.color}15`, border: `1px solid ${app.color}30`, color: app.color, padding: "9px 16px", borderRadius: 9, fontSize: 13, fontWeight: 700, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 6 }}>
+                    📱 Visit / Download
+                  </a>
                 </div>
-              </button>
+              )}
+            </div>
+          </>
+        )}
+
+        {/* Comparison tab */}
+        {activeTab === "comparison" && (
+          <div>
+            <p style={{ color: MUTED, fontSize: 15, lineHeight: 1.7, marginBottom: 24 }}>
+              How the six major Bible study platforms compare across the criteria that matter most &mdash; translations, original language tools, commentaries, reading plans, and cost.
+            </p>
+            <div style={{ overflowX: "auto" }}>
+              <table style={{ width: "100%", borderCollapse: "collapse", background: CARD, borderRadius: 14, overflow: "hidden" }}>
+                <thead>
+                  <tr style={{ background: `${BORDER}80` }}>
+                    <th style={{ padding: "14px 16px", textAlign: "left", color: MUTED, fontWeight: 700, fontSize: 12, borderBottom: `1px solid ${BORDER}` }}>App</th>
+                    <th style={{ padding: "14px 16px", textAlign: "center", color: MUTED, fontWeight: 700, fontSize: 12, borderBottom: `1px solid ${BORDER}` }}>Translations</th>
+                    <th style={{ padding: "14px 16px", textAlign: "center", color: MUTED, fontWeight: 700, fontSize: 12, borderBottom: `1px solid ${BORDER}` }}>Orig. Language</th>
+                    <th style={{ padding: "14px 16px", textAlign: "center", color: MUTED, fontWeight: 700, fontSize: 12, borderBottom: `1px solid ${BORDER}` }}>Commentaries</th>
+                    <th style={{ padding: "14px 16px", textAlign: "center", color: MUTED, fontWeight: 700, fontSize: 12, borderBottom: `1px solid ${BORDER}` }}>Reading Plans</th>
+                    <th style={{ padding: "14px 16px", textAlign: "center", color: MUTED, fontWeight: 700, fontSize: 12, borderBottom: `1px solid ${BORDER}` }}>Free</th>
+                    <th style={{ padding: "14px 16px", textAlign: "left", color: MUTED, fontWeight: 700, fontSize: 12, borderBottom: `1px solid ${BORDER}` }}>Best For</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {APP_COMPARISON.map((row, idx) => (
+                    <tr key={row.id} style={{ background: idx % 2 === 0 ? "transparent" : `${BORDER}30` }}>
+                      <td style={{ padding: "14px 16px", color: TEXT, fontWeight: 700, fontSize: 14, borderBottom: `1px solid ${BORDER}40` }}>{row.app}</td>
+                      <td style={{ padding: "14px 16px", textAlign: "center", color: GREEN, fontWeight: 700, fontSize: 13, borderBottom: `1px solid ${BORDER}40` }}>{row.translations}</td>
+                      <td style={{ padding: "14px 16px", textAlign: "center", borderBottom: `1px solid ${BORDER}40` }}>
+                        {row.originalLanguage
+                          ? <span style={{ color: GREEN, fontWeight: 900, fontSize: 16 }}>✓</span>
+                          : <span style={{ color: MUTED, fontWeight: 900, fontSize: 16 }}>—</span>}
+                      </td>
+                      <td style={{ padding: "14px 16px", textAlign: "center", color: MUTED, fontSize: 12, borderBottom: `1px solid ${BORDER}40` }}>{row.commentaries}</td>
+                      <td style={{ padding: "14px 16px", textAlign: "center", borderBottom: `1px solid ${BORDER}40` }}>
+                        {row.readingPlans
+                          ? <span style={{ color: GREEN, fontWeight: 900, fontSize: 16 }}>✓</span>
+                          : <span style={{ color: MUTED, fontWeight: 900, fontSize: 16 }}>—</span>}
+                      </td>
+                      <td style={{ padding: "14px 16px", textAlign: "center", borderBottom: `1px solid ${BORDER}40` }}>
+                        {row.free
+                          ? <span style={{ background: `${GREEN}15`, color: GREEN, padding: "2px 10px", borderRadius: 8, fontSize: 11, fontWeight: 700 }}>Free</span>
+                          : <span style={{ background: `${PURPLE}15`, color: PURPLE, padding: "2px 10px", borderRadius: 8, fontSize: 11, fontWeight: 700 }}>Paid</span>}
+                      </td>
+                      <td style={{ padding: "14px 16px", color: MUTED, fontSize: 12, borderBottom: `1px solid ${BORDER}40` }}>{row.bestFor}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+        {/* Guides tab */}
+        {activeTab === "guides" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+            <p style={{ color: MUTED, fontSize: 15, lineHeight: 1.7, margin: "0 0 8px" }}>
+              The right app used poorly is still poor Bible study. These step-by-step guides show you how to get the most out of each type of app &mdash; matched to your experience level and study goal.
+            </p>
+            {APP_GUIDES.map(entry => (
+              <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 12 }}>
+                  <span style={{ fontSize: 32 }}>{entry.icon}</span>
+                  <div>
+                    <h2 style={{ color: TEXT, fontWeight: 900, fontSize: 18, margin: "0 0 4px" }}>{entry.title}</h2>
+                    <span style={{ background: `${PURPLE}15`, color: PURPLE, padding: "2px 10px", borderRadius: 8, fontSize: 11, fontWeight: 700 }}>{entry.audience}</span>
+                  </div>
+                </div>
+                <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.75, marginBottom: 16 }}>{entry.description}</p>
+                <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                  {entry.steps.map((step, idx) => (
+                    <div key={idx} style={{ display: "flex", gap: 12, alignItems: "flex-start", background: `${BORDER}40`, borderRadius: 8, padding: "10px 14px" }}>
+                      <span style={{ background: PURPLE, color: "#fff", borderRadius: "50%", width: 22, height: 22, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 900, fontSize: 11, flexShrink: 0 }}>{idx + 1}</span>
+                      <span style={{ color: TEXT, fontSize: 13, lineHeight: 1.65 }}>{step}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
             ))}
           </div>
+        )}
 
-          {app && (
-            <div style={{ background: CARD, border: `1px solid ${app.color}30`, borderRadius: 14, padding: 28, position: "sticky", top: 100 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 14 }}>
-                <div style={{ width: 52, height: 52, borderRadius: 12, background: `${app.color}20`, border: `1px solid ${app.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: app.color, fontWeight: 900, fontSize: 11, flexShrink: 0 }}>
-                  {app.initials}
+        {/* Videos tab */}
+        {activeTab === "videos" && (
+          <div>
+            <p style={{ color: MUTED, fontSize: 15, lineHeight: 1.7, marginBottom: 28 }}>
+              Lectures and sermons from teachers who model what serious, joyful engagement with Scripture looks like &mdash; the kind of engagement these apps are designed to support.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
+              {VIDEOS.map(v => (
+                <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, overflow: "hidden" }}>
+                  <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", borderRadius: 8 }}
+                    src={`https://www.youtube.com/embed/${v.id}`} title={v.title}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+                  <div style={{ padding: "14px 16px" }}>
+                    <div style={{ color: TEXT, fontWeight: 800, fontSize: 14 }}>{v.title}</div>
+                    <div style={{ color: MUTED, fontSize: 12, marginTop: 4 }}>{v.speaker}</div>
+                  </div>
                 </div>
-                <div>
-                  <h2 style={{ color: app.color, fontWeight: 900, fontSize: 18, margin: "0 0 2px" }}>{app.name}</h2>
-                  <div style={{ color: MUTED, fontSize: 12 }}>{app.developer} · {app.price}</div>
-                </div>
-              </div>
-
-              <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 14 }}>
-                <span style={{ background: `${app.color}12`, color: app.color, padding: "2px 10px", borderRadius: 8, fontSize: 12, fontWeight: 600 }}>{app.category}</span>
-                <span style={{ background: `${BORDER}`, color: MUTED, padding: "2px 10px", borderRadius: 8, fontSize: 12 }}>{app.platform}</span>
-              </div>
-
-              <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, marginBottom: 14 }}>{app.description}</p>
-
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 16 }}>
-                <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}15`, borderRadius: 8, padding: 10 }}>
-                  <div style={{ color: GREEN, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>BEST FOR</div>
-                  <p style={{ color: TEXT, fontSize: 12, margin: 0, lineHeight: 1.5 }}>{app.best_for}</p>
-                </div>
-                <div style={{ background: `${PURPLE}08`, border: `1px solid ${PURPLE}15`, borderRadius: 8, padding: 10 }}>
-                  <div style={{ color: PURPLE, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>STANDOUT FEATURE</div>
-                  <p style={{ color: TEXT, fontSize: 12, margin: 0, lineHeight: 1.5 }}>{app.standout_feature}</p>
-                </div>
-              </div>
-
-              <a href={app.url} target="_blank" rel="noopener noreferrer"
-                style={{ background: `${app.color}15`, border: `1px solid ${app.color}30`, color: app.color, padding: "9px 16px", borderRadius: 9, fontSize: 13, fontWeight: 700, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 6 }}>
-                📱 Visit / Download
-              </a>
+              ))}
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );

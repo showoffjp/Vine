@@ -3,6 +3,221 @@
 import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+
+type BibleTab = "overview" | "reading" | "study" | "videos";
+
+type BibleReading = {
+  id: string;
+  plan: string;
+  duration: string;
+  description: string;
+  structure: string;
+  verses_per_day: string;
+  tradition: string;
+};
+
+type BibleStudyMethod = {
+  id: string;
+  method: string;
+  icon: string;
+  level: string;
+  description: string;
+  steps: string[];
+  bestFor: string;
+};
+
+type BibleVideo = {
+  id: string;
+  preacher: string;
+  title: string;
+  videoId: string;
+  description: string;
+};
+
+const BIBLE_READING: BibleReading[] = [
+  {
+    id: "mcheyne",
+    plan: "M'Cheyne Plan",
+    duration: "1 Year",
+    description: "Robert Murray M'Cheyne's 1842 plan for the Church of Scotland reads the Old Testament once and the New Testament twice in a year. Widely regarded as the most balanced and theologically rich reading plan ever devised.",
+    structure: "4 chapters per day — 2 OT morning, 2 NT evening. Family and private portions differ, enabling couples and households to read together in a shared rhythm.",
+    verses_per_day: "~4 chapters / day",
+    tradition: "Presbyterian"
+  },
+  {
+    id: "chronological",
+    plan: "Chronological Bible",
+    duration: "1 Year",
+    description: "Follow the events of Scripture in historical order, combining Old Testament narratives with their New Testament counterparts and prophetic writings in sequence. Gives a powerful sense of the sweep of redemptive history.",
+    structure: "Approximately 3-4 chapters per day arranged by historical sequence. Job appears near the patriarchs; the Psalms near David's life; Revelation at the end.",
+    verses_per_day: "~3-4 chapters / day",
+    tradition: "Evangelical"
+  },
+  {
+    id: "lectionary",
+    plan: "Revised Common Lectionary",
+    duration: "3 Years (Cycle A, B, C)",
+    description: "The ecumenical lectionary used by Catholic, Anglican, Lutheran, Methodist, and Presbyterian churches provides systematic coverage of OT, Psalms, NT, and Gospels in a three-year cycle. Connects personal reading to the worldwide church's liturgical life.",
+    structure: "Sunday lectionary with OT reading, Psalm response, Epistle reading, and Gospel reading each week. Year A: Matthew; Year B: Mark; Year C: Luke.",
+    verses_per_day: "~4 passages / week",
+    tradition: "Liturgical (Catholic / Anglican / Lutheran)"
+  },
+  {
+    id: "bible90",
+    plan: "The Bible in 90 Days",
+    duration: "90 Days",
+    description: "An intensive immersion plan that takes you through the entire Bible in three months. Reading the whole canon quickly gives you a feel for the grand narrative that slower plans can obscure. Best done in a group for accountability.",
+    structure: "12 chapters per day. The pace is demanding but the rewards — a panoramic view of the whole story of Scripture — are unique to this approach.",
+    verses_per_day: "~12 chapters / day",
+    tradition: "Evangelical"
+  },
+  {
+    id: "proverbs-psalms",
+    plan: "Proverbs and Psalms Monthly",
+    duration: "Ongoing (Monthly cycle)",
+    description: "A simple devotional rhythm: read one Psalm each morning and the chapter of Proverbs that matches the day of the month (e.g., Proverbs 7 on the 7th). Since Proverbs has 31 chapters, this resets naturally with each month.",
+    structure: "Morning: one Psalm (work through the 150 over 5 months). Daily: the Proverbs chapter matching today's date. Requires only 10-15 minutes per day.",
+    verses_per_day: "1 Psalm + 1 Proverbs chapter / day",
+    tradition: "Devotional"
+  }
+];
+
+const BIBLE_STUDY_METHODS: BibleStudyMethod[] = [
+  {
+    id: "inductive",
+    method: "Inductive Bible Study",
+    icon: "🔍",
+    level: "Intermediate",
+    description: "Developed by Howard Hendricks at Dallas Theological Seminary, Inductive Bible Study is the gold standard for serious personal study. It insists that meaning must be drawn out of the text (exegesis) rather than read into it (eisegesis).",
+    steps: [
+      "Observation: Read carefully and ask 'What does it say?' Note repeated words, contrasts, comparisons, lists, and commands",
+      "Interpretation: Ask 'What does it mean?' Consider historical context, literary genre, grammatical structure, and cross-references",
+      "Application: Ask 'What does this mean for my life?' Identify a specific, personal, and measurable response"
+    ],
+    bestFor: "Anyone who wants to move beyond devotional reading to deep, text-driven understanding of Scripture"
+  },
+  {
+    id: "lectio-divina",
+    method: "Lectio Divina",
+    icon: "📖",
+    level: "Beginner / Contemplative",
+    description: "An ancient practice from the Desert Fathers and Benedictine monasteries, Lectio Divina ('sacred reading') treats Scripture not as a text to analyze but as a living word to encounter. It is slow, quiet, and receptive rather than analytical.",
+    steps: [
+      "Lectio (Read): Read a short passage slowly, aloud if possible. Notice any word or phrase that catches your attention",
+      "Meditatio (Meditate): Repeat the word or phrase quietly. Let it interact with your own life, thoughts, and feelings without forcing a meaning",
+      "Oratio (Pray): Respond to God with whatever the word has stirred — praise, confession, petition, silence",
+      "Contemplatio (Contemplate): Simply rest in God's presence. Release words and thoughts and simply be with the One who speaks"
+    ],
+    bestFor: "Those seeking a contemplative, formative approach to Scripture rather than primarily an academic one"
+  },
+  {
+    id: "soap",
+    method: "SOAP Method",
+    icon: "🧼",
+    level: "Beginner",
+    description: "A simple journaling approach ideal for daily quiet time. SOAP provides enough structure to move beyond vague impressions while remaining accessible to new believers. Many small groups and house churches use it as a shared framework.",
+    steps: [
+      "Scripture: Write out the verse or passage in full. The act of writing slows you down and fixes the text in your memory",
+      "Observation: Write 2-3 things you notice about the passage — who, what, when, where, why, and how",
+      "Application: Write one specific way this passage applies to your life today — not a general principle but a concrete action",
+      "Prayer: Write a short prayer responding to what you have read and observed"
+    ],
+    bestFor: "New believers, small groups wanting a shared framework, and anyone building a daily quiet time habit"
+  },
+  {
+    id: "book-study",
+    method: "Book Study",
+    icon: "📚",
+    level: "Advanced",
+    description: "A systematic study of an entire biblical book from beginning to end. Reading a whole book in one sitting, then studying it passage by passage, gives you a sense of the author's argument, the book's structure, and how each part contributes to the whole.",
+    steps: [
+      "Read the entire book in one sitting — note your overall impressions, questions, and the big idea",
+      "Study background: author, date, audience, occasion, and historical setting using a good Bible dictionary or introduction",
+      "Outline the book's structure — identify major sections, transitions, and the main argument",
+      "Work through each passage using inductive method: observe, interpret, and apply",
+      "Track major themes across the book — mark repeated words, images, and ideas",
+      "Write a one-sentence summary of the book's central message"
+    ],
+    bestFor: "Mature Christians and small groups wanting to master a specific book of the Bible over weeks or months"
+  },
+  {
+    id: "word-study",
+    method: "Word Study",
+    icon: "🔤",
+    level: "Intermediate",
+    description: "A focused investigation of key Greek or Hebrew words in their original biblical context. Word studies reveal the depth of meaning that English translations inevitably flatten. They require basic tools but reward any level of effort.",
+    steps: [
+      "Identify the key word in your passage that seems theologically significant",
+      "Use a concordance (Strong's or BibleHub) to find the original Greek or Hebrew word and its number",
+      "Look up the word in a lexicon (Thayer for Greek, BDB for Hebrew) to see its range of meaning",
+      "Search where else the same word appears in Scripture — trace its usage across the canon",
+      "Note how different translations render the word — differences often signal interpretive complexity",
+      "Synthesize: write a definition that captures the word's full biblical meaning in this context"
+    ],
+    bestFor: "Anyone who wants to go deeper than the English text without necessarily learning the biblical languages fluently"
+  },
+  {
+    id: "theme-study",
+    method: "Theological Theme Study",
+    icon: "🎓",
+    level: "Advanced",
+    description: "A canon-wide study of a single theological theme — covenant, kingdom, sacrifice, temple, or the people of God. Following a theme through the whole Bible reveals the stunning coherence and progressive revelation of Scripture.",
+    steps: [
+      "Choose a theme with clear biblical significance — covenant, atonement, kingdom of God, or image of God",
+      "Identify the first major appearance of the theme in Genesis (or the relevant OT book)",
+      "Trace the theme through the Law, Prophets, and Writings — note development and intensification",
+      "Identify how the theme is fulfilled and transformed in Christ in the Gospels and Acts",
+      "Study how the Epistles apply and explain the theme theologically",
+      "Examine the theme's consummation in Revelation — how does the story end?"
+    ],
+    bestFor: "Those studying systematic or biblical theology, preparing to teach, or seeking a panoramic understanding of a doctrine"
+  }
+];
+
+const BIBLE_VIDEOS: BibleVideo[] = [
+  {
+    id: "bv1",
+    preacher: "Tim Keller",
+    title: "The Reason for God",
+    videoId: "Kxup3OS5ZhQ",
+    description: "Keller's defense of Christianity's intellectual foundations, including the reliability of Scripture"
+  },
+  {
+    id: "bv2",
+    preacher: "Tim Keller",
+    title: "The Prodigal Sons",
+    videoId: "lsTzXI7cJGA",
+    description: "A masterclass in expository preaching from Luke 15 showing how to read a passage in its context"
+  },
+  {
+    id: "bv3",
+    preacher: "R.C. Sproul",
+    title: "The Holiness of God",
+    videoId: "v6xk8e7gdMA",
+    description: "Sproul grounds biblical theology in God's central attribute -- holy, holy, holy"
+  },
+  {
+    id: "bv4",
+    preacher: "Louie Giglio",
+    title: "How Great Is Our God",
+    videoId: "X1rPalyUshw",
+    description: "Giglio connects modern science to the biblical portrait of God's majesty"
+  },
+  {
+    id: "bv5",
+    preacher: "Francis Chan",
+    title: "Forgotten God Part 1",
+    videoId: "sWMjg7CxIKk",
+    description: "Chan on the Holy Spirit's role as the primary interpreter and applier of Scripture"
+  },
+  {
+    id: "bv6",
+    preacher: "Voddie Baucham",
+    title: "The Supremacy of Christ and Truth",
+    videoId: "by8ykv7-A3c",
+    description: "Baucham defends Scripture's authority and sufficiency in a postmodern world"
+  }
+];
 import {
   Search,
   Bookmark,
@@ -339,6 +554,7 @@ const highlightColors = [
 ];
 
 export default function BiblePage() {
+  const [activeTab, setActiveTab] = useState<BibleTab>("overview");
   const [selectedTranslation, setSelectedTranslation] = useState("NIV");
   const [studyMode, setStudyMode] = useState(false);
   const [selectedVerse, setSelectedVerse] = useState<number | null>(null);
@@ -712,7 +928,27 @@ export default function BiblePage() {
           </div>
         </div>
 
-        {/* Main Content Area */}
+        {/* Tab Navigation */}
+        <div className="border-b" style={{ background: "#07070F", borderColor: "#1E1E32" }}>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex gap-1">
+              {([
+                { id: "overview", label: "📖 Bible Reader" },
+                { id: "reading", label: "📅 Reading Plans" },
+                { id: "study", label: "🔍 Study Methods" },
+                { id: "videos", label: "▶️ Videos" },
+              ] as { id: BibleTab; label: string }[]).map(t => (
+                <button key={t.id} onClick={() => setActiveTab(t.id)}
+                  style={{ padding: "12px 18px", borderRadius: "10px 10px 0 0", border: "none", cursor: "pointer", fontWeight: 700, fontSize: 13, background: activeTab === t.id ? "#12121F" : "transparent", color: activeTab === t.id ? "#F2F2F8" : "#9898B3", borderBottom: activeTab === t.id ? "2px solid #00FF88" : "2px solid transparent" }}>
+                  {t.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* OVERVIEW TAB — Bible Reader */}
+        {activeTab === "overview" && (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex gap-6">
             {/* Bible Text */}
@@ -1067,6 +1303,109 @@ export default function BiblePage() {
             )}
           </div>
         </div>
+        )} {/* end overview tab */}
+
+        {/* READING PLANS TAB */}
+        {activeTab === "reading" && (
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            <p style={{ color: "#9898B3", marginBottom: 32, fontSize: 15, lineHeight: 1.7 }}>
+              A structured reading plan transforms Bible reading from a sporadic habit into a formative discipline. These five plans span the range from intensive daily immersion to gentle monthly devotion &mdash; find the one that fits your season.
+            </p>
+            <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+              {BIBLE_READING.map(plan => (
+                <div key={plan.id} style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 18, padding: "24px" }}>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 10, alignItems: "flex-start", marginBottom: 14 }}>
+                    <h3 style={{ fontSize: 20, fontWeight: 900, margin: 0, color: "#F2F2F8", flex: 1 }}>{plan.plan}</h3>
+                    <span style={{ fontSize: 12, padding: "4px 12px", borderRadius: 20, background: "rgba(0,255,136,0.1)", color: "#00FF88", fontWeight: 700 }}>{plan.duration}</span>
+                    <span style={{ fontSize: 12, padding: "4px 12px", borderRadius: 20, background: "rgba(107,79,187,0.12)", color: "#6B4FBB", fontWeight: 700 }}>{plan.tradition}</span>
+                  </div>
+                  <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.8, margin: "0 0 16px" }}>{plan.description}</p>
+                  <div style={{ background: "rgba(0,255,136,0.04)", border: "1px solid rgba(0,255,136,0.1)", borderRadius: 12, padding: "14px 18px", marginBottom: 14 }}>
+                    <h4 style={{ fontSize: 12, fontWeight: 800, color: "#00FF88", textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>Daily Structure</h4>
+                    <p style={{ fontSize: 13, color: "#9898B3", lineHeight: 1.7, margin: 0 }}>{plan.structure}</p>
+                  </div>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                    <span style={{ fontSize: 12, color: "#9898B3", fontWeight: 600 }}>Daily reading:</span>
+                    <span style={{ fontSize: 13, fontWeight: 800, color: "#F2F2F8" }}>{plan.verses_per_day}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* STUDY METHODS TAB */}
+        {activeTab === "study" && (
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            <p style={{ color: "#9898B3", marginBottom: 32, fontSize: 15, lineHeight: 1.7 }}>
+              Reading the Bible and studying the Bible are different disciplines. These six methods &mdash; from ancient monastic practice to modern evangelical technique &mdash; give you proven frameworks for going deeper into the text.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(360px, 1fr))", gap: 20 }}>
+              {BIBLE_STUDY_METHODS.map(m => (
+                <div key={m.id} style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 18, padding: "22px", display: "flex", flexDirection: "column" }}>
+                  <div style={{ display: "flex", gap: 12, alignItems: "flex-start", marginBottom: 12 }}>
+                    <span style={{ fontSize: 28, flexShrink: 0 }}>{m.icon}</span>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 4, flexWrap: "wrap" }}>
+                        <h3 style={{ fontSize: 16, fontWeight: 900, margin: 0, color: "#F2F2F8" }}>{m.method}</h3>
+                        <span style={{ fontSize: 11, padding: "2px 10px", borderRadius: 20, background: "rgba(107,79,187,0.12)", color: "#6B4FBB", fontWeight: 700 }}>{m.level}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <p style={{ fontSize: 13, color: "#9898B3", lineHeight: 1.7, margin: "0 0 16px" }}>{m.description}</p>
+                  <div style={{ marginBottom: 16 }}>
+                    <h4 style={{ fontSize: 12, fontWeight: 800, color: "#9898B3", textTransform: "uppercase", letterSpacing: 1, marginBottom: 10 }}>Steps</h4>
+                    <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                      {m.steps.map((step, i) => (
+                        <div key={i} style={{ display: "flex", gap: 10 }}>
+                          <span style={{ fontSize: 12, fontWeight: 900, color: "#00FF88", flexShrink: 0, minWidth: 18 }}>{i + 1}.</span>
+                          <p style={{ fontSize: 13, color: "#C0C0D8", margin: 0, lineHeight: 1.6 }}>{step}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div style={{ marginTop: "auto", background: "rgba(0,255,136,0.05)", border: "1px solid rgba(0,255,136,0.12)", borderRadius: 10, padding: "10px 14px" }}>
+                    <span style={{ fontSize: 11, fontWeight: 800, color: "#00FF88", textTransform: "uppercase", letterSpacing: 1 }}>Best for: </span>
+                    <span style={{ fontSize: 12, color: "#9898B3", lineHeight: 1.6 }}>{m.bestFor}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* VIDEOS TAB */}
+        {activeTab === "videos" && (
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            <p style={{ color: "#9898B3", marginBottom: 32, fontSize: 15, lineHeight: 1.7 }}>
+              These sermons and talks ground you in the authority, beauty, and life-transforming power of Scripture. Watch them as devotional preparation or bring them as discussion starters to your small group or house church.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(380px, 1fr))", gap: 24 }}>
+              {BIBLE_VIDEOS.map(v => (
+                <div key={v.id} style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 18, overflow: "hidden" }}>
+                  <div style={{ padding: "18px 20px 14px" }}>
+                    <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ fontSize: 12, padding: "3px 12px", borderRadius: 20, background: "rgba(107,79,187,0.15)", color: "#6B4FBB", fontWeight: 700 }}>{v.preacher}</span>
+                    </div>
+                    <h3 style={{ fontSize: 17, fontWeight: 800, margin: "0 0 8px", color: "#F2F2F8", lineHeight: 1.3 }}>{v.title}</h3>
+                    <p style={{ fontSize: 13, color: "#9898B3", margin: "0 0 14px", lineHeight: 1.6 }}>{v.description}</p>
+                  </div>
+                  <div style={{ padding: "0 20px 20px" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", borderRadius: 8 }}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
       </main>
 
       <Footer />

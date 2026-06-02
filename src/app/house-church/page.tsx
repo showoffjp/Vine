@@ -5,19 +5,243 @@ import { useState, useEffect } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
+type Tab = "guide" | "models" | "voices" | "videos";
+
 type GatheringElement = {
   id: string; name: string; icon: string; timeRange: string; description: string;
   howTo: string[]; examples: string[]; color: string; optional: boolean;
 };
 
-type Challenge = {
-  challenge: string; icon: string; response: string; verse: string;
+type HCModel = {
+  id: string;
+  name: string;
+  origin: string;
+  size: string;
+  focus: string;
+  strengths: string[];
+  weaknesses: string[];
+  practitioners: string[];
+  verse: string;
 };
 
-type Model = {
-  name: string; origin: string; size: string; frequency: string;
-  description: string; strengths: string[]; considerations: string[]; color: string;
+type Voice = {
+  id: string;
+  name: string;
+  era: string;
+  context: string;
+  bio: string;
+  quote: string;
+  contribution: string;
 };
+
+type HCVideo = {
+  id: string;
+  preacher: string;
+  title: string;
+  videoId: string;
+  description: string;
+};
+
+const HC_MODELS: HCModel[] = [
+  {
+    id: "simple-church",
+    name: "Simple Church",
+    origin: "Neil Cole / Church Multiplication Associates, USA",
+    size: "2-3 people (DNA group)",
+    focus: "Discipleship, Nurture, and Apostolic mission",
+    strengths: [
+      "Extremely reproducible — anyone can start one",
+      "No building, budget, or paid leader required",
+      "Deep accountability in micro-sized community",
+      "Designed from the ground up to multiply",
+      "Works in restricted-access countries"
+    ],
+    weaknesses: [
+      "Very small size can limit corporate worship expression",
+      "Requires strong personal discipline to sustain",
+      "Can lack stability without a wider network"
+    ],
+    practitioners: ["Neil Cole", "Church Multiplication Associates", "Organic Church Network"],
+    verse: "Matthew 18:20"
+  },
+  {
+    id: "house-church-network",
+    name: "House Church Network",
+    origin: "Wolfgang Simson model, Germany / Global",
+    size: "10-30 per household gathering",
+    focus: "Ekklesia as household — weekly full gathering emphasizing the priesthood of all believers",
+    strengths: [
+      "Restores the New Testament household church pattern",
+      "Every member functions as a minister",
+      "Meals and Lord's Supper integrated naturally",
+      "Networks of churches provide accountability and support",
+      "Strong theological grounding in Reformation principles"
+    ],
+    weaknesses: [
+      "Requires significant host family commitment",
+      "Network coordination can become complex",
+      "Theological distinctives can create insularity"
+    ],
+    practitioners: ["Wolfgang Simson", "Houses that Change the World movement"],
+    verse: "Romans 16:5"
+  },
+  {
+    id: "missional-community",
+    name: "Missional Community",
+    origin: "Mike Frost and Alan Hirsch, Australia / UK",
+    size: "20-50 people",
+    focus: "Organized around a shared mission to a specific neighborhood or people group",
+    strengths: [
+      "Critical mass for meaningful outreach and service",
+      "More spiritual gifts available within the group",
+      "Can financially support a family in ministry",
+      "Combines the intimacy of small church with missional focus",
+      "Strong theological framework from missional theology"
+    ],
+    weaknesses: [
+      "Larger size can drift toward institutional patterns",
+      "Needs clear and sustained missional focus to stay healthy",
+      "Organizational complexity increases with size"
+    ],
+    practitioners: ["Mike Frost", "Alan Hirsch", "Forge Mission Training Network"],
+    verse: "John 20:21"
+  },
+  {
+    id: "micro-church",
+    name: "Micro Church",
+    origin: "Verge Network, USA",
+    size: "8-15 people",
+    focus: "Lord's Supper, evangelism, and community life — fits under a covering church",
+    strengths: [
+      "Maintains connection to a larger sending/covering church",
+      "Strong focus on the Lord's Supper as community anchor",
+      "Size is large enough for diverse gifts, small enough for intimacy",
+      "Evangelism is baked into the structure from the start",
+      "Apostolic oversight prevents theological drift"
+    ],
+    weaknesses: [
+      "Dependence on covering church can limit initiative",
+      "Finding the right covering relationship is difficult",
+      "Can feel neither fully independent nor fully integrated"
+    ],
+    practitioners: ["Verge Network", "Caesar Kalinowski", "Caesar's church planting network"],
+    verse: "Acts 2:42-47"
+  },
+  {
+    id: "organic-church",
+    name: "Traditional Organic Church",
+    origin: "Frank Viola, USA",
+    size: "8-20 people",
+    focus: "Jesus-centered, leaderless gatherings following the pattern of 'from the least to the greatest' participation",
+    strengths: [
+      "Fully participatory — no clergy/laity distinction",
+      "Christ is the living Head — meetings are open to his leading",
+      "Historical and theological depth from Frank Viola's research",
+      "Strong counter-cultural witness against institutionalism",
+      "Creates mature, functioning Christians rather than spectators"
+    ],
+    weaknesses: [
+      "Leaderless model can struggle with conflict resolution",
+      "Requires high spiritual maturity from all participants",
+      "Can be difficult to sustain without experienced facilitation"
+    ],
+    practitioners: ["Frank Viola", "George Barna", "Present Testimony Ministry"],
+    verse: "Jeremiah 31:34"
+  }
+];
+
+const VOICES_HC: Voice[] = [
+  {
+    id: "simson",
+    name: "Wolfgang Simson",
+    era: "b. 1955",
+    context: "German missiologist and author, Houses that Change the World (1998)",
+    bio: "Wolfgang Simson is a German missiologist, journalist, and researcher who has spent decades studying and catalyzing house church movements worldwide. His landmark book Houses that Change the World (1998) became one of the most widely read texts in the global house church renewal. Simson argues that the institutional church building is the single biggest structural obstacle to the church fulfilling its mission — because it confines the people of God to a performance model rather than releasing them as a kingdom movement.",
+    quote: "The church building is the most successful tool the devil has used to keep Christians contained, comfortable, and passive.",
+    contribution: "Simson provided a global research framework and a theological vision for the house church as the primary form of ekklesia. His Fifteen Theses on a Coming Church Transformation articulated the shift from program-driven to household-based church with prophetic clarity. He helped leaders see that house church is not a small-church compromise but the recovery of the church's true missionary structure."
+  },
+  {
+    id: "viola",
+    name: "Frank Viola",
+    era: "b. 1969",
+    context: "American author and speaker, Pagan Christianity (2002) and Reimagining Church (2008)",
+    bio: "Frank Viola is an American Christian author and speaker who has written extensively on the organic church movement. Co-authored with George Barna, Pagan Christianity makes the provocative historical case that most standard Protestant and Catholic church practices — the sermon, the church building, the order of service, the clergy/laity divide — have roots not in the New Testament but in pagan Greco-Roman culture absorbed during the Constantinian era. Reimagining Church provides the positive theological vision for what gathering in Christ's name actually looks like.",
+    quote: "Most of what we do in our church services today is rooted in tradition, not the New Testament. The New Testament church was organic, communal, and participatory — not a performance to be attended.",
+    contribution: "Viola gave the organic church movement its most historically detailed and theologically rigorous defense. His work forced serious Christians to examine the assumed structures of church life against the actual witness of the New Testament and early church history. He also provided constructive guidance on how to gather organically around the living Christ rather than around programs and personalities."
+  },
+  {
+    id: "cole",
+    name: "Neil Cole",
+    era: "b. 1960",
+    context: "American church planter, Organic Church (2005), founder of Church Multiplication Associates",
+    bio: "Neil Cole is an American church planter and the founder of Church Multiplication Associates (CMA), one of the most prolific church planting networks in North America. He developed the DNA group — a micro-discipleship unit of two or three people organized around Discovery (engaging Scripture personally), Nurture (caring for one another's spiritual lives), and Apostolic mission (reaching out). Cole's approach is radically simple and radically reproducible: if you need buildings, money, or trained clergy to do it, the movement cannot spread to every person.",
+    quote: "If you want to win the world to Christ, you are going to have to do it in the living room — not in the sanctuary.",
+    contribution: "Cole's DNA group model has been replicated in dozens of countries, including contexts hostile to Christianity where institutional church is impossible. He demonstrated that the simplest unit of church — two or three gathered in Jesus' name — is also the most deployable. His Life Transformation Groups (LTGs) gave the house church movement a concrete, tested, reproducible practice rather than only a theological vision."
+  },
+  {
+    id: "mcclung",
+    name: "Floyd McClung",
+    era: "1945-2021",
+    context: "American missionary and author, You See Bones (2012), YWAM and All Nations movement",
+    bio: "Floyd McClung spent decades as a missionary with Youth With A Mission (YWAM), living in the red-light district of Amsterdam and pioneering mission among unreached peoples across multiple continents. In his later years McClung became a key voice for mission-focused house churches, particularly in contexts where the Western institutional model of church was culturally inaccessible or legally impossible. His book You See Bones drew on Ezekiel's vision of dry bones to call the church toward a fresh movement of the Spirit in simple, obedient, scattered communities.",
+    quote: "The church that meets in houses is not a lesser church. It may be the only church the gospel can travel through in the hardest places.",
+    contribution: "McClung brought a missionary's pragmatism and spiritual depth to the house church conversation. He connected the house church impulse to the unfinished task of global mission, particularly among unreached peoples in the Global South and in regions hostile to public Christian gatherings. His work helped house church practitioners see their simple gatherings as part of a global advance rather than a domestic retreat."
+  },
+  {
+    id: "zdero",
+    name: "Rad Zdero",
+    era: "Contemporary",
+    context: "Canadian researcher and author, The Global House Church Movement (2004)",
+    bio: "Rad Zdero is a Canadian researcher, author, and house church practitioner who holds a doctorate in mechanical engineering and has applied his analytical mind to the documentation and categorization of house church movements worldwide. His book The Global House Church Movement (2004) is one of the most comprehensive empirical surveys of house church networks across multiple continents, cultures, and theological traditions. Zdero approaches the subject with both scholarly rigor and personal conviction as a long-time participant in house church networks.",
+    quote: "The house church is not a Western innovation or a fringe movement. It is the dominant form of Christian community across the Global South, and it is growing faster than any other form of church.",
+    contribution: "Zdero's research established that house churches are not a marginal Western experiment but the primary vehicle through which Christianity is expanding in the Global South, particularly in China, India, Ethiopia, and Iran. His documentation gave credibility and global perspective to Western house church practitioners and provided a framework for understanding the diverse forms house churches take in different cultural contexts."
+  }
+];
+
+const HC_VIDEOS: HCVideo[] = [
+  {
+    id: "v1",
+    preacher: "Tim Keller",
+    title: "The Reason for God",
+    videoId: "Kxup3OS5ZhQ",
+    description: "Keller on what the church is actually for -- not buildings or programs but a community transformed by grace"
+  },
+  {
+    id: "v2",
+    preacher: "Francis Chan",
+    title: "Forgotten God Part 1",
+    videoId: "sWMjg7CxIKk",
+    description: "Chan's challenge to experience the Holy Spirit's power in simple gathered community"
+  },
+  {
+    id: "v3",
+    preacher: "David Platt",
+    title: "Radical: Passion 2011",
+    videoId: "yhiHSf_L6_E",
+    description: "Platt's vision of a church that scatters rather than accumulates -- the house church impulse in action"
+  },
+  {
+    id: "v4",
+    preacher: "Matt Chandler",
+    title: "Holding Fast to the Gospel",
+    videoId: "QuxmiIFN8yE",
+    description: "What the early church gathered around -- the same center of any faithful house church"
+  },
+  {
+    id: "v5",
+    preacher: "John Piper",
+    title: "Don't Waste Your Life",
+    videoId: "JHdB1dYAteA",
+    description: "The vision that animates missional house church communities"
+  },
+  {
+    id: "v6",
+    preacher: "Tim Keller",
+    title: "The Prodigal Sons",
+    videoId: "lsTzXI7cJGA",
+    description: "The father's house as a picture of what gathered community should feel like"
+  }
+];
 
 const gatheringElements: GatheringElement[] = [
   {
@@ -105,88 +329,6 @@ const gatheringElements: GatheringElement[] = [
   }
 ];
 
-const models: Model[] = [
-  {
-    name: "The Simple Church",
-    origin: "Western evangelical tradition",
-    size: "5–15 people",
-    frequency: "Weekly",
-    description: "A minimalist approach: gather, eat, read Scripture, pray, go. No elaborate programs or structure. Often the most sustainable long-term model.",
-    strengths: ["Easy to replicate and multiply", "Low cost", "No designated leader required", "Flexible with hosting"],
-    considerations: ["Can lack depth without intentional study", "Needs periodic outside input to avoid insularity"],
-    color: GREEN
-  },
-  {
-    name: "The Missional Community",
-    origin: "UK church planting movement",
-    size: "20–50 people",
-    frequency: "Bi-weekly",
-    description: "Larger than a typical cell, organized around a shared mission in a neighborhood or people group. Often connected to a sending church.",
-    strengths: ["Critical mass for outreach", "More gifts available", "Can support a family financially"],
-    considerations: ["More organizational complexity", "Needs clear leadership structure", "Risk of feeling like small church, not house church"],
-    color: PURPLE
-  },
-  {
-    name: "The Covenant Community",
-    origin: "Intentional community / monastic tradition",
-    size: "4–10 adults",
-    frequency: "Multiple times per week",
-    description: "Members make formal commitments to one another — shared practices, shared finances in some cases, shared mission. High depth, high cost.",
-    strengths: ["Deepest accountability", "Counter-cultural witness", "Strongest for discipleship"],
-    considerations: ["Requires major life commitment", "Higher risk of conflict", "Takes years to establish"],
-    color: "#F59E0B"
-  },
-  {
-    name: "The Networked Cell",
-    origin: "Global South, Asian church movements",
-    size: "8–15 per cell",
-    frequency: "Weekly cells + monthly gathering",
-    description: "Small cells of 8–15 that gather weekly and connect to a larger network monthly. Designed explicitly to multiply when cells reach capacity.",
-    strengths: ["Built-in multiplication DNA", "Combines depth and breadth", "Strong accountability"],
-    considerations: ["Network needs strong apostolic leadership", "Monthly gathering requires venue"],
-    color: "#3B82F6"
-  }
-];
-
-const challenges: Challenge[] = [
-  {
-    challenge: "We're struggling to maintain consistency — attendance keeps dropping.",
-    icon: "📉",
-    response: "Consistency requires covenant, not just invitation. Have a direct conversation: 'Are you committed to this community, or is this optional for you?' House churches that clarify expectations early sustain better. Also evaluate: Is the gathering worth showing up for? Is it genuinely life-giving, or just another meeting?",
-    verse: "Hebrews 10:24-25"
-  },
-  {
-    challenge: "One person dominates every discussion and people are disengaging.",
-    icon: "🗣️",
-    response: "This is a leadership issue, not a personality issue. The facilitator must actively create space: 'Let's hear from someone we haven't heard from tonight.' Privately and lovingly name the pattern to the dominant person. Some people dominate out of nervousness or insecurity — address the root.",
-    verse: "Ephesians 4:15-16"
-  },
-  {
-    challenge: "We had a significant conflict and people left.",
-    icon: "💔",
-    response: "Conflict in a house church is inevitable and actually healthy if navigated well. The goal is not to avoid all conflict but to develop the skills to resolve it. Matthew 18 is the pattern: go directly, then together, then bring witnesses. Don't let conflict smolder underground — name it quickly and handle it face to face.",
-    verse: "Matthew 18:15-17"
-  },
-  {
-    challenge: "We feel isolated from a larger church body and are drifting theologically.",
-    icon: "🧭",
-    response: "Isolation is one of the genuine risks of house church. Build in regular connection with other communities: a yearly retreat together, a network relationship with a larger church, accountability with other house church leaders. Read good theology together. The Church is one body — connection across communities is healthy.",
-    verse: "1 Corinthians 12:12-14"
-  },
-  {
-    challenge: "We don't know how to handle children during gatherings.",
-    icon: "👶",
-    response: "There's no single right answer, but three models work: 1) Children participate in the full gathering (this is historically and cross-culturally normal), 2) Children have their own time during part of the gathering, 3) Families rotate leading children's time. Whichever you choose, make it explicit and rotate the work. Children belonging to the community is a gift, not a problem.",
-    verse: "Mark 10:14"
-  },
-  {
-    challenge: "We've outgrown our host's home. Should we become a small church?",
-    icon: "📈",
-    response: "When you consistently exceed 20-25 people, you have a choice: rent space and become a small church, multiply into two or three smaller groups, or begin a 'daughter' community that meets separately. Multiplication is the missional answer — a second community in a different home reaches more people and maintains the intimacy that makes house church valuable.",
-    verse: "Acts 8:1-4"
-  }
-];
-
 const essentials = [
   { icon: "📋", label: "Clear covenant", desc: "Written or verbal commitment to attendance, confidentiality, and mutual care" },
   { icon: "🔄", label: "Rotating leadership", desc: "Shared responsibility prevents burnout and develops everyone" },
@@ -197,16 +339,15 @@ const essentials = [
 ];
 
 export default function HouseChurchPage() {
-  const [tab, setTab] = useState<"guide" | "models" | "challenges" | "planner">("guide");
+  const [activeTab, setActiveTab] = useState<Tab>("guide");
   const [expandedElement, setExpandedElement] = useState<string | null>(null);
-  const [expandedChallenge, setExpandedChallenge] = useState<number | null>(null);
   const [planItems, setPlanItems] = useState<Set<string>>(() => {
     try { const s = localStorage.getItem("vine_house_church_plan"); return s ? new Set(JSON.parse(s)) : new Set(["welcome", "scripture", "prayer"]); } catch { return new Set(["welcome", "scripture", "prayer"]); }
   });
   const [savedElements, setSavedElements] = useState<Set<string>>(() => {
     try { const s = localStorage.getItem("vine_house_church_saved"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
   });
-  const [selectedModel, setSelectedModel] = useState<Model | null>(null);
+  const [selectedVoice, setSelectedVoice] = useState<Voice>(VOICES_HC[0]);
 
   useEffect(() => {
     try { localStorage.setItem("vine_house_church_plan", JSON.stringify([...planItems])); } catch {}
@@ -217,12 +358,6 @@ export default function HouseChurchPage() {
 
   const togglePlan = (id: string) => setPlanItems(prev => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
   const toggleSaved = (id: string) => setSavedElements(prev => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
-
-  const planOrder = gatheringElements.filter(e => planItems.has(e.id));
-  const totalTime = planOrder.reduce((sum, e) => {
-    const [min] = e.timeRange.split("–").map(s => parseInt(s));
-    return sum + min;
-  }, 0);
 
   return (
     <div style={{ minHeight: "100vh", background: BG, color: TEXT, fontFamily: "inherit" }}>
@@ -241,13 +376,13 @@ export default function HouseChurchPage() {
             </span>
           </h1>
           <p style={{ color: MUTED, fontSize: 17, maxWidth: 580, margin: "0 auto 24px" }}>
-            The first Christians gathered in homes. Simple, participatory, relational gatherings centered on Word, prayer, and table are not a lesser form of church — they may be its purest expression.
+            The first Christians gathered in homes. Simple, participatory, relational gatherings centered on Word, prayer, and table are not a lesser form of church &mdash; they may be its purest expression.
           </p>
           <div style={{ background: "rgba(0,255,136,0.06)", border: "1px solid rgba(0,255,136,0.18)", borderRadius: 12, padding: "14px 20px", maxWidth: 520, margin: "0 auto" }}>
             <p style={{ fontSize: 14, color: "#00CC66", fontStyle: "italic", margin: 0 }}>
-              "They broke bread in their homes and ate together with glad and sincere hearts."
+              &ldquo;They broke bread in their homes and ate together with glad and sincere hearts.&rdquo;
             </p>
-            <p style={{ fontSize: 12, color: MUTED, marginTop: 4, marginBottom: 0 }}>— Acts 2:46</p>
+            <p style={{ fontSize: 12, color: MUTED, marginTop: 4, marginBottom: 0 }}>&mdash; Acts 2:46</p>
           </div>
         </div>
 
@@ -256,21 +391,21 @@ export default function HouseChurchPage() {
           {[
             { id: "guide", label: "📋 Gathering Guide" },
             { id: "models", label: "🏛️ Models" },
-            { id: "challenges", label: "⚡ Challenges" },
-            { id: "planner", label: "🗓️ Meeting Planner" },
+            { id: "voices", label: "🎙️ Voices" },
+            { id: "videos", label: "▶️ Videos" },
           ].map(t => (
-            <button key={t.id} onClick={() => setTab(t.id as typeof tab)}
-              style={{ padding: "10px 18px", borderRadius: "10px 10px 0 0", border: "none", cursor: "pointer", fontWeight: 700, fontSize: 13, background: tab === t.id ? CARD : "transparent", color: tab === t.id ? TEXT : MUTED, borderBottom: tab === t.id ? `2px solid ${GREEN}` : "2px solid transparent" }}>
+            <button key={t.id} onClick={() => setActiveTab(t.id as Tab)}
+              style={{ padding: "10px 18px", borderRadius: "10px 10px 0 0", border: "none", cursor: "pointer", fontWeight: 700, fontSize: 13, background: activeTab === t.id ? CARD : "transparent", color: activeTab === t.id ? TEXT : MUTED, borderBottom: activeTab === t.id ? `2px solid ${GREEN}` : "2px solid transparent" }}>
               {t.label}
             </button>
           ))}
         </div>
 
         {/* GATHERING GUIDE TAB */}
-        {tab === "guide" && (
+        {activeTab === "guide" && (
           <div>
             <p style={{ color: MUTED, marginBottom: 28, fontSize: 15 }}>
-              A house church gathering doesn't need a program — but intentional elements help it grow deeper. These are the building blocks. Not all required every time; adapt to your community's rhythm.
+              A house church gathering doesn&rsquo;t need a program &mdash; but intentional elements help it grow deeper. These are the building blocks. Not all required every time; adapt to your community&rsquo;s rhythm.
             </p>
 
             {/* Essentials banner */}
@@ -364,175 +499,133 @@ export default function HouseChurchPage() {
         )}
 
         {/* MODELS TAB */}
-        {tab === "models" && (
+        {activeTab === "models" && (
           <div>
-            <p style={{ color: MUTED, marginBottom: 24, fontSize: 15 }}>
-              There is no single "correct" house church model. Different communities, cultures, and missions call for different shapes. Here are four well-established approaches.
+            <p style={{ color: MUTED, marginBottom: 28, fontSize: 15 }}>
+              There is no single &ldquo;correct&rdquo; house church model. Different communities, cultures, and missions call for different shapes. Here are five well-established approaches drawn from major practitioners worldwide.
             </p>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 16 }}>
-              {models.map(m => (
-                <div key={m.name} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: "20px", cursor: "pointer" }}
-                  onClick={() => setSelectedModel(m)}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 }}>
-                    <h3 style={{ fontSize: 16, fontWeight: 800, margin: 0, color: m.color }}>{m.name}</h3>
-                    <span style={{ fontSize: 11, padding: "3px 10px", borderRadius: 20, background: `${m.color}15`, color: m.color, fontWeight: 700, flexShrink: 0, marginLeft: 8 }}>{m.size}</span>
+            <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+              {HC_MODELS.map(m => (
+                <div key={m.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 18, padding: "24px" }}>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 10, alignItems: "flex-start", marginBottom: 14 }}>
+                    <h3 style={{ fontSize: 20, fontWeight: 900, margin: 0, color: TEXT, flex: 1 }}>{m.name}</h3>
+                    <span style={{ fontSize: 12, padding: "4px 12px", borderRadius: 20, background: "rgba(0,255,136,0.1)", color: GREEN, fontWeight: 700 }}>{m.size}</span>
                   </div>
-                  <p style={{ fontSize: 12, color: PURPLE, fontWeight: 700, marginBottom: 4 }}>{m.origin}</p>
-                  <p style={{ fontSize: 12, color: MUTED, marginBottom: 12 }}>Every {m.frequency.toLowerCase()}</p>
-                  <p style={{ fontSize: 13, color: "#A0A0C0", lineHeight: 1.6, marginBottom: 14 }}>{m.description}</p>
-                  <button style={{ width: "100%", padding: "8px", borderRadius: 10, border: `1px solid ${m.color}30`, background: `${m.color}08`, color: m.color, cursor: "pointer", fontSize: 12, fontWeight: 700 }}>
-                    Read More →
-                  </button>
-                </div>
-              ))}
-            </div>
+                  <p style={{ fontSize: 13, color: PURPLE, fontWeight: 700, margin: "0 0 4px" }}>{m.origin}</p>
+                  <p style={{ fontSize: 13, color: MUTED, margin: "0 0 14px", lineHeight: 1.6 }}>{m.focus}</p>
 
-            {selectedModel && (
-              <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.85)", zIndex: 100, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}
-                onClick={() => setSelectedModel(null)}>
-                <div style={{ background: CARD, border: `1px solid ${selectedModel.color}40`, borderRadius: 20, padding: "32px", maxWidth: 520, width: "100%", maxHeight: "90vh", overflowY: "auto" }}
-                  onClick={e => e.stopPropagation()}>
-                  <h2 style={{ fontSize: 22, fontWeight: 900, color: selectedModel.color, marginBottom: 4 }}>{selectedModel.name}</h2>
-                  <p style={{ fontSize: 13, color: MUTED, marginBottom: 16 }}>{selectedModel.origin} · {selectedModel.frequency} · {selectedModel.size}</p>
-                  <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.7, marginBottom: 20 }}>{selectedModel.description}</p>
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 20 }}>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
                     <div>
-                      <h4 style={{ fontSize: 13, fontWeight: 800, color: GREEN, textTransform: "uppercase", letterSpacing: 1, marginBottom: 10 }}>Strengths</h4>
-                      {selectedModel.strengths.map(s => (
-                        <div key={s} style={{ display: "flex", gap: 8, marginBottom: 6 }}>
-                          <span style={{ color: GREEN }}>✓</span>
-                          <p style={{ fontSize: 13, color: "#C0C0D8", margin: 0 }}>{s}</p>
-                        </div>
-                      ))}
-                    </div>
-                    <div>
-                      <h4 style={{ fontSize: 13, fontWeight: 800, color: "#F59E0B", textTransform: "uppercase", letterSpacing: 1, marginBottom: 10 }}>Considerations</h4>
-                      {selectedModel.considerations.map(c => (
-                        <div key={c} style={{ display: "flex", gap: 8, marginBottom: 6 }}>
-                          <span style={{ color: "#F59E0B" }}>!</span>
-                          <p style={{ fontSize: 13, color: "#C0C0D8", margin: 0 }}>{c}</p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  <button onClick={() => setSelectedModel(null)}
-                    style={{ width: "100%", padding: "12px", borderRadius: 12, border: "none", background: "rgba(255,255,255,0.08)", color: MUTED, cursor: "pointer", fontSize: 14, fontWeight: 700 }}>
-                    Close
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* CHALLENGES TAB */}
-        {tab === "challenges" && (
-          <div>
-            <p style={{ color: MUTED, marginBottom: 24, fontSize: 15 }}>
-              Every house church faces challenges. These are the most common ones — with honest, practical responses.
-            </p>
-            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-              {challenges.map((c, i) => (
-                <div key={i} style={{ background: CARD, border: `1px solid ${expandedChallenge === i ? PURPLE + "40" : BORDER}`, borderRadius: 16, overflow: "hidden" }}>
-                  <button onClick={() => setExpandedChallenge(expandedChallenge === i ? null : i)}
-                    style={{ width: "100%", textAlign: "left", padding: "18px 22px", background: "transparent", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: 14 }}>
-                    <span style={{ fontSize: 22, flexShrink: 0 }}>{c.icon}</span>
-                    <div style={{ flex: 1 }}>
-                      <p style={{ fontSize: 15, fontWeight: 700, color: "#EF4444", margin: 0 }}>{c.challenge}</p>
-                    </div>
-                    <span style={{ color: MUTED, fontSize: 18 }}>{expandedChallenge === i ? "▾" : "▸"}</span>
-                  </button>
-                  {expandedChallenge === i && (
-                    <div style={{ borderTop: `1px solid ${BORDER}`, padding: "20px 22px" }}>
-                      <div style={{ display: "flex", gap: 10, marginBottom: 16 }}>
-                        <span style={{ color: GREEN, fontWeight: 900, fontSize: 16, flexShrink: 0 }}>→</span>
-                        <p style={{ fontSize: 14, color: "#B0F0B0", lineHeight: 1.8, margin: 0 }}>{c.response}</p>
+                      <h4 style={{ fontSize: 12, fontWeight: 800, color: GREEN, textTransform: "uppercase", letterSpacing: 1, marginBottom: 10 }}>Strengths</h4>
+                      <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                        {m.strengths.map((s, i) => (
+                          <div key={i} style={{ display: "flex", gap: 8 }}>
+                            <span style={{ color: GREEN, flexShrink: 0, fontWeight: 700 }}>✓</span>
+                            <p style={{ fontSize: 13, color: "#C0C0D8", margin: 0, lineHeight: 1.5 }}>{s}</p>
+                          </div>
+                        ))}
                       </div>
-                      <span style={{ fontSize: 12, padding: "4px 12px", borderRadius: 20, background: "rgba(0,255,136,0.08)", color: GREEN, fontWeight: 600 }}>📖 {c.verse}</span>
                     </div>
-                  )}
+                    <div>
+                      <h4 style={{ fontSize: 12, fontWeight: 800, color: MUTED, textTransform: "uppercase", letterSpacing: 1, marginBottom: 10 }}>Weaknesses</h4>
+                      <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                        {m.weaknesses.map((w, i) => (
+                          <div key={i} style={{ display: "flex", gap: 8 }}>
+                            <span style={{ color: MUTED, flexShrink: 0 }}>—</span>
+                            <p style={{ fontSize: 13, color: MUTED, margin: 0, lineHeight: 1.5 }}>{w}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center", paddingTop: 14, borderTop: `1px solid ${BORDER}` }}>
+                    <span style={{ fontSize: 12, color: MUTED, fontWeight: 600 }}>Key verse:</span>
+                    <span style={{ fontSize: 12, padding: "3px 10px", borderRadius: 20, background: "rgba(107,79,187,0.12)", color: PURPLE, fontWeight: 700 }}>{m.verse}</span>
+                    <span style={{ fontSize: 12, color: MUTED, marginLeft: "auto" }}>Practitioners: {m.practitioners.join(", ")}</span>
+                  </div>
                 </div>
               ))}
             </div>
           </div>
         )}
 
-        {/* MEETING PLANNER TAB */}
-        {tab === "planner" && (
+        {/* VOICES TAB */}
+        {activeTab === "voices" && (
           <div>
-            <p style={{ color: MUTED, marginBottom: 24, fontSize: 15 }}>
-              Build your gathering template by selecting elements. The planner calculates estimated time and gives you a shareable order of service.
+            <p style={{ color: MUTED, marginBottom: 28, fontSize: 15 }}>
+              These are the theologians, practitioners, and researchers who have shaped the modern house church renewal. Their books, movements, and ideas continue to animate communities worldwide.
             </p>
-
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
-              {/* Element selector */}
-              <div>
-                <h4 style={{ fontSize: 14, fontWeight: 800, marginBottom: 14, color: MUTED, textTransform: "uppercase", letterSpacing: 1 }}>Available Elements</h4>
-                <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                  {gatheringElements.map(el => (
-                    <button key={el.id} onClick={() => togglePlan(el.id)}
-                      style={{ padding: "12px 16px", borderRadius: 12, border: `1px solid ${planItems.has(el.id) ? el.color + "50" : BORDER}`, background: planItems.has(el.id) ? `${el.color}10` : "rgba(255,255,255,0.02)", cursor: "pointer", textAlign: "left", display: "flex", alignItems: "center", gap: 10 }}>
-                      <span style={{ fontSize: 18 }}>{el.icon}</span>
-                      <div style={{ flex: 1 }}>
-                        <p style={{ fontSize: 13, fontWeight: 700, margin: "0 0 2px", color: planItems.has(el.id) ? el.color : TEXT }}>{el.name}</p>
-                        <p style={{ fontSize: 11, color: MUTED, margin: 0 }}>{el.timeRange}</p>
-                      </div>
-                      <span style={{ fontSize: 12, color: planItems.has(el.id) ? el.color : MUTED, fontWeight: 700 }}>{planItems.has(el.id) ? "✓" : "+"}</span>
-                    </button>
-                  ))}
-                </div>
+            <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
+              {/* Left panel — name cards */}
+              <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
+                {VOICES_HC.map(v => (
+                  <button key={v.id} onClick={() => setSelectedVoice(v)}
+                    style={{ textAlign: "left", padding: "14px 16px", borderRadius: 14, border: `1px solid ${selectedVoice.id === v.id ? GREEN + "50" : BORDER}`, background: selectedVoice.id === v.id ? "rgba(0,255,136,0.07)" : CARD, cursor: "pointer", transition: "all 0.15s" }}>
+                    <p style={{ fontSize: 14, fontWeight: 800, margin: "0 0 3px", color: selectedVoice.id === v.id ? GREEN : TEXT }}>{v.name}</p>
+                    <p style={{ fontSize: 11, color: MUTED, margin: 0 }}>{v.era}</p>
+                  </button>
+                ))}
               </div>
 
-              {/* Current plan */}
-              <div>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
-                  <h4 style={{ fontSize: 14, fontWeight: 800, color: MUTED, textTransform: "uppercase", letterSpacing: 1, margin: 0 }}>Your Plan</h4>
-                  <span style={{ fontSize: 13, color: GREEN, fontWeight: 700 }}>~{totalTime} min minimum</span>
-                </div>
-                {planOrder.length === 0 ? (
-                  <div style={{ textAlign: "center", padding: "40px 20px", background: CARD, borderRadius: 14, border: `1px dashed ${BORDER}` }}>
-                    <p style={{ color: MUTED, fontSize: 14 }}>Select elements from the left to build your plan</p>
-                  </div>
-                ) : (
-                  <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
-                    {planOrder.map((el, i) => (
-                      <div key={el.id} style={{ display: "flex", gap: 12, alignItems: "center", padding: "12px 16px", background: CARD, borderBottom: i < planOrder.length - 1 ? `1px solid ${BORDER}` : "none", borderRadius: i === 0 ? "12px 12px 0 0" : i === planOrder.length - 1 ? "0 0 12px 12px" : 0 }}>
-                        <span style={{ width: 24, height: 24, borderRadius: "50%", background: `${el.color}20`, color: el.color, fontSize: 11, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{i + 1}</span>
-                        <span style={{ fontSize: 16 }}>{el.icon}</span>
-                        <div style={{ flex: 1 }}>
-                          <p style={{ fontSize: 13, fontWeight: 700, margin: 0, color: TEXT }}>{el.name}</p>
-                          <p style={{ fontSize: 11, color: MUTED, margin: 0 }}>{el.timeRange}</p>
-                        </div>
-                      </div>
-                    ))}
-                    <div style={{ background: `${GREEN}10`, border: `1px solid ${GREEN}30`, borderRadius: "0 0 12px 12px", padding: "12px 16px", marginTop: 4, textAlign: "center" }}>
-                      <p style={{ fontSize: 13, fontWeight: 800, color: GREEN, margin: 0 }}>
-                        Total: ~{totalTime}–{totalTime + planOrder.length * 10} min
-                      </p>
-                    </div>
-                  </div>
-                )}
+              {/* Right panel — detail */}
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 18, padding: "28px" }}>
+                  <h2 style={{ fontSize: 24, fontWeight: 900, margin: "0 0 4px", color: TEXT }}>{selectedVoice.name}</h2>
+                  <p style={{ fontSize: 13, color: PURPLE, fontWeight: 700, margin: "0 0 4px" }}>{selectedVoice.era}</p>
+                  <p style={{ fontSize: 13, color: MUTED, margin: "0 0 20px" }}>{selectedVoice.context}</p>
 
-                {/* Tips for the plan */}
-                {planOrder.length > 0 && (
-                  <div style={{ marginTop: 16, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "16px" }}>
-                    <h4 style={{ fontSize: 13, fontWeight: 800, color: MUTED, marginBottom: 10, textTransform: "uppercase", letterSpacing: 1 }}>Tips for This Plan</h4>
-                    {!planItems.has("meal") && (
-                      <p style={{ fontSize: 12, color: "#F59E0B", marginBottom: 6 }}>💡 Consider adding a shared meal — it's one of the most bonding elements.</p>
-                    )}
-                    {!planItems.has("communion") && planItems.has("scripture") && (
-                      <p style={{ fontSize: 12, color: PURPLE, marginBottom: 6 }}>💡 The early church combined Scripture and the Lord's Supper regularly.</p>
-                    )}
-                    {planOrder.length >= 5 && (
-                      <p style={{ fontSize: 12, color: "#3B82F6", marginBottom: 6 }}>💡 This is a full gathering. Build in natural breaks and don't rush the conversation.</p>
-                    )}
-                    <p style={{ fontSize: 12, color: MUTED, margin: 0 }}>Start with what's comfortable and add elements as your community deepens over months.</p>
+                  <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.8, margin: "0 0 24px" }}>{selectedVoice.bio}</p>
+
+                  <blockquote style={{ margin: "0 0 24px", padding: "18px 22px", background: "rgba(0,255,136,0.05)", borderLeft: `3px solid ${GREEN}`, borderRadius: "0 12px 12px 0" }}>
+                    <p style={{ fontSize: 15, color: "#A0F0C0", fontStyle: "italic", lineHeight: 1.7, margin: "0 0 8px" }}>
+                      &ldquo;{selectedVoice.quote}&rdquo;
+                    </p>
+                    <p style={{ fontSize: 12, color: MUTED, margin: 0 }}>&mdash; {selectedVoice.name}</p>
+                  </blockquote>
+
+                  <div style={{ background: "rgba(107,79,187,0.07)", border: `1px solid rgba(107,79,187,0.2)`, borderRadius: 14, padding: "18px 20px" }}>
+                    <h4 style={{ fontSize: 12, fontWeight: 800, color: PURPLE, textTransform: "uppercase", letterSpacing: 1, marginBottom: 10 }}>Key Contribution</h4>
+                    <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.8, margin: 0 }}>{selectedVoice.contribution}</p>
                   </div>
-                )}
+                </div>
               </div>
             </div>
           </div>
         )}
+
+        {/* VIDEOS TAB */}
+        {activeTab === "videos" && (
+          <div>
+            <p style={{ color: MUTED, marginBottom: 28, fontSize: 15 }}>
+              These sermons and talks speak directly to the vision, theology, and practice that animates the house church movement. Watch them alone or bring them as discussion starters to your gathering.
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(380px, 1fr))", gap: 24 }}>
+              {HC_VIDEOS.map(v => (
+                <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 18, overflow: "hidden" }}>
+                  <div style={{ padding: "18px 20px 14px" }}>
+                    <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 10 }}>
+                      <span style={{ fontSize: 12, padding: "3px 12px", borderRadius: 20, background: "rgba(107,79,187,0.15)", color: PURPLE, fontWeight: 700 }}>{v.preacher}</span>
+                    </div>
+                    <h3 style={{ fontSize: 17, fontWeight: 800, margin: "0 0 8px", color: TEXT, lineHeight: 1.3 }}>{v.title}</h3>
+                    <p style={{ fontSize: 13, color: MUTED, margin: "0 0 14px", lineHeight: 1.6 }}>{v.description}</p>
+                  </div>
+                  <div style={{ padding: "0 20px 20px" }}>
+                    <iframe
+                      width="100%"
+                      style={{ aspectRatio: "16/9", border: "none", borderRadius: 8 }}
+                      src={`https://www.youtube.com/embed/${v.videoId}`}
+                      title={v.title}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
       </div>
     </div>
   );

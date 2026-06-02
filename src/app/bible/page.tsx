@@ -97,7 +97,8 @@ type Version = { id: string; code: string; name: string; year: number | null };
 const PREFERRED_CODES = ["KJV", "NIV", "NKJV", "NLT", "ESV", "NASB", "CSB", "NET", "WEB", "AMP", "MSG"];
 
 const FALLBACK_VERSIONS: Version[] = [
-  { id: "de4e12af7fb5a05c-02", code: "KJV", name: "King James Version", year: 1611 },
+  // Bundled, complete KJV — served from local data, always available.
+  { id: "KJV-LOCAL", code: "KJV", name: "King James Version", year: 1611 },
   { id: "65eec8e0b60e656b-01", code: "ESV", name: "English Standard Version", year: 2001 },
   { id: "06125adad2d5898a-01", code: "NIV", name: "New International Version", year: 1973 },
   { id: "1c12yany", code: "NKJV", name: "New King James Version", year: 1982 },

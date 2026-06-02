@@ -1,28 +1,42 @@
 import { NextResponse } from "next/server";
 import kjvData from "@/data/kjv.json";
+import asvData from "@/data/asv.json";
 
 // API.Bible (scripture.api.bible) proxy.
 //
 // This Route Handler keeps the BIBLE_API_KEY on the server. The client calls
-// /api/bible?action=... and never sees the key. Three actions are supported:
+// /api/bible?action=... and never sees the key. Actions supported:
 //   - ?action=versions
 //   - ?action=books&bibleId={id}
 //   - ?action=chapter&bibleId={id}&bookId={id}&chapter={N}
+//   - ?action=search&q={query}&bibleId={KJV-LOCAL|ASV-LOCAL}
 //
-// The complete KJV (all 66 books, 1,189 chapters, 31,102 verses) is bundled
-// locally in src/data/kjv.json and served instantly under the bibleId
-// "KJV-LOCAL" — guaranteed to work with no external dependency. Every other
-// translation is proxied live from API.Bible when a key is available.
+// Two complete translations (KJV + ASV — each 66 books, 1,189 chapters,
+// 31,102 verses) are bundled locally and served instantly under the bibleIds
+// "KJV-LOCAL" / "ASV-LOCAL" — guaranteed to work with no external dependency,
+// and they power full-text search. Other translations are proxied live from
+// API.Bible when a key is available.
 
 const API_BASE = "https://api.scripture.api.bible/v1";
 
 const KJV_LOCAL_ID = "KJV-LOCAL";
+const ASV_LOCAL_ID = "ASV-LOCAL";
 
-// Bundled KJV: { [bookId]: { [chapter]: string[] } }
-const KJV: Record<string, Record<string, string[]>> = kjvData as Record<
-  string,
-  Record<string, string[]>
->;
+type LocalBible = Record<string, Record<string, string[]>>;
+
+// Bundled translations: { [bookId]: { [chapter]: string[] } }
+const KJV = kjvData as LocalBible;
+const ASV = asvData as LocalBible;
+
+const LOCAL_BIBLES: Record<string, { data: LocalBible; name: string; abbr: string; copyright: string }> = {
+  [KJV_LOCAL_ID]: { data: KJV, name: "King James Version", abbr: "KJV", copyright: "King James Version (1611) — Public Domain" },
+  [ASV_LOCAL_ID]: { data: ASV, name: "American Standard Version", abbr: "ASV", copyright: "American Standard Version (1901) — Public Domain" },
+};
+
+// Canonical 66-book order (book ids), for search traversal.
+const BOOK_ORDER = [
+  "GEN","EXO","LEV","NUM","DEU","JOS","JDG","RUT","1SA","2SA","1KI","2KI","1CH","2CH","EZR","NEH","EST","JOB","PSA","PRO","ECC","SNG","ISA","JER","LAM","EZK","DAN","HOS","JOL","AMO","OBA","JON","MIC","NAM","HAB","ZEP","HAG","ZEC","MAL","MAT","MRK","LUK","JHN","ACT","ROM","1CO","2CO","GAL","EPH","PHP","COL","1TH","2TH","1TI","2TI","TIT","PHM","HEB","JAS","1PE","2PE","1JN","2JN","3JN","JUD","REV",
+];
 
 // Book id → display name (canonical 66-book order).
 const BOOK_NAMES: Record<string, string> = {
@@ -70,6 +84,21 @@ export interface ChapterResponse {
   verses: BibleVerse[];
   reference: string;
   copyright: string;
+}
+
+export interface SearchResult {
+  ref: string;
+  bookId: string;
+  chapter: number;
+  verse: number;
+  text: string;
+}
+
+export interface SearchResponse {
+  results: SearchResult[];
+  total: number;
+  query: string;
+  version?: string;
 }
 
 interface ApiError {
@@ -166,19 +195,29 @@ function parseVerses(html: string): BibleVerse[] {
 
 export async function GET(
   request: Request
-): Promise<NextResponse<BibleVersion[] | BibleBook[] | ChapterResponse | ApiError>> {
+): Promise<NextResponse<BibleVersion[] | BibleBook[] | ChapterResponse | SearchResponse | ApiError>> {
   const { searchParams } = new URL(request.url);
   const action = searchParams.get("action");
 
-  // The bundled KJV always works — its own version entry, and a fast path in
-  // the chapter handler — regardless of whether an API key is configured.
-  const LOCAL_KJV: BibleVersion = {
-    id: KJV_LOCAL_ID,
-    abbreviation: "KJV",
-    name: "King James Version",
-    description: "1611 Authorized Version — bundled, complete, always available.",
-    language: "English",
-  };
+  // The bundled translations always work — their own version entries, fast
+  // paths in the chapter handler, and full-text search — regardless of whether
+  // an API key is configured.
+  const LOCAL_VERSIONS: BibleVersion[] = [
+    {
+      id: KJV_LOCAL_ID,
+      abbreviation: "KJV",
+      name: "King James Version",
+      description: "1611 Authorized Version — bundled, complete, always available.",
+      language: "English",
+    },
+    {
+      id: ASV_LOCAL_ID,
+      abbreviation: "ASV",
+      name: "American Standard Version",
+      description: "1901 — bundled, complete, always available.",
+      language: "English",
+    },
+  ];
 
   try {
     // ── versions ────────────────────────────────────────────────────────────
@@ -205,16 +244,60 @@ export async function GET(
                 };
               })
               .filter((v) => v.id)
-              // Drop any remote KJV — the bundled one is canonical.
-              .filter((v) => !/^kjv$/i.test(v.abbreviation))
+              // Drop any remote KJV/ASV — the bundled ones are canonical.
+              .filter((v) => !/^(kjv|asv)$/i.test(v.abbreviation))
               .sort((a, b) => a.name.localeCompare(b.name));
           }
         } catch {
-          // Ignore remote failures — the local KJV is always returned below.
+          // Ignore remote failures — the local translations are always returned.
         }
       }
-      // Bundled KJV always first.
-      return NextResponse.json([LOCAL_KJV, ...remote]);
+      // Bundled translations always first.
+      return NextResponse.json([...LOCAL_VERSIONS, ...remote]);
+    }
+
+    // ── search (full-text over a bundled translation) ─────────────────────────
+    if (action === "search") {
+      const q = (searchParams.get("q") || "").trim();
+      const bibleId = searchParams.get("bibleId") || KJV_LOCAL_ID;
+      const local = LOCAL_BIBLES[bibleId] ?? LOCAL_BIBLES[KJV_LOCAL_ID];
+      if (q.length < 2) {
+        return NextResponse.json({ results: [], total: 0, query: q });
+      }
+      const needle = q.toLowerCase();
+      const isPhrase = /\s/.test(needle);
+      const terms = needle.split(/\s+/).filter(Boolean);
+      const results: { ref: string; bookId: string; chapter: number; verse: number; text: string }[] = [];
+      let total = 0;
+      const LIMIT = 200;
+      for (const bookId of BOOK_ORDER) {
+        const book = local.data[bookId];
+        if (!book) continue;
+        const name = BOOK_NAMES[bookId] ?? bookId;
+        for (const chapStr of Object.keys(book)) {
+          const verses = book[chapStr];
+          for (let i = 0; i < verses.length; i++) {
+            const text = verses[i];
+            const hay = text.toLowerCase();
+            const match = isPhrase
+              ? hay.includes(needle)
+              : terms.every((t) => hay.includes(t));
+            if (match) {
+              total++;
+              if (results.length < LIMIT) {
+                results.push({
+                  ref: `${name} ${chapStr}:${i + 1}`,
+                  bookId,
+                  chapter: Number(chapStr),
+                  verse: i + 1,
+                  text,
+                });
+              }
+            }
+          }
+        }
+      }
+      return NextResponse.json({ results, total, query: q, version: local.abbr });
     }
 
     // ── books ───────────────────────────────────────────────────────────────
@@ -223,12 +306,10 @@ export async function GET(
       if (!bibleId) {
         return NextResponse.json({ error: "Missing bibleId" }, { status: 400 });
       }
-      if (bibleId === KJV_LOCAL_ID) {
-        const books: BibleBook[] = Object.keys(KJV).map((id) => ({
-          id,
-          name: BOOK_NAMES[id] ?? id,
-          abbreviation: id,
-        }));
+      if (LOCAL_BIBLES[bibleId]) {
+        const books: BibleBook[] = BOOK_ORDER.filter(
+          (id) => LOCAL_BIBLES[bibleId].data[id]
+        ).map((id) => ({ id, name: BOOK_NAMES[id] ?? id, abbreviation: id }));
         return NextResponse.json(books);
       }
       if (!apiKey()) {
@@ -269,24 +350,22 @@ export async function GET(
         );
       }
 
-      // ── Bundled KJV fast path — always available, no network ──────────────
-      if (bibleId === KJV_LOCAL_ID) {
-        const book = KJV[bookId];
+      // ── Bundled translation fast path — always available, no network ──────
+      if (LOCAL_BIBLES[bibleId]) {
+        const local = LOCAL_BIBLES[bibleId];
+        const book = local.data[bookId];
         const raw = book?.[String(chapter)];
         if (!raw) {
           return NextResponse.json(
-            { error: `KJV chapter not found: ${bookId} ${chapter}` },
+            { error: `${local.abbr} chapter not found: ${bookId} ${chapter}` },
             { status: 404 }
           );
         }
-        const verses: BibleVerse[] = raw.map((text, i) => ({
-          num: i + 1,
-          text,
-        }));
+        const verses: BibleVerse[] = raw.map((text, i) => ({ num: i + 1, text }));
         return NextResponse.json({
           verses,
           reference: `${BOOK_NAMES[bookId] ?? bookId} ${chapter}`,
-          copyright: "King James Version (1611) — Public Domain",
+          copyright: local.copyright,
         });
       }
 

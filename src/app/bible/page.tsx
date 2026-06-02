@@ -94,7 +94,9 @@ type Version = { id: string; code: string; name: string; year: number | null };
 
 // Translations to prioritize/surface first when the API returns them, matched by
 // abbreviation or name substring.
-const PREFERRED_CODES = ["KJV", "NIV", "NKJV", "NLT", "ESV", "NASB", "CSB", "NET", "WEB", "AMP", "MSG"];
+// US Bible-translation popularity, most → least (ECPA/CBA bestseller rankings).
+// Drives both the default selection and the order of the version selector.
+const PREFERRED_CODES = ["NIV", "KJV", "NLT", "ESV", "NKJV", "CSB", "NASB", "MSG", "AMP", "NRSV", "NET", "RSV", "ASV", "WEB", "GNT", "ERV", "CEV"];
 
 const FALLBACK_VERSIONS: Version[] = [
   // Bundled, complete KJV — served from local data, always available.
@@ -201,6 +203,39 @@ const STUDY_NOTES: Record<string, Record<number, { context: string; crossRefs: s
       crossRefs: ["Romans 3:24", "Titus 3:5", "Galatians 2:16", "John 6:44"],
       note: "Ephesians 2:8-9 is the locus classicus of the doctrine of grace alone through faith alone. Paul emphasizes that salvation is entirely God's gift, not of works, so that no one may boast. Verse 10 immediately balances this by affirming that believers are created for good works."
     }
+  },
+  MAT: {
+    5: {
+      context: "The Sermon on the Mount — The Beatitudes",
+      crossRefs: ["Luke 6:20-23", "Psalm 37:11", "Isaiah 61:1-3", "1 Peter 3:14"],
+      note: "Jesus' great manifesto of the Kingdom opens with the Beatitudes — eight pronouncements of blessing that invert the world's values. The 'poor in spirit,' the mourners, and the meek are declared blessed. The Sermon (chapters 5-7) is the most complete summary of Jesus' ethical teaching."
+    },
+    6: {
+      context: "The Lord's Prayer & Kingdom Priorities",
+      crossRefs: ["Luke 11:2-4", "1 John 5:14", "Philippians 4:6", "Psalm 55:22"],
+      note: "At the center of the Sermon, Jesus gives the model prayer. He teaches against anxious striving, calling disciples to 'seek first the kingdom of God' (v.33) and trust the Father who feeds the birds and clothes the lilies."
+    }
+  },
+  "1CO": {
+    13: {
+      context: "The Love Chapter",
+      crossRefs: ["1 John 4:7-12", "Romans 13:8-10", "John 13:34-35", "Galatians 5:22"],
+      note: "Paul's hymn to love sits in the middle of his teaching on spiritual gifts. Love (agapē) is the 'more excellent way' — patient, kind, never failing. Without love, even the most spectacular gifts are 'sounding brass.' Often read at weddings, its original context is life together in the church."
+    }
+  },
+  HEB: {
+    11: {
+      context: "The Hall of Faith",
+      crossRefs: ["Romans 4:18-21", "Genesis 15:6", "James 2:21-23", "Hebrews 12:1-2"],
+      note: "Hebrews 11 surveys the heroes of faith from Abel to the prophets — Noah, Abraham, Moses, Rahab, and more — each commended for trusting God's promises before seeing them fulfilled. Faith is 'the substance of things hoped for, the evidence of things not seen' (v.1)."
+    }
+  },
+  REV: {
+    21: {
+      context: "The New Heaven and New Earth",
+      crossRefs: ["Isaiah 65:17", "2 Peter 3:13", "Revelation 22:1-5", "1 Corinthians 2:9"],
+      note: "John's vision culminates in the new creation — God dwelling with his people, every tear wiped away, no more death or mourning. The New Jerusalem descends as a bride. This is the Bible's grand finale: paradise lost in Genesis 3 is restored and surpassed."
+    }
   }
 };
 
@@ -241,6 +276,215 @@ const VERSE_THEMES: Record<string, { theme: string; color: string; verses: { ref
       { ref: "Jeremiah 31:3", text: "The LORD hath appeared of old unto me, saying, Yea, I have loved thee with an everlasting love: therefore with lovingkindness have I drawn thee.", version: "KJV" },
     ]
   },
+  faith: {
+    theme: "Faith & Trust",
+    color: "#8B5CF6",
+    verses: [
+      { ref: "Hebrews 11:1", text: "Now faith is the substance of things hoped for, the evidence of things not seen.", version: "KJV" },
+      { ref: "Proverbs 3:5-6", text: "Trust in the LORD with all thine heart; and lean not unto thine own understanding. In all thy ways acknowledge him, and he shall direct thy paths.", version: "KJV" },
+      { ref: "2 Corinthians 5:7", text: "For we walk by faith, not by sight.", version: "KJV" },
+      { ref: "Mark 11:24", text: "Therefore I say unto you, What things soever ye desire, when ye pray, believe that ye receive them, and ye shall have them.", version: "KJV" },
+    ]
+  },
+  hope: {
+    theme: "Hope & Future",
+    color: "#0EA5E9",
+    verses: [
+      { ref: "Jeremiah 29:11", text: "For I know the thoughts that I think toward you, saith the LORD, thoughts of peace, and not of evil, to give you an expected end.", version: "KJV" },
+      { ref: "Romans 15:13", text: "Now the God of hope fill you with all joy and peace in believing, that ye may abound in hope, through the power of the Holy Ghost.", version: "KJV" },
+      { ref: "Romans 8:28", text: "And we know that all things work together for good to them that love God, to them who are the called according to his purpose.", version: "KJV" },
+      { ref: "Lamentations 3:22-23", text: "It is of the LORD's mercies that we are not consumed, because his compassions fail not. They are new every morning: great is thy faithfulness.", version: "KJV" },
+    ]
+  },
+  anxiety: {
+    theme: "Anxiety & Fear",
+    color: "#10B981",
+    verses: [
+      { ref: "Philippians 4:6-7", text: "Be careful for nothing; but in every thing by prayer and supplication with thanksgiving let your requests be made known unto God. And the peace of God, which passeth all understanding, shall keep your hearts and minds through Christ Jesus.", version: "KJV" },
+      { ref: "1 Peter 5:7", text: "Casting all your care upon him; for he careth for you.", version: "KJV" },
+      { ref: "Isaiah 41:10", text: "Fear thou not; for I am with thee: be not dismayed; for I am thy God: I will strengthen thee; yea, I will help thee; yea, I will uphold thee with the right hand of my righteousness.", version: "KJV" },
+      { ref: "Matthew 6:34", text: "Take therefore no thought for the morrow: for the morrow shall take thought for the things of itself. Sufficient unto the day is the evil thereof.", version: "KJV" },
+    ]
+  },
+  forgiveness: {
+    theme: "Forgiveness & Mercy",
+    color: "#F472B6",
+    verses: [
+      { ref: "1 John 1:9", text: "If we confess our sins, he is faithful and just to forgive us our sins, and to cleanse us from all unrighteousness.", version: "KJV" },
+      { ref: "Ephesians 4:32", text: "And be ye kind one to another, tenderhearted, forgiving one another, even as God for Christ's sake hath forgiven you.", version: "KJV" },
+      { ref: "Psalm 103:12", text: "As far as the east is from the west, so far hath he removed our transgressions from us.", version: "KJV" },
+      { ref: "Colossians 3:13", text: "Forbearing one another, and forgiving one another, if any man have a quarrel against any: even as Christ forgave you, so also do ye.", version: "KJV" },
+    ]
+  },
+  joy: {
+    theme: "Joy & Gladness",
+    color: "#F59E0B",
+    verses: [
+      { ref: "Nehemiah 8:10", text: "The joy of the LORD is your strength.", version: "KJV" },
+      { ref: "Psalm 16:11", text: "Thou wilt shew me the path of life: in thy presence is fulness of joy; at thy right hand there are pleasures for evermore.", version: "KJV" },
+      { ref: "John 15:11", text: "These things have I spoken unto you, that my joy might remain in you, and that your joy might be full.", version: "KJV" },
+      { ref: "James 1:2-3", text: "My brethren, count it all joy when ye fall into divers temptations; Knowing this, that the trying of your faith worketh patience.", version: "KJV" },
+    ]
+  },
+  wisdom: {
+    theme: "Wisdom & Guidance",
+    color: "#C9A227",
+    verses: [
+      { ref: "James 1:5", text: "If any of you lack wisdom, let him ask of God, that giveth to all men liberally, and upbraideth not; and it shall be given him.", version: "KJV" },
+      { ref: "Proverbs 1:7", text: "The fear of the LORD is the beginning of knowledge: but fools despise wisdom and instruction.", version: "KJV" },
+      { ref: "Psalm 119:105", text: "Thy word is a lamp unto my feet, and a light unto my path.", version: "KJV" },
+      { ref: "Proverbs 9:10", text: "The fear of the LORD is the beginning of wisdom: and the knowledge of the holy is understanding.", version: "KJV" },
+    ]
+  },
+  comfort: {
+    theme: "Comfort & Grief",
+    color: "#3B82F6",
+    verses: [
+      { ref: "Psalm 34:18", text: "The LORD is nigh unto them that are of a broken heart; and saveth such as be of a contrite spirit.", version: "KJV" },
+      { ref: "Matthew 5:4", text: "Blessed are they that mourn: for they shall be comforted.", version: "KJV" },
+      { ref: "Revelation 21:4", text: "And God shall wipe away all tears from their eyes; and there shall be no more death, neither sorrow, nor crying, neither shall there be any more pain: for the former things are passed away.", version: "KJV" },
+      { ref: "2 Corinthians 1:3-4", text: "Blessed be God, even the Father of our Lord Jesus Christ, the Father of mercies, and the God of all comfort; Who comforteth us in all our tribulation.", version: "KJV" },
+    ]
+  },
+  gratitude: {
+    theme: "Thankfulness",
+    color: "#EF4444",
+    verses: [
+      { ref: "1 Thessalonians 5:18", text: "In every thing give thanks: for this is the will of God in Christ Jesus concerning you.", version: "KJV" },
+      { ref: "Psalm 100:4", text: "Enter into his gates with thanksgiving, and into his courts with praise: be thankful unto him, and bless his name.", version: "KJV" },
+      { ref: "Colossians 3:15", text: "And let the peace of God rule in your hearts, to the which also ye are called in one body; and be ye thankful.", version: "KJV" },
+      { ref: "Psalm 107:1", text: "O give thanks unto the LORD, for he is good: for his mercy endureth for ever.", version: "KJV" },
+    ]
+  },
+};
+
+// Famous verses rendered across major translations — powers the Compare tab.
+const FAMOUS_COMPARISONS: { ref: string; bookId: string; chapter: number; verse: number; renderings: { code: string; text: string }[] }[] = [
+  {
+    ref: "John 3:16", bookId: "JHN", chapter: 3, verse: 16,
+    renderings: [
+      { code: "KJV", text: "For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life." },
+      { code: "ASV", text: "For God so loved the world, that he gave his only begotten Son, that whosoever believeth on him should not perish, but have eternal life." },
+      { code: "ESV", text: "For God so loved the world, that he gave his only Son, that whoever believes in him should not perish but have eternal life." },
+      { code: "NIV", text: "For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life." },
+      { code: "NLT", text: "For this is how God loved the world: He gave his one and only Son, so that everyone who believes in him will not perish but have eternal life." },
+      { code: "NKJV", text: "For God so loved the world that He gave His only begotten Son, that whoever believes in Him should not perish but have everlasting life." },
+      { code: "CSB", text: "For God loved the world in this way: He gave his one and only Son, so that everyone who believes in him will not perish but have eternal life." },
+      { code: "MSG", text: "This is how much God loved the world: He gave his Son, his one and only Son. And this is why: so that no one need be destroyed; by believing in him, anyone can have a whole and lasting life." },
+    ],
+  },
+  {
+    ref: "Psalm 23:1", bookId: "PSA", chapter: 23, verse: 1,
+    renderings: [
+      { code: "KJV", text: "The LORD is my shepherd; I shall not want." },
+      { code: "ASV", text: "Jehovah is my shepherd; I shall not want." },
+      { code: "ESV", text: "The LORD is my shepherd; I shall not want." },
+      { code: "NIV", text: "The LORD is my shepherd, I lack nothing." },
+      { code: "NLT", text: "The LORD is my shepherd; I have all that I need." },
+      { code: "NKJV", text: "The LORD is my shepherd; I shall not want." },
+      { code: "MSG", text: "GOD, my shepherd! I don't need a thing." },
+      { code: "AMP", text: "The Lord is my Shepherd [to feed, to guide and to shield me], I shall not want." },
+    ],
+  },
+  {
+    ref: "Romans 8:28", bookId: "ROM", chapter: 8, verse: 28,
+    renderings: [
+      { code: "KJV", text: "And we know that all things work together for good to them that love God, to them who are the called according to his purpose." },
+      { code: "ASV", text: "And we know that to them that love God all things work together for good, even to them that are called according to his purpose." },
+      { code: "ESV", text: "And we know that for those who love God all things work together for good, for those who are called according to his purpose." },
+      { code: "NIV", text: "And we know that in all things God works for the good of those who love him, who have been called according to his purpose." },
+      { code: "NLT", text: "And we know that God causes everything to work together for the good of those who love God and are called according to his purpose for them." },
+      { code: "NKJV", text: "And we know that all things work together for good to those who love God, to those who are the called according to His purpose." },
+    ],
+  },
+  {
+    ref: "Philippians 4:13", bookId: "PHP", chapter: 4, verse: 13,
+    renderings: [
+      { code: "KJV", text: "I can do all things through Christ which strengtheneth me." },
+      { code: "ASV", text: "I can do all things in him that strengtheneth me." },
+      { code: "ESV", text: "I can do all things through him who strengthens me." },
+      { code: "NIV", text: "I can do all this through him who gives me strength." },
+      { code: "NLT", text: "For I can do everything through Christ, who gives me strength." },
+      { code: "NKJV", text: "I can do all things through Christ who strengthens me." },
+    ],
+  },
+  {
+    ref: "Proverbs 3:5", bookId: "PRO", chapter: 3, verse: 5,
+    renderings: [
+      { code: "KJV", text: "Trust in the LORD with all thine heart; and lean not unto thine own understanding." },
+      { code: "ASV", text: "Trust in Jehovah with all thy heart, and lean not upon thine own understanding." },
+      { code: "ESV", text: "Trust in the LORD with all your heart, and do not lean on your own understanding." },
+      { code: "NIV", text: "Trust in the LORD with all your heart and lean not on your own understanding." },
+      { code: "NLT", text: "Trust in the LORD with all your heart; do not depend on your own understanding." },
+    ],
+  },
+  {
+    ref: "Isaiah 40:31", bookId: "ISA", chapter: 40, verse: 31,
+    renderings: [
+      { code: "KJV", text: "But they that wait upon the LORD shall renew their strength; they shall mount up with wings as eagles; they shall run, and not be weary; and they shall walk, and not faint." },
+      { code: "ASV", text: "But they that wait for Jehovah shall renew their strength; they shall mount up with wings as eagles; they shall run, and not be weary; they shall walk, and not faint." },
+      { code: "ESV", text: "But they who wait for the LORD shall renew their strength; they shall mount up with wings like eagles; they shall run and not be weary; they shall walk and not faint." },
+      { code: "NIV", text: "But those who hope in the LORD will renew their strength. They will soar on wings like eagles; they will run and not grow weary, they will walk and not be faint." },
+      { code: "NLT", text: "But those who trust in the LORD will find new strength. They will soar high on wings like eagles. They will run and not grow weary. They will walk and not faint." },
+    ],
+  },
+];
+
+// Multi-day sample reading plans with real daily passages.
+const READING_PLAN_DAYS: Record<string, { ref: string; bookId: string; chapter: number }[]> = {
+  "gospel-of-john": [
+    { ref: "John 1", bookId: "JHN", chapter: 1 },
+    { ref: "John 2", bookId: "JHN", chapter: 2 },
+    { ref: "John 3", bookId: "JHN", chapter: 3 },
+    { ref: "John 4", bookId: "JHN", chapter: 4 },
+    { ref: "John 5", bookId: "JHN", chapter: 5 },
+    { ref: "John 6", bookId: "JHN", chapter: 6 },
+    { ref: "John 7", bookId: "JHN", chapter: 7 },
+    { ref: "John 8", bookId: "JHN", chapter: 8 },
+    { ref: "John 9", bookId: "JHN", chapter: 9 },
+    { ref: "John 10", bookId: "JHN", chapter: 10 },
+    { ref: "John 11", bookId: "JHN", chapter: 11 },
+    { ref: "John 12", bookId: "JHN", chapter: 12 },
+    { ref: "John 13", bookId: "JHN", chapter: 13 },
+    { ref: "John 14", bookId: "JHN", chapter: 14 },
+    { ref: "John 15", bookId: "JHN", chapter: 15 },
+    { ref: "John 16", bookId: "JHN", chapter: 16 },
+    { ref: "John 17", bookId: "JHN", chapter: 17 },
+    { ref: "John 18", bookId: "JHN", chapter: 18 },
+    { ref: "John 19", bookId: "JHN", chapter: 19 },
+    { ref: "John 20", bookId: "JHN", chapter: 20 },
+    { ref: "John 21", bookId: "JHN", chapter: 21 },
+  ],
+  "psalms-of-comfort": [
+    { ref: "Psalm 23", bookId: "PSA", chapter: 23 },
+    { ref: "Psalm 27", bookId: "PSA", chapter: 27 },
+    { ref: "Psalm 34", bookId: "PSA", chapter: 34 },
+    { ref: "Psalm 42", bookId: "PSA", chapter: 42 },
+    { ref: "Psalm 46", bookId: "PSA", chapter: 46 },
+    { ref: "Psalm 51", bookId: "PSA", chapter: 51 },
+    { ref: "Psalm 62", bookId: "PSA", chapter: 62 },
+    { ref: "Psalm 91", bookId: "PSA", chapter: 91 },
+    { ref: "Psalm 103", bookId: "PSA", chapter: 103 },
+    { ref: "Psalm 121", bookId: "PSA", chapter: 121 },
+    { ref: "Psalm 139", bookId: "PSA", chapter: 139 },
+    { ref: "Psalm 145", bookId: "PSA", chapter: 145 },
+  ],
+  "life-of-christ": [
+    { ref: "Luke 1", bookId: "LUK", chapter: 1 },
+    { ref: "Luke 2", bookId: "LUK", chapter: 2 },
+    { ref: "Matthew 3", bookId: "MAT", chapter: 3 },
+    { ref: "Matthew 4", bookId: "MAT", chapter: 4 },
+    { ref: "Matthew 5", bookId: "MAT", chapter: 5 },
+    { ref: "Matthew 6", bookId: "MAT", chapter: 6 },
+    { ref: "Matthew 7", bookId: "MAT", chapter: 7 },
+    { ref: "Mark 4", bookId: "MRK", chapter: 4 },
+    { ref: "John 6", bookId: "JHN", chapter: 6 },
+    { ref: "Luke 15", bookId: "LUK", chapter: 15 },
+    { ref: "John 11", bookId: "JHN", chapter: 11 },
+    { ref: "Matthew 26", bookId: "MAT", chapter: 26 },
+    { ref: "Matthew 27", bookId: "MAT", chapter: 27 },
+    { ref: "John 20", bookId: "JHN", chapter: 20 },
+  ],
 };
 
 // Inline KJV text for well-known chapters (fallback for API)
@@ -409,10 +653,12 @@ type MainTab = "read" | "search" | "compare" | "study" | "plans";
 
 type ChapterData = { num: number; text: string }[];
 
+type SearchHit = { ref: string; bookId: string; chapter: number; verse: number; text: string };
+
 export default function BiblePage() {
   const [mainTab, setMainTab] = useState<MainTab>("read");
-  const [selectedBook, setSelectedBook] = useState(ALL_BOOKS.find(b => b.id === "JHN")!);
-  const [selectedChapter, setSelectedChapter] = useState(3);
+  const [selectedBook, setSelectedBook] = useState(ALL_BOOKS.find(b => b.id === "GEN")!);
+  const [selectedChapter, setSelectedChapter] = useState(1);
   const [versions, setVersions] = useState<Version[]>(FALLBACK_VERSIONS);
   const [selectedVersion, setSelectedVersion] = useState<Version>(
     FALLBACK_VERSIONS.find(v => v.code === "KJV") ?? FALLBACK_VERSIONS[0]
@@ -423,8 +669,15 @@ export default function BiblePage() {
   const [highlightedVerse, setHighlightedVerse] = useState<number | null>(null);
   const [bookmarkedVerses, setBookmarkedVerses] = useState<Set<string>>(new Set());
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState<{ ref: string; text: string }[]>([]);
-  const [compareVersions, setCompareVersions] = useState<string[]>(["KJV", "ESV"]);
+  const [searchResults, setSearchResults] = useState<SearchHit[]>([]);
+  const [searchTotal, setSearchTotal] = useState(0);
+  const [searchLoading, setSearchLoading] = useState(false);
+  const [searchDone, setSearchDone] = useState(false);
+  const [searchScope, setSearchScope] = useState<"ALL" | "OT" | "NT">("ALL");
+  const [compareVersions, setCompareVersions] = useState<string[]>([]);
+  const [activeComparison, setActiveComparison] = useState(0);
+  const [activePlanId, setActivePlanId] = useState<string | null>(null);
+  const [completedDays, setCompletedDays] = useState<Set<string>>(new Set());
   const [activeTheme, setActiveTheme] = useState<keyof typeof VERSE_THEMES>("salvation");
   const [otFilter, setOtFilter] = useState(true);
   const [ntFilter, setNtFilter] = useState(true);
@@ -465,9 +718,13 @@ export default function BiblePage() {
         }));
         const ordered = prioritizeVersions(mapped);
         setVersions(ordered);
-        // Default to KJV if available, else first in the prioritized list.
-        const kjv = ordered.find((v) => v.code.includes("KJV") || v.name.toUpperCase().includes("KING JAMES"));
-        setSelectedVersion(kjv ?? ordered[0]);
+        // Default to NIV when the API key is licensed for it; otherwise fall
+        // back to the most-popular available version (the bundled KJV always
+        // works, so the page never appears empty).
+        const niv = ordered.find(
+          (v) => v.code.includes("NIV") || v.name.toUpperCase().includes("NEW INTERNATIONAL")
+        );
+        setSelectedVersion(niv ?? ordered[0]);
       } catch {
         // Keep fallback versions on any failure (e.g. offline dev).
       }
@@ -526,6 +783,44 @@ export default function BiblePage() {
     }
   }, [selectedBook.id, selectedChapter]);
 
+  // ── Remember reading position + plan progress (localStorage) ────────────────
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      const pos = localStorage.getItem("vine-bible-pos");
+      if (pos) {
+        const { bookId, chapter } = JSON.parse(pos);
+        const book = ALL_BOOKS.find((b) => b.id === bookId);
+        if (book && chapter >= 1 && chapter <= book.chapters) {
+          setSelectedBook(book);
+          setSelectedChapter(chapter);
+        }
+      }
+      const done = localStorage.getItem("vine-bible-plan-progress");
+      if (done) setCompletedDays(new Set(JSON.parse(done)));
+      const bm = localStorage.getItem("vine-bible-bookmarks");
+      if (bm) setBookmarkedVerses(new Set(JSON.parse(bm)));
+    } catch { /* ignore */ }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      localStorage.setItem("vine-bible-pos", JSON.stringify({ bookId: selectedBook.id, chapter: selectedChapter }));
+    } catch { /* ignore */ }
+  }, [selectedBook.id, selectedChapter]);
+
+  const toggleDay = useCallback((key: string) => {
+    setCompletedDays((prev) => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key); else next.add(key);
+      if (typeof window !== "undefined") {
+        try { localStorage.setItem("vine-bible-plan-progress", JSON.stringify([...next])); } catch { /* ignore */ }
+      }
+      return next;
+    });
+  }, []);
+
   // A stable retry counter so the chapter effect can be forced to re-run.
   const retryChapter = useCallback(() => {
     // Re-trigger the effect by nudging fetchedVerses through a no-op then refetch.
@@ -557,6 +852,9 @@ export default function BiblePage() {
     setBookmarkedVerses(prev => {
       const next = new Set(prev);
       if (next.has(ref)) next.delete(ref); else next.add(ref);
+      if (typeof window !== "undefined") {
+        try { localStorage.setItem("vine-bible-bookmarks", JSON.stringify([...next])); } catch { /* ignore */ }
+      }
       return next;
     });
   };
@@ -597,22 +895,60 @@ export default function BiblePage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mainTab, selectedBook.id, selectedChapter]);
 
-  const handleSearch = useCallback(() => {
-    if (!searchQuery.trim()) return;
-    const q = searchQuery.toLowerCase();
-    const results: { ref: string; text: string }[] = [];
-    Object.entries(INLINE_CHAPTERS).forEach(([key, chVerses]) => {
-      const [bookId, chapStr] = key.split("-");
-      const book = ALL_BOOKS.find(b => b.id === bookId);
-      if (!book) return;
-      chVerses.forEach(v => {
-        if (v.text.toLowerCase().includes(q)) {
-          results.push({ ref: `${book.abbr} ${chapStr}:${v.num}`, text: v.text });
-        }
+  // Full-text search across the entire bundled Bible (all 66 books) via the
+  // /api/bible?action=search endpoint. Uses the bundled translation that
+  // matches the current selection when possible (KJV or ASV), else KJV.
+  const handleSearch = useCallback(async () => {
+    const q = searchQuery.trim();
+    if (q.length < 2) return;
+    const searchBibleId = selectedVersion.code.includes("ASV") ? "ASV-LOCAL" : "KJV-LOCAL";
+    setSearchLoading(true);
+    setSearchDone(false);
+    try {
+      const res = await fetch(`/api/bible?action=search&q=${encodeURIComponent(q)}&bibleId=${searchBibleId}`);
+      const json = await res.json();
+      const all: SearchHit[] = Array.isArray(json.results) ? json.results : [];
+      const scoped = all.filter((r) => {
+        if (searchScope === "ALL") return true;
+        const isOT = OT_BOOKS.some((b) => b.id === r.bookId);
+        return searchScope === "OT" ? isOT : !isOT;
       });
+      setSearchResults(scoped);
+      setSearchTotal(typeof json.total === "number" ? json.total : scoped.length);
+      setSearchDone(true);
+    } catch {
+      setSearchResults([]);
+      setSearchTotal(0);
+      setSearchDone(true);
+    } finally {
+      setSearchLoading(false);
+    }
+  }, [searchQuery, selectedVersion.code, searchScope]);
+
+  // Jump straight from a search hit (or cross-reference) to the reader.
+  const goToReference = useCallback((bookId: string, chapter: number, verse?: number) => {
+    const book = ALL_BOOKS.find((b) => b.id === bookId);
+    if (!book) return;
+    setSelectedBook(book);
+    setSelectedChapter(Math.min(Math.max(1, chapter), book.chapters));
+    setHighlightedVerse(verse ?? null);
+    setMainTab("read");
+  }, []);
+
+  // Parse a human reference like "1 Corinthians 13:4" or "Psalm 23" into a
+  // book + chapter (+ optional verse) so cross-reference chips are clickable.
+  const openRef = useCallback((ref: string) => {
+    const m = ref.match(/^\s*((?:[1-3]\s)?[A-Za-z ]+?)\s+(\d+)(?::(\d+))?/);
+    if (!m) return;
+    const namePart = m[1].trim().toLowerCase();
+    const book = ALL_BOOKS.find((b) => {
+      const n = b.name.toLowerCase();
+      return n === namePart || n.startsWith(namePart) || namePart.startsWith(n) ||
+        b.abbr.toLowerCase() === namePart;
     });
-    setSearchResults(results.slice(0, 30));
-  }, [searchQuery]);
+    if (!book) return;
+    goToReference(book.id, Number(m[2]), m[3] ? Number(m[3]) : undefined);
+  }, [goToReference]);
 
   const filteredBooks = ALL_BOOKS.filter(b => {
     const isOT = OT_BOOKS.some(ob => ob.id === b.id);
@@ -968,57 +1304,99 @@ export default function BiblePage() {
         )}
 
         {/* ===================== SEARCH TAB ===================== */}
+        {/* ===================== SEARCH TAB ===================== */}
         {mainTab === "search" && (
-          <div style={{ maxWidth: 800, margin: "0 auto" }}>
-            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
-              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Search the Scriptures</h2>
-              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20 }}>Search by keyword, phrase, or partial verse across available chapters.</p>
-              <div style={{ display: "flex", gap: 10 }}>
+          <div style={{ maxWidth: 880, margin: "0 auto" }}>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 20 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 6 }}>Search the Scriptures</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 18 }}>
+                Full-text search across all 66 books, 31,102 verses — powered by the {selectedVersion.code.includes("ASV") ? "ASV" : "KJV"}.
+              </p>
+              <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={e => setSearchQuery(e.target.value)}
                   onKeyDown={e => e.key === "Enter" && handleSearch()}
-                  placeholder="e.g. born again, love of God, grace..."
-                  style={{ flex: 1, padding: "12px 16px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 15 }}
+                  placeholder="Search words or phrases — e.g. love one another, fear not, living water"
+                  style={{ flex: 1, minWidth: 220, padding: "12px 16px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 15 }}
                 />
-                <button onClick={handleSearch} style={{ padding: "12px 24px", borderRadius: 8, background: GREEN, color: "#07070F", fontWeight: 800, fontSize: 15, cursor: "pointer", border: "none" }}>
-                  Search
+                <button onClick={handleSearch} disabled={searchLoading} style={{ padding: "12px 28px", borderRadius: 8, background: GREEN, color: "#07070F", fontWeight: 800, fontSize: 15, cursor: "pointer", border: "none", opacity: searchLoading ? 0.6 : 1 }}>
+                  {searchLoading ? "Searching…" : "Search"}
                 </button>
+              </div>
+              <div style={{ display: "flex", gap: 8, marginTop: 14, alignItems: "center" }}>
+                <span style={{ color: MUTED, fontSize: 12, fontWeight: 700 }}>SCOPE:</span>
+                {([["ALL", "Whole Bible"], ["OT", "Old Testament"], ["NT", "New Testament"]] as const).map(([s, label]) => (
+                  <button key={s} onClick={() => setSearchScope(s)} style={{ padding: "5px 14px", borderRadius: 20, border: `1px solid ${searchScope === s ? GREEN : BORDER}`, background: searchScope === s ? `${GREEN}20` : "transparent", color: searchScope === s ? GREEN : MUTED, fontSize: 12, fontWeight: 700, cursor: "pointer" }}>
+                    {label}
+                  </button>
+                ))}
               </div>
             </div>
 
-            {searchResults.length > 0 && (
+            {searchLoading && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                {[0, 1, 2, 3, 4].map(i => (
+                  <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 20 }}>
+                    <div style={{ height: 12, width: "30%", background: BORDER, borderRadius: 4, marginBottom: 10 }} />
+                    <div style={{ height: 10, width: "92%", background: BORDER, borderRadius: 4, marginBottom: 6 }} />
+                    <div style={{ height: 10, width: "78%", background: BORDER, borderRadius: 4 }} />
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {!searchLoading && searchDone && searchResults.length > 0 && (
               <div>
-                <p style={{ color: MUTED, fontSize: 14, marginBottom: 16 }}>{searchResults.length} result{searchResults.length !== 1 ? "s" : ""} found</p>
+                <p style={{ color: MUTED, fontSize: 14, marginBottom: 16 }}>
+                  <span style={{ color: GREEN, fontWeight: 800 }}>{searchTotal.toLocaleString()}</span> result{searchTotal !== 1 ? "s" : ""} for &ldquo;{searchQuery}&rdquo;
+                  {searchTotal > searchResults.length ? ` — showing first ${searchResults.length}` : ""}
+                </p>
                 <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                  {searchResults.map((r, i) => (
-                    <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 20 }}>
-                      <div style={{ color: GREEN, fontWeight: 700, fontSize: 13, marginBottom: 6 }}>{r.ref}</div>
-                      <p style={{ color: TEXT, fontSize: 16, fontFamily: "var(--font-cormorant, Georgia, serif)", lineHeight: 1.7 }}>{r.text}</p>
-                    </div>
-                  ))}
+                  {searchResults.map((r, i) => {
+                    const idx = r.text.toLowerCase().indexOf(searchQuery.trim().toLowerCase());
+                    return (
+                      <div key={i} onClick={() => goToReference(r.bookId, r.chapter, r.verse)} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 20, cursor: "pointer", transition: "border-color 0.15s" }}>
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
+                          <span style={{ color: GREEN, fontWeight: 800, fontSize: 14 }}>{r.ref}</span>
+                          <span style={{ color: PURPLE, fontSize: 12, fontWeight: 600 }}>Open →</span>
+                        </div>
+                        <p style={{ color: TEXT, fontSize: 16, fontFamily: "var(--font-cormorant, Georgia, serif)", lineHeight: 1.7 }}>
+                          {idx === -1 ? r.text : (<>{r.text.slice(0, idx)}<mark style={{ background: `${GREEN}33`, color: TEXT, padding: "0 2px", borderRadius: 3 }}>{r.text.slice(idx, idx + searchQuery.trim().length)}</mark>{r.text.slice(idx + searchQuery.trim().length)}</>)}
+                        </p>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             )}
 
-            {searchQuery && searchResults.length === 0 && (
+            {!searchLoading && searchDone && searchResults.length === 0 && (
               <div style={{ textAlign: "center", padding: 40, color: MUTED }}>
                 <div style={{ fontSize: 40, marginBottom: 12 }}>🔍</div>
-                <p>No results found. Try a different search term.</p>
+                <p>No verses found for &ldquo;{searchQuery}&rdquo;. Try different words.</p>
               </div>
             )}
 
-            {/* Popular searches */}
-            {!searchQuery && (
+            {!searchDone && (
               <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24 }}>
-                <h3 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 16 }}>Popular Searches</h3>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
-                  {["love", "grace", "faith", "hope", "peace", "joy", "fear not", "born again", "Holy Spirit", "forgiveness", "salvation", "eternal life", "shepherd", "prayer", "cross"].map(term => (
-                    <button key={term} onClick={() => { setSearchQuery(term); setTimeout(handleSearch, 50); }} style={{ padding: "8px 16px", background: BG, border: `1px solid ${BORDER}`, borderRadius: 20, color: MUTED, fontSize: 13, cursor: "pointer" }}>
+                <h3 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 14 }}>Popular Searches</h3>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginBottom: 20 }}>
+                  {["love", "grace", "faith", "hope", "peace", "joy", "fear not", "born again", "Holy Spirit", "forgiveness", "salvation", "eternal life", "shepherd", "righteousness", "the cross", "kingdom of God", "living water", "be still", "do not be afraid", "love one another"].map(term => (
+                    <button key={term} onClick={() => { setSearchQuery(term); setTimeout(() => handleSearch(), 30); }} style={{ padding: "8px 16px", background: BG, border: `1px solid ${BORDER}`, borderRadius: 20, color: MUTED, fontSize: 13, cursor: "pointer" }}>
                       {term}
                     </button>
                   ))}
+                </div>
+                <div style={{ background: BG, borderRadius: 8, padding: 16 }}>
+                  <h4 style={{ color: PURPLE, fontSize: 13, fontWeight: 700, marginBottom: 8 }}>Search Tips</h4>
+                  <ul style={{ color: MUTED, fontSize: 13, lineHeight: 1.9, paddingLeft: 18, margin: 0 }}>
+                    <li>Type a <strong style={{ color: TEXT }}>phrase</strong> (&ldquo;valley of the shadow&rdquo;) to find an exact match.</li>
+                    <li>Type <strong style={{ color: TEXT }}>multiple words</strong> to find verses containing all of them.</li>
+                    <li>Click any result to jump straight to that verse in the reader.</li>
+                    <li>Switch translation (KJV/ASV) in the reader to search that text.</li>
+                  </ul>
                 </div>
               </div>
             )}
@@ -1027,63 +1405,66 @@ export default function BiblePage() {
 
         {/* ===================== COMPARE TAB ===================== */}
         {mainTab === "compare" && (
-          <div>
+          <div style={{ maxWidth: 980, margin: "0 auto" }}>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 20 }}>
-              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Compare Translations</h2>
-              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20 }}>See how different Bible translations render the same passage side by side.</p>
-              <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-                {versions.slice(0, 8).map(v => (
-                  <button
-                    key={v.code}
-                    onClick={() => setCompareVersions(prev => prev.includes(v.code) ? prev.filter(c => c !== v.code) : [...prev, v.code].slice(0, 4))}
-                    style={{ padding: "8px 16px", borderRadius: 8, border: `1px solid ${compareVersions.includes(v.code) ? GREEN : BORDER}`, background: compareVersions.includes(v.code) ? `${GREEN}20` : "transparent", color: compareVersions.includes(v.code) ? GREEN : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}
-                  >
-                    {v.code}
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 6 }}>Compare Translations</h2>
+              <p style={{ color: MUTED, fontSize: 14, marginBottom: 18 }}>See how the great translations render the same passage, side by side. Choose a verse:</p>
+              <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                {FAMOUS_COMPARISONS.map((c, i) => (
+                  <button key={c.ref} onClick={() => setActiveComparison(i)} style={{ padding: "8px 16px", borderRadius: 8, border: `1px solid ${activeComparison === i ? GREEN : BORDER}`, background: activeComparison === i ? `${GREEN}20` : "transparent", color: activeComparison === i ? GREEN : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+                    {c.ref}
                   </button>
                 ))}
-                <span style={{ color: MUTED, fontSize: 12, alignSelf: "center" }}>Select up to 4</span>
               </div>
             </div>
 
-            {/* John 3:16 comparison */}
-            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 20 }}>
-              <h3 style={{ color: GREEN, fontWeight: 700, fontSize: 18, marginBottom: 4 }}>John 3:16 — Across Translations</h3>
-              <p style={{ color: MUTED, fontSize: 13, marginBottom: 20 }}>Perhaps the most famous verse in the Bible, rendered in major translations:</p>
-              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-                {[
-                  { code: "KJV", text: "For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life." },
-                  { code: "ESV", text: "For God so loved the world, that he gave his only Son, that whoever believes in him should not perish but have eternal life." },
-                  { code: "NIV", text: "For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life." },
-                  { code: "NLT", text: "For this is how God loved the world: He gave his one and only Son, so that everyone who believes in him will not perish but have eternal life." },
-                  { code: "NKJV", text: "For God so loved the world that He gave His only begotten Son, that whoever believes in Him should not perish but have everlasting life." },
-                  { code: "MSG", text: "This is how much God loved the world: He gave his Son, his one and only Son. And this is why: so that no one need be destroyed; by believing in him, anyone can have a whole and lasting life." },
-                  { code: "AMP", text: "For God so greatly loved and dearly prized the world, that He [even] gave His [One] only begotten Son, so that whoever believes and trusts in Him [as Savior] shall not perish, but have eternal life." },
-                  { code: "CSB", text: "For God loved the world in this way: He gave his one and only Son, so that everyone who believes in him will not perish but have eternal life." },
-                ].filter(v => compareVersions.length === 0 || compareVersions.includes(v.code)).map(v => (
-                  <div key={v.code} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 20 }}>
-                    <div style={{ color: GREEN, fontWeight: 800, fontSize: 12, letterSpacing: 1.5, marginBottom: 8 }}>{v.code}</div>
-                    <p style={{ color: TEXT, fontSize: 18, fontFamily: "var(--font-cormorant, Georgia, serif)", lineHeight: 1.8, fontStyle: "italic" }}>&ldquo;{v.text}&rdquo;</p>
+            {(() => {
+              const c = FAMOUS_COMPARISONS[activeComparison];
+              const active = compareVersions.length > 0 ? c.renderings.filter(r => compareVersions.includes(r.code)) : c.renderings;
+              return (
+                <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 20 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16, flexWrap: "wrap", gap: 10 }}>
+                    <h3 style={{ color: GREEN, fontWeight: 700, fontSize: 20 }}>{c.ref}</h3>
+                    <button onClick={() => goToReference(c.bookId, c.chapter, c.verse)} style={{ padding: "6px 14px", borderRadius: 8, background: `${PURPLE}25`, border: `1px solid ${PURPLE}`, color: "#A78BFA", fontSize: 12, fontWeight: 700, cursor: "pointer" }}>
+                      Read in context →
+                    </button>
                   </div>
-                ))}
-              </div>
-            </div>
+                  <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 18 }}>
+                    {c.renderings.map(r => (
+                      <button key={r.code} onClick={() => setCompareVersions(prev => prev.includes(r.code) ? prev.filter(x => x !== r.code) : [...prev, r.code])} style={{ padding: "5px 12px", borderRadius: 16, border: `1px solid ${compareVersions.includes(r.code) ? GREEN : BORDER}`, background: compareVersions.includes(r.code) ? `${GREEN}20` : "transparent", color: compareVersions.includes(r.code) ? GREEN : MUTED, fontSize: 11, fontWeight: 700, cursor: "pointer" }}>
+                        {r.code}
+                      </button>
+                    ))}
+                    {compareVersions.length > 0 && (
+                      <button onClick={() => setCompareVersions([])} style={{ padding: "5px 12px", borderRadius: 16, border: `1px solid ${BORDER}`, background: "transparent", color: MUTED, fontSize: 11, cursor: "pointer" }}>Show all</button>
+                    )}
+                  </div>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                    {active.map(r => (
+                      <div key={r.code} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 20 }}>
+                        <div style={{ color: GREEN, fontWeight: 800, fontSize: 12, letterSpacing: 1.5, marginBottom: 8 }}>{r.code}</div>
+                        <p style={{ color: TEXT, fontSize: 18, fontFamily: "var(--font-cormorant, Georgia, serif)", lineHeight: 1.8, fontStyle: "italic" }}>&ldquo;{r.text}&rdquo;</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              );
+            })()}
 
-            {/* Psalm 23:1 */}
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24 }}>
-              <h3 style={{ color: GREEN, fontWeight: 700, fontSize: 18, marginBottom: 4 }}>Psalm 23:1 — Across Translations</h3>
-              <p style={{ color: MUTED, fontSize: 13, marginBottom: 20 }}>The most beloved Psalm, opening verse:</p>
-              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+              <h3 style={{ color: GREEN, fontWeight: 700, fontSize: 18, marginBottom: 8 }}>Understanding the Translation Spectrum</h3>
+              <p style={{ color: MUTED, fontSize: 13, marginBottom: 18 }}>Translations fall on a spectrum from word-for-word (formal) to thought-for-thought (dynamic) to paraphrase.</p>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: 12 }}>
                 {[
-                  { code: "KJV", text: "The LORD is my shepherd; I shall not want." },
-                  { code: "ESV", text: "The LORD is my shepherd; I shall not want." },
-                  { code: "NIV", text: "The LORD is my shepherd, I lack nothing." },
-                  { code: "NLT", text: "The LORD is my shepherd; I have all that I need." },
-                  { code: "MSG", text: "GOD, my shepherd! I don't need a thing." },
-                  { code: "AMP", text: "The Lord is my Shepherd [to feed, to guide and to shield me], I shall not want." },
-                ].filter(v => compareVersions.length === 0 || compareVersions.includes(v.code)).map(v => (
-                  <div key={v.code} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 20 }}>
-                    <div style={{ color: PURPLE, fontWeight: 800, fontSize: 12, letterSpacing: 1.5, marginBottom: 8 }}>{v.code}</div>
-                    <p style={{ color: TEXT, fontSize: 18, fontFamily: "var(--font-cormorant, Georgia, serif)", lineHeight: 1.8, fontStyle: "italic" }}>&ldquo;{v.text}&rdquo;</p>
+                  { label: "Word-for-Word", examples: "NASB · ESV · KJV · ASV", color: "#3B82F6", desc: "Closest to the original wording. Best for detailed study." },
+                  { label: "Balanced", examples: "CSB · NIV · NET", color: GREEN, desc: "Balance accuracy and readability. Great all-purpose Bibles." },
+                  { label: "Thought-for-Thought", examples: "NLT · GNT", color: "#F59E0B", desc: "Prioritize meaning and clarity. Excellent for devotion." },
+                  { label: "Paraphrase", examples: "MSG · TLB", color: "#EC4899", desc: "Re-express in fresh idiom. Read alongside, not for study." },
+                ].map(t => (
+                  <div key={t.label} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 16 }}>
+                    <div style={{ color: t.color, fontWeight: 800, fontSize: 14, marginBottom: 4 }}>{t.label}</div>
+                    <div style={{ color: TEXT, fontSize: 12, fontWeight: 600, marginBottom: 8 }}>{t.examples}</div>
+                    <p style={{ color: MUTED, fontSize: 12, lineHeight: 1.6 }}>{t.desc}</p>
                   </div>
                 ))}
               </div>
@@ -1094,25 +1475,28 @@ export default function BiblePage() {
         {/* ===================== STUDY TAB ===================== */}
         {mainTab === "study" && (
           <div>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))", gap: 12, marginBottom: 28 }}>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24, textAlign: "center" }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 26, marginBottom: 6 }}>Study & Devotion</h2>
+              <p style={{ color: MUTED, fontSize: 15, maxWidth: 600, margin: "0 auto" }}>Verses by theme, a topical guide, and deep study notes on key chapters — every reference clickable.</p>
+            </div>
+
+            <h3 style={{ color: PURPLE, fontSize: 13, fontWeight: 800, letterSpacing: 1.5, marginBottom: 12 }}>VERSES BY THEME</h3>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))", gap: 10, marginBottom: 24 }}>
               {(Object.entries(VERSE_THEMES) as [keyof typeof VERSE_THEMES, typeof VERSE_THEMES[keyof typeof VERSE_THEMES]][]).map(([key, theme]) => (
-                <button key={key} onClick={() => setActiveTheme(key)} style={{ padding: "16px 12px", borderRadius: 10, border: `2px solid ${activeTheme === key ? theme.color : BORDER}`, background: activeTheme === key ? `${theme.color}15` : CARD, color: activeTheme === key ? theme.color : MUTED, fontWeight: 700, fontSize: 14, cursor: "pointer", textAlign: "center" }}>
+                <button key={key} onClick={() => setActiveTheme(key)} style={{ padding: "14px 12px", borderRadius: 10, border: `2px solid ${activeTheme === key ? theme.color : BORDER}`, background: activeTheme === key ? `${theme.color}15` : CARD, color: activeTheme === key ? theme.color : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", textAlign: "center" }}>
                   {theme.theme}
                 </button>
               ))}
             </div>
 
-            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
-              <h2 style={{ color: VERSE_THEMES[activeTheme].color, fontWeight: 800, fontSize: 24, marginBottom: 8 }}>{VERSE_THEMES[activeTheme].theme}</h2>
-              <p style={{ color: MUTED, fontSize: 14, marginBottom: 24 }}>Key passages on this theme from the King James Version</p>
-              <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 28 }}>
+              <h2 style={{ color: VERSE_THEMES[activeTheme].color, fontWeight: 800, fontSize: 24, marginBottom: 18 }}>{VERSE_THEMES[activeTheme].theme}</h2>
+              <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
                 {VERSE_THEMES[activeTheme].verses.map((v, i) => (
-                  <div key={i} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 24 }}>
-                    <p style={{ color: TEXT, fontSize: 22, fontFamily: "var(--font-cormorant, Georgia, serif)", lineHeight: 1.8, fontStyle: "italic", marginBottom: 12 }}>
-                      &ldquo;{v.text}&rdquo;
-                    </p>
+                  <div key={i} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 22 }}>
+                    <p style={{ color: TEXT, fontSize: 20, fontFamily: "var(--font-cormorant, Georgia, serif)", lineHeight: 1.8, fontStyle: "italic", marginBottom: 12 }}>&ldquo;{v.text}&rdquo;</p>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                      <span style={{ color: VERSE_THEMES[activeTheme].color, fontWeight: 800, fontSize: 14 }}>— {v.ref}</span>
+                      <button onClick={() => openRef(v.ref)} style={{ color: VERSE_THEMES[activeTheme].color, fontWeight: 800, fontSize: 14, background: "none", border: "none", cursor: "pointer", padding: 0 }}>— {v.ref} →</button>
                       <span style={{ color: MUTED, fontSize: 12 }}>{v.version}</span>
                     </div>
                   </div>
@@ -1120,59 +1504,56 @@ export default function BiblePage() {
               </div>
             </div>
 
-            {/* Topical Bible guide */}
-            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 28 }}>
               <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 16 }}>Topical Bible Guide</h2>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 14 }}>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 12 }}>
                 {[
-                  { topic: "Prayer & Intercession", refs: "Matt 6:9-13 · Phil 4:6-7 · 1 Thess 5:17", icon: "🙏" },
-                  { topic: "God's Promises", refs: "2 Cor 1:20 · Heb 10:23 · Num 23:19", icon: "⚡" },
-                  { topic: "The Holy Spirit", refs: "John 14:26 · Acts 1:8 · Rom 8:26", icon: "🕊️" },
-                  { topic: "Faith & Trust", refs: "Heb 11:1 · Prov 3:5-6 · Mark 11:24", icon: "🌟" },
-                  { topic: "Wisdom", refs: "Prov 1:7 · James 1:5 · Eccl 12:13", icon: "📜" },
-                  { topic: "Repentance", refs: "Acts 3:19 · 1 John 1:9 · Ps 51:10", icon: "🔄" },
-                  { topic: "Eternal Life", refs: "John 17:3 · 1 John 5:13 · Rev 21:4", icon: "♾️" },
-                  { topic: "The Church", refs: "Matt 16:18 · Acts 2:42 · Eph 4:11-12", icon: "⛪" },
-                  { topic: "God's Character", refs: "Exod 34:6-7 · Ps 103:8 · 1 John 4:16", icon: "✨" },
-                  { topic: "Suffering & Trials", refs: "Rom 8:18 · James 1:2-4 · 2 Cor 12:9", icon: "🌿" },
-                  { topic: "Marriage", refs: "Gen 2:24 · Eph 5:22-33 · Prov 18:22", icon: "💍" },
-                  { topic: "Justice & Mercy", refs: "Mic 6:8 · Amos 5:24 · Matt 23:23", icon: "⚖️" },
+                  { topic: "Prayer & Intercession", refs: ["Matthew 6:9", "Philippians 4:6", "1 Thessalonians 5:17"], icon: "🙏" },
+                  { topic: "God's Promises", refs: ["2 Corinthians 1:20", "Hebrews 10:23", "Numbers 23:19"], icon: "⚡" },
+                  { topic: "The Holy Spirit", refs: ["John 14:26", "Acts 1:8", "Romans 8:26"], icon: "🕊️" },
+                  { topic: "Faith & Trust", refs: ["Hebrews 11:1", "Proverbs 3:5", "Mark 11:24"], icon: "🌟" },
+                  { topic: "Wisdom", refs: ["Proverbs 1:7", "James 1:5", "Ecclesiastes 12:13"], icon: "📜" },
+                  { topic: "Repentance", refs: ["Acts 3:19", "1 John 1:9", "Psalm 51:10"], icon: "🔄" },
+                  { topic: "Eternal Life", refs: ["John 17:3", "1 John 5:13", "Revelation 21:4"], icon: "♾️" },
+                  { topic: "The Church", refs: ["Matthew 16:18", "Acts 2:42", "Ephesians 4:11"], icon: "⛪" },
+                  { topic: "God's Character", refs: ["Exodus 34:6", "Psalm 103:8", "1 John 4:16"], icon: "✨" },
+                  { topic: "Suffering & Trials", refs: ["Romans 8:18", "James 1:2", "2 Corinthians 12:9"], icon: "🌿" },
+                  { topic: "Marriage & Family", refs: ["Genesis 2:24", "Ephesians 5:25", "Proverbs 22:6"], icon: "💍" },
+                  { topic: "Justice & Mercy", refs: ["Micah 6:8", "Amos 5:24", "Matthew 23:23"], icon: "⚖️" },
                 ].map(item => (
                   <div key={item.topic} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 16 }}>
                     <div style={{ fontSize: 24, marginBottom: 8 }}>{item.icon}</div>
-                    <div style={{ color: TEXT, fontWeight: 700, fontSize: 14, marginBottom: 6 }}>{item.topic}</div>
-                    <div style={{ color: MUTED, fontSize: 11, lineHeight: 1.7 }}>{item.refs}</div>
+                    <div style={{ color: TEXT, fontWeight: 700, fontSize: 14, marginBottom: 8 }}>{item.topic}</div>
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                      {item.refs.map(ref => (
+                        <button key={ref} onClick={() => openRef(ref)} style={{ padding: "2px 8px", background: `${PURPLE}20`, border: `1px solid ${PURPLE}40`, borderRadius: 12, fontSize: 11, color: "#A78BFA", cursor: "pointer" }}>{ref}</button>
+                      ))}
+                    </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Sermon study notes */}
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24 }}>
               <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 16 }}>Deep Study Notes — Key Chapters</h2>
               <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
                 {Object.entries(STUDY_NOTES).flatMap(([bookId, chapters]) =>
-                  Object.entries(chapters).map(([chapNum, note]) => {
-                    const book = ALL_BOOKS.find(b => b.id === bookId);
-                    return { bookId, chapNum, note, book };
-                  })
+                  Object.entries(chapters).map(([chapNum, note]) => ({ bookId, chapNum, note, book: ALL_BOOKS.find(b => b.id === bookId) }))
                 ).map(({ book, chapNum, note }) => (
                   <div key={`${book?.id}-${chapNum}`} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 20 }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10, flexWrap: "wrap", gap: 8 }}>
                       <div>
-                        <button
-                          onClick={() => { const b = ALL_BOOKS.find(bk => bk.id === book?.id); if (b) { setSelectedBook(b); setSelectedChapter(Number(chapNum)); setMainTab("read"); } }}
-                          style={{ background: `${GREEN}15`, border: `1px solid ${GREEN}40`, borderRadius: 6, padding: "4px 12px", color: GREEN, fontWeight: 800, fontSize: 13, cursor: "pointer" }}
-                        >
-                          {book?.name} {chapNum}
+                        <button onClick={() => { if (book) goToReference(book.id, Number(chapNum)); }} style={{ background: `${GREEN}15`, border: `1px solid ${GREEN}40`, borderRadius: 6, padding: "4px 12px", color: GREEN, fontWeight: 800, fontSize: 13, cursor: "pointer" }}>
+                          {book?.name} {chapNum} →
                         </button>
                         <span style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginLeft: 10 }}>{note.context}</span>
                       </div>
                     </div>
                     <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, marginBottom: 14 }}>{note.note}</p>
-                    <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" }}>
+                      <span style={{ color: MUTED, fontSize: 11, fontWeight: 700, letterSpacing: 1 }}>CROSS-REFS:</span>
                       {note.crossRefs.map(ref => (
-                        <span key={ref} style={{ padding: "3px 10px", background: `${PURPLE}20`, border: `1px solid ${PURPLE}40`, borderRadius: 14, fontSize: 11, color: "#A78BFA" }}>{ref}</span>
+                        <button key={ref} onClick={() => openRef(ref)} style={{ padding: "3px 10px", background: `${PURPLE}20`, border: `1px solid ${PURPLE}40`, borderRadius: 14, fontSize: 11, color: "#A78BFA", cursor: "pointer" }}>{ref}</button>
                       ))}
                     </div>
                   </div>
@@ -1188,124 +1569,96 @@ export default function BiblePage() {
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 28, marginBottom: 24, textAlign: "center" }}>
               <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 28, marginBottom: 8 }}>Bible Reading Plans</h2>
               <p style={{ color: MUTED, fontSize: 16, maxWidth: 600, margin: "0 auto" }}>
-                Structured plans to take you through God&apos;s Word systematically. From classic to contemporary, find the plan that fits your life.
+                Start an interactive plan below — tap a day to read it, check it off, and your progress is saved on this device.
               </p>
             </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 20 }}>
+            {/* Interactive plans */}
+            <h3 style={{ color: PURPLE, fontSize: 13, fontWeight: 800, letterSpacing: 1.5, marginBottom: 12 }}>INTERACTIVE PLANS</h3>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: 16, marginBottom: 20 }}>
               {[
-                {
-                  name: "M'Cheyne Plan",
-                  duration: "1 Year",
-                  pace: "4 chapters/day",
-                  tradition: "Presbyterian",
-                  desc: "Robert Murray M'Cheyne's 1842 plan for the Church of Scotland. Reads the Old Testament once and New Testament and Psalms twice. The gold standard of Bible reading plans.",
-                  icon: "📜",
-                  color: "#F59E0B",
-                },
-                {
-                  name: "Chronological",
-                  duration: "1 Year",
-                  pace: "~3-4 chapters/day",
-                  tradition: "Interdenominational",
-                  desc: "Reads the Bible in the order events occurred historically. Places prophets alongside the kings they addressed, Job with the patriarchs, and Psalms with David's story.",
-                  icon: "📅",
-                  color: "#3B82F6",
-                },
-                {
-                  name: "New Testament in 90 Days",
-                  duration: "3 Months",
-                  pace: "~3 chapters/day",
-                  tradition: "Evangelical",
-                  desc: "Focus on the New Testament. Read all 27 books in 90 days, immersing yourself in the life of Jesus, the early church, and apostolic letters.",
-                  icon: "⚡",
-                  color: GREEN,
-                },
-                {
-                  name: "Psalms & Proverbs Daily",
-                  duration: "Ongoing",
-                  pace: "5 Psalms + 1 Proverb/day",
-                  tradition: "Any",
-                  desc: "Martin Luther's simple plan: read 5 Psalms and 1 chapter of Proverbs each day. Psalms covers all emotions; Proverbs covers all wisdom for daily life.",
-                  icon: "🎵",
-                  color: "#EC4899",
-                },
-                {
-                  name: "The Bible Project Plan",
-                  duration: "1 Year",
-                  pace: "OT + NT daily",
-                  tradition: "Interdenominational",
-                  desc: "Pairs with The Bible Project videos for visual learners. Each day's reading is accompanied by an animated overview video explaining the biblical narrative.",
-                  icon: "🎬",
-                  color: "#8B5CF6",
-                },
-                {
-                  name: "Lectio Divina",
-                  duration: "Ongoing",
-                  pace: "One passage deeply",
-                  tradition: "Catholic/Anglican",
-                  desc: "Ancient monastic practice of sacred reading: Lectio (read), Meditatio (meditate), Oratio (pray), Contemplatio (contemplate). Less is more — one passage at a time.",
-                  icon: "🕯️",
-                  color: "#C9A227",
-                },
-                {
-                  name: "Every-Word Bible",
-                  duration: "1 Year",
-                  pace: "3 chapters/day",
-                  tradition: "Any",
-                  desc: "Read every word of the entire Bible in one year. The simplest plan: Genesis to Revelation, page by page. No shortcuts, no skipping the genealogies.",
-                  icon: "📖",
-                  color: "#10B981",
-                },
-                {
-                  name: "S.O.A.P. Method",
-                  duration: "Ongoing",
-                  pace: "Daily passage",
-                  tradition: "Evangelical",
-                  desc: "Scripture, Observation, Application, Prayer. A journaling method for deeper engagement. Slower pace but far greater retention and transformation.",
-                  icon: "✍️",
-                  color: "#F472B6",
-                },
-                {
-                  name: "Foundations 260",
-                  duration: "1 Year (weekdays)",
-                  pace: "1 chapter/day",
-                  tradition: "Any",
-                  desc: "260 chapters covering the most essential portions of Scripture. Perfect for new believers or those returning to the faith. Weekdays only.",
-                  icon: "🌱",
-                  color: "#6EE7B7",
-                },
+                { id: "gospel-of-john", name: "The Gospel of John", days: 21, color: GREEN, desc: "Read all 21 chapters of John — the Gospel written 'that you may believe.'" },
+                { id: "life-of-christ", name: "The Life of Christ", days: 14, color: "#F59E0B", desc: "14 key chapters tracing Jesus from birth to resurrection." },
+                { id: "psalms-of-comfort", name: "Psalms of Comfort", days: 12, color: "#3B82F6", desc: "12 beloved psalms for peace, refuge, and renewal." },
+              ].map(plan => {
+                const days = READING_PLAN_DAYS[plan.id] || [];
+                const doneCount = days.filter((_, i) => completedDays.has(`${plan.id}-${i}`)).length;
+                const pct = days.length ? Math.round((doneCount / days.length) * 100) : 0;
+                return (
+                  <button key={plan.id} onClick={() => setActivePlanId(activePlanId === plan.id ? null : plan.id)} style={{ textAlign: "left", background: activePlanId === plan.id ? `${plan.color}12` : CARD, border: `2px solid ${activePlanId === plan.id ? plan.color : BORDER}`, borderRadius: 12, padding: 20, cursor: "pointer" }}>
+                    <h4 style={{ color: plan.color, fontWeight: 800, fontSize: 17, marginBottom: 6 }}>{plan.name}</h4>
+                    <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6, marginBottom: 12 }}>{plan.desc}</p>
+                    <div style={{ height: 6, background: BORDER, borderRadius: 3, overflow: "hidden", marginBottom: 6 }}>
+                      <div style={{ width: `${pct}%`, height: "100%", background: plan.color }} />
+                    </div>
+                    <div style={{ color: MUTED, fontSize: 12 }}>{doneCount}/{days.length} days · {pct}%</div>
+                  </button>
+                );
+              })}
+            </div>
+
+            {activePlanId && READING_PLAN_DAYS[activePlanId] && (
+              <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 28 }}>
+                <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, marginBottom: 16 }}>Daily Readings</h3>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))", gap: 10 }}>
+                  {READING_PLAN_DAYS[activePlanId].map((day, i) => {
+                    const key = `${activePlanId}-${i}`;
+                    const done = completedDays.has(key);
+                    return (
+                      <div key={key} style={{ background: BG, border: `1px solid ${done ? GREEN : BORDER}`, borderRadius: 10, padding: 14, display: "flex", flexDirection: "column", gap: 8 }}>
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                          <span style={{ color: MUTED, fontSize: 11, fontWeight: 700 }}>DAY {i + 1}</span>
+                          <button onClick={() => toggleDay(key)} style={{ width: 22, height: 22, borderRadius: 6, border: `1px solid ${done ? GREEN : BORDER}`, background: done ? GREEN : "transparent", color: "#07070F", fontSize: 13, fontWeight: 900, cursor: "pointer", lineHeight: 1 }}>{done ? "✓" : ""}</button>
+                        </div>
+                        <button onClick={() => goToReference(day.bookId, day.chapter)} style={{ textAlign: "left", background: "none", border: "none", color: done ? GREEN : TEXT, fontWeight: 700, fontSize: 15, cursor: "pointer", padding: 0, fontFamily: "var(--font-cormorant, Georgia, serif)" }}>
+                          {day.ref} →
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* Classic plans (reference) */}
+            <h3 style={{ color: PURPLE, fontSize: 13, fontWeight: 800, letterSpacing: 1.5, marginBottom: 12 }}>CLASSIC PLANS</h3>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 20, marginBottom: 28 }}>
+              {[
+                { name: "M'Cheyne Plan", duration: "1 Year", pace: "4 chapters/day", tradition: "Presbyterian", desc: "Robert Murray M'Cheyne's 1842 plan reads the OT once and NT + Psalms twice. The gold standard.", icon: "📜", color: "#F59E0B" },
+                { name: "Chronological", duration: "1 Year", pace: "~3-4 chapters/day", tradition: "Interdenominational", desc: "Reads the Bible in the order events occurred — prophets alongside the kings they addressed.", icon: "📅", color: "#3B82F6" },
+                { name: "New Testament in 90 Days", duration: "3 Months", pace: "~3 chapters/day", tradition: "Evangelical", desc: "All 27 NT books in 90 days — the life of Jesus, the early church, and the apostolic letters.", icon: "⚡", color: GREEN },
+                { name: "Psalms & Proverbs Daily", duration: "Ongoing", pace: "5 Psalms + 1 Proverb/day", tradition: "Any", desc: "Luther's simple plan: Psalms covers every emotion; Proverbs covers all wisdom for daily life.", icon: "🎵", color: "#EC4899" },
+                { name: "The Bible Project Plan", duration: "1 Year", pace: "OT + NT daily", tradition: "Interdenominational", desc: "Pairs each day's reading with an animated overview video explaining the biblical narrative.", icon: "🎬", color: "#8B5CF6" },
+                { name: "Lectio Divina", duration: "Ongoing", pace: "One passage deeply", tradition: "Catholic/Anglican", desc: "Sacred reading: Lectio (read), Meditatio (meditate), Oratio (pray), Contemplatio (contemplate).", icon: "🕯️", color: "#C9A227" },
+                { name: "Every-Word Bible", duration: "1 Year", pace: "3 chapters/day", tradition: "Any", desc: "Read every word, Genesis to Revelation, page by page. No shortcuts, no skipping genealogies.", icon: "📖", color: "#10B981" },
+                { name: "S.O.A.P. Method", duration: "Ongoing", pace: "Daily passage", tradition: "Evangelical", desc: "Scripture, Observation, Application, Prayer — a journaling method for deeper retention.", icon: "✍️", color: "#F472B6" },
+                { name: "Foundations 260", duration: "1 Year (weekdays)", pace: "1 chapter/day", tradition: "Any", desc: "260 chapters covering the most essential portions — perfect for new or returning believers.", icon: "🌱", color: "#6EE7B7" },
               ].map(plan => (
                 <div key={plan.name} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24 }}>
                   <div style={{ fontSize: 36, marginBottom: 12 }}>{plan.icon}</div>
-                  <h3 style={{ color: plan.color, fontWeight: 800, fontSize: 18, marginBottom: 4 }}>{plan.name}</h3>
-                  <div style={{ display: "flex", gap: 10, marginBottom: 12, flexWrap: "wrap" }}>
+                  <h3 style={{ color: plan.color, fontWeight: 800, fontSize: 18, marginBottom: 8 }}>{plan.name}</h3>
+                  <div style={{ display: "flex", gap: 8, marginBottom: 12, flexWrap: "wrap" }}>
                     <span style={{ padding: "3px 10px", background: `${plan.color}15`, border: `1px solid ${plan.color}40`, borderRadius: 20, fontSize: 11, color: plan.color, fontWeight: 700 }}>{plan.duration}</span>
                     <span style={{ padding: "3px 10px", background: BG, border: `1px solid ${BORDER}`, borderRadius: 20, fontSize: 11, color: MUTED }}>{plan.pace}</span>
                     <span style={{ padding: "3px 10px", background: BG, border: `1px solid ${BORDER}`, borderRadius: 20, fontSize: 11, color: MUTED }}>{plan.tradition}</span>
                   </div>
-                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.7, marginBottom: 16 }}>{plan.desc}</p>
-                  <button style={{ width: "100%", padding: "10px 0", borderRadius: 8, background: `${plan.color}20`, border: `1px solid ${plan.color}50`, color: plan.color, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-                    Start This Plan
-                  </button>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.7 }}>{plan.desc}</p>
                 </div>
               ))}
             </div>
 
-            {/* Translations reference */}
-            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginTop: 28 }}>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24 }}>
               <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 16 }}>Translation Reference Guide</h2>
-              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20 }}>Understanding the philosophy and use of each major Bible translation:</p>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 14 }}>
                 {[
-                  { code: "KJV", name: "King James Version", year: 1611, type: "Formal", desc: "Majestic Elizabethan English. The most printed book in history. Word-for-word from Textus Receptus. Preferred for memorization and liturgy." },
-                  { code: "ESV", name: "English Standard Version", year: 2001, type: "Formal", desc: "Modern word-for-word translation. Balanced between accuracy and readability. Widely used in Reformed and evangelical churches." },
-                  { code: "NIV", name: "New International Version", year: 1973, type: "Thought-for-Thought", desc: "The best-selling modern translation. Prioritizes meaning over word-for-word accuracy. Accessible to contemporary readers." },
-                  { code: "NKJV", name: "New King James Version", year: 1982, type: "Formal", desc: "Updates KJV language while preserving its rhythmic beauty and textual tradition. Bridge between classic and modern." },
-                  { code: "NLT", name: "New Living Translation", year: 1996, type: "Dynamic Equivalence", desc: "Highly readable paraphrase-style translation. Excellent for devotional reading and new believers. Warm and accessible." },
-                  { code: "NASB", name: "New American Standard Bible", year: 1971, type: "Formal", desc: "The most literally accurate major English translation. Preferred by scholars and seminary students for word studies." },
-                  { code: "MSG", name: "The Message", year: 1993, type: "Paraphrase", desc: "Eugene Peterson's idiomatic rendering in contemporary American English. Not for doctrine — for hearing the text fresh." },
-                  { code: "AMP", name: "Amplified Bible", year: 1954, type: "Expanded", desc: "Includes expansions in brackets to capture the full range of Greek and Hebrew meanings. Study tool, not primary reading." },
+                  { code: "NIV", name: "New International Version", year: 1978, type: "Balanced", desc: "The best-selling modern translation. Prioritizes clear, contemporary meaning." },
+                  { code: "KJV", name: "King James Version", year: 1611, type: "Formal", desc: "Majestic Elizabethan English. The most printed book in history." },
+                  { code: "NLT", name: "New Living Translation", year: 1996, type: "Dynamic", desc: "Highly readable. Excellent for devotional reading and new believers." },
+                  { code: "ESV", name: "English Standard Version", year: 2001, type: "Formal", desc: "Modern word-for-word. Widely used in Reformed and evangelical churches." },
+                  { code: "NKJV", name: "New King James Version", year: 1982, type: "Formal", desc: "Updates KJV language while preserving its rhythm and textual tradition." },
+                  { code: "CSB", name: "Christian Standard Bible", year: 2017, type: "Balanced", desc: "Optimal equivalence — accuracy with readability." },
+                  { code: "NASB", name: "New American Standard Bible", year: 1971, type: "Formal", desc: "The most literally accurate major translation. Preferred for word studies." },
+                  { code: "ASV", name: "American Standard Version", year: 1901, type: "Formal", desc: "Highly literal predecessor of the ESV/NASB. Public domain — bundled here." },
                 ].map(v => (
                   <div key={v.code} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 16 }}>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>

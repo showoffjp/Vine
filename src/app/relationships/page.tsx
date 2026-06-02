@@ -1,6 +1,9 @@
 "use client";
 import { useState } from "react";
 
+const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
+const GREEN = "#00FF88", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+
 const GUIDANCE = [
   {
     id: "foundation",
@@ -43,9 +46,9 @@ Setting boundaries requires direct, honest conversation—not hints. "I've decid
     title: "Green Flags & Red Flags",
     icon: "🚩",
     summary: "What to watch for—the good and the warning signs.",
-    content: `**Green flags**: They pursue you without being controlling. They speak honestly but kindly. They honor commitments—to God, to friends, to you. They take responsibility for their failures rather than deflecting blame. They talk about the future with maturity. Their faith is lived, not performed. They are equally kind to the server as to the CEO.
+    content: `Green flags: They pursue you without being controlling. They speak honestly but kindly. They honor commitments—to God, to friends, to you. They take responsibility for their failures rather than deflecting blame. They talk about the future with maturity. Their faith is lived, not performed. They are equally kind to the server as to the CEO.
 
-**Red flags**: They isolate you from friends and family, even subtly. They minimize your feelings or tell you you're "too sensitive." They have never been wrong about anything. They pursue you intensely in the beginning, then grow cold and hot alternately. They talk about exes with contempt rather than growth. Physical affection escalates faster than emotional maturity.
+Red flags: They isolate you from friends and family, even subtly. They minimize your feelings or tell you you're "too sensitive." They have never been wrong about anything. They pursue you intensely in the beginning, then grow cold and hot alternately. They talk about exes with contempt rather than growth. Physical affection escalates faster than emotional maturity.
 
 Pay attention to patterns, not moments. Everyone has a bad day. Watch what happens over months, in stress, in disappointment. Character is revealed in crisis, not in the honeymoon phase.`,
     verses: ["Proverbs 31:10", "1 Corinthians 13:5", "Luke 16:10"],
@@ -98,16 +101,114 @@ const STORIES = [
 
 const CATEGORIES = ["All", "Dating", "Marriage", "Boundaries", "Singleness", "Healing"];
 
+const CONFLICT_TOOLS = [
+  {
+    id: "ct1",
+    step: 1,
+    icon: "🪞",
+    title: "Examine Yourself First",
+    description: "Before addressing another person's fault, Jesus commands self-examination. The log in your own eye distorts your perception of the speck in theirs. Honest self-assessment is not weakness — it is the precondition for speaking truthfully.",
+    scripture: "Matthew 7:3-5",
+    example: "Before confronting your spouse about their critical tone, ask: have I been cold or dismissive in ways that provoked it? Am I bringing a posture of humility or superiority?",
+  },
+  {
+    id: "ct2",
+    step: 2,
+    icon: "🚪",
+    title: "Go Privately First",
+    description: "The first move in biblical conflict resolution is always a private conversation — not venting to mutual friends, not posting grievances, not escalating to authority before trying directly. Going privately protects the other person's dignity and gives the relationship the best chance of restoration.",
+    scripture: "Matthew 18:15",
+    example: "If a friend said something hurtful at dinner, go to them alone before telling other friends what happened. The goal is restored relationship, not vindication.",
+  },
+  {
+    id: "ct3",
+    step: 3,
+    icon: "👂",
+    title: "Listen Before Speaking",
+    description: "James 1:19 commands every believer to be quick to hear, slow to speak, and slow to anger — in that order. Seeking to understand before seeking to be understood transforms conflict from a war of positions into a conversation between people.",
+    scripture: "James 1:19",
+    example: "Instead of preparing your rebuttal while the other person is speaking, repeat back what you heard before responding: 'What I'm hearing you say is...' Then ask if you heard correctly.",
+  },
+  {
+    id: "ct4",
+    step: 4,
+    icon: "💬",
+    title: "Speak Truth in Love",
+    description: "Ephesians 4:15 holds two things together that are easily separated: truth and love. Passive aggression abandons truth. Explosiveness abandons love. The goal is honest, direct, gentle communication — saying hard things in a way that preserves the relationship.",
+    scripture: "Ephesians 4:15",
+    example: "Rather than 'You always do this,' try: 'When you cut me off in conversation, I feel dismissed. I don't think that's what you intend, but I wanted you to know how it lands.'",
+  },
+  {
+    id: "ct5",
+    step: 5,
+    icon: "🕊️",
+    title: "Forgive as You Have Been Forgiven",
+    description: "Colossians 3:13 grounds the command to forgive in the forgiveness we have already received. Forgiveness is a decision, not a feeling — a release of the right to collect the debt. It does not require the other person's repentance, though reconciliation does.",
+    scripture: "Colossians 3:13",
+    example: "You may need to say aloud: 'I release the right to punish [name] for what they did. As God has forgiven me through Christ, I choose to forgive them.' This may need repeating before the emotion follows the decision.",
+  },
+];
+
+const VOICES_REL = [
+  {
+    id: "lewis-cs",
+    name: "C.S. Lewis",
+    era: "1898-1963",
+    context: "The Four Loves (1960) — the definitive taxonomy of love in Christian thought",
+    bio: "C.S. Lewis's The Four Loves distills the Greek New Testament's four words for love into a framework that remains unmatched in clarity and insight. Storge (affection), philia (friendship), eros (romantic love), and agape (charity/divine love) each receive their own treatment — their proper nature, their dangers when distorted, and their relationship to God's love. Lewis argues that each natural love, when made an ultimate end, becomes a demon; when properly ordered under agape, each becomes a doorway to the divine. His treatment of friendship as one of the great loves, often overlooked in modern romantic culture, has been particularly influential.",
+    quote: "To love at all is to be vulnerable. Love anything and your heart will be wrung and possibly broken. If you want to make sure of keeping it intact you must give it to no one, not even an animal. The only place outside Heaven where you can be perfectly safe from all the dangers of love is Hell.",
+    contribution: "The Four Loves has shaped evangelical and Catholic thinking about love and relationships for sixty years. Its taxonomy of the four loves has given millions of readers a vocabulary for understanding the different kinds of love and their proper ordering under God. Lewis's treatment of eros as a good but dangerous love — neither to be suppressed nor idolized — remains the most nuanced evangelical account of romantic love.",
+  },
+  {
+    id: "sande-ken",
+    name: "Ken Sande",
+    era: "b. 1952",
+    context: "The Peacemaker (1991) — biblical conflict resolution and Peacemaker Ministries",
+    bio: "Ken Sande's The Peacemaker is the most comprehensive application of Matthew 18 and biblical conflict resolution principles to everyday life. Written by a lawyer turned Christian mediator, it addresses conflict in marriages, churches, workplaces, and families with the same framework: glorify God, get the log out of your own eye, gently restore the other person, go and be reconciled. Sande founded Peacemaker Ministries, an organization that has trained tens of thousands of Christian leaders in biblical conflict resolution and mediated hundreds of church and organizational disputes.",
+    quote: "Conflict is not just a problem to be resolved. It is an opportunity to demonstrate the love of Christ, show the grace of God, and build the unity of the body.",
+    contribution: "The Peacemaker became the standard evangelical text on conflict resolution for a generation of pastors and counselors. Sande's Peacemaker Ministries training has equipped church leaders worldwide with practical tools for applying Matthew 18 in real conflicts. His distinction between peacefaking (avoiding conflict), peacebreaking (escalating conflict), and peacemaking (biblical resolution) has given Christians a framework for evaluating their own conflict patterns.",
+  },
+  {
+    id: "chapman-gary",
+    name: "Gary Chapman",
+    era: "b. 1938",
+    context: "The 5 Love Languages (1992) — how people give and receive love differently",
+    bio: "Gary Chapman's The 5 Love Languages identified five primary ways people give and receive love: words of affirmation, quality time, receiving gifts, acts of service, and physical touch. Chapman's insight — developed from decades of marriage counseling — is that people tend to give love in their own primary language while failing to speak the language their partner most needs. The result is partners who love each other genuinely but past each other. Learning your partner's primary love language and speaking it consistently transforms many marriages.",
+    quote: "My conclusion after thirty years of marriage counseling is that there are basically five emotional love languages — five ways that people speak and understand emotional love.",
+    contribution: "The 5 Love Languages has sold over 20 million copies and has been translated into 50+ languages, making it one of the best-selling relationship books in history. Its framework has been adopted in premarital counseling programs, marriage enrichment retreats, and everyday conversation worldwide. The concept of love languages has entered popular culture to an extent that few Christian ideas achieve.",
+  },
+  {
+    id: "cloud-henry",
+    name: "Henry Cloud",
+    era: "b. 1956",
+    context: "Safe People (1995) and Boundaries (1992) — the psychology of healthy Christian relationships",
+    bio: "Henry Cloud, with John Townsend, wrote Boundaries and Safe People — two books that have shaped how millions of evangelical Christians think about relationships. Boundaries argues that healthy relationships require the ability to say yes and no appropriately — that love does not mean unlimited access and that healthy people define what they are and are not responsible for. Safe People identifies the characteristics of relationally healthy vs. toxic people, giving Christians a framework for discernment in friendships and romantic relationships.",
+    quote: "We are responsible to others and for ourselves. We are to love our neighbors as ourselves — not instead of ourselves.",
+    contribution: "Boundaries has sold millions of copies and transformed evangelical conversation about relational health. Its concepts — emotional property lines, taking responsibility for your own life, the difference between empathy and enabling — have given Christians permission to set limits they previously felt were unbiblical. Safe People has helped many believers identify and exit toxic relationships while articulating what to look for in healthy ones.",
+  },
+  {
+    id: "keller-tim-rel",
+    name: "Timothy Keller",
+    era: "1950-2023",
+    context: "The Meaning of Marriage (2011) — marriage as the primary human relationship pointing to Christ",
+    bio: "Tim Keller's The Meaning of Marriage, co-written with his wife Kathy, is the most theologically rigorous and practically honest marriage book in contemporary evangelical literature. Keller grounds marriage not in romantic compatibility or emotional fulfillment but in the covenant between God and his people — and ultimately in the relationship between Christ and the church. His central argument: marriage is hard precisely because it is designed to make you holy, not merely happy. The book is unflinching about the selfishness, conflict, and disappointment every marriage encounters, while maintaining a high and beautiful vision of what marriage can be.",
+    quote: "To be loved but not known is comforting but superficial. To be known and not loved is our greatest fear. But to be fully known and truly loved is, well, a lot like being loved by God.",
+    contribution: "The Meaning of Marriage became the standard evangelical marriage reference for a generation of pastors, counselors, and couples. Its combination of theological depth, honest assessment of difficulty, and practical guidance has made it the most recommended book in evangelical premarital counseling contexts. Keller's framing of marriage as a sanctifying institution rather than a fulfillment vehicle has permanently shaped how millions think about the purpose of marriage.",
+  },
+];
+
+const REL_VIDEOS = [
+  { id: "rv1", title: "The Prodigal God: The Elder Brother", preacher: "Tim Keller", videoId: "OasF7lWlX_M", description: "Keller unpacks the elder brother in the parable — the religious person who has never truly understood grace and whose obedience is transactional." },
+  { id: "rv2", title: "The Prodigal Sons", preacher: "Tim Keller", videoId: "lsTzXI7cJGA", description: "A masterful exposition of Luke 15 — both sons lost, both needing the father, both revealing different ways we reject grace." },
+  { id: "rv3", title: "Family Driven Faith", preacher: "Voddie Baucham", videoId: "k764Pe2P61U", description: "Baucham makes a compelling biblical case for intentional, faith-shaping family life rooted in Deuteronomy 6." },
+  { id: "rv4", title: "The Purpose of Parenting", preacher: "Voddie Baucham", videoId: "WUE-J-br7P0", description: "A clear articulation of the biblical purpose of parenting — raising children to know and fear God, not merely to succeed." },
+  { id: "rv5", title: "How Great Is Our God", preacher: "Louie Giglio", videoId: "X1rPalyUshw", description: "Giglio's famous message connecting the vastness of the cosmos to the intimate love of God — one of the most-shared Christian talks ever." },
+  { id: "rv6", title: "Forgotten God Part 1", preacher: "Francis Chan", videoId: "sWMjg7CxIKk", description: "Chan challenges the church's neglect of the Holy Spirit and calls believers back to a Spirit-empowered, Spirit-directed life." },
+];
+
 export default function RelationshipsPage() {
-  const [tab, setTab] = useState<"guidance" | "articles" | "stories" | "voices">("guidance");
-  const [selectedVoice, setSelectedVoice] = useState("keller-rel");
-  const VOICES_REL = [
-    { id: "keller-rel", name: "Tim & Kathy Keller", era: "The Meaning of Marriage (2011)", context: "The theological cornerstone of evangelical marriage literature — God-centered, honest, and enduring", bio: "Tim Keller's The Meaning of Marriage, co-written with his wife Kathy, is the most theologically rigorous and practically honest marriage book in contemporary evangelical literature. Written from the Reformed tradition, it grounds marriage not in romantic compatibility or emotional fulfillment but in the covenant relationship between God and his people, and ultimately in the relationship between Christ and the church (Ephesians 5). Keller's central argument: marriage is hard precisely because it is designed to make you holy, not merely happy. The book is unflinching about the selfishness, conflict, and disappointment that every marriage encounters, while maintaining a high and beautiful vision of what marriage can be.", quote: "To be loved but not known is comforting but superficial. To be known and not loved is our greatest fear. But to be fully known and truly loved is, well, a lot like being loved by God.", contribution: "The Meaning of Marriage became the standard evangelical marriage reference text for a generation of pastors, premarital counselors, and couples. Its combination of theological depth, honest assessment of marriage's difficulty, and practical guidance has made it the book most recommended in evangelical premarital counseling contexts." },
-    { id: "thomas-g", name: "Gary Thomas", era: "b. 1961", context: "Sacred Marriage (2000) — what if marriage is designed to make you holy rather than happy?", bio: "Gary Thomas's Sacred Marriage reoriented evangelical marriage literature with a single provocative question: What if God designed marriage to make us holy more than to make us happy? Thomas argues that the difficulties of marriage — the friction, the exposure of character, the demands of unconditional love — are precisely the tools God uses to form Christlike character. His treatment of marriage as a spiritual discipline rather than a romantic fulfillment shifted the conversation from 'how do I have a better marriage?' to 'who is God making me through this marriage?' This reorientation has been enormously influential in how churches approach marriage ministry.", quote: "What if God didn't design marriage to be easy? What if God has a higher purpose for your marriage than your happiness? What if marriage is designed to make you holy?", contribution: "Sacred Marriage is one of the most widely used evangelical marriage books in small group and marriage enrichment contexts. Thomas's reframing of marriage difficulties as spiritual formation opportunities has given couples a theological framework for persisting through conflict and disappointment without giving up." },
-    { id: "gottman-j", name: "John & Julie Gottman", era: "b. 1942/1948", context: "The Seven Principles for Making Marriage Work (1999) — research-based marriage wisdom", bio: "John Gottman's research at the University of Washington's 'Love Lab' produced the most empirically robust account of what distinguishes stable marriages from those heading for divorce. His concept of the 'Four Horsemen' (criticism, contempt, defensiveness, stonewalling) as predictors of relationship failure, and his model of the 'Sound Relationship House' (trust, commitment, knowledge of your partner, shared meaning) have been widely adopted in Christian marriage counseling alongside theological frameworks. Christian counselors have found Gottman's research complements theological perspectives on marriage: his findings about contempt, for instance, map well onto biblical teachings on pride and honor.", quote: "Contempt — feeling or showing disgust — is the single greatest predictor of relationship failure. It treats the other person as inferior or unworthy. No marriage can survive large doses of contempt. And contempt thrives in the absence of gratitude.", contribution: "Gottman's research gave marriage counselors — including Christian ones — empirical tools for identifying troubled marriages and evidence-based practices for strengthening them. His Four Horsemen model has become a standard diagnostic framework in both secular and Christian marriage therapy, and his emphasis on friendship, gratitude, and shared meaning resonates with theological accounts of covenant love." },
-    { id: "tripp-paul-m", name: "Paul David Tripp", era: "b. 1950", context: "What Did You Expect? (2010) — a gospel-centered approach to marriage's hardest moments", bio: "Paul David Tripp's What Did You Expect? Redeeming the Realities of Marriage addresses the gap between what couples expect marriage to be and what it actually is. Tripp argues that the disappointment and conflict most couples experience in marriage is not a sign that they chose the wrong person but that they have underestimated how comprehensively sin affects two sinners trying to build a life together. His gospel-centered framework — grace, forgiveness, mutual service — provides a basis for hope in the hardest seasons. The book's distinctive contribution is its honesty about how idolatrous expectations (expecting a spouse to provide what only God can provide) create the very disappointments that kill marriages.", quote: "Struggling marriages are not the result of marrying the wrong person. They are the result of two sinners who have forgotten what they need to bring to their marriage: not rights, but grace.", contribution: "What Did You Expect? gave evangelical couples a gospel-centered framework for understanding and working through marital conflict. Tripp's honest account of how sin distorts expectations and creates conflict, combined with his clear articulation of grace as the resource for change, has made the book a standard text in evangelical premarital and marriage counseling." },
-    { id: "eldredge-j", name: "John Eldredge", era: "b. 1960", context: "Wild at Heart (2001); Captivating (2005, with Stasi Eldredge) — gender, identity, and relationship", bio: "John Eldredge's Wild at Heart and its companion Captivating (co-written with his wife Stasi) have been among the most widely read and most debated evangelical books on gender and relationships in the past two decades. Wild at Heart argues that men are created for adventure, battle, and beauty, and that the core wounds of masculinity distort all their relationships — especially romantic ones. Captivating makes a parallel argument about femininity. The books have been criticized for their gender essentialism and their cultural assumptions, but their influence on how millions of evangelical Christians think about gender and relationship has been enormous — particularly in young adult and men's ministry contexts.", quote: "A man's deepest fear is that he is, at the core, not what a woman needs. A woman's deepest fear is that she is, at the core, not what a man wants. Both fears point to the same wound: 'Do I have what it takes? Am I enough?' The answer the gospel gives is: in Christ, yes.", contribution: "Wild at Heart and Captivating gave evangelical men and women a language for understanding gender, desire, and relationship wound that resonated with millions. The books' influence on men's ministry, marriage conferences, and young adult discipleship has been enormous, even as their gender essentialism has been debated. They remain among the most discussed evangelical books on relationships of the past generation." },
-  ];
+  const [activeTab, setActiveTab] = useState<"community" | "conflict" | "voices" | "videos">("community");
+  const [selectedVoice, setSelectedVoice] = useState("lewis-cs");
   const voiceItem = VOICES_REL.find(v => v.id === selectedVoice)!;
   const [openGuidance, setOpenGuidance] = useState<string | null>(null);
   const [savedIds, setSavedIds] = useState<Set<string>>(() => {
@@ -134,149 +235,138 @@ export default function RelationshipsPage() {
   });
 
   return (
-    <div style={{ minHeight: "100vh", background: "#07070F", color: "#F2F2F8" }}>
+    <div style={{ minHeight: "100vh", background: BG, color: TEXT }}>
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "80px 20px 60px" }}>
 
         {/* Header */}
         <div style={{ textAlign: "center", marginBottom: 40 }}>
           <div style={{ fontSize: 40, marginBottom: 12 }}>❤️</div>
-          <h1 style={{ fontSize: 36, fontWeight: 900, marginBottom: 8 }}>Relationships & Dating</h1>
-          <p style={{ color: "#9898B3", fontSize: 16 }}>Building love on the foundation of Christ</p>
+          <h1 style={{ fontSize: 36, fontWeight: 900, marginBottom: 8 }}>Relationships &amp; Dating</h1>
+          <p style={{ color: MUTED, fontSize: 16 }}>Building love on the foundation of Christ</p>
         </div>
 
-        {/* Tabs */}
-        <div style={{ display: "flex", gap: 4, marginBottom: 32, borderBottom: "1px solid #1E1E32" }}>
-          {([["guidance", "Guidance"], ["articles", "Topics"], ["stories", "Stories"], ["voices", "🎓 Voices"]] as const).map(([t, label]) => (
-            <button key={t} onClick={() => setTab(t)}
-              style={{ padding: "10px 20px", fontSize: 14, fontWeight: 600, background: "none", border: "none", cursor: "pointer", color: tab === t ? "#00FF88" : "#6A6A88", borderBottom: `2px solid ${tab === t ? "#00FF88" : "transparent"}`, marginBottom: -1 }}>
-              {label}
+        {/* Main Tab Bar */}
+        <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
+          {(["community", "conflict", "voices", "videos"] as const).map(t => (
+            <button key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer", flex: 1 }}>
+              {t === "community" ? "Community" : t === "conflict" ? "Conflict" : t === "voices" ? "Voices" : "Videos"}
             </button>
           ))}
         </div>
 
-        {/* Guidance Tab */}
-        {tab === "guidance" && (
-          <div style={{ maxWidth: 800, margin: "0 auto", display: "flex", flexDirection: "column", gap: 12 }}>
-            {GUIDANCE.map(g => (
-              <div key={g.id} style={{ background: "#12121F", borderRadius: 16, overflow: "hidden", border: `1px solid ${openGuidance === g.id ? "rgba(0,255,136,0.3)" : "#1E1E32"}` }}>
-                <button onClick={() => setOpenGuidance(openGuidance === g.id ? null : g.id)}
-                  style={{ width: "100%", padding: "18px 22px", display: "flex", justifyContent: "space-between", alignItems: "center", background: "none", border: "none", cursor: "pointer", textAlign: "left" }}>
-                  <div style={{ display: "flex", gap: 14, alignItems: "center" }}>
-                    <span style={{ fontSize: 24 }}>{g.icon}</span>
-                    <div>
-                      <h3 style={{ fontSize: 16, fontWeight: 700, color: openGuidance === g.id ? "#00FF88" : "#F2F2F8", marginBottom: 3 }}>{g.title}</h3>
-                      <p style={{ fontSize: 13, color: "#9898B3" }}>{g.summary}</p>
-                    </div>
-                  </div>
-                  <span style={{ color: "#6A6A88", fontSize: 20, flexShrink: 0, marginLeft: 12 }}>{openGuidance === g.id ? "−" : "+"}</span>
-                </button>
-                {openGuidance === g.id && (
-                  <div style={{ padding: "0 22px 22px", borderTop: "1px solid #1E1E32" }}>
-                    {g.content.split("\n\n").map((para, i) => (
-                      <p key={i} style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.8, marginTop: 16 }}>{para}</p>
-                    ))}
-                    <div style={{ display: "flex", gap: 8, marginTop: 16, flexWrap: "wrap" }}>
-                      {g.verses.map(v => <span key={v} style={{ fontSize: 12, padding: "3px 10px", borderRadius: 8, background: "rgba(0,255,136,0.08)", color: "#00FF88", border: "1px solid rgba(0,255,136,0.2)" }}>{v}</span>)}
-                    </div>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* Articles Tab */}
-        {tab === "articles" && (
+        {/* Community Tab — all existing guidance / articles / stories content */}
+        {activeTab === "community" && (
           <>
-            <div style={{ display: "flex", gap: 12, marginBottom: 20, flexWrap: "wrap", alignItems: "center" }}>
-              <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search topics..."
-                style={{ flex: 1, minWidth: 200, padding: "8px 14px", borderRadius: 10, background: "#12121F", border: "1px solid #1E1E32", color: "#F2F2F8", fontSize: 14, outline: "none" }} />
-              <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                {CATEGORIES.map(c => (
-                  <button key={c} onClick={() => setCatFilter(c)}
-                    style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${catFilter === c ? "#00FF88" : "#1E1E32"}`, background: catFilter === c ? "rgba(0,255,136,0.1)" : "transparent", color: catFilter === c ? "#00FF88" : "#9898B3", fontSize: 13, cursor: "pointer", fontWeight: catFilter === c ? 700 : 400 }}>
-                    {c}
-                  </button>
-                ))}
-              </div>
-            </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-              {filteredArticles.map(a => (
-                <div key={a.id} style={{ background: "#12121F", borderRadius: 16, overflow: "hidden", border: `1px solid ${expandedArticle === a.id ? "rgba(0,255,136,0.2)" : "#1E1E32"}` }}>
-                  <div onClick={() => setExpandedArticle(expandedArticle === a.id ? null : a.id)}
-                    style={{ padding: "18px 22px", display: "flex", justifyContent: "space-between", alignItems: "flex-start", cursor: "pointer" }}>
-                    <div style={{ flex: 1 }}>
-                      <div style={{ display: "flex", gap: 8, marginBottom: 6, flexWrap: "wrap" }}>
-                        <span style={{ fontSize: 11, padding: "2px 8px", borderRadius: 20, background: "rgba(107,79,187,0.15)", color: "#A080FF", border: "1px solid rgba(107,79,187,0.25)" }}>{a.category}</span>
-                        <span style={{ fontSize: 11, color: "#6A6A88" }}>{a.readTime} read</span>
-                      </div>
-                      <h3 style={{ fontSize: 16, fontWeight: 700, color: expandedArticle === a.id ? "#00FF88" : "#F2F2F8", marginBottom: 4 }}>{a.title}</h3>
-                      <p style={{ fontSize: 13, color: "#9898B3" }}>{a.summary}</p>
-                    </div>
-                    <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0, marginLeft: 12 }}>
-                      <button onClick={e => { e.stopPropagation(); toggleSave(a.id); }}
-                        style={{ background: "none", border: "none", cursor: "pointer", fontSize: 16, color: savedIds.has(a.id) ? "#FFD700" : "#4A4A68" }}>
-                        {savedIds.has(a.id) ? "★" : "☆"}
-                      </button>
-                      <span style={{ color: "#6A6A88", fontSize: 18 }}>{expandedArticle === a.id ? "−" : "+"}</span>
-                    </div>
-                  </div>
-                  {expandedArticle === a.id && (
-                    <div style={{ padding: "0 22px 22px", borderTop: "1px solid #1E1E32" }}>
-                      {a.body.split("\n\n").map((para, i) => (
-                        <p key={i} style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.8, marginTop: 16 }}>{para}</p>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
+            <CommunityContent
+              GUIDANCE={GUIDANCE}
+              ARTICLES={ARTICLES}
+              STORIES={STORIES}
+              CATEGORIES={CATEGORIES}
+              openGuidance={openGuidance}
+              setOpenGuidance={setOpenGuidance}
+              savedIds={savedIds}
+              toggleSave={toggleSave}
+              catFilter={catFilter}
+              setCatFilter={setCatFilter}
+              search={search}
+              setSearch={setSearch}
+              expandedArticle={expandedArticle}
+              setExpandedArticle={setExpandedArticle}
+              setSelectedStory={setSelectedStory}
+              filteredArticles={filteredArticles}
+            />
           </>
         )}
 
-        {/* Stories Tab */}
-        {tab === "stories" && (
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 20 }}>
-            {STORIES.map(s => (
-              <div key={s.id} onClick={() => setSelectedStory(s)}
-                style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 16, padding: 22, cursor: "pointer", transition: "border-color 0.2s, transform 0.15s" }}
-                onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = "#00FF88"; (e.currentTarget as HTMLDivElement).style.transform = "translateY(-2px)"; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = "#1E1E32"; (e.currentTarget as HTMLDivElement).style.transform = "none"; }}>
-                <div style={{ fontSize: 28, marginBottom: 12 }}>{s.type === "couple" ? "💑" : "🌸"}</div>
-                <h3 style={{ fontSize: 17, fontWeight: 700, marginBottom: 4 }}>{s.title}</h3>
-                <p style={{ fontSize: 13, color: "#9898B3", marginBottom: 12 }}>{s.couple}</p>
-                <p style={{ fontSize: 13, color: "#C0C0D8", lineHeight: 1.6, display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
-                  {s.story.split("\n\n")[0]}
-                </p>
-                <p style={{ fontSize: 12, color: "#00FF88", marginTop: 12, fontStyle: "italic" }}>"{s.verse.slice(0, 55)}..." — {s.verseRef}</p>
-              </div>
-            ))}
+        {/* Conflict Tab */}
+        {activeTab === "conflict" && (
+          <div style={{ maxWidth: 800, margin: "0 auto" }}>
+            <div style={{ marginBottom: 28 }}>
+              <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 6 }}>Biblical Conflict Resolution</h2>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7 }}>
+                Based on Matthew 18 and the framework of Peacemaker Ministries, these five steps reflect
+                Jesus&rsquo;s design for restoring broken relationships &mdash; in marriage, friendship, and church.
+              </p>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+              {CONFLICT_TOOLS.map(ct => (
+                <div key={ct.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 24 }}>
+                  <div style={{ display: "flex", gap: 14, alignItems: "flex-start", marginBottom: 14 }}>
+                    <div style={{ width: 36, height: 36, borderRadius: "50%", background: `${PURPLE}25`, border: `1px solid ${PURPLE}60`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, fontWeight: 900, color: PURPLE, flexShrink: 0 }}>{ct.step}</div>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 4 }}>
+                        <span style={{ fontSize: 20 }}>{ct.icon}</span>
+                        <h3 style={{ fontSize: 17, fontWeight: 800, color: TEXT, margin: 0 }}>{ct.title}</h3>
+                      </div>
+                      <span style={{ fontSize: 11, padding: "2px 8px", borderRadius: 20, background: `${GREEN}12`, color: GREEN, border: `1px solid ${GREEN}30`, fontWeight: 700 }}>{ct.scripture}</span>
+                    </div>
+                  </div>
+                  <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.8, marginBottom: 14 }}>{ct.description}</p>
+                  <div style={{ background: BG, borderRadius: 10, padding: 14, borderLeft: `3px solid ${PURPLE}` }}>
+                    <div style={{ fontSize: 11, fontWeight: 700, color: PURPLE, textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 }}>In Practice</div>
+                    <p style={{ fontSize: 13, color: MUTED, lineHeight: 1.7, margin: 0 }}>{ct.example}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         )}
 
-        {tab === "voices" && (
+        {/* Voices Tab */}
+        {activeTab === "voices" && (
           <div style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 80 }}>
               {VOICES_REL.map(v => (
                 <button key={v.id} onClick={() => setSelectedVoice(v.id)}
-                  style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? "rgba(0,255,136,0.4)" : "#1E1E32"}`, background: selectedVoice === v.id ? "rgba(0,255,136,0.08)" : "#12121F", cursor: "pointer" }}>
-                  <div style={{ fontSize: 13, fontWeight: 700, color: selectedVoice === v.id ? "#00FF88" : "#F2F2F8", marginBottom: 2 }}>{v.name}</div>
-                  <div style={{ fontSize: 11, color: "#9898B3" }}>{v.era}</div>
+                  style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? "rgba(0,255,136,0.4)" : BORDER}`, background: selectedVoice === v.id ? "rgba(0,255,136,0.08)" : CARD, cursor: "pointer" }}>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: selectedVoice === v.id ? GREEN : TEXT, marginBottom: 2 }}>{v.name}</div>
+                  <div style={{ fontSize: 11, color: MUTED }}>{v.era}</div>
                 </button>
               ))}
             </div>
-            <div style={{ flex: 1, background: "#12121F", border: "1px solid #1E1E32", borderRadius: 16, padding: 28 }}>
-              <div style={{ fontSize: 12, color: "#9898B3", fontStyle: "italic", marginBottom: 6 }}>{voiceItem.context}</div>
-              <h2 style={{ fontSize: 24, fontWeight: 800, marginBottom: 4, color: "#F2F2F8" }}>{voiceItem.name}</h2>
-              <div style={{ fontSize: 13, color: "#9898B3", marginBottom: 20 }}>{voiceItem.era}</div>
+            <div style={{ flex: 1, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 28 }}>
+              <div style={{ fontSize: 12, color: MUTED, fontStyle: "italic", marginBottom: 6 }}>{voiceItem.context}</div>
+              <h2 style={{ fontSize: 24, fontWeight: 800, marginBottom: 4, color: TEXT }}>{voiceItem.name}</h2>
+              <div style={{ fontSize: 13, color: MUTED, marginBottom: 20 }}>{voiceItem.era}</div>
               <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.8, marginBottom: 24 }}>{voiceItem.bio}</p>
-              <div style={{ background: "#07070F", borderRadius: 12, padding: 20, borderLeft: "3px solid #00FF88", marginBottom: 24 }}>
+              <div style={{ background: BG, borderRadius: 12, padding: 20, borderLeft: `3px solid ${GREEN}`, marginBottom: 24 }}>
                 <p style={{ fontSize: 15, color: "#E0E0F0", lineHeight: 1.75, fontStyle: "italic" }}>&ldquo;{voiceItem.quote}&rdquo;</p>
               </div>
               <div>
-                <div style={{ fontSize: 11, fontWeight: 700, color: "#6B4FBB", textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>Contribution</div>
+                <div style={{ fontSize: 11, fontWeight: 700, color: PURPLE, textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>Contribution</div>
                 <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.75 }}>{voiceItem.contribution}</p>
               </div>
+            </div>
+          </div>
+        )}
+
+        {/* Videos Tab */}
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ marginBottom: 28 }}>
+              <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 6 }}>Recommended Teachings</h2>
+              <p style={{ color: MUTED, fontSize: 14 }}>Six messages on love, family, and the character of God.</p>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(480px, 1fr))", gap: 24 }}>
+              {REL_VIDEOS.map(v => (
+                <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, overflow: "hidden" }}>
+                  <iframe
+                    width="100%"
+                    style={{ aspectRatio: "16/9", border: "none", borderRadius: 0, display: "block" }}
+                    src={`https://www.youtube.com/embed/${v.videoId}`}
+                    title={v.title}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                  <div style={{ padding: "16px 20px" }}>
+                    <div style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 8 }}>
+                      <span style={{ fontSize: 11, padding: "2px 10px", borderRadius: 20, background: `${PURPLE}20`, color: PURPLE, fontWeight: 700, border: `1px solid ${PURPLE}40` }}>{v.preacher}</span>
+                    </div>
+                    <h3 style={{ fontSize: 15, fontWeight: 800, color: TEXT, marginBottom: 6 }}>{v.title}</h3>
+                    <p style={{ fontSize: 13, color: MUTED, lineHeight: 1.6 }}>{v.description}</p>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         )}
@@ -285,24 +375,163 @@ export default function RelationshipsPage() {
       {/* Story Modal */}
       {selectedStory && (
         <div onClick={() => setSelectedStory(null)} style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.8)", zIndex: 100, display: "flex", alignItems: "flex-start", justifyContent: "center", padding: "20px", overflowY: "auto" }}>
-          <div onClick={e => e.stopPropagation()} style={{ background: "#12121F", borderRadius: 20, padding: 32, maxWidth: 640, width: "100%", border: "1px solid #2A2A40", marginTop: 20 }}>
+          <div onClick={e => e.stopPropagation()} style={{ background: CARD, borderRadius: 20, padding: 32, maxWidth: 640, width: "100%", border: "1px solid #2A2A40", marginTop: 20 }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20 }}>
               <div>
                 <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 4 }}>{selectedStory.title}</h2>
-                <span style={{ fontSize: 14, color: "#9898B3" }}>{selectedStory.couple}</span>
+                <span style={{ fontSize: 14, color: MUTED }}>{selectedStory.couple}</span>
               </div>
               <button onClick={() => setSelectedStory(null)} style={{ background: "none", border: "none", color: "#6A6A88", fontSize: 22, cursor: "pointer" }}>×</button>
             </div>
             {selectedStory.story.split("\n\n").map((para, i) => (
               <p key={i} style={{ fontSize: 15, color: "#C0C0D8", lineHeight: 1.8, marginBottom: 16 }}>{para}</p>
             ))}
-            <div style={{ background: "#0D0D1A", borderRadius: 12, padding: 16, borderLeft: "3px solid #00FF88", marginTop: 8 }}>
-              <p style={{ fontSize: 14, color: "#C0C0D8", fontStyle: "italic" }}>"{selectedStory.verse}"</p>
-              <p style={{ fontSize: 12, color: "#00FF88", marginTop: 8 }}>— {selectedStory.verseRef}</p>
+            <div style={{ background: "#0D0D1A", borderRadius: 12, padding: 16, borderLeft: `3px solid ${GREEN}`, marginTop: 8 }}>
+              <p style={{ fontSize: 14, color: "#C0C0D8", fontStyle: "italic" }}>&ldquo;{selectedStory.verse}&rdquo;</p>
+              <p style={{ fontSize: 12, color: GREEN, marginTop: 8 }}>&mdash; {selectedStory.verseRef}</p>
             </div>
           </div>
         </div>
       )}
     </div>
+  );
+}
+
+function CommunityContent({
+  GUIDANCE, ARTICLES, STORIES, CATEGORIES,
+  openGuidance, setOpenGuidance,
+  savedIds, toggleSave,
+  catFilter, setCatFilter,
+  search, setSearch,
+  expandedArticle, setExpandedArticle,
+  setSelectedStory,
+  filteredArticles,
+}: {
+  GUIDANCE: { id: string; title: string; icon: string; summary: string; content: string; verses: string[] }[];
+  ARTICLES: { id: string; title: string; summary: string; readTime: string; category: string; body: string }[];
+  STORIES: { id: string; couple: string; title: string; type: string; story: string; verse: string; verseRef: string }[];
+  CATEGORIES: string[];
+  openGuidance: string | null;
+  setOpenGuidance: (id: string | null) => void;
+  savedIds: Set<string>;
+  toggleSave: (id: string) => void;
+  catFilter: string;
+  setCatFilter: (c: string) => void;
+  search: string;
+  setSearch: (s: string) => void;
+  expandedArticle: string | null;
+  setExpandedArticle: (id: string | null) => void;
+  setSelectedStory: (s: { id: string; couple: string; title: string; type: string; story: string; verse: string; verseRef: string } | null) => void;
+  filteredArticles: { id: string; title: string; summary: string; readTime: string; category: string; body: string }[];
+}) {
+  const [innerTab, setInnerTab] = useState<"guidance" | "articles" | "stories">("guidance");
+  return (
+    <>
+      <div style={{ display: "flex", gap: 4, marginBottom: 32, borderBottom: "1px solid #1E1E32" }}>
+        {([["guidance", "Guidance"], ["articles", "Topics"], ["stories", "Stories"]] as const).map(([t, label]) => (
+          <button key={t} onClick={() => setInnerTab(t)}
+            style={{ padding: "10px 20px", fontSize: 14, fontWeight: 600, background: "none", border: "none", cursor: "pointer", color: innerTab === t ? "#00FF88" : "#6A6A88", borderBottom: `2px solid ${innerTab === t ? "#00FF88" : "transparent"}`, marginBottom: -1 }}>
+            {label}
+          </button>
+        ))}
+      </div>
+
+      {innerTab === "guidance" && (
+        <div style={{ maxWidth: 800, margin: "0 auto", display: "flex", flexDirection: "column", gap: 12 }}>
+          {GUIDANCE.map(g => (
+            <div key={g.id} style={{ background: "#12121F", borderRadius: 16, overflow: "hidden", border: `1px solid ${openGuidance === g.id ? "rgba(0,255,136,0.3)" : "#1E1E32"}` }}>
+              <button onClick={() => setOpenGuidance(openGuidance === g.id ? null : g.id)}
+                style={{ width: "100%", padding: "18px 22px", display: "flex", justifyContent: "space-between", alignItems: "center", background: "none", border: "none", cursor: "pointer", textAlign: "left" }}>
+                <div style={{ display: "flex", gap: 14, alignItems: "center" }}>
+                  <span style={{ fontSize: 24 }}>{g.icon}</span>
+                  <div>
+                    <h3 style={{ fontSize: 16, fontWeight: 700, color: openGuidance === g.id ? "#00FF88" : "#F2F2F8", marginBottom: 3 }}>{g.title}</h3>
+                    <p style={{ fontSize: 13, color: "#9898B3" }}>{g.summary}</p>
+                  </div>
+                </div>
+                <span style={{ color: "#6A6A88", fontSize: 20, flexShrink: 0, marginLeft: 12 }}>{openGuidance === g.id ? "−" : "+"}</span>
+              </button>
+              {openGuidance === g.id && (
+                <div style={{ padding: "0 22px 22px", borderTop: "1px solid #1E1E32" }}>
+                  {g.content.split("\n\n").map((para, i) => (
+                    <p key={i} style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.8, marginTop: 16 }}>{para}</p>
+                  ))}
+                  <div style={{ display: "flex", gap: 8, marginTop: 16, flexWrap: "wrap" }}>
+                    {g.verses.map(v => <span key={v} style={{ fontSize: 12, padding: "3px 10px", borderRadius: 8, background: "rgba(0,255,136,0.08)", color: "#00FF88", border: "1px solid rgba(0,255,136,0.2)" }}>{v}</span>)}
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+
+      {innerTab === "articles" && (
+        <>
+          <div style={{ display: "flex", gap: 12, marginBottom: 20, flexWrap: "wrap", alignItems: "center" }}>
+            <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search topics..."
+              style={{ flex: 1, minWidth: 200, padding: "8px 14px", borderRadius: 10, background: "#12121F", border: "1px solid #1E1E32", color: "#F2F2F8", fontSize: 14, outline: "none" }} />
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+              {CATEGORIES.map(c => (
+                <button key={c} onClick={() => setCatFilter(c)}
+                  style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${catFilter === c ? "#00FF88" : "#1E1E32"}`, background: catFilter === c ? "rgba(0,255,136,0.1)" : "transparent", color: catFilter === c ? "#00FF88" : "#9898B3", fontSize: 13, cursor: "pointer", fontWeight: catFilter === c ? 700 : 400 }}>
+                  {c}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            {filteredArticles.map(a => (
+              <div key={a.id} style={{ background: "#12121F", borderRadius: 16, overflow: "hidden", border: `1px solid ${expandedArticle === a.id ? "rgba(0,255,136,0.2)" : "#1E1E32"}` }}>
+                <div onClick={() => setExpandedArticle(expandedArticle === a.id ? null : a.id)}
+                  style={{ padding: "18px 22px", display: "flex", justifyContent: "space-between", alignItems: "flex-start", cursor: "pointer" }}>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ display: "flex", gap: 8, marginBottom: 6, flexWrap: "wrap" }}>
+                      <span style={{ fontSize: 11, padding: "2px 8px", borderRadius: 20, background: "rgba(107,79,187,0.15)", color: "#A080FF", border: "1px solid rgba(107,79,187,0.25)" }}>{a.category}</span>
+                      <span style={{ fontSize: 11, color: "#6A6A88" }}>{a.readTime} read</span>
+                    </div>
+                    <h3 style={{ fontSize: 16, fontWeight: 700, color: expandedArticle === a.id ? "#00FF88" : "#F2F2F8", marginBottom: 4 }}>{a.title}</h3>
+                    <p style={{ fontSize: 13, color: "#9898B3" }}>{a.summary}</p>
+                  </div>
+                  <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0, marginLeft: 12 }}>
+                    <button onClick={e => { e.stopPropagation(); toggleSave(a.id); }}
+                      style={{ background: "none", border: "none", cursor: "pointer", fontSize: 16, color: savedIds.has(a.id) ? "#FFD700" : "#4A4A68" }}>
+                      {savedIds.has(a.id) ? "★" : "☆"}
+                    </button>
+                    <span style={{ color: "#6A6A88", fontSize: 18 }}>{expandedArticle === a.id ? "−" : "+"}</span>
+                  </div>
+                </div>
+                {expandedArticle === a.id && (
+                  <div style={{ padding: "0 22px 22px", borderTop: "1px solid #1E1E32" }}>
+                    {a.body.split("\n\n").map((para, i) => (
+                      <p key={i} style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.8, marginTop: 16 }}>{para}</p>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+
+      {innerTab === "stories" && (
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 20 }}>
+          {STORIES.map(s => (
+            <div key={s.id} onClick={() => setSelectedStory(s)}
+              style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 16, padding: 22, cursor: "pointer" }}
+              onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = "#00FF88"; (e.currentTarget as HTMLDivElement).style.transform = "translateY(-2px)"; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = "#1E1E32"; (e.currentTarget as HTMLDivElement).style.transform = "none"; }}>
+              <div style={{ fontSize: 28, marginBottom: 12 }}>{s.type === "couple" ? "💑" : "🌸"}</div>
+              <h3 style={{ fontSize: 17, fontWeight: 700, marginBottom: 4 }}>{s.title}</h3>
+              <p style={{ fontSize: 13, color: "#9898B3", marginBottom: 12 }}>{s.couple}</p>
+              <p style={{ fontSize: 13, color: "#C0C0D8", lineHeight: 1.6, display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
+                {s.story.split("\n\n")[0]}
+              </p>
+              <p style={{ fontSize: 12, color: "#00FF88", marginTop: 12, fontStyle: "italic" }}>&ldquo;{s.verse.slice(0, 55)}&hellip;&rdquo; &mdash; {s.verseRef}</p>
+            </div>
+          ))}
+        </div>
+      )}
+    </>
   );
 }

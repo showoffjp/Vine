@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Menu, X, Search, Bell, ChevronDown, Sparkles } from "lucide-react";
 import SearchOverlay from "./SearchOverlay";
 import AuthModal from "./AuthModal";
@@ -497,6 +497,19 @@ export default function Navbar() {
   const [user, setUser] = useState<VineUser | null>(null);
   const [hasUnread, setHasUnread] = useState(true);
   const headerRef = useRef<HTMLDivElement>(null);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const openDropdown = useCallback((label: string) => {
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+    setActiveDropdown(label);
+  }, []);
+
+  const scheduleClose = useCallback(() => {
+    closeTimer.current = setTimeout(() => setActiveDropdown(null), 150);
+  }, []);
 
   useEffect(() => {
     const stored = localStorage.getItem("vine_user");
@@ -623,8 +636,8 @@ export default function Navbar() {
                 <div
                   key={link.label}
                   className="relative"
-                  onMouseEnter={() => setActiveDropdown(link.label)}
-                  onMouseLeave={() => setActiveDropdown(null)}
+                  onMouseEnter={() => openDropdown(link.label)}
+                  onMouseLeave={scheduleClose}
                 >
                   <button
                     className="flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-medium transition-all"
@@ -647,7 +660,7 @@ export default function Navbar() {
                   {/* Dropdown */}
                   {activeDropdown === link.label && (
                     <div
-                      className="absolute top-full mt-1.5 py-3 rounded-xl z-50"
+                      className="absolute top-full py-3 rounded-xl z-50"
                       style={{
                         left: link.wide ? "50%" : "0",
                         transform: link.wide ? "translateX(-50%)" : "none",
@@ -658,7 +671,10 @@ export default function Navbar() {
                         border: "1px solid rgba(0,255,136,0.12)",
                         backdropFilter: "blur(24px)",
                         boxShadow: "0 24px 64px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.03)",
+                        paddingTop: "8px",
                       }}
+                      onMouseEnter={() => openDropdown(link.label)}
+                      onMouseLeave={scheduleClose}
                     >
                       {link.wide ? (
                         /* Multi-column layout for wide menus */

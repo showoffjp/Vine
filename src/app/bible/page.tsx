@@ -977,7 +977,7 @@ export default function BiblePage() {
       <main style={{ maxWidth: 1400, margin: "0 auto", padding: "0 16px 60px" }}>
 
         {/* Header */}
-        <div style={{ textAlign: "center", padding: "48px 0 32px" }}>
+        <div style={{ textAlign: "center", padding: "104px 0 32px" }}>
           <div style={{ display: "inline-block", background: `${GREEN}18`, border: `1px solid ${GREEN}40`, borderRadius: 8, padding: "6px 16px", fontSize: 12, color: GREEN, fontWeight: 700, letterSpacing: 2, marginBottom: 16 }}>
             THE HOLY BIBLE
           </div>

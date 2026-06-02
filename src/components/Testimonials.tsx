@@ -1,135 +1,212 @@
 "use client";
 
-import { Star, Quote } from "lucide-react";
-
-const testimonials = [
+const TESTIMONIALS = [
   {
     name: "Amara Diallo",
     location: "Dakar, Senegal",
     role: "Worship Leader",
-    avatar: "#00FF88",
     initials: "AD",
-    stars: 5,
-    text: "Vine is the first platform that actually gets the breadth of Christian life. I found a community for worship, resources for mental health, and daily devotionals — all in one place. It changed my mornings.",
+    text: "The Vine is the first platform that actually gets the breadth of Christian life. I found a community for worship, resources for mental health, and daily devotionals — all in one place. It transformed my mornings.",
   },
   {
     name: "Joshua Hernandez",
     location: "Houston, TX",
     role: "Youth Pastor",
-    avatar: "#6B4FBB",
     initials: "JH",
-    stars: 5,
-    text: "I've tried every Christian app out there. None of them come close to what Vine is building. The discussions are real, raw, and respectful. This is what the church needs online.",
+    text: "I have tried every Christian app available. None of them come close. The discussions are real, raw, and respectful. This is what the Church needs on the internet.",
   },
   {
     name: "Grace Kim",
     location: "Seoul, South Korea",
     role: "Campus Ministry Leader",
-    avatar: "#3A9E72",
     initials: "GK",
-    stars: 5,
-    text: "Being a Christian in a non-Christian culture can feel incredibly isolating. Vine connected me with believers across the globe who understand my exact situation. I feel less alone in my faith.",
+    text: "Being a Christian in a non-Christian culture can feel incredibly isolating. The Vine connected me with believers across the globe who understand my exact situation. I feel less alone in my faith.",
   },
   {
     name: "Samuel Obi",
     location: "Lagos, Nigeria",
     role: "Bible Teacher",
-    avatar: "#C0506A",
     initials: "SO",
-    stars: 5,
-    text: "The Bible tools and resource library are phenomenal. I've found commentaries, study guides, and original language tools that I previously had to pay for scattered across six different apps.",
+    text: "The Bible tools and resource library are phenomenal. I have found commentaries, study guides, and original language tools that I previously had to pay for across six different apps.",
   },
   {
     name: "Miriam Flores",
     location: "Medellín, Colombia",
     role: "Christian Therapist",
-    avatar: "#4A80D4",
     initials: "MF",
-    stars: 5,
-    text: "As a therapist, the way Vine handles mental health content is remarkable — faithful and clinically sound at the same time. I recommend it to my clients regularly.",
+    text: "As a therapist, the way The Vine handles mental health content is remarkable — faithful and clinically sound at the same time. I recommend it to clients and colleagues regularly.",
   },
   {
     name: "Daniel Achterberg",
     location: "Amsterdam, Netherlands",
     role: "Seminary Student",
-    avatar: "#E8A020",
     initials: "DA",
-    stars: 5,
-    text: "I came for the theology discussions and stayed for everything else. The apologetics community alone is worth the price of admission — and it's free. Remarkable.",
+    text: "I came for the theology discussions and stayed for everything else. The apologetics community alone is worth the price of admission — and it is entirely free. Simply remarkable.",
   },
 ];
 
 export default function Testimonials() {
   return (
-    <section className="py-24 relative overflow-hidden" id="testimonials">
+    <section
+      style={{
+        background: "#050e07",
+        padding: "100px 4vw",
+        borderTop: "0.5px solid rgba(201,162,39,0.18)",
+        position: "relative",
+        overflow: "hidden",
+      }}
+      id="testimonials"
+    >
+      {/* Glow */}
       <div
-        className="absolute inset-0 pointer-events-none"
         style={{
-          background:
-            "radial-gradient(ellipse 80% 60% at 50% 100%, rgba(0,255,136,0.04) 0%, transparent 70%)",
+          position: "absolute",
+          bottom: 0,
+          left: "50%",
+          transform: "translateX(-50%)",
+          width: 900,
+          height: 400,
+          background: "radial-gradient(ellipse, rgba(58,125,86,0.07) 0%, transparent 65%)",
+          pointerEvents: "none",
         }}
       />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <p className="tag-pill inline-block mb-4">Community Voices</p>
+      <div style={{ maxWidth: 1200, margin: "0 auto", position: "relative", zIndex: 1 }}>
+        {/* Header */}
+        <div style={{ marginBottom: "4rem", textAlign: "center" }}>
+          <div className="vine-eyebrow" style={{ marginBottom: "0.9rem" }}>
+            Community Voices
+          </div>
           <h2
-            className="text-4xl sm:text-5xl font-black leading-tight mb-4"
-            style={{ color: "#F2F2F8" }}
+            style={{
+              fontFamily: "var(--font-cormorant, 'Cormorant Garamond', Georgia, serif)",
+              fontSize: "clamp(2rem, 4vw, 3.4rem)",
+              fontWeight: 300,
+              color: "#f2e6c8",
+              lineHeight: 1.15,
+            }}
           >
-            Christians Around the World
+            Christians around the world
             <br />
-            <span className="gold-gradient">Are Already Home.</span>
+            <em style={{ fontStyle: "italic", color: "#e8c162" }}>are already home.</em>
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {testimonials.map((t, i) => (
+        {/* Grid */}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(3, 1fr)",
+            gap: 2,
+            background: "rgba(201,162,39,0.04)",
+          }}
+        >
+          {TESTIMONIALS.map((t, i) => (
             <div
               key={i}
-              className="card-glow p-6 rounded-2xl relative"
-              style={{ background: "var(--bg-card)" }}
+              style={{
+                background: "#050e07",
+                padding: "2rem",
+                position: "relative",
+              }}
             >
-              {/* Quote icon */}
-              <Quote
-                size={20}
-                className="absolute top-5 right-5 opacity-20"
-                style={{ color: "#00FF88" }}
+              {/* Top rule */}
+              <div
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: "2rem",
+                  right: "2rem",
+                  height: "0.5px",
+                  background: "rgba(201,162,39,0.08)",
+                }}
               />
 
+              {/* Decorative quote */}
+              <div
+                style={{
+                  fontFamily: "var(--font-cormorant, Georgia, serif)",
+                  fontStyle: "italic",
+                  fontSize: "4rem",
+                  lineHeight: 1,
+                  color: "rgba(201,162,39,0.1)",
+                  marginBottom: "-0.5rem",
+                  userSelect: "none",
+                }}
+              >
+                &ldquo;
+              </div>
+
               {/* Stars */}
-              <div className="flex gap-1 mb-4">
-                {Array.from({ length: t.stars }).map((_, si) => (
-                  <Star
+              <div style={{ display: "flex", gap: 3, marginBottom: "0.9rem" }}>
+                {Array.from({ length: 5 }).map((_, si) => (
+                  <svg
                     key={si}
-                    size={12}
-                    fill="#00FF88"
-                    style={{ color: "#00FF88" }}
-                  />
+                    width="10"
+                    height="10"
+                    viewBox="0 0 10 10"
+                    fill="#c9a227"
+                  >
+                    <polygon points="5,1 6.2,3.8 9.5,4.1 7.1,6.4 7.9,9.5 5,7.8 2.1,9.5 2.9,6.4 0.5,4.1 3.8,3.8" />
+                  </svg>
                 ))}
               </div>
 
               {/* Text */}
               <p
-                className="text-sm leading-relaxed mb-5"
-                style={{ color: "#A0A0C0" }}
+                style={{
+                  fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                  fontSize: "0.85rem",
+                  color: "#9a8f72",
+                  lineHeight: 1.7,
+                  fontWeight: 300,
+                  marginBottom: "1.5rem",
+                }}
               >
                 &ldquo;{t.text}&rdquo;
               </p>
 
               {/* Author */}
-              <div className="flex items-center gap-3">
+              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                 <div
-                  className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-black"
-                  style={{ background: t.avatar, color: "#fff" }}
+                  style={{
+                    width: 36,
+                    height: 36,
+                    borderRadius: "50%",
+                    background: "rgba(201,162,39,0.12)",
+                    border: "0.5px solid rgba(201,162,39,0.3)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                    fontSize: "0.65rem",
+                    fontWeight: 700,
+                    letterSpacing: "0.05em",
+                    color: "#c9a227",
+                    flexShrink: 0,
+                  }}
                 >
                   {t.initials}
                 </div>
                 <div>
-                  <p className="text-sm font-bold" style={{ color: "#F2F2F8" }}>
+                  <p
+                    style={{
+                      fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                      fontSize: "0.85rem",
+                      fontWeight: 600,
+                      color: "#f2e6c8",
+                      marginBottom: "0.1rem",
+                    }}
+                  >
                     {t.name}
                   </p>
-                  <p className="text-xs" style={{ color: "#6A6A88" }}>
+                  <p
+                    style={{
+                      fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                      fontSize: "0.7rem",
+                      color: "#9a8f72",
+                    }}
+                  >
                     {t.role} · {t.location}
                   </p>
                 </div>

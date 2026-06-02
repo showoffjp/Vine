@@ -1,43 +1,47 @@
 "use client";
 
 import { useEffect } from "react";
-import { TrendingUp } from "lucide-react";
 
-const topics = [
-  "🔥 Faith & Doubt",
-  "📖 Romans 8",
-  "💡 Morning Routine",
-  "🙏 Unanswered Prayer",
-  "💚 Anxiety & Faith",
-  "⚡ Sabbath Productivity",
-  "👨‍👩‍👧 Christian Parenting",
-  "🎵 Worship Playlists",
-  "💰 Biblical Finance",
-  "🌍 Global Church",
-  "🏆 Apologetics",
-  "❤️ Forgiveness",
-  "✝️ Holy Spirit",
-  "🌅 Daily Devotional",
-  "🤝 Community Life",
+const TOPICS = [
+  "Faith & Doubt",
+  "Romans 8",
+  "Morning Prayer",
+  "Unanswered Prayer",
+  "Anxiety & Scripture",
+  "Sabbath Rest",
+  "Christian Parenting",
+  "Worship & Praise",
+  "Biblical Finance",
+  "Global Church",
+  "Apologetics",
+  "Forgiveness",
+  "Holy Spirit",
+  "Daily Devotional",
+  "Church History",
+  "Spiritual Warfare",
+  "Marriage & Family",
+  "Evangelism",
+  "Grace & Truth",
+  "Kingdom of God",
 ];
 
 export default function TrendingTicker() {
   useEffect(() => {
-    const styleId = "trending-ticker-keyframes";
+    const styleId = "vine-ticker-keyframes";
     if (!document.getElementById(styleId)) {
       const style = document.createElement("style");
       style.id = styleId;
       style.textContent = `
-        @keyframes ticker-scroll {
+        @keyframes vine-ticker-scroll {
           0% { transform: translateX(0); }
           100% { transform: translateX(-50%); }
         }
-        .ticker-track {
-          animation: ticker-scroll 40s linear infinite;
+        .vine-ticker-track {
+          animation: vine-ticker-scroll 55s linear infinite;
           display: flex;
           width: max-content;
         }
-        .ticker-track:hover {
+        .vine-ticker-track:hover {
           animation-play-state: paused;
         }
       `;
@@ -45,90 +49,87 @@ export default function TrendingTicker() {
     }
   }, []);
 
-  // Duplicate for seamless loop
-  const doubled = [...topics, ...topics];
+  const doubled = [...TOPICS, ...TOPICS];
 
   return (
     <div
       style={{
-        background: "rgba(12,12,20,0.95)",
-        borderTop: "1px solid rgba(0,255,136,0.12)",
-        borderBottom: "1px solid rgba(0,255,136,0.12)",
+        background: "#050e07",
+        borderTop: "0.5px solid rgba(201,162,39,0.14)",
+        borderBottom: "0.5px solid rgba(201,162,39,0.14)",
         overflow: "hidden",
         position: "relative",
       }}
     >
-      <div className="flex items-center">
-        {/* TRENDING badge — pinned left */}
+      <div style={{ display: "flex", alignItems: "center" }}>
+        {/* Badge */}
         <div
           style={{
             flexShrink: 0,
             display: "flex",
             alignItems: "center",
-            gap: "6px",
+            gap: 6,
             padding: "10px 18px",
-            background: "linear-gradient(135deg, #00CC66 0%, #00FF88 100%)",
-            color: "#07070F",
-            fontWeight: 800,
-            fontSize: "0.65rem",
-            letterSpacing: "0.12em",
+            background: "rgba(201,162,39,0.12)",
+            borderRight: "0.5px solid rgba(201,162,39,0.22)",
+            color: "#c9a227",
+            fontFamily: "var(--font-jost, system-ui, sans-serif)",
+            fontWeight: 600,
+            fontSize: "0.62rem",
+            letterSpacing: "0.16em",
             textTransform: "uppercase",
             zIndex: 10,
-            position: "relative",
           }}
         >
-          <TrendingUp size={12} />
+          <span style={{ display: "inline-block", width: 5, height: 5, borderRadius: "50%", background: "#c9a227", marginRight: 2 }} />
           Trending
         </div>
 
-        {/* Fade-out mask on left edge */}
+        {/* Fade left edge */}
         <div
           style={{
             position: "absolute",
-            left: "96px",
+            left: 96,
             top: 0,
             bottom: 0,
-            width: "40px",
-            background:
-              "linear-gradient(to right, rgba(12,12,20,0.95), transparent)",
+            width: 40,
+            background: "linear-gradient(to right, #050e07, transparent)",
             zIndex: 5,
             pointerEvents: "none",
           }}
         />
 
-        {/* Scrolling area */}
+        {/* Scrolling track */}
         <div style={{ overflow: "hidden", flex: 1 }}>
-          <div className="ticker-track" style={{ padding: "10px 0" }}>
+          <div className="vine-ticker-track" style={{ padding: "9px 0" }}>
             {doubled.map((topic, i) => (
               <button
                 key={i}
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
-                  marginRight: "12px",
-                  padding: "4px 14px",
-                  borderRadius: "999px",
-                  background: "rgba(0,255,136,0.07)",
-                  border: "1px solid rgba(0,255,136,0.18)",
-                  color: "#00FF88",
-                  fontSize: "0.78rem",
-                  fontWeight: 600,
+                  marginRight: 10,
+                  padding: "3px 14px",
+                  borderRadius: 2,
+                  background: "transparent",
+                  border: "0.5px solid rgba(201,162,39,0.2)",
+                  color: "#9a8f72",
+                  fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                  fontSize: "0.75rem",
+                  fontWeight: 400,
+                  letterSpacing: "0.05em",
                   whiteSpace: "nowrap",
                   cursor: "pointer",
-                  transition: "background 0.2s, border-color 0.2s",
+                  transition: "color 0.2s, border-color 0.2s",
                   flexShrink: 0,
                 }}
                 onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLButtonElement).style.background =
-                    "rgba(0,255,136,0.15)";
-                  (e.currentTarget as HTMLButtonElement).style.borderColor =
-                    "rgba(0,255,136,0.4)";
+                  (e.currentTarget as HTMLButtonElement).style.color = "#c9a227";
+                  (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(201,162,39,0.5)";
                 }}
                 onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLButtonElement).style.background =
-                    "rgba(0,255,136,0.07)";
-                  (e.currentTarget as HTMLButtonElement).style.borderColor =
-                    "rgba(0,255,136,0.18)";
+                  (e.currentTarget as HTMLButtonElement).style.color = "#9a8f72";
+                  (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(201,162,39,0.2)";
                 }}
               >
                 {topic}
@@ -137,16 +138,15 @@ export default function TrendingTicker() {
           </div>
         </div>
 
-        {/* Fade-out mask on right edge */}
+        {/* Fade right edge */}
         <div
           style={{
             position: "absolute",
             right: 0,
             top: 0,
             bottom: 0,
-            width: "60px",
-            background:
-              "linear-gradient(to left, rgba(12,12,20,0.95), transparent)",
+            width: 60,
+            background: "linear-gradient(to left, #050e07, transparent)",
             zIndex: 5,
             pointerEvents: "none",
           }}

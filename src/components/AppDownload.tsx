@@ -1,150 +1,279 @@
 "use client";
 
-import { Smartphone, Star, Download, Zap, Bell, BookOpen, Users } from "lucide-react";
+import { Bell, BookOpen, Users, Zap, Download, Smartphone } from "lucide-react";
 
-const features = [
+const FEATURES = [
   { icon: Bell, text: "Daily verse & push devotionals" },
   { icon: BookOpen, text: "Offline Bible & reading plans" },
   { icon: Users, text: "Community on the go" },
   { icon: Zap, text: "Quick prayer & praise reports" },
 ];
 
-const screens = [
-  { bg: "linear-gradient(160deg, #1A1A2E, #12122A)", label: "Home Feed", color: "#00FF88" },
-  { bg: "linear-gradient(160deg, #0A1A12, #081A10)", label: "Daily Bread", color: "#3A9E72" },
-  { bg: "linear-gradient(160deg, #1A0E2A, #120A22)", label: "Bible", color: "#6B4FBB" },
+const SCREENS = [
+  { label: "Home Feed" },
+  { label: "Daily Bread" },
+  { label: "Bible" },
 ];
 
 export default function AppDownload() {
   return (
-    <section className="py-24 relative overflow-hidden">
+    <section
+      style={{
+        background: "#050e07",
+        padding: "100px 4vw",
+        borderTop: "0.5px solid rgba(201,162,39,0.18)",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
       <div
-        className="absolute inset-0 pointer-events-none"
         style={{
-          background:
-            "radial-gradient(ellipse 60% 50% at 50% 50%, rgba(107,79,187,0.07) 0%, transparent 70%)",
+          position: "absolute",
+          top: "50%",
+          right: "-5%",
+          transform: "translateY(-50%)",
+          width: 500,
+          height: 500,
+          background: "radial-gradient(ellipse, rgba(58,125,86,0.07) 0%, transparent 65%)",
+          pointerEvents: "none",
         }}
       />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+      <div style={{ maxWidth: 1200, margin: "0 auto", position: "relative", zIndex: 1 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "5rem", alignItems: "center" }}>
           {/* Left: Content */}
           <div>
-            <p className="tag-pill inline-block mb-6">Mobile App</p>
+            <div className="vine-eyebrow" style={{ marginBottom: "0.9rem" }}>
+              Mobile App
+            </div>
             <h2
-              className="text-4xl sm:text-5xl font-black leading-tight mb-4"
-              style={{ color: "#F2F2F8" }}
+              style={{
+                fontFamily: "var(--font-cormorant, 'Cormorant Garamond', Georgia, serif)",
+                fontSize: "clamp(2rem, 4vw, 3.4rem)",
+                fontWeight: 300,
+                color: "#f2e6c8",
+                lineHeight: 1.15,
+                marginBottom: "1rem",
+              }}
             >
-              Vine in Your Pocket.
+              The Vine
               <br />
-              <span className="gold-gradient">Faith On the Go.</span>
+              <em style={{ fontStyle: "italic", color: "#e8c162" }}>in your pocket.</em>
             </h2>
-            <p className="text-lg mb-8 leading-relaxed" style={{ color: "#8A8AA8" }}>
-              The full power of Vine — discussions, Bible, devotionals, prayer,
-              community — everywhere you go. Available for iOS and Android.
+            <p
+              style={{
+                fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                fontSize: "0.95rem",
+                color: "#9a8f72",
+                fontWeight: 300,
+                lineHeight: 1.65,
+                marginBottom: "2rem",
+              }}
+            >
+              The full power of The Vine — discussions, Bible, devotionals,
+              prayer, community — everywhere you go. Available for iOS and Android.
             </p>
 
-            <div className="space-y-3 mb-8">
-              {features.map(({ icon: Icon, text }) => (
-                <div key={text} className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
-                    style={{ background: "rgba(0,255,136,0.1)", border: "1px solid rgba(0,255,136,0.15)" }}>
-                    <Icon size={15} style={{ color: "#00FF88" }} />
+            <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: "2rem" }}>
+              {FEATURES.map(({ icon: Icon, text }) => (
+                <div key={text} style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                  <div
+                    style={{
+                      width: 32,
+                      height: 32,
+                      borderRadius: 2,
+                      background: "rgba(201,162,39,0.08)",
+                      border: "0.5px solid rgba(201,162,39,0.2)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      flexShrink: 0,
+                    }}
+                  >
+                    <Icon size={14} style={{ color: "#c9a227" }} />
                   </div>
-                  <span className="text-sm" style={{ color: "#A0A0C0" }}>{text}</span>
+                  <span
+                    style={{
+                      fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                      fontSize: "0.85rem",
+                      color: "#c9b98a",
+                    }}
+                  >
+                    {text}
+                  </span>
                 </div>
               ))}
             </div>
 
             {/* Store buttons */}
-            <div className="flex flex-col sm:flex-row gap-3 mb-8">
+            <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: "1.5rem" }}>
               {[
-                { store: "App Store", icon: "🍎", sub: "Download on the" },
-                { store: "Google Play", icon: "▶", sub: "Get it on" },
+                { store: "App Store", sub: "Download on the", icon: "🍎" },
+                { store: "Google Play", sub: "Get it on", icon: "▶" },
               ].map((s) => (
                 <button
                   key={s.store}
-                  className="flex items-center gap-3 px-5 py-3.5 rounded-xl transition-all"
                   style={{
-                    background: "rgba(255,255,255,0.04)",
-                    border: "1px solid rgba(255,255,255,0.1)",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 10,
+                    padding: "0.7rem 1.4rem",
+                    borderRadius: 2,
+                    background: "transparent",
+                    border: "0.5px solid rgba(201,162,39,0.22)",
+                    cursor: "pointer",
+                    transition: "all 0.2s",
                   }}
-                  onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(0,255,136,0.3)"; e.currentTarget.style.background = "rgba(0,255,136,0.04)"; }}
-                  onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)"; e.currentTarget.style.background = "rgba(255,255,255,0.04)"; }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(201,162,39,0.5)";
+                    (e.currentTarget as HTMLButtonElement).style.background = "rgba(201,162,39,0.06)";
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(201,162,39,0.22)";
+                    (e.currentTarget as HTMLButtonElement).style.background = "transparent";
+                  }}
                 >
-                  <span className="text-2xl">{s.icon}</span>
-                  <div className="text-left">
-                    <p className="text-xs" style={{ color: "#6A6A88" }}>{s.sub}</p>
-                    <p className="text-sm font-bold" style={{ color: "#F2F2F8" }}>{s.store}</p>
+                  <span style={{ fontSize: "1.4rem" }}>{s.icon}</span>
+                  <div style={{ textAlign: "left" }}>
+                    <p
+                      style={{
+                        fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                        fontSize: "0.62rem",
+                        color: "#9a8f72",
+                        letterSpacing: "0.04em",
+                      }}
+                    >
+                      {s.sub}
+                    </p>
+                    <p
+                      style={{
+                        fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                        fontSize: "0.88rem",
+                        fontWeight: 600,
+                        color: "#f2e6c8",
+                      }}
+                    >
+                      {s.store}
+                    </p>
                   </div>
                 </button>
               ))}
             </div>
 
             {/* Rating */}
-            <div className="flex items-center gap-3">
-              <div className="flex">
+            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+              <div style={{ display: "flex" }}>
                 {[1, 2, 3, 4, 5].map((i) => (
-                  <Star key={i} size={14} fill="#00FF88" style={{ color: "#00FF88" }} />
+                  <svg key={i} width="13" height="13" viewBox="0 0 10 10" fill="#c9a227">
+                    <polygon points="5,1 6.2,3.8 9.5,4.1 7.1,6.4 7.9,9.5 5,7.8 2.1,9.5 2.9,6.4 0.5,4.1 3.8,3.8" />
+                  </svg>
                 ))}
               </div>
-              <span className="text-sm font-bold" style={{ color: "#F2F2F8" }}>4.9</span>
-              <span className="text-sm" style={{ color: "#6A6A88" }}>· 12,000+ reviews</span>
+              <span
+                style={{
+                  fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                  fontWeight: 600,
+                  fontSize: "0.85rem",
+                  color: "#f2e6c8",
+                }}
+              >
+                4.9
+              </span>
+              <span
+                style={{
+                  fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                  fontSize: "0.78rem",
+                  color: "#9a8f72",
+                }}
+              >
+                · 12,000+ reviews
+              </span>
             </div>
           </div>
 
           {/* Right: Phone mockups */}
-          <div className="relative flex justify-center items-end gap-4 h-80">
-            {screens.map((screen, i) => (
+          <div style={{ position: "relative", display: "flex", justifyContent: "center", alignItems: "flex-end", gap: "1rem", height: 320 }}>
+            {SCREENS.map((screen, i) => (
               <div
                 key={i}
-                className="rounded-3xl border flex flex-col items-center justify-center relative overflow-hidden"
                 style={{
-                  background: screen.bg,
-                  borderColor: `${screen.color}30`,
-                  width: i === 1 ? "140px" : "110px",
-                  height: i === 1 ? "280px" : "220px",
-                  marginBottom: i === 1 ? "0" : "20px",
-                  boxShadow: i === 1 ? `0 0 40px ${screen.color}20` : "none",
+                  background: "linear-gradient(160deg, #0f2318 0%, #050e07 100%)",
+                  border: "0.5px solid rgba(201,162,39,0.22)",
+                  borderRadius: 18,
+                  width: i === 1 ? 130 : 100,
+                  height: i === 1 ? 270 : 210,
+                  marginBottom: i === 1 ? 0 : 20,
                   flexShrink: 0,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  position: "relative",
+                  overflow: "hidden",
+                  boxShadow: i === 1 ? "0 0 40px rgba(201,162,39,0.08)" : "none",
                 }}
               >
                 {/* Fake screen content */}
-                <div className="absolute top-4 left-3 right-3">
-                  <div className="h-1.5 rounded-full mb-1.5" style={{ background: `${screen.color}40`, width: "60%" }} />
-                  <div className="h-1 rounded-full" style={{ background: "rgba(255,255,255,0.08)", width: "80%" }} />
+                <div style={{ position: "absolute", top: 12, left: 10, right: 10 }}>
+                  <div style={{ height: 5, borderRadius: 999, background: "rgba(201,162,39,0.25)", width: "60%", marginBottom: 5 }} />
+                  <div style={{ height: 3, borderRadius: 999, background: "rgba(201,162,39,0.1)", width: "80%" }} />
                 </div>
-                <div className="flex flex-col gap-1.5 px-3 w-full mt-8">
+                <div style={{ display: "flex", flexDirection: "column", gap: 6, padding: "0 8px", width: "100%", marginTop: 16 }}>
                   {[1, 2, 3].map((j) => (
-                    <div key={j} className="h-6 rounded-lg" style={{ background: "rgba(255,255,255,0.05)", width: j === 2 ? "70%" : "90%" }} />
+                    <div
+                      key={j}
+                      style={{
+                        height: 18,
+                        borderRadius: 3,
+                        background: "rgba(201,162,39,0.07)",
+                        width: j === 2 ? "70%" : "90%",
+                      }}
+                    />
                   ))}
                 </div>
-                <div className="absolute bottom-4 left-3 right-3 flex gap-1.5">
-                  {[1, 2, 3, 4].map((j) => (
-                    <div key={j} className="flex-1 h-5 rounded-lg" style={{ background: j === 1 ? `${screen.color}30` : "rgba(255,255,255,0.04)" }} />
-                  ))}
-                </div>
-                <span className="absolute top-1/2 -translate-y-1/2 text-xs font-bold" style={{ color: screen.color }}>
-                  <Smartphone size={i === 1 ? 28 : 20} />
-                </span>
-                {/* Screen label */}
-                <div className="absolute bottom-0 left-0 right-0 flex items-center justify-center py-2">
-                  <span className="text-xs font-semibold" style={{ color: `${screen.color}CC` }}>
+                <Smartphone size={i === 1 ? 24 : 18} style={{ color: "rgba(201,162,39,0.3)", position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }} />
+                <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, textAlign: "center", padding: "6px 0" }}>
+                  <span
+                    style={{
+                      fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                      fontSize: "0.6rem",
+                      fontWeight: 500,
+                      color: "rgba(201,162,39,0.6)",
+                      letterSpacing: "0.06em",
+                    }}
+                  >
                     {screen.label}
                   </span>
                 </div>
               </div>
             ))}
+
             {/* Download badge */}
             <div
-              className="absolute -top-4 -right-4 px-3 py-2 rounded-2xl flex items-center gap-2"
               style={{
-                background: "rgba(0,255,136,0.1)",
-                border: "1px solid rgba(0,255,136,0.2)",
+                position: "absolute",
+                top: -4,
+                right: -4,
+                padding: "6px 12px",
+                borderRadius: 2,
+                background: "rgba(201,162,39,0.1)",
+                border: "0.5px solid rgba(201,162,39,0.3)",
+                display: "flex",
+                alignItems: "center",
+                gap: 6,
               }}
             >
-              <Download size={14} style={{ color: "#00FF88" }} />
-              <span className="text-xs font-bold" style={{ color: "#00FF88" }}>50K+ downloads</span>
+              <Download size={12} style={{ color: "#c9a227" }} />
+              <span
+                style={{
+                  fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                  fontSize: "0.65rem",
+                  fontWeight: 600,
+                  color: "#c9a227",
+                }}
+              >
+                50K+ downloads
+              </span>
             </div>
           </div>
         </div>

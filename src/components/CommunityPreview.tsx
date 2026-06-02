@@ -1,127 +1,174 @@
 "use client";
 
-import {
-  ArrowUp,
-  MessageSquare,
-  Bookmark,
-  Share2,
-  TrendingUp,
-  ChevronRight,
-  Users,
-  Flame,
-} from "lucide-react";
+import { ArrowUp, MessageSquare, Bookmark, Share2, ChevronRight, Users } from "lucide-react";
 
-const discussions = [
+const DISCUSSIONS = [
   {
-    hub: "r/FaithAndDoubt",
-    hubColor: "#6B4FBB",
+    hub: "Faith & Doubt",
     time: "3h ago",
     title:
-      "How do you maintain faith when your prayers seem to go unanswered? Genuine question.",
+      "How do you maintain faith when your prayers seem to go unanswered? Genuine question from a long-time believer.",
     preview:
-      "I've been a believer for 15 years and I'm going through the hardest season of my life. My wife and I have been praying for healing for two years and...",
+      "I have been a believer for 15 years and I am going through the hardest season of my life. My wife and I have been praying for healing for two years and nothing has changed. I am not walking away but I am struggling...",
     votes: 2847,
     comments: 394,
     saved: 821,
     flair: "Discussion",
-    flairColor: "#6B4FBB",
   },
   {
-    hub: "r/ChristianLifeHacks",
-    hubColor: "#E8A020",
+    hub: "Christian Life",
     time: "1h ago",
     title:
-      "I built a morning routine based entirely on Proverbs and it changed my life. Here's the breakdown.",
+      "I rebuilt my morning routine entirely on Proverbs and it changed everything. Here is the breakdown.",
     preview:
-      "5:30am: Silence and prayer (Psalm 46:10). 5:50am: Read one chapter of Scripture with coffee. 6:10am: Journal one thing I'm grateful for and one thing I'm trusting God for...",
+      "5:30am — Silence and prayer (Psalm 46:10). 5:50am — One chapter of Scripture with coffee. 6:10am — Journal one gratitude and one trust. Six months in and the transformation is real...",
     votes: 5102,
     comments: 612,
     saved: 2304,
-    flair: "Life Hack",
-    flairColor: "#E8A020",
+    flair: "Life Practice",
   },
   {
-    hub: "r/MentalHealthAndFaith",
-    hubColor: "#3A9E72",
+    hub: "Mental Health & Faith",
     time: "6h ago",
     title:
       "Christians who have gone to therapy — what was it like? Was it helpful? Did your faith factor in?",
     preview:
-      "I've been struggling with anxiety for a while and my pastor suggested therapy but I'm not sure how faith and counseling interact...",
+      "I have been struggling with anxiety for months and my pastor suggested therapy, but I am not sure how faith and clinical counseling intersect. Looking for real stories from believers who have been through it...",
     votes: 3490,
     comments: 501,
     saved: 1100,
     flair: "Wellness",
-    flairColor: "#3A9E72",
   },
 ];
 
-const trendingHubs = [
-  { name: "Faith & Doubt", members: "42K", icon: "🔥" },
-  { name: "Daily Devotional", members: "38K", icon: "📖" },
-  { name: "Christian Parenting", members: "31K", icon: "👨‍👩‍👧" },
-  { name: "Life Hacks", members: "28K", icon: "⚡" },
-  { name: "Worship & Music", members: "25K", icon: "🎵" },
-  { name: "Mental Health", members: "22K", icon: "💚" },
+const HUBS = [
+  { name: "Faith & Doubt", members: "42K" },
+  { name: "Daily Devotional", members: "38K" },
+  { name: "Christian Parenting", members: "31K" },
+  { name: "Life & Calling", members: "28K" },
+  { name: "Worship & Music", members: "25K" },
+  { name: "Mental Health", members: "22K" },
 ];
 
 export default function CommunityPreview() {
   return (
-    <section className="py-24 relative overflow-hidden" id="community">
+    <section
+      style={{
+        background: "#0a1a0e",
+        padding: "100px 4vw",
+        borderTop: "0.5px solid rgba(201,162,39,0.18)",
+        position: "relative",
+        overflow: "hidden",
+      }}
+      id="community"
+    >
+      {/* Radial glow */}
       <div
-        className="absolute inset-0 pointer-events-none"
         style={{
-          background:
-            "radial-gradient(ellipse 70% 50% at 20% 50%, rgba(107,79,187,0.05) 0%, transparent 70%)",
+          position: "absolute",
+          top: "30%",
+          left: "-10%",
+          width: 600,
+          height: 600,
+          background: "radial-gradient(ellipse, rgba(58,125,86,0.07) 0%, transparent 65%)",
+          pointerEvents: "none",
         }}
       />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div style={{ maxWidth: 1200, margin: "0 auto", position: "relative", zIndex: 1 }}>
         {/* Header */}
-        <div className="text-center mb-16">
-          <p className="tag-pill inline-block mb-4">Community Hubs</p>
+        <div style={{ marginBottom: "3.5rem" }}>
+          <div className="vine-eyebrow" style={{ marginBottom: "0.9rem" }}>
+            Community Hubs
+          </div>
           <h2
-            className="text-4xl sm:text-5xl md:text-6xl font-black leading-tight mb-4"
-            style={{ color: "#F2F2F8" }}
+            style={{
+              fontFamily: "var(--font-cormorant, 'Cormorant Garamond', Georgia, serif)",
+              fontSize: "clamp(2rem, 4vw, 3.4rem)",
+              fontWeight: 300,
+              color: "#f2e6c8",
+              lineHeight: 1.15,
+            }}
           >
-            Real Conversations.
+            Real conversations.
             <br />
-            <span className="gold-gradient">Real Faith.</span>
+            <em style={{ fontStyle: "italic", color: "#e8c162" }}>Real faith.</em>
           </h2>
-          <p className="text-lg max-w-2xl mx-auto" style={{ color: "#8A8AA8" }}>
+          <p
+            style={{
+              fontFamily: "var(--font-jost, system-ui, sans-serif)",
+              fontSize: "0.95rem",
+              color: "#9a8f72",
+              fontWeight: 300,
+              marginTop: "0.8rem",
+              maxWidth: 480,
+              lineHeight: 1.65,
+            }}
+          >
             Thousands of topic-specific hubs where Christians share openly,
             debate respectfully, and grow together.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 340px", gap: "2.5rem" }}>
           {/* Left: Discussion Feed */}
-          <div className="lg:col-span-2 space-y-4">
-            {discussions.map((post, i) => (
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.8rem" }}>
+            {DISCUSSIONS.map((post, i) => (
               <a
                 key={i}
                 href="/discussions"
-                className="card-glow rounded-2xl p-5 cursor-pointer group block"
-                style={{ background: "var(--bg-card)", textDecoration: "none" }}
+                style={{
+                  display: "block",
+                  background: "#050e07",
+                  border: "0.5px solid rgba(201,162,39,0.13)",
+                  borderRadius: 3,
+                  padding: "1.5rem",
+                  cursor: "pointer",
+                  textDecoration: "none",
+                  transition: "border-color 0.2s",
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(201,162,39,0.3)";
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(201,162,39,0.13)";
+                }}
               >
-                {/* Hub + time */}
-                <div className="flex items-center gap-2 mb-3">
+                {/* Hub + time + flair */}
+                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: "0.7rem" }}>
                   <span
-                    className="text-xs font-bold"
-                    style={{ color: post.hubColor }}
+                    style={{
+                      fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                      fontSize: "0.7rem",
+                      fontWeight: 600,
+                      letterSpacing: "0.08em",
+                      textTransform: "uppercase",
+                      color: "#c9a227",
+                    }}
                   >
                     {post.hub}
                   </span>
-                  <span style={{ color: "#3A3A56" }}>·</span>
-                  <span className="text-xs" style={{ color: "#6A6A88" }}>
+                  <span style={{ color: "rgba(201,162,39,0.25)", fontSize: "0.7rem" }}>·</span>
+                  <span
+                    style={{
+                      fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                      fontSize: "0.7rem",
+                      color: "#9a8f72",
+                    }}
+                  >
                     {post.time}
                   </span>
                   <span
-                    className="ml-auto text-xs font-semibold px-2 py-0.5 rounded-full"
                     style={{
-                      background: `${post.flairColor}18`,
-                      color: post.flairColor,
-                      border: `1px solid ${post.flairColor}30`,
+                      marginLeft: "auto",
+                      fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                      fontSize: "0.65rem",
+                      fontWeight: 500,
+                      letterSpacing: "0.08em",
+                      color: "#9a8f72",
+                      border: "0.5px solid rgba(201,162,39,0.18)",
+                      borderRadius: 1,
+                      padding: "2px 8px",
                     }}
                   >
                     {post.flair}
@@ -130,174 +177,334 @@ export default function CommunityPreview() {
 
                 {/* Title */}
                 <h3
-                  className="font-bold text-base leading-snug mb-2 group-hover:text-white transition-colors"
-                  style={{ color: "#E0E0F0" }}
+                  style={{
+                    fontFamily: "var(--font-cormorant, 'Cormorant Garamond', Georgia, serif)",
+                    fontSize: "1.15rem",
+                    fontWeight: 600,
+                    color: "#f2e6c8",
+                    lineHeight: 1.35,
+                    marginBottom: "0.5rem",
+                  }}
                 >
                   {post.title}
                 </h3>
 
                 {/* Preview */}
                 <p
-                  className="text-sm leading-relaxed line-clamp-2 mb-4"
-                  style={{ color: "#6A6A88" }}
+                  style={{
+                    fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                    fontSize: "0.82rem",
+                    color: "#9a8f72",
+                    lineHeight: 1.65,
+                    marginBottom: "1rem",
+                    display: "-webkit-box",
+                    WebkitLineClamp: 2,
+                    WebkitBoxOrient: "vertical" as const,
+                    overflow: "hidden",
+                  }}
                 >
                   {post.preview}
                 </p>
 
                 {/* Actions */}
-                <div className="flex items-center gap-4 text-xs">
+                <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
                   <button
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-semibold transition-colors"
                     style={{
-                      color: "#00FF88",
-                      background: "rgba(0,255,136,0.08)",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 5,
+                      fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                      fontSize: "0.72rem",
+                      fontWeight: 600,
+                      color: "#c9a227",
+                      background: "rgba(201,162,39,0.07)",
+                      border: "0.5px solid rgba(201,162,39,0.2)",
+                      borderRadius: 2,
+                      padding: "4px 10px",
+                      cursor: "pointer",
                     }}
                   >
-                    <ArrowUp size={13} />
+                    <ArrowUp size={11} />
                     {post.votes.toLocaleString()}
                   </button>
+                  {[
+                    { Icon: MessageSquare, val: post.comments },
+                    { Icon: Bookmark, val: post.saved },
+                  ].map(({ Icon, val }, j) => (
+                    <button
+                      key={j}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 5,
+                        fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                        fontSize: "0.72rem",
+                        color: "#9a8f72",
+                        background: "transparent",
+                        border: "none",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <Icon size={11} />
+                      {typeof val === "number" ? val.toLocaleString() : val}
+                    </button>
+                  ))}
                   <button
-                    className="flex items-center gap-1.5"
-                    style={{ color: "#6A6A88" }}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 5,
+                      fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                      fontSize: "0.72rem",
+                      color: "#9a8f72",
+                      background: "transparent",
+                      border: "none",
+                      cursor: "pointer",
+                      marginLeft: "auto",
+                    }}
                   >
-                    <MessageSquare size={13} />
-                    {post.comments}
-                  </button>
-                  <button
-                    className="flex items-center gap-1.5"
-                    style={{ color: "#6A6A88" }}
-                  >
-                    <Bookmark size={13} />
-                    {post.saved.toLocaleString()}
-                  </button>
-                  <button
-                    className="flex items-center gap-1.5 ml-auto"
-                    style={{ color: "#6A6A88" }}
-                  >
-                    <Share2 size={13} />
+                    <Share2 size={11} />
                     Share
                   </button>
                 </div>
               </a>
             ))}
 
-            <a href="/discussions" className="w-full py-3 rounded-xl text-sm font-semibold btn-outline-gold block text-center" style={{ textDecoration: "none" }}>
+            <a
+              href="/discussions"
+              style={{
+                display: "block",
+                textAlign: "center",
+                padding: "0.8rem",
+                fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                fontSize: "0.78rem",
+                fontWeight: 500,
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+                color: "#c9a227",
+                border: "0.5px solid rgba(201,162,39,0.25)",
+                borderRadius: 2,
+                textDecoration: "none",
+                transition: "background 0.2s",
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLAnchorElement).style.background = "rgba(201,162,39,0.06)";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLAnchorElement).style.background = "transparent";
+              }}
+            >
               View All Discussions
             </a>
           </div>
 
           {/* Right: Sidebar */}
-          <div className="space-y-6">
+          <div style={{ display: "flex", flexDirection: "column", gap: "1.2rem" }}>
             {/* Trending Hubs */}
             <div
-              className="p-5 rounded-2xl"
               style={{
-                background: "var(--bg-card)",
-                border: "1px solid var(--border)",
+                background: "#050e07",
+                border: "0.5px solid rgba(201,162,39,0.13)",
+                borderRadius: 3,
+                padding: "1.5rem",
               }}
             >
-              <div className="flex items-center gap-2 mb-4">
-                <TrendingUp size={16} style={{ color: "#00FF88" }} />
-                <h3 className="font-bold text-sm" style={{ color: "#F2F2F8" }}>
-                  Trending Hubs
-                </h3>
-              </div>
-              <div className="space-y-2">
-                {trendingHubs.map((hub, i) => (
+              <h3
+                style={{
+                  fontFamily: "var(--font-cormorant, 'Cormorant Garamond', Georgia, serif)",
+                  fontSize: "1.1rem",
+                  fontWeight: 600,
+                  color: "#f2e6c8",
+                  marginBottom: "1.2rem",
+                }}
+              >
+                Trending Hubs
+              </h3>
+              <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
+                {HUBS.map((hub, i) => (
                   <div
                     key={i}
-                    className="flex items-center justify-between py-2 cursor-pointer group"
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      padding: "0.6rem 0",
+                      borderBottom: i < HUBS.length - 1 ? "0.5px solid rgba(201,162,39,0.08)" : "none",
+                      cursor: "pointer",
+                    }}
                   >
-                    <div className="flex items-center gap-3">
-                      <span className="text-base">{hub.icon}</span>
+                    <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                      <span
+                        style={{
+                          fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                          fontSize: "0.65rem",
+                          fontWeight: 600,
+                          color: "rgba(201,162,39,0.4)",
+                          minWidth: 16,
+                        }}
+                      >
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
                       <div>
                         <p
-                          className="text-sm font-medium group-hover:text-white transition-colors"
-                          style={{ color: "#C0C0D8" }}
+                          style={{
+                            fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                            fontSize: "0.83rem",
+                            fontWeight: 500,
+                            color: "#c9b98a",
+                          }}
                         >
                           {hub.name}
                         </p>
-                        <p className="text-xs" style={{ color: "#6A6A88" }}>
+                        <p
+                          style={{
+                            fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                            fontSize: "0.68rem",
+                            color: "#9a8f72",
+                          }}
+                        >
                           {hub.members} members
                         </p>
                       </div>
                     </div>
-                    <ChevronRight
-                      size={14}
-                      style={{ color: "#3A3A56" }}
-                      className="group-hover:translate-x-0.5 transition-transform"
-                    />
+                    <ChevronRight size={12} style={{ color: "rgba(201,162,39,0.3)" }} />
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Join CTA */}
-            <div
-              className="p-5 rounded-2xl text-center"
-              style={{
-                background:
-                  "linear-gradient(135deg, rgba(0,255,136,0.08), rgba(107,79,187,0.06))",
-                border: "1px solid rgba(0,255,136,0.15)",
-              }}
-            >
-              <Flame size={24} style={{ color: "#00FF88" }} className="mx-auto mb-3" />
-              <h3 className="font-bold mb-1" style={{ color: "#F2F2F8" }}>
-                Join the Conversation
-              </h3>
-              <p className="text-xs mb-4" style={{ color: "#6A6A88" }}>
-                Create your free account to post, vote, and connect with
-                thousands of Christians worldwide.
-              </p>
-              <button className="btn-gold w-full py-2.5 rounded-xl text-sm">
-                Join Free
-              </button>
-            </div>
-
             {/* Online now */}
             <div
-              className="p-5 rounded-2xl"
               style={{
-                background: "var(--bg-card)",
-                border: "1px solid var(--border)",
+                background: "#050e07",
+                border: "0.5px solid rgba(201,162,39,0.13)",
+                borderRadius: 3,
+                padding: "1.5rem",
               }}
             >
-              <div className="flex items-center gap-2 mb-3">
-                <Users size={16} style={{ color: "#3A9E72" }} />
-                <h3 className="font-bold text-sm" style={{ color: "#F2F2F8" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: "1rem" }}>
+                <Users size={14} style={{ color: "#3a7d56" }} />
+                <h3
+                  style={{
+                    fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                    fontSize: "0.78rem",
+                    fontWeight: 600,
+                    letterSpacing: "0.1em",
+                    textTransform: "uppercase",
+                    color: "#f2e6c8",
+                  }}
+                >
                   Christians Online Now
                 </h3>
               </div>
-              <div className="flex items-center gap-2">
-                <div className="flex -space-x-2">
-                  {["#00FF88", "#6B4FBB", "#3A9E72", "#C0506A", "#4A80D4"].map(
-                    (c, i) => (
-                      <div
-                        key={i}
-                        className="w-7 h-7 rounded-full border-2 flex items-center justify-center text-xs font-bold"
-                        style={{
-                          background: c,
-                          borderColor: "var(--bg-card)",
-                          color: "#fff",
-                        }}
-                      >
-                        {String.fromCharCode(65 + i)}
-                      </div>
-                    )
-                  )}
+              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                <div style={{ display: "flex" }}>
+                  {["#c9a227", "#3a7d56", "#52a876", "#e8c162", "#1a3d26"].map((c, i) => (
+                    <div
+                      key={i}
+                      style={{
+                        width: 28,
+                        height: 28,
+                        borderRadius: "50%",
+                        background: c,
+                        border: "2px solid #050e07",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                        fontSize: "0.6rem",
+                        fontWeight: 700,
+                        color: "#050e07",
+                        marginLeft: i > 0 ? -8 : 0,
+                      }}
+                    >
+                      {String.fromCharCode(65 + i)}
+                    </div>
+                  ))}
                 </div>
                 <div>
                   <p
-                    className="text-sm font-bold"
-                    style={{ color: "#F2F2F8" }}
+                    style={{
+                      fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                      fontWeight: 600,
+                      fontSize: "0.9rem",
+                      color: "#f2e6c8",
+                    }}
                   >
                     3,842 online
                   </p>
-                  <p className="text-xs" style={{ color: "#6A6A88" }}>
+                  <p
+                    style={{
+                      fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                      fontSize: "0.7rem",
+                      color: "#9a8f72",
+                    }}
+                  >
                     from 47 countries
                   </p>
                 </div>
               </div>
+            </div>
+
+            {/* Join CTA card */}
+            <div
+              style={{
+                background: "#0f2318",
+                border: "0.5px solid rgba(201,162,39,0.2)",
+                borderRadius: 3,
+                padding: "1.5rem",
+                textAlign: "center",
+              }}
+            >
+              <p
+                style={{
+                  fontFamily: "var(--font-cormorant, 'Cormorant Garamond', Georgia, serif)",
+                  fontStyle: "italic",
+                  fontSize: "1.1rem",
+                  color: "#f2e6c8",
+                  marginBottom: "0.6rem",
+                  lineHeight: 1.4,
+                }}
+              >
+                Join the conversation
+              </p>
+              <p
+                style={{
+                  fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                  fontSize: "0.78rem",
+                  color: "#9a8f72",
+                  marginBottom: "1.2rem",
+                  lineHeight: 1.5,
+                }}
+              >
+                Create your free account to post, vote, and connect with
+                thousands of Christians worldwide.
+              </p>
+              <a
+                href="/feed"
+                style={{
+                  display: "block",
+                  background: "#c9a227",
+                  color: "#1a0e00",
+                  padding: "0.7rem",
+                  borderRadius: 2,
+                  fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                  fontSize: "0.78rem",
+                  fontWeight: 600,
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                  textDecoration: "none",
+                  transition: "background 0.2s",
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLAnchorElement).style.background = "#e8c162";
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLAnchorElement).style.background = "#c9a227";
+                }}
+              >
+                Join Free
+              </a>
             </div>
           </div>
         </div>

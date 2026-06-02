@@ -43,8 +43,12 @@ interface ApiError {
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
+// NOTE: Prefer the BIBLE_API_KEY environment variable (set it in the Vercel
+// dashboard). The embedded fallback exists only so the preview deployment works
+// out of the box — this key is rate-limited and should be rotated, and a fresh
+// one stored as an env var, before going to production.
 function apiKey(): string | null {
-  return process.env.BIBLE_API_KEY ?? null;
+  return process.env.BIBLE_API_KEY ?? "zU1-mvfpFuax1lJ7EPeqR";
 }
 
 /**

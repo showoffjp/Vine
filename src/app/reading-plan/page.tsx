@@ -103,15 +103,8 @@ function buildBooks(): Book[] {
   ];
 }
 
-const WEEK_DAYS = [
-  { label: "Mon", full: "Monday", reading: "Matt 1–3", done: true },
-  { label: "Tue", full: "Tuesday", reading: "Matt 4–6", done: true },
-  { label: "Wed", full: "Wednesday", reading: "Matt 7–9", done: true },
-  { label: "Thu", full: "Thursday", reading: "Matt 10–12", done: false },
-  { label: "Fri", full: "Friday", reading: "Matt 13–15", done: false, today: true },
-  { label: "Sat", full: "Saturday", reading: "Matt 16–18", done: false, future: true },
-  { label: "Sun", full: "Sunday", reading: "Matt 19–21", done: false, future: true },
-];
+const WEEK_DAY_LABELS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+const WEEK_DAY_READINGS = ["Matt 1–3", "Matt 4–6", "Matt 7–9", "Matt 10–12", "Matt 13–15", "Matt 16–18", "Matt 19–21"];
 
 const ALT_PLANS = [
   {
@@ -280,6 +273,13 @@ export default function ReadingPlanPage() {
     }
     return s;
   })();
+
+  const todayDow = (new Date().getDay() + 6) % 7; // 0=Mon…6=Sun
+  const weekDays = WEEK_DAY_LABELS.map((label, i) => {
+    const d = new Date(); d.setDate(d.getDate() - todayDow + i); d.setHours(0, 0, 0, 0);
+    const key = d.toISOString().split("T")[0];
+    return { label, reading: WEEK_DAY_READINGS[i], done: readingDays.has(key), today: i === todayDow, future: i > todayDow };
+  });
 
   const chapterStatus = (ch: Chapter): Chapter["status"] => {
     if (completedChapters.has(ch.id)) return "done";
@@ -592,7 +592,7 @@ export default function ReadingPlanPage() {
             >
               <h2 style={{ margin: "0 0 18px", fontSize: 17, fontWeight: 700 }}>This Week</h2>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: 8 }}>
-                {WEEK_DAYS.map((day) => (
+                {weekDays.map((day) => (
                   <div
                     key={day.label}
                     style={{

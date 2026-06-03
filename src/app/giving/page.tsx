@@ -102,6 +102,46 @@ const testimonials = [
     color: "#6B4FBB",
     flag: "🇰🇷",
   },
+  {
+    quote: "When the floods came, our village lost everything. Within ten days clean water, food, and tarpaulins arrived. We had prayed — and the body of Christ answered.",
+    name: "Grace Mwangi",
+    role: "Relief coordinator, Tanzania",
+    avatar: "GM",
+    color: "#3a7d56",
+    flag: "🇹🇿",
+  },
+  {
+    quote: "I sponsor a girl in the Philippines through this platform. Last month she sent a photo — she's the first in her family to finish secondary school. I wept.",
+    name: "Daniel O'Brien",
+    role: "Monthly donor, Ireland",
+    avatar: "DO",
+    color: "#F59E0B",
+    flag: "🇮🇪",
+  },
+  {
+    quote: "The micro-grant funded our church's first sound system and a generator. Now 200 people in a town with no electricity gather to worship every week.",
+    name: "Pastor Emeka Nwosu",
+    role: "Church planter, Nigeria",
+    avatar: "EN",
+    color: "#EC4899",
+    flag: "🇳🇬",
+  },
+  {
+    quote: "We thought our small monthly gift was a drop in the ocean. The quarterly report showed exactly where it went — a counselor's salary in a refugee camp. It mattered.",
+    name: "Sofia & Lucas Almeida",
+    role: "Monthly donors, Brazil",
+    avatar: "SA",
+    color: "#4FBBAA",
+    flag: "🇧🇷",
+  },
+  {
+    quote: "An anonymous gift covered the airfare that got our medical team into a region cut off by conflict. Forty surgeries happened because someone gave.",
+    name: "Dr. Hannah Berg",
+    role: "Mission Aviation Fellowship",
+    avatar: "HB",
+    color: "#3B82F6",
+    flag: "🇩🇪",
+  },
 ];
 
 function ProgressBar({ raised, goal, color }: { raised: number; goal: number; color: string }) {

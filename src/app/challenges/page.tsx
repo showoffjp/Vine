@@ -115,6 +115,15 @@ const CHALLENGE_DEVOS = [
     prayer: "Lord, as I begin this challenge, remind me that the goal is not the habit but you. Make every act of discipline an open door to your presence.",
   },
   {
+    id: "devo-3",
+    day: 3,
+    title: "Past the First Resistance",
+    verse: "Let us not become weary in doing good, for at the proper time we will reap a harvest if we do not give up.",
+    verseRef: "Galatians 6:9",
+    devotional: "Day three is where the first wall appears. The decision felt clear on day one; by day three the body and mind are negotiating for a return to the old normal. This is ordinary. Every farmer knows the gap between planting and harvest is filled with days that look like nothing is happening underground. Paul's phrase 'at the proper time' is a promise that the harvest is real even when it is invisible. The seed you are planting in these unremarkable early days is doing its work in the dark.",
+    prayer: "Father, when I feel like nothing is changing, remind me that seeds grow unseen. Keep me from weariness. Let me trust the harvest you have promised at the proper time.",
+  },
+  {
     id: "devo-7",
     day: 7,
     title: "When It Gets Hard",
@@ -122,6 +131,15 @@ const CHALLENGE_DEVOS = [
     verseRef: "2 Corinthians 12:9",
     devotional: "By day seven, the novelty has worn off. The discipline that felt exciting on day one now feels like work. This is not a sign that something has gone wrong — it is a sign that something important is beginning. Paul did not receive the grace he needed until he asked three times and was told no. The difficulty is not an obstacle to spiritual growth; it is the precise location where growth happens. Weakness is the address where God's power arrives.",
     prayer: "Father, I am weaker than I thought. I need more than discipline — I need you. Where I am failing, pour in what I lack. Let my insufficiency become the occasion for your sufficiency.",
+  },
+  {
+    id: "devo-10",
+    day: 10,
+    title: "From Effort to Rhythm",
+    verse: "Take my yoke upon you and learn from me, for I am gentle and humble in heart, and you will find rest for your souls.",
+    verseRef: "Matthew 11:29",
+    devotional: "By day ten, something subtle is shifting. The discipline that demanded conscious effort is beginning to find a groove. Jesus describes his yoke not as the absence of work but as work shared at the right pace — a yoke fitted to the one who carries it. Spiritual disciplines were never meant to be a heavy harness you drag alone; they are a yoke you wear with Christ, who carries the weight beside you. If you feel the discipline becoming less of a fight and more of a rhythm, that is not your willpower improving — it is you learning his pace.",
+    prayer: "Jesus, teach me your rhythm. Take the parts of this discipline that still feel like striving and turn them into rest. I want to walk in step with you, not ahead of you or behind.",
   },
   {
     id: "devo-14",
@@ -133,6 +151,15 @@ const CHALLENGE_DEVOS = [
     prayer: "God, I release what is behind me — the good days and the missed ones alike. Set my eyes on what is ahead. Give me fresh resolve for the second half.",
   },
   {
+    id: "devo-17",
+    day: 17,
+    title: "The Unseen Audience",
+    verse: "Your Father, who sees what is done in secret, will reward you.",
+    verseRef: "Matthew 6:4",
+    devotional: "Somewhere past the midpoint, a quiet temptation arrives: since no one is watching, why keep going so carefully? The early enthusiasm that others noticed has faded, and the discipline is now genuinely private. Jesus speaks directly to this moment. The most formative spiritual work happens precisely where no human applause reaches — in the secret place seen only by the Father. The discipline you keep when no one would know if you quit is the discipline actually shaping your character. Day seventeen is hidden, and that is exactly why it matters.",
+    prayer: "Father, you see what is done in secret. Let me keep this discipline for your eyes alone, not for applause. Form in me the kind of faithfulness that does not need an audience.",
+  },
+  {
     id: "devo-21",
     day: 21,
     title: "Deepening the Habit",
@@ -140,6 +167,15 @@ const CHALLENGE_DEVOS = [
     verseRef: "James 1:25",
     devotional: "Research suggests that twenty-one days is roughly when a behavior begins to feel less effortful. James knew something similar: the person who looks into God's word and does not merely hear but does it is blessed in the doing, not just in the knowing. Discipline, practiced long enough, becomes delight. The spiritual life is not about white-knuckling obedience forever — it is about practicing habits long enough that they become the shape of who you are. By day twenty-one, this discipline is becoming part of you.",
     prayer: "Lord, what began as effort is slowly becoming desire. Complete the work you started in me. Let this discipline become a delight that outlasts the challenge.",
+  },
+  {
+    id: "devo-25",
+    day: 25,
+    title: "Finishing Stronger Than You Started",
+    verse: "Better is the end of a thing than its beginning, and patience is better than pride.",
+    verseRef: "Ecclesiastes 7:8",
+    devotional: "With the finish line in view, a dangerous thought surfaces: you have basically made it, so the last few days hardly count. But the Preacher of Ecclesiastes insists the end of a thing is better than its beginning. Anyone can start with a burst of pride; it takes patience to finish. The final stretch of a challenge is where character is sealed, not where it can safely slacken. Runners do not coast through the last quarter mile — they empty the tank. Finish these days with the same intentionality you brought to day one, and you will end stronger than you began.",
+    prayer: "Lord, guard me from coasting now. Give me patience for the final stretch. Let me finish this challenge with my whole heart, honoring you in the last day as much as the first.",
   },
   {
     id: "devo-30",
@@ -541,7 +577,7 @@ export default function ChallengesPage() {
             <div style={{ marginBottom: 28, textAlign: "center" }}>
               <h2 style={{ fontSize: 22, fontWeight: 900, color: "#F2F2F8", marginBottom: 8 }}>Challenge Devotionals</h2>
               <p style={{ color: "#9898B3", fontSize: 15, maxWidth: 560, margin: "0 auto" }}>
-                Five key moments in any 30-day challenge &mdash; devotionals written for where you are on the journey.
+                Nine key moments across any 30-day challenge &mdash; devotionals written for exactly where you are on the journey.
               </p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>

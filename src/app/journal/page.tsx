@@ -132,6 +132,21 @@ export default function JournalPage() {
 
   const allTags = Array.from(new Set(entries.flatMap((e) => e.tags)));
 
+  // Derived progress stats — computed from real entries rather than hardcoded.
+  const now = new Date();
+  const entriesThisMonth = entries.filter((e) => {
+    const d = new Date(e.date);
+    return !isNaN(d.getTime()) && d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+  }).length;
+  const versesSaved = entries.filter((e) => e.verseRef && e.verseRef.trim()).length;
+  const daysJournaled = new Set(entries.map((e) => e.date)).size;
+  const progressStats = [
+    { label: "Total entries", value: String(entries.length) },
+    { label: "Entries this month", value: String(entriesThisMonth) },
+    { label: "Verses saved", value: String(versesSaved) },
+    { label: "Days journaled", value: String(daysJournaled) },
+  ];
+
   const addTag = (tag: string) => {
     if (tag && !newEntry.tags.includes(tag)) {
       setNewEntry((prev) => ({ ...prev, tags: [...prev.tags, tag] }));
@@ -233,12 +248,7 @@ export default function JournalPage() {
               {/* Stats */}
               <div className="rounded-2xl p-4 mt-4" style={{ background: "#12121F", border: "1px solid #1E1E32" }}>
                 <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#4A4A68" }}>Your Progress</p>
-                {[
-                  { label: "Entries this month", value: "8" },
-                  { label: "Day streak", value: "14 🔥" },
-                  { label: "Verses saved", value: "34" },
-                  { label: "Days journaled", value: "47" },
-                ].map((s) => (
+                {progressStats.map((s) => (
                   <div key={s.label} className="flex justify-between py-1.5 text-xs" style={{ borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
                     <span style={{ color: "#6A6A88" }}>{s.label}</span>
                     <span className="font-bold" style={{ color: "#F2F2F8" }}>{s.value}</span>

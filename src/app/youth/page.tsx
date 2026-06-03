@@ -450,9 +450,9 @@ export default function YouthPage() {
         >
           {[
             { value: "42K+", label: "Young Believers" },
-            { value: "6", label: "Active Challenges" },
-            { value: "8", label: "Curated Resources" },
-            { value: "300+", label: "Open Discussions" },
+            { value: String(challenges.length), label: "Active Challenges" },
+            { value: String(resources.length), label: "Curated Resources" },
+            { value: String(discussions.length), label: "Open Discussions" },
           ].map((s) => (
             <div key={s.label} style={{ textAlign: "center" }}>
               <div style={{ fontSize: 28, fontWeight: 700, color: "#3a7d56" }}>{s.value}</div>

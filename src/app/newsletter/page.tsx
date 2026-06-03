@@ -311,7 +311,7 @@ export default function NewsletterPage() {
               Past Issues
             </h2>
             <span className="text-sm" style={{ color: "#4A4A68" }}>
-              48 issues published
+              {pastIssues.length} issues published
             </span>
           </div>
           <div className="space-y-4">

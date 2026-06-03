@@ -1,7 +1,7 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-
+import Link from "next/link";
 import { useState, useEffect } from "react";
 import {
   BookOpen,
@@ -493,13 +493,13 @@ export default function BlogPage() {
                       </span>
                     </div>
                   </div>
-                  <a
+                  <Link
                     href={`/blog/${featuredPost.slug}`}
                     className="mt-6 inline-flex items-center gap-2 text-sm font-bold hover:underline"
                     style={{ color: "#3a7d56" }}
                   >
                     Read Article <ChevronRight size={16} />
-                  </a>
+                  </Link>
                 </div>
               </div>
 
@@ -531,9 +531,9 @@ export default function BlogPage() {
                   <p className="text-center py-8 text-sm" style={{ color: "#8A8AA8" }}>No posts in this category yet.</p>
                 )}
                 {visiblePosts.map((post, i) => (
-                  <a
+                  <Link
                     key={i}
-                    href={post.slug ? `/blog/${post.slug}` : undefined}
+                    href={post.slug ? `/blog/${post.slug}` : "#"}
                     className="group block rounded-xl p-5 flex gap-5 cursor-pointer transition-all"
                     style={{
                       background: "rgba(255,255,255,0.02)",
@@ -598,7 +598,7 @@ export default function BlogPage() {
                         </span>
                       </div>
                     </div>
-                  </a>
+                  </Link>
                 ))}
               </div>
 

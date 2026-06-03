@@ -89,10 +89,7 @@ const MARK_TITLES: Record<number, string> = {
 function buildBooks(): Book[] {
   const mattChapters: Chapter[] = Array.from({ length: 28 }, (_, i) => {
     const n = i + 1;
-    let status: Chapter["status"] = "upcoming";
-    if (n <= 21) status = "done";
-    else if (n === 22) status = "today";
-    return { id: `matt-${n}`, book: "Matthew", chapter: n, title: MATTHEW_TITLES[n] ?? `Chapter ${n}`, status };
+    return { id: `matt-${n}`, book: "Matthew", chapter: n, title: MATTHEW_TITLES[n] ?? `Chapter ${n}`, status: "upcoming" as const };
   });
 
   const markChapters: Chapter[] = Array.from({ length: 16 }, (_, i) => {
@@ -180,15 +177,11 @@ function CircularProgress({ percent }: { percent: number }) {
 export default function ReadingPlanPage() {
   const [books, setBooks] = useState<Book[]>(buildBooks);
   const [completedChapters, setCompletedChapters] = useState<Set<string>>(() => {
-    const defaultDone = new Set(buildBooks()[0].chapters.filter((c) => c.status === "done").map((c) => c.id));
     try {
       const stored = localStorage.getItem("vine_reading_plan");
-      if (stored) {
-        const arr = JSON.parse(stored) as string[];
-        return new Set(arr);
-      }
+      if (stored) return new Set(JSON.parse(stored) as string[]);
     } catch {}
-    return defaultDone;
+    return new Set<string>();
   });
   const [todayMarked, setTodayMarked] = useState(() => {
     try {
@@ -208,8 +201,29 @@ export default function ReadingPlanPage() {
     } catch {}
   }, [activePlan]);
 
+  const [planStartDate] = useState<string>(() => {
+    try {
+      let d = localStorage.getItem("vine_reading_plan_start");
+      if (!d) {
+        d = new Date().toISOString().split("T")[0];
+        localStorage.setItem("vine_reading_plan_start", d);
+      }
+      return d;
+    } catch { return new Date().toISOString().split("T")[0]; }
+  });
+  const [readingDays, setReadingDays] = useState<Set<string>>(() => {
+    try {
+      const arr = JSON.parse(localStorage.getItem("vine_reading_days") || "[]") as string[];
+      return new Set(arr);
+    } catch { return new Set<string>(); }
+  });
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_reading_days", JSON.stringify([...readingDays])); } catch {}
+  }, [readingDays]);
+
   const shareStreak = async () => {
-    const text = "I'm on a 22-day Bible reading streak with The Vine! 🔥";
+    const text = `I'm on a ${streak}-day Bible reading streak with The Vine! 🔥`;
     const url = typeof window !== "undefined" ? window.location.href : "";
     try {
       if (navigator.share) {
@@ -243,13 +257,37 @@ export default function ReadingPlanPage() {
     );
   }, []);
 
+  const today0 = new Date(); today0.setHours(0, 0, 0, 0);
+  const start0 = new Date(planStartDate + "T00:00:00");
+  const planDay = Math.min(90, Math.max(1, Math.floor((today0.getTime() - start0.getTime()) / 86400000) + 1));
+  const progress = Math.round((planDay / 90) * 100);
+  const todaysChapterId = planDay <= 28 ? `matt-${planDay}` : planDay <= 44 ? `mark-${planDay - 28}` : null;
+  const todaysBook = planDay <= 28 ? "Matthew" : "Mark";
+  const todaysChapterNum = planDay <= 28 ? planDay : planDay - 28;
+  const todaysPassage = planDay <= 44 ? `${todaysBook} ${todaysChapterNum}` : "Luke 1";
+  const todaysReadingTitle = planDay <= 28
+    ? (MATTHEW_TITLES[planDay] ?? `Chapter ${planDay}`)
+    : planDay <= 44
+    ? (MARK_TITLES[planDay - 28] ?? `Chapter ${planDay - 28}`)
+    : "Continue your NT journey";
+  const streak = (() => {
+    let s = 0;
+    for (let i = 0; i < 365; i++) {
+      const d = new Date(); d.setDate(d.getDate() - i);
+      const key = d.toISOString().split("T")[0];
+      if (readingDays.has(key)) s++;
+      else if (i > 0) break;
+    }
+    return s;
+  })();
+
   const chapterStatus = (ch: Chapter): Chapter["status"] => {
     if (completedChapters.has(ch.id)) return "done";
+    if (todaysChapterId && ch.id === todaysChapterId) return "today";
     return ch.status;
   };
 
   const totalDone = completedChapters.size + (todayMarked ? 1 : 0);
-  const progress = Math.round((22 / 90) * 100);
 
   return (
     <>
@@ -294,7 +332,7 @@ export default function ReadingPlanPage() {
               >
                 <Flame size={22} style={{ color: "#f97316" }} />
                 <div>
-                  <div style={{ fontSize: 22, fontWeight: 800, color: "#3a7d56", lineHeight: 1 }}>22</div>
+                  <div style={{ fontSize: 22, fontWeight: 800, color: "#3a7d56", lineHeight: 1 }}>{streak}</div>
                   <div style={{ fontSize: 11, color: "#8A8AA8" }}>day streak</div>
                 </div>
               </div>
@@ -361,7 +399,7 @@ export default function ReadingPlanPage() {
                       New Testament in 90 Days
                     </h2>
                     <div style={{ color: "#8A8AA8", fontSize: 14, marginTop: 4 }}>
-                      Day 22 of 90
+                      Day {planDay} of 90
                     </div>
                   </div>
 
@@ -399,16 +437,22 @@ export default function ReadingPlanPage() {
                     Today&apos;s Reading
                   </div>
                   <div style={{ fontSize: 17, fontWeight: 700, marginBottom: 4 }}>
-                    Matthew 5–7
+                    {todaysPassage}
                   </div>
                   <div style={{ fontSize: 13, color: "#8A8AA8", marginBottom: 16 }}>
-                    The Sermon on the Mount
+                    {todaysReadingTitle}
                   </div>
                   <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
                     <button
                       onClick={() => {
                         const next = !todayMarked;
                         setTodayMarked(next);
+                        const todayKey = new Date().toISOString().split("T")[0];
+                        setReadingDays((prev) => {
+                          const ns = new Set(prev);
+                          if (next) ns.add(todayKey); else ns.delete(todayKey);
+                          return ns;
+                        });
                         try {
                           if (next) localStorage.setItem("vine_reading_today", new Date().toDateString());
                           else localStorage.removeItem("vine_reading_today");
@@ -476,10 +520,10 @@ export default function ReadingPlanPage() {
                 </div>
 
                 {[
-                  { label: "Chapters this month", value: String(48 + (todayMarked ? 1 : 0)), sub: "of 60 goal" },
-                  { label: "Verses memorized", value: "12", sub: "this month" },
-                  { label: "Consecutive days", value: "22", sub: "personal best: 22" },
-                  { label: "Total reading time", value: "~6 hrs", sub: "this month" },
+                  { label: "Chapters completed", value: String(completedChapters.size + (todayMarked ? 1 : 0)), sub: "of 44 in plan" },
+                  { label: "Plan day", value: `Day ${planDay}`, sub: "of 90 total days" },
+                  { label: "Consecutive days", value: String(streak), sub: `personal best: ${streak}` },
+                  { label: "Est. reading time", value: completedChapters.size > 0 ? `~${Math.round(completedChapters.size * 15 / 60)} hrs` : "0 min", sub: "at 15 min/chapter" },
                 ].map((stat) => (
                   <div
                     key={stat.label}

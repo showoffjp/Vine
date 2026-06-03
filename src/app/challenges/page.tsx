@@ -290,8 +290,18 @@ export default function ChallengesPage() {
   const [completedDays, setCompletedDays] = useState<Set<number>>(() => {
     try {
       const s = localStorage.getItem("vine_prayer_streak");
-      return s ? new Set(JSON.parse(s) as number[]) : new Set([1, 2, 3, 4, 5, 6, 7, 8]);
-    } catch { return new Set([1, 2, 3, 4, 5, 6, 7, 8]); }
+      return s ? new Set(JSON.parse(s) as number[]) : new Set<number>();
+    } catch { return new Set<number>(); }
+  });
+  const [challengeStartDate] = useState<string>(() => {
+    try {
+      let d = localStorage.getItem("vine_challenge_start");
+      if (!d) {
+        d = new Date().toISOString().split("T")[0];
+        localStorage.setItem("vine_challenge_start", d);
+      }
+      return d;
+    } catch { return new Date().toISOString().split("T")[0]; }
   });
 
   useEffect(() => {
@@ -315,7 +325,12 @@ export default function ChallengesPage() {
     });
   };
 
+  const today0ch = new Date(); today0ch.setHours(0, 0, 0, 0);
+  const start0ch = new Date(challengeStartDate + "T00:00:00");
+  const currentChallengeDay = Math.min(30, Math.max(1, Math.floor((today0ch.getTime() - start0ch.getTime()) / 86400000) + 1));
+
   const toggleDay = (day: number) => {
+    if (day > currentChallengeDay) return;
     setCompletedDays((prev) => {
       const next = new Set(prev);
       if (next.has(day)) next.delete(day);
@@ -416,7 +431,7 @@ export default function ChallengesPage() {
                       <p className="text-xs" style={{ color: "#4A4A68" }}>Participants</p>
                     </div>
                     <div className="text-center rounded-xl p-3" style={{ background: "rgba(0,0,0,0.2)" }}>
-                      <p className="text-xl font-black" style={{ color: "#F59E0B" }}>{weeklyChallenge.daysLeft}</p>
+                      <p className="text-xl font-black" style={{ color: "#F59E0B" }}>{Math.max(0, 30 - currentChallengeDay + 1)}</p>
                       <p className="text-xs" style={{ color: "#4A4A68" }}>Days left</p>
                     </div>
                     <div className="text-center rounded-xl p-3" style={{ background: "rgba(0,0,0,0.2)" }}>
@@ -450,22 +465,26 @@ export default function ChallengesPage() {
                   <div className="flex flex-wrap gap-1.5 mb-4">
                     {streakDays.map((day) => {
                       const done = completedDays.has(day);
-                      const isToday = day === 9;
+                      const isToday = day === currentChallengeDay;
+                      const isFuture = day > currentChallengeDay;
                       return (
                         <button
                           key={day}
                           onClick={() => toggleDay(day)}
                           className="w-7 h-7 rounded-lg flex items-center justify-center text-[10px] font-bold transition-all"
                           style={{
-                            background: done
+                            background: isFuture
+                              ? "rgba(0,0,0,0.15)"
+                              : done
                               ? isToday
                                 ? "linear-gradient(135deg, #3a7d56, #52a876)"
                                 : "rgba(58,125,86,0.2)"
                               : "#1E1E32",
-                            color: done ? (isToday ? "#07070F" : "#3a7d56") : "#4A4A68",
+                            color: isFuture ? "#2A2A3A" : done ? (isToday ? "#07070F" : "#3a7d56") : "#4A4A68",
                             border: isToday && !done ? "1px solid rgba(58,125,86,0.3)" : "none",
+                            cursor: isFuture ? "default" : "pointer",
                           }}
-                          title={`Day ${day}`}
+                          title={isFuture ? `Day ${day} (not yet)` : `Day ${day}`}
                         >
                           {done ? "✓" : day}
                         </button>

@@ -282,10 +282,20 @@ export default function AccountabilityPage() {
       } else {
         updatedCheckIns = [...g.checkIns, { date: today, note: checkInNote, completed }];
       }
-      const recentStreak = [...updatedCheckIns]
-        .filter((c) => c.completed)
-        .sort((a, b) => b.date.localeCompare(a.date))
-        .length;
+      const recentStreak = (() => {
+        const doneSet = new Set(updatedCheckIns.filter((c) => c.completed).map((c) => c.date));
+        if (g.frequency === "daily") {
+          let s = 0;
+          for (let i = 0; i < 365; i++) {
+            const d = new Date(); d.setDate(d.getDate() - i);
+            const key = d.toISOString().split("T")[0];
+            if (doneSet.has(key)) s++;
+            else if (i > 0) break;
+          }
+          return s;
+        }
+        return doneSet.size;
+      })();
       setCheckInNote("");
       return { ...g, checkIns: updatedCheckIns, streak: recentStreak };
     }));

@@ -501,7 +501,9 @@ export default function DiscussionsPage() {
   const [sharedPost, setSharedPost] = useState<number | null>(null);
   const [composerOpen, setComposerOpen] = useState(false);
   const [composerText, setComposerText] = useState("");
-  const [myPosts, setMyPosts] = useState<string[]>([]);
+  const [myPosts, setMyPosts] = useState<string[]>(() => {
+    try { const s = localStorage.getItem("vine_disc_my_posts"); return s ? JSON.parse(s) : []; } catch { return []; }
+  });
 
   const submitComposer = () => {
     if (!composerText.trim()) return;
@@ -516,6 +518,9 @@ export default function DiscussionsPage() {
     setTimeout(() => setSharedPost((cur) => (cur === id ? null : cur)), 2000);
   };
 
+  useEffect(() => {
+    try { localStorage.setItem("vine_disc_my_posts", JSON.stringify(myPosts)); } catch {}
+  }, [myPosts]);
   useEffect(() => {
     try { localStorage.setItem("vine_disc_upvoted", JSON.stringify([...upvotedPosts])); } catch {}
   }, [upvotedPosts]);

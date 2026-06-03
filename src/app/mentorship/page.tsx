@@ -316,10 +316,10 @@ export default function MentorshipPage() {
         </p>
         <div style={{ display: "flex", justifyContent: "center", gap: 48, flexWrap: "wrap" }}>
           {[
-            { value: "8", label: "Verified Mentors" },
+            { value: String(mentors.filter((m) => m.verified).length), label: "Verified Mentors" },
             { value: "2,500+", label: "Mentorships Started" },
-            { value: "12", label: "Languages" },
-            { value: "4.9★", label: "Avg. Rating" },
+            { value: String(new Set(mentors.flatMap((m) => m.languages)).size), label: "Languages" },
+            { value: `${(mentors.reduce((s, m) => s + m.rating, 0) / mentors.length).toFixed(1)}★`, label: "Avg. Rating" },
           ].map((s) => (
             <div key={s.label}>
               <div style={{ fontSize: 26, fontWeight: 700, color: "#3a7d56" }}>{s.value}</div>

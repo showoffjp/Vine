@@ -153,6 +153,32 @@ const SAMPLE_ENTRIES: GratitudeEntry[] = [
     items: ["Good sermon on Psalm 23", "Health — I often take it for granted"],
     mood: 3,
   },
+  {
+    id: "g4",
+    date: "May 22, 2026",
+    items: ["A stranger held the door and smiled", "Made progress on a project I'd been stuck on for weeks", "Isaiah 41:10 — 'Do not fear, for I am with you'"],
+    verse: "Isaiah 41:10",
+    mood: 4,
+  },
+  {
+    id: "g5",
+    date: "May 21, 2026",
+    items: ["Quiet time this morning without distraction — rare and sweet", "Phone call with my mom", "The way the light looked through the trees on my walk"],
+    mood: 5,
+  },
+  {
+    id: "g6",
+    date: "May 20, 2026",
+    items: ["A harder day — but I didn't lose my temper", "Romans 8:28 came to mind at exactly the right moment"],
+    verse: "Romans 8:28",
+    mood: 3,
+  },
+  {
+    id: "g7",
+    date: "May 19, 2026",
+    items: ["My son asked me to pray with him before bed", "Finished the book of Mark in my reading plan", "Good food, good conversation, and enough rest"],
+    mood: 5,
+  },
 ];
 
 export default function GratitudePage() {

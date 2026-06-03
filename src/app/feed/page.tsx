@@ -353,13 +353,14 @@ export default function FeedPage() {
                 ].map((item) => {
                   const Icon = item.icon;
                   return (
-                    <a
+                    <Link
                       key={item.label}
                       href={item.href}
                       className="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all"
                       style={{
                         background: item.active ? "rgba(58,125,86,0.08)" : "transparent",
                         color: item.active ? "#3a7d56" : "#8A8AA8",
+                        textDecoration: "none",
                       }}
                       onMouseEnter={(e) => {
                         if (!item.active) e.currentTarget.style.color = "#C0C0D8";
@@ -370,7 +371,7 @@ export default function FeedPage() {
                     >
                       <Icon size={16} />
                       <span className="text-sm font-semibold">{item.label}</span>
-                    </a>
+                    </Link>
                   );
                 })}
               </div>

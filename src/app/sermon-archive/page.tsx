@@ -314,7 +314,7 @@ export default function SermonArchivePage() {
             { value: sermons.length.toString(), label: "Sermons" },
             { value: savedIds.size.toString(), label: "Saved" },
             { value: Object.keys(notes).length.toString(), label: "Notes Taken" },
-            { value: "12+", label: "Preachers" },
+            { value: VOICES_SERM.length.toString(), label: "Preachers" },
           ].map((s) => (
             <div key={s.label}>
               <div style={{ fontSize: 24, fontWeight: 700, color: "#3a7d56" }}>{s.value}</div>

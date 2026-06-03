@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -542,7 +543,7 @@ export default function NotificationsPage() {
                         </p>
                         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                           <span style={{ fontSize: 12, color: "#6A6A88" }}>{n.time}</span>
-                          <a
+                          <Link
                             href={n.href}
                             onClick={(e) => e.stopPropagation()}
                             style={{
@@ -554,7 +555,7 @@ export default function NotificationsPage() {
                             }}
                           >
                             {n.action} →
-                          </a>
+                          </Link>
                         </div>
                       </div>
                       {!isRead && (

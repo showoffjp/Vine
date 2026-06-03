@@ -475,7 +475,7 @@ export default function WorkLeadershipPage() {
               <h2 className="text-2xl font-black mb-8" style={{ color: "#F2F2F8" }}>Top Articles</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {articles.map((art, i) => (
-                  <a
+                  <Link
                     key={i}
                     href={art.href}
                     className="group rounded-xl p-5 cursor-pointer transition-all flex gap-4 block"
@@ -502,7 +502,7 @@ export default function WorkLeadershipPage() {
                       </h3>
                       <p className="text-xs mt-1" style={{ color: "#4A4A68" }}>{art.time} read</p>
                     </div>
-                  </a>
+                  </Link>
                 ))}
               </div>
             </div>

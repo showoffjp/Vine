@@ -156,6 +156,7 @@ export default function ProfilePage() {
   const [hoveredBadge, setHoveredBadge] = useState<string | null>(null);
   const [user, setUser] = useState<VineUser | null>(null);
   const [shared, setShared] = useState(false);
+  const [postsCount, setPostsCount] = useState(0);
   const defaultBio =
     "Husband. Father of 3. Passionate about apologetics, biblical finance, and helping men grow in their faith.";
   const [bio, setBio] = useState(defaultBio);
@@ -167,6 +168,8 @@ export default function ProfilePage() {
       if (raw) setUser(JSON.parse(raw));
       const savedBio = localStorage.getItem("vine_profile_bio");
       if (savedBio) setBio(savedBio);
+      const myPosts: string[] = JSON.parse(localStorage.getItem("vine_disc_my_posts") ?? "[]");
+      setPostsCount(myPosts.length);
     } catch {}
   }, []);
 
@@ -259,10 +262,10 @@ export default function ProfilePage() {
                 style={{ background: "#07070F", border: "1px solid #1E1E32" }}
               >
                 {[
-                  { label: "Posts", value: "247" },
-                  { label: "Followers", value: "1.2K" },
-                  { label: "Following", value: "389" },
-                  { label: "Saved", value: "834" },
+                  { label: "Posts", value: String(postsCount) },
+                  { label: "Followers", value: "—" },
+                  { label: "Following", value: "—" },
+                  { label: "Saved", value: String(savedItems.length) },
                 ].map((stat) => (
                   <div key={stat.label} className="flex flex-col items-center">
                     <span className="text-base font-black" style={{ color: "#F2F2F8" }}>
@@ -460,7 +463,7 @@ export default function ProfilePage() {
             {activeTab === "Activity" && (
               <div className="space-y-3">
                 {activityFeed.map((item, i) => (
-                  <a
+                  <Link
                     key={i}
                     href={item.href}
                     className="block rounded-2xl p-4 cursor-pointer transition-all duration-200 hover:bg-[#18182A]"
@@ -490,7 +493,7 @@ export default function ProfilePage() {
                         </p>
                       </div>
                     </div>
-                  </a>
+                  </Link>
                 ))}
               </div>
             )}
@@ -499,7 +502,7 @@ export default function ProfilePage() {
             {activeTab === "Saved" && (
               <div className="space-y-3">
                 {savedItems.map((item, i) => (
-                  <a
+                  <Link
                     key={i}
                     href={item.href}
                     className="block rounded-2xl p-4 cursor-pointer transition-all duration-200 hover:bg-[#18182A] flex items-center gap-4"
@@ -518,7 +521,7 @@ export default function ProfilePage() {
                       </div>
                     </div>
                     <ChevronRight size={16} style={{ color: "#6A6A88" }} />
-                  </a>
+                  </Link>
                 ))}
               </div>
             )}

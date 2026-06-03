@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
@@ -404,13 +405,13 @@ export default function FinancesPage() {
             <p className="text-base mb-6 max-w-lg mx-auto" style={{ color: "#6A6A88" }}>
               Get Scripture-grounded wisdom on debt, giving, budgeting, and more from the AI Bible Companion.
             </p>
-            <a
+            <Link
               href="/ai-companion"
               className="inline-flex items-center gap-2 px-8 py-3 rounded-xl font-bold text-black"
               style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}
             >
               Ask Now <ChevronRight size={16} />
-            </a>
+            </Link>
           </div>
         </div>
       </div>

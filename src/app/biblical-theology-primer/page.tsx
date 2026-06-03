@@ -6,7 +6,14 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "overview" | "themes" | "covenants" | "reading" | "resources";
+type Tab = "overview" | "themes" | "covenants" | "reading" | "resources" | "videos";
+
+const BTP_VIDEOS = [
+  { videoId: "KbFKcFxqVlo", title: "What Is Biblical Theology? — An Introduction", channel: "The Gospel Coalition", description: "How biblical theology differs from systematic theology, why it matters, and how it transforms Bible reading." },
+  { videoId: "ACZbpLkY8To", title: "The Story of the Bible — From Eden to New Jerusalem", channel: "Bible Project", description: "The Bible Project's overview of the unified narrative of Scripture — creation, fall, redemption, and new creation." },
+  { videoId: "fJnGJN6laqE", title: "Typology — How the Old Testament Points to Christ", channel: "Desiring God", description: "How to read the Old Testament's types and shadows as patterns fulfilled in Jesus — the key to reading the Bible as one story." },
+  { videoId: "Z8lkuuhVkOI", title: "Covenant Theology Explained", channel: "Ligonier Ministries", description: "An introduction to the covenant framework that unifies the Bible's narrative from Adam to the New Covenant in Christ." },
+];
 
 const STORYLINE = [
   { act: "Creation", key: "Gen 1-2", color: GREEN, desc: "God creates a good world and places image-bearing humans in it as his vice-regents, commissioned to fill and subdue it — to spread the garden of God's presence throughout the earth. The creation is a cosmic temple; humans are the priests within it. The 'very good' of Genesis 1:31 is the baseline against which all that follows is measured.", theme: "The world is God's creation, designed for his glory and human flourishing" },
@@ -88,10 +95,10 @@ export default function BiblicalTheologyPrimerPage() {
         </div>
 
         <div style={{ display: "flex", gap: 4, marginBottom: 24, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
-          {(["overview", "themes", "covenants", "reading", "resources"] as Tab[]).map(t => (
+          {(["overview", "themes", "covenants", "reading", "resources", "videos"] as Tab[]).map(t => (
             <button key={t} onClick={() => setTab(t)}
               style={{ padding: "8px 16px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
-              {t === "overview" ? "The Storyline" : t === "themes" ? "Major Themes" : t === "covenants" ? "The Covenants" : t === "reading" ? "How to Read" : "Resources"}
+              {t === "overview" ? "The Storyline" : t === "themes" ? "Major Themes" : t === "covenants" ? "The Covenants" : t === "reading" ? "How to Read" : t === "resources" ? "Resources" : "Videos"}
             </button>
           ))}
         </div>
@@ -206,6 +213,22 @@ export default function BiblicalTheologyPrimerPage() {
                 <div style={{ color: r.color, fontWeight: 900, fontSize: 15, marginBottom: 2 }}>{r.name}</div>
                 <div style={{ color: MUTED, fontSize: 11, marginBottom: 10 }}>{r.author} · {r.url}</div>
                 <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{r.desc}</p>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {tab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {BTP_VIDEOS.map(v => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <div style={{ padding: "14px 16px" }}>
+                  <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                  <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                </div>
               </div>
             ))}
           </div>

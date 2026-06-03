@@ -81,7 +81,14 @@ const PRACTICES = [
   { title: "Celebrate Who They Are", desc: "Birthday calls, anniversary recognition, notes of appreciation for specific things they did for you. The elderly often feel invisible — seen only when they are a problem. Being celebrated as people, not managed as burdens, is profoundly dignifying.", icon: "🎂" },
 ];
 
-type Tab = "theology" | "challenges" | "voices" | "practices";
+const ELDER_VIDEOS = [
+  { videoId: "KbFKcFxqVlo", title: "Honoring Our Elderly — A Biblical Vision", channel: "Gospel in Life", description: "Tim Keller on the fifth commandment and what it means to honor our parents and care for the elderly." },
+  { videoId: "ACZbpLkY8To", title: "Being Mortal — A Christian Perspective", channel: "Ligonier Ministries", description: "What theology of the body and resurrection hope means for how we care for aging parents and face our own mortality." },
+  { videoId: "fJnGJN6laqE", title: "The Dignity of the Elderly", channel: "Desiring God", description: "Piper on aging, dying, and the church's call to honor those in the final seasons of life." },
+  { videoId: "Z8lkuuhVkOI", title: "Caring for Aging Parents", channel: "The Gospel Coalition", description: "Practical and theological guidance for the difficult season of caring for elderly parents — what love looks like in the trenches." },
+];
+
+type Tab = "theology" | "challenges" | "voices" | "practices" | "videos";
 
 export default function ElderCarePage() {
   const [activeTab, setActiveTab] = useState<Tab>("theology");
@@ -108,6 +115,7 @@ export default function ElderCarePage() {
             { id: "challenges" as const, label: "Challenges", icon: "⚠️" },
             { id: "voices" as const, label: "Voices", icon: "📚" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -200,6 +208,22 @@ export default function ElderCarePage() {
                 </div>
               ))}
             </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {ELDER_VIDEOS.map(v => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <div style={{ padding: "14px 16px" }}>
+                  <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                  <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </div>

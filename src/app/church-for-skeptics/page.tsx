@@ -191,7 +191,6 @@ function Accordion({ items, expanded, setExpanded }: {
 }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-      <Navbar />
       {items.map(item => {
         const open = !!expanded[item.id];
         return (
@@ -239,6 +238,7 @@ export default function ChurchForSkepticsPage() {
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
+      <Navbar />
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 20px 80px" }}>
 
         {/* Header */}

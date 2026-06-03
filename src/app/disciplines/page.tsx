@@ -379,6 +379,13 @@ const VOICES_DISC: Voice[] = [
 
 const today = new Date().toISOString().split("T")[0];
 
+const DISC_VIDEOS = [
+  { videoId: "KbFKcFxqVlo", title: "What Are Spiritual Disciplines? — Tim Keller", channel: "Gospel in Life", description: "Keller on the purpose of spiritual disciplines: not to earn merit but to create the conditions in which God works transformation." },
+  { videoId: "ACZbpLkY8To", title: "The Means of Grace — How God Shapes His People", channel: "Ligonier Ministries", description: "A theological account of the spiritual disciplines as means of grace — practices through which the Spirit forms Christlikeness." },
+  { videoId: "fJnGJN6laqE", title: "Dallas Willard and the Spiritual Disciplines", channel: "Desiring God", description: "An introduction to Willard's framework for spiritual formation through disciplined practices — the renovation of the heart." },
+  { videoId: "Z8lkuuhVkOI", title: "Solitude, Silence, and Prayer", channel: "The Gospel Coalition", description: "A practical and theological introduction to the inward disciplines of solitude, silence, and contemplative prayer." },
+];
+
 export default function DisciplinesPage() {
   const [records, setRecords] = useState<Record<string, DisciplineRecord>>(() => {
     try {
@@ -387,7 +394,7 @@ export default function DisciplinesPage() {
     } catch { return {}; }
   });
 
-  const [mainTab, setMainTab] = useState<"tracker" | "theology" | "practices" | "voices">("tracker");
+  const [mainTab, setMainTab] = useState<"tracker" | "theology" | "practices" | "voices" | "videos">("tracker");
   const [activeCategory, setActiveCategory] = useState<"all" | "inward" | "outward" | "corporate">("all");
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [noteInput, setNoteInput] = useState("");
@@ -477,10 +484,10 @@ export default function DisciplinesPage() {
         {/* Main Tab Bar */}
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
           <div style={{ borderBottom: `1px solid ${BORDER}`, display: "flex", gap: 0 }}>
-            {(["tracker", "theology", "practices", "voices"] as const).map(tab => (
+            {(["tracker", "theology", "practices", "voices", "videos"] as const).map(tab => (
               <button key={tab} onClick={() => setMainTab(tab)}
                 style={{ background: "none", border: "none", borderBottom: mainTab === tab ? `2px solid ${GREEN}` : "2px solid transparent", color: mainTab === tab ? TEXT : MUTED, fontWeight: mainTab === tab ? 700 : 500, fontSize: 14, padding: "14px 18px", cursor: "pointer" }}>
-                {tab === "tracker" ? "Disciplines" : tab === "theology" ? "📖 Theology" : tab === "practices" ? "✨ Practices" : "🎓 Voices"}
+                {tab === "tracker" ? "Disciplines" : tab === "theology" ? "📖 Theology" : tab === "practices" ? "✨ Practices" : tab === "voices" ? "🎓 Voices" : "▶️ Videos"}
               </button>
             ))}
           </div>
@@ -719,6 +726,23 @@ export default function DisciplinesPage() {
                   );
                 })}
               </div>
+            </div>
+          )}
+
+          {/* ── VIDEOS TAB ── */}
+          {mainTab === "videos" && (
+            <div style={{ display: "flex", flexDirection: "column", gap: 24, padding: "0 0 40px" }}>
+              {DISC_VIDEOS.map(v => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                  <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                    src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                  <div style={{ padding: "14px 16px" }}>
+                    <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                    <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                    <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                  </div>
+                </div>
+              ))}
             </div>
           )}
 

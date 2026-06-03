@@ -193,7 +193,6 @@ function AccordionItem({
         background: CARD,
       }}
     >
-      <Navbar />
       <button
         onClick={onToggle}
         style={{
@@ -270,6 +269,7 @@ export default function SufferingPage() {
         paddingTop: 80,
       }}
     >
+      <Navbar />
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 20px 80px" }}>
 
         {/* Header */}

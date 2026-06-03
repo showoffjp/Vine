@@ -73,7 +73,7 @@ const THINKERS = [
   },
 ];
 
-type Tab = "theology" | "stages" | "thinkers" | "obstacles";
+type Tab = "theology" | "stages" | "thinkers" | "obstacles" | "videos";
 
 export default function SpiritualGrowthPage() {
   const [activeTab, setActiveTab] = useState<Tab>("theology");
@@ -102,6 +102,7 @@ export default function SpiritualGrowthPage() {
             { id: "stages" as const, label: "Stages", icon: "📈" },
             { id: "thinkers" as const, label: "Key Thinkers", icon: "💡" },
             { id: "obstacles" as const, label: "Obstacles", icon: "⚠️" },
+            { id: "videos" as const, label: "Videos", icon: "▶️" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -205,6 +206,26 @@ export default function SpiritualGrowthPage() {
                     </div>
                   </div>
                 )}
+              </div>
+            ))}
+          </div>
+        )}
+        {activeTab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {[
+              { videoId: "sxMhDVkdULw", title: "The Process of Spiritual Maturity", channel: "Desiring God", description: "John Piper traces the biblical contours of spiritual maturity and the process by which God produces it in his people." },
+              { videoId: "Z8lkuuhVkOI", title: "How Do I Grow As A Christian?", channel: "Timothy Keller Gospel in Life", description: "Timothy Keller answers the fundamental question of Christian growth with pastoral clarity and theological depth." },
+              { videoId: "dXxmSDhvbHY", title: "Means of Grace for Spiritual Growth", channel: "Ligonier Ministries", description: "An examination of the ordinary means God uses — Scripture, prayer, and community — to produce growth in believers." },
+              { videoId: "l0hPqVT9PoQ", title: "Three Stages of Spiritual Growth", channel: "Dallas Willard Institute", description: "Dallas Willard's framework for the stages of spiritual formation and how to understand where you are in the journey." },
+            ].map(v => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <div style={{ padding: "14px 16px" }}>
+                  <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                  <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                </div>
               </div>
             ))}
           </div>

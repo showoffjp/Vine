@@ -11,7 +11,14 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "views" | "texts" | "pastoral";
+type Tab = "theology" | "views" | "texts" | "pastoral" | "videos";
+
+const PRED_VIDEOS = [
+  { videoId: "KbFKcFxqVlo", title: "Predestination — What It Is and Why It Matters", channel: "Tim Keller / Gospel in Life", description: "Keller explains election, predestination, and their relationship to assurance, evangelism, and love of God." },
+  { videoId: "ACZbpLkY8To", title: "The Five Points of Calvinism", channel: "Ligonier Ministries", description: "R.C. Sproul's classic teaching on TULIP — what the five points actually say and why they matter theologically." },
+  { videoId: "fJnGJN6laqE", title: "Does God Choose Who Will Be Saved?", channel: "Desiring God", description: "John Piper exegetes key Pauline texts on election and shows how unconditional election produces humility, not pride." },
+  { videoId: "Z8lkuuhVkOI", title: "Calvinist vs. Arminian — What's at Stake?", channel: "The Gospel Coalition", description: "A fair presentation of both views, exploring where they agree and disagree on grace, faith, and salvation." },
+];
 
 const THEOLOGY_ITEMS = [
   {
@@ -136,7 +143,6 @@ const PASTORAL_ITEMS = [
 function AccordionItem({ title, body, expanded, onToggle }: { title: string; body: string; expanded: boolean; onToggle: () => void }) {
   return (
     <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, marginBottom: 12, overflow: "hidden" }}>
-      <Navbar />
       <button
         onClick={onToggle}
         style={{
@@ -172,10 +178,12 @@ export default function PredestinationPage() {
     { id: "views", label: "The Major Views" },
     { id: "texts", label: "Key Texts" },
     { id: "pastoral", label: "Pastoral Wisdom" },
+    { id: "videos", label: "Videos" },
   ];
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
+      <Navbar />
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 20px 80px" }}>
 
         <div style={{ textAlign: "center", marginBottom: 44 }}>
@@ -326,6 +334,22 @@ export default function PredestinationPage() {
                 expanded={!!expanded[`pastoral-${i}`]}
                 onToggle={() => toggle(`pastoral-${i}`)}
               />
+            ))}
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {PRED_VIDEOS.map(v => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <div style={{ padding: "14px 16px" }}>
+                  <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                  <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                </div>
+              </div>
             ))}
           </div>
         )}

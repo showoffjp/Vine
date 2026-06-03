@@ -6,6 +6,13 @@ import { useState } from "react";
 
 // ─── Data ───────────────────────────────────────────────────────────────────
 
+const FS_VIDEOS = [
+  { videoId: "KbFKcFxqVlo", title: "Science and Christianity — Are They Compatible?", channel: "Gospel in Life / Tim Keller", description: "Keller's definitive talk on the relationship between science and faith — why the conflict is mostly a myth and where the real tensions lie." },
+  { videoId: "ACZbpLkY8To", title: "The Heavens Declare — Cosmology and Creation", channel: "Ligonier Ministries", description: "How modern cosmology — the Big Bang, fine-tuning, and the anthropic principle — speaks to the existence of God." },
+  { videoId: "fJnGJN6laqE", title: "Evolution, Creation, and the Christian", channel: "Desiring God", description: "A pastoral approach to the origins debate — how Christians can hold their convictions with confidence and humility." },
+  { videoId: "Z8lkuuhVkOI", title: "Faith and Science — John Lennox", channel: "Unbelievable?", description: "Oxford mathematician and Christian apologist John Lennox makes the case that science and faith are not in conflict but mutually enriching." },
+];
+
 const TOPICS = [
   {
     id: "big-bang-genesis",
@@ -330,7 +337,7 @@ const DIFFICULTIES = ["All", "Beginner", "Intermediate", "Advanced"];
 
 export default function FaithSciencePage() {
   // Tab state
-  const [activeTab, setActiveTab] = useState<"topics" | "thinkers" | "qa" | "history">("topics");
+  const [activeTab, setActiveTab] = useState<"topics" | "thinkers" | "qa" | "history" | "videos">("topics");
 
   // Saved topics (localStorage)
   const [savedTopics, setSavedTopics] = useState<Set<string>>(() => {
@@ -509,8 +516,8 @@ export default function FaithSciencePage() {
       {/* ── Tabs ───────────────────────────────────────────────────────────── */}
       <div style={{ borderBottom: `1px solid ${BORDER}`, position: "sticky", top: 0, background: BG, zIndex: 40 }}>
         <div className="max-w-5xl mx-auto px-4 sm:px-6 flex gap-1">
-          {(["topics", "thinkers", "qa", "history"] as const).map((tab) => {
-            const labels: Record<string, string> = { topics: "Topics", thinkers: "Thinkers", qa: "Q&A", history: "History" };
+          {(["topics", "thinkers", "qa", "history", "videos"] as const).map((tab) => {
+            const labels: Record<string, string> = { topics: "Topics", thinkers: "Thinkers", qa: "Q&A", history: "History", videos: "Videos" };
             const isActive = activeTab === tab;
             return (
               <button
@@ -970,6 +977,22 @@ export default function FaithSciencePage() {
                 <h3 style={{ color: "#F2F2F8", fontWeight: 800, fontSize: 16, marginBottom: 6 }}>{item.title}</h3>
                 <div style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 600, marginBottom: 10 }}>{item.figure}</div>
                 <p style={{ color: "#9898B3", fontSize: 14, lineHeight: 1.75, margin: 0 }}>{item.body}</p>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24, padding: "0 0 40px" }}>
+            {FS_VIDEOS.map(v => (
+              <div key={v.videoId} style={{ background: CARD_BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <div style={{ padding: "14px 16px" }}>
+                  <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                  <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                  <p style={{ color: SECONDARY, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                </div>
               </div>
             ))}
           </div>

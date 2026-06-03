@@ -11,7 +11,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "armor" | "tactics" | "victory";
+type Tab = "theology" | "armor" | "tactics" | "victory" | "videos";
 
 const THEOLOGY_ITEMS = [
   {
@@ -181,6 +181,13 @@ const VICTORY_ITEMS = [
   },
 ];
 
+const SW_VIDEOS = [
+  { videoId: "KbFKcFxqVlo", title: "Spiritual Warfare — Tim Keller", channel: "Gospel in Life", description: "Keller addresses the demonic realm, spiritual warfare, and how the gospel is the Christian's primary weapon." },
+  { videoId: "ACZbpLkY8To", title: "The Armor of God — Ephesians 6 Explained", channel: "Ligonier Ministries", description: "R.C. Sproul walks through each piece of the armor of God with careful exegesis and practical application." },
+  { videoId: "fJnGJN6laqE", title: "Spiritual Warfare and the Christian Life", channel: "Desiring God", description: "How to understand spiritual warfare in a way that is neither dismissive nor obsessive — biblical and balanced." },
+  { videoId: "Z8lkuuhVkOI", title: "Does Satan Really Exist? — The Case from Scripture", channel: "The Gospel Coalition", description: "A theological case for taking the reality of spiritual warfare seriously without collapsing into superstition." },
+];
+
 function AccordionItem({
   id,
   title,
@@ -206,7 +213,6 @@ function AccordionItem({
         transition: "border-color 0.2s",
       }}
     >
-      <Navbar />
       <button
         onClick={() => onToggle(id)}
         style={{
@@ -302,10 +308,12 @@ export default function SpiritualWarfarePage() {
     { key: "armor", label: "Armor of God" },
     { key: "tactics", label: "Enemy Tactics" },
     { key: "victory", label: "Walking in Victory" },
+    { key: "videos" as Tab, label: "Videos" },
   ];
 
   return (
     <div style={{ minHeight: "100vh", background: BG, color: TEXT, paddingTop: 80 }}>
+      <Navbar />
       <div style={{ maxWidth: 1080, margin: "0 auto", padding: "0 20px 80px" }}>
         {/* Header */}
         <div style={{ textAlign: "center", marginBottom: 44 }}>
@@ -701,6 +709,22 @@ export default function SpiritualWarfarePage() {
                 />
               ))}
             </div>
+          </div>
+        )}
+
+        {tab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {SW_VIDEOS.map(v => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <div style={{ padding: "14px 16px" }}>
+                  <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                  <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </div>

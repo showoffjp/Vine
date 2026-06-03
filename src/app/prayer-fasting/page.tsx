@@ -7,7 +7,7 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "theology" | "types" | "examples" | "practices";
+type Tab = "theology" | "types" | "examples" | "practices" | "videos";
 
 const THEOLOGY = [
   { title: "Fasting as Spiritual Discipline", verse: "Matthew 6:16-18", body: "Jesus assumes his followers will fast: 'When you fast' — not 'if you fast' (Matthew 6:16). Fasting is not an OT relic superseded by grace; it is a practice Jesus anticipated, participated in (40 days, Matthew 4:2), and gave instructions for. The command is against performative fasting 'to be seen by others' — the fast that pleases God is done in secret, seen only by the Father." },
@@ -116,6 +116,7 @@ export default function PrayerFastingPage() {
             { id: "types" as Tab, label: "Types", icon: "📋" },
             { id: "examples" as Tab, label: "Bible Examples", icon: "📜" },
             { id: "practices" as Tab, label: "Practices", icon: "🛠️" },
+            { id: "videos" as Tab, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -206,6 +207,27 @@ export default function PrayerFastingPage() {
                 </div>
               ))}
             </div>
+          </div>
+        )}
+
+        {tab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {[
+              { videoId: "nNqLJ-_IOPA", title: "Fasting and Prayer", channel: "John Piper Desiring God", description: "John Piper explores the biblical theology of fasting and prayer, explaining why fasting is not an Old Testament relic but a living discipline for the Christian life." },
+              { videoId: "7MNWnxCjZKk", title: "The Discipline of Fasting", channel: "Ligonier Ministries", description: "Ligonier Ministries examines fasting as a spiritual discipline — its biblical basis, its purpose, and how it fits into the broader life of Christian devotion." },
+              { videoId: "wHZt1SKcNAE", title: "Prayer and Fasting: A Guide to Biblical Practice", channel: "Tim Keller Gospel in Life", description: "Tim Keller provides a practical and theological guide to prayer and fasting, grounding the practice in Scripture and showing its relevance for the contemporary Christian." },
+              { videoId: "acYqBfLiAg8", title: "Why Should Christians Fast?", channel: "Desiring God", description: "Desiring God addresses the question of why fasting still matters for followers of Jesus, connecting the discipline to hunger for God and the return of the bridegroom." },
+            ].map(v => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <div style={{ padding: "14px 16px" }}>
+                  <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                  <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </div>

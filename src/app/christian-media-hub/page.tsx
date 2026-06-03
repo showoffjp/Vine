@@ -48,6 +48,13 @@ const LIFE_HACKS = [
 
 const CATEGORIES = ["All", "Bible", "Prayer", "App", "Journaling", "Community", "Habit", "Digital", "Podcast", "Reading"];
 
+const VIDEOS = [
+  { videoId: "dXxmSDhvbHY", title: "Best Christian Podcasts to Listen to", channel: "The Gospel Coalition", description: "A curated guide to the most trustworthy and theologically rich Christian podcasts available today — covering theology, preaching, culture, and the Christian life. A helpful starting point for anyone wanting to redeem their listening time." },
+  { videoId: "sxMhDVkdULw", title: "Christian Media That's Actually Worth Your Time", channel: "Tim Keller", description: "Tim Keller reflects on discernment in media consumption — which Christian content genuinely forms the soul, what to look for in good teaching, and how to evaluate the explosion of digital Christian content with wisdom rather than just familiarity." },
+  { videoId: "ACZbpLkY8To", title: "Using Media for Gospel Impact", channel: "Desiring God", description: "How Christians can leverage digital media — YouTube, podcasting, social platforms — not just to consume but to bear witness. Practical theology for the age of screens, rooted in the conviction that all of life is for God's glory." },
+  { videoId: "E9P76VJIcRY", title: "Christian YouTube Channels Worth Following", channel: "Ligonier Ministries", description: "Ligonier Ministries walks through the YouTube channels most worth subscribing to for theological depth, expository preaching, and faithful Christian engagement with culture — a useful guide for building a spiritually formative media diet." },
+];
+
 const PODCASTS = [
   { name: "Ask Pastor John", host: "John Piper", freq: "Daily", desc: "John Piper answers a listener question every weekday — spanning theology, life, relationships, suffering, and Scripture. Over 1,900 episodes. The deepest daily podcast in Christian media. Searchable by topic.", focus: "Theology & Life", color: PURPLE },
   { name: "The Bible Project Podcast", host: "Tim Mackie & Jon Collins", freq: "Weekly", desc: "Extended, detailed exploration of the themes, literary structures, and theology behind the Bible Project's animated videos. Tim Mackie's Bible scholarship made accessible. One of the best resources for understanding Scripture's big picture.", focus: "Biblical Theology", color: GREEN },
@@ -60,7 +67,7 @@ const PODCASTS = [
 ];
 
 export default function ChristianMediaHubPage() {
-  const [activeSection, setActiveSection] = useState<"channels" | "websites" | "hacks" | "podcasts">("hacks");
+  const [activeSection, setActiveSection] = useState<"channels" | "websites" | "hacks" | "podcasts" | "videos">("hacks");
   const [hackCat, setHackCat] = useState("All");
 
   const filteredHacks = hackCat === "All" ? LIFE_HACKS : LIFE_HACKS.filter(h => h.category === hackCat);
@@ -83,6 +90,7 @@ export default function ChristianMediaHubPage() {
             { id: "channels" as const, label: "YouTube", icon: "▶️" },
             { id: "websites" as const, label: "Websites", icon: "🌐" },
             { id: "podcasts" as const, label: "Podcasts", icon: "🎙️" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveSection(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeSection === t.id ? PURPLE : "transparent", color: activeSection === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -212,6 +220,22 @@ export default function ChristianMediaHubPage() {
                 </div>
               ))}
             </div>
+          </div>
+        )}
+
+        {activeSection === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {VIDEOS.map(v => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <div style={{ padding: "14px 16px" }}>
+                  <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                  <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </div>

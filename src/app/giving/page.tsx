@@ -108,7 +108,6 @@ function ProgressBar({ raised, goal, color }: { raised: number; goal: number; co
   const pct = Math.min(100, Math.round((raised / goal) * 100));
   return (
     <div className="w-full rounded-full h-1.5 mb-1" style={{ background: "rgba(255,255,255,0.06)" }}>
-      <Navbar />
       <div className="h-1.5 rounded-full transition-all" style={{ width: `${pct}%`, background: color }} />
     </div>
   );
@@ -135,6 +134,7 @@ export default function GivingPage() {
 
   return (
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
+      <Navbar />
       <div className="pb-20" style={{ paddingTop: 80 }}>
         {/* Hero */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-14">

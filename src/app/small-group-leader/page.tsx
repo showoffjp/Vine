@@ -11,7 +11,14 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "leading" | "problems" | "resources";
+type Tab = "theology" | "leading" | "problems" | "resources" | "videos";
+
+const SGL_VIDEOS = [
+  { videoId: "KbFKcFxqVlo", title: "How to Lead a Small Group", channel: "Gospel in Life", description: "Keller's team shares principles for small group leadership drawn from decades of citywide small group ministry." },
+  { videoId: "ACZbpLkY8To", title: "Small Group Bible Study — Leading Well", channel: "Ligonier Ministries", description: "Practical guidance for leading Bible-centered small groups that go deeper than surface sharing." },
+  { videoId: "fJnGJN6laqE", title: "Community That Actually Works", channel: "Desiring God", description: "Why most small groups fail and what it takes to build the kind of community the New Testament describes." },
+  { videoId: "Z8lkuuhVkOI", title: "Facilitating Discussion in Small Groups", channel: "The Gospel Coalition", description: "Proven techniques for asking questions that open up Scripture, draw out quieter members, and keep the group focused." },
+];
 
 const theologyPoints = [
   {
@@ -234,7 +241,8 @@ export default function SmallGroupLeaderPage() {
     { id: "theology", label: "Theology of Community" },
     { id: "leading", label: "Leading Skills" },
     { id: "problems", label: "Common Problems" },
-    { id: "resources", label: "Resources" }
+    { id: "resources", label: "Resources" },
+    { id: "videos", label: "Videos" }
   ];
 
   return (
@@ -400,6 +408,23 @@ export default function SmallGroupLeaderPage() {
                     Visit Resource →
                   </a>
                 )}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Videos */}
+        {activeTab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {SGL_VIDEOS.map(v => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <div style={{ padding: "14px 16px" }}>
+                  <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                  <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                </div>
               </div>
             ))}
           </div>

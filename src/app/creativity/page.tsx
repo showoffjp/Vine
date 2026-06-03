@@ -40,6 +40,13 @@ interface Project {
 
 const STATUS_COLORS: Record<string, string> = { "idea": MUTED, "in-progress": "#F59E0B", "complete": GREEN };
 
+const VIDEOS = [
+  { videoId: "ACZbpLkY8To", title: "Made in God's Image: Christian Creativity", channel: "The Gospel Coalition", description: "The Gospel Coalition explores how the imago Dei grounds human creativity, and what it means to make things as image-bearers of the Creator." },
+  { videoId: "Hr3PkGXYRvI", title: "Creativity for the Glory of God", channel: "Desiring God", description: "Desiring God examines how artistic and creative work can be an act of worship — offering our gifts back to the God who gave them." },
+  { videoId: "dXxmSDhvbHY", title: "Art, Beauty, and Christian Calling", channel: "Ligonier Ministries", description: "Ligonier Ministries considers the theology of beauty and art, and why Christians should care deeply about the aesthetic dimension of life." },
+  { videoId: "E9P76VJIcRY", title: "The Creative Christian Life", channel: "Tim Keller", description: "Tim Keller reflects on the relationship between faith, calling, and creativity — and why the gospel liberates Christians to make things boldly." },
+];
+
 const VOICES_CREAT = [
   { id: "makoto-f", name: "Makoto Fujimura", era: "b. 1960", context: "Art and Faith (2021); Culture Care (2017); Japanese-American painter and theologian of culture", bio: "Makoto Fujimura is a painter working in the ancient Japanese technique of Nihonga — a process that uses ground minerals and gold to create luminous, layered work. His theological reflection on creativity, rooted in the idea of 'culture care' (caring for culture as a gardener cares for soil), has been enormously influential in the intersection of faith and arts. He argues that the church's call is not to produce 'Christian art' as a subcultural alternative to secular culture but to care for culture itself — nourishing the soil in which beauty, truth, and goodness can grow. His Art and Faith offers a profound meditation on Genesis 1, the tabernacle's beauty, and the artist as image-bearer.", quote: "We are not called to produce Christian art. We are called to be Christian artists — people who bring their whole selves, including their faith, to the act of making.", contribution: "Fujimura's work bridged the gap between the art world and the church, making it possible for serious artists to take their faith into the academy and for serious theologians to take the arts into the church. His 'culture care' framework has influenced how evangelical institutions think about cultural engagement and the arts." },
   { id: "sayers-dl", name: "Dorothy L. Sayers", era: "1893-1957", context: "The Mind of the Maker (1941) — the definitive theological account of human creativity as imaging the Trinity", bio: "Dorothy Sayers was a novelist, playwright, and Christian apologist whose The Mind of the Maker remains the most theologically profound exploration of human creativity in the 20th century. Sayers argued that the structure of human creative activity — Idea, Expression, and Recognition — mirrors the Trinitarian life of God (Father, Word, Spirit). Creation is not merely the making of objects but the participation of image-bearers in the creative life of the Trinity. Sayers drew on her own experience as a novelist to illuminate how the act of creating reveals something true about the nature of God and the nature of persons.", quote: "The characteristic of the Creator... is expressed in the image: the experience of making is the experience of making something outside of oneself which is, in some measure, oneself.", contribution: "The Mind of the Maker gave Christians a theological framework for creativity that went far beyond 'art as evangelism' or 'art as decoration.' Sayers showed that creativity itself is theologically significant — that the act of making reveals something true about the God in whose image the maker was made." },
@@ -49,7 +56,7 @@ const VOICES_CREAT = [
 ];
 
 export default function CreativityPage() {
-  const [activeTab, setActiveTab] = useState<"theology" | "mediums" | "projects" | "voices">("theology");
+  const [activeTab, setActiveTab] = useState<"theology" | "mediums" | "projects" | "voices" | "videos">("theology");
   const [selectedVoice, setSelectedVoice] = useState("makoto-f");
   const voiceItem = VOICES_CREAT.find(v => v.id === selectedVoice)!;
   const [projects, setProjects] = useState<Project[]>(() => {
@@ -103,6 +110,7 @@ export default function CreativityPage() {
             { id: "mediums" as const, label: "Creative Mediums", icon: "🎨" },
             { id: "projects" as const, label: "My Projects", icon: "📋" },
             { id: "voices" as const, label: "Voices", icon: "🎭" },
+            { id: "videos" as const, label: "Videos", icon: "▶️" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -224,6 +232,22 @@ export default function CreativityPage() {
                 })}
               </div>
             )}
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {VIDEOS.map(v => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <div style={{ padding: "14px 16px" }}>
+                  <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                  <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                </div>
+              </div>
+            ))}
           </div>
         )}
 

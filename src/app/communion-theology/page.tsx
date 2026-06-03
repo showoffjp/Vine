@@ -215,7 +215,6 @@ function AccordionItem({
         overflow: "hidden",
       }}
     >
-      <Navbar />
       <button
         onClick={() => onToggle(id)}
         style={{
@@ -339,6 +338,7 @@ export default function CommunionTheologyPage() {
         fontFamily: "system-ui, -apple-system, sans-serif",
       }}
     >
+      <Navbar />
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 20px" }}>
         {/* Header */}
         <div style={{ marginBottom: 36 }}>

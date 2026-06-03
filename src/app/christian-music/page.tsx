@@ -465,11 +465,18 @@ const MOOD_COLORS: Record<string, string> = {
 const GENRES = ["All", "Contemporary Worship", "Gospel", "CCM", "Folk/Acoustic"];
 const MOODS = ["All", "Uplifting", "Reflective", "Celebratory", "Peaceful"];
 
+const MUSIC_VIDEOS = [
+  { videoId: "KbFKcFxqVlo", title: "The Theology of Worship Music — Tim Keller", channel: "Gospel in Life", description: "Why music is uniquely suited to Christian worship and how we should think about the music we bring before God." },
+  { videoId: "ACZbpLkY8To", title: "Music and the Soul — Why Worship Sounds Like This", channel: "Ligonier Ministries", description: "A theological exploration of why music moves us spiritually and what that means for how we worship." },
+  { videoId: "fJnGJN6laqE", title: "The Psalms as Worship — Singing God's Word", channel: "Desiring God", description: "Piper on recovering the Psalter as the backbone of Christian worship and what we lose when we abandon it." },
+  { videoId: "Z8lkuuhVkOI", title: "Contemporary vs. Traditional Worship — Moving Past the Debate", channel: "The Gospel Coalition", description: "A thoughtful theological framework for thinking about worship music styles beyond the culture war." },
+];
+
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function ChristianMusicPage() {
   // Tab
-  const [activeTab, setActiveTab] = useState<"featured" | "playlists" | "artists" | "lyrics">(() => "featured");
+  const [activeTab, setActiveTab] = useState<"featured" | "playlists" | "artists" | "lyrics" | "videos">(() => "featured");
 
   // Filters
   const [genreFilter, setGenreFilter] = useState<string>(() => "All");
@@ -826,12 +833,13 @@ export default function ChristianMusicPage() {
             gap: "0",
           }}
         >
-          {(["featured", "playlists", "artists", "lyrics"] as const).map((tab) => {
+          {(["featured", "playlists", "artists", "lyrics", "videos"] as const).map((tab) => {
             const labels: Record<string, string> = {
               featured: "Featured",
               playlists: "Playlists",
               artists: "Artists",
               lyrics: "Lyrics",
+              videos: "Videos",
             };
             const isActive = activeTab === tab;
             return (
@@ -1512,6 +1520,23 @@ export default function ChristianMusicPage() {
                 )}
               </div>
             </div>
+          </div>
+        )}
+
+        {/* ══════════════════════ VIDEOS TAB ══════════════════════ */}
+        {activeTab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {MUSIC_VIDEOS.map(v => (
+              <div key={v.videoId} style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 10, overflow: "hidden" }}>
+                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <div style={{ padding: "14px 16px" }}>
+                  <h4 style={{ color: "#3a7d56", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                  <p style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                  <p style={{ color: "#9898B3", fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </div>

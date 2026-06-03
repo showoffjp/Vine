@@ -12,7 +12,7 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "models" | "philia" | "practices";
+type Tab = "theology" | "models" | "philia" | "practices" | "videos";
 
 const THEOLOGY_ITEMS = [
   {
@@ -193,6 +193,13 @@ const PRACTICES_ITEMS = [
   },
 ];
 
+const FRIENDSHIP_VIDEOS = [
+  { videoId: "KbFKcFxqVlo", title: "The Theology of Friendship — Tim Keller", channel: "Gospel in Life", description: "Keller on deep friendship, the weakness of modern loneliness, and how the gospel creates the conditions for true philia." },
+  { videoId: "ACZbpLkY8To", title: "Christian Friendship — What Sets It Apart", channel: "Ligonier Ministries", description: "How the New Testament reshapes friendship around shared mission, mutual accountability, and love ordered by the gospel." },
+  { videoId: "fJnGJN6laqE", title: "Do We Really Have Friends? — The Crisis of Modern Loneliness", channel: "Desiring God", description: "Piper on the epidemic of loneliness in the church and what biblical community is designed to provide." },
+  { videoId: "Z8lkuuhVkOI", title: "Jonathan and David — The Model of Christian Brotherhood", channel: "The Gospel Coalition", description: "What the friendship of David and Jonathan reveals about covenant love, sacrifice, and the kind of friendship the church should cultivate." },
+];
+
 export default function ChristianFriendshipTheologyPage() {
   const [tab, setTab] = useState<Tab>("theology");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
@@ -212,6 +219,7 @@ export default function ChristianFriendshipTheologyPage() {
     models: "Biblical Models",
     philia: "The Five Loves",
     practices: "Practices",
+    videos: "Videos",
   };
 
   const selectedModelData = BIBLICAL_MODELS.find((m) => m.id === selectedModel);
@@ -236,7 +244,7 @@ export default function ChristianFriendshipTheologyPage() {
 
         {/* Tabs */}
         <div style={{ display: "flex", gap: 4, marginBottom: 32, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 4, flexWrap: "wrap" as const }}>
-          {(["theology", "models", "philia", "practices"] as Tab[]).map((t) => (
+          {(["theology", "models", "philia", "practices", "videos"] as Tab[]).map((t) => (
             <button
               key={t}
               onClick={() => setTab(t)}
@@ -552,6 +560,23 @@ export default function ChristianFriendshipTheologyPage() {
                 );
               })}
             </div>
+          </div>
+        )}
+
+        {/* Tab 5: Videos */}
+        {tab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {FRIENDSHIP_VIDEOS.map(v => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <div style={{ padding: "14px 16px" }}>
+                  <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                  <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                </div>
+              </div>
+            ))}
           </div>
         )}
 

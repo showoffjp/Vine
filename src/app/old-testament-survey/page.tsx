@@ -55,79 +55,52 @@ const SECTIONS = [
 ];
 
 const THEMES = [
-  { theme: "The Covenant", desc: "The organizing principle of the OT. God initiates binding commitments (covenants) with Noah, Abraham, Moses, and David — each building on the previous and pointing forward. The NT presents Jesus as the fulfillment of all these covenants and the mediator of the New Covenant.", refs: "Genesis 9, 12, 15; Exodus 19-24; 2 Samuel 7; Jeremiah 31" },
-  { theme: "Redemption", desc: "The Exodus from Egypt is the primary OT image of salvation — God acts to free his people from bondage. This narrative pattern (bondage, cry, divine action, liberation, new covenant) recurs throughout the OT and is applied to the work of Christ in the NT.", refs: "Exodus 1-15, Isaiah 43:1-7, Hosea 11" },
-  { theme: "The Promised Land", desc: "Canaan functions as a type — a concrete reality that points to the final rest God promises his people. Hebrews explicitly connects the promised land to the heavenly rest that remains for God's people (Hebrews 4). The land is both a genuine historical gift and a shadow of something greater.", refs: "Genesis 12:7, Deuteronomy 6:3, Hebrews 4:8-11" },
-  { theme: "The Temple", desc: "God's presence dwelling among his people — first in the tabernacle, then in Solomon's temple. The temple's destruction is the most catastrophic event in OT history; its restoration is the promise of the prophets. Jesus presents himself as the true temple (John 2:19); the Spirit is the new temple (1 Corinthians 3:16).", refs: "Exodus 40, 1 Kings 8, Ezekiel 40-48, John 2:19-21" },
-  { theme: "The Messiah", desc: "The hope for God's anointed king who would establish his kingdom in righteousness grows from the Davidic covenant (2 Samuel 7) through the prophets. The suffering servant of Isaiah 53, the son of man of Daniel 7, and the Shepherd-King of Ezekiel 34 are all messianic portraits that the NT applies to Jesus.", refs: "2 Samuel 7:12-16, Isaiah 9:6-7, 53:1-12, Daniel 7:13-14, Micah 5:2" },
-];
-
-const SCHOLARS = [
   {
-    id: "origen",
-    name: "Origen of Alexandria",
-    era: "185 – 254",
-    context: "Egyptian biblical scholar, De Principiis, Hexapla",
-    bio: "Origen was the most learned biblical scholar of the ancient church — a man who, by his own account, had read more Scripture than any of his contemporaries. His Hexapla placed six versions of the OT in parallel columns, laying the foundation for textual criticism. His approach to OT interpretation was primarily allegorical: beneath every literal sense of Scripture lies a spiritual sense, and it is the spiritual sense that nourishes the soul. His reading of the Song of Solomon as an allegory of the soul's love for God shaped centuries of mystical exegesis. Critics (Jerome, Epiphanius) attacked his speculative theology; defenders praised his unmatched scriptural depth.",
-    quote: "Scripture is like a lamp kindled by God — it illumines not only the outer but the inner life. The careless reader sees only the surface; the prayerful reader sees depths beyond depths.",
-    contribution: "Origen established typological and allegorical reading as the standard Christian method for interpreting the OT. His conviction — that Christ is hidden throughout the entire Hebrew Bible, waiting to be uncovered — meant that every Christian reader of the OT should be asking: where is Jesus here? This question, which shaped Augustine, Aquinas, and Luther, prevents the OT from becoming a museum of ancient religion and makes it instead a living testimony to the one in whom all its promises find their yes.",
+    title: "Creation & Fall",
+    verse: "Genesis 1:1; 3:15",
+    desc: "The OT opens with God creating a good world and humanity made in his image — and immediately confronts the catastrophe of the fall. Genesis 3 introduces the fracture at the center of all human experience: estrangement from God, from one another, and from the created order. The rest of the OT is the story of God's response to this fracture.",
   },
   {
-    id: "augustine",
-    name: "Augustine of Hippo",
-    era: "354 – 430",
-    context: "Bishop of Hippo, On Christian Doctrine, City of God",
-    bio: "Augustine's contribution to OT interpretation is threefold. First, his De Doctrina Christiana (On Christian Doctrine) provided the first systematic account of how to read Scripture: every obscurity in Scripture has a clearer parallel passage; every passage either teaches or nourishes love of God and neighbor. Second, his massive City of God reads OT history as the story of two cities — the City of God and the City of Man — winding through history toward their final separation. Third, his polemics against the Manichaean dismissal of the OT established that the God of the OT and the God of the NT are the same God — the loving Father, not a harsh lawgiver.",
-    quote: "All Scripture tends to this one end: to build up the love of God and neighbor. If your interpretation builds up love, you have not gone far wrong even if it was not what the author intended.",
-    contribution: "Augustine's canonical reading of the OT — that the entire Bible is about love of God and neighbor, and every obscure passage should be interpreted in light of clearer passages that illuminate this love — became the backbone of medieval biblical interpretation. His two-cities reading of history provides Christians with a framework for understanding their position: citizens of the heavenly city, on pilgrimage through the earthly city, whose history is being shaped by divine providence toward its final end.",
+    title: "Covenant & Promise",
+    verse: "Genesis 12:1–3; 2 Samuel 7:12–16",
+    desc: "God binds himself to his people through covenants — solemn commitments with Abraham, Moses, and David that are not merely contracts but relationships. Each covenant carries a promise: land, descendants, presence, and a coming king. These promises accumulate through the OT and find their yes in Christ.",
   },
   {
-    id: "luther",
-    name: "Martin Luther",
-    era: "1483 – 1546",
-    context: "German Reformer, biblical lectures on Genesis, Psalms, Galatians",
-    bio: "Luther spent more time lecturing on the OT than on anything else: his lectures on Genesis fill eight volumes; his Psalms commentary is among his greatest works. His central interpretive principle was the distinction between Law and Gospel: the OT is primarily Law (showing us our sin and our need) and Gospel (promising the coming Savior). This does not mean the OT has no gospel — on the contrary, Luther found Christ everywhere in it: in the promise to Abraham, in the Psalms, in the suffering servant of Isaiah. But the Law reveals the depth of our problem so that the Gospel's solution can be truly felt as good news. Luther also insisted that the literal sense of Scripture (not allegorical additions) is the foundation of all interpretation.",
-    quote: "The Holy Scriptures require a humble reader who shows reverence and fear toward the Word of God, and constantly says, 'Teach me, teach me, teach me.'",
-    contribution: "Luther's Law-Gospel hermeneutic gave the OT a permanent place in Christian proclamation: it is not merely background for the NT but the preparation that makes the NT comprehensible. His literal sense priority corrected allegorical excess and laid the ground for modern historical-grammatical interpretation. His recovery of the Psalms as prayer — not performance — made them central to Protestant worship and spirituality in a way they had not been since the early church.",
+    title: "Law & Holiness",
+    verse: "Leviticus 19:2; Deuteronomy 6:4–5",
+    desc: "The law given at Sinai is not a burden imposed on Israel but the shape of covenant life — what it looks like to be God's people in the world. Leviticus and Deuteronomy reveal that God is holy and calls his people to reflect that holiness in worship, ethics, and the ordering of community life.",
   },
   {
-    id: "vonrad",
-    name: "Gerhard von Rad",
-    era: "1901 – 1971",
-    context: "German OT scholar, Old Testament Theology (2 vols., 1957-60)",
-    bio: "Von Rad's Old Testament Theology is the most influential OT theology of the twentieth century. Its central insight: the OT is not a collection of timeless theological ideas but a tradition of Israel's testimony about what God has done in history. The starting point is not the concept of God but the confession of Israel: 'A wandering Aramean was my father' (Deuteronomy 26:5ff). Von Rad argued that the Hexateuch (Genesis through Joshua) represents a 'settlement credo' — a succession of historical recitals confessing God's saving acts — which was gradually expanded into the full narrative of the Pentateuch. The prophets then reinterpreted these founding events for new situations of judgment and hope.",
-    quote: "Israel confessed her faith by telling stories. The OT is not a system of doctrine but a sequence of testimonies — a people saying: this is what God did for us, and this is what it means.",
-    contribution: "Von Rad recovered the narrative character of OT theology: it is not primarily a set of doctrines but a story — the story of Israel's life with God through history. His treatment of typology (OT events as patterns that are taken up and exceeded in the NT) provided a sophisticated account of the relationship between the Testaments that avoided both allegorical fantasy and historical-critical reductionism. His influence is felt in canonical approaches to Scripture and in narrative theology more broadly.",
+    title: "Prophecy & Fulfillment",
+    verse: "Isaiah 53:5; Jeremiah 31:31",
+    desc: "The prophets spoke into specific historical crises — the Assyrian threat, the Babylonian exile — but their words carried a surplus of meaning pointing beyond those moments. Isaiah's Suffering Servant, Jeremiah's New Covenant, and the prophets' vision of a restored Israel all set expectations that the NT claims are fulfilled in Jesus.",
   },
   {
-    id: "brueggemann",
-    name: "Walter Brueggemann",
-    era: "Born 1933",
-    context: "American OT theologian, The Prophetic Imagination, Theology of the Old Testament",
-    bio: "Brueggemann has spent 60 years making the OT prophets speak into contemporary Christian life and politics. His The Prophetic Imagination (1978) argued that the OT prophets were not primarily predictors of the future but critics of the dominant consciousness of their day — and that this critique is the permanent vocation of the church. The royal theology of the court (numbness, self-satisfaction, the management of injustice) is always being challenged by the prophetic imagination (grief, energy, hope rooted in God's promises). His Theology of the Old Testament (1997) structurally distinguishes between Israel's core testimony (what Israel confesses about God) and counter-testimony (what Israel says when God seems absent or unjust).",
-    quote: "The task of prophetic imagination is to bring to expression the numbness that the dominant reality has imposed, to make visible what the dominant reality has suppressed.",
-    contribution: "Brueggemann has done more than any other OT scholar to make the prophetic books speak into the church's engagement with power, injustice, and cultural numbness. His recovery of lament — the counter-testimony of Israel when God seems absent — has given permission to a generation of Christians to bring their grief honestly to God rather than suppressing it in false praise. His reading of the prophets as critics of comfortable religion speaks directly into every age where the church is tempted by cultural accommodation.",
+    title: "Exile & Return",
+    verse: "Daniel 9:3; Ezra 1:1–3",
+    desc: "The Babylonian exile is the great trauma of OT history — the loss of land, temple, and king that seemed to contradict every promise God had made. Yet the prophets reframe exile as discipline, not abandonment, and promise a return that is itself a new exodus. Daniel's faithfulness in Babylon and Ezra's return become patterns for God's people in every displacement.",
+  },
+  {
+    title: "The Messianic Hope",
+    verse: "Isaiah 53:1–12; Psalm 22:1",
+    desc: "Running through the OT is an intensifying hope for God's anointed king — one who would be more than any earthly monarch. The suffering servant of Isaiah 53 and the forsaken yet vindicated figure of Psalm 22 sketch a portrait of a Messiah who saves through suffering, not military triumph. The NT's central claim is that Jesus is the one to whom all these portraits pointed.",
   },
 ];
 
-const READING_GUIDE = [
-  { section: "Start with Genesis and Exodus", icon: "🌅", desc: "Genesis and Exodus form the foundation of the entire Bible. Read them first, slowly, noting the key covenants (Noah, Abraham, Mosaic) and the patterns they establish: creation, fall, promise, redemption. Don't skip the genealogies — they are the spine of the narrative." },
-  { section: "Read Psalms One Per Day", icon: "🎵", desc: "The Psalter is Israel's prayer book — designed to be read slowly and repeatedly, not consumed in one sitting. Reading one psalm per day and praying it back to God is more formative than reading through it quickly. The Hebrew emotional range of the Psalms (complaint, praise, lament, trust, rage) gives vocabulary for your own prayer life." },
-  { section: "Read the Prophets with the Historical Books", icon: "📰", desc: "Isaiah, Jeremiah, Ezekiel, and the Twelve are anchored in specific historical moments (8th century Assyrian crisis, 6th century Babylonian exile). Reading Amos alongside 2 Kings 14, or Jeremiah alongside 2 Kings 23-25, makes both come alive. The prophets are not free-floating predictions but specific interventions into specific crises." },
-  { section: "Bring a Reading Map", icon: "🗺️", desc: "A visual overview of the OT storyline — a timeline or canonical chart — transforms the reading experience. The Chronological Bible, The Bible Project's videos, or any good OT introduction helps you see where each book fits in the grand narrative. The OT makes more sense when you know where you are in the story." },
-  { section: "Read with the NT in View", icon: "✝️", desc: "The earliest Christians read the entire Hebrew Bible as pointing toward Jesus. Reading with this question — where does this point toward Christ? — does not distort the OT but reveals its deepest intention. Every sacrifice points to the cross; every king to the King; every prophet to the Prophet. This typological reading is not foreign to the text — it is what Jesus himself models (Luke 24:27)." },
-  { section: "Slow Down for Wisdom Literature", icon: "🧠", desc: "Job, Proverbs, and Ecclesiastes reward slow, meditative reading. They are not designed to be rushed. Job especially resists quick resolution — its power is in the speeches, the complaints, and the divine answer from the whirlwind that is not really an answer. Read these books like poetry, not like information." },
+const OT_VIDEOS = [
+  { videoId: "ACZbpLkY8To", title: "The Old Testament: A Crash Course", channel: "The Bible Project" },
+  { videoId: "Z8lkuuhVkOI", title: "How to Read the Old Testament", channel: "Tim Keller Gospel in Life" },
+  { videoId: "fJnGJN6laqE", title: "The Story of the Bible", channel: "Desiring God" },
+  { videoId: "sxMhDVkdULw", title: "Old Testament Overview", channel: "Ligonier Ministries" },
 ];
 
-type Tab = "sections" | "themes" | "scholars" | "reading";
+type Tab = "overview" | "books" | "themes" | "videos";
 
 export default function OldTestamentSurveyPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("sections");
+  const [activeTab, setActiveTab] = useState<Tab>("overview");
   const [selected, setSelected] = useState("The Law (Torah)");
-  const [selectedScholar, setSelectedScholar] = useState("origen");
 
   const section = SECTIONS.find(s => s.name === selected)!;
-  const scholar = SCHOLARS.find(s => s.id === selectedScholar)!;
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -143,10 +116,10 @@ export default function OldTestamentSurveyPage() {
 
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {[
-            { id: "sections" as const, label: "Sections", icon: "📚" },
+            { id: "overview" as const, label: "Overview", icon: "📚" },
+            { id: "books" as const, label: "Books", icon: "📖" },
             { id: "themes" as const, label: "Themes", icon: "🧵" },
-            { id: "scholars" as const, label: "Scholars", icon: "🧠" },
-            { id: "reading" as const, label: "Reading Guide", icon: "🗺️" },
+            { id: "videos" as const, label: "Videos", icon: "▶️" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -155,7 +128,7 @@ export default function OldTestamentSurveyPage() {
           ))}
         </div>
 
-        {activeTab === "sections" && (
+        {activeTab === "overview" && (
           <div>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 20 }}>
               {SECTIONS.map(s => (
@@ -191,18 +164,47 @@ export default function OldTestamentSurveyPage() {
           </div>
         )}
 
+        {activeTab === "books" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                The 39 books of the Old Testament organized by section. Each group has its own literary character, historical context, and theological emphasis — but together they form a single coherent story.
+              </p>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+              {SECTIONS.map(s => {
+                const books = s.books.split(", ");
+                return (
+                  <div key={s.name} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
+                      <div style={{ width: 10, height: 10, borderRadius: "50%", background: s.color, flexShrink: 0 }} />
+                      <div style={{ color: s.color, fontWeight: 800, fontSize: 15 }}>{s.name}</div>
+                      <div style={{ color: MUTED, fontSize: 12, marginLeft: "auto" }}>{s.timespan}</div>
+                    </div>
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                      {books.map(b => (
+                        <span key={b} style={{ background: `${s.color}12`, border: `1px solid ${s.color}30`, color: TEXT, borderRadius: 6, padding: "4px 10px", fontSize: 13, fontWeight: 600 }}>{b}</span>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
         {activeTab === "themes" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
-                These five themes run through the entire Old Testament and connect directly to their fulfillment in Christ. Seeing them is essential to reading the OT as Christian Scripture.
+                Six major themes run through the entire Old Testament and connect directly to their fulfillment in Christ. Seeing them is essential to reading the OT as Christian Scripture.
               </p>
             </div>
             {THEMES.map((t, i) => (
               <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 14 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 }}>
-                  <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, margin: 0 }}>{t.theme}</h3>
-                  <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 10, fontSize: 11, fontWeight: 700, flexShrink: 0, marginLeft: 12 }}>{t.refs}</span>
+                  <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, margin: 0 }}>{t.title}</h3>
+                  <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 10, fontSize: 11, fontWeight: 700, flexShrink: 0, marginLeft: 12 }}>{t.verse}</span>
                 </div>
                 <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 14, margin: 0 }}>{t.desc}</p>
               </div>
@@ -210,47 +212,22 @@ export default function OldTestamentSurveyPage() {
           </div>
         )}
 
-        {activeTab === "scholars" && (
-          <div style={{ display: "flex", gap: 20 }}>
-            <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 6 }}>
-              {SCHOLARS.map(s => (
-                <button key={s.id} onClick={() => setSelectedScholar(s.id)}
-                  style={{ width: "100%", background: selectedScholar === s.id ? `${PURPLE}20` : CARD, border: `1px solid ${selectedScholar === s.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", textAlign: "left", cursor: "pointer" }}>
-                  <div style={{ color: selectedScholar === s.id ? GREEN : TEXT, fontWeight: 700, fontSize: 13, marginBottom: 2 }}>{s.name}</div>
-                  <div style={{ color: MUTED, fontSize: 11 }}>{s.era}</div>
-                </button>
-              ))}
-            </div>
-            <div style={{ flex: 1, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 26 }}>
-              <h2 style={{ color: GREEN, fontWeight: 900, fontSize: 22, margin: 0 }}>{scholar.name}</h2>
-              <p style={{ color: MUTED, fontSize: 13, fontStyle: "italic", marginBottom: 16 }}>{scholar.context}</p>
-              <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, marginBottom: 20 }}>{scholar.bio}</p>
-              <blockquote style={{ margin: "0 0 20px", padding: "12px 16px", borderLeft: `3px solid ${GREEN}`, background: `${GREEN}08`, borderRadius: "0 8px 8px 0" }}>
-                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, margin: 0, fontStyle: "italic" }}>"{scholar.quote}"</p>
-              </blockquote>
-              <div style={{ background: `${PURPLE}08`, border: `1px solid ${PURPLE}20`, borderRadius: 10, padding: 16 }}>
-                <div style={{ color: PURPLE, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>CONTRIBUTION</div>
-                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{scholar.contribution}</p>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {activeTab === "reading" && (
+        {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
-                The OT rewards patient, prayerful reading — but it helps to have a strategy. These six principles will make your reading more fruitful and help the 39 books feel like one coherent story.
+                These video resources offer accessible overviews of the Old Testament — its structure, narrative arc, and major themes — from trusted teachers and scholars.
               </p>
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(270px, 1fr))", gap: 14 }}>
-              {READING_GUIDE.map((r, i) => (
-                <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
-                    <span style={{ fontSize: 20 }}>{r.icon}</span>
-                    <div style={{ color: GREEN, fontWeight: 800, fontSize: 14 }}>{r.section}</div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(400px, 1fr))", gap: 16 }}>
+              {OT_VIDEOS.map(v => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                    src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                  <div style={{ padding: "14px 16px" }}>
+                    <div style={{ color: TEXT, fontWeight: 700, fontSize: 14, marginBottom: 4 }}>{v.title}</div>
+                    <div style={{ color: MUTED, fontSize: 12 }}>{v.channel}</div>
                   </div>
-                  <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{r.desc}</p>
                 </div>
               ))}
             </div>

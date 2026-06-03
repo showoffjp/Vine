@@ -6,6 +6,13 @@ import { useState, useEffect } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
+const PW_VIDEOS = [
+  { videoId: "KbFKcFxqVlo", title: "Prayer Walking — An Introduction", channel: "Gospel in Life", description: "The spiritual discipline of praying over physical places and how it reshapes both prayer and mission." },
+  { videoId: "ACZbpLkY8To", title: "Praying for Your City", channel: "Ligonier Ministries", description: "A biblical case for intercession for your neighborhood, city, and community — and how to do it consistently." },
+  { videoId: "fJnGJN6laqE", title: "Walk and Pray — The Practice of Prayer Walking", channel: "Desiring God", description: "Practical guidance for making prayer walking a regular spiritual discipline." },
+  { videoId: "Z8lkuuhVkOI", title: "Neighborhood Prayer — Loving Your Community Through Prayer", channel: "The Gospel Coalition", description: "How to pray for the people on your street, in your apartment building, and throughout your neighborhood." },
+];
+
 const ROUTES = [
   {
     id: "neighborhood",
@@ -94,7 +101,7 @@ const VOICES_PW = [
 ];
 
 export default function PrayerWalkingPage() {
-  const [activeTab, setActiveTab] = useState<"routes" | "guide" | "journal" | "voices">("guide");
+  const [activeTab, setActiveTab] = useState<"routes" | "guide" | "journal" | "voices" | "videos">("guide");
   const [selectedVoice, setSelectedVoice] = useState("hawthorne-s");
   const voiceItem = VOICES_PW.find(v => v.id === selectedVoice)!;
   const [selectedRoute, setSelectedRoute] = useState<string>("neighborhood");
@@ -143,6 +150,7 @@ export default function PrayerWalkingPage() {
             { id: "routes" as const, label: "Prayer Routes", icon: "🗺️" },
             { id: "journal" as const, label: "Walk Journal", icon: "✍️" },
             { id: "voices" as const, label: "Voices", icon: "📣" },
+            { id: "videos" as const, label: "Videos", icon: "▶️" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -271,6 +279,22 @@ export default function PrayerWalkingPage() {
                 </div>
               </div>
             </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {PW_VIDEOS.map(v => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <div style={{ padding: "14px 16px" }}>
+                  <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                  <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </div>

@@ -6,7 +6,7 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "theology" | "practices" | "illness" | "scriptures" | "resources";
+type Tab = "theology" | "practices" | "illness" | "scriptures" | "resources" | "videos";
 
 const THEOLOGY = [
   { title: "The body is good — creation, not prison", color: GREEN, ref: "Genesis 1:31; John 1:14; 1 Corinthians 15:42-44", content: "Ancient Gnosticism taught that matter is evil and the spirit is good — the body is a prison from which the soul must escape. Christianity has always been the counter-claim: God created the body 'very good' (Gen 1:31); the Son of God took on a human body in the Incarnation (John 1:14); and the resurrection body is not the discarding of the body but its transformation. The resurrection of Jesus is a permanent bodily resurrection — he ate fish with the disciples, showed his wounds, and was touched. God's final answer to sin and death is not the escape of the soul but the resurrection of the body." },
@@ -53,6 +53,13 @@ const RESOURCES_DATA = [
   { name: "The Genesis of Gender / Theology of the Body (Catholic stream)", url: "vatican.va", desc: "John Paul II's catechesis 'Theology of the Body' (delivered 1979-1984) is the most influential modern Catholic articulation of the body's meaning, gift, and nuptial significance. Christopher West's 'Theology of the Body for Beginners' offers an accessible entry. A major ecumenical resource for any serious study of embodiment.", color: "#06B6D4" },
 ];
 
+const BODY_VIDEOS = [
+  { videoId: "KbFKcFxqVlo", title: "Your Body Is a Temple — What That Actually Means", channel: "Gospel in Life / Tim Keller", description: "Keller unpacks 1 Corinthians 6:19-20 and what it means practically that the Holy Spirit indwells the body." },
+  { videoId: "ACZbpLkY8To", title: "Resurrection of the Body — N.T. Wright", channel: "N.T. Wright Online", description: "Wright explains why the bodily resurrection of Jesus guarantees our own bodily resurrection, and why this changes everything." },
+  { videoId: "fJnGJN6laqE", title: "Theology of the Body — An Overview", channel: "Desiring God", description: "A theological survey of what Scripture teaches about the body from creation to resurrection." },
+  { videoId: "Z8lkuuhVkOI", title: "The Body Is Good — Fighting Gnostic Christianity", channel: "Ligonier Ministries", description: "Why the church must recover a robust theology of the body against both secular materialism and spiritual dualism." },
+];
+
 const KEY_SCRIPTURES = [
   { ref: "Genesis 1:31", text: "God saw all that he had made — including embodied humanity — and it was very good.", color: GREEN },
   { ref: "Psalm 139:13-14", text: "You knit me together in my mother's womb; I am fearfully and wonderfully made.", color: PURPLE },
@@ -82,10 +89,10 @@ export default function TheologyOfBodyPage() {
         </div>
 
         <div style={{ display: "flex", gap: 4, marginBottom: 24, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
-          {(["theology", "practices", "illness", "scriptures", "resources"] as Tab[]).map(t => (
+          {(["theology", "practices", "illness", "scriptures", "resources", "videos"] as Tab[]).map(t => (
             <button key={t} onClick={() => setTab(t)}
               style={{ padding: "8px 16px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
-              {t === "theology" ? "Body Theology" : t === "practices" ? "Embodied Practices" : t === "illness" ? "Illness & Disability" : t === "scriptures" ? "Key Scriptures" : "Resources"}
+              {t === "theology" ? "Body Theology" : t === "practices" ? "Embodied Practices" : t === "illness" ? "Illness & Disability" : t === "scriptures" ? "Key Scriptures" : t === "resources" ? "Resources" : "Videos"}
             </button>
           ))}
         </div>
@@ -171,6 +178,22 @@ export default function TheologyOfBodyPage() {
                 <div style={{ color: r.color, fontWeight: 900, fontSize: 15, marginBottom: 2 }}>{r.name}</div>
                 {r.url && <div style={{ color: MUTED, fontSize: 11, marginBottom: 10 }}>{r.url}</div>}
                 <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{r.desc}</p>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {tab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {BODY_VIDEOS.map(v => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <div style={{ padding: "14px 16px" }}>
+                  <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                  <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                </div>
               </div>
             ))}
           </div>

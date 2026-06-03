@@ -6,7 +6,7 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "books" | "premarriage" | "counseling" | "principles" | "challenges";
+type Tab = "books" | "premarriage" | "counseling" | "principles" | "challenges" | "videos";
 
 const BOOKS = [
   { title: "The Meaning of Marriage", author: "Timothy & Kathy Keller", color: GREEN, description: "The most theologically complete treatment of Christian marriage available for a general audience. Keller argues that modern culture's view of marriage — as a romantic arrangement between self-actualized individuals — is fundamentally incompatible with the biblical picture of covenant love. Marriage is not primarily for happiness but for holiness, and it reveals the gospel in unique ways no other relationship can.", verdict: "Essential — the best starting point for any couple wanting to think biblically about marriage" },
@@ -55,6 +55,13 @@ const COUNSELING_RESOURCES = [
   { name: "Retrouvaille", desc: "A peer-led ministry (Catholic in origin, open to all) for marriages in serious crisis — including separation and the brink of divorce. A weekend experience plus follow-up sessions, led by couples who have themselves rebuilt troubled marriages. retrouvaille.org", color: "#A855F7" },
 ];
 
+const MARRIAGE_VIDEOS = [
+  { videoId: "KbFKcFxqVlo", title: "Marriage — Tim Keller on the Gospel and Marriage", channel: "Gospel in Life", description: "Keller unpacks the profound theological meaning of marriage from Ephesians 5 and how the gospel reshapes the institution." },
+  { videoId: "ACZbpLkY8To", title: "What Is Christian Marriage?", channel: "Ligonier Ministries", description: "A theological foundation for marriage: what covenant means, why permanence matters, and how Scripture shapes the relationship." },
+  { videoId: "fJnGJN6laqE", title: "The Meaning of Marriage", channel: "Desiring God", description: "John Piper on the glory of God in marriage, the purpose of sex, and why the covenant matters more than the feeling." },
+  { videoId: "Z8lkuuhVkOI", title: "Loving Your Spouse Through Conflict", channel: "The Gospel Coalition", description: "Practical biblical guidance for navigating the inevitable conflicts of marriage with grace, truth, and forgiveness." },
+];
+
 const CHALLENGES = [
   { area: "Communication", color: GREEN, problem: "Conversations devolve into logistics or escalate into arguments; one or both partners feel unheard, criticized, or shut out.", help: "Practice reflective listening — repeat back what you heard before responding. Use 'I feel' statements rather than 'you always' accusations (Eph 4:29). Schedule a weekly check-in to talk about the relationship itself, not just the schedule. Gottman's research shows that how a conflict starts (the 'soft startup') predicts how it ends.", scripture: "James 1:19; Ephesians 4:29; Proverbs 15:1" },
   { area: "Conflict & Repair", color: "#EF4444", problem: "Recurring fights about the same issues; stonewalling, defensiveness, or contempt; conflicts that wound and don't resolve.", help: "Most perpetual conflicts are never fully 'solved' — they are managed with humor, acceptance, and dialogue. Learn to make and accept 'repair attempts' mid-conflict. Take a break when flooded (20+ minutes) and return. Confess and forgive specifically rather than keeping score (Col 3:13). A pattern of contempt is a serious warning sign worth bringing to a counselor.", scripture: "Ephesians 4:26; Colossians 3:13; Matthew 18:15" },
@@ -84,10 +91,10 @@ export default function MarriageResourcesPage() {
         </div>
 
         <div style={{ display: "flex", gap: 4, marginBottom: 28, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
-          {(["books", "premarriage", "principles", "challenges", "counseling"] as Tab[]).map(t => (
+          {(["books", "premarriage", "principles", "challenges", "counseling", "videos"] as Tab[]).map(t => (
             <button key={t} onClick={() => { setTab(t); setSelected(null); }}
               style={{ padding: "8px 16px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
-              {t === "books" ? "Books" : t === "premarriage" ? "Pre-Marriage" : t === "principles" ? "Principles" : t === "challenges" ? "Common Challenges" : "Counseling"}
+              {t === "books" ? "Books" : t === "premarriage" ? "Pre-Marriage" : t === "principles" ? "Principles" : t === "challenges" ? "Common Challenges" : t === "counseling" ? "Counseling" : "Videos"}
             </button>
           ))}
         </div>
@@ -174,6 +181,22 @@ export default function MarriageResourcesPage() {
               <div key={i} style={{ background: CARD, border: `1px solid ${r.color}25`, borderRadius: 12, padding: 20 }}>
                 <div style={{ color: r.color, fontWeight: 800, fontSize: 14, marginBottom: 8 }}>{r.name}</div>
                 <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{r.desc}</p>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {tab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {MARRIAGE_VIDEOS.map(v => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <div style={{ padding: "14px 16px" }}>
+                  <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                  <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                </div>
               </div>
             ))}
           </div>

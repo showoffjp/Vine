@@ -6,7 +6,7 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "commands" | "theologians" | "jesus" | "purpose";
+type Tab = "commands" | "theologians" | "jesus" | "purpose" | "videos";
 
 const THEOLOGIANS = [
   {
@@ -240,6 +240,13 @@ const COMMANDMENTS = [
   },
 ];
 
+const TC_VIDEOS = [
+  { videoId: "KbFKcFxqVlo", title: "The Ten Commandments — Tim Keller", channel: "Gospel in Life", description: "Keller's landmark series on the Ten Commandments — not as a burden but as a charter for the liberated life." },
+  { videoId: "ACZbpLkY8To", title: "The Law and the Gospel — R.C. Sproul", channel: "Ligonier Ministries", description: "How the Ten Commandments relate to grace, the gospel, and Christian living — not as a way to earn salvation but to know God." },
+  { videoId: "fJnGJN6laqE", title: "What the Ten Commandments Demand", channel: "Desiring God", description: "John Piper on how Jesus deepens the commandments from external behavior to heart motivation in the Sermon on the Mount." },
+  { videoId: "Z8lkuuhVkOI", title: "The Decalogue and Christian Ethics", channel: "The Gospel Coalition", description: "A theological introduction to how the Ten Commandments function as a moral framework for the New Testament church." },
+];
+
 export default function TenCommandmentsPage() {
   const [selected, setSelected] = useState(1);
   const [activeTab, setActiveTab] = useState<Tab>("commands");
@@ -255,6 +262,7 @@ export default function TenCommandmentsPage() {
     { id: "theologians", label: "Theologians", icon: "🏛️" },
     { id: "jesus", label: "Jesus on the Law", icon: "✝️" },
     { id: "purpose", label: "Purpose of Law", icon: "⚖️" },
+    { id: "videos" as Tab, label: "Videos", icon: "▶️" },
   ];
 
   return (
@@ -435,6 +443,22 @@ export default function TenCommandmentsPage() {
               ))}
             </div>
           </>
+        )}
+
+        {activeTab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {TC_VIDEOS.map(v => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <div style={{ padding: "14px 16px" }}>
+                  <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                  <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
         )}
       </div>
       <Footer />

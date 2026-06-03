@@ -187,7 +187,6 @@ function Accordion({ items }: { items: typeof THEOLOGY_ITEMS }) {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-      <Navbar />
       {items.map(item => {
         const open = !!expanded[item.id];
         return (
@@ -227,6 +226,7 @@ export default function GracePage() {
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, -apple-system, sans-serif", paddingTop: 80 }}>
+      <Navbar />
       <div style={{ maxWidth: 960, margin: "0 auto", padding: "0 20px 80px" }}>
 
         {/* Header */}

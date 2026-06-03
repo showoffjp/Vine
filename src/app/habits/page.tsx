@@ -114,6 +114,13 @@ const SAMPLE_HABITS: Habit[] = [
   },
 ];
 
+const HABIT_VIDEOS = [
+  { videoId: "KbFKcFxqVlo", title: "The Theology of Habits — Tim Keller", channel: "Gospel in Life", description: "Keller on how habits shape us spiritually, why formation precedes transformation, and how the gospel reorders our desires." },
+  { videoId: "ACZbpLkY8To", title: "Spiritual Disciplines for the Christian Life", channel: "Ligonier Ministries", description: "How the spiritual disciplines work: not as a means to earn grace, but as a means to grow in it." },
+  { videoId: "fJnGJN6laqE", title: "The Power of Habit — A Christian Perspective", channel: "Desiring God", description: "Piper on how repetitive practices shape our affections, our character, and our capacity for joy in God." },
+  { videoId: "Z8lkuuhVkOI", title: "Building Spiritual Habits That Stick", channel: "The Gospel Coalition", description: "Practical guidance for cultivating habits of prayer, Scripture, and community that sustain rather than burden." },
+];
+
 export default function HabitsPage() {
   const [habits, setHabits] = useState<Habit[]>(() => {
     try {
@@ -127,7 +134,7 @@ export default function HabitsPage() {
   const [newIcon, setNewIcon] = useState(ICONS[0]);
   const [newColor, setNewColor] = useState(COLORS[0]);
   const [view, setView] = useState<"week" | "month">("week");
-  const [mainTab, setMainTab] = useState<"tracker" | "theology" | "voices" | "methods">("tracker");
+  const [mainTab, setMainTab] = useState<"tracker" | "theology" | "voices" | "methods" | "videos">("tracker");
   const [selectedVoice, setSelectedVoice] = useState("smith-hab");
   const VOICES_HAB = [
     { id: "smith-hab", name: "James K.A. Smith", era: "b. 1970", context: "You Are What You Love (2016) — the liturgical formation of habit and desire", bio: "James K.A. Smith's You Are What You Love is the most theologically sophisticated recent treatment of habit formation in Christian life. Drawn from Augustine's vision of human beings as lovers and from Aristotle's account of virtue as habituated excellence, Smith argues that our habits — more than our beliefs or our decisions — shape what we love and therefore who we are. The 'secular liturgies' of consumer culture (the mall, the smartphone, social media) are forming our habits and desires whether we choose them or not. Christian formation requires intentional counter-practices — daily habits that reorient the heart toward God and neighbor.", quote: "You are what you love. And what you love is not first of all a result of what you believe — it is a result of what you practice. Habit precedes belief; practice shapes the heart.", contribution: "Smith's work gave Christians a theological vocabulary for habit formation that transcended the merely pragmatic. His integration of Augustinian theology with contemporary neuroscience and cultural criticism gave the church a sophisticated account of why habits matter for formation — not as moralistic self-improvement but as the re-orienting of desire toward God." },
@@ -218,11 +225,11 @@ export default function HabitsPage() {
 
           {/* Main Tabs */}
           <div className="flex gap-1 p-1 rounded-xl mb-6" style={{ background: "#12121F", border: "1px solid #1E1E32" }}>
-            {(["tracker", "theology", "voices", "methods"] as const).map((tab) => (
+            {(["tracker", "theology", "voices", "methods", "videos"] as const).map((tab) => (
               <button key={tab} onClick={() => setMainTab(tab)}
                 className="flex-1 py-2 rounded-lg text-sm font-semibold capitalize transition-all"
                 style={{ background: mainTab === tab ? "rgba(58,125,86,0.12)" : "transparent", color: mainTab === tab ? "#3a7d56" : "#6A6A88", border: mainTab === tab ? "1px solid rgba(58,125,86,0.2)" : "1px solid transparent" }}>
-                {tab === "tracker" ? "📊 Tracker" : tab === "theology" ? "📖 Theology" : tab === "voices" ? "🎓 Voices" : "⚗️ Methods"}
+                {tab === "tracker" ? "📊 Tracker" : tab === "theology" ? "📖 Theology" : tab === "voices" ? "🎓 Voices" : tab === "methods" ? "⚗️ Methods" : "▶️ Videos"}
               </button>
             ))}
           </div>
@@ -555,6 +562,22 @@ export default function HabitsPage() {
                   <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.75 }}>{voiceItem.contribution}</p>
                 </div>
               </div>
+            </div>
+          )}
+
+          {mainTab === "videos" && (
+            <div style={{ display: "flex", flexDirection: "column", gap: 24, paddingTop: 8 }}>
+              {HABIT_VIDEOS.map(v => (
+                <div key={v.videoId} style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 10, overflow: "hidden" }}>
+                  <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                    src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                  <div style={{ padding: "14px 16px" }}>
+                    <h4 style={{ color: "#3a7d56", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                    <p style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                    <p style={{ color: "#9898B3", fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                  </div>
+                </div>
+              ))}
             </div>
           )}
 

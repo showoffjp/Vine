@@ -8,7 +8,7 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "theology" | "jesus" | "practices" | "pitfalls";
+type Tab = "theology" | "jesus" | "practices" | "pitfalls" | "videos";
 
 // ─── TAB 1 DATA ──────────────────────────────────────────────────────────────
 
@@ -352,6 +352,15 @@ const pitfallItems: PitfallItem[] = [
   },
 ];
 
+// ─── VIDEOS DATA ─────────────────────────────────────────────────────────────
+
+const MONEY_VIDEOS = [
+  { videoId: "KbFKcFxqVlo", title: "Money and the Gospel — Tim Keller", channel: "Gospel in Life", description: "Keller's landmark teaching on money, generosity, and how the gospel reshapes our relationship to wealth." },
+  { videoId: "ACZbpLkY8To", title: "The Theology of Money — R.C. Sproul", channel: "Ligonier Ministries", description: "A biblical theology of money, possessions, and stewardship from creation to the new creation." },
+  { videoId: "fJnGJN6laqE", title: "Battling the Unbelief of Greed", channel: "Desiring God", description: "John Piper on why covetousness is idolatry and how the gospel frees us from the power of money." },
+  { videoId: "Z8lkuuhVkOI", title: "The Generous Life — Biblical Stewardship", channel: "The Gospel Coalition", description: "What the Bible says about wealth, generosity, and how Jesus's teachings on money cut against both materialism and asceticism." },
+];
+
 // ─── COMPONENT ───────────────────────────────────────────────────────────────
 
 export default function TheologyOfMoneyPage() {
@@ -369,6 +378,7 @@ export default function TheologyOfMoneyPage() {
     { id: "jesus", label: "Jesus and Money" },
     { id: "practices", label: "Practical Theology" },
     { id: "pitfalls", label: "Money Traps" },
+    { id: "videos", label: "Videos" },
   ];
 
   return (
@@ -612,6 +622,23 @@ export default function TheologyOfMoneyPage() {
                 </div>
               ))}
             </div>
+          </div>
+        )}
+
+        {/* ── TAB 5: Videos ── */}
+        {tab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {MONEY_VIDEOS.map(v => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <div style={{ padding: "14px 16px" }}>
+                  <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                  <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                </div>
+              </div>
+            ))}
           </div>
         )}
 

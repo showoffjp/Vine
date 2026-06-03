@@ -151,7 +151,6 @@ function AccordionItem({
 }) {
   return (
     <div style={{ marginBottom: 10 }}>
-      <Navbar />
       <button
         onClick={onToggle}
         style={{
@@ -221,6 +220,7 @@ export default function TheologyOfForgivenessPage() {
         paddingTop: 80,
       }}
     >
+      <Navbar />
       <div style={{ maxWidth: 960, margin: "0 auto", padding: "0 20px 80px" }}>
         {/* Header */}
         <div style={{ textAlign: "center", marginBottom: 40 }}>

@@ -6,7 +6,7 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "overview" | "positions" | "romans" | "today";
+type Tab = "overview" | "positions" | "romans" | "today" | "videos";
 
 const OVERVIEW = [
   { title: "Election — Israel as God's chosen people", color: GREEN, ref: "Deuteronomy 7:6-9; Romans 9:4-5; Genesis 12:1-3", content: "The election of Israel is one of the most theologically demanding facts in the Bible. God did not choose Israel because of their size (they were 'the fewest of all peoples' — Deut 7:7), their righteousness (Deuteronomy 9 repeatedly denies this), or their culture. He chose them because of his love and his faithfulness to his oath to their fathers. This is the paradigm of grace: election is based entirely on God's free choice, not on human merit. Paul will use Israel's election as the foundation of his argument that God's election of Gentiles through Christ is not a contradiction of his faithfulness but its extension." },
@@ -69,6 +69,13 @@ const ROMANS_PASSAGES = [
   { passage: "Romans 11:25-32", color: "#10B981", content: "'All Israel will be saved' — the climactic statement of Romans 9-11. 'A hardening in part has come upon Israel until the fullness of the Gentiles has come in, and in this way all Israel will be saved.' The 'mystery' Paul reveals is that Israel's hardening is partial (not total) and temporary (until the Gentiles come in), after which there will be a large-scale turning of Israel to their Messiah. This is the theological foundation for Christian prayer for Jewish evangelism.", key: "'All Israel will be saved' — the future of ethnic Israel in God's purpose" },
 ];
 
+const ISRAEL_VIDEOS = [
+  { videoId: "KbFKcFxqVlo", title: "Israel and the Church — What's the Relationship?", channel: "Gospel in Life / Tim Keller", description: "Keller addresses the covenant-theological relationship between Israel, the church, and the promises of God." },
+  { videoId: "ACZbpLkY8To", title: "The Theology of Israel in the New Testament", channel: "Ligonier Ministries", description: "How Paul's argument in Romans 9–11 reshapes our understanding of God's covenant with Israel." },
+  { videoId: "fJnGJN6laqE", title: "Has God Rejected His People? — Romans 11 Explained", channel: "Desiring God", description: "John Piper works through Romans 11 verse by verse, showing why Paul's answer is an emphatic 'no' — and what that means." },
+  { videoId: "Z8lkuuhVkOI", title: "Israel, the Church, and the Olive Tree", channel: "Bible Project", description: "A visual exploration of Paul's olive tree metaphor in Romans 11 and what it reveals about continuity between Israel and the church." },
+];
+
 const TODAY_DATA = [
   { org: "Jews for Jesus", url: "jewsforjesus.org", desc: "The largest Messianic Jewish evangelism organization in the world — founded by Moishe Rosen in 1973. Employs hundreds of missionaries globally, many of them Jewish believers in Jesus. Produces resources on Jewish heritage and the Messiah. The theological foundation is Romans 1:16: the gospel is for the Jew first.", color: GREEN },
   { org: "Chosen People Ministries", url: "chosenpeople.com", desc: "One of the oldest and largest Jewish evangelism organizations — founded in 1894. Operates in 14 countries with Jewish communities. Produces significant theological resources on Jewish-Christian relations, the Hebrew roots of the faith, and Romans 9-11 interpretation. Their publication Israel My Glory is widely circulated.", color: PURPLE },
@@ -102,10 +109,10 @@ export default function TheologyOfIsraelPage() {
         </div>
 
         <div style={{ display: "flex", gap: 4, marginBottom: 24, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
-          {(["overview", "positions", "romans", "today"] as Tab[]).map(t => (
+          {(["overview", "positions", "romans", "today", "videos"] as Tab[]).map(t => (
             <button key={t} onClick={() => setTab(t)}
               style={{ padding: "8px 16px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
-              {t === "overview" ? "Biblical Overview" : t === "positions" ? "5 Positions" : t === "romans" ? "Romans 9-11 Guide" : "Jewish Evangelism"}
+              {t === "overview" ? "Biblical Overview" : t === "positions" ? "5 Positions" : t === "romans" ? "Romans 9-11 Guide" : t === "today" ? "Jewish Evangelism" : "Videos"}
             </button>
           ))}
         </div>
@@ -170,6 +177,22 @@ export default function TheologyOfIsraelPage() {
               <div style={{ color: MUTED, fontSize: 11, marginBottom: 12 }}>{sel.key}</div>
               <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0 }}>{sel.content}</p>
             </div>
+          </div>
+        )}
+
+        {tab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {ISRAEL_VIDEOS.map(v => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <div style={{ padding: "14px 16px" }}>
+                  <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                  <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                </div>
+              </div>
+            ))}
           </div>
         )}
 

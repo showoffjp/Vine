@@ -3,6 +3,13 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
 
+const VIDEOS = [
+  { videoId: "Z8lkuuhVkOI", title: "Understanding Global Missions Today", channel: "Lausanne Movement", description: "A comprehensive look at the current state of global missions — where the church is making inroads, where billions remain unreached, and what faithful mission looks like in the 21st century." },
+  { videoId: "fJnGJN6laqE", title: "Let the Nations Be Glad", channel: "Desiring God", description: "Based on John Piper's landmark book, this video unpacks the biblical foundation for world missions: worship is the goal of missions, and missions exists because worship doesn't. A must-watch for anyone discerning a call to the nations." },
+  { videoId: "Hr3PkGXYRvI", title: "The State of World Missions", channel: "International Mission Board", description: "IMB surveys the current landscape of global Christianity — explosive church growth in Africa and Asia, the ongoing challenge of unreached people groups, and what it means to participate in the Great Commission today." },
+  { videoId: "TuXTFlU-_To", title: "Unreached People Groups", channel: "Desiring God", description: "An introduction to the concept of unreached people groups — the approximately 3.2 billion people who live in ethno-linguistic groups with no indigenous access to the gospel — and why their evangelization is the central strategic challenge of global missions." },
+];
+
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
@@ -129,6 +136,7 @@ const ORGS = [
 ];
 
 export default function GlobalMissionsOrgsPage() {
+  const [tab, setTab] = useState<"orgs" | "videos">("orgs");
   const [category, setCategory] = useState("All");
   const [selected, setSelected] = useState<string | null>(null);
 
@@ -147,6 +155,36 @@ export default function GlobalMissionsOrgsPage() {
           </p>
         </div>
 
+        <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
+          {[
+            { id: "orgs" as const, label: "Organizations", icon: "🌍" },
+            { id: "videos" as const, label: "Videos", icon: "▶️" },
+          ].map(t => (
+            <button key={t.id} onClick={() => setTab(t.id)}
+              style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? GREEN : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+              {t.icon} {t.label}
+            </button>
+          ))}
+        </div>
+
+        {tab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {VIDEOS.map(v => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <div style={{ padding: "14px 16px" }}>
+                  <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                  <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {tab === "orgs" && (
+        <div>
         <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 28 }}>
           {CATEGORIES.map(c => (
             <button key={c} onClick={() => setCategory(c)}
@@ -213,6 +251,8 @@ export default function GlobalMissionsOrgsPage() {
             </div>
           )}
         </div>
+        </div>
+        )}
       </div>
       <Footer />
     </div>

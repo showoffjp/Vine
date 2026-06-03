@@ -11,7 +11,14 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "steps" | "programs" | "community";
+type Tab = "theology" | "steps" | "programs" | "community" | "videos";
+
+const RECOVERY_VIDEOS = [
+  { videoId: "KbFKcFxqVlo", title: "The Gospel and Addiction — Tim Keller", channel: "Gospel in Life", description: "Keller addresses addiction as a spiritual and anthropological problem, and why the gospel offers what no program alone can." },
+  { videoId: "ACZbpLkY8To", title: "Grace and Recovery — The Theological Foundations", channel: "Ligonier Ministries", description: "How the doctrines of grace, repentance, and sanctification apply to the specific struggles of addiction and recovery." },
+  { videoId: "fJnGJN6laqE", title: "Celebrate Recovery — The Story and the Method", channel: "Saddleback Church", description: "An overview of the Celebrate Recovery program — how it integrates 12 steps with Scripture and why it works." },
+  { videoId: "Z8lkuuhVkOI", title: "Redemption Groups — Theology-Driven Recovery", channel: "The Gospel Coalition", description: "What happens when you build a recovery community on deep gospel theology rather than behavior management." },
+];
 
 const theologyItems = [
   {
@@ -336,6 +343,7 @@ export default function ChristianRecoveryPage() {
               { id: "steps", label: "The 12 Steps" },
               { id: "programs", label: "Programs" },
               { id: "community", label: "Church & Community" },
+              { id: "videos", label: "▶️ Videos" },
             ] as { id: Tab; label: string }[]
           ).map((t) => (
             <button
@@ -487,6 +495,23 @@ export default function ChristianRecoveryPage() {
                 </div>
               ))}
             </div>
+          </div>
+        )}
+
+        {/* Tab: Videos */}
+        {tab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {RECOVERY_VIDEOS.map(v => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <div style={{ padding: "14px 16px" }}>
+                  <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                  <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </div>

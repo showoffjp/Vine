@@ -6,7 +6,14 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "books" | "seasons" | "guides" | "voices";
+type Tab = "books" | "seasons" | "guides" | "voices" | "videos";
+
+const BFOS_VIDEOS = [
+  { videoId: "KbFKcFxqVlo", title: "How to Read Books as a Christian", channel: "Gospel in Life", description: "Keller on the practice of reading — why Christians should read widely, how to read critically, and how literature shapes the soul." },
+  { videoId: "ACZbpLkY8To", title: "Books That Have Shaped My Ministry", channel: "Ligonier Ministries", description: "R.C. Sproul shares the books that most formed him theologically and personally — and why reading deeply matters." },
+  { videoId: "fJnGJN6laqE", title: "Don't Waste Your Reading", channel: "Desiring God", description: "Piper on reading for transformation, not just information — how to read with prayer, attention, and humble submission." },
+  { videoId: "Z8lkuuhVkOI", title: "The Christian Reading Life", channel: "The Gospel Coalition", description: "How to build a reading life that feeds faith, sharpens thinking, and keeps you growing across every season of life." },
+];
 
 const SEASON_FILTERS = ["All", "New Believer", "Deep Grief", "Doubt & Crisis", "Marriage & Family", "Calling & Vocation", "Suffering & Illness", "Spiritual Dryness", "Anger & Forgiveness"];
 
@@ -380,10 +387,10 @@ export default function BooksForSeasonsPage() {
 
         {/* Tab Bar */}
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 6, width: "fit-content" }}>
-          {(["books", "seasons", "guides", "voices"] as const).map(t => (
+          {(["books", "seasons", "guides", "voices", "videos"] as const).map(t => (
             <button key={t} onClick={() => setActiveTab(t)}
               style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-              {t === "books" ? "Books" : t === "seasons" ? "Life Seasons" : t === "guides" ? "Reading Guides" : "Voices"}
+              {t === "books" ? "Books" : t === "seasons" ? "Life Seasons" : t === "guides" ? "Reading Guides" : t === "voices" ? "Voices" : "Videos"}
             </button>
           ))}
         </div>
@@ -525,6 +532,23 @@ export default function BooksForSeasonsPage() {
                       </div>
                     </div>
                   ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Videos Tab */}
+        {activeTab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {BFOS_VIDEOS.map(v => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <div style={{ padding: "14px 16px" }}>
+                  <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                  <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
                 </div>
               </div>
             ))}

@@ -176,7 +176,6 @@ function AccordionItem({
         transition: "border-color 0.2s",
       }}
     >
-      <Navbar />
       <button
         onClick={() => onToggle(id)}
         style={{
@@ -244,6 +243,7 @@ export default function ImageOfGodPage() {
         paddingTop: 80,
       }}
     >
+      <Navbar />
       <div style={{ maxWidth: 920, margin: "0 auto", padding: "0 20px 80px" }}>
         {/* Hero */}
         <div style={{ textAlign: "center", marginBottom: 48 }}>

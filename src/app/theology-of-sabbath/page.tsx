@@ -158,7 +158,6 @@ function Accordion({
 }) {
   return (
     <div style={{ maxWidth: 720 }}>
-      <Navbar />
       {items.map((item, i) => {
         const key = `${prefix}-${i}`;
         const open = !!expanded[key];
@@ -241,6 +240,7 @@ export default function TheologyOfSabbathPage() {
         fontFamily: "system-ui, -apple-system, sans-serif",
       }}
     >
+      <Navbar />
       <div
         style={{
           maxWidth: 1120,

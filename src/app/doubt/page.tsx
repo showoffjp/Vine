@@ -72,7 +72,14 @@ const PRACTICES_FOR_DOUBT = [
   { title: "Hold the Tension", desc: "You don't have to resolve every question before you can follow. Faithful action in the face of unanswered questions is itself an act of trust." },
 ];
 
-type Tab = "types" | "voices" | "scripture" | "practices";
+const DOUBT_VIDEOS = [
+  { videoId: "TuXTFlU-_To", title: "Honest Doubts: Keller on Faith and Doubt", channel: "Tim Keller Gospel in Life" },
+  { videoId: "Hr3PkGXYRvI", title: "When Faith Feels Weak", channel: "Desiring God — John Piper" },
+  { videoId: "dXxmSDhvbHY", title: "Wrestling with Doubt", channel: "Ligonier Ministries" },
+  { videoId: "E9P76VJIcRY", title: "Can I Doubt and Still Believe?", channel: "Tim Keller" },
+];
+
+type Tab = "types" | "voices" | "scripture" | "practices" | "videos";
 
 const VOICES = [
   {
@@ -148,6 +155,7 @@ export default function DoubtPage() {
             { id: "voices" as const, label: "Voices", icon: "💬" },
             { id: "scripture" as const, label: "In Scripture", icon: "📜" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
+            { id: "videos" as const, label: "Videos", icon: "▶️" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -260,6 +268,27 @@ export default function DoubtPage() {
               <p style={{ color: TEXT, lineHeight: 1.75, fontSize: 15, margin: 0 }}>
                 Many who have contributed most to the church — C.S. Lewis (atheist to Anglican), Augustine (wayward to bishop), G.K. Chesterton, Francis Collins, Alvin Plantinga — passed through profound doubt on the way to mature faith. Doubt that is engaged rather than suppressed often produces a faith that is deeper, more compassionate, and more resilient than faith that has never been tested.
               </p>
+            </div>
+          </div>
+        )}
+        {activeTab === "videos" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
+                These videos explore doubt honestly — from scholars and pastors who have wrestled with questions of faith and emerged with something more durable than easy certainty.
+              </p>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(380px, 1fr))", gap: 16 }}>
+              {DOUBT_VIDEOS.map(v => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                  <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                    src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                  <div style={{ padding: "14px 16px" }}>
+                    <div style={{ color: TEXT, fontWeight: 700, fontSize: 14, marginBottom: 4 }}>{v.title}</div>
+                    <div style={{ color: MUTED, fontSize: 12 }}>{v.channel}</div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         )}

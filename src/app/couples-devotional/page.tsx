@@ -281,6 +281,13 @@ const PRACTICES_CD: { id: string; title: string; icon: string; frequency: string
   },
 ];
 
+const COUPLE_VIDEOS = [
+  { videoId: "KbFKcFxqVlo", title: "The Meaning of Marriage — Tim Keller", channel: "Gospel in Life", description: "Keller's foundational talk on how the gospel reshapes everything we think about marriage, love, and commitment." },
+  { videoId: "ACZbpLkY8To", title: "Marriage as a Mirror of the Gospel", channel: "Ligonier Ministries", description: "How Ephesians 5 teaches that Christian marriage is a living proclamation of Christ's love for the church." },
+  { videoId: "fJnGJN6laqE", title: "Devotional Life as a Couple", channel: "Desiring God", description: "Piper on praying together, reading Scripture together, and building a devotional life that sustains and deepens marriage." },
+  { videoId: "Z8lkuuhVkOI", title: "The Hard Work of Marriage — Gospel-Centered Conflict Resolution", channel: "The Gospel Coalition", description: "How the gospel transforms the way couples handle conflict, forgiveness, and the ordinary friction of shared life." },
+];
+
 const SCRIPTURE_CD: { id: string; ref: string; text: string; theme: string; reflection: string }[] = [
   {
     id: "gen-2-24",
@@ -337,7 +344,7 @@ export default function CouplesDevotionalPage() {
   const [editingName, setEditingName] = useState(false);
   const [nameInput, setNameInput] = useState("");
   const [activeSection, setActiveSection] = useState<"husband" | "wife" | "together">("together");
-  const [mainTab, setMainTab] = useState<"devotionals" | "voices" | "practices" | "scripture">("devotionals");
+  const [mainTab, setMainTab] = useState<"devotionals" | "voices" | "practices" | "scripture" | "videos">("devotionals");
   const [selectedVoice, setSelectedVoice] = useState("keller-t");
   const voiceItem = VOICES_CD.find(v => v.id === selectedVoice)!;
 
@@ -418,7 +425,7 @@ export default function CouplesDevotionalPage() {
       {/* Main tab bar */}
       <div style={{ borderBottom: "1px solid #1E1E32", background: "#0A0A16", position: "sticky", top: 0, zIndex: 10 }}>
         <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 24px", display: "flex", gap: 2 }}>
-          {([["devotionals", "💑 Devotionals"], ["practices", "✝️ Practices"], ["scripture", "📖 Scripture"], ["voices", "🎓 Voices"]] as const).map(([key, label]) => (
+          {([["devotionals", "💑 Devotionals"], ["practices", "✝️ Practices"], ["scripture", "📖 Scripture"], ["voices", "🎓 Voices"], ["videos", "▶ Videos"]] as const).map(([key, label]) => (
             <button key={key} onClick={() => setMainTab(key)}
               style={{ background: "none", border: "none", borderBottom: mainTab === key ? "2px solid #3a7d56" : "2px solid transparent", color: mainTab === key ? "#F2F2F8" : "#9898B3", fontWeight: mainTab === key ? 700 : 500, fontSize: 14, padding: "14px 18px", cursor: "pointer", whiteSpace: "nowrap" }}>
               {label}
@@ -661,6 +668,22 @@ export default function CouplesDevotionalPage() {
                 <p style={{ fontSize: 15, color: "#E0E0F0", lineHeight: 1.75, margin: 0 }}>&ldquo;{s.text}&rdquo;</p>
               </blockquote>
               <p style={{ fontSize: 14, color: "#9898B3", lineHeight: 1.75, marginTop: 12, marginBottom: 0 }}>{s.reflection}</p>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {mainTab === "videos" && (
+        <div style={{ maxWidth: 900, margin: "0 auto", padding: "32px 24px", display: "flex", flexDirection: "column", gap: 24 }}>
+          {COUPLE_VIDEOS.map(v => (
+            <div key={v.videoId} style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 10, overflow: "hidden" }}>
+              <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+              <div style={{ padding: "14px 16px" }}>
+                <h4 style={{ color: "#3a7d56", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                <p style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                <p style={{ color: "#9898B3", fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+              </div>
             </div>
           ))}
         </div>

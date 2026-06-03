@@ -25,7 +25,14 @@ const IDENTITY_STATEMENTS = [
   { ref: "Romans 8:38-39", statement: "Nothing can separate me from God's love.", category: "Security", verse: "For I am convinced that neither death nor life, neither angels nor demons, neither the present nor the future, nor any powers, neither height nor depth, nor anything else in all creation, will be able to separate us from the love of God that is in Christ Jesus our Lord." },
 ];
 
-type Tab = "who" | "voices" | "false" | "meditate";
+type Tab = "who" | "voices" | "false" | "meditate" | "videos";
+
+const VIDEOS = [
+  { videoId: "fJnGJN6laqE", title: "Who Am I? Understanding Your Identity in Christ", channel: "Desiring God", description: "A biblical exploration of who you are in Christ — not based on performance, achievement, or the opinions of others, but on what God says about you." },
+  { videoId: "Z8lkuuhVkOI", title: "Identity: The Gospel's Answer to Who You Are", channel: "Tim Keller Gospel in Life", description: "Tim Keller examines how the gospel reshapes our deepest sense of identity, freeing us from the twin tyrannies of pride and shame." },
+  { videoId: "TuXTFlU-_To", title: "Knowing Who You Are in Christ", channel: "Ligonier Ministries", description: "Ligonier Ministries unpacks the doctrinal foundations of Christian identity — what it means to be justified, adopted, and united with Christ." },
+  { videoId: "sxMhDVkdULw", title: "Your Identity Before God", channel: "The Gospel Coalition", description: "The Gospel Coalition explores how our standing before God in Christ defines us more fundamentally than any other category — family, culture, or achievement." },
+];
 
 const VOICES_IDENTITY = [
   {
@@ -131,6 +138,7 @@ export default function IdentityInChristPage() {
             { id: "voices" as const, label: "Voices", icon: "💬" },
             { id: "false" as const, label: "False Identities", icon: "🚫" },
             { id: "meditate" as const, label: "Meditate", icon: "🙏" },
+            { id: "videos" as const, label: "Videos", icon: "▶️" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -228,6 +236,22 @@ export default function IdentityInChristPage() {
                     <div style={{ color: "#EF4444", fontWeight: 700, fontSize: 15, marginBottom: 8 }}>Identity in "{f.false_id}"</div>
                     <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, margin: 0 }}>{f.truth}</p>
                   </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {VIDEOS.map(v => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <div style={{ padding: "14px 16px" }}>
+                  <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                  <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
                 </div>
               </div>
             ))}

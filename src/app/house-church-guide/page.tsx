@@ -217,7 +217,6 @@ function Accordion({ items }: { items: AccordionItem[] }) {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-      <Navbar />
       {items.map((item, i) => {
         const isOpen = open === i;
         return (
@@ -465,6 +464,7 @@ export default function HouseChurchGuidePage() {
         fontFamily: "system-ui, -apple-system, sans-serif",
       }}
     >
+      <Navbar />
       <div style={{ maxWidth: 860, margin: "0 auto", padding: "0 20px 80px" }}>
         {/* ── Header ── */}
         <div style={{ marginBottom: 40, textAlign: "center" }}>

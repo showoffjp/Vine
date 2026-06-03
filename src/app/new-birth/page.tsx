@@ -7,7 +7,14 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "theology" | "models" | "voices" | "practices";
+type Tab = "theology" | "models" | "voices" | "practices" | "videos";
+
+const VIDEOS = [
+  { videoId: "KbFKcFxqVlo", title: "You Must Be Born Again — What Jesus Really Meant", channel: "Tim Keller / Gospel in Life", description: "Keller unpacks John 3 and the radical claim that religious people need regeneration just as much as irreligious ones." },
+  { videoId: "fJnGJN6laqE", title: "What Does It Mean to Be Born Again?", channel: "Desiring God", description: "John Piper answers the question with precision and pastoral warmth — what changes, what doesn't, and how you know." },
+  { videoId: "ACZbpLkY8To", title: "The New Birth — Regeneration Explained", channel: "Ligonier Ministries", description: "R.C. Sproul explains the Reformed doctrine of regeneration: why the new birth must precede faith, not follow it." },
+  { videoId: "Z8lkuuhVkOI", title: "Regeneration and Conversion", channel: "Theology of the Cross", description: "A careful theological treatment of the ordo salutis — how regeneration, faith, repentance, and justification relate." },
+];
 
 const VOICES = [
   {
@@ -136,6 +143,7 @@ export default function NewBirthPage() {
             { id: "models" as const, label: "Views", icon: "⚖️" },
             { id: "voices" as const, label: "Voices", icon: "💬" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
+            { id: "videos" as const, label: "Videos", icon: "▶️" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -218,6 +226,22 @@ export default function NewBirthPage() {
                 </div>
               </div>
             </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {VIDEOS.map(v => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <div style={{ padding: "14px 16px" }}>
+                  <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                  <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                </div>
+              </div>
+            ))}
           </div>
         )}
 

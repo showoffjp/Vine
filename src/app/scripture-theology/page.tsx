@@ -206,7 +206,6 @@ function AccordionItem({ id, title, body, expanded, onToggle }: {
 }) {
   return (
     <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, marginBottom: 12, overflow: "hidden" }}>
-      <Navbar />
       <button
         onClick={onToggle}
         style={{
@@ -248,6 +247,7 @@ export default function ScriptureTheologyPage() {
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
+      <Navbar />
       <div style={{ maxWidth: 920, margin: "0 auto", padding: "0 20px 80px" }}>
 
         {/* Header */}

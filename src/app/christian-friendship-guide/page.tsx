@@ -12,7 +12,14 @@ const PURPLE = "#6B4FBB";
 const TEXT = "#F2F2F8";
 const MUTED = "#9898B3";
 
-type Tab = "theology" | "enemies" | "practices" | "models";
+type Tab = "theology" | "enemies" | "practices" | "models" | "videos";
+
+const CFG_VIDEOS = [
+  { videoId: "KbFKcFxqVlo", title: "Building Deep Friendships — Tim Keller", channel: "Gospel in Life", description: "Keller on the barriers to deep friendship in modern culture and what the gospel makes possible in Christian community." },
+  { videoId: "ACZbpLkY8To", title: "Friendship and the Christian Life", channel: "Ligonier Ministries", description: "A biblical theology of friendship — what makes Christian friendship different and why the church needs it." },
+  { videoId: "fJnGJN6laqE", title: "The Gift of Friendship — Why We Need It", channel: "Desiring God", description: "Piper on friendship as a means of grace, accountability, and joy — and how to cultivate it intentionally." },
+  { videoId: "Z8lkuuhVkOI", title: "Loneliness, Community, and the Gospel", channel: "The Gospel Coalition", description: "Why the epidemic of loneliness cannot be solved by programs — and how the gospel creates the conditions for genuine belonging." },
+];
 
 const STATS = [
   { value: "1 in 3", label: "Americans say they have no close friends" },
@@ -217,6 +224,7 @@ export default function ChristianFriendshipGuidePage() {
     enemies: "Enemies of Friendship",
     practices: "Practices",
     models: "Historical Models",
+    videos: "Videos",
   };
 
   return (
@@ -246,7 +254,7 @@ export default function ChristianFriendshipGuidePage() {
 
         {/* Tabs */}
         <div style={{ display: "flex", gap: 4, marginBottom: 28, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
-          {(["theology", "enemies", "practices", "models"] as Tab[]).map((t) => (
+          {(["theology", "enemies", "practices", "models", "videos"] as Tab[]).map((t) => (
             <button
               key={t}
               onClick={() => setTab(t)}
@@ -399,6 +407,23 @@ export default function ChristianFriendshipGuidePage() {
                 <div style={{ background: `${model.color}10`, border: `1px solid ${model.color}20`, borderRadius: 8, padding: "10px 14px" }}>
                   <div style={{ color: model.color, fontSize: 10, fontWeight: 800, marginBottom: 4, letterSpacing: "0.08em" }}>LESSON</div>
                   <p style={{ color: TEXT, fontSize: 12, lineHeight: 1.7, margin: 0 }}>{model.lesson}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Tab 5: Videos */}
+        {tab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {CFG_VIDEOS.map(v => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <div style={{ padding: "14px 16px" }}>
+                  <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                  <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
                 </div>
               </div>
             ))}

@@ -15,11 +15,19 @@ const VOICES_GROWTH = [
   { id: "foster-g", name: "Richard Foster", era: "b. 1942", context: "Celebration of Discipline (1978); Streams of Living Water (1998); Renovare", bio: "Foster's Streams of Living Water identifies six traditions within the church — the contemplative, holiness, charismatic, social justice, evangelical, and incarnational streams — each representing a different emphasis in spiritual growth. His thesis is that a complete Christian is formed by all six streams, not just one. Celebration of Discipline catalogues twelve spiritual disciplines and argues that they are 'the means of grace' by which the Christian is intentionally trained for growth. Foster's vision of spiritual growth is both comprehensive (the whole person) and integrated (all of Christian history).", quote: "Superficiality is the curse of our age. The desperate need today is not for a greater number of intelligent people, or gifted people, but for deep people.", contribution: "Created a comprehensive map of the Christian spiritual tradition that allowed ordinary evangelicals to access centuries of formation wisdom they had largely forgotten. Celebration of Discipline is the most influential single Protestant book on spiritual growth of the past 50 years." },
 ];
 
+const SGS_VIDEOS = [
+  { videoId: "KbFKcFxqVlo", title: "Stages of Spiritual Growth — Tim Keller", channel: "Gospel in Life", description: "Keller maps the journey from spiritual infancy through maturity, drawing on classic and Reformed frameworks." },
+  { videoId: "ACZbpLkY8To", title: "The Dark Night of the Soul — What It Is and How to Navigate It", channel: "Ligonier Ministries", description: "An introduction to the contemplative tradition of spiritual dryness and what it means for ordinary Christians." },
+  { videoId: "fJnGJN6laqE", title: "Spiritual Formation — What It Is and Why It Matters", channel: "Desiring God", description: "Piper on the difference between behavior modification and genuine transformation by the Spirit." },
+  { videoId: "Z8lkuuhVkOI", title: "Growing in Christlikeness — Dallas Willard's Vision", channel: "The Gospel Coalition", description: "An overview of Willard's model of spiritual formation — how we arrange our life to be shaped by God." },
+];
+
 const FRAMEWORK_TABS = [
   { id: "biblical" as const, label: "Biblical Stages", icon: "📖" },
   { id: "classic" as const, label: "Classic Frameworks", icon: "📜" },
   { id: "voices" as const, label: "Voices", icon: "💬" },
   { id: "obstacles" as const, label: "Growth Obstacles", icon: "⚠️" },
+  { id: "videos" as const, label: "Videos", icon: "▶️" },
 ];
 
 const BIBLICAL_STAGES = [
@@ -171,7 +179,7 @@ const GROWTH_OBSTACLES = [
 ];
 
 export default function SpiritualGrowthStagesPage() {
-  const [activeTab, setActiveTab] = useState<"biblical" | "classic" | "voices" | "obstacles">("biblical");
+  const [activeTab, setActiveTab] = useState<"biblical" | "classic" | "voices" | "obstacles" | "videos">("biblical");
   const [selectedVoice, setSelectedVoice] = useState("teresa");
   const voiceItem = VOICES_GROWTH.find(v => v.id === selectedVoice)!;
   const [selectedStage, setSelectedStage] = useState<string | null>(null);
@@ -348,6 +356,22 @@ export default function SpiritualGrowthStagesPage() {
                     </div>
                   </div>
                 )}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {SGS_VIDEOS.map(v => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <div style={{ padding: "14px 16px" }}>
+                  <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                  <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                </div>
               </div>
             ))}
           </div>

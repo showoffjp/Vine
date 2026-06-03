@@ -312,7 +312,6 @@ function Accordion({ items }: { items: { id: string; title: string; content: str
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-      <Navbar />
       {items.map((item) => (
         <div
           key={item.id}
@@ -576,6 +575,7 @@ export default function SpiritualGiftsPage() {
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, paddingTop: 80 }}>
+      <Navbar />
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 24px 80px 24px" }}>
         {/* Header */}
         <div style={{ marginBottom: 40 }}>

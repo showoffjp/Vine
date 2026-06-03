@@ -7,7 +7,14 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "theology" | "voices" | "responses" | "practices";
+type Tab = "theology" | "voices" | "responses" | "practices" | "videos";
+
+const SUFF_VIDEOS = [
+  { videoId: "KbFKcFxqVlo", title: "The Gift of Suffering — Tim Keller", channel: "Gospel in Life", description: "Keller's classic teaching on why suffering is not an obstacle to faith but often its deepest school." },
+  { videoId: "ACZbpLkY8To", title: "Suffering and the Sovereignty of God", channel: "Ligonier Ministries", description: "How R.C. Sproul holds together divine sovereignty and real human suffering without minimizing either." },
+  { videoId: "fJnGJN6laqE", title: "Don't Waste Your Cancer — John Piper", channel: "Desiring God", description: "Piper's moving reflection on his cancer diagnosis and what he learned about faith, God, and the preciousness of life." },
+  { videoId: "Z8lkuuhVkOI", title: "When the Darkness Doesn't Lift", channel: "The Gospel Coalition", description: "What to say and not say to someone suffering deeply — and how the church can truly be the body of Christ in hard times." },
+];
 
 const THEOLOGY = [
   { title: "Suffering in a Fallen World", verse: "Romans 8:20-22", body: "For the creation was subjected to frustration, not by its own choice, but by the will of the one who subjected it (Romans 8:20). Suffering is real, pervasive, and rooted in the fall — the rebellion of humanity that fractured the created order. The whole creation groans as in the pains of childbirth (v.22). The Christian account of suffering begins here: it is not illusion (as some Eastern philosophies hold) nor is it the final word (as secular despair holds). It is the real consequence of a real fall, in a world moving toward a real redemption." },
@@ -102,6 +109,7 @@ export default function ChristianSufferingPage() {
             { id: "voices" as Tab, label: "Voices", icon: "💬" },
             { id: "responses" as Tab, label: "Bad Responses", icon: "⚠️" },
             { id: "practices" as Tab, label: "Practices", icon: "🛠️" },
+            { id: "videos" as Tab, label: "Videos", icon: "▶️" },
           ].map(t => (
             <button key={t.id} onClick={() => setTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -195,6 +203,22 @@ export default function ChristianSufferingPage() {
                 </div>
               ))}
             </div>
+          </div>
+        )}
+
+        {tab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {SUFF_VIDEOS.map(v => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <div style={{ padding: "14px 16px" }}>
+                  <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                  <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </div>

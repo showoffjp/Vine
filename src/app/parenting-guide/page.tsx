@@ -6,7 +6,14 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "principles" | "books" | "ages" | "worship" | "resources";
+type Tab = "principles" | "books" | "ages" | "worship" | "resources" | "videos";
+
+const PARENTING_VIDEOS = [
+  { videoId: "KbFKcFxqVlo", title: "The Gospel-Centered Family — Tim Keller", channel: "Gospel in Life", description: "Keller on how the gospel reshapes every aspect of family life — discipline, forgiveness, and the goal of Christian parenting." },
+  { videoId: "ACZbpLkY8To", title: "Parenting and the Sovereignty of God", channel: "Ligonier Ministries", description: "What it means to parent as a steward, not an owner — trusting God's sovereignty while being faithful in our role." },
+  { videoId: "fJnGJN6laqE", title: "How to Raise Children Who Love God", channel: "Desiring God", description: "Piper on the parenting patterns that form lasting faith — not just behavior management but heart formation." },
+  { videoId: "Z8lkuuhVkOI", title: "Faith at Home — Deuteronomy 6 and Christian Parenting", channel: "The Gospel Coalition", description: "What Deuteronomy 6's command to teach children 'as you walk, sit, and rise' looks like in a contemporary Christian home." },
+];
 
 const WORSHIP_ELEMENTS = [
   { title: "Read", color: GREEN, desc: "Read a short portion of Scripture together — a few verses to a chapter, depending on ages. Work through a book or a story Bible consecutively so children grasp the storyline. Ask one or two simple questions: What does this teach us about God? About ourselves? Keep it brief enough that it ends before attention does." },
@@ -115,10 +122,10 @@ export default function ParentingGuidePage() {
         </div>
 
         <div style={{ display: "flex", gap: 4, marginBottom: 28, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
-          {(["principles", "books", "ages", "worship", "resources"] as Tab[]).map(t => (
+          {(["principles", "books", "ages", "worship", "resources", "videos"] as Tab[]).map(t => (
             <button key={t} onClick={() => { setTab(t); setSelected(null); }}
               style={{ padding: "8px 16px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer", textTransform: "capitalize" }}>
-              {t === "principles" ? "Principles" : t === "books" ? "Best Books" : t === "ages" ? "By Age/Stage" : t === "worship" ? "Family Worship" : "Resources"}
+              {t === "principles" ? "Principles" : t === "books" ? "Best Books" : t === "ages" ? "By Age/Stage" : t === "worship" ? "Family Worship" : t === "resources" ? "Resources" : "Videos"}
             </button>
           ))}
         </div>
@@ -224,6 +231,22 @@ export default function ParentingGuidePage() {
                 </div>
               ))}
             </div>
+          </div>
+        )}
+
+        {tab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {PARENTING_VIDEOS.map(v => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <div style={{ padding: "14px 16px" }}>
+                  <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                  <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                </div>
+              </div>
+            ))}
           </div>
         )}
 

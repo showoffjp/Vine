@@ -199,7 +199,6 @@ function Accordion({
 }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-      <Navbar />
       {items.map((item) => {
         const open = !!expanded[item.id];
         return (
@@ -488,6 +487,7 @@ export default function SpiritualDirectionPage() {
         fontFamily: "system-ui, -apple-system, sans-serif",
       }}
     >
+      <Navbar />
       <div style={{ maxWidth: 960, margin: "0 auto", padding: "0 24px" }}>
         {/* Header */}
         <div style={{ marginBottom: 40 }}>

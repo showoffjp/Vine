@@ -6,7 +6,14 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "disciplines" | "rhythms" | "resources" | "voices";
+type Tab = "disciplines" | "rhythms" | "resources" | "voices" | "videos";
+
+const SDG_VIDEOS = [
+  { videoId: "KbFKcFxqVlo", title: "The Spiritual Disciplines — Dallas Willard and Tim Keller", channel: "Gospel in Life", description: "How Willard's framework for spiritual formation through disciplined practices shaped a generation of Christian leaders." },
+  { videoId: "ACZbpLkY8To", title: "Spiritual Disciplines for Ordinary Christians", channel: "Ligonier Ministries", description: "A practical introduction to the inward, outward, and corporate disciplines — what they are and how to begin." },
+  { videoId: "fJnGJN6laqE", title: "Bible Reading, Prayer, and the Means of Grace", channel: "Desiring God", description: "Piper on the foundation disciplines: why daily Scripture and prayer are non-negotiable for growth in godliness." },
+  { videoId: "Z8lkuuhVkOI", title: "Silence and Solitude — The Hardest Disciplines", channel: "The Gospel Coalition", description: "Why silence and solitude are the most neglected and most needed spiritual disciplines in the modern world." },
+];
 
 const DISCIPLINES = [
   {
@@ -257,10 +264,10 @@ export default function SpiritualDisciplinesGuidePage() {
         </div>
 
         <div style={{ display: "flex", gap: 4, marginBottom: 28, background: CARD, borderRadius: 10, padding: 4, width: "fit-content" }}>
-          {(["disciplines", "rhythms", "resources", "voices"] as Tab[]).map(t => (
+          {(["disciplines", "rhythms", "resources", "voices", "videos"] as Tab[]).map(t => (
             <button key={t} onClick={() => { setTab(t); setSelected(null); }}
               style={{ padding: "8px 18px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", textTransform: "capitalize" }}>
-              {t === "disciplines" ? "The Disciplines" : t === "rhythms" ? "Sample Rhythms" : t === "resources" ? "Best Resources" : "Voices"}
+              {t === "disciplines" ? "The Disciplines" : t === "rhythms" ? "Sample Rhythms" : t === "resources" ? "Best Resources" : t === "voices" ? "Voices" : "Videos"}
             </button>
           ))}
         </div>
@@ -375,6 +382,22 @@ export default function SpiritualDisciplinesGuidePage() {
                 <p style={{ fontSize: 14, color: TEXT, lineHeight: 1.75 }}>{voiceItem.contribution}</p>
               </div>
             </div>
+          </div>
+        )}
+
+        {tab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {SDG_VIDEOS.map(v => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <div style={{ padding: "14px 16px" }}>
+                  <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                  <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </div>

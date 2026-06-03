@@ -6,7 +6,14 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "saints" | "martyrs" | "theology" | "commemoration";
+type Tab = "saints" | "martyrs" | "theology" | "commemoration" | "videos";
+
+const SM_VIDEOS = [
+  { videoId: "KbFKcFxqVlo", title: "The Cloud of Witnesses — Why the Saints Matter", channel: "Gospel in Life", description: "How the lives of those who died for the faith speak into contemporary Christian discipleship." },
+  { videoId: "ACZbpLkY8To", title: "Martyrdom in Church History", channel: "Ligonier Ministries", description: "A survey of the great martyrs from Stephen to the modern era — what they believed and how they died." },
+  { videoId: "fJnGJN6laqE", title: "Foxe's Book of Martyrs — An Introduction", channel: "Desiring God", description: "The stories behind one of the most influential books in Christian history, and what it means for the persecuted church today." },
+  { videoId: "Z8lkuuhVkOI", title: "The Persecuted Church Today", channel: "Open Doors", description: "A look at where Christians are being martyred and imprisoned today, and how the global church can respond." },
+];
 
 type Era = "Apostolic" | "Early Church" | "Medieval" | "Reformation" | "Modern" | "Contemporary";
 
@@ -87,10 +94,10 @@ export default function SaintsMartyrsPage() {
         </div>
 
         <div style={{ display: "flex", gap: 4, marginBottom: 24, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
-          {(["saints", "martyrs", "theology", "commemoration"] as Tab[]).map(t => (
+          {(["saints", "martyrs", "theology", "commemoration", "videos"] as Tab[]).map(t => (
             <button key={t} onClick={() => setTab(t)}
               style={{ padding: "8px 16px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer", textTransform: "capitalize" }}>
-              {t === "theology" ? "Theology of Sainthood" : t === "commemoration" ? "Calendar" : t.charAt(0).toUpperCase() + t.slice(1)}
+              {t === "theology" ? "Theology of Sainthood" : t === "commemoration" ? "Calendar" : t === "videos" ? "Videos" : t.charAt(0).toUpperCase() + t.slice(1)}
             </button>
           ))}
         </div>
@@ -207,6 +214,22 @@ export default function SaintsMartyrsPage() {
                 </div>
               ))}
             </div>
+          </div>
+        )}
+
+        {tab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {SM_VIDEOS.map(v => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <div style={{ padding: "14px 16px" }}>
+                  <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                  <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </div>

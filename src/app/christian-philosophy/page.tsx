@@ -6,7 +6,14 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "thinkers" | "arguments" | "resources" | "voices";
+type Tab = "thinkers" | "arguments" | "resources" | "voices" | "videos";
+
+const CP_VIDEOS = [
+  { videoId: "KbFKcFxqVlo", title: "Is God Reasonable? — Tim Keller", channel: "Gospel in Life", description: "Keller's accessible case for the rationality of Christian faith — addressing the most common intellectual objections." },
+  { videoId: "ACZbpLkY8To", title: "Does God Exist? — The Cosmological Argument", channel: "Ligonier Ministries", description: "R.C. Sproul explains the classical cosmological argument for the existence of God and its modern defenders." },
+  { videoId: "fJnGJN6laqE", title: "Alvin Plantinga and the Reformed Epistemology", channel: "The Gospel Coalition", description: "An introduction to one of the most important philosophers of the 20th century and his defense of Christian belief as properly basic." },
+  { videoId: "Z8lkuuhVkOI", title: "Christian Philosophy — An Introduction", channel: "Desiring God", description: "Why Christians should love philosophy, what philosophy is good for, and how it serves rather than replaces faith." },
+];
 
 const THINKERS = [
   {
@@ -242,10 +249,10 @@ export default function ChristianPhilosophyPage() {
         </div>
 
         <div style={{ display: "flex", gap: 4, marginBottom: 28, background: CARD, borderRadius: 10, padding: 4, width: "fit-content" }}>
-          {(["thinkers", "arguments", "resources", "voices"] as Tab[]).map(t => (
+          {(["thinkers", "arguments", "resources", "voices", "videos"] as Tab[]).map(t => (
             <button key={t} onClick={() => { setTab(t); setSelected(null); }}
               style={{ padding: "8px 18px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", textTransform: "capitalize" }}>
-              {t === "thinkers" ? "Key Thinkers" : t === "arguments" ? "Core Arguments" : t === "resources" ? "Resources" : "🎓 Voices"}
+              {t === "thinkers" ? "Key Thinkers" : t === "arguments" ? "Core Arguments" : t === "resources" ? "Resources" : t === "voices" ? "🎓 Voices" : "Videos"}
             </button>
           ))}
         </div>
@@ -344,6 +351,22 @@ export default function ChristianPhilosophyPage() {
                 <div style={{ color: r.color, fontWeight: 800, fontSize: 14, marginBottom: 4 }}>{r.title}</div>
                 <div style={{ color: MUTED, fontSize: 11, marginBottom: 10 }}>{r.author} · {r.type}</div>
                 <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{r.description}</p>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {tab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {CP_VIDEOS.map(v => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <div style={{ padding: "14px 16px" }}>
+                  <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                  <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                </div>
               </div>
             ))}
           </div>

@@ -6,7 +6,14 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "seminaries" | "degrees" | "alternatives" | "discernment";
+type Tab = "seminaries" | "degrees" | "alternatives" | "discernment" | "videos";
+
+const SEM_VIDEOS = [
+  { videoId: "KbFKcFxqVlo", title: "Should You Go to Seminary?", channel: "Gospel in Life", description: "Keller reflects on the value of formal theological education and how to discern whether it's the right path." },
+  { videoId: "ACZbpLkY8To", title: "How to Choose a Seminary", channel: "Ligonier Ministries", description: "What to look for in a seminary: faculty, theological tradition, accreditation, cost, and culture." },
+  { videoId: "fJnGJN6laqE", title: "The Pastor-Scholar — Why Study Theology?", channel: "Desiring God", description: "John Piper makes the case for theological depth in pastoral ministry and how to pursue it." },
+  { videoId: "Z8lkuuhVkOI", title: "Seminary Without Going to Seminary — Self-Directed Theological Education", channel: "The Gospel Coalition", description: "Resources and strategies for those who want seminary-level formation outside of a formal program." },
+];
 
 const SEMINARIES = [
   {
@@ -170,10 +177,10 @@ export default function SeminaryGuidePage() {
         </div>
 
         <div style={{ display: "flex", gap: 4, marginBottom: 24, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
-          {(["seminaries", "degrees", "alternatives", "discernment"] as Tab[]).map(t => (
+          {(["seminaries", "degrees", "alternatives", "discernment", "videos"] as Tab[]).map(t => (
             <button key={t} onClick={() => setTab(t)}
               style={{ padding: "8px 16px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
-              {t === "seminaries" ? "Top Seminaries" : t === "degrees" ? "Degree Guide" : t === "alternatives" ? "Free Alternatives" : "Discernment"}
+              {t === "seminaries" ? "Top Seminaries" : t === "degrees" ? "Degree Guide" : t === "alternatives" ? "Free Alternatives" : t === "discernment" ? "Discernment" : "Videos"}
             </button>
           ))}
         </div>
@@ -284,6 +291,22 @@ export default function SeminaryGuidePage() {
                     <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: "16px 0 0" }}>{d.reflection}</p>
                   </div>
                 )}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {tab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {SEM_VIDEOS.map(v => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <div style={{ padding: "14px 16px" }}>
+                  <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                  <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                </div>
               </div>
             ))}
           </div>

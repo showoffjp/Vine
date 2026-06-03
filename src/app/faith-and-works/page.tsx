@@ -144,7 +144,6 @@ function AccordionItem({
         transition: "border-color 0.2s",
       }}
     >
-      <Navbar />
       <button
         onClick={onToggle}
         style={{
@@ -214,6 +213,7 @@ export default function FaithAndWorksPage() {
         paddingTop: 80,
       }}
     >
+      <Navbar />
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 20px 80px" }}>
         {/* Header */}
         <div style={{ textAlign: "center", marginBottom: 40 }}>

@@ -180,7 +180,6 @@ function AccordionItem({ title, body }: { title: string; body: string }) {
         overflow: "hidden",
       }}
     >
-      <Navbar />
       <button
         onClick={() => setOpen(!open)}
         style={{
@@ -332,6 +331,7 @@ export default function TheologyOfTechnologyPage() {
         paddingTop: 80,
       }}
     >
+      <Navbar />
       <div
         style={{
           maxWidth: "900px",

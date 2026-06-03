@@ -6,7 +6,14 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "classics" | "contemporary" | "poetry" | "theology";
+type Tab = "classics" | "contemporary" | "poetry" | "theology" | "videos";
+
+const FICTION_VIDEOS = [
+  { videoId: "KbFKcFxqVlo", title: "Why Christians Should Read Fiction", channel: "The Gospel Coalition", description: "How novels and stories shape moral imagination, build empathy, and illuminate theological truth in ways non-fiction cannot." },
+  { videoId: "ACZbpLkY8To", title: "C.S. Lewis on Stories and Imagination", channel: "CS Lewis Institute", description: "Lewis's theory of myth, story, and the way fiction prepares us to receive Christian truth." },
+  { videoId: "fJnGJN6laqE", title: "Tolkien, Lewis, and the Inklings", channel: "The Gospel Coalition", description: "The Christian literary community that produced some of the 20th century's most enduring fiction — and how their theology shaped their art." },
+  { videoId: "Z8lkuuhVkOI", title: "Reading Flannery O'Connor as a Christian", channel: "Desiring God", description: "Why O'Connor's violent, disturbing fiction is also some of the most theologically rich literature of the 20th century." },
+];
 
 const CLASSICS = [
   {
@@ -154,10 +161,10 @@ export default function ChristianFictionPage() {
         </div>
 
         <div style={{ display: "flex", gap: 4, marginBottom: 24, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
-          {(["classics", "contemporary", "poetry", "theology"] as Tab[]).map(t => (
+          {(["classics", "contemporary", "poetry", "theology", "videos"] as Tab[]).map(t => (
             <button key={t} onClick={() => setTab(t)}
               style={{ padding: "8px 16px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
-              {t === "classics" ? "Classic Novels" : t === "contemporary" ? "Contemporary Fiction" : t === "poetry" ? "Christian Poets" : "Theology of Story"}
+              {t === "classics" ? "Classic Novels" : t === "contemporary" ? "Contemporary Fiction" : t === "poetry" ? "Christian Poets" : t === "theology" ? "Theology of Story" : "Videos"}
             </button>
           ))}
         </div>
@@ -247,6 +254,22 @@ export default function ChristianFictionPage() {
                     <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: "16px 0 0" }}>{t.content}</p>
                   </div>
                 )}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {tab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {FICTION_VIDEOS.map(v => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <div style={{ padding: "14px 16px" }}>
+                  <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                  <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                </div>
               </div>
             ))}
           </div>

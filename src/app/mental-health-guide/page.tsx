@@ -6,7 +6,14 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "theology" | "conditions" | "myths" | "resources" | "crisis";
+type Tab = "theology" | "conditions" | "myths" | "resources" | "crisis" | "videos";
+
+const MH_VIDEOS = [
+  { videoId: "KbFKcFxqVlo", title: "Faith and Mental Health — A Pastor's Perspective", channel: "Gospel in Life", description: "Tim Keller addresses the relationship between prayer, therapy, medication, and genuine healing." },
+  { videoId: "ACZbpLkY8To", title: "The Bible and Mental Illness", channel: "Ligonier Ministries", description: "A theological framework for understanding depression, anxiety, and mental illness through a biblical lens." },
+  { videoId: "fJnGJN6laqE", title: "When Darkness Doesn't Lift — Depression and Faith", channel: "Desiring God", description: "John Piper reads his book on suffering and depression, offering pastoral care for those in the valley." },
+  { videoId: "Z8lkuuhVkOI", title: "Mental Health and the Christian Life", channel: "The Gospel Coalition", description: "Practical theological guidance for Christians navigating mental health struggles in themselves and others." },
+];
 
 const THEOLOGY_POINTS = [
   { title: "Mental illness is not a sin — but sin affects mental health", color: GREEN, content: "The physical brain is affected by the Fall like every other organ. Chemical imbalances, genetic predispositions to anxiety and depression, trauma-induced neurological changes — these are medical realities, not signs of spiritual failure. At the same time, unconfessed sin, broken relationships, and disordered desires do produce anxiety, depression, and shame. The distinction matters for treatment: physical causes require medical response; spiritual causes require pastoral response. Most situations involve both." },
@@ -98,10 +105,10 @@ export default function MentalHealthGuidePage() {
         </div>
 
         <div style={{ display: "flex", gap: 4, marginBottom: 28, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
-          {(["theology", "conditions", "myths", "resources", "crisis"] as Tab[]).map(t => (
+          {(["theology", "conditions", "myths", "resources", "crisis", "videos"] as Tab[]).map(t => (
             <button key={t} onClick={() => { setTab(t); setSelected(null); }}
               style={{ padding: "8px 16px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer", textTransform: "capitalize" }}>
-              {t === "theology" ? "Theology" : t === "conditions" ? "Conditions" : t === "myths" ? "Myths & Help" : t === "resources" ? "Resources" : "Crisis Help"}
+              {t === "theology" ? "Theology" : t === "conditions" ? "Conditions" : t === "myths" ? "Myths & Help" : t === "resources" ? "Resources" : t === "crisis" ? "Crisis Help" : "Videos"}
             </button>
           ))}
         </div>
@@ -225,6 +232,22 @@ export default function MentalHealthGuidePage() {
                 ))}
               </div>
             </div>
+          </div>
+        )}
+
+        {tab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {MH_VIDEOS.map(v => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <div style={{ padding: "14px 16px" }}>
+                  <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                  <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </div>

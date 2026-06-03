@@ -7,7 +7,7 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "theology" | "approaches" | "pioneers" | "practices";
+type Tab = "theology" | "approaches" | "pioneers" | "practices" | "videos";
 
 const THEOLOGY = [
   { title: "The Missio Dei", verse: "John 20:21", body: "The Latin phrase missio Dei (mission of God) expresses the insight that mission is not primarily a human activity organized by the church but the activity of the triune God in which the church participates. 'As the Father has sent me, I am sending you' (John 20:21). The church does not have a mission — the mission has a church. God was a missionary God before the church existed: sending the Son, sending the Spirit, sending the church into the world he so loves." },
@@ -124,6 +124,7 @@ export default function MissionsTheologyPage() {
             { id: "approaches" as Tab, label: "Approaches", icon: "🗺️" },
             { id: "pioneers" as Tab, label: "Pioneers", icon: "🌟" },
             { id: "practices" as Tab, label: "Practices", icon: "🛠️" },
+            { id: "videos" as Tab, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -217,6 +218,27 @@ export default function MissionsTheologyPage() {
                 </div>
               ))}
             </div>
+          </div>
+        )}
+
+        {tab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {[
+              { videoId: "Z8lkuuhVkOI", title: "The Biblical Foundation of Missions", channel: "John Piper Desiring God", description: "John Piper traces the biblical foundation of missions from creation through the Great Commission, showing that God's missionary purpose runs through the whole of Scripture." },
+              { videoId: "fJnGJN6laqE", title: "Let the Nations Be Glad", channel: "Desiring God - John Piper", description: "Based on his landmark book, John Piper presents the theological vision of missions — that the goal of missions is the worship of God among all peoples, and that prayer is the primary work." },
+              { videoId: "TuXTFlU-_To", title: "Missions and the Great Commission", channel: "Ligonier Ministries", description: "Ligonier Ministries examines the Great Commission as the church's permanent mandate, exploring what it means to make disciples of all nations in our generation." },
+              { videoId: "sxMhDVkdULw", title: "Why Missions? The Heart of God for the Nations", channel: "Tim Keller", description: "Tim Keller explores why God's heart for the nations is not a peripheral theme but central to the gospel itself, and what that means for the church's calling in the world." },
+            ].map(v => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <div style={{ padding: "14px 16px" }}>
+                  <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                  <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </div>

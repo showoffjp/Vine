@@ -577,7 +577,6 @@ function PromiseCard({
         overflow: "hidden",
       }}
     >
-      <Navbar />
       {/* Featured glow strip */}
       {promise.featured && (
         <div
@@ -775,7 +774,7 @@ export default function PromisesPage() {
   const [claimCounts, setClaimCounts] = useState<Record<string, number>>(() => loadClaimCounts());
 
   // ── State: UI ────────────────────────────────────────────────────────────
-  const [activeTab, setActiveTab] = useState<"all" | "category" | "myclaims" | "thinkers">("all");
+  const [activeTab, setActiveTab] = useState<"all" | "category" | "myclaims" | "thinkers" | "videos">("all");
   const [selectedThinker, setSelectedThinker] = useState("spurgeon-ch");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
@@ -896,6 +895,7 @@ export default function PromisesPage() {
           paddingBottom: 60,
         }}
       >
+        <Navbar />
         {/* ── Hero Header ─────────────────────────────────────────────── */}
         <div
           style={{
@@ -1043,6 +1043,7 @@ export default function PromisesPage() {
                 { key: "category", label: "By Category", count: ALL_CATEGORIES.length },
                 { key: "myclaims", label: "My Claims", count: userTotalClaims },
                 { key: "thinkers", label: "🎓 Thinkers", count: VOICES_PROM.length },
+                { key: "videos", label: "▶️ Videos", count: 4 },
               ] as const
             ).map((tab) => (
               <button
@@ -1518,6 +1519,27 @@ export default function PromisesPage() {
               </div>
             );
           })()}
+
+          {activeTab === "videos" && (
+            <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+              {[
+                { videoId: "KbFKcFxqVlo", title: "Claiming God's Promises — Tim Keller", channel: "Gospel in Life", description: "Keller on what it means to 'claim' a promise in Scripture — distinguishing genuine faith from presumption, and how promises function in the Christian life." },
+                { videoId: "ACZbpLkY8To", title: "The Promises of God — R.C. Sproul", channel: "Ligonier Ministries", description: "Sproul on the nature of divine promises: why they are unconditional, how they are fulfilled, and what it means that every promise of God is 'Yes' in Christ." },
+                { videoId: "fJnGJN6laqE", title: "Standing on the Promises — John Piper", channel: "Desiring God", description: "Piper on how faith is essentially the act of being satisfied by God's promises — and how meditating on specific promises fuels joy and obedience." },
+                { videoId: "Z8lkuuhVkOI", title: "Praying Scripture's Promises Back to God", channel: "The Gospel Coalition", description: "How to use specific biblical promises as the basis for prayer — turning God's word back to him as the foundation of confident intercession." },
+              ].map(v => (
+                <div key={v.videoId} style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 10, overflow: "hidden" }}>
+                  <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                    src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                  <div style={{ padding: "14px 16px" }}>
+                    <h4 style={{ color: "#3a7d56", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                    <p style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                    <p style={{ color: "#9898B3", fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </>

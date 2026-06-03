@@ -6,7 +6,14 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "sermons" | "categories" | "how-to-listen" | "voices";
+type Tab = "sermons" | "categories" | "how-to-listen" | "voices" | "videos";
+
+const FS_FEAT_VIDEOS = [
+  { videoId: "KbFKcFxqVlo", title: "The Best Sermon You've Never Heard — Tim Keller", channel: "Gospel in Life", description: "Keller's most acclaimed and recommended talks — a curated introduction to one of the 20th century's most significant preachers." },
+  { videoId: "ACZbpLkY8To", title: "Martyn Lloyd-Jones — The Doctor Preaches", channel: "Ligonier Ministries", description: "A selection of Lloyd-Jones's most powerful sermons and why he is still considered the greatest preacher of the 20th century." },
+  { videoId: "fJnGJN6laqE", title: "Expository Preaching at Its Best — Examples", channel: "Desiring God", description: "What makes a great expository sermon? John Piper demonstrates and explains with examples from Scripture." },
+  { videoId: "Z8lkuuhVkOI", title: "The Sermon and the Cross — Great Preaching on the Atonement", channel: "The Gospel Coalition", description: "A collection of landmark gospel sermons on the cross — what preaching sounds like when Christ and him crucified is truly the center." },
+];
 
 const ERA_FILTERS = ["All", "Puritan & Colonial", "19th Century", "20th Century", "Contemporary"];
 
@@ -344,10 +351,10 @@ export default function FeaturedSermonsPage() {
 
         {/* Tab Bar */}
         <div style={{ display: "flex", gap: 4, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 6, marginBottom: 32, flexWrap: "wrap" }}>
-          {(["sermons", "categories", "how-to-listen", "voices"] as const).map(t => (
+          {(["sermons", "categories", "how-to-listen", "voices", "videos"] as const).map(t => (
             <button key={t} onClick={() => setActiveTab(t)}
               style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-              {t === "sermons" ? "Sermons" : t === "categories" ? "Categories" : t === "how-to-listen" ? "How to Listen" : "Voices"}
+              {t === "sermons" ? "Sermons" : t === "categories" ? "Categories" : t === "how-to-listen" ? "How to Listen" : t === "voices" ? "Voices" : "Videos"}
             </button>
           ))}
         </div>
@@ -460,6 +467,22 @@ export default function FeaturedSermonsPage() {
                     <div style={{ color: GREEN, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>PRACTICE</div>
                     <p style={{ color: TEXT, fontSize: 13, margin: 0, lineHeight: 1.6 }}>{step.practice}</p>
                   </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {FS_FEAT_VIDEOS.map(v => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <div style={{ padding: "14px 16px" }}>
+                  <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                  <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
                 </div>
               </div>
             ))}

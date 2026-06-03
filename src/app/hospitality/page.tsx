@@ -82,7 +82,7 @@ const HISTORY = [
   },
 ];
 
-type Tab = "theology" | "obstacles" | "history" | "practices";
+type Tab = "theology" | "obstacles" | "history" | "practices" | "videos";
 
 export default function HospitalityPage() {
   const [activeTab, setActiveTab] = useState<Tab>("theology");
@@ -109,6 +109,7 @@ export default function HospitalityPage() {
             { id: "obstacles" as const, label: "Obstacles", icon: "🚧" },
             { id: "history" as const, label: "Through History", icon: "🕰️" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -219,6 +220,27 @@ export default function HospitalityPage() {
                 </div>
               ))}
             </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {[
+              { videoId: "vjnPe-Zs5_8", title: "Biblical Hospitality", channel: "The Gospel Coalition", description: "The Gospel Coalition explores the biblical foundations of hospitality — what it means, why it is commanded, and how it serves the mission of the church." },
+              { videoId: "E9P76VJIcRY", title: "Practicing Christian Hospitality", channel: "Ligonier Ministries", description: "Ligonier Ministries offers practical guidance on what Christian hospitality looks like in daily life, grounded in the New Testament's vision of philoxenia — love of the stranger." },
+              { videoId: "dXxmSDhvbHY", title: "Show Hospitality to One Another", channel: "Desiring God", description: "Desiring God unpacks the command to show hospitality to one another without grumbling, exploring what genuine welcome costs and what it communicates about the gospel." },
+              { videoId: "Hr3PkGXYRvI", title: "The Ministry of Hospitality", channel: "Tim Keller", description: "Tim Keller examines hospitality as a form of ministry — how opening your home and table participates in the kingdom work of the church and reflects the welcome of Christ." },
+            ].map(v => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <div style={{ padding: "14px 16px" }}>
+                  <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                  <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </div>

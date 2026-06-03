@@ -5,7 +5,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/api/", "/settings/", "/onboarding/"],
+      disallow: ["/api/", "/settings/", "/onboarding/", "/notifications/", "/dashboard/", "/saved/"],
     },
     sitemap: "https://vine.community/sitemap.xml",
   };

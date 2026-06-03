@@ -2,6 +2,7 @@
 
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import Link from "next/link";
 import { Trophy, Flame, Star, Heart, BookOpen, MessageSquare, Globe, Shield, ChevronRight, Crown } from "lucide-react";
 import { useState, useEffect } from "react";
 
@@ -308,13 +309,13 @@ export default function LeaderboardPage() {
                 <p className="text-sm mb-4" style={{ color: "#6A6A88" }}>
                   Start contributing — pray, teach, connect, encourage — and earn your place.
                 </p>
-                <a
+                <Link
                   href="/feed"
                   className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl font-bold text-sm text-black"
                   style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}
                 >
                   Start Contributing <ChevronRight size={14} />
-                </a>
+                </Link>
               </div>
             </div>
           </div>

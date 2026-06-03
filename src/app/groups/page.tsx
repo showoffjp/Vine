@@ -2,6 +2,7 @@
 
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import Link from "next/link";
 import { Users, ChevronRight, Search, Lock, Globe, Flame, Star, Plus } from "lucide-react";
 import { useState, useEffect } from "react";
 
@@ -380,7 +381,7 @@ export default function GroupsPage() {
               {/* Group Grid */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {filtered.map((g) => (
-                  <a
+                  <Link
                     key={g.name}
                     href={`/groups/${g.id}`}
                     className="block rounded-2xl p-5 flex flex-col cursor-pointer transition-all"
@@ -444,7 +445,7 @@ export default function GroupsPage() {
                         {joined[g.name] ? "Joined ✓" : "Join"}
                       </button>
                     </div>
-                  </a>
+                  </Link>
                 ))}
               </div>
 

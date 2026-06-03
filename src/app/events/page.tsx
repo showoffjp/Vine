@@ -321,7 +321,7 @@ export default function EventsPage() {
                 border: "1px solid rgba(107,79,187,0.25)",
               }}
             >
-              87 Upcoming Events
+              {events.length} Upcoming Events
             </span>
             <h1 className="text-5xl sm:text-6xl font-black mb-5 leading-tight" style={{ color: "#F2F2F8" }}>
               Events{" "}

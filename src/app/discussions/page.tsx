@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CreatePostModal from "@/components/CreatePostModal";
@@ -868,7 +869,7 @@ export default function DiscussionsPage() {
               </h4>
               <div className="space-y-3">
                 {trending.map((item, i) => (
-                  <a key={i} href={item.href} className="flex items-start gap-2.5 group cursor-pointer" style={{ textDecoration: "none" }}>
+                  <Link key={i} href={item.href} className="flex items-start gap-2.5 group cursor-pointer" style={{ textDecoration: "none" }}>
                     <TrendingUp size={13} className="mt-0.5 flex-shrink-0" style={{ color: "#3a7d56" }} />
                     <div>
                       <p className="text-xs font-medium leading-snug transition-colors group-hover:text-[#3a7d56]" style={{ color: "#C0C0D8" }}>
@@ -878,7 +879,7 @@ export default function DiscussionsPage() {
                         {item.count}
                       </p>
                     </div>
-                  </a>
+                  </Link>
                 ))}
               </div>
             </div>

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
@@ -609,10 +610,10 @@ export default function FeedPage() {
                       <Heart size={15} fill={likedPosts[post.id] ? "#EC4899" : "none"} />
                       <span className="text-xs">{likedPosts[post.id] ? post.likes + 1 : post.likes}</span>
                     </button>
-                    <a href={post.link} className="flex items-center gap-1.5 text-sm transition-colors hover:text-[#3a7d56]" style={{ color: "#6A6A88", textDecoration: "none" }}>
+                    <Link href={post.link} className="flex items-center gap-1.5 text-sm transition-colors hover:text-[#3a7d56]" style={{ color: "#6A6A88", textDecoration: "none" }}>
                       <MessageSquare size={15} />
                       <span className="text-xs">{post.comments}</span>
-                    </a>
+                    </Link>
                     <button
                       onClick={() => {
                         try { navigator.clipboard.writeText(window.location.origin + post.link); } catch {}

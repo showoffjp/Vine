@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -193,9 +194,9 @@ export default function StoriesPage() {
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
-                  <a href={`/stories/${featured.slug}`} className="flex items-center gap-2 px-6 py-2.5 rounded-xl font-bold text-sm text-black" style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)", textDecoration: "none" }}>
+                  <Link href={`/stories/${featured.slug}`} className="flex items-center gap-2 px-6 py-2.5 rounded-xl font-bold text-sm text-black" style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)", textDecoration: "none" }}>
                     Read Story <ChevronRight size={14} />
-                  </a>
+                  </Link>
                   <div className="flex items-center gap-1 text-sm" style={{ color: "#6A6A88" }}>
                     <Heart size={14} style={{ color: "#EC4899" }} />
                     <span>{featured.hearts.toLocaleString()}</span>

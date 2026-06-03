@@ -340,7 +340,7 @@ export default async function StoryDetailPage({ params }: { params: Promise<{ sl
               <h3 className="font-black text-lg mb-5" style={{ color: "#F2F2F8" }}>More Stories</h3>
               <div className="space-y-3">
                 {story.related.map((r) => (
-                  <a key={r.slug} href={`/stories/${r.slug}`}
+                  <Link key={r.slug} href={`/stories/${r.slug}`}
                     className="flex items-center justify-between p-4 rounded-xl group transition-all hover:bg-white/[0.03]"
                     style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)", textDecoration: "none" }}
                   >
@@ -350,7 +350,7 @@ export default async function StoryDetailPage({ params }: { params: Promise<{ sl
                       <p className="text-xs" style={{ color: "#4A4A68" }}>{r.name} {r.flag}</p>
                     </div>
                     <ChevronRight size={16} style={{ color: "#4A4A68" }} />
-                  </a>
+                  </Link>
                 ))}
               </div>
             </div>

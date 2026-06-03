@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -344,7 +345,7 @@ export default function SearchPage() {
 
               <div className="space-y-3">
                 {filtered.map((r, i) => (
-                  <a
+                  <Link
                     key={i}
                     href={r.href}
                     className="flex items-start gap-4 p-5 rounded-2xl transition-all group"
@@ -384,7 +385,7 @@ export default function SearchPage() {
                       </div>
                     </div>
                     <ChevronRight size={16} className="shrink-0 mt-1" style={{ color: "#4A4A68" }} />
-                  </a>
+                  </Link>
                 ))}
               </div>
 

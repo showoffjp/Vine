@@ -870,7 +870,7 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
               <h3 className="font-black text-lg mb-5" style={{ color: "#F2F2F8" }}>Related Articles</h3>
               <div className="space-y-3">
                 {article.related.map((r) => (
-                  <a key={r.slug} href={`/blog/${r.slug}`}
+                  <Link key={r.slug} href={`/blog/${r.slug}`}
                     className="flex items-center justify-between p-4 rounded-xl group transition-all hover:bg-white/[0.03]"
                     style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)", textDecoration: "none" }}
                   >
@@ -880,7 +880,7 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
                       <p className="text-xs" style={{ color: "#4A4A68" }}>{r.readTime}</p>
                     </div>
                     <ChevronRight size={16} style={{ color: "#4A4A68" }} />
-                  </a>
+                  </Link>
                 ))}
               </div>
             </div>

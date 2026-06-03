@@ -897,10 +897,10 @@ export default function Navbar() {
                         { label: "Notifications", href: "/notifications" },
                         { label: "Settings", href: "/settings" },
                       ].map(item => (
-                        <a key={item.label} href={item.href} className="flex items-center px-4 py-2.5 text-sm transition-colors" style={{ color: "#8A8AA8" }}
+                        <Link key={item.label} href={item.href} className="flex items-center px-4 py-2.5 text-sm transition-colors" style={{ color: "#8A8AA8" }}
                           onMouseEnter={e => { e.currentTarget.style.color = "#F2F2F8"; e.currentTarget.style.background = "rgba(58,125,86,0.06)"; }}
                           onMouseLeave={e => { e.currentTarget.style.color = "#8A8AA8"; e.currentTarget.style.background = "transparent"; }}
-                        >{item.label}</a>
+                        >{item.label}</Link>
                       ))}
                       <div style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }} className="mt-1 pt-1">
                         <button onClick={handleSignOut} className="w-full text-left flex items-center px-4 py-2.5 text-sm transition-colors" style={{ color: "#EF4444" }}

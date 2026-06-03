@@ -57,6 +57,8 @@ const moreDevotionals = [
   },
 ];
 
+const PLAN_TOTAL_DAYS = 90;
+
 export default function DailyPage() {
   const [completedDays, setCompletedDays] = useState<Set<number>>(() => {
     try {
@@ -64,7 +66,27 @@ export default function DailyPage() {
       return s ? new Set(JSON.parse(s) as number[]) : new Set([0]);
     } catch { return new Set([0]); }
   });
-  const streakDays = Array.from({ length: 21 }, (_, i) => i + 1);
+
+  // Derive the current plan day from a stored start date (set on first visit),
+  // so progress advances over real time instead of showing a frozen number.
+  const [planDay, setPlanDay] = useState(1);
+  useEffect(() => {
+    try {
+      let start = localStorage.getItem("vine_daily_plan_start");
+      if (!start) {
+        start = new Date().toISOString();
+        localStorage.setItem("vine_daily_plan_start", start);
+      }
+      const msPerDay = 1000 * 60 * 60 * 24;
+      const elapsed = Math.floor((Date.now() - new Date(start).getTime()) / msPerDay);
+      setPlanDay(Math.min(Math.max(elapsed + 1, 1), PLAN_TOTAL_DAYS));
+    } catch {}
+  }, []);
+
+  const progressPct = Math.round((planDay / PLAN_TOTAL_DAYS) * 1000) / 10;
+  const streakCount = completedDays.size;
+  const streakDays = Array.from({ length: Math.max(streakCount, 1) }, (_, i) => i + 1);
+  const daysToMilestone = streakCount < 30 ? 30 - streakCount : (streakCount < 90 ? 90 - streakCount : 0);
 
   useEffect(() => {
     try {
@@ -101,13 +123,13 @@ export default function DailyPage() {
             <div
               className="h-full rounded-full"
               style={{
-                width: "23.3%",
+                width: `${progressPct}%`,
                 background: "linear-gradient(90deg, #3a7d56, #52a876)",
               }}
             />
           </div>
           <span className="text-sm font-bold flex-shrink-0" style={{ color: "#3a7d56" }}>
-            Day 21 of 90
+            Day {planDay} of {PLAN_TOTAL_DAYS}
           </span>
         </div>
 
@@ -182,12 +204,12 @@ export default function DailyPage() {
               <div className="w-full h-2 rounded-full mb-2" style={{ background: "#1E1E32" }}>
                 <div
                   className="h-full rounded-full"
-                  style={{ width: "23.3%", background: "linear-gradient(90deg, #3a7d56, #52a876)" }}
+                  style={{ width: `${progressPct}%`, background: "linear-gradient(90deg, #3a7d56, #52a876)" }}
                 />
               </div>
               <div className="flex justify-between text-[10px]" style={{ color: "#6A6A88" }}>
-                <span>Day 21</span>
-                <span>90 days total</span>
+                <span>Day {planDay}</span>
+                <span>{PLAN_TOTAL_DAYS} days total</span>
               </div>
             </div>
 
@@ -251,7 +273,7 @@ export default function DailyPage() {
                 <div className="flex items-center gap-1">
                   <Flame size={14} style={{ color: "#E07030" }} />
                   <span className="text-sm font-black" style={{ color: "#F2F2F8" }}>
-                    21 days
+                    {streakCount} {streakCount === 1 ? "day" : "days"}
                   </span>
                 </div>
               </div>
@@ -262,11 +284,11 @@ export default function DailyPage() {
                     className="w-6 h-6 rounded-md flex items-center justify-center text-xs"
                     style={{
                       background:
-                        day === 21
+                        day === streakCount
                           ? "linear-gradient(135deg, #3a7d56, #52a876)"
                           : "rgba(58,125,86,0.15)",
-                      color: day === 21 ? "#07070F" : "#3a7d56",
-                      border: day === 21 ? "none" : "1px solid rgba(58,125,86,0.2)",
+                      color: day === streakCount ? "#07070F" : "#3a7d56",
+                      border: day === streakCount ? "none" : "1px solid rgba(58,125,86,0.2)",
                     }}
                   >
                     🔥
@@ -274,7 +296,9 @@ export default function DailyPage() {
                 ))}
               </div>
               <p className="text-[10px] mt-3" style={{ color: "#8A8AA8" }}>
-                9 more days until your 30-day milestone!
+                {daysToMilestone > 0
+                  ? `${daysToMilestone} more ${daysToMilestone === 1 ? "day" : "days"} until your ${streakCount < 30 ? "30" : "90"}-day milestone!`
+                  : "You've hit your 90-day milestone — incredible faithfulness! 🎉"}
               </p>
             </div>
 

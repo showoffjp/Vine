@@ -1,5 +1,6 @@
 "use client";
 import Navbar from "@/components/Navbar";
+import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
 
@@ -162,7 +163,7 @@ export default function ChurchPlantingPage() {
                 <p style={{ color: TEXT, lineHeight: 1.75, fontSize: 15, marginBottom: 20 }}>{phase.description}</p>
 
                 <div style={{ background: `${phase.color}10`, border: `1px solid ${phase.color}30`, borderRadius: 8, padding: 14, marginBottom: 20 }}>
-                  <p style={{ color: phase.color, fontSize: 13, fontStyle: "italic", margin: 0 }}>{phase.verse}</p>
+                  <p style={{ color: phase.color, fontSize: 13, fontStyle: "italic", margin: 0 }}><VerseRef reference={phase.verse} /></p>
                 </div>
 
                 <h4 style={{ color: MUTED, fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, marginBottom: 12 }}>Key Questions for This Phase</h4>

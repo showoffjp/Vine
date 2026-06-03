@@ -1,5 +1,6 @@
 "use client";
 import Navbar from "@/components/Navbar";
+import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 import { useState } from "react";
 
@@ -173,7 +174,7 @@ export default function GospelConversationsPage() {
                 </div>
 
                 <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
-                  <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 8, fontSize: 12, fontWeight: 600 }}>{method.verse}</span>
+                  <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 8, fontSize: 12, fontWeight: 600 }}><VerseRef reference={method.verse} /></span>
                   <a href={method.url} target="_blank" rel="noopener noreferrer"
                     style={{ background: `${method.color}15`, border: `1px solid ${method.color}30`, color: method.color, padding: "5px 12px", borderRadius: 8, fontSize: 12, fontWeight: 700, textDecoration: "none" }}>
                     🌐 Learn More

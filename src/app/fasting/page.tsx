@@ -1,5 +1,6 @@
 "use client";
 import Navbar from "@/components/Navbar";
+import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 
 import React, { useState, useEffect } from "react";
@@ -393,7 +394,7 @@ export default function FastingPage() {
                 <div className="space-y-3">
                   {BIBLICAL_BASIS.map((b, i) => (
                     <div key={i} className="pb-3" style={{ borderBottom: i < BIBLICAL_BASIS.length - 1 ? "1px solid #1E1E32" : undefined }}>
-                      <p className="text-xs font-bold mb-0.5" style={{ color: "#3a7d56" }}>{b.reference}</p>
+                      <p className="text-xs font-bold mb-0.5" style={{ color: "#3a7d56" }}><VerseRef reference={b.reference} /></p>
                       <p className="text-xs leading-relaxed" style={{ color: "#6A6A88" }}>{b.summary}</p>
                     </div>
                   ))}

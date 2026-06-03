@@ -1,5 +1,6 @@
 "use client";
 import Navbar from "@/components/Navbar";
+import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
 
@@ -175,7 +176,7 @@ export default function SinglesPage() {
                   <p key={i} style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, marginBottom: 14 }}>{para}</p>
                 ))}
                 <div style={{ background: `${chapter.color}10`, border: `1px solid ${chapter.color}30`, borderRadius: 8, padding: 14, marginBottom: 18 }}>
-                  <p style={{ color: chapter.color, fontSize: 13, fontStyle: "italic", margin: 0 }}>{chapter.verse}</p>
+                  <p style={{ color: chapter.color, fontSize: 13, fontStyle: "italic", margin: 0 }}><VerseRef reference={chapter.verse} /></p>
                 </div>
                 <h4 style={{ color: MUTED, fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, marginBottom: 10 }}>Reflection Questions</h4>
                 <ul style={{ margin: 0, paddingLeft: 0, listStyle: "none" }}>

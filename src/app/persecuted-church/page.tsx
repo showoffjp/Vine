@@ -1,5 +1,6 @@
 "use client";
 import Navbar from "@/components/Navbar";
+import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 import { useState } from "react";
 
@@ -241,7 +242,7 @@ export default function PerisecutedChurchPage() {
 
                   <div style={{ background: `${PURPLE}08`, border: `1px solid ${PURPLE}20`, borderRadius: 8, padding: 12, marginBottom: 14 }}>
                     <div style={{ color: PURPLE, fontWeight: 700, fontSize: 10, marginBottom: 4 }}>SCRIPTURE</div>
-                    <p style={{ color: TEXT, fontSize: 13, margin: 0 }}>{country.verse}</p>
+                    <p style={{ color: TEXT, fontSize: 13, margin: 0 }}><VerseRef reference={country.verse} /></p>
                   </div>
 
                   <div>

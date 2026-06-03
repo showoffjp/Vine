@@ -1,5 +1,6 @@
 "use client";
 import Navbar from "@/components/Navbar";
+import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 import { useState } from "react";
 
@@ -242,7 +243,7 @@ export default function WeeklyPrayerGuidePage() {
                 <div>
                   <div style={{ color: day.color, fontWeight: 700, fontSize: 12, marginBottom: 4 }}>{day.day.toUpperCase()}</div>
                   <h2 style={{ color: TEXT, fontWeight: 900, fontSize: 26, margin: "0 0 4px" }}>{day.theme}</h2>
-                  <div style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 8, fontSize: 12, fontWeight: 600, display: "inline-block" }}>{day.verse}</div>
+                  <div style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 8, fontSize: 12, fontWeight: 600, display: "inline-block" }}><VerseRef reference={day.verse} /></div>
                 </div>
               </div>
 

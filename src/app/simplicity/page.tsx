@@ -1,5 +1,6 @@
 "use client";
 import Navbar from "@/components/Navbar";
+import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
 
@@ -211,7 +212,7 @@ export default function SimplicityPage() {
                 </div>
                 <p style={{ color: TEXT, lineHeight: 1.75, fontSize: 15, marginBottom: 20 }}>{area.why}</p>
                 <div style={{ background: `${area.color}10`, border: `1px solid ${area.color}30`, borderRadius: 8, padding: 14, marginBottom: 20 }}>
-                  <p style={{ color: area.color, fontSize: 13, fontStyle: "italic", margin: 0 }}>{area.verse}</p>
+                  <p style={{ color: area.color, fontSize: 13, fontStyle: "italic", margin: 0 }}><VerseRef reference={area.verse} /></p>
                 </div>
                 <h4 style={{ color: MUTED, fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, marginBottom: 12 }}>Practical Steps</h4>
                 <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>

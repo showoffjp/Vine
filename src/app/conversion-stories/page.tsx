@@ -1,5 +1,6 @@
 "use client";
 import Navbar from "@/components/Navbar";
+import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 import { useState } from "react";
 
@@ -356,7 +357,7 @@ export default function ConversionStoriesPage() {
             <p style={{ color: MUTED, lineHeight: 1.7 }}>What the Bible actually teaches about how conversion works.</p>
             {THEOLOGY_CS.map(t => (
               <div key={t.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24 }}>
-                <div style={{ color: GREEN, fontWeight: 700, fontSize: 11, marginBottom: 4 }}>{t.verse}</div>
+                <div style={{ color: GREEN, fontWeight: 700, fontSize: 11, marginBottom: 4 }}><VerseRef reference={t.verse} /></div>
                 <h3 style={{ marginBottom: 12 }}>{t.title}</h3>
                 <p style={{ color: TEXT, lineHeight: 1.8 }}>{t.body}</p>
               </div>

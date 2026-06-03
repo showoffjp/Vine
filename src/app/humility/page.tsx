@@ -1,5 +1,6 @@
 "use client";
 import Navbar from "@/components/Navbar";
+import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 import { useState } from "react";
 
@@ -296,7 +297,7 @@ export default function HumilityPage() {
                     <span style={{ fontSize: 22 }}>{p.icon}</span>
                     <div>
                       <div style={{ color: p.color, fontWeight: 800, fontSize: 15 }}>{p.title}</div>
-                      <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "1px 8px", borderRadius: 8, fontSize: 11, fontWeight: 700 }}>{p.verse}</span>
+                      <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "1px 8px", borderRadius: 8, fontSize: 11, fontWeight: 700 }}><VerseRef reference={p.verse} /></span>
                     </div>
                   </div>
                   <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0 }}>{p.desc}</p>

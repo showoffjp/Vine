@@ -1,5 +1,6 @@
 "use client";
 import Navbar from "@/components/Navbar";
+import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 
 import { useState, useEffect } from "react";
@@ -544,7 +545,7 @@ export default function HouseChurchPage() {
 
                   <div style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center", paddingTop: 14, borderTop: `1px solid ${BORDER}` }}>
                     <span style={{ fontSize: 12, color: MUTED, fontWeight: 600 }}>Key verse:</span>
-                    <span style={{ fontSize: 12, padding: "3px 10px", borderRadius: 20, background: "rgba(107,79,187,0.12)", color: PURPLE, fontWeight: 700 }}>{m.verse}</span>
+                    <span style={{ fontSize: 12, padding: "3px 10px", borderRadius: 20, background: "rgba(107,79,187,0.12)", color: PURPLE, fontWeight: 700 }}><VerseRef reference={m.verse} /></span>
                     <span style={{ fontSize: 12, color: MUTED, marginLeft: "auto" }}>Practitioners: {m.practitioners.join(", ")}</span>
                   </div>
                 </div>

@@ -10,6 +10,7 @@ import asvData from "@/data/asv.json";
 //   - ?action=books&bibleId={id}
 //   - ?action=chapter&bibleId={id}&bookId={id}&chapter={N}
 //   - ?action=search&q={query}&bibleId={KJV-LOCAL|ASV-LOCAL}
+//   - ?action=verse&bookId={id}&chapter={N}&verse={N}&context={N}
 //
 // Two complete translations (KJV + ASV — each 66 books, 1,189 chapters,
 // 31,102 verses) are bundled locally and served instantly under the bibleIds
@@ -99,6 +100,18 @@ export interface SearchResponse {
   total: number;
   query: string;
   version?: string;
+}
+
+export interface VerseResponse {
+  bookId: string;
+  bookName: string;
+  chapter: number;
+  verse: number;
+  text: string;
+  reference: string;
+  context: BibleVerse[];
+  version: string;
+  copyright: string;
 }
 
 interface ApiError {
@@ -195,7 +208,7 @@ function parseVerses(html: string): BibleVerse[] {
 
 export async function GET(
   request: Request
-): Promise<NextResponse<BibleVersion[] | BibleBook[] | ChapterResponse | SearchResponse | ApiError>> {
+): Promise<NextResponse<BibleVersion[] | BibleBook[] | ChapterResponse | SearchResponse | VerseResponse | ApiError>> {
   const { searchParams } = new URL(request.url);
   const action = searchParams.get("action");
 
@@ -298,6 +311,50 @@ export async function GET(
         }
       }
       return NextResponse.json({ results, total, query: q, version: local.abbr });
+    }
+
+    // ── verse (single verse + surrounding context, bundled KJV/ASV) ───────────
+    // Powers the hover-preview cards on content pages. Always served locally so
+    // it is instant and works with no API key.
+    if (action === "verse") {
+      const bookId = (searchParams.get("bookId") || "").toUpperCase();
+      const chapter = searchParams.get("chapter");
+      const verse = searchParams.get("verse");
+      const ctx = Math.min(Math.max(Number(searchParams.get("context") ?? "1"), 0), 4);
+      const bibleId = searchParams.get("bibleId") || KJV_LOCAL_ID;
+      const local = LOCAL_BIBLES[bibleId] ?? LOCAL_BIBLES[KJV_LOCAL_ID];
+      if (!bookId || !chapter || !verse) {
+        return NextResponse.json(
+          { error: "Missing bookId, chapter or verse" },
+          { status: 400 }
+        );
+      }
+      const chapterVerses = local.data[bookId]?.[String(chapter)];
+      const vNum = Number(verse);
+      if (!chapterVerses || vNum < 1 || vNum > chapterVerses.length) {
+        return NextResponse.json(
+          { error: `Verse not found: ${bookId} ${chapter}:${verse}` },
+          { status: 404 }
+        );
+      }
+      const start = Math.max(1, vNum - ctx);
+      const end = Math.min(chapterVerses.length, vNum + ctx);
+      const context: BibleVerse[] = [];
+      for (let i = start; i <= end; i++) {
+        context.push({ num: i, text: chapterVerses[i - 1] });
+      }
+      const bookName = BOOK_NAMES[bookId] ?? bookId;
+      return NextResponse.json({
+        bookId,
+        bookName,
+        chapter: Number(chapter),
+        verse: vNum,
+        text: chapterVerses[vNum - 1],
+        reference: `${bookName} ${chapter}:${verse}`,
+        context,
+        version: local.abbr,
+        copyright: local.copyright,
+      });
     }
 
     // ── books ───────────────────────────────────────────────────────────────
@@ -405,7 +462,7 @@ export async function GET(
     }
 
     return NextResponse.json(
-      { error: "Unknown action. Use versions, books, or chapter." },
+      { error: "Unknown action. Use versions, books, chapter, search, or verse." },
       { status: 400 }
     );
   } catch (err) {

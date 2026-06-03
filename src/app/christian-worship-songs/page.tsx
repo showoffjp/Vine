@@ -1,5 +1,6 @@
 "use client";
 import Navbar from "@/components/Navbar";
+import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 import { useState } from "react";
 
@@ -353,7 +354,7 @@ export default function ChristianWorshipSongsPage() {
                   <div style={{ marginBottom: 14 }}>
                     <div style={{ color: song.color, fontWeight: 700, fontSize: 10, marginBottom: 6 }}>THEME</div>
                     <span style={{ background: `${song.color}12`, color: song.color, padding: "2px 10px", borderRadius: 8, fontSize: 12, fontWeight: 600 }}>{song.theme}</span>
-                    <span style={{ background: `${PURPLE}12`, color: PURPLE, padding: "2px 10px", borderRadius: 8, fontSize: 12, fontWeight: 600, marginLeft: 6 }}>{song.verse}</span>
+                    <span style={{ background: `${PURPLE}12`, color: PURPLE, padding: "2px 10px", borderRadius: 8, fontSize: 12, fontWeight: 600, marginLeft: 6 }}><VerseRef reference={song.verse} /></span>
                   </div>
                   <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, marginBottom: 16 }}>{song.why}</p>
                   <a href={song.youtube} target="_blank" rel="noopener noreferrer"

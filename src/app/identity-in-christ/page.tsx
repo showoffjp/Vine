@@ -1,5 +1,6 @@
 "use client";
 import Navbar from "@/components/Navbar";
+import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
 
@@ -158,7 +159,7 @@ export default function IdentityInChristPage() {
                         <span style={{ color: MUTED, fontSize: 12 }}>{item.ref}</span>
                       </div>
                       <div style={{ color: GREEN, fontWeight: 800, fontSize: 16, marginBottom: 6 }}>{item.statement}</div>
-                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6, margin: 0, fontStyle: "italic" }}>{item.verse}</p>
+                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6, margin: 0, fontStyle: "italic" }}><VerseRef reference={item.verse} /></p>
                     </div>
                     <div style={{ display: "flex", gap: 6, marginLeft: 12, flexShrink: 0 }}>
                       <button onClick={() => { setMeditating(item.ref); setActiveTab("meditate"); }}

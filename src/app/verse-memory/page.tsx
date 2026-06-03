@@ -1,5 +1,6 @@
 "use client";
 import Navbar from "@/components/Navbar";
+import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 
 import { useState, useEffect } from "react";
@@ -400,7 +401,7 @@ export default function VerseMemoryPage() {
                     <div key={verse.id} style={{ background: verse.mastered ? "rgba(58,125,86,0.04)" : CARD, border: `1px solid ${verse.mastered ? "rgba(58,125,86,0.2)" : BORDER}`, borderRadius: 16, padding: "18px 22px" }}>
                       <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12, marginBottom: 10 }}>
                         <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
-                          <span style={{ fontSize: 14, fontWeight: 800, color: verse.mastered ? GREEN : TEXT }}>{verse.reference}</span>
+                          <span style={{ fontSize: 14, fontWeight: 800, color: verse.mastered ? GREEN : TEXT }}><VerseRef reference={verse.reference} /></span>
                           <span style={{ fontSize: 11, padding: "2px 10px", borderRadius: 20, background: `${categoryColors[verse.category] || PURPLE}15`, color: categoryColors[verse.category] || PURPLE, fontWeight: 700 }}>{verse.category}</span>
                           {verse.mastered && <span style={{ fontSize: 11, padding: "2px 10px", borderRadius: 20, background: "rgba(58,125,86,0.1)", color: GREEN, fontWeight: 700 }}>✓ Mastered</span>}
                         </div>
@@ -439,7 +440,7 @@ export default function VerseMemoryPage() {
                       {dueForReview.map(v => (
                         <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "16px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
                           <div>
-                            <p style={{ fontWeight: 800, fontSize: 14, margin: "0 0 4px" }}>{v.reference}</p>
+                            <p style={{ fontWeight: 800, fontSize: 14, margin: "0 0 4px" }}><VerseRef reference={v.reference} /></p>
                             <p style={{ fontSize: 12, color: MUTED, margin: 0 }}>{v.reviewCount} reviews &middot; {v.category}</p>
                           </div>
                           <button onClick={() => startReview(v.id)}
@@ -458,7 +459,7 @@ export default function VerseMemoryPage() {
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
                       <div>
                         <h3 style={{ fontSize: 18, fontWeight: 800, margin: 0 }}>Practice</h3>
-                        <p style={{ fontSize: 14, color: PURPLE, fontWeight: 700, margin: "4px 0 0" }}>{reviewingVerse.reference}</p>
+                        <p style={{ fontSize: 14, color: PURPLE, fontWeight: 700, margin: "4px 0 0" }}><VerseRef reference={reviewingVerse.reference} /></p>
                       </div>
                       <button onClick={() => { setReviewingId(null); setQuizResult(null); setUserInput(""); setShowAnswer(false); }}
                         style={{ background: "rgba(255,255,255,0.06)", border: `1px solid ${BORDER}`, borderRadius: 10, padding: "8px 14px", color: MUTED, cursor: "pointer", fontSize: 13, fontWeight: 700 }}>
@@ -548,7 +549,7 @@ export default function VerseMemoryPage() {
                       <div key={v.reference} style={{ background: CARD, border: `1px solid ${added ? GREEN + "30" : BORDER}`, borderRadius: 14, padding: "16px 20px", display: "flex", gap: 14, alignItems: "flex-start" }}>
                         <div style={{ flex: 1 }}>
                           <div style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 6 }}>
-                            <span style={{ fontSize: 14, fontWeight: 800, color: added ? GREEN : TEXT }}>{v.reference}</span>
+                            <span style={{ fontSize: 14, fontWeight: 800, color: added ? GREEN : TEXT }}><VerseRef reference={v.reference} /></span>
                             <span style={{ fontSize: 11, padding: "2px 10px", borderRadius: 20, background: `${categoryColors[v.category] || PURPLE}15`, color: categoryColors[v.category] || PURPLE, fontWeight: 700 }}>{v.category}</span>
                           </div>
                           <p style={{ fontSize: 13, color: MUTED, lineHeight: 1.6, margin: 0, fontStyle: "italic" }}>&ldquo;{v.text.slice(0, 80)}&hellip;&rdquo;</p>

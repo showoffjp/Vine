@@ -1,5 +1,6 @@
 "use client";
 import Navbar from "@/components/Navbar";
+import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 import { useState } from "react";
 
@@ -303,7 +304,7 @@ export default function CommunionPage() {
                       <div style={{ background: CARD, borderRadius: 14, padding: "16px 20px", flex: 1, border: `1px solid ${BORDER}` }}>
                         <h4 style={{ fontSize: 16, fontWeight: 700, marginBottom: 8 }}>{h.step}</h4>
                         <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.7, marginBottom: 8 }}>{h.detail}</p>
-                        <span style={{ fontSize: 12, color: GREEN, background: "rgba(58,125,86,0.08)", padding: "2px 8px", borderRadius: 8, border: "1px solid rgba(58,125,86,0.2)" }}>{h.verse}</span>
+                        <span style={{ fontSize: 12, color: GREEN, background: "rgba(58,125,86,0.08)", padding: "2px 8px", borderRadius: 8, border: "1px solid rgba(58,125,86,0.2)" }}><VerseRef reference={h.verse} /></span>
                       </div>
                     </div>
                   ))}

@@ -1,5 +1,6 @@
 "use client";
 import Navbar from "@/components/Navbar";
+import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
 
@@ -332,7 +333,7 @@ export default function MeditationPage() {
                     {PASSAGES_FOR_MEDITATION.map(p => (
                       <button key={p.id} onClick={() => startSession(p)}
                         style={{ padding: "6px 14px", borderRadius: 10, border: `1px solid ${selectedPassage.id === p.id ? PURPLE : BORDER}`, background: selectedPassage.id === p.id ? `${PURPLE}26` : "transparent", color: selectedPassage.id === p.id ? "#A080FF" : MUTED, cursor: "pointer", fontSize: 13, fontWeight: selectedPassage.id === p.id ? 700 : 400 }}>
-                        {p.reference}
+                        <VerseRef reference={p.reference} />
                       </button>
                     ))}
                   </div>
@@ -347,7 +348,7 @@ export default function MeditationPage() {
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 }}>
                       <div>
                         <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 4 }}>{p.title}</h3>
-                        <p style={{ fontSize: 13, color: MUTED }}>{p.reference}</p>
+                        <p style={{ fontSize: 13, color: MUTED }}><VerseRef reference={p.reference} /></p>
                       </div>
                       <button onClick={() => toggleSave(p.id)} style={{ background: "none", border: "none", cursor: "pointer", fontSize: 16, color: savedPassages.has(p.id) ? "#A080FF" : "#4A4A68" }}>
                         {savedPassages.has(p.id) ? "♥" : "♡"}

@@ -1,5 +1,6 @@
 "use client";
 import Navbar from "@/components/Navbar";
+import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 import { useState } from "react";
 
@@ -533,7 +534,7 @@ export default function ParablesPage() {
                       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 }}>
                         <div style={{ flex: 1 }}>
                           <h3 style={{ fontSize: 17, fontWeight: 700, marginBottom: 4, color: TEXT }}>{p.title}</h3>
-                          <span style={{ fontSize: 12, color: MUTED }}>{p.reference}</span>
+                          <span style={{ fontSize: 12, color: MUTED }}><VerseRef reference={p.reference} /></span>
                         </div>
                         <button onClick={e => { e.stopPropagation(); toggleSave(p.id); }}
                           style={{ background: "none", border: "none", cursor: "pointer", fontSize: 18, marginLeft: 8, color: savedIds.has(p.id) ? "#FFD700" : "#4A4A68" }}>
@@ -759,7 +760,7 @@ export default function ParablesPage() {
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20 }}>
               <div>
                 <h2 style={{ fontSize: 24, fontWeight: 800, marginBottom: 6 }}>{selected.title}</h2>
-                <span style={{ fontSize: 14, color: MUTED }}>{selected.reference}</span>
+                <span style={{ fontSize: 14, color: MUTED }}><VerseRef reference={selected.reference} /></span>
               </div>
               <button onClick={() => setSelected(null)} style={{ background: "none", border: "none", color: "#6A6A88", fontSize: 22, cursor: "pointer", lineHeight: 1 }}>×</button>
             </div>

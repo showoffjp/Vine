@@ -1,5 +1,6 @@
 "use client";
 import Navbar from "@/components/Navbar";
+import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 import { useState } from "react";
 
@@ -370,7 +371,7 @@ export default function LandmarkSermonsPage() {
                         </div>
                         <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{s.preacher} · {s.year}</div>
                       </div>
-                      <span style={{ color: MUTED, fontSize: 11, flexShrink: 0 }}>{s.verse}</span>
+                      <span style={{ color: MUTED, fontSize: 11, flexShrink: 0 }}><VerseRef reference={s.verse} /></span>
                     </div>
                   </button>
                 ))}
@@ -395,7 +396,7 @@ export default function LandmarkSermonsPage() {
 
                   <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 14 }}>
                     <span style={{ background: `${sermon.color}12`, color: sermon.color, padding: "2px 10px", borderRadius: 8, fontSize: 12, fontWeight: 600 }}>{sermon.theme}</span>
-                    <span style={{ background: `${PURPLE}12`, color: PURPLE, padding: "2px 10px", borderRadius: 8, fontSize: 12, fontWeight: 600 }}>{sermon.verse}</span>
+                    <span style={{ background: `${PURPLE}12`, color: PURPLE, padding: "2px 10px", borderRadius: 8, fontSize: 12, fontWeight: 600 }}><VerseRef reference={sermon.verse} /></span>
                   </div>
 
                   <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, marginBottom: 16 }}>{sermon.why}</p>

@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import VerseRef from "@/components/VerseRef";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -168,7 +169,7 @@ export default function PrayerLifePage() {
                 onMouseLeave={e => (e.currentTarget.style.borderColor = BORDER)}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12, gap: 12 }}>
                   <h3 style={{ fontFamily: "var(--font-cormorant, Georgia, serif)", color: TEXT, fontWeight: 700, fontSize: 20, margin: 0, lineHeight: 1.3 }}>{item.title}</h3>
-                  <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "4px 12px", borderRadius: 12, fontSize: 11, fontWeight: 700, flexShrink: 0, whiteSpace: "nowrap" }}>{item.verse}</span>
+                  <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "4px 12px", borderRadius: 12, fontSize: 11, fontWeight: 700, flexShrink: 0, whiteSpace: "nowrap" }}><VerseRef reference={item.verse} /></span>
                 </div>
                 <p style={{ color: MUTED, fontSize: 14.5, lineHeight: 1.85, margin: 0 }}>{item.body}</p>
               </div>

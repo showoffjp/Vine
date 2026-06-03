@@ -117,7 +117,7 @@ export default function PodcastHub() {
             </h2>
           </div>
           <a
-            href="/podcasts"
+            href="/top-christian-podcasts"
             style={{
               display: "flex",
               alignItems: "center",

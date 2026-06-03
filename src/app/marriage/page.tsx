@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import VerseRef from "@/components/VerseRef";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -346,7 +347,7 @@ export default function MarriagePage() {
                       <span style={{ color: TEXT, fontWeight: 700, fontSize: 16 }}>{item.title}</span>
                     </div>
                     <div style={{ display: "flex", alignItems: "center", gap: 12, flexShrink: 0 }}>
-                      <span style={{ background: `${item.color}20`, color: item.color, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700 }}>{item.verse}</span>
+                      <span style={{ background: `${item.color}20`, color: item.color, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700 }}><VerseRef reference={item.verse} /></span>
                       <span style={{ color: MUTED, fontSize: 18, transform: openItem === i ? "rotate(45deg)" : "none", transition: "transform 0.2s" }}>+</span>
                     </div>
                   </button>
@@ -542,7 +543,7 @@ export default function MarriagePage() {
                     </div>
                   ))}
                   <div style={{ background: BG, borderRadius: 10, padding: 16, marginTop: 20, borderLeft: `3px solid ${GOLD}` }}>
-                    <p style={{ color: GOLD, fontSize: 14, fontStyle: "italic", margin: 0 }}>{s.verse}</p>
+                    <p style={{ color: GOLD, fontSize: 14, fontStyle: "italic", margin: 0 }}><VerseRef reference={s.verse} /></p>
                   </div>
                 </div>
               );

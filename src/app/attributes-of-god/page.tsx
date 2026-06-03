@@ -1,5 +1,6 @@
 "use client";
 import Navbar from "@/components/Navbar";
+import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 import { useState } from "react";
 
@@ -419,7 +420,7 @@ export default function AttributesOfGodPage() {
 
                   <div style={{ display: "flex", gap: 6, marginBottom: 14 }}>
                     <span style={{ background: `${attr.color}12`, color: attr.color, padding: "2px 10px", borderRadius: 8, fontSize: 12, fontWeight: 600 }}>{attr.category}</span>
-                    <span style={{ background: `${BORDER}`, color: MUTED, padding: "2px 10px", borderRadius: 8, fontSize: 12 }}>{attr.verse}</span>
+                    <span style={{ background: `${BORDER}`, color: MUTED, padding: "2px 10px", borderRadius: 8, fontSize: 12 }}><VerseRef reference={attr.verse} /></span>
                   </div>
 
                   <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, marginBottom: 14 }}>{attr.definition}</p>
@@ -500,7 +501,7 @@ export default function AttributesOfGodPage() {
               <div key={d.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 28 }}>
                 <div style={{ color: GREEN, fontWeight: 700, fontSize: 11, marginBottom: 4 }}>{d.attribute.toUpperCase()}</div>
                 <h3 style={{ marginBottom: 8 }}>{d.title}</h3>
-                <div style={{ color: PURPLE, fontSize: 12, marginBottom: 14 }}>{d.verse}</div>
+                <div style={{ color: PURPLE, fontSize: 12, marginBottom: 14 }}><VerseRef reference={d.verse} /></div>
                 <p style={{ lineHeight: 1.9 }}>{d.body}</p>
                 <div style={{ background: `${PURPLE}10`, border: `1px solid ${PURPLE}20`, borderRadius: 8, padding: 16, marginTop: 16 }}>
                   <div style={{ color: PURPLE, fontWeight: 700, fontSize: 11, marginBottom: 6 }}>PRAYER</div>

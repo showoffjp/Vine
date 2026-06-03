@@ -1,6 +1,7 @@
 "use client";
 
 import { BookOpen, Heart, Bookmark, Share2, ChevronRight } from "lucide-react";
+import VerseRef from "@/components/VerseRef";
 
 const VERSE = {
   text: "I can do all things through Christ who strengthens me.",
@@ -166,7 +167,7 @@ export default function DailyBread() {
                       marginBottom: "0.1rem",
                     }}
                   >
-                    {VERSE.reference}
+                    <VerseRef reference={VERSE.reference} />
                   </p>
                   <p
                     style={{

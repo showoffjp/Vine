@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import VerseRef from "@/components/VerseRef";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -543,7 +544,7 @@ export default function NamesOfGodPage() {
                           {n.translit} &middot; pronounced <em>{n.pronunciation}</em>
                         </p>
                       </div>
-                      <span style={{ color: MUTED, fontSize: 13, whiteSpace: "nowrap" }}>{n.verse}</span>
+                      <span style={{ color: MUTED, fontSize: 13, whiteSpace: "nowrap" }}><VerseRef reference={n.verse} /></span>
                     </div>
 
                     {open && (

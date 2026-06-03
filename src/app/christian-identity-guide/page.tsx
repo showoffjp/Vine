@@ -1,5 +1,6 @@
 "use client";
 import Navbar from "@/components/Navbar";
+import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 import { useState } from "react";
 
@@ -143,7 +144,7 @@ export default function ChristianIdentityGuidePage() {
                 {expanded === s.statement && (
                   <div style={{ background: BG, border: `1px solid ${GREEN}20`, borderTop: "none", borderRadius: "0 0 10px 10px", padding: 20 }}>
                     <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 8, padding: 12, marginBottom: 12 }}>
-                      <div style={{ color: GREEN, fontWeight: 700, fontSize: 11, marginBottom: 6 }}>{s.verse}</div>
+                      <div style={{ color: GREEN, fontWeight: 700, fontSize: 11, marginBottom: 6 }}><VerseRef reference={s.verse} /></div>
                     </div>
                     <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>{s.explanation}</p>
                   </div>

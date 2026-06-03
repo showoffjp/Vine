@@ -1,5 +1,6 @@
 "use client";
 import Navbar from "@/components/Navbar";
+import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 import { useState } from "react";
 
@@ -198,7 +199,7 @@ export default function BeatitudesPage() {
               <div style={{ background: CARD, border: `1px solid ${beat.color}30`, borderRadius: 14, padding: 28 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16 }}>
                   <div style={{ width: 36, height: 36, borderRadius: "50%", background: `${beat.color}20`, border: `2px solid ${beat.color}`, display: "flex", alignItems: "center", justifyContent: "center", color: beat.color, fontWeight: 900, fontSize: 14 }}>{beat.n}</div>
-                  <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700 }}>{beat.verse}</span>
+                  <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700 }}><VerseRef reference={beat.verse} /></span>
                 </div>
                 <h2 style={{ color: beat.color, fontWeight: 900, fontSize: 20, marginBottom: 4, lineHeight: 1.3 }}>{beat.blessing},</h2>
                 <p style={{ color: MUTED, fontSize: 15, fontStyle: "italic", marginBottom: 20 }}>{beat.promise}.</p>
@@ -228,7 +229,7 @@ export default function BeatitudesPage() {
               <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 16 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
                   <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, margin: 0 }}>{b.title}</h3>
-                  <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700, flexShrink: 0, marginLeft: 12 }}>{b.verse}</span>
+                  <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700, flexShrink: 0, marginLeft: 12 }}><VerseRef reference={b.verse} /></span>
                 </div>
                 <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 15, margin: 0 }}>{b.body}</p>
               </div>
@@ -282,7 +283,7 @@ export default function BeatitudesPage() {
                   <span style={{ fontSize: 24 }}>{item.icon}</span>
                   <div>
                     <h3 style={{ fontSize: 16, fontWeight: 700, color: GREEN, margin: 0 }}>{item.blessing}</h3>
-                    <span style={{ fontSize: 12, color: MUTED }}>{item.verse}</span>
+                    <span style={{ fontSize: 12, color: MUTED }}><VerseRef reference={item.verse} /></span>
                   </div>
                 </div>
                 <p style={{ fontSize: 14, color: TEXT, lineHeight: 1.75, margin: 0 }}>{item.practice}</p>

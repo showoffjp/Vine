@@ -1,5 +1,6 @@
 "use client";
 import Navbar from "@/components/Navbar";
+import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 
 import { useState } from "react";
@@ -487,7 +488,7 @@ export default function TheologyOfMoneyPage() {
                     }}
                   >
                     <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 2 }}>{topic.title}</div>
-                    <div style={{ fontSize: 11, color: selectedJesusTopic === topic.id ? GREEN : MUTED, fontWeight: 600 }}>{topic.reference}</div>
+                    <div style={{ fontSize: 11, color: selectedJesusTopic === topic.id ? GREEN : MUTED, fontWeight: 600 }}><VerseRef reference={topic.reference} /></div>
                   </button>
                 ))}
               </div>
@@ -497,7 +498,7 @@ export default function TheologyOfMoneyPage() {
             <div style={{ flex: 1, position: "sticky", top: 20 }}>
               <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: "28px 28px 24px", maxHeight: "calc(100vh - 80px)", overflowY: "auto" }}>
                 <div style={{ marginBottom: 6 }}>
-                  <span style={{ fontSize: 12, fontWeight: 700, padding: "3px 12px", borderRadius: 20, background: "rgba(58,125,86,0.1)", color: GREEN }}>{selectedTopic.reference}</span>
+                  <span style={{ fontSize: 12, fontWeight: 700, padding: "3px 12px", borderRadius: 20, background: "rgba(58,125,86,0.1)", color: GREEN }}><VerseRef reference={selectedTopic.reference} /></span>
                 </div>
                 <h2 style={{ fontSize: 22, fontWeight: 900, margin: "10px 0 6px", color: TEXT }}>{selectedTopic.title}</h2>
                 <p style={{ fontSize: 14, color: MUTED, marginBottom: 20, fontStyle: "italic", lineHeight: 1.6 }}>{selectedTopic.summary}</p>

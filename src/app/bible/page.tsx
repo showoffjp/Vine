@@ -668,7 +668,11 @@ export default function BiblePage() {
   const [showVersionList, setShowVersionList] = useState(false);
   const versionDropdownRef = useRef<HTMLDivElement>(null);
   const chapterDropdownRef = useRef<HTMLDivElement>(null);
+  // Verse number a deep link (?verse=) wants us to scroll to once the chapter
+  // has rendered. Cleared after the scroll fires.
+  const pendingVerseRef = useRef<number | null>(null);
   const [highlightedVerse, setHighlightedVerse] = useState<number | null>(null);
+  const [pulseVerse, setPulseVerse] = useState<number | null>(null);
   const [bookmarkedVerses, setBookmarkedVerses] = useState<Set<string>>(new Set());
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<SearchHit[]>([]);
@@ -797,24 +801,67 @@ export default function BiblePage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedBook.id, selectedChapter, selectedVersion.id, useInline, mainTab]);
 
-  // ── Scroll to top on chapter change ────────────────────────────────────────
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-  }, [selectedBook.id, selectedChapter]);
-
-  // ── Remember reading position + plan progress (localStorage) ────────────────
+  // ── Scroll to top on chapter change (unless a deep link wants a verse) ──────
   useEffect(() => {
     if (typeof window === "undefined") return;
+    if (pendingVerseRef.current != null) return; // a verse scroll is pending
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [selectedBook.id, selectedChapter]);
+
+  // ── Scroll to (and pulse) the deep-linked verse once the chapter renders ────
+  useEffect(() => {
+    const target = pendingVerseRef.current;
+    if (target == null) return;
+    if (!verses || verses.length === 0) return;
+    // Wait a frame so the verse spans are in the DOM.
+    const raf = requestAnimationFrame(() => {
+      const el = document.getElementById(`verse-${target}`);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+        setPulseVerse(target);
+        setTimeout(() => setPulseVerse(null), 1400);
+        pendingVerseRef.current = null;
+      }
+    });
+    return () => cancelAnimationFrame(raf);
+  }, [verses, selectedBook.id, selectedChapter]);
+
+  // ── Deep link + remember reading position + plan progress (mount only) ──────
+  // A ?book=&chapter=&verse= query string (e.g. from a <VerseRef> click on a
+  // content page) takes priority over the saved reading position so the link
+  // always lands exactly where it points.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    let deepLinked = false;
     try {
-      const pos = localStorage.getItem("vine-bible-pos");
-      if (pos) {
-        const { bookId, chapter } = JSON.parse(pos);
-        const book = ALL_BOOKS.find((b) => b.id === bookId);
-        if (book && chapter >= 1 && chapter <= book.chapters) {
-          setSelectedBook(book);
-          setSelectedChapter(chapter);
+      const params = new URLSearchParams(window.location.search);
+      const bookParam = (params.get("book") || "").toUpperCase();
+      const chapterParam = Number(params.get("chapter"));
+      const verseParam = Number(params.get("verse"));
+      const book = ALL_BOOKS.find((b) => b.id === bookParam);
+      if (book) {
+        deepLinked = true;
+        const ch = chapterParam >= 1 && chapterParam <= book.chapters ? chapterParam : 1;
+        setMainTab("read");
+        setSelectedBook(book);
+        setSelectedChapter(ch);
+        if (verseParam >= 1) {
+          setHighlightedVerse(verseParam);
+          pendingVerseRef.current = verseParam;
+        }
+      }
+    } catch { /* ignore */ }
+
+    try {
+      if (!deepLinked) {
+        const pos = localStorage.getItem("vine-bible-pos");
+        if (pos) {
+          const { bookId, chapter } = JSON.parse(pos);
+          const book = ALL_BOOKS.find((b) => b.id === bookId);
+          if (book && chapter >= 1 && chapter <= book.chapters) {
+            setSelectedBook(book);
+            setSelectedChapter(chapter);
+          }
         }
       }
       const done = localStorage.getItem("vine-bible-plan-progress");
@@ -1208,6 +1255,7 @@ export default function BiblePage() {
                       {verses.map(v => (
                         <span
                           key={v.num}
+                          id={`verse-${v.num}`}
                           onClick={() => setHighlightedVerse(highlightedVerse === v.num ? null : v.num)}
                           style={{
                             display: "inline",
@@ -1216,6 +1264,8 @@ export default function BiblePage() {
                             borderRadius: 4,
                             padding: highlightedVerse === v.num ? "2px 4px" : "0",
                             transition: "background 0.2s",
+                            scrollMarginTop: 110,
+                            animation: pulseVerse === v.num ? "verseTargetPulse 1.4s ease-out" : undefined,
                           }}
                         >
                           <sup style={{ color: GREEN, fontSize: "0.65em", fontWeight: 800, marginRight: 3, verticalAlign: "super" }}>{v.num}</sup>

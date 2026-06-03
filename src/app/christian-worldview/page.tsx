@@ -1,5 +1,6 @@
 "use client";
 import Navbar from "@/components/Navbar";
+import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 import { useState } from "react";
 
@@ -211,7 +212,7 @@ export default function ChristianWorldviewPage() {
                   </div>
                 </div>
 
-                <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 8, fontSize: 12, fontWeight: 600, marginBottom: 16, display: "inline-block" }}>{act.verse}</span>
+                <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 8, fontSize: 12, fontWeight: 600, marginBottom: 16, display: "inline-block" }}><VerseRef reference={act.verse} /></span>
 
                 <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.85, marginBottom: 18, marginTop: 10 }}>{act.content}</p>
 

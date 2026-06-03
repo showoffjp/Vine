@@ -1,5 +1,6 @@
 "use client";
 import Navbar from "@/components/Navbar";
+import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 import { useState } from "react";
 
@@ -246,14 +247,14 @@ export default function FatherhoodOfGodPage() {
               {ADOPTION_ITEMS.map(a => (
                 <button key={a.id} onClick={() => setSelectedAdoption(a.id)}
                   style={{ padding: "8px 16px", borderRadius: 20, border: `1px solid ${selectedAdoption === a.id ? PURPLE : BORDER}`, background: selectedAdoption === a.id ? `${PURPLE}15` : "transparent", color: selectedAdoption === a.id ? PURPLE : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-                  {a.verse}
+                  <VerseRef reference={a.verse} />
                 </button>
               ))}
             </div>
             <div style={{ background: CARD, border: `1px solid ${PURPLE}30`, borderRadius: 14, padding: 28 }}>
               <div style={{ marginBottom: 16 }}>
                 <h2 style={{ color: PURPLE, fontWeight: 900, fontSize: 20, margin: 0 }}>{adoptionItem.title}</h2>
-                <span style={{ color: MUTED, fontSize: 13 }}>{adoptionItem.verse}</span>
+                <span style={{ color: MUTED, fontSize: 13 }}><VerseRef reference={adoptionItem.verse} /></span>
               </div>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.8, margin: 0 }}>{adoptionItem.body}</p>
             </div>

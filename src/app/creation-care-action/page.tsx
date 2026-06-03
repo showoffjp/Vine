@@ -1,5 +1,6 @@
 "use client";
 import Navbar from "@/components/Navbar";
+import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 import { useState } from "react";
 
@@ -319,7 +320,7 @@ export default function CreationCareActionPage() {
                     <div style={{ width: 4, height: 36, background: expanded[item.id] ? GREEN : BORDER, borderRadius: 4, flexShrink: 0, transition: "background 0.15s" }} />
                     <div>
                       <div style={{ color: expanded[item.id] ? GREEN : TEXT, fontWeight: 800, fontSize: 17 }}>{item.title}</div>
-                      <div style={{ color: MUTED, fontSize: 13, marginTop: 2 }}>{item.verse}</div>
+                      <div style={{ color: MUTED, fontSize: 13, marginTop: 2 }}><VerseRef reference={item.verse} /></div>
                     </div>
                   </div>
                   <div style={{ color: MUTED, fontSize: 20, flexShrink: 0 }}>{expanded[item.id] ? "−" : "+"}</div>

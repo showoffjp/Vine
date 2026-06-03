@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import VerseRef from "@/components/VerseRef";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -304,7 +305,7 @@ export default function ForgivenessPage() {
                       <span style={{ color: TEXT, fontWeight: 700, fontSize: 15 }}>{item.title}</span>
                     </div>
                     <div style={{ display: "flex", alignItems: "center", gap: 12, flexShrink: 0 }}>
-                      <span style={{ background: `${item.color}20`, color: item.color, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700 }}>{item.verse}</span>
+                      <span style={{ background: `${item.color}20`, color: item.color, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700 }}><VerseRef reference={item.verse} /></span>
                       <span style={{ color: MUTED, fontSize: 18, transform: openWhy === i ? "rotate(45deg)" : "none", transition: "transform 0.2s" }}>+</span>
                     </div>
                   </button>
@@ -347,7 +348,7 @@ export default function ForgivenessPage() {
                     <div style={{ padding: "0 24px 22px" }}>
                       <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.8, marginBottom: 16 }}>{item.body}</p>
                       <div style={{ background: `${item.color}10`, border: `1px solid ${item.color}30`, borderRadius: 10, padding: 12 }}>
-                        <p style={{ color: item.color, fontSize: 13, fontStyle: "italic", margin: 0 }}>{item.verse}</p>
+                        <p style={{ color: item.color, fontSize: 13, fontStyle: "italic", margin: 0 }}><VerseRef reference={item.verse} /></p>
                       </div>
                     </div>
                   )}

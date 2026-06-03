@@ -1,5 +1,6 @@
 "use client";
 import Navbar from "@/components/Navbar";
+import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 
 import { useState, useEffect } from "react";
@@ -750,7 +751,7 @@ export default function CharacterStudyPage() {
                     <div style={{ width: 2, background: `${PURPLE}40`, flexShrink: 0, borderRadius: 2, marginTop: 4 }} />
                     <div>
                       <div style={{ fontWeight: 700, color: TEXT, fontSize: 14, marginBottom: 2 }}>{m.moment}</div>
-                      <div style={{ fontSize: 11, color: PURPLE, marginBottom: 4 }}>{m.reference}</div>
+                      <div style={{ fontSize: 11, color: PURPLE, marginBottom: 4 }}><VerseRef reference={m.reference} /></div>
                       <div style={{ fontSize: 12, color: MUTED, lineHeight: 1.6 }}>{m.significance}</div>
                     </div>
                   </div>

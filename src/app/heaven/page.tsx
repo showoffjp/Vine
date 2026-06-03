@@ -1,5 +1,6 @@
 "use client";
 import Navbar from "@/components/Navbar";
+import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 import { useState } from "react";
 
@@ -225,7 +226,7 @@ export default function HeavenPage() {
                 <div style={{ background: CARD, border: `1px solid ${GREEN}30`, borderRadius: 14, padding: 28 }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16 }}>
                     <h2 style={{ color: GREEN, fontWeight: 900, fontSize: 20, margin: 0 }}>{theologyItem.title}</h2>
-                    <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700, flexShrink: 0, marginLeft: 12 }}>{theologyItem.verse}</span>
+                    <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700, flexShrink: 0, marginLeft: 12 }}><VerseRef reference={theologyItem.verse} /></span>
                   </div>
                   <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.8, margin: 0 }}>{theologyItem.body}</p>
                 </div>
@@ -255,7 +256,7 @@ export default function HeavenPage() {
                     </div>
                   </div>
                   <div style={{ textAlign: "right" }}>
-                    <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700 }}>{m.verse}</span>
+                    <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700 }}><VerseRef reference={m.verse} /></span>
                   </div>
                 </div>
               ))}

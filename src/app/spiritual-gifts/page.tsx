@@ -1,5 +1,6 @@
 "use client";
 import Navbar from "@/components/Navbar";
+import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 
 import { useState } from "react";
@@ -439,7 +440,7 @@ function GiftsTab() {
                 </span>
               )}
             </div>
-            <p style={{ color: GREEN, fontSize: 12, margin: 0, fontWeight: 600 }}>{gift.reference}</p>
+            <p style={{ color: GREEN, fontSize: 12, margin: 0, fontWeight: 600 }}><VerseRef reference={gift.reference} /></p>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
               {gift.lists.map((l) => (
                 <span key={l} style={{ background: BORDER, color: MUTED, fontSize: 11, padding: "2px 8px", borderRadius: 6 }}>{l}</span>

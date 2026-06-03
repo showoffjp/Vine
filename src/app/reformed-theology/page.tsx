@@ -1,5 +1,6 @@
 "use client";
 import Navbar from "@/components/Navbar";
+import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 import { useState } from "react";
 
@@ -138,7 +139,7 @@ export default function ReformedTheologyPage() {
                   style={{ flex: "1 1 160px", background: selectedTulip === t.letter ? `${t.color}20` : CARD, border: `1px solid ${selectedTulip === t.letter ? t.color : BORDER}`, borderRadius: 12, padding: "16px 14px", cursor: "pointer", textAlign: "left" }}>
                   <div style={{ fontSize: 32, fontWeight: 900, color: t.color, marginBottom: 4 }}>{t.letter}</div>
                   <div style={{ color: t.color, fontWeight: 800, fontSize: 14 }}>{t.name}</div>
-                  <div style={{ color: MUTED, fontSize: 11, marginTop: 2 }}>{t.verse}</div>
+                  <div style={{ color: MUTED, fontSize: 11, marginTop: 2 }}><VerseRef reference={t.verse} /></div>
                 </button>
               ))}
             </div>

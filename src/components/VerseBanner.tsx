@@ -1,49 +1,50 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { bibleHref } from "@/lib/bibleRef";
 
 const VERSES = [
   {
     text: "For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life.",
     reference: "John 3:16",
     book: "John",
-    href: "/bible/john/3",
+    href: bibleHref("JHN", 3, 16),
   },
   {
     text: "The Lord is my shepherd, I lack nothing. He makes me lie down in green pastures, he leads me beside quiet waters, he refreshes my soul.",
     reference: "Psalm 23:1–3",
     book: "Psalms",
-    href: "/bible/psalms/23",
+    href: bibleHref("PSA", 23, 1),
   },
   {
     text: "And we know that in all things God works for the good of those who love him, who have been called according to his purpose.",
     reference: "Romans 8:28",
     book: "Romans",
-    href: "/bible/romans/8",
+    href: bibleHref("ROM", 8, 28),
   },
   {
     text: "I can do all this through him who gives me strength.",
     reference: "Philippians 4:13",
     book: "Philippians",
-    href: "/bible/philippians/4",
+    href: bibleHref("PHP", 4, 13),
   },
   {
     text: "\"For I know the plans I have for you,\" declares the Lord, \"plans to prosper you and not to harm you, plans to give you hope and a future.\"",
     reference: "Jeremiah 29:11",
     book: "Jeremiah",
-    href: "/bible/jeremiah/29",
+    href: bibleHref("JER", 29, 11),
   },
   {
     text: "But those who hope in the Lord will renew their strength. They will soar on wings like eagles; they will run and not grow weary, they will walk and not be faint.",
     reference: "Isaiah 40:31",
     book: "Isaiah",
-    href: "/bible/isaiah/40",
+    href: bibleHref("ISA", 40, 31),
   },
   {
     text: "Come to me, all you who are weary and burdened, and I will give you rest. Take my yoke upon you and learn from me, for I am gentle and humble in heart.",
     reference: "Matthew 11:28–29",
     book: "Matthew",
-    href: "/bible/matthew/11",
+    href: bibleHref("MAT", 11, 28),
   },
 ];
 

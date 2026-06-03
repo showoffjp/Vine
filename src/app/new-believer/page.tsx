@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import VerseRef from "@/components/VerseRef";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -230,7 +231,7 @@ export default function NewBelieverPage() {
                   <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0 }}>{s.how}</p>
                 </div>
                 <div style={{ borderLeft: `3px solid ${s.color}40`, paddingLeft: 12 }}>
-                  <p style={{ color: MUTED, fontSize: 12, fontStyle: "italic", lineHeight: 1.6, margin: 0 }}>{s.verse}</p>
+                  <p style={{ color: MUTED, fontSize: 12, fontStyle: "italic", lineHeight: 1.6, margin: 0 }}><VerseRef reference={s.verse} /></p>
                 </div>
               </div>
             ))}
@@ -255,7 +256,7 @@ export default function NewBelieverPage() {
                     <div style={{ flex: 1 }}>
                       <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 8, flexWrap: "wrap" }}>
                         <h3 style={{ color: TEXT, fontWeight: 800, fontSize: 16, margin: 0 }}>{t.truth}</h3>
-                        <span style={{ background: `${GREEN}15`, color: GREEN, padding: "2px 8px", borderRadius: 8, fontSize: 11, fontWeight: 700 }}>{t.verse}</span>
+                        <span style={{ background: `${GREEN}15`, color: GREEN, padding: "2px 8px", borderRadius: 8, fontSize: 11, fontWeight: 700 }}><VerseRef reference={t.verse} /></span>
                       </div>
                       <p style={{ color: "#C0C0D8", fontSize: 14, lineHeight: 1.75, margin: 0, fontStyle: "italic" }}>&ldquo;{t.text}&rdquo;</p>
                     </div>

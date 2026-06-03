@@ -1,5 +1,6 @@
 "use client";
 import Navbar from "@/components/Navbar";
+import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 import { useState } from "react";
 
@@ -122,7 +123,7 @@ export default function ChristianGivingGuidePage() {
                   style={{ width: "100%", padding: "16px 20px", cursor: "pointer", textAlign: "left", background: "transparent", border: "none", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <div>
                     <div style={{ color: p.color, fontWeight: 800, fontSize: 15, marginBottom: 4 }}>{p.title}</div>
-                    <div style={{ color: MUTED, fontSize: 11 }}>{p.reference}</div>
+                    <div style={{ color: MUTED, fontSize: 11 }}><VerseRef reference={p.reference} /></div>
                   </div>
                   <span style={{ color: MUTED, fontSize: 18 }}>{expanded[p.title] ? "−" : "+"}</span>
                 </button>

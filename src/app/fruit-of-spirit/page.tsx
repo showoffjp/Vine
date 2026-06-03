@@ -1,5 +1,6 @@
 "use client";
 import Navbar from "@/components/Navbar";
+import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 import { useState } from "react";
 
@@ -212,7 +213,7 @@ export default function FruitOfSpiritPage() {
                   <h2 style={{ color: fruit.color, fontWeight: 900, fontSize: 28, margin: 0, marginBottom: 4 }}>{fruit.fruit}</h2>
                   <div style={{ color: MUTED, fontSize: 14, fontStyle: "italic" }}>Greek: {fruit.greek}</div>
                 </div>
-                <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "3px 12px", borderRadius: 10, fontSize: 12, fontWeight: 700, flexShrink: 0 }}>{fruit.verse}</span>
+                <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "3px 12px", borderRadius: 10, fontSize: 12, fontWeight: 700, flexShrink: 0 }}><VerseRef reference={fruit.verse} /></span>
               </div>
 
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.8, marginBottom: 24 }}>{fruit.desc}</p>
@@ -244,7 +245,7 @@ export default function FruitOfSpiritPage() {
               <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 16 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
                   <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, margin: 0 }}>{t.title}</h3>
-                  <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700, flexShrink: 0, marginLeft: 12 }}>{t.verse}</span>
+                  <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700, flexShrink: 0, marginLeft: 12 }}><VerseRef reference={t.verse} /></span>
                 </div>
                 <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 15, margin: 0 }}>{t.body}</p>
               </div>

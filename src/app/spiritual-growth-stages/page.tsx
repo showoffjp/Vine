@@ -1,5 +1,6 @@
 "use client";
 import Navbar from "@/components/Navbar";
+import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 import { useState } from "react";
 
@@ -212,7 +213,7 @@ export default function SpiritualGrowthStagesPage() {
                   style={{ flex: "1 1 200px", background: selectedStage === s.stage ? `${s.color}20` : CARD, border: `1px solid ${selectedStage === s.stage ? s.color : BORDER}`, borderRadius: 12, padding: "18px 16px", cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: s.color, fontWeight: 900, fontSize: 22, marginBottom: 4 }}>{s.stage}</div>
                   <div style={{ color: MUTED, fontSize: 12, fontStyle: "italic" }}>{s.greek}</div>
-                  <div style={{ color: s.color, fontSize: 11, marginTop: 6, fontWeight: 700 }}>{s.verse}</div>
+                  <div style={{ color: s.color, fontSize: 11, marginTop: 6, fontWeight: 700 }}><VerseRef reference={s.verse} /></div>
                 </button>
               ))}
             </div>

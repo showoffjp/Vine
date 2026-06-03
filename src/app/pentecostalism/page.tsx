@@ -1,5 +1,6 @@
 "use client";
 import Navbar from "@/components/Navbar";
+import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 import { useState } from "react";
 
@@ -171,7 +172,7 @@ export default function PentecostalismPage() {
                 </div>
                 <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, marginBottom: 12 }}>{p.body}</p>
                 <div style={{ background: `${p.color}08`, border: `1px solid ${p.color}20`, borderRadius: 8, padding: "8px 12px" }}>
-                  <span style={{ color: p.color, fontSize: 12, fontStyle: "italic" }}>{p.verse}</span>
+                  <span style={{ color: p.color, fontSize: 12, fontStyle: "italic" }}><VerseRef reference={p.verse} /></span>
                 </div>
               </div>
             ))}

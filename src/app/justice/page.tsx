@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import VerseRef from "@/components/VerseRef";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -212,7 +213,7 @@ export default function JusticePage() {
                       <div style={{ flex: 1 }}>
                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8, marginBottom: 6, flexWrap: "wrap" }}>
                           <h3 style={{ color: TEXT, fontWeight: 800, fontSize: 17, margin: 0 }}>{f.title}</h3>
-                          <span style={{ background: `${f.color}20`, color: f.color, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700, flexShrink: 0 }}>{f.verse}</span>
+                          <span style={{ background: `${f.color}20`, color: f.color, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700, flexShrink: 0 }}><VerseRef reference={f.verse} /></span>
                         </div>
                         <p style={{ color: MUTED, fontSize: 14, margin: 0, lineHeight: 1.65 }}>{f.body}</p>
                       </div>

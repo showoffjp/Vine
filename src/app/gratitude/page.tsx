@@ -1,5 +1,6 @@
 "use client";
 import Navbar from "@/components/Navbar";
+import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 
 import { useState, useEffect } from "react";
@@ -421,7 +422,7 @@ export default function GratitudePage() {
               <p className="text-sm" style={{ color: "#9898B3", lineHeight: 1.8 }}>What the Bible actually teaches about gratitude &mdash; deeper than &ldquo;count your blessings.&rdquo;</p>
               {THEOLOGY_GRAT.map(t => (
                 <div key={t.id} className="rounded-xl p-6" style={{ background: "#12121F", border: "1px solid #1E1E32" }}>
-                  <div className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: "#3a7d56" }}>{t.verse}</div>
+                  <div className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: "#3a7d56" }}><VerseRef reference={t.verse} /></div>
                   <h3 className="text-lg font-black mb-3">{t.title}</h3>
                   <p className="text-sm leading-relaxed mb-4" style={{ color: "#F2F2F8" }}>{t.body}</p>
                   <div className="rounded-lg p-3" style={{ background: "#6B4FBB15", border: "1px solid #6B4FBB30" }}>

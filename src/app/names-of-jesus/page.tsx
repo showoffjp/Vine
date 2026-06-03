@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import VerseRef from "@/components/VerseRef";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -540,7 +541,7 @@ export default function NamesOfJesusPage() {
                         <p style={{ color: TEXT, margin: "6px 0 2px", fontSize: 16, fontWeight: 600 }}>{n.meaning}</p>
                         <p style={{ color: MUTED, margin: 0, fontSize: 14, fontStyle: "italic" }}>{n.subtitle}</p>
                       </div>
-                      <span style={{ color: MUTED, fontSize: 13, whiteSpace: "nowrap" }}>{n.verse}</span>
+                      <span style={{ color: MUTED, fontSize: 13, whiteSpace: "nowrap" }}><VerseRef reference={n.verse} /></span>
                     </div>
 
                     {open && (
@@ -603,7 +604,7 @@ export default function NamesOfJesusPage() {
                     <h3 style={{ fontFamily: SERIF, fontSize: 24, margin: 0, color: TEXT, fontStyle: "italic" }}>
                       &ldquo;{s.statement}&rdquo;
                     </h3>
-                    <span style={{ color: MUTED, fontSize: 13 }}>{s.verse}</span>
+                    <span style={{ color: MUTED, fontSize: 13 }}><VerseRef reference={s.verse} /></span>
                   </div>
                   <p style={{ color: MUTED, lineHeight: 1.7, margin: "12px 0 0" }}>{s.explanation}</p>
                 </div>

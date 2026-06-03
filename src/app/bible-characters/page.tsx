@@ -1,5 +1,6 @@
 "use client";
 import Navbar from "@/components/Navbar";
+import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 import { useState } from "react";
 
@@ -241,7 +242,7 @@ export default function BibleCharactersPage() {
                       <h2 style={{ color: displayCharacter.color, fontWeight: 900, fontSize: 24, margin: 0, marginBottom: 4 }}>{displayCharacter.name}</h2>
                       <div style={{ color: MUTED, fontSize: 13 }}>{displayCharacter.era}</div>
                     </div>
-                    <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "3px 12px", borderRadius: 10, fontSize: 12, fontWeight: 700, flexShrink: 0, marginLeft: 12 }}>{displayCharacter.verse}</span>
+                    <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "3px 12px", borderRadius: 10, fontSize: 12, fontWeight: 700, flexShrink: 0, marginLeft: 12 }}><VerseRef reference={displayCharacter.verse} /></span>
                   </div>
                   <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, marginBottom: 16 }}>{displayCharacter.summary}</p>
                   <div style={{ background: BG, borderRadius: 10, padding: 16, marginBottom: 14 }}>
@@ -280,7 +281,7 @@ export default function BibleCharactersPage() {
                     <h2 style={{ color: womanItem.color, fontWeight: 900, fontSize: 24, margin: 0, marginBottom: 4 }}>{womanItem.name}</h2>
                     <div style={{ color: MUTED, fontSize: 13 }}>{womanItem.era}</div>
                   </div>
-                  <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "3px 12px", borderRadius: 10, fontSize: 12, fontWeight: 700, flexShrink: 0, marginLeft: 12 }}>{womanItem.verse}</span>
+                  <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "3px 12px", borderRadius: 10, fontSize: 12, fontWeight: 700, flexShrink: 0, marginLeft: 12 }}><VerseRef reference={womanItem.verse} /></span>
                 </div>
                 <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, marginBottom: 16 }}>{womanItem.summary}</p>
                 <div style={{ background: BG, borderRadius: 10, padding: 16, marginBottom: 14 }}>

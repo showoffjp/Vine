@@ -1,5 +1,6 @@
 "use client";
 import Navbar from "@/components/Navbar";
+import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 import { useState } from "react";
 
@@ -377,7 +378,7 @@ export default function SystematicTheology101Page() {
                       <div style={{ color: MUTED, fontSize: 12 }}>{l.subtitle}</div>
                     </div>
                   </div>
-                  <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 8, fontSize: 11, fontWeight: 700 }}>{l.verse}</span>
+                  <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 8, fontSize: 11, fontWeight: 700 }}><VerseRef reference={l.verse} /></span>
                 </button>
               ))}
             </div>

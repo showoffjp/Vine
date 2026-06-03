@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { ChevronLeft, ChevronRight, Video, FileText, Mic, Users, PlusCircle } from "lucide-react";
 
 const CREATORS = [
@@ -72,9 +72,37 @@ const TYPE_ICONS: Record<string, React.ReactNode> = {
   Podcast: <Mic size={10} />,
 };
 
+const FOLLOWED_STORAGE_KEY = "vine:creators:followed";
+
 export default function CreatorSpotlight() {
   const [followed, setFollowed] = useState<Record<string, boolean>>({});
+  const [applied, setApplied] = useState(false);
+  const [showMore, setShowMore] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem(FOLLOWED_STORAGE_KEY);
+      if (stored) {
+        setFollowed(Object.fromEntries((JSON.parse(stored) as string[]).map((name) => [name, true])));
+      }
+    } catch {
+      /* ignore malformed storage */
+    }
+  }, []);
+
+  const toggleFollow = (name: string) => {
+    setFollowed((prev) => {
+      const next = { ...prev, [name]: !prev[name] };
+      try {
+        const names = Object.keys(next).filter((key) => next[key]);
+        localStorage.setItem(FOLLOWED_STORAGE_KEY, JSON.stringify(names));
+      } catch {
+        /* ignore storage failures */
+      }
+      return next;
+    });
+  };
 
   const scroll = (dir: "left" | "right") => {
     scrollRef.current?.scrollBy({ left: dir === "right" ? 320 : -320, behavior: "smooth" });
@@ -333,7 +361,7 @@ export default function CreatorSpotlight() {
                 </p>
 
                 <button
-                  onClick={() => setFollowed((prev) => ({ ...prev, [creator.name]: !prev[creator.name] }))}
+                  onClick={() => toggleFollow(creator.name)}
                   style={{
                     width: "100%",
                     padding: "8px 0",
@@ -438,6 +466,23 @@ export default function CreatorSpotlight() {
               Whether you preach, teach, sing, or write — the global Church needs your voice.
               Join 2,400+ creators already building their ministry on The Vine.
             </p>
+            {showMore && (
+              <p
+                style={{
+                  fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                  fontSize: "0.85rem",
+                  color: "#c9b98a",
+                  lineHeight: 1.65,
+                  fontWeight: 300,
+                  maxWidth: 520,
+                  marginTop: "0.9rem",
+                }}
+              >
+                Creators get a verified profile, publishing tools for video, audio, and
+                articles, audience analytics, and revenue sharing. Applications are reviewed
+                within 5 business days.
+              </p>
+            )}
           </div>
 
           <div
@@ -451,6 +496,7 @@ export default function CreatorSpotlight() {
             }}
           >
             <button
+              onClick={() => setApplied(true)}
               style={{
                 padding: "0.85rem 2rem",
                 borderRadius: 2,
@@ -469,9 +515,10 @@ export default function CreatorSpotlight() {
               onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "#e8c162"; }}
               onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "#c9a227"; }}
             >
-              Apply as a Creator
+              {applied ? "Application Started ✓" : "Apply as a Creator"}
             </button>
             <button
+              onClick={() => setShowMore((prev) => !prev)}
               style={{
                 padding: "0.75rem 2rem",
                 borderRadius: 2,
@@ -486,7 +533,7 @@ export default function CreatorSpotlight() {
                 whiteSpace: "nowrap",
               }}
             >
-              Learn More
+              {showMore ? "Show Less" : "Learn More"}
             </button>
           </div>
         </div>

@@ -377,6 +377,7 @@ export default function BlogPage() {
   });
   const [newsletterEmail, setNewsletterEmail] = useState("");
   const [newsletterDone, setNewsletterDone] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(6);
 
   useEffect(() => {
     try { localStorage.setItem("vine_blog_saved", JSON.stringify([...savedPosts])); } catch {}
@@ -394,6 +395,7 @@ export default function BlogPage() {
   };
 
   const filteredPosts = activeCategory === "All" ? posts : posts.filter(p => p.category === activeCategory);
+  const visiblePosts = filteredPosts.slice(0, visibleCount);
 
   return (
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
@@ -508,7 +510,7 @@ export default function BlogPage() {
                   return (
                     <button
                       key={cat.name}
-                      onClick={() => setActiveCategory(cat.name)}
+                      onClick={() => { setActiveCategory(cat.name); setVisibleCount(6); }}
                       className="px-4 py-1.5 rounded-full text-sm font-semibold transition-all"
                       style={{
                         background: active ? "#3a7d56" : "rgba(255,255,255,0.04)",
@@ -528,7 +530,7 @@ export default function BlogPage() {
                 {filteredPosts.length === 0 && (
                   <p className="text-center py-8 text-sm" style={{ color: "#8A8AA8" }}>No posts in this category yet.</p>
                 )}
-                {filteredPosts.map((post, i) => (
+                {visiblePosts.map((post, i) => (
                   <a
                     key={i}
                     href={post.slug ? `/blog/${post.slug}` : undefined}
@@ -601,24 +603,27 @@ export default function BlogPage() {
               </div>
 
               {/* Load More */}
-              <button
-                className="w-full py-3.5 rounded-xl text-sm font-semibold transition-all"
-                style={{
-                  background: "rgba(255,255,255,0.03)",
-                  border: "1px solid rgba(58,125,86,0.12)",
-                  color: "#8A8AA8",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "rgba(58,125,86,0.06)";
-                  e.currentTarget.style.color = "#3a7d56";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "rgba(255,255,255,0.03)";
-                  e.currentTarget.style.color = "#8A8AA8";
-                }}
-              >
-                Load More Articles
-              </button>
+              {visiblePosts.length < filteredPosts.length && (
+                <button
+                  onClick={() => setVisibleCount((c) => c + 6)}
+                  className="w-full py-3.5 rounded-xl text-sm font-semibold transition-all"
+                  style={{
+                    background: "rgba(255,255,255,0.03)",
+                    border: "1px solid rgba(58,125,86,0.12)",
+                    color: "#8A8AA8",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = "rgba(58,125,86,0.06)";
+                    e.currentTarget.style.color = "#3a7d56";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = "rgba(255,255,255,0.03)";
+                    e.currentTarget.style.color = "#8A8AA8";
+                  }}
+                >
+                  Load More Articles
+                </button>
+              )}
             </div>
 
             {/* Sidebar */}

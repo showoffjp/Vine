@@ -295,6 +295,7 @@ export default function ChurchFinderPage() {
   const [filterSize, setFilterSize] = useState("All");
   const [filterOnline, setFilterOnline] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
     try { localStorage.setItem("vine_church_saved", JSON.stringify([...saved])); } catch {}
@@ -461,8 +462,16 @@ export default function ChurchFinderPage() {
                                 </div>
                               </div>
                               <div className="flex gap-3">
-                                <button className="flex-1 py-2 rounded-xl text-xs font-black" style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)", color: "#07070F" }}>
-                                  Visit Website
+                                <button
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    if (c.website) window.open(c.website, "_blank", "noopener,noreferrer");
+                                  }}
+                                  disabled={!c.website}
+                                  className="flex-1 py-2 rounded-xl text-xs font-black"
+                                  style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)", color: "#07070F", opacity: c.website ? 1 : 0.5, cursor: c.website ? "pointer" : "not-allowed" }}
+                                >
+                                  {c.website ? "Visit Website" : "No Website Listed"}
                                 </button>
                                 <button
                                   onClick={(e) => { e.stopPropagation(); toggleSave(c.id); }}
@@ -513,9 +522,13 @@ export default function ChurchFinderPage() {
 
               <div className="rounded-2xl p-5" style={{ background: "rgba(107,79,187,0.08)", border: "1px solid rgba(107,79,187,0.15)" }}>
                 <p className="font-black text-sm mb-2" style={{ color: "#F2F2F8" }}>Can&apos;t find your church?</p>
-                <p className="text-xs mb-3" style={{ color: "#6A6A88" }}>Submit your church to be listed in the Vine directory.</p>
-                <button className="w-full py-2 rounded-xl text-xs font-black" style={{ background: "rgba(107,79,187,0.2)", color: "#9B8FEB", border: "1px solid rgba(107,79,187,0.3)" }}>
-                  Submit a Church
+                <p className="text-xs mb-3" style={{ color: "#6A6A88" }}>{submitted ? "Thanks! Your church has been submitted for review." : "Submit your church to be listed in the Vine directory."}</p>
+                <button
+                  onClick={() => { setSubmitted(true); setTimeout(() => setSubmitted(false), 3000); }}
+                  className="w-full py-2 rounded-xl text-xs font-black"
+                  style={{ background: "rgba(107,79,187,0.2)", color: "#9B8FEB", border: "1px solid rgba(107,79,187,0.3)" }}
+                >
+                  {submitted ? "✓ Submitted!" : "Submit a Church"}
                 </button>
               </div>
             </div>

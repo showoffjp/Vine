@@ -111,6 +111,9 @@ const categories = ["All", "Redemption", "Grief & Restoration", "Identity & Call
 
 export default function StoriesPage() {
   const [activeCategory, setActiveCategory] = useState("All");
+  const [submitOpen, setSubmitOpen] = useState(false);
+  const [submitText, setSubmitText] = useState("");
+  const [submitted, setSubmitted] = useState(false);
   const [saved, setSaved] = useState<Record<string, boolean>>(() => {
     try { const s = localStorage.getItem("vine_stories_saved"); return s ? JSON.parse(s) : {}; } catch { return {}; }
   });
@@ -122,6 +125,13 @@ export default function StoriesPage() {
   const filteredStories = activeCategory === "All"
     ? stories
     : stories.filter((s) => s.category === activeCategory);
+
+  const handleSubmitTestimony = () => {
+    if (!submitText.trim()) return;
+    setSubmitted(true);
+    setSubmitText("");
+    setTimeout(() => { setSubmitted(false); setSubmitOpen(false); }, 3000);
+  };
 
   return (
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
@@ -300,12 +310,47 @@ export default function StoriesPage() {
             <p className="text-base mb-6 max-w-lg mx-auto" style={{ color: "#6A6A88" }}>
               &ldquo;They triumphed over him by the blood of the Lamb and by the word of their testimony.&rdquo; — Revelation 12:11. Your story matters. Share it.
             </p>
-            <button
-              className="inline-flex items-center gap-2 px-8 py-3 rounded-xl font-bold text-black"
-              style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}
-            >
-              Submit Your Testimony <ChevronRight size={16} />
-            </button>
+            {submitted ? (
+              <div className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold" style={{ background: "rgba(58,125,86,0.15)", color: "#3a7d56" }}>
+                ✓ Thank you! Your testimony has been received.
+              </div>
+            ) : submitOpen ? (
+              <div className="max-w-lg mx-auto">
+                <textarea
+                  autoFocus
+                  value={submitText}
+                  onChange={(e) => setSubmitText(e.target.value)}
+                  placeholder="Share what God has done in your life..."
+                  rows={4}
+                  className="w-full px-4 py-3 rounded-xl text-sm outline-none resize-none mb-3"
+                  style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(58,125,86,0.2)", color: "#F2F2F8" }}
+                />
+                <div className="flex items-center justify-center gap-3">
+                  <button
+                    onClick={() => { setSubmitOpen(false); setSubmitText(""); }}
+                    className="px-5 py-2.5 rounded-xl font-semibold text-sm"
+                    style={{ border: "1px solid rgba(255,255,255,0.1)", color: "#8A8AA8" }}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleSubmitTestimony}
+                    className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl font-bold text-black"
+                    style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)", opacity: submitText.trim() ? 1 : 0.4 }}
+                  >
+                    Submit <ChevronRight size={16} />
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <button
+                onClick={() => setSubmitOpen(true)}
+                className="inline-flex items-center gap-2 px-8 py-3 rounded-xl font-bold text-black"
+                style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}
+              >
+                Submit Your Testimony <ChevronRight size={16} />
+              </button>
+            )}
           </div>
         </div>
       </div>

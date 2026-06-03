@@ -517,9 +517,9 @@ export default function MentalHealthPage() {
               <section style={{ marginBottom: "64px" }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "24px" }}>
                   <h2 style={{ fontSize: "24px", fontWeight: 800, color: TEXT }}>Resource Library</h2>
-                  <button style={{ display: "flex", alignItems: "center", gap: "6px", color: GREEN, fontSize: "14px", fontWeight: 600, background: "none", border: "none", cursor: "pointer" }}>
+                  <a href="/resources" style={{ display: "flex", alignItems: "center", gap: "6px", color: GREEN, fontSize: "14px", fontWeight: 600, textDecoration: "none", cursor: "pointer" }}>
                     View All <ChevronRight size={16} />
-                  </button>
+                  </a>
                 </div>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: "14px" }}>
                   {resources.map((res, i) => (
@@ -842,7 +842,8 @@ export default function MentalHealthPage() {
                     Whatever you&apos;re carrying today — you don&apos;t have to carry it alone. The Vine community is here, and so is God. Would you let us pray with you?
                   </p>
                   <div style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
-                    <button
+                    <a
+                      href="/prayer"
                       style={{
                         display: "flex",
                         alignItems: "center",
@@ -855,11 +856,13 @@ export default function MentalHealthPage() {
                         fontWeight: 800,
                         fontSize: "15px",
                         cursor: "pointer",
+                        textDecoration: "none",
                       }}
                     >
                       <Heart size={16} /> Request Prayer
-                    </button>
-                    <button
+                    </a>
+                    <a
+                      href="tel:988"
                       style={{
                         display: "flex",
                         alignItems: "center",
@@ -872,10 +875,11 @@ export default function MentalHealthPage() {
                         fontWeight: 600,
                         fontSize: "15px",
                         cursor: "pointer",
+                        textDecoration: "none",
                       }}
                     >
                       <Phone size={16} /> Crisis Resources
-                    </button>
+                    </a>
                   </div>
                 </div>
               </section>

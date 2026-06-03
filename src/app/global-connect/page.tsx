@@ -291,9 +291,9 @@ export default function GlobalConnectPage() {
             <h2 className="text-2xl font-black" style={{ color: "#F2F2F8" }}>
               Members Around the World
             </h2>
-            <button className="flex items-center gap-1 text-sm font-semibold" style={{ color: "#3a7d56" }}>
+            <a href="/groups" className="flex items-center gap-1 text-sm font-semibold" style={{ color: "#3a7d56", textDecoration: "none" }}>
               View All <ChevronRight size={16} />
-            </button>
+            </a>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {globalMembers.map((m) => (

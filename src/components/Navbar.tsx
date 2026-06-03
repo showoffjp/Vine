@@ -496,6 +496,7 @@ export default function Navbar() {
   const [bannerVisible, setBannerVisible] = useState(true);
   const [user, setUser] = useState<VineUser | null>(null);
   const [hasUnread, setHasUnread] = useState(true);
+  const [allRead, setAllRead] = useState(false);
   const headerRef = useRef<HTMLDivElement>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -810,7 +811,14 @@ export default function Navbar() {
                       style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}
                     >
                       <span className="text-sm font-bold" style={{ color: "#F2F2F8" }}>Notifications</span>
-                      <button className="text-xs font-semibold" style={{ color: "#3a7d56" }}>Mark all read</button>
+                      <button
+                        onClick={() => { setAllRead(true); setHasUnread(false); }}
+                        disabled={allRead}
+                        className="text-xs font-semibold"
+                        style={{ color: allRead ? "#4A4A68" : "#3a7d56", cursor: allRead ? "default" : "pointer" }}
+                      >
+                        {allRead ? "All read" : "Mark all read"}
+                      </button>
                     </div>
                     {[
                       { icon: "🙏", text: "3 people prayed for your request", time: "2m ago", unread: true },
@@ -818,7 +826,9 @@ export default function Navbar() {
                       { icon: "🔥", text: "Your post reached 500 upvotes!", time: "1h ago", unread: true },
                       { icon: "📖", text: "Day 21 devotional is ready", time: "This morning", unread: false },
                       { icon: "👥", text: "Marcus Johnson started following you", time: "Yesterday", unread: false },
-                    ].map((n, i) => (
+                    ].map((raw, i) => {
+                      const n = { ...raw, unread: raw.unread && !allRead };
+                      return (
                       <div
                         key={i}
                         className="flex items-start gap-3 px-4 py-3 cursor-pointer"
@@ -833,7 +843,8 @@ export default function Navbar() {
                         </div>
                         {n.unread && <div className="w-1.5 h-1.5 rounded-full mt-1.5 shrink-0" style={{ background: "#3a7d56" }} />}
                       </div>
-                    ))}
+                      );
+                    })}
                     <div className="px-4 py-2" style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}>
                       <a href="/notifications" className="text-xs font-semibold block text-center py-1.5" style={{ color: "#3a7d56" }}>
                         View all notifications

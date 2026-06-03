@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { Heart, Send, Clock, Users, ChevronRight } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Heart, Send, Clock, Users, ChevronRight, Check } from "lucide-react";
 
 const PRAYERS = [
   {
@@ -64,17 +64,47 @@ const TAG_COLORS: Record<string, string> = {
   Calling: "#c9a227",
 };
 
+const PRAYED_STORAGE_KEY = "vine:prayer-wall:prayed";
+
 export default function PrayerWallPreview() {
   const [prayed, setPrayed] = useState<Record<number, boolean>>({});
   const [counts, setCounts] = useState<Record<number, number>>(
     Object.fromEntries(PRAYERS.map((p) => [p.id, p.prayCount]))
   );
+  const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem(PRAYED_STORAGE_KEY);
+      if (!stored) return;
+      const ids: number[] = JSON.parse(stored);
+      setPrayed(Object.fromEntries(ids.map((id) => [id, true])));
+      setCounts((c) => {
+        const next = { ...c };
+        ids.forEach((id) => {
+          if (next[id] != null) next[id] += 1;
+        });
+        return next;
+      });
+    } catch {
+      /* ignore malformed storage */
+    }
+  }, []);
 
   const handlePray = (id: number) => {
     setPrayed((prev) => {
       const wasPrayed = prev[id];
       setCounts((c) => ({ ...c, [id]: wasPrayed ? c[id] - 1 : c[id] + 1 }));
-      return { ...prev, [id]: !wasPrayed };
+      const next = { ...prev, [id]: !wasPrayed };
+      try {
+        const ids = Object.keys(next)
+          .filter((key) => next[Number(key)])
+          .map(Number);
+        localStorage.setItem(PRAYED_STORAGE_KEY, JSON.stringify(ids));
+      } catch {
+        /* ignore storage failures */
+      }
+      return next;
     });
   };
 
@@ -346,6 +376,7 @@ export default function PrayerWallPreview() {
         {/* CTAs */}
         <div style={{ display: "flex", justifyContent: "center", gap: "1rem", flexWrap: "wrap" }}>
           <button
+            onClick={() => setSubmitted(true)}
             style={{
               display: "inline-flex",
               alignItems: "center",
@@ -366,8 +397,8 @@ export default function PrayerWallPreview() {
             onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "#e8c162"; }}
             onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "#c9a227"; }}
           >
-            <Send size={14} />
-            Submit Prayer Request
+            {submitted ? <Check size={14} /> : <Send size={14} />}
+            {submitted ? "Request Received" : "Submit Prayer Request"}
           </button>
           <a
             href="/prayer-wall"

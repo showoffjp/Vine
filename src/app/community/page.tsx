@@ -127,6 +127,9 @@ export default function CommunityPage() {
   });
   const [inviteEmail, setInviteEmail] = useState("");
   const [inviteSent, setInviteSent] = useState(false);
+  const [searchInput, setSearchInput] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showAllFeatured, setShowAllFeatured] = useState(false);
 
   useEffect(() => {
     try { localStorage.setItem("vine_comm_featured", JSON.stringify([...joinedFeatured])); } catch {}
@@ -147,6 +150,14 @@ export default function CommunityPage() {
     setInviteEmail("");
     setTimeout(() => setInviteSent(false), 3000);
   };
+
+  const q = searchQuery.trim().toLowerCase();
+  const matchedFeatured = q
+    ? featuredCircles.filter(
+        (c) => c.name.toLowerCase().includes(q) || c.description.toLowerCase().includes(q) || c.tag.toLowerCase().includes(q)
+      )
+    : featuredCircles;
+  const visibleFeatured = showAllFeatured || q ? matchedFeatured : matchedFeatured.slice(0, 4);
 
   return (
     <div className="min-h-screen" style={{ background: "#07070F" }}>
@@ -179,12 +190,15 @@ export default function CommunityPage() {
                 <Search size={16} style={{ color: "#6A6A88" }} />
                 <input
                   type="text"
+                  value={searchInput}
+                  onChange={(e) => setSearchInput(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && setSearchQuery(searchInput)}
                   placeholder="Search circles, topics, or locations..."
                   className="flex-1 bg-transparent text-sm outline-none"
                   style={{ color: "#F2F2F8" }}
                 />
               </div>
-              <button className="btn-gold px-6 py-3 rounded-xl text-sm font-bold">
+              <button onClick={() => setSearchQuery(searchInput)} className="btn-gold px-6 py-3 rounded-xl text-sm font-bold">
                 Search
               </button>
             </div>
@@ -196,14 +210,23 @@ export default function CommunityPage() {
           <section className="mb-14">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-black" style={{ color: "#F2F2F8" }}>
-                Featured Circles
+                {searchQuery.trim() ? `Results for "${searchQuery}"` : "Featured Circles"}
               </h2>
-              <button className="text-sm font-semibold" style={{ color: "#3a7d56" }}>
-                View all →
+              <button
+                onClick={() => (searchQuery.trim() ? (setSearchQuery(""), setSearchInput("")) : setShowAllFeatured((v) => !v))}
+                className="text-sm font-semibold"
+                style={{ color: "#3a7d56" }}
+              >
+                {searchQuery.trim() ? "Clear ✕" : showAllFeatured ? "Show less" : "View all →"}
               </button>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {featuredCircles.map((circle, i) => (
+              {visibleFeatured.length === 0 && (
+                <p className="text-sm col-span-full" style={{ color: "#6A6A88" }}>No circles match your search.</p>
+              )}
+              {visibleFeatured.map((circle) => {
+                const i = featuredCircles.indexOf(circle);
+                return (
                 <div
                   key={circle.name}
                   className="rounded-2xl overflow-hidden card-glow cursor-pointer"
@@ -256,7 +279,8 @@ export default function CommunityPage() {
                     </button>
                   </div>
                 </div>
-              ))}
+                );
+              })}
             </div>
           </section>
 

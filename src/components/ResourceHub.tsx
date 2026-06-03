@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { ChevronRight, Clock, Eye } from "lucide-react";
 
 const FEATURED = {
@@ -68,6 +69,13 @@ const ARTICLES = [
 const CATEGORIES = ["All", "Life & Faith", "Mental Health", "Theology", "Relationships", "Parenting", "Finance", "Leadership"];
 
 export default function ResourceHub() {
+  const [activeCategory, setActiveCategory] = useState("All");
+
+  const filteredArticles =
+    activeCategory === "All"
+      ? ARTICLES
+      : ARTICLES.filter((a) => a.tag === activeCategory);
+
   return (
     <section
       style={{
@@ -149,27 +157,31 @@ export default function ResourceHub() {
             paddingBottom: 4,
           }}
         >
-          {CATEGORIES.map((c, i) => (
-            <button
-              key={c}
-              style={{
-                whiteSpace: "nowrap",
-                padding: "5px 16px",
-                borderRadius: 2,
-                fontFamily: "var(--font-jost, system-ui, sans-serif)",
-                fontSize: "0.75rem",
-                fontWeight: i === 0 ? 600 : 400,
-                letterSpacing: "0.06em",
-                background: i === 0 ? "#c9a227" : "transparent",
-                color: i === 0 ? "#1a0e00" : "#9a8f72",
-                border: i === 0 ? "none" : "0.5px solid rgba(201,162,39,0.2)",
-                cursor: "pointer",
-                transition: "all 0.2s",
-              }}
-            >
-              {c}
-            </button>
-          ))}
+          {CATEGORIES.map((c) => {
+            const active = activeCategory === c;
+            return (
+              <button
+                key={c}
+                onClick={() => setActiveCategory(c)}
+                style={{
+                  whiteSpace: "nowrap",
+                  padding: "5px 16px",
+                  borderRadius: 2,
+                  fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                  fontSize: "0.75rem",
+                  fontWeight: active ? 600 : 400,
+                  letterSpacing: "0.06em",
+                  background: active ? "#c9a227" : "transparent",
+                  color: active ? "#1a0e00" : "#9a8f72",
+                  border: active ? "none" : "0.5px solid rgba(201,162,39,0.2)",
+                  cursor: "pointer",
+                  transition: "all 0.2s",
+                }}
+              >
+                {c}
+              </button>
+            );
+          })}
         </div>
 
         {/* Featured article */}
@@ -337,7 +349,7 @@ export default function ResourceHub() {
             background: "rgba(201,162,39,0.04)",
           }}
         >
-          {ARTICLES.map((a, i) => (
+          {filteredArticles.map((a, i) => (
             <div
               key={i}
               style={{
@@ -425,6 +437,19 @@ export default function ResourceHub() {
             </div>
           ))}
         </div>
+
+        {filteredArticles.length === 0 && (
+          <div style={{ textAlign: "center", padding: "3rem", color: "#9a8f72" }}>
+            <p
+              style={{
+                fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                fontSize: "0.88rem",
+              }}
+            >
+              No articles in {activeCategory} yet — check back soon.
+            </p>
+          </div>
+        )}
       </div>
     </section>
   );

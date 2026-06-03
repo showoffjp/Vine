@@ -258,6 +258,8 @@ export default function EventsPage() {
   const [activeMonth, setActiveMonth] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [nearMe, setNearMe] = useState(false);
+  const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
+  const [visibleCount, setVisibleCount] = useState(6);
   const [goingEvents, setGoingEvents] = useState<Set<number>>(() => {
     try { const s = localStorage.getItem("vine_events_going"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
   });
@@ -286,6 +288,13 @@ export default function EventsPage() {
     const matchNear = !nearMe || !e.online;
     return matchType && matchMonth && matchSearch && matchNear;
   });
+
+  const monthOrder = ["Jun", "Jul", "Aug", "Sep", "Oct", "Nov"];
+  const eventTime = (e: EventItem) => monthOrder.indexOf(e.monthFull) * 100 + parseInt(e.day, 10);
+  const sorted = [...filtered].sort((a, b) =>
+    sortDir === "asc" ? eventTime(a) - eventTime(b) : eventTime(b) - eventTime(a)
+  );
+  const visible = sorted.slice(0, visibleCount);
 
   return (
     <div className="min-h-screen" style={{ background: "#07070F" }}>
@@ -536,11 +545,12 @@ export default function EventsPage() {
               <div className="flex items-center gap-2">
                 <span className="text-sm" style={{ color: "#6A6A88" }}>Sort by:</span>
                 <button
+                  onClick={() => setSortDir((d) => (d === "asc" ? "desc" : "asc"))}
                   className="flex items-center gap-1 text-sm font-semibold"
                   style={{ color: "#3a7d56" }}
                 >
-                  Date
-                  <ChevronDown size={14} />
+                  Date {sortDir === "asc" ? "(Earliest)" : "(Latest)"}
+                  <ChevronDown size={14} style={{ transform: sortDir === "asc" ? "none" : "rotate(180deg)" }} />
                 </button>
               </div>
             </div>
@@ -563,7 +573,7 @@ export default function EventsPage() {
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                {filtered.map((event) => (
+                {visible.map((event) => (
                   <EventCard key={event.title} event={event} />
                 ))}
               </div>
@@ -575,22 +585,25 @@ export default function EventsPage() {
             <div className="flex flex-col items-center gap-4">
               <p className="text-sm" style={{ color: "#6A6A88" }}>
                 Showing{" "}
-                <span style={{ color: "#F2F2F8" }}>{filtered.length}</span>{" "}
+                <span style={{ color: "#F2F2F8" }}>{visible.length}</span>{" "}
                 of{" "}
-                <span style={{ color: "#F2F2F8" }}>87</span>{" "}
+                <span style={{ color: "#F2F2F8" }}>{filtered.length}</span>{" "}
                 events
               </p>
-              <button
-                className="flex items-center gap-2 px-8 py-3 rounded-xl text-sm font-bold"
-                style={{
-                  background: "transparent",
-                  color: "#3a7d56",
-                  border: "1px solid rgba(58,125,86,0.35)",
-                }}
-              >
-                Load More Events
-                <ArrowRight size={15} />
-              </button>
+              {visible.length < filtered.length && (
+                <button
+                  onClick={() => setVisibleCount((c) => c + 6)}
+                  className="flex items-center gap-2 px-8 py-3 rounded-xl text-sm font-bold"
+                  style={{
+                    background: "transparent",
+                    color: "#3a7d56",
+                    border: "1px solid rgba(58,125,86,0.35)",
+                  }}
+                >
+                  Load More Events
+                  <ArrowRight size={15} />
+                </button>
+              )}
             </div>
           )}
         </div>

@@ -159,6 +159,23 @@ export default function VideoPage() {
     try { const s = localStorage.getItem("vine_video_followed"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
   });
   const [featuredSaved, setFeaturedSaved] = useState(false);
+  const [featuredPlaying, setFeaturedPlaying] = useState(false);
+  const [radioPlaying, setRadioPlaying] = useState(false);
+  const [copiedVideo, setCopiedVideo] = useState<number | null>(null);
+
+  const shareVideo = async (i: number, title: string) => {
+    const url = typeof window !== "undefined" ? window.location.href : "";
+    const text = `Watch "${title}" on The Vine`;
+    try {
+      if (navigator.share) {
+        await navigator.share({ title, text, url });
+      } else {
+        await navigator.clipboard.writeText(`${text} — ${url}`);
+      }
+      setCopiedVideo(i);
+      setTimeout(() => setCopiedVideo((c) => (c === i ? null : c)), 1800);
+    } catch {}
+  };
 
   useEffect(() => {
     try { localStorage.setItem("vine_video_liked", JSON.stringify([...likedVideos])); } catch {}
@@ -249,11 +266,20 @@ export default function VideoPage() {
               style={{ background: "linear-gradient(135deg, #1a0a2e 0%, #07070F 100%)" }}
             >
               <div
+                onClick={() => setFeaturedPlaying((p) => !p)}
                 className="w-20 h-20 rounded-full flex items-center justify-center cursor-pointer transition-transform hover:scale-110"
                 style={{ background: "rgba(58,125,86,0.9)", boxShadow: "0 0 40px rgba(58,125,86,0.4)" }}
               >
-                <Play size={32} className="text-black ml-1" />
+                <Play size={32} className="text-black ml-1" fill={featuredPlaying ? "currentColor" : "none"} />
               </div>
+              {featuredPlaying && (
+                <div
+                  className="absolute top-3 right-3 px-2 py-1 rounded-full text-xs font-bold flex items-center gap-1"
+                  style={{ background: "rgba(58,125,86,0.9)", color: "#000" }}
+                >
+                  <Volume2 size={11} /> Now Playing
+                </div>
+              )}
               <div
                 className="absolute bottom-3 right-3 px-2 py-0.5 rounded text-xs font-bold"
                 style={{ background: "rgba(0,0,0,0.8)", color: "#F2F2F8" }}
@@ -302,10 +328,11 @@ export default function VideoPage() {
               </div>
               <div className="flex gap-3">
                 <button
+                  onClick={() => setFeaturedPlaying((p) => !p)}
                   className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm text-black"
                   style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}
                 >
-                  <Play size={14} /> Watch Now
+                  <Play size={14} fill="currentColor" /> {featuredPlaying ? "Now Playing" : "Watch Now"}
                 </button>
                 <button
                   onClick={() => setFeaturedSaved(!featuredSaved)}
@@ -433,8 +460,15 @@ export default function VideoPage() {
                         >
                           <Bookmark size={11} fill={savedVideos.has(i) ? "#3a7d56" : "none"} />
                         </button>
-                        <button className="flex items-center gap-1 text-xs px-2 py-1 rounded-lg ml-auto" style={{ color: "#4A4A68", border: "1px solid rgba(255,255,255,0.06)" }}>
-                          <Share2 size={11} />
+                        <button
+                          onClick={(e) => { e.stopPropagation(); shareVideo(i, v.title); }}
+                          className="flex items-center gap-1 text-xs px-2 py-1 rounded-lg ml-auto transition-all"
+                          style={{
+                            color: copiedVideo === i ? "#3a7d56" : "#4A4A68",
+                            border: `1px solid ${copiedVideo === i ? "rgba(58,125,86,0.3)" : "rgba(255,255,255,0.06)"}`,
+                          }}
+                        >
+                          <Share2 size={11} /> {copiedVideo === i && "Copied!"}
                         </button>
                       </div>
                     </div>
@@ -508,18 +542,19 @@ export default function VideoPage() {
                   {["Goodness of God — Bethel Music", "Oceans — Hillsong United", "Way Maker — Sinach"].map((song, i) => (
                     <div key={i} className="flex items-center gap-2">
                       <div
-                        className="w-1.5 h-1.5 rounded-full shrink-0"
-                        style={{ background: i === 0 ? "#3a7d56" : "#4A4A68" }}
+                        className={`w-1.5 h-1.5 rounded-full shrink-0 ${i === 0 && radioPlaying ? "animate-pulse" : ""}`}
+                        style={{ background: i === 0 && radioPlaying ? "#3a7d56" : "#4A4A68" }}
                       />
-                      <span className="text-xs" style={{ color: i === 0 ? "#F2F2F8" : "#4A4A68" }}>{song}</span>
+                      <span className="text-xs" style={{ color: i === 0 && radioPlaying ? "#F2F2F8" : "#4A4A68" }}>{song}</span>
                     </div>
                   ))}
                 </div>
                 <button
+                  onClick={() => setRadioPlaying((p) => !p)}
                   className="w-full py-2 rounded-xl text-sm font-bold flex items-center justify-center gap-2"
                   style={{ background: "rgba(107,79,187,0.25)", color: "#A080FF", border: "1px solid rgba(107,79,187,0.3)" }}
                 >
-                  <Play size={14} /> Open Worship Radio
+                  {radioPlaying ? <Volume2 size={14} /> : <Play size={14} />} {radioPlaying ? "Playing Worship Radio" : "Open Worship Radio"}
                 </button>
               </div>
 

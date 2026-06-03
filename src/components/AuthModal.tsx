@@ -21,6 +21,7 @@ export default function AuthModal({ open, onClose, initialMode = "signup" }: Aut
   const [showPassword, setShowPassword] = useState(false);
   const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
   const [error, setError] = useState("");
+  const [resetSent, setResetSent] = useState(false);
 
   // Signup form state
   const [firstName, setFirstName] = useState("");
@@ -278,8 +279,20 @@ export default function AuthModal({ open, onClose, initialMode = "signup" }: Aut
                 </div>
               </div>
 
-              <div className="flex justify-end mb-4">
-                <button className="text-xs" style={{ color: "#3a7d56" }}>Forgot password?</button>
+              <div className="flex justify-end items-center gap-2 mb-4">
+                {resetSent && (
+                  <span className="text-xs" style={{ color: "#9898B3" }}>
+                    Reset link sent — check your email.
+                  </span>
+                )}
+                <button
+                  type="button"
+                  className="text-xs"
+                  style={{ color: "#3a7d56" }}
+                  onClick={() => { setResetSent(true); setTimeout(() => setResetSent(false), 5000); }}
+                >
+                  {resetSent ? "Resend link" : "Forgot password?"}
+                </button>
               </div>
 
               <button onClick={handleSignIn} className="btn-gold w-full py-3.5 rounded-xl mb-6 flex items-center justify-center gap-2 group">

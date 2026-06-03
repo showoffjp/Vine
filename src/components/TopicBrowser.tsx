@@ -78,6 +78,7 @@ const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 export default function TopicBrowser() {
   const [activeLetter, setActiveLetter] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
+  const [suggested, setSuggested] = useState(false);
 
   const filtered = useMemo(() => {
     if (searchQuery.trim()) {
@@ -352,29 +353,35 @@ export default function TopicBrowser() {
             Don&apos;t see your topic? Request it from the community.
           </p>
           <button
+            onClick={() => setSuggested(true)}
+            disabled={suggested}
             style={{
               padding: "0.7rem 1.8rem",
               borderRadius: 2,
-              background: "transparent",
-              border: "0.5px solid rgba(201,162,39,0.25)",
-              color: "#c9b98a",
+              background: suggested ? "rgba(201,162,39,0.1)" : "transparent",
+              border: suggested
+                ? "0.5px solid rgba(201,162,39,0.5)"
+                : "0.5px solid rgba(201,162,39,0.25)",
+              color: suggested ? "#e8c162" : "#c9b98a",
               fontFamily: "var(--font-jost, system-ui, sans-serif)",
               fontSize: "0.78rem",
               fontWeight: 500,
               letterSpacing: "0.08em",
-              cursor: "pointer",
+              cursor: suggested ? "default" : "pointer",
               transition: "all 0.2s",
             }}
             onMouseEnter={(e) => {
+              if (suggested) return;
               (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(201,162,39,0.5)";
               (e.currentTarget as HTMLButtonElement).style.color = "#e8c162";
             }}
             onMouseLeave={(e) => {
+              if (suggested) return;
               (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(201,162,39,0.25)";
               (e.currentTarget as HTMLButtonElement).style.color = "#c9b98a";
             }}
           >
-            + Suggest a Topic
+            {suggested ? "✓ Thanks — Topic Suggested" : "+ Suggest a Topic"}
           </button>
         </div>
       </div>

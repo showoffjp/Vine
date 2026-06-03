@@ -196,6 +196,31 @@ export default function ReadingPlanPage() {
       return d === new Date().toDateString();
     } catch { return false; }
   });
+  const [shared, setShared] = useState(false);
+  const [activePlan, setActivePlan] = useState<string>(() => {
+    try { return localStorage.getItem("vine_reading_active_plan") || ""; } catch { return ""; }
+  });
+
+  useEffect(() => {
+    try {
+      if (activePlan) localStorage.setItem("vine_reading_active_plan", activePlan);
+      else localStorage.removeItem("vine_reading_active_plan");
+    } catch {}
+  }, [activePlan]);
+
+  const shareStreak = async () => {
+    const text = "I'm on a 22-day Bible reading streak with The Vine! 🔥";
+    const url = typeof window !== "undefined" ? window.location.href : "";
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: "My Reading Streak", text, url });
+      } else {
+        await navigator.clipboard.writeText(`${text} ${url}`);
+        setShared(true);
+        setTimeout(() => setShared(false), 1800);
+      }
+    } catch {}
+  };
 
   useEffect(() => {
     try {
@@ -274,6 +299,7 @@ export default function ReadingPlanPage() {
                 </div>
               </div>
               <button
+                onClick={shareStreak}
                 style={{
                   display: "flex",
                   alignItems: "center",
@@ -281,7 +307,7 @@ export default function ReadingPlanPage() {
                   background: "#12121F",
                   border: "1px solid #1E1E32",
                   borderRadius: 12,
-                  color: "#F2F2F8",
+                  color: shared ? "#3a7d56" : "#F2F2F8",
                   padding: "10px 18px",
                   fontSize: 14,
                   cursor: "pointer",
@@ -289,7 +315,7 @@ export default function ReadingPlanPage() {
                 }}
               >
                 <Share2 size={15} />
-                Share Streak
+                {shared ? "Copied!" : "Share Streak"}
               </button>
             </div>
           </div>
@@ -831,11 +857,12 @@ export default function ReadingPlanPage() {
                     </div>
 
                     <button
+                      onClick={() => setActivePlan(activePlan === plan.name ? "" : plan.name)}
                       style={{
-                        background: "transparent",
-                        border: "1px solid #1E1E32",
+                        background: activePlan === plan.name ? "rgba(58,125,86,0.1)" : "transparent",
+                        border: activePlan === plan.name ? "1px solid rgba(58,125,86,0.3)" : "1px solid #1E1E32",
                         borderRadius: 10,
-                        color: "#F2F2F8",
+                        color: activePlan === plan.name ? "#3a7d56" : "#F2F2F8",
                         fontSize: 13,
                         fontWeight: 600,
                         padding: "8px",
@@ -844,19 +871,21 @@ export default function ReadingPlanPage() {
                         marginTop: "auto",
                       }}
                       onMouseEnter={(e) => {
+                        if (activePlan === plan.name) return;
                         const btn = e.currentTarget as HTMLButtonElement;
                         btn.style.background = "rgba(58,125,86,0.1)";
                         btn.style.borderColor = "rgba(58,125,86,0.3)";
                         btn.style.color = "#3a7d56";
                       }}
                       onMouseLeave={(e) => {
+                        if (activePlan === plan.name) return;
                         const btn = e.currentTarget as HTMLButtonElement;
                         btn.style.background = "transparent";
                         btn.style.borderColor = "#1E1E32";
                         btn.style.color = "#F2F2F8";
                       }}
                     >
-                      Start Plan
+                      {activePlan === plan.name ? "✓ Current Plan" : "Start Plan"}
                     </button>
                   </div>
                 ))}

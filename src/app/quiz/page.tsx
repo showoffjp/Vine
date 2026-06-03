@@ -719,6 +719,7 @@ export default function QuizPage() {
   const [answers, setAnswers] = useState<string[]>([]);
   const [result, setResult] = useState<string | null>(null);
   const [selected, setSelected] = useState<number | null>(null);
+  const [shared, setShared] = useState(false);
   const [savedResults, setSavedResults] = useState<Record<string, string>>(() => {
     try { const s = localStorage.getItem("vine_quiz_results"); return s ? JSON.parse(s) : {}; } catch { return {}; }
   });
@@ -758,6 +759,21 @@ export default function QuizPage() {
     setAnswers([]);
     setResult(null);
     setSelected(null);
+    setShared(false);
+  }
+
+  async function shareResult(label: string, title: string) {
+    const text = `${label} ${title} — discover yours on The Vine!`;
+    const url = typeof window !== "undefined" ? window.location.href : "";
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: "My Vine Quiz Result", text, url });
+      } else {
+        await navigator.clipboard.writeText(`${text} ${url}`);
+        setShared(true);
+        setTimeout(() => setShared(false), 1800);
+      }
+    } catch {}
   }
 
   const activeQuizData = activeQuiz ? allQuizData[activeQuiz] : null;
@@ -1135,6 +1151,7 @@ export default function QuizPage() {
                       {/* Actions */}
                       <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
                         <button
+                          onClick={() => shareResult(activeQuizData.label, res.title)}
                           style={{
                             flex: 1,
                             display: "flex",
@@ -1151,7 +1168,7 @@ export default function QuizPage() {
                             cursor: "pointer",
                           }}
                         >
-                          <Share2 size={15} /> Share My Result
+                          <Share2 size={15} /> {shared ? "Copied!" : "Share My Result"}
                         </button>
                         <button
                           onClick={reset}

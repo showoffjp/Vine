@@ -307,6 +307,9 @@ export default function FeedPage() {
     setTimeout(() => setPostShared(false), 3000);
   };
 
+  const insertPrefix = (prefix: string) =>
+    setPostText((t) => (t.startsWith(prefix) ? t : prefix + t));
+
   return (
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
       <Navbar />
@@ -422,13 +425,13 @@ export default function FeedPage() {
                 </div>
                 <div className="flex items-center justify-between border-t pt-3" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
                   <div className="flex gap-3">
-                    <button className="text-xs flex items-center gap-1.5 font-semibold" style={{ color: "#6A6A88" }}>
+                    <button onClick={() => insertPrefix("📖 Verse: ")} className="text-xs flex items-center gap-1.5 font-semibold" style={{ color: "#6A6A88" }}>
                       <BookOpen size={14} /> Verse
                     </button>
-                    <button className="text-xs flex items-center gap-1.5 font-semibold" style={{ color: "#6A6A88" }}>
+                    <button onClick={() => insertPrefix("🙏 Prayer request: ")} className="text-xs flex items-center gap-1.5 font-semibold" style={{ color: "#6A6A88" }}>
                       <Heart size={14} /> Prayer
                     </button>
-                    <button className="text-xs flex items-center gap-1.5 font-semibold" style={{ color: "#6A6A88" }}>
+                    <button onClick={() => insertPrefix("✨ Testimony: ")} className="text-xs flex items-center gap-1.5 font-semibold" style={{ color: "#6A6A88" }}>
                       <Feather size={14} /> Testimony
                     </button>
                   </div>

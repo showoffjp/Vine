@@ -512,6 +512,7 @@ export default function WorshipPage() {
                     {playingSong === 0 ? "Now Playing..." : "Start Listening"}
                   </button>
                   <button
+                    onClick={() => setActiveTab("videos")}
                     style={{
                       display: "flex",
                       alignItems: "center",

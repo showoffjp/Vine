@@ -503,7 +503,10 @@ export default function PodcastPage() {
               <p className="text-xs" style={{ color: "#6A6A88" }}>{featuredEpisodes[playingEp].show}</p>
             </div>
             <div className="flex items-center gap-3">
-              <button style={{ color: "#8A8AA8", background: "transparent", border: "none", cursor: "pointer" }}><SkipBack size={16} /></button>
+              <button
+                onClick={() => { setPlayingEp((p) => (p === null ? 0 : (p - 1 + featuredEpisodes.length) % featuredEpisodes.length)); setProgress(0); setGlobalPlaying(true); }}
+                style={{ color: "#8A8AA8", background: "transparent", border: "none", cursor: "pointer" }}
+              ><SkipBack size={16} /></button>
               <button
                 onClick={() => setGlobalPlaying(!globalPlaying)}
                 className="w-9 h-9 rounded-full flex items-center justify-center"
@@ -511,7 +514,10 @@ export default function PodcastPage() {
               >
                 {globalPlaying ? <Pause size={14} style={{ color: "#000" }} /> : <Play size={14} style={{ color: "#000", marginLeft: "2px" }} />}
               </button>
-              <button style={{ color: "#8A8AA8", background: "transparent", border: "none", cursor: "pointer" }}><SkipForward size={16} /></button>
+              <button
+                onClick={() => { setPlayingEp((p) => (p === null ? 0 : (p + 1) % featuredEpisodes.length)); setProgress(0); setGlobalPlaying(true); }}
+                style={{ color: "#8A8AA8", background: "transparent", border: "none", cursor: "pointer" }}
+              ><SkipForward size={16} /></button>
             </div>
             <div className="flex-1 hidden md:flex items-center gap-3">
               <span className="text-xs" style={{ color: "#6A6A88" }}>18:24</span>

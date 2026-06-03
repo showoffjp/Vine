@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const TOPICS = [
   "Faith & Doubt",
@@ -26,6 +26,27 @@ const TOPICS = [
 ];
 
 export default function TrendingTicker() {
+  const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
+
+  const handleTopicClick = async (topic: string, index: number) => {
+    const url =
+      typeof window !== "undefined"
+        ? `${window.location.origin}/discussions?tag=${encodeURIComponent(topic)}`
+        : `/discussions?tag=${encodeURIComponent(topic)}`;
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: topic, url });
+        return;
+      }
+      await navigator.clipboard.writeText(url);
+    } catch {
+      /* user dismissed or unsupported */
+      return;
+    }
+    setCopiedIndex(index);
+    setTimeout(() => setCopiedIndex((cur) => (cur === index ? null : cur)), 1500);
+  };
+
   useEffect(() => {
     const styleId = "vine-ticker-keyframes";
     if (!document.getElementById(styleId)) {
@@ -105,6 +126,7 @@ export default function TrendingTicker() {
             {doubled.map((topic, i) => (
               <button
                 key={i}
+                onClick={() => handleTopicClick(topic, i)}
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
@@ -112,8 +134,11 @@ export default function TrendingTicker() {
                   padding: "3px 14px",
                   borderRadius: 2,
                   background: "transparent",
-                  border: "0.5px solid rgba(201,162,39,0.2)",
-                  color: "#9a8f72",
+                  border:
+                    copiedIndex === i
+                      ? "0.5px solid rgba(201,162,39,0.5)"
+                      : "0.5px solid rgba(201,162,39,0.2)",
+                  color: copiedIndex === i ? "#c9a227" : "#9a8f72",
                   fontFamily: "var(--font-jost, system-ui, sans-serif)",
                   fontSize: "0.75rem",
                   fontWeight: 400,
@@ -128,11 +153,12 @@ export default function TrendingTicker() {
                   (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(201,162,39,0.5)";
                 }}
                 onMouseLeave={(e) => {
+                  if (copiedIndex === i) return;
                   (e.currentTarget as HTMLButtonElement).style.color = "#9a8f72";
                   (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(201,162,39,0.2)";
                 }}
               >
-                {topic}
+                {copiedIndex === i ? "Link copied!" : topic}
               </button>
             ))}
           </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
@@ -205,6 +205,16 @@ const allSearchable = [
 
 export default function ExplorePage() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [followed, setFollowed] = useState<Record<string, boolean>>(() => {
+    try { const s = localStorage.getItem("vine_explore_following"); return s ? JSON.parse(s) : {}; } catch { return {}; }
+  });
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_explore_following", JSON.stringify(followed)); } catch {}
+  }, [followed]);
+
+  const toggleFollow = (handle: string) =>
+    setFollowed((f) => ({ ...f, [handle]: !f[handle] }));
 
   const searchResults = searchQuery.trim()
     ? allSearchable.filter(
@@ -326,7 +336,7 @@ export default function ExplorePage() {
                 <Flame size={16} style={{ color: "#3a7d56" }} />
                 <h2 className="text-lg font-black" style={{ color: "#F2F2F8" }}>Trending Topics</h2>
               </div>
-              <button className="flex items-center gap-1 text-xs font-semibold transition-colors hover:text-[#52a876]" style={{ color: "#3a7d56" }}>
+              <button onClick={() => { window.location.href = "/topics"; }} className="flex items-center gap-1 text-xs font-semibold transition-colors hover:text-[#52a876]" style={{ color: "#3a7d56" }}>
                 See all <ChevronRight size={13} />
               </button>
             </div>
@@ -367,7 +377,7 @@ export default function ExplorePage() {
                   Personalized
                 </span>
               </div>
-              <button className="flex items-center gap-1 text-xs font-semibold" style={{ color: "#3a7d56" }}>
+              <button onClick={() => { window.location.href = "/feed"; }} className="flex items-center gap-1 text-xs font-semibold" style={{ color: "#3a7d56" }}>
                 See all <ChevronRight size={13} />
               </button>
             </div>
@@ -506,14 +516,15 @@ export default function ExplorePage() {
                     {creator.followers} followers
                   </p>
                   <button
+                    onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleFollow(creator.handle); }}
                     className="w-full py-1.5 rounded-xl text-xs font-bold transition-all duration-200"
                     style={{
-                      background: "rgba(58,125,86,0.08)",
+                      background: followed[creator.handle] ? "#3a7d56" : "rgba(58,125,86,0.08)",
                       border: "1px solid rgba(58,125,86,0.2)",
-                      color: "#3a7d56",
+                      color: followed[creator.handle] ? "#07070F" : "#3a7d56",
                     }}
                   >
-                    Follow
+                    {followed[creator.handle] ? "✓ Following" : "Follow"}
                   </button>
                 </a>
               ))}

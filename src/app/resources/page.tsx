@@ -399,6 +399,11 @@ export default function ResourcesPage() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedTopic, setSelectedTopic] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedDifficulties, setSelectedDifficulties] = useState<Set<string>>(new Set());
+  const [selectedLengths, setSelectedLengths] = useState<Set<string>>(new Set());
+  const [selectedSort, setSelectedSort] = useState("Most Popular");
+  const [page, setPage] = useState(1);
+  const [copiedTitle, setCopiedTitle] = useState<string | null>(null);
   const [savedResources, setSavedResources] = useState<Set<string>>(() => {
     try {
       const s = localStorage.getItem("vine_resources_saved");
@@ -423,12 +428,48 @@ export default function ResourcesPage() {
     return next;
   });
 
+  const toggleInSet = (setter: React.Dispatch<React.SetStateAction<Set<string>>>, value: string) =>
+    setter(prev => { const next = new Set(prev); if (next.has(value)) next.delete(value); else next.add(value); return next; });
+
+  const clearAllFilters = () => {
+    setSelectedCategory("All");
+    setSelectedTopic(null);
+    setSelectedDifficulties(new Set());
+    setSelectedLengths(new Set());
+    setSelectedSort("Most Popular");
+    setSearchQuery("");
+    setPage(1);
+  };
+
+  const shareResource = async (title: string, href: string) => {
+    const url = typeof window !== "undefined" ? new URL(href, window.location.origin).href : href;
+    try {
+      if (navigator.share) {
+        await navigator.share({ title, url });
+      } else {
+        await navigator.clipboard.writeText(url);
+        setCopiedTitle(title);
+        setTimeout(() => setCopiedTitle(null), 1800);
+      }
+    } catch {}
+  };
+
   const filteredResources = resources.filter(r => {
     const matchCat = selectedCategory === "All" || r.type === selectedCategory;
     const matchTopic = !selectedTopic || r.topic === selectedTopic;
     const matchSearch = !searchQuery || r.title.toLowerCase().includes(searchQuery.toLowerCase()) || r.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
     return matchCat && matchTopic && matchSearch;
   });
+
+  const sortedResources = [...filteredResources].sort((a, b) => {
+    if (selectedSort === "Highest Rated") return b.rating - a.rating;
+    if (selectedSort === "Most Saved") return b.saves - a.saves;
+    if (selectedSort === "Newest") return 0;
+    return b.saves - a.saves; // Most Popular
+  });
+
+  const PER_PAGE = 6;
+  const visibleResources = sortedResources.slice(0, page * PER_PAGE);
 
   return (
     <div className="min-h-screen" style={{ background: BG }}>
@@ -490,7 +531,7 @@ export default function ResourcesPage() {
                 >
                   <div className="flex items-center justify-between mb-5">
                     <span className="text-sm font-bold" style={{ color: TEXT }}>Filters</span>
-                    <button className="text-xs font-semibold" style={{ color: GREEN }}>
+                    <button onClick={clearAllFilters} className="text-xs font-semibold" style={{ color: GREEN }}>
                       Clear all
                     </button>
                   </div>
@@ -547,47 +588,67 @@ export default function ResourcesPage() {
 
                   <FilterSection title="Difficulty">
                     <div className="space-y-1">
-                      {difficulties.map((d) => (
-                        <button
-                          key={d}
-                          className="w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-left transition hover:bg-[#18182A]"
-                        >
-                          <Square size={13} style={{ color: "#4A4A68" }} />
-                          <span className="text-xs" style={{ color: MUTED }}>{d}</span>
-                        </button>
-                      ))}
+                      {difficulties.map((d) => {
+                        const active = selectedDifficulties.has(d);
+                        return (
+                          <button
+                            key={d}
+                            onClick={() => toggleInSet(setSelectedDifficulties, d)}
+                            className="w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-left transition hover:bg-[#18182A]"
+                          >
+                            {active ? (
+                              <CheckSquare size={13} style={{ color: GREEN }} />
+                            ) : (
+                              <Square size={13} style={{ color: "#4A4A68" }} />
+                            )}
+                            <span className="text-xs" style={{ color: active ? GREEN : MUTED }}>{d}</span>
+                          </button>
+                        );
+                      })}
                     </div>
                   </FilterSection>
 
                   <FilterSection title="Length">
                     <div className="space-y-1">
-                      {lengths.map((l) => (
-                        <button
-                          key={l}
-                          className="w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-left transition hover:bg-[#18182A]"
-                        >
-                          <Square size={13} style={{ color: "#4A4A68" }} />
-                          <span className="text-xs" style={{ color: MUTED }}>{l}</span>
-                        </button>
-                      ))}
+                      {lengths.map((l) => {
+                        const active = selectedLengths.has(l);
+                        return (
+                          <button
+                            key={l}
+                            onClick={() => toggleInSet(setSelectedLengths, l)}
+                            className="w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-left transition hover:bg-[#18182A]"
+                          >
+                            {active ? (
+                              <CheckSquare size={13} style={{ color: GREEN }} />
+                            ) : (
+                              <Square size={13} style={{ color: "#4A4A68" }} />
+                            )}
+                            <span className="text-xs" style={{ color: active ? GREEN : MUTED }}>{l}</span>
+                          </button>
+                        );
+                      })}
                     </div>
                   </FilterSection>
 
                   <FilterSection title="Sort By">
                     <div className="space-y-1">
-                      {sorts.map((s, i) => (
-                        <button
-                          key={s}
-                          className="w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-left transition hover:bg-[#18182A]"
-                        >
-                          {i === 0 ? (
-                            <CheckSquare size={13} style={{ color: GREEN }} />
-                          ) : (
-                            <Square size={13} style={{ color: "#4A4A68" }} />
-                          )}
-                          <span className="text-xs" style={{ color: i === 0 ? GREEN : MUTED }}>{s}</span>
-                        </button>
-                      ))}
+                      {sorts.map((s) => {
+                        const active = selectedSort === s;
+                        return (
+                          <button
+                            key={s}
+                            onClick={() => setSelectedSort(s)}
+                            className="w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-left transition hover:bg-[#18182A]"
+                          >
+                            {active ? (
+                              <CheckSquare size={13} style={{ color: GREEN }} />
+                            ) : (
+                              <Square size={13} style={{ color: "#4A4A68" }} />
+                            )}
+                            <span className="text-xs" style={{ color: active ? GREEN : MUTED }}>{s}</span>
+                          </button>
+                        );
+                      })}
                     </div>
                   </FilterSection>
                 </div>
@@ -623,10 +684,11 @@ export default function ResourcesPage() {
                   </div>
                   <div className="ml-auto flex items-center gap-2">
                     <TrendingUp size={14} style={{ color: "#6A6A88" }} />
-                    <select className="text-xs bg-transparent outline-none" style={{ color: MUTED }}>
-                      <option>Most Popular</option>
-                      <option>Newest</option>
-                      <option>Highest Rated</option>
+                    <select value={selectedSort} onChange={(e) => setSelectedSort(e.target.value)} className="text-xs bg-transparent outline-none" style={{ color: MUTED }}>
+                      <option style={{ background: CARD }}>Most Popular</option>
+                      <option style={{ background: CARD }}>Newest</option>
+                      <option style={{ background: CARD }}>Highest Rated</option>
+                      <option style={{ background: CARD }}>Most Saved</option>
                     </select>
                   </div>
                 </div>
@@ -711,7 +773,7 @@ export default function ResourcesPage() {
                       <button onClick={() => { setSelectedCategory("All"); setSelectedTopic(null); setSearchQuery(""); }} className="mt-3 text-sm font-semibold" style={{ color: GREEN }}>Clear all filters</button>
                     </div>
                   )}
-                  {filteredResources.map((r, i) => (
+                  {visibleResources.map((r, i) => (
                     <a
                       key={i}
                       href={r.href}
@@ -778,9 +840,10 @@ export default function ResourcesPage() {
                             <Bookmark size={13} fill={savedResources.has(r.title) ? GREEN : "none"} />
                           </button>
                           <button
-                            onClick={(e) => e.preventDefault()}
+                            onClick={(e) => { e.preventDefault(); e.stopPropagation(); shareResource(r.title, r.href); }}
                             className="p-1.5 rounded-lg transition hover:bg-[#1E1E32]"
-                            style={{ color: "#4A4A68" }}
+                            style={{ color: copiedTitle === r.title ? GREEN : "#4A4A68" }}
+                            title={copiedTitle === r.title ? "Copied!" : "Share"}
                           >
                             <Share2 size={13} />
                           </button>
@@ -791,28 +854,18 @@ export default function ResourcesPage() {
                 </div>
 
                 {/* Pagination */}
-                <div className="flex items-center justify-center gap-1">
-                  {[1, 2, 3, "...", 284].map((page, i) => (
+                {visibleResources.length < sortedResources.length && (
+                  <div className="flex items-center justify-center gap-1">
                     <button
-                      key={i}
-                      className="w-9 h-9 rounded-lg text-sm font-semibold transition-all duration-150"
-                      style={{
-                        background: page === 1 ? "rgba(58,125,86,0.15)" : "transparent",
-                        border: page === 1 ? "1px solid rgba(58,125,86,0.3)" : `1px solid ${BORDER}`,
-                        color: page === 1 ? GREEN : page === "..." ? "#4A4A68" : MUTED,
-                      }}
+                      onClick={() => setPage((p) => p + 1)}
+                      className="flex items-center gap-1 px-3 h-9 rounded-lg text-sm font-semibold transition-all duration-150 hover:bg-[#18182A]"
+                      style={{ border: `1px solid ${BORDER}`, color: MUTED }}
                     >
-                      {page}
+                      Load more
+                      <ChevronRight size={14} />
                     </button>
-                  ))}
-                  <button
-                    className="flex items-center gap-1 px-3 h-9 rounded-lg text-sm font-semibold transition-all duration-150 hover:bg-[#18182A]"
-                    style={{ border: `1px solid ${BORDER}`, color: MUTED }}
-                  >
-                    Next
-                    <ChevronRight size={14} />
-                  </button>
-                </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>

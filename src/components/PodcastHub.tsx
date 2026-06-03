@@ -52,6 +52,7 @@ const NOW_PLAYING = {
   show: "The Vine Daily",
   episode: "When God Redirects Your Plans",
   host: "Pastor Marcus Webb",
+  initials: "VD",
   progress: 38,
   currentTime: "18:24",
   totalTime: "48:10",
@@ -60,6 +61,23 @@ const NOW_PLAYING = {
 export default function PodcastHub() {
   const [playing, setPlaying] = useState(false);
   const [progress, setProgress] = useState(NOW_PLAYING.progress);
+  const [nowPlaying, setNowPlaying] = useState({
+    show: NOW_PLAYING.show,
+    episode: NOW_PLAYING.episode,
+    host: NOW_PLAYING.host,
+    initials: NOW_PLAYING.initials,
+  });
+
+  const playPodcast = (pod: (typeof PODCASTS)[number]) => {
+    setNowPlaying({
+      show: pod.name,
+      episode: pod.latest,
+      host: pod.host,
+      initials: pod.initials,
+    });
+    setProgress(0);
+    setPlaying(true);
+  };
 
   return (
     <section
@@ -229,14 +247,19 @@ export default function PodcastHub() {
                   Latest: {pod.latest}
                 </p>
                 <button
+                  onClick={() => playPodcast(pod)}
                   style={{
                     display: "inline-flex",
                     alignItems: "center",
                     gap: 5,
                     padding: "4px 12px",
                     borderRadius: 2,
-                    background: "transparent",
-                    border: "0.5px solid rgba(201,162,39,0.25)",
+                    background:
+                      nowPlaying.show === pod.name ? "rgba(201,162,39,0.14)" : "transparent",
+                    border:
+                      nowPlaying.show === pod.name
+                        ? "0.5px solid rgba(201,162,39,0.5)"
+                        : "0.5px solid rgba(201,162,39,0.25)",
                     color: "#c9a227",
                     fontFamily: "var(--font-jost, system-ui, sans-serif)",
                     fontSize: "0.7rem",
@@ -248,11 +271,12 @@ export default function PodcastHub() {
                     (e.currentTarget as HTMLButtonElement).style.background = "rgba(201,162,39,0.08)";
                   }}
                   onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLButtonElement).style.background = "transparent";
+                    (e.currentTarget as HTMLButtonElement).style.background =
+                      nowPlaying.show === pod.name ? "rgba(201,162,39,0.14)" : "transparent";
                   }}
                 >
                   <Play size={10} style={{ fill: "#c9a227" }} />
-                  Play Latest
+                  {nowPlaying.show === pod.name ? "Now Playing" : "Play Latest"}
                 </button>
               </div>
             </div>
@@ -296,7 +320,7 @@ export default function PodcastHub() {
               color: "#c9a227",
             }}
           >
-            VD
+            {nowPlaying.initials}
           </div>
 
           {/* Info */}
@@ -310,7 +334,7 @@ export default function PodcastHub() {
                 whiteSpace: "nowrap",
               }}
             >
-              {NOW_PLAYING.episode}
+              {nowPlaying.episode}
             </p>
             <p
               style={{
@@ -319,7 +343,7 @@ export default function PodcastHub() {
                 color: "#9a8f72",
               }}
             >
-              {NOW_PLAYING.show} · {NOW_PLAYING.host}
+              {nowPlaying.show} · {nowPlaying.host}
             </p>
           </div>
 
@@ -329,6 +353,12 @@ export default function PodcastHub() {
               Comp ? (
                 <button
                   key={i}
+                  onClick={() =>
+                    setProgress((p) =>
+                      Math.max(0, Math.min(100, p + (Comp === SkipForward ? 10 : -10)))
+                    )
+                  }
+                  aria-label={Comp === SkipForward ? "Skip forward" : "Skip back"}
                   style={{
                     background: "transparent",
                     border: "none",

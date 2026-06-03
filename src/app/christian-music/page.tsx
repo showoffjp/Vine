@@ -512,6 +512,9 @@ export default function ChristianMusicPage() {
   // Artist modal
   const [selectedArtist, setSelectedArtist] = useState<Artist | null>(null);
 
+  // Now-playing playlist (index into PLAYLISTS)
+  const [playingPlaylist, setPlayingPlaylist] = useState<number | null>(null);
+
   // Lyrics state
   const [selectedLyricId, setSelectedLyricId] = useState<number>(1);
   const [meditateMode, setMeditateMode] = useState(false);
@@ -1001,12 +1004,14 @@ export default function ChristianMusicPage() {
               </p>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: "20px" }}>
-              {PLAYLISTS.map((pl, i) => (
+              {PLAYLISTS.map((pl, i) => {
+                const isPlaying = playingPlaylist === i;
+                return (
                 <div
                   key={i}
                   style={{
-                    background: "#12121F",
-                    border: "1px solid #1E1E32",
+                    background: isPlaying ? `${pl.coverColor}0A` : "#12121F",
+                    border: `1px solid ${isPlaying ? `${pl.coverColor}40` : "#1E1E32"}`,
                     borderRadius: "20px",
                     overflow: "hidden",
                     cursor: "pointer",
@@ -1082,10 +1087,11 @@ export default function ChristianMusicPage() {
                     </div>
 
                     <button
+                      onClick={() => setPlayingPlaylist(isPlaying ? null : i)}
                       style={{
                         width: "100%",
-                        background: `${pl.coverColor}14`,
-                        border: `1px solid ${pl.coverColor}30`,
+                        background: isPlaying ? `${pl.coverColor}28` : `${pl.coverColor}14`,
+                        border: `1px solid ${isPlaying ? `${pl.coverColor}60` : `${pl.coverColor}30`}`,
                         borderRadius: "10px",
                         padding: "10px",
                         color: pl.coverColor,
@@ -1099,12 +1105,13 @@ export default function ChristianMusicPage() {
                         transition: "all 0.2s",
                       }}
                     >
-                      <Play size={14} />
-                      Play Playlist
+                      <Play size={14} fill={isPlaying ? "currentColor" : "none"} />
+                      {isPlaying ? "Now Playing" : "Play Playlist"}
                     </button>
                   </div>
                 </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         )}

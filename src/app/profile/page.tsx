@@ -154,13 +154,31 @@ export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState("Activity");
   const [hoveredBadge, setHoveredBadge] = useState<string | null>(null);
   const [user, setUser] = useState<VineUser | null>(null);
+  const [shared, setShared] = useState(false);
+  const defaultBio =
+    "Husband. Father of 3. Passionate about apologetics, biblical finance, and helping men grow in their faith.";
+  const [bio, setBio] = useState(defaultBio);
+  const [editingBio, setEditingBio] = useState(false);
 
   useEffect(() => {
     try {
       const raw = localStorage.getItem("vine_user");
       if (raw) setUser(JSON.parse(raw));
+      const savedBio = localStorage.getItem("vine_profile_bio");
+      if (savedBio) setBio(savedBio);
     } catch {}
   }, []);
+
+  const saveBio = () => {
+    setEditingBio(false);
+    try { localStorage.setItem("vine_profile_bio", bio); } catch {}
+  };
+
+  const handleShareProfile = () => {
+    try { navigator.clipboard.writeText(window.location.origin + "/profile"); } catch {}
+    setShared(true);
+    setTimeout(() => setShared(false), 2000);
+  };
 
   const displayName = user?.name || "Jason Harper";
   const displayHandle = user ? `@${(user.firstName || "jason").toLowerCase()}${(user.lastName || "harper").toLowerCase()}` : "@jasonharper";
@@ -209,11 +227,30 @@ export default function ProfilePage() {
                 Member since Jan {joinedYear}
               </div>
 
-              <p className="text-sm leading-relaxed mb-5 text-left" style={{ color: "#8A8AA8" }}>
-                Husband. Father of 3. Passionate about apologetics, biblical finance, and helping men grow in their
-                faith.{" "}
-                <span style={{ color: "#3a7d56" }}>Philippians 4:13.</span>
-              </p>
+              {editingBio ? (
+                <div className="w-full mb-5">
+                  <textarea
+                    value={bio}
+                    onChange={(e) => setBio(e.target.value)}
+                    rows={3}
+                    className="w-full px-3 py-2 rounded-xl text-sm outline-none resize-none mb-2"
+                    style={{ background: "#07070F", border: "1px solid #1E1E32", color: "#F2F2F8" }}
+                  />
+                  <div className="flex gap-2">
+                    <button onClick={saveBio} className="text-xs px-3 py-1.5 rounded-lg font-bold" style={{ background: "#3a7d56", color: "#07070F" }}>
+                      Save
+                    </button>
+                    <button onClick={() => { setEditingBio(false); }} className="text-xs px-3 py-1.5 rounded-lg font-semibold" style={{ border: "1px solid #1E1E32", color: "#8A8AA8" }}>
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <p className="text-sm leading-relaxed mb-5 text-left" style={{ color: "#8A8AA8" }}>
+                  {bio}{" "}
+                  <span style={{ color: "#3a7d56" }}>Philippians 4:13.</span>
+                </p>
+              )}
 
               {/* Stats */}
               <div
@@ -239,14 +276,19 @@ export default function ProfilePage() {
 
               {/* Buttons */}
               <div className="flex gap-2 w-full mb-3">
-                <button className="btn-gold flex-1 py-2 rounded-xl text-sm font-bold flex items-center justify-center gap-1.5">
+                <button
+                  onClick={() => setEditingBio((v) => !v)}
+                  className="btn-gold flex-1 py-2 rounded-xl text-sm font-bold flex items-center justify-center gap-1.5"
+                >
                   <Edit3 size={13} />
-                  Edit Profile
+                  {editingBio ? "Editing…" : "Edit Profile"}
                 </button>
                 <button
+                  onClick={handleShareProfile}
                   className="btn-outline-gold px-3 py-2 rounded-xl text-sm flex items-center justify-center"
+                  title={shared ? "Copied!" : "Copy profile link"}
                 >
-                  <Share2 size={14} />
+                  {shared ? <CheckCircle size={14} /> : <Share2 size={14} />}
                 </button>
               </div>
               <a

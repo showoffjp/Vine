@@ -1,6 +1,7 @@
 "use client";
 
-import { ArrowUp, MessageSquare, Bookmark, Share2, ChevronRight, Users } from "lucide-react";
+import { useEffect, useState } from "react";
+import { ArrowUp, MessageSquare, Bookmark, Share2, ChevronRight, Users, Check } from "lucide-react";
 
 const DISCUSSIONS = [
   {
@@ -50,7 +51,68 @@ const HUBS = [
   { name: "Mental Health", members: "22K" },
 ];
 
+const VOTED_STORAGE_KEY = "vine:community:voted";
+const SAVED_STORAGE_KEY = "vine:community:saved";
+
 export default function CommunityPreview() {
+  const [voted, setVoted] = useState<Record<number, boolean>>({});
+  const [saved, setSaved] = useState<Record<number, boolean>>({});
+  const [sharedIndex, setSharedIndex] = useState<number | null>(null);
+
+  useEffect(() => {
+    try {
+      const v = localStorage.getItem(VOTED_STORAGE_KEY);
+      const s = localStorage.getItem(SAVED_STORAGE_KEY);
+      if (v) setVoted(Object.fromEntries((JSON.parse(v) as number[]).map((i) => [i, true])));
+      if (s) setSaved(Object.fromEntries((JSON.parse(s) as number[]).map((i) => [i, true])));
+    } catch {
+      /* ignore malformed storage */
+    }
+  }, []);
+
+  const persist = (key: string, map: Record<number, boolean>) => {
+    try {
+      const indexes = Object.keys(map)
+        .filter((k) => map[Number(k)])
+        .map(Number);
+      localStorage.setItem(key, JSON.stringify(indexes));
+    } catch {
+      /* ignore storage failures */
+    }
+  };
+
+  const toggleVote = (i: number) => {
+    setVoted((prev) => {
+      const next = { ...prev, [i]: !prev[i] };
+      persist(VOTED_STORAGE_KEY, next);
+      return next;
+    });
+  };
+
+  const toggleSave = (i: number) => {
+    setSaved((prev) => {
+      const next = { ...prev, [i]: !prev[i] };
+      persist(SAVED_STORAGE_KEY, next);
+      return next;
+    });
+  };
+
+  const handleShare = async (i: number, title: string) => {
+    const url = typeof window !== "undefined" ? `${window.location.origin}/discussions` : "/discussions";
+    try {
+      if (navigator.share) {
+        await navigator.share({ title, url });
+        return;
+      }
+      await navigator.clipboard.writeText(url);
+    } catch {
+      /* user dismissed or unsupported */
+      return;
+    }
+    setSharedIndex(i);
+    setTimeout(() => setSharedIndex((cur) => (cur === i ? null : cur)), 1800);
+  };
+
   return (
     <section
       style={{
@@ -209,6 +271,11 @@ export default function CommunityPreview() {
                 {/* Actions */}
                 <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
                   <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      toggleVote(i);
+                    }}
                     style={{
                       display: "flex",
                       alignItems: "center",
@@ -217,54 +284,75 @@ export default function CommunityPreview() {
                       fontSize: "0.72rem",
                       fontWeight: 600,
                       color: "#c9a227",
-                      background: "rgba(201,162,39,0.07)",
-                      border: "0.5px solid rgba(201,162,39,0.2)",
+                      background: voted[i] ? "rgba(201,162,39,0.18)" : "rgba(201,162,39,0.07)",
+                      border: voted[i]
+                        ? "0.5px solid rgba(201,162,39,0.5)"
+                        : "0.5px solid rgba(201,162,39,0.2)",
                       borderRadius: 2,
                       padding: "4px 10px",
                       cursor: "pointer",
                     }}
                   >
                     <ArrowUp size={11} />
-                    {post.votes.toLocaleString()}
+                    {(post.votes + (voted[i] ? 1 : 0)).toLocaleString()}
                   </button>
                   {[
-                    { Icon: MessageSquare, val: post.comments },
-                    { Icon: Bookmark, val: post.saved },
-                  ].map(({ Icon, val }, j) => (
-                    <button
-                      key={j}
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 5,
-                        fontFamily: "var(--font-jost, system-ui, sans-serif)",
-                        fontSize: "0.72rem",
-                        color: "#9a8f72",
-                        background: "transparent",
-                        border: "none",
-                        cursor: "pointer",
-                      }}
-                    >
-                      <Icon size={11} />
-                      {typeof val === "number" ? val.toLocaleString() : val}
-                    </button>
-                  ))}
+                    { Icon: MessageSquare, val: post.comments, kind: "comment" as const },
+                    { Icon: Bookmark, val: post.saved, kind: "save" as const },
+                  ].map(({ Icon, val, kind }, j) => {
+                    const isSave = kind === "save";
+                    const active = isSave && saved[i];
+                    const displayVal = isSave && saved[i] ? post.saved + 1 : val;
+                    return (
+                      <button
+                        key={j}
+                        onClick={
+                          isSave
+                            ? (e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                toggleSave(i);
+                              }
+                            : undefined
+                        }
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 5,
+                          fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                          fontSize: "0.72rem",
+                          color: active ? "#c9a227" : "#9a8f72",
+                          background: "transparent",
+                          border: "none",
+                          cursor: "pointer",
+                        }}
+                      >
+                        <Icon size={11} fill={active ? "#c9a227" : "none"} />
+                        {typeof displayVal === "number" ? displayVal.toLocaleString() : displayVal}
+                      </button>
+                    );
+                  })}
                   <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      handleShare(i, post.title);
+                    }}
                     style={{
                       display: "flex",
                       alignItems: "center",
                       gap: 5,
                       fontFamily: "var(--font-jost, system-ui, sans-serif)",
                       fontSize: "0.72rem",
-                      color: "#9a8f72",
+                      color: sharedIndex === i ? "#c9a227" : "#9a8f72",
                       background: "transparent",
                       border: "none",
                       cursor: "pointer",
                       marginLeft: "auto",
                     }}
                   >
-                    <Share2 size={11} />
-                    Share
+                    {sharedIndex === i ? <Check size={11} /> : <Share2 size={11} />}
+                    {sharedIndex === i ? "Copied!" : "Share"}
                   </button>
                 </div>
               </a>

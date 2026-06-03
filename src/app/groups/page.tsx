@@ -224,6 +224,11 @@ export default function GroupsPage() {
     try { localStorage.setItem("vine_groups_joined", JSON.stringify(joined)); } catch {}
   }, [joined]);
 
+  const createGroup = () => {
+    const name = typeof window !== "undefined" ? window.prompt("Name your new group:")?.trim() : "";
+    if (name) setJoined((j) => ({ ...j, [name]: true }));
+  };
+
   const filtered = groups.filter((g) => {
     const matchCat = activeCategory === "All" || g.category === activeCategory;
     const matchSearch = search === "" || g.name.toLowerCase().includes(search.toLowerCase()) || g.tags.some((t) => t.toLowerCase().includes(search.toLowerCase()));
@@ -290,6 +295,7 @@ export default function GroupsPage() {
 
               {/* Create Group */}
               <button
+                onClick={createGroup}
                 className="w-full flex items-center gap-2 p-4 rounded-2xl font-bold text-sm"
                 style={{ background: "rgba(58,125,86,0.08)", border: "1px solid rgba(58,125,86,0.2)", color: "#3a7d56" }}
               >
@@ -461,6 +467,7 @@ export default function GroupsPage() {
                   Start a group around your passion, your church, or your calling. It takes 2 minutes.
                 </p>
                 <button
+                  onClick={createGroup}
                   className="inline-flex items-center gap-2 px-7 py-2.5 rounded-xl font-bold text-sm"
                   style={{ background: "linear-gradient(135deg, #6B4FBB, #5A3FA8)", color: "#fff" }}
                 >

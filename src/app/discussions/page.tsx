@@ -495,6 +495,23 @@ export default function DiscussionsPage() {
     try { const s = localStorage.getItem("vine_disc_hubs"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
   });
   const [activeSort, setActiveSort] = useState("Hot");
+  const [sharedPost, setSharedPost] = useState<number | null>(null);
+  const [composerOpen, setComposerOpen] = useState(false);
+  const [composerText, setComposerText] = useState("");
+  const [myPosts, setMyPosts] = useState<string[]>([]);
+
+  const submitComposer = () => {
+    if (!composerText.trim()) return;
+    setMyPosts((p) => [composerText.trim(), ...p]);
+    setComposerText("");
+    setComposerOpen(false);
+  };
+
+  const handleSharePost = (id: number, slug: string) => {
+    try { navigator.clipboard.writeText(window.location.origin + `/discussions/${slug}`); } catch {}
+    setSharedPost(id);
+    setTimeout(() => setSharedPost((cur) => (cur === id ? null : cur)), 2000);
+  };
 
   useEffect(() => {
     try { localStorage.setItem("vine_disc_upvoted", JSON.stringify([...upvotedPosts])); } catch {}
@@ -642,6 +659,7 @@ export default function DiscussionsPage() {
                   J
                 </div>
                 <button
+                  onClick={() => setComposerOpen((o) => !o)}
                   className="flex-1 text-left px-4 py-2 rounded-xl text-sm transition-all duration-200 hover:border-[rgba(58,125,86,0.3)]"
                   style={{
                     background: "#07070F",
@@ -652,6 +670,35 @@ export default function DiscussionsPage() {
                   What&apos;s on your heart?
                 </button>
               </div>
+              {composerOpen && (
+                <div className="p-3 border-b" style={{ borderColor: "#1E1E32" }}>
+                  <textarea
+                    autoFocus
+                    value={composerText}
+                    onChange={(e) => setComposerText(e.target.value)}
+                    placeholder="Share a thought, question, or testimony..."
+                    rows={3}
+                    className="w-full px-4 py-2 rounded-xl text-sm outline-none resize-none mb-2"
+                    style={{ background: "#07070F", border: "1px solid #1E1E32", color: "#F2F2F8" }}
+                  />
+                  <div className="flex justify-end gap-2">
+                    <button
+                      onClick={() => { setComposerOpen(false); setComposerText(""); }}
+                      className="text-xs px-3 py-1.5 rounded-lg font-semibold"
+                      style={{ border: "1px solid #1E1E32", color: "#8A8AA8" }}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={submitComposer}
+                      className="text-xs px-4 py-1.5 rounded-lg font-bold"
+                      style={{ background: "#3a7d56", color: "#07070F", opacity: composerText.trim() ? 1 : 0.4 }}
+                    >
+                      Post
+                    </button>
+                  </div>
+                </div>
+              )}
               {/* Sort tabs */}
               <div className="flex">
                 {[
@@ -678,6 +725,20 @@ export default function DiscussionsPage() {
 
             {/* Post cards */}
             <div className="space-y-3">
+              {myPosts.map((text, i) => (
+                <div
+                  key={`mine-${i}`}
+                  className="block rounded-2xl p-4"
+                  style={{ background: "#12121F", border: "1px solid rgba(58,125,86,0.3)" }}
+                >
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-xs font-bold" style={{ color: "#3a7d56" }}>Posted by you</span>
+                    <span style={{ color: "#1E1E32" }}>·</span>
+                    <span className="text-xs" style={{ color: "#6A6A88" }}>just now</span>
+                  </div>
+                  <p className="text-sm leading-relaxed" style={{ color: "#C0C0D8" }}>{text}</p>
+                </div>
+              ))}
               {sortedPosts.map((post) => (
                 <a
                   key={post.id}
@@ -751,6 +812,7 @@ export default function DiscussionsPage() {
                       <span>{(post.votes + (upvotedPosts.has(post.id) ? 1 : 0)) >= 1000 ? `${((post.votes + (upvotedPosts.has(post.id) ? 1 : 0)) / 1000).toFixed(1)}k` : post.votes + (upvotedPosts.has(post.id) ? 1 : 0)}</span>
                     </button>
                     <button
+                      onClick={() => { if (post.slug) window.location.href = `/discussions/${post.slug}`; }}
                       className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-sm transition-all duration-200 hover:bg-[#1E1E32]"
                       style={{ color: "#8A8AA8" }}
                     >
@@ -766,11 +828,12 @@ export default function DiscussionsPage() {
                       <span>{(post.saves + (savedPosts.has(post.id) ? 1 : 0)) >= 1000 ? `${((post.saves + (savedPosts.has(post.id) ? 1 : 0)) / 1000).toFixed(1)}k` : post.saves + (savedPosts.has(post.id) ? 1 : 0)}</span>
                     </button>
                     <button
+                      onClick={() => post.slug && handleSharePost(post.id, post.slug)}
                       className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-sm transition-all duration-200 hover:bg-[#1E1E32] ml-auto"
-                      style={{ color: "#8A8AA8" }}
+                      style={{ color: sharedPost === post.id ? "#3a7d56" : "#8A8AA8" }}
                     >
                       <Share2 size={14} />
-                      Share
+                      {sharedPost === post.id ? "Copied!" : "Share"}
                     </button>
                   </div>
                 </a>

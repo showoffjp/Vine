@@ -179,6 +179,18 @@ export default function PrayerPage() {
   const [requestText, setRequestText] = useState("");
   const [selectedTopic, setSelectedTopic] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [amenedCards, setAmenedCards] = useState<Set<number>>(() => {
+    try { const s = localStorage.getItem("vine_amened_cards"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
+  });
+  const [amenCounts, setAmenCounts] = useState<Record<number, number>>(() => {
+    try { const s = localStorage.getItem("vine_amen_counts"); return s ? JSON.parse(s) : Object.fromEntries(prayerCards.map((c) => [c.id, c.amenCount])); } catch { return Object.fromEntries(prayerCards.map((c) => [c.id, c.amenCount])); }
+  });
+  const [openEncourage, setOpenEncourage] = useState<number | null>(null);
+  const [encourageText, setEncourageText] = useState("");
+  const [encouragements, setEncouragements] = useState<Record<number, string[]>>(() => {
+    try { const s = localStorage.getItem("vine_encouragements"); return s ? JSON.parse(s) : {}; } catch { return {}; }
+  });
+  const [copiedCard, setCopiedCard] = useState<number | null>(null);
 
   useEffect(() => {
     try { localStorage.setItem("vine_prayed_cards", JSON.stringify([...prayedCards])); } catch {}
@@ -186,6 +198,48 @@ export default function PrayerPage() {
   useEffect(() => {
     try { localStorage.setItem("vine_pray_counts", JSON.stringify(prayCounts)); } catch {}
   }, [prayCounts]);
+  useEffect(() => {
+    try { localStorage.setItem("vine_amened_cards", JSON.stringify([...amenedCards])); } catch {}
+  }, [amenedCards]);
+  useEffect(() => {
+    try { localStorage.setItem("vine_amen_counts", JSON.stringify(amenCounts)); } catch {}
+  }, [amenCounts]);
+  useEffect(() => {
+    try { localStorage.setItem("vine_encouragements", JSON.stringify(encouragements)); } catch {}
+  }, [encouragements]);
+
+  const toggleAmen = (cardId: number) => {
+    setAmenedCards((prev) => {
+      const next = new Set(prev);
+      const has = next.has(cardId);
+      if (has) next.delete(cardId); else next.add(cardId);
+      setAmenCounts((c) => ({ ...c, [cardId]: (c[cardId] ?? 0) + (has ? -1 : 1) }));
+      return next;
+    });
+  };
+
+  const handleEncourageSubmit = (cardId: number) => {
+    const text = encourageText.trim();
+    if (!text) return;
+    setEncouragements((prev) => ({ ...prev, [cardId]: [...(prev[cardId] ?? []), text] }));
+    setEncourageText("");
+    setOpenEncourage(null);
+  };
+
+  const handleSharePrayer = async (cardId: number) => {
+    const url = `${typeof window !== "undefined" ? window.location.origin : ""}/prayer#prayer-${cardId}`;
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: "Prayer request on Vine", url });
+      } else {
+        await navigator.clipboard.writeText(url);
+      }
+    } catch {
+      try { await navigator.clipboard.writeText(url); } catch {}
+    }
+    setCopiedCard(cardId);
+    setTimeout(() => setCopiedCard((c) => (c === cardId ? null : c)), 2000);
+  };
 
   const handleSubmitPrayer = () => {
     if (!requestText.trim()) return;
@@ -429,8 +483,10 @@ export default function PrayerPage() {
                   return (
                     <article
                       key={card.id}
+                      id={`prayer-${card.id}`}
                       className="rounded-2xl p-5 transition-all duration-200"
                       style={{
+                        scrollMarginTop: 90,
                         background: "#12121F",
                         border: card.isPraiseReport
                           ? "1px solid rgba(58,125,86,0.4)"
@@ -529,30 +585,82 @@ export default function PrayerPage() {
                         </button>
 
                         {/* Amen */}
-                        <button
-                          className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm transition-all duration-200 hover:bg-[#18182A]"
-                          style={{ border: "1px solid #1E1E32", color: "#6A6A88" }}
-                        >
-                          <Heart size={13} />
-                          Amen · {card.amenCount >= 1000 ? `${(card.amenCount / 1000).toFixed(1)}k` : card.amenCount}
-                        </button>
+                        {(() => {
+                          const hasAmened = amenedCards.has(card.id);
+                          const amen = amenCounts[card.id] ?? card.amenCount;
+                          return (
+                            <button
+                              onClick={() => toggleAmen(card.id)}
+                              className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm transition-all duration-200 hover:bg-[#18182A]"
+                              style={{
+                                border: `1px solid ${hasAmened ? "rgba(187,79,122,0.4)" : "#1E1E32"}`,
+                                color: hasAmened ? "#BB4F7A" : "#6A6A88",
+                                background: hasAmened ? "rgba(187,79,122,0.08)" : "transparent",
+                              }}
+                            >
+                              <Heart size={13} fill={hasAmened ? "#BB4F7A" : "none"} />
+                              Amen · {amen >= 1000 ? `${(amen / 1000).toFixed(1)}k` : amen}
+                            </button>
+                          );
+                        })()}
 
                         {/* Comment */}
                         <button
+                          onClick={() => { setOpenEncourage(openEncourage === card.id ? null : card.id); setEncourageText(""); }}
                           className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm transition-all duration-200 hover:bg-[#18182A]"
-                          style={{ border: "1px solid #1E1E32", color: "#6A6A88" }}
+                          style={{
+                            border: `1px solid ${openEncourage === card.id ? "rgba(58,125,86,0.4)" : "#1E1E32"}`,
+                            color: openEncourage === card.id ? "#3a7d56" : "#6A6A88",
+                          }}
                         >
                           <MessageSquare size={13} />
-                          Encourage
+                          Encourage{(encouragements[card.id]?.length ?? 0) > 0 ? ` · ${encouragements[card.id].length}` : ""}
                         </button>
 
                         <button
+                          onClick={() => handleSharePrayer(card.id)}
                           className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm transition-all duration-200 hover:bg-[#18182A] ml-auto"
-                          style={{ border: "1px solid #1E1E32", color: "#6A6A88" }}
+                          style={{ border: `1px solid ${copiedCard === card.id ? "rgba(58,125,86,0.4)" : "#1E1E32"}`, color: copiedCard === card.id ? "#3a7d56" : "#6A6A88" }}
                         >
                           <Share2 size={13} />
+                          {copiedCard === card.id ? "Copied!" : ""}
                         </button>
                       </div>
+
+                      {/* Encouragements list */}
+                      {(encouragements[card.id]?.length ?? 0) > 0 && (
+                        <div className="mt-4 space-y-2">
+                          {encouragements[card.id].map((msg, i) => (
+                            <div key={i} className="flex items-start gap-2 px-3 py-2 rounded-xl" style={{ background: "rgba(58,125,86,0.06)", border: "1px solid rgba(58,125,86,0.15)" }}>
+                              <Heart size={13} style={{ color: "#3a7d56", marginTop: 3, flexShrink: 0 }} />
+                              <p className="text-sm leading-relaxed" style={{ color: "#C0C0D8" }}>{msg}</p>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Encourage composer */}
+                      {openEncourage === card.id && (
+                        <div className="mt-4 flex items-center gap-2">
+                          <input
+                            autoFocus
+                            value={encourageText}
+                            onChange={(e) => setEncourageText(e.target.value)}
+                            onKeyDown={(e) => { if (e.key === "Enter") handleEncourageSubmit(card.id); }}
+                            placeholder="Write an encouragement or a verse…"
+                            className="flex-1 px-3 py-2 rounded-xl text-sm outline-none"
+                            style={{ background: "#0D0D17", border: "1px solid #1E1E32", color: "#F2F2F8" }}
+                          />
+                          <button
+                            onClick={() => handleEncourageSubmit(card.id)}
+                            disabled={!encourageText.trim()}
+                            className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-bold"
+                            style={{ background: "rgba(58,125,86,0.15)", border: "1px solid rgba(58,125,86,0.4)", color: "#3a7d56", opacity: encourageText.trim() ? 1 : 0.4 }}
+                          >
+                            <Send size={13} /> Send
+                          </button>
+                        </div>
+                      )}
                     </article>
                   );
                 })}

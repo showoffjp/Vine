@@ -144,6 +144,16 @@ export default function LivePage() {
   ]);
   const [chatInput, setChatInput] = useState("");
   const [liveViewers, setLiveViewers] = useState(4821);
+  const [likedFeatured, setLikedFeatured] = useState(() => {
+    try { return localStorage.getItem("vine_live_featured_liked") === "1"; } catch { return false; }
+  });
+
+  useEffect(() => {
+    try {
+      if (likedFeatured) localStorage.setItem("vine_live_featured_liked", "1");
+      else localStorage.removeItem("vine_live_featured_liked");
+    } catch {}
+  }, [likedFeatured]);
 
   useEffect(() => {
     const iv = setInterval(() => {
@@ -268,8 +278,17 @@ export default function LivePage() {
                       <><Play size={14} /> Watch Live</>
                     )}
                   </button>
-                  <button className="p-2.5 rounded-xl" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#6A6A88" }}>
-                    <Heart size={16} />
+                  <button
+                    onClick={() => setLikedFeatured((l) => !l)}
+                    className="p-2.5 rounded-xl transition-all"
+                    style={{
+                      background: likedFeatured ? "rgba(236,72,153,0.12)" : "rgba(255,255,255,0.04)",
+                      border: `1px solid ${likedFeatured ? "rgba(236,72,153,0.4)" : "rgba(255,255,255,0.08)"}`,
+                      color: likedFeatured ? "#EC4899" : "#6A6A88",
+                    }}
+                    title={likedFeatured ? "Liked" : "Like this stream"}
+                  >
+                    <Heart size={16} fill={likedFeatured ? "#EC4899" : "none"} />
                   </button>
                 </div>
               </div>

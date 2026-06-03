@@ -26,7 +26,14 @@ interface SearchOverlayProps {
 
 export default function SearchOverlay({ open, onClose }: SearchOverlayProps) {
   const [query, setQuery] = useState("");
+  const [submitted, setSubmitted] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const runSearch = (term: string) => {
+    setQuery(term);
+    setSubmitted(term);
+    inputRef.current?.focus();
+  };
 
   useEffect(() => {
     if (open) {
@@ -35,6 +42,7 @@ export default function SearchOverlay({ open, onClose }: SearchOverlayProps) {
     } else {
       document.body.style.overflow = "";
       setQuery("");
+      setSubmitted(null);
     }
     return () => { document.body.style.overflow = ""; };
   }, [open]);
@@ -74,6 +82,9 @@ export default function SearchOverlay({ open, onClose }: SearchOverlayProps) {
             ref={inputRef}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") setSubmitted(query.trim());
+            }}
             placeholder="Search Vine — verses, topics, discussions, guides..."
             className="flex-1 bg-transparent outline-none text-base"
             style={{ color: "#F2F2F8" }}
@@ -95,7 +106,7 @@ export default function SearchOverlay({ open, onClose }: SearchOverlayProps) {
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {trending.map((t) => (
-                    <button key={t.label} className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm transition-colors"
+                    <button key={t.label} onClick={() => runSearch(t.label)} className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm transition-colors"
                       style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)", color: "#A0A0C0" }}
                       onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(58,125,86,0.3)"; e.currentTarget.style.color = "#F2F2F8"; }}
                       onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)"; e.currentTarget.style.color = "#A0A0C0"; }}
@@ -114,7 +125,7 @@ export default function SearchOverlay({ open, onClose }: SearchOverlayProps) {
                 </div>
                 <div className="space-y-1">
                   {quickLinks.map((l) => (
-                    <button key={l.label} className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left transition-colors"
+                    <button key={l.label} onClick={() => runSearch(l.label)} className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left transition-colors"
                       style={{ color: "#A0A0C0" }}
                       onMouseEnter={e => { e.currentTarget.style.background = "rgba(255,255,255,0.04)"; e.currentTarget.style.color = "#F2F2F8"; }}
                       onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#A0A0C0"; }}
@@ -135,7 +146,7 @@ export default function SearchOverlay({ open, onClose }: SearchOverlayProps) {
                 <div key={cat}>
                   <p className="text-xs font-bold uppercase tracking-wider mb-2 px-3" style={{ color: "#6A6A88" }}>{cat}</p>
                   {[1,2].map((i) => (
-                    <button key={i} className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left transition-colors"
+                    <button key={i} onClick={() => setSubmitted(`${query} in ${cat.toLowerCase()}`)} className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left transition-colors"
                       style={{ color: "#A0A0C0" }}
                       onMouseEnter={e => { e.currentTarget.style.background = "rgba(255,255,255,0.04)"; e.currentTarget.style.color = "#F2F2F8"; }}
                       onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#A0A0C0"; }}
@@ -151,7 +162,11 @@ export default function SearchOverlay({ open, onClose }: SearchOverlayProps) {
         </div>
 
         <div className="px-5 py-3 border-t flex items-center justify-between text-xs" style={{ borderColor: "rgba(255,255,255,0.04)", color: "#4A4A68" }}>
-          <span>Press <kbd className="px-1 py-0.5 rounded text-xs" style={{ background: "rgba(255,255,255,0.06)" }}>↵</kbd> to search</span>
+          {submitted ? (
+            <span style={{ color: "#3a7d56" }}>Searching for &ldquo;{submitted}&rdquo;…</span>
+          ) : (
+            <span>Press <kbd className="px-1 py-0.5 rounded text-xs" style={{ background: "rgba(255,255,255,0.06)" }}>↵</kbd> to search</span>
+          )}
           <span>⌘K to open anywhere</span>
         </div>
       </div>

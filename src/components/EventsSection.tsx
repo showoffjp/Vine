@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { MapPin, Users, Calendar, Globe, ArrowRight } from "lucide-react";
+import { useEffect, useState } from "react";
+import { MapPin, Users, Calendar, Globe, ArrowRight, Check } from "lucide-react";
 
 type FilterKey = "All" | "Online" | "In-Person" | "Conferences" | "Retreats";
 
@@ -82,8 +82,37 @@ const EVENTS = [
   },
 ];
 
+const REGISTERED_STORAGE_KEY = "vine:events:registered";
+
 export default function EventsSection() {
   const [activeFilter, setActiveFilter] = useState<FilterKey>("All");
+  const [registered, setRegistered] = useState<Record<number, boolean>>({});
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem(REGISTERED_STORAGE_KEY);
+      if (stored) {
+        setRegistered(Object.fromEntries((JSON.parse(stored) as number[]).map((id) => [id, true])));
+      }
+    } catch {
+      /* ignore malformed storage */
+    }
+  }, []);
+
+  const toggleRegister = (id: number) => {
+    setRegistered((prev) => {
+      const next = { ...prev, [id]: !prev[id] };
+      try {
+        const ids = Object.keys(next)
+          .filter((key) => next[Number(key)])
+          .map(Number);
+        localStorage.setItem(REGISTERED_STORAGE_KEY, JSON.stringify(ids));
+      } catch {
+        /* ignore storage failures */
+      }
+      return next;
+    });
+  };
 
   const filtered = activeFilter === "All" ? EVENTS : EVENTS.filter((e) => e.category === activeFilter);
 
@@ -350,26 +379,40 @@ export default function EventsSection() {
                     <Users size={11} />
                     <strong style={{ color: "#c9b98a" }}>{event.attendees}</strong> attending
                   </div>
-                  <button
-                    style={{
-                      padding: "6px 18px",
-                      borderRadius: 2,
-                      background: "#c9a227",
-                      color: "#1a0e00",
-                      border: "none",
-                      fontFamily: "var(--font-jost, system-ui, sans-serif)",
-                      fontSize: "0.72rem",
-                      fontWeight: 600,
-                      letterSpacing: "0.08em",
-                      textTransform: "uppercase",
-                      cursor: "pointer",
-                      transition: "background 0.2s",
-                    }}
-                    onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "#e8c162"; }}
-                    onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "#c9a227"; }}
-                  >
-                    Register
-                  </button>
+                  {(() => {
+                    const isRegistered = registered[event.id];
+                    return (
+                      <button
+                        onClick={() => toggleRegister(event.id)}
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: 5,
+                          padding: "6px 18px",
+                          borderRadius: 2,
+                          background: isRegistered ? "transparent" : "#c9a227",
+                          color: isRegistered ? "#c9a227" : "#1a0e00",
+                          border: isRegistered ? "0.5px solid rgba(201,162,39,0.5)" : "none",
+                          fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                          fontSize: "0.72rem",
+                          fontWeight: 600,
+                          letterSpacing: "0.08em",
+                          textTransform: "uppercase",
+                          cursor: "pointer",
+                          transition: "background 0.2s",
+                        }}
+                        onMouseEnter={(e) => {
+                          if (!isRegistered) (e.currentTarget as HTMLButtonElement).style.background = "#e8c162";
+                        }}
+                        onMouseLeave={(e) => {
+                          if (!isRegistered) (e.currentTarget as HTMLButtonElement).style.background = "#c9a227";
+                        }}
+                      >
+                        {isRegistered && <Check size={11} />}
+                        {isRegistered ? "Registered" : "Register"}
+                      </button>
+                    );
+                  })()}
                 </div>
               </div>
             );

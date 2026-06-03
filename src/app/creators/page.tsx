@@ -245,6 +245,7 @@ export default function CreatorsPage() {
     try { const s = localStorage.getItem("vine_creators_followed"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
   });
   const [search, setSearch] = useState("");
+  const [applied, setApplied] = useState(false);
 
   useEffect(() => {
     try { if (followingFeatured) localStorage.setItem("vine_creators_featured", "1"); else localStorage.removeItem("vine_creators_featured"); } catch {}
@@ -592,14 +593,21 @@ export default function CreatorsPage() {
                 </div>
 
                 <button
-                  className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl text-sm font-black"
+                  onClick={() => setApplied(true)}
+                  disabled={applied}
+                  className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl text-sm font-black transition-all"
                   style={{
-                    background: "linear-gradient(135deg, #3a7d56 0%, #B8960C 100%)",
-                    color: "#07070F",
+                    background: applied ? "rgba(58,125,86,0.15)" : "linear-gradient(135deg, #3a7d56 0%, #B8960C 100%)",
+                    color: applied ? "#3a7d56" : "#07070F",
+                    border: applied ? "1px solid rgba(58,125,86,0.4)" : "none",
+                    cursor: applied ? "default" : "pointer",
                   }}
                 >
-                  Apply to Create
-                  <ArrowRight size={16} />
+                  {applied ? (
+                    <><CheckCircle size={16} /> Application Started — Check Your Email</>
+                  ) : (
+                    <>Apply to Create <ArrowRight size={16} /></>
+                  )}
                 </button>
               </div>
             </div>

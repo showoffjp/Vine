@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
@@ -202,6 +202,15 @@ function AccountTab() {
   const [email, setEmail] = useState("jason@pharrgo.com");
   const [bio, setBio] = useState("Follower of Christ | Husband | Father | Proverbs 3:5-6");
   const [location, setLocation] = useState("Atlanta, GA");
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+  const photoInputRef = useRef<HTMLInputElement | null>(null);
+
+  const onPhotoSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const url = URL.createObjectURL(file);
+    setAvatarPreview(url);
+  };
 
   useState(() => {
     try {
@@ -270,7 +279,9 @@ function AccountTab() {
                 width: 80,
                 height: 80,
                 borderRadius: "50%",
-                background: "linear-gradient(135deg, #6B4FBB, #3a7d56)",
+                background: avatarPreview
+                  ? `center / cover no-repeat url(${avatarPreview})`
+                  : "linear-gradient(135deg, #6B4FBB, #3a7d56)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -279,7 +290,7 @@ function AccountTab() {
                 color: "#F2F2F8",
               }}
             >
-              JD
+              {avatarPreview ? "" : "JD"}
             </div>
             <div
               style={{
@@ -306,7 +317,15 @@ function AccountTab() {
             <div style={{ fontSize: 12, color: "#6A6A88", marginBottom: 10 }}>
               JPG, PNG or GIF. Max 5MB.
             </div>
+            <input
+              ref={photoInputRef}
+              type="file"
+              accept="image/png,image/jpeg,image/gif"
+              onChange={onPhotoSelected}
+              style={{ display: "none" }}
+            />
             <button
+              onClick={() => photoInputRef.current?.click()}
               style={{
                 background: "linear-gradient(135deg, #4a9e6e, #3a7d56)",
                 color: "#07070F",
@@ -318,7 +337,7 @@ function AccountTab() {
                 cursor: "pointer",
               }}
             >
-              Change Photo
+              {avatarPreview ? "Change Photo" : "Upload Photo"}
             </button>
           </div>
         </div>
@@ -608,6 +627,8 @@ function PrivacyTab() {
   const [indexable, setIndexable] = useState(() => {
     try { return localStorage.getItem("vine_privacy_indexable") === "1"; } catch { return false; }
   });
+  const [exportRequested, setExportRequested] = useState(false);
+  const [deleteStep, setDeleteStep] = useState<0 | 1 | 2>(0);
 
   useEffect(() => {
     try { localStorage.setItem("vine_privacy_profile", profileVis); } catch {}
@@ -671,22 +692,24 @@ function PrivacyTab() {
             Get a copy of all your Vine data including posts, prayers, and account info.
           </div>
           <button
+            onClick={() => setExportRequested(true)}
+            disabled={exportRequested}
             style={{
-              background: "transparent",
-              border: "1px solid #1E1E32",
+              background: exportRequested ? "rgba(58,125,86,0.12)" : "transparent",
+              border: `1px solid ${exportRequested ? "rgba(58,125,86,0.4)" : "#1E1E32"}`,
               borderRadius: 8,
               padding: "8px 16px",
-              color: "#F2F2F8",
+              color: exportRequested ? "#3a7d56" : "#F2F2F8",
               fontSize: 13,
               fontWeight: 600,
-              cursor: "pointer",
+              cursor: exportRequested ? "default" : "pointer",
               display: "flex",
               alignItems: "center",
               gap: 6,
             }}
           >
             <Download size={14} />
-            Request Data Export
+            {exportRequested ? "Export requested — we'll email you a link" : "Request Data Export"}
           </button>
         </div>
         <div style={{ padding: "16px 20px" }}>
@@ -708,24 +731,60 @@ function PrivacyTab() {
           <div style={{ fontSize: 12, color: "#6A6A88", marginBottom: 12 }}>
             Permanently delete your account and all associated data. This cannot be undone.
           </div>
-          <button
-            style={{
-              background: "transparent",
-              border: "1px solid #BB4F4F",
-              borderRadius: 8,
-              padding: "8px 16px",
-              color: "#BB4F4F",
-              fontSize: 13,
-              fontWeight: 600,
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              gap: 6,
-            }}
-          >
-            <Trash2 size={14} />
-            Delete My Account
-          </button>
+          {deleteStep === 2 ? (
+            <div style={{ fontSize: 13, color: "#BB4F4F", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>
+              <Trash2 size={14} />
+              Account scheduled for deletion. You have 14 days to change your mind by signing back in.
+            </div>
+          ) : deleteStep === 1 ? (
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              <div style={{ fontSize: 13, color: "#F2F2F8", fontWeight: 600 }}>
+                Are you sure? This will permanently remove your account.
+              </div>
+              <div style={{ display: "flex", gap: 8 }}>
+                <button
+                  onClick={() => setDeleteStep(2)}
+                  style={{
+                    background: "#BB4F4F", border: "none", borderRadius: 8, padding: "8px 16px",
+                    color: "#07070F", fontSize: 13, fontWeight: 700, cursor: "pointer",
+                    display: "flex", alignItems: "center", gap: 6,
+                  }}
+                >
+                  <Trash2 size={14} />
+                  Yes, delete my account
+                </button>
+                <button
+                  onClick={() => setDeleteStep(0)}
+                  style={{
+                    background: "transparent", border: "1px solid #1E1E32", borderRadius: 8,
+                    padding: "8px 16px", color: "#F2F2F8", fontSize: 13, fontWeight: 600, cursor: "pointer",
+                  }}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          ) : (
+            <button
+              onClick={() => setDeleteStep(1)}
+              style={{
+                background: "transparent",
+                border: "1px solid #BB4F4F",
+                borderRadius: 8,
+                padding: "8px 16px",
+                color: "#BB4F4F",
+                fontSize: 13,
+                fontWeight: 600,
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                gap: 6,
+              }}
+            >
+              <Trash2 size={14} />
+              Delete My Account
+            </button>
+          )}
         </div>
       </Section>
     </div>
@@ -1175,7 +1234,7 @@ function ReadingPlansTab() {
 // ─── Connections Tab ──────────────────────────────────────────────────────────
 
 function ConnectionsTab() {
-  const providers = [
+  const [providers, setProviders] = useState([
     {
       name: "Google",
       connected: true,
@@ -1186,18 +1245,34 @@ function ConnectionsTab() {
     {
       name: "Apple",
       connected: false,
-      email: null,
+      email: null as string | null,
       icon: "",
       color: "#F2F2F8",
     },
     {
       name: "Facebook",
       connected: false,
-      email: null,
+      email: null as string | null,
       icon: "f",
       color: "#1877F2",
     },
-  ];
+  ]);
+  const [contactsImported, setContactsImported] = useState(false);
+  const [inviteCopied, setInviteCopied] = useState(false);
+
+  const connectProvider = (name: string) =>
+    setProviders((prev) =>
+      prev.map((p) =>
+        p.name === name ? { ...p, connected: true, email: "jason@pharrgo.com" } : p
+      )
+    );
+
+  const copyInvite = async () => {
+    const url = `${typeof window !== "undefined" ? window.location.origin : "https://vine.community"}/?invite=jasondoe`;
+    try { await navigator.clipboard.writeText(url); } catch {}
+    setInviteCopied(true);
+    setTimeout(() => setInviteCopied(false), 2000);
+  };
 
   return (
     <div>
@@ -1256,6 +1331,7 @@ function ConnectionsTab() {
               </div>
             ) : (
               <button
+                onClick={() => connectProvider(p.name)}
                 style={{
                   background: "transparent",
                   border: "1px solid #1E1E32",
@@ -1283,22 +1359,25 @@ function ConnectionsTab() {
             Sync your phone contacts to find friends already on Vine. We never store your contacts.
           </div>
           <button
+            onClick={() => setContactsImported(true)}
+            disabled={contactsImported}
             style={{
-              background: "transparent",
-              border: "1px solid #1E1E32",
+              background: contactsImported ? "rgba(58,125,86,0.12)" : "transparent",
+              border: `1px solid ${contactsImported ? "rgba(58,125,86,0.4)" : "#1E1E32"}`,
               borderRadius: 8,
               padding: "8px 16px",
-              color: "#F2F2F8",
+              color: contactsImported ? "#3a7d56" : "#F2F2F8",
               fontSize: 13,
               fontWeight: 600,
-              cursor: "pointer",
+              cursor: contactsImported ? "default" : "pointer",
             }}
           >
-            Import Contacts
+            {contactsImported ? "Contacts synced — 0 friends found yet" : "Import Contacts"}
           </button>
         </div>
         <div style={{ padding: "16px 20px" }}>
           <button
+            onClick={copyInvite}
             style={{
               background: "linear-gradient(135deg, #4a9e6e, #3a7d56)",
               color: "#07070F",
@@ -1310,7 +1389,7 @@ function ConnectionsTab() {
               cursor: "pointer",
             }}
           >
-            Find Friends on Vine
+            {inviteCopied ? "Invite link copied!" : "Find Friends on Vine"}
           </button>
         </div>
       </Section>

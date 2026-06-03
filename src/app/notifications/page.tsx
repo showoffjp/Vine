@@ -268,6 +268,47 @@ const allNotifs: { group: string; items: Notification[] }[] = [
   },
 ];
 
+const olderNotifs: { group: string; items: Notification[] }[] = [
+  {
+    group: "Earlier",
+    items: [
+      {
+        id: 21,
+        emoji: "🙏",
+        emojiBg: "#4CAF82",
+        text: "5 people prayed for your request about a job interview",
+        time: "2 weeks ago",
+        read: true,
+        category: "prayer",
+        action: "View Prayers",
+        href: "/prayer",
+      },
+      {
+        id: 22,
+        emoji: "🏆",
+        emojiBg: "#4a9e6e",
+        text: "You earned the 'First Post' badge — welcome to the community!",
+        time: "3 weeks ago",
+        read: true,
+        category: "badge",
+        action: "View Badge",
+        href: "/profile",
+      },
+      {
+        id: 23,
+        emoji: "👥",
+        emojiBg: "#2A6496",
+        text: "Hannah O. and 6 others started following you",
+        time: "1 month ago",
+        read: true,
+        category: "follow",
+        action: "View Profiles",
+        href: "/community",
+      },
+    ],
+  },
+];
+
 const categoryColors: Record<NotifCategory, string> = {
   prayer: "#4CAF82",
   reply: "#6B4FBB",
@@ -297,6 +338,7 @@ function filterMatches(n: Notification, filter: string, readSet: Set<number>): b
 
 export default function NotificationsPage() {
   const [activeFilter, setActiveFilter] = useState("All");
+  const [showOlder, setShowOlder] = useState(false);
   const [readSet, setReadSet] = useState<Set<number>>(() => {
     try { const s = localStorage.getItem("vine_notif_read"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
   });
@@ -305,16 +347,18 @@ export default function NotificationsPage() {
     try { localStorage.setItem("vine_notif_read", JSON.stringify([...readSet])); } catch {}
   }, [readSet]);
 
+  const displayedNotifs = showOlder ? [...allNotifs, ...olderNotifs] : allNotifs;
+
   const markRead = (id: number) => {
     setReadSet((prev) => new Set([...prev, id]));
   };
 
   const markAllRead = () => {
-    const allIds = allNotifs.flatMap((g) => g.items.map((n) => n.id));
+    const allIds = displayedNotifs.flatMap((g) => g.items.map((n) => n.id));
     setReadSet(new Set(allIds));
   };
 
-  const unreadCount = allNotifs
+  const unreadCount = displayedNotifs
     .flatMap((g) => g.items)
     .filter((n) => !readSet.has(n.id) && !n.read).length;
 
@@ -428,7 +472,7 @@ export default function NotificationsPage() {
             overflow: "hidden",
           }}
         >
-          {allNotifs.map((group) => {
+          {displayedNotifs.map((group) => {
             const filtered = group.items.filter((n) => filterMatches(n, activeFilter, readSet));
             if (filtered.length === 0) return null;
             return (
@@ -533,7 +577,7 @@ export default function NotificationsPage() {
           })}
 
           {/* Empty state */}
-          {allNotifs.every((g) => g.items.filter((n) => filterMatches(n, activeFilter, readSet)).length === 0) && (
+          {displayedNotifs.every((g) => g.items.filter((n) => filterMatches(n, activeFilter, readSet)).length === 0) && (
             <div style={{ textAlign: "center", padding: "60px 20px" }}>
               <div style={{ fontSize: 48, marginBottom: 16 }}>🔔</div>
               <h3 style={{ fontSize: 18, fontWeight: 700, color: "#F2F2F8", marginBottom: 8 }}>
@@ -548,18 +592,20 @@ export default function NotificationsPage() {
 
         <div style={{ textAlign: "center", marginTop: 24 }}>
           <button
+            onClick={() => setShowOlder(true)}
+            disabled={showOlder}
             style={{
               background: "transparent",
               border: "1px solid #1E1E32",
               borderRadius: 10,
               padding: "10px 28px",
-              color: "#8A8AA8",
+              color: showOlder ? "#4A4A68" : "#8A8AA8",
               fontSize: 14,
               fontWeight: 600,
-              cursor: "pointer",
+              cursor: showOlder ? "default" : "pointer",
             }}
           >
-            Load older notifications
+            {showOlder ? "No older notifications" : "Load older notifications"}
           </button>
         </div>
       </div>

@@ -1,6 +1,7 @@
 "use client";
 
-import { BookOpen, Heart, Bookmark, Share2, ChevronRight } from "lucide-react";
+import { useState } from "react";
+import { BookOpen, Heart, Bookmark, Share2, Check, ChevronRight } from "lucide-react";
 import VerseRef from "@/components/VerseRef";
 
 const VERSE = {
@@ -40,6 +41,22 @@ const DEVOTIONALS = [
 ];
 
 export default function DailyBread() {
+  const [liked, setLiked] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const [shared, setShared] = useState(false);
+
+  const handleShareVerse = async () => {
+    const payload = `"${VERSE.text}" — ${VERSE.reference} (${VERSE.translation})`;
+    try {
+      if (navigator.share) await navigator.share({ text: payload });
+      else await navigator.clipboard.writeText(payload);
+    } catch {
+      try { await navigator.clipboard.writeText(payload); } catch {}
+    }
+    setShared(true);
+    setTimeout(() => setShared(false), 2000);
+  };
+
   return (
     <section
       style={{
@@ -181,16 +198,23 @@ export default function DailyBread() {
                   </p>
                 </div>
                 <div style={{ display: "flex", gap: 8 }}>
-                  {[Heart, Bookmark, Share2].map((Icon, i) => (
+                  {([
+                    { key: "like", Icon: Heart, active: liked, activeColor: "#BB4F7A", onClick: () => setLiked((v) => !v), title: "Love this verse", fill: liked },
+                    { key: "save", Icon: Bookmark, active: saved, activeColor: "#c9a227", onClick: () => setSaved((v) => !v), title: "Save verse", fill: saved },
+                    { key: "share", Icon: shared ? Check : Share2, active: shared, activeColor: "#3a7d56", onClick: handleShareVerse, title: "Share verse", fill: false },
+                  ] as const).map(({ key, Icon, active, activeColor, onClick, title, fill }) => (
                     <button
-                      key={i}
+                      key={key}
+                      onClick={onClick}
+                      aria-label={title}
+                      title={title}
                       style={{
                         width: 32,
                         height: 32,
                         borderRadius: 2,
-                        border: "0.5px solid rgba(201,162,39,0.18)",
-                        background: "transparent",
-                        color: "#9a8f72",
+                        border: `0.5px solid ${active ? activeColor : "rgba(201,162,39,0.18)"}`,
+                        background: active ? `${activeColor}1A` : "transparent",
+                        color: active ? activeColor : "#9a8f72",
                         cursor: "pointer",
                         display: "flex",
                         alignItems: "center",
@@ -198,15 +222,17 @@ export default function DailyBread() {
                         transition: "all 0.2s",
                       }}
                       onMouseEnter={(e) => {
+                        if (active) return;
                         (e.currentTarget as HTMLButtonElement).style.color = "#c9a227";
                         (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(201,162,39,0.5)";
                       }}
                       onMouseLeave={(e) => {
+                        if (active) return;
                         (e.currentTarget as HTMLButtonElement).style.color = "#9a8f72";
                         (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(201,162,39,0.18)";
                       }}
                     >
-                      <Icon size={13} />
+                      <Icon size={13} fill={fill ? "currentColor" : "none"} />
                     </button>
                   ))}
                 </div>

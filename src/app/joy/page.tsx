@@ -82,6 +82,13 @@ const PRACTICES = [
 
 type Tab = "theology" | "thieves" | "stories" | "practices" | "videos";
 
+const JOY_VIDEOS = [
+  { videoId: "dXxmSDhvbHY", title: "Desiring God: The Pursuit of Joy", channel: "Desiring God", description: "John Piper on Christian Hedonism — why pursuing your joy in God is not selfishness but the highest form of worship." },
+  { videoId: "Hr3PkGXYRvI", title: "The Joy of the Lord Is Your Strength", channel: "Ligonier Ministries", description: "R.C. Sproul preaches on Nehemiah 8:10 and what it means to have the joy of the Lord as your source of strength." },
+  { videoId: "KbFKcFxqVlo", title: "Joy in the Midst of Suffering", channel: "The Gospel Coalition", description: "How Philippians 4:4 — 'Rejoice in the Lord always' — was written from prison, and what that means for joy in hard circumstances." },
+  { videoId: "fJnGJN6laqE", title: "The Happiness of God and Christian Joy", channel: "Crossway", description: "A theological exploration of how God's own joy grounds our joy — and why Christians have better reason to be joyful than anyone." },
+];
+
 export default function JoyPage() {
   const [tab, setTab] = useState<Tab>("theology");
   const [selectedStory, setSelectedStory] = useState("prodigal");
@@ -106,6 +113,7 @@ export default function JoyPage() {
             { id: "thieves" as const, label: "Joy Thieves", icon: "🚨" },
             { id: "stories" as const, label: "Bible Stories", icon: "📜" },
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
+            { id: "videos" as const, label: "Videos", icon: "▶️" },
           ].map(t => (
             <button key={t.id} onClick={() => setTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -195,6 +203,22 @@ export default function JoyPage() {
                 </div>
               ))}
             </div>
+          </div>
+        )}
+
+        {tab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {JOY_VIDEOS.map(v => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <div style={{ padding: "14px 16px" }}>
+                  <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                  <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </div>

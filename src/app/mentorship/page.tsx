@@ -226,6 +226,13 @@ const VOICES_MENT = [
   { id: "coleman-r", name: "Robert Coleman", era: "b. 1928", context: "The Master Plan of Evangelism (1963) — Jesus as the model of discipling/mentoring", bio: "Robert Coleman's The Master Plan of Evangelism is the most read analysis of Jesus's discipleship method, and it has shaped how the evangelical church thinks about mentoring and intentional investment in others. Coleman argued that Jesus's primary strategy for reaching the world was not mass proclamation (though he did preach to crowds) but intensive investment in twelve men who would then reproduce themselves. The eight principles Coleman identified — selection, association, consecration, impartation, demonstration, delegation, supervision, reproduction — constitute a model of Christian mentoring that has influenced millions of pastors, missionaries, and ministry leaders.", quote: "Jesus concentrated himself on a few chosen men. Everything else he did was supplementary to this main objective. He came to train men who would carry his gospel to the ends of the earth.", contribution: "The Master Plan of Evangelism has sold millions of copies and shaped the discipleship and mentoring philosophy of generations of evangelical pastors and missionaries. Its analysis of Jesus's intentional investment in the Twelve has given the church a biblical framework for mentoring that is both theologically grounded and practically imitable." },
 ];
 
+const MENTORSHIP_VIDEOS = [
+  { videoId: "fJnGJN6laqE", title: "The Art of Mentoring", channel: "The Gospel Coalition", description: "What biblical mentorship looks like — how Paul's relationship with Timothy models intentional, life-on-life discipleship." },
+  { videoId: "Hr3PkGXYRvI", title: "Discipleship That Transforms", channel: "Desiring God", description: "John Piper on what it means to walk alongside someone in the long, slow work of spiritual formation and gospel growth." },
+  { videoId: "ACZbpLkY8To", title: "Finding and Being a Mentor", channel: "Crossway", description: "Practical wisdom on how to find a mentor, how to be a mentor, and what a fruitful discipleship relationship looks like in practice." },
+  { videoId: "Z8lkuuhVkOI", title: "Women Discipling Women", channel: "Ligonier Ministries", description: "Titus 2 in practice — older women teaching younger women, and how this pattern strengthens the whole church." },
+];
+
 export default function MentorshipPage() {
   const [savedMentors, setSavedMentors] = useState<Set<string>>(new Set());
   const [requests, setRequests] = useState<MentorshipRequest[]>([]);
@@ -325,7 +332,7 @@ export default function MentorshipPage() {
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "32px 24px" }}>
         {/* Tabs */}
         <div style={{ display: "flex", gap: 8, marginBottom: 28, background: "#12121F", padding: 6, borderRadius: 12, border: "1px solid #1E1E32" }}>
-          {(["browse", "my-mentors", "guide", "voices"] as const).map((tab) => (
+          {(["browse", "my-mentors", "guide", "voices", "videos"] as const).map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
@@ -341,7 +348,7 @@ export default function MentorshipPage() {
                 color: activeTab === tab ? "#fff" : "#9898B3",
               }}
             >
-              {tab === "browse" ? "Find a Mentor" : tab === "my-mentors" ? `My Requests${requests.length ? ` (${requests.length})` : ""}` : tab === "guide" ? "📖 Guide" : "🎓 Voices"}
+              {tab === "browse" ? "Find a Mentor" : tab === "my-mentors" ? `My Requests${requests.length ? ` (${requests.length})` : ""}` : tab === "guide" ? "📖 Guide" : tab === "videos" ? "🎬 Videos" : "🎓 Voices"}
             </button>
           ))}
         </div>
@@ -686,6 +693,22 @@ export default function MentorshipPage() {
                 <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.75 }}>{voiceItem.contribution}</p>
               </div>
             </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {MENTORSHIP_VIDEOS.map(v => (
+              <div key={v.videoId} style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 10, overflow: "hidden" }}>
+                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <div style={{ padding: "14px 16px" }}>
+                  <h4 style={{ color: "#3a7d56", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                  <p style={{ color: "#6B4FBB", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                  <p style={{ color: "#9898B3", fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </div>

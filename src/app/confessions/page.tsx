@@ -127,6 +127,13 @@ const CATECHISMS = [
   },
 ];
 
+const CONFESSIONS_VIDEOS = [
+  { videoId: "dXxmSDhvbHY", title: "Why Confessions of Faith Matter", channel: "The Gospel Coalition", description: "The role of historic confessions in anchoring churches to the faith once delivered — why creeds protect and unite the church." },
+  { videoId: "Hr3PkGXYRvI", title: "The Westminster Confession of Faith", channel: "Ligonier Ministries", description: "R.C. Sproul on the Westminster Confession of Faith — its history, content, and continuing value for the church." },
+  { videoId: "ACZbpLkY8To", title: "Reading the Heidelberg Catechism", channel: "Desiring God", description: "The Heidelberg Catechism's first question — 'What is your only comfort?' — and why this 16th-century document still shapes believers today." },
+  { videoId: "KbFKcFxqVlo", title: "The Apostles' Creed: Ancient Faith", channel: "Crossway", description: "The Apostles' Creed as a summary of Christian faith — why the earliest church found it essential and why we still should." },
+];
+
 const WHY = [
   { title: "Confessions Are Not Scripture", body: "The first thing to say about confessions is what they are not: they are not equal to Scripture, they are not infallible, and they are subject to correction by Scripture. A confession derives its authority from its fidelity to Scripture — which means a confession can be wrong and can be corrected. Protestant confessionalism is not a second Magisterium; it is a collective attempt to summarize what Scripture teaches, open to revision by Scripture." },
   { title: "They Connect Us to Church History", body: "The Christian who interprets Scripture only through their own reading is cut off from two thousand years of collective discernment. The creeds represent the conclusions of thousands of Christians who read the same texts, often under intense pressure and with very high stakes (the Nicene Council met during a period of persecution). Their conclusions are not infallible — but they represent a weight of wisdom that should not be dismissed lightly." },
@@ -163,6 +170,7 @@ export default function ConfessionsPage() {
             { id: "confessions" as Tab, label: "Confessions", icon: "📋" },
             { id: "catechisms" as Tab, label: "Catechisms", icon: "❓" },
             { id: "why" as Tab, label: "Why It Matters", icon: "💡" },
+            { id: "videos" as Tab, label: "Videos", icon: "🎬" },
           ].map(t => (
             <button key={t.id} onClick={() => setTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
@@ -281,6 +289,22 @@ export default function ConfessionsPage() {
               <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 14 }}>
                 <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 17, marginBottom: 10 }}>{w.title}</h3>
                 <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.8, margin: 0 }}>{w.body}</p>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {tab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {CONFESSIONS_VIDEOS.map(v => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <div style={{ padding: "14px 16px" }}>
+                  <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                  <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                </div>
               </div>
             ))}
           </div>

@@ -1,7 +1,7 @@
 "use client";
+import React, { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
 
 const BG = "#07070F"; const CARD = "#12121F"; const BORDER = "#1E1E32"; const GREEN = "#3a7d56"; const PURPLE = "#6B4FBB"; const TEXT = "#F2F2F8"; const MUTED = "#9898B3";
 
@@ -140,6 +140,13 @@ const TRAINING_STEPS = [
     color: "#F59E0B",
     body: "Ordination is not the end of formation — it is the beginning of a new season. Installed elders and deacons should participate in: annual elder retreats for theological study, vision alignment, and mutual pastoral care; continuing theological education (books, conferences, formal courses); annual personal reviews conducted by a peer or mentor elder — honest assessment of spiritual health, leadership effectiveness, and growth areas; and the ongoing rhythms of mutual accountability that make the plurality of elders more than an organizational chart. Leaders who stop growing stop leading well. The church should invest generously in the ongoing formation of its leaders — their growth is the congregation's growth."
   },
+];
+
+const ELDER_VIDEOS = [
+  { videoId: "ACZbpLkY8To", title: "The Role of Elders in the Church", channel: "9Marks", description: "Mark Dever on the biblical qualifications, responsibilities, and spiritual authority of elders in the local church." },
+  { videoId: "KbFKcFxqVlo", title: "Training Church Leaders", channel: "The Gospel Coalition", description: "How to identify, train, and support elders and deacons — investing in leadership for the long-term health of the church." },
+  { videoId: "dXxmSDhvbHY", title: "Servant Leadership in the Church", channel: "Desiring God", description: "John Piper on the character qualifications in 1 Timothy 3 and Titus 1 — what God requires of those who lead his church." },
+  { videoId: "Z8lkuuhVkOI", title: "Deacons and Service Ministry", channel: "Ligonier Ministries", description: "R.C. Sproul on the office and ministry of deacons — how they free elders for prayer and the Word while serving practical needs." },
 ];
 
 const RESOURCES = [
@@ -369,6 +376,22 @@ export default function ElderDeaconTrainingPage() {
                     {r.url} →
                   </a>
                 )}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {tab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {ELDER_VIDEOS.map(v => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <div style={{ padding: "14px 16px" }}>
+                  <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                  <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                </div>
               </div>
             ))}
           </div>

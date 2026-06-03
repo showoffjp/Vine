@@ -153,6 +153,13 @@ const FORMATION_ITEMS = [
   },
 ];
 
+const WORSHIP_VIDEOS = [
+  { videoId: "0kD7XlGaGN8", title: "What Is Worship?", channel: "Desiring God", description: "John Piper on the nature and purpose of Christian worship — why we worship, what pleases God, and how worship shapes us." },
+  { videoId: "NxTbV_zeIQg", title: "The Theology of Worship", channel: "Ligonier Ministries", description: "R.C. Sproul explains the biblical foundations of corporate worship and what makes worship genuinely God-honoring." },
+  { videoId: "1pMSAFPqV4I", title: "Regulative Principle vs Normative Principle", channel: "The Gospel Coalition", description: "The two major approaches to worship theology and what Scripture teaches about how we structure our gatherings." },
+  { videoId: "Z8lkuuhVkOI", title: "Worship and the Word", channel: "Crossway", description: "How Scripture, preaching, and the sacraments form the center of Christian corporate worship throughout church history." },
+];
+
 export default function WorshipTheologyPage() {
   const [activeTab, setActiveTab] = useState<Tab>("theology");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
@@ -345,6 +352,23 @@ export default function WorshipTheologyPage() {
                     <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.85, margin: 0 }}>{item.body}</p>
                   </div>
                 )}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Tab 5: Videos */}
+        {activeTab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {WORSHIP_VIDEOS.map(v => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <div style={{ padding: "14px 16px" }}>
+                  <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                  <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                </div>
               </div>
             ))}
           </div>

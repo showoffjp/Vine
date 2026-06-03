@@ -71,6 +71,13 @@ const PREACHERS = [
   { name: "Timothy Ward / Sinclair Ferguson (the Reformed expositors)", years: "20th–21st c.", color: "#F97316", tradition: "Reformed / Presbyterian", url: "ligonier.org", desc: "Sinclair Ferguson exemplifies warm, Christ-centered, doctrinally rich exposition in the Scottish Reformed tradition, and his teaching on preaching Christ from all of Scripture is widely treasured. The broader Reformed stream (Ligonier, R.C. Sproul, Derek Thomas) models exposition that is theologically deep, pastorally tender, and relentlessly focused on the glory of God in the gospel.", key_teaching: "Preach Christ from all the Scriptures, with warmth and doctrinal depth" },
 ];
 
+const PREACHING_VIDEOS = [
+  { videoId: "oymNIetfNAE", title: "What Is Expository Preaching?", channel: "9Marks", description: "Mark Dever explains expository preaching — preaching that exposes the meaning of the text and makes it the point of the sermon." },
+  { videoId: "Hr3PkGXYRvI", title: "Preaching the Word of God", channel: "Ligonier Ministries", description: "R.C. Sproul on the irreplaceable authority and power of Scripture-driven preaching — why the text must govern the sermon." },
+  { videoId: "dXxmSDhvbHY", title: "The Primacy of Preaching", channel: "Desiring God", description: "John Piper on why preaching is central to God's plan for building the church — and what great preaching looks like." },
+  { videoId: "Z8lkuuhVkOI", title: "How to Preach Expositionally", channel: "The Gospel Coalition", description: "Practical guidance on how to prepare and deliver an expository sermon that is faithful to the text and clear to the congregation." },
+];
+
 export default function ExpositoryPreachingPage() {
   const [tab, setTab] = useState<Tab>("what");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
@@ -96,10 +103,10 @@ export default function ExpositoryPreachingPage() {
         </div>
 
         <div style={{ display: "flex", gap: 4, marginBottom: 24, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
-          {(["what", "process", "example", "series", "preachers"] as Tab[]).map(t => (
+          {(["what", "process", "example", "series", "preachers", "videos"] as Tab[]).map(t => (
             <button key={t} onClick={() => setTab(t)}
               style={{ padding: "8px 16px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
-              {t === "what" ? "What It Is" : t === "process" ? "The Process" : t === "example" ? "Worked Example" : t === "series" ? "Book Series" : "Model Preachers"}
+              {t === "what" ? "What It Is" : t === "process" ? "The Process" : t === "example" ? "Worked Example" : t === "series" ? "Book Series" : t === "preachers" ? "Model Preachers" : "Videos"}
             </button>
           ))}
         </div>
@@ -247,6 +254,22 @@ export default function ExpositoryPreachingPage() {
                 <div style={{ background: `${p.color}08`, border: `1px solid ${p.color}15`, borderRadius: 6, padding: "6px 10px" }}>
                   <div style={{ color: p.color, fontSize: 10, fontWeight: 800, marginBottom: 2 }}>KEY TEACHING</div>
                   <div style={{ color: TEXT, fontSize: 12 }}>{p.key_teaching}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {tab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {PREACHING_VIDEOS.map(v => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <div style={{ padding: "14px 16px" }}>
+                  <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                  <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
                 </div>
               </div>
             ))}

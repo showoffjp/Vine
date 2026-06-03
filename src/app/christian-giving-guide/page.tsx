@@ -87,6 +87,13 @@ const PRACTICAL_TIPS = [
   { tip: "Increase by 1% annually", color: PURPLE, detail: "If the tithe feels impossible now, commit to increasing your giving percentage by 1% every year. At that rate, someone giving 3% today reaches the tithe in 7 years — without a dramatic lifestyle shock at any single point." },
 ];
 
+const GIVING_VIDEOS = [
+  { videoId: "H4v4vNq_MKg", title: "The Grace of Giving", channel: "Desiring God", description: "John Piper on 2 Corinthians 8-9 and the grace-driven motivation behind Christian generosity." },
+  { videoId: "KI9RMhbHGQI", title: "Money, Possessions & Eternity", channel: "Ligonier Ministries", description: "Randy Alcorn on how Christians should think about money and giving in light of eternity." },
+  { videoId: "P3DkrB0ZAFE", title: "Generous Giving: A Biblical Theology", channel: "The Gospel Coalition", description: "A biblical theology of generosity from the Old Testament tithe to the New Testament call to radical giving." },
+  { videoId: "ACZbpLkY8To", title: "Tim Keller on Money and Generosity", channel: "Redeemer City to City", description: "Tim Keller explores how the gospel transforms our relationship with money and produces joyful, sacrificial giving." },
+];
+
 export default function ChristianGivingGuidePage() {
   const [tab, setTab] = useState<Tab>("theology");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
@@ -193,6 +200,22 @@ export default function ChristianGivingGuidePage() {
               <div key={i} style={{ background: CARD, border: `1px solid ${t.color}25`, borderRadius: 12, padding: 20 }}>
                 <div style={{ color: t.color, fontWeight: 800, fontSize: 14, marginBottom: 10 }}>{t.tip}</div>
                 <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{t.detail}</p>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {tab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {GIVING_VIDEOS.map(v => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <div style={{ padding: "14px 16px" }}>
+                  <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                  <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                </div>
               </div>
             ))}
           </div>

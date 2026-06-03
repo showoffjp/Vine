@@ -1,7 +1,7 @@
 "use client";
+import React, { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -142,6 +142,13 @@ const REENTRY_ITEMS = [
   },
 ];
 
+const PRISON_VIDEOS = [
+  { videoId: "Hr3PkGXYRvI", title: "Prison Ministry: Called to Visit", channel: "The Gospel Coalition", description: "Matthew 25:36 — 'I was in prison and you came to visit me.' A biblical call to prison ministry and what faithful presence looks like." },
+  { videoId: "ACZbpLkY8To", title: "Chuck Colson and Prison Fellowship", channel: "Prison Fellowship", description: "The founding vision of Prison Fellowship — how Chuck Colson's conversion transformed his life and led to a global prison ministry movement." },
+  { videoId: "KbFKcFxqVlo", title: "The Gospel Behind Bars", channel: "Desiring God", description: "Stories of transformation from prison ministry — how the gospel reaches the incarcerated and produces radical life change." },
+  { videoId: "Z8lkuuhVkOI", title: "Restorative Justice and the Church", channel: "Ligonier Ministries", description: "How the biblical vision of justice — restoration, not just punishment — shapes Christian approaches to criminal justice and prison ministry." },
+];
+
 export default function PrisonMinistryPage() {
   const [activeTab, setActiveTab] = useState<Tab>("theology");
   const [expandedTheology, setExpandedTheology] = useState<number | undefined>(undefined);
@@ -152,6 +159,7 @@ export default function PrisonMinistryPage() {
     { id: "howto", label: "How to Get Involved" },
     { id: "orgs", label: "Organizations" },
     { id: "reentry", label: "Reentry" },
+    { id: "videos", label: "🎬 Videos" },
   ];
 
   return (
@@ -580,6 +588,23 @@ export default function PrisonMinistryPage() {
                 </div>
               );
             })}
+          </div>
+        )}
+
+        {/* Tab 5 — Videos */}
+        {activeTab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {PRISON_VIDEOS.map(v => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <div style={{ padding: "14px 16px" }}>
+                  <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                  <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </div>

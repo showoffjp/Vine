@@ -55,6 +55,13 @@ const BARRIERS = [
   { barrier: "Fear of Consequences", sign: "The sin has real relational consequences you fear facing if it comes to light", response: "This is the hardest barrier. Confession may result in consequences — and that is part of genuine repentance. But ongoing concealment compounds sin and its damage. Seek wise counsel for situations with serious consequences." },
 ];
 
+const CONFESSION_VIDEOS = [
+  { videoId: "rnzFxODtUSU", title: "The Practice of Confession", channel: "Desiring God", description: "John Piper on what biblical confession of sin looks like and why it is essential to the Christian life." },
+  { videoId: "8KHpjrzVm-Q", title: "Why Confession Matters", channel: "Ligonier Ministries", description: "R.C. Sproul on the theology and practice of confession — both to God and to one another." },
+  { videoId: "ZP0CtLMzqPk", title: "Confession and Repentance", channel: "Paul David Tripp", description: "Paul Tripp on the connection between true confession and genuine repentance, and how both produce lasting change." },
+  { videoId: "kbFKcFxqVlo", title: "Confessing Sin in Community", channel: "The Gospel Coalition", description: "Why James 5:16 calls us to confess our sins to one another and how this works in healthy church community." },
+];
+
 export default function ConfessionPage() {
   const [activeTab, setActiveTab] = useState<"why" | "how" | "barriers" | "guide" | "videos">("why");
   const [expandedFramework, setExpandedFramework] = useState<string>("ACTS");
@@ -234,6 +241,22 @@ export default function ConfessionPage() {
                 </p>
               </div>
             </div>
+          </div>
+        )}
+
+        {activeTab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {CONFESSION_VIDEOS.map(v => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <div style={{ padding: "14px 16px" }}>
+                  <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                  <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </div>

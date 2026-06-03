@@ -73,7 +73,14 @@ const MEMORY_PLANS = [
   { name: "Identity in Christ", desc: "Who God says you are — anchor verses for your true identity.", weeks: 7, color: "#3B82F6", verses: ["John 1:12", "Romans 8:1", "2 Corinthians 5:17", "Ephesians 1:4-5", "Ephesians 2:10", "Colossians 3:3", "1 Peter 2:9"] },
 ];
 
-type Tab = "today" | "weekly" | "topics" | "memorize";
+const VERSE_VIDEOS = [
+  { videoId: "dXxmSDhvbHY", title: "Meditating on Scripture", channel: "Desiring God", description: "John Piper on how to meditate on a single verse — turning it over in your mind until it yields nourishment for the soul." },
+  { videoId: "Hr3PkGXYRvI", title: "The Power of God's Word", channel: "Ligonier Ministries", description: "R.C. Sproul on why Scripture memorization and meditation are central spiritual disciplines — and what makes the Word of God unlike any other book." },
+  { videoId: "KbFKcFxqVlo", title: "Scripture Memory That Lasts", channel: "The Gospel Coalition", description: "How to memorize Scripture in a way that sticks — methods, motivations, and how memorized verses become weapons against temptation." },
+  { videoId: "ACZbpLkY8To", title: "Praying the Scripture", channel: "Crossway", description: "Donald Whitney on turning Scripture into prayer — how to take a verse and let it shape and fuel your conversation with God." },
+];
+
+type Tab = "today" | "weekly" | "topics" | "memorize" | "videos";
 
 export default function VerseOfTheDayPage() {
   const [tab, setTab] = useState<Tab>("today");
@@ -113,6 +120,7 @@ export default function VerseOfTheDayPage() {
             { id: "weekly" as const, label: "Weekly Plan", icon: "📅" },
             { id: "topics" as const, label: "By Topic", icon: "🔍" },
             { id: "memorize" as const, label: "Memorize", icon: "🧠" },
+            { id: "videos" as const, label: "Videos", icon: "▶️" },
           ]).map(t => (
             <button key={t.id} onClick={() => setTab(t.id)}
               style={{ flex: 1, padding: "10px 14px", borderRadius: 8, border: "none", background: tab === t.id ? GREEN : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", transition: "all 0.2s ease", whiteSpace: "nowrap" }}>
@@ -263,6 +271,21 @@ export default function VerseOfTheDayPage() {
                 ))}
               </div>
             </div>
+          </div>
+        )}
+        {tab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {VERSE_VIDEOS.map(v => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <div style={{ padding: "14px 16px" }}>
+                  <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                  <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </div>

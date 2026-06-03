@@ -249,7 +249,30 @@ export default function BibleReadingChallengesPage() {
           ))}
         </div>
 
-        <div style={{ background: CARD, border: `1px solid ${GREEN}20`, borderRadius: 12, padding: 24, marginTop: 32 }}>
+        <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginTop: 32, marginBottom: 8 }}>
+          <h3 style={{ color: GREEN, fontWeight: 900, fontSize: 18, marginBottom: 8 }}>Teaching Videos on Bible Reading</h3>
+          <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.7, marginBottom: 20 }}>Talks on why and how to read the Bible — from habit formation to deep comprehension.</p>
+          <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+            {[
+              { videoId: "AYFkH8jtmCc", title: "How to Read the Bible for All Its Worth", channel: "The Gospel Coalition", description: "Practical guidance on reading different genres of Scripture — narrative, poetry, prophecy, and epistle — for maximum comprehension and application." },
+              { videoId: "Hr3PkGXYRvI", title: "Why You Should Read the Bible in Large Sections", channel: "Ligonier Ministries", description: "R.C. Sproul on why sustained, large-section reading is essential for understanding the Bible's grand narrative and theological unity." },
+              { videoId: "dXxmSDhvbHY", title: "Reading the Bible to Know God", channel: "Desiring God", description: "John Piper on the ultimate purpose of Bible reading — not information gathering but transformative encounter with the living God who speaks." },
+              { videoId: "KbFKcFxqVlo", title: "Building a Sustainable Bible Reading Habit", channel: "Crossway", description: "Research-informed and Scripture-rooted wisdom on building a daily Bible reading practice that survives busy seasons and spiritual dryness." },
+            ].map(v => (
+              <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <div style={{ padding: "14px 16px" }}>
+                  <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                  <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div style={{ background: CARD, border: `1px solid ${GREEN}20`, borderRadius: 12, padding: 24, marginTop: 8 }}>
           <h3 style={{ color: GREEN, fontWeight: 900, fontSize: 18, marginBottom: 8 }}>Which Plan Should I Choose?</h3>
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {[

@@ -228,6 +228,13 @@ const resources = [
   }
 ];
 
+const YOUTH_VIDEOS = [
+  { videoId: "5gSRNuBZdGY", title: "Philosophy of Youth Ministry", channel: "The Gospel Coalition", description: "A biblical theology of youth ministry — what we're actually trying to accomplish when we minister to teenagers." },
+  { videoId: "y4p_fQAP21Q", title: "Reaching the Next Generation", channel: "Desiring God", description: "John Piper addresses parents and youth workers on the urgency and methods of passing faith to the next generation." },
+  { videoId: "ACZbpLkY8To", title: "Discipling Teenagers", channel: "Rooted Ministry", description: "Practical guidance for discipling teenagers in the local church — moving beyond programming to genuine relationship." },
+  { videoId: "Z8lkuuhVkOI", title: "Youth Ministry That Lasts", channel: "Fuller Youth Institute", description: "Research-backed insights on what helps young people maintain faith into adulthood — and what doesn't." },
+];
+
 export default function YouthMinistryGuidePage() {
   const [activeTab, setActiveTab] = useState<Tab>("theology");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
@@ -424,6 +431,23 @@ export default function YouthMinistryGuidePage() {
                     Visit Resource →
                   </a>
                 )}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Videos */}
+        {activeTab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {YOUTH_VIDEOS.map(v => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <div style={{ padding: "14px 16px" }}>
+                  <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                  <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                </div>
               </div>
             ))}
           </div>

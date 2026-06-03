@@ -73,6 +73,13 @@ const MEMBERSHIP = [
   { aspect: "Covenant membership and the Lord's Supper", color: "#F59E0B", content: "Historically, the Lord's Supper has been the primary marker of covenant membership — the visible sign of belonging to Christ and his body. 'Closed communion' (only members or those in good standing with a Reformed/evangelical church may partake) reflects this theology. Paul's warning in 1 Corinthians 11:27-29 about eating 'unworthily' suggests that the Supper's meaning depends on a defined community with defined standards. Open communion (all baptized believers welcome) reflects a different ecclesiology." },
 ];
 
+const POLITY_VIDEOS = [
+  { videoId: "Z8lkuuhVkOI", title: "Church Government: Why It Matters", channel: "The Gospel Coalition", description: "An overview of the major models of church polity — episcopalian, presbyterian, and congregational — and their biblical grounding." },
+  { videoId: "ACZbpLkY8To", title: "Elder-Led Church Government", channel: "9Marks", description: "Mark Dever on why elder-led congregationalism is the biblical model for church governance." },
+  { videoId: "KbFKcFxqVlo", title: "The Role of Deacons", channel: "Desiring God", description: "John Piper on the biblical office of deacon — what deacons do, how they serve, and how they support elders." },
+  { videoId: "fJnGJN6laqE", title: "Building a Healthy Church Structure", channel: "Ligonier Ministries", description: "R.C. Sproul on the importance of proper church government for the health and faithfulness of the local church." },
+];
+
 export default function ChurchPolityGuidePage() {
   const [tab, setTab] = useState<Tab>("models");
   const [selected, setSelected] = useState(MODELS[0].model);
@@ -93,10 +100,10 @@ export default function ChurchPolityGuidePage() {
         </div>
 
         <div style={{ display: "flex", gap: 4, marginBottom: 24, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
-          {(["models", "offices", "discipline", "membership"] as Tab[]).map(t => (
+          {(["models", "offices", "discipline", "membership", "videos"] as Tab[]).map(t => (
             <button key={t} onClick={() => setTab(t)}
               style={{ padding: "8px 16px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
-              {t === "models" ? "Governance Models" : t === "offices" ? "Church Offices" : t === "discipline" ? "Church Discipline" : "Church Membership"}
+              {t === "models" ? "Governance Models" : t === "offices" ? "Church Offices" : t === "discipline" ? "Church Discipline" : t === "membership" ? "Church Membership" : "Videos"}
             </button>
           ))}
         </div>
@@ -203,6 +210,22 @@ export default function ChurchPolityGuidePage() {
                     <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: "16px 0 0" }}>{m.content}</p>
                   </div>
                 )}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {tab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {POLITY_VIDEOS.map(v => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <div style={{ padding: "14px 16px" }}>
+                  <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                  <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                </div>
               </div>
             ))}
           </div>

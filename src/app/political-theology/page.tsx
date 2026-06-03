@@ -1,7 +1,7 @@
 "use client";
+import React, { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -53,6 +53,13 @@ const ENGAGEMENT = [
   { principle: "Let Scripture, not cable news or your feed, form your political imagination", color: "#06B6D4", content: "Many Christians spend hours per week absorbing partisan media and minutes in Scripture, then wonder why their politics looks identical to their cable network and nothing like the Sermon on the Mount. The information diet disciples you. Romans 12:2 calls believers not to be conformed to the pattern of this age but transformed by the renewing of the mind. Practically: limit outrage media, read widely and charitably across perspectives, prioritize Scripture and the historic church's wisdom, and notice when your strongest reactions track your tribe rather than your Lord." },
 ];
 
+const POLITICS_VIDEOS = [
+  { videoId: "KbFKcFxqVlo", title: "Faith and Politics", channel: "The Gospel Coalition", description: "Tim Keller on what the Bible teaches about politics — why Christians can't simply baptize a political party and call it God's kingdom." },
+  { videoId: "dXxmSDhvbHY", title: "The Christian and Civil Government", channel: "Ligonier Ministries", description: "R.C. Sproul on Romans 13 and the Christian's responsibility to civil authorities — including when civil disobedience is warranted." },
+  { videoId: "fJnGJN6laqE", title: "Two Kingdoms: Church and State", channel: "Crossway", description: "The biblical doctrine of two kingdoms — how church and state relate, where they overlap, and where they must remain separate." },
+  { videoId: "Z8lkuuhVkOI", title: "Justice, Gospel, and Political Engagement", channel: "Desiring God", description: "John Piper on how Christians engage political life without making politics ultimate — holding conviction with humility." },
+];
+
 const FAQS = [
   { q: "Should Christians even be involved in politics?", color: GREEN, a: "Yes — but with the right posture. Scripture shows believers serving in pagan governments (Joseph, Daniel, Nehemiah, Erastus), and Jeremiah 29:7 commands seeking the welfare of the city. Citizenship is a stewardship. At the same time, Jesus refused to let politics become ultimate (John 18:36). The question is not whether to engage but how: as ambassadors of a greater kingdom, not as partisans whose hope is in princes (Ps 146:3)." },
   { q: "Is there a 'Christian' political party?", color: PURPLE, a: "No. No party fully embodies the breadth of biblical concern — for life, the poor, the family, the stranger, justice, and liberty all at once. Every platform contains both things Scripture commends and things it condemns. Treating any party as the Christian party invites idolatry and discredits the gospel by binding it to a partisan brand. Christians can in good conscience belong to different parties while sharing one Lord." },
@@ -85,10 +92,10 @@ export default function PoliticalTheologyPage() {
         </div>
 
         <div style={{ display: "flex", gap: 4, marginBottom: 24, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
-          {(["foundations", "models", "issues", "engagement", "faqs"] as Tab[]).map(t => (
+          {(["foundations", "models", "issues", "engagement", "faqs", "videos"] as Tab[]).map(t => (
             <button key={t} onClick={() => setTab(t)}
               style={{ padding: "8px 16px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
-              {t === "foundations" ? "Biblical Foundations" : t === "models" ? "Engagement Models" : t === "issues" ? "Key Issues" : t === "engagement" ? "Faithful Engagement" : "FAQs"}
+              {t === "foundations" ? "Biblical Foundations" : t === "models" ? "Engagement Models" : t === "issues" ? "Key Issues" : t === "engagement" ? "Faithful Engagement" : t === "videos" ? "🎬 Videos" : "FAQs"}
             </button>
           ))}
         </div>
@@ -192,6 +199,22 @@ export default function PoliticalTheologyPage() {
                     <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: "16px 0 0" }}>{f.a}</p>
                   </div>
                 )}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {tab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {POLITICS_VIDEOS.map(v => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <div style={{ padding: "14px 16px" }}>
+                  <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                  <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                </div>
               </div>
             ))}
           </div>

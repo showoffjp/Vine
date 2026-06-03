@@ -152,6 +152,13 @@ const TODAY_DATA = [
   { org: "The Gospel Coalition", url: "thegospelcoalition.org", what: "Founded by D.A. Carson and Tim Keller — a coalition of gospel-centered churches committed to renewal through faithful preaching, sound theology, and church planting. The TGC network represents one of the most significant theologically grounded renewal movements of the 21st century.", seeking: "Gospel renewal" },
 ];
 
+const REVIVAL_VIDEOS = [
+  { videoId: "KbFKcFxqVlo", title: "The First Great Awakening", channel: "Ligonier Ministries", description: "R.C. Sproul on Jonathan Edwards and the Great Awakening — what made it genuine, what accompanied it, and what we can learn." },
+  { videoId: "fJnGJN6laqE", title: "What Is Revival?", channel: "The Gospel Coalition", description: "A biblical and historical definition of revival — how the Holy Spirit renews the church and spreads through communities." },
+  { videoId: "ACZbpLkY8To", title: "The Welsh Revival of 1904", channel: "Desiring God", description: "The story of the Welsh Revival under Evan Roberts — one of the most dramatic outpourings of the Spirit in modern history." },
+  { videoId: "Z8lkuuhVkOI", title: "Can We Pray for Revival?", channel: "Crossway", description: "Historical and theological reflections on revival — what it is, how God brings it about, and how prayer relates to awakening." },
+];
+
 export default function GreatRevivalsPage() {
   const [tab, setTab] = useState<Tab>("revivals");
   const [selected, setSelected] = useState(REVIVALS[0].name);
@@ -181,10 +188,10 @@ export default function GreatRevivalsPage() {
         </div>
 
         <div style={{ display: "flex", gap: 4, marginBottom: 24, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
-          {(["revivals", "conditions", "figures", "today"] as Tab[]).map(t => (
+          {(["revivals", "conditions", "figures", "today", "videos"] as Tab[]).map(t => (
             <button key={t} onClick={() => setTab(t)}
               style={{ padding: "8px 16px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer", textTransform: "capitalize" }}>
-              {t === "revivals" ? "Historical Revivals" : t === "conditions" ? "Conditions for Revival" : t === "figures" ? "Key Figures" : "Seeking Revival Today"}
+              {t === "revivals" ? "Historical Revivals" : t === "conditions" ? "Conditions for Revival" : t === "figures" ? "Key Figures" : t === "today" ? "Seeking Revival Today" : "Videos"}
             </button>
           ))}
         </div>
@@ -299,6 +306,22 @@ export default function GreatRevivalsPage() {
                 </div>
               ))}
             </div>
+          </div>
+        )}
+
+        {tab === "videos" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {REVIVAL_VIDEOS.map(v => (
+              <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                  src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                <div style={{ padding: "14px 16px" }}>
+                  <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                  <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
+                  <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </div>

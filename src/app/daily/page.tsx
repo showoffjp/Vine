@@ -145,7 +145,7 @@ export default function DailyPage() {
         <div className="flex flex-col lg:flex-row gap-6">
           {/* MAIN CONTENT */}
           <div className="flex-1 min-w-0">
-            <DailyDevotional />
+            <DailyDevotional onComplete={(di) => setCompletedDays(prev => { const n = new Set(prev); n.add(di); return n; })} />
 
 
             {/* More Devotionals */}

@@ -255,7 +255,7 @@ const devotionals = [
   },
 ];
 
-export default function DailyDevotional() {
+export default function DailyDevotional({ onComplete }: { onComplete?: (dayIndex: number) => void }) {
   const [dayIndex, setDayIndex] = useState(() => (new Date().getDay() + 6) % 7);
   const [liked, setLiked] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -274,6 +274,7 @@ export default function DailyDevotional() {
 
   const handleComplete = () => {
     setCompleted(true);
+    onComplete?.(dayIndex);
     setTimeout(() => setCompleted(false), 3500);
   };
 

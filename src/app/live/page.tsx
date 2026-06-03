@@ -78,11 +78,83 @@ const liveStreams = [
     description: "Live update from missionaries working in closed countries across East Asia.",
     tags: ["missions", "East Asia", "church planting"],
   },
+  {
+    id: 7,
+    title: "Healing Prayer & Deliverance Service",
+    host: "Pastor Grace Mwangi",
+    flag: "🇹🇿",
+    viewers: 1654,
+    thumbnail: "✨",
+    color: "#10B981",
+    category: "Prayer",
+    description: "An anointed healing service streaming live from Dar es Salaam. Testimonies and prayer for the sick.",
+    tags: ["healing", "prayer", "deliverance"],
+  },
+  {
+    id: 8,
+    title: "Marriage & Family Conference LIVE",
+    host: "Dr. Sipho & Dr. Nomsa Dlamini",
+    flag: "🇿🇦",
+    viewers: 2108,
+    thumbnail: "👨‍👩‍👧",
+    color: "#EC4899",
+    category: "Relationships",
+    description: "Two-day conference on biblical marriage and family streaming from Johannesburg. Day 2 begins now.",
+    tags: ["marriage", "family", "conference"],
+  },
+  {
+    id: 9,
+    title: "Louvor ao Vivo — Noite de Adoração",
+    host: "Pr. Rafael Costa",
+    flag: "🇧🇷",
+    viewers: 3489,
+    thumbnail: "🎶",
+    color: "#F59E0B",
+    category: "Worship",
+    description: "Live praise night from São Paulo — Portuguese worship with English subtitles. All nations welcome.",
+    tags: ["worship", "praise", "Brazil"],
+  },
+  {
+    id: 10,
+    title: "Street Evangelism Training",
+    host: "Evangelist Paul Okafor",
+    flag: "🇬🇧",
+    viewers: 734,
+    thumbnail: "📢",
+    color: "#EF4444",
+    category: "Evangelism",
+    description: "Practical training on how to share your faith in everyday conversations — from London.",
+    tags: ["evangelism", "outreach", "training"],
+  },
+  {
+    id: 11,
+    title: "Theology Unpacked — The Trinity",
+    host: "Prof. Ananya Krishnamurthy",
+    flag: "🇮🇳",
+    viewers: 1287,
+    thumbnail: "🔷",
+    color: "#6B4FBB",
+    category: "Theology",
+    description: "A careful, accessible explanation of Trinitarian doctrine — its biblical roots and why it matters for daily life.",
+    tags: ["theology", "Trinity", "doctrine"],
+  },
+  {
+    id: 12,
+    title: "Youth Prayer Hour — Generation Rise",
+    host: "Min. Blessing Adeyemi",
+    flag: "🇳🇬",
+    viewers: 2671,
+    thumbnail: "🔥",
+    color: "#F97316",
+    category: "Youth",
+    description: "Young Nigerians crying out for revival. This prayer meeting has been going for 4 hours and counting.",
+    tags: ["youth", "prayer", "revival", "Nigeria"],
+  },
 ];
 
 const upcoming = [
   {
-    id: 7,
+    id: 13,
     title: "The Gospel of John — Chapter by Chapter",
     host: "Tim Challies",
     flag: "🇨🇦",
@@ -91,7 +163,7 @@ const upcoming = [
     category: "Bible Study",
   },
   {
-    id: 8,
+    id: 14,
     title: "Marriage & Faith — Marriage Conference Preview",
     host: "Dr. Marcus Webb & Dr. Lisa Webb",
     flag: "🇺🇸",
@@ -100,26 +172,44 @@ const upcoming = [
     category: "Relationships",
   },
   {
-    id: 9,
+    id: 15,
     title: "24-Hour Prayer Wall LIVE — Pentecost Sunday",
     host: "Global Vine Prayer Team",
     flag: "🌍",
-    time: "Sun, May 31 — All Day",
+    time: "Sun, Jun 7 — All Day",
     color: "#6B4FBB",
     category: "Prayer",
   },
   {
-    id: 10,
+    id: 16,
     title: "Apologetics Live — Defending the Resurrection",
     host: "Prof. William Lane Craig",
     flag: "🇺🇸",
-    time: "Mon, Jun 2 — 8:00 PM EST",
+    time: "Mon, Jun 9 — 8:00 PM EST",
     color: "#3B82F6",
     category: "Apologetics",
   },
+  {
+    id: 17,
+    title: "Worship From the Mountains — South Africa",
+    host: "Hillside Worship Collective",
+    flag: "🇿🇦",
+    time: "Tue, Jun 10 — 6:00 PM SAST",
+    color: "#F59E0B",
+    category: "Worship",
+  },
+  {
+    id: 18,
+    title: "Church Planting Masterclass",
+    host: "Dr. Ed Stetzer",
+    flag: "🇺🇸",
+    time: "Wed, Jun 11 — 7:00 PM EST",
+    color: "#EF4444",
+    category: "Missions",
+  },
 ];
 
-const categories = ["All", "Worship", "Prayer", "Bible Study", "Youth", "Mental Health", "Missions"];
+const categories = ["All", "Worship", "Prayer", "Bible Study", "Youth", "Mental Health", "Missions", "Evangelism", "Theology", "Relationships"];
 
 export default function LivePage() {
   const [activeCategory, setActiveCategory] = useState("All");
@@ -157,7 +247,7 @@ export default function LivePage() {
 
   useEffect(() => {
     const iv = setInterval(() => {
-      setLiveViewers((v) => v + Math.floor(Math.random() * 6) - 2);
+      setLiveViewers((v) => Math.max(v + Math.floor(Math.random() * 5) - 1, 0));
     }, 3000);
     return () => clearInterval(iv);
   }, []);

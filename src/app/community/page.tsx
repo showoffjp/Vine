@@ -105,6 +105,27 @@ const nearbyCircles = [
     description: "Christian mothers supporting one another through the joys and challenges of raising kids in faith.",
     color: "#BB4F7A",
   },
+  {
+    name: "Austin Young Professionals",
+    location: "Austin, TX",
+    members: "512",
+    description: "Christians in tech and business navigating faith and career in one of America's fastest-growing cities.",
+    color: "#3a7d56",
+  },
+  {
+    name: "San Antonio Worship Collective",
+    location: "San Antonio, TX",
+    members: "389",
+    description: "Musicians and worshippers across denominations gathering to encourage one another and grow together.",
+    color: "#E07030",
+  },
+  {
+    name: "Southeast Texas Prayer Network",
+    location: "Southeast Texas",
+    members: "718",
+    description: "An interdenominational prayer network connecting believers across Southeast Texas for regional revival.",
+    color: "#4FBBAA",
+  },
 ];
 
 const activeCircles = [
@@ -113,6 +134,9 @@ const activeCircles = [
   { name: "Mental Health & Faith", activity: "91 sharing right now", color: "#4FBBAA", members: "56K" },
   { name: "Daily Verse Chat", activity: "182 in conversation", color: "#6B4FBB", members: "78K" },
   { name: "Worship & Praise", activity: "64 worshipping together", color: "#BB4F7A", members: "71K" },
+  { name: "Apologetics & Defense", activity: "53 in debate", color: "#4F8FBB", members: "19K" },
+  { name: "Missions & Outreach", activity: "29 sharing field reports", color: "#EF4444", members: "34K" },
+  { name: "Biblical Finance Circle", activity: "112 discussing money & Scripture", color: "#c9a227", members: "15K" },
 ];
 
 export default function CommunityPage() {
@@ -157,6 +181,16 @@ export default function CommunityPage() {
         (c) => c.name.toLowerCase().includes(q) || c.description.toLowerCase().includes(q) || c.tag.toLowerCase().includes(q)
       )
     : featuredCircles;
+  const matchedNearby = q
+    ? nearbyCircles.filter(
+        (c) => c.name.toLowerCase().includes(q) || c.description.toLowerCase().includes(q) || c.location.toLowerCase().includes(q)
+      )
+    : nearbyCircles;
+  const matchedActive = q
+    ? activeCircles.filter(
+        (c) => c.name.toLowerCase().includes(q) || c.activity.toLowerCase().includes(q)
+      )
+    : activeCircles;
   const visibleFeatured = showAllFeatured || q ? matchedFeatured : matchedFeatured.slice(0, 4);
 
   return (
@@ -325,7 +359,10 @@ export default function CommunityPage() {
               </span>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {nearbyCircles.map((circle, i) => (
+              {matchedNearby.length === 0 && q && (
+                <p className="text-sm col-span-full" style={{ color: "#6A6A88" }}>No nearby circles match your search.</p>
+              )}
+              {matchedNearby.map((circle, i) => (
                 <div
                   key={circle.name}
                   className="rounded-2xl p-5 card-glow cursor-pointer"
@@ -381,7 +418,10 @@ export default function CommunityPage() {
               </h2>
             </div>
             <div className="space-y-3">
-              {activeCircles.map((circle, i) => (
+              {matchedActive.length === 0 && q && (
+                <p className="text-sm" style={{ color: "#6A6A88" }}>No active circles match your search.</p>
+              )}
+              {matchedActive.map((circle, i) => (
                 <div
                   key={circle.name}
                   className="rounded-2xl p-4 flex items-center gap-4 cursor-pointer transition-all duration-200 hover:bg-[#18182A]"

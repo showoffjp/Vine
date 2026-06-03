@@ -108,19 +108,26 @@ export default function NewsletterPage() {
   const [submitted, setSubmitted] = useState(() => {
     try { return localStorage.getItem("vine_newsletter_subscribed") === "true"; } catch { return false; }
   });
+  const [emailError, setEmailError] = useState("");
 
   useEffect(() => {
     try { localStorage.setItem("vine_newsletter_editions", JSON.stringify(selected)); } catch {}
   }, [selected]);
 
+  const isValidEmail = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
+
   const handleSubscribe = () => {
-    if (email && selected.length) {
-      try {
-        localStorage.setItem("vine_newsletter_email", email);
-        localStorage.setItem("vine_newsletter_subscribed", "true");
-      } catch {}
-      setSubmitted(true);
+    if (!isValidEmail(email)) {
+      setEmailError("Please enter a valid email address.");
+      return;
     }
+    if (!selected.length) return;
+    setEmailError("");
+    try {
+      localStorage.setItem("vine_newsletter_email", email);
+      localStorage.setItem("vine_newsletter_subscribed", "true");
+    } catch {}
+    setSubmitted(true);
   };
 
   const toggleEdition = (name: string) => {
@@ -236,11 +243,12 @@ export default function NewsletterPage() {
                   type="email"
                   placeholder="your@email.com"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => { setEmail(e.target.value); if (emailError) setEmailError(""); }}
+                  onKeyDown={(e) => e.key === "Enter" && handleSubscribe()}
                   className="flex-1 px-4 py-3 rounded-xl text-sm outline-none"
                   style={{
                     background: "rgba(255,255,255,0.06)",
-                    border: "1px solid rgba(255,255,255,0.1)",
+                    border: `1px solid ${emailError ? "rgba(239,68,68,0.5)" : "rgba(255,255,255,0.1)"}`,
                     color: "#F2F2F8",
                   }}
                 />
@@ -255,6 +263,9 @@ export default function NewsletterPage() {
                   Subscribe
                 </button>
               </div>
+              {emailError && (
+                <p className="text-xs text-center mt-2" style={{ color: "#EF4444" }}>{emailError}</p>
+              )}
               <p className="text-xs text-center mt-3" style={{ color: "#4A4A68" }}>
                 No spam. Unsubscribe anytime. We&apos;ll never sell your email.
               </p>
@@ -276,7 +287,11 @@ export default function NewsletterPage() {
                 Subscribed as <span style={{ color: "#8A8AA8" }}>{email}</span> ·{" "}
                 <button
                   onClick={() => {
-                    try { localStorage.removeItem("vine_newsletter_subscribed"); } catch {}
+                    try {
+                      localStorage.removeItem("vine_newsletter_subscribed");
+                      localStorage.removeItem("vine_newsletter_email");
+                    } catch {}
+                    setEmail("");
                     setSubmitted(false);
                   }}
                   className="underline"

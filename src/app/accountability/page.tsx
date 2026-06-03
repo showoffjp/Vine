@@ -48,6 +48,21 @@ const thisWeek = Array.from({ length: 7 }, (_, i) => {
   return d.toISOString().split("T")[0];
 });
 
+function computeStreak(g: AccountabilityGoal): number {
+  const doneSet = new Set(g.checkIns.filter((c) => c.completed).map((c) => c.date));
+  if (g.frequency === "daily") {
+    let s = 0;
+    for (let i = 0; i < 365; i++) {
+      const d = new Date(); d.setDate(d.getDate() - i);
+      const key = d.toISOString().split("T")[0];
+      if (doneSet.has(key)) s++;
+      else if (i > 0) break;
+    }
+    return s;
+  }
+  return doneSet.size;
+}
+
 const seedGoals: AccountabilityGoal[] = [
   {
     id: "ag-001",
@@ -246,8 +261,9 @@ export default function AccountabilityPage() {
   const [goals, setGoals] = useState<AccountabilityGoal[]>(() => {
     try {
       const s = localStorage.getItem("vine_accountability");
-      return s ? JSON.parse(s) : seedGoals;
-    } catch { return seedGoals; }
+      const list: AccountabilityGoal[] = s ? JSON.parse(s) : seedGoals;
+      return list.map((g) => ({ ...g, streak: computeStreak(g) }));
+    } catch { return seedGoals.map((g) => ({ ...g, streak: computeStreak(g) })); }
   });
 
   const [mainTab, setMainTab] = useState<"goals" | "guide" | "voices" | "questions" | "videos">("goals");

@@ -48,7 +48,7 @@ const posts = [
     comments: 142,
     liked: false,
     saved: false,
-    tags: ["Psalms", "Devotional"],
+    tags: ["Psalms", "Devotional", "Prayer"],
   },
   {
     id: 2,
@@ -487,7 +487,7 @@ export default function FeedPage() {
 
               {/* Posts */}
               {[...posts]
-                .filter((p) => feedSort !== "Prayers" || p.type === "prayer")
+                .filter((p) => feedSort !== "Prayers" || (p.tags as string[]).includes("Prayer"))
                 .filter((p) => !hiddenPosts.has(p.id))
                 .sort((a, b) => feedSort === "Popular" ? b.likes - a.likes : 0)
                 .map((post) => (

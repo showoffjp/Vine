@@ -84,7 +84,16 @@ export default function DailyPage() {
   }, []);
 
   const progressPct = Math.round((planDay / PLAN_TOTAL_DAYS) * 1000) / 10;
-  const streakCount = completedDays.size;
+  const streakCount = (() => {
+    if (completedDays.size === 0) return 0;
+    const maxDay = Math.max(...completedDays);
+    let s = 0;
+    for (let i = maxDay; i >= 0; i--) {
+      if (completedDays.has(i)) s++;
+      else break;
+    }
+    return s;
+  })();
   const streakDays = Array.from({ length: Math.max(streakCount, 1) }, (_, i) => i + 1);
   const daysToMilestone = streakCount < 30 ? 30 - streakCount : (streakCount < 90 ? 90 - streakCount : 0);
 

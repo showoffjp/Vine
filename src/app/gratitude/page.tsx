@@ -193,15 +193,33 @@ export default function GratitudePage() {
       return saved && saved.length > 0 ? saved : SAMPLE_ENTRIES;
     } catch { return SAMPLE_ENTRIES; }
   });
-  const [todayItems, setTodayItems] = useState<string[]>(["", "", ""]);
-  const [todayVerse, setTodayVerse] = useState("");
-  const [todayMood, setTodayMood] = useState<1 | 2 | 3 | 4 | 5>(4);
+  const [todayItems, setTodayItems] = useState<string[]>(() => {
+    try { const s = localStorage.getItem("vine_gratitude_draft_items"); return s ? JSON.parse(s) : ["", "", ""]; } catch { return ["", "", ""]; }
+  });
+  const [todayVerse, setTodayVerse] = useState<string>(() => {
+    try { return localStorage.getItem("vine_gratitude_draft_verse") ?? ""; } catch { return ""; }
+  });
+  const [todayMood, setTodayMood] = useState<1 | 2 | 3 | 4 | 5>(() => {
+    try { const s = localStorage.getItem("vine_gratitude_draft_mood"); return s ? (Number(s) as 1 | 2 | 3 | 4 | 5) : 4; } catch { return 4; }
+  });
   const [saved, setSaved] = useState(false);
   const [promptIndex] = useState(() => Math.floor(Math.random() * PROMPTS.length));
 
   useEffect(() => {
     try { localStorage.setItem("vine_gratitude", JSON.stringify(entries)); } catch {}
   }, [entries]);
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_gratitude_draft_items", JSON.stringify(todayItems)); } catch {}
+  }, [todayItems]);
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_gratitude_draft_verse", todayVerse); } catch {}
+  }, [todayVerse]);
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_gratitude_draft_mood", String(todayMood)); } catch {}
+  }, [todayMood]);
 
   const hasTodayEntry = entries.some((e) => e.date === TODAY_SHORT);
   const filledItems = todayItems.filter((i) => i.trim());
@@ -218,6 +236,7 @@ export default function GratitudePage() {
     setEntries((prev) => [entry, ...prev]);
     setTodayItems(["", "", ""]);
     setTodayVerse("");
+    try { localStorage.removeItem("vine_gratitude_draft_items"); localStorage.removeItem("vine_gratitude_draft_verse"); localStorage.removeItem("vine_gratitude_draft_mood"); } catch {}
     setSaved(true);
   };
 

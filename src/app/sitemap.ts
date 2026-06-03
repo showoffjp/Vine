@@ -158,6 +158,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/fasting", priority: 0.64, changeFreq: "weekly" as const },
     { path: "/fasting-guide", priority: 0.64, changeFreq: "weekly" as const },
     { path: "/fatherhood-of-god", priority: 0.64, changeFreq: "weekly" as const },
+    { path: "/fear", priority: 0.64, changeFreq: "weekly" as const },
     { path: "/featured-preachers", priority: 0.64, changeFreq: "weekly" as const },
     { path: "/featured-sermons", priority: 0.64, changeFreq: "weekly" as const },
     { path: "/feed", priority: 0.9, changeFreq: "hourly" as const },

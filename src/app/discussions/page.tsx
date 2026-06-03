@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CreatePostModal from "@/components/CreatePostModal";
@@ -485,6 +486,7 @@ const rules = [
 ];
 
 export default function DiscussionsPage() {
+  const router = useRouter();
   const [upvotedPosts, setUpvotedPosts] = useState<Set<number>>(() => {
     try { const s = localStorage.getItem("vine_disc_upvoted"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
   });
@@ -812,7 +814,7 @@ export default function DiscussionsPage() {
                       <span>{(post.votes + (upvotedPosts.has(post.id) ? 1 : 0)) >= 1000 ? `${((post.votes + (upvotedPosts.has(post.id) ? 1 : 0)) / 1000).toFixed(1)}k` : post.votes + (upvotedPosts.has(post.id) ? 1 : 0)}</span>
                     </button>
                     <button
-                      onClick={() => { if (post.slug) window.location.href = `/discussions/${post.slug}`; }}
+                      onClick={() => { if (post.slug) router.push(`/discussions/${post.slug}`); }}
                       className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-sm transition-all duration-200 hover:bg-[#1E1E32]"
                       style={{ color: "#8A8AA8" }}
                     >

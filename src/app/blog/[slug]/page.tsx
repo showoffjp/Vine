@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import BlogArticleActions from "@/components/BlogArticleActions";
@@ -762,9 +763,9 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
           <p className="text-6xl mb-6">📭</p>
           <h1 className="text-3xl font-black mb-4">Article not found</h1>
           <p className="mb-8" style={{ color: "#6A6A88" }}>This article may have moved or been removed.</p>
-          <a href="/blog" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-black" style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}>
+          <Link href="/blog" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-black" style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}>
             Browse all articles
-          </a>
+          </Link>
         </div>
         <Footer />
       </div>
@@ -777,9 +778,9 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
       <div className="page-body pb-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Back link */}
-          <a href="/blog" className="inline-flex items-center gap-2 text-sm mb-8 transition-colors hover:text-[#3a7d56]" style={{ color: "#6A6A88" }}>
+          <Link href="/blog" className="inline-flex items-center gap-2 text-sm mb-8 transition-colors hover:text-[#3a7d56]" style={{ color: "#6A6A88" }}>
             <ArrowLeft size={14} /> Back to Blog
-          </a>
+          </Link>
 
           {/* Header */}
           <div className="mb-10">

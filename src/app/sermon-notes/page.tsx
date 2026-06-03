@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -518,21 +519,21 @@ export default function SermonNotesPage() {
                   {/* Quick links */}
                   <div className="mt-8 pt-6 flex flex-wrap gap-3" style={{ borderTop: "1px solid #1E1E32" }}>
                     {activeNote.scripture && (
-                      <a
+                      <Link
                         href="/bible"
                         className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg transition-all"
                         style={{ background: "rgba(58,125,86,0.08)", color: "#3a7d56", border: "1px solid rgba(58,125,86,0.2)" }}
                       >
                         <BookOpen size={12} /> Open in Bible Reader
-                      </a>
+                      </Link>
                     )}
-                    <a
+                    <Link
                       href="/journal"
                       className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg transition-all"
                       style={{ background: "rgba(255,255,255,0.04)", color: "#8A8AA8", border: "1px solid rgba(255,255,255,0.08)" }}
                     >
                       Write in Journal <ChevronRight size={12} />
-                    </a>
+                    </Link>
                   </div>
                 </div>
               ) : null}

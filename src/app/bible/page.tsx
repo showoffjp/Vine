@@ -1163,7 +1163,7 @@ export default function BiblePage() {
                     <div style={{ position: "absolute", top: "calc(100% + 6px)", left: 0, zIndex: 9999, background: "#1A1A2E", border: `1px solid ${BORDER}`, borderRadius: 10, padding: 8, width: 300, maxHeight: 400, overflowY: "auto", boxShadow: "0 8px 32px rgba(0,0,0,0.6)" }}>
                       <div style={{ color: MUTED, fontSize: 10, fontWeight: 800, letterSpacing: 1.5, padding: "4px 8px 8px" }}>{versions.length} TRANSLATIONS</div>
                       {versions.map(v => (
-                        <button key={v.id} onMouseDown={e => { e.preventDefault(); setSelectedVersion(v); setShowVersionList(false); }} style={{ width: "100%", textAlign: "left", padding: "10px 12px", borderRadius: 6, border: "none", cursor: "pointer", background: selectedVersion.id === v.id ? `${PURPLE}30` : "transparent", color: selectedVersion.id === v.id ? "#A78BFA" : TEXT, fontSize: 13, marginBottom: 2 }}>
+                        <button key={v.id} onClick={() => { setSelectedVersion(v); setShowVersionList(false); }} style={{ width: "100%", textAlign: "left", padding: "10px 12px", borderRadius: 6, border: "none", cursor: "pointer", background: selectedVersion.id === v.id ? `${PURPLE}30` : "transparent", color: selectedVersion.id === v.id ? "#A78BFA" : TEXT, fontSize: 13, marginBottom: 2 }}>
                           <div style={{ fontWeight: 700 }}>{v.code}{v.name && v.name.toUpperCase() !== v.code ? ` — ${v.name}` : ""}</div>
                           {v.year && <div style={{ color: MUTED, fontSize: 11 }}>{v.year}</div>}
                         </button>
@@ -1187,7 +1187,7 @@ export default function BiblePage() {
                     <div style={{ position: "absolute", top: "calc(100% + 6px)", left: 0, zIndex: 9999, background: "#1A1A2E", border: `1px solid ${BORDER}`, borderRadius: 10, padding: 8, width: 220, maxHeight: 300, overflowY: "auto", boxShadow: "0 8px 32px rgba(0,0,0,0.6)" }}>
                       <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 4 }}>
                         {chapterArray.map(ch => (
-                          <button key={ch} onMouseDown={e => { e.preventDefault(); setSelectedChapter(ch); setShowChapterList(false); setHighlightedVerse(null); }} style={{ padding: "8px 4px", borderRadius: 6, border: "none", cursor: "pointer", background: selectedChapter === ch ? GREEN : `${BORDER}`, color: selectedChapter === ch ? "#07070F" : TEXT, fontWeight: 700, fontSize: 13, textAlign: "center" }}>
+                          <button key={ch} onClick={() => { setSelectedChapter(ch); setShowChapterList(false); setHighlightedVerse(null); }} style={{ padding: "8px 4px", borderRadius: 6, border: "none", cursor: "pointer", background: selectedChapter === ch ? GREEN : `${BORDER}`, color: selectedChapter === ch ? "#07070F" : TEXT, fontWeight: 700, fontSize: 13, textAlign: "center" }}>
                             {ch}
                           </button>
                         ))}

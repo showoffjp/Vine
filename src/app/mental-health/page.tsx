@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -517,13 +518,13 @@ export default function MentalHealthPage() {
               <section style={{ marginBottom: "64px" }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "24px" }}>
                   <h2 style={{ fontSize: "24px", fontWeight: 800, color: TEXT }}>Resource Library</h2>
-                  <a href="/resources" style={{ display: "flex", alignItems: "center", gap: "6px", color: GREEN, fontSize: "14px", fontWeight: 600, textDecoration: "none", cursor: "pointer" }}>
+                  <Link href="/resources" style={{ display: "flex", alignItems: "center", gap: "6px", color: GREEN, fontSize: "14px", fontWeight: 600, textDecoration: "none", cursor: "pointer" }}>
                     View All <ChevronRight size={16} />
-                  </a>
+                  </Link>
                 </div>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: "14px" }}>
                   {resources.map((res, i) => (
-                    <a
+                    <Link
                       key={i}
                       href={res.href}
                       style={{
@@ -558,7 +559,7 @@ export default function MentalHealthPage() {
                         {res.title}
                       </h3>
                       <p style={{ color: "#6A6A88", fontSize: "12px" }}>{res.time}</p>
-                    </a>
+                    </Link>
                   ))}
                 </div>
               </section>
@@ -842,7 +843,7 @@ export default function MentalHealthPage() {
                     Whatever you&apos;re carrying today — you don&apos;t have to carry it alone. The Vine community is here, and so is God. Would you let us pray with you?
                   </p>
                   <div style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
-                    <a
+                    <Link
                       href="/prayer"
                       style={{
                         display: "flex",
@@ -860,7 +861,7 @@ export default function MentalHealthPage() {
                       }}
                     >
                       <Heart size={16} /> Request Prayer
-                    </a>
+                    </Link>
                     <a
                       href="tel:988"
                       style={{

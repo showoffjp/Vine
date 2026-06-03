@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
@@ -566,12 +567,12 @@ export default function GratitudePage() {
             </p>
             <p className="text-xs font-bold mb-4" style={{ color: "#4A4A68" }}>— 1 Thessalonians 5:18</p>
             <div className="flex items-center justify-center gap-4">
-              <a href="/journal" className="flex items-center gap-1 text-xs font-semibold" style={{ color: "#3a7d56" }}>
+              <Link href="/journal" className="flex items-center gap-1 text-xs font-semibold" style={{ color: "#3a7d56" }}>
                 Main Journal <ChevronRight size={11} />
-              </a>
-              <a href="/prayer-list" className="flex items-center gap-1 text-xs font-semibold" style={{ color: "#F59E0B" }}>
+              </Link>
+              <Link href="/prayer-list" className="flex items-center gap-1 text-xs font-semibold" style={{ color: "#F59E0B" }}>
                 Prayer List <ChevronRight size={11} />
-              </a>
+              </Link>
             </div>
           </div>
 

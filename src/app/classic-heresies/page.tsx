@@ -144,7 +144,6 @@ export default function ClassicHeresiesPage() {
   const [selectedDefender, setSelectedDefender] = useState("athanasius");
   const defender = DEFENDERS.find(d => d.id === selectedDefender)!;
   const [selected, setSelected] = useState<string | null>(null);
-  const [expanded, setExpanded] = useState<string | null>(null);
 
   const heresy = HERESIES.find(h => h.name === selected);
 

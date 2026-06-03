@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 
 interface Particle {
   id: number;
@@ -198,7 +199,7 @@ export default function Hero() {
             flexWrap: "wrap",
           }}
         >
-          <a
+          <Link
             href="/feed"
             style={{
               background: "#c9a227",
@@ -229,8 +230,8 @@ export default function Hero() {
             }}
           >
             Join The Vine &mdash; Free
-          </a>
-          <a
+          </Link>
+          <Link
             href="/explore"
             style={{
               background: "none",
@@ -260,7 +261,7 @@ export default function Hero() {
             }}
           >
             Explore Hubs
-          </a>
+          </Link>
         </div>
       </div>
 

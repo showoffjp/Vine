@@ -26,7 +26,7 @@ interface Church {
 }
 
 const DENOMINATIONS = ["All", "Non-denominational", "Baptist", "Methodist", "Presbyterian", "Anglican/Episcopal", "Lutheran", "Pentecostal", "Reformed", "Catholic", "Orthodox", "Evangelical", "Charismatic"];
-const STYLES = ["All", "Contemporary", "Traditional", "Blended", "Liturgical", "High Energy", "Contemplative", "Multicultural", "Small Group Focus"];
+const STYLES = ["All", "Contemporary", "Traditional", "Blended", "Liturgical", "High Energy", "Contemplative", "Multicultural", "Charismatic"];
 const SIZES = ["All", "Small (<100)", "Medium (100-500)", "Large (500-2000)", "Mega (2000+)"];
 const COUNTRIES = ["All", "USA", "UK", "Canada", "Nigeria", "Kenya", "Ghana", "Brazil", "South Korea", "Germany", "Australia", "Singapore", "South Africa", "India"];
 
@@ -293,6 +293,7 @@ export default function ChurchFinderPage() {
   const [filterDenom, setFilterDenom] = useState("All");
   const [filterCountry, setFilterCountry] = useState("All");
   const [filterSize, setFilterSize] = useState("All");
+  const [filterStyle, setFilterStyle] = useState("All");
   const [filterOnline, setFilterOnline] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
@@ -314,8 +315,9 @@ export default function ChurchFinderPage() {
     const denomMatch = filterDenom === "All" || c.denomination === filterDenom;
     const countryMatch = filterCountry === "All" || c.country === filterCountry;
     const sizeMatch = filterSize === "All" || SIZE_LABELS[c.size] === filterSize || (filterSize === "Small (<100)" && c.size === "small") || (filterSize === "Medium (100-500)" && c.size === "medium") || (filterSize === "Large (500-2000)" && c.size === "large") || (filterSize === "Mega (2000+)" && c.size === "mega");
+    const styleMatch = filterStyle === "All" || c.style.includes(filterStyle);
     const onlineMatch = !filterOnline || c.online;
-    return searchMatch && denomMatch && countryMatch && sizeMatch && onlineMatch;
+    return searchMatch && denomMatch && countryMatch && sizeMatch && styleMatch && onlineMatch;
   });
 
   const selected = seedChurches.find((c) => c.id === selectedId);
@@ -371,6 +373,9 @@ export default function ChurchFinderPage() {
               </select>
               <select value={filterSize} onChange={(e) => setFilterSize(e.target.value)} className="px-3 py-2 rounded-xl text-xs font-semibold outline-none" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#F2F2F8" }}>
                 {SIZES.map((s) => <option key={s} value={s} style={{ background: "#12121F" }}>{s}</option>)}
+              </select>
+              <select value={filterStyle} onChange={(e) => setFilterStyle(e.target.value)} className="px-3 py-2 rounded-xl text-xs font-semibold outline-none" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#F2F2F8" }}>
+                {STYLES.map((s) => <option key={s} value={s} style={{ background: "#12121F" }}>{s === "All" ? "All Styles" : s}</option>)}
               </select>
               <button
                 onClick={() => setFilterOnline((v) => !v)}

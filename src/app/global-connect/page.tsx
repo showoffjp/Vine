@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -257,7 +258,7 @@ export default function GlobalConnectPage() {
                       </span>
                     ))}
                   </div>
-                  <a
+                  <Link
                     href={`/discussions/${r.discussionSlug}`}
                     className="block p-3 rounded-xl transition-all mb-4"
                     style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)", textDecoration: "none" }}
@@ -266,7 +267,7 @@ export default function GlobalConnectPage() {
                   >
                     <p className="text-xs mb-1 font-bold" style={{ color: "#3a7d56" }}>🔥 Active Discussion</p>
                     <p className="text-sm" style={{ color: "#8A8AA8" }}>{r.activeDiscussion}</p>
-                  </a>
+                  </Link>
                   <button
                     onClick={() => toggleCircle(i)}
                     className="w-full py-2.5 rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2"
@@ -291,9 +292,9 @@ export default function GlobalConnectPage() {
             <h2 className="text-2xl font-black" style={{ color: "#F2F2F8" }}>
               Members Around the World
             </h2>
-            <a href="/groups" className="flex items-center gap-1 text-sm font-semibold" style={{ color: "#3a7d56", textDecoration: "none" }}>
+            <Link href="/groups" className="flex items-center gap-1 text-sm font-semibold" style={{ color: "#3a7d56", textDecoration: "none" }}>
               View All <ChevronRight size={16} />
-            </a>
+            </Link>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {globalMembers.map((m) => (
@@ -396,13 +397,13 @@ export default function GlobalConnectPage() {
                   );
                 })}
               </div>
-              <a
+              <Link
                 href="/prayer"
                 className="mt-4 block w-full py-3 rounded-xl text-sm font-semibold text-center"
                 style={{ background: "rgba(58,125,86,0.06)", border: "1px solid rgba(58,125,86,0.15)", color: "#3a7d56", textDecoration: "none" }}
               >
                 View All Global Prayers
-              </a>
+              </Link>
             </div>
 
             {/* Verse / Join */}

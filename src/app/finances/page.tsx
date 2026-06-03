@@ -14,6 +14,7 @@ import {
   ChevronRight,
   Coins,
   BarChart3,
+  Bookmark,
 } from "lucide-react";
 
 
@@ -161,6 +162,14 @@ export default function FinancesPage() {
     try { localStorage.setItem("vine_finances_saved", JSON.stringify([...savedPrinciples])); } catch {}
   }, [savedPrinciples]);
 
+  const toggleSavedPrinciple = (i: number) => {
+    setSavedPrinciples((prev) => {
+      const next = new Set(prev);
+      next.has(i) ? next.delete(i) : next.add(i);
+      return next;
+    });
+  };
+
   const monthly = period === "monthly" ? parseFloat(income) || 0 : (parseFloat(income) || 0) / 12;
   const give = monthly * 0.10;
   const save = monthly * 0.10;
@@ -211,24 +220,38 @@ export default function FinancesPage() {
             4 Biblical Money Principles
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-            {principles.map((p) => (
-              <div
-                key={p.title}
-                className="rounded-2xl p-6"
-                style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(58,125,86,0.08)" }}
-              >
-                <div className="flex items-start gap-4">
-                  <span className="text-3xl">{p.icon}</span>
-                  <div>
-                    <h3 className="font-bold text-lg mb-2" style={{ color: "#F2F2F8" }}>{p.title}</h3>
-                    <p className="text-sm italic mb-3 leading-relaxed" style={{ color: "#00DD77" }}>
-                      {p.verse} <span className="not-italic font-bold" style={{ color: "#007A33" }}>— {p.ref}</span>
-                    </p>
-                    <p className="text-sm leading-relaxed" style={{ color: "#6A6A88" }}>{p.body}</p>
+            {principles.map((p, i) => {
+              const isSaved = savedPrinciples.has(i);
+              return (
+                <div
+                  key={p.title}
+                  className="rounded-2xl p-6"
+                  style={{ background: "rgba(255,255,255,0.02)", border: `1px solid ${isSaved ? "rgba(58,125,86,0.35)" : "rgba(58,125,86,0.08)"}` }}
+                >
+                  <div className="flex items-start gap-4">
+                    <span className="text-3xl">{p.icon}</span>
+                    <div className="flex-1">
+                      <div className="flex items-start justify-between gap-3 mb-2">
+                        <h3 className="font-bold text-lg" style={{ color: "#F2F2F8" }}>{p.title}</h3>
+                        <button
+                          onClick={() => toggleSavedPrinciple(i)}
+                          aria-label={isSaved ? "Remove from saved" : "Save principle"}
+                          title={isSaved ? "Saved" : "Save this principle"}
+                          className="shrink-0 transition-colors"
+                          style={{ background: "none", border: "none", cursor: "pointer", color: isSaved ? "#3a7d56" : "#4A4A68", padding: 0 }}
+                        >
+                          <Bookmark size={18} fill={isSaved ? "#3a7d56" : "none"} />
+                        </button>
+                      </div>
+                      <p className="text-sm italic mb-3 leading-relaxed" style={{ color: "#00DD77" }}>
+                        {p.verse} <span className="not-italic font-bold" style={{ color: "#007A33" }}>— {p.ref}</span>
+                      </p>
+                      <p className="text-sm leading-relaxed" style={{ color: "#6A6A88" }}>{p.body}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
@@ -390,13 +391,13 @@ export default function SavedPage() {
                 <p className="text-sm max-w-md mx-auto mb-6" style={{ color: "#6A6A88" }}>
                   As you use Vine — saving articles, bookmarking Bible verses, adding verses to memory — it will all appear here.
                 </p>
-                <a
+                <Link
                   href="/explore"
                   className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl font-bold text-sm text-black"
                   style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}
                 >
                   Explore Vine <ChevronRight size={14} />
-                </a>
+                </Link>
               </div>
             </div>
           ) : (
@@ -404,7 +405,7 @@ export default function SavedPage() {
               {/* Saved items grid */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
                 {items.map((item, i) => (
-                  <a
+                  <Link
                     key={i}
                     href={item.href}
                     className="rounded-2xl p-5 flex items-center gap-4 transition-all group"
@@ -428,7 +429,7 @@ export default function SavedPage() {
                       )}
                     </div>
                     <ChevronRight size={16} style={{ color: "#4A4A68" }} />
-                  </a>
+                  </Link>
                 ))}
               </div>
             </div>
@@ -441,7 +442,7 @@ export default function SavedPage() {
               {quickLinks.map((link) => {
                 const Icon = link.icon;
                 return (
-                  <a
+                  <Link
                     key={link.label}
                     href={link.href}
                     className="flex flex-col items-center gap-2 p-4 rounded-xl text-center transition-all"
@@ -453,7 +454,7 @@ export default function SavedPage() {
                       <Icon size={18} style={{ color: link.color }} />
                     </div>
                     <span className="text-xs font-semibold leading-tight" style={{ color: "#8A8AA8" }}>{link.label}</span>
-                  </a>
+                  </Link>
                 );
               })}
             </div>
@@ -469,9 +470,9 @@ export default function SavedPage() {
             <p className="text-sm max-w-md mx-auto mb-4" style={{ color: "#6A6A88" }}>
               Save articles from the blog, bookmark Bible verses, add verses to memory, save discussions — it all collects here automatically.
             </p>
-            <a href="/dashboard" className="inline-flex items-center gap-2 px-5 py-2 rounded-xl text-sm font-bold" style={{ background: "rgba(58,125,86,0.12)", color: "#3a7d56", border: "1px solid rgba(58,125,86,0.25)" }}>
+            <Link href="/dashboard" className="inline-flex items-center gap-2 px-5 py-2 rounded-xl text-sm font-bold" style={{ background: "rgba(58,125,86,0.12)", color: "#3a7d56", border: "1px solid rgba(58,125,86,0.25)" }}>
               View Full Dashboard <ChevronRight size={13} />
-            </a>
+            </Link>
           </div>
         </div>
       </div>

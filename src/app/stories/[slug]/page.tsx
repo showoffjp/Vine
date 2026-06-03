@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import StoryActions from "@/components/StoryActions";
@@ -245,9 +246,9 @@ export default async function StoryDetailPage({ params }: { params: Promise<{ sl
         <div className="page-body pb-20 text-center max-w-2xl mx-auto px-4">
           <p className="text-6xl mb-6">📭</p>
           <h1 className="text-3xl font-black mb-4">Story not found</h1>
-          <a href="/stories" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-black" style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}>
+          <Link href="/stories" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-black" style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}>
             Browse all stories
-          </a>
+          </Link>
         </div>
         <Footer />
       </div>
@@ -260,9 +261,9 @@ export default async function StoryDetailPage({ params }: { params: Promise<{ sl
       <div className="page-body pb-20">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Back */}
-          <a href="/stories" className="inline-flex items-center gap-2 text-sm mb-8" style={{ color: "#6A6A88" }}>
+          <Link href="/stories" className="inline-flex items-center gap-2 text-sm mb-8" style={{ color: "#6A6A88" }}>
             <ArrowLeft size={14} /> All Stories
-          </a>
+          </Link>
 
           {/* Header */}
           <div className="mb-10">
@@ -327,10 +328,10 @@ export default async function StoryDetailPage({ params }: { params: Promise<{ sl
             <p className="text-sm italic mb-3" style={{ color: "#8A8AA8" }}>
               &ldquo;They triumphed over him by the blood of the Lamb and by the word of their testimony.&rdquo; — Revelation 12:11
             </p>
-            <a href="/stories" className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl font-bold text-sm text-black"
+            <Link href="/stories" className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl font-bold text-sm text-black"
               style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}>
               Share Your Story <ChevronRight size={14} />
-            </a>
+            </Link>
           </div>
 
           {/* Related */}

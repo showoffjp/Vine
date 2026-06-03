@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -382,13 +383,13 @@ export default function TopicsPage() {
                   ))}
                 </div>
                 <div className="mt-4 text-center">
-                  <a
+                  <Link
                     href="/discussions"
                     className="inline-flex items-center gap-2 text-sm font-semibold"
                     style={{ color: "#3a7d56" }}
                   >
                     See All Discussions <ChevronRight size={16} />
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>

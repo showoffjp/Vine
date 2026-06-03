@@ -333,7 +333,7 @@ export default function FeedPage() {
       <Navbar />
       <div className="pt-20 pb-20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 pt-6">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 pt-6">
 
             {/* Left sidebar */}
             <div className="hidden lg:block space-y-4">
@@ -633,6 +633,73 @@ export default function FeedPage() {
                   </div>
                 </div>
               ))}
+            </div>
+
+            {/* Right sidebar */}
+            <div className="hidden lg:block space-y-4">
+              {/* Who to follow */}
+              <div
+                className="rounded-2xl p-4"
+                style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
+              >
+                <div className="flex items-center gap-2 mb-3">
+                  <Users size={15} style={{ color: "#3a7d56" }} />
+                  <p className="text-xs font-bold uppercase tracking-widest" style={{ color: "#3a7d56" }}>
+                    Who to Follow
+                  </p>
+                </div>
+                <div className="space-y-3">
+                  {suggestedPeople.map((p) => (
+                    <div key={p.name} className="flex items-center gap-3">
+                      <div
+                        className="flex items-center justify-center rounded-full text-xs font-bold shrink-0"
+                        style={{ width: 38, height: 38, background: p.color, color: "#fff" }}
+                      >
+                        {p.avatar}
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <p className="text-sm font-semibold truncate" style={{ color: "#E8E8F0" }}>{p.name}</p>
+                        <p className="text-xs truncate" style={{ color: "#6A6A88" }}>{p.role} · {p.mutual} mutual</p>
+                      </div>
+                      <a
+                        href="/community"
+                        className="text-xs font-bold px-3 py-1.5 rounded-full shrink-0 transition-all"
+                        style={{ background: "rgba(58,125,86,0.12)", color: "#3a7d56", textDecoration: "none" }}
+                      >
+                        Follow
+                      </a>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Trending now */}
+              <div
+                className="rounded-2xl p-4"
+                style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
+              >
+                <div className="flex items-center gap-2 mb-3">
+                  <TrendingUp size={15} style={{ color: "#6B4FBB" }} />
+                  <p className="text-xs font-bold uppercase tracking-widest" style={{ color: "#6B4FBB" }}>
+                    Trending Now
+                  </p>
+                </div>
+                <div className="space-y-1">
+                  {trendingNow.map((t) => (
+                    <a
+                      key={t.tag}
+                      href="/explore"
+                      className="flex items-center justify-between px-2 py-2 rounded-xl transition-all"
+                      style={{ textDecoration: "none" }}
+                      onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.03)"; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; }}
+                    >
+                      <span className="text-sm font-semibold" style={{ color: "#C0C0D8" }}>#{t.tag}</span>
+                      <span className="text-xs" style={{ color: "#6A6A88" }}>{t.posts}</span>
+                    </a>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>

@@ -3,7 +3,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
 
-type Tab = "methods" | "scripture" | "guides" | "videos";
+type Tab = "methods" | "guided" | "scripture" | "voices" | "guides" | "videos";
 
 const METHODS = [
   {
@@ -493,15 +493,17 @@ export default function PrayerMethodsPage() {
         </div>
 
         {/* Tabs */}
-        <div style={{ display: "flex", gap: 4, marginBottom: 28, borderBottom: "1px solid #1E1E32" }}>
+        <div style={{ display: "flex", gap: 4, marginBottom: 28, borderBottom: "1px solid #1E1E32", overflowX: "auto" }}>
           {([
             ["methods", "Methods"],
+            ["guided", "Guided Prayer"],
             ["scripture", "Scripture"],
+            ["voices", "Voices"],
             ["guides", "Prayer Guides"],
             ["videos", "Videos"],
           ] as const).map(([t, label]) => (
             <button key={t} onClick={() => setTab(t)}
-              style={{ padding: "10px 20px", fontSize: 14, fontWeight: 600, background: "none", border: "none", cursor: "pointer", color: tab === t ? "#3a7d56" : "#6A6A88", borderBottom: `2px solid ${tab === t ? "#3a7d56" : "transparent"}`, marginBottom: -1 }}>
+              style={{ padding: "10px 20px", fontSize: 14, fontWeight: 600, background: "none", border: "none", cursor: "pointer", color: tab === t ? "#3a7d56" : "#6A6A88", borderBottom: `2px solid ${tab === t ? "#3a7d56" : "transparent"}`, marginBottom: -1, whiteSpace: "nowrap", flexShrink: 0 }}>
               {label}
             </button>
           ))}
@@ -585,6 +587,128 @@ export default function PrayerMethodsPage() {
           </>
         )}
 
+        {/* Guided Prayer Tab */}
+        {tab === "guided" && (
+          <div>
+            {!guidedActive ? (
+              <>
+                <div style={{ textAlign: "center", marginBottom: 32 }}>
+                  <h2 style={{ fontSize: 28, fontWeight: 900, marginBottom: 8 }}>Guided Prayer Sessions</h2>
+                  <p style={{ color: "#9898B3", fontSize: 15, maxWidth: 580, margin: "0 auto" }}>
+                    Step-by-step prayer walkthroughs for specific moments &mdash; each leads you slowly through Scripture and reflection.
+                  </p>
+                </div>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 20 }}>
+                  {GUIDED.map(session => (
+                    <button
+                      key={session.id}
+                      onClick={() => { setGuidedActive(session); setGuidedStep(0); }}
+                      style={{ textAlign: "left", background: "#12121F", border: `1px solid ${session.color}30`, borderRadius: 20, padding: 24, cursor: "pointer", display: "flex", flexDirection: "column", gap: 14 }}
+                    >
+                      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                        <span style={{ fontSize: 30 }}>{session.icon}</span>
+                        <div>
+                          <h3 style={{ color: "#F2F2F8", fontWeight: 800, fontSize: 18, margin: 0 }}>{session.title}</h3>
+                          <span style={{ color: session.color, fontSize: 13, fontWeight: 600 }}>{session.duration} · {session.steps.length} steps</span>
+                        </div>
+                      </div>
+                      <span style={{ alignSelf: "flex-start", background: `${session.color}18`, color: session.color, border: `1px solid ${session.color}40`, borderRadius: 100, padding: "6px 16px", fontSize: 13, fontWeight: 700 }}>
+                        Begin →
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </>
+            ) : (
+              <div style={{ maxWidth: 640, margin: "0 auto" }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                    <span style={{ fontSize: 24 }}>{guidedActive.icon}</span>
+                    <h2 style={{ fontSize: 20, fontWeight: 800, margin: 0 }}>{guidedActive.title}</h2>
+                  </div>
+                  <button onClick={() => setGuidedActive(null)} style={{ background: "none", border: "1px solid #1E1E32", borderRadius: 8, color: "#9898B3", fontSize: 13, fontWeight: 600, padding: "6px 14px", cursor: "pointer" }}>✕ Exit</button>
+                </div>
+                <div style={{ height: 6, background: "#1E1E32", borderRadius: 3, marginBottom: 24, overflow: "hidden" }}>
+                  <div style={{ height: "100%", background: guidedActive.color, width: `${((guidedStep + 1) / guidedActive.steps.length) * 100}%`, transition: "width 0.3s" }} />
+                </div>
+                <div style={{ background: "#12121F", border: `1px solid ${guidedActive.color}30`, borderRadius: 20, padding: 32, marginBottom: 20 }}>
+                  <div style={{ color: guidedActive.color, fontSize: 13, fontWeight: 700, marginBottom: 16, textTransform: "uppercase", letterSpacing: "0.08em" }}>
+                    Step {guidedStep + 1} of {guidedActive.steps.length}
+                  </div>
+                  <p style={{ color: "#F2F2F8", fontSize: 18, lineHeight: 1.7, marginBottom: 24 }}>
+                    {guidedActive.steps[guidedStep].instruction}
+                  </p>
+                  <div style={{ borderLeft: `3px solid ${guidedActive.color}`, paddingLeft: 16 }}>
+                    <p style={{ color: "#C0C0D8", fontSize: 15, fontStyle: "italic", lineHeight: 1.7, margin: "0 0 6px" }}>
+                      &ldquo;{guidedActive.steps[guidedStep].verse}&rdquo;
+                    </p>
+                    <span style={{ color: guidedActive.color, fontSize: 13, fontWeight: 700 }}>{guidedActive.steps[guidedStep].verseRef}</span>
+                  </div>
+                </div>
+                <div style={{ display: "flex", gap: 12, justifyContent: "space-between" }}>
+                  <button
+                    onClick={() => setGuidedStep(s => Math.max(0, s - 1))}
+                    disabled={guidedStep === 0}
+                    style={{ flex: 1, background: "transparent", border: "1px solid #1E1E32", borderRadius: 12, padding: "12px", color: guidedStep === 0 ? "#4A4A68" : "#9898B3", fontSize: 15, fontWeight: 700, cursor: guidedStep === 0 ? "default" : "pointer" }}
+                  >
+                    ← Previous
+                  </button>
+                  {guidedStep < guidedActive.steps.length - 1 ? (
+                    <button
+                      onClick={() => setGuidedStep(s => s + 1)}
+                      style={{ flex: 1, background: guidedActive.color, border: "none", borderRadius: 12, padding: "12px", color: "#fff", fontSize: 15, fontWeight: 700, cursor: "pointer" }}
+                    >
+                      Next →
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => setGuidedActive(null)}
+                      style={{ flex: 1, background: "#3a7d56", border: "none", borderRadius: 12, padding: "12px", color: "#fff", fontSize: 15, fontWeight: 700, cursor: "pointer" }}
+                    >
+                      ✓ Finish
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Voices Tab */}
+        {tab === "voices" && (
+          <div>
+            <div style={{ textAlign: "center", marginBottom: 32 }}>
+              <h2 style={{ fontSize: 28, fontWeight: 900, marginBottom: 8 }}>Voices on Prayer</h2>
+              <p style={{ color: "#9898B3", fontSize: 15, maxWidth: 580, margin: "0 auto" }}>
+                Five teachers whose writings on prayer have formed the church &mdash; from E.M. Bounds&rsquo;s intensity to Dallas Willard&rsquo;s conversational model.
+              </p>
+            </div>
+            <div style={{ display: "flex", gap: 20, flexWrap: "wrap", alignItems: "flex-start" }}>
+              <div style={{ width: 240, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8 }}>
+                {VOICES_PM.map(v => (
+                  <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                    style={{ textAlign: "left", background: selectedVoice === v.id ? "rgba(58,125,86,0.1)" : "#12121F", border: `1px solid ${selectedVoice === v.id ? "rgba(58,125,86,0.4)" : "#1E1E32"}`, borderRadius: 12, padding: "12px 16px", cursor: "pointer" }}>
+                    <div style={{ color: selectedVoice === v.id ? "#3a7d56" : "#F2F2F8", fontWeight: 700, fontSize: 14 }}>{v.name}</div>
+                    <div style={{ color: "#6A6A88", fontSize: 12 }}>{v.era}</div>
+                  </button>
+                ))}
+              </div>
+              <div style={{ flex: 1, minWidth: 280, background: "#12121F", border: "1px solid #1E1E32", borderRadius: 20, padding: 28 }}>
+                <h3 style={{ color: "#F2F2F8", fontWeight: 800, fontSize: 22, margin: "0 0 4px" }}>{voiceItem.name}</h3>
+                <div style={{ color: "#3a7d56", fontSize: 13, fontWeight: 600, marginBottom: 16 }}>{voiceItem.era} · {voiceItem.context}</div>
+                <p style={{ color: "#C0C0D8", fontSize: 14, lineHeight: 1.8, marginBottom: 20 }}>{voiceItem.bio}</p>
+                <blockquote style={{ borderLeft: "3px solid #A080FF", paddingLeft: 16, margin: "0 0 20px" }}>
+                  <p style={{ color: "#F2F2F8", fontSize: 16, fontStyle: "italic", lineHeight: 1.7, margin: 0 }}>&ldquo;{voiceItem.quote}&rdquo;</p>
+                </blockquote>
+                <div style={{ background: "rgba(58,125,86,0.06)", border: "1px solid rgba(58,125,86,0.2)", borderRadius: 12, padding: 16 }}>
+                  <div style={{ color: "#3a7d56", fontWeight: 700, fontSize: 11, marginBottom: 6, textTransform: "uppercase", letterSpacing: "0.06em" }}>Contribution</div>
+                  <p style={{ color: "#9898B3", fontSize: 14, lineHeight: 1.7, margin: 0 }}>{voiceItem.contribution}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Scripture Tab */}
         {tab === "scripture" && (
           <div>
@@ -631,6 +755,50 @@ export default function PrayerMethodsPage() {
         {/* Prayer Guides Tab */}
         {tab === "guides" && (
           <div>
+            {/* Multi-day prayer plans */}
+            <div style={{ textAlign: "center", marginBottom: 28 }}>
+              <h2 style={{ fontSize: 28, fontWeight: 900, marginBottom: 8 }}>Prayer Plans</h2>
+              <p style={{ color: "#9898B3", fontSize: 15, maxWidth: 580, margin: "0 auto" }}>
+                Multi-day journeys to build a lasting rhythm of prayer &mdash; a little each day, sustained over weeks.
+              </p>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 20, marginBottom: 52 }}>
+              {PLANS.map(plan => (
+                <div
+                  key={plan.id}
+                  style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 20, padding: 24, display: "flex", flexDirection: "column" }}
+                >
+                  <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 14 }}>
+                    <span style={{ fontSize: 30, flexShrink: 0 }}>{plan.icon}</span>
+                    <h3 style={{ color: "#F2F2F8", fontWeight: 800, fontSize: 18, margin: 0 }}>{plan.title}</h3>
+                  </div>
+                  <p style={{ color: "#C0C0D8", fontSize: 14, lineHeight: 1.7, marginBottom: 18, flex: 1 }}>
+                    {plan.description}
+                  </p>
+                  <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 18 }}>
+                    <span style={{ background: "rgba(58,125,86,0.1)", color: "#3a7d56", border: "1px solid rgba(58,125,86,0.25)", borderRadius: 100, padding: "3px 12px", fontSize: 12, fontWeight: 700 }}>
+                      📅 {plan.days} days
+                    </span>
+                    <span style={{ background: "rgba(107,79,187,0.12)", color: "#A080FF", border: "1px solid rgba(107,79,187,0.25)", borderRadius: 100, padding: "3px 12px", fontSize: 12, fontWeight: 700 }}>
+                      ⏱️ {plan.dailyTime}/day
+                    </span>
+                  </div>
+                  {planStarted[plan.id] ? (
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, background: "rgba(58,125,86,0.1)", color: "#3a7d56", border: "1px solid rgba(58,125,86,0.3)", borderRadius: 12, padding: "10px 16px", fontSize: 14, fontWeight: 700 }}>
+                      ✓ Started {planStarted[plan.id]}
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => startPlan(plan.id)}
+                      style={{ width: "100%", background: "rgba(58,125,86,0.12)", color: "#3a7d56", border: "1px solid rgba(58,125,86,0.3)", borderRadius: 12, padding: "10px 16px", fontSize: 14, fontWeight: 700, cursor: "pointer" }}
+                    >
+                      Begin this plan →
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
+
             <div style={{ textAlign: "center", marginBottom: 40 }}>
               <h2 style={{ fontSize: 28, fontWeight: 900, marginBottom: 8 }}>Prayer Guides</h2>
               <p style={{ color: "#9898B3", fontSize: 15, maxWidth: 580, margin: "0 auto" }}>

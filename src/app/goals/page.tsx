@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -491,12 +492,12 @@ export default function GoalsPage() {
             </p>
             <p className="text-xs font-bold" style={{ color: "#4A4A68" }}>— Galatians 6:9</p>
             <div className="flex items-center justify-center gap-4 mt-4">
-              <a href="/verse-memory" className="flex items-center gap-1.5 text-xs font-semibold" style={{ color: "#3a7d56" }}>
+              <Link href="/verse-memory" className="flex items-center gap-1.5 text-xs font-semibold" style={{ color: "#3a7d56" }}>
                 <BookOpen size={12} /> Verse Memory <ChevronRight size={11} />
-              </a>
-              <a href="/journal" className="flex items-center gap-1.5 text-xs font-semibold" style={{ color: "#6B4FBB" }}>
+              </Link>
+              <Link href="/journal" className="flex items-center gap-1.5 text-xs font-semibold" style={{ color: "#6B4FBB" }}>
                 Journal <ChevronRight size={11} />
-              </a>
+              </Link>
             </div>
           </div>
           </>}

@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 const PERKS = [
   "Access every resource, guide, and article — free forever",
   "Join discussions and connect with Christians worldwide",
@@ -147,7 +149,7 @@ export default function JoinCTA() {
             marginBottom: "1.2rem",
           }}
         >
-          <a
+          <Link
             href="/feed"
             style={{
               background: "#c9a227",
@@ -178,8 +180,8 @@ export default function JoinCTA() {
             }}
           >
             Create Your Free Account
-          </a>
-          <a
+          </Link>
+          <Link
             href="/about"
             style={{
               background: "none",
@@ -198,7 +200,7 @@ export default function JoinCTA() {
             }}
           >
             See All Features
-          </a>
+          </Link>
         </div>
 
         <p

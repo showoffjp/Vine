@@ -635,6 +635,34 @@ export default function AICompanionPage() {
                       </button>
                     ))}
                   </div>
+                  <div style={{ textAlign: "center", marginTop: 14 }}>
+                    <button
+                      onClick={() => sendMessage(ALL_SUGGESTED[Math.floor(Math.random() * ALL_SUGGESTED.length)])}
+                      style={{
+                        background: "transparent",
+                        border: "1px solid #1E1E32",
+                        borderRadius: 20,
+                        padding: "8px 18px",
+                        color: "#8A8AA8",
+                        fontSize: 13,
+                        fontWeight: 600,
+                        cursor: "pointer",
+                        transition: "all 0.15s",
+                      }}
+                      onMouseEnter={(e) => {
+                        const btn = e.currentTarget as HTMLButtonElement;
+                        btn.style.color = "#F2F2F8";
+                        btn.style.borderColor = "rgba(58,125,86,0.4)";
+                      }}
+                      onMouseLeave={(e) => {
+                        const btn = e.currentTarget as HTMLButtonElement;
+                        btn.style.color = "#8A8AA8";
+                        btn.style.borderColor = "#1E1E32";
+                      }}
+                    >
+                      🎲 Surprise me
+                    </button>
+                  </div>
                 </div>
               )}
 

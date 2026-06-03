@@ -396,6 +396,7 @@ export default function RelationshipsPage() {
           </div>
         </div>
       )}
+      <Footer />
     </div>
   );
 }

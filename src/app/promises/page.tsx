@@ -1542,6 +1542,7 @@ export default function PromisesPage() {
           )}
         </div>
       </div>
+      <Footer />
     </>
   );
 }

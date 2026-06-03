@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
@@ -523,20 +524,20 @@ export default function WorkLeadershipPage() {
                   Connect with Christian professionals and leaders navigating the same tension between faith and career.
                 </p>
                 <div className="flex items-center gap-4 justify-center flex-wrap">
-                  <a
+                  <Link
                     href="/community"
                     className="inline-flex items-center gap-2 px-8 py-3 rounded-xl font-bold text-black"
                     style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}
                   >
                     Join the Community <ChevronRight size={16} />
-                  </a>
-                  <a
+                  </Link>
+                  <Link
                     href="/ai-companion"
                     className="inline-flex items-center gap-2 px-8 py-3 rounded-xl font-semibold"
                     style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)", color: "#C0C0D8" }}
                   >
                     Ask AI Companion
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>

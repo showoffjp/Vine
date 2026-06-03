@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
@@ -749,9 +750,9 @@ export default function ResourcesPage() {
                         </span>
                       </div>
                       <div className="flex items-center gap-3 mt-4">
-                        <a href="/resources" className="btn-gold px-5 py-2.5 rounded-xl text-sm font-bold" style={{ textDecoration: "none" }}>
+                        <Link href="/resources" className="btn-gold px-5 py-2.5 rounded-xl text-sm font-bold" style={{ textDecoration: "none" }}>
                           Read Now &mdash; Free
-                        </a>
+                        </Link>
                         <button
                           onClick={() => setFeaturedSaved(!featuredSaved)}
                           className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 hover:bg-[#18182A]"
@@ -774,7 +775,7 @@ export default function ResourcesPage() {
                     </div>
                   )}
                   {visibleResources.map((r, i) => (
-                    <a
+                    <Link
                       key={i}
                       href={r.href}
                       className="rounded-2xl p-4 flex flex-col cursor-pointer transition-all duration-200 hover:bg-[#18182A] group"
@@ -849,7 +850,7 @@ export default function ResourcesPage() {
                           </button>
                         </div>
                       </div>
-                    </a>
+                    </Link>
                   ))}
                 </div>
 
@@ -919,9 +920,9 @@ export default function ResourcesPage() {
               <p style={{ fontSize: 14, color: MUTED, maxWidth: 420, margin: "0 auto 16px" }}>
                 Help the Vine community learn &mdash; share a seminary course, YouTube series, or ministry resource that shaped your faith.
               </p>
-              <a href="/discussions" style={{ display: "inline-block", padding: "12px 28px", borderRadius: 12, background: `linear-gradient(135deg, ${PURPLE}, ${GREEN})`, color: BG, fontWeight: 800, fontSize: 14, textDecoration: "none" }}>
+              <Link href="/discussions" style={{ display: "inline-block", padding: "12px 28px", borderRadius: 12, background: `linear-gradient(135deg, ${PURPLE}, ${GREEN})`, color: BG, fontWeight: 800, fontSize: 14, textDecoration: "none" }}>
                 Suggest a Course &rarr;
-              </a>
+              </Link>
             </div>
           </div>
         )}
@@ -967,9 +968,9 @@ export default function ResourcesPage() {
               <p style={{ fontSize: 14, color: MUTED, maxWidth: 420, margin: "0 auto 16px" }}>
                 The Vine community is always looking for better ways to study Scripture. Share what&rsquo;s helped you most.
               </p>
-              <a href="/discussions" style={{ display: "inline-block", padding: "12px 28px", borderRadius: 12, background: `linear-gradient(135deg, ${GREEN}, ${PURPLE})`, color: BG, fontWeight: 800, fontSize: 14, textDecoration: "none" }}>
+              <Link href="/discussions" style={{ display: "inline-block", padding: "12px 28px", borderRadius: 12, background: `linear-gradient(135deg, ${GREEN}, ${PURPLE})`, color: BG, fontWeight: 800, fontSize: 14, textDecoration: "none" }}>
                 Suggest a Tool &rarr;
-              </a>
+              </Link>
             </div>
           </div>
         )}
@@ -1011,9 +1012,9 @@ export default function ResourcesPage() {
               <p style={{ fontSize: 14, color: MUTED, maxWidth: 420, margin: "0 auto 16px" }}>
                 Share a sermon or talk that changed your perspective &mdash; the Vine community is always looking for what&rsquo;s worth watching.
               </p>
-              <a href="/discussions" style={{ display: "inline-block", padding: "12px 28px", borderRadius: 12, background: `linear-gradient(135deg, ${PURPLE}, ${GREEN})`, color: BG, fontWeight: 800, fontSize: 14, textDecoration: "none" }}>
+              <Link href="/discussions" style={{ display: "inline-block", padding: "12px 28px", borderRadius: 12, background: `linear-gradient(135deg, ${PURPLE}, ${GREEN})`, color: BG, fontWeight: 800, fontSize: 14, textDecoration: "none" }}>
                 Recommend a Video &rarr;
-              </a>
+              </Link>
             </div>
           </div>
         )}

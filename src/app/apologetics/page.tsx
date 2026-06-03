@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -706,9 +707,9 @@ export default function ApologeticsPage() {
               <p style={{ fontSize: 14, color: MUTED, marginBottom: 16, maxWidth: 400, margin: "0 auto 16px" }}>
                 The Vine discussion community welcomes honest, hard questions. No question is too difficult — and you won't be dismissed.
               </p>
-              <a href="/discussions" style={{ display: "inline-block", padding: "12px 28px", borderRadius: 12, background: `linear-gradient(135deg, ${PURPLE}, ${GREEN})`, color: BG, fontWeight: 800, fontSize: 14, textDecoration: "none" }}>
+              <Link href="/discussions" style={{ display: "inline-block", padding: "12px 28px", borderRadius: 12, background: `linear-gradient(135deg, ${PURPLE}, ${GREEN})`, color: BG, fontWeight: 800, fontSize: 14, textDecoration: "none" }}>
                 Ask in Discussions →
-              </a>
+              </Link>
             </div>
           </div>
         )}

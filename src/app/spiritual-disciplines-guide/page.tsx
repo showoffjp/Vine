@@ -246,7 +246,6 @@ export default function SpiritualDisciplinesGuidePage() {
   const [selectedVoice, setSelectedVoice] = useState("foster-r");
   const voiceItem = VOICES_SDG.find(v => v.id === selectedVoice)!;
   const [selected, setSelected] = useState<string | null>(null);
-  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
   const discipline = DISCIPLINES.find(d => d.name === selected);
 

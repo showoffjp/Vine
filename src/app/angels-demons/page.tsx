@@ -73,7 +73,6 @@ export default function AngelsDemonsPage() {
   const [tab, setTab] = useState<Tab>("angels");
   const [selectedAngel, setSelectedAngel] = useState("Ordinary Angels");
   const [selectedWarfare, setSelectedWarfare] = useState("armor");
-  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
   const angel = ANGELS.find(a => a.name === selectedAngel)!;
   const warfare = WARFARE.find(w => w.id === selectedWarfare)!;

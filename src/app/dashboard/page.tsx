@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -195,7 +196,6 @@ function loadStats(): Stats {
 export default function DashboardPage() {
   const [stats, setStats] = useState<Stats | null>(null);
   const [activeTab, setActiveTab] = useState("Overview");
-  const tabs = ["Overview", "Scripture", "Community", "Media", "Growth"];
 
   useEffect(() => {
     setStats(loadStats());
@@ -331,6 +331,9 @@ export default function DashboardPage() {
     { label: "AI Companion", icon: Zap, color: "#8B9BCC", href: "/ai-companion" },
   ];
 
+  const tabs = ["Overview", ...sections.map((s) => s.title)];
+  const visibleSections = activeTab === "Overview" ? sections : sections.filter((s) => s.title === activeTab);
+
   return (
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
       <Navbar />
@@ -403,7 +406,7 @@ export default function DashboardPage() {
               {quickLinks.map((link) => {
                 const Icon = link.icon;
                 return (
-                  <a
+                  <Link
                     key={link.label}
                     href={link.href}
                     className="flex flex-col items-center gap-2 p-3 rounded-xl text-center transition-all"
@@ -428,15 +431,35 @@ export default function DashboardPage() {
                       <Icon size={18} style={{ color: link.color }} />
                     </div>
                     <span className="text-xs font-semibold leading-tight" style={{ color: "#8A8AA8" }}>{link.label}</span>
-                  </a>
+                  </Link>
                 );
               })}
             </div>
           </div>
 
+          {/* Category tabs */}
+          <div className="flex gap-2 mb-6 overflow-x-auto pb-1">
+            {tabs.map((t) => (
+              <button
+                key={t}
+                onClick={() => setActiveTab(t)}
+                className="px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition-all"
+                style={{
+                  background: activeTab === t ? "rgba(58,125,86,0.12)" : "rgba(255,255,255,0.02)",
+                  border: `1px solid ${activeTab === t ? "rgba(58,125,86,0.4)" : "rgba(255,255,255,0.06)"}`,
+                  color: activeTab === t ? "#3a7d56" : "#8A8AA8",
+                  cursor: "pointer",
+                  flexShrink: 0,
+                }}
+              >
+                {t}
+              </button>
+            ))}
+          </div>
+
           {/* Stats Sections */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {sections.map((section) => {
+            {visibleSections.map((section) => {
               const Icon = section.icon;
               return (
                 <div
@@ -455,7 +478,7 @@ export default function DashboardPage() {
                   </div>
                   <div className="space-y-3">
                     {section.items.map((item) => (
-                      <a
+                      <Link
                         key={item.label}
                         href={item.href}
                         className="flex items-center justify-between py-2 px-3 rounded-xl transition-all"
@@ -473,7 +496,7 @@ export default function DashboardPage() {
                           </span>
                           <ChevronRight size={12} style={{ color: "#4A4A68" }} />
                         </div>
-                      </a>
+                      </Link>
                     ))}
                   </div>
                 </div>
@@ -531,12 +554,12 @@ export default function DashboardPage() {
               Every chapter read, prayer offered, and verse highlighted is a step deeper into the Vine.
             </p>
             <div className="flex flex-wrap gap-3 justify-center">
-              <a href="/daily" className="px-5 py-2.5 rounded-xl text-sm font-bold text-black" style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}>
+              <Link href="/daily" className="px-5 py-2.5 rounded-xl text-sm font-bold text-black" style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}>
                 Today&apos;s Devotional
-              </a>
-              <a href="/challenges" className="px-5 py-2.5 rounded-xl text-sm font-bold" style={{ background: "rgba(107,79,187,0.15)", color: "#9B7FEB", border: "1px solid rgba(107,79,187,0.3)" }}>
+              </Link>
+              <Link href="/challenges" className="px-5 py-2.5 rounded-xl text-sm font-bold" style={{ background: "rgba(107,79,187,0.15)", color: "#9B7FEB", border: "1px solid rgba(107,79,187,0.3)" }}>
                 Join a Challenge
-              </a>
+              </Link>
             </div>
           </div>
 

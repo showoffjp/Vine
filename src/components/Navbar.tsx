@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import Link from "next/link";
 import { Menu, X, Search, Bell, ChevronDown, Sparkles } from "lucide-react";
 import SearchOverlay from "./SearchOverlay";
 import AuthModal from "./AuthModal";
@@ -269,6 +270,8 @@ const navLinks: NavLink[] = [
           { label: "Accountability", href: "/accountability" },
           { label: "Verse Memory", href: "/verse-memory" },
           { label: "Scripture Game", href: "/scripture-game" },
+          { label: "Faith Quizzes", href: "/quiz" },
+          { label: "AI Companion", href: "/ai-companion" },
           { label: "Reading Plans", href: "/reading-plan" },
           { label: "Bible & Prayer Apps", href: "/bible-study-apps" },
         ],
@@ -287,6 +290,7 @@ const navLinks: NavLink[] = [
           { label: "Mental Health Guide", href: "/mental-health-guide" },
           { label: "Mental Health Resources", href: "/christian-mental-health-resources" },
           { label: "Anxiety & Faith", href: "/anxiety" },
+          { label: "Fear & Courage", href: "/fear" },
           { label: "Anger: A Christian Guide", href: "/anger" },
           { label: "Body Image & Faith", href: "/body-image" },
           { label: "Addiction & Recovery", href: "/addiction-recovery" },
@@ -327,10 +331,12 @@ const navLinks: NavLink[] = [
         title: "Money & Work",
         items: [
           { label: "Stewardship & Finances", href: "/stewardship" },
+          { label: "Personal Finances", href: "/finances" },
           { label: "Christian Financial Guide", href: "/christian-financial-guide" },
           { label: "Money & Christian Life", href: "/christian-money" },
           { label: "Money & Debt", href: "/money-debt" },
           { label: "Christian Giving", href: "/church-giving" },
+          { label: "Giving & Impact", href: "/giving" },
           { label: "Christian Giving Guide", href: "/christian-giving-guide" },
           { label: "Theology of Money", href: "/theology-of-money" },
           { label: "The Practice of Generosity", href: "/generosity" },
@@ -468,6 +474,7 @@ const navLinks: NavLink[] = [
       {
         title: "Community Features",
         items: [
+          { label: "Topics", href: "/topics" },
           { label: "Events", href: "/events" },
           { label: "Leaderboard", href: "/leaderboard" },
           { label: "Creators", href: "/creators" },
@@ -609,7 +616,7 @@ export default function Navbar() {
           <div className="flex items-center justify-between h-16">
 
             {/* Logo */}
-            <a href="/" className="flex items-center gap-2.5 shrink-0" style={{ textDecoration: "none" }}>
+            <Link href="/" className="flex items-center gap-2.5 shrink-0" style={{ textDecoration: "none" }}>
               <svg width="32" height="32" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect x="15" y="4" width="4" height="18" rx="1.5" fill="#c9a227"/>
                 <rect x="8" y="10" width="18" height="4" rx="1.5" fill="#c9a227"/>
@@ -629,7 +636,7 @@ export default function Navbar() {
               >
                 BETA
               </span>
-            </a>
+            </Link>
 
             {/* Desktop Nav Links */}
             <div className="hidden lg:flex items-center gap-0.5">
@@ -849,9 +856,9 @@ export default function Navbar() {
                       );
                     })}
                     <div className="px-4 py-2" style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}>
-                      <a href="/notifications" className="text-xs font-semibold block text-center py-1.5" style={{ color: "#3a7d56" }}>
+                      <Link href="/notifications" className="text-xs font-semibold block text-center py-1.5" style={{ color: "#3a7d56" }}>
                         View all notifications
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 )}
@@ -985,10 +992,10 @@ export default function Navbar() {
               <div className="pt-3 pb-2 flex flex-col gap-2">
                 {user ? (
                   <>
-                    <a href="/dashboard" className="btn-gold w-full py-2.5 rounded-lg text-sm text-center" onClick={() => setMobileOpen(false)}>My Dashboard</a>
-                    <a href="/feed" className="btn-outline-gold w-full py-2.5 rounded-lg text-sm text-center" onClick={() => setMobileOpen(false)}>My Feed</a>
-                    <a href="/saved" className="btn-outline-gold w-full py-2.5 rounded-lg text-sm text-center" onClick={() => setMobileOpen(false)}>My Saved</a>
-                    <a href="/profile" className="btn-outline-gold w-full py-2.5 rounded-lg text-sm text-center" onClick={() => setMobileOpen(false)}>My Profile</a>
+                    <Link href="/dashboard" className="btn-gold w-full py-2.5 rounded-lg text-sm text-center" onClick={() => setMobileOpen(false)}>My Dashboard</Link>
+                    <Link href="/feed" className="btn-outline-gold w-full py-2.5 rounded-lg text-sm text-center" onClick={() => setMobileOpen(false)}>My Feed</Link>
+                    <Link href="/saved" className="btn-outline-gold w-full py-2.5 rounded-lg text-sm text-center" onClick={() => setMobileOpen(false)}>My Saved</Link>
+                    <Link href="/profile" className="btn-outline-gold w-full py-2.5 rounded-lg text-sm text-center" onClick={() => setMobileOpen(false)}>My Profile</Link>
                     <button className="w-full py-2.5 rounded-lg text-sm font-semibold" style={{ color: "#EF4444", border: "1px solid rgba(239,68,68,0.2)" }} onClick={handleSignOut}>Sign Out</button>
                   </>
                 ) : (

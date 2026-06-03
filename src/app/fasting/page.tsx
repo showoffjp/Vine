@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
@@ -412,9 +413,9 @@ export default function FastingPage() {
                 </p>
                 <p className="text-[10px] font-bold" style={{ color: "#4A4A68" }}>— Matthew 6:16-17</p>
                 <div className="mt-3 pt-3" style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}>
-                  <a href="/bible" className="flex items-center gap-1 text-xs font-semibold" style={{ color: "#3a7d56" }}>
+                  <Link href="/bible" className="flex items-center gap-1 text-xs font-semibold" style={{ color: "#3a7d56" }}>
                     <BookOpen size={11} /> Open Bible Reader <ChevronRight size={11} />
-                  </a>
+                  </Link>
                 </div>
               </div>
 
@@ -427,7 +428,7 @@ export default function FastingPage() {
                   { label: "Journal", href: "/journal", color: "#6B4FBB" },
                   { label: "Faith Goals", href: "/goals", color: "#10B981" },
                 ].map((link) => (
-                  <a
+                  <Link
                     key={link.label}
                     href={link.href}
                     className="flex items-center justify-between py-2 text-sm transition-all"
@@ -437,7 +438,7 @@ export default function FastingPage() {
                   >
                     {link.label}
                     <ChevronRight size={13} />
-                  </a>
+                  </Link>
                 ))}
               </div>
             </div>

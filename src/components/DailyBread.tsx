@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { BookOpen, Heart, Bookmark, Share2, Check, ChevronRight } from "lucide-react";
 import VerseRef from "@/components/VerseRef";
 
@@ -240,7 +241,7 @@ export default function DailyBread() {
             </div>
 
             {/* Bible search prompt */}
-            <a
+            <Link
               href="/bible"
               style={{
                 display: "flex",
@@ -273,7 +274,7 @@ export default function DailyBread() {
                 Search any verse, chapter, or topic...
               </span>
               <ChevronRight size={14} style={{ color: "#c9a227" }} />
-            </a>
+            </Link>
           </div>
 
           {/* Right: Devotionals */}
@@ -297,7 +298,7 @@ export default function DailyBread() {
               >
                 Today&apos;s Devotionals
               </h3>
-              <a
+              <Link
                 href="/daily"
                 style={{
                   display: "flex",
@@ -313,7 +314,7 @@ export default function DailyBread() {
                 }}
               >
                 View All <ChevronRight size={12} />
-              </a>
+              </Link>
             </div>
 
             <div style={{ display: "flex", flexDirection: "column", gap: "0.8rem" }}>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import Link from "next/link";
 import { RefreshCw, Home } from "lucide-react";
 
 export default function Error({
@@ -27,7 +28,7 @@ export default function Error({
         }}
       />
 
-      <a href="/" className="flex items-center gap-2 mb-12">
+      <Link href="/" className="flex items-center gap-2 mb-12">
         <div
           className="w-9 h-9 rounded-xl flex items-center justify-center"
           style={{ background: "linear-gradient(135deg, #3a7d56, #8B6FDB)" }}
@@ -35,7 +36,7 @@ export default function Error({
           <span className="text-black font-black">V</span>
         </div>
         <span className="text-xl font-black">Vine</span>
-      </a>
+      </Link>
 
       <div className="text-6xl mb-6">⚠️</div>
       <h1 className="text-3xl font-black mb-3">Something went wrong</h1>
@@ -58,7 +59,7 @@ export default function Error({
         >
           <RefreshCw size={15} /> Try Again
         </button>
-        <a
+        <Link
           href="/"
           className="flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold"
           style={{
@@ -68,7 +69,7 @@ export default function Error({
           }}
         >
           <Home size={15} /> Go Home
-        </a>
+        </Link>
       </div>
     </div>
   );

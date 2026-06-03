@@ -330,7 +330,6 @@ export default function ProphecyTodayPage() {
   const [topic, setTopic] = useState("All");
   const [selected, setSelected] = useState<string | null>(null);
   const [selectedVoice, setSelectedVoice] = useState<number | null>(null);
-  const [openAccordion, setOpenAccordion] = useState<number | null>(null);
 
   const filtered = RESOURCES.filter(r => topic === "All" || r.topic === topic);
   const resource = RESOURCES.find(r => r.name === selected);

@@ -594,6 +594,27 @@ export default function LifeHacksPage() {
                     ⭐ FEATURED HACK
                   </span>
                   <span style={{ color: "#4F8FBB", fontSize: "12px", fontWeight: 600 }}>Money</span>
+                  <button
+                    onClick={() => setFeaturedSaved((v) => !v)}
+                    aria-label={featuredSaved ? "Remove from saved" : "Save hack"}
+                    style={{
+                      marginLeft: "auto",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "6px",
+                      background: featuredSaved ? "rgba(58,125,86,0.15)" : "transparent",
+                      border: `1px solid ${featuredSaved ? "rgba(58,125,86,0.4)" : "#1E1E32"}`,
+                      borderRadius: "100px",
+                      padding: "5px 14px",
+                      color: featuredSaved ? "#3a7d56" : "#8A8AA8",
+                      fontSize: "12px",
+                      fontWeight: 700,
+                      cursor: "pointer",
+                    }}
+                  >
+                    <Bookmark size={13} fill={featuredSaved ? "#3a7d56" : "none"} />
+                    {featuredSaved ? "Saved" : "Save"}
+                  </button>
                 </div>
                 <h2 style={{ fontSize: "28px", fontWeight: 900, color: "#F2F2F8", marginBottom: "12px" }}>
                   The 10-10-80 Money Method

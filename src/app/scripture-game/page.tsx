@@ -64,8 +64,10 @@ const shuffle = <T,>(arr: T[]): T[] => [...arr].sort(() => Math.random() - 0.5);
 const generateWrongRefs = (correct: Verse, all: Verse[]): string[] =>
   shuffle(all.filter((v) => v.id !== correct.id)).slice(0, 3).map((v) => v.ref);
 
+const truncateText = (t: string): string => t.slice(0, 60) + "...";
+
 const generateWrongTexts = (correct: Verse, all: Verse[]): string[] =>
-  shuffle(all.filter((v) => v.id !== correct.id)).slice(0, 3).map((v) => v.text.slice(0, 60) + "...");
+  shuffle(all.filter((v) => v.id !== correct.id)).slice(0, 3).map((v) => truncateText(v.text));
 
 const blankify = (text: string): { blanked: string; answer: string } => {
   const words = text.split(" ");
@@ -132,8 +134,8 @@ export default function ScriptureGamePage() {
 
     if (m === "multiple-choice") {
       if (pool.length < 4) return;
-      const wrongRefs = generateWrongRefs(verse, pool);
-      setChoices(shuffle([verse.ref, ...wrongRefs]));
+      const wrongTexts = generateWrongTexts(verse, pool);
+      setChoices(shuffle([truncateText(verse.text), ...wrongTexts]));
     } else if (m === "text-to-ref") {
       const wrongRefs = generateWrongRefs(verse, pool);
       setChoices(shuffle([verse.ref, ...wrongRefs]));
@@ -149,7 +151,7 @@ export default function ScriptureGamePage() {
     let correct = false;
 
     if (mode === "multiple-choice") {
-      correct = userAnswer === verse.ref;
+      correct = userAnswer === truncateText(verse.text);
       setSelected(userAnswer);
     } else if (mode === "text-to-ref") {
       correct = userAnswer === verse.ref;
@@ -193,6 +195,7 @@ export default function ScriptureGamePage() {
   };
 
   const verse = queue[currentIdx];
+  const correctChoice = verse ? (mode === "multiple-choice" ? truncateText(verse.text) : verse.ref) : "";
   const accuracy = stats.totalPlayed > 0 ? Math.round((stats.totalCorrect / stats.totalPlayed) * 100) : 0;
 
   return (
@@ -342,9 +345,8 @@ export default function ScriptureGamePage() {
               )}
               {mode === "multiple-choice" && (
                 <>
-                  <div style={{ fontSize: 13, color: "#9898B3", marginBottom: 10 }}>Complete this verse:</div>
-                  <div style={{ fontSize: 15, color: "#F2F2F8", fontStyle: "italic", lineHeight: 1.7 }}>"{verse.text.slice(0, 80)}..."</div>
-                  <div style={{ fontSize: 13, color: "#9898B3", marginTop: 10 }}>Which reference does this belong to?</div>
+                  <div style={{ fontSize: 13, color: "#9898B3", marginBottom: 8 }}>Which verse matches this reference?</div>
+                  <div style={{ fontSize: 22, fontWeight: 700, color: "#6B4FBB" }}>{verse.ref}</div>
                 </>
               )}
               {mode === "fill-blank" && blank && (
@@ -364,12 +366,12 @@ export default function ScriptureGamePage() {
                       padding: "12px 16px", borderRadius: 10, border: "2px solid",
                       borderColor: selected === choice
                         ? (isCorrect ? "#3a7d56" : "#EF4444")
-                        : choice === verse.ref && selected !== null
+                        : choice === correctChoice && selected !== null
                         ? "#3a7d56"
                         : "#1E1E32",
                       background: selected === choice
                         ? (isCorrect ? "#3a7d5615" : "#EF444415")
-                        : choice === verse.ref && selected !== null
+                        : choice === correctChoice && selected !== null
                         ? "#3a7d5615"
                         : "#12121F",
                       color: "#F2F2F8", cursor: selected ? "default" : "pointer",
@@ -426,7 +428,7 @@ export default function ScriptureGamePage() {
                 color: isCorrect ? "#3a7d56" : "#EF4444",
                 fontSize: 14, fontWeight: 600,
               }}>
-                {isCorrect ? "✓ Correct!" : `✗ The answer was: ${mode === "text-to-ref" || mode === "multiple-choice" ? verse.ref : blank?.answer ?? verse.text}`}
+                {isCorrect ? "✓ Correct!" : `✗ The answer was: ${mode === "text-to-ref" ? verse.ref : mode === "multiple-choice" ? correctChoice : mode === "fill-blank" ? (blank?.answer ?? "") : verse.text}`}
                 <div style={{ fontSize: 12, fontWeight: 400, marginTop: 4, color: "#9898B3" }}>
                   {isCorrect
                     ? `Streak: ${stats.currentStreak} 🔥`

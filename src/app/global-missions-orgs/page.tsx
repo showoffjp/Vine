@@ -15,6 +15,26 @@ const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3"
 
 const CATEGORIES = ["All", "Unreached Peoples", "Bible Translation", "Church Planting", "Holistic Mission", "Diaspora", "Training"];
 
+type Tab = "orgs" | "biblical" | "involved" | "videos";
+
+const BIBLICAL_BASIS = [
+  { ref: "Genesis 12:1-3", color: GREEN, title: "The Abrahamic Promise: All Nations Blessed", content: "The Great Commission of the Old Testament. God promises Abraham that 'all peoples on earth will be blessed through you' — this is not national favoritism but global mission from the start. Paul interprets this in Galatians 3:8 as the gospel announced in advance: God would justify the Gentiles by faith. Every missions organization today is the fulfillment of a 4,000-year-old promise. The blessing was never meant to stop at Israel — it was always meant to flow outward through Israel to every nation, tribe, people, and language." },
+  { ref: "Isaiah 49:6", color: PURPLE, title: "Light to the Nations", content: "'It is too small a thing for you to be my servant to restore the tribes of Jacob and bring back those of Israel I have kept. I will also make you a light for the Gentiles, that my salvation may reach to the ends of the earth.' God addresses the Servant — ultimately fulfilled in Christ — and says that restoration of Israel is not enough. The scope of salvation was always cosmic. No nation, no ethnicity, no geography is outside the reach of what God intends. This verse shaped the early church's conviction that the gospel must go to the Gentiles (Acts 13:47)." },
+  { ref: "Matthew 28:18-20", color: "#3B82F6", title: "The Great Commission", content: "'All authority in heaven and on earth has been given to me. Therefore go and make disciples of all nations, baptizing them in the name of the Father and of the Son and of the Holy Spirit, and teaching them to obey everything I have commanded you. And surely I am with you always, to the very end of the age.' The mission is grounded in Christ's authority (not ours), aimed at all nations (not just sympathetic ones), and accomplished through three actions: going, baptizing, and teaching. The promise of his presence — 'to the very end of the age' — is the missionary's most fundamental resource." },
+  { ref: "Acts 1:8", color: "#EF4444", title: "The Missionary Pattern: Concentric Circles", content: "'You will be my witnesses in Jerusalem, and in all Judea and Samaria, and to the ends of the earth.' Jesus gives both a method and a geography. Beginning at home (Jerusalem), expanding to the uncomfortable near-neighbor (Samaria — the people Jews despised), and ultimately to the entire world. This pattern is not permission to skip the local — it is a mandate for simultaneous engagement at every level. Every major missions organization reflects one layer of this pattern, and together they pursue all of it." },
+  { ref: "Romans 15:20", color: "#F59E0B", title: "The Frontier Missionary Ambition", content: "'It has always been my ambition to preach the gospel where Christ was not known, so that I would not be building on someone else's foundation.' Paul articulates what we now call frontier missions — the deliberate prioritization of unreached peoples over reached ones. This is not contempt for evangelism at home, but the recognition that strategic urgency belongs to those with no access. The approximately 7,000 unreached people groups today — 3.2 billion people — represent the unfinished frontier Paul described." },
+  { ref: "Revelation 7:9-10", color: "#10B981", title: "The Vision: Missions Has a Finish Line", content: "'After this I looked, and there before me was a great multitude that no one could count, from every nation, tribe, people and language, standing before the throne and before the Lamb. They cried out in a loud voice: Salvation belongs to our God, who sits on the throne, and to the Lamb.' This is the destination of global missions — not the conversion of every individual but the representation of every people group before the throne. The missions task will be complete when a worshiping community exists from every nation, tribe, people, and language. John Piper's phrase: 'Missions exists because worship doesn't yet exist in all peoples.'" },
+];
+
+const GET_INVOLVED = [
+  { pathway: "Pray", icon: "🙏", color: GREEN, who: "Every believer", commitment: "Daily, starting now", desc: "The most accessible and most neglected form of missions involvement. Adopt an unreached people group through Joshua Project (joshuaproject.net) and pray for them weekly. The Caleb Project's 'Window International Network' provides prayer calendars for unreached peoples. World Prayer (globalprayernetwork.org) organizes strategic intercession. William Carey called prayer 'the great business of missions.' Every global missionary depends on intercessors more than finances." },
+  { pathway: "Give", icon: "💰", color: PURPLE, who: "Employed believers", commitment: "Monthly financial support", desc: "Supporting missions financially is a direct participation in missions: 'How can they preach unless they are sent?' (Romans 10:15). Most career missionaries need full financial support from churches and individuals. Research specific missionaries with organizations you trust. Set up recurring monthly giving at a level you can sustain. Give Mission Aid, Gospel For Asia, and each organization above have clear pathways. Increase your missions giving as God prospers you." },
+  { pathway: "Go Short-Term", icon: "✈️", color: "#3B82F6", who: "Ages 18+", commitment: "1-3 weeks to 2 years", desc: "Short-term missions trips (STM) range from one-week service projects to two-year apprenticeships. IMB has journeyman programs for recent graduates; OM has one-year teams; most organizations have opportunities ranging from medical trips to church construction. The purpose of STM should be primarily for the goer's formation — experiencing the world church, gaining burden for unreached peoples, discerning long-term calling — rather than accomplishing specific projects that could be done better by locals. Go with humility." },
+  { pathway: "Go Long-Term", icon: "🏠", color: "#EF4444", who: "Called and qualified", commitment: "Life commitment or multiple years", desc: "The most strategic need in global missions is long-term, language-learning, culture-embedded missionaries who commit to a people group for decades. The 10/40 Window (the band between 10 and 40 degrees north latitude, encompassing most of the world's unreached peoples) contains billions who will never hear the gospel unless someone intentionally goes. Career missionary pathways exist through all the organizations listed — typically requiring theological education, church support, and partnership with a sending organization. The harvest is plentiful; the workers are few." },
+  { pathway: "Mobilize", icon: "📢", color: "#F59E0B", who: "Church leaders and members", commitment: "Ongoing", desc: "Mobilization means bringing missions vision to your church, small group, campus ministry, and friend network. Present the unreached peoples statistics at your church. Lead a series on global missions. Host a missionary on home assignment. Organize a Perspectives course (perspectives.org) — the most effective academic survey of global missions available. Give others an opportunity to hear and respond. Not everyone will go, but everyone should have a genuine opportunity to consider it." },
+  { pathway: "Send", icon: "🚀", color: "#10B981", who: "Churches and well-resourced individuals", commitment: "Active ongoing partnership", desc: "Sending is more than writing a check. A sending church provides financial support, prayer coverage, pastoral accountability, and a community for missionaries on home assignment. Churches that take their role as senders seriously — shepherding, praying for, and staying connected with their missionaries — produce better missionaries and better long-term ministry. Read Patrick Lai's 'Tentmaking' or 'Sending Well' (Barnett and Martin) for the theology of sending and practical guidance." },
+];
+
 const ORGS = [
   {
     name: "Wycliffe Bible Translators",
@@ -136,7 +156,7 @@ const ORGS = [
 ];
 
 export default function GlobalMissionsOrgsPage() {
-  const [tab, setTab] = useState<"orgs" | "videos">("orgs");
+  const [tab, setTab] = useState<Tab>("orgs");
   const [category, setCategory] = useState("All");
   const [selected, setSelected] = useState<string | null>(null);
 
@@ -155,17 +175,56 @@ export default function GlobalMissionsOrgsPage() {
           </p>
         </div>
 
-        <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
+        <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}`, flexWrap: "wrap" }}>
           {[
-            { id: "orgs" as const, label: "Organizations", icon: "🌍" },
-            { id: "videos" as const, label: "Videos", icon: "▶️" },
+            { id: "orgs" as Tab, label: "Organizations", icon: "🌍" },
+            { id: "biblical" as Tab, label: "Biblical Basis", icon: "📖" },
+            { id: "involved" as Tab, label: "Get Involved", icon: "🚀" },
+            { id: "videos" as Tab, label: "Videos", icon: "▶️" },
           ].map(t => (
             <button key={t.id} onClick={() => setTab(t.id)}
-              style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? GREEN : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+              style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? GREEN : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", minWidth: 80 }}>
               {t.icon} {t.label}
             </button>
           ))}
         </div>
+
+        {tab === "biblical" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, marginBottom: 4 }}>
+              <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 15, margin: 0 }}>Global missions is not a New Testament idea — it runs from the first page of Scripture to the last. These passages form the biblical spine of the missionary enterprise.</p>
+            </div>
+            {BIBLICAL_BASIS.map((b, i) => (
+              <div key={i} style={{ background: CARD, border: `1px solid ${b.color}25`, borderRadius: 12, padding: 22 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10, flexWrap: "wrap", gap: 8 }}>
+                  <div style={{ color: b.color, fontWeight: 800, fontSize: 16 }}>{b.title}</div>
+                  <span style={{ background: `${b.color}15`, color: b.color, padding: "3px 10px", borderRadius: 20, fontSize: 11, fontWeight: 700 }}>{b.ref}</span>
+                </div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{b.content}</p>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {tab === "involved" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, marginBottom: 4 }}>
+              <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 15, margin: 0 }}>Everyone has a role in global missions. You do not have to go to participate — but you must participate. These are the six pathways by which Christians join the mission.</p>
+            </div>
+            {GET_INVOLVED.map((g, i) => (
+              <div key={i} style={{ background: CARD, border: `1px solid ${g.color}25`, borderRadius: 12, padding: 22 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10, flexWrap: "wrap" }}>
+                  <span style={{ fontSize: 26 }}>{g.icon}</span>
+                  <div>
+                    <div style={{ color: g.color, fontWeight: 900, fontSize: 17 }}>{g.pathway}</div>
+                    <div style={{ color: MUTED, fontSize: 12 }}>{g.who} · {g.commitment}</div>
+                  </div>
+                </div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{g.desc}</p>
+              </div>
+            ))}
+          </div>
+        )}
 
         {tab === "videos" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>

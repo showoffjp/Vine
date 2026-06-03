@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
@@ -482,12 +483,12 @@ export default function PrayerListPage() {
               Tracking answered prayers builds your faith. Review this list often — it becomes your personal testimony.
             </p>
             <div className="flex items-center justify-center gap-4">
-              <a href="/prayer" className="flex items-center gap-1.5 text-xs font-semibold" style={{ color: "#3a7d56" }}>
+              <Link href="/prayer" className="flex items-center gap-1.5 text-xs font-semibold" style={{ color: "#3a7d56" }}>
                 Public Prayer Wall <ChevronRight size={11} />
-              </a>
-              <a href="/journal" className="flex items-center gap-1.5 text-xs font-semibold" style={{ color: "#6B4FBB" }}>
+              </Link>
+              <Link href="/journal" className="flex items-center gap-1.5 text-xs font-semibold" style={{ color: "#6B4FBB" }}>
                 Journal <ChevronRight size={11} />
-              </a>
+              </Link>
             </div>
           </div>
           </>}

@@ -241,18 +241,12 @@ export default function CreatorsPage() {
   const [followingFeatured, setFollowingFeatured] = useState(() => {
     try { return localStorage.getItem("vine_creators_featured") === "1"; } catch { return false; }
   });
-  const [followedCreators, setFollowedCreators] = useState<Set<string>>(() => {
-    try { const s = localStorage.getItem("vine_creators_followed"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
-  });
   const [search, setSearch] = useState("");
   const [applied, setApplied] = useState(false);
 
   useEffect(() => {
     try { if (followingFeatured) localStorage.setItem("vine_creators_featured", "1"); else localStorage.removeItem("vine_creators_featured"); } catch {}
   }, [followingFeatured]);
-  useEffect(() => {
-    try { localStorage.setItem("vine_creators_followed", JSON.stringify([...followedCreators])); } catch {}
-  }, [followedCreators]);
 
   const filteredCreators = creators.filter(c => {
     const matchFilter = activeFilter === "All" ||

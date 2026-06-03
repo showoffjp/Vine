@@ -14,6 +14,8 @@ import {
   ChevronDown,
   ArrowRight,
   X,
+  Bookmark,
+  Check,
 } from "lucide-react";
 
 /* ------------------------------------------------------------------ */
@@ -260,10 +262,10 @@ export default function EventsPage() {
   const [nearMe, setNearMe] = useState(false);
   const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
   const [visibleCount, setVisibleCount] = useState(6);
-  const [goingEvents, setGoingEvents] = useState<Set<number>>(() => {
+  const [goingEvents, setGoingEvents] = useState<Set<string>>(() => {
     try { const s = localStorage.getItem("vine_events_going"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
   });
-  const [savedEvents, setSavedEvents] = useState<Set<number>>(() => {
+  const [savedEvents, setSavedEvents] = useState<Set<string>>(() => {
     try { const s = localStorage.getItem("vine_events_saved"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
   });
 
@@ -274,8 +276,8 @@ export default function EventsPage() {
     try { localStorage.setItem("vine_events_saved", JSON.stringify([...savedEvents])); } catch {}
   }, [savedEvents]);
 
-  const toggleGoing = (id: number) => setGoingEvents(prev => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
-  const toggleSaved = (id: number) => setSavedEvents(prev => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
+  const toggleGoing = (id: string) => setGoingEvents(prev => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
+  const toggleSaved = (id: string) => setSavedEvents(prev => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
 
   const filtered = events.filter((e) => {
     const matchType = activeType === "All" || e.type === activeType;
@@ -574,7 +576,14 @@ export default function EventsPage() {
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
                 {visible.map((event) => (
-                  <EventCard key={event.title} event={event} />
+                  <EventCard
+                    key={event.title}
+                    event={event}
+                    going={goingEvents.has(event.id)}
+                    saved={savedEvents.has(event.id)}
+                    onToggleGoing={() => toggleGoing(event.id)}
+                    onToggleSaved={() => toggleSaved(event.id)}
+                  />
                 ))}
               </div>
             )}
@@ -618,8 +627,15 @@ export default function EventsPage() {
 /* Event Card                                                            */
 /* ------------------------------------------------------------------ */
 
-function EventCard({ event }: { event: EventItem }) {
+function EventCard({ event, going, saved, onToggleGoing, onToggleSaved }: {
+  event: EventItem;
+  going: boolean;
+  saved: boolean;
+  onToggleGoing: () => void;
+  onToggleSaved: () => void;
+}) {
   const Wrapper = event.id ? "a" : "div";
+  const stop = (e: React.MouseEvent, fn: () => void) => { e.preventDefault(); e.stopPropagation(); fn(); };
   return (
     <Wrapper
       {...(event.id ? { href: `/events/${event.id}`, style: { textDecoration: "none" } } : {})}
@@ -705,7 +721,27 @@ function EventCard({ event }: { event: EventItem }) {
             {event.price}
           </p>
         </div>
-        <EventRegisterButton cta={event.cta} price={event.price} eventTitle={event.title} />
+        <div className="flex items-center gap-2">
+          <button
+            onClick={(e) => stop(e, onToggleGoing)}
+            aria-label={going ? "Cancel RSVP" : "Mark as going"}
+            title={going ? "You're going" : "I'm going"}
+            className="flex items-center justify-center rounded-lg transition-all"
+            style={{ width: 34, height: 34, flexShrink: 0, background: going ? "rgba(58,125,86,0.15)" : "transparent", border: `1px solid ${going ? "rgba(58,125,86,0.4)" : "#1E1E32"}`, color: going ? "#3a7d56" : "#6A6A88", cursor: "pointer" }}
+          >
+            <Check size={15} />
+          </button>
+          <button
+            onClick={(e) => stop(e, onToggleSaved)}
+            aria-label={saved ? "Remove from saved" : "Save event"}
+            title={saved ? "Saved" : "Save event"}
+            className="flex items-center justify-center rounded-lg transition-all"
+            style={{ width: 34, height: 34, flexShrink: 0, background: saved ? "rgba(107,79,187,0.15)" : "transparent", border: `1px solid ${saved ? "rgba(107,79,187,0.4)" : "#1E1E32"}`, color: saved ? "#A080FF" : "#6A6A88", cursor: "pointer" }}
+          >
+            <Bookmark size={14} fill={saved ? "#A080FF" : "none"} />
+          </button>
+          <EventRegisterButton cta={event.cta} price={event.price} eventTitle={event.title} />
+        </div>
       </div>
     </Wrapper>
   );

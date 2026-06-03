@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import DailyDevotional from "@/components/DailyDevotional";
@@ -123,7 +124,7 @@ export default function DailyPage() {
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {moreDevotionals.map((d, i) => (
-                  <a
+                  <Link
                     key={i}
                     href="/daily"
                     className="block rounded-2xl p-4 transition-all duration-200 hover:bg-[#18182A] card-glow"
@@ -156,7 +157,7 @@ export default function DailyPage() {
                         {d.readTime}
                       </div>
                     </div>
-                  </a>
+                  </Link>
                 ))}
               </div>
             </div>

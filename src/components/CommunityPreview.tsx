@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { ArrowUp, MessageSquare, Bookmark, Share2, ChevronRight, Users, Check } from "lucide-react";
 
 const DISCUSSIONS = [
@@ -176,7 +177,7 @@ export default function CommunityPreview() {
           {/* Left: Discussion Feed */}
           <div style={{ display: "flex", flexDirection: "column", gap: "0.8rem" }}>
             {DISCUSSIONS.map((post, i) => (
-              <a
+              <Link
                 key={i}
                 href="/discussions"
                 style={{
@@ -355,10 +356,10 @@ export default function CommunityPreview() {
                     {sharedIndex === i ? "Copied!" : "Share"}
                   </button>
                 </div>
-              </a>
+              </Link>
             ))}
 
-            <a
+            <Link
               href="/discussions"
               style={{
                 display: "block",
@@ -383,7 +384,7 @@ export default function CommunityPreview() {
               }}
             >
               View All Discussions
-            </a>
+            </Link>
           </div>
 
           {/* Right: Sidebar */}
@@ -568,7 +569,7 @@ export default function CommunityPreview() {
                 Create your free account to post, vote, and connect with
                 thousands of Christians worldwide.
               </p>
-              <a
+              <Link
                 href="/feed"
                 style={{
                   display: "block",
@@ -592,7 +593,7 @@ export default function CommunityPreview() {
                 }}
               >
                 Join Free
-              </a>
+              </Link>
             </div>
           </div>
         </div>

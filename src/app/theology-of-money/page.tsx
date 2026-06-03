@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
@@ -649,12 +650,12 @@ export default function TheologyOfMoneyPage() {
             A theology of money without practice is just information. Consider what one concrete change you can make this month — in giving, in simplicity, or in generosity.
           </p>
           <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-            <a href="/stewardship" style={{ padding: "10px 24px", borderRadius: 10, background: `linear-gradient(135deg, ${PURPLE}, ${GREEN})`, color: BG, fontWeight: 800, fontSize: 13, textDecoration: "none" }}>
+            <Link href="/stewardship" style={{ padding: "10px 24px", borderRadius: 10, background: `linear-gradient(135deg, ${PURPLE}, ${GREEN})`, color: BG, fontWeight: 800, fontSize: 13, textDecoration: "none" }}>
               Stewardship Resources
-            </a>
-            <a href="/discussions" style={{ padding: "10px 24px", borderRadius: 10, border: `1px solid ${BORDER}`, color: MUTED, fontWeight: 700, fontSize: 13, textDecoration: "none" }}>
+            </Link>
+            <Link href="/discussions" style={{ padding: "10px 24px", borderRadius: 10, border: `1px solid ${BORDER}`, color: MUTED, fontWeight: 700, fontSize: 13, textDecoration: "none" }}>
               Discuss with Others
-            </a>
+            </Link>
           </div>
         </div>
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 
 type LinkEntry = { label: string; href: string };
 
@@ -97,7 +98,7 @@ function FooterLink({ label, href }: LinkEntry) {
   const [hovered, setHovered] = useState(false);
   return (
     <li>
-      <a
+      <Link
         href={href}
         style={{
           color: hovered ? "#f2e6c8" : "#7a7060",
@@ -126,7 +127,7 @@ function FooterLink({ label, href }: LinkEntry) {
           }}
         />
         {label}
-      </a>
+      </Link>
     </li>
   );
 }
@@ -379,7 +380,7 @@ export default function Footer() {
         >
           {/* Brand column */}
           <div>
-            <a
+            <Link
               href="/"
               style={{
                 display: "flex",
@@ -414,7 +415,7 @@ export default function Footer() {
               >
                 The<span style={{ color: "#c9a227" }}> Vine</span>
               </span>
-            </a>
+            </Link>
 
             <p
               style={{

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { MapPin, Users, Calendar, Globe, ArrowRight, Check } from "lucide-react";
 
 type FilterKey = "All" | "Online" | "In-Person" | "Conferences" | "Retreats";
@@ -168,7 +169,7 @@ export default function EventsSection() {
               <em style={{ fontStyle: "italic", color: "#e8c162" }}> Worldwide.</em>
             </h2>
           </div>
-          <a
+          <Link
             href="/events"
             style={{
               display: "flex",
@@ -184,7 +185,7 @@ export default function EventsSection() {
             }}
           >
             View All Events <ArrowRight size={14} />
-          </a>
+          </Link>
         </div>
 
         {/* Filter row */}

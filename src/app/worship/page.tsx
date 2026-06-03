@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
@@ -542,9 +543,9 @@ export default function WorshipPage() {
                   <h2 style={{ fontSize: "24px", fontWeight: 800, color: "#F2F2F8" }}>
                     Now Trending in Worship
                   </h2>
-                  <a href="/christian-worship-songs" style={{ display: "flex", alignItems: "center", gap: "6px", color: "#3a7d56", fontSize: "14px", fontWeight: 600, background: "none", border: "none", cursor: "pointer", textDecoration: "none" }}>
+                  <Link href="/christian-worship-songs" style={{ display: "flex", alignItems: "center", gap: "6px", color: "#3a7d56", fontSize: "14px", fontWeight: 600, background: "none", border: "none", cursor: "pointer", textDecoration: "none" }}>
                     See all <ChevronRight size={16} />
-                  </a>
+                  </Link>
                 </div>
                 <div
                   style={{
@@ -1048,7 +1049,7 @@ export default function WorshipPage() {
                       >
                         <Upload size={16} /> Submit Music
                       </button>
-                      <a
+                      <Link
                         href="/about"
                         style={{
                           display: "flex",
@@ -1066,7 +1067,7 @@ export default function WorshipPage() {
                         }}
                       >
                         <Heart size={16} /> Creator Guidelines
-                      </a>
+                      </Link>
                     </div>
                   )}
                 </div>

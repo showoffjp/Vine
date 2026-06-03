@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -507,12 +508,12 @@ export default function HabitsPage() {
             </p>
             <p className="text-xs font-bold mb-4" style={{ color: "#4A4A68" }}>— 1 Timothy 4:7-8</p>
             <div className="flex items-center justify-center gap-4">
-              <a href="/challenges" className="flex items-center gap-1 text-xs font-semibold" style={{ color: "#3a7d56" }}>
+              <Link href="/challenges" className="flex items-center gap-1 text-xs font-semibold" style={{ color: "#3a7d56" }}>
                 Challenges <ChevronRight size={11} />
-              </a>
-              <a href="/goals" className="flex items-center gap-1 text-xs font-semibold" style={{ color: "#6B4FBB" }}>
+              </Link>
+              <Link href="/goals" className="flex items-center gap-1 text-xs font-semibold" style={{ color: "#6B4FBB" }}>
                 Faith Goals <ChevronRight size={11} />
-              </a>
+              </Link>
             </div>
           </div>
           </>}

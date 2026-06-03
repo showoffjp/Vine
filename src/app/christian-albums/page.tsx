@@ -286,11 +286,9 @@ export default function ChristianAlbumsPage() {
   const [activeTab, setActiveTab] = useState<Tab>("albums");
   const [genre, setGenre] = useState("All");
   const [selected, setSelected] = useState<string | null>(null);
-  const [selectedArtist, setSelectedArtist] = useState<number | null>(null);
 
   const filtered = ALBUMS.filter(a => genre === "All" || a.genre === genre);
   const album = ALBUMS.find(a => a.title === selected);
-  const artist = WORSHIP_ARTISTS.find(a => a.id === selectedArtist);
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>

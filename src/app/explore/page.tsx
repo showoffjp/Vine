@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
@@ -204,6 +206,7 @@ const allSearchable = [
 ];
 
 export default function ExplorePage() {
+  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
   const [followed, setFollowed] = useState<Record<string, boolean>>(() => {
     try { const s = localStorage.getItem("vine_explore_following"); return s ? JSON.parse(s) : {}; } catch { return {}; }
@@ -306,7 +309,7 @@ export default function ExplorePage() {
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {searchResults.map((item, i) => (
-                  <a
+                  <Link
                     key={i}
                     href={item.link}
                     className="block rounded-2xl p-4 transition-all hover:bg-[#18182A]"
@@ -320,7 +323,7 @@ export default function ExplorePage() {
                     </span>
                     <h3 className="font-bold text-sm leading-snug mb-1" style={{ color: "#F2F2F8" }}>{item.title}</h3>
                     <p className="text-xs" style={{ color: "#6A6A88" }}>{item.desc}</p>
-                  </a>
+                  </Link>
                 ))}
               </div>
             )}
@@ -336,13 +339,13 @@ export default function ExplorePage() {
                 <Flame size={16} style={{ color: "#3a7d56" }} />
                 <h2 className="text-lg font-black" style={{ color: "#F2F2F8" }}>Trending Topics</h2>
               </div>
-              <button onClick={() => { window.location.href = "/topics"; }} className="flex items-center gap-1 text-xs font-semibold transition-colors hover:text-[#52a876]" style={{ color: "#3a7d56" }}>
+              <button onClick={() => router.push("/topics")} className="flex items-center gap-1 text-xs font-semibold transition-colors hover:text-[#52a876]" style={{ color: "#3a7d56" }}>
                 See all <ChevronRight size={13} />
               </button>
             </div>
             <div className="flex gap-4 overflow-x-auto scrollbar-hide pb-2">
               {trendingTopics.map((topic) => (
-                <a
+                <Link
                   key={topic.name}
                   href={topic.href}
                   className="flex-shrink-0 w-44 block rounded-2xl p-4 cursor-pointer transition-all duration-200 hover:scale-105"
@@ -359,7 +362,7 @@ export default function ExplorePage() {
                   <p className="text-xs" style={{ color: "rgba(242,242,248,0.6)" }}>
                     {topic.posts}
                   </p>
-                </a>
+                </Link>
               ))}
             </div>
           </section>
@@ -377,13 +380,13 @@ export default function ExplorePage() {
                   Personalized
                 </span>
               </div>
-              <button onClick={() => { window.location.href = "/feed"; }} className="flex items-center gap-1 text-xs font-semibold" style={{ color: "#3a7d56" }}>
+              <button onClick={() => router.push("/feed")} className="flex items-center gap-1 text-xs font-semibold" style={{ color: "#3a7d56" }}>
                 See all <ChevronRight size={13} />
               </button>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {forYouContent.map((item, i) => (
-                <a
+                <Link
                   key={i}
                   href={item.link}
                   className="block rounded-2xl p-4 cursor-pointer transition-all duration-200 hover:bg-[#18182A] group"
@@ -415,7 +418,7 @@ export default function ExplorePage() {
                       </p>
                     </div>
                   </div>
-                </a>
+                </Link>
               ))}
             </div>
           </section>
@@ -427,13 +430,13 @@ export default function ExplorePage() {
                 <TrendingUp size={16} style={{ color: "#3a7d56" }} />
                 <h2 className="text-lg font-black" style={{ color: "#F2F2F8" }}>Popular This Week</h2>
               </div>
-              <a href="/discussions" className="flex items-center gap-1 text-xs font-semibold" style={{ color: "#3a7d56" }}>
+              <Link href="/discussions" className="flex items-center gap-1 text-xs font-semibold" style={{ color: "#3a7d56" }}>
                 See all <ChevronRight size={13} />
-              </a>
+              </Link>
             </div>
             <div className="space-y-3">
               {popularPosts.map((post) => (
-                <a
+                <Link
                   key={post.rank}
                   href="/discussions"
                   className="flex items-center gap-5 p-4 rounded-2xl cursor-pointer transition-all duration-200 hover:bg-[#18182A] group"
@@ -469,7 +472,7 @@ export default function ExplorePage() {
                       </div>
                     </div>
                   </div>
-                </a>
+                </Link>
               ))}
             </div>
           </section>
@@ -481,13 +484,13 @@ export default function ExplorePage() {
                 <Users size={16} style={{ color: "#3a7d56" }} />
                 <h2 className="text-lg font-black" style={{ color: "#F2F2F8" }}>Discover Creators</h2>
               </div>
-              <a href="/creators" className="flex items-center gap-1 text-xs font-semibold" style={{ color: "#3a7d56" }}>
+              <Link href="/creators" className="flex items-center gap-1 text-xs font-semibold" style={{ color: "#3a7d56" }}>
                 See all <ChevronRight size={13} />
-              </a>
+              </Link>
             </div>
             <div className="flex gap-4 overflow-x-auto scrollbar-hide pb-2">
               {creators.map((creator) => (
-                <a
+                <Link
                   key={creator.name}
                   href="/creators"
                   className="flex-shrink-0 w-48 block rounded-2xl p-5 text-center cursor-pointer transition-all duration-200 hover:bg-[#18182A]"
@@ -526,7 +529,7 @@ export default function ExplorePage() {
                   >
                     {followed[creator.handle] ? "✓ Following" : "Follow"}
                   </button>
-                </a>
+                </Link>
               ))}
             </div>
           </section>
@@ -545,7 +548,7 @@ export default function ExplorePage() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {newToVine.map((item, i) => (
-                <a
+                <Link
                   key={i}
                   href={item.link}
                   className="block rounded-2xl p-5 cursor-pointer transition-all duration-200 hover:bg-[#18182A] group"
@@ -569,7 +572,7 @@ export default function ExplorePage() {
                   <div className="flex items-center gap-1 mt-3 text-xs font-semibold" style={{ color: item.color }}>
                     Get started <ChevronRight size={13} />
                   </div>
-                </a>
+                </Link>
               ))}
             </div>
           </section>
@@ -584,7 +587,7 @@ export default function ExplorePage() {
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
               {categories.map((cat) => (
-                <a
+                <Link
                   key={cat.name}
                   href={cat.link}
                   className="block rounded-2xl p-5 cursor-pointer transition-all duration-300 hover:scale-105 group"
@@ -606,7 +609,7 @@ export default function ExplorePage() {
                   <p className="text-xs" style={{ color: "rgba(242,242,248,0.5)" }}>
                     {cat.posts} {cat.posts === "Live" ? "" : "posts"}
                   </p>
-                </a>
+                </Link>
               ))}
             </div>
           </section>

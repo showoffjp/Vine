@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -604,9 +605,9 @@ export default function EvangelismPage() {
                   <p style={{ fontSize: 14, color: MUTED, maxWidth: 400, margin: "0 auto 16px", lineHeight: 1.7 }}>
                     The most powerful preparation for sharing your faith is praying for the specific people in your life. Write their names in your prayer journal and ask God to open doors.
                   </p>
-                  <a href="/prayer-journal" style={{ display: "inline-block", padding: "12px 24px", borderRadius: 12, background: `linear-gradient(135deg, ${PURPLE}, ${GREEN})`, color: BG, fontWeight: 800, fontSize: 13, textDecoration: "none" }}>
+                  <Link href="/prayer-journal" style={{ display: "inline-block", padding: "12px 24px", borderRadius: 12, background: `linear-gradient(135deg, ${PURPLE}, ${GREEN})`, color: BG, fontWeight: 800, fontSize: 13, textDecoration: "none" }}>
                     Open Prayer Journal →
-                  </a>
+                  </Link>
                 </div>
               </div>
             )}

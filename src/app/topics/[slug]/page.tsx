@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import TopicFollowButton from "@/components/TopicFollowButton";
@@ -709,10 +710,10 @@ export default async function TopicPage({ params }: { params: Promise<{ slug: st
         <div className="page-body pb-20 text-center max-w-2xl mx-auto px-4">
           <p className="text-6xl mb-6">🔍</p>
           <h1 className="text-3xl font-black mb-4">Topic not found</h1>
-          <a href="/topics" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-black"
+          <Link href="/topics" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-black"
             style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}>
             Browse All Topics
-          </a>
+          </Link>
         </div>
         <Footer />
       </div>
@@ -734,9 +735,9 @@ export default async function TopicPage({ params }: { params: Promise<{ slug: st
           }}
         >
           <div className="max-w-4xl mx-auto">
-            <a href="/topics" className="inline-flex items-center gap-2 text-sm mb-6 hover:text-[#3a7d56] transition-colors" style={{ color: "#6A6A88" }}>
+            <Link href="/topics" className="inline-flex items-center gap-2 text-sm mb-6 hover:text-[#3a7d56] transition-colors" style={{ color: "#6A6A88" }}>
               <ArrowLeft size={14} /> All Topics
-            </a>
+            </Link>
             <div className="flex items-start justify-between gap-6">
               <div>
                 <div className="flex items-center gap-3 mb-3">
@@ -811,13 +812,13 @@ export default async function TopicPage({ params }: { params: Promise<{ slug: st
                 ))}
               </div>
 
-              <a
+              <Link
                 href="/discussions"
                 className="mt-6 w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-semibold transition-all hover:border-[rgba(58,125,86,0.3)] hover:text-[#3a7d56]"
                 style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", color: "#6A6A88" }}
               >
                 View all {topic.posts} discussions <ArrowLeft size={14} className="rotate-180" />
-              </a>
+              </Link>
             </div>
 
             {/* Sidebar */}
@@ -892,13 +893,13 @@ export default async function TopicPage({ params }: { params: Promise<{ slug: st
                 <Users size={24} className="mx-auto mb-2" style={{ color: topic.color }} />
                 <p className="font-bold text-sm mb-1" style={{ color: "#F2F2F8" }}>Join the conversation</p>
                 <p className="text-xs mb-3" style={{ color: "#6A6A88" }}>24.8k people follow this topic</p>
-                <a
+                <Link
                   href="/discussions"
                   className="block w-full py-2 rounded-xl font-bold text-sm text-black"
                   style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}
                 >
                   Post a Discussion
-                </a>
+                </Link>
               </div>
             </aside>
           </div>

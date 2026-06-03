@@ -141,9 +141,9 @@ const devotionals: CouplesDevotional[] = [
 ];
 
 const plans = [
-  { id: "7day", label: "7-Day Foundation Series", description: "Core themes: Unity, Service, Conflict, Prayer, Forgiveness, Parenting, Vision" },
-  { id: "romance", label: "30-Day Romance Renewal", description: "Coming soon — daily devotionals focused on rekindling joy and connection" },
-  { id: "crisis", label: "When Marriage Is Hard", description: "Coming soon — for couples in a difficult season" },
+  { id: "7day", label: "7-Day Foundation Series", description: "Core themes: Unity, Service, Conflict, Prayer, Forgiveness, Parenting, Vision", available: true },
+  { id: "romance", label: "30-Day Romance Renewal", description: "Daily devotionals focused on rekindling joy and connection", available: false },
+  { id: "crisis", label: "When Marriage Is Hard", description: "For couples in a difficult season", available: false },
 ];
 
 const VOICES_CD = [
@@ -383,6 +383,13 @@ export default function CouplesDevotionalPage() {
   const progressPct = Math.round((completedCount / totalDays) * 100);
 
   const nextDay = devotionals.find((d) => !progress.completedDays.includes(d.day));
+  const currentPlanObj = plans.find((p) => p.id === progress.currentPlan) ?? plans[0];
+
+  const handleSelectPlan = (id: string) => {
+    const next = { ...progress, currentPlan: id };
+    setProgress(next);
+    saveProgress(next);
+  };
 
   return (
     <div style={{ minHeight: "100vh", background: "#07070F", color: "#F2F2F8" }}>
@@ -435,10 +442,46 @@ export default function CouplesDevotionalPage() {
       </div>
 
       {mainTab === "devotionals" && <div style={{ maxWidth: 900, margin: "0 auto", padding: "28px 24px" }}>
+        {/* Plan selector */}
+        <div style={{ marginBottom: 24 }}>
+          <div style={{ fontSize: 11, color: "#9898B3", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 10 }}>
+            Choose a Plan
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 12 }}>
+            {plans.map((pl) => {
+              const active = progress.currentPlan === pl.id;
+              return (
+                <button key={pl.id}
+                  disabled={!pl.available}
+                  onClick={() => pl.available && handleSelectPlan(pl.id)}
+                  style={{
+                    textAlign: "left",
+                    background: active ? "#6B4FBB18" : "#12121F",
+                    border: `1px solid ${active ? "#6B4FBB" : "#1E1E32"}`,
+                    borderRadius: 14, padding: 16,
+                    cursor: pl.available ? "pointer" : "default",
+                    opacity: pl.available ? 1 : 0.55,
+                    transition: "all 0.2s",
+                  }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8, marginBottom: 6 }}>
+                    <span style={{ fontSize: 14, fontWeight: 700, color: active ? "#fff" : "#F2F2F8" }}>{pl.label}</span>
+                    {active ? (
+                      <span style={{ fontSize: 10, fontWeight: 700, color: "#6B4FBB", background: "#6B4FBB22", padding: "2px 8px", borderRadius: 8, flexShrink: 0 }}>ACTIVE</span>
+                    ) : !pl.available ? (
+                      <span style={{ fontSize: 10, fontWeight: 700, color: "#9898B3", background: "#1E1E32", padding: "2px 8px", borderRadius: 8, flexShrink: 0 }}>SOON</span>
+                    ) : null}
+                  </div>
+                  <div style={{ fontSize: 12, color: "#9898B3", lineHeight: 1.5 }}>{pl.description}</div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
         {/* Progress bar */}
         <div style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 14, padding: 20, marginBottom: 24 }}>
           <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 10 }}>
-            <div style={{ fontSize: 14, fontWeight: 600, color: "#F2F2F8" }}>7-Day Foundation Series</div>
+            <div style={{ fontSize: 14, fontWeight: 600, color: "#F2F2F8" }}>{currentPlanObj.label}</div>
             <div style={{ fontSize: 13, color: "#9898B3" }}>{completedCount}/{totalDays} days</div>
           </div>
           <div style={{ height: 8, background: "#1E1E32", borderRadius: 4, marginBottom: 10 }}>

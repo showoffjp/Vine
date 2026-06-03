@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -387,9 +388,9 @@ export default function MissionsPage() {
                     <span className="text-3xl mb-3 block">{w.icon}</span>
                     <h3 className="font-black text-xl mb-2" style={{ color: TEXT }}>{w.title}</h3>
                     <p className="text-sm mb-4 leading-relaxed" style={{ color: "#6A6A88" }}>{w.description}</p>
-                    <a href={w.href} className="flex items-center gap-1 text-sm font-bold" style={{ color: w.color }}>
+                    <Link href={w.href} className="flex items-center gap-1 text-sm font-bold" style={{ color: w.color }}>
                       {w.action} <ChevronRight size={14} />
-                    </a>
+                    </Link>
                   </div>
                 ))}
               </div>
@@ -497,12 +498,12 @@ export default function MissionsPage() {
                 </p>
                 <p className="font-bold mb-8" style={{ color: GREEN }}>— Matthew 28:19</p>
                 <div className="flex flex-wrap gap-4 justify-center">
-                  <a href="/prayer" className="inline-flex items-center gap-2 px-8 py-3 rounded-xl font-bold text-black" style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}>
+                  <Link href="/prayer" className="inline-flex items-center gap-2 px-8 py-3 rounded-xl font-bold text-black" style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}>
                     🙏 Pray for the Nations
-                  </a>
-                  <a href="/global-connect" className="inline-flex items-center gap-2 px-8 py-3 rounded-xl font-semibold" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)", color: "#C0C0D8" }}>
+                  </Link>
+                  <Link href="/global-connect" className="inline-flex items-center gap-2 px-8 py-3 rounded-xl font-semibold" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)", color: "#C0C0D8" }}>
                     Connect with Missionaries
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>

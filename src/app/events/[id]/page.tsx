@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import EventDetailActions from "@/components/EventDetailActions";
@@ -663,7 +664,7 @@ export default async function EventDetailPage({
           <div className="text-center">
             <p className="text-5xl font-black mb-4" style={{ color: "#1E1E32" }}>404</p>
             <p className="text-lg font-bold mb-6" style={{ color: "#F2F2F8" }}>Event Not Found</p>
-            <a href="/events" className="text-sm font-semibold" style={{ color: "#3a7d56" }}>← Back to Events</a>
+            <Link href="/events" className="text-sm font-semibold" style={{ color: "#3a7d56" }}>← Back to Events</Link>
           </div>
         </main>
         <Footer />
@@ -688,13 +689,13 @@ export default async function EventDetailPage({
             }}
           />
           <div className="relative max-w-4xl mx-auto">
-            <a
+            <Link
               href="/events"
               className="inline-flex items-center gap-2 text-sm font-semibold mb-8"
               style={{ color: event.accentColor, textDecoration: "none" }}
             >
               <ArrowLeft size={16} /> Back to Events
-            </a>
+            </Link>
 
             <div className="flex flex-wrap gap-2 mb-4">
               <span
@@ -950,9 +951,9 @@ export default async function EventDetailPage({
               <div className="rounded-2xl p-5" style={{ background: "#12121F", border: "1px solid #1E1E32" }}>
                 <h3 className="text-sm font-bold mb-3" style={{ color: "#F2F2F8" }}>Organizer</h3>
                 <p className="text-sm font-semibold" style={{ color: "#A0A0C0" }}>{event.organizer}</p>
-                <a href="/events" className="text-xs mt-2 block" style={{ color: event.accentColor, textDecoration: "none" }}>
+                <Link href="/events" className="text-xs mt-2 block" style={{ color: event.accentColor, textDecoration: "none" }}>
                   View all events →
-                </a>
+                </Link>
               </div>
             </div>
           </div>

@@ -300,6 +300,23 @@ export default function SimplicityPage() {
                 <span style={{ color: GREEN, fontWeight: 700 }}>{Array.from(checkedPractices).filter(k => k.startsWith("detox-")).length} / 30</span>
               </div>
             </div>
+
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24 }}>
+              <h3 style={{ color: GREEN, fontWeight: 900, fontSize: 20, marginBottom: 8 }}>Reflection Journal</h3>
+              <p style={{ color: MUTED, lineHeight: 1.7, fontSize: 14, marginBottom: 14 }}>
+                As you work through the challenge, note what you&rsquo;re noticing — what felt freeing, what was hard to give up, where you sensed God. Your reflections save automatically on this device.
+              </p>
+              <textarea
+                value={detoxText}
+                onChange={(e) => setDetoxText(e.target.value)}
+                placeholder="What is this season of simplicity teaching you?"
+                rows={6}
+                style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "12px 14px", color: TEXT, fontSize: 14, lineHeight: 1.7, outline: "none", resize: "vertical", boxSizing: "border-box", fontFamily: "inherit" }}
+              />
+              <div style={{ textAlign: "right", marginTop: 8 }}>
+                <span style={{ color: MUTED, fontSize: 12 }}>{detoxText.trim() ? `${detoxText.trim().split(/\s+/).length} words · saved` : "Saved automatically"}</span>
+              </div>
+            </div>
           </div>
         )}
 

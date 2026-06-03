@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ReplyBox from "@/components/ReplyBox";
@@ -1531,10 +1532,10 @@ export default async function DiscussionPage({ params }: { params: Promise<{ id:
         <div className="page-body pb-20 text-center max-w-2xl mx-auto px-4">
           <p className="text-6xl mb-6">💬</p>
           <h1 className="text-3xl font-black mb-4">Thread not found</h1>
-          <a href="/discussions" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-black"
+          <Link href="/discussions" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-black"
             style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}>
             Back to Discussions
-          </a>
+          </Link>
         </div>
         <Footer />
       </div>
@@ -1549,15 +1550,15 @@ export default async function DiscussionPage({ params }: { params: Promise<{ id:
       <div className="page-body pb-20">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Back */}
-          <a href="/discussions" className="inline-flex items-center gap-2 text-sm mb-6 hover:text-[#3a7d56] transition-colors" style={{ color: "#6A6A88" }}>
+          <Link href="/discussions" className="inline-flex items-center gap-2 text-sm mb-6 hover:text-[#3a7d56] transition-colors" style={{ color: "#6A6A88" }}>
             <ArrowLeft size={14} /> Discussions
-          </a>
+          </Link>
 
           {/* Hub pill */}
-          <a href="/discussions" className="inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-full mb-5"
+          <Link href="/discussions" className="inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-full mb-5"
             style={{ background: `${thread.hubColor}15`, color: thread.hubColor, border: `1px solid ${thread.hubColor}25` }}>
             <MessageSquare size={10} /> {thread.hub}
-          </a>
+          </Link>
 
           {/* Thread Title */}
           <h1 className="text-2xl sm:text-3xl font-black mb-4 leading-tight" style={{ color: "#F2F2F8" }}>{thread.title}</h1>

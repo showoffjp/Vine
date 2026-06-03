@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -291,14 +292,14 @@ export default function ProfilePage() {
                   {shared ? <CheckCircle size={14} /> : <Share2 size={14} />}
                 </button>
               </div>
-              <a
+              <Link
                 href="/dashboard"
                 className="w-full py-2 rounded-xl text-sm font-bold flex items-center justify-center gap-2"
                 style={{ background: "rgba(107,79,187,0.12)", color: "#9B7FEB", border: "1px solid rgba(107,79,187,0.25)", textDecoration: "none" }}
               >
                 <TrendingUp size={13} />
                 My Progress Dashboard
-              </a>
+              </Link>
             </div>
 
             {/* Badges */}

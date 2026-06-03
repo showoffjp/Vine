@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { Bell, BookOpen, Users, Zap, Download, Smartphone } from "lucide-react";
 
 const FEATURES = [
@@ -16,6 +17,7 @@ const SCREENS = [
 ];
 
 export default function AppDownload() {
+  const [notified, setNotified] = useState(false);
   return (
     <section
       style={{
@@ -113,6 +115,8 @@ export default function AppDownload() {
               ].map((s) => (
                 <button
                   key={s.store}
+                  onClick={() => setNotified(true)}
+                  aria-label={`Notify me when the Vine app launches on ${s.store}`}
                   style={{
                     display: "flex",
                     alignItems: "center",
@@ -158,6 +162,36 @@ export default function AppDownload() {
                   </div>
                 </button>
               ))}
+            </div>
+
+            {/* Coming-soon confirmation */}
+            <div
+              aria-live="polite"
+              style={{
+                overflow: "hidden",
+                maxHeight: notified ? 60 : 0,
+                opacity: notified ? 1 : 0,
+                transition: "max-height 0.3s ease, opacity 0.3s ease, margin 0.3s ease",
+                marginBottom: notified ? "1.25rem" : 0,
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 8,
+                  padding: "0.7rem 1rem",
+                  borderRadius: 2,
+                  background: "rgba(201,162,39,0.08)",
+                  border: "0.5px solid rgba(201,162,39,0.3)",
+                  fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                  fontSize: "0.82rem",
+                  color: "#f2e6c8",
+                }}
+              >
+                <Bell size={14} style={{ color: "#c9a227", flexShrink: 0 }} />
+                The Vine app is launching soon — we&apos;ll let you know the moment it&apos;s live.
+              </div>
             </div>
 
             {/* Rating */}

@@ -641,6 +641,9 @@ export default function Navbar() {
                   onMouseLeave={scheduleClose}
                 >
                   <button
+                    onClick={() => setActiveDropdown(activeDropdown === link.label ? null : link.label)}
+                    aria-expanded={activeDropdown === link.label}
+                    aria-haspopup="true"
                     className="flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-medium transition-all"
                     style={{
                       color: activeDropdown === link.label ? "#3a7d56" : "#9090B0",

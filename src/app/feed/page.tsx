@@ -276,6 +276,24 @@ export default function FeedPage() {
   const [postShared, setPostShared] = useState(false);
   const [feedSort, setFeedSort] = useState("Latest");
   const [userName, setUserName] = useState("Friend");
+  const [openMenu, setOpenMenu] = useState<number | null>(null);
+  const [hiddenPosts, setHiddenPosts] = useState<Set<number>>(new Set());
+  const [postNotice, setPostNotice] = useState<{ id: number; text: string } | null>(null);
+
+  const handlePostMenu = (id: number, action: "copy" | "hide" | "report") => {
+    setOpenMenu(null);
+    if (action === "copy") {
+      const url = `${typeof window !== "undefined" ? window.location.origin : ""}/feed#post-${id}`;
+      try { navigator.clipboard?.writeText(url); } catch {}
+      setPostNotice({ id, text: "Link copied to clipboard" });
+      setTimeout(() => setPostNotice((n) => (n?.id === id ? null : n)), 2200);
+    } else if (action === "hide") {
+      setHiddenPosts((prev) => new Set(prev).add(id));
+    } else {
+      setPostNotice({ id, text: "Thanks — our team will review this post" });
+      setTimeout(() => setPostNotice((n) => (n?.id === id ? null : n)), 2600);
+    }
+  };
 
   useEffect(() => {
     try {
@@ -469,12 +487,14 @@ export default function FeedPage() {
               {/* Posts */}
               {[...posts]
                 .filter((p) => feedSort !== "Prayers" || p.type === "prayer")
+                .filter((p) => !hiddenPosts.has(p.id))
                 .sort((a, b) => feedSort === "Popular" ? b.likes - a.likes : 0)
                 .map((post) => (
                 <div
                   key={post.id}
+                  id={`post-${post.id}`}
                   className="rounded-2xl p-5"
-                  style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
+                  style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", scrollMarginTop: 90 }}
                 >
                   {/* Header */}
                   <div className="flex items-start justify-between mb-4">
@@ -501,11 +521,53 @@ export default function FeedPage() {
                           ❓ Question
                         </span>
                       )}
-                      <button style={{ color: "#4A4A68" }}>
-                        <MoreHorizontal size={16} />
-                      </button>
+                      <div style={{ position: "relative" }}>
+                        <button
+                          onClick={() => setOpenMenu(openMenu === post.id ? null : post.id)}
+                          aria-label="Post options"
+                          aria-expanded={openMenu === post.id}
+                          style={{ color: openMenu === post.id ? "#8A8AA8" : "#4A4A68", cursor: "pointer", display: "flex" }}
+                        >
+                          <MoreHorizontal size={16} />
+                        </button>
+                        {openMenu === post.id && (
+                          <>
+                            <div onClick={() => setOpenMenu(null)} style={{ position: "fixed", inset: 0, zIndex: 40 }} />
+                            <div
+                              role="menu"
+                              style={{
+                                position: "absolute", right: 0, top: "calc(100% + 6px)", zIndex: 50,
+                                minWidth: 170, background: "#12121F", border: "1px solid #1E1E32",
+                                borderRadius: 12, boxShadow: "0 16px 40px rgba(0,0,0,0.5)", overflow: "hidden",
+                              }}
+                            >
+                              {([
+                                ["copy", "Copy link"],
+                                ["hide", "Hide this post"],
+                                ["report", "Report post"],
+                              ] as const).map(([action, label]) => (
+                                <button
+                                  key={action}
+                                  onClick={() => handlePostMenu(post.id, action)}
+                                  className="w-full text-left text-sm transition-colors"
+                                  style={{ padding: "10px 14px", color: action === "report" ? "#D08A8A" : "#C0C0D8", background: "transparent", cursor: "pointer", display: "block" }}
+                                  onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.04)")}
+                                  onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+                                >
+                                  {label}
+                                </button>
+                              ))}
+                            </div>
+                          </>
+                        )}
+                      </div>
                     </div>
                   </div>
+                  {postNotice?.id === post.id && (
+                    <div className="text-xs mb-3 px-3 py-2 rounded-lg" style={{ background: "rgba(58,125,86,0.1)", border: "1px solid rgba(58,125,86,0.25)", color: "#52a876" }}>
+                      {postNotice.text}
+                    </div>
+                  )}
 
                   {/* Content */}
                   <p className="text-sm mb-3 leading-relaxed" style={{ color: "#C0C0D8" }}>{post.content}</p>

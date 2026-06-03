@@ -542,9 +542,9 @@ export default function WorshipPage() {
                   <h2 style={{ fontSize: "24px", fontWeight: 800, color: "#F2F2F8" }}>
                     Now Trending in Worship
                   </h2>
-                  <button style={{ display: "flex", alignItems: "center", gap: "6px", color: "#3a7d56", fontSize: "14px", fontWeight: 600, background: "none", border: "none", cursor: "pointer" }}>
+                  <a href="/christian-worship-songs" style={{ display: "flex", alignItems: "center", gap: "6px", color: "#3a7d56", fontSize: "14px", fontWeight: 600, background: "none", border: "none", cursor: "pointer", textDecoration: "none" }}>
                     See all <ChevronRight size={16} />
-                  </button>
+                  </a>
                 </div>
                 <div
                   style={{

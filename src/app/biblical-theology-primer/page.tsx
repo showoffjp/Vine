@@ -6,7 +6,7 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "overview" | "themes" | "covenants" | "resources";
+type Tab = "overview" | "themes" | "covenants" | "reading" | "resources";
 
 const STORYLINE = [
   { act: "Creation", key: "Gen 1-2", color: GREEN, desc: "God creates a good world and places image-bearing humans in it as his vice-regents, commissioned to fill and subdue it — to spread the garden of God's presence throughout the earth. The creation is a cosmic temple; humans are the priests within it. The 'very good' of Genesis 1:31 is the baseline against which all that follows is measured.", theme: "The world is God's creation, designed for his glory and human flourishing" },
@@ -28,6 +28,8 @@ const THEMES = [
   { theme: "Covenant", color: "#3B82F6", passages: "Gen 9; Gen 15; Gen 17; Exod 19-24; 2 Sam 7; Jer 31:31-34; Luke 22:20; Heb 8-10", summary: "The covenants structure the Bible's progressive revelation — each covenant develops what came before and anticipates what comes after. The New Covenant (Jeremiah 31) is not a replacement of previous covenants but their fulfillment: what they promised externally (law, land, kingship, presence), the New Covenant delivers internally through the Spirit. Jesus inaugurates the New Covenant at the Last Supper ('This cup is the new covenant in my blood').", authors: "Peter Gentry & Stephen Wellum — 'Kingdom through Covenant'; Tom Schreiner — 'Covenant and God's Purpose for the World'" },
   { theme: "Exodus / Redemption", color: "#F59E0B", passages: "Exod 1-15; Isa 40-55; Mark 10:45; Luke 9:31; 1 Cor 5:7; Rev 15", summary: "The Exodus is the primary Old Testament type of redemption — used throughout the prophets as the pattern for what God will do again. Isaiah 40-55 frames the return from Babylon as a new Exodus. Jesus's transfiguration (Luke 9:31) discusses his 'departure' (literally 'exodus') that he is about to accomplish in Jerusalem. Mark 10:45 uses ransom language that echoes Exodus redemption. The final battle of Revelation 15 is modeled on Moses's song after crossing the Red Sea.", authors: "Bryan Estelle — 'Echoes of Exodus'; Alec Motyer — 'The Prophecy of Isaiah'" },
   { theme: "Kingship / Son of David", color: "#10B981", passages: "Gen 49:10; 2 Sam 7; Ps 2; Ps 110; Isa 9; Isa 11; Dan 7; Matt 1:1; Rev 19:16", summary: "The Davidic covenant (2 Sam 7) promises an eternal Son of David who will build God's house and rule forever. The Psalms develop this theme (Ps 2, 72, 89, 110). Isaiah's Servant Songs interweave suffering and kingship. Daniel 7's Son of Man receives dominion over all nations. Jesus enters Jerusalem as the son of David (Matt 21:9), is crucified as 'King of the Jews,' and rules at the Father's right hand (Ps 110:1 is the most quoted Old Testament verse in the New Testament).", authors: "Eugene Merrill — 'Everlasting Dominion'; Craig Blaising & Darrell Bock — 'Progressive Dispensationalism'" },
+  { theme: "Image of God / True Humanity", color: "#EC4899", passages: "Gen 1:26-28; Ps 8; Dan 7:13-14; Rom 5:12-21; 1 Cor 15:45-49; Col 1:15; Heb 2:6-9", summary: "Adam is made in God's image to rule creation as God's vice-regent, but he fails. Israel is called to be God's 'son' and image among the nations, and also fails. The theme resolves in Jesus — 'the image of the invisible God' (Col 1:15) and the 'last Adam' (1 Cor 15:45) — the true human who succeeds where Adam fell. Hebrews 2 reads Psalm 8's 'son of man' as fulfilled in Jesus, who is crowned with the glory and dominion humanity forfeited. To be saved is to be conformed to this image (Rom 8:29).", authors: "Richard Lints — 'Identity and Idolatry'; G.K. Beale — 'We Become What We Worship'" },
+  { theme: "Sabbath / Rest", color: "#6366F1", passages: "Gen 2:1-3; Exod 20:8-11; Deut 5:12-15; Ps 95; Matt 11:28-30; Heb 3-4; Rev 14:13", summary: "God's seventh-day rest (Gen 2) sets a pattern woven through the canon: the weekly Sabbath, the sabbatical year, the Jubilee, and the promised 'rest' of the land. Israel never enters the fullness of that rest (Ps 95; Heb 3-4). Jesus offers the true rest — 'Come to me… and I will give you rest' (Matt 11:28). Hebrews 4 reveals that a 'Sabbath rest' still remains for the people of God, consummated in the new creation. The theme runs from creation's rest to redemption's rest to the eternal rest.", authors: "A.J. Swoboda — 'Subversive Sabbath'; G.K. Beale — 'A New Testament Biblical Theology'" },
 ];
 
 const COVENANTS = [
@@ -36,6 +38,8 @@ const COVENANTS = [
   { name: "Mosaic / Sinai Covenant", ref: "Exodus 19-24; Deuteronomy", party: "Israel as a nation", color: "#3B82F6", sign: "Sabbath; Tabernacle", condition: "Conditional — blessings for obedience, curses for disobedience (Deut 28-30)", content: "Israel's national covenant as a kingdom of priests and holy nation. The Torah (Law) is the covenant constitution — not a means of earning salvation but the terms of covenant faithfulness for an already-redeemed people. The covenant's conditionality explains Israel's history: repeated disobedience leading to exile. The New Covenant promises to fulfill what Israel consistently failed to fulfill." },
   { name: "Davidic Covenant", ref: "2 Samuel 7; Psalm 89", party: "David and his dynasty", color: "#EF4444", sign: "Enduring dynasty", condition: "Conditional for individuals, unconditional for the line", content: "God promises David an eternal dynasty and a son who will build his house. The covenant is conditioned on individual king's faithfulness (disobedient kings will be disciplined) but the line itself is unconditionally maintained. The succession of Davidic kings is the vehicle through which God keeps his promise until the eternal Son of David — Jesus — arrives." },
   { name: "New Covenant", ref: "Jeremiah 31:31-34; Ezekiel 36:26-27; Luke 22:20; Hebrews 8-10", party: "All who are in Christ — Jew and Gentile", color: "#F59E0B", sign: "Baptism; Lord's Supper", condition: "Unconditional — secured by Christ's blood", content: "Jeremiah 31's new covenant promises the law written on the heart (internal transformation), total forgiveness of sins, and everyone knowing God personally. Ezekiel 36 adds the gift of the Spirit enabling obedience. Jesus inaugurates this covenant at the Last Supper. It fulfills and supersedes the Mosaic covenant by providing what the Law could only demand — the power to obey." },
+  { name: "Covenant of Redemption (Pactum Salutis)", ref: "John 17; Ephesians 1:3-14; Hebrews 13:20; Titus 1:2", party: "The Father, Son, and Spirit", color: "#EC4899", sign: "—", condition: "Eternal — within the life of the Trinity", content: "Reformed theology speaks of an eternal covenant among the persons of the Trinity, prior to creation, in which the Father gives a people to the Son, the Son agrees to redeem them, and the Spirit applies that redemption. While the phrase is theological shorthand rather than a single proof-text, passages like John 17 ('those you gave me'), Ephesians 1 (chosen 'before the foundation of the world'), and the 'eternal covenant' of Hebrews 13:20 point to a saving purpose grounded in God's own triune life — the deepest root of every covenant in history." },
+  { name: "Covenant with Creation (Edenic)", ref: "Genesis 1:28-30; 2:15-17; Hosea 6:7; Romans 5:12-19", party: "God and Adam, as humanity's head", color: "#06B6D4", sign: "Tree of Life; Tree of Knowledge", condition: "Conditional — life for obedience, death for disobedience", content: "Many theologians identify a covenant arrangement in Eden: Adam, as representative head of humanity, is given dominion, a command, and a stark choice with life and death attached. Hosea 6:7 ('like Adam they transgressed the covenant') and Paul's Adam-Christ parallel in Romans 5 treat Adam as a covenant head whose failure is reversed by Christ, the second Adam. Whether or not one uses the term 'covenant of works,' this Edenic arrangement frames the whole story: a fall through one representative, redeemed through another." },
 ];
 
 const RESOURCES_DATA = [
@@ -45,6 +49,18 @@ const RESOURCES_DATA = [
   { name: "Biblical Theology (NT)", author: "Geerhardus Vos", url: "vos.org", desc: "The founding text of modern Reformed biblical theology — Vos (1862-1949) was the first professor of biblical theology at Princeton. Dense and technical but foundational. The distinction between biblical theology (progressive revelation in historical sequence) and systematic theology (doctrines in logical categories) originates with Vos.", color: "#EF4444" },
   { name: "The Temple and the Church's Mission", author: "G.K. Beale", url: "ivpbooks.com", desc: "The most detailed biblical-theological study of the temple theme in Scripture. Beale demonstrates that the entire canon is organized around God's desire to fill creation with his presence — from the garden-temple of Eden to the new Jerusalem. Advanced but transformative.", color: "#F59E0B" },
   { name: "BibleProject", author: "Tim Mackie & Jon Collins", url: "bibleproject.com", desc: "The best free visual introduction to biblical theology on the internet — animated videos on every book of the Bible, major themes, and word studies. The 'Unified Story of the Bible' video is an excellent starting point. Millions of views; used in churches, seminaries, and schools worldwide.", color: "#10B981" },
+  { name: "God's Big Picture", author: "Vaughan Roberts", url: "ivpbooks.com", desc: "A short, exceptionally clear overview of the whole Bible organized around the theme of the kingdom (building on Goldsworthy). Roberts traces the kingdom from the pattern in Eden, through the partial and prophesied kingdom, to the present and perfected kingdom in Christ. An ideal first book for a small group or new believer.", color: "#6366F1" },
+  { name: "Kingdom through Covenant", author: "Peter Gentry & Stephen Wellum", url: "crossway.org", desc: "A major scholarly work proposing 'progressive covenantalism' as a path between covenant theology and dispensationalism. Traces the biblical covenants in detail to show how they structure redemptive history and converge in Christ. Demanding but rewarding for serious students; a one-volume condensation, 'God's Kingdom through God's Covenants,' is more accessible.", color: "#EC4899" },
+  { name: "A New Testament Biblical Theology", author: "G.K. Beale", url: "bakerpublishinggroup.com", desc: "Beale's magnum opus argues that the unifying center of biblical theology is the inaugurated end-times new creation and kingdom launched in Christ's resurrection. Comprehensive and advanced, it shows how Old Testament hopes are 'already / not-yet' fulfilled in the church. For pastors and serious lay students ready for depth.", color: "#06B6D4" },
+];
+
+const READING_GUIDE = [
+  { title: "Read for the storyline first, the verse second", color: GREEN, content: "Before mining a passage for a devotional nugget, ask where it sits in the one story. Every text has a place between creation and new creation. Reading the Bible as a unified narrative — rather than a grab-bag of disconnected verses — is the single most transformative shift for most readers. Start by reading whole books in one sitting to feel their argument and movement." },
+  { title: "Read the Old Testament forward — and the New Testament backward", color: PURPLE, content: "Read the Old Testament on its own terms first: what did this mean to Israel? Notice its unresolved promises, escalating expectations, and recurring patterns (types) that strain toward a fulfillment not yet given. Then read it again in light of Christ, who claimed all the Scriptures pointed to him (Luke 24:27, 44). The New Testament, in turn, is best understood as the climax that the entire Old Testament was leading toward." },
+  { title: "Learn the genre before you interpret", color: "#3B82F6", content: "The Bible is a library of genres — narrative, law, poetry, wisdom, prophecy, gospel, epistle, apocalyptic — and each has its own conventions. You read a parable differently than a proverb, and Revelation's symbols differently than Paul's arguments. Misreading genre (e.g., treating poetry as wooden literalism, or narrative as direct command) is the source of countless interpretive errors. Identify the genre first." },
+  { title: "Find the road to Christ from every text", color: "#EF4444", content: "Biblical theology is fundamentally Christ-centered: Jesus is the goal toward whom the whole canon moves (Luke 24). This is not 'finding Jesus under every rock' through forced allegory, but tracing the legitimate biblical-theological connections — promise and fulfillment, type and antitype, covenant and climax. Ask of each passage: how does this anticipate, illuminate, or flow from the person and work of Christ?" },
+  { title: "Watch the patterns: promise, type, and echo", color: "#F59E0B", content: "Scripture is filled with patterns that repeat and escalate: a new Adam, a new exodus, a new temple, a new David, a new creation. The New Testament authors constantly read Jesus and the church through these Old Testament patterns (typology). Learning to spot recurring images — water, mountains, gardens, kings, sacrifices — trains you to hear the echoes the biblical authors intended and to see the whole canon resonating together." },
+  { title: "Let Scripture interpret Scripture", color: "#10B981", content: "The clearest interpreter of the Bible is the Bible. Obscure passages are illuminated by clearer ones; later revelation clarifies earlier; the New Testament's use of the Old shows us how the apostles read it. This principle (the 'analogy of Scripture') guards against building doctrine on a single ambiguous verse and keeps interpretation accountable to the whole counsel of God." },
 ];
 
 export default function BiblicalTheologyPrimerPage() {
@@ -72,10 +88,10 @@ export default function BiblicalTheologyPrimerPage() {
         </div>
 
         <div style={{ display: "flex", gap: 4, marginBottom: 24, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
-          {(["overview", "themes", "covenants", "resources"] as Tab[]).map(t => (
+          {(["overview", "themes", "covenants", "reading", "resources"] as Tab[]).map(t => (
             <button key={t} onClick={() => setTab(t)}
               style={{ padding: "8px 16px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
-              {t === "overview" ? "The Storyline" : t === "themes" ? "Major Themes" : t === "covenants" ? "The Covenants" : "Resources"}
+              {t === "overview" ? "The Storyline" : t === "themes" ? "Major Themes" : t === "covenants" ? "The Covenants" : t === "reading" ? "How to Read" : "Resources"}
             </button>
           ))}
         </div>
@@ -151,6 +167,31 @@ export default function BiblicalTheologyPrimerPage() {
                 {expanded[c.name] && (
                   <div style={{ padding: "0 22px 20px", borderTop: `1px solid ${BORDER}` }}>
                     <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: "16px 0 0" }}>{c.content}</p>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {tab === "reading" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.7, margin: "0 0 6px" }}>
+              Biblical theology is as much a way of reading as a body of content. These six habits help you read any passage in light of the whole story that climaxes in Christ.
+            </p>
+            {READING_GUIDE.map((r, i) => (
+              <div key={i} style={{ background: CARD, border: `1px solid ${expanded[r.title] ? r.color + "40" : BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                <button onClick={() => setExpanded(e => ({ ...e, [r.title]: !e[r.title] }))}
+                  style={{ width: "100%", padding: "16px 20px", cursor: "pointer", textAlign: "left", background: "transparent", border: "none", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+                    <div style={{ width: 28, height: 28, borderRadius: "50%", background: r.color, color: BG, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 900, fontSize: 12, flexShrink: 0 }}>{i + 1}</div>
+                    <div style={{ color: r.color, fontWeight: 800, fontSize: 15 }}>{r.title}</div>
+                  </div>
+                  <span style={{ color: MUTED, fontSize: 18 }}>{expanded[r.title] ? "−" : "+"}</span>
+                </button>
+                {expanded[r.title] && (
+                  <div style={{ padding: "0 20px 20px", borderTop: `1px solid ${BORDER}` }}>
+                    <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: "16px 0 0" }}>{r.content}</p>
                   </div>
                 )}
               </div>

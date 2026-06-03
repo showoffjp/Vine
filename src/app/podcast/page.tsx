@@ -465,16 +465,23 @@ export default function PodcastPage() {
               All Vine podcasts are available on Spotify, Apple Podcasts, and Google Podcasts. Or listen free here — no account required.
             </p>
             <div className="flex items-center gap-4 justify-center flex-wrap">
-              {["🎵 Spotify", "🎧 Apple Podcasts", "▶ Google Podcasts"].map((platform) => (
-                <button
-                  key={platform}
+              {[
+                { label: "🎵 Spotify", url: "https://open.spotify.com/genre/christian-gospel" },
+                { label: "🎧 Apple Podcasts", url: "https://podcasts.apple.com/us/genre/podcasts-religion-spirituality-christianity/id1439" },
+                { label: "▶ Google Podcasts", url: "https://music.youtube.com/search?q=christian+podcasts" },
+              ].map((platform) => (
+                <a
+                  key={platform.label}
+                  href={platform.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="px-5 py-2.5 rounded-xl text-sm font-bold transition-all"
-                  style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)", color: "#C0C0D8" }}
+                  style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)", color: "#C0C0D8", textDecoration: "none" }}
                   onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(58,125,86,0.3)"; e.currentTarget.style.color = "#3a7d56"; }}
                   onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)"; e.currentTarget.style.color = "#C0C0D8"; }}
                 >
-                  {platform}
-                </button>
+                  {platform.label}
+                </a>
               ))}
             </div>
           </div>

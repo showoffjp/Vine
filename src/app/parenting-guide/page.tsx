@@ -6,7 +6,23 @@ import { useState } from "react";
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
-type Tab = "principles" | "books" | "ages" | "resources";
+type Tab = "principles" | "books" | "ages" | "worship" | "resources";
+
+const WORSHIP_ELEMENTS = [
+  { title: "Read", color: GREEN, desc: "Read a short portion of Scripture together — a few verses to a chapter, depending on ages. Work through a book or a story Bible consecutively so children grasp the storyline. Ask one or two simple questions: What does this teach us about God? About ourselves? Keep it brief enough that it ends before attention does." },
+  { title: "Pray", color: PURPLE, desc: "Pray together out loud, simply and honestly. Let children pray in their own words. Pray through what you read, thank God for specific things, confess together, and intercede for family, friends, missionaries, and those who are hurting. Praying aloud in front of your children teaches them how to pray more than any lesson could." },
+  { title: "Sing", color: "#3B82F6", desc: "Sing a hymn or a worship song together — even badly, even one line. Music lodges truth in the heart for life; many adults can still sing the songs of their childhood faith. Keep a short rotation of songs so they become familiar and beloved. Don't be intimidated by a lack of musical skill; faithfulness, not performance, is the point." },
+  { title: "Keep it short and consistent", color: "#F59E0B", desc: "Ten minutes done daily beats an hour done rarely. Attach it to an existing anchor — breakfast, dinner, or bedtime — so it becomes a non-negotiable rhythm rather than a project. Expect interruptions, wiggling, and off-days. Consistency over years, not intensity on any one day, is what forms a household." },
+];
+
+const PRAYERS = [
+  { occasion: "A bedtime prayer with young children", color: GREEN, text: "Father, thank you for today and for keeping us safe. Thank you that you never sleep and you watch over us all night. Forgive us for the wrong things we did today, and help us to love you and each other more tomorrow. Give us peaceful sleep, in Jesus' name. Amen." },
+  { occasion: "A blessing to speak over your child (from Numbers 6)", color: PURPLE, text: "The LORD bless you and keep you; the LORD make his face shine on you and be gracious to you; the LORD turn his face toward you and give you peace. (Numbers 6:24-26)" },
+  { occasion: "A parent's prayer for a child's salvation", color: "#3B82F6", text: "Lord, I cannot change my child's heart — only you can. Draw [name] to yourself. Open their eyes to see Jesus as more beautiful than anything this world offers. Give them a heart of flesh in place of a heart of stone (Ezek 36:26). Use me to point to you, and where I fail, redeem even my mistakes for their good. Amen." },
+  { occasion: "A prayer for a struggling teenager", color: "#F59E0B", text: "Father, you know [name] better than I do, and you love them more than I do. In these years of searching, keep them. Protect them from harm, surround them with good friends, and let them always know they are welcome home — with me and with you. Give me patience, a listening ear, and a non-anxious heart. Bring them through to a faith that is truly their own. Amen." },
+  { occasion: "A mealtime prayer the family can pray together", color: "#10B981", text: "Thank you, God, for this food and for the hands that prepared it. Thank you for our family and for your love that holds us together. Help us to use the strength this meal gives us to serve you and others today. Amen." },
+  { occasion: "A prayer of confession and repair (after a parent has failed)", color: "#EC4899", text: "I'm sorry. I was wrong to [speak harshly / lose my temper / not listen], and it hurt you. That wasn't how God wants me to treat you, and I've asked him to forgive me too. Will you forgive me? I love you, and with God's help I want to do better." },
+];
 
 const PRINCIPLES = [
   { title: "You are discipling, not just parenting", color: GREEN, scripture: "Deuteronomy 6:4-9; Ephesians 6:4", content: "The Shema (Deuteronomy 6) commands parents to impress God's commands on children — when you sit, walk, lie down, get up. Parenting in Scripture is explicitly discipleship: passing faith, character, and the knowledge of God to the next generation. The question is not whether you are forming your children but what you are forming them toward." },
@@ -16,6 +32,9 @@ const PRINCIPLES = [
   { title: "The home is the primary church", color: "#F59E0B", scripture: "Deuteronomy 6:7; Psalm 78:4-7; Acts 16:31", content: "Before Sunday school, vacation Bible school, and youth group existed, the home was where faith was transmitted. Psalm 78 describes each generation telling the next generation about God's deeds. The household salvation of Cornelius, Lydia, the Philippian jailer, and Crispus in Acts suggests that conversion flows most naturally through family networks. The church supports what should happen at home, not the other way around." },
   { title: "Grace covers your failures", color: "#10B981", scripture: "Romans 8:1; 1 John 1:9; Psalm 103:13", content: "Every parent will fail. The question is not whether you will fail your children but how you will respond when you do. Parents who model repentance, confession, and receiving forgiveness give their children the most important theological education possible: the gospel actually works in real life, in this house, with me." },
   { title: "Technology is a parenting crisis in disguise", color: "#6366F1", scripture: "Psalm 101:3; Matthew 6:22-23; Proverbs 4:25", content: "A smartphone is a portal to the entire internet in a child's pocket. The research on smartphone use and adolescent mental health is now overwhelming: high use correlates with anxiety, depression, loneliness, and compromised cognitive development. Jonathan Haidt's The Anxious Generation synthesizes this research. Christian parents need a theology of technology that begins with the question of what forms the heart, not just what is convenient." },
+  { title: "Catechize — teach them the faith on purpose", color: "#14B8A6", scripture: "Deuteronomy 6:7; 2 Timothy 3:14-15; Proverbs 22:6", content: "Children will be catechized by something — advertising, peers, the internet, their own desires. The question is whether parents will be intentional about what shapes their children's deepest beliefs. Historic catechisms (the New City Catechism, the Westminster Shorter Catechism, the Heidelberg Catechism, or the Catholic Baltimore Catechism) condense the faith into memorable question-and-answer form. Even a few minutes a day, repeated over years, lodges truth deep enough to draw on in crisis. Paul reminds Timothy that 'from infancy you have known the Holy Scriptures' (2 Tim 3:15)." },
+  { title: "Cultivate wonder and joy, not just rules", color: "#EC4899", scripture: "Psalm 34:8; Psalm 16:11; Mark 10:13-16", content: "Jesus welcomed children and was indignant when they were pushed away (Mark 10:14). A faith presented only as restriction will be experienced as a cage to escape. The aim is for children to 'taste and see that the Lord is good' (Ps 34:8) — to associate God with delight, beauty, laughter, and security long before they grasp doctrine. Family life saturated with gratitude, celebration, music, story, and play teaches that the Christian life is fundamentally good news, not a list of prohibitions." },
+  { title: "Pray for and with your children persistently", color: "#06B6D4", scripture: "1 Samuel 1:27-28; Job 1:5; Luke 18:1", content: "You cannot regenerate your child's heart — only God can. This is freeing and humbling: your most important parenting work happens on your knees. Job rose early to pray for his children; Hannah dedicated Samuel to the Lord; Monica's prayers preceded Augustine's conversion by decades. Pray specifically, by name, for your children's salvation, character, future spouse, and protection — and let them hear you pray for them, so they know they are carried before God." },
 ];
 
 const BOOKS_DATA = [
@@ -26,6 +45,9 @@ const BOOKS_DATA = [
   { title: "The Anxious Generation", author: "Jonathan Haidt", color: "#F59E0B", ages: "Parents of any age children", description: "Not a Christian book, but the most important parenting book of the decade. Haidt synthesizes the research on smartphones, social media, and the mental health crisis among adolescents. His four norms — no smartphones before high school, no social media before 16, phone-free schools, more unsupervised outdoor play — are gaining widespread adoption.", verdict: "Essential — every Christian parent should read this immediately" },
   { title: "Raising Kids for True Greatness", author: "Tim Kimmel", color: "#10B981", ages: "All ages", description: "Kimmel argues against the success-obsessed parenting culture — sports trophies, grades, college admissions — in favor of character, compassion, and calling. True greatness in a child is not achievement but a great heart for God and others.", verdict: "Excellent antidote to achievement-driven parenting" },
   { title: "Parenting: 14 Gospel Principles", author: "Paul David Tripp", color: PURPLE, ages: "All ages", description: "Tripp's most comprehensive treatment of parenting — 14 chapters each organized around a gospel principle applied to parenting. Covers the humility of recognizing our own sin as parents, the grace that covers our failures, and the long view of God's work in our children's lives.", verdict: "The most theologically complete single parenting book available" },
+  { title: "Don't Make Me Count to Three", author: "Ginger Hubbard", color: "#14B8A6", ages: "Toddlers–Tweens", description: "A practical, heart-oriented manual for the daily work of correction in the early years. Hubbard applies the principle that behavior flows from the heart (Luke 6:45) to concrete situations — whining, lying, disobedience — giving parents specific, gospel-shaped scripts for reaching the heart rather than merely managing behavior.", verdict: "The most practical hands-on companion to Shepherding a Child's Heart" },
+  { title: "Habits of the Household", author: "Justin Whitmel Earley", color: "#EC4899", ages: "All ages", description: "Earley argues that the small, repeated rhythms of family life — wake-ups, mealtimes, screen-time, discipline, bedtime, marriage — are 'liturgies' that form children's loves more than any lecture. Offers concrete, doable household practices that embed grace and gospel into the ordinary texture of the day.", verdict: "Excellent for turning theology into everyday, repeatable family habits" },
+  { title: "Family Worship", author: "Donald S. Whitney", color: "#06B6D4", ages: "All ages", description: "A short, encouraging, and intensely practical case for the lost discipline of daily family worship. Whitney distills it to three simple elements — read, pray, sing — and dismantles the excuses (no time, not qualified, kids too young) that keep most families from starting. Under 100 pages.", verdict: "The single best starting point for beginning family worship" },
 ];
 
 const AGES_DATA = [
@@ -66,6 +88,10 @@ const RESOURCES_DATA = [
   { name: "Culture Translator (Axis)", desc: "Weekly email explaining the cultural influences on teenagers — music, social media trends, language, worldview. Essential for parents who want to understand what their teens are consuming. axis.org", color: "#F59E0B" },
   { name: "Wait Until 8th", desc: "A parent-led pledge to delay smartphones until 8th grade. Thousands of families coordinating to create community norms. waituntil8th.org", color: "#EF4444" },
   { name: "The Gospel Coalition (Parenting)", desc: "TGC's parenting articles, book recommendations, and resources from a Reformed perspective. thegospelcoalition.org/topics/parenting", color: "#10B981" },
+  { name: "New City Catechism (The Gospel Coalition)", desc: "A free, beautifully designed catechism of 52 questions and answers for children and adults — available as a book, website, and app with songs, prayers, and commentary. One question per week disciples a family through the year. newcitycatechism.com", color: "#14B8A6" },
+  { name: "BibleProject", desc: "Free animated videos explaining every book of the Bible and major biblical themes — excellent for family devotions, teaching older kids the storyline of Scripture, and answering big questions. bibleproject.com", color: "#EC4899" },
+  { name: "Risen Motherhood", desc: "A ministry (podcast, book, and articles) connecting the everyday realities of motherhood to the gospel — practical, gospel-saturated encouragement for moms in every season. risenmotherhood.com", color: "#06B6D4" },
+  { name: "Bark / Covenant Eyes / Canopy", desc: "Parental monitoring and content-filtering tools that help families steward devices and the internet wisely (Bark for monitoring, Covenant Eyes and Canopy for accountability and filtering). bark.us · covenanteyes.com · canopy.us", color: "#6366F1" },
 ];
 
 export default function ParentingGuidePage() {
@@ -89,10 +115,10 @@ export default function ParentingGuidePage() {
         </div>
 
         <div style={{ display: "flex", gap: 4, marginBottom: 28, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
-          {(["principles", "books", "ages", "resources"] as Tab[]).map(t => (
+          {(["principles", "books", "ages", "worship", "resources"] as Tab[]).map(t => (
             <button key={t} onClick={() => { setTab(t); setSelected(null); }}
               style={{ padding: "8px 16px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer", textTransform: "capitalize" }}>
-              {t === "principles" ? "Principles" : t === "books" ? "Best Books" : t === "ages" ? "By Age/Stage" : "Resources"}
+              {t === "principles" ? "Principles" : t === "books" ? "Best Books" : t === "ages" ? "By Age/Stage" : t === "worship" ? "Family Worship" : "Resources"}
             </button>
           ))}
         </div>
@@ -169,6 +195,35 @@ export default function ParentingGuidePage() {
                 </div>
               </div>
             ))}
+          </div>
+        )}
+
+        {tab === "worship" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+            <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}25`, borderRadius: 12, padding: 22 }}>
+              <div style={{ color: GREEN, fontWeight: 900, fontSize: 16, marginBottom: 6 }}>Family Worship: Simpler Than You Think</div>
+              <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, margin: 0 }}>The home is the primary place faith is formed. For most of church history, daily worship in the home — not Sunday programs — was the engine of discipleship. It does not require expertise or curriculum. Donald Whitney boils it down to three elements: read, pray, sing. Begin small, attach it to a meal or bedtime, and aim for consistency over polish.</p>
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: 12 }}>
+              {WORSHIP_ELEMENTS.map((w, i) => (
+                <div key={i} style={{ background: CARD, border: `1px solid ${w.color}25`, borderRadius: 12, padding: 18 }}>
+                  <div style={{ color: w.color, fontWeight: 800, fontSize: 15, marginBottom: 8 }}>{w.title}</div>
+                  <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{w.desc}</p>
+                </div>
+              ))}
+            </div>
+            <div style={{ color: TEXT, fontWeight: 900, fontSize: 17, marginTop: 8 }}>Prayers for the Home</div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+              {PRAYERS.map((p, i) => (
+                <div key={i} style={{ background: CARD, border: `1px solid ${p.color}25`, borderRadius: 12, padding: 20, display: "flex", gap: 14, alignItems: "flex-start" }}>
+                  <div style={{ width: 5, borderRadius: 3, background: p.color, alignSelf: "stretch", flexShrink: 0, minHeight: 40 }} />
+                  <div>
+                    <div style={{ color: p.color, fontWeight: 800, fontSize: 13, marginBottom: 6 }}>{p.occasion}</div>
+                    <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, margin: 0, fontStyle: "italic" }}>{p.text}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         )}
 

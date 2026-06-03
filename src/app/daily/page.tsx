@@ -103,6 +103,17 @@ export default function DailyPage() {
     } catch {}
   }, [completedDays]);
 
+  const [monthStats, setMonthStats] = useState({ chaptersRead: 0, notesWritten: 0, versesSaved: 0 });
+  useEffect(() => {
+    try {
+      const plans: Array<{ completedChapters: number[] }> = JSON.parse(localStorage.getItem("vine_bible_study_plans") ?? "[]");
+      const chaptersRead = plans.reduce((sum, p) => sum + (p.completedChapters?.length ?? 0), 0);
+      const notes: unknown[] = JSON.parse(localStorage.getItem("vine_bible_study_notes") ?? "[]");
+      const verses: unknown[] = JSON.parse(localStorage.getItem("vine_verse_memory") ?? "[]");
+      setMonthStats({ chaptersRead, notesWritten: notes.length, versesSaved: verses.length });
+    } catch {}
+  }, []);
+
   const toggleDay = (idx: number) => {
     setCompletedDays((prev) => {
       const next = new Set(prev);
@@ -321,10 +332,10 @@ export default function DailyPage() {
               </h4>
               <div className="space-y-2">
                 {[
-                  { label: "Chapters read", value: "45" },
-                  { label: "Devotionals", value: "21" },
-                  { label: "Notes written", value: "12" },
-                  { label: "Verses saved", value: "34" },
+                  { label: "Chapters read", value: String(monthStats.chaptersRead) },
+                  { label: "Devotionals", value: String(completedDays.size) },
+                  { label: "Notes written", value: String(monthStats.notesWritten) },
+                  { label: "Verses saved", value: String(monthStats.versesSaved) },
                 ].map((s) => (
                   <div key={s.label} className="flex items-center justify-between">
                     <span className="text-xs" style={{ color: "#8A8AA8" }}>

@@ -1,4 +1,6 @@
 "use client";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 import { useState, useEffect } from "react";
 import { BookOpen, Plus, ChevronDown, ChevronRight, CheckCircle2, Circle, Search, Tag, Save, X, Lightbulb } from "lucide-react";
@@ -223,7 +225,8 @@ export default function BibleStudyPage() {
 
   return (
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
-      <div className="pb-20" style={{ paddingTop: 40 }}>
+      <Navbar />
+      <div className="pb-20" style={{ paddingTop: 80 }}>
 
         {/* Header */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8 pt-2">
@@ -607,6 +610,7 @@ export default function BibleStudyPage() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

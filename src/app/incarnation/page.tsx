@@ -1,257 +1,307 @@
 "use client";
 import { useState } from "react";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GOLD = "#c9a227";
 
-const THEOLOGY = [
-  { title: "The Word Became Flesh", verse: "John 1:14", body: "'The Word became flesh and made his dwelling among us. We have seen his glory, the glory of the one and only Son, who came from the Father, full of grace and truth' (John 1:14). This is the most astonishing sentence in all of literature. The eternal Word — through whom all things were made (1:3) — took on human flesh. Not as an appearance (Docetism) but in full, genuine humanity. God became what we are so that we could become what he is." },
-  { title: "Fully God and Fully Human", verse: "Colossians 2:9", body: "'In Christ all the fullness of the Deity lives in bodily form' (Colossians 2:9). The Council of Chalcedon (451 AD) gave the orthodox formulation: Christ is one person with two natures — fully divine, fully human — without confusion, change, division, or separation. He is not half-God and half-man, nor alternately divine and human, but permanently, completely both. This is not a philosophical puzzle to solve but a mystery to confess." },
-  { title: "The Kenosis", verse: "Philippians 2:6-7", body: "'Though he was in the form of God, did not consider equality with God something to be used to his own advantage; rather, he made himself nothing' (Philippians 2:6-7). The Greek word translated 'made himself nothing' is kenosen — he emptied himself. This has generated intense debate: What did the Son empty himself of? The consensus is not of divine attributes but of their independent exercise — he voluntarily lived within human limitations, dependent on the Father and the Spirit." },
-  { title: "Why the Incarnation?", verse: "Hebrews 2:14-17", body: "Hebrews 2:14-17 gives multiple reasons: to destroy the devil's power over death, to make atonement for sin, and to become a merciful and faithful high priest. Athanasius added: 'He became what we are so that we might become what he is.' The incarnation is not a regrettable emergency — it is the fitting, beautiful act by which God, who created humanity for union with himself, recapitulated what had been lost and opened the way to divinization." },
-  { title: "The Permanent Humanity of Christ", verse: "1 Timothy 2:5", body: "'There is one God and one mediator between God and mankind, the man Christ Jesus' (1 Timothy 2:5). The incarnation did not end at the resurrection or ascension. Jesus rose bodily, ascended bodily, and sits at the Father's right hand as the glorified, embodied God-man. The Incarnation is permanent. At this moment, there is a human being at the center of the Godhead — the firstborn of the new creation, the pattern and pledge of our own bodily resurrection." },
+type Tab = "what" | "natures" | "why" | "chalcedon" | "kenosis" | "videos";
+
+const TWO_NATURES = [
+  { nature: "Fully Divine", color: PURPLE, icon: "✨", texts: ["John 1:1", "Colossians 1:15-17", "Hebrews 1:3", "John 10:30"],
+    evidences: [
+      "He forgives sins — a divine prerogative (Mark 2:5-7)",
+      "He receives worship (Matthew 28:17; John 20:28)",
+      "He claims the divine name 'I AM' (John 8:58)",
+      "He existed before Abraham (John 8:58)",
+      "He shares the Father's glory from before creation (John 17:5)",
+      "He is the agent of creation (John 1:3; Colossians 1:16)",
+    ],
+    desc: "The early church was clear: Jesus is not a semi-divine intermediary or the highest of created beings. He is fully God — 'the radiance of the glory of God and the exact imprint of his nature' (Hebrews 1:3). His divine nature was not diminished in the incarnation; the eternal Son took on human nature in addition to his divine nature." },
+  { nature: "Fully Human", color: GREEN, icon: "🌿", texts: ["Luke 2:40", "John 11:35", "Matthew 4:2", "Hebrews 4:15"],
+    evidences: [
+      "He was born of a woman (Galatians 4:4)",
+      "He grew in wisdom (Luke 2:52)",
+      "He was hungry (Matthew 4:2) and thirsty (John 19:28)",
+      "He was tired (John 4:6)",
+      "He wept at Lazarus's tomb (John 11:35)",
+      "He died — a genuinely human death (Philippians 2:8)",
+    ],
+    desc: "Jesus was genuinely, fully human — not God wearing a human costume (Docetism). He experienced the full range of human life: birth, childhood, hunger, exhaustion, grief, temptation, suffering, and death. Hebrews 4:15 is categorical: 'We have a high priest who has been tempted in every way, just as we are — yet he did not sin.' The incarnation is real, not theatrical." },
 ];
 
-const HERESIES = [
-  { name: "Docetism", era: "1st-2nd Century", color: "#EF4444", claim: "Jesus only appeared to have a body — he was pure spirit. The divine Christ could not truly suffer or die in physical flesh.", error: "Denies the genuine humanity of Christ. If Jesus did not truly become human, his suffering was theater and his resurrection irrelevant to our embodied humanity.", key_verse: "1 John 4:2 — 'Every spirit that acknowledges that Jesus Christ has come in the flesh is from God'" },
-  { name: "Arianism", era: "4th Century", color: "#F59E0B", claim: "The Son was the highest created being — not truly divine, but subordinate to the Father and brought into existence at a point in time. 'There was a time when he was not.'", error: "Denies the true divinity of Christ. If Christ is not truly God, he cannot truly save; only God can redeem humanity. The Council of Nicaea (325) rejected Arianism and affirmed the Son is 'of one substance with the Father.'", key_verse: "John 1:1 — 'In the beginning was the Word, and the Word was with God, and the Word was God'" },
-  { name: "Nestorianism", era: "5th Century", color: PURPLE, claim: "Christ has two distinct persons, not two natures in one person. The divine Son and the human Jesus are separate subjects, only loosely united. Mary is not theotokos (God-bearer) but only Christotokos (Christ-bearer).", error: "Divides the unity of Christ. The Council of Ephesus (431) rejected this, affirming that Mary can rightly be called theotokos because the one she bore was truly God incarnate.", key_verse: "Luke 1:43 — 'Why am I so favored, that the mother of my Lord should come to me?'" },
-  { name: "Eutychianism", era: "5th Century", color: "#3B82F6", claim: "After the Incarnation, Christ has only one nature — a merged divine-human nature. The human nature was absorbed into and transformed by the divine.", error: "Confuses and mingles the two natures. The Council of Chalcedon (451) rejected this, insisting the two natures remain distinct even as they are united in one person.", key_verse: "Hebrews 2:17 — 'He had to be made like them, fully human in every way'" },
-  { name: "Apollinarianism", era: "4th Century", color: GREEN, claim: "Jesus had a human body but the divine Logos replaced his human mind or spirit. He was thus not fully human — missing the highest human faculty.", error: "Denies the completeness of Christ's humanity. Gregory of Nazianzus countered: 'What has not been assumed cannot be healed' — if Christ did not take on our full humanity, our full humanity is unredeemed.", key_verse: "John 1:14 — 'The Word became flesh' — fully, not partially" },
+const WHY_MATTERS = [
+  { title: "Only a Divine Savior Can Save", ref: "Hebrews 9:11-12", icon: "⚖️", body: "Athanasius's argument (On the Incarnation, c. 318 AD): humanity needed redemption from sin and death — but no creature could provide it, because a creature is only finite and cannot bear infinite guilt. Only the infinite God himself could provide an infinite atonement. This is why the incarnation was necessary: the one who saves must be fully God. A semi-divine mediator would be insufficient." },
+  { title: "Only a Human Savior Can Substitute", ref: "Romans 5:12-21", icon: "🤝", body: "Paul's Adam/Christ typology: just as through one man (Adam) sin and death entered, so through one man (Christ) righteousness and life are given. The redeemer must be human to substitute for humans — to live the life we should have lived and die the death we deserved to die. A savior who was only God could not substitute; he must also be flesh-and-blood humanity." },
+  { title: "To Model Perfect Humanity", ref: "Hebrews 2:17-18", icon: "🌟", body: "Jesus is 'the image of the invisible God, the firstborn over all creation' (Colossians 1:15) — and in becoming human he reveals what true humanity looks like. In his compassion, courage, prayer life, service, and obedience, Jesus shows us the human life fully lived in dependence on the Father. He is both the object of our salvation and the model of our sanctification." },
+  { title: "To Be Our High Priest", ref: "Hebrews 4:14-16", icon: "🙏", body: "'For we do not have a high priest who is unable to empathize with our weaknesses, but we have one who has been tempted in every way, just as we are — yet he did not sin.' Jesus can intercede for us with genuine empathy because he experienced genuine human life. The incarnation is not past — the Son remains human forever, our eternal high priest in the heavenly sanctuary." },
+  { title: "To Defeat Death From Within", ref: "Hebrews 2:14-15", icon: "💀", body: "'Since the children have flesh and blood, he too shared in their humanity so that by his death he might break the power of him who holds the power of death — that is, the devil.' Death had to be defeated from within human nature. The eternal Son entered mortality to die — and in dying conquered death from the inside. This was the divine strategy: infiltrating the human condition to liberate it." },
+  { title: "To Begin the New Creation", ref: "2 Corinthians 5:17", icon: "🌅", body: "The incarnation is not merely about forgiveness — it is about transformation. In becoming human, the Son of God began the renewal of human nature itself. His resurrection is the firstfruits of the new humanity. N.T. Wright: the incarnation inaugurates the new creation. When Jesus rose, the first particle of the new creation appeared within the old. We are being conformed to his image." },
 ];
 
-const INCARNATION_THINKERS = [
-  {
-    id: "irenaeus",
-    name: "Irenaeus of Lyon",
-    era: "2nd century",
-    context: "Bishop of Lyon; Against Heresies (c. 180 AD); recapitulation theology",
-    bio: "Irenaeus was the first great systematic theologian of the Christian tradition, writing Against Heresies to combat the Gnostic claim that the material world was evil and Christ only appeared to be human. His response was the doctrine of recapitulation: Christ became human to retrace and redeem the entire human story from within. Where Adam disobeyed, Christ obeyed. Where humanity fell, Christ restored. The Incarnation is not an accident but the climax of a plan that began at creation.",
-    quote: "The Word of God was made man so that you, being made man, might in return become God.",
-    contribution: "Irenaeus established the foundational theological principle: the Incarnation must be genuine for salvation to be genuine. Against the Gnostics who wanted a purely spiritual Christ, he insisted that if Christ did not truly assume our flesh, he did not truly redeem it. This principle — what is not assumed cannot be healed — became the defining test for every subsequent Christological proposal.",
-  },
-  {
-    id: "athanasius",
-    name: "Athanasius of Alexandria",
-    era: "4th century",
-    context: "Bishop of Alexandria; On the Incarnation (c. 318 AD); defender of Nicene orthodoxy",
-    bio: "Athanasius spent his life defending the full divinity of Christ against Arianism — the view that the Son was a created being, not truly God. His early masterwork On the Incarnation, written when he was around 23, remains one of the most accessible accounts of why God became human. His argument: humanity was created in the image of God; sin corrupted and defaced that image; only God himself, taking on the image he had given, could restore it. Only the Creator can recreate.",
-    quote: "He became what we are so that we might become what he is.",
-    contribution: "Athanasius bequeathed the Church the logic of exchange at the heart of the Incarnation: God became human so that humanity might share in the divine life. This exchange — technically called theosis or divinization — is not the merging of humanity with the divine but participation in the divine life through union with the incarnate Son. He is the firstborn of the new creation; we follow in his wake.",
-  },
-  {
-    id: "gregory",
-    name: "Gregory of Nazianzus",
-    era: "4th century",
-    context: "Archbishop of Constantinople; Five Theological Orations (380 AD); Cappadocian Father",
-    bio: "Gregory of Nazianzus, together with Basil of Caesarea and Gregory of Nyssa, shaped Trinitarian and incarnation theology in the generation after Nicaea. Against Apollinaris, who taught that the divine Logos replaced the human mind of Christ, Gregory gave one of the most important theological arguments in history: if Christ did not assume every aspect of our humanity, he could not redeem every aspect of it. A Christ without a human mind could not redeem the human mind — and the mind is precisely where sin enters most deeply.",
-    quote: "What has not been assumed cannot be healed; what is united to God is saved.",
-    contribution: "Gregory's soteriological axiom became a permanent test for Christology: whatever Christ did not assume, he did not redeem. A Christ who was fully divine but only partially human could only offer partial salvation. Full redemption requires full assumption — flesh, mind, emotion, will, and all. His argument continues to shape how the church thinks about the scope of what Christ came to save.",
-  },
-  {
-    id: "barth",
-    name: "Karl Barth",
-    era: "20th century",
-    context: "Church Dogmatics IV/1-3 (1953-1959); The Humanity of God (1956); Swiss Reformed theologian",
-    bio: "Karl Barth is the most important Protestant theologian of the 20th century. In his short essay The Humanity of God (1956), he reflected on how his earlier theology had overcorrected toward divine transcendence — at the cost of genuine engagement with the human. The Incarnation, Barth argued, reveals that it is not against God's nature to be human; humanity was always the intention of creation, and the God-man Jesus Christ is the original and true human being.",
-    quote: "In Jesus Christ there is no isolation of man from God or of God from man. Rather, in Him we encounter the history, the dialogue, in which God and man meet together.",
-    contribution: "Barth reversed the instinct to see God's humanity as something surprising or unprecedented. For Barth, the Incarnation is not a concession to human weakness but the revelation of who God eternally is: the One who, even before creation, determined to be for humanity in the person of the Son. The cross and resurrection are not God's reaction to sin but the execution of an eternal election.",
-  },
-  {
-    id: "sayers",
-    name: "Dorothy L. Sayers",
-    era: "20th century",
-    context: "The Man Born to Be King (1941-1942); Creed or Chaos? (1947); novelist and playwright",
-    bio: "Dorothy L. Sayers was not a systematic theologian but a playwright and novelist who brought the Incarnation to life with unusual power. Her radio play cycle The Man Born to Be King — broadcast on the BBC during World War II — depicted Jesus as a fully human, historically specific figure speaking in recognizable language. It caused a national controversy among those who thought dramatic portrayal of Christ was blasphemous. Sayers responded that the real blasphemy was treating the Incarnation as if it had not actually happened in a real body, in a real culture, at a real moment.",
-    quote: "The Christian affirmation is that a certain event happened in Palestine under Augustus Caesar and Pontius Pilate. It is a statement about something that actually happened in history.",
-    contribution: "Sayers recovered the scandal of particularity: the Incarnation is not a general spiritual truth but a specific historical event. God did not become 'humanity in general'; he became this specific Jewish man, in this specific culture, at this specific moment. The particular, embarrassing, located nature of the Incarnation is not a limitation to be spiritualized away — it is the whole point.",
-  },
+const CHALCEDON_CONTENT = [
+  { heading: "The Definition (451 AD)", body: "The Council of Chalcedon produced the most carefully worded statement on the person of Christ in Christian history. Key phrases: Christ is 'perfect in divinity and perfect in humanity, truly God and truly man, of a rational soul and a body; consubstantial with the Father according to the divinity, and consubstantial with us according to the humanity.' He is 'one and the same Christ, Son, Lord, Only-Begotten, in two natures without confusion, without change, without division, without separation.'" },
+  { heading: "The Four 'Withouts'", body: "'Without confusion' (asunchutos): the two natures are not mixed into a third thing. 'Without change' (atreptos): neither nature is altered. 'Without division' (adiairetos): the two natures exist in one undivided person. 'Without separation' (achoristos): the natures cannot be split apart. These four negatives define the boundaries of orthodoxy, ruling out Nestorianism (separation) and Eutychianism (confusion) simultaneously." },
+  { heading: "The Hypostatic Union", body: "The technical term for the Chalcedonian formula is hypostatic union — the union of two natures in one hypostasis (person). The one person of the eternal Son took on human nature at the incarnation. The subject of all of Christ's acts — divine and human — is the same one person. When Jesus was hungry, it was the Son of God who was hungry. When Jesus died, it was the Son of God who died in his human nature." },
+  { heading: "Why It Was Necessary", body: "The council met to resolve the Nestorian controversy (which too sharply divided the natures) and the Eutychian controversy (which confused them into a third substance). Both errors had salvific consequences: if the natures are divided, the person of Christ is divided, and it is unclear who saves. If the natures are confused, Christ is neither truly God nor truly human, and he can neither reveal God perfectly nor substitute for human beings." },
 ];
 
-const PRACTICES = [
-  { title: "Let Christmas Have Its Weight", desc: "The birth of Christ is not a sentimental occasion but the most dramatic event in the history of the universe. The eternal Creator became a nursing infant. Sit with the strangeness and the glory of it. Don't let familiarity dull the astonishment that the Word became flesh.", icon: "⭐" },
-  { title: "Pray to a God Who Knows", desc: "The permanent humanity of Christ means God has experienced human weakness, temptation, grief, exhaustion, and pain — not abstractly but from the inside. 'We do not have a high priest who is unable to empathize with our weaknesses' (Hebrews 4:15). Pray to him as one who has been where you are.", icon: "🙏" },
-  { title: "Honor Your Own Body", desc: "God took on flesh. The Incarnation declares that matter matters — that bodies are not merely containers for souls but are the site of redemption. The resurrection of the body is the goal, not escape from it. Honor your body as the temple of the Spirit and the object of God's redemptive concern.", icon: "🏛️" },
-  { title: "Read On the Incarnation", desc: "Read Athanasius's On the Incarnation — it is short, accessible, and C.S. Lewis called it one of the great Christian works. Reading it is not dry theology but encounter with the logic of why God became what we are, in language that still astonishes after 1700 years.", icon: "📜" },
-  { title: "Celebrate the Fullness of Salvation", desc: "Because Christ assumed full humanity, he redeemed the whole person — body, mind, spirit, emotions. Salvation is not escape from embodied life but its redemption and transformation. Anything that treats physical existence as irrelevant or shameful is sub-Christian.", icon: "✝️" },
-  { title: "Wonder at Divinization", desc: "Athanasius's formula — he became what we are so that we might become what he is — points to the goal of salvation: participation in the divine nature (2 Peter 1:4). This is theosis or divinization — not that we become God, but that through union with Christ we share in his divine life. Let this expand your vision of what salvation means.", icon: "✨" },
+const KENOSIS = [
+  { title: "The Text", ref: "Philippians 2:5-8", color: PURPLE, body: "Paul writes that the Son of God 'who, though he was in the form of God, did not count equality with God a thing to be grasped, but emptied himself (ekenosen), by taking the form of a servant, being born in the likeness of men. And being found in human form, he humbled himself by becoming obedient to the point of death, even death on a cross.'" },
+  { title: "Classical Kenotic Theory", ref: "19th century", color: GREEN, body: "Some 19th-century theologians (Gottfried Thomasius, Charles Gore) argued that in the incarnation the Son of God voluntarily divested himself of certain divine attributes — particularly omniscience, omnipotence, and omnipresence — in order to be genuinely human. Jesus' limited knowledge (Matthew 24:36 — 'no one knows the day or hour, not even the Son') is cited as evidence." },
+  { title: "Orthodox Response to Kenotic Theory", ref: "Classical Theology", color: GOLD, body: "Most orthodox theologians argue that the Son did not shed divine attributes (which would make him no longer divine) but took on human nature and exercised divine attributes only as the Father led him to. The 'emptying' of Philippians 2 is an emptying of privilege, status, and glory — not of divine nature. Jesus voluntarily restricted the use of his divine powers through the Spirit's direction rather than surrendering those powers. John Calvin: 'He did not lay aside his glory; he concealed it under the veil of flesh.'" },
+  { title: "What All Sides Agree On", ref: "Consensus", color: GREEN, body: "Whatever the mechanics of the incarnation, all orthodox theologians agree: (1) the Son became genuinely human, (2) his divine nature was not destroyed, (3) he lived a genuinely dependent human life in submission to the Father, and (4) he was subject to human limitations including limited knowledge and physical weakness. The how is debated; the what is settled: he is fully God and fully human in one person." },
 ];
 
-type Tab = "theology" | "heresies" | "thinkers" | "practices" | "videos";
+const VIDEOS = [
+  { videoId: "FRIEXVq7vEI", title: "What Is the Incarnation?", channel: "Desiring God", description: "John Piper explores the mystery and meaning of the incarnation — what it means that God became flesh, and why it matters for salvation and Christian life." },
+  { videoId: "1lYGWpb6v34", title: "The Hypostatic Union Explained", channel: "Ligonier Ministries", description: "R.C. Sproul explains the hypostatic union — what it means to say Jesus is fully God and fully human in one person, and why the Council of Chalcedon matters." },
+  { videoId: "MtNOdM4N5Dk", title: "Why Did God Become Man?", channel: "Ligonier Ministries", description: "The soteriological necessity of the incarnation — why only one who is both fully God and fully human could accomplish our redemption." },
+  { videoId: "v2lE16R9aQ4", title: "The Virgin Birth and Incarnation", channel: "Ligonier Ministries", description: "An examination of the biblical account of the virgin birth and its significance for the doctrine of the incarnation." },
+  { videoId: "pgcMvMM96oA", title: "C.S. Lewis on the Incarnation", channel: "The Gospel Coalition", description: "Lewis's argument for the incarnation from Mere Christianity and from his introduction to Athanasius's On the Incarnation — the logic of God becoming man." },
+];
+
+const TABS: { id: Tab; label: string; icon: string }[] = [
+  { id: "what", label: "What Is Incarnation", icon: "📖" },
+  { id: "natures", label: "Two Natures", icon: "⚖️" },
+  { id: "why", label: "Why It Matters", icon: "💡" },
+  { id: "chalcedon", label: "Council of Chalcedon", icon: "🏛️" },
+  { id: "kenosis", label: "Kenosis Debate", icon: "🔍" },
+  { id: "videos", label: "Videos", icon: "🎬" },
+];
 
 export default function IncarnationPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("theology");
-  const [selectedHeresy, setSelectedHeresy] = useState("Docetism");
-  const [selectedThinker, setSelectedThinker] = useState("irenaeus");
-
-  const heresy = HERESIES.find(h => h.name === selectedHeresy)!;
-  const thinker = INCARNATION_THINKERS.find(t => t.id === selectedThinker)!;
+  const [activeTab, setActiveTab] = useState<Tab>("what");
+  const [selectedNature, setSelectedNature] = useState(0);
+  const [expandedWhy, setExpandedWhy] = useState<number | null>(null);
 
   return (
-    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 40 }}>
-      <div style={{ maxWidth: 880, margin: "0 auto", padding: "0 20px 60px" }}>
-        <div style={{ textAlign: "center", marginBottom: 40 }}>
-          <div style={{ fontSize: 48, marginBottom: 12 }}>✝️</div>
-          <h1 style={{ fontSize: 32, fontWeight: 900, marginBottom: 8 }}>The Incarnation</h1>
-          <p style={{ color: MUTED, fontSize: 16, maxWidth: 560, margin: "0 auto" }}>
-            God became human. The eternal Word took on flesh, not as a temporary disguise but as a permanent union — fully divine, fully human, one person forever. The Incarnation is the hinge of all history.
-          </p>
-        </div>
+    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: `var(--font-jost, system-ui, sans-serif)` }}>
+      <Navbar />
 
-        <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
-          {[
-            { id: "theology" as const, label: "Theology", icon: "📖" },
-            { id: "heresies" as const, label: "Historic Errors", icon: "⚠️" },
-            { id: "thinkers" as const, label: "Key Thinkers", icon: "💡" },
-            { id: "practices" as const, label: "Implications", icon: "🛠️" },
-            { id: "videos" as const, label: "Videos", icon: "🎬" },
-          ].map(t => (
+      {/* Hero */}
+      <div style={{ background: `linear-gradient(135deg, #0d0820 0%, #1a0d1a 40%, #080d14 100%)`, paddingTop: 100, paddingBottom: 60, textAlign: "center", borderBottom: `1px solid ${BORDER}` }}>
+        <div style={{ fontSize: 56, marginBottom: 16 }}>✝️</div>
+        <div style={{ display: "inline-block", background: `${GOLD}18`, border: `1px solid ${GOLD}40`, borderRadius: 20, padding: "4px 16px", fontSize: 12, fontWeight: 700, color: GOLD, marginBottom: 16, letterSpacing: 1 }}>
+          CHRISTOLOGY
+        </div>
+        <h1 style={{ fontFamily: `var(--font-cormorant, Georgia, serif)`, fontSize: "clamp(34px, 6vw, 58px)", fontWeight: 700, margin: "0 auto 16px", maxWidth: 700, lineHeight: 1.1 }}>
+          The Incarnation
+        </h1>
+        <p style={{ color: MUTED, fontSize: 17, maxWidth: 580, margin: "0 auto 24px", lineHeight: 1.75 }}>
+          The eternal Son of God took on human flesh — not as a disguise but in genuine, irreversible humanity. Fully God, fully human, forever. This is the central miracle on which all salvation depends.
+        </p>
+        <div style={{ display: "inline-block", background: `${PURPLE}18`, border: `1px solid ${PURPLE}40`, borderRadius: 20, padding: "6px 20px", fontSize: 13, color: PURPLE }}>
+          &ldquo;The Word became flesh and dwelt among us, and we have seen his glory.&rdquo; — John 1:14
+        </div>
+      </div>
+
+      <div style={{ maxWidth: 920, margin: "0 auto", padding: "0 20px 80px" }}>
+        {/* Tab nav */}
+        <div style={{ display: "flex", gap: 4, margin: "32px 0", background: CARD, borderRadius: 14, padding: 5, border: `1px solid ${BORDER}`, overflowX: "auto" }}>
+          {TABS.map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
-              style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+              style={{ flex: 1, minWidth: 80, padding: "10px 6px", borderRadius: 10, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer", transition: "all 0.2s ease", whiteSpace: "nowrap" }}>
               {t.icon} {t.label}
             </button>
           ))}
         </div>
 
-        {activeTab === "theology" && (
+        {/* WHAT IS INCARNATION */}
+        {activeTab === "what" && (
           <div>
-            <div style={{ background: CARD, border: `1px solid ${PURPLE}25`, borderRadius: 12, padding: 20, marginBottom: 20 }}>
-              <div style={{ color: PURPLE, fontWeight: 800, fontSize: 14, marginBottom: 8 }}>THE CHALCEDONIAN FORMULA (451 AD)</div>
-              <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, fontStyle: "italic", margin: 0 }}>
-                "One and the same Christ, Son, Lord, only-begotten, acknowledged in two natures which undergo no confusion, no change, no division, no separation; at no point was the difference between the natures taken away through the union, but rather the property of both natures is preserved and comes together into a single person and a single subsistent being."
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28, marginBottom: 20 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 12 }}>God Became Flesh</h2>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.8, marginBottom: 14 }}>
+                The incarnation (from Latin: in carne — &ldquo;in the flesh&rdquo;) is the event in which the eternal Son of God — the second person of the Trinity, who existed before creation (John 1:1-3) and through whom all things were made — took on human nature by being born of the Virgin Mary. He became what he was not (human) without ceasing to be what he is (divine).
+              </p>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.8, margin: 0 }}>
+                This is the hinge of Christian theology. Every other Christian doctrine — the atonement, the resurrection, justification, sanctification, the new creation — depends on the reality that God became human in Jesus Christ. C.S. Lewis called it &ldquo;the grand miracle&rdquo; around which everything else in Christianity either clusters or fails.
               </p>
             </div>
-            {THEOLOGY.map((t, i) => (
-              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 16 }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
-                  <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, margin: 0 }}>{t.title}</h3>
-                  <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700, flexShrink: 0, marginLeft: 12 }}>{t.verse}</span>
+
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: 16, marginBottom: 24 }}>
+              {[
+                { title: "Pre-existent Son", ref: "John 1:1-3", color: PURPLE, body: "The subject of the incarnation is the eternal Son of God — who existed 'in the beginning' with the Father, through whom all things were made, who was himself 'with God' and 'was God.' The incarnation is not the creation of Christ but the entry of the pre-existent Son into human existence." },
+                { title: "Genuinely Human", ref: "Galatians 4:4", color: GREEN, body: "God sent 'his Son, born of a woman, born under the law.' The incarnation is real — Jesus was genuinely, physically human. He was not God in a human disguise (Docetism) but the eternal Son of God who truly became human." },
+                { title: "The Virgin Birth", ref: "Luke 1:35", color: GOLD, body: "The Spirit of God conceived the Son in the womb of the Virgin Mary, so that the child born would be both Son of God and son of Mary. The virgin birth is the mechanism of the incarnation — the unique entry of the eternal Son into human existence without the cooperation of a human father." },
+                { title: "Permanent Union", ref: "Hebrews 7:24-25", color: "#EF4444", body: "The incarnation is permanent. The Son of God did not temporarily 'wear' humanity and then shed it at the ascension. The risen and ascended Christ retains his humanity forever. He is our eternal high priest — the glorified, resurrected human being who intercedes for us at the Father's right hand." },
+              ].map((c, i) => (
+                <div key={i} style={{ background: CARD, border: `1px solid ${c.color}30`, borderRadius: 14, padding: 22 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 }}>
+                    <h3 style={{ color: c.color, fontWeight: 800, fontSize: 16, margin: 0 }}>{c.title}</h3>
+                    <span style={{ background: `${c.color}20`, color: c.color, padding: "2px 8px", borderRadius: 10, fontSize: 11, fontWeight: 600, whiteSpace: "nowrap", marginLeft: 8 }}>{c.ref}</span>
+                  </div>
+                  <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0 }}>{c.body}</p>
                 </div>
-                <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 15, margin: 0 }}>{t.body}</p>
+              ))}
+            </div>
+
+            {[
+              { quote: "He became what we are that we might become what he is. The Word of God became human so that we might be made divine.", by: "Athanasius of Alexandria, On the Incarnation" },
+              { quote: "The eternal Son does not merely appear human. He is not an actor in a costume. He took on our nature — our hunger, our weariness, our grief, our death — because that was the only way to redeem it from within.", by: "C.S. Lewis, Mere Christianity" },
+              { quote: "The very fact of the incarnation shows us what God thinks of matter, of flesh, of the physical world: he thought it worth becoming. Creation is not a prison to be escaped but a home to be redeemed.", by: "N.T. Wright" },
+            ].map((q, i) => (
+              <div key={i} style={{ background: `${GOLD}08`, border: `1px solid ${GOLD}25`, borderRadius: 12, padding: 20, marginBottom: 12 }}>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, fontStyle: "italic", marginBottom: 8 }}>&ldquo;{q.quote}&rdquo;</p>
+                <div style={{ color: GOLD, fontWeight: 700, fontSize: 12 }}>— {q.by}</div>
               </div>
             ))}
           </div>
         )}
 
-        {activeTab === "heresies" && (
+        {/* TWO NATURES */}
+        {activeTab === "natures" && (
           <div>
-            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 20 }}>
-              <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, margin: 0 }}>
-                The historic heresies about Christ's person are not merely ancient mistakes — they represent permanent temptations to make Christ more manageable. Understanding them sharpens the orthodox confession.
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 24 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.8, margin: 0 }}>
+                The Council of Chalcedon (451 AD) defined orthodoxy: Jesus Christ is one person in two complete natures — fully divine and fully human — &ldquo;without confusion, without change, without division, without separation.&rdquo; Neither nature diminishes the other. Both are real. Both are complete.
               </p>
             </div>
-            <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 20 }}>
-              {HERESIES.map(h => (
-                <button key={h.name} onClick={() => setSelectedHeresy(h.name)}
-                  style={{ padding: "8px 14px", borderRadius: 20, border: `1px solid ${selectedHeresy === h.name ? h.color : BORDER}`, background: selectedHeresy === h.name ? `${h.color}20` : "transparent", color: selectedHeresy === h.name ? h.color : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-                  {h.name}
+            <div style={{ display: "flex", gap: 8, marginBottom: 24 }}>
+              {TWO_NATURES.map((n, i) => (
+                <button key={i} onClick={() => setSelectedNature(i)}
+                  style={{ flex: 1, padding: "14px 16px", borderRadius: 12, border: `1px solid ${selectedNature === i ? n.color : BORDER}`, background: selectedNature === i ? `${n.color}18` : CARD, color: selectedNature === i ? n.color : MUTED, fontWeight: 700, fontSize: 15, cursor: "pointer", transition: "all 0.2s ease" }}>
+                  {n.icon} {n.nature}
                 </button>
               ))}
             </div>
-            <div style={{ background: CARD, border: `1px solid ${heresy.color}30`, borderRadius: 14, padding: 28 }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-                <h2 style={{ color: heresy.color, fontWeight: 900, fontSize: 22, margin: 0 }}>{heresy.name}</h2>
-                <span style={{ background: `${heresy.color}15`, color: heresy.color, padding: "3px 12px", borderRadius: 10, fontSize: 12, fontWeight: 700 }}>{heresy.era}</span>
+            <div style={{ background: CARD, border: `1px solid ${TWO_NATURES[selectedNature].color}40`, borderRadius: 14, padding: 28, marginBottom: 20 }}>
+              <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, marginBottom: 20 }}>{TWO_NATURES[selectedNature].desc}</p>
+              <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 20 }}>
+                {TWO_NATURES[selectedNature].texts.map(t => (
+                  <span key={t} style={{ background: `${TWO_NATURES[selectedNature].color}15`, color: TWO_NATURES[selectedNature].color, padding: "4px 10px", borderRadius: 20, fontSize: 12, fontWeight: 600 }}>{t}</span>
+                ))}
               </div>
-              <div style={{ background: `${heresy.color}08`, border: `1px solid ${heresy.color}20`, borderRadius: 8, padding: 14, marginBottom: 14 }}>
-                <div style={{ color: heresy.color, fontWeight: 700, fontSize: 12, marginBottom: 6 }}>THE CLAIM</div>
-                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, margin: 0 }}>{heresy.claim}</p>
+              <h4 style={{ color: TWO_NATURES[selectedNature].color, fontWeight: 700, fontSize: 14, marginBottom: 12 }}>Biblical Evidence:</h4>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 8 }}>
+                {TWO_NATURES[selectedNature].evidences.map((e, i) => (
+                  <div key={i} style={{ background: BG, borderRadius: 8, padding: 10, border: `1px solid ${BORDER}` }}>
+                    <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{e}</p>
+                  </div>
+                ))}
               </div>
-              <div style={{ background: `${PURPLE}08`, border: `1px solid ${PURPLE}20`, borderRadius: 8, padding: 14, marginBottom: 14 }}>
-                <div style={{ color: PURPLE, fontWeight: 700, fontSize: 12, marginBottom: 6 }}>THE ERROR</div>
-                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, margin: 0 }}>{heresy.error}</p>
-              </div>
-              <div style={{ background: `${GREEN}08`, border: `1px solid ${GREEN}20`, borderRadius: 8, padding: 14 }}>
-                <div style={{ color: GREEN, fontWeight: 700, fontSize: 12, marginBottom: 6 }}>THE CORRECTIVE</div>
-                <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{heresy.key_verse}</p>
-              </div>
+            </div>
+            <div style={{ background: `${PURPLE}10`, border: `1px solid ${PURPLE}30`, borderRadius: 14, padding: 22 }}>
+              <h3 style={{ color: PURPLE, fontWeight: 800, fontSize: 17, marginBottom: 10 }}>The Communicatio Idiomatum</h3>
+              <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>
+                The communicatio idiomatum (Latin: &ldquo;communication of attributes&rdquo;) is the principle that the attributes of both natures can be predicated of the one person of Christ. The Son of God died (though divinity cannot die — he died in his human nature). The Son of Man is omniscient (though humans are not — he knows all things in his divine nature). The person is one; the natures are two; what happens to either nature happens to the one person.
+              </p>
             </div>
           </div>
         )}
 
-        {activeTab === "thinkers" && (
-          <div style={{ display: "flex", gap: 20 }}>
-            <div style={{ width: 210, flexShrink: 0 }}>
-              {INCARNATION_THINKERS.map(tk => (
-                <button key={tk.id} onClick={() => setSelectedThinker(tk.id)}
-                  style={{ width: "100%", background: selectedThinker === tk.id ? `${PURPLE}20` : CARD, border: `1px solid ${selectedThinker === tk.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 8, cursor: "pointer", textAlign: "left" }}>
-                  <div style={{ color: selectedThinker === tk.id ? GREEN : TEXT, fontWeight: 700, fontSize: 13, marginBottom: 2 }}>{tk.name}</div>
-                  <div style={{ color: MUTED, fontSize: 11 }}>{tk.era}</div>
-                </button>
-              ))}
-            </div>
-            <div style={{ flex: 1, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 6, flexWrap: "wrap" }}>
-                <h2 style={{ color: GREEN, fontWeight: 900, fontSize: 22, margin: 0 }}>{thinker.name}</h2>
-                <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "3px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700, flexShrink: 0 }}>{thinker.era}</span>
-              </div>
-              <p style={{ color: MUTED, fontSize: 13, fontStyle: "italic", marginBottom: 16 }}>{thinker.context}</p>
-              <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, marginBottom: 20 }}>{thinker.bio}</p>
-              <blockquote style={{ margin: "0 0 20px", padding: "12px 16px", borderLeft: `3px solid ${GREEN}`, background: `${GREEN}08`, borderRadius: "0 8px 8px 0" }}>
-                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, margin: 0, fontStyle: "italic" }}>"{thinker.quote}"</p>
-              </blockquote>
-              <div style={{ background: `${PURPLE}08`, border: `1px solid ${PURPLE}20`, borderRadius: 10, padding: 16 }}>
-                <div style={{ color: PURPLE, fontWeight: 700, fontSize: 12, marginBottom: 8 }}>CONTRIBUTION</div>
-                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{thinker.contribution}</p>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {activeTab === "practices" && (
+        {/* WHY IT MATTERS */}
+        {activeTab === "why" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
-              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
-                The Incarnation is not only a doctrine to defend but a reality that changes how we live — how we pray, relate to our bodies, understand suffering, and anticipate the resurrection.
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.8, margin: 0 }}>
+                The incarnation is not a theological curiosity — it is the foundation of salvation. Every major aspect of the Christian gospel depends on the reality that the eternal Son became genuinely human. Athanasius&apos;s masterwork <em>On the Incarnation</em> (c. 318 AD) is still the best explanation of why it was both necessary and fitting.
               </p>
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 14 }}>
-              {PRACTICES.map((p, i) => (
-                <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
-                    <span style={{ fontSize: 20 }}>{p.icon}</span>
-                    <div style={{ color: GREEN, fontWeight: 800, fontSize: 15 }}>{p.title}</div>
+            {WHY_MATTERS.map((w, i) => (
+              <div key={i} onClick={() => setExpandedWhy(expandedWhy === i ? null : i)}
+                style={{ background: CARD, border: `1px solid ${expandedWhy === i ? `${GREEN}50` : BORDER}`, borderRadius: 14, padding: 22, marginBottom: 12, cursor: "pointer", transition: "all 0.2s ease" }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                    <span style={{ fontSize: 24 }}>{w.icon}</span>
+                    <div>
+                      <h3 style={{ color: expandedWhy === i ? GREEN : TEXT, fontWeight: 800, fontSize: 17, margin: 0, transition: "all 0.2s ease" }}>{w.title}</h3>
+                      <span style={{ background: `${PURPLE}18`, color: PURPLE, padding: "2px 8px", borderRadius: 10, fontSize: 11, fontWeight: 600 }}>{w.ref}</span>
+                    </div>
                   </div>
-                  <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.65, margin: 0 }}>{p.desc}</p>
+                  <span style={{ color: MUTED }}>{expandedWhy === i ? "▲" : "▼"}</span>
+                </div>
+                {expandedWhy === i && (
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, marginTop: 14, marginBottom: 0 }}>{w.body}</p>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* CHALCEDON */}
+        {activeTab === "chalcedon" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28, marginBottom: 20 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 12 }}>The Council of Chalcedon (451 AD)</h2>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.8, margin: 0 }}>
+                Called by Emperor Marcian to settle the Nestorian controversy and the Eutychian controversy, the Council of Chalcedon produced the most carefully worded statement on Christ&apos;s person in Christian history — one that all major Christian traditions (Catholic, Orthodox, Protestant) affirm. It used Greek philosophical vocabulary not to speculate but to set the boundaries of orthodoxy.
+              </p>
+            </div>
+            {CHALCEDON_CONTENT.map((c, i) => (
+              <div key={i} style={{ background: CARD, border: `1px solid ${PURPLE}30`, borderRadius: 14, padding: 24, marginBottom: 14 }}>
+                <h3 style={{ color: PURPLE, fontWeight: 800, fontSize: 18, marginBottom: 12 }}>{c.heading}</h3>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>{c.body}</p>
+              </div>
+            ))}
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 14, marginTop: 4 }}>
+              {[
+                { heresy: "Nestorianism", color: "#EF4444", error: "Two persons in Christ — the divine Son and the human Jesus — loosely united. Mary is mother of the human Jesus, not of the divine Son. Condemned at the Council of Ephesus (431 AD) through the work of Cyril of Alexandria." },
+                { heresy: "Eutychianism", color: "#F59E0B", error: "The two natures of Christ were mixed into a third substance — neither truly divine nor truly human. Jesus' humanity was 'absorbed' by his divinity. Condemned at Chalcedon (451 AD). Still present in some Monophysite traditions." },
+                { heresy: "Apollinarianism", color: PURPLE, error: "Jesus had a human body but the Logos replaced the human mind/soul. This preserves unity but sacrifices genuine humanity. Condemned at the Council of Constantinople (381 AD) — if he did not take on a human mind, he cannot redeem our minds." },
+              ].map((h, i) => (
+                <div key={i} style={{ background: CARD, border: `1px solid ${h.color}30`, borderRadius: 12, padding: 18 }}>
+                  <div style={{ color: h.color, fontWeight: 800, fontSize: 15, marginBottom: 8 }}>{h.heresy}</div>
+                  <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0 }}>{h.error}</p>
                 </div>
               ))}
             </div>
           </div>
         )}
+
+        {/* KENOSIS */}
+        {activeTab === "kenosis" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.8, margin: 0 }}>
+                The &ldquo;kenosis debate&rdquo; centers on how to interpret Philippians 2:7 — that the Son &ldquo;emptied himself&rdquo; (Greek: ekenosen) in the incarnation. What did he empty himself of? Did he give up divine attributes? This has been one of the most contested questions in Christology since the 19th century.
+              </p>
+            </div>
+            {KENOSIS.map((k, i) => (
+              <div key={i} style={{ background: CARD, border: `1px solid ${k.color}30`, borderRadius: 14, padding: 24, marginBottom: 14 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+                  <h3 style={{ color: k.color, fontWeight: 800, fontSize: 18, margin: 0 }}>{k.title}</h3>
+                  <span style={{ background: `${k.color}18`, color: k.color, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 600, whiteSpace: "nowrap", marginLeft: 12 }}>{k.ref}</span>
+                </div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>{k.body}</p>
+              </div>
+            ))}
+            <div style={{ background: `${GOLD}08`, border: `1px solid ${GOLD}25`, borderRadius: 14, padding: 24 }}>
+              <h3 style={{ color: GOLD, fontWeight: 800, fontSize: 16, marginBottom: 10 }}>The Bottom Line</h3>
+              <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>
+                However the mechanics are understood, the Chalcedonian formula remains the boundary: Jesus is truly God (his divine nature intact) and truly human (genuinely experiencing human limitation) in one undivided person. The Son lived in the incarnation in total dependence on the Father, guided by the Spirit — modeling the human life of faith that we are called to share.
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* VIDEOS */}
         {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
               <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
-              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
-                Video teachings on the Incarnation — the Word become flesh, its theological meaning, and why it stands at the center of Christian faith.
-              </p>
-              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-                {[
-                  { videoId: "SUWBelEa_6o", title: "The Incarnation: God Became Human", channel: "The Bible Project", description: "An animated exploration of John 1:14 — what it means that the eternal Word became flesh, how this fulfills the Old Testament temple theme, and why the Incarnation matters for how we understand salvation." },
-                  { videoId: "oXEgbM2tSXs", title: "Fully God and Fully Human: The Council of Chalcedon", channel: "Ligonier Ministries", description: "The story of how the church arrived at the Chalcedonian definition — two natures, one person, without confusion or separation — and why each of the rejected heresies was a pastoral as well as theological failure." },
-                  { videoId: "kv46yYW66pA", title: "Why the Incarnation? Athanasius and the Logic of the Cross", channel: "Theology Explained", description: "Athanasius's answer to why God became human — to restore the divine image in corrupted humanity, to defeat death from within, and to open the way to divinization. The Incarnation as the hinge of salvation history." },
-                  { videoId: "smqK6ebkXiU", title: "The Permanent Humanity of Christ", channel: "N.T. Wright Online", description: "Wright on the astonishing implication that the Incarnation did not end at the resurrection — Jesus rose and ascended bodily, and there is now a human being at the right hand of the Father." },
-                ].map(v => (
-                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
-                    <div style={{ padding: "14px 16px" }}>
-                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
-                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
-                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
-                    </div>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Lectures and sermons on the incarnation from leading evangelical and Reformed scholars and teachers.</p>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+              {VIDEOS.map(v => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, overflow: "hidden" }}>
+                  <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                    src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                  <div style={{ padding: "16px 20px" }}>
+                    <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                    <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 8 }}>{v.channel}</p>
+                    <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6, margin: 0 }}>{v.description}</p>
                   </div>
-                ))}
-              </div>
+                </div>
+              ))}
             </div>
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 }

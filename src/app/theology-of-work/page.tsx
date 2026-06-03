@@ -1,4 +1,6 @@
 "use client";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
@@ -163,6 +165,7 @@ function AccordionItem({
 }) {
   return (
     <div style={{ background: CARD, border: `1px solid ${expanded ? PURPLE + "50" : BORDER}`, borderRadius: 12, overflow: "hidden", marginBottom: 10 }}>
+      <Navbar />
       <button
         onClick={onToggle}
         style={{
@@ -213,7 +216,7 @@ export default function TheologyOfWorkPage() {
   const selectedVocation = VOCATION_TOPICS.find(t => t.id === vocabSelected) ?? VOCATION_TOPICS[0];
 
   return (
-    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 40 }}>
+    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
       <div style={{ maxWidth: 960, margin: "0 auto", padding: "0 20px 60px" }}>
 
         {/* Header */}
@@ -390,6 +393,7 @@ export default function TheologyOfWorkPage() {
         )}
 
       </div>
+      <Footer />
     </div>
   );
 }

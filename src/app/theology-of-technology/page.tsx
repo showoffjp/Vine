@@ -1,4 +1,6 @@
 "use client";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 import { useState } from "react";
 
@@ -178,6 +180,7 @@ function AccordionItem({ title, body }: { title: string; body: string }) {
         overflow: "hidden",
       }}
     >
+      <Navbar />
       <button
         onClick={() => setOpen(!open)}
         style={{
@@ -326,7 +329,7 @@ export default function TheologyOfTechnologyPage() {
         minHeight: "100vh",
         color: TEXT,
         fontFamily: "system-ui, -apple-system, sans-serif",
-        paddingTop: 40,
+        paddingTop: 80,
       }}
     >
       <div
@@ -554,6 +557,7 @@ export default function TheologyOfTechnologyPage() {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 }

@@ -1,4 +1,6 @@
 "use client";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
@@ -126,7 +128,8 @@ export default function TechnologyPage() {
   const CAT_COLORS: Record<string, string> = { "Daily Rhythms": "#3B82F6", "Weekly Rhythms": "#10B981", "Content Choices": PURPLE, "Relationships": "#F59E0B" };
 
   return (
-    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 40 }}>
+    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
+      <Navbar />
       <div style={{ maxWidth: 880, margin: "0 auto", padding: "0 20px 60px" }}>
         <div style={{ textAlign: "center", marginBottom: 40 }}>
           <div style={{ fontSize: 48, marginBottom: 12 }}>📱</div>
@@ -282,6 +285,7 @@ export default function TechnologyPage() {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 }

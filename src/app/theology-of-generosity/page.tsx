@@ -1,4 +1,6 @@
 "use client";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
@@ -188,6 +190,7 @@ function AccordionItem({
         overflow: "hidden",
       }}
     >
+      <Navbar />
       <button
         onClick={() => onToggle(id)}
         style={{
@@ -257,7 +260,7 @@ export default function TheologyOfGenerosityPage() {
   ];
 
   return (
-    <div style={{ background: BG, minHeight: "100vh", paddingTop: 40 }}>
+    <div style={{ background: BG, minHeight: "100vh", paddingTop: 80 }}>
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 20px 80px" }}>
         {/* Header */}
         <div style={{ textAlign: "center", marginBottom: 48 }}>
@@ -627,6 +630,7 @@ export default function TheologyOfGenerosityPage() {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 }

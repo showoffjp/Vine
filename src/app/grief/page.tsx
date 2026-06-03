@@ -1,4 +1,6 @@
 "use client";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 import React, { useState, useEffect } from "react";
 
@@ -217,6 +219,7 @@ export default function GriefPage() {
 
   return (
     <div style={{ minHeight: "100vh", background: "#07070F", color: "#F2F2F8" }}>
+      <Navbar />
       {/* Hero */}
       <div
         style={{
@@ -573,6 +576,7 @@ export default function GriefPage() {
           </div>
         </div>
       )}
+      <Footer />
     </div>
   );
 }

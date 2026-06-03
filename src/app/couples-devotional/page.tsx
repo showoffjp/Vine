@@ -1,4 +1,6 @@
 "use client";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 import { useState, useEffect } from "react";
 
@@ -377,6 +379,7 @@ export default function CouplesDevotionalPage() {
 
   return (
     <div style={{ minHeight: "100vh", background: "#07070F", color: "#F2F2F8" }}>
+      <Navbar />
       {/* Hero */}
       <div style={{ background: "linear-gradient(135deg, #1a0a2e 0%, #07070F 100%)", padding: "52px 24px 36px", textAlign: "center", borderBottom: "1px solid #1E1E32" }}>
         <div style={{ fontSize: 44, marginBottom: 10 }}>💑</div>
@@ -662,6 +665,7 @@ export default function CouplesDevotionalPage() {
           ))}
         </div>
       )}
+      <Footer />
     </div>
   );
 }

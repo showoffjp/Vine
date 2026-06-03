@@ -1,4 +1,6 @@
 "use client";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 import { useState } from "react";
 import Link from "next/link";
@@ -159,6 +161,7 @@ export default function OnboardingPage() {
       className="min-h-screen flex flex-col items-center justify-center px-4 py-12 relative overflow-hidden"
       style={{ background: "#07070F" }}
     >
+      <Navbar />
       {/* Background glow */}
       <div
         className="absolute inset-0 pointer-events-none"
@@ -579,6 +582,7 @@ export default function OnboardingPage() {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 }

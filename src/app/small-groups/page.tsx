@@ -1,9 +1,10 @@
 "use client";
-
 import { useState, useEffect } from "react";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
-const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GREEN = "#3a7d56", PURPLE = "#6B4FBB", GOLD = "#c9a227", TEXT = "#F2F2F8", MUTED = "#9898B3";
 
 type IceBreaker = { question: string; category: string; depth: "Light" | "Medium" | "Deep"; };
 type StudyGuide = { id: string; title: string; passage: string; weeks: number; theme: string; color: string; description: string; weekOutlines: { week: number; title: string; passage: string; bigQuestion: string; }[]; };
@@ -24,6 +25,9 @@ const iceBreakers: IceBreaker[] = [
   { question: "What's a question about God or the Bible you've never gotten a satisfying answer to?", category: "Theology", depth: "Deep" },
   { question: "When you imagine your life 5 years from now, what do you hope is different?", category: "Vision", depth: "Medium" },
   { question: "What's the hardest thing you're carrying right now that you'd be willing to share?", category: "Vulnerability", depth: "Deep" },
+  { question: "What's one thing your parents taught you about God — positively or negatively?", category: "Story", depth: "Medium" },
+  { question: "When did you last feel truly close to another person? What created that closeness?", category: "Relationships", depth: "Deep" },
+  { question: "What is one habit or practice that has genuinely shaped your spiritual life?", category: "Growth", depth: "Light" },
 ];
 
 const studyGuides: StudyGuide[] = [
@@ -56,9 +60,9 @@ const studyGuides: StudyGuide[] = [
       { week: 1, title: "Blessed Are the Surprising People", passage: "Matthew 5:1-12", bigQuestion: "The beatitudes describe people who seem like losers by cultural standards. Which one is most counterintuitive to you? Why?" },
       { week: 2, title: "Salt & Light", passage: "Matthew 5:13-16", bigQuestion: "Jesus says you already are salt and light — not that you should try to be. How does that change how you think about your Monday morning?" },
       { week: 3, title: "The Heart Behind the Rules", passage: "Matthew 5:17-48", bigQuestion: "Jesus repeatedly says 'You have heard... but I say to you.' What's a rule you follow externally but struggle with in your heart?" },
-      { week: 4, title: "Giving, Prayer, Fasting", passage: "Matthew 6:1-18", bigQuestion: "Jesus critiques religious performance — giving, praying, and fasting for an audience. What's one practice in your life that has become performance rather than devotion?" },
-      { week: 5, title: "The Anxious Heart", passage: "Matthew 6:19-34", bigQuestion: "'Do not worry.' Easy to say, hard to do. What are you most anxious about right now, and what would it mean to 'seek first the kingdom' in that situation?" },
-      { week: 6, title: "Logs and Specks", passage: "Matthew 7:1-6", bigQuestion: "Jesus forbids judgmentalism while also saying don't give holy things to dogs. How do you hold those two truths together in practice?" },
+      { week: 4, title: "Giving, Prayer, Fasting", passage: "Matthew 6:1-18", bigQuestion: "Jesus critiques religious performance. What's one practice in your life that has become performance rather than devotion?" },
+      { week: 5, title: "The Anxious Heart", passage: "Matthew 6:19-34", bigQuestion: "'Do not worry.' What are you most anxious about right now, and what would it mean to 'seek first the kingdom' in that situation?" },
+      { week: 6, title: "Logs and Specks", passage: "Matthew 7:1-6", bigQuestion: "Jesus forbids judgmentalism while also saying don't give holy things to dogs. How do you hold those two truths together?" },
       { week: 7, title: "The Door Is Open", passage: "Matthew 7:7-11", bigQuestion: "Jesus commands persistent prayer — 'keep asking, keep seeking, keep knocking.' What have you given up praying for? Why?" },
       { week: 8, title: "Two Foundations", passage: "Matthew 7:24-29", bigQuestion: "The difference between the two builders isn't what they believe but what they do. What is one truth you know but aren't yet living?" },
     ]
@@ -78,12 +82,92 @@ const studyGuides: StudyGuide[] = [
       { week: 4, title: "Forgive One Another", passage: "Colossians 3:12-17", bigQuestion: "Share a time you had to forgive someone and what it cost you. What made it possible (or what made it hard)?" },
       { week: 5, title: "Spur One Another On", passage: "Hebrews 10:24-25", bigQuestion: "'Spur one another on toward love and good deeds.' What would it look like for this group to take that command seriously in each other's lives?" },
     ]
-  }
+  },
+  {
+    id: "psalms",
+    title: "Songs from the Deep",
+    passage: "Psalms 1-150 (selected)",
+    weeks: 6,
+    theme: "Lament, Worship & Trust",
+    color: GOLD,
+    description: "6 weeks praying through the Psalms — the full range of human emotion brought before God. Learn to lament, praise, trust, and cry out with the people of God.",
+    weekOutlines: [
+      { week: 1, title: "Two Ways to Live", passage: "Psalm 1", bigQuestion: "The psalm contrasts two paths — rootedness in God's word vs. being like chaff. Which path feels most natural to your default patterns?" },
+      { week: 2, title: "The Lord Is My Shepherd", passage: "Psalm 23", bigQuestion: "Which image from this psalm — still waters, valley of the shadow, overflowing cup — resonates most with where you are right now?" },
+      { week: 3, title: "Have Mercy on Me", passage: "Psalm 51", bigQuestion: "David's prayer of confession is brutally honest about sin. What makes genuine repentance different from simply feeling bad about yourself?" },
+      { week: 4, title: "Why, O Lord?", passage: "Psalm 88", bigQuestion: "Psalm 88 ends with no resolution — just darkness. Have you ever been in that place? What is right about bringing that kind of prayer to God?" },
+      { week: 5, title: "Bless the Lord, O My Soul", passage: "Psalm 103", bigQuestion: "David addresses his own soul: 'forget not all his benefits.' What 'benefits' of God do you most forget? What do you most remember?" },
+      { week: 6, title: "You Have Searched Me", passage: "Psalm 139", bigQuestion: "God knows you completely — your thoughts, your path, your words before you speak. Does that feel comforting or exposing? Why?" },
+    ]
+  },
 ];
 
-const depthColors = { "Light": "#10B981", "Medium": "#F59E0B", "Deep": "#EF4444" };
-
-// ── DATA ─────────────────────────────────────────────────────────────────────
+const LEADER_TIPS = [
+  {
+    category: "Discussion",
+    color: PURPLE,
+    icon: "🗣️",
+    title: "The Power of Silence",
+    description: "After asking a question, wait 7-10 seconds before moving on. It feels uncomfortable — but that discomfort produces depth. People need time to formulate honest answers, not just the first thing that comes to mind.",
+    example: "Ask: 'What is God saying to you through this passage?' Then wait. The first answer is often the surface one. The third answer, from the person who needed time to think, is often the real one.",
+  },
+  {
+    category: "Discussion",
+    color: PURPLE,
+    icon: "↩️",
+    title: "Redirect, Don't Lecture",
+    description: "When someone gives a theologically questionable answer, don't immediately correct them. Ask: 'What does the rest of the group think?' Let the community work it out. Your role is to facilitate, not lecture.",
+    example: "If someone says 'God helped me because I prayed hard enough,' ask: 'What do others think about what God's response depends on?' Let others engage before you add your perspective.",
+  },
+  {
+    category: "Pastoral",
+    color: "#EC4899",
+    icon: "💌",
+    title: "Follow Up Between Gatherings",
+    description: "The most powerful pastoral moment is not at the group meeting — it's the text you send on Wednesday about what someone shared on Sunday. Following up communicates: I heard you. You matter to me.",
+    example: "Sarah shared something vulnerable. Monday morning: 'Hey, still thinking about what you shared. Praying for you today.' That is what makes a group a community instead of a meeting.",
+  },
+  {
+    category: "Prayer",
+    color: "#3B82F6",
+    icon: "🙏",
+    title: "Don't Let Prayer Become Monologue",
+    description: "When one person tends to pray long prayers, gently introduce a 'one-sentence prayer' format. It democratizes prayer and keeps energy in the room. Every voice gets heard.",
+    example: "Introduce it positively: 'Tonight, let's pray in one sentence each — it forces us to be specific and leaves room for everyone to pray.' The result is often richer than five minutes from one person.",
+  },
+  {
+    category: "Dynamics",
+    color: GOLD,
+    icon: "🔊",
+    title: "Manage the Dominant Voice",
+    description: "Every group has one person who talks too much. Address it early and privately — not in the meeting. Use body language in the meeting to redirect: turn your body toward others, use direct invitation.",
+    example: "'I value your contributions. I want to draw out others who don't speak as readily. Can I count on you to hold back sometimes?' Then: 'Let's hear from someone who hasn't spoken yet tonight.'",
+  },
+  {
+    category: "Growth",
+    color: GREEN,
+    icon: "🌱",
+    title: "Plan Multiplication from Day One",
+    description: "If your group never plans to multiply, it eventually becomes an exclusive club. From the beginning, name the intention: 'In 12-18 months, we want to birth another group.' Identify an emerging leader early.",
+    example: "Begin giving emerging leaders responsibilities — prayer time, one discussion question, closing. The greatest gift you can give your current group is another group that takes its shape from yours.",
+  },
+  {
+    category: "Pastoral",
+    color: "#EC4899",
+    icon: "🛡️",
+    title: "Handle Conflict Directly and Gently",
+    description: "Conflict avoided becomes conflict compounded. When tension emerges in the group, name it privately with the individuals involved before the next meeting. Conflict handled well deepens community.",
+    example: "After a tense exchange: talk to both people individually. 'I noticed some tension between you and [name] last week. I wanted to check in.' Nine times out of ten, both parties are relieved someone noticed.",
+  },
+  {
+    category: "Discussion",
+    color: PURPLE,
+    icon: "🎯",
+    title: "Use One Great Question, Not Ten Okay Ones",
+    description: "Most study guides provide too many questions. Choose the one question that gets to the heart of the passage and stay with it. Go deep rather than wide. Breadth in questions produces shallow answers.",
+    example: "For Ephesians 2:1-10 (dead in sin, made alive by grace), one question: 'Is there an area of your life where you're still trying to earn what God has already given?' That one question can fill an hour.",
+  },
+];
 
 const VOICES_SG = [
   {
@@ -100,25 +184,16 @@ const VOICES_SG = [
     name: "Larry Crabb",
     era: "1944-2021",
     context: "Connecting (1997) — on the soul-healing power of ordinary Christian relationship",
-    bio: "Larry Crabb spent decades as a Christian psychologist before concluding that the most powerful agent of soul transformation is not professional therapy but the ordinary quality of Christian relationships in community. His book Connecting argues that when Christians learn to move toward one another in genuine soul-care — releasing what he calls 'connecting energy' — the result is more therapeutic than any clinical intervention. Crabb challenged the church to stop outsourcing its healing ministry to professionals and recover the New Testament pattern of one-another ministry. His later work, including Soul Talk and The PAPA Prayer, deepened this vision of community as the arena of spiritual transformation.",
+    bio: "Larry Crabb spent decades as a Christian psychologist before concluding that the most powerful agent of soul transformation is not professional therapy but the ordinary quality of Christian relationships in community. His book Connecting argues that when Christians learn to move toward one another in genuine soul-care — releasing what he calls 'connecting energy' — the result is more therapeutic than any clinical intervention. Crabb challenged the church to stop outsourcing its healing ministry to professionals and recover the New Testament pattern of one-another ministry.",
     quote: "When two people connect at the level of the soul, something is released in both that nothing else can release. The church has been given the most powerful healing resource in the world and rarely uses it.",
-    contribution: "Crabb's Connecting redirected evangelical thinking about spiritual formation from individual disciplines to communal life. His insistence that ordinary Christians are equipped to provide what hurting people most need — real encounter with another human soul that mediates divine grace — gave small group leaders a framework for pastoral ministry that does not require professional credentials.",
-  },
-  {
-    id: "boren",
-    name: "Scott Boren",
-    era: "contemporary",
-    context: "Missional Small Groups (2010) — aligning small groups with the church's mission in the world",
-    bio: "Scott Boren has been one of the most persistent voices for reconfiguring small groups around missional purpose rather than member consumption. His Missional Small Groups argues that the dominant model of small groups in North American evangelicalism — groups organized primarily around relational need, Bible study, and emotional support — has produced inward-facing communities that grow spiritually while contracting socially. Boren draws on the missional theology of Lesslie Newbigin, Alan Hirsch, and others to propose a model of small groups organized around neighborhood presence, service, and disciple-making rather than primarily around the felt needs of existing members.",
-    quote: "A small group that exists only to serve its members is not a small group — it is a club. The question is not whether your group is comfortable but whether it is going anywhere.",
-    contribution: "Boren's work has been influential in the church-planting and missional church movements, where the inherited model of small groups as pastoral care units has been interrogated and reconstructed around the church's sending identity. His framework has helped church planters design groups that are simultaneously formational and missional from the start.",
+    contribution: "Crabb's Connecting redirected evangelical thinking about spiritual formation from individual disciplines to communal life. His insistence that ordinary Christians are equipped to provide what hurting people most need — real encounter with another human soul — gave small group leaders a framework for pastoral ministry without professional credentials.",
   },
   {
     id: "donahue",
     name: "Bill Donahue",
     era: "contemporary",
     context: "Leading Life-Changing Small Groups (Willow Creek, 1996; revised 2012)",
-    bio: "Bill Donahue served as Vice President of Small Group Ministries at Willow Creek Community Church and became one of the most widely read practitioners of small group ministry in North American evangelicalism. His Leading Life-Changing Small Groups provides a comprehensive framework for small group leadership that is both theologically grounded and practically detailed — covering everything from how to facilitate discussion to how to handle conflict, from how to handle the person who dominates to how to pray with your group in a way that is not performative. The book has been used in hundreds of church small group leader training programs.",
+    bio: "Bill Donahue served as Vice President of Small Group Ministries at Willow Creek Community Church and became one of the most widely read practitioners of small group ministry in North American evangelicalism. His Leading Life-Changing Small Groups provides a comprehensive framework for small group leadership that is both theologically grounded and practically detailed — covering everything from how to facilitate discussion to how to handle conflict, from the person who dominates to how to pray in a way that is not performative.",
     quote: "The goal of small group leadership is not to manage a meeting — it is to create conditions in which life change can occur. Those are very different things.",
     contribution: "Donahue's work at Willow Creek helped establish the infrastructure for cell-based small group ministry in large evangelical churches across North America. His books and training materials have shaped the small group culture of thousands of congregations, giving leaders a practical toolkit for transformational community.",
   },
@@ -127,63 +202,27 @@ const VOICES_SG = [
     name: "Randy Frazee",
     era: "contemporary",
     context: "The Connecting Church (2001) — recovering shared Christian life in neighborhood community",
-    bio: "Randy Frazee's The Connecting Church argues that the modern pattern of church life — in which members drive from scattered residential locations to a weekend event and then return to isolated suburban lives — has made genuine Christian community structurally impossible. His proposal is radical by evangelical standards: Christians should live in geographic proximity to one another, organize their small groups around neighborhoods rather than affinity, and recover the shared daily life that characterized the earliest Christian communities. Frazee draws on Acts 2 and the monastic tradition to argue that the church's problem is not a lack of programs but a lack of proximity.",
+    bio: "Randy Frazee's The Connecting Church argues that the modern pattern of church life — members driving from scattered residential locations to a weekend event and then returning to isolated suburban lives — has made genuine Christian community structurally impossible. His proposal: Christians should live in geographic proximity to one another, organize small groups around neighborhoods rather than affinity, and recover the shared daily life that characterized the earliest Christian communities.",
     quote: "The early church did not have small groups — it was a small group. The question is not how to add community to church life but how to make church life genuinely communal again.",
-    contribution: "Frazee's work has influenced a generation of pastors and church planners who have questioned the commuter church model and sought to relocate themselves and their congregations in particular neighborhoods. His vision of the neighborhood church has been influential in both the missional church movement and in traditional evangelical congregations seeking to move from attractional to incarnational ministry.",
+    contribution: "Frazee's work has influenced a generation of pastors and church planners who have questioned the commuter church model and sought to relocate themselves and their congregations in particular neighborhoods. His vision of the neighborhood church has been influential in both the missional church movement and in traditional evangelical congregations.",
   },
 ];
 
 const SG_VIDEOS = [
-  {
-    id: "sg-v1",
-    title: "The Supremacy of Christ",
-    preacher: "Voddie Baucham",
-    videoId: "by8ykv7-A3c",
-    description: "Baucham on what Christ-centered community looks like when his supremacy is taken seriously",
-  },
-  {
-    id: "sg-v2",
-    title: "Forgotten God Part 1",
-    preacher: "Francis Chan",
-    videoId: "sWMjg7CxIKk",
-    description: "Chan challenges small groups to stop doing church without the Holy Spirit",
-  },
-  {
-    id: "sg-v3",
-    title: "Holding Fast to the Gospel",
-    preacher: "Matt Chandler",
-    videoId: "QuxmiIFN8yE",
-    description: "What small groups must center on to avoid drifting into merely social gatherings",
-  },
-  {
-    id: "sg-v4",
-    title: "The Prodigal God: Elder Brother",
-    preacher: "Tim Keller",
-    videoId: "OasF7lWlX_M",
-    description: "Keller unpacks the self-righteous community member &mdash; the most common small group dynamic",
-  },
-  {
-    id: "sg-v5",
-    title: "How Great Is Our God",
-    preacher: "Louie Giglio",
-    videoId: "X1rPalyUshw",
-    description: "Giglio&rsquo;s cosmic vision of God gives small groups a sense of proportion and wonder",
-  },
-  {
-    id: "sg-v6",
-    title: "Radical: Passion 2011",
-    preacher: "David Platt",
-    videoId: "yhiHSf_L6_E",
-    description: "Platt challenges small groups to be communities on mission, not communities of comfort",
-  },
+  { id: "sg-v1", title: "The Supremacy of Christ", preacher: "Voddie Baucham", videoId: "by8ykv7-A3c", description: "Baucham on what Christ-centered community looks like when his supremacy is taken seriously in every aspect of group life." },
+  { id: "sg-v2", title: "Forgotten God: The Holy Spirit", preacher: "Francis Chan", videoId: "sWMjg7CxIKk", description: "Chan challenges small groups to stop doing church without the Holy Spirit — what it looks like when he is actually present and active." },
+  { id: "sg-v3", title: "Holding Fast to the Gospel", preacher: "Matt Chandler", videoId: "QuxmiIFN8yE", description: "What small groups must center on to avoid drifting into merely social gatherings — the gospel as the irreducible center of Christian community." },
+  { id: "sg-v4", title: "The Prodigal God: Elder Brother", preacher: "Tim Keller", videoId: "OasF7lWlX_M", description: "Keller unpacks the self-righteous community member — the most common small group dynamic — and how the gospel addresses it." },
+  { id: "sg-v5", title: "How Great Is Our God", preacher: "Louie Giglio", videoId: "X1rPalyUshw", description: "Giglio's cosmic vision of God gives small groups a sense of proportion and wonder — the worship foundation that precedes everything else." },
+  { id: "sg-v6", title: "Radical: Passion 2011", preacher: "David Platt", videoId: "yhiHSf_L6_E", description: "Platt challenges small groups to be communities on mission, not communities of comfort — what the Great Commission demands of your group." },
 ];
 
-// ─────────────────────────────────────────────────────────────────────────────
+const depthColors = { "Light": "#10B981", "Medium": "#F59E0B", "Deep": "#EF4444" };
 
-type Tab = "guides" | "icebreakers" | "voices" | "videos";
+type SGTab = "guides" | "icebreakers" | "leading" | "voices" | "videos";
 
 export default function SmallGroupsPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("guides");
+  const [activeTab, setActiveTab] = useState<SGTab>("guides");
   const [selectedVoice, setSelectedVoice] = useState("bonhoeffer");
   const voiceItem = VOICES_SG.find(v => v.id === selectedVoice)!;
   const [selectedGuide, setSelectedGuide] = useState<StudyGuide | null>(null);
@@ -195,12 +234,9 @@ export default function SmallGroupsPage() {
   const [savedGuides, setSavedGuides] = useState<Set<string>>(() => {
     try { const s = localStorage.getItem("vine_sg_saved_guides"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
   });
-  useEffect(() => {
-    try { localStorage.setItem("vine_sg_used_icebreakers", JSON.stringify([...usedIceBreakers])); } catch {}
-  }, [usedIceBreakers]);
-  useEffect(() => {
-    try { localStorage.setItem("vine_sg_saved_guides", JSON.stringify([...savedGuides])); } catch {}
-  }, [savedGuides]);
+
+  useEffect(() => { try { localStorage.setItem("vine_sg_used_icebreakers", JSON.stringify([...usedIceBreakers])); } catch {} }, [usedIceBreakers]);
+  useEffect(() => { try { localStorage.setItem("vine_sg_saved_guides", JSON.stringify([...savedGuides])); } catch {} }, [savedGuides]);
 
   const toggleUsed = (i: number) => setUsedIceBreakers(prev => { const n = new Set(prev); n.has(i) ? n.delete(i) : n.add(i); return n; });
   const toggleSaved = (id: string) => setSavedGuides(prev => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
@@ -209,29 +245,30 @@ export default function SmallGroupsPage() {
   const unusedCount = iceBreakers.filter((_, i) => !usedIceBreakers.has(i)).length;
 
   return (
-    <div style={{ minHeight: "100vh", background: BG, color: TEXT, fontFamily: "inherit" }}>
-      <div style={{ maxWidth: 900, margin: "0 auto", padding: "40px 16px 80px" }}>
+    <div style={{ minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <Navbar />
 
-        {/* Header */}
-        <div style={{ textAlign: "center", marginBottom: 40 }}>
-          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(58,125,86,0.1)", border: "1px solid rgba(58,125,86,0.25)", borderRadius: 20, padding: "6px 16px", marginBottom: 16 }}>
-            <span style={{ fontSize: 16 }}>&#128101;</span>
-            <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 2, color: GREEN, textTransform: "uppercase" }}>Small Groups</span>
+      {/* Hero */}
+      <div style={{ background: `linear-gradient(180deg, rgba(107,79,187,0.08) 0%, transparent 100%)`, borderBottom: `1px solid ${BORDER}`, padding: "80px 20px 48px" }}>
+        <div style={{ maxWidth: 720, margin: "0 auto", textAlign: "center" }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(58,125,86,0.1)", border: "1px solid rgba(58,125,86,0.25)", borderRadius: 20, padding: "6px 16px", marginBottom: 20 }}>
+            <span style={{ fontSize: 16 }}>👥</span>
+            <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 2, color: GREEN, textTransform: "uppercase" }}>Small Groups Guide</span>
           </div>
-          <h1 style={{ fontSize: 40, fontWeight: 900, marginBottom: 16, lineHeight: 1.1 }}>
+          <h1 style={{ fontFamily: "var(--font-cormorant, Georgia, serif)", fontSize: "clamp(36px, 5vw, 52px)", fontWeight: 700, marginBottom: 16, lineHeight: 1.1 }}>
             Leading Your Group{" "}
             <span style={{ background: `linear-gradient(135deg, ${GREEN}, ${PURPLE})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
               Well
             </span>
           </h1>
-          <p style={{ color: MUTED, fontSize: 17, maxWidth: 560, margin: "0 auto 20px" }}>
-            Ice breakers that go deeper, multi-week study guides with discussion questions, and leader wisdom for every situation.
+          <p style={{ color: MUTED, fontSize: 17, maxWidth: 560, margin: "0 auto 24px", lineHeight: 1.75 }}>
+            Small groups are where the church becomes real — not a building you attend but a community you belong to. Study guides, ice breakers, leader wisdom, and voices from those who have thought deepest about Christian life together.
           </p>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12, maxWidth: 400, margin: "0 auto" }}>
             {[
               { v: unusedCount, label: "Fresh Ice Breakers", color: GREEN },
-              { v: usedIceBreakers.size, label: "Used", color: MUTED },
-              { v: savedGuides.size, label: "Studies Saved", color: PURPLE },
+              { v: studyGuides.length, label: "Study Guides", color: PURPLE },
+              { v: savedGuides.size, label: "Studies Saved", color: GOLD },
             ].map(s => (
               <div key={s.label} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "12px 8px", textAlign: "center" }}>
                 <div style={{ fontSize: 22, fontWeight: 900, color: s.color }}>{s.v}</div>
@@ -240,23 +277,36 @@ export default function SmallGroupsPage() {
             ))}
           </div>
         </div>
+      </div>
 
+      <div style={{ maxWidth: 920, margin: "0 auto", padding: "32px 16px 80px" }}>
         {/* Tab Bar */}
-        <div style={{ display: "flex", gap: 4, marginBottom: 28, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 4 }}>
-          {(["guides", "icebreakers", "voices", "videos"] as const).map(t => (
-            <button key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer", flex: 1 }}>
-              {t === "guides" ? "Study Guides" : t === "icebreakers" ? "Ice Breakers" : t === "voices" ? "Voices" : "Videos"}
+        <div style={{ display: "flex", gap: 4, marginBottom: 28, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 4, flexWrap: "wrap" }}>
+          {[
+            { id: "guides" as const, label: "Study Guides", icon: "📖" },
+            { id: "icebreakers" as const, label: "Ice Breakers", icon: "🎯" },
+            { id: "leading" as const, label: "Leading Well", icon: "🎓" },
+            { id: "voices" as const, label: "Voices", icon: "💬" },
+            { id: "videos" as const, label: "Videos", icon: "🎬" },
+          ].map(t => (
+            <button key={t.id} onClick={() => setActiveTab(t.id)}
+              style={{ flex: 1, background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 12px", fontWeight: 700, fontSize: 13, cursor: "pointer", transition: "background 0.2s" }}>
+              {t.icon} {t.label}
             </button>
           ))}
         </div>
 
-        {/* ── GUIDES TAB ── */}
+        {/* STUDY GUIDES */}
         {activeTab === "guides" && (
           <div>
-            <p style={{ color: MUTED, marginBottom: 24, fontSize: 15 }}>Multi-week studies with week-by-week outlines and discussion questions for each session.</p>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "18px 22px", marginBottom: 24 }}>
+              <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>
+                Four multi-week inductive studies with week-by-week outlines and discussion questions — designed for groups of 6-12 who want to go deep into Scripture together rather than skimming the surface.
+              </p>
+            </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
               {studyGuides.map(g => (
-                <div key={g.id} style={{ background: CARD, border: `1px solid ${savedGuides.has(g.id) ? g.color + "40" : BORDER}`, borderRadius: 16, overflow: "hidden" }}>
+                <div key={g.id} style={{ background: CARD, border: `1px solid ${savedGuides.has(g.id) ? g.color + "40" : BORDER}`, borderRadius: 16, overflow: "hidden", transition: "border-color 0.2s" }}>
                   <div style={{ padding: "20px 24px" }}>
                     <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12 }}>
                       <div style={{ flex: 1 }}>
@@ -310,14 +360,37 @@ export default function SmallGroupsPage() {
                 </div>
               ))}
             </div>
+
+            {/* Acts 2 community model */}
+            <div style={{ marginTop: 24, background: `${GREEN}08`, border: `1px solid ${GREEN}25`, borderRadius: 16, padding: "24px 28px" }}>
+              <h3 style={{ fontSize: 16, fontWeight: 800, color: GREEN, marginBottom: 10 }}>The Acts 2 House-to-House Model</h3>
+              <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, marginBottom: 14 }}>
+                &ldquo;Every day they continued to meet together in the temple courts. They broke bread in their homes and ate together with glad and sincere hearts.&rdquo; (Acts 2:46) The early church was both a gathered assembly (temple courts) and a distributed community (house to house). Small groups recover the house-to-house dimension — where people are known by name, not just by seat.
+              </p>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))", gap: 10 }}>
+                {[
+                  { mark: "Devoted to teaching", ref: "Acts 2:42" },
+                  { mark: "Fellowship (koinonia)", ref: "Acts 2:42" },
+                  { mark: "Breaking bread together", ref: "Acts 2:42" },
+                  { mark: "Prayer as a group", ref: "Acts 2:42" },
+                  { mark: "Meeting real needs", ref: "Acts 2:44-45" },
+                  { mark: "Glad and sincere hearts", ref: "Acts 2:46" },
+                ].map(m => (
+                  <div key={m.mark} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "12px 14px" }}>
+                    <p style={{ color: TEXT, fontWeight: 700, fontSize: 13, margin: "0 0 3px" }}>{m.mark}</p>
+                    <p style={{ color: GREEN, fontSize: 11, fontWeight: 600, margin: 0 }}>{m.ref}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         )}
 
-        {/* ── ICE BREAKERS TAB ── */}
+        {/* ICE BREAKERS */}
         {activeTab === "icebreakers" && (
           <div>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20, flexWrap: "wrap", gap: 10 }}>
-              <p style={{ color: MUTED, fontSize: 14, margin: 0 }}>Mark questions as used to track what you&rsquo;ve asked. Filter by depth level.</p>
+              <p style={{ color: MUTED, fontSize: 14, margin: 0 }}>Mark questions as used to track what you&rsquo;ve asked. Filter by depth level for different group needs.</p>
               <div style={{ display: "flex", gap: 6 }}>
                 {(["All", "Light", "Medium", "Deep"] as const).map(d => (
                   <button key={d} onClick={() => setDepthFilter(d)}
@@ -333,7 +406,7 @@ export default function SmallGroupsPage() {
                 const origIndex = iceBreakers.indexOf(q);
                 const used = usedIceBreakers.has(origIndex);
                 return (
-                  <div key={i} style={{ background: used ? "rgba(255,255,255,0.01)" : CARD, border: `1px solid ${used ? "rgba(255,255,255,0.04)" : BORDER}`, borderRadius: 14, padding: "16px 20px", display: "flex", gap: 14, alignItems: "flex-start", opacity: used ? 0.5 : 1 }}>
+                  <div key={i} style={{ background: used ? "rgba(255,255,255,0.01)" : CARD, border: `1px solid ${used ? "rgba(255,255,255,0.04)" : BORDER}`, borderRadius: 14, padding: "16px 20px", display: "flex", gap: 14, alignItems: "flex-start", opacity: used ? 0.5 : 1, transition: "opacity 0.2s" }}>
                     <div style={{ flex: 1 }}>
                       <div style={{ display: "flex", gap: 8, marginBottom: 8, flexWrap: "wrap" }}>
                         <span style={{ fontSize: 11, padding: "2px 10px", borderRadius: 20, background: "rgba(255,255,255,0.05)", color: MUTED, fontWeight: 700 }}>{q.category}</span>
@@ -342,29 +415,83 @@ export default function SmallGroupsPage() {
                       <p style={{ fontSize: 15, color: used ? MUTED : TEXT, margin: 0, lineHeight: 1.6, fontStyle: "italic" }}>&ldquo;{q.question}&rdquo;</p>
                     </div>
                     <button onClick={() => toggleUsed(origIndex)}
-                      style={{ width: 36, height: 36, borderRadius: 10, border: `1px solid ${used ? GREEN + "40" : BORDER}`, background: used ? "rgba(58,125,86,0.08)" : "rgba(255,255,255,0.03)", cursor: "pointer", fontSize: 14, color: used ? GREEN : MUTED, flexShrink: 0 }}>
+                      style={{ width: 36, height: 36, borderRadius: 10, border: `1px solid ${used ? GREEN + "40" : BORDER}`, background: used ? `${GREEN}0D` : "rgba(255,255,255,0.03)", cursor: "pointer", fontSize: 14, color: used ? GREEN : MUTED, flexShrink: 0 }}>
                       {used ? "✓" : "○"}
                     </button>
                   </div>
                 );
               })}
             </div>
+
+            <div style={{ marginTop: 24, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "22px 24px" }}>
+              <h3 style={{ fontSize: 15, fontWeight: 800, color: GREEN, marginBottom: 10 }}>Why Ice Breakers Matter</h3>
+              <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>
+                Ice breakers are not fluff — they are the permission structure for the group to be real. When someone shares something genuine in response to a low-stakes question, it trains the group that honesty is safe here. The deeper questions later are only possible because of the lighter ones earlier. Deep questions asked in a group that hasn&apos;t built trust produce silence or performance. Start with warmth and build from there.
+              </p>
+            </div>
           </div>
         )}
 
-        {/* ── VOICES TAB ── */}
+        {/* LEADING WELL */}
+        {activeTab === "leading" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "18px 22px", marginBottom: 24 }}>
+              <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>
+                Small group leadership is not about having all the answers — it is about creating the conditions in which genuine community and transformation can occur. These eight principles, applied consistently, will change your group&apos;s culture.
+              </p>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+              {LEADER_TIPS.map((tip, i) => (
+                <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: "22px 24px" }}>
+                  <div style={{ display: "flex", gap: 10, alignItems: "flex-start", marginBottom: 12 }}>
+                    <span style={{ fontSize: 20 }}>{tip.icon}</span>
+                    <div>
+                      <span style={{ fontSize: 11, fontWeight: 700, padding: "2px 10px", borderRadius: 20, background: `${tip.color}15`, color: tip.color, display: "inline-block", marginBottom: 6 }}>{tip.category}</span>
+                      <h3 style={{ fontSize: 16, fontWeight: 800, margin: 0, color: TEXT }}>{tip.title}</h3>
+                    </div>
+                  </div>
+                  <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.75, marginBottom: 14 }}>{tip.description}</p>
+                  <div style={{ background: `${tip.color}08`, border: `1px solid ${tip.color}18`, borderRadius: 10, padding: "12px 16px" }}>
+                    <p style={{ fontSize: 12, fontWeight: 800, color: tip.color, textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 }}>In Practice</p>
+                    <p style={{ fontSize: 13, color: MUTED, lineHeight: 1.7, margin: 0, fontStyle: "italic" }}>{tip.example}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Group lifecycle */}
+            <div style={{ marginTop: 28, background: `${PURPLE}08`, border: `1px solid ${PURPLE}25`, borderRadius: 16, padding: "24px 28px" }}>
+              <h3 style={{ fontSize: 16, fontWeight: 800, color: PURPLE, marginBottom: 14 }}>The Group Lifecycle: Forming → Storming → Norming → Performing</h3>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 12 }}>
+                {[
+                  { phase: "Forming", desc: "The group is new. Politeness and caution dominate. People are figuring out if this is safe. Leader's task: welcome, set expectations, build warmth.", color: "#10B981" },
+                  { phase: "Storming", desc: "Conflict surfaces as people become more honest. A dominant personality emerges. Someone misses a meeting. Leader's task: don't panic. Name and navigate tension.", color: "#F59E0B" },
+                  { phase: "Norming", desc: "The group develops its own culture of trust, honesty, and care. Norms form around vulnerability and prayer. Leader's task: maintain and deepen what's working.", color: "#3B82F6" },
+                  { phase: "Performing", desc: "The group reaches genuine community — members carry burdens, challenge each other, pray specifically, multiply. Leader's task: release responsibility and plan succession.", color: PURPLE },
+                ].map(p => (
+                  <div key={p.phase} style={{ background: CARD, border: `1px solid ${p.color}30`, borderRadius: 12, padding: 16 }}>
+                    <div style={{ color: p.color, fontWeight: 800, fontSize: 15, marginBottom: 8 }}>{p.phase}</div>
+                    <p style={{ color: MUTED, fontSize: 12, lineHeight: 1.65, margin: 0 }}>{p.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* VOICES */}
         {activeTab === "voices" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 24 }}>
               <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>
-                Five essential voices on small group community &mdash; from Bonhoeffer&rsquo;s theology of life together to contemporary practitioners who have shaped how evangelical churches organize shared Christian life.
+                Four essential voices on small group community — from Bonhoeffer&apos;s theology of life together to contemporary practitioners who have shaped how evangelical churches organize shared Christian life.
               </p>
             </div>
-            <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
-              <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
+            <div style={{ display: "flex", gap: 20, alignItems: "flex-start", flexWrap: "wrap" }}>
+              <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8 }}>
                 {VOICES_SG.map(v => (
                   <button key={v.id} onClick={() => setSelectedVoice(v.id)}
-                    style={{ background: selectedVoice === v.id ? PURPLE : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
+                    style={{ background: selectedVoice === v.id ? PURPLE : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left", transition: "all 0.2s" }}>
                     <div style={{ color: TEXT, fontWeight: 700, fontSize: 14 }}>{v.name}</div>
                     <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{v.era}</div>
                   </button>
@@ -389,29 +516,24 @@ export default function SmallGroupsPage() {
           </div>
         )}
 
-        {/* ── VIDEOS TAB ── */}
+        {/* VIDEOS */}
         {activeTab === "videos" && (
           <div>
-            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 28 }}>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "18px 22px", marginBottom: 28 }}>
               <h2 style={{ fontSize: 20, fontWeight: 800, marginBottom: 8 }}>Preaching on Community</h2>
               <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>
-                Six messages on what makes Christian community genuine &mdash; centered on Christ, empowered by the Spirit, and oriented outward in mission rather than inward in comfort.
+                Six messages on what makes Christian community genuine — centered on Christ, empowered by the Spirit, and oriented outward in mission rather than inward in comfort.
               </p>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(380px, 1fr))", gap: 24 }}>
               {SG_VIDEOS.map(v => (
                 <div key={v.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, overflow: "hidden" }}>
-                  <iframe
-                    width="100%"
-                    style={{ aspectRatio: "16/9", border: "none", borderRadius: 0, display: "block" }}
-                    src={`https://www.youtube.com/embed/${v.videoId}`}
-                    title={v.title}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
+                  <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", borderRadius: 0, display: "block" }}
+                    src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
                   <div style={{ padding: "16px 18px" }}>
                     <div style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 8 }}>
-                      <span style={{ fontSize: 11, fontWeight: 800, padding: "3px 10px", borderRadius: 20, background: `rgba(107,79,187,0.15)`, color: PURPLE, border: `1px solid rgba(107,79,187,0.3)` }}>{v.preacher}</span>
+                      <span style={{ fontSize: 11, fontWeight: 800, padding: "3px 10px", borderRadius: 20, background: "rgba(107,79,187,0.15)", color: PURPLE, border: "1px solid rgba(107,79,187,0.3)" }}>{v.preacher}</span>
                     </div>
                     <h3 style={{ fontSize: 15, fontWeight: 800, marginBottom: 6, color: TEXT }}>{v.title}</h3>
                     <p style={{ fontSize: 13, color: MUTED, lineHeight: 1.6, margin: 0 }} dangerouslySetInnerHTML={{ __html: v.description }} />
@@ -421,8 +543,8 @@ export default function SmallGroupsPage() {
             </div>
           </div>
         )}
-
       </div>
+      <Footer />
     </div>
   );
 }

@@ -1,4 +1,6 @@
 "use client";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { useState } from "react";
 
 type Tab = "methods" | "scripture" | "guides" | "videos";
@@ -472,6 +474,7 @@ export default function PrayerMethodsPage() {
 
   return (
     <div style={{ minHeight: "100vh", background: "#07070F", color: "#F2F2F8" }}>
+      <Navbar />
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "80px 20px 60px" }}>
 
         {/* Header */}
@@ -749,6 +752,7 @@ export default function PrayerMethodsPage() {
         )}
 
       </div>
+      <Footer />
     </div>
   );
 }

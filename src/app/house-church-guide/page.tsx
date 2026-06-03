@@ -1,4 +1,6 @@
 "use client";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { useState } from "react";
 
 const BG = "#07070F";
@@ -215,6 +217,7 @@ function Accordion({ items }: { items: AccordionItem[] }) {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+      <Navbar />
       {items.map((item, i) => {
         const isOpen = open === i;
         return (
@@ -458,7 +461,7 @@ export default function HouseChurchGuidePage() {
         background: BG,
         minHeight: "100vh",
         color: TEXT,
-        paddingTop: 40,
+        paddingTop: 80,
         fontFamily: "system-ui, -apple-system, sans-serif",
       }}
     >
@@ -675,6 +678,7 @@ export default function HouseChurchGuidePage() {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 }

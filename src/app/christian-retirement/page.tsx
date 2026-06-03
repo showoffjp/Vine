@@ -1,4 +1,6 @@
 "use client";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { useState } from "react";
 
 const BG = "#07070F";
@@ -178,9 +180,10 @@ export default function ChristianRetirementPage() {
         minHeight: "100vh",
         color: TEXT,
         fontFamily: "system-ui, sans-serif",
-        paddingTop: 40,
+        paddingTop: 80,
       }}
     >
+      <Navbar />
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 20px 80px" }}>
 
         {/* Header */}
@@ -703,6 +706,7 @@ export default function ChristianRetirementPage() {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 }

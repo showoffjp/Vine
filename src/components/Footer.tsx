@@ -1,6 +1,10 @@
 "use client";
 
-const HUBS = [
+import { useState } from "react";
+
+type LinkEntry = { label: string; href: string };
+
+const HUBS: LinkEntry[] = [
   { label: "The Branches", href: "/discussions" },
   { label: "The Word", href: "/bible" },
   { label: "The Well", href: "/mental-health" },
@@ -11,17 +15,18 @@ const HUBS = [
   { label: "Vine TV", href: "/video" },
 ];
 
-const COMMUNITY_LINKS = [
+const COMMUNITY_LINKS: LinkEntry[] = [
   { label: "Discussions", href: "/discussions" },
   { label: "Groups", href: "/groups" },
   { label: "Events", href: "/events" },
-  { label: "Prayer Wall", href: "/prayer-wall" },
+  { label: "Prayer Wall", href: "/prayer" },
   { label: "Find a Church", href: "/church-finder" },
   { label: "Creators", href: "/creators" },
   { label: "Global Connect", href: "/global-connect" },
+  { label: "Stories", href: "/stories" },
 ];
 
-const RESOURCES_LINKS = [
+const RESOURCES_LINKS: LinkEntry[] = [
   { label: "Bible Reader", href: "/bible" },
   { label: "Devotionals", href: "/daily" },
   { label: "Commentaries", href: "/commentary-guide" },
@@ -32,7 +37,7 @@ const RESOURCES_LINKS = [
   { label: "Reading Plans", href: "/reading-plan" },
 ];
 
-const COMPANY_LINKS = [
+const COMPANY_LINKS: LinkEntry[] = [
   { label: "About", href: "/about" },
   { label: "Blog", href: "/blog" },
   { label: "Newsletter", href: "/newsletter" },
@@ -43,51 +48,336 @@ const COMPANY_LINKS = [
   { label: "Terms", href: "/terms" },
 ];
 
-function FooterLink({ label, href }: { label: string; href: string }) {
+const SOCIAL_LINKS = [
+  {
+    label: "Twitter / X",
+    href: "https://twitter.com/vinecommunity",
+    color: "#c9a227",
+    icon: (
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.259 5.631zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+      </svg>
+    ),
+  },
+  {
+    label: "Instagram",
+    href: "https://instagram.com/vinecommunity",
+    color: "#e8c162",
+    icon: (
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+      </svg>
+    ),
+  },
+  {
+    label: "YouTube",
+    href: "https://youtube.com/@vinecommunity",
+    color: "#c97070",
+    icon: (
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+      </svg>
+    ),
+  },
+  {
+    label: "Facebook",
+    href: "https://facebook.com/vinecommunity",
+    color: "#7dacf0",
+    icon: (
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+      </svg>
+    ),
+  },
+];
+
+function FooterLink({ label, href }: LinkEntry) {
+  const [hovered, setHovered] = useState(false);
   return (
     <li>
       <a
         href={href}
         style={{
-          color: "#9a8f72",
+          color: hovered ? "#f2e6c8" : "#7a7060",
           textDecoration: "none",
-          fontSize: "0.82rem",
+          fontSize: "0.83rem",
           fontWeight: 300,
           fontFamily: "var(--font-jost, system-ui, sans-serif)",
-          transition: "color 0.15s",
-          display: "inline-block",
+          transition: "color 0.18s ease",
+          display: "inline-flex",
+          alignItems: "center",
+          gap: "0.35rem",
+          position: "relative",
         }}
-        onMouseEnter={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "#f2e6c8")}
-        onMouseLeave={(e) => ((e.currentTarget as HTMLAnchorElement).style.color = "#9a8f72")}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
       >
+        <span
+          style={{
+            position: "absolute",
+            bottom: -1,
+            left: 0,
+            height: "1px",
+            width: hovered ? "100%" : "0%",
+            background: "linear-gradient(90deg, #3a7d56, #c9a227)",
+            transition: "width 0.22s ease",
+          }}
+        />
         {label}
       </a>
     </li>
   );
 }
 
+function NewsletterSection() {
+  const [email, setEmail] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+  const [focused, setFocused] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (email.trim()) setSubmitted(true);
+  };
+
+  return (
+    <div
+      style={{
+        background:
+          "linear-gradient(135deg, rgba(58,125,86,0.1) 0%, rgba(201,162,39,0.07) 100%)",
+        border: "1px solid rgba(201,162,39,0.18)",
+        borderRadius: 8,
+        padding: "2rem 2rem",
+        marginBottom: "3.5rem",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: "1.5rem",
+        }}
+      >
+        <div>
+          <div
+            style={{
+              fontFamily: "var(--font-jost, system-ui, sans-serif)",
+              fontSize: "0.65rem",
+              fontWeight: 600,
+              letterSpacing: "0.14em",
+              textTransform: "uppercase",
+              color: "#3a7d56",
+              marginBottom: "0.4rem",
+            }}
+          >
+            Weekly Devotional
+          </div>
+          <p
+            style={{
+              fontFamily: "var(--font-cormorant, Georgia, serif)",
+              fontSize: "1.25rem",
+              fontWeight: 500,
+              color: "#f2e6c8",
+              margin: 0,
+              fontStyle: "italic",
+            }}
+          >
+            Scripture, stories &amp; faith resources — weekly.
+          </p>
+        </div>
+
+        {submitted ? (
+          <div
+            style={{
+              fontFamily: "var(--font-jost, system-ui, sans-serif)",
+              fontSize: "0.85rem",
+              color: "#52a876",
+              fontWeight: 500,
+              display: "flex",
+              alignItems: "center",
+              gap: "0.5rem",
+            }}
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <circle cx="8" cy="8" r="7" stroke="#52a876" strokeWidth="1.4" />
+              <path d="M5 8l2 2 4-4" stroke="#52a876" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            You&apos;re in! Check your inbox.
+          </div>
+        ) : (
+          <form
+            onSubmit={handleSubmit}
+            style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}
+          >
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              onFocus={() => setFocused(true)}
+              onBlur={() => setFocused(false)}
+              placeholder="your@email.com"
+              required
+              style={{
+                background: "rgba(255,255,255,0.04)",
+                border: `1px solid ${focused ? "rgba(201,162,39,0.55)" : "rgba(201,162,39,0.2)"}`,
+                borderRadius: 5,
+                padding: "0.55rem 1rem",
+                color: "#f2e6c8",
+                fontSize: "0.83rem",
+                fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                outline: "none",
+                transition: "border-color 0.2s",
+                width: 220,
+              }}
+            />
+            <button
+              type="submit"
+              style={{
+                background: "linear-gradient(135deg, #3a7d56, #2e6344)",
+                border: "none",
+                borderRadius: 5,
+                padding: "0.55rem 1.2rem",
+                color: "#f2e6c8",
+                fontSize: "0.78rem",
+                fontWeight: 600,
+                fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                letterSpacing: "0.05em",
+                cursor: "pointer",
+                transition: "all 0.2s ease",
+                whiteSpace: "nowrap",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background =
+                  "linear-gradient(135deg, #45956a, #3a7d56)";
+                e.currentTarget.style.boxShadow =
+                  "0 0 16px rgba(58,125,86,0.35)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background =
+                  "linear-gradient(135deg, #3a7d56, #2e6344)";
+                e.currentTarget.style.boxShadow = "none";
+              }}
+            >
+              Subscribe &rarr;
+            </button>
+          </form>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function SocialLinks() {
+  const [hoveredLabel, setHoveredLabel] = useState<string | null>(null);
+  return (
+    <div style={{ display: "flex", gap: "0.75rem" }}>
+      {SOCIAL_LINKS.map((s) => {
+        const isHovered = hoveredLabel === s.label;
+        return (
+          <a
+            key={s.label}
+            href={s.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={s.label}
+            style={{
+              width: 36,
+              height: 36,
+              borderRadius: 6,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              border: `1px solid ${isHovered ? s.color + "66" : "rgba(255,255,255,0.07)"}`,
+              background: isHovered ? `${s.color}11` : "rgba(255,255,255,0.02)",
+              color: isHovered ? s.color : "#9898B3",
+              textDecoration: "none",
+              transition: "all 0.22s ease",
+              boxShadow: isHovered ? `0 0 14px ${s.color}30` : "none",
+            }}
+            onMouseEnter={() => setHoveredLabel(s.label)}
+            onMouseLeave={() => setHoveredLabel(null)}
+          >
+            {s.icon}
+          </a>
+        );
+      })}
+    </div>
+  );
+}
+
+const LINK_COLUMNS = [
+  { title: "Hubs", links: HUBS },
+  { title: "Community", links: COMMUNITY_LINKS },
+  { title: "Resources", links: RESOURCES_LINKS },
+  { title: "Company", links: COMPANY_LINKS },
+];
+
 export default function Footer() {
   return (
     <footer
       style={{
-        background: "#050e07",
-        borderTop: "0.5px solid rgba(201,162,39,0.18)",
-        padding: "60px 4vw 40px",
+        position: "relative",
+        background: "#050a07",
+        borderTop: "1px solid rgba(201,162,39,0.15)",
+        overflow: "hidden",
       }}
     >
-      <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-        {/* Top: brand + links */}
+      {/* Subtle grid background pattern */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          inset: 0,
+          backgroundImage:
+            "linear-gradient(rgba(58,125,86,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(58,125,86,0.025) 1px, transparent 1px)",
+          backgroundSize: "64px 64px",
+          pointerEvents: "none",
+        }}
+      />
+
+      {/* Top radial glow */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          top: 0,
+          left: "50%",
+          transform: "translateX(-50%)",
+          width: "80%",
+          height: 1,
+          background:
+            "linear-gradient(90deg, transparent 0%, rgba(201,162,39,0.3) 40%, rgba(58,125,86,0.3) 60%, transparent 100%)",
+          pointerEvents: "none",
+        }}
+      />
+
+      <div
+        style={{
+          maxWidth: 1200,
+          margin: "0 auto",
+          padding: "64px 4vw 44px",
+          position: "relative",
+          zIndex: 1,
+        }}
+      >
+        {/* Newsletter section */}
+        <NewsletterSection />
+
+        {/* Main grid: brand + link columns */}
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "260px 1fr",
-            gap: "5rem",
-            marginBottom: "3rem",
-            paddingBottom: "3rem",
-            borderBottom: "0.5px solid rgba(242,230,200,0.06)",
+            gridTemplateColumns: "minmax(220px, 260px) 1fr",
+            gap: "4.5rem",
+            marginBottom: "3.5rem",
+            paddingBottom: "3.5rem",
+            borderBottom: "1px solid rgba(255,255,255,0.04)",
           }}
         >
-          {/* Brand */}
+          {/* Brand column */}
           <div>
             <a
               href="/"
@@ -96,7 +386,7 @@ export default function Footer() {
                 alignItems: "center",
                 gap: 10,
                 textDecoration: "none",
-                marginBottom: "1rem",
+                marginBottom: "1.2rem",
               }}
             >
               <svg
@@ -108,25 +398,14 @@ export default function Footer() {
               >
                 <rect x="15" y="4" width="4" height="18" rx="1.5" fill="#c9a227" />
                 <rect x="8" y="10" width="18" height="4" rx="1.5" fill="#c9a227" />
-                <path
-                  d="M17 22 Q11 26 8 30"
-                  stroke="#3a7d56"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                />
-                <path
-                  d="M17 22 Q23 26 26 30"
-                  stroke="#3a7d56"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                />
+                <path d="M17 22 Q11 26 8 30" stroke="#3a7d56" strokeWidth="1.5" strokeLinecap="round" />
+                <path d="M17 22 Q23 26 26 30" stroke="#3a7d56" strokeWidth="1.5" strokeLinecap="round" />
                 <circle cx="8" cy="30" r="2" fill="#3a7d56" opacity="0.8" />
                 <circle cx="26" cy="30" r="2" fill="#3a7d56" opacity="0.8" />
               </svg>
               <span
                 style={{
-                  fontFamily:
-                    "var(--font-cormorant, 'Cormorant Garamond', Georgia, serif)",
+                  fontFamily: "var(--font-cormorant, Georgia, serif)",
                   fontSize: "1.5rem",
                   fontWeight: 600,
                   color: "#f2e6c8",
@@ -136,46 +415,51 @@ export default function Footer() {
                 The<span style={{ color: "#c9a227" }}> Vine</span>
               </span>
             </a>
+
             <p
               style={{
                 fontSize: "0.83rem",
-                color: "#9a8f72",
-                lineHeight: 1.7,
+                color: "#7a7060",
+                lineHeight: 1.75,
                 fontWeight: 300,
                 fontFamily: "var(--font-jost, system-ui, sans-serif)",
-                marginBottom: "1.2rem",
+                marginBottom: "1.4rem",
               }}
             >
-              Christianity&apos;s first all-in-one platform &mdash; community,
+              Christianity&apos;s first all-in-one platform — community,
               Scripture, wellness, life guides, and more, for every believer on
               earth.
             </p>
+
             <p
               style={{
-                fontFamily:
-                  "var(--font-cormorant, 'Cormorant Garamond', Georgia, serif)",
+                fontFamily: "var(--font-cormorant, Georgia, serif)",
                 fontStyle: "italic",
                 fontSize: "0.9rem",
-                color: "#9a8f72",
+                color: "#6a6050",
+                lineHeight: 1.6,
+                marginBottom: "1.4rem",
               }}
             >
               &ldquo;I am the vine; you are the branches.&rdquo;
-              <br />
               <span
                 style={{
+                  display: "block",
                   fontFamily: "var(--font-jost, system-ui, sans-serif)",
                   fontStyle: "normal",
-                  fontSize: "0.7rem",
-                  letterSpacing: "0.1em",
+                  fontSize: "0.68rem",
+                  letterSpacing: "0.12em",
                   textTransform: "uppercase",
                   color: "#c9a227",
-                  display: "block",
                   marginTop: 4,
+                  opacity: 0.85,
                 }}
               >
                 John 15:5
               </span>
             </p>
+
+            <SocialLinks />
           </div>
 
           {/* Link columns */}
@@ -186,129 +470,37 @@ export default function Footer() {
               gap: "2rem",
             }}
           >
-            {/* Hubs */}
-            <div>
-              <div
-                style={{
-                  fontSize: "0.68rem",
-                  fontWeight: 600,
-                  letterSpacing: "0.12em",
-                  textTransform: "uppercase",
-                  color: "#c9a227",
-                  marginBottom: "1rem",
-                  fontFamily: "var(--font-jost, system-ui, sans-serif)",
-                }}
-              >
-                Hubs
+            {LINK_COLUMNS.map(({ title, links }) => (
+              <div key={title}>
+                <div
+                  style={{
+                    fontSize: "0.65rem",
+                    fontWeight: 700,
+                    letterSpacing: "0.14em",
+                    textTransform: "uppercase",
+                    color: "#c9a227",
+                    marginBottom: "1.1rem",
+                    fontFamily: "var(--font-jost, system-ui, sans-serif)",
+                  }}
+                >
+                  {title}
+                </div>
+                <ul
+                  style={{
+                    listStyle: "none",
+                    padding: 0,
+                    margin: 0,
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "0.65rem",
+                  }}
+                >
+                  {links.map((l) => (
+                    <FooterLink key={l.label} {...l} />
+                  ))}
+                </ul>
               </div>
-              <ul
-                style={{
-                  listStyle: "none",
-                  padding: 0,
-                  margin: 0,
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "0.6rem",
-                }}
-              >
-                {HUBS.map((l) => (
-                  <FooterLink key={l.label} {...l} />
-                ))}
-              </ul>
-            </div>
-
-            {/* Community */}
-            <div>
-              <div
-                style={{
-                  fontSize: "0.68rem",
-                  fontWeight: 600,
-                  letterSpacing: "0.12em",
-                  textTransform: "uppercase",
-                  color: "#c9a227",
-                  marginBottom: "1rem",
-                  fontFamily: "var(--font-jost, system-ui, sans-serif)",
-                }}
-              >
-                Community
-              </div>
-              <ul
-                style={{
-                  listStyle: "none",
-                  padding: 0,
-                  margin: 0,
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "0.6rem",
-                }}
-              >
-                {COMMUNITY_LINKS.map((l) => (
-                  <FooterLink key={l.label} {...l} />
-                ))}
-              </ul>
-            </div>
-
-            {/* Resources */}
-            <div>
-              <div
-                style={{
-                  fontSize: "0.68rem",
-                  fontWeight: 600,
-                  letterSpacing: "0.12em",
-                  textTransform: "uppercase",
-                  color: "#c9a227",
-                  marginBottom: "1rem",
-                  fontFamily: "var(--font-jost, system-ui, sans-serif)",
-                }}
-              >
-                Resources
-              </div>
-              <ul
-                style={{
-                  listStyle: "none",
-                  padding: 0,
-                  margin: 0,
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "0.6rem",
-                }}
-              >
-                {RESOURCES_LINKS.map((l) => (
-                  <FooterLink key={l.label} {...l} />
-                ))}
-              </ul>
-            </div>
-
-            {/* Company */}
-            <div>
-              <div
-                style={{
-                  fontSize: "0.68rem",
-                  fontWeight: 600,
-                  letterSpacing: "0.12em",
-                  textTransform: "uppercase",
-                  color: "#c9a227",
-                  marginBottom: "1rem",
-                  fontFamily: "var(--font-jost, system-ui, sans-serif)",
-                }}
-              >
-                Company
-              </div>
-              <ul
-                style={{
-                  listStyle: "none",
-                  padding: 0,
-                  margin: 0,
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "0.6rem",
-                }}
-              >
-                {COMPANY_LINKS.map((l) => (
-                  <FooterLink key={l.label} {...l} />
-                ))}
-              </ul>
-            </div>
+            ))}
           </div>
         </div>
 
@@ -319,13 +511,13 @@ export default function Footer() {
             justifyContent: "space-between",
             alignItems: "center",
             flexWrap: "wrap",
-            gap: "0.5rem",
+            gap: "0.75rem",
           }}
         >
           <p
             style={{
               fontSize: "0.72rem",
-              color: "#9a8f72",
+              color: "#4a4440",
               fontWeight: 300,
               fontFamily: "var(--font-jost, system-ui, sans-serif)",
             }}
@@ -334,11 +526,10 @@ export default function Footer() {
           </p>
           <p
             style={{
-              fontFamily:
-                "var(--font-cormorant, 'Cormorant Garamond', Georgia, serif)",
+              fontFamily: "var(--font-cormorant, Georgia, serif)",
               fontStyle: "italic",
-              fontSize: "0.9rem",
-              color: "#9a8f72",
+              fontSize: "0.88rem",
+              color: "#4a4440",
             }}
           >
             &ldquo;I am the vine; you are the branches.&rdquo; &mdash; John 15:5

@@ -1,200 +1,236 @@
 "use client";
 import { useState } from "react";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GOLD = "#c9a227";
 
-const THEOLOGY = [
-  { title: "The Bodily Resurrection", verse: "1 Corinthians 15:3-8", body: "Paul's creed in 1 Corinthians 15:3-8 is among the earliest Christian texts, likely received within 5 years of the crucifixion: 'Christ died for our sins according to the Scriptures, that he was buried, that he was raised on the third day according to the Scriptures, and that he appeared...' The resurrection is not a symbol or metaphor — Paul explicitly argues for a bodily resurrection and treats the physical empty tomb as essential. If Christ was not raised, he writes, 'your faith is futile' (15:17)." },
-  { title: "The Firstfruits and Our Future", verse: "1 Corinthians 15:20-23", body: "Christ is called the 'firstfruits' of those who have died (1 Corinthians 15:20) — which means his resurrection is not a unique exception but a prototype. The resurrection of Jesus is the first installment of the resurrection of all who belong to him. Christian hope is not escape from the body into a spiritual existence; it is the redemption and renewal of the body. The resurrection is the future of the whole cosmos." },
-  { title: "Resurrection and Justification", verse: "Romans 4:25", body: "Paul insists that Jesus 'was delivered over to death for our sins and was raised to life for our justification' (Romans 4:25). The resurrection is not merely a proof of something else — it is itself salvific. The resurrection is God's verdict on the cross: the sacrifice was accepted, the debt was paid, and the one who bore our sin has been vindicated. To believe in the resurrection is to believe that death has been defeated and that justification is sure." },
-  { title: "The Transformation of the Body", verse: "Philippians 3:20-21", body: "Paul writes that Jesus 'will transform our lowly bodies so that they will be like his glorious body' (Philippians 3:21). The resurrection body is not identical to the pre-death body — it is transformed, glorified, incorruptible. Jesus's resurrection body was physical (he ate, was touched, walked) but also transcended physical limits (appearing in locked rooms). The resurrection body is the same person, fully embodied, but freed from mortality and decay." },
-  { title: "Resurrection as New Creation", verse: "2 Corinthians 5:17", body: "The resurrection of Jesus inaugurates the new creation: 'If anyone is in Christ, the new creation has come' (2 Corinthians 5:17). The resurrection is not just a reversal of death — it is a transformation beyond what existed before. The risen Jesus is not returning to a pre-fallen state but entering a glorified, indestructible existence. Those in Christ are already participating in this new creation by the Spirit, awaiting its full arrival at his return." },
+type Tab = "evidence" | "meaning" | "appearances" | "theories" | "changed" | "videos";
+
+const MINIMAL_FACTS = [
+  { num: 1, title: "Jesus Died by Crucifixion", color: "#EF4444", body: "The death of Jesus by Roman crucifixion is one of the best-attested facts in ancient history. It is confirmed by: the four Gospels; Paul (1 Corinthians 15:3-5, Galatians 3:1); the Roman historian Tacitus (Annals 15.44); the Jewish historian Josephus (Antiquities 18.3); Pliny the Younger; and Lucian of Samosata. Roman crucifixion was specifically designed to produce death — legionaries were professionals whose own lives depended on ensuring the condemned died. No historian seriously disputes that Jesus died on a cross circa 30-33 AD.", sources: ["Tacitus, Annals 15.44", "Josephus, Antiquities 18.3", "1 Corinthians 15:3", "All four Gospels"] },
+  { num: 2, title: "The Disciples' Belief in Appearances", color: PURPLE, body: "Paul writes in 1 Corinthians 15:3-7 (written c. 55 AD, citing a creed scholars date to within 2-5 years of the crucifixion): 'he appeared to Cephas, then to the twelve. Then he appeared to more than five hundred brothers at one time, most of whom are still alive, though some have fallen asleep. Then he appeared to James, then to all the apostles.' This is not legend — it is an early, verifiable list of named eyewitnesses offered while most were still alive and could be questioned.", sources: ["1 Corinthians 15:3-8", "Luke 24", "John 20-21", "Acts 1-2"] },
+  { num: 3, title: "Paul's Conversion", color: GREEN, body: "Paul was a persecutor of Christians — he supervised the execution of Stephen (Acts 8:1) and 'was breathing out murderous threats against the Lord's disciples' (Acts 9:1). His transformation into the church's most prolific missionary requires explanation. Paul himself attributes it solely to an encounter with the risen Jesus (1 Corinthians 15:8; Galatians 1:11-16). Even critical scholars grant that Paul genuinely believed he had seen the risen Christ. Something dramatic happened to him circa 33-35 AD.", sources: ["Acts 9:1-22", "Galatians 1:11-16", "1 Corinthians 15:8-9", "Philippians 3:4-9"] },
+  { num: 4, title: "James's Conversion", color: GOLD, body: "James, the brother of Jesus, did not believe in Jesus during his ministry (John 7:5 — 'even his brothers did not believe in him'). After the resurrection, James became a leader of the Jerusalem church and was ultimately executed for his faith (Josephus, Antiquities 20.9). He is listed as one of the resurrection appearances (1 Corinthians 15:7). The most natural explanation: James became a believer because he saw his brother risen from the dead. Family skeptics do not typically die for what they know to be false.", sources: ["John 7:5", "1 Corinthians 15:7", "Acts 15:13-21", "Josephus, Antiquities 20.9"] },
+  { num: 5, title: "The Empty Tomb", color: "#3B82F6", body: "The empty tomb is acknowledged even in hostile sources: the Jewish leaders' response in Matthew 28:11-15 — the claim that the disciples stole the body — presupposes the tomb was empty. No early opponent of Christianity claimed the tomb was occupied. The tomb was known and accessible; if the body remained, Christianity could have been refuted at source. Women were the first witnesses — a detail unlikely to be invented in a 1st-century Jewish/Roman context where women's testimony was not legally accepted.", sources: ["Matthew 28:11-15", "Mark 16:1-8", "John 20:1-10", "Acts 2:29-32"] },
 ];
 
-const EVIDENCE = [
-  { title: "The Empty Tomb", color: "#EF4444", body: "The empty tomb is multiply attested by early, independent sources, and crucially — the body was never produced. If Jewish or Roman authorities could have produced the body, the Christian movement would have died in Jerusalem within weeks. The location of the tomb was known; the resurrection was proclaimed in the same city where the crucifixion occurred. No credible ancient source disputes the tomb was empty — only the explanation." },
-  { title: "The Post-Resurrection Appearances", color: "#F59E0B", body: "Paul's creed lists appearances to Peter, the Twelve, 500 people at once (many still alive when Paul wrote), James, and Paul himself. The diversity and number of appearance accounts — including skeptics like James and Paul — creates a historical problem for purely psychological explanations. Hallucinations do not appear to 500 people simultaneously. James and Paul had strong reasons to resist the resurrection claim, which makes their conversion and testimony remarkable." },
-  { title: "The Conversion of Paul", color: "#8B5CF6", body: "Saul of Tarsus was an educated Pharisee who actively persecuted the early church, considering Jesus a failed messiah (crucifixion was a sign of divine curse under Mosaic law). His dramatic conversion and subsequent willingness to suffer extensively for the resurrection claim is one of the most powerful pieces of evidence. He would have had no psychological motivation to fabricate a resurrection — everything in his background argued against it." },
-  { title: "The Conversion of James", color: "#3B82F6", body: "James, the brother of Jesus, was not a follower during Jesus's ministry (John 7:5) and may have considered him troubled (Mark 3:21). He became a central leader in the Jerusalem church and was martyred for his faith. The most natural explanation is the one Paul gives: the risen Jesus appeared to James specifically (1 Corinthians 15:7). People do not die for beliefs they know to be false." },
-  { title: "The Sunday Worship Shift", color: GREEN, body: "Jews observed the Sabbath on Saturday — a practice with deep theological roots. Within the first generation, Jewish Christians shifted their primary day of worship to Sunday, the day of resurrection. This is a massive cultural and theological change that demands explanation. The most natural explanation is that something decisive happened on that Sunday that reoriented the community's entire sacred calendar." },
+const THEOLOGICAL_MEANINGS = [
+  { title: "Vindication of Jesus", ref: "Romans 1:4", icon: "⚡", body: "The resurrection is God's declaration that Jesus is who he claimed to be. Paul writes that Jesus 'was declared to be the Son of God in power according to the Spirit of holiness by his resurrection from the dead.' The resurrection is the Father's stamp of approval on everything Jesus said and did — the verdict reversing the false verdict of the crucifixion. It is divine validation." },
+  { title: "Justification Secured", ref: "Romans 4:25", icon: "⚖️", body: "Paul writes that Jesus 'was delivered over to death for our sins and was raised to life for our justification.' The resurrection is not separate from the atonement — it is the declaration that the atonement was accepted. If Christ remained dead, it would signal that the payment for sin was insufficient. The resurrection proves the debt was paid in full. It is the receipt for the transaction of the cross." },
+  { title: "Death Conquered", ref: "1 Corinthians 15:54-57", icon: "💀", body: "'Death is swallowed up in victory. O death, where is your victory? O death, where is your sting?' (1 Corinthians 15:54-55). The resurrection is the conquest of the last enemy. Death had humanity in its grip from Genesis 3 — the resurrection of Christ is the decisive reversal of that defeat. Death still physically occurs for believers, but its sting (condemnation and separation from God) has been removed." },
+  { title: "Firstfruits of New Creation", ref: "1 Corinthians 15:20-23", icon: "🌾", body: "Christ is the 'firstfruits' of the resurrection harvest. His resurrection is not an isolated miracle but the beginning of the eschatological new creation. N.T. Wright: 'Easter is not about Jesus going to heaven; it is about the beginning of God's new world.' The resurrection of Christ is the prototype of the resurrection of all believers and the pledge of the renewal of all creation." },
+  { title: "The Living Intercessor", ref: "Hebrews 7:25; Romans 8:34", icon: "🙏", body: "Because Jesus was raised and ascended, he lives to intercede for his people. 'He always lives to make intercession' for those who come to God through him (Hebrews 7:25). The resurrection means we have not merely a doctrine but a living person — a high priest who is alive, who knows our weakness, and who stands in God's presence on our behalf continually." },
+  { title: "Resurrection Life Now", ref: "Colossians 3:1-4; Galatians 2:20", icon: "🌅", body: "Resurrection is not only a future hope — it is a present reality. 'If then you have been raised with Christ, seek the things that are above' (Colossians 3:1). Paul writes: 'I have been crucified with Christ. It is no longer I who live, but Christ who lives in me' (Galatians 2:20). Union with the risen Christ means that resurrection power is available now — for holy living, overcoming sin, and serving God's purposes." },
 ];
 
-const OBJECTIONS = [
-  { q: "The disciples stole the body.", a: "This is the oldest counter-claim (Matthew 28:13-15), and it refutes itself on examination. The disciples had every reason not to steal the body — they were hiding in fear after the crucifixion (John 20:19). More importantly, they subsequently died for the claim that Jesus rose. People do not die for something they know is a hoax." },
-  { q: "The disciples had hallucinations or visions.", a: "Hallucinations are private experiences, not shared group ones. Paul records an appearance to 500 people simultaneously. Additionally, hallucinations of Jesus would not have led Jews to conclude he was resurrected — the Jewish concept of resurrection was bodily and future, not a spiritual vision of a dead teacher. The hallucination theory cannot explain the empty tomb." },
-  { q: "The resurrection accounts contradict each other.", a: "The accounts differ in details that harmonize with independent, unsynchronized witnesses — exactly what you expect from multiple real eyewitness accounts. The core is consistent across all four Gospels and Paul: the tomb was empty on Sunday, and Jesus appeared to people who knew him. Minor differences in peripheral details do not undermine the central shared claims." },
-  { q: "Jesus didn't actually die on the cross (swoon theory).", a: "This theory requires us to believe that Roman executioners, who were experts in crucifixion and whose lives depended on prisoners not escaping, failed to kill Jesus — and that a severely flogged man who had been stabbed through the side, wrapped in burial linen, and sealed in a tomb then escaped, moved a stone, overpowered guards, and convinced his disciples he had conquered death. Scholars of all backgrounds reject the swoon theory as historically implausible." },
-  { q: "The resurrection is mythology borrowed from pagan religions.", a: "This argument was popular in the early 20th century and has since been largely abandoned by scholars. The specific dying-and-rising god parallels are either distorted or post-Christian. More importantly, Jewish monotheism had deep reasons to reject such pagan parallels, and the resurrection was proclaimed as a specific historical event — not a myth or annual cycle — by eyewitnesses within living memory of the events." },
+const APPEARANCES = [
+  { to: "Mary Magdalene", ref: "John 20:14-18", detail: "The first person to encounter the risen Jesus. She initially mistook him for the gardener — suggesting that the resurrection body was not immediately recognizable but was genuinely physical. Jesus called her name; she recognized him. Her commission: 'Go and tell my brothers.' Women as first witnesses is a mark of historical authenticity — it would not have been invented." },
+  { to: "The Two Disciples (Emmaus Road)", ref: "Luke 24:13-35", detail: "Jesus walked with two disciples for seven miles without them recognizing him. He opened the Scriptures — showing the resurrection was the fulfillment of all OT prophecy. At the breaking of bread their eyes were opened. The narrative emphasizes the physical reality of the journey (seven miles, a shared meal) alongside the mysterious transformation of the resurrection body." },
+  { to: "The Eleven Disciples", ref: "Luke 24:36-43; John 20:19-23", detail: "Jesus appeared in a room with locked doors, showed his hands and side, said 'Peace be with you,' and ate broiled fish in their presence. This appearance definitively rules out a 'spiritual vision' interpretation — the physicality is emphatic. Jesus specifically invited Thomas to touch his wounds (John 20:27)." },
+  { to: "Thomas (Eight Days Later)", ref: "John 20:24-29", detail: "Thomas refused to believe on the testimony of others: 'Unless I see in his hands the mark of the nails, and place my finger into the mark of the nails, and place my hand into his side, I will never believe.' Jesus appeared, invited examination of his wounds, and Thomas confessed: 'My Lord and my God!' — the highest Christological confession in John's Gospel." },
+  { to: "500+ Brothers", ref: "1 Corinthians 15:6", detail: "Paul's earliest written account (c. 55 AD) records an appearance 'to more than five hundred brothers at one time, most of whom are still alive.' This is an invitation to investigate — Paul is pointing to living witnesses who can be questioned. A mass hallucination of 500 people is without precedent in psychology or history." },
+  { to: "Paul on the Damascus Road", ref: "Acts 9:1-9; 1 Cor 15:8", detail: "The appearance to Paul — a hostile witness whose transformation is inexplicable by any other account. Paul uses the same Greek verb (ophthe — 'he appeared') for his own experience as for the other resurrection appearances, placing his encounter in the same category. This is not a vision; it is the risen Christ appearing to his final 'apostle, born out of due time.'" },
 ];
 
-const SCHOLARS = [
-  {
-    id: "wright",
-    name: "N.T. Wright",
-    work: "The Resurrection of the Son of God (2003)",
-    color: GREEN,
-    affiliation: "Bishop of Durham; Professor at St. Andrews and Oxford",
-    quote: "The resurrection of Jesus does not mean simply that a new religious experience was available. It means that the new creation has been launched.",
-    contribution: "Wright's 800-page historical study is widely considered the most comprehensive modern defense of the bodily resurrection. His method is rigorous historical scholarship: he examines Jewish concepts of resurrection, Greek beliefs about death and afterlife, and the NT texts as historical documents. His key argument: the Jewish concept of resurrection was bodily and future; no first-century Jew would have used the word 'resurrection' to describe a vision of a dead person or a spiritual survival. For the early Christians to use resurrection language about Jesus, something unprecedented must have happened. He also argues that the empty tomb and appearances, taken together, explain the emergence of the early church in a way that no alternative theory can.",
-  },
-  {
-    id: "habermas",
-    name: "Gary Habermas",
-    work: "The Risen Jesus and Future Hope (2003)",
-    color: "#F59E0B",
-    affiliation: "Professor of Apologetics at Liberty University; specialized in resurrection research",
-    quote: "The resurrection is the best explanation of the historical facts. I don't say that as a conclusion of faith — I say it as a conclusion of historical method.",
-    contribution: "Habermas developed what he calls the 'minimal facts' approach to resurrection apologetics: focusing only on the historical data that are accepted by the vast majority of critical scholars — including those who are not Christians. His minimal facts include: Jesus died by crucifixion, the disciples believed they saw Jesus risen, Paul's conversion, James's conversion, and the empty tomb. He argues that the resurrection is the only hypothesis that explains all of these facts together. He has catalogued and analyzed over 3,000 scholarly publications on the resurrection, making him the most thorough academic surveyor of the literature.",
-  },
-  {
-    id: "craig",
-    name: "William Lane Craig",
-    work: "Reasonable Faith (1994); The Son Rises (1981)",
-    color: PURPLE,
-    affiliation: "Research Professor of Philosophy at Talbot School of Theology",
-    quote: "The inference to the resurrection is not a leap of faith over a chasm of ignorance. It is a conclusion supported by the available historical evidence.",
-    contribution: "Craig has debated the resurrection against leading skeptics in major academic venues for decades. His contribution is philosophical rigor: he argues that the resurrection is not just historically plausible but the best inference to the best explanation given the evidence. He distinguishes between historical probability (what method can establish) and metaphysical probability (whether miracles are possible) — and argues that ruling out the resurrection on metaphysical grounds is not a historical argument but a philosophical assumption. His debates have introduced resurrection evidence to millions of students and academics.",
-  },
-  {
-    id: "licona",
-    name: "Michael Licona",
-    work: "The Resurrection of Jesus: A New Historiographical Approach (2010)",
-    color: "#3B82F6",
-    affiliation: "Professor of New Testament at Houston Christian University",
-    quote: "The resurrection of Jesus is a strong historical conclusion. The data that support it are of the sort that historians regard as the most reliable.",
-    contribution: "Licona's contribution is methodological: he applies standard historical criteria — multiple independent attestation, embarrassment, dissimilarity, coherence — to the resurrection data. His book establishes the minimal facts approach on rigorous academic ground and then applies a five-hypothesis comparison, arguing that the resurrection hypothesis outperforms all rivals. A controversy over his treatment of Matthew 27:52-53 (the raised saints at the crucifixion) led to academic debate about how genre affects historical reading — which has enriched resurrection scholarship by forcing more careful engagement with ancient historiographical conventions.",
-  },
-  {
-    id: "lewis",
-    name: "C.S. Lewis",
-    work: "Miracles (1947); Mere Christianity (1952)",
-    color: "#EC4899",
-    affiliation: "Oxford and Cambridge scholar; former atheist who converted to Christianity in his early 30s",
-    quote: "The central miracle asserted by Christians is the Incarnation. They say that God became man. Every other miracle prepares for this, or exhibits this, or results from this.",
-    contribution: "Lewis's contribution to resurrection apologetics is philosophical and imaginative rather than strictly historical. In 'Miracles,' he addresses the prior question: can miracles happen? He argues that naturalism is self-refuting (if all thoughts are products of non-rational causes, including the thought that naturalism is true, then no thought — including that one — can be trusted). If miracles are possible, then the resurrection is to be evaluated on historical evidence, not dismissed a priori. In 'Mere Christianity,' he presents the trilemma argument (Lord, liar, or lunatic) that forces a decision about the resurrection claims implicit in Jesus's own words.",
-  },
+const ALT_THEORIES = [
+  { name: "The Hallucination Theory", color: "#EF4444", proposal: "The disciples experienced grief-induced or wish-fulfillment hallucinations of Jesus after his death.", refutation: "Hallucinations are subjective, individual experiences — they cannot be shared simultaneously by 500 people. Hallucinations also do not explain the empty tomb. First-century Jews expected the Messiah to bring political liberation, not be crucified — 'wish fulfillment' runs in exactly the wrong direction. And hallucinations don't convert hardened opponents like Paul and James." },
+  { name: "The Swoon Theory", color: "#F59E0B", proposal: "Jesus survived the crucifixion in a swoon (unconscious state) and later revived in the tomb.", refutation: "Roman executioners were professionals who had personal incentive to ensure death. The spear piercing Jesus' side (John 19:34) suggests a post-mortem wound. A man who barely survived torture and crucifixion, unwrapped himself from burial cloths, moved a large stone, and overpowered guards would not inspire belief in the resurrection — he would inspire belief in emergency medicine." },
+  { name: "The Stolen Body Theory", color: PURPLE, proposal: "The disciples stole the body and then fabricated the resurrection story.", refutation: "This was the earliest counter-claim (Matthew 28:11-15), which shows the tomb was acknowledged as empty. But the disciples then willingly suffered imprisonment, torture, and martyrdom for what they knew to be a fabrication. People die for beliefs they think are true; they don't die for lies they invented. No conspiracy of this scale maintains coherence under pressure." },
+  { name: "The Wrong Tomb Theory", color: GREEN, proposal: "The women went to the wrong tomb in the dark and erroneously concluded it was empty.", refutation: "The Jewish and Roman authorities knew exactly where Jesus was buried. If the disciples were proclaiming resurrection based on the wrong tomb, any opponent could have marched to the correct tomb, produced the body, and ended Christianity on day one. This never happened." },
+  { name: "The Legend Theory", color: "#3B82F6", proposal: "The resurrection was a legend that developed over decades as the movement grew.", refutation: "The 1 Corinthians 15:3-7 creed is dated by scholars to within 2-5 years of the crucifixion — far too early for legendary development. The appearances are reported to named, living individuals who could be interrogated. The NT documents were written within the lifetime of eyewitnesses — not centuries later." },
 ];
 
-type Tab = "theology" | "evidence" | "scholars" | "objections" | "videos";
+const CHANGED_LIVES = [
+  { name: "The Apostles Themselves", period: "1st century", story: "Eleven men who scattered in fear at the arrest of Jesus became bold proclaimers of his resurrection, willing to be imprisoned, beaten, and executed for their testimony. Peter, who denied Jesus three times, preached at Pentecost to thousands. Every apostle except John died a martyr's death. Their transformation from fearful fugitives to courageous martyrs requires an explanation — and the resurrection provides it." },
+  { name: "Constantine to Conversion", period: "4th century", story: "The Roman Empire, which executed Christians for three centuries, became officially Christian under Constantine (313 AD). Whether one evaluates this Christianization positively or negatively, the spread of resurrection faith throughout an empire that tried to destroy it is remarkable. The resurrection message could not be stopped by political and military power." },
+  { name: "The Early Church Martyrs", period: "1st–3rd centuries", story: "Christians in the Roman Empire were thrown to lions, set on fire, executed in amphitheaters — and their number grew rather than declined. Tertullian (c. 200 AD): 'The blood of the martyrs is the seed of the church.' People do not die en masse for vague spiritual hopes; they die for the specific conviction that Jesus rose bodily and that his resurrection guarantees their own." },
+  { name: "C.S. Lewis", period: "20th century", story: "Oxford and Cambridge professor C.S. Lewis was a committed atheist who was argued, almost against his will, to belief in the resurrection. He called himself 'the most dejected and reluctant convert in all England.' His Mere Christianity, The Problem of Pain, and The Resurrection of Christ became landmark documents of Christian apologetics. The resurrection was the pivot point of his intellectual conversion." },
+  { name: "Lee Strobel", period: "Contemporary", story: "A legal affairs journalist for the Chicago Tribune and committed atheist, Strobel investigated the resurrection as a legal reporter after his wife's conversion — intending to disprove it. After two years of investigation he concluded the resurrection was the most reasonable explanation of the evidence. His book The Case for Christ became a bestseller and eventually a film." },
+];
+
+const VIDEOS = [
+  { videoId: "cgfDocaQFvs", title: "The Resurrection: Historical Evidence", channel: "Gary Habermas / Liberty University", description: "Gary Habermas, the world's leading scholar on the historical evidence for the resurrection, presents the minimal facts argument and responds to alternative theories." },
+  { videoId: "7bQCKFe_Bro", title: "The Case for the Resurrection", channel: "Ligonier Ministries", description: "R.C. Sproul examines the historical and theological case for the resurrection of Jesus Christ — why it is the center of Christian faith." },
+  { videoId: "JY0lMqZ24y0", title: "Why the Resurrection Matters", channel: "Desiring God", description: "John Piper on why the resurrection is not merely historical trivia but the center of the Christian gospel and the ground of Christian hope." },
+  { videoId: "s9-dJTgGMvM", title: "N.T. Wright on the Resurrection", channel: "The Gospel Coalition", description: "N.T. Wright, one of the world's leading NT scholars, explains why the bodily resurrection of Jesus is historically credible and theologically essential." },
+  { videoId: "p9K3UlI2yUo", title: "The Empty Tomb: Evidence and Implications", channel: "Ligonier Ministries", description: "An examination of the evidence for the empty tomb and its significance — why no first-century opponent of Christianity argued the tomb was still occupied." },
+];
+
+const TABS: { id: Tab; label: string; icon: string }[] = [
+  { id: "evidence", label: "Historical Evidence", icon: "🔍" },
+  { id: "meaning", label: "Theological Meaning", icon: "✝️" },
+  { id: "appearances", label: "Appearances", icon: "👁️" },
+  { id: "theories", label: "Alternative Theories", icon: "🧩" },
+  { id: "changed", label: "Changed Lives", icon: "❤️" },
+  { id: "videos", label: "Videos", icon: "🎬" },
+];
 
 export default function ResurrectionPage() {
-  const [tab, setTab] = useState<Tab>("theology");
-  const [selectedEvidence, setSelectedEvidence] = useState("The Empty Tomb");
-  const [expanded, setExpanded] = useState<string | null>(null);
-  const [selectedScholar, setSelectedScholar] = useState("wright");
-
-  const ev = EVIDENCE.find(e => e.title === selectedEvidence)!;
-  const scholar = SCHOLARS.find(s => s.id === selectedScholar)!;
+  const [activeTab, setActiveTab] = useState<Tab>("evidence");
+  const [expandedFact, setExpandedFact] = useState<number | null>(null);
+  const [expandedMeaning, setExpandedMeaning] = useState<number | null>(null);
+  const [expandedTheory, setExpandedTheory] = useState<number | null>(null);
+  const [expandedAppearance, setExpandedAppearance] = useState<number | null>(null);
 
   return (
-    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 40 }}>
-      <div style={{ maxWidth: 880, margin: "0 auto", padding: "0 20px 60px" }}>
-        <div style={{ textAlign: "center", marginBottom: 40 }}>
-          <div style={{ fontSize: 48, marginBottom: 12 }}>✝️</div>
-          <h1 style={{ fontSize: 32, fontWeight: 900, marginBottom: 8 }}>The Resurrection</h1>
-          <p style={{ color: MUTED, fontSize: 16, maxWidth: 560, margin: "0 auto" }}>
-            'If Christ has not been raised, your faith is futile' (1 Corinthians 15:17). The resurrection is not one Christian belief among many — it is the hinge of history on which everything else depends.
-          </p>
-        </div>
+    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: `var(--font-jost, system-ui, sans-serif)` }}>
+      <Navbar />
 
-        <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
-          {[
-            { id: "theology" as const, label: "Theology", icon: "📖" },
-            { id: "evidence" as const, label: "Evidence", icon: "🔍" },
-            { id: "scholars" as const, label: "Scholars", icon: "🎓" },
-            { id: "objections" as const, label: "Objections", icon: "❓" },
-            { id: "videos" as const, label: "Videos", icon: "▶️" },
-          ].map(t => (
-            <button key={t.id} onClick={() => setTab(t.id)}
-              style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+      {/* Hero */}
+      <div style={{ background: `linear-gradient(135deg, #150a0a 0%, #1f0808 40%, #0a100a 100%)`, paddingTop: 100, paddingBottom: 60, textAlign: "center", borderBottom: `1px solid ${BORDER}` }}>
+        <div style={{ fontSize: 56, marginBottom: 16 }}>🌅</div>
+        <div style={{ display: "inline-block", background: `${GOLD}18`, border: `1px solid ${GOLD}40`, borderRadius: 20, padding: "4px 16px", fontSize: 12, fontWeight: 700, color: GOLD, marginBottom: 16, letterSpacing: 1 }}>
+          APOLOGETICS &amp; THEOLOGY
+        </div>
+        <h1 style={{ fontFamily: `var(--font-cormorant, Georgia, serif)`, fontSize: "clamp(34px, 6vw, 58px)", fontWeight: 700, margin: "0 auto 16px", maxWidth: 700, lineHeight: 1.1 }}>
+          The Resurrection of Christ
+        </h1>
+        <p style={{ color: MUTED, fontSize: 17, maxWidth: 580, margin: "0 auto 24px", lineHeight: 1.75 }}>
+          The most important event in human history — and the most scrutinized. The bodily resurrection of Jesus is the hinge of Christian faith: &ldquo;If Christ has not been raised, your faith is futile&rdquo; (1 Corinthians 15:17).
+        </p>
+        <div style={{ display: "inline-block", background: `${GREEN}18`, border: `1px solid ${GREEN}40`, borderRadius: 20, padding: "6px 20px", fontSize: 13, color: GREEN }}>
+          &ldquo;He is not here; he has risen, just as he said.&rdquo; — Matthew 28:6
+        </div>
+      </div>
+
+      <div style={{ maxWidth: 920, margin: "0 auto", padding: "0 20px 80px" }}>
+        {/* Tab nav */}
+        <div style={{ display: "flex", gap: 4, margin: "32px 0", background: CARD, borderRadius: 14, padding: 5, border: `1px solid ${BORDER}`, overflowX: "auto" }}>
+          {TABS.map(t => (
+            <button key={t.id} onClick={() => setActiveTab(t.id)}
+              style={{ flex: 1, minWidth: 80, padding: "10px 6px", borderRadius: 10, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer", transition: "all 0.2s ease", whiteSpace: "nowrap" }}>
               {t.icon} {t.label}
             </button>
           ))}
         </div>
 
-        {tab === "theology" && (
+        {/* HISTORICAL EVIDENCE */}
+        {activeTab === "evidence" && (
           <div>
-            {THEOLOGY.map((t, i) => (
-              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 16 }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
-                  <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, margin: 0 }}>{t.title}</h3>
-                  <span style={{ background: `${PURPLE}20`, color: PURPLE, padding: "2px 10px", borderRadius: 10, fontSize: 12, fontWeight: 700, flexShrink: 0, marginLeft: 12 }}>{t.verse}</span>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28, marginBottom: 20 }}>
+              <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 20, marginBottom: 12 }}>The Minimal Facts Argument</h2>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.8, marginBottom: 12 }}>
+                Historian and philosopher Gary Habermas developed the &ldquo;minimal facts&rdquo; approach: identify the facts about the resurrection that are (1) strongly evidenced and (2) accepted by the vast majority of critical scholars regardless of theological commitment. Then ask: what hypothesis best explains all of these facts?
+              </p>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.8, margin: 0 }}>
+                The minimal facts include: Jesus died by crucifixion; the disciples genuinely believed they saw him risen; Paul and James — both skeptics — were converted by resurrection appearances; and the tomb was empty. The resurrection of Jesus is the only hypothesis that adequately accounts for all of these accepted facts.
+              </p>
+            </div>
+            {MINIMAL_FACTS.map((f, i) => (
+              <div key={i} onClick={() => setExpandedFact(expandedFact === i ? null : i)}
+                style={{ background: CARD, border: `1px solid ${expandedFact === i ? `${f.color}60` : BORDER}`, borderRadius: 12, padding: 20, marginBottom: 10, cursor: "pointer", transition: "all 0.2s ease" }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                    <span style={{ background: `${f.color}20`, color: f.color, borderRadius: "50%", width: 32, height: 32, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, fontSize: 14, flexShrink: 0 }}>
+                      {f.num}
+                    </span>
+                    <h3 style={{ color: expandedFact === i ? f.color : TEXT, fontWeight: 800, fontSize: 17, margin: 0, transition: "all 0.2s ease" }}>{f.title}</h3>
+                  </div>
+                  <span style={{ color: MUTED }}>{expandedFact === i ? "▲" : "▼"}</span>
                 </div>
-                <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 15, margin: 0 }}>{t.body}</p>
+                {expandedFact === i && (
+                  <div style={{ marginTop: 16 }}>
+                    <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, marginBottom: 14 }}>{f.body}</p>
+                    <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                      {f.sources.map((s, si) => (
+                        <span key={si} style={{ background: `${f.color}15`, color: f.color, padding: "3px 10px", borderRadius: 20, fontSize: 12, fontWeight: 600 }}>{s}</span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
+            <div style={{ background: `${GOLD}08`, border: `1px solid ${GOLD}25`, borderRadius: 14, padding: 22, marginTop: 16 }}>
+              <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0, fontStyle: "italic" }}>
+                &ldquo;The resurrection appearances establish as historical fact what the disciples claimed — that they had seen Jesus after his death. The question is not whether they believed it but what caused that belief. The resurrection of Jesus is by far the best explanation of the available evidence.&rdquo; — Gary Habermas, <em>The Case for the Resurrection of Jesus</em>
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* THEOLOGICAL MEANING */}
+        {activeTab === "meaning" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.8, margin: 0 }}>
+                The resurrection is not merely a historical fact to be defended — it is packed with theological meaning that transforms everything. Paul treats the resurrection as the hinge of salvation: without it, &ldquo;your faith is futile and you are still in your sins&rdquo; (1 Corinthians 15:17). Every aspect of Christian life and hope is grounded in the risen Christ.
+              </p>
+            </div>
+            {THEOLOGICAL_MEANINGS.map((m, i) => (
+              <div key={i} onClick={() => setExpandedMeaning(expandedMeaning === i ? null : i)}
+                style={{ background: CARD, border: `1px solid ${expandedMeaning === i ? `${GREEN}50` : BORDER}`, borderRadius: 14, padding: 22, marginBottom: 12, cursor: "pointer", transition: "all 0.2s ease" }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                    <span style={{ fontSize: 24 }}>{m.icon}</span>
+                    <div>
+                      <h3 style={{ color: expandedMeaning === i ? GREEN : TEXT, fontWeight: 800, fontSize: 17, margin: 0, transition: "all 0.2s ease" }}>{m.title}</h3>
+                      <span style={{ background: `${PURPLE}18`, color: PURPLE, padding: "2px 8px", borderRadius: 10, fontSize: 11, fontWeight: 600 }}>{m.ref}</span>
+                    </div>
+                  </div>
+                  <span style={{ color: MUTED }}>{expandedMeaning === i ? "▲" : "▼"}</span>
+                </div>
+                {expandedMeaning === i && (
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, marginTop: 14, marginBottom: 0 }}>{m.body}</p>
+                )}
               </div>
             ))}
           </div>
         )}
 
-        {tab === "evidence" && (
+        {/* APPEARANCES */}
+        {activeTab === "appearances" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
-              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
-                The resurrection is a historical claim, not merely a theological one. The earliest Christians staked everything on a specific event in space and time. These are the primary historical facts that demand explanation.
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.8, margin: 0 }}>
+                The NT records multiple distinct resurrection appearances to multiple individuals and groups over a period of 40 days. These are not vague spiritual impressions — they involve physical contact, shared meals, and extended conversations. The variety of witnesses and settings rules out a simple mass delusion and points to genuine encounters with a risen, bodily Jesus.
               </p>
             </div>
-            <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 20 }}>
-              {EVIDENCE.map(e => (
-                <button key={e.title} onClick={() => setSelectedEvidence(e.title)}
-                  style={{ padding: "8px 14px", borderRadius: 20, border: `1px solid ${selectedEvidence === e.title ? e.color : BORDER}`, background: selectedEvidence === e.title ? `${e.color}15` : "transparent", color: selectedEvidence === e.title ? e.color : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
-                  {e.title}
-                </button>
-              ))}
-            </div>
-            <div style={{ background: CARD, border: `1px solid ${ev.color}30`, borderRadius: 14, padding: 28 }}>
-              <h2 style={{ color: ev.color, fontWeight: 900, fontSize: 20, marginBottom: 16 }}>{ev.title}</h2>
-              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.8, margin: 0 }}>{ev.body}</p>
-            </div>
+            {APPEARANCES.map((a, i) => (
+              <div key={i} onClick={() => setExpandedAppearance(expandedAppearance === i ? null : i)}
+                style={{ background: CARD, border: `1px solid ${expandedAppearance === i ? `${PURPLE}60` : BORDER}`, borderRadius: 14, padding: 22, marginBottom: 12, cursor: "pointer", transition: "all 0.2s ease" }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                  <div>
+                    <h3 style={{ color: expandedAppearance === i ? PURPLE : TEXT, fontWeight: 800, fontSize: 17, margin: "0 0 4px", transition: "all 0.2s ease" }}>To: {a.to}</h3>
+                    <span style={{ background: `${PURPLE}18`, color: PURPLE, padding: "2px 8px", borderRadius: 10, fontSize: 11, fontWeight: 600 }}>{a.ref}</span>
+                  </div>
+                  <span style={{ color: MUTED }}>{expandedAppearance === i ? "▲" : "▼"}</span>
+                </div>
+                {expandedAppearance === i && (
+                  <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, marginTop: 14, marginBottom: 0 }}>{a.detail}</p>
+                )}
+              </div>
+            ))}
           </div>
         )}
 
-        {tab === "scholars" && (
-          <div style={{ display: "flex", gap: 20 }}>
-            <div style={{ width: 210, flexShrink: 0 }}>
-              {SCHOLARS.map(s => (
-                <button key={s.id} onClick={() => setSelectedScholar(s.id)}
-                  style={{ width: "100%", textAlign: "left", background: selectedScholar === s.id ? `${s.color}18` : CARD, border: `1px solid ${selectedScholar === s.id ? s.color : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 8, cursor: "pointer" }}>
-                  <div style={{ color: selectedScholar === s.id ? s.color : TEXT, fontWeight: 700, fontSize: 13, marginBottom: 3 }}>{s.name}</div>
-                  <div style={{ color: MUTED, fontSize: 11 }}>{s.work}</div>
-                </button>
-              ))}
-            </div>
-            <div style={{ flex: 1, background: CARD, border: `1px solid ${scholar.color}40`, borderRadius: 12, padding: 24 }}>
-              <h2 style={{ color: scholar.color, fontWeight: 900, fontSize: 20, marginBottom: 4 }}>{scholar.name}</h2>
-              <div style={{ color: MUTED, fontSize: 13, marginBottom: 14 }}>{scholar.affiliation}</div>
-              <blockquote style={{ borderLeft: `3px solid ${scholar.color}`, paddingLeft: 16, marginBottom: 14 }}>
-                <p style={{ color: TEXT, fontSize: 14, fontStyle: "italic", lineHeight: 1.75, margin: 0 }}>"{scholar.quote}"</p>
-              </blockquote>
-              <div style={{ background: BG, borderRadius: 8, padding: "8px 14px", marginBottom: 10 }}>
-                <div style={{ color: MUTED, fontSize: 11, fontWeight: 700, marginBottom: 4 }}>KEY WORK</div>
-                <p style={{ color: TEXT, fontSize: 13, fontWeight: 600, margin: 0 }}>{scholar.work}</p>
-              </div>
-              <div style={{ background: `${scholar.color}08`, border: `1px solid ${scholar.color}20`, borderRadius: 10, padding: 16 }}>
-                <div style={{ color: scholar.color, fontSize: 11, fontWeight: 700, letterSpacing: 1, marginBottom: 8 }}>CONTRIBUTION</div>
-                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>{scholar.contribution}</p>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {tab === "objections" && (
+        {/* ALTERNATIVE THEORIES */}
+        {activeTab === "theories" && (
           <div>
-            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 16 }}>
-              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
-                These are the most common objections raised against the resurrection — and the responses that have persuaded many skeptics. Honest engagement with objections strengthens rather than weakens faith.
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.8, margin: 0 }}>
+                Serious historians have proposed multiple alternative explanations for the resurrection evidence. Each faces significant difficulties. A sound apologetic requires not only defending the resurrection but showing why every alternative fails to account for all of the accepted facts. Click any theory to see the proposal and its refutation.
               </p>
             </div>
-            {OBJECTIONS.map((o, i) => (
-              <div key={i} style={{ marginBottom: 10 }}>
-                <button onClick={() => setExpanded(expanded === o.q ? null : o.q)}
-                  style={{ width: "100%", background: CARD, border: `1px solid ${BORDER}`, borderRadius: expanded === o.q ? "10px 10px 0 0" : 10, padding: "14px 18px", color: TEXT, fontWeight: 700, fontSize: 14, cursor: "pointer", display: "flex", justifyContent: "space-between", textAlign: "left" }}>
-                  <span>{o.q}</span>
-                  <span style={{ color: MUTED, flexShrink: 0 }}>{expanded === o.q ? "−" : "+"}</span>
-                </button>
-                {expanded === o.q && (
-                  <div style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: "0 0 10px 10px", borderTop: "none", padding: 18 }}>
-                    <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>{o.a}</p>
+            {ALT_THEORIES.map((t, i) => (
+              <div key={i} onClick={() => setExpandedTheory(expandedTheory === i ? null : i)}
+                style={{ background: CARD, border: `1px solid ${expandedTheory === i ? `${t.color}60` : BORDER}`, borderRadius: 12, padding: 20, marginBottom: 10, cursor: "pointer", transition: "all 0.2s ease" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <div style={{ color: t.color, fontWeight: 800, fontSize: 17 }}>{t.name}</div>
+                  <span style={{ color: MUTED }}>{expandedTheory === i ? "▲" : "▼"}</span>
+                </div>
+                {expandedTheory === i && (
+                  <div style={{ marginTop: 16 }}>
+                    <div style={{ marginBottom: 12 }}>
+                      <div style={{ color: t.color, fontSize: 12, fontWeight: 700, marginBottom: 6 }}>THE PROPOSAL</div>
+                      <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.7, margin: 0 }}>{t.proposal}</p>
+                    </div>
+                    <div style={{ background: `${GREEN}10`, border: `1px solid ${GREEN}25`, borderRadius: 10, padding: 14 }}>
+                      <div style={{ color: GREEN, fontSize: 12, fontWeight: 700, marginBottom: 6 }}>THE REFUTATION</div>
+                      <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.7, margin: 0 }}>{t.refutation}</p>
+                    </div>
                   </div>
                 )}
               </div>
@@ -202,40 +238,52 @@ export default function ResurrectionPage() {
           </div>
         )}
 
-        {tab === "videos" && (
+        {/* CHANGED LIVES */}
+        {activeTab === "changed" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
+              <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.8, margin: 0 }}>
+                The resurrection is not merely a historical argument — it is a living power that has transformed individuals and changed the course of history. Here are some of the most remarkable stories of lives transformed by the risen Christ.
+              </p>
+            </div>
+            {CHANGED_LIVES.map((c, i) => (
+              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 24, marginBottom: 14 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
+                  <div>
+                    <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, margin: 0 }}>{c.name}</h3>
+                    <span style={{ background: `${PURPLE}18`, color: PURPLE, padding: "2px 8px", borderRadius: 10, fontSize: 11, fontWeight: 600 }}>{c.period}</span>
+                  </div>
+                </div>
+                <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.8, margin: 0 }}>{c.story}</p>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* VIDEOS */}
+        {activeTab === "videos" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 24 }}>
               <h2 style={{ color: GREEN, fontWeight: 800, fontSize: 22, marginBottom: 8 }}>Teaching Videos</h2>
-              <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
-                Sermons, lectures, and teachings from trusted Christian scholars and pastors.
-              </p>
-              <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-                {[
-                  { videoId: "Hr3PkGXYRvI", title: "The Resurrection of Christ", channel: "Ligonier Ministries", description: "R.C. Sproul defends the bodily resurrection of Jesus Christ, explaining why it is the most historically attested and theologically central event in history." },
-                  { videoId: "W4jemC-qUc4", title: "He Is Risen! — The Resurrection and Worship", channel: "Ligonier Ministries", description: "R.C. Sproul connects the resurrection to Christian worship — why Sunday is the first day and every week celebrates the risen Christ." },
-                  { videoId: "rCPzHB57bOQ", title: "Resurrection: What Did Jesus Do?", channel: "Ligonier Ministries", description: "R.C. Sproul considers Jesus' triumph over the grave and what the resurrection accomplishes for sin, death, and justification." },
-                  { videoId: "dXxmSDhvbHY", title: "A Living Hope Through the Resurrection", channel: "Desiring God", description: "John Piper preaches on the resurrection as the ground of Christian hope — the believer's future secured by Christ's indestructible life." },
-                ].map(v => (
-                  <div key={v.videoId} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                    <iframe
-                      width="100%"
-                      style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
-                      src={`https://www.youtube.com/embed/${v.videoId}`}
-                      title={v.title}
-                      allowFullScreen
-                    />
-                    <div style={{ padding: "14px 16px" }}>
-                      <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
-                      <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{v.channel}</p>
-                      <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6 }}>{v.description}</p>
-                    </div>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Lectures, debates, and sermons on the resurrection of Christ from leading scholars and apologists.</p>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+              {VIDEOS.map(v => (
+                <div key={v.videoId} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, overflow: "hidden" }}>
+                  <iframe width="100%" style={{ aspectRatio: "16/9", border: "none", display: "block" } as React.CSSProperties}
+                    src={`https://www.youtube.com/embed/${v.videoId}`} title={v.title} allowFullScreen />
+                  <div style={{ padding: "16px 20px" }}>
+                    <h4 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{v.title}</h4>
+                    <p style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginBottom: 8 }}>{v.channel}</p>
+                    <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6, margin: 0 }}>{v.description}</p>
                   </div>
-                ))}
-              </div>
+                </div>
+              ))}
             </div>
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 }

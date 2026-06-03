@@ -1,4 +1,6 @@
 "use client";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { useState } from "react";
 
 const BG = "#07070F";
@@ -204,6 +206,7 @@ function AccordionItem({
         transition: "border-color 0.2s",
       }}
     >
+      <Navbar />
       <button
         onClick={() => onToggle(id)}
         style={{
@@ -302,7 +305,7 @@ export default function SpiritualWarfarePage() {
   ];
 
   return (
-    <div style={{ minHeight: "100vh", background: BG, color: TEXT, paddingTop: 40 }}>
+    <div style={{ minHeight: "100vh", background: BG, color: TEXT, paddingTop: 80 }}>
       <div style={{ maxWidth: 1080, margin: "0 auto", padding: "0 20px 80px" }}>
         {/* Header */}
         <div style={{ textAlign: "center", marginBottom: 44 }}>
@@ -701,6 +704,7 @@ export default function SpiritualWarfarePage() {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 }

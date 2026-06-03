@@ -1,4 +1,6 @@
 "use client";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 import React, { useState, useEffect } from "react";
 import { Globe, Heart, Users, ChevronRight, MapPin, Flame, BookOpen, CheckCircle2 } from "lucide-react";
@@ -331,7 +333,8 @@ export default function MissionsPage() {
 
   return (
     <div className="min-h-screen" style={{ background: BG, color: TEXT }}>
-      <div className="pb-20" style={{ paddingTop: 40 }}>
+      <Navbar />
+      <div className="pb-20" style={{ paddingTop: 80 }}>
         {/* Hero */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-14">
           <div className="text-center max-w-3xl mx-auto">
@@ -646,6 +649,7 @@ export default function MissionsPage() {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 }

@@ -1,4 +1,6 @@
 "use client";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 import { useState, useEffect } from "react";
 
@@ -822,6 +824,7 @@ export default function HealingPage() {
         paddingBottom: "80px",
       }}
     >
+      <Navbar />
       {/* Hero Header */}
       <div
         style={{
@@ -1926,6 +1929,7 @@ export default function HealingPage() {
           </div>
         </div>
       )}
+      <Footer />
     </div>
   );
 }

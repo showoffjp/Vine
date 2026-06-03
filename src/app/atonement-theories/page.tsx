@@ -1,4 +1,6 @@
 "use client";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
@@ -113,7 +115,8 @@ export default function AtonementTheoriesPage() {
   const sel = THEORIES.find(t => t.name === selected) || THEORIES[0];
 
   return (
-    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 40 }}>
+    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
+      <Navbar />
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 20px 60px" }}>
 
         <div style={{ textAlign: "center", marginBottom: 36 }}>
@@ -247,6 +250,7 @@ export default function AtonementTheoriesPage() {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 }

@@ -1,4 +1,6 @@
 "use client";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { useState } from "react";
 
 const BG = "#07070F";
@@ -171,7 +173,8 @@ export default function WorshipTheologyPage() {
   ];
 
   return (
-    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 40 }}>
+    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
+      <Navbar />
       <div style={{ maxWidth: 960, margin: "0 auto", padding: "0 24px 80px" }}>
 
         {/* Header */}
@@ -348,6 +351,7 @@ export default function WorshipTheologyPage() {
         )}
 
       </div>
+      <Footer />
     </div>
   );
 }

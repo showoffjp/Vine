@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 interface Hub {
   id: string;
@@ -10,6 +10,7 @@ interface Hub {
   color: string;
   bg: string;
   href: string;
+  seeAllHref: string;
   featured?: boolean;
   icon: React.ReactNode;
 }
@@ -24,6 +25,7 @@ const HUBS: Hub[] = [
     color: "#52a876",
     bg: "rgba(58,125,86,0.12)",
     href: "/discussions",
+    seeAllHref: "/discussions",
     featured: true,
     icon: (
       <svg viewBox="0 0 22 22" fill="none" width={22} height={22}>
@@ -48,6 +50,7 @@ const HUBS: Hub[] = [
     color: "#c9a227",
     bg: "rgba(201,162,39,0.1)",
     href: "/bible",
+    seeAllHref: "/bible",
     icon: (
       <svg viewBox="0 0 22 22" fill="none" width={22} height={22}>
         <rect x="3" y="2" width="13" height="18" rx="2" stroke="#c9a227" strokeWidth="1.5" />
@@ -65,6 +68,7 @@ const HUBS: Hub[] = [
     color: "#7dcfa0",
     bg: "rgba(125,207,160,0.08)",
     href: "/mental-health",
+    seeAllHref: "/mental-health",
     icon: (
       <svg viewBox="0 0 22 22" fill="none" width={22} height={22}>
         <path
@@ -86,6 +90,7 @@ const HUBS: Hub[] = [
     color: "#e0c070",
     bg: "rgba(224,192,112,0.09)",
     href: "/daily",
+    seeAllHref: "/daily",
     icon: (
       <svg viewBox="0 0 22 22" fill="none" width={22} height={22}>
         <circle cx="11" cy="10" r="4" stroke="#e0c070" strokeWidth="1.5" />
@@ -107,6 +112,7 @@ const HUBS: Hub[] = [
     color: "#b0a0e8",
     bg: "rgba(176,160,232,0.09)",
     href: "/resources",
+    seeAllHref: "/resources",
     icon: (
       <svg viewBox="0 0 22 22" fill="none" width={22} height={22}>
         <path
@@ -129,6 +135,7 @@ const HUBS: Hub[] = [
     color: "#6dba8a",
     bg: "rgba(109,186,138,0.1)",
     href: "/life-hacks",
+    seeAllHref: "/life-hacks",
     icon: (
       <svg viewBox="0 0 22 22" fill="none" width={22} height={22}>
         <path d="M11 19V9" stroke="#6dba8a" strokeWidth="1.5" strokeLinecap="round" />
@@ -156,6 +163,7 @@ const HUBS: Hub[] = [
     color: "#e0a070",
     bg: "rgba(224,160,112,0.09)",
     href: "/community",
+    seeAllHref: "/community",
     featured: true,
     icon: (
       <svg viewBox="0 0 22 22" fill="none" width={22} height={22}>
@@ -180,6 +188,7 @@ const HUBS: Hub[] = [
     color: "#c97070",
     bg: "rgba(201,112,112,0.09)",
     href: "/video",
+    seeAllHref: "/video",
     icon: (
       <svg viewBox="0 0 22 22" fill="none" width={22} height={22}>
         <rect x="2" y="5" width="18" height="12" rx="2" stroke="#c97070" strokeWidth="1.5" />
@@ -194,20 +203,247 @@ const HUBS: Hub[] = [
   },
 ];
 
+function useIntersectionObserver(threshold = 0.12) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [threshold]);
+
+  return { ref, isVisible };
+}
+
+function HubCard({
+  hub,
+  index,
+  isVisible,
+}: {
+  hub: Hub;
+  index: number;
+  isVisible: boolean;
+}) {
+  const [hovered, setHovered] = useState(false);
+  const delay = Math.min(index * 80, 500);
+
+  return (
+    <a
+      href={hub.href}
+      style={{
+        gridColumn: hub.featured ? "span 2" : "span 1",
+        background: hovered
+          ? `linear-gradient(135deg, ${hub.bg}, rgba(0,0,0,0))`
+          : "#0a1a0e",
+        padding: hub.featured ? "2.2rem 2rem" : "2rem 1.8rem",
+        display: "flex",
+        flexDirection: hub.featured ? "row" : "column",
+        alignItems: hub.featured ? "flex-start" : undefined,
+        gap: hub.featured ? "1.8rem" : "1rem",
+        textDecoration: "none",
+        cursor: "pointer",
+        position: "relative",
+        overflow: "hidden",
+        transition: "background 0.3s ease, box-shadow 0.3s ease",
+        boxShadow: hovered
+          ? `inset 0 0 40px ${hub.color}0a, 0 0 0 1px ${hub.color}22`
+          : "none",
+        opacity: isVisible ? 1 : 0,
+        transform: isVisible ? "translateY(0)" : "translateY(18px)",
+        transitionProperty: "background, box-shadow, opacity, transform",
+        transitionDuration: `0.3s, 0.3s, 0.55s, 0.55s`,
+        transitionTimingFunction: "ease",
+        transitionDelay: `0s, 0s, ${delay}ms, ${delay}ms`,
+      }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      {/* Shimmer overlay on hover */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          inset: 0,
+          background: `linear-gradient(135deg, transparent 30%, ${hub.color}08 50%, transparent 70%)`,
+          backgroundSize: "200% 200%",
+          opacity: hovered ? 1 : 0,
+          transition: "opacity 0.3s ease",
+          pointerEvents: "none",
+        }}
+      />
+
+      {/* Top accent line that appears on hover */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          height: 2,
+          background: `linear-gradient(90deg, transparent, ${hub.color}, transparent)`,
+          opacity: hovered ? 0.7 : 0,
+          transition: "opacity 0.3s ease",
+        }}
+      />
+
+      {/* Icon */}
+      <div
+        style={{
+          width: hub.featured ? 52 : 42,
+          height: hub.featured ? 52 : 42,
+          borderRadius: 6,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          background: hovered ? hub.bg : "rgba(255,255,255,0.03)",
+          border: `1px solid ${hovered ? hub.color + "33" : "rgba(255,255,255,0.04)"}`,
+          flexShrink: 0,
+          transition: "background 0.3s ease, border-color 0.3s ease, transform 0.3s ease",
+          transform: hovered ? "scale(1.06)" : "scale(1)",
+        }}
+      >
+        {hub.icon}
+      </div>
+
+      {/* Text */}
+      <div style={{ flex: 1, minWidth: 0, position: "relative", zIndex: 1 }}>
+        <div
+          style={{
+            fontFamily: "var(--font-cormorant, Georgia, serif)",
+            fontSize: hub.featured ? "1.5rem" : "1.15rem",
+            fontWeight: 600,
+            color: hovered ? "#f2e6c8" : "#e8dfc8",
+            lineHeight: 1.2,
+            marginBottom: "0.55rem",
+            transition: "color 0.2s ease",
+          }}
+        >
+          {hub.name}
+        </div>
+        <div
+          style={{
+            fontSize: "0.79rem",
+            color: hovered ? "#9898B3" : "#7a7060",
+            lineHeight: 1.6,
+            fontWeight: 300,
+            fontFamily: "var(--font-jost, system-ui, sans-serif)",
+            marginBottom: "1rem",
+            transition: "color 0.2s ease",
+          }}
+        >
+          {hub.tagline}
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: "0.5rem",
+            flexWrap: "wrap",
+          }}
+        >
+          <div
+            style={{
+              fontSize: "0.65rem",
+              fontWeight: 600,
+              letterSpacing: "0.1em",
+              textTransform: "uppercase",
+              color: hub.color,
+              opacity: 0.8,
+              fontFamily: "var(--font-jost, system-ui, sans-serif)",
+            }}
+          >
+            {hub.meta}
+          </div>
+
+          {/* See all button */}
+          <a
+            href={hub.seeAllHref}
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              fontFamily: "var(--font-jost, system-ui, sans-serif)",
+              fontSize: "0.68rem",
+              fontWeight: 500,
+              letterSpacing: "0.08em",
+              color: hovered ? hub.color : "rgba(255,255,255,0.25)",
+              textDecoration: "none",
+              textTransform: "uppercase",
+              display: "flex",
+              alignItems: "center",
+              gap: "0.3rem",
+              transition: "color 0.2s ease, opacity 0.2s ease",
+              opacity: hovered ? 1 : 0.5,
+              whiteSpace: "nowrap",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.opacity = "1";
+              e.currentTarget.style.color = hub.color;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.opacity = hovered ? "1" : "0.5";
+              e.currentTarget.style.color = hovered
+                ? hub.color
+                : "rgba(255,255,255,0.25)";
+            }}
+          >
+            See all
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+              <path
+                d="M2 5h6M5.5 2.5L8 5l-2.5 2.5"
+                stroke="currentColor"
+                strokeWidth="1.3"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </a>
+  );
+}
+
 export default function HubsGrid() {
-  const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const { ref, isVisible } = useIntersectionObserver(0.08);
 
   return (
     <section
       style={{
-        background: "#050e07",
+        background: "#050a07",
         padding: "100px 4vw",
         position: "relative",
+        overflow: "hidden",
       }}
     >
-      <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+      {/* Background radial */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          inset: 0,
+          background:
+            "radial-gradient(ellipse 70% 50% at 50% 30%, rgba(58,125,86,0.05) 0%, transparent 70%)",
+          pointerEvents: "none",
+        }}
+      />
+
+      <div style={{ maxWidth: 1200, margin: "0 auto", position: "relative" }}>
         {/* Header */}
         <div
+          ref={ref}
           style={{
             display: "grid",
             gridTemplateColumns: "1fr 1fr",
@@ -216,14 +452,29 @@ export default function HubsGrid() {
             marginBottom: "4rem",
           }}
         >
-          <div>
-            <div className="vine-eyebrow" style={{ marginBottom: "0.9rem" }}>
+          <div
+            style={{
+              opacity: isVisible ? 1 : 0,
+              transform: isVisible ? "translateY(0)" : "translateY(20px)",
+              transition: "opacity 0.6s ease, transform 0.6s ease",
+            }}
+          >
+            <div
+              style={{
+                fontSize: "0.65rem",
+                fontWeight: 700,
+                letterSpacing: "0.15em",
+                textTransform: "uppercase",
+                color: "#3a7d56",
+                marginBottom: "0.85rem",
+                fontFamily: "var(--font-jost, system-ui, sans-serif)",
+              }}
+            >
               What&apos;s Inside
             </div>
             <h2
               style={{
-                fontFamily:
-                  "var(--font-cormorant, 'Cormorant Garamond', Georgia, serif)",
+                fontFamily: "var(--font-cormorant, Georgia, serif)",
                 fontSize: "clamp(2rem, 4vw, 3.4rem)",
                 fontWeight: 300,
                 color: "#f2e6c8",
@@ -238,15 +489,19 @@ export default function HubsGrid() {
               </em>
             </h2>
           </div>
+
           <p
             style={{
-              fontSize: "0.98rem",
-              color: "#9a8f72",
+              fontSize: "0.96rem",
+              color: "#7a7060",
               maxWidth: 520,
               lineHeight: 1.8,
               fontWeight: 300,
               fontFamily: "var(--font-jost, system-ui, sans-serif)",
               margin: 0,
+              opacity: isVisible ? 1 : 0,
+              transform: isVisible ? "translateY(0)" : "translateY(20px)",
+              transition: "opacity 0.6s ease 0.1s, transform 0.6s ease 0.1s",
             }}
           >
             Each hub is its own world &mdash; purpose-built for how Christians
@@ -255,101 +510,78 @@ export default function HubsGrid() {
           </p>
         </div>
 
-        {/* Grid */}
+        {/* Cards grid */}
         <div
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(4, 1fr)",
             gap: 1,
-            background: "rgba(201,162,39,0.12)",
-            border: "0.5px solid rgba(201,162,39,0.15)",
+            background: "rgba(201,162,39,0.1)",
+            border: "1px solid rgba(201,162,39,0.12)",
+            borderRadius: 2,
+            overflow: "hidden",
           }}
         >
-          {HUBS.map((hub) => {
-            const isHovered = hoveredId === hub.id;
-            return (
-              <a
-                key={hub.id}
-                href={hub.href}
-                className="hub-card-vine"
-                style={
-                  {
-                    gridColumn: hub.featured ? "span 2" : "span 1",
-                    background: isHovered ? "#0f2318" : "#0a1a0e",
-                    padding: hub.featured ? "2rem 2rem" : "2rem 1.8rem",
-                    display: "flex",
-                    flexDirection: hub.featured ? "row" : "column",
-                    alignItems: hub.featured ? "flex-start" : undefined,
-                    gap: hub.featured ? "2rem" : "1rem",
-                    textDecoration: "none",
-                    cursor: "pointer",
-                    transition: "background 0.25s",
-                    "--hub-accent": hub.color,
-                  } as React.CSSProperties
-                }
-                onMouseEnter={() => setHoveredId(hub.id)}
-                onMouseLeave={() => setHoveredId(null)}
-              >
-                {/* Icon */}
-                <div
-                  style={{
-                    width: hub.featured ? 56 : 42,
-                    height: hub.featured ? 56 : 42,
-                    borderRadius: 4,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    background: hub.bg,
-                    flexShrink: 0,
-                  }}
-                >
-                  {hub.icon}
-                </div>
+          {HUBS.map((hub, i) => (
+            <HubCard
+              key={hub.id}
+              hub={hub}
+              index={i}
+              isVisible={isVisible}
+            />
+          ))}
+        </div>
 
-                {/* Text */}
-                <div>
-                  <div
-                    style={{
-                      fontFamily:
-                        "var(--font-cormorant, 'Cormorant Garamond', Georgia, serif)",
-                      fontSize: hub.featured ? "1.55rem" : "1.2rem",
-                      fontWeight: 600,
-                      color: "#f2e6c8",
-                      lineHeight: 1.2,
-                      marginBottom: "0.6rem",
-                    }}
-                  >
-                    {hub.name}
-                  </div>
-                  <div
-                    style={{
-                      fontSize: "0.8rem",
-                      color: "#9a8f72",
-                      lineHeight: 1.55,
-                      fontWeight: 300,
-                      fontFamily: "var(--font-jost, system-ui, sans-serif)",
-                      marginBottom: "1rem",
-                    }}
-                  >
-                    {hub.tagline}
-                  </div>
-                  <div
-                    style={{
-                      fontSize: "0.68rem",
-                      fontWeight: 500,
-                      letterSpacing: "0.1em",
-                      textTransform: "uppercase",
-                      color: hub.color,
-                      opacity: 0.8,
-                      fontFamily: "var(--font-jost, system-ui, sans-serif)",
-                    }}
-                  >
-                    {hub.meta}
-                  </div>
-                </div>
-              </a>
-            );
-          })}
+        {/* Bottom CTA */}
+        <div
+          style={{
+            textAlign: "center",
+            marginTop: "3rem",
+            opacity: isVisible ? 1 : 0,
+            transform: isVisible ? "translateY(0)" : "translateY(16px)",
+            transition: "opacity 0.6s ease 0.5s, transform 0.6s ease 0.5s",
+          }}
+        >
+          <a
+            href="/explore"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "0.6rem",
+              fontFamily: "var(--font-jost, system-ui, sans-serif)",
+              fontSize: "0.82rem",
+              fontWeight: 600,
+              letterSpacing: "0.08em",
+              textTransform: "uppercase",
+              color: "#c9a227",
+              textDecoration: "none",
+              border: "1px solid rgba(201,162,39,0.3)",
+              borderRadius: 4,
+              padding: "0.7rem 1.6rem",
+              transition: "all 0.22s ease",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = "rgba(201,162,39,0.7)";
+              e.currentTarget.style.background = "rgba(201,162,39,0.06)";
+              e.currentTarget.style.boxShadow = "0 0 20px rgba(201,162,39,0.12)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = "rgba(201,162,39,0.3)";
+              e.currentTarget.style.background = "transparent";
+              e.currentTarget.style.boxShadow = "none";
+            }}
+          >
+            Explore all of The Vine
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path
+                d="M2 7h10M7.5 3L11 7l-3.5 4"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </a>
         </div>
       </div>
     </section>

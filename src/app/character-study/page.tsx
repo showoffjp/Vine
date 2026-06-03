@@ -1,4 +1,6 @@
 "use client";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 import { useState, useEffect } from "react";
 
@@ -463,6 +465,7 @@ export default function CharacterStudyPage() {
 
   return (
     <div style={{ minHeight: "100vh", background: BG, color: TEXT }}>
+      <Navbar />
       {/* Hero */}
       <div style={{ background: "linear-gradient(135deg, #0a0a20 0%, #07070F 100%)", padding: "52px 24px 36px", textAlign: "center", borderBottom: `1px solid ${BORDER}` }}>
         <div style={{ fontSize: 44, marginBottom: 10 }}>📜</div>
@@ -786,6 +789,7 @@ export default function CharacterStudyPage() {
           </div>
         </div>
       )}
+      <Footer />
     </div>
   );
 }

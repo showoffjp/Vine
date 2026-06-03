@@ -1,4 +1,6 @@
 "use client";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 import { useState } from "react";
 
@@ -238,9 +240,10 @@ export default function ChristianSimplicityPage() {
         background: BG,
         color: TEXT,
         minHeight: "100vh",
-        paddingTop: 40,
+        paddingTop: 80,
       }}
     >
+      <Navbar />
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 20px 80px" }}>
 
         {/* ── Header ── */}
@@ -886,6 +889,7 @@ export default function ChristianSimplicityPage() {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 }

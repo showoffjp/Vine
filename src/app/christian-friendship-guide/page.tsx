@@ -1,4 +1,6 @@
 "use client";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 import { useState } from "react";
 
@@ -218,7 +220,8 @@ export default function ChristianFriendshipGuidePage() {
   };
 
   return (
-    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 40 }}>
+    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
+      <Navbar />
       <div style={{ maxWidth: 1080, margin: "0 auto", padding: "0 20px 80px" }}>
 
         {/* Header */}
@@ -403,6 +406,7 @@ export default function ChristianFriendshipGuidePage() {
         )}
 
       </div>
+      <Footer />
     </div>
   );
 }

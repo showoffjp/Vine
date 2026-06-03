@@ -1,4 +1,6 @@
 "use client";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
@@ -185,6 +187,7 @@ function Accordion({ items }: { items: typeof THEOLOGY_ITEMS }) {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+      <Navbar />
       {items.map(item => {
         const open = !!expanded[item.id];
         return (
@@ -223,7 +226,7 @@ export default function GracePage() {
   ];
 
   return (
-    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, -apple-system, sans-serif", paddingTop: 40 }}>
+    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, -apple-system, sans-serif", paddingTop: 80 }}>
       <div style={{ maxWidth: 960, margin: "0 auto", padding: "0 20px 80px" }}>
 
         {/* Header */}
@@ -412,6 +415,7 @@ export default function GracePage() {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 }

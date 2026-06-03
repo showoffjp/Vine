@@ -1,4 +1,6 @@
 "use client";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 import { useState, useEffect } from "react";
 import {
@@ -404,6 +406,7 @@ export default function LifeHacksPage() {
 
   return (
     <div style={{ background: "#07070F", minHeight: "100vh" }}>
+       <Navbar />
 
       <main style={{ paddingTop: "80px" }}>
         {/* HERO */}
@@ -1132,6 +1135,7 @@ export default function LifeHacksPage() {
 
       </main>
 
+      <Footer />
     </div>
   );
 }

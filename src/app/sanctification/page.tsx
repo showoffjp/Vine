@@ -1,4 +1,6 @@
 "use client";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
@@ -191,6 +193,7 @@ function Accordion({
         overflow: "hidden",
       }}
     >
+      <Navbar />
       <button
         onClick={() => onToggle(id)}
         style={{
@@ -321,7 +324,7 @@ export default function SanctificationPage() {
   ];
 
   return (
-    <div style={{ background: BG, minHeight: "100vh", paddingTop: 40, color: TEXT }}>
+    <div style={{ background: BG, minHeight: "100vh", paddingTop: 80, color: TEXT }}>
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 24px 80px" }}>
         {/* Header */}
         <div style={{ marginBottom: 40 }}>
@@ -626,6 +629,7 @@ export default function SanctificationPage() {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 }

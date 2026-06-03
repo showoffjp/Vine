@@ -1,4 +1,6 @@
 "use client";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 import { useState } from "react";
 
@@ -443,6 +445,7 @@ export default function FaithSciencePage() {
 
   return (
     <div style={{ background: BG, color: TEXT, minHeight: "100vh" }}>
+      <Navbar />
       {/* ── Header ─────────────────────────────────────────────────────────── */}
       <div
         style={{
@@ -1119,6 +1122,7 @@ export default function FaithSciencePage() {
           </div>
         </div>
       )}
+      <Footer />
     </div>
   );
 }

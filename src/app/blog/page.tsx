@@ -1,4 +1,6 @@
 "use client";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 import { useState, useEffect } from "react";
 import {
@@ -395,7 +397,8 @@ export default function BlogPage() {
 
   return (
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
-      <div className="pb-20" style={{ paddingTop: 40 }}>
+      <Navbar />
+      <div className="pb-20" style={{ paddingTop: 80 }}>
         {/* Header */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
           <div className="flex items-center gap-3 mb-4">
@@ -748,6 +751,7 @@ export default function BlogPage() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

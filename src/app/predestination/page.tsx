@@ -1,4 +1,6 @@
 "use client";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { useState } from "react";
 
 const BG = "#07070F";
@@ -134,6 +136,7 @@ const PASTORAL_ITEMS = [
 function AccordionItem({ title, body, expanded, onToggle }: { title: string; body: string; expanded: boolean; onToggle: () => void }) {
   return (
     <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, marginBottom: 12, overflow: "hidden" }}>
+      <Navbar />
       <button
         onClick={onToggle}
         style={{
@@ -172,7 +175,7 @@ export default function PredestinationPage() {
   ];
 
   return (
-    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 40 }}>
+    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 20px 80px" }}>
 
         <div style={{ textAlign: "center", marginBottom: 44 }}>
@@ -327,6 +330,7 @@ export default function PredestinationPage() {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 }

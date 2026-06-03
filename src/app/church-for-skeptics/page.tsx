@@ -1,4 +1,6 @@
 "use client";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
@@ -189,6 +191,7 @@ function Accordion({ items, expanded, setExpanded }: {
 }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+      <Navbar />
       {items.map(item => {
         const open = !!expanded[item.id];
         return (
@@ -235,7 +238,7 @@ export default function ChurchForSkepticsPage() {
   const currentPanel = CHURCH_PANELS.find(p => p.id === selectedPanel) ?? CHURCH_PANELS[0];
 
   return (
-    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 40 }}>
+    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 20px 80px" }}>
 
         {/* Header */}
@@ -475,6 +478,7 @@ export default function ChurchForSkepticsPage() {
         )}
 
       </div>
+      <Footer />
     </div>
   );
 }

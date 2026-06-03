@@ -1,4 +1,6 @@
 "use client";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 import React, { useState, useEffect } from "react";
 import { Sparkles, Plus, X, Edit2, Trash2, MapPin, Calendar, Heart, BookOpen, Star, Zap, Users, Music, Globe } from "lucide-react";
@@ -371,7 +373,8 @@ export default function FaithJourneyPage() {
 
   return (
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
-      <div className="pb-20" style={{ paddingTop: 40 }}>
+      <Navbar />
+      <div className="pb-20" style={{ paddingTop: 80 }}>
 
         {/* Hero */}
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-6 pt-2">
@@ -858,6 +861,7 @@ export default function FaithJourneyPage() {
           </div>
         </div>
       )}
+      <Footer />
     </div>
   );
 }

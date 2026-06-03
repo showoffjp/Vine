@@ -1,4 +1,6 @@
 "use client";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 import { useState, useEffect } from "react";
 
@@ -229,6 +231,7 @@ export default function DevotionalCreatorPage() {
 
   return (
     <div style={{ minHeight: "100vh", background: "#07070F", color: "#F2F2F8" }}>
+      <Navbar />
       {/* Header */}
       <div
         style={{
@@ -633,6 +636,7 @@ Break into paragraphs for readability. Aim for 200–600 words."
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 }

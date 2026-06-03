@@ -1,4 +1,6 @@
 "use client";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 import { useState, useEffect } from "react";
 import { CheckCircle2, ChevronRight, Star, Flame, X } from "lucide-react";
@@ -441,7 +443,8 @@ export default function DisciplinesPage() {
 
   return (
     <div className="min-h-screen" style={{ background: BG, color: TEXT }}>
-      <div className="pb-20" style={{ paddingTop: 40 }}>
+      <Navbar />
+      <div className="pb-20" style={{ paddingTop: 80 }}>
 
         {/* Header */}
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-8 pt-2">
@@ -773,6 +776,7 @@ export default function DisciplinesPage() {
 
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

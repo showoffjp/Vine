@@ -1,4 +1,6 @@
 "use client";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { useState } from "react";
 
 interface HistoryEvent {
@@ -243,6 +245,7 @@ export default function ChurchHistoryPage() {
 
   return (
     <div style={{ minHeight: "100vh", background: "#07070F", color: "#F2F2F8" }}>
+      <Navbar />
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "80px 20px 60px" }}>
 
         {/* Header */}
@@ -531,6 +534,7 @@ export default function ChurchHistoryPage() {
           </div>
         </div>
       )}
+      <Footer />
     </div>
   );
 }

@@ -1,287 +1,272 @@
 "use client";
-
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
+const GOLD = "#c9a227";
 
-type DailyVerse = {
-  id: number; reference: string; text: string; theme: string; themeColor: string;
-  reflection: string; prayer: string; application: string; relatedVerses: string[];
-};
-
-const verses: DailyVerse[] = [
-  {
-    id: 1,
-    reference: "Lamentations 3:22-23",
-    text: "Because of the Lord's great love we are not consumed, for his compassions never fail. They are new every morning; great is your faithfulness.",
-    theme: "God's Faithfulness",
-    themeColor: GREEN,
-    reflection: "These verses were written in the darkest chapter of Israel's history — Jerusalem had fallen, the temple was in ruins, and Jeremiah was surrounded by devastation. And yet, in the middle of that catastrophe, he anchors himself to one unchanging reality: God's mercies are new every morning.\n\nWhat makes this remarkable is the context. Jeremiah isn't saying this from comfort — he's saying it while surrounded by rubble. The declaration of God's faithfulness is most powerful when everything visible contradicts it.",
-    prayer: "Father, today I receive your new mercies. Whatever weight I carry from yesterday, you don't hold it against me. Your compassions don't run out. Help me to see this day as a fresh gift — not earned by yesterday's performance, not owed for yesterday's failures. Just grace. Just faithfulness. Just you.",
-    application: "Write down one specific thing from the past week that felt like failure. Then write: 'New mercies today.' Let the declaration of God's faithfulness speak to that specific failure.",
-    relatedVerses: ["Psalm 30:5", "Romans 8:1", "Philippians 4:13"]
-  },
-  {
-    id: 2,
-    reference: "Romans 8:38-39",
-    text: "For I am convinced that neither death nor life, neither angels nor demons, neither the present nor the future, nor any powers, neither height nor depth, nor anything else in all creation, will be able to separate us from the love of God that is in Christ Jesus our Lord.",
-    theme: "God's Love",
-    themeColor: "#EF4444",
-    reflection: "Paul doesn't say 'I hope' or 'I believe' — he says 'I am convinced.' This is the language of settled certainty based on evidence. And the list he gives is exhaustive and radical:\n\nDeath can't do it. Life can't do it. Angels and demons can't. Time — past and future — can't. Space itself can't. Nothing in all creation can.\n\nThe logic is airtight: if nothing in creation can separate you from God's love, and you are part of creation, then you cannot separate yourself either. God's love is not contingent on your performance.",
-    prayer: "Jesus, I receive this. When I feel far from you — because of sin, doubt, grief, or just the numbness of ordinary life — this is true. You are holding me. Nothing I have done or will do can reach the bottom of your love for me. Let this settle into my bones today.",
-    application: "On a piece of paper, write the thing you are most afraid would make God stop loving you. Then cross it out with the words: 'nor anything else in all creation.'",
-    relatedVerses: ["John 10:28-29", "Psalm 139:8-10", "Romans 5:8"]
-  },
-  {
-    id: 3,
-    reference: "Isaiah 40:31",
-    text: "But those who hope in the Lord will renew their strength. They will soar on wings like eagles; they will run and not grow weary, they will walk and not be faint.",
-    theme: "Strength & Renewal",
-    themeColor: "#F59E0B",
-    reflection: "The order here is counterintuitive: soar, then run, then walk. We'd expect the reverse — start slow, build up, then fly. But the biblical pattern is different: the most dramatic expression of God's power comes first, then the sustained middle, then the quiet faithfulness at the end.\n\nNotice too that walking is included as a form of renewal — not just soaring. Sometimes faithfulness looks like just showing up, putting one foot in front of the other when flying feels impossible. God meets us there too.",
-    prayer: "Lord, I am tired. The kind of tired that sleep doesn't fully fix. I need your renewal — not just rest, but regeneration. I choose to hope in you today, not in my own strength, not in circumstances changing. Just in you. Renew me from the inside out.",
-    application: "What drains you most? Name it specifically. Now ask: what would it look like to 'hope in the Lord' specifically about that thing? Write a one-sentence prayer about it.",
-    relatedVerses: ["Psalm 121:1-2", "2 Corinthians 12:9", "Matthew 11:28-30"]
-  },
-  {
-    id: 4,
-    reference: "Micah 6:8",
-    text: "He has shown you, O mortal, what is good. And what does the Lord require of you? To act justly and to love mercy and to walk humbly with your God.",
-    theme: "Justice & Mercy",
-    themeColor: "#10B981",
-    reflection: "This is one of the most compressed summaries of ethics in all of Scripture. Three things: act justly, love mercy, walk humbly.\n\nNote what's not on this list. Not 'perform religious rituals' (Micah has just critiqued empty sacrifice in verse 6-7). Not 'believe correct doctrines.' Not 'feel the right feelings.' Three verbs: act, love, walk.\n\nAlso notice the sequence: justice and mercy together. Justice without mercy is cruelty. Mercy without justice is naivety. The person who embodies both doesn't toggle between them — they hold them simultaneously, rooted in humility before God.",
-    prayer: "God, show me where I am choosing comfort over justice. Where I am demanding truth without mercy. And ground both in genuine humility — not as a posture I perform, but as the recognition that I depend on you completely. Let me act, love, and walk faithfully today.",
-    application: "Is there someone in your life who needs you to practice justice? Mercy? Identify one concrete action you can take this week.",
-    relatedVerses: ["Matthew 23:23", "James 2:13", "Proverbs 21:3"]
-  },
-  {
-    id: 5,
-    reference: "John 15:5",
-    text: "I am the vine; you are the branches. If you remain in me and I in you, you will bear much fruit; apart from me you can do nothing.",
-    theme: "Abiding in Christ",
-    themeColor: PURPLE,
-    reflection: "This is Jesus's metaphor for the entire Christian life: branch on a vine. The branch doesn't produce fruit by effort — it bears fruit naturally when connected to the vine.\n\nThe word 'remain' (meno) means to dwell, to stay, to make your home in. It's not striving; it's settling. The question Jesus is asking is not 'How hard are you working for me?' but 'Where are you at home?'\n\nApart from Jesus, he says, 'you can do nothing.' Not 'less' — nothing. This is a radical claim about the nature of spiritual fruitfulness. It all flows from connection.",
-    prayer: "Jesus, I want to remain in you today. Not perform for you, not earn from you — just be with you. Help me to make my home in you: in your words, in your presence, in your way of seeing. Let everything I do today flow from that connection rather than from my own effort.",
-    application: "What is one thing you're trying to accomplish today through effort alone that might actually require connection to Jesus? Bring it explicitly to him in prayer before you begin.",
-    relatedVerses: ["Psalm 92:12-15", "Galatians 5:22-23", "Colossians 1:10"]
-  },
-  {
-    id: 6,
-    reference: "2 Corinthians 12:9",
-    text: "But he said to me, 'My grace is sufficient for you, for my power is made perfect in weakness.' Therefore I will boast all the more gladly about my weaknesses, so that Christ's power may rest on me.",
-    theme: "Strength in Weakness",
-    themeColor: "#EC4899",
-    reflection: "Paul had a 'thorn in the flesh' — something painful and persistent he wanted God to remove. He asked three times. God said no — and then said something more surprising: the weakness is where my power shows up best.\n\nThis inverts everything culture tells us. Culture says: be strong, be capable, eliminate your weaknesses. God says: your weakness is not an obstacle to my power — it's the precise place my power can be most clearly seen.\n\nWhen we are at the end of our strength, God is not — and that gap is where grace becomes visible.",
-    prayer: "Lord, I bring you the places where I feel most inadequate today. I don't want to pretend I have it together. I want your power, not my performance. Let my weakness become an occasion for your grace to be more visible than my competence ever could be.",
-    application: "Write down your greatest weakness or inadequacy right now. Next to it write: 'God's power is made perfect here.' Carry this verse with you today.",
-    relatedVerses: ["Philippians 4:13", "Romans 8:26", "1 Corinthians 1:27-28"]
-  },
-  {
-    id: 7,
-    reference: "Proverbs 3:5-6",
-    text: "Trust in the Lord with all your heart and lean not on your own understanding; in all your ways submit to him, and he will make your paths straight.",
-    theme: "Trust & Guidance",
-    themeColor: "#3B82F6",
-    reflection: "The contrast is 'all your heart' vs. 'your own understanding.' Both are real places you can put your weight. The proverb doesn't say your understanding is worthless — it says don't lean on it exclusively.\n\nTo 'lean' is a posture image: the thing you lean on is what holds you up when you're tired. Lean the wrong way and you fall. The point isn't to distrust your mind — it's to trust God more than your mind, especially when your understanding hits its limits.\n\n'He will make your paths straight' — not smooth, not obstacle-free. Straight. Directed. There's a difference.",
-    prayer: "God, I confess that my natural instinct is to trust my own analysis first and ask you second, if at all. Reverse that today. Help me to bring you my decisions, my confusion, my questions — before I've already concluded. I want your direction, not just your confirmation.",
-    application: "What decision are you carrying right now? Have you prayed about it specifically, or are you waiting until you've figured it out yourself? Pray about it now.",
-    relatedVerses: ["Psalm 37:5", "James 1:5", "Jeremiah 29:11"]
-  },
+const DAILY_VERSES = [
+  { ref: "John 15:5", text: "I am the vine; you are the branches. If you remain in me and I in you, you will bear much fruit; apart from me you can do nothing.", theme: "Abiding in Christ", reflection: "The whole architecture of the Christian life is here: relationship before production. Fruit is the overflow of abiding, not the achievement of striving. The vine does not command the branch to bear fruit — it flows from connection. Where are you staying connected today?", prayer: "Lord Jesus, I abide in you today. I am the branch, not the vine. Let your life flow through me. Teach me what it means to remain — in prayer, in Scripture, in your presence. Bear fruit through me that I could never produce on my own. Amen." },
+  { ref: "Lamentations 3:22-23", text: "Because of the LORD's great love we are not consumed, for his compassions never fail. They are new every morning; great is your faithfulness.", theme: "God's Faithfulness", reflection: "Lamentations is the most grieved book in Scripture — written in the ashes of Jerusalem's destruction. Yet from that depth of loss emerges the greatest affirmation of God's daily faithfulness. Morning mercies are God's daily reset — not because we earn them, but because of his great love.", prayer: "Great is your faithfulness, O God. Your mercies are new this morning — let me receive them with open hands. I bring yesterday's failures, today's uncertainties, tomorrow's fears — all into the light of your unfailing love. Thank you for not consuming me. Amen." },
+  { ref: "Isaiah 40:31", text: "But those who hope in the LORD will renew their strength. They will soar on wings like eagles; they will run and not grow weary, they will walk and not be faint.", theme: "Renewed Strength", reflection: "The Hebrew 'qavah' — to hope, to wait, to bind together — describes someone who has entwined themselves with God's promises. The waiting is not passive but active trust. And the renewal comes in three stages: soaring, running, walking. Notice the order — even walking without fainting is a gift of grace.", prayer: "Lord, I am weary. Renew my strength as I hope in you. Teach me to wait well — not with resignation but with expectation, knowing you are faithful. Let me soar where I have only been walking. Amen." },
+  { ref: "Philippians 4:6-7", text: "Do not be anxious about anything, but in every situation, by prayer and petition, with thanksgiving, present your requests to God. And the peace of God, which transcends all understanding, will guard your hearts and your minds in Christ Jesus.", theme: "Peace Over Anxiety", reflection: "Paul was in prison when he wrote 'do not be anxious about anything.' This is not shallow optimism — it is battle-tested trust. The pathway through anxiety is not denial but prayer + thanksgiving. When you bring everything to God, the inexplicable peace that follows is the promise.", prayer: "Lord, I bring my anxieties to you now — the ones I've been carrying and the ones I haven't named. With thanksgiving for your past faithfulness, I present my requests. Guard my heart and mind with your peace that passes understanding. Amen." },
+  { ref: "Romans 8:28", text: "And we know that in all things God works for the good of those who love him, who have been called according to his purpose.", theme: "God's Providence", reflection: "Not 'all things are good' — but 'in all things, God works for good.' The raw material of difficulty, loss, and suffering is not wasted in the hands of a sovereign God. The promise is not easy circumstances but purposeful redemption.", prayer: "God, I trust that you are working in what I don't understand. The things I call setbacks, you call material. The chapters I want to skip, you are writing with purpose. Use everything — even this — for my good and your glory. Amen." },
+  { ref: "Jeremiah 29:11", text: "For I know the plans I have for you, declares the LORD, plans to prosper you and not to harm you, plans to give you hope and a future.", theme: "God's Plans", reflection: "This was spoken to exiles — people in Babylon, far from home, with 70 years ahead of them before restoration. The promise was given in the middle of the long wait, not after it. God's plans for a future and a hope are declared over people who cannot yet see them.", prayer: "Lord, you know the plans. I do not. I choose to trust your knowledge of my future over my fears about it. You declared hope and a future over exiles — speak it over my situation today. Amen." },
+  { ref: "Hebrews 11:1", text: "Now faith is confidence in what we hope for and assurance about what we do not see.", theme: "Faith", reflection: "Faith is not blind — it is evidence-based confidence in the character of God even when circumstances argue against it. The cloud of witnesses in Hebrews 11 trusted God's promises without seeing their fulfillment. Their faith was not rewarded in their lifetime. Ours may not be either. That doesn't make it less real.", prayer: "Lord, increase my faith — not the kind that demands visible outcomes, but the kind that trusts your character when I cannot see your hand. Let me live as one who sees what others cannot. Amen." },
 ];
 
-type JournalEntry = { date: string; verseId: number; reflection: string; timestamp: number };
+const WEEKLY_PLAN = [
+  { day: "Sunday", focus: "Worship", ref: "Psalm 100:1-2", text: "Shout for joy to the LORD, all the earth. Worship the LORD with gladness; come before him with joyful songs.", color: GOLD },
+  { day: "Monday", focus: "Work & Calling", ref: "Colossians 3:23", text: "Whatever you do, work at it with all your heart, as working for the Lord, not for human masters.", color: GREEN },
+  { day: "Tuesday", focus: "Relationships", ref: "Romans 12:10", text: "Be devoted to one another in love. Honor one another above yourselves.", color: PURPLE },
+  { day: "Wednesday", focus: "Renewal", ref: "Isaiah 40:31", text: "But those who hope in the LORD will renew their strength. They will soar on wings like eagles.", color: "#3B82F6" },
+  { day: "Thursday", focus: "Prayer", ref: "1 Thessalonians 5:17", text: "Pray continually.", color: "#F59E0B" },
+  { day: "Friday", focus: "Grace & Forgiveness", ref: "Ephesians 4:32", text: "Be kind and compassionate to one another, forgiving each other, just as in Christ God forgave you.", color: "#EC4899" },
+  { day: "Saturday", focus: "Sabbath Preparation", ref: "Psalm 92:1-2", text: "It is good to praise the LORD and make music to your name, O Most High, proclaiming your love in the morning.", color: "#10B981" },
+];
+
+const TOPICS = [
+  { topic: "Anxiety & Fear", icon: "🕊️", color: "#3B82F6", verses: [
+    { ref: "Philippians 4:6-7", text: "Do not be anxious about anything, but in every situation, by prayer and petition, with thanksgiving, present your requests to God. And the peace of God, which transcends all understanding, will guard your hearts and your minds in Christ Jesus." },
+    { ref: "1 Peter 5:7", text: "Cast all your anxiety on him because he cares for you." },
+    { ref: "John 14:27", text: "Peace I leave with you; my peace I give you. I do not give to you as the world gives. Do not let your hearts be troubled and do not be afraid." },
+    { ref: "Matthew 6:34", text: "Therefore do not worry about tomorrow, for tomorrow will worry about itself. Each day has enough trouble of its own." },
+  ]},
+  { topic: "Strength", icon: "⚡", color: GOLD, verses: [
+    { ref: "Philippians 4:13", text: "I can do all this through him who gives me strength." },
+    { ref: "Isaiah 40:31", text: "But those who hope in the LORD will renew their strength. They will soar on wings like eagles." },
+    { ref: "2 Corinthians 12:9", text: "But he said to me, 'My grace is sufficient for you, for my power is made perfect in weakness.'" },
+    { ref: "Psalm 28:7", text: "The LORD is my strength and my shield; my heart trusts in him, and he helps me." },
+  ]},
+  { topic: "Hope", icon: "🌅", color: GREEN, verses: [
+    { ref: "Jeremiah 29:11", text: "For I know the plans I have for you, declares the LORD, plans to prosper you and not to harm you, plans to give you hope and a future." },
+    { ref: "Romans 15:13", text: "May the God of hope fill you with all joy and peace as you trust in him, so that you may overflow with hope by the power of the Holy Spirit." },
+    { ref: "Romans 8:28", text: "And we know that in all things God works for the good of those who love him, who have been called according to his purpose." },
+    { ref: "Lamentations 3:22-23", text: "Because of the LORD's great love we are not consumed, for his compassions never fail. They are new every morning; great is your faithfulness." },
+  ]},
+  { topic: "Salvation", icon: "✝️", color: PURPLE, verses: [
+    { ref: "John 3:16", text: "For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life." },
+    { ref: "Ephesians 2:8-9", text: "For it is by grace you have been saved, through faith — and this is not from yourselves, it is the gift of God — not by works, so that no one can boast." },
+    { ref: "Romans 10:9", text: "If you declare with your mouth, 'Jesus is Lord,' and believe in your heart that God raised him from the dead, you will be saved." },
+    { ref: "1 John 5:13", text: "I write these things to you who believe in the name of the Son of God so that you may know that you have eternal life." },
+  ]},
+  { topic: "Love", icon: "❤️", color: "#EC4899", verses: [
+    { ref: "1 John 4:8", text: "Whoever does not love does not know God, because God is love." },
+    { ref: "Romans 8:38-39", text: "For I am convinced that neither death nor life, neither angels nor demons, neither the present nor the future, nor any powers, neither height nor depth, nor anything else in all creation, will be able to separate us from the love of God that is in Christ Jesus our Lord." },
+    { ref: "John 13:34", text: "A new command I give you: Love one another. As I have loved you, so you must love one another." },
+    { ref: "1 Corinthians 13:4-5", text: "Love is patient, love is kind. It does not envy, it does not boast, it is not proud. It does not dishonor others, it is not self-seeking, it is not easily angered, it keeps no record of wrongs." },
+  ]},
+  { topic: "Wisdom", icon: "📖", color: "#F59E0B", verses: [
+    { ref: "Proverbs 3:5-6", text: "Trust in the LORD with all your heart and lean not on your own understanding; in all your ways submit to him, and he will make your paths straight." },
+    { ref: "James 1:5", text: "If any of you lacks wisdom, you should ask God, who gives generously to all without finding fault, and it will be given to you." },
+    { ref: "Psalm 119:105", text: "Your word is a lamp for my feet, a light on my path." },
+    { ref: "Proverbs 9:10", text: "The fear of the LORD is the beginning of wisdom, and knowledge of the Holy One is understanding." },
+  ]},
+];
+
+const MEMORY_PLANS = [
+  { name: "Romans Road", desc: "7 verses that present the complete Gospel — perfect for sharing your faith.", weeks: 7, color: GREEN, verses: ["Romans 3:23", "Romans 6:23", "Romans 5:8", "Romans 10:9", "Romans 10:13", "Romans 8:1", "Romans 8:38-39"] },
+  { name: "Fruit of the Spirit", desc: "Core character formation passages — the mark of a Spirit-filled life.", weeks: 7, color: PURPLE, verses: ["Galatians 5:22-23", "Colossians 3:12-14", "1 Corinthians 13:4-7", "Ephesians 4:32", "Romans 12:9-10", "Philippians 4:4-7", "James 1:2-4"] },
+  { name: "Psalms of Trust", desc: "Ancient poetry for anxiety, grief, and deep trust in God.", weeks: 7, color: GOLD, verses: ["Psalm 23", "Psalm 46:1-3", "Psalm 27:1", "Psalm 121", "Psalm 34:18", "Psalm 62:5-6", "Psalm 91:1-2"] },
+  { name: "Identity in Christ", desc: "Who God says you are — anchor verses for your true identity.", weeks: 7, color: "#3B82F6", verses: ["John 1:12", "Romans 8:1", "2 Corinthians 5:17", "Ephesians 1:4-5", "Ephesians 2:10", "Colossians 3:3", "1 Peter 2:9"] },
+];
+
+type Tab = "today" | "weekly" | "topics" | "memorize";
 
 export default function VerseOfTheDayPage() {
-  const todayIndex = (new Date().getDate() - 1) % verses.length;
-  const [selectedId, setSelectedId] = useState<number>(verses[todayIndex].id);
-  const [view, setView] = useState<"verse" | "reflection" | "prayer" | "journal">("verse");
-  const [journalText, setJournalText] = useState("");
-  const [journalEntries, setJournalEntries] = useState<JournalEntry[]>(() => {
-    try { return JSON.parse(localStorage.getItem("vine_votd_journal") || "[]"); } catch { return []; }
-  });
-  const [journalSaved, setJournalSaved] = useState(false);
-  const [copiedVerse, setCopiedVerse] = useState(false);
-  const [likedVerses, setLikedVerses] = useState<Set<number>>(() => {
-    try { const s = localStorage.getItem("vine_votd_liked"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
-  });
+  const [tab, setTab] = useState<Tab>("today");
+  const [selectedTopic, setSelectedTopic] = useState("Anxiety & Fear");
+  const [selectedPlan, setSelectedPlan] = useState("Romans Road");
+  const [dayIndex] = useState(() => new Date().getDay());
 
-  useEffect(() => {
-    try { localStorage.setItem("vine_votd_journal", JSON.stringify(journalEntries)); } catch {}
-  }, [journalEntries]);
-  useEffect(() => {
-    try { localStorage.setItem("vine_votd_liked", JSON.stringify([...likedVerses])); } catch {}
-  }, [likedVerses]);
-
-  const selectedVerse = verses.find(v => v.id === selectedId) || verses[0];
-  const today = new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" });
-  const todayStr = new Date().toISOString().slice(0, 10);
-
-  const saveJournal = () => {
-    if (!journalText.trim()) return;
-    const entry: JournalEntry = { date: todayStr, verseId: selectedId, reflection: journalText.trim(), timestamp: Date.now() };
-    setJournalEntries(prev => [entry, ...prev.filter(e => !(e.date === todayStr && e.verseId === selectedId))]);
-    setJournalSaved(true);
-    setTimeout(() => setJournalSaved(false), 2000);
-  };
-
-  const copyVerse = () => {
-    navigator.clipboard?.writeText(`"${selectedVerse.text}" — ${selectedVerse.reference}`).catch(() => {});
-    setCopiedVerse(true);
-    setTimeout(() => setCopiedVerse(false), 2000);
-  };
-
-  const toggleLike = (id: number) => setLikedVerses(prev => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
+  const verseIndex = new Date().getDate() % DAILY_VERSES.length;
+  const todayVerse = DAILY_VERSES[verseIndex];
+  const todayWeekly = WEEKLY_PLAN[dayIndex];
+  const topic = TOPICS.find(t => t.topic === selectedTopic)!;
+  const plan = MEMORY_PLANS.find(p => p.name === selectedPlan)!;
 
   return (
-    <div style={{ minHeight: "100vh", background: BG, color: TEXT, fontFamily: "inherit" }}>
-      <div style={{ maxWidth: 800, margin: "0 auto", padding: "40px 16px 80px" }}>
+    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
+      <Navbar />
 
-        {/* Header */}
-        <div style={{ textAlign: "center", marginBottom: 36 }}>
-          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(58,125,86,0.1)", border: "1px solid rgba(58,125,86,0.2)", borderRadius: 20, padding: "6px 16px", marginBottom: 12 }}>
-            <span style={{ fontSize: 14 }}>☀️</span>
-            <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: 2, color: GREEN, textTransform: "uppercase" }}>Verse of the Day</span>
-          </div>
-          <p style={{ fontSize: 14, color: MUTED }}>{today}</p>
-        </div>
-
-        {/* Main Verse Card */}
-        <div style={{ background: `linear-gradient(135deg, rgba(107,79,187,0.12), rgba(58,125,86,0.06))`, border: `1px solid rgba(107,79,187,0.3)`, borderRadius: 20, padding: "36px 32px", marginBottom: 24, textAlign: "center", position: "relative" }}>
-          <div style={{ display: "inline-block", padding: "4px 14px", borderRadius: 20, background: `${selectedVerse.themeColor}20`, border: `1px solid ${selectedVerse.themeColor}40`, marginBottom: 20 }}>
-            <span style={{ fontSize: 12, fontWeight: 700, color: selectedVerse.themeColor }}>{selectedVerse.theme}</span>
-          </div>
-          <p style={{ fontSize: 20, lineHeight: 1.8, fontStyle: "italic", color: TEXT, marginBottom: 20, fontWeight: 500 }}>
-            "{selectedVerse.text}"
+      {/* Hero */}
+      <div style={{ background: "linear-gradient(135deg, #050e07 0%, #0d1a0f 50%, #07070F 100%)", padding: "100px 24px 56px", textAlign: "center", position: "relative", overflow: "hidden" }}>
+        <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 70% 50% at 50% 0%, rgba(201,162,39,0.09) 0%, transparent 70%)", pointerEvents: "none" }} />
+        <div style={{ position: "relative", zIndex: 1, maxWidth: 680, margin: "0 auto" }}>
+          <div style={{ display: "inline-block", background: "rgba(201,162,39,0.12)", border: "1px solid rgba(201,162,39,0.3)", borderRadius: 6, padding: "5px 16px", fontSize: 11, color: GOLD, fontWeight: 700, letterSpacing: 2, marginBottom: 20, textTransform: "uppercase" }}>Verse of the Day</div>
+          <h1 style={{ fontFamily: "var(--font-cormorant, Georgia, serif)", fontSize: "clamp(2.2rem, 5vw, 3.8rem)", fontWeight: 300, color: "#f2e6c8", marginBottom: 16, lineHeight: 1.1 }}>
+            God&apos;s Word. Every Morning.
+          </h1>
+          <p style={{ color: "#9a8f72", fontSize: 16, lineHeight: 1.75, maxWidth: 500, margin: "0 auto" }}>
+            Meditate, pray, and memorize Scripture that anchors the soul — topical verses, weekly plans, and memorization guides.
           </p>
-          <p style={{ fontSize: 15, fontWeight: 800, color: selectedVerse.themeColor, marginBottom: 24 }}>— {selectedVerse.reference}</p>
-
-          <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
-            <button onClick={copyVerse}
-              style={{ padding: "8px 18px", borderRadius: 10, border: `1px solid ${BORDER}`, background: copiedVerse ? "rgba(58,125,86,0.1)" : "rgba(255,255,255,0.04)", color: copiedVerse ? GREEN : MUTED, cursor: "pointer", fontSize: 13, fontWeight: 700 }}>
-              {copiedVerse ? "✓ Copied!" : "📋 Copy Verse"}
-            </button>
-            <button onClick={() => toggleLike(selectedId)}
-              style={{ padding: "8px 18px", borderRadius: 10, border: `1px solid ${likedVerses.has(selectedId) ? "#EF4444" + "40" : BORDER}`, background: likedVerses.has(selectedId) ? "rgba(239,68,68,0.08)" : "rgba(255,255,255,0.04)", color: likedVerses.has(selectedId) ? "#EF4444" : MUTED, cursor: "pointer", fontSize: 13, fontWeight: 700 }}>
-              {likedVerses.has(selectedId) ? "♥ Loved" : "♡ Love This"}
-            </button>
-            <a href="/verse-memory"
-              style={{ padding: "8px 18px", borderRadius: 10, border: `1px solid ${PURPLE}40`, background: `${PURPLE}10`, color: PURPLE, textDecoration: "none", fontSize: 13, fontWeight: 700 }}>
-              🧠 Add to Memory
-            </a>
-          </div>
         </div>
+      </div>
 
-        {/* View tabs */}
-        <div style={{ display: "flex", gap: 8, marginBottom: 20, background: CARD, borderRadius: 14, padding: 6, border: `1px solid ${BORDER}` }}>
-          {[
-            { id: "verse", label: "📖 Reflection" },
-            { id: "prayer", label: "🙏 Prayer" },
-            { id: "reflection", label: "🎯 Apply It" },
-            { id: "journal", label: "✍️ Journal" },
-          ].map(t => (
-            <button key={t.id} onClick={() => setView(t.id as typeof view)}
-              style={{ flex: 1, padding: "10px 8px", borderRadius: 10, border: "none", cursor: "pointer", fontWeight: 700, fontSize: 12, background: view === t.id ? PURPLE : "transparent", color: view === t.id ? TEXT : MUTED, transition: "background 0.2s" }}>
-              {t.label}
+      <div style={{ maxWidth: 960, margin: "0 auto", padding: "0 20px 60px" }}>
+        {/* Tabs */}
+        <div style={{ display: "flex", gap: 4, background: CARD, borderRadius: 12, padding: 5, border: `1px solid ${BORDER}`, margin: "28px 0 28px", overflowX: "auto" }}>
+          {([
+            { id: "today" as const, label: "Today's Verse", icon: "☀️" },
+            { id: "weekly" as const, label: "Weekly Plan", icon: "📅" },
+            { id: "topics" as const, label: "By Topic", icon: "🔍" },
+            { id: "memorize" as const, label: "Memorize", icon: "🧠" },
+          ]).map(t => (
+            <button key={t.id} onClick={() => setTab(t.id)}
+              style={{ flex: 1, padding: "10px 14px", borderRadius: 8, border: "none", background: tab === t.id ? GREEN : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", transition: "all 0.2s ease", whiteSpace: "nowrap" }}>
+              {t.icon} {t.label}
             </button>
           ))}
         </div>
 
-        {/* Content by view */}
-        <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: "28px", marginBottom: 28, minHeight: 200 }}>
-          {view === "verse" && (
-            <div>
-              <h3 style={{ fontSize: 16, fontWeight: 800, marginBottom: 16, color: selectedVerse.themeColor }}>Digging Deeper</h3>
-              {selectedVerse.reflection.split("\n").map((para, i) => (
-                <p key={i} style={{ fontSize: 15, color: "#C0C0D8", lineHeight: 1.85, marginBottom: 12 }}>{para}</p>
-              ))}
-              <div style={{ marginTop: 20 }}>
-                <p style={{ fontSize: 12, fontWeight: 800, color: MUTED, textTransform: "uppercase", letterSpacing: 1, marginBottom: 10 }}>Related Verses</p>
-                <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                  {selectedVerse.relatedVerses.map(v => (
-                    <span key={v} style={{ fontSize: 12, padding: "4px 12px", borderRadius: 20, background: "rgba(58,125,86,0.08)", color: GREEN, fontWeight: 600 }}>{v}</span>
-                  ))}
+        {/* TODAY */}
+        {tab === "today" && (
+          <div>
+            {/* Featured verse card */}
+            <div style={{ background: "linear-gradient(135deg, #0a1e12, #0d160a)", border: "1px solid rgba(201,162,39,0.25)", borderRadius: 16, padding: "36px 40px", marginBottom: 24, position: "relative", overflow: "hidden" }}>
+              <div style={{ position: "absolute", top: 0, right: 0, width: 300, height: 300, background: "radial-gradient(circle, rgba(201,162,39,0.06) 0%, transparent 70%)", pointerEvents: "none" }} />
+              <div style={{ position: "relative" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20, flexWrap: "wrap", gap: 10 }}>
+                  <div style={{ display: "inline-flex", background: "rgba(201,162,39,0.12)", border: "1px solid rgba(201,162,39,0.25)", borderRadius: 20, padding: "4px 14px", fontSize: 11, color: GOLD, fontWeight: 700 }}>{todayVerse.theme}</div>
+                  <div style={{ fontSize: 12, color: MUTED }}>{new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}</div>
                 </div>
+                <blockquote style={{ fontFamily: "var(--font-cormorant, Georgia, serif)", fontSize: "clamp(1.3rem, 3vw, 1.8rem)", fontStyle: "italic", lineHeight: 1.6, color: "#f2e6c8", margin: "0 0 20px", fontWeight: 400 }}>
+                  &ldquo;{todayVerse.text}&rdquo;
+                </blockquote>
+                <div style={{ fontSize: 15, fontWeight: 700, color: GOLD, letterSpacing: 0.5 }}>— {todayVerse.ref}</div>
               </div>
             </div>
-          )}
-          {view === "prayer" && (
-            <div>
-              <h3 style={{ fontSize: 16, fontWeight: 800, marginBottom: 16, color: selectedVerse.themeColor }}>A Prayer from This Verse</h3>
-              <div style={{ background: `${PURPLE}08`, border: `1px solid ${PURPLE}25`, borderRadius: 12, padding: "20px", borderLeft: `4px solid ${PURPLE}` }}>
-                <p style={{ fontSize: 15, color: "#C0C0D8", lineHeight: 1.85, fontStyle: "italic", margin: 0 }}>{selectedVerse.prayer}</p>
-              </div>
-              <p style={{ fontSize: 13, color: MUTED, marginTop: 16 }}>Sit with this prayer. Read it slowly, twice. Then speak your own words from where you are right now.</p>
-            </div>
-          )}
-          {view === "reflection" && (
-            <div>
-              <h3 style={{ fontSize: 16, fontWeight: 800, marginBottom: 16, color: selectedVerse.themeColor }}>Apply It Today</h3>
-              <div style={{ background: "rgba(58,125,86,0.05)", border: "1px solid rgba(58,125,86,0.15)", borderRadius: 12, padding: "20px" }}>
-                <p style={{ fontSize: 15, color: "#B0F0C0", lineHeight: 1.85, margin: 0 }}>{selectedVerse.application}</p>
-              </div>
-              <div style={{ marginTop: 20 }}>
-                <p style={{ fontSize: 13, color: MUTED, marginBottom: 12 }}>Ready to journal your response? Switch to the Journal tab.</p>
-                <button onClick={() => setView("journal")}
-                  style={{ padding: "10px 22px", borderRadius: 10, border: `1px solid ${GREEN}40`, background: "rgba(58,125,86,0.08)", color: GREEN, cursor: "pointer", fontSize: 13, fontWeight: 700 }}>
-                  ✍️ Open Journal →
-                </button>
-              </div>
-            </div>
-          )}
-          {view === "journal" && (
-            <div>
-              <h3 style={{ fontSize: 16, fontWeight: 800, marginBottom: 6, color: selectedVerse.themeColor }}>Your Reflection</h3>
-              <p style={{ fontSize: 13, color: MUTED, marginBottom: 14 }}>What is God saying to you through this verse today?</p>
-              <textarea value={journalText} onChange={e => setJournalText(e.target.value)}
-                placeholder="Write your reflection here..."
-                rows={6}
-                style={{ width: "100%", padding: "14px 16px", borderRadius: 12, border: `1px solid ${BORDER}`, background: "rgba(255,255,255,0.03)", color: TEXT, fontSize: 14, resize: "none", outline: "none", lineHeight: 1.7, marginBottom: 12, boxSizing: "border-box" }} />
-              <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                <button onClick={saveJournal} disabled={!journalText.trim()}
-                  style={{ padding: "10px 22px", borderRadius: 10, border: "none", background: journalSaved ? "rgba(58,125,86,0.15)" : `linear-gradient(135deg, ${PURPLE}, ${GREEN})`, color: journalSaved ? GREEN : BG, cursor: "pointer", fontSize: 14, fontWeight: 800 }}>
-                  {journalSaved ? "✓ Saved!" : "Save Reflection"}
-                </button>
-              </div>
 
-              {journalEntries.length > 0 && (
-                <div style={{ marginTop: 20 }}>
-                  <p style={{ fontSize: 12, fontWeight: 800, color: MUTED, textTransform: "uppercase", letterSpacing: 1, marginBottom: 12 }}>Past Reflections</p>
-                  <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                    {journalEntries.slice(0, 5).map((entry, i) => (
-                      <div key={i} style={{ padding: "12px 16px", background: "rgba(255,255,255,0.02)", borderRadius: 10, border: `1px solid ${BORDER}` }}>
-                        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
-                          <span style={{ fontSize: 12, color: PURPLE, fontWeight: 700 }}>{verses.find(v => v.id === entry.verseId)?.reference || ""}</span>
-                          <span style={{ fontSize: 11, color: MUTED }}>{entry.date}</span>
-                        </div>
-                        <p style={{ fontSize: 13, color: "#A0A0C0", margin: 0, lineHeight: 1.6 }}>{entry.reflection.slice(0, 120)}{entry.reflection.length > 120 ? "..." : ""}</p>
-                      </div>
-                    ))}
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 24 }}>
+              <div style={{ background: CARD, border: `1px solid ${GREEN}25`, borderRadius: 12, padding: 24 }}>
+                <div style={{ color: GREEN, fontWeight: 700, fontSize: 11, letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 12 }}>Reflection</div>
+                <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 14, margin: 0 }}>{todayVerse.reflection}</p>
+              </div>
+              <div style={{ background: CARD, border: `1px solid rgba(201,162,39,0.2)`, borderRadius: 12, padding: 24 }}>
+                <div style={{ color: GOLD, fontWeight: 700, fontSize: 11, letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 12 }}>Prayer</div>
+                <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 14, fontStyle: "italic", margin: 0 }}>{todayVerse.prayer}</p>
+              </div>
+            </div>
+
+            {/* Today's weekly verse */}
+            <div style={{ background: `${todayWeekly.color}10`, border: `1px solid ${todayWeekly.color}30`, borderRadius: 12, padding: 20 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                <div style={{ color: todayWeekly.color, fontWeight: 700, fontSize: 14 }}>Today&apos;s Weekly Focus: {todayWeekly.focus}</div>
+                <span style={{ color: MUTED, fontSize: 12 }}>{todayWeekly.day}</span>
+              </div>
+              <blockquote style={{ fontFamily: "var(--font-cormorant, Georgia, serif)", fontSize: 15, fontStyle: "italic", color: "#f2e6c8", margin: "0 0 8px" }}>
+                &ldquo;{todayWeekly.text}&rdquo;
+              </blockquote>
+              <div style={{ color: todayWeekly.color, fontSize: 13, fontWeight: 700 }}>{todayWeekly.ref}</div>
+            </div>
+          </div>
+        )}
+
+        {/* WEEKLY */}
+        {tab === "weekly" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, marginBottom: 24 }}>
+              <p style={{ color: TEXT, lineHeight: 1.75, fontSize: 14, margin: 0 }}>Each day of the week carries its own rhythm. These anchor verses give Scripture a home in every part of your week — from Monday&apos;s labor to Saturday&apos;s rest and Sunday&apos;s worship.</p>
+            </div>
+            {WEEKLY_PLAN.map((day, i) => (
+              <div key={i} style={{ background: CARD, border: `1px solid ${day.color}25`, borderRadius: 12, padding: 22, marginBottom: 12, transition: "all 0.2s ease" }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = day.color + "60"; e.currentTarget.style.transform = "translateY(-2px)"; }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = day.color + "25"; e.currentTarget.style.transform = "none"; }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10, flexWrap: "wrap", gap: 8 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                    <div style={{ background: `${day.color}20`, color: day.color, width: 40, height: 40, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, fontSize: 11, letterSpacing: 0.5, flexShrink: 0 }}>{day.day.slice(0,3).toUpperCase()}</div>
+                    <div>
+                      <div style={{ color: day.color, fontWeight: 800, fontSize: 15 }}>{day.day}</div>
+                      <div style={{ color: MUTED, fontSize: 12 }}>{day.focus}</div>
+                    </div>
                   </div>
+                  <span style={{ background: `${day.color}15`, color: day.color, padding: "3px 12px", borderRadius: 20, fontSize: 12, fontWeight: 700 }}>{day.ref}</span>
                 </div>
-              )}
-            </div>
-          )}
-        </div>
-
-        {/* Verse Selector */}
-        <div>
-          <h3 style={{ fontSize: 15, fontWeight: 800, marginBottom: 14, color: MUTED, textTransform: "uppercase", letterSpacing: 1 }}>All Verses This Week</h3>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 10 }}>
-            {verses.map((v, i) => (
-              <button key={v.id} onClick={() => { setSelectedId(v.id); setView("verse"); }}
-                style={{ padding: "14px 16px", borderRadius: 12, border: `1px solid ${selectedId === v.id ? v.themeColor + "50" : BORDER}`, background: selectedId === v.id ? `${v.themeColor}10` : CARD, cursor: "pointer", textAlign: "left", position: "relative" }}>
-                {i === todayIndex && (
-                  <span style={{ position: "absolute", top: 8, right: 8, fontSize: 10, fontWeight: 700, padding: "2px 8px", borderRadius: 20, background: "rgba(58,125,86,0.15)", color: GREEN }}>Today</span>
-                )}
-                <p style={{ fontSize: 12, fontWeight: 800, color: v.themeColor, margin: "0 0 4px" }}>{v.reference}</p>
-                <p style={{ fontSize: 12, color: MUTED, margin: 0 }}>{v.theme}</p>
-                {likedVerses.has(v.id) && <span style={{ fontSize: 10, color: "#EF4444" }}>♥</span>}
-              </button>
+                <blockquote style={{ fontFamily: "var(--font-cormorant, Georgia, serif)", fontSize: 16, fontStyle: "italic", color: "#f2e6c8", margin: 0, lineHeight: 1.6 }}>
+                  &ldquo;{day.text}&rdquo;
+                </blockquote>
+              </div>
             ))}
           </div>
-        </div>
+        )}
+
+        {/* TOPICS */}
+        {tab === "topics" && (
+          <div>
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 24 }}>
+              {TOPICS.map(t => (
+                <button key={t.topic} onClick={() => setSelectedTopic(t.topic)}
+                  style={{ padding: "8px 16px", borderRadius: 20, border: `1px solid ${selectedTopic === t.topic ? t.color : BORDER}`, background: selectedTopic === t.topic ? `${t.color}18` : CARD, color: selectedTopic === t.topic ? t.color : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", transition: "all 0.2s ease" }}>
+                  {t.icon} {t.topic}
+                </button>
+              ))}
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+              {topic.verses.map((v, i) => (
+                <div key={i} style={{ background: CARD, border: `1px solid ${topic.color}30`, borderRadius: 12, padding: 24, transition: "all 0.2s ease" }}
+                  onMouseEnter={e => { e.currentTarget.style.borderColor = topic.color + "70"; e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = `0 8px 24px ${topic.color}15`; }}
+                  onMouseLeave={e => { e.currentTarget.style.borderColor = topic.color + "30"; e.currentTarget.style.transform = "none"; e.currentTarget.style.boxShadow = "none"; }}>
+                  <div style={{ color: topic.color, fontWeight: 700, fontSize: 13, marginBottom: 10, display: "flex", alignItems: "center", gap: 8 }}>
+                    <span style={{ background: `${topic.color}15`, padding: "2px 10px", borderRadius: 10 }}>{v.ref}</span>
+                  </div>
+                  <blockquote style={{ fontFamily: "var(--font-cormorant, Georgia, serif)", fontSize: 17, fontStyle: "italic", color: "#f2e6c8", margin: 0, lineHeight: 1.65 }}>
+                    &ldquo;{v.text}&rdquo;
+                  </blockquote>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* MEMORIZE */}
+        {tab === "memorize" && (
+          <div>
+            <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, marginBottom: 24 }}>
+              <p style={{ color: TEXT, lineHeight: 1.75, fontSize: 14, margin: 0 }}>Scripture memory is the long game — each verse memorized is a permanent deposit in the soul. These 7-week plans cover foundational passages on the most important themes of the Christian life. One verse per week: meditate on it, pray it, live it.</p>
+            </div>
+            <div style={{ display: "flex", gap: 8, marginBottom: 20, flexWrap: "wrap" }}>
+              {MEMORY_PLANS.map(p => (
+                <button key={p.name} onClick={() => setSelectedPlan(p.name)}
+                  style={{ padding: "8px 16px", borderRadius: 20, border: `1px solid ${selectedPlan === p.name ? p.color : BORDER}`, background: selectedPlan === p.name ? `${p.color}18` : CARD, color: selectedPlan === p.name ? p.color : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", transition: "all 0.2s ease" }}>
+                  {p.name}
+                </button>
+              ))}
+            </div>
+            <div style={{ background: CARD, border: `1px solid ${plan.color}30`, borderRadius: 12, padding: 24, marginBottom: 20 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16, flexWrap: "wrap", gap: 8 }}>
+                <div>
+                  <div style={{ color: plan.color, fontWeight: 800, fontSize: 18, marginBottom: 4 }}>{plan.name}</div>
+                  <div style={{ color: MUTED, fontSize: 14 }}>{plan.desc}</div>
+                </div>
+                <div style={{ background: `${plan.color}15`, color: plan.color, padding: "5px 14px", borderRadius: 20, fontSize: 12, fontWeight: 700 }}>{plan.weeks} Weeks</div>
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                {plan.verses.map((v, i) => (
+                  <div key={i} style={{ display: "flex", alignItems: "center", gap: 14, padding: "12px 16px", background: BG, borderRadius: 8, border: `1px solid ${BORDER}`, transition: "border-color 0.2s" }}
+                    onMouseEnter={e => (e.currentTarget.style.borderColor = plan.color + "40")}
+                    onMouseLeave={e => (e.currentTarget.style.borderColor = BORDER)}>
+                    <div style={{ width: 30, height: 30, borderRadius: "50%", background: `${plan.color}15`, border: `2px solid ${plan.color}35`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 700, color: plan.color, flexShrink: 0 }}>W{i + 1}</div>
+                    <div style={{ color: TEXT, fontWeight: 600, fontSize: 14 }}>{v}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div style={{ background: `${GOLD}08`, border: `1px solid ${GOLD}20`, borderRadius: 12, padding: 20 }}>
+              <div style={{ color: GOLD, fontWeight: 700, fontSize: 14, marginBottom: 14 }}>Tips for Lasting Scripture Memory</div>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 10 }}>
+                {["Say it aloud — hearing and speaking reinforces recall", "Write it out by hand — motor memory is powerful", "Review daily — 2 minutes morning & evening", "Set it to a melody or rhythm", "Use it in prayer — apply it to real life", "Test yourself daily — cover the page and recite"].map((tip, i) => (
+                  <div key={i} style={{ background: CARD, borderRadius: 8, padding: "10px 14px", fontSize: 13, color: MUTED, display: "flex", gap: 8 }}>
+                    <span style={{ color: GOLD, flexShrink: 0 }}>✓</span> {tip}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
+      <Footer />
     </div>
   );
 }

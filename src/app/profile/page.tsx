@@ -1,4 +1,6 @@
 "use client";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 import { useState, useEffect } from "react";
 import {
@@ -168,6 +170,7 @@ export default function ProfilePage() {
 
   return (
     <div className="min-h-screen" style={{ background: "#07070F" }}>
+       <Navbar />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 page-body pb-16">
         <div className="flex flex-col lg:flex-row gap-6">
@@ -558,6 +561,7 @@ export default function ProfilePage() {
         </div>
       </main>
 
+      <Footer />
     </div>
   );
 }

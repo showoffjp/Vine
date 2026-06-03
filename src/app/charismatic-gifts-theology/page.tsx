@@ -1,4 +1,6 @@
 "use client";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { useState } from "react";
 
 const BG = "#07070F";
@@ -169,6 +171,7 @@ function AccordionItem({
         overflow: "hidden",
       }}
     >
+      <Navbar />
       <button
         onClick={() => onToggle(id)}
         style={{
@@ -232,7 +235,7 @@ export default function CharismaticGiftsTheologyPage() {
       style={{
         background: BG,
         minHeight: "100vh",
-        paddingTop: 40,
+        paddingTop: 80,
         color: TEXT,
         fontFamily: "system-ui, -apple-system, sans-serif",
       }}
@@ -485,6 +488,7 @@ export default function CharismaticGiftsTheologyPage() {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 }

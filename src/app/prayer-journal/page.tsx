@@ -1,4 +1,6 @@
 "use client";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { useState } from "react";
 
 interface PrayerEntry {
@@ -167,6 +169,7 @@ export default function PrayerJournalPage() {
 
   return (
     <div style={{ minHeight: "100vh", background: "#07070F", color: "#F2F2F8" }}>
+      <Navbar />
       <div style={{ maxWidth: 1000, margin: "0 auto", padding: "80px 20px 60px" }}>
 
         {/* Header */}
@@ -459,6 +462,7 @@ export default function PrayerJournalPage() {
           </div>
         </div>
       )}
+      <Footer />
     </div>
   );
 }

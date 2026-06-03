@@ -1,4 +1,6 @@
 "use client";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { useState } from "react";
 
 const BG = "#07070F";
@@ -181,6 +183,7 @@ function AccordionItem({
         transition: "border-color 0.2s",
       }}
     >
+      <Navbar />
       <button
         onClick={onToggle}
         style={{
@@ -273,7 +276,7 @@ export default function BaptismTheologyPage() {
         minHeight: "100vh",
         color: TEXT,
         fontFamily: "system-ui, -apple-system, sans-serif",
-        paddingTop: 40,
+        paddingTop: 80,
       }}
     >
       <div style={{ maxWidth: 920, margin: "0 auto", padding: "0 20px 80px" }}>
@@ -722,6 +725,7 @@ export default function BaptismTheologyPage() {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 }

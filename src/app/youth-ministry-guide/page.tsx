@@ -1,4 +1,6 @@
 "use client";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { useState } from "react";
 
 const BG = "#07070F";
@@ -242,7 +244,8 @@ export default function YouthMinistryGuidePage() {
   ];
 
   return (
-    <div style={{ background: BG, minHeight: "100vh", color: TEXT, paddingTop: 40, fontFamily: "system-ui, sans-serif" }}>
+    <div style={{ background: BG, minHeight: "100vh", color: TEXT, paddingTop: 80, fontFamily: "system-ui, sans-serif" }}>
+      <Navbar />
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 20px 60px" }}>
 
         {/* Header */}
@@ -426,6 +429,7 @@ export default function YouthMinistryGuidePage() {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 }

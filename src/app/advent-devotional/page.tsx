@@ -1,4 +1,6 @@
 "use client";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { useState } from "react";
 
 const BG = "#07070F";
@@ -177,10 +179,11 @@ export default function AdventDevotionalPage() {
         backgroundColor: BG,
         color: TEXT,
         minHeight: "100vh",
-        paddingTop: 40,
+        paddingTop: 80,
         fontFamily: "system-ui, -apple-system, sans-serif",
       }}
     >
+      <Navbar />
       {/* Header */}
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 24px 48px" }}>
         <div
@@ -634,6 +637,7 @@ export default function AdventDevotionalPage() {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 }

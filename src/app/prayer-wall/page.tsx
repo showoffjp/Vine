@@ -1,4 +1,6 @@
 "use client";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 import { useState, useEffect } from "react";
 import { Heart, Plus, X, Flame, Globe, Lock, ChevronDown, Search, Clock, CheckCircle2 } from "lucide-react";
@@ -271,7 +273,8 @@ export default function PrayerWallPage() {
 
   return (
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
-      <div className="pb-20" style={{ paddingTop: 40 }}>
+      <Navbar />
+      <div className="pb-20" style={{ paddingTop: 80 }}>
 
         {/* Hero */}
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-10 pt-2">
@@ -557,6 +560,7 @@ export default function PrayerWallPage() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

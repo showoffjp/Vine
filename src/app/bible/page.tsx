@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -666,6 +666,8 @@ export default function BiblePage() {
   const [showBookList, setShowBookList] = useState(false);
   const [showChapterList, setShowChapterList] = useState(false);
   const [showVersionList, setShowVersionList] = useState(false);
+  const versionDropdownRef = useRef<HTMLDivElement>(null);
+  const chapterDropdownRef = useRef<HTMLDivElement>(null);
   const [highlightedVerse, setHighlightedVerse] = useState<number | null>(null);
   const [bookmarkedVerses, setBookmarkedVerses] = useState<Set<string>>(new Set());
   const [searchQuery, setSearchQuery] = useState("");
@@ -700,6 +702,25 @@ export default function BiblePage() {
   const studyNote = STUDY_NOTES[selectedBook.id]?.[selectedChapter] || null;
 
   const chapterArray = Array.from({ length: selectedBook.chapters }, (_, i) => i + 1);
+
+  // ── Close dropdowns when clicking/tapping outside them ─────────────────────
+  useEffect(() => {
+    const handleOutsideClick = (e: MouseEvent | TouchEvent) => {
+      const target = e.target as Node;
+      if (versionDropdownRef.current && !versionDropdownRef.current.contains(target)) {
+        setShowVersionList(false);
+      }
+      if (chapterDropdownRef.current && !chapterDropdownRef.current.contains(target)) {
+        setShowChapterList(false);
+      }
+    };
+    document.addEventListener("mousedown", handleOutsideClick);
+    document.addEventListener("touchstart", handleOutsideClick);
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+      document.removeEventListener("touchstart", handleOutsideClick);
+    };
+  }, []);
 
   // ── Load available versions from the API on mount ──────────────────────────
   useEffect(() => {
@@ -1084,18 +1105,18 @@ export default function BiblePage() {
               {/* Controls bar */}
               <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 16, marginBottom: 16, display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
                 {/* Version selector */}
-                <div style={{ position: "relative" }}>
+                <div ref={versionDropdownRef} style={{ position: "relative" }}>
                   <button
-                    onClick={() => { setShowVersionList(!showVersionList); setShowChapterList(false); setShowBookList(false); }}
+                    onClick={() => { setShowVersionList(prev => !prev); setShowChapterList(false); setShowBookList(false); }}
                     style={{ background: `${PURPLE}25`, border: `1px solid ${PURPLE}`, borderRadius: 8, padding: "8px 14px", color: "#A78BFA", fontWeight: 700, fontSize: 14, cursor: "pointer" }}
                   >
                     {selectedVersion.code} ▾
                   </button>
                   {showVersionList && (
-                    <div style={{ position: "absolute", top: "100%", left: 0, zIndex: 100, background: "#1A1A2E", border: `1px solid ${BORDER}`, borderRadius: 10, padding: 8, width: 300, maxHeight: 400, overflowY: "auto", marginTop: 4 }}>
+                    <div style={{ position: "absolute", top: "calc(100% + 6px)", left: 0, zIndex: 9999, background: "#1A1A2E", border: `1px solid ${BORDER}`, borderRadius: 10, padding: 8, width: 300, maxHeight: 400, overflowY: "auto", boxShadow: "0 8px 32px rgba(0,0,0,0.6)" }}>
                       <div style={{ color: MUTED, fontSize: 10, fontWeight: 800, letterSpacing: 1.5, padding: "4px 8px 8px" }}>{versions.length} TRANSLATIONS</div>
                       {versions.map(v => (
-                        <button key={v.id} onClick={() => { setSelectedVersion(v); setShowVersionList(false); }} style={{ width: "100%", textAlign: "left", padding: "10px 12px", borderRadius: 6, border: "none", cursor: "pointer", background: selectedVersion.id === v.id ? `${PURPLE}30` : "transparent", color: selectedVersion.id === v.id ? "#A78BFA" : TEXT, fontSize: 13, marginBottom: 2 }}>
+                        <button key={v.id} onMouseDown={e => { e.preventDefault(); setSelectedVersion(v); setShowVersionList(false); }} style={{ width: "100%", textAlign: "left", padding: "10px 12px", borderRadius: 6, border: "none", cursor: "pointer", background: selectedVersion.id === v.id ? `${PURPLE}30` : "transparent", color: selectedVersion.id === v.id ? "#A78BFA" : TEXT, fontSize: 13, marginBottom: 2 }}>
                           <div style={{ fontWeight: 700 }}>{v.code}{v.name && v.name.toUpperCase() !== v.code ? ` — ${v.name}` : ""}</div>
                           {v.year && <div style={{ color: MUTED, fontSize: 11 }}>{v.year}</div>}
                         </button>
@@ -1108,18 +1129,18 @@ export default function BiblePage() {
                 <div style={{ fontWeight: 700, fontSize: 16, color: TEXT }}>{selectedBook.name}</div>
 
                 {/* Chapter selector */}
-                <div style={{ position: "relative" }}>
+                <div ref={chapterDropdownRef} style={{ position: "relative" }}>
                   <button
-                    onClick={() => { setShowChapterList(!showChapterList); setShowVersionList(false); setShowBookList(false); }}
+                    onClick={() => { setShowChapterList(prev => !prev); setShowVersionList(false); setShowBookList(false); }}
                     style={{ background: `${GREEN}15`, border: `1px solid ${GREEN}50`, borderRadius: 8, padding: "8px 14px", color: GREEN, fontWeight: 700, fontSize: 14, cursor: "pointer" }}
                   >
                     Ch. {selectedChapter} ▾
                   </button>
                   {showChapterList && (
-                    <div style={{ position: "absolute", top: "100%", left: 0, zIndex: 100, background: "#1A1A2E", border: `1px solid ${BORDER}`, borderRadius: 10, padding: 8, width: 220, maxHeight: 300, overflowY: "auto", marginTop: 4 }}>
+                    <div style={{ position: "absolute", top: "calc(100% + 6px)", left: 0, zIndex: 9999, background: "#1A1A2E", border: `1px solid ${BORDER}`, borderRadius: 10, padding: 8, width: 220, maxHeight: 300, overflowY: "auto", boxShadow: "0 8px 32px rgba(0,0,0,0.6)" }}>
                       <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 4 }}>
                         {chapterArray.map(ch => (
-                          <button key={ch} onClick={() => { setSelectedChapter(ch); setShowChapterList(false); setHighlightedVerse(null); }} style={{ padding: "8px 4px", borderRadius: 6, border: "none", cursor: "pointer", background: selectedChapter === ch ? GREEN : `${BORDER}`, color: selectedChapter === ch ? "#07070F" : TEXT, fontWeight: 700, fontSize: 13, textAlign: "center" }}>
+                          <button key={ch} onMouseDown={e => { e.preventDefault(); setSelectedChapter(ch); setShowChapterList(false); setHighlightedVerse(null); }} style={{ padding: "8px 4px", borderRadius: 6, border: "none", cursor: "pointer", background: selectedChapter === ch ? GREEN : `${BORDER}`, color: selectedChapter === ch ? "#07070F" : TEXT, fontWeight: 700, fontSize: 13, textAlign: "center" }}>
                             {ch}
                           </button>
                         ))}

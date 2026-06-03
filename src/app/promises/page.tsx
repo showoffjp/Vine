@@ -1,4 +1,6 @@
 "use client";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 import { useState, useCallback } from "react";
 
@@ -575,6 +577,7 @@ function PromiseCard({
         overflow: "hidden",
       }}
     >
+      <Navbar />
       {/* Featured glow strip */}
       {promise.featured && (
         <div

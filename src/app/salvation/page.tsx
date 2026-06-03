@@ -1,4 +1,6 @@
 "use client";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { useState } from "react";
 
 const BG = "#07070F";
@@ -261,6 +263,7 @@ export default function SalvationPage() {
 
   return (
     <div style={{ minHeight: "100vh", background: BG, color: TEXT }}>
+      <Navbar />
       <div style={{ maxWidth: 1000, margin: "0 auto", padding: "80px 20px 60px" }}>
 
         {/* Header */}
@@ -511,6 +514,7 @@ export default function SalvationPage() {
           </div>
         </div>
       )}
+      <Footer />
     </div>
   );
 }

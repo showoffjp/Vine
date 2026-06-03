@@ -1,4 +1,6 @@
 "use client";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 import { useState, useEffect } from "react";
 
@@ -262,6 +264,7 @@ export default function PrayerPartnerPage() {
 
   return (
     <div style={{ minHeight: "100vh", background: "#07070F", color: "#F2F2F8" }}>
+      <Navbar />
       {/* Hero */}
       <div
         style={{
@@ -636,6 +639,7 @@ export default function PrayerPartnerPage() {
           </div>
         </div>
       )}
+      <Footer />
     </div>
   );
 }

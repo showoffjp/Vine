@@ -1,4 +1,6 @@
 "use client";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 import { useState, useEffect } from "react";
 import {
@@ -214,7 +216,8 @@ export default function GratitudePage() {
 
   return (
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
-      <div className="pb-24" style={{ paddingTop: 40 }}>
+      <Navbar />
+      <div className="pb-24" style={{ paddingTop: 80 }}>
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
 
           {/* Header */}
@@ -573,6 +576,7 @@ export default function GratitudePage() {
 
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

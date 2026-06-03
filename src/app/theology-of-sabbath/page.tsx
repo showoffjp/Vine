@@ -1,4 +1,6 @@
 "use client";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { useState } from "react";
 
 const BG = "#07070F";
@@ -156,6 +158,7 @@ function Accordion({
 }) {
   return (
     <div style={{ maxWidth: 720 }}>
+      <Navbar />
       {items.map((item, i) => {
         const key = `${prefix}-${i}`;
         const open = !!expanded[key];
@@ -234,7 +237,7 @@ export default function TheologyOfSabbathPage() {
         background: BG,
         minHeight: "100vh",
         color: TEXT,
-        paddingTop: 40,
+        paddingTop: 80,
         fontFamily: "system-ui, -apple-system, sans-serif",
       }}
     >
@@ -457,6 +460,7 @@ export default function TheologyOfSabbathPage() {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 }

@@ -1,4 +1,6 @@
 "use client";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { useState } from "react";
 
 const BG = "#07070F";
@@ -200,6 +202,7 @@ function AccordionItem({
         overflow: "hidden",
       }}
     >
+      <Navbar />
       <button
         onClick={onToggle}
         style={{
@@ -264,7 +267,7 @@ export default function CovenantPage() {
   ];
 
   return (
-    <div style={{ background: BG, minHeight: "100vh", color: TEXT, paddingTop: 40 }}>
+    <div style={{ background: BG, minHeight: "100vh", color: TEXT, paddingTop: 80 }}>
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 24px 80px" }}>
         {/* Header */}
         <div style={{ textAlign: "center", marginBottom: 48 }}>
@@ -591,6 +594,7 @@ export default function CovenantPage() {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 }

@@ -1,4 +1,6 @@
 "use client";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 import { useState, useEffect } from "react";
 import { BookOpen, Plus, X, Star, Search, Edit2, Trash2 } from "lucide-react";
@@ -453,7 +455,8 @@ export default function ReadingListPage() {
 
   return (
     <div className="min-h-screen" style={{ background: BG, color: TEXT }}>
-      <div className="pb-20" style={{ paddingTop: 40 }}>
+      <Navbar />
+      <div className="pb-20" style={{ paddingTop: 80 }}>
 
         {/* Header */}
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-6 pt-2">
@@ -874,6 +877,7 @@ export default function ReadingListPage() {
 
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

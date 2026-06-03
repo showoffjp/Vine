@@ -1,4 +1,6 @@
 "use client";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { useState } from "react";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
@@ -297,7 +299,8 @@ export default function MustReadArticlesPage() {
   const writer = ARTICLE_WRITERS.find(w => w.id === selectedWriter);
 
   return (
-    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 40 }}>
+    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
+      <Navbar />
       <div style={{ maxWidth: 960, margin: "0 auto", padding: "0 20px 60px" }}>
         <div style={{ textAlign: "center", marginBottom: 40 }}>
           <div style={{ fontSize: 48, marginBottom: 12 }}>📰</div>
@@ -488,6 +491,7 @@ export default function MustReadArticlesPage() {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 }

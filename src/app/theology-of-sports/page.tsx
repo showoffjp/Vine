@@ -1,4 +1,6 @@
 "use client";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { useState } from "react";
 
 const BG = "#07070F";
@@ -205,7 +207,8 @@ export default function TheologyOfSportsPage() {
   const [expandedDanger, setExpandedDanger] = useState<string | undefined>(undefined);
 
   return (
-    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 40 }}>
+    <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
+      <Navbar />
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 20px 60px" }}>
 
         {/* Header */}
@@ -503,6 +506,7 @@ export default function TheologyOfSportsPage() {
         )}
 
       </div>
+      <Footer />
     </div>
   );
 }

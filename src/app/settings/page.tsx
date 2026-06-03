@@ -1116,6 +1116,29 @@ function FaithProfileTab() {
 function ReadingPlansTab() {
   const [translation, setTranslation] = useState("NIV");
   const translations = ["NIV", "ESV", "KJV", "NKJV", "NLT", "MSG"];
+  const [readingDays, setReadingDays] = useState<Set<string>>(new Set());
+
+  useEffect(() => {
+    try {
+      const s = localStorage.getItem("vine_reading_days");
+      setReadingDays(s ? new Set(JSON.parse(s)) : new Set());
+    } catch {}
+  }, []);
+
+  const PLAN_TOTAL = 90;
+  const daysCompleted = Math.min(readingDays.size, PLAN_TOTAL);
+  const pctComplete = Math.round((daysCompleted / PLAN_TOTAL) * 100);
+  const daysRemaining = PLAN_TOTAL - daysCompleted;
+  const readingStreak = (() => {
+    let s = 0;
+    const today = new Date();
+    for (let i = 0; i < 365; i++) {
+      const d = new Date(today); d.setDate(today.getDate() - i);
+      if (readingDays.has(d.toISOString().split("T")[0])) s++;
+      else if (i > 0) break;
+    }
+    return s;
+  })();
 
   return (
     <div>
@@ -1142,7 +1165,7 @@ function ReadingPlansTab() {
                 <div style={{ fontSize: 15, fontWeight: 700, color: "#F2F2F8", marginBottom: 2 }}>
                   New Testament in 90 Days
                 </div>
-                <div style={{ fontSize: 12, color: "#8A8AA8" }}>Day 22 of 90</div>
+                <div style={{ fontSize: 12, color: "#8A8AA8" }}>Day {daysCompleted} of {PLAN_TOTAL}</div>
               </div>
               <div
                 style={{
@@ -1155,7 +1178,7 @@ function ReadingPlansTab() {
                   color: "#3a7d56",
                 }}
               >
-                🔥 14-day streak
+                🔥 {readingStreak}-day streak
               </div>
             </div>
             <div
@@ -1170,14 +1193,14 @@ function ReadingPlansTab() {
               <div
                 style={{
                   height: "100%",
-                  width: `${(22 / 90) * 100}%`,
+                  width: `${pctComplete}%`,
                   background: "linear-gradient(90deg, #6B4FBB, #3a7d56)",
                   borderRadius: 6,
                 }}
               />
             </div>
             <div style={{ fontSize: 11, color: "#6A6A88" }}>
-              24% complete — 68 days remaining
+              {pctComplete}% complete — {daysRemaining} days remaining
             </div>
           </div>
         </div>

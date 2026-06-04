@@ -209,7 +209,7 @@ export default function GlobalMissionsOrgsPage() {
         {tab === "involved" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, marginBottom: 4 }}>
-              <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 15, margin: 0 }}>Everyone has a role in global missions. You do not have to go to participate — but you must participate. These are the six pathways by which Christians join the mission.</p>
+              <p style={{ color: TEXT, lineHeight: 1.8, fontSize: 15, margin: 0 }}>Everyone has a role in global missions. You do not have to go to participate — but you must participate. These are the {GET_INVOLVED.length} pathways by which Christians join the mission.</p>
             </div>
             {GET_INVOLVED.map((g, i) => (
               <div key={i} style={{ background: CARD, border: `1px solid ${g.color}25`, borderRadius: 12, padding: 22 }}>

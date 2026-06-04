@@ -153,7 +153,7 @@ export default function ChristianLeadershipPage() {
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
-                Leadership failure rarely happens suddenly. It develops through accumulated small compromises and unchecked patterns. These five traps account for the majority of Christian leadership failures.
+                Leadership failure rarely happens suddenly. It develops through accumulated small compromises and unchecked patterns. These {TRAPS.length} traps account for the majority of Christian leadership failures.
               </p>
             </div>
             {TRAPS.map((t, i) => (
@@ -207,7 +207,7 @@ export default function ChristianLeadershipPage() {
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
-                Great Christian leadership is not primarily learned from books — it is formed through practice, accountability, and sustained attention to your own soul. These six practices address the formation that books cannot provide.
+                Great Christian leadership is not primarily learned from books — it is formed through practice, accountability, and sustained attention to your own soul. These {PRACTICES.length} practices address the formation that books cannot provide.
               </p>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 14 }}>

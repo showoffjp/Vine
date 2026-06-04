@@ -336,7 +336,7 @@ export default function LandmarkSermonsPage() {
           <div style={{ fontSize: 48, marginBottom: 12 }}>🎤</div>
           <h1 style={{ fontSize: 32, fontWeight: 900, marginBottom: 8 }}>Landmark Sermons</h1>
           <p style={{ color: MUTED, fontSize: 16, maxWidth: 600, margin: "0 auto" }}>
-            12 sermons that shaped Christian history &mdash; from Jonathan Edwards igniting revival to Tim Keller reframing grace for a secular city. Each with its context, significance, and where to find it.
+            {SERMONS.length} sermons that shaped Christian history &mdash; from Jonathan Edwards igniting revival to Tim Keller reframing grace for a secular city. Each with its context, significance, and where to find it.
           </p>
         </div>
 
@@ -424,7 +424,7 @@ export default function LandmarkSermonsPage() {
             <div style={{ marginBottom: 24 }}>
               <h2 style={{ fontSize: 20, fontWeight: 800, margin: "0 0 6px" }}>Great Preachers</h2>
               <p style={{ color: MUTED, fontSize: 14, margin: 0 }}>
-                Five preachers whose proclamation shaped the church across centuries &mdash; from Chrysostom to Graham.
+                {GREAT_PREACHERS.length} preachers whose proclamation shaped the church across centuries &mdash; from Chrysostom to Graham.
               </p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
@@ -511,7 +511,7 @@ export default function LandmarkSermonsPage() {
             <div style={{ marginBottom: 24 }}>
               <h2 style={{ fontSize: 20, fontWeight: 800, margin: "0 0 6px" }}>Voices on Preaching</h2>
               <p style={{ color: MUTED, fontSize: 14, margin: 0 }}>
-                Five voices who have shaped how the church understands the vocation and practice of preaching.
+                {VOICES_SER.length} voices who have shaped how the church understands the vocation and practice of preaching.
               </p>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "210px 1fr", gap: 16, alignItems: "start" }}>

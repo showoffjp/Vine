@@ -154,7 +154,7 @@ export default function FeaturedPreachersPage() {
           <div style={{ fontSize: 48, marginBottom: 12 }}>🎙️</div>
           <h1 style={{ fontSize: 32, fontWeight: 900, marginBottom: 8 }}>Featured Preachers & Theologians</h1>
           <p style={{ color: MUTED, fontSize: 16, maxWidth: 600, margin: "0 auto" }}>
-            Eight of the most influential Christian preachers and theologians of the modern era — with their key works, best quotes, and where to find their content.
+            {PREACHERS.length} of the most influential Christian preachers and theologians of the modern era — with their key works, best quotes, and where to find their content.
           </p>
         </div>
 

@@ -328,7 +328,7 @@ export default function ChurchDisciplinePage() {
                 lineHeight: 1.6,
               }}
             >
-              Six foundational convictions that ground the practice of church
+              {THEOLOGY_ITEMS.length} foundational convictions that ground the practice of church
               discipline in the character of God and the mission of the church.
             </p>
             {THEOLOGY_ITEMS.map((item, i) => (
@@ -517,7 +517,7 @@ export default function ChurchDisciplinePage() {
                 lineHeight: 1.6,
               }}
             >
-              Six common case types — each requiring the same graduated process
+              {CASE_ITEMS.length} common case types — each requiring the same graduated process
               but demanding different pastoral wisdom in its application.
             </p>
             {CASE_ITEMS.map((item, i) => (

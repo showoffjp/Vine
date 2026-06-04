@@ -196,7 +196,7 @@ export default function GlobalMissionsPage() {
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
-                Everyone can participate in global mission from where they are. These six pathways represent the full spectrum of engagement — from daily prayer to long-term service.
+                Everyone can participate in global mission from where they are. These {HOWTO.length} pathways represent the full spectrum of engagement — from daily prayer to long-term service.
               </p>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 14 }}>

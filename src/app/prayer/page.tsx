@@ -433,7 +433,7 @@ export default function PrayerPage() {
                 </div>
               ) : (
                 <div className="flex items-center gap-3">
-                  <button type="button" onClick={handleSubmitPrayer} className="btn-gold px-6 py-2.5 rounded-xl text-sm font-bold flex items-center gap-2">
+                  <button aria-label="Send" type="button" onClick={handleSubmitPrayer} className="btn-gold px-6 py-2.5 rounded-xl text-sm font-bold flex items-center gap-2">
                     <Send size={14} />
                     Submit Prayer Request
                   </button>

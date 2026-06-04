@@ -439,13 +439,13 @@ export default function FeedPage() {
                 </div>
                 <div className="flex items-center justify-between border-t pt-3" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
                   <div className="flex gap-3">
-                    <button type="button" onClick={() => insertPrefix("📖 Verse: ")} className="text-xs flex items-center gap-1.5 font-semibold" style={{ color: "#6A6A88" }}>
+                    <button aria-label="Read" type="button" onClick={() => insertPrefix("📖 Verse: ")} className="text-xs flex items-center gap-1.5 font-semibold" style={{ color: "#6A6A88" }}>
                       <BookOpen size={14} /> Verse
                     </button>
-                    <button type="button" onClick={() => insertPrefix("🙏 Prayer request: ")} className="text-xs flex items-center gap-1.5 font-semibold" style={{ color: "#6A6A88" }}>
+                    <button aria-label="Like" type="button" onClick={() => insertPrefix("🙏 Prayer request: ")} className="text-xs flex items-center gap-1.5 font-semibold" style={{ color: "#6A6A88" }}>
                       <Heart size={14} /> Prayer
                     </button>
-                    <button type="button" onClick={() => insertPrefix("✨ Testimony: ")} className="text-xs flex items-center gap-1.5 font-semibold" style={{ color: "#6A6A88" }}>
+                    <button aria-label="Write" type="button" onClick={() => insertPrefix("✨ Testimony: ")} className="text-xs flex items-center gap-1.5 font-semibold" style={{ color: "#6A6A88" }}>
                       <Feather size={14} /> Testimony
                     </button>
                   </div>

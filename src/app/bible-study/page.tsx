@@ -602,7 +602,7 @@ export default function BibleStudyPage() {
                 <div className="text-center">
                   <BookOpen size={48} className="mx-auto mb-4 opacity-20" />
                   <p className="font-black text-lg mb-2" style={{ color: "#F2F2F8" }}>Choose a study to begin</p>
-                  <button type="button" onClick={() => setShowNewPlan(true)} className="flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-sm mx-auto mt-3" style={{ background: "rgba(58,125,86,0.1)", color: "#3a7d56", border: "1px solid rgba(58,125,86,0.2)" }}>
+                  <button aria-label="Add" type="button" onClick={() => setShowNewPlan(true)} className="flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-sm mx-auto mt-3" style={{ background: "rgba(58,125,86,0.1)", color: "#3a7d56", border: "1px solid rgba(58,125,86,0.2)" }}>
                     <Plus size={14} /> Start your first study
                   </button>
                 </div>

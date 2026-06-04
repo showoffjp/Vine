@@ -500,7 +500,7 @@ export default function CommunityPage() {
                     className="flex-1 px-4 py-3 rounded-xl text-sm outline-none"
                     style={{ background: "#12121F", border: "1px solid #1E1E32", color: "#F2F2F8" }}
                   />
-                  <button type="button" onClick={handleInvite} className="btn-gold px-5 py-3 rounded-xl text-sm font-bold flex items-center gap-2">
+                  <button aria-label="Send" type="button" onClick={handleInvite} className="btn-gold px-5 py-3 rounded-xl text-sm font-bold flex items-center gap-2">
                     <Send size={14} />
                     Send
                   </button>

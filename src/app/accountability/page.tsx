@@ -702,7 +702,7 @@ export default function AccountabilityPage() {
                   <Shield size={48} className="mx-auto mb-4 opacity-20" />
                   <p className="font-black text-lg mb-2" style={{ color: "#F2F2F8" }}>No goals yet</p>
                   <p className="text-sm mb-4">Create your first accountability goal to get started.</p>
-                  <button type="button" onClick={() => setShowCompose(true)} className="flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-sm mx-auto" style={{ background: "rgba(58,125,86,0.1)", color: "#3a7d56", border: "1px solid rgba(58,125,86,0.2)" }}>
+                  <button aria-label="Add" type="button" onClick={() => setShowCompose(true)} className="flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-sm mx-auto" style={{ background: "rgba(58,125,86,0.1)", color: "#3a7d56", border: "1px solid rgba(58,125,86,0.2)" }}>
                     <Plus size={14} /> Create Goal
                   </button>
                 </div>

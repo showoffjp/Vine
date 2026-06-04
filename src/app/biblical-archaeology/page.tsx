@@ -325,7 +325,7 @@ export default function BiblicalArchaeologyPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_biblical-archaeology_tab", "discoveries");
   const [era, setEra] = useState("All");
   const [selected, setSelected] = useState<string | null>(null);
-  const [selectedVoice, setSelectedVoice] = useState<string>(VOICES_ARCH[0].id);
+  const [selectedVoice, setSelectedVoice] = usePersistedState("vine_biblical-archaeology_selected_voice", "albright");
 
   const filtered = DISCOVERIES.filter(d => era === "All" || d.era === era);
   const discovery = DISCOVERIES.find(d => d.title === selected);

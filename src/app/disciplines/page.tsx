@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 
 import { useState, useEffect } from "react";
 import { CheckCircle2, ChevronRight, Star, Flame, X } from "lucide-react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -396,7 +397,7 @@ export default function DisciplinesPage() {
   const [activeCategory, setActiveCategory] = useState<"all" | "inward" | "outward" | "corporate">("all");
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [noteInput, setNoteInput] = useState("");
-  const [selectedVoiceId, setSelectedVoiceId] = useState<string>(VOICES_DISC[0].id);
+  const [selectedVoiceId, setSelectedVoiceId] = usePersistedState("vine_disciplines_selected_voice", "kempis");
 
   useEffect(() => {
     try { localStorage.setItem("vine_disciplines", JSON.stringify(records)); } catch {}

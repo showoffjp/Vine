@@ -108,7 +108,7 @@ const PRACTICES = [
 
 export default function SermonOnTheMountPage() {
   const [activeTab, setActiveTab] = usePersistedState<"sections" | "interpretations" | "practices" | "scholars" | "videos">("vine_sermon-on-the-mount_tab", "sections");
-  const [selectedScholar, setSelectedScholar] = useState("stott-jrw");
+  const [selectedScholar, setSelectedScholar] = usePersistedState("vine_sermon-on-the-mount_selected_scholar", "stott-jrw");
   const scholarItem = SCHOLARS_SOTM.find(s => s.id === selectedScholar)!;
   const [selectedSection, setSelectedSection] = useState("The Beatitudes");
 

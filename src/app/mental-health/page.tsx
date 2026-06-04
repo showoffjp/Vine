@@ -325,7 +325,7 @@ export default function MentalHealthPage() {
     try { const s = localStorage.getItem("vine_mh_groups"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
   });
   const [openAccordion, setOpenAccordion] = useState<string | null>(null);
-  const [selectedVoiceId, setSelectedVoiceId] = useState<string>(VOICES_MH[0].id);
+  const [selectedVoiceId, setSelectedVoiceId] = usePersistedState("vine_mental-health_selected_voice", "menninger");
 
   useEffect(() => {
     try { localStorage.setItem("vine_mh_booked", JSON.stringify([...bookedSessions])); } catch {}

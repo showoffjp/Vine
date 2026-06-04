@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 
 import { useState, useEffect } from "react";
 import { Users, Plus, X, CheckCircle2, Circle, MessageSquare, Flame, Shield, ChevronRight, Clock } from "lucide-react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 interface CheckIn {
   date: string;
@@ -260,7 +261,7 @@ export default function AccountabilityPage() {
   });
 
   const [mainTab, setMainTab] = useState<"goals" | "guide" | "voices" | "questions" | "videos">("goals");
-  const [selectedVoice, setSelectedVoice] = useState("wesley-j");
+  const [selectedVoice, setSelectedVoice] = usePersistedState("vine_accountability_selected_voice", "wesley-j");
   const [showCompose, setShowCompose] = useState(false);
   const [selectedGoal, setSelectedGoal] = useState<string | null>(goals[0]?.id ?? null);
   const [checkInNote, setCheckInNote] = useState("");

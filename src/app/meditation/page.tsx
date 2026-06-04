@@ -187,8 +187,8 @@ function TimerDisplay({ seconds }: { seconds: number }) {
 export default function MeditationPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_meditation_tab", "practice");
   const [tab, setTab] = usePersistedState<"practice" | "passages" | "techniques" | "voices">("vine_meditation_tab", "practice");
-  const [selectedVoiceMed, setSelectedVoiceMed] = useState("merton-m");
-  const [selectedVoiceNew, setSelectedVoiceNew] = useState("kempis-med");
+  const [selectedVoiceMed, setSelectedVoiceMed] = usePersistedState("vine_meditation_voice_med", "merton-m");
+  const [selectedVoiceNew, setSelectedVoiceNew] = usePersistedState("vine_meditation_voice_new", "kempis-med");
   const voiceItem = VOICES_MEDITATION.find(v => v.id === selectedVoiceMed)!;
   const voiceNewItem = VOICES_MED.find(v => v.id === selectedVoiceNew)!;
   const [selectedPassage, setSelectedPassage] = useState(PASSAGES_FOR_MEDITATION[0]);

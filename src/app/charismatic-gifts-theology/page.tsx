@@ -315,7 +315,7 @@ export default function CharismaticGiftsTheologyPage() {
         {activeTab === "theology" && (
           <div>
             <h2 style={{ color: GREEN, fontSize: 11, letterSpacing: 2, textTransform: "uppercase", marginBottom: 20 }}>
-              Theology of Charismatic Gifts — 6 Topics
+              Theology of Charismatic Gifts — {THEOLOGY_ITEMS.length} Topics
             </h2>
             {THEOLOGY_ITEMS.map((item) => (
               <AccordionItem
@@ -420,7 +420,7 @@ export default function CharismaticGiftsTheologyPage() {
         {activeTab === "prophecy" && (
           <div>
             <h2 style={{ color: GREEN, fontSize: 11, letterSpacing: 2, textTransform: "uppercase", marginBottom: 20 }}>
-              Prophecy — 6 Topics
+              Prophecy — {PROPHECY_ITEMS.length} Topics
             </h2>
             {PROPHECY_ITEMS.map((item) => (
               <AccordionItem
@@ -439,7 +439,7 @@ export default function CharismaticGiftsTheologyPage() {
         {activeTab === "healing" && (
           <div>
             <h2 style={{ color: GREEN, fontSize: 11, letterSpacing: 2, textTransform: "uppercase", marginBottom: 20 }}>
-              Healing — 6 Topics
+              Healing — {HEALING_ITEMS.length} Topics
             </h2>
             {HEALING_ITEMS.map((item) => (
               <AccordionItem

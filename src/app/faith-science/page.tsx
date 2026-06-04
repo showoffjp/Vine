@@ -362,7 +362,7 @@ export default function FaithSciencePage() {
 
   // Filters
   const [categoryFilter, setCategoryFilter] = usePersistedState("vine_faith-science_category_filter", "All");
-  const [difficultyFilter, setDifficultyFilter] = useState("All");
+  const [difficultyFilter, setDifficultyFilter] = usePersistedState<string>("vine_faith-science_difficulty_filter", "All");
   const [searchQuery, setSearchQuery] = useState("");
 
   // Modal state

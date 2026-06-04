@@ -213,7 +213,7 @@ export default function ChurchHistoryPage() {
     try { const s = localStorage.getItem("vine_church_history_read"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
   });
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_church-history_tab", "timeline");
-  const [catFilter, setCatFilter] = useState("All");
+  const [catFilter, setCatFilter] = usePersistedState<string>("vine_church-history_cat_filter", "All");
   const [eraFilter, setEraFilter] = usePersistedState<string>("vine_church-history_era_filter", "All");
   const [search, setSearch] = useState("");
   const [selected, setSelected] = useState<HistoryEvent | null>(null);

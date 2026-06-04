@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -178,7 +179,7 @@ const RATING_COLOR: Record<string, string> = {
 };
 
 export default function ChristianDocumentariesPage() {
-  const [genre, setGenre] = useState("All");
+  const [genre, setGenre] = usePersistedState<string>("vine_christian-documentaries_genre", "All");
   const [selected, setSelected] = useState<string | null>(null);
 
   const filtered = DOCS.filter(d => genre === "All" || d.genre === genre);

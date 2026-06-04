@@ -69,7 +69,7 @@ const PODCASTS = [
 
 export default function ChristianMediaHubPage() {
   const [activeSection, setActiveSection] = usePersistedState<"channels" | "websites" | "hacks" | "podcasts" | "videos">("vine_christian-media-hub_active_section", "hacks");
-  const [hackCat, setHackCat] = useState("All");
+  const [hackCat, setHackCat] = usePersistedState<string>("vine_christian-media-hub_hack_cat", "All");
 
   const filteredHacks = hackCat === "All" ? LIFE_HACKS : LIFE_HACKS.filter(h => h.category === hackCat);
 

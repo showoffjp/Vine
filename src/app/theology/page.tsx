@@ -333,8 +333,8 @@ const diffColors: Record<string, string> = {
 
 export default function TheologyPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_theology_tab", "doctrines");
-  const [catFilter, setCatFilter] = useState("All");
-  const [diffFilter, setDiffFilter] = useState("All");
+  const [catFilter, setCatFilter] = usePersistedState<string>("vine_theology_cat_filter", "All");
+  const [diffFilter, setDiffFilter] = usePersistedState<string>("vine_theology_diff_filter", "All");
   const [expandedDoc, setExpandedDoc] = useState<string | null>(null);
   const [selectedCreed, setSelectedCreed] = usePersistedState<string>("vine_theology_selected_creed", "apostles");
   const [studiedDocs, setStudiedDocs] = useState<Set<string>>(() => {

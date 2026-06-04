@@ -227,7 +227,7 @@ export default function SmallGroupsPage() {
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_small-groups_voice", "bonhoeffer");
   const voiceItem = VOICES_SG.find(v => v.id === selectedVoice)!;
   const [selectedGuide, setSelectedGuide] = useState<StudyGuide | null>(null);
-  const [depthFilter, setDepthFilter] = useState<"All" | "Light" | "Medium" | "Deep">("All");
+  const [depthFilter, setDepthFilter] = usePersistedState<string>("vine_small-groups_depth_filter", "All");
   const [expandedWeek, setExpandedWeek] = useState<number | null>(null);
   const [usedIceBreakers, setUsedIceBreakers] = useState<Set<number>>(() => {
     try { const s = localStorage.getItem("vine_sg_used_icebreakers"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }

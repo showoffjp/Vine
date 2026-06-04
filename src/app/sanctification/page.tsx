@@ -304,7 +304,7 @@ export default function SanctificationPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_sanctification_tab", "theology");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [selectedView, setSelectedView] = usePersistedState("vine_sanctification_selected_view", "reformed");
-  const [meansFilter, setMeansFilter] = useState<MeansCategory | "All">("All");
+  const [meansFilter, setMeansFilter] = usePersistedState<string>("vine_sanctification_means_filter", "All");
 
   function toggleAccordion(id: string) {
     setExpanded((prev) => ({ ...prev, [id]: !prev[id] }));

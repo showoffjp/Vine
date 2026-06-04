@@ -682,7 +682,7 @@ export default function BiblePage() {
   const [searchTotal, setSearchTotal] = useState(0);
   const [searchLoading, setSearchLoading] = useState(false);
   const [searchDone, setSearchDone] = useState(false);
-  const [searchScope, setSearchScope] = useState<"ALL" | "OT" | "NT">("ALL");
+  const [searchScope, setSearchScope] = usePersistedState<"ALL" | "OT" | "NT">("vine_bible_search_scope", "ALL");
   const [compareVersions, setCompareVersions] = useState<string[]>([]);
   const [activeComparison, setActiveComparison] = useState(0);
   const [activePlanId, setActivePlanId] = useState<string | null>(null);

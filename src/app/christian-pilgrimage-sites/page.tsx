@@ -295,7 +295,7 @@ const VIDEOS = [
 
 export default function ChristianPilgrimageSitesPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_christian-pilgrimage-sites_tab", "sites");
-  const [region, setRegion] = useState("All");
+  const [region, setRegion] = usePersistedState<string>("vine_christian-pilgrimage-sites_region", "All");
   const [selected, setSelected] = useState<string | null>(null);
 
   const filtered = SITES.filter(s => region === "All" || s.region === region);

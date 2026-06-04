@@ -199,7 +199,7 @@ function AccordionItem({
 export default function TheologyOfWorkPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_theology-of-work_tab", "theology");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
-  const [vocabSelected, setVocabSelected] = useState<string>("luther");
+  const [vocabSelected, setVocabSelected] = usePersistedState<string>("vine_theology-of-work_vocab_selected", "luther");
 
   function toggle(key: string) {
     setExpanded(prev => ({ ...prev, [key]: !prev[key] }));

@@ -65,7 +65,7 @@ const CONFESSION_VIDEOS = [
 
 export default function ConfessionPage() {
   const [activeTab, setActiveTab] = usePersistedState<"why" | "how" | "barriers" | "guide" | "videos">("vine_confession_tab", "why");
-  const [expandedFramework, setExpandedFramework] = useState<string>("ACTS");
+  const [expandedFramework, setExpandedFramework] = usePersistedState<string>("vine_confession_expanded_framework", "ACTS");
   const [journalText, setJournalText] = useState(() => {
     try { return localStorage.getItem("vine_confession_journal") || ""; } catch { return ""; }
   });

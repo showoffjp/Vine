@@ -288,7 +288,7 @@ const VOICES_CAT = [
 
 export default function CatechismGuidePage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_catechism-guide_tab", "catechisms");
-  const [tradition, setTradition] = useState("All");
+  const [tradition, setTradition] = usePersistedState<string>("vine_catechism-guide_tradition", "All");
   const [selected, setSelected] = useState<string | null>(null);
   const [selectedVoice, setSelectedVoice] = useState<number>(VOICES_CAT[0].id);
 

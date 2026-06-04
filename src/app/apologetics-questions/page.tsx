@@ -337,7 +337,7 @@ const APOL_RESOURCES = [
 
 export default function ApologeticsQuestionsPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_apologetics-questions_tab", "questions");
-  const [topic, setTopic] = useState("All");
+  const [topic, setTopic] = usePersistedState<string>("vine_apologetics-questions_topic", "All");
   const [expanded, setExpanded] = useState<string | null>(null);
   const [selectedThinker, setSelectedThinker] = useState<string | null>(null);
 

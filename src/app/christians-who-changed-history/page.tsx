@@ -215,7 +215,7 @@ const HOWTO_CWH: { id: string; principle: string; example: string; application: 
 ];
 
 export default function ChristiansWhoChangedHistoryPage() {
-  const [domain, setDomain] = useState("All");
+  const [domain, setDomain] = usePersistedState<string>("vine_christians-who-changed-history_domain", "All");
   const [selected, setSelected] = useState<string | null>(null);
   type Tab = "figures" | "movements" | "principles" | "howto" | "videos";
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_christians-who-changed-history_tab", "figures");

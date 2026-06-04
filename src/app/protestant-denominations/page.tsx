@@ -284,7 +284,7 @@ const VOICES_DENOM = [
 
 export default function ProtestantDenominationsPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_protestant-denominations_tab", "denominations");
-  const [family, setFamily] = useState("All");
+  const [family, setFamily] = usePersistedState<string>("vine_protestant-denominations_family", "All");
   const [selected, setSelected] = useState<string | null>(null);
   const [selectedVoice, setSelectedVoice] = useState<number>(1);
 

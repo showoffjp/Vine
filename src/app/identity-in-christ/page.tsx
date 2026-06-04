@@ -104,7 +104,7 @@ export default function IdentityInChristPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_identity-in-christ_tab", "who");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_identity-in-christ_voice", "nouwen");
   const voiceItem = VOICES_IDENTITY.find(v => v.id === selectedVoice)!;
-  const [catFilter, setCatFilter] = useState("All");
+  const [catFilter, setCatFilter] = usePersistedState<string>("vine_identity-in-christ_cat_filter", "All");
   const [memorized, setMemorized] = useState<Set<string>>(() => {
     try { const s = localStorage.getItem("vine_identity_mem"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
   });

@@ -220,7 +220,7 @@ const COMMUNITY_ITEMS = [
 export default function ChristianGriefGuidePage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_christian-grief-guide_tab", "theology");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
-  const [scriptureFilter, setScriptureFilter] = useState<ScriptureCategory>("loved-one");
+  const [scriptureFilter, setScriptureFilter] = usePersistedState<ScriptureCategory>("vine_christian-grief-guide_scripture_filter", "loved-one");
 
   const toggle = (key: string) =>
     setExpanded(prev => ({ ...prev, [key]: !prev[key] }));

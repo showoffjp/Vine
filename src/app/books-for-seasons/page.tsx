@@ -354,7 +354,7 @@ const VOICES_BFOS = [
 
 export default function BooksForSeasonsPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_books-for-seasons_tab", "books");
-  const [season, setSeason] = useState("All");
+  const [season, setSeason] = usePersistedState<string>("vine_books-for-seasons_season", "All");
   const [selected, setSelected] = useState<string | null>(null);
   const [selectedVoice, setSelectedVoice] = useState<number>(VOICES_BFOS[0].id);
 

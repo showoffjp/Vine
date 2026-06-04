@@ -20,6 +20,7 @@ import {
   Feather,
 } from "lucide-react";
 import { useState, useEffect } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const stories = [
   { name: "You", avatar: "ME", color: "#3a7d56", hasStory: false, isYou: true },
@@ -275,7 +276,7 @@ export default function FeedPage() {
   });
   const [postText, setPostText] = useState("");
   const [postShared, setPostShared] = useState(false);
-  const [feedSort, setFeedSort] = useState("Latest");
+  const [feedSort, setFeedSort] = usePersistedState<string>("vine_feed_feed_sort", "Latest");
   const [userName, setUserName] = useState(() => {
     try { const u = localStorage.getItem("vine_user"); if (u) { const p = JSON.parse(u); if (p.firstName) return p.firstName as string; } } catch {} return "Friend";
   });

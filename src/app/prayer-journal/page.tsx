@@ -107,7 +107,7 @@ export default function PrayerJournalPage() {
   const [tab, setTab] = usePersistedState<"journal" | "answered" | "write" | "voices" | "videos">("vine_prayer-journal_tab", "journal");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_prayer-journal_voice", "journal-bounds");
   const voiceItem = VOICES_PJ.find(v => v.id === selectedVoice)!;
-  const [catFilter, setCatFilter] = useState("All");
+  const [catFilter, setCatFilter] = usePersistedState<string>("vine_prayer-journal_cat_filter", "All");
   const [search, setSearch] = useState("");
   const [selected, setSelected] = useState<PrayerEntry | null>(null);
   const [showAnswerModal, setShowAnswerModal] = useState<PrayerEntry | null>(null);
@@ -117,7 +117,7 @@ export default function PrayerJournalPage() {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [category, setCategory] = usePersistedState("vine_prayer-journal_category", "Personal");
-  const [mood, setMood] = useState("Hopeful");
+  const [mood, setMood] = usePersistedState<string>("vine_prayer-journal_mood", "Hopeful");
   const [verse, setVerse] = useState("");
   const [verseRef, setVerseRef] = useState("");
   const [tags, setTags] = useState("");

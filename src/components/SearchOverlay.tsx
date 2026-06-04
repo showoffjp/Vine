@@ -37,14 +37,14 @@ export default function SearchOverlay({ open, onClose }: SearchOverlayProps) {
 
   useEffect(() => {
     if (open) {
-      setTimeout(() => inputRef.current?.focus(), 50);
+      const id = setTimeout(() => inputRef.current?.focus(), 50);
       document.body.style.overflow = "hidden";
+      return () => { clearTimeout(id); document.body.style.overflow = ""; };
     } else {
       document.body.style.overflow = "";
       setQuery("");
       setSubmitted(null);
     }
-    return () => { document.body.style.overflow = ""; };
   }, [open]);
 
   useEffect(() => {

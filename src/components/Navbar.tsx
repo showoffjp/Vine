@@ -520,6 +520,10 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
+    return () => { if (closeTimer.current) clearTimeout(closeTimer.current); };
+  }, []);
+
+  useEffect(() => {
     const stored = localStorage.getItem("vine_user");
     if (stored) {
       try { setUser(JSON.parse(stored)); } catch { /* ignore */ }

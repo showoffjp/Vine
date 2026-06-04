@@ -94,6 +94,10 @@ export default function VerseRef({ reference, children, inline = true }: VerseRe
     closeTimer.current = setTimeout(() => setOpen(false), 120);
   }, []);
 
+  useEffect(() => {
+    return () => { if (closeTimer.current) clearTimeout(closeTimer.current); };
+  }, []);
+
   if (!parsed) {
     return <span>{children ?? reference}</span>;
   }

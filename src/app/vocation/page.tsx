@@ -149,7 +149,7 @@ export default function VocationPage() {
         {activeTab === "discern" && (
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 20 }}>
-              <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, marginBottom: 10 }}>Six Questions for Vocational Discernment</h3>
+              <h3 style={{ color: GREEN, fontWeight: 800, fontSize: 18, marginBottom: 10 }}>{DISCERNMENT_QUESTIONS.length} Questions for Vocational Discernment</h3>
               <p style={{ color: MUTED, fontSize: 14 }}>These questions are not a test with right answers. They are invitations to prayerful reflection. Work through them slowly over days or weeks.</p>
             </div>
             {DISCERNMENT_QUESTIONS.map((item, i) => (

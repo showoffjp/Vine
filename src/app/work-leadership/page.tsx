@@ -361,7 +361,7 @@ export default function WorkLeadershipPage() {
             {/* Core Principles */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
               <h2 className="text-2xl font-black mb-8" style={{ color: "#F2F2F8" }}>
-                4 Core Principles
+                {principles.length} Core Principles
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 {principles.map((p) => (

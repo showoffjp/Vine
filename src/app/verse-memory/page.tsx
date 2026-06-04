@@ -590,7 +590,7 @@ export default function VerseMemoryPage() {
           <div>
             <div style={{ marginBottom: 28 }}>
               <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 6 }}>Memory Methods</h2>
-              <p style={{ color: MUTED, fontSize: 14 }}>Five proven techniques for memorizing Scripture &mdash; find the one that fits how God wired you.</p>
+              <p style={{ color: MUTED, fontSize: 14 }}>{MEMORY_METHODS.length} proven techniques for memorizing Scripture &mdash; find the one that fits how God wired you.</p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 20, marginBottom: 40 }}>
               {MEMORY_METHODS.map(mm => (
@@ -621,7 +621,7 @@ export default function VerseMemoryPage() {
 
             <div style={{ marginBottom: 28 }}>
               <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 6 }}>Memory Plans</h2>
-              <p style={{ color: MUTED, fontSize: 14 }}>Three structured approaches to building a verse memory practice over time.</p>
+              <p style={{ color: MUTED, fontSize: 14 }}>{MEMORY_PLANS.length} structured approaches to building a verse memory practice over time.</p>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 16 }}>
               {MEMORY_PLANS.map(mp => (
@@ -676,7 +676,7 @@ export default function VerseMemoryPage() {
           <div>
             <div style={{ marginBottom: 24 }}>
               <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 6 }}>Recommended Teachings</h2>
-              <p style={{ color: MUTED, fontSize: 14 }}>Six messages on the Word of God, the character of Christ, and the life of faith.</p>
+              <p style={{ color: MUTED, fontSize: 14 }}>{MEMORY_VIDEOS.length} messages on the Word of God, the character of Christ, and the life of faith.</p>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(420px, 1fr))", gap: 24 }}>
               {MEMORY_VIDEOS.map(v => (

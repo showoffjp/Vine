@@ -256,7 +256,7 @@ export default function WomensMinistryGuidePage() {
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "16px 20px", marginBottom: 20 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
-                Women&rsquo;s ministry is grounded in a robust theology of women as image-bearers, Spirit-gifted members of the body, and essential participants in the multigenerational transmission of faith. These six points establish the theological foundation.
+                Women&rsquo;s ministry is grounded in a robust theology of women as image-bearers, Spirit-gifted members of the body, and essential participants in the multigenerational transmission of faith. These {THEOLOGY_POINTS.length} points establish the theological foundation.
               </p>
             </div>
             {THEOLOGY_POINTS.map((point, i) => (

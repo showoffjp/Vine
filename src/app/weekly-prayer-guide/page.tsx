@@ -213,7 +213,7 @@ export default function WeeklyPrayerGuidePage() {
           <div style={{ fontSize: 48, marginBottom: 12 }}>🗓️</div>
           <h1 style={{ fontSize: 32, fontWeight: 900, marginBottom: 8 }}>Weekly Prayer Guide</h1>
           <p style={{ color: MUTED, fontSize: 16, maxWidth: 560, margin: "0 auto" }}>
-            Seven days, seven themes — a structured pattern of prayer that moves from worship on Sunday through work, family, evangelism, the world, confession, and rest. Pick today and begin.
+            {DAYS.length} days, {DAYS.length} themes — a structured pattern of prayer that moves from worship on Sunday through work, family, evangelism, the world, confession, and rest. Pick today and begin.
           </p>
         </div>
 

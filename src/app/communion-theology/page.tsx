@@ -216,7 +216,7 @@ function AccordionItem({
         overflow: "hidden",
       }}
     >
-      <button
+      <button type="button"
         onClick={() => onToggle(id)}
         style={{
           width: "100%",
@@ -370,7 +370,7 @@ export default function CommunionTheologyPage() {
           }}
         >
           {tabs.map((tab) => (
-            <button
+            <button type="button"
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               style={{
@@ -448,7 +448,7 @@ export default function CommunionTheologyPage() {
                 }}
               >
                 {viewsList.map((view) => (
-                  <button
+                  <button type="button"
                     key={view.id}
                     onClick={() => setActiveView(view.id)}
                     style={{

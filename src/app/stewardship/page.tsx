@@ -322,7 +322,7 @@ export default function StewardshipPage() {
         {/* Tabs */}
         <div style={{ display: "flex", gap: 4, marginBottom: 32, borderBottom: "1px solid #1E1E32" }}>
           {tabs.map(({ key, label }) => (
-            <button key={key} onClick={() => setActiveTab(key)}
+            <button type="button" key={key} onClick={() => setActiveTab(key)}
               style={{ padding: "10px 20px", fontSize: 14, fontWeight: 600, background: "none", border: "none", cursor: "pointer", color: activeTab === key ? "#3a7d56" : "#6A6A88", borderBottom: `2px solid ${activeTab === key ? "#3a7d56" : "transparent"}`, marginBottom: -1 }}>
               {label}
             </button>
@@ -345,7 +345,7 @@ export default function StewardshipPage() {
                       </div>
                     </div>
                     <div style={{ display: "flex", gap: 10, alignItems: "center", flexShrink: 0, marginLeft: 12 }}>
-                      <button onClick={e => { e.stopPropagation(); toggleSave(p.id); }}
+                      <button type="button" onClick={e => { e.stopPropagation(); toggleSave(p.id); }}
                         style={{ background: "none", border: "none", cursor: "pointer", fontSize: 16, color: savedIds.has(p.id) ? "#FFD700" : "#4A4A68" }}>
                         {savedIds.has(p.id) ? "★" : "☆"}
                       </button>
@@ -448,7 +448,7 @@ export default function StewardshipPage() {
           <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
               {VOICES_STE.map(v => (
-                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                   style={{ background: selectedVoice === v.id ? "#6B4FBB" : "#12121F", border: `1px solid ${selectedVoice === v.id ? "#6B4FBB" : "#1E1E32"}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: "#F2F2F8", fontWeight: 700, fontSize: 14 }}>{v.name}</div>
                   <div style={{ color: "#9898B3", fontSize: 12, marginTop: 2 }}>{v.era}</div>

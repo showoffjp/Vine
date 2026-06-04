@@ -178,7 +178,7 @@ export default function EvangelismMethodsPage() {
             { id: "objections" as const, label: "Objections", icon: "❓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -189,7 +189,7 @@ export default function EvangelismMethodsPage() {
           <div>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 20 }}>
               {METHODS.map(m => (
-                <button key={m.name} onClick={() => setSelected(m.name)}
+                <button type="button" key={m.name} onClick={() => setSelected(m.name)}
                   style={{ padding: "8px 14px", borderRadius: 20, border: `1px solid ${selected === m.name ? m.color : BORDER}`, background: selected === m.name ? `${m.color}15` : "transparent", color: selected === m.name ? m.color : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
                   {m.name}
                 </button>
@@ -225,7 +225,7 @@ export default function EvangelismMethodsPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 210, flexShrink: 0 }}>
               {EVANGELISTS.map(e => (
-                <button key={e.id} onClick={() => setSelectedEvangelist(e.id)}
+                <button type="button" key={e.id} onClick={() => setSelectedEvangelist(e.id)}
                   style={{ width: "100%", background: selectedEvangelist === e.id ? `${PURPLE}18` : "transparent", border: `1px solid ${selectedEvangelist === e.id ? PURPLE + "70" : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 6, cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: selectedEvangelist === e.id ? PURPLE : TEXT, fontWeight: 800, fontSize: 13, marginBottom: 2 }}>{e.name}</div>
                   <div style={{ color: MUTED, fontSize: 11 }}>{e.era}</div>

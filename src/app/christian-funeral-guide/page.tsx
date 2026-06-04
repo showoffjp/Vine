@@ -247,7 +247,7 @@ export default function ChristianFuneralGuidePage() {
 
         <div style={{ display: "flex", gap: 8, marginBottom: 32, flexWrap: "wrap" }}>
           {tabs.map(t => (
-            <button
+            <button type="button"
               key={t.id}
               onClick={() => setActiveTab(t.id)}
               style={{
@@ -266,7 +266,7 @@ export default function ChristianFuneralGuidePage() {
           <div style={{ maxWidth: 720 }}>
             {theologyPoints.map((pt, i) => (
               <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, marginBottom: 12 }}>
-                <button
+                <button type="button"
                   onClick={() => toggle(`pt-${i}`)}
                   style={{ width: "100%", background: "none", border: "none", color: TEXT, padding: "16px 20px", textAlign: "left", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center", fontWeight: 700, fontSize: 15 }}
                 >

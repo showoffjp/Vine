@@ -125,7 +125,7 @@ export default function NeighborPage() {
             { id: "voices" as const, label: "Voices", icon: "📣" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -182,7 +182,7 @@ export default function NeighborPage() {
                 <h3 style={{ color: TEXT, fontWeight: 800, fontSize: 18, margin: 0 }}>Neighbor Map</h3>
                 <div style={{ color: MUTED, fontSize: 13, marginTop: 4 }}>{connected} of {neighbors.length} connected</div>
               </div>
-              <button onClick={() => setShowForm(!showForm)}
+              <button type="button" onClick={() => setShowForm(!showForm)}
                 style={{ padding: "8px 18px", background: PURPLE, border: "none", borderRadius: 8, color: "#fff", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
                 + Add Neighbor
               </button>
@@ -190,16 +190,16 @@ export default function NeighborPage() {
             {showForm && (
               <div style={{ background: CARD, border: `1px solid ${PURPLE}50`, borderRadius: 12, padding: 20, marginBottom: 16 }}>
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 10 }}>
-                  <input value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} placeholder="Name or description"
+                  <input value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} aria-label="Name or description" placeholder="Name or description"
                     style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14 }} />
-                  <input value={form.address} onChange={e => setForm(f => ({ ...f, address: e.target.value }))} placeholder="Location (next door, apt 4B...)"
+                  <input value={form.address} onChange={e => setForm(f => ({ ...f, address: e.target.value }))} aria-label="Location (next door, apt 4B...)" placeholder="Location (next door, apt 4B...)"
                     style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14 }} />
                 </div>
-                <textarea value={form.notes} onChange={e => setForm(f => ({ ...f, notes: e.target.value }))} placeholder="Notes: family situation, interests, prayer needs..."
+                <textarea value={form.notes} onChange={e => setForm(f => ({ ...f, notes: e.target.value }))} aria-label="Notes: family situation, interests, prayer needs..." placeholder="Notes: family situation, interests, prayer needs..."
                   style={{ width: "100%", minHeight: 70, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box", fontFamily: "inherit", marginBottom: 10 }} />
                 <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
-                  <button onClick={() => setShowForm(false)} style={{ padding: "8px 16px", borderRadius: 8, border: `1px solid ${BORDER}`, background: "transparent", color: MUTED, cursor: "pointer" }}>Cancel</button>
-                  <button onClick={addNeighbor} style={{ padding: "8px 18px", borderRadius: 8, border: "none", background: GREEN, color: BG, fontWeight: 800, cursor: "pointer" }}>Add</button>
+                  <button type="button" onClick={() => setShowForm(false)} style={{ padding: "8px 16px", borderRadius: 8, border: `1px solid ${BORDER}`, background: "transparent", color: MUTED, cursor: "pointer" }}>Cancel</button>
+                  <button type="button" onClick={addNeighbor} style={{ padding: "8px 18px", borderRadius: 8, border: "none", background: GREEN, color: BG, fontWeight: 800, cursor: "pointer" }}>Add</button>
                 </div>
               </div>
             )}
@@ -212,7 +212,7 @@ export default function NeighborPage() {
                       {n.address && <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>📍 {n.address}</div>}
                       {n.notes && <p style={{ color: MUTED, fontSize: 13, margin: "8px 0 0", lineHeight: 1.6 }}>{n.notes}</p>}
                     </div>
-                    <button onClick={() => toggleConnected(n.id)}
+                    <button type="button" onClick={() => toggleConnected(n.id)}
                       style={{ padding: "6px 14px", borderRadius: 8, border: `1px solid ${n.connected ? GREEN + "50" : BORDER}`, background: n.connected ? `${GREEN}15` : "transparent", color: n.connected ? GREEN : MUTED, fontSize: 12, fontWeight: 700, cursor: "pointer", flexShrink: 0, marginLeft: 12 }}>
                       {n.connected ? "✓ Connected" : "Connect"}
                     </button>
@@ -226,7 +226,7 @@ export default function NeighborPage() {
           <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
               {VOICES_NEIGH.map(v => (
-                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                   style={{ background: selectedVoice === v.id ? PURPLE : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: TEXT, fontWeight: 700, fontSize: 14 }}>{v.name}</div>
                   <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{v.era}</div>

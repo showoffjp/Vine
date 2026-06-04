@@ -171,7 +171,7 @@ export default function PerisecutedChurchPage() {
             { id: "prayer" as const, label: "How to Pray", icon: "🙏" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -182,7 +182,7 @@ export default function PerisecutedChurchPage() {
           <div>
             <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 20 }}>
               {REGIONS.map(r => (
-                <button key={r} onClick={() => setRegion(r)}
+                <button type="button" key={r} onClick={() => setRegion(r)}
                   style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${region === r ? GREEN : BORDER}`, background: region === r ? `${GREEN}15` : "transparent", color: region === r ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
                   {r}
                 </button>
@@ -192,7 +192,7 @@ export default function PerisecutedChurchPage() {
             <div style={{ display: "grid", gridTemplateColumns: country ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 {filtered.map((c, i) => (
-                  <button key={i} onClick={() => setSelected(selected === c.country ? null : c.country)}
+                  <button type="button" key={i} onClick={() => setSelected(selected === c.country ? null : c.country)}
                     style={{ background: selected === c.country ? `${c.color}12` : CARD, border: `1px solid ${selected === c.country ? c.color + "50" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left", transition: "all 0.15s" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                       <div style={{ width: 44, height: 44, borderRadius: 10, background: `${c.color}20`, border: `1px solid ${c.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: c.color, fontWeight: 900, fontSize: 13, flexShrink: 0 }}>
@@ -264,7 +264,7 @@ export default function PerisecutedChurchPage() {
           <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
               {WITNESSES.map(v => (
-                <button key={v.id} onClick={() => setSelectedWitness(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedWitness(v.id)}
                   style={{ background: selectedWitness === v.id ? PURPLE : CARD, border: `1px solid ${selectedWitness === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: TEXT, fontWeight: 700, fontSize: 14 }}>{v.name}</div>
                   <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{v.era}</div>

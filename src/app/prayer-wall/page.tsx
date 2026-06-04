@@ -308,7 +308,7 @@ export default function PrayerWallPage() {
             </div>
           </div>
 
-          <button
+          <button type="button"
             onClick={() => setShowCompose(true)}
             className="flex items-center gap-2 px-6 py-3 rounded-xl font-black text-sm transition-all"
             style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)", color: "#07070F" }}
@@ -323,7 +323,7 @@ export default function PrayerWallPage() {
             <div className="w-full max-w-lg rounded-2xl p-6" style={{ background: "#12121F", border: "1px solid #1E1E32" }}>
               <div className="flex items-center justify-between mb-5">
                 <h3 className="font-black text-lg" style={{ color: "#F2F2F8" }}>Share a Prayer Request</h3>
-                <button onClick={() => setShowCompose(false)} style={{ color: "#4A4A68" }}><X size={20} /></button>
+                <button type="button" onClick={() => setShowCompose(false)} style={{ color: "#4A4A68" }}><X size={20} /></button>
               </div>
 
               <div className="space-y-4">
@@ -333,7 +333,7 @@ export default function PrayerWallPage() {
                     <Lock size={14} style={{ color: form.anonymous ? "#3a7d56" : "#4A4A68" }} />
                     <span className="text-sm font-semibold" style={{ color: "#C0C0D8" }}>Post anonymously</span>
                   </div>
-                  <button
+                  <button type="button"
                     onClick={() => setForm((f) => ({ ...f, anonymous: !f.anonymous }))}
                     className="w-10 h-5 rounded-full transition-all relative"
                     style={{ background: form.anonymous ? "#3a7d56" : "#1E1E32" }}
@@ -347,14 +347,14 @@ export default function PrayerWallPage() {
                     <input
                       value={form.author}
                       onChange={(e) => setForm((f) => ({ ...f, author: e.target.value }))}
-                      placeholder="Your name"
+                      aria-label="Your name" placeholder="Your name"
                       className="px-4 py-2.5 rounded-xl text-sm outline-none"
                       style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#F2F2F8" }}
                     />
                     <input
                       value={form.location}
                       onChange={(e) => setForm((f) => ({ ...f, location: e.target.value }))}
-                      placeholder="Location (optional)"
+                      aria-label="Location (optional)" placeholder="Location (optional)"
                       className="px-4 py-2.5 rounded-xl text-sm outline-none"
                       style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#F2F2F8" }}
                     />
@@ -375,7 +375,7 @@ export default function PrayerWallPage() {
                 <textarea
                   value={form.body}
                   onChange={(e) => setForm((f) => ({ ...f, body: e.target.value }))}
-                  placeholder="Share your request... be as specific as you feel comfortable. The more specific, the more targeted the prayer."
+                  aria-label="Share your request... be as specific as you feel comfortable. The more specific, the more targeted the prayer." placeholder="Share your request... be as specific as you feel comfortable. The more specific, the more targeted the prayer."
                   rows={5}
                   className="w-full px-4 py-3 rounded-xl text-sm outline-none resize-none"
                   style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#F2F2F8" }}
@@ -383,14 +383,14 @@ export default function PrayerWallPage() {
               </div>
 
               <div className="flex gap-3 mt-5">
-                <button
+                <button type="button"
                   onClick={() => setShowCompose(false)}
                   className="flex-1 py-2.5 rounded-xl font-bold text-sm"
                   style={{ background: "rgba(255,255,255,0.04)", color: "#8A8AA8", border: "1px solid rgba(255,255,255,0.08)" }}
                 >
                   Cancel
                 </button>
-                <button
+                <button type="button"
                   onClick={handleSubmit}
                   disabled={!form.body.trim()}
                   className="flex-1 py-2.5 rounded-xl font-black text-sm transition-all"
@@ -414,7 +414,7 @@ export default function PrayerWallPage() {
               <input
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search requests..."
+                aria-label="Search requests..." placeholder="Search requests..."
                 className="w-full pl-9 pr-4 py-2.5 rounded-xl text-sm outline-none"
                 style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#F2F2F8" }}
               />
@@ -422,7 +422,7 @@ export default function PrayerWallPage() {
             <div className="flex items-center gap-2">
               <span className="text-xs font-semibold" style={{ color: "#4A4A68" }}>Sort:</span>
               {(["recent", "most-prayed", "answered"] as const).map((s) => (
-                <button
+                <button type="button"
                   key={s}
                   onClick={() => setSortBy(s)}
                   className="px-3 py-1.5 rounded-lg text-xs font-semibold capitalize whitespace-nowrap"
@@ -441,7 +441,7 @@ export default function PrayerWallPage() {
           {/* Category pills */}
           <div className="flex gap-2 overflow-x-auto pb-2 mb-6">
             {CATEGORIES.map((c) => (
-              <button
+              <button type="button"
                 key={c}
                 onClick={() => setActiveCategory(c)}
                 className="px-3 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-all"
@@ -519,7 +519,7 @@ export default function PrayerWallPage() {
 
                   {/* Actions */}
                   <div className="flex items-center gap-3">
-                    <button
+                    <button type="button"
                       onClick={() => handlePray(req.id)}
                       className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-black transition-all"
                       style={{
@@ -550,7 +550,7 @@ export default function PrayerWallPage() {
             <p className="text-sm mb-5" style={{ color: "#6A6A88" }}>
               Every prayer matters. The global church praying together is the most powerful force on earth.
             </p>
-            <button
+            <button type="button"
               onClick={() => setShowCompose(true)}
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-black text-sm"
               style={{ background: "linear-gradient(135deg, #6B4FBB, #9B8FEB)", color: "#fff" }}

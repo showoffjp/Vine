@@ -199,7 +199,7 @@ export default function NewBelieverPage() {
             { id: "mentors" as const, label: "Mentors", icon: "💬" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer", transition: "background 0.2s" }}>
               {t.icon} {t.label}
             </button>
@@ -218,7 +218,7 @@ export default function NewBelieverPage() {
                       <div style={{ color: s.color, fontWeight: 800, fontSize: 17 }}>Step {s.n}: {s.title}</div>
                     </div>
                   </div>
-                  <button onClick={() => toggleStep(s.n)}
+                  <button type="button" onClick={() => toggleStep(s.n)}
                     style={{ padding: "6px 14px", borderRadius: 8, border: `1px solid ${completed.has(s.n) ? s.color + "50" : BORDER}`, background: completed.has(s.n) ? `${s.color}15` : "transparent", color: completed.has(s.n) ? s.color : MUTED, fontSize: 12, fontWeight: 700, cursor: "pointer", flexShrink: 0, transition: "all 0.2s" }}>
                     {completed.has(s.n) ? "✓ Done" : "Mark Done"}
                   </button>
@@ -308,7 +308,7 @@ export default function NewBelieverPage() {
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {COMMON_QUESTIONS.map((q, i) => (
                 <div key={i} style={{ background: CARD, border: `1px solid ${expandedQ === i ? GREEN + "40" : BORDER}`, borderRadius: 12, overflow: "hidden", transition: "border-color 0.2s" }}>
-                  <button onClick={() => setExpandedQ(expandedQ === i ? null : i)}
+                  <button type="button" onClick={() => setExpandedQ(expandedQ === i ? null : i)}
                     style={{ width: "100%", textAlign: "left", padding: "16px 20px", background: "transparent", border: "none", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
                     <span style={{ color: expandedQ === i ? GREEN : TEXT, fontWeight: 700, fontSize: 15 }}>&ldquo;{q.q}&rdquo;</span>
                     <span style={{ color: MUTED, fontSize: 20, flexShrink: 0 }}>{expandedQ === i ? "−" : "+"}</span>
@@ -386,7 +386,7 @@ export default function NewBelieverPage() {
             <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
               <div style={{ width: 210, flexShrink: 0 }}>
                 {MENTORS_NB.map(m => (
-                  <button key={m.id} onClick={() => setSelectedMentor(m.id)}
+                  <button type="button" key={m.id} onClick={() => setSelectedMentor(m.id)}
                     style={{ width: "100%", background: selectedMentor === m.id ? `${PURPLE}18` : CARD, border: `1px solid ${selectedMentor === m.id ? PURPLE + "80" : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 8, cursor: "pointer", textAlign: "left", transition: "all 0.2s" }}>
                     <div style={{ color: selectedMentor === m.id ? TEXT : MUTED, fontWeight: 700, fontSize: 13 }}>{m.name}</div>
                     <div style={{ color: MUTED, fontSize: 11, marginTop: 2 }}>{m.era}</div>

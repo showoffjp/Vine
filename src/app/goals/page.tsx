@@ -165,7 +165,7 @@ export default function GoalsPage() {
                 <h1 className="text-3xl font-black">My Goals</h1>
                 <p className="text-sm mt-1" style={{ color: "#6A6A88" }}>Track your spiritual disciplines and growth goals.</p>
               </div>
-              <button
+              <button type="button"
                 onClick={() => setShowAdd(true)}
                 className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold text-black"
                 style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}
@@ -194,7 +194,7 @@ export default function GoalsPage() {
           {/* Tabs */}
           <div className="flex gap-1 p-1 rounded-xl mb-6" style={{ background: "#12121F", border: "1px solid #1E1E32" }}>
             {(["active", "completed", "theology", "voices", "videos"] as const).map((tab) => (
-              <button
+              <button type="button"
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 className="flex-1 py-2 rounded-lg text-sm font-semibold capitalize transition-all"
@@ -263,7 +263,7 @@ export default function GoalsPage() {
                               )}
                             </div>
                           </div>
-                          <button
+                          <button type="button"
                             onClick={() => deleteGoal(goal.id)}
                             className="p-1 rounded transition-colors shrink-0"
                             style={{ color: "#3A3A58" }}
@@ -290,7 +290,7 @@ export default function GoalsPage() {
                         {/* Controls */}
                         {!done && (
                           <div className="flex items-center gap-2 mt-3">
-                            <button
+                            <button type="button"
                               onClick={() => increment(goal.id, -1)}
                               className="px-3 py-1.5 rounded-lg text-sm font-bold transition-all"
                               style={{ background: "#1E1E32", color: "#6A6A88" }}
@@ -298,14 +298,14 @@ export default function GoalsPage() {
                             >
                               −
                             </button>
-                            <button
+                            <button type="button"
                               onClick={() => increment(goal.id, 1)}
                               className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-sm font-bold transition-all"
                               style={{ background: `${cfg.color}15`, color: cfg.color, border: `1px solid ${cfg.color}25` }}
                             >
                               <Plus size={12} /> Log +1
                             </button>
-                            <button
+                            <button type="button"
                               onClick={() => increment(goal.id, 5)}
                               className="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all"
                               style={{ background: "#1E1E32", color: "#6A6A88" }}
@@ -313,7 +313,7 @@ export default function GoalsPage() {
                               +5
                             </button>
                             {goal.target - goal.current > 5 && (
-                              <button
+                              <button type="button"
                                 onClick={() => increment(goal.id, goal.target - goal.current)}
                                 className="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all"
                                 style={{ background: "#1E1E32", color: "#6A6A88" }}
@@ -350,7 +350,7 @@ export default function GoalsPage() {
                   const Icon = cfg.icon;
                   const alreadyAdded = goals.some((g) => g.title === p.title);
                   return (
-                    <button
+                    <button type="button"
                       key={p.title}
                       onClick={() => !alreadyAdded && addPreset(p)}
                       disabled={alreadyAdded}
@@ -394,7 +394,7 @@ export default function GoalsPage() {
             >
               <div className="flex items-center justify-between mb-5">
                 <h3 className="font-black" style={{ color: "#F2F2F8" }}>New Goal</h3>
-                <button onClick={() => setShowAdd(false)} style={{ color: "#6A6A88" }}>
+                <button type="button" onClick={() => setShowAdd(false)} style={{ color: "#6A6A88" }}>
                   <X size={18} />
                 </button>
               </div>
@@ -404,7 +404,7 @@ export default function GoalsPage() {
                   <label className="text-xs font-bold uppercase tracking-wider block mb-1.5" style={{ color: "#6A6A88" }}>Goal Title</label>
                   <input
                     type="text"
-                    placeholder="e.g. Read the Psalms"
+                    aria-label="e.g. Read the Psalms" placeholder="e.g. Read the Psalms"
                     value={newTitle}
                     onChange={(e) => setNewTitle(e.target.value)}
                     className="w-full px-4 py-2.5 rounded-xl text-sm outline-none"
@@ -442,7 +442,7 @@ export default function GoalsPage() {
                     <label className="text-xs font-bold uppercase tracking-wider block mb-1.5" style={{ color: "#6A6A88" }}>Unit</label>
                     <input
                       type="text"
-                      placeholder="chapters, days, hours…"
+                      aria-label="chapters, days, hours…" placeholder="chapters, days, hours…"
                       value={newUnit}
                       onChange={(e) => setNewUnit(e.target.value)}
                       className="w-full px-4 py-2.5 rounded-xl text-sm outline-none"
@@ -462,14 +462,14 @@ export default function GoalsPage() {
                 </div>
 
                 <div className="flex gap-3 pt-2">
-                  <button
+                  <button type="button"
                     onClick={() => setShowAdd(false)}
                     className="flex-1 py-2.5 rounded-xl text-sm font-semibold"
                     style={{ background: "#0D0D1A", border: "1px solid #1E1E32", color: "#6A6A88" }}
                   >
                     Cancel
                   </button>
-                  <button
+                  <button type="button"
                     onClick={addGoal}
                     disabled={!newTitle.trim() || !newTarget}
                     className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-bold text-black transition-all"
@@ -528,7 +528,7 @@ export default function GoalsPage() {
             <div style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
               <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 80 }}>
                 {VOICES_GOALS.map(v => (
-                  <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                     style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? "rgba(58,125,86,0.4)" : "#1E1E32"}`, background: selectedVoice === v.id ? "rgba(58,125,86,0.08)" : "#12121F", cursor: "pointer" }}>
                     <div style={{ fontSize: 13, fontWeight: 700, color: selectedVoice === v.id ? "#3a7d56" : "#F2F2F8", marginBottom: 2 }}>{v.name}</div>
                     <div style={{ fontSize: 11, color: "#9898B3" }}>{v.era}</div>

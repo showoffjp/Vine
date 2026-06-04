@@ -635,7 +635,7 @@ export default function DiscussionsPage() {
                         {hub.members} members
                       </p>
                     </div>
-                    <button
+                    <button type="button"
                       onClick={() => toggleHub(hubs.length + si)}
                       className="text-xs px-2.5 py-1 rounded-full font-semibold transition-all duration-200"
                       style={{
@@ -667,7 +667,7 @@ export default function DiscussionsPage() {
                 >
                   J
                 </div>
-                <button
+                <button type="button"
                   onClick={() => setComposerOpen((o) => !o)}
                   className="flex-1 text-left px-4 py-2 rounded-xl text-sm transition-all duration-200 hover:border-[rgba(58,125,86,0.3)]"
                   style={{
@@ -685,20 +685,20 @@ export default function DiscussionsPage() {
                     autoFocus
                     value={composerText}
                     onChange={(e) => setComposerText(e.target.value)}
-                    placeholder="Share a thought, question, or testimony..."
+                    aria-label="Share a thought, question, or testimony..." placeholder="Share a thought, question, or testimony..."
                     rows={3}
                     className="w-full px-4 py-2 rounded-xl text-sm outline-none resize-none mb-2"
                     style={{ background: "#07070F", border: "1px solid #1E1E32", color: "#F2F2F8" }}
                   />
                   <div className="flex justify-end gap-2">
-                    <button
+                    <button type="button"
                       onClick={() => { setComposerOpen(false); setComposerText(""); }}
                       className="text-xs px-3 py-1.5 rounded-lg font-semibold"
                       style={{ border: "1px solid #1E1E32", color: "#8A8AA8" }}
                     >
                       Cancel
                     </button>
-                    <button
+                    <button type="button"
                       onClick={submitComposer}
                       className="text-xs px-4 py-1.5 rounded-lg font-bold"
                       style={{ background: "#3a7d56", color: "#07070F", opacity: composerText.trim() ? 1 : 0.4 }}
@@ -716,7 +716,7 @@ export default function DiscussionsPage() {
                   { label: "Top", icon: Star },
                   { label: "Rising", icon: TrendingUp },
                 ].map((tab) => (
-                  <button
+                  <button type="button"
                     key={tab.label}
                     onClick={() => setActiveSort(tab.label)}
                     className="flex items-center gap-1.5 px-5 py-3 text-sm font-semibold transition-all duration-200"
@@ -812,7 +812,7 @@ export default function DiscussionsPage() {
                   </p>
 
                   <div className="flex items-center gap-1" onClick={(e) => e.preventDefault()}>
-                    <button
+                    <button type="button"
                       onClick={() => toggleUpvote(post.id)}
                       className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-sm font-semibold transition-all duration-200 hover:bg-[#1E1E32]"
                       style={{ color: upvotedPosts.has(post.id) ? "#3a7d56" : "#8A8AA8" }}
@@ -820,7 +820,7 @@ export default function DiscussionsPage() {
                       <ArrowUp size={15} />
                       <span>{(post.votes + (upvotedPosts.has(post.id) ? 1 : 0)) >= 1000 ? `${((post.votes + (upvotedPosts.has(post.id) ? 1 : 0)) / 1000).toFixed(1)}k` : post.votes + (upvotedPosts.has(post.id) ? 1 : 0)}</span>
                     </button>
-                    <button
+                    <button type="button"
                       onClick={() => { if (post.slug) router.push(`/discussions/${post.slug}`); }}
                       className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-sm transition-all duration-200 hover:bg-[#1E1E32]"
                       style={{ color: "#8A8AA8" }}
@@ -828,7 +828,7 @@ export default function DiscussionsPage() {
                       <MessageSquare size={14} />
                       <span>{post.comments >= 1000 ? `${(post.comments / 1000).toFixed(1)}k` : post.comments}</span>
                     </button>
-                    <button
+                    <button type="button"
                       onClick={() => toggleSave(post.id)}
                       className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-sm transition-all duration-200 hover:bg-[#1E1E32]"
                       style={{ color: savedPosts.has(post.id) ? "#3a7d56" : "#8A8AA8" }}
@@ -836,7 +836,7 @@ export default function DiscussionsPage() {
                       <Bookmark size={14} fill={savedPosts.has(post.id) ? "#3a7d56" : "none"} />
                       <span>{(post.saves + (savedPosts.has(post.id) ? 1 : 0)) >= 1000 ? `${((post.saves + (savedPosts.has(post.id) ? 1 : 0)) / 1000).toFixed(1)}k` : post.saves + (savedPosts.has(post.id) ? 1 : 0)}</span>
                     </button>
-                    <button
+                    <button type="button"
                       onClick={() => post.slug && handleSharePost(post.id, post.slug)}
                       className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-sm transition-all duration-200 hover:bg-[#1E1E32] ml-auto"
                       style={{ color: sharedPost === post.id ? "#3a7d56" : "#8A8AA8" }}

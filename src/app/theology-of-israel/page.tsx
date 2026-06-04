@@ -111,7 +111,7 @@ export default function TheologyOfIsraelPage() {
 
         <div style={{ display: "flex", gap: 4, marginBottom: 24, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
           {(["overview", "positions", "romans", "today", "videos"] as Tab[]).map(t => (
-            <button key={t} onClick={() => setTab(t)}
+            <button type="button" key={t} onClick={() => setTab(t)}
               style={{ padding: "8px 16px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
               {t === "overview" ? "Biblical Overview" : t === "positions" ? "5 Positions" : t === "romans" ? "Romans 9-11 Guide" : t === "today" ? "Jewish Evangelism" : "Videos"}
             </button>
@@ -122,7 +122,7 @@ export default function TheologyOfIsraelPage() {
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {OVERVIEW.map((o, i) => (
               <div key={i} style={{ background: CARD, border: `1px solid ${expanded[o.title] ? o.color + "40" : BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                <button onClick={() => setExpanded(e => ({ ...e, [o.title]: !e[o.title] }))}
+                <button type="button" onClick={() => setExpanded(e => ({ ...e, [o.title]: !e[o.title] }))}
                   style={{ width: "100%", padding: "16px 20px", cursor: "pointer", textAlign: "left", background: "transparent", border: "none", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <div>
                     <div style={{ color: o.color, fontWeight: 800, fontSize: 15, marginBottom: 3 }}>{o.title}</div>

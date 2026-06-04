@@ -166,7 +166,7 @@ export default function ChristianBioethicsPage() {
 
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {TABS.map(t => (
-            <button key={t.id} onClick={() => setTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setTab(t.id)}
               style={{ flex: 1, padding: "10px 6px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -183,7 +183,7 @@ export default function ChristianBioethicsPage() {
             <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
               <div style={{ display: "flex", flexDirection: "column", gap: 8, minWidth: 180 }}>
                 {FOUNDATION_ITEMS.map(f => (
-                  <button key={f.id} onClick={() => setSelectedFoundation(f.id)}
+                  <button type="button" key={f.id} onClick={() => setSelectedFoundation(f.id)}
                     style={{ padding: "10px 14px", borderRadius: 10, border: `1px solid ${selectedFoundation === f.id ? GREEN : BORDER}`, background: selectedFoundation === f.id ? `${GREEN}18` : CARD, color: selectedFoundation === f.id ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer", textAlign: "left" }}>
                     {f.title.split(' ').slice(0, 4).join(' ')}...
                   </button>
@@ -208,7 +208,7 @@ export default function ChristianBioethicsPage() {
             </div>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 20 }}>
               {ISSUE_ITEMS.map(i => (
-                <button key={i.id} onClick={() => setSelectedIssue(i.id)}
+                <button type="button" key={i.id} onClick={() => setSelectedIssue(i.id)}
                   style={{ padding: "8px 16px", borderRadius: 20, border: `1px solid ${selectedIssue === i.id ? i.color : BORDER}`, background: selectedIssue === i.id ? `${i.color}15` : "transparent", color: selectedIssue === i.id ? i.color : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
                   {i.title}
                 </button>
@@ -240,7 +240,7 @@ export default function ChristianBioethicsPage() {
             </div>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 20 }}>
               {ENDOFLIFE_ITEMS.map(e => (
-                <button key={e.id} onClick={() => setSelectedEndOfLife(e.id)}
+                <button type="button" key={e.id} onClick={() => setSelectedEndOfLife(e.id)}
                   style={{ padding: "8px 16px", borderRadius: 20, border: `1px solid ${selectedEndOfLife === e.id ? PURPLE : BORDER}`, background: selectedEndOfLife === e.id ? `${PURPLE}15` : "transparent", color: selectedEndOfLife === e.id ? PURPLE : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
                   {e.title.split(' ').slice(0, 3).join(' ')}...
                 </button>
@@ -263,7 +263,7 @@ export default function ChristianBioethicsPage() {
             <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
               {EMERGING_ITEMS.map(e => (
                 <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                  <button onClick={() => toggleExpand(e.id)}
+                  <button type="button" onClick={() => toggleExpand(e.id)}
                     style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", padding: "18px 22px", background: "none", border: "none", cursor: "pointer", color: TEXT }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                       <div style={{ width: 10, height: 10, borderRadius: "50%", background: e.color, flexShrink: 0 }} />

@@ -131,7 +131,7 @@ export default function LeaderboardPage() {
           {/* Period selector */}
           <div className="flex justify-center gap-2 mb-8">
             {periods.map((p) => (
-              <button
+              <button type="button"
                 key={p}
                 onClick={() => setActivePeriod(p)}
                 className="px-5 py-2 rounded-xl text-sm font-semibold transition-all"
@@ -151,7 +151,7 @@ export default function LeaderboardPage() {
             {categories.map((cat) => {
               const Icon = cat.icon;
               return (
-                <button
+                <button type="button"
                   key={cat.label}
                   onClick={() => setActiveCategory(cat.label)}
                   className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all"

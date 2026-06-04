@@ -207,7 +207,7 @@ export default function CommunionPage() {
         {/* Top Tab Bar */}
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {(["practice", "theology", "voices", "videos"] as const).map(t => (
-            <button key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer", flex: 1 }}>
+            <button type="button" key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer", flex: 1 }}>
               {t === "practice" ? "Practice" : t === "theology" ? "Theology" : t === "voices" ? "Voices" : "Videos"}
             </button>
           ))}
@@ -219,7 +219,7 @@ export default function CommunionPage() {
             {/* Inner tabs */}
             <div style={{ display: "flex", gap: 4, marginBottom: 32, borderBottom: `1px solid ${BORDER}`, flexWrap: "wrap" }}>
               {([["what", "What Is It?"], ["views", "Views Across Traditions"], ["howto", "How to Participate"], ["faq", "FAQ"]] as const).map(([t, label]) => (
-                <button key={t} onClick={() => setTab(t)}
+                <button type="button" key={t} onClick={() => setTab(t)}
                   style={{ padding: "10px 20px", fontSize: 14, fontWeight: 600, background: "none", border: "none", cursor: "pointer", color: tab === t ? GREEN : "#6A6A88", borderBottom: `2px solid ${tab === t ? GREEN : "transparent"}`, marginBottom: -1 }}>
                   {label}
                 </button>
@@ -259,7 +259,7 @@ export default function CommunionPage() {
                 {!reflected ? (
                   <div style={{ background: "rgba(58,125,86,0.06)", borderRadius: 16, padding: 24, border: "1px solid rgba(58,125,86,0.2)", textAlign: "center" }}>
                     <p style={{ fontSize: 15, color: "#C0C0D8", marginBottom: 16 }}>Next time you take Communion, come ready with all three perspectives: looking back at the cross, looking around at the body, looking forward to the return.</p>
-                    <button onClick={markReflected} style={{ padding: "12px 28px", borderRadius: 12, border: "none", background: "linear-gradient(135deg, #3a7d56, #00CC6A)", color: BG, cursor: "pointer", fontWeight: 800, fontSize: 14 }}>
+                    <button type="button" onClick={markReflected} style={{ padding: "12px 28px", borderRadius: 12, border: "none", background: "linear-gradient(135deg, #3a7d56, #00CC6A)", color: BG, cursor: "pointer", fontWeight: 800, fontSize: 14 }}>
                       I&rsquo;ll approach it this way
                     </button>
                   </div>
@@ -371,7 +371,7 @@ export default function CommunionPage() {
                 Five figures whose writings on the Lord&rsquo;s Supper have shaped how the church understands this meal &mdash; from the first century to today.
               </p>
               {VOICES_COM.map(v => (
-                <button key={v.id} onClick={() => setSelectedVoice(selectedVoice === v.id ? null : v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedVoice(selectedVoice === v.id ? null : v.id)}
                   style={{ background: selectedVoice === v.id ? `${PURPLE}15` : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE + "60" : BORDER}`, borderRadius: 14, padding: "20px 24px", cursor: "pointer", textAlign: "left" }}>
                   <div style={{ display: "flex", gap: 12, alignItems: "flex-start", marginBottom: 10 }}>
                     <div style={{ width: 44, height: 44, borderRadius: 10, background: `${PURPLE}20`, border: `1px solid ${PURPLE}40`, display: "flex", alignItems: "center", justifyContent: "center", color: PURPLE, fontWeight: 900, fontSize: 11, flexShrink: 0 }}>

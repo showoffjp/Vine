@@ -139,7 +139,7 @@ export default function LectioDivinaPage() {
             { id: "history" as const, label: "My Sessions", icon: "📅" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -184,7 +184,7 @@ export default function LectioDivinaPage() {
                   "Don't grade yourself. Distraction is normal. Returning is the practice.",
                 ].map((tip, i) => <li key={i} style={{ color: TEXT, fontSize: 14, lineHeight: 1.65, marginBottom: 8 }}>{tip}</li>)}
               </ul>
-              <button onClick={() => setActiveTab("practice")}
+              <button type="button" onClick={() => setActiveTab("practice")}
                 style={{ marginTop: 16, padding: "10px 22px", background: GREEN, border: "none", borderRadius: 8, color: BG, fontWeight: 800, fontSize: 14, cursor: "pointer" }}>
                 Begin a Session
               </button>
@@ -199,7 +199,7 @@ export default function LectioDivinaPage() {
               <h4 style={{ color: MUTED, fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, marginBottom: 12 }}>Choose Your Passage</h4>
               <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
                 {PASSAGES.map((p, i) => (
-                  <button key={i} onClick={() => setSelectedPassage(i)}
+                  <button type="button" key={i} onClick={() => setSelectedPassage(i)}
                     style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${selectedPassage === i ? GREEN : BORDER}`, background: selectedPassage === i ? `${GREEN}15` : "transparent", color: selectedPassage === i ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
                     {p.ref}
                   </button>
@@ -214,7 +214,7 @@ export default function LectioDivinaPage() {
             {/* Movement navigator */}
             <div style={{ display: "flex", gap: 6, marginBottom: 20, justifyContent: "center" }}>
               {MOVEMENTS.map((m, i) => (
-                <button key={m.id} onClick={() => setActiveMovement(i)}
+                <button type="button" key={m.id} onClick={() => setActiveMovement(i)}
                   style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${i === activeMovement ? m.color : BORDER}`, background: i === activeMovement ? `${m.color}20` : "transparent", color: i === activeMovement ? m.color : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
                   {m.latin}
                 </button>
@@ -238,7 +238,7 @@ export default function LectioDivinaPage() {
               <textarea
                 value={responses[movement.id] || ""}
                 onChange={e => setResponses(prev => ({ ...prev, [movement.id]: e.target.value }))}
-                placeholder="Your response..."
+                aria-label="Your response..." placeholder="Your response..."
                 style={{ width: "100%", minHeight: movement.id === "contemplatio" ? 60 : 120, background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: 14, color: TEXT, fontSize: 14, lineHeight: 1.7, resize: "vertical", boxSizing: "border-box", fontFamily: "inherit" }}
               />
               {movement.id === "contemplatio" && (
@@ -250,23 +250,23 @@ export default function LectioDivinaPage() {
               <div style={{ background: CARD, border: `1px solid ${GREEN}40`, borderRadius: 12, padding: 20, marginBottom: 16 }}>
                 <label style={{ color: GREEN, fontSize: 14, fontWeight: 700, display: "block", marginBottom: 8 }}>My concrete action from this session:</label>
                 <textarea value={actionItem} onChange={e => setActionItem(e.target.value)}
-                  placeholder="Today I will..."
+                  aria-label="Today I will..." placeholder="Today I will..."
                   style={{ width: "100%", minHeight: 70, background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: 14, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box", fontFamily: "inherit" }} />
               </div>
             )}
 
             <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <button onClick={() => setActiveMovement(Math.max(0, activeMovement - 1))} disabled={activeMovement === 0}
+              <button type="button" onClick={() => setActiveMovement(Math.max(0, activeMovement - 1))} disabled={activeMovement === 0}
                 style={{ padding: "10px 20px", borderRadius: 8, border: `1px solid ${BORDER}`, background: "transparent", color: activeMovement === 0 ? BORDER : MUTED, cursor: activeMovement === 0 ? "default" : "pointer", fontWeight: 700 }}>
                 ← Previous
               </button>
               {activeMovement < MOVEMENTS.length - 1 ? (
-                <button onClick={() => setActiveMovement(activeMovement + 1)}
+                <button type="button" onClick={() => setActiveMovement(activeMovement + 1)}
                   style={{ padding: "10px 24px", borderRadius: 8, border: "none", background: PURPLE, color: "#fff", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
                   Next →
                 </button>
               ) : (
-                <button onClick={saveSession}
+                <button type="button" onClick={saveSession}
                   style={{ padding: "10px 24px", borderRadius: 8, border: "none", background: GREEN, color: BG, fontWeight: 800, fontSize: 14, cursor: "pointer" }}>
                   {saved ? "✓ Saved!" : "Complete Session"}
                 </button>
@@ -279,7 +279,7 @@ export default function LectioDivinaPage() {
           <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
               {VOICES_LD.map(v => (
-                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                   style={{ background: selectedVoice === v.id ? PURPLE : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: TEXT, fontWeight: 700, fontSize: 14 }}>{v.name}</div>
                   <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{v.era}</div>

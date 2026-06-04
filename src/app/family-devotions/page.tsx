@@ -127,7 +127,7 @@ export default function FamilyDevotionsPage() {
             { id: "voices" as const, label: "Voices", icon: "📣" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -138,7 +138,7 @@ export default function FamilyDevotionsPage() {
           <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 8, minWidth: 160 }}>
               {AGE_GUIDES.map(a => (
-                <button key={a.id} onClick={() => setSelectedAge(a.id)}
+                <button type="button" key={a.id} onClick={() => setSelectedAge(a.id)}
                   style={{ padding: "10px 14px", borderRadius: 10, border: `1px solid ${selectedAge === a.id ? a.color : BORDER}`, background: selectedAge === a.id ? `${a.color}18` : CARD, color: selectedAge === a.id ? a.color : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer", textAlign: "left" }}>
                   {a.icon} {a.name.split(" ")[0]}
                 </button>
@@ -202,7 +202,7 @@ export default function FamilyDevotionsPage() {
             </div>
             {DEVOTIONAL_PLANS.map(p => (
               <div key={p.series} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, marginBottom: 12, overflow: "hidden" }}>
-                <button onClick={() => setExpandedPlan(expandedPlan === p.series ? null : p.series)}
+                <button type="button" onClick={() => setExpandedPlan(expandedPlan === p.series ? null : p.series)}
                   style={{ width: "100%", padding: "18px 22px", background: "transparent", border: "none", color: TEXT, fontWeight: 700, fontSize: 15, cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center", textAlign: "left" }}>
                   <div>
                     <div style={{ color: GREEN }}>{p.series}</div>
@@ -230,7 +230,7 @@ export default function FamilyDevotionsPage() {
           <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
               {VOICES_FAM.map(v => (
-                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                   style={{ background: selectedVoice === v.id ? PURPLE : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: TEXT, fontWeight: 700, fontSize: 14 }}>{v.name}</div>
                   <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{v.era}</div>

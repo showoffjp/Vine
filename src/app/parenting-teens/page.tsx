@@ -289,7 +289,7 @@ export default function ParentingTeensPage() {
               { id: "videos", label: "Videos" },
             ] as { id: Tab; label: string }[]
           ).map((t) => (
-            <button
+            <button type="button"
               key={t.id}
               onClick={() => setTab(t.id)}
               style={{
@@ -315,7 +315,7 @@ export default function ParentingTeensPage() {
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               {theologyItems.map((item) => (
                 <div key={item.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                  <button
+                  <button type="button"
                     onClick={() => toggle(item.id)}
                     style={{
                       width: "100%",
@@ -354,7 +354,7 @@ export default function ParentingTeensPage() {
               {/* Left: stage buttons */}
               <div style={{ flex: "0 0 160px", display: "flex", flexDirection: "column", gap: 10 }}>
                 {stages.map((s) => (
-                  <button
+                  <button type="button"
                     key={s.id}
                     onClick={() => setSelectedStage(s)}
                     style={{
@@ -418,7 +418,7 @@ export default function ParentingTeensPage() {
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               {conversations.map((conv) => (
                 <div key={conv.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                  <button
+                  <button type="button"
                     onClick={() => setOpenConversation(openConversation === conv.id ? undefined : conv.id)}
                     style={{
                       width: "100%",
@@ -468,7 +468,7 @@ export default function ParentingTeensPage() {
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               {leavingwellItems.map((item) => (
                 <div key={item.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                  <button
+                  <button type="button"
                     onClick={() => toggle(item.id)}
                     style={{
                       width: "100%",

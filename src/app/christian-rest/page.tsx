@@ -110,7 +110,7 @@ export default function ChristianRestPage() {
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
             { id: "videos" as const, label: "Videos", icon: "▶️" },
           ].map(t => (
-            <button key={t.id} onClick={() => setTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -140,7 +140,7 @@ export default function ChristianRestPage() {
             </div>
             {OBSTACLES.map((o, i) => (
               <div key={i} style={{ marginBottom: 10 }}>
-                <button onClick={() => setExpanded(expanded === o.o ? null : o.o)}
+                <button type="button" onClick={() => setExpanded(expanded === o.o ? null : o.o)}
                   style={{ width: "100%", background: CARD, border: `1px solid ${BORDER}`, borderRadius: expanded === o.o ? "10px 10px 0 0" : 10, padding: "14px 18px", color: TEXT, fontWeight: 700, fontSize: 14, cursor: "pointer", display: "flex", justifyContent: "space-between", textAlign: "left" }}>
                   <span>{o.o}</span>
                   <span style={{ color: MUTED, flexShrink: 0 }}>{expanded === o.o ? "−" : "+"}</span>
@@ -163,7 +163,7 @@ export default function ChristianRestPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 210, flexShrink: 0 }}>
               {VOICES.map(v => (
-                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                   style={{ width: "100%", textAlign: "left", background: selectedVoice === v.id ? `${v.color}18` : CARD, border: `1px solid ${selectedVoice === v.id ? v.color : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 8, cursor: "pointer" }}>
                   <div style={{ color: selectedVoice === v.id ? v.color : TEXT, fontWeight: 700, fontSize: 13, marginBottom: 3 }}>{v.name}</div>
                   <div style={{ color: MUTED, fontSize: 11 }}>{v.work}</div>

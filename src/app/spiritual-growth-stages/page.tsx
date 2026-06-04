@@ -201,7 +201,7 @@ export default function SpiritualGrowthStagesPage() {
 
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {FRAMEWORK_TABS.map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -218,7 +218,7 @@ export default function SpiritualGrowthStagesPage() {
 
             <div style={{ display: "flex", gap: 8, marginBottom: 20, flexWrap: "wrap" }}>
               {BIBLICAL_STAGES.map(s => (
-                <button key={s.stage} onClick={() => setSelectedStage(selectedStage === s.stage ? null : s.stage)}
+                <button type="button" key={s.stage} onClick={() => setSelectedStage(selectedStage === s.stage ? null : s.stage)}
                   style={{ flex: "1 1 200px", background: selectedStage === s.stage ? `${s.color}20` : CARD, border: `1px solid ${selectedStage === s.stage ? s.color : BORDER}`, borderRadius: 12, padding: "18px 16px", cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: s.color, fontWeight: 900, fontSize: 22, marginBottom: 4 }}>{s.stage}</div>
                   <div style={{ color: MUTED, fontSize: 12, fontStyle: "italic" }}>{s.greek}</div>
@@ -275,7 +275,7 @@ export default function SpiritualGrowthStagesPage() {
             </div>
             {CLASSIC_FRAMEWORKS.map((f, i) => (
               <div key={i} style={{ marginBottom: 12 }}>
-                <button onClick={() => setSelectedFramework(selectedFramework === f.name ? null : f.name)}
+                <button type="button" onClick={() => setSelectedFramework(selectedFramework === f.name ? null : f.name)}
                   style={{ width: "100%", background: selectedFramework === f.name ? `${f.color}10` : CARD, border: `1px solid ${selectedFramework === f.name ? f.color + "40" : BORDER}`, borderRadius: selectedFramework === f.name ? "12px 12px 0 0" : 12, padding: "16px 20px", cursor: "pointer", textAlign: "left", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <div>
                     <div style={{ color: TEXT, fontWeight: 800, fontSize: 15 }}>{f.name}</div>
@@ -309,7 +309,7 @@ export default function SpiritualGrowthStagesPage() {
           <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
               {VOICES_GROWTH.map(v => (
-                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                   style={{ background: selectedVoice === v.id ? PURPLE : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: TEXT, fontWeight: 700, fontSize: 14 }}>{v.name}</div>
                   <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{v.era}</div>
@@ -343,7 +343,7 @@ export default function SpiritualGrowthStagesPage() {
             </div>
             {GROWTH_OBSTACLES.map((o, i) => (
               <div key={i} style={{ marginBottom: 10 }}>
-                <button onClick={() => setExpanded(expanded === o.obstacle ? null : o.obstacle)}
+                <button type="button" onClick={() => setExpanded(expanded === o.obstacle ? null : o.obstacle)}
                   style={{ width: "100%", background: expanded === o.obstacle ? `${o.color}10` : CARD, border: `1px solid ${expanded === o.obstacle ? o.color + "40" : BORDER}`, borderRadius: expanded === o.obstacle ? "12px 12px 0 0" : 12, padding: "14px 18px", cursor: "pointer", textAlign: "left", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <div style={{ color: TEXT, fontWeight: 700, fontSize: 15 }}>{o.obstacle}</div>
                   <span style={{ color: o.color, flexShrink: 0 }}>{expanded === o.obstacle ? "−" : "+"}</span>

@@ -176,7 +176,7 @@ export default function PrayerOfJesusPage() {
             { id: "models" as const, label: "How to Pray It", icon: "📖" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -187,7 +187,7 @@ export default function PrayerOfJesusPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 220, flexShrink: 0 }}>
               {PETITIONS.map(p => (
-                <button key={p.line} onClick={() => setSelected(p.line)}
+                <button type="button" key={p.line} onClick={() => setSelected(p.line)}
                   style={{ width: "100%", background: selected === p.line ? `${p.color}15` : "transparent", border: `1px solid ${selected === p.line ? p.color + "60" : BORDER}`, borderRadius: 10, padding: "10px 14px", marginBottom: 6, cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: MUTED, fontSize: 10, fontWeight: 700, marginBottom: 2 }}>{p.section}</div>
                   <span style={{ color: selected === p.line ? p.color : TEXT, fontWeight: 700, fontSize: 12, lineHeight: 1.4, display: "block" }}>{p.line}</span>
@@ -225,7 +225,7 @@ export default function PrayerOfJesusPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 210, flexShrink: 0 }}>
               {COMMENTATORS.map(c => (
-                <button key={c.id} onClick={() => setSelectedCommentator(c.id)}
+                <button type="button" key={c.id} onClick={() => setSelectedCommentator(c.id)}
                   style={{ width: "100%", background: selectedCommentator === c.id ? `${PURPLE}18` : "transparent", border: `1px solid ${selectedCommentator === c.id ? PURPLE + "70" : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 6, cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: selectedCommentator === c.id ? PURPLE : TEXT, fontWeight: 800, fontSize: 13, marginBottom: 2 }}>{c.name}</div>
                   <div style={{ color: MUTED, fontSize: 11 }}>{c.era}</div>

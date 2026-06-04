@@ -249,7 +249,7 @@ export default function DevotionalCreatorPage() {
         </p>
         <div style={{ display: "flex", justifyContent: "center", gap: 16 }}>
           {view === "browse" && (
-            <button
+            <button type="button"
               onClick={() => { setView("create"); setStep(0); setEditingId(null); setDraft({ title: "", verse: "", verseRef: "", body: "", prayer: "", application: "", theme: "Faith", audience: "Everyone", author: "" }); }}
               style={{ padding: "10px 28px", borderRadius: 10, background: "#6B4FBB", border: "none", color: "#fff", cursor: "pointer", fontWeight: 700, fontSize: 15 }}
             >
@@ -257,7 +257,7 @@ export default function DevotionalCreatorPage() {
             </button>
           )}
           {view !== "browse" && (
-            <button
+            <button type="button"
               onClick={() => setView("browse")}
               style={{ padding: "10px 24px", borderRadius: 10, border: "1px solid #1E1E32", background: "transparent", color: "#9898B3", cursor: "pointer", fontSize: 15 }}
             >
@@ -277,7 +277,7 @@ export default function DevotionalCreatorPage() {
                 <div style={{ fontSize: 12, color: "#9898B3", marginBottom: 6 }}>Theme</div>
                 <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
                   {["All", ...themes.slice(0, 8)].map((t) => (
-                    <button
+                    <button type="button"
                       key={t}
                       onClick={() => setFilterTheme(t)}
                       style={{
@@ -297,7 +297,7 @@ export default function DevotionalCreatorPage() {
                 <div style={{ fontSize: 12, color: "#9898B3", marginBottom: 6 }}>Audience</div>
                 <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
                   {["All", ...audiences.slice(0, 5)].map((a) => (
-                    <button
+                    <button type="button"
                       key={a}
                       onClick={() => setFilterAudience(a)}
                       style={{
@@ -348,13 +348,13 @@ export default function DevotionalCreatorPage() {
                       <div style={{ display: "flex", gap: 8 }}>
                         {isCustom && (
                           <>
-                            <button
+                            <button type="button"
                               onClick={(e) => { e.stopPropagation(); handleEdit(dev); }}
                               style={{ padding: "5px 12px", borderRadius: 6, border: "none", background: "#1E1E32", color: "#9898B3", cursor: "pointer", fontSize: 12 }}
                             >
                               Edit
                             </button>
-                            <button
+                            <button type="button"
                               onClick={(e) => { e.stopPropagation(); handleDelete(dev.id); }}
                               style={{ padding: "5px 12px", borderRadius: 6, border: "none", background: "#EF444420", color: "#EF4444", cursor: "pointer", fontSize: 12 }}
                             >
@@ -362,7 +362,7 @@ export default function DevotionalCreatorPage() {
                             </button>
                           </>
                         )}
-                        <button
+                        <button type="button"
                           onClick={(e) => { e.stopPropagation(); handleLike(dev.id); }}
                           style={{ padding: "5px 12px", borderRadius: 6, border: "none", background: liked ? "#3a7d5620" : "#1E1E32", color: liked ? "#3a7d56" : "#9898B3", cursor: "pointer", fontSize: 12 }}
                         >
@@ -421,7 +421,7 @@ export default function DevotionalCreatorPage() {
             </div>
 
             <div style={{ display: "flex", gap: 12 }}>
-              <button
+              <button type="button"
                 onClick={() => handleLike(selectedDev.id)}
                 style={{
                   flex: 1, padding: "12px 20px", borderRadius: 10,
@@ -433,7 +433,7 @@ export default function DevotionalCreatorPage() {
               >
                 ♥ {likedIds.has(selectedDev.id) ? "Liked" : "Like"} ({selectedDev.likes + (likedIds.has(selectedDev.id) ? 1 : 0)})
               </button>
-              <button
+              <button type="button"
                 onClick={() => { setSelectedDev(null); setView("browse"); }}
                 style={{ padding: "12px 24px", borderRadius: 10, border: "1px solid #1E1E32", background: "transparent", color: "#9898B3", cursor: "pointer", fontSize: 15 }}
               >
@@ -481,7 +481,7 @@ export default function DevotionalCreatorPage() {
                   <input
                     value={draft.title}
                     onChange={(e) => setDraft((p) => ({ ...p, title: e.target.value }))}
-                    placeholder="Give your devotional a title..."
+                    aria-label="Give your devotional a title..." placeholder="Give your devotional a title..."
                     style={{ width: "100%", background: "#12121F", border: "1px solid #1E1E32", borderRadius: 8, padding: "10px 14px", color: "#F2F2F8", fontSize: 14, outline: "none", boxSizing: "border-box" }}
                   />
                 </div>
@@ -490,7 +490,7 @@ export default function DevotionalCreatorPage() {
                   <input
                     value={draft.verse}
                     onChange={(e) => setDraft((p) => ({ ...p, verse: e.target.value }))}
-                    placeholder="e.g. For I can do all things through Christ who strengthens me."
+                    aria-label="e.g. For I can do all things through Christ who strengthens me." placeholder="e.g. For I can do all things through Christ who strengthens me."
                     style={{ width: "100%", background: "#12121F", border: "1px solid #1E1E32", borderRadius: 8, padding: "10px 14px", color: "#F2F2F8", fontSize: 14, outline: "none", boxSizing: "border-box" }}
                   />
                 </div>
@@ -499,7 +499,7 @@ export default function DevotionalCreatorPage() {
                   <input
                     value={draft.verseRef}
                     onChange={(e) => setDraft((p) => ({ ...p, verseRef: e.target.value }))}
-                    placeholder="e.g. Philippians 4:13"
+                    aria-label="e.g. Philippians 4:13" placeholder="e.g. Philippians 4:13"
                     style={{ width: "100%", background: "#12121F", border: "1px solid #1E1E32", borderRadius: 8, padding: "10px 14px", color: "#F2F2F8", fontSize: 14, outline: "none", boxSizing: "border-box" }}
                   />
                 </div>
@@ -530,7 +530,7 @@ export default function DevotionalCreatorPage() {
                   <input
                     value={draft.author}
                     onChange={(e) => setDraft((p) => ({ ...p, author: e.target.value }))}
-                    placeholder="How should your name appear?"
+                    aria-label="How should your name appear?" placeholder="How should your name appear?"
                     style={{ width: "100%", background: "#12121F", border: "1px solid #1E1E32", borderRadius: 8, padding: "10px 14px", color: "#F2F2F8", fontSize: 14, outline: "none", boxSizing: "border-box" }}
                   />
                 </div>
@@ -563,7 +563,7 @@ Break into paragraphs for readability. Aim for 200–600 words."
                   <textarea
                     value={draft.prayer}
                     onChange={(e) => setDraft((p) => ({ ...p, prayer: e.target.value }))}
-                    placeholder="Write a prayer the reader can pray. First person — 'Lord, I...' — works best."
+                    aria-label="Write a prayer the reader can pray. First person — 'Lord, I...' — works best." placeholder="Write a prayer the reader can pray. First person — 'Lord, I...' — works best."
                     rows={5}
                     style={{ width: "100%", background: "#12121F", border: "1px solid #1E1E32", borderRadius: 8, padding: "12px 14px", color: "#F2F2F8", fontSize: 14, outline: "none", resize: "vertical", boxSizing: "border-box" }}
                   />
@@ -573,7 +573,7 @@ Break into paragraphs for readability. Aim for 200–600 words."
                   <textarea
                     value={draft.application}
                     onChange={(e) => setDraft((p) => ({ ...p, application: e.target.value }))}
-                    placeholder="Give one specific, actionable step the reader can take today based on this devotional."
+                    aria-label="Give one specific, actionable step the reader can take today based on this devotional." placeholder="Give one specific, actionable step the reader can take today based on this devotional."
                     rows={4}
                     style={{ width: "100%", background: "#12121F", border: "1px solid #1E1E32", borderRadius: 8, padding: "12px 14px", color: "#F2F2F8", fontSize: 14, outline: "none", resize: "vertical", boxSizing: "border-box" }}
                   />
@@ -604,7 +604,7 @@ Break into paragraphs for readability. Aim for 200–600 words."
             {/* Navigation */}
             <div style={{ display: "flex", gap: 12, marginTop: 28 }}>
               {step > 0 && (
-                <button
+                <button type="button"
                   onClick={() => setStep((s) => s - 1)}
                   style={{ padding: "11px 24px", borderRadius: 10, border: "1px solid #1E1E32", background: "transparent", color: "#9898B3", cursor: "pointer", fontSize: 15 }}
                 >
@@ -612,7 +612,7 @@ Break into paragraphs for readability. Aim for 200–600 words."
                 </button>
               )}
               {step < 3 ? (
-                <button
+                <button type="button"
                   onClick={() => setStep((s) => s + 1)}
                   disabled={!canAdvance()}
                   style={{
@@ -626,7 +626,7 @@ Break into paragraphs for readability. Aim for 200–600 words."
                   Continue →
                 </button>
               ) : (
-                <button
+                <button type="button"
                   onClick={handlePublish}
                   style={{ flex: 1, padding: "11px 24px", borderRadius: 10, border: "none", background: "#3a7d56", color: "#07070F", cursor: "pointer", fontWeight: 700, fontSize: 15 }}
                 >

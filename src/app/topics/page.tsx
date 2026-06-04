@@ -309,7 +309,7 @@ export default function TopicsPage() {
                           <span className="text-xs flex items-center gap-1" style={{ color: "#4A4A68" }}>
                             <MessageSquare size={11} /> {topic.posts.toLocaleString()} posts
                           </span>
-                          <button
+                          <button type="button"
                             onClick={(e) => toggleFollow(topic.tag, e)}
                             className="flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full transition-all ml-auto"
                             style={{
@@ -416,7 +416,7 @@ export default function TopicsPage() {
                         style={{ background: "rgba(58,125,86,0.1)", border: "1px solid rgba(58,125,86,0.2)", color: "#3a7d56" }}
                       >
                         #{tag}
-                        <button
+                        <button type="button"
                           onClick={(e) => toggleFollow(tag, e)}
                           className="ml-1 opacity-60 hover:opacity-100"
                         >×</button>

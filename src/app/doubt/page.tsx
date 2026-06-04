@@ -157,7 +157,7 @@ export default function DoubtPage() {
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
             { id: "videos" as const, label: "Videos", icon: "▶️" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -168,7 +168,7 @@ export default function DoubtPage() {
           <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 8, minWidth: 160 }}>
               {DOUBT_TYPES.map(d => (
-                <button key={d.id} onClick={() => setSelectedType(d.id)}
+                <button type="button" key={d.id} onClick={() => setSelectedType(d.id)}
                   style={{ padding: "10px 14px", borderRadius: 10, border: `1px solid ${selectedType === d.id ? d.color : BORDER}`, background: selectedType === d.id ? `${d.color}18` : CARD, color: selectedType === d.id ? d.color : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", textAlign: "left" }}>
                   {d.icon} {d.name.replace(" Doubt", "").replace("Spiritual Dryness", "Spiritual Dry.").replace("Church-Induced Doubt", "Church-Induced")}
                 </button>
@@ -199,7 +199,7 @@ export default function DoubtPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 210, flexShrink: 0 }}>
               {VOICES.map(v => (
-                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                   style={{ width: "100%", background: selectedVoice === v.id ? `${PURPLE}18` : "transparent", border: `1px solid ${selectedVoice === v.id ? PURPLE + "70" : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 6, cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: selectedVoice === v.id ? PURPLE : TEXT, fontWeight: 800, fontSize: 13, marginBottom: 2 }}>{v.name}</div>
                   <div style={{ color: MUTED, fontSize: 11 }}>{v.era}</div>

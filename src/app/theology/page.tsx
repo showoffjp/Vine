@@ -398,7 +398,7 @@ export default function TheologyPage() {
         {/* Tab Bar */}
         <div style={{ display: "flex", gap: 6, marginBottom: 28, padding: "6px", background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, flexWrap: "wrap" }}>
           {(["doctrines", "councils", "creeds", "videos"] as const).map(t => (
-            <button key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+            <button type="button" key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t === "doctrines" ? "Doctrines" : t === "councils" ? "Historic Councils" : t === "creeds" ? "Creeds & Confessions" : "Watch & Learn"}
             </button>
           ))}
@@ -411,7 +411,7 @@ export default function TheologyPage() {
             <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 24 }}>
               <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
                 {categories.map(c => (
-                  <button key={c} onClick={() => setCatFilter(c)}
+                  <button type="button" key={c} onClick={() => setCatFilter(c)}
                     style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${catFilter === c ? PURPLE : BORDER}`, background: catFilter === c ? "rgba(107,79,187,0.15)" : "transparent", color: catFilter === c ? TEXT : MUTED, fontSize: 12, fontWeight: 600, cursor: "pointer" }}>
                     {c}
                   </button>
@@ -420,7 +420,7 @@ export default function TheologyPage() {
               <div style={{ width: "100%", height: 1, background: BORDER }} />
               <div style={{ display: "flex", gap: 6 }}>
                 {difficulties.map(d => (
-                  <button key={d} onClick={() => setDiffFilter(d)}
+                  <button type="button" key={d} onClick={() => setDiffFilter(d)}
                     style={{ padding: "5px 12px", borderRadius: 20, border: `1px solid ${diffFilter === d ? (diffColors[d] || BORDER) : BORDER}`, background: diffFilter === d ? `${diffColors[d] || "#3B82F6"}15` : "transparent", color: diffFilter === d ? diffColors[d] || TEXT : MUTED, fontSize: 12, fontWeight: 600, cursor: "pointer" }}>
                     {d}
                   </button>
@@ -448,11 +448,11 @@ export default function TheologyPage() {
                           </div>
                         </div>
                         <div style={{ display: "flex", gap: 6, flexShrink: 0 }}>
-                          <button onClick={() => toggleSaved(doc.id)}
+                          <button type="button" onClick={() => toggleSaved(doc.id)}
                             style={{ width: 32, height: 32, borderRadius: 8, border: `1px solid ${savedDocs.has(doc.id) ? PURPLE : BORDER}`, background: savedDocs.has(doc.id) ? "rgba(107,79,187,0.15)" : "transparent", cursor: "pointer", fontSize: 13, color: savedDocs.has(doc.id) ? PURPLE : MUTED }}>
                             {savedDocs.has(doc.id) ? "🔖" : "📌"}
                           </button>
-                          <button onClick={() => setExpandedDoc(isExp ? null : doc.id)}
+                          <button type="button" onClick={() => setExpandedDoc(isExp ? null : doc.id)}
                             style={{ padding: "6px 14px", borderRadius: 8, border: `1px solid ${doc.color}40`, background: `${doc.color}10`, color: doc.color, cursor: "pointer", fontSize: 13, fontWeight: 700 }}>
                             {isExp ? "Close" : "Study"}
                           </button>
@@ -507,7 +507,7 @@ export default function TheologyPage() {
                               <span key={t} style={{ fontSize: 12, padding: "4px 12px", borderRadius: 20, background: "rgba(107,79,187,0.1)", color: PURPLE, fontWeight: 600 }}>&#x1F464; {t}</span>
                             ))}
                           </div>
-                          <button onClick={() => toggleStudied(doc.id)}
+                          <button type="button" onClick={() => toggleStudied(doc.id)}
                             style={{ padding: "8px 18px", borderRadius: 10, border: `1px solid ${studiedDocs.has(doc.id) ? GREEN : BORDER}`, background: studiedDocs.has(doc.id) ? "rgba(58,125,86,0.1)" : "transparent", color: studiedDocs.has(doc.id) ? GREEN : MUTED, cursor: "pointer", fontSize: 13, fontWeight: 700 }}>
                             {studiedDocs.has(doc.id) ? "&#x2713; Studied" : "Mark as Studied"}
                           </button>
@@ -573,7 +573,7 @@ export default function TheologyPage() {
             </p>
             <div style={{ display: "flex", gap: 8, marginBottom: 20, flexWrap: "wrap" }}>
               {THEO_CREEDS.map(c => (
-                <button key={c.id} onClick={() => setSelectedCreed(c.id)}
+                <button type="button" key={c.id} onClick={() => setSelectedCreed(c.id)}
                   style={{ padding: "8px 16px", borderRadius: 10, border: `1px solid ${selectedCreed === c.id ? PURPLE : BORDER}`, background: selectedCreed === c.id ? `${PURPLE}20` : "transparent", color: selectedCreed === c.id ? TEXT : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
                   {c.name}
                 </button>

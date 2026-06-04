@@ -245,7 +245,7 @@ export default function VideoPage() {
               <Search size={15} style={{ color: "#4A4A68" }} />
               <input
                 type="text"
-                placeholder="Search videos..."
+                aria-label="Search videos..." placeholder="Search videos..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 className="bg-transparent outline-none text-sm flex-1"
@@ -328,14 +328,14 @@ export default function VideoPage() {
                 </div>
               </div>
               <div className="flex gap-3">
-                <button
+                <button type="button"
                   onClick={() => setFeaturedPlaying((p) => !p)}
                   className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm text-black"
                   style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}
                 >
                   <Play size={14} fill="currentColor" /> {featuredPlaying ? "Now Playing" : "Watch Now"}
                 </button>
-                <button
+                <button type="button"
                   onClick={() => setFeaturedSaved(!featuredSaved)}
                   className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all"
                   style={{
@@ -353,7 +353,7 @@ export default function VideoPage() {
           {/* Category Filter */}
           <div className="flex gap-2 flex-wrap mb-8">
             {categories.map((cat) => (
-              <button
+              <button type="button"
                 key={cat.name}
                 onClick={() => setActiveCategory(cat.name)}
                 className="px-4 py-1.5 rounded-full text-sm font-semibold transition-all"
@@ -381,7 +381,7 @@ export default function VideoPage() {
                 <div className="rounded-2xl p-8 text-center" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
                   <p className="text-3xl mb-3">🎬</p>
                   <p className="font-bold mb-1" style={{ color: "#F2F2F8" }}>No videos found</p>
-                  <button onClick={() => { setActiveCategory("All"); setSearch(""); }} className="text-sm mt-2" style={{ color: "#3a7d56" }}>Clear filters</button>
+                  <button type="button" onClick={() => { setActiveCategory("All"); setSearch(""); }} className="text-sm mt-2" style={{ color: "#3a7d56" }}>Clear filters</button>
                 </div>
               )}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -439,7 +439,7 @@ export default function VideoPage() {
                         </span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <button
+                        <button type="button"
                           onClick={(e) => { e.stopPropagation(); toggleLike(i); }}
                           className="flex items-center gap-1 text-xs px-2 py-1 rounded-lg transition-all"
                           style={{
@@ -450,7 +450,7 @@ export default function VideoPage() {
                         >
                           <Heart size={11} fill={likedVideos.has(i) ? "#EC4899" : "none"} />
                         </button>
-                        <button
+                        <button type="button"
                           onClick={(e) => { e.stopPropagation(); toggleSave(i); }}
                           className="flex items-center gap-1 text-xs px-2 py-1 rounded-lg transition-all"
                           style={{
@@ -461,7 +461,7 @@ export default function VideoPage() {
                         >
                           <Bookmark size={11} fill={savedVideos.has(i) ? "#3a7d56" : "none"} />
                         </button>
-                        <button
+                        <button type="button"
                           onClick={(e) => { e.stopPropagation(); shareVideo(i, v.title); }}
                           className="flex items-center gap-1 text-xs px-2 py-1 rounded-lg ml-auto transition-all"
                           style={{
@@ -508,7 +508,7 @@ export default function VideoPage() {
                           {ch.subscribers} subscribers · {ch.videos} videos
                         </p>
                       </div>
-                      <button
+                      <button type="button"
                         onClick={() => toggleFollow(ch.name)}
                         className="text-xs px-2.5 py-1 rounded-full font-semibold shrink-0 transition-all"
                         style={{
@@ -550,7 +550,7 @@ export default function VideoPage() {
                     </div>
                   ))}
                 </div>
-                <button
+                <button type="button"
                   onClick={() => setRadioPlaying((p) => !p)}
                   className="w-full py-2 rounded-xl text-sm font-bold flex items-center justify-center gap-2"
                   style={{ background: "rgba(107,79,187,0.25)", color: "#A080FF", border: "1px solid rgba(107,79,187,0.3)" }}

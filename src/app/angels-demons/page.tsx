@@ -97,7 +97,7 @@ export default function AngelsDemonsPage() {
             { id: "practices" as Tab, label: "Practices", icon: "🛡️" },
             { id: "videos" as Tab, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -108,7 +108,7 @@ export default function AngelsDemonsPage() {
           <div>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 20 }}>
               {ANGELS.map(a => (
-                <button key={a.name} onClick={() => setSelectedAngel(a.name)}
+                <button type="button" key={a.name} onClick={() => setSelectedAngel(a.name)}
                   style={{ padding: "8px 14px", borderRadius: 20, border: `1px solid ${selectedAngel === a.name ? a.color : BORDER}`, background: selectedAngel === a.name ? `${a.color}20` : "transparent", color: selectedAngel === a.name ? a.color : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
                   {a.name}
                 </button>
@@ -142,7 +142,7 @@ export default function AngelsDemonsPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 185, flexShrink: 0 }}>
               {WARFARE.map(w => (
-                <button key={w.id} onClick={() => setSelectedWarfare(w.id)}
+                <button type="button" key={w.id} onClick={() => setSelectedWarfare(w.id)}
                   style={{ width: "100%", padding: "12px 14px", borderRadius: 10, border: `1px solid ${selectedWarfare === w.id ? w.color : BORDER}`, background: selectedWarfare === w.id ? `${w.color}12` : "transparent", color: selectedWarfare === w.id ? w.color : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", marginBottom: 6, textAlign: "left" }}>
                   {w.title}
                 </button>

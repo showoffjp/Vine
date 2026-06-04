@@ -166,7 +166,7 @@ function AccordionItem({
 }) {
   return (
     <div style={{ background: CARD, border: `1px solid ${expanded ? PURPLE + "50" : BORDER}`, borderRadius: 12, overflow: "hidden", marginBottom: 10 }}>
-      <button
+      <button type="button"
         onClick={onToggle}
         style={{
           width: "100%",
@@ -231,7 +231,7 @@ export default function TheologyOfWorkPage() {
         {/* Tab bar */}
         <div style={{ display: "flex", gap: 4, marginBottom: 32, background: CARD, borderRadius: 12, padding: 5, border: `1px solid ${BORDER}`, flexWrap: "wrap" }}>
           {tabs.map(t => (
-            <button
+            <button type="button"
               key={t.id}
               onClick={() => setActiveTab(t.id)}
               style={{
@@ -279,7 +279,7 @@ export default function TheologyOfWorkPage() {
             <div style={{ width: 220, flexShrink: 0, position: "sticky", top: 20 }}>
               <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
                 {VOCATION_TOPICS.map(t => (
-                  <button
+                  <button type="button"
                     key={t.id}
                     onClick={() => setVocabSelected(t.id)}
                     style={{

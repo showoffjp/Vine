@@ -102,7 +102,7 @@ export default function ChurchPolityGuidePage() {
 
         <div style={{ display: "flex", gap: 4, marginBottom: 24, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
           {(["models", "offices", "discipline", "membership", "videos"] as Tab[]).map(t => (
-            <button key={t} onClick={() => setTab(t)}
+            <button type="button" key={t} onClick={() => setTab(t)}
               style={{ padding: "8px 16px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
               {t === "models" ? "Governance Models" : t === "offices" ? "Church Offices" : t === "discipline" ? "Church Discipline" : t === "membership" ? "Church Membership" : "Videos"}
             </button>
@@ -201,7 +201,7 @@ export default function ChurchPolityGuidePage() {
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {MEMBERSHIP.map((m, i) => (
               <div key={i} style={{ background: CARD, border: `1px solid ${expanded[m.aspect] ? m.color + "40" : BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                <button onClick={() => setExpanded(e => ({ ...e, [m.aspect]: !e[m.aspect] }))}
+                <button type="button" onClick={() => setExpanded(e => ({ ...e, [m.aspect]: !e[m.aspect] }))}
                   style={{ width: "100%", padding: "16px 20px", cursor: "pointer", textAlign: "left", background: "transparent", border: "none", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <div style={{ color: m.color, fontWeight: 800, fontSize: 15 }}>{m.aspect}</div>
                   <span style={{ color: MUTED, fontSize: 18 }}>{expanded[m.aspect] ? "−" : "+"}</span>

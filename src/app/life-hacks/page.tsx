@@ -516,7 +516,7 @@ export default function LifeHacksPage() {
         {/* MAIN TAB BAR */}
         <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 24px", borderBottom: "1px solid #1E1E32", display: "flex", gap: 0 }}>
           {(["hacks", "theology", "rhythms", "voices", "videos"] as const).map(tab => (
-            <button key={tab} onClick={() => setMainTab(tab)}
+            <button type="button" key={tab} onClick={() => setMainTab(tab)}
               style={{ background: "none", border: "none", borderBottom: mainTab === tab ? "2px solid #3a7d56" : "2px solid transparent", color: mainTab === tab ? "#F2F2F8" : "#9898B3", fontWeight: mainTab === tab ? 700 : 500, fontSize: 14, padding: "14px 18px", cursor: "pointer" }}>
               {tab === "hacks" ? "Life Hacks" : tab === "theology" ? "📖 Theology" : tab === "rhythms" ? "⏰ Rhythms" : tab === "voices" ? "🎓 Voices" : "🎬 Videos"}
             </button>
@@ -539,7 +539,7 @@ export default function LifeHacksPage() {
               {categories.map((cat, i) => {
                 const isActive = activeCategory === cat.label;
                 return (
-                  <button
+                  <button type="button"
                     key={i}
                     onClick={() => setActiveCategory(cat.label)}
                     style={{
@@ -595,7 +595,7 @@ export default function LifeHacksPage() {
                     ⭐ FEATURED HACK
                   </span>
                   <span style={{ color: "#4F8FBB", fontSize: "12px", fontWeight: 600 }}>Money</span>
-                  <button
+                  <button type="button"
                     onClick={() => setFeaturedSaved((v) => !v)}
                     aria-label={featuredSaved ? "Remove from saved" : "Save hack"}
                     style={{
@@ -745,7 +745,7 @@ export default function LifeHacksPage() {
                           />
                         ))}
                       </div>
-                      <button
+                      <button type="button"
                         onClick={() => toggleSaveHack(hack.title)}
                         style={{
                           display: "flex", alignItems: "center", gap: "5px",
@@ -882,7 +882,7 @@ export default function LifeHacksPage() {
                     <input
                       value={hackTitle}
                       onChange={(e) => setHackTitle(e.target.value)}
-                      placeholder="Hack title (e.g. 'The 2-Minute Evening Prayer Reset')"
+                      aria-label="Hack title (e.g. 'The 2-Minute Evening Prayer Reset')" placeholder="Hack title (e.g. 'The 2-Minute Evening Prayer Reset')"
                       style={{
                         background: "#12121F",
                         border: "1px solid #1E1E32",
@@ -896,7 +896,7 @@ export default function LifeHacksPage() {
                     />
                     <textarea
                       readOnly
-                      placeholder="Describe the hack in 2–3 sentences. What do you do? How does it help?"
+                      aria-label="Describe the hack in 2–3 sentences. What do you do? How does it help?" placeholder="Describe the hack in 2–3 sentences. What do you do? How does it help?"
                       rows={3}
                       style={{
                         background: "#12121F",
@@ -912,7 +912,7 @@ export default function LifeHacksPage() {
                     />
                     <input
                       readOnly
-                      placeholder="Scripture basis (e.g. 'Proverbs 16:3')"
+                      aria-label="Scripture basis (e.g. 'Proverbs 16:3')" placeholder="Scripture basis (e.g. 'Proverbs 16:3')"
                       style={{
                         background: "#12121F",
                         border: "1px solid #1E1E32",
@@ -929,7 +929,7 @@ export default function LifeHacksPage() {
                         ✓ Hack submitted! We&apos;ll review it shortly.
                       </div>
                     ) : (
-                      <button
+                      <button type="button"
                         onClick={handleSubmit}
                         style={{
                           display: "flex",
@@ -1082,7 +1082,7 @@ export default function LifeHacksPage() {
               {/* Left panel: list */}
               <div style={{ display: "flex", flexDirection: "column", gap: "10px", minWidth: 240, width: 240, flexShrink: 0 }}>
                 {VOICES_LH.map((v) => (
-                  <button
+                  <button type="button"
                     key={v.id}
                     onClick={() => setSelectedVoiceLH(v)}
                     style={{

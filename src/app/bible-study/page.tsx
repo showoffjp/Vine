@@ -247,7 +247,7 @@ export default function BibleStudyPage() {
                 Structured book-by-book study with OIA notes: Observation, Interpretation, Application, Questions, and Cross-References.
               </p>
             </div>
-            <button
+            <button type="button"
               onClick={() => setShowNewPlan(true)}
               className="shrink-0 flex items-center gap-2 px-5 py-2.5 rounded-xl font-black text-sm"
               style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)", color: "#07070F" }}
@@ -263,7 +263,7 @@ export default function BibleStudyPage() {
             <div className="w-full max-w-md rounded-2xl p-6" style={{ background: "#12121F", border: "1px solid #1E1E32" }}>
               <div className="flex items-center justify-between mb-5">
                 <h3 className="font-black text-lg" style={{ color: "#F2F2F8" }}>Start New Study</h3>
-                <button onClick={() => setShowNewPlan(false)} style={{ color: "#4A4A68" }}><X size={20} /></button>
+                <button type="button" onClick={() => setShowNewPlan(false)} style={{ color: "#4A4A68" }}><X size={20} /></button>
               </div>
               <div className="space-y-3">
                 <div>
@@ -295,8 +295,8 @@ export default function BibleStudyPage() {
                 />
               </div>
               <div className="flex gap-3 mt-5">
-                <button onClick={() => setShowNewPlan(false)} className="flex-1 py-2.5 rounded-xl font-bold text-sm" style={{ background: "rgba(255,255,255,0.04)", color: "#8A8AA8", border: "1px solid rgba(255,255,255,0.08)" }}>Cancel</button>
-                <button onClick={addStudyPlan} className="flex-1 py-2.5 rounded-xl font-black text-sm" style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)", color: "#07070F" }}>Start Study</button>
+                <button type="button" onClick={() => setShowNewPlan(false)} className="flex-1 py-2.5 rounded-xl font-bold text-sm" style={{ background: "rgba(255,255,255,0.04)", color: "#8A8AA8", border: "1px solid rgba(255,255,255,0.08)" }}>Cancel</button>
+                <button type="button" onClick={addStudyPlan} className="flex-1 py-2.5 rounded-xl font-black text-sm" style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)", color: "#07070F" }}>Start Study</button>
               </div>
             </div>
           </div>
@@ -308,7 +308,7 @@ export default function BibleStudyPage() {
             <div className="w-full max-w-lg rounded-2xl p-6 max-h-[90vh] overflow-y-auto" style={{ background: "#12121F", border: "1px solid #1E1E32" }}>
               <div className="flex items-center justify-between mb-5">
                 <h3 className="font-black text-lg" style={{ color: "#F2F2F8" }}>Add Study Note — {selectedPlan.book}</h3>
-                <button onClick={() => setShowNewNote(false)} style={{ color: "#4A4A68" }}><X size={20} /></button>
+                <button type="button" onClick={() => setShowNewNote(false)} style={{ color: "#4A4A68" }}><X size={20} /></button>
               </div>
               <div className="space-y-3">
                 <div className="grid grid-cols-2 gap-3">
@@ -329,7 +329,7 @@ export default function BibleStudyPage() {
                       type="number"
                       value={newNoteForm.verse}
                       onChange={(e) => setNewNoteForm((f) => ({ ...f, verse: e.target.value }))}
-                      min={1} placeholder="e.g. 28"
+                      min={1} aria-label="e.g. 28" placeholder="e.g. 28"
                       className="w-full px-4 py-2.5 rounded-xl text-sm outline-none"
                       style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#F2F2F8" }}
                     />
@@ -339,7 +339,7 @@ export default function BibleStudyPage() {
                   <label className="text-xs font-semibold mb-1 block" style={{ color: "#6A6A88" }}>Note Type</label>
                   <div className="grid grid-cols-1 gap-1.5">
                     {NOTE_TYPES.map((t) => (
-                      <button
+                      <button type="button"
                         key={t.id}
                         onClick={() => setNewNoteForm((f) => ({ ...f, type: t.id }))}
                         className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-semibold text-left transition-all"
@@ -359,15 +359,15 @@ export default function BibleStudyPage() {
                 <textarea
                   value={newNoteForm.content}
                   onChange={(e) => setNewNoteForm((f) => ({ ...f, content: e.target.value }))}
-                  placeholder="Write your note..."
+                  aria-label="Write your note..." placeholder="Write your note..."
                   rows={5}
                   className="w-full px-4 py-3 rounded-xl text-sm outline-none resize-none"
                   style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#F2F2F8" }}
                 />
               </div>
               <div className="flex gap-3 mt-5">
-                <button onClick={() => setShowNewNote(false)} className="flex-1 py-2.5 rounded-xl font-bold text-sm" style={{ background: "rgba(255,255,255,0.04)", color: "#8A8AA8", border: "1px solid rgba(255,255,255,0.08)" }}>Cancel</button>
-                <button
+                <button type="button" onClick={() => setShowNewNote(false)} className="flex-1 py-2.5 rounded-xl font-bold text-sm" style={{ background: "rgba(255,255,255,0.04)", color: "#8A8AA8", border: "1px solid rgba(255,255,255,0.08)" }}>Cancel</button>
+                <button type="button"
                   onClick={addNote}
                   disabled={!newNoteForm.content.trim()}
                   className="flex-1 py-2.5 rounded-xl font-black text-sm"
@@ -389,7 +389,7 @@ export default function BibleStudyPage() {
                 {studyPlans.map((p) => {
                   const pct = Math.round((p.completedChapters.length / p.totalChapters) * 100);
                   return (
-                    <button
+                    <button type="button"
                       key={p.id}
                       onClick={() => { setSelectedPlanId(p.id); setSelectedChapter(null); }}
                       className="w-full text-left p-3 rounded-xl transition-all"
@@ -410,7 +410,7 @@ export default function BibleStudyPage() {
                   );
                 })}
               </div>
-              <button
+              <button type="button"
                 onClick={() => setShowNewPlan(true)}
                 className="w-full py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5"
                 style={{ background: "rgba(255,255,255,0.03)", border: "1px dashed rgba(255,255,255,0.1)", color: "#4A4A68" }}
@@ -442,7 +442,7 @@ export default function BibleStudyPage() {
                 {/* View tabs */}
                 <div className="flex gap-2 mb-5">
                   {(["plan", "notes"] as const).map((v) => (
-                    <button
+                    <button type="button"
                       key={v}
                       onClick={() => setActiveView(v)}
                       className="px-4 py-2 rounded-xl text-sm font-bold capitalize"
@@ -468,7 +468,7 @@ export default function BibleStudyPage() {
                           const selected = selectedChapter === ch;
                           const hasNotes = globalNotes.some((n) => n.book === selectedPlan.book && n.chapter === ch);
                           return (
-                            <button
+                            <button type="button"
                               key={ch}
                               onClick={() => {
                                 setSelectedChapter(ch);
@@ -499,7 +499,7 @@ export default function BibleStudyPage() {
                           <h3 className="font-black text-sm" style={{ color: "#F2F2F8" }}>
                             {selectedPlan.book} {selectedChapter} — Notes ({chapterNotes.length})
                           </h3>
-                          <button
+                          <button type="button"
                             onClick={() => setShowNewNote(true)}
                             className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold"
                             style={{ background: "rgba(58,125,86,0.1)", color: "#3a7d56", border: "1px solid rgba(58,125,86,0.2)" }}
@@ -511,7 +511,7 @@ export default function BibleStudyPage() {
                           <div className="text-center py-8" style={{ color: "#4A4A68" }}>
                             <Lightbulb size={32} className="mx-auto mb-2 opacity-30" />
                             <p className="text-sm">No notes for this chapter yet.</p>
-                            <button onClick={() => setShowNewNote(true)} className="mt-3 text-xs font-bold" style={{ color: "#3a7d56" }}>Add your first note →</button>
+                            <button type="button" onClick={() => setShowNewNote(true)} className="mt-3 text-xs font-bold" style={{ color: "#3a7d56" }}>Add your first note →</button>
                           </div>
                         ) : (
                           <div className="space-y-3">
@@ -544,12 +544,12 @@ export default function BibleStudyPage() {
                         <input
                           value={search}
                           onChange={(e) => setSearch(e.target.value)}
-                          placeholder="Search notes..."
+                          aria-label="Search notes..." placeholder="Search notes..."
                           className="w-full pl-9 pr-4 py-2.5 rounded-xl text-sm outline-none"
                           style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#F2F2F8" }}
                         />
                       </div>
-                      <button
+                      <button type="button"
                         onClick={() => setShowNewNote(true)}
                         className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-sm font-bold"
                         style={{ background: "rgba(58,125,86,0.1)", color: "#3a7d56", border: "1px solid rgba(58,125,86,0.2)" }}
@@ -558,9 +558,9 @@ export default function BibleStudyPage() {
                       </button>
                     </div>
                     <div className="flex gap-2 mb-4 flex-wrap">
-                      <button onClick={() => setFilterType("all")} className="px-3 py-1.5 rounded-full text-xs font-bold" style={{ background: filterType === "all" ? "rgba(255,255,255,0.1)" : "rgba(255,255,255,0.03)", border: filterType === "all" ? "1px solid rgba(255,255,255,0.2)" : "1px solid rgba(255,255,255,0.06)", color: filterType === "all" ? "#F2F2F8" : "#6A6A88" }}>All</button>
+                      <button type="button" onClick={() => setFilterType("all")} className="px-3 py-1.5 rounded-full text-xs font-bold" style={{ background: filterType === "all" ? "rgba(255,255,255,0.1)" : "rgba(255,255,255,0.03)", border: filterType === "all" ? "1px solid rgba(255,255,255,0.2)" : "1px solid rgba(255,255,255,0.06)", color: filterType === "all" ? "#F2F2F8" : "#6A6A88" }}>All</button>
                       {NOTE_TYPES.map((t) => (
-                        <button
+                        <button type="button"
                           key={t.id}
                           onClick={() => setFilterType(t.id)}
                           className="px-3 py-1.5 rounded-full text-xs font-bold"
@@ -602,7 +602,7 @@ export default function BibleStudyPage() {
                 <div className="text-center">
                   <BookOpen size={48} className="mx-auto mb-4 opacity-20" />
                   <p className="font-black text-lg mb-2" style={{ color: "#F2F2F8" }}>Choose a study to begin</p>
-                  <button onClick={() => setShowNewPlan(true)} className="flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-sm mx-auto mt-3" style={{ background: "rgba(58,125,86,0.1)", color: "#3a7d56", border: "1px solid rgba(58,125,86,0.2)" }}>
+                  <button type="button" onClick={() => setShowNewPlan(true)} className="flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-sm mx-auto mt-3" style={{ background: "rgba(58,125,86,0.1)", color: "#3a7d56", border: "1px solid rgba(58,125,86,0.2)" }}>
                     <Plus size={14} /> Start your first study
                   </button>
                 </div>

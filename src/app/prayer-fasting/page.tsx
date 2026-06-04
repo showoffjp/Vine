@@ -118,7 +118,7 @@ export default function PrayerFastingPage() {
             { id: "practices" as Tab, label: "Practices", icon: "🛠️" },
             { id: "videos" as Tab, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -143,7 +143,7 @@ export default function PrayerFastingPage() {
           <div>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 20 }}>
               {TYPES.map(t => (
-                <button key={t.name} onClick={() => setSelectedType(t.name)}
+                <button type="button" key={t.name} onClick={() => setSelectedType(t.name)}
                   style={{ padding: "8px 14px", borderRadius: 20, border: `1px solid ${selectedType === t.name ? t.color : BORDER}`, background: selectedType === t.name ? `${t.color}15` : "transparent", color: selectedType === t.name ? t.color : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
                   {t.name}
                 </button>
@@ -164,7 +164,7 @@ export default function PrayerFastingPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 185, flexShrink: 0 }}>
               {EXAMPLES.map(e => (
-                <button key={e.id} onClick={() => setSelectedExample(e.id)}
+                <button type="button" key={e.id} onClick={() => setSelectedExample(e.id)}
                   style={{ width: "100%", padding: "12px 14px", borderRadius: 10, border: `1px solid ${selectedExample === e.id ? e.color : BORDER}`, background: selectedExample === e.id ? `${e.color}12` : "transparent", color: selectedExample === e.id ? e.color : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", marginBottom: 6, textAlign: "left" }}>
                   {e.name}
                 </button>

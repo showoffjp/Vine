@@ -243,7 +243,7 @@ export default function ScriptureGamePage() {
                 <div style={{ fontSize: 12, color: "#9898B3", marginBottom: 6 }}>Difficulty</div>
                 <div style={{ display: "flex", gap: 6 }}>
                   {(["All", "Easy", "Medium", "Hard"] as const).map((d) => (
-                    <button key={d} onClick={() => setFilterDifficulty(d)}
+                    <button type="button" key={d} onClick={() => setFilterDifficulty(d)}
                       style={{
                         padding: "5px 14px", borderRadius: 20, fontSize: 12, cursor: "pointer",
                         border: `1px solid ${filterDifficulty === d ? (d === "All" ? "#6B4FBB" : DIFFICULTY_COLORS[d] ?? "#6B4FBB") : "#1E1E32"}`,
@@ -259,7 +259,7 @@ export default function ScriptureGamePage() {
                 <div style={{ fontSize: 12, color: "#9898B3", marginBottom: 6 }}>Category</div>
                 <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
                   {categories.map((c) => (
-                    <button key={c} onClick={() => setFilterCategory(c)}
+                    <button type="button" key={c} onClick={() => setFilterCategory(c)}
                       style={{
                         padding: "5px 14px", borderRadius: 20, fontSize: 12, cursor: "pointer",
                         border: `1px solid ${filterCategory === c ? "#3a7d56" : "#1E1E32"}`,
@@ -273,7 +273,7 @@ export default function ScriptureGamePage() {
               </div>
             </div>
 
-            <button
+            <button type="button"
               onClick={() => mode && startGame(mode)}
               disabled={!mode}
               style={{
@@ -354,7 +354,7 @@ export default function ScriptureGamePage() {
             {(mode === "multiple-choice" || mode === "text-to-ref") && (
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
                 {choices.map((choice) => (
-                  <button key={choice} onClick={() => !selected && handleAnswer(choice)}
+                  <button type="button" key={choice} onClick={() => !selected && handleAnswer(choice)}
                     style={{
                       padding: "12px 16px", borderRadius: 10, border: "2px solid",
                       borderColor: selected === choice
@@ -380,10 +380,10 @@ export default function ScriptureGamePage() {
               <div>
                 <textarea value={answer} onChange={(e) => setAnswer(e.target.value)}
                   disabled={selected !== null}
-                  placeholder="Type the verse from memory..."
+                  aria-label="Type the verse from memory..." placeholder="Type the verse from memory..."
                   rows={4}
                   style={{ width: "100%", background: "#12121F", border: "1px solid #1E1E32", borderRadius: 10, padding: "12px 14px", color: "#F2F2F8", fontSize: 14, outline: "none", resize: "none", boxSizing: "border-box", marginBottom: 12 }} />
-                <button onClick={() => answer && !selected && handleAnswer(answer)}
+                <button type="button" onClick={() => answer && !selected && handleAnswer(answer)}
                   disabled={!answer || selected !== null}
                   style={{ padding: "11px 28px", borderRadius: 10, border: "none",
                     background: answer && !selected ? "#6B4FBB" : "#1E1E32",
@@ -398,10 +398,10 @@ export default function ScriptureGamePage() {
               <div style={{ display: "flex", gap: 10 }}>
                 <input value={answer} onChange={(e) => setAnswer(e.target.value)}
                   disabled={selected !== null}
-                  placeholder="Type the missing word..."
+                  aria-label="Type the missing word..." placeholder="Type the missing word..."
                   onKeyDown={(e) => e.key === "Enter" && answer && !selected && handleAnswer(answer)}
                   style={{ flex: 1, background: "#12121F", border: "1px solid #1E1E32", borderRadius: 10, padding: "12px 14px", color: "#F2F2F8", fontSize: 14, outline: "none" }} />
-                <button onClick={() => answer && !selected && handleAnswer(answer)}
+                <button type="button" onClick={() => answer && !selected && handleAnswer(answer)}
                   disabled={!answer || selected !== null}
                   style={{ padding: "11px 24px", borderRadius: 10, border: "none",
                     background: answer && !selected ? "#6B4FBB" : "#1E1E32",
@@ -441,11 +441,11 @@ export default function ScriptureGamePage() {
               Accuracy: {accuracy}% · Best streak: {stats.bestStreak} · Total answered: {stats.totalPlayed}
             </p>
             <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-              <button onClick={() => { setGameState("idle"); setMode(null); }}
+              <button type="button" onClick={() => { setGameState("idle"); setMode(null); }}
                 style={{ padding: "12px 28px", borderRadius: 10, background: "#3a7d56", border: "none", color: "#07070F", fontWeight: 700, fontSize: 15, cursor: "pointer" }}>
                 Play Again
               </button>
-              <button onClick={() => mode && startGame(mode)}
+              <button type="button" onClick={() => mode && startGame(mode)}
                 style={{ padding: "12px 28px", borderRadius: 10, background: "#6B4FBB", border: "none", color: "#fff", fontWeight: 700, fontSize: 15, cursor: "pointer" }}>
                 Retry Same Mode
               </button>

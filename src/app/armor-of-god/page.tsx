@@ -171,7 +171,7 @@ export default function ArmorOfGodPage() {
             { id: "warfare" as const, label: "Spiritual Warfare", icon: "⚔️" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map((t) => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -199,7 +199,7 @@ export default function ArmorOfGodPage() {
 
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 14 }}>
               {PIECES.map((p) => (
-                <button key={p.id} onClick={() => { setSelected(p.id); setActiveTab("pieces"); }}
+                <button type="button" key={p.id} onClick={() => { setSelected(p.id); setActiveTab("pieces"); }}
                   style={{ textAlign: "left", background: BG, border: `1px solid ${p.color}40`, borderRadius: 12, padding: 18, cursor: "pointer" }}>
                   <div style={{ fontSize: 26, marginBottom: 8 }}>{p.icon}</div>
                   <div style={{ color: p.color, fontWeight: 800, fontSize: 15, marginBottom: 4 }}>{p.name}</div>
@@ -214,7 +214,7 @@ export default function ArmorOfGodPage() {
           <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
             <div style={{ width: 230, flexShrink: 0, display: "flex", flexDirection: "column", gap: 6 }}>
               {PIECES.map((p) => (
-                <button key={p.id} onClick={() => setSelected(p.id)}
+                <button type="button" key={p.id} onClick={() => setSelected(p.id)}
                   style={{ width: "100%", background: selected === p.id ? `${p.color}18` : "transparent", border: `1px solid ${selected === p.id ? p.color + "70" : BORDER}`, borderRadius: 10, padding: "11px 13px", cursor: "pointer", textAlign: "left", display: "flex", gap: 10, alignItems: "center" }}>
                   <span style={{ fontSize: 18 }}>{p.icon}</span>
                   <span style={{ color: selected === p.id ? p.color : MUTED, fontWeight: 700, fontSize: 13, lineHeight: 1.3 }}>{p.name}</span>

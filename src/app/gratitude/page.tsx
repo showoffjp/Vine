@@ -293,7 +293,7 @@ export default function GratitudePage() {
               { id: "practices" as const, label: "Practices", icon: "🙏" },
               { id: "videos" as const, label: "Videos", icon: "🎬" },
             ]).map(t => (
-              <button key={t.id} onClick={() => setActiveTab(t.id)}
+              <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
                 className="flex-1 py-2.5 px-2 rounded-lg text-sm font-bold transition-all"
                 style={{ background: activeTab === t.id ? "#6B4FBB" : "transparent", color: activeTab === t.id ? "#fff" : "#9898B3", border: "none", cursor: "pointer" }}>
                 {t.icon} {t.label}
@@ -338,7 +338,7 @@ export default function GratitudePage() {
                 <p className="text-[10px] font-bold uppercase tracking-wider mb-2" style={{ color: "#6A6A88" }}>How are you feeling today?</p>
                 <div className="flex gap-2 flex-wrap">
                   {([1, 2, 3, 4, 5] as const).map((m) => (
-                    <button
+                    <button type="button"
                       key={m}
                       onClick={() => setTodayMood(m)}
                       className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-sm font-semibold transition-all"
@@ -384,7 +384,7 @@ export default function GratitudePage() {
               <div className="mb-5">
                 <input
                   type="text"
-                  placeholder="📖 Scripture you're standing on today (optional)"
+                  aria-label="📖 Scripture you're standing on today (optional)" placeholder="📖 Scripture you're standing on today (optional)"
                   value={todayVerse}
                   onChange={(e) => setTodayVerse(e.target.value)}
                   className="w-full px-4 py-2.5 rounded-xl text-sm outline-none"
@@ -392,7 +392,7 @@ export default function GratitudePage() {
                 />
               </div>
 
-              <button
+              <button type="button"
                 onClick={saveEntry}
                 disabled={filledItems.length === 0}
                 className="w-full flex items-center justify-center gap-2 py-3 rounded-xl font-bold text-sm text-black transition-all"
@@ -430,7 +430,7 @@ export default function GratitudePage() {
                           <span style={{ color: "#4A4A68", fontSize: 12 }}>{entry.date}</span>
                           <span className="text-sm" title={mood.label}>{mood.emoji}</span>
                         </div>
-                        <button
+                        <button type="button"
                           onClick={() => deleteEntry(entry.id)}
                           style={{ color: "#3A3A58" }}
                           onMouseEnter={(e) => (e.currentTarget.style.color = "#EF4444")}
@@ -485,7 +485,7 @@ export default function GratitudePage() {
             <div style={{ display: "grid", gridTemplateColumns: "210px 1fr", gap: 20, alignItems: "start" }}>
               <div style={{ display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 100 }}>
                 {VOICES_GRAT.map(v => (
-                  <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                     style={{ background: selectedVoice === v.id ? "#6B4FBB20" : "#12121F",
                       border: `1px solid ${selectedVoice === v.id ? "#6B4FBB" : "#1E1E32"}`,
                       borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>

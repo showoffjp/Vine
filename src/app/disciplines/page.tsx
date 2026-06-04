@@ -486,7 +486,7 @@ export default function DisciplinesPage() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
           <div style={{ borderBottom: `1px solid ${BORDER}`, display: "flex", gap: 0 }}>
             {(["tracker", "theology", "practices", "voices", "videos"] as const).map(tab => (
-              <button key={tab} onClick={() => setMainTab(tab)}
+              <button type="button" key={tab} onClick={() => setMainTab(tab)}
                 style={{ background: "none", border: "none", borderBottom: mainTab === tab ? `2px solid ${GREEN}` : "2px solid transparent", color: mainTab === tab ? TEXT : MUTED, fontWeight: mainTab === tab ? 700 : 500, fontSize: 14, padding: "14px 18px", cursor: "pointer" }}>
                 {tab === "tracker" ? "Disciplines" : tab === "theology" ? "📖 Theology" : tab === "practices" ? "✨ Practices" : tab === "voices" ? "🎓 Voices" : "▶️ Videos"}
               </button>
@@ -508,7 +508,7 @@ export default function DisciplinesPage() {
                     </span>
                   </div>
                 </div>
-                <button onClick={() => setSelectedId(null)} style={{ color: "#4A4A68" }}><X size={20} /></button>
+                <button type="button" onClick={() => setSelectedId(null)} style={{ color: "#4A4A68" }}><X size={20} /></button>
               </div>
 
               <p className="text-sm italic mb-3" style={{ color: "#8A8AA8" }}>{selected.tagline}</p>
@@ -552,21 +552,21 @@ export default function DisciplinesPage() {
                   </div>
                 ) : null}
                 <div className="flex gap-2">
-                  <input value={noteInput} onChange={(e) => setNoteInput(e.target.value)} placeholder="Add a personal note or reflection..." className="flex-1 px-3 py-2 rounded-xl text-sm outline-none" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: TEXT }} />
-                  <button onClick={() => saveNote(selected.id)} className="px-3 py-2 rounded-xl text-xs font-bold" style={{ background: "rgba(58,125,86,0.1)", color: GREEN, border: "1px solid rgba(58,125,86,0.2)" }}>Save</button>
+                  <input value={noteInput} onChange={(e) => setNoteInput(e.target.value)} aria-label="Add a personal note or reflection..." placeholder="Add a personal note or reflection..." className="flex-1 px-3 py-2 rounded-xl text-sm outline-none" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: TEXT }} />
+                  <button type="button" onClick={() => saveNote(selected.id)} className="px-3 py-2 rounded-xl text-xs font-bold" style={{ background: "rgba(58,125,86,0.1)", color: GREEN, border: "1px solid rgba(58,125,86,0.2)" }}>Save</button>
                 </div>
               </div>
 
               {/* Actions */}
               <div className="flex gap-3">
-                <button
+                <button type="button"
                   onClick={() => { logPractice(selected.id); }}
                   className="flex-1 py-2.5 rounded-xl font-black text-sm flex items-center justify-center gap-2"
                   style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)", color: BG }}
                 >
                   <CheckCircle2 size={14} /> Log Practice Today
                 </button>
-                <button
+                <button type="button"
                   onClick={() => toggleCommit(selected.id)}
                   className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-sm"
                   style={{
@@ -599,7 +599,7 @@ export default function DisciplinesPage() {
               {/* Category tabs */}
               <div className="flex gap-2 mb-6 flex-wrap">
                 {([["all", "All Disciplines"], ["inward", "Inward"], ["outward", "Outward"], ["corporate", "Corporate"]] as const).map(([k, label]) => (
-                  <button
+                  <button type="button"
                     key={k}
                     onClick={() => setActiveCategory(k)}
                     className="px-4 py-2 rounded-xl text-sm font-bold"
@@ -759,7 +759,7 @@ export default function DisciplinesPage() {
                 <div className="shrink-0" style={{ width: 220 }}>
                   <div className="flex flex-col gap-2">
                     {VOICES_DISC.map((v) => (
-                      <button
+                      <button type="button"
                         key={v.id}
                         onClick={() => setSelectedVoiceId(v.id)}
                         className="text-left rounded-xl p-3"

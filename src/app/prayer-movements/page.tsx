@@ -301,7 +301,7 @@ export default function PrayerMovementsPage() {
         {/* Tab bar */}
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {(["movements", "history", "voices", "videos"] as const).map(t => (
-            <button key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+            <button type="button" key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t === "movements" ? "Movements" : t === "history" ? "History" : t === "voices" ? "Voices" : "Videos"}
             </button>
           ))}
@@ -321,7 +321,7 @@ export default function PrayerMovementsPage() {
 
             <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 28 }}>
               {TYPE_FILTERS.map(t => (
-                <button key={t} onClick={() => setType(t)}
+                <button type="button" key={t} onClick={() => setType(t)}
                   style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${type === t ? GREEN : BORDER}`, background: type === t ? `${GREEN}15` : "transparent", color: type === t ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
                   {t}
                 </button>
@@ -331,7 +331,7 @@ export default function PrayerMovementsPage() {
             <div style={{ display: "grid", gridTemplateColumns: movement ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 {filtered.map((m, i) => (
-                  <button key={i} onClick={() => setSelected(selected === m.name ? null : m.name)}
+                  <button type="button" key={i} onClick={() => setSelected(selected === m.name ? null : m.name)}
                     style={{ background: selected === m.name ? `${m.color}12` : CARD, border: `1px solid ${selected === m.name ? m.color + "50" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                       <div style={{ width: 44, height: 44, borderRadius: 10, background: `${m.color}20`, border: `1px solid ${m.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: m.color, fontWeight: 900, fontSize: 9, flexShrink: 0 }}>
@@ -422,7 +422,7 @@ export default function PrayerMovementsPage() {
             <div style={{ display: "grid", gridTemplateColumns: voice ? "210px 1fr" : "1fr", gap: 14, alignItems: "start" }}>
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                 {VOICES_PRM.map(v => (
-                  <button key={v.id} onClick={() => setSelectedVoice(selectedVoice === v.id ? null : v.id)}
+                  <button type="button" key={v.id} onClick={() => setSelectedVoice(selectedVoice === v.id ? null : v.id)}
                     style={{ background: selectedVoice === v.id ? `${PURPLE}18` : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE + "60" : BORDER}`, borderRadius: 10, padding: "14px 16px", cursor: "pointer", textAlign: "left" }}>
                     <div style={{ color: TEXT, fontWeight: 800, fontSize: 14, marginBottom: 3 }}>{v.name}</div>
                     <div style={{ color: MUTED, fontSize: 11, marginBottom: 4 }}>{v.era}</div>

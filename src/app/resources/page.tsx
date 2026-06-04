@@ -499,7 +499,7 @@ export default function ResourcesPage() {
                   <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: "#6A6A88" }} />
                   <input
                     type="text"
-                    placeholder="Search resources..."
+                    aria-label="Search resources..." placeholder="Search resources..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="pl-9 pr-4 py-2.5 rounded-xl text-sm outline-none w-64"
@@ -515,7 +515,7 @@ export default function ResourcesPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
           <div style={{ display: "flex", gap: 8, borderBottom: `1px solid ${BORDER}`, paddingBottom: 0 }}>
             {(["books", "courses", "tools", "videos"] as const).map(t => (
-              <button key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+              <button type="button" key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
                 {t === "books" ? "📚 Books & Articles" : t === "courses" ? "🎓 Courses" : t === "tools" ? "🛠️ Tools" : "🎬 Videos"}
               </button>
             ))}
@@ -534,7 +534,7 @@ export default function ResourcesPage() {
                 >
                   <div className="flex items-center justify-between mb-5">
                     <span className="text-sm font-bold" style={{ color: TEXT }}>Filters</span>
-                    <button onClick={clearAllFilters} className="text-xs font-semibold" style={{ color: GREEN }}>
+                    <button type="button" onClick={clearAllFilters} className="text-xs font-semibold" style={{ color: GREEN }}>
                       Clear all
                     </button>
                   </div>
@@ -544,7 +544,7 @@ export default function ResourcesPage() {
                       {categories.map((cat) => {
                         const active = selectedCategory === cat.name;
                         return (
-                          <button
+                          <button type="button"
                             key={cat.name}
                             onClick={() => setSelectedCategory(cat.name)}
                             className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-left transition-all duration-150 hover:bg-[#18182A]"
@@ -572,7 +572,7 @@ export default function ResourcesPage() {
                       {topics.map((topic) => {
                         const active = selectedTopic === topic;
                         return (
-                          <button
+                          <button type="button"
                             key={topic}
                             onClick={() => setSelectedTopic(active ? null : topic)}
                             className="text-[10px] font-semibold px-2.5 py-1 rounded-full transition-all duration-150"
@@ -594,7 +594,7 @@ export default function ResourcesPage() {
                       {difficulties.map((d) => {
                         const active = selectedDifficulties.has(d);
                         return (
-                          <button
+                          <button type="button"
                             key={d}
                             onClick={() => toggleInSet(setSelectedDifficulties, d)}
                             className="w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-left transition hover:bg-[#18182A]"
@@ -616,7 +616,7 @@ export default function ResourcesPage() {
                       {lengths.map((l) => {
                         const active = selectedLengths.has(l);
                         return (
-                          <button
+                          <button type="button"
                             key={l}
                             onClick={() => toggleInSet(setSelectedLengths, l)}
                             className="w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-left transition hover:bg-[#18182A]"
@@ -638,7 +638,7 @@ export default function ResourcesPage() {
                       {sorts.map((s) => {
                         const active = selectedSort === s;
                         return (
-                          <button
+                          <button type="button"
                             key={s}
                             onClick={() => setSelectedSort(s)}
                             className="w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-left transition hover:bg-[#18182A]"
@@ -667,7 +667,7 @@ export default function ResourcesPage() {
                   </span>
                   <div className="flex items-center gap-2 flex-wrap">
                     {selectedCategory !== "All" && (
-                      <button
+                      <button type="button"
                         onClick={() => setSelectedCategory("All")}
                         className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full"
                         style={{ background: "rgba(58,125,86,0.08)", border: "1px solid rgba(58,125,86,0.2)", color: GREEN }}
@@ -676,7 +676,7 @@ export default function ResourcesPage() {
                       </button>
                     )}
                     {selectedTopic && (
-                      <button
+                      <button type="button"
                         onClick={() => setSelectedTopic(null)}
                         className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full"
                         style={{ background: "rgba(58,125,86,0.08)", border: "1px solid rgba(58,125,86,0.2)", color: GREEN }}
@@ -755,7 +755,7 @@ export default function ResourcesPage() {
                         <Link href="/resources" className="btn-gold px-5 py-2.5 rounded-xl text-sm font-bold" style={{ textDecoration: "none" }}>
                           Read Now &mdash; Free
                         </Link>
-                        <button
+                        <button type="button"
                           onClick={() => setFeaturedSaved(!featuredSaved)}
                           className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 hover:bg-[#18182A]"
                           style={{ border: `1px solid ${featuredSaved ? "rgba(58,125,86,0.3)" : BORDER}`, color: featuredSaved ? GREEN : MUTED }}
@@ -773,7 +773,7 @@ export default function ResourcesPage() {
                   {filteredResources.length === 0 && (
                     <div className="col-span-full text-center py-16">
                       <p style={{ color: MUTED }}>No resources match your filters.</p>
-                      <button onClick={() => { setSelectedCategory("All"); setSelectedTopic(null); setSearchQuery(""); }} className="mt-3 text-sm font-semibold" style={{ color: GREEN }}>Clear all filters</button>
+                      <button type="button" onClick={() => { setSelectedCategory("All"); setSelectedTopic(null); setSearchQuery(""); }} className="mt-3 text-sm font-semibold" style={{ color: GREEN }}>Clear all filters</button>
                     </div>
                   )}
                   {visibleResources.map((r, i) => (
@@ -835,14 +835,14 @@ export default function ResourcesPage() {
                           </span>
                         </div>
                         <div className="flex items-center gap-1">
-                          <button
+                          <button type="button"
                             onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleSave(r.title); }}
                             className="p-1.5 rounded-lg transition hover:bg-[#1E1E32]"
                             style={{ color: savedResources.has(r.title) ? GREEN : "#4A4A68" }}
                           >
                             <Bookmark size={13} fill={savedResources.has(r.title) ? GREEN : "none"} />
                           </button>
-                          <button
+                          <button type="button"
                             onClick={(e) => { e.preventDefault(); e.stopPropagation(); shareResource(r.title, r.href); }}
                             className="p-1.5 rounded-lg transition hover:bg-[#1E1E32]"
                             style={{ color: copiedTitle === r.title ? GREEN : "#4A4A68" }}
@@ -859,7 +859,7 @@ export default function ResourcesPage() {
                 {/* Pagination */}
                 {visibleResources.length < sortedResources.length && (
                   <div className="flex items-center justify-center gap-1">
-                    <button
+                    <button type="button"
                       onClick={() => setPage((p) => p + 1)}
                       className="flex items-center gap-1 px-3 h-9 rounded-lg text-sm font-semibold transition-all duration-150 hover:bg-[#18182A]"
                       style={{ border: `1px solid ${BORDER}`, color: MUTED }}

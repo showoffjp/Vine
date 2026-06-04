@@ -49,7 +49,7 @@ export default function Error({
       </p>
 
       <div className="flex gap-3">
-        <button
+        <button type="button"
           onClick={reset}
           className="flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold"
           style={{

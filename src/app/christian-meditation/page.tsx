@@ -211,7 +211,7 @@ export default function ChristianMeditationPage() {
         {/* Tabs */}
         <div style={{ display: "flex", gap: 8, marginBottom: 32, flexWrap: "wrap" }}>
           {tabs.map(t => (
-            <button
+            <button type="button"
               key={t.id}
               onClick={() => setActiveTab(t.id)}
               style={{
@@ -234,7 +234,7 @@ export default function ChristianMeditationPage() {
             </p>
             {theologyPoints.map((pt, i) => (
               <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, marginBottom: 12 }}>
-                <button
+                <button type="button"
                   onClick={() => toggle(`pt-${i}`)}
                   style={{
                     width: "100%", background: "none", border: "none", color: TEXT,
@@ -360,7 +360,7 @@ export default function ChristianMeditationPage() {
             </p>
             {pitfalls.map((p, i) => (
               <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, marginBottom: 12 }}>
-                <button
+                <button type="button"
                   onClick={() => toggle(`pitfall-${i}`)}
                   style={{
                     width: "100%", background: "none", border: "none", color: TEXT,

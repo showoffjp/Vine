@@ -169,7 +169,7 @@ export default function IntercessionPage() {
             { id: "howto" as const, label: "How to Intercede", icon: "🗺️" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -182,7 +182,7 @@ export default function IntercessionPage() {
             <div style={{ display: "flex", gap: 8, marginBottom: 16, flexWrap: "wrap", alignItems: "center" }}>
               <div style={{ display: "flex", gap: 6 }}>
                 {(["active", "answered", "all"] as const).map(f => (
-                  <button key={f} onClick={() => setFilterAnswered(f)}
+                  <button type="button" key={f} onClick={() => setFilterAnswered(f)}
                     style={{ padding: "5px 12px", borderRadius: 20, border: `1px solid ${filterAnswered === f ? GREEN : BORDER}`, background: filterAnswered === f ? `${GREEN}15` : "transparent", color: filterAnswered === f ? GREEN : MUTED, fontSize: 12, fontWeight: 700, cursor: "pointer" }}>
                     {f === "active" ? "Active" : f === "answered" ? "Answered ✓" : "All"}
                   </button>
@@ -193,7 +193,7 @@ export default function IntercessionPage() {
                 <option value="All">All Categories</option>
                 {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
               </select>
-              <button onClick={() => setShowForm(!showForm)}
+              <button type="button" onClick={() => setShowForm(!showForm)}
                 style={{ marginLeft: "auto", padding: "8px 16px", background: PURPLE, border: "none", borderRadius: 8, color: "#fff", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
                 + Add
               </button>
@@ -204,7 +204,7 @@ export default function IntercessionPage() {
                 <h4 style={{ color: PURPLE, fontWeight: 700, marginBottom: 14 }}>New Intercession</h4>
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12 }}>
                   <input value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
-                    placeholder="Person / situation name"
+                    aria-label="Person / situation name" placeholder="Person / situation name"
                     style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14 }} />
                   <select value={form.category} onChange={e => setForm(f => ({ ...f, category: e.target.value }))}
                     style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14 }}>
@@ -212,11 +212,11 @@ export default function IntercessionPage() {
                   </select>
                 </div>
                 <textarea value={form.request} onChange={e => setForm(f => ({ ...f, request: e.target.value }))}
-                  placeholder="Specific prayer request..."
+                  aria-label="Specific prayer request..." placeholder="Specific prayer request..."
                   style={{ width: "100%", minHeight: 80, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box", fontFamily: "inherit", marginBottom: 12 }} />
                 <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
-                  <button onClick={() => setShowForm(false)} style={{ padding: "8px 16px", borderRadius: 8, border: `1px solid ${BORDER}`, background: "transparent", color: MUTED, cursor: "pointer", fontWeight: 600 }}>Cancel</button>
-                  <button onClick={addItem} style={{ padding: "8px 18px", borderRadius: 8, border: "none", background: GREEN, color: BG, fontWeight: 800, cursor: "pointer" }}>Add Prayer</button>
+                  <button type="button" onClick={() => setShowForm(false)} style={{ padding: "8px 16px", borderRadius: 8, border: `1px solid ${BORDER}`, background: "transparent", color: MUTED, cursor: "pointer", fontWeight: 600 }}>Cancel</button>
+                  <button type="button" onClick={addItem} style={{ padding: "8px 18px", borderRadius: 8, border: "none", background: GREEN, color: BG, fontWeight: 800, cursor: "pointer" }}>Add Prayer</button>
                 </div>
               </div>
             )}
@@ -246,14 +246,14 @@ export default function IntercessionPage() {
                       </div>
                       <div style={{ display: "flex", gap: 6, flexShrink: 0, marginLeft: 10 }}>
                         {!item.answered && (
-                          <button onClick={() => {
+                          <button type="button" onClick={() => {
                             const note = prompt("How did God answer this prayer?") || "";
                             markAnswered(item.id, note);
                           }} style={{ padding: "5px 10px", borderRadius: 6, border: `1px solid ${GREEN}50`, background: `${GREEN}15`, color: GREEN, fontSize: 11, fontWeight: 700, cursor: "pointer" }}>
                             Answered ✓
                           </button>
                         )}
-                        <button onClick={() => deleteItem(item.id)} style={{ padding: "5px 8px", borderRadius: 6, border: `1px solid ${BORDER}`, background: "transparent", color: MUTED, fontSize: 12, cursor: "pointer" }}>✕</button>
+                        <button type="button" onClick={() => deleteItem(item.id)} style={{ padding: "5px 8px", borderRadius: 6, border: `1px solid ${BORDER}`, background: "transparent", color: MUTED, fontSize: 12, cursor: "pointer" }}>✕</button>
                       </div>
                     </div>
                     <div style={{ color: MUTED, fontSize: 11, marginTop: 8 }}>Added {new Date(item.dateAdded + "T12:00:00").toLocaleDateString()}</div>
@@ -270,7 +270,7 @@ export default function IntercessionPage() {
               const open = expandedModel === model.name;
               return (
                 <div key={model.name} style={{ background: CARD, border: `1px solid ${open ? model.color + "50" : BORDER}`, borderRadius: 12, marginBottom: 12, overflow: "hidden" }}>
-                  <button onClick={() => setExpandedModel(open ? null : model.name)}
+                  <button type="button" onClick={() => setExpandedModel(open ? null : model.name)}
                     style={{ width: "100%", padding: "18px 22px", background: "none", border: "none", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 12, textAlign: "left" }}>
                       <span style={{ fontSize: 28 }}>{model.icon}</span>
@@ -304,7 +304,7 @@ export default function IntercessionPage() {
           <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
               {VOICES_INTER.map(v => (
-                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                   style={{ background: selectedVoice === v.id ? PURPLE : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: TEXT, fontWeight: 700, fontSize: 14 }}>{v.name}</div>
                   <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{v.era}</div>

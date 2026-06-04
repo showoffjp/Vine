@@ -406,7 +406,7 @@ export default function FaithJourneyPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-8" style={{ borderBottom: "1px solid #1E1E32" }}>
           <div style={{ display: "flex" }}>
             {(["journey", "scripture", "models", "guide", "videos"] as const).map(tab => (
-              <button key={tab} onClick={() => setMainTab(tab)}
+              <button type="button" key={tab} onClick={() => setMainTab(tab)}
                 style={{ background: "none", border: "none", borderBottom: mainTab === tab ? "2px solid #3a7d56" : "2px solid transparent", color: mainTab === tab ? "#F2F2F8" : "#9898B3", fontWeight: mainTab === tab ? 700 : 500, fontSize: 14, padding: "14px 18px", cursor: "pointer" }}>
                 {tab === "journey" ? "My Journey" : tab === "scripture" ? "📖 Scripture" : tab === "models" ? "👤 Models" : tab === "guide" ? "📋 Guide" : "🎬 Videos"}
               </button>
@@ -418,7 +418,7 @@ export default function FaithJourneyPage() {
         {mainTab === "journey" && (
           <div>
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-6">
-              <button
+              <button type="button"
                 onClick={() => { resetForm(); setShowCompose(true); }}
                 className="flex items-center gap-2 px-6 py-3 rounded-xl font-black text-sm"
                 style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)", color: "#07070F" }}
@@ -504,8 +504,8 @@ export default function FaithJourneyPage() {
                                     </div>
                                     {hoveredId === m.id && (
                                       <div className="flex gap-1 shrink-0">
-                                        <button onClick={() => handleEdit(m)} className="p-1.5 rounded-lg" style={{ color: "#4A4A68" }} title="Edit"><Edit2 size={13} /></button>
-                                        <button onClick={() => setConfirmDelete(m.id)} className="p-1.5 rounded-lg" style={{ color: "#4A4A68" }} title="Delete"><Trash2 size={13} /></button>
+                                        <button type="button" onClick={() => handleEdit(m)} className="p-1.5 rounded-lg" style={{ color: "#4A4A68" }} title="Edit"><Edit2 size={13} /></button>
+                                        <button type="button" onClick={() => setConfirmDelete(m.id)} className="p-1.5 rounded-lg" style={{ color: "#4A4A68" }} title="Delete"><Trash2 size={13} /></button>
                                       </div>
                                     )}
                                   </div>
@@ -534,7 +534,7 @@ export default function FaithJourneyPage() {
                         →
                       </div>
                       <p className="text-sm font-semibold" style={{ color: "#4A4A68" }}>Your story continues...</p>
-                      <button
+                      <button type="button"
                         onClick={() => { resetForm(); setShowCompose(true); }}
                         className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold"
                         style={{ background: "rgba(58,125,86,0.08)", color: "#3a7d56", border: "1px solid rgba(58,125,86,0.2)" }}
@@ -638,7 +638,7 @@ export default function FaithJourneyPage() {
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {JOURNEY_GUIDE.map(phase => (
                 <div key={phase.id} style={{ background: "#12121F", border: `1px solid ${expandedGuide === phase.id ? "rgba(58,125,86,0.25)" : "#1E1E32"}`, borderRadius: 12 }}>
-                  <button
+                  <button type="button"
                     onClick={() => setExpandedGuide(expandedGuide === phase.id ? null : phase.id)}
                     style={{ width: "100%", background: "none", border: "none", padding: "18px 22px", cursor: "pointer", textAlign: "left", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}
                   >
@@ -715,7 +715,7 @@ export default function FaithJourneyPage() {
           <div className="w-full max-w-lg rounded-2xl p-6 max-h-[90vh] overflow-y-auto" style={{ background: "#12121F", border: "1px solid #1E1E32" }}>
             <div className="flex items-center justify-between mb-5">
               <h3 className="font-black text-lg" style={{ color: "#F2F2F8" }}>{editingId ? "Edit Milestone" : "Add Milestone"}</h3>
-              <button onClick={() => { setShowCompose(false); resetForm(); }} style={{ color: "#4A4A68" }}><X size={20} /></button>
+              <button type="button" onClick={() => { setShowCompose(false); resetForm(); }} style={{ color: "#4A4A68" }}><X size={20} /></button>
             </div>
 
             <div className="space-y-3">
@@ -750,7 +750,7 @@ export default function FaithJourneyPage() {
                 <label className="text-xs font-semibold mb-1 block" style={{ color: "#6A6A88" }}>Category</label>
                 <div className="grid grid-cols-3 gap-1.5 max-h-48 overflow-y-auto">
                   {CATEGORIES.map((c) => (
-                    <button
+                    <button type="button"
                       key={c.id}
                       onClick={() => setForm((f) => ({ ...f, category: c.id }))}
                       className="flex items-center gap-1.5 px-2 py-2 rounded-lg text-[11px] font-semibold text-left transition-all"
@@ -771,7 +771,7 @@ export default function FaithJourneyPage() {
                 <label className="text-xs font-semibold mb-1 block" style={{ color: "#6A6A88" }}>Significance</label>
                 <div className="flex gap-2">
                   {([1, 2, 3] as const).map((s) => (
-                    <button
+                    <button type="button"
                       key={s}
                       onClick={() => setForm((f) => ({ ...f, significance: s }))}
                       className="flex-1 py-2 rounded-lg text-xs font-bold transition-all"
@@ -790,14 +790,14 @@ export default function FaithJourneyPage() {
               <input
                 value={form.title}
                 onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
-                placeholder="Milestone title"
+                aria-label="Milestone title" placeholder="Milestone title"
                 className="w-full px-4 py-2.5 rounded-xl text-sm outline-none"
                 style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#F2F2F8" }}
               />
               <textarea
                 value={form.description}
                 onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
-                placeholder="Describe what happened and why it mattered..."
+                aria-label="Describe what happened and why it mattered..." placeholder="Describe what happened and why it mattered..."
                 rows={4}
                 className="w-full px-4 py-3 rounded-xl text-sm outline-none resize-none"
                 style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#F2F2F8" }}
@@ -806,14 +806,14 @@ export default function FaithJourneyPage() {
                 <input
                   value={form.verse}
                   onChange={(e) => setForm((f) => ({ ...f, verse: e.target.value }))}
-                  placeholder="Verse text (optional)"
+                  aria-label="Verse text (optional)" placeholder="Verse text (optional)"
                   className="px-4 py-2.5 rounded-xl text-sm outline-none"
                   style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#F2F2F8" }}
                 />
                 <input
                   value={form.verseRef}
                   onChange={(e) => setForm((f) => ({ ...f, verseRef: e.target.value }))}
-                  placeholder="Reference (e.g. John 3:16)"
+                  aria-label="Reference (e.g. John 3:16)" placeholder="Reference (e.g. John 3:16)"
                   className="px-4 py-2.5 rounded-xl text-sm outline-none"
                   style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#F2F2F8" }}
                 />
@@ -821,14 +821,14 @@ export default function FaithJourneyPage() {
             </div>
 
             <div className="flex gap-3 mt-5">
-              <button
+              <button type="button"
                 onClick={() => { setShowCompose(false); resetForm(); }}
                 className="flex-1 py-2.5 rounded-xl font-bold text-sm"
                 style={{ background: "rgba(255,255,255,0.04)", color: "#8A8AA8", border: "1px solid rgba(255,255,255,0.08)" }}
               >
                 Cancel
               </button>
-              <button
+              <button type="button"
                 onClick={handleSubmit}
                 disabled={!form.title.trim()}
                 className="flex-1 py-2.5 rounded-xl font-black text-sm"
@@ -851,8 +851,8 @@ export default function FaithJourneyPage() {
             <p className="font-black text-base mb-2" style={{ color: "#F2F2F8" }}>Delete this milestone?</p>
             <p className="text-sm mb-5" style={{ color: "#6A6A88" }}>This can&apos;t be undone.</p>
             <div className="flex gap-3">
-              <button onClick={() => setConfirmDelete(null)} className="flex-1 py-2 rounded-xl font-bold text-sm" style={{ background: "rgba(255,255,255,0.04)", color: "#8A8AA8", border: "1px solid rgba(255,255,255,0.08)" }}>Cancel</button>
-              <button onClick={() => handleDelete(confirmDelete)} className="flex-1 py-2 rounded-xl font-black text-sm" style={{ background: "rgba(239,68,68,0.15)", color: "#EF4444", border: "1px solid rgba(239,68,68,0.3)" }}>Delete</button>
+              <button type="button" onClick={() => setConfirmDelete(null)} className="flex-1 py-2 rounded-xl font-bold text-sm" style={{ background: "rgba(255,255,255,0.04)", color: "#8A8AA8", border: "1px solid rgba(255,255,255,0.08)" }}>Cancel</button>
+              <button type="button" onClick={() => handleDelete(confirmDelete)} className="flex-1 py-2 rounded-xl font-black text-sm" style={{ background: "rgba(239,68,68,0.15)", color: "#EF4444", border: "1px solid rgba(239,68,68,0.3)" }}>Delete</button>
             </div>
           </div>
         </div>

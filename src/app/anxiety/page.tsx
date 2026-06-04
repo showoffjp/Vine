@@ -129,7 +129,7 @@ export default function AnxietyPage() {
             { id: "journal" as const, label: "Fear Journal", icon: "✍️" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -168,7 +168,7 @@ export default function AnxietyPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 210, flexShrink: 0 }}>
               {VOICES.map(v => (
-                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                   style={{ width: "100%", background: selectedVoice === v.id ? `${PURPLE}18` : "transparent", border: `1px solid ${selectedVoice === v.id ? PURPLE + "70" : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 6, cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: selectedVoice === v.id ? PURPLE : TEXT, fontWeight: 800, fontSize: 13, marginBottom: 2 }}>{v.name}</div>
                   <div style={{ color: MUTED, fontSize: 11 }}>{v.era}</div>
@@ -229,16 +229,16 @@ export default function AnxietyPage() {
               <div style={{ marginBottom: 12 }}>
                 <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>What are you anxious about? (be specific)</label>
                 <textarea value={form.fear} onChange={e => setForm(f => ({ ...f, fear: e.target.value }))}
-                  placeholder="I am afraid that..."
+                  aria-label="I am afraid that..." placeholder="I am afraid that..."
                   style={{ width: "100%", minHeight: 80, background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, lineHeight: 1.7, resize: "vertical", boxSizing: "border-box", fontFamily: "inherit" }} />
               </div>
               <div style={{ marginBottom: 14 }}>
                 <label style={{ color: MUTED, fontSize: 13, fontWeight: 700, display: "block", marginBottom: 6 }}>What is true about God in relation to this fear?</label>
                 <textarea value={form.truth} onChange={e => setForm(f => ({ ...f, truth: e.target.value }))}
-                  placeholder="But God is / God says..."
+                  aria-label="But God is / God says..." placeholder="But God is / God says..."
                   style={{ width: "100%", minHeight: 70, background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, lineHeight: 1.7, resize: "vertical", boxSizing: "border-box", fontFamily: "inherit" }} />
               </div>
-              <button onClick={save}
+              <button type="button" onClick={save}
                 style={{ width: "100%", padding: "12px", background: saved ? GREEN : PURPLE, border: "none", borderRadius: 8, color: saved ? BG : "#fff", fontWeight: 800, fontSize: 15, cursor: "pointer" }}>
                 {saved ? "✓ Saved" : "Save Entry"}
               </button>

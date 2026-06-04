@@ -313,7 +313,7 @@ export default function ChristianMoviesPage() {
         {/* Tab bar */}
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 6, width: "fit-content" }}>
           {(["films", "theology", "watchguide", "videos"] as const).map(t => (
-            <button key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+            <button type="button" key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t === "films" ? "Films" : t === "theology" ? "Theology" : t === "watchguide" ? "Watch Guide" : "Videos"}
             </button>
           ))}
@@ -324,7 +324,7 @@ export default function ChristianMoviesPage() {
           <>
             <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 28 }}>
               {GENRES.map(g => (
-                <button key={g} onClick={() => setGenre(g)}
+                <button type="button" key={g} onClick={() => setGenre(g)}
                   style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${genre === g ? GREEN : BORDER}`, background: genre === g ? `${GREEN}15` : "transparent", color: genre === g ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
                   {g}
                 </button>
@@ -334,7 +334,7 @@ export default function ChristianMoviesPage() {
             <div style={{ display: "grid", gridTemplateColumns: movie ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 {filtered.map((m, i) => (
-                  <button key={i} onClick={() => setSelected(selected === m.title ? null : m.title)}
+                  <button type="button" key={i} onClick={() => setSelected(selected === m.title ? null : m.title)}
                     style={{ background: selected === m.title ? `${m.color}12` : CARD, border: `1px solid ${selected === m.title ? m.color + "50" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left", transition: "all 0.15s" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                       <div style={{ width: 44, height: 44, borderRadius: 10, background: `${m.color}20`, border: `1px solid ${m.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: m.color, fontWeight: 900, fontSize: 10, flexShrink: 0 }}>

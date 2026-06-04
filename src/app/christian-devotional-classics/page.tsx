@@ -322,7 +322,7 @@ export default function ChristianDevotionalClassicsPage() {
 
         <div style={{ display: "flex", gap: 6, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 6, marginBottom: 32, width: "fit-content" }}>
           {(["classics", "themes", "reading-guide", "voices", "videos"] as const).map(t => (
-            <button key={t} onClick={() => setActiveTab(t)}
+            <button type="button" key={t} onClick={() => setActiveTab(t)}
               style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t === "classics" ? "Classics" : t === "themes" ? "Themes" : t === "reading-guide" ? "Reading Guide" : t === "voices" ? "Voices" : "🎬 Videos"}
             </button>
@@ -333,7 +333,7 @@ export default function ChristianDevotionalClassicsPage() {
           <>
             <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 28 }}>
               {ERAS.map(e => (
-                <button key={e} onClick={() => setEra(e)}
+                <button type="button" key={e} onClick={() => setEra(e)}
                   style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${era === e ? GREEN : BORDER}`, background: era === e ? `${GREEN}15` : "transparent", color: era === e ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
                   {e}
                 </button>
@@ -343,7 +343,7 @@ export default function ChristianDevotionalClassicsPage() {
             <div style={{ display: "grid", gridTemplateColumns: book ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 {filtered.map((c, i) => (
-                  <button key={i} onClick={() => setSelected(selected === c.title ? null : c.title)}
+                  <button type="button" key={i} onClick={() => setSelected(selected === c.title ? null : c.title)}
                     style={{ background: selected === c.title ? `${c.color}12` : CARD, border: `1px solid ${selected === c.title ? c.color + "50" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left", transition: "all 0.15s" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                       <div style={{ width: 44, height: 44, borderRadius: 10, background: `${c.color}20`, border: `1px solid ${c.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: c.color, fontWeight: 900, fontSize: 10, flexShrink: 0 }}>
@@ -454,7 +454,7 @@ export default function ChristianDevotionalClassicsPage() {
           <div style={{ display: "grid", gridTemplateColumns: "260px 1fr", gap: 20, alignItems: "start" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 100 }}>
               {VOICES_CDC.map(v => (
-                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                   style={{ background: selectedVoice === v.id ? `${PURPLE}20` : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE + "60" : BORDER}`, borderRadius: 10, padding: "14px 16px", cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: TEXT, fontWeight: 800, fontSize: 14 }}>{v.name}</div>
                   <div style={{ color: MUTED, fontSize: 11, marginTop: 3 }}>{v.era}</div>

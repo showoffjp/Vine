@@ -112,7 +112,7 @@ export default function TrinityPage() {
         {/* Tab nav */}
         <div style={{ display: "flex", gap: 4, margin: "32px 0", background: CARD, borderRadius: 14, padding: 5, border: `1px solid ${BORDER}`, overflowX: "auto" }}>
           {TABS.map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, minWidth: 80, padding: "10px 6px", borderRadius: 10, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer", transition: "all 0.2s ease", whiteSpace: "nowrap" }}>
               {t.icon} {t.label}
             </button>
@@ -184,7 +184,7 @@ export default function TrinityPage() {
             <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
               <div style={{ display: "flex", flexDirection: "column", gap: 8, minWidth: 160 }}>
                 {PERSONS.map(p => (
-                  <button key={p.id} onClick={() => setSelectedPerson(p.id)}
+                  <button type="button" key={p.id} onClick={() => setSelectedPerson(p.id)}
                     style={{ padding: "12px 14px", borderRadius: 10, border: `1px solid ${selectedPerson === p.id ? p.color : BORDER}`, background: selectedPerson === p.id ? `${p.color}18` : CARD, color: selectedPerson === p.id ? p.color : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", textAlign: "left", transition: "all 0.2s ease" }}>
                     {p.icon} {p.name}
                   </button>

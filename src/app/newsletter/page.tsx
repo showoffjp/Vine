@@ -241,7 +241,7 @@ export default function NewsletterPage() {
               <div className="flex gap-3">
                 <input
                   type="email"
-                  placeholder="your@email.com"
+                  aria-label="your@email.com" placeholder="your@email.com"
                   value={email}
                   onChange={(e) => { setEmail(e.target.value); if (emailError) setEmailError(""); }}
                   onKeyDown={(e) => e.key === "Enter" && handleSubscribe()}
@@ -252,7 +252,7 @@ export default function NewsletterPage() {
                     color: "#F2F2F8",
                   }}
                 />
-                <button
+                <button type="button"
                   onClick={handleSubscribe}
                   className="px-6 py-3 rounded-xl font-bold text-sm text-black transition-opacity"
                   style={{
@@ -285,7 +285,7 @@ export default function NewsletterPage() {
               </p>
               <p className="text-xs" style={{ color: "#4A4A68" }}>
                 Subscribed as <span style={{ color: "#8A8AA8" }}>{email}</span> ·{" "}
-                <button
+                <button type="button"
                   onClick={() => {
                     try {
                       localStorage.removeItem("vine_newsletter_subscribed");

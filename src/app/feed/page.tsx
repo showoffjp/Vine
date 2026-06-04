@@ -439,17 +439,17 @@ export default function FeedPage() {
                 </div>
                 <div className="flex items-center justify-between border-t pt-3" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
                   <div className="flex gap-3">
-                    <button onClick={() => insertPrefix("📖 Verse: ")} className="text-xs flex items-center gap-1.5 font-semibold" style={{ color: "#6A6A88" }}>
+                    <button type="button" onClick={() => insertPrefix("📖 Verse: ")} className="text-xs flex items-center gap-1.5 font-semibold" style={{ color: "#6A6A88" }}>
                       <BookOpen size={14} /> Verse
                     </button>
-                    <button onClick={() => insertPrefix("🙏 Prayer request: ")} className="text-xs flex items-center gap-1.5 font-semibold" style={{ color: "#6A6A88" }}>
+                    <button type="button" onClick={() => insertPrefix("🙏 Prayer request: ")} className="text-xs flex items-center gap-1.5 font-semibold" style={{ color: "#6A6A88" }}>
                       <Heart size={14} /> Prayer
                     </button>
-                    <button onClick={() => insertPrefix("✨ Testimony: ")} className="text-xs flex items-center gap-1.5 font-semibold" style={{ color: "#6A6A88" }}>
+                    <button type="button" onClick={() => insertPrefix("✨ Testimony: ")} className="text-xs flex items-center gap-1.5 font-semibold" style={{ color: "#6A6A88" }}>
                       <Feather size={14} /> Testimony
                     </button>
                   </div>
-                  <button
+                  <button type="button"
                     onClick={handleShare}
                     className="px-5 py-1.5 rounded-lg text-sm font-bold text-black transition-opacity"
                     style={{
@@ -465,7 +465,7 @@ export default function FeedPage() {
               {/* Sort bar */}
               <div className="flex items-center gap-2">
                 {["Latest", "Popular", "Prayers"].map((s) => (
-                  <button
+                  <button type="button"
                     key={s}
                     onClick={() => setFeedSort(s)}
                     className="px-3 py-1.5 rounded-full text-xs font-semibold transition-all"
@@ -518,7 +518,7 @@ export default function FeedPage() {
                         </span>
                       )}
                       <div style={{ position: "relative" }}>
-                        <button
+                        <button type="button"
                           onClick={() => setOpenMenu(openMenu === post.id ? null : post.id)}
                           aria-label="Post options"
                           aria-expanded={openMenu === post.id}
@@ -542,7 +542,7 @@ export default function FeedPage() {
                                 ["hide", "Hide this post"],
                                 ["report", "Report post"],
                               ] as const).map(([action, label]) => (
-                                <button
+                                <button type="button"
                                   key={action}
                                   onClick={() => handlePostMenu(post.id, action)}
                                   className="w-full text-left text-sm transition-colors"
@@ -597,7 +597,7 @@ export default function FeedPage() {
 
                   {/* Actions */}
                   <div className="flex items-center gap-5 border-t pt-3" style={{ borderColor: "rgba(255,255,255,0.05)" }}>
-                    <button
+                    <button type="button"
                       onClick={() => toggleLike(post.id)}
                       className="flex items-center gap-1.5 text-sm transition-colors"
                       style={{ color: likedPosts[post.id] ? "#EC4899" : "#6A6A88" }}
@@ -609,7 +609,7 @@ export default function FeedPage() {
                       <MessageSquare size={15} />
                       <span className="text-xs">{post.comments}</span>
                     </Link>
-                    <button
+                    <button type="button"
                       onClick={() => {
                         try { navigator.clipboard.writeText(window.location.origin + post.link); } catch {}
                       }}
@@ -619,7 +619,7 @@ export default function FeedPage() {
                     >
                       <Share2 size={15} />
                     </button>
-                    <button
+                    <button type="button"
                       onClick={() => toggleSave(post.id)}
                       className="flex items-center gap-1.5 text-sm ml-auto transition-colors"
                       style={{ color: savedPosts[post.id] ? "#3a7d56" : "#6A6A88" }}

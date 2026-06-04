@@ -182,7 +182,7 @@ export default function OldTestamentSurveyPage() {
             { id: "reading" as const, label: "Reading Guide", icon: "🗺️" },
             { id: "videos" as const, label: "Videos", icon: "▶️" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", minWidth: 80 }}>
               {t.icon} {t.label}
             </button>
@@ -193,7 +193,7 @@ export default function OldTestamentSurveyPage() {
           <div>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 20 }}>
               {SECTIONS.map(s => (
-                <button key={s.name} onClick={() => setSelected(s.name)}
+                <button type="button" key={s.name} onClick={() => setSelected(s.name)}
                   style={{ padding: "8px 14px", borderRadius: 20, border: `1px solid ${selected === s.name ? s.color : BORDER}`, background: selected === s.name ? `${s.color}15` : "transparent", color: selected === s.name ? s.color : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
                   {s.name}
                 </button>
@@ -282,7 +282,7 @@ export default function OldTestamentSurveyPage() {
             </div>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 20 }}>
               {SCHOLARS.map(s => (
-                <button key={s.id} onClick={() => setSelectedScholar(s.id)}
+                <button type="button" key={s.id} onClick={() => setSelectedScholar(s.id)}
                   style={{ padding: "8px 16px", borderRadius: 20, border: `1px solid ${selectedScholar === s.id ? PURPLE : BORDER}`, background: selectedScholar === s.id ? `${PURPLE}20` : "transparent", color: selectedScholar === s.id ? PURPLE : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
                   {s.name}
                 </button>

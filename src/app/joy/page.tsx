@@ -115,7 +115,7 @@ export default function JoyPage() {
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
             { id: "videos" as const, label: "Videos", icon: "▶️" },
           ].map(t => (
-            <button key={t.id} onClick={() => setTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -160,7 +160,7 @@ export default function JoyPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 210, flexShrink: 0 }}>
               {STORIES.map(s => (
-                <button key={s.id} onClick={() => setSelectedStory(s.id)}
+                <button type="button" key={s.id} onClick={() => setSelectedStory(s.id)}
                   style={{ width: "100%", textAlign: "left", background: selectedStory === s.id ? `${s.color}18` : CARD, border: `1px solid ${selectedStory === s.id ? s.color : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 8, cursor: "pointer" }}>
                   <div style={{ color: selectedStory === s.id ? s.color : TEXT, fontWeight: 700, fontSize: 13, marginBottom: 3 }}>{s.name}</div>
                   <div style={{ color: MUTED, fontSize: 11 }}>{s.ref}</div>

@@ -255,7 +255,7 @@ export default function ChurchFathersGuidePage() {
         {/* Top Tab Bar */}
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {(["guide", "periods", "texts", "videos"] as const).map(t => (
-            <button key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer", flex: 1 }}>
+            <button type="button" key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer", flex: 1 }}>
               {t === "guide" ? "Guide" : t === "periods" ? "Periods" : t === "texts" ? "Texts" : "Videos"}
             </button>
           ))}
@@ -266,7 +266,7 @@ export default function ChurchFathersGuidePage() {
           <>
             <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 28 }}>
               {ERAS.map(e => (
-                <button key={e} onClick={() => setEra(e)}
+                <button type="button" key={e} onClick={() => setEra(e)}
                   style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${era === e ? GREEN : BORDER}`, background: era === e ? `${GREEN}15` : "transparent", color: era === e ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
                   {e}
                 </button>
@@ -276,7 +276,7 @@ export default function ChurchFathersGuidePage() {
             <div style={{ display: "grid", gridTemplateColumns: father ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 {filtered.map((f, i) => (
-                  <button key={i} onClick={() => setSelected(selected === f.name ? null : f.name)}
+                  <button type="button" key={i} onClick={() => setSelected(selected === f.name ? null : f.name)}
                     style={{ background: selected === f.name ? `${f.color}12` : CARD, border: `1px solid ${selected === f.name ? f.color + "50" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left", transition: "all 0.15s" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                       <div style={{ width: 44, height: 44, borderRadius: 10, background: `${f.color}20`, border: `1px solid ${f.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: f.color, fontWeight: 900, fontSize: 12, flexShrink: 0 }}>
@@ -381,7 +381,7 @@ export default function ChurchFathersGuidePage() {
                 Six primary texts every serious student of the Church Fathers should read &mdash; with real excerpts and their significance in Christian history.
               </p>
               {FATHER_TEXTS.map(t => (
-                <button key={t.id} onClick={() => setSelectedText(selectedText === t.id ? null : t.id)}
+                <button type="button" key={t.id} onClick={() => setSelectedText(selectedText === t.id ? null : t.id)}
                   style={{ background: selectedText === t.id ? `${GREEN}08` : CARD, border: `1px solid ${selectedText === t.id ? GREEN + "40" : BORDER}`, borderRadius: 14, padding: "20px 24px", cursor: "pointer", textAlign: "left" }}>
                   <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap", marginBottom: 8 }}>
                     <span style={{ color: TEXT, fontWeight: 900, fontSize: 16 }}>{t.title}</span>

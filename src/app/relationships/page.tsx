@@ -252,7 +252,7 @@ export default function RelationshipsPage() {
         {/* Main Tab Bar */}
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {(["community", "conflict", "voices", "videos"] as const).map(t => (
-            <button key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer", flex: 1 }}>
+            <button type="button" key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer", flex: 1 }}>
               {t === "community" ? "Community" : t === "conflict" ? "Conflict" : t === "voices" ? "Voices" : "Videos"}
             </button>
           ))}
@@ -321,7 +321,7 @@ export default function RelationshipsPage() {
           <div style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 80 }}>
               {VOICES_REL.map(v => (
-                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                   style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? "rgba(58,125,86,0.4)" : BORDER}`, background: selectedVoice === v.id ? "rgba(58,125,86,0.08)" : CARD, cursor: "pointer" }}>
                   <div style={{ fontSize: 13, fontWeight: 700, color: selectedVoice === v.id ? GREEN : TEXT, marginBottom: 2 }}>{v.name}</div>
                   <div style={{ fontSize: 11, color: MUTED }}>{v.era}</div>
@@ -385,7 +385,7 @@ export default function RelationshipsPage() {
                 <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 4 }}>{selectedStory.title}</h2>
                 <span style={{ fontSize: 14, color: MUTED }}>{selectedStory.couple}</span>
               </div>
-              <button onClick={() => setSelectedStory(null)} style={{ background: "none", border: "none", color: "#6A6A88", fontSize: 22, cursor: "pointer" }}>×</button>
+              <button type="button" onClick={() => setSelectedStory(null)} style={{ background: "none", border: "none", color: "#6A6A88", fontSize: 22, cursor: "pointer" }}>×</button>
             </div>
             {selectedStory.story.split("\n\n").map((para, i) => (
               <p key={i} style={{ fontSize: 15, color: "#C0C0D8", lineHeight: 1.8, marginBottom: 16 }}>{para}</p>
@@ -434,7 +434,7 @@ function CommunityContent({
     <>
       <div style={{ display: "flex", gap: 4, marginBottom: 32, borderBottom: "1px solid #1E1E32" }}>
         {([["guidance", "Guidance"], ["articles", "Topics"], ["stories", "Stories"]] as const).map(([t, label]) => (
-          <button key={t} onClick={() => setInnerTab(t)}
+          <button type="button" key={t} onClick={() => setInnerTab(t)}
             style={{ padding: "10px 20px", fontSize: 14, fontWeight: 600, background: "none", border: "none", cursor: "pointer", color: innerTab === t ? "#3a7d56" : "#6A6A88", borderBottom: `2px solid ${innerTab === t ? "#3a7d56" : "transparent"}`, marginBottom: -1 }}>
             {label}
           </button>
@@ -445,7 +445,7 @@ function CommunityContent({
         <div style={{ maxWidth: 800, margin: "0 auto", display: "flex", flexDirection: "column", gap: 12 }}>
           {GUIDANCE.map(g => (
             <div key={g.id} style={{ background: "#12121F", borderRadius: 16, overflow: "hidden", border: `1px solid ${openGuidance === g.id ? "rgba(58,125,86,0.3)" : "#1E1E32"}` }}>
-              <button onClick={() => setOpenGuidance(openGuidance === g.id ? null : g.id)}
+              <button type="button" onClick={() => setOpenGuidance(openGuidance === g.id ? null : g.id)}
                 style={{ width: "100%", padding: "18px 22px", display: "flex", justifyContent: "space-between", alignItems: "center", background: "none", border: "none", cursor: "pointer", textAlign: "left" }}>
                 <div style={{ display: "flex", gap: 14, alignItems: "center" }}>
                   <span style={{ fontSize: 24 }}>{g.icon}</span>
@@ -474,11 +474,11 @@ function CommunityContent({
       {innerTab === "articles" && (
         <>
           <div style={{ display: "flex", gap: 12, marginBottom: 20, flexWrap: "wrap", alignItems: "center" }}>
-            <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search topics..."
+            <input value={search} onChange={e => setSearch(e.target.value)} aria-label="Search topics..." placeholder="Search topics..."
               style={{ flex: 1, minWidth: 200, padding: "8px 14px", borderRadius: 10, background: "#12121F", border: "1px solid #1E1E32", color: "#F2F2F8", fontSize: 14, outline: "none" }} />
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
               {CATEGORIES.map(c => (
-                <button key={c} onClick={() => setCatFilter(c)}
+                <button type="button" key={c} onClick={() => setCatFilter(c)}
                   style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${catFilter === c ? "#3a7d56" : "#1E1E32"}`, background: catFilter === c ? "rgba(58,125,86,0.1)" : "transparent", color: catFilter === c ? "#3a7d56" : "#9898B3", fontSize: 13, cursor: "pointer", fontWeight: catFilter === c ? 700 : 400 }}>
                   {c}
                 </button>
@@ -499,7 +499,7 @@ function CommunityContent({
                     <p style={{ fontSize: 13, color: "#9898B3" }}>{a.summary}</p>
                   </div>
                   <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0, marginLeft: 12 }}>
-                    <button onClick={e => { e.stopPropagation(); toggleSave(a.id); }}
+                    <button type="button" onClick={e => { e.stopPropagation(); toggleSave(a.id); }}
                       style={{ background: "none", border: "none", cursor: "pointer", fontSize: 16, color: savedIds.has(a.id) ? "#FFD700" : "#4A4A68" }}>
                       {savedIds.has(a.id) ? "★" : "☆"}
                     </button>

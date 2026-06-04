@@ -574,7 +574,7 @@ export default function WorldPrayerPage() {
       <div style={{ borderBottom: `1px solid ${BORDER}`, background: CARD }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", display: "flex", gap: 4 }}>
           {(["countries", "movements", "scripture", "voices", "videos"] as Tab[]).map(t => (
-            <button key={t} onClick={() => setActiveTab(t)}
+            <button type="button" key={t} onClick={() => setActiveTab(t)}
               style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer", margin: "8px 0" }}>
               {t === "countries" ? "Countries" : t === "movements" ? "Movements" : t === "scripture" ? "Scripture" : t === "voices" ? "Voices" : "Videos"}
             </button>
@@ -590,12 +590,12 @@ export default function WorldPrayerPage() {
             {/* Filters */}
             <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 24, alignItems: "center" }}>
               <input value={search} onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search country..."
+                aria-label="Search country..." placeholder="Search country..."
                 style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "9px 14px", color: TEXT, fontSize: 13, outline: "none", minWidth: 200 }} />
 
               <div style={{ display: "flex", gap: 6 }}>
                 {["All", "Open", "Restricted", "Persecuted"].map((s) => (
-                  <button key={s} onClick={() => setFilterStatus(s)}
+                  <button type="button" key={s} onClick={() => setFilterStatus(s)}
                     style={{ padding: "6px 14px", borderRadius: 20, fontSize: 12, cursor: "pointer",
                       border: `1px solid ${filterStatus === s ? (s === "All" ? PURPLE : statusColors[s as keyof typeof statusColors]) : BORDER}`,
                       background: filterStatus === s ? `${s === "All" ? PURPLE : statusColors[s as keyof typeof statusColors]}20` : "transparent",
@@ -608,7 +608,7 @@ export default function WorldPrayerPage() {
 
             <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 24 }}>
               {regions.map((r) => (
-                <button key={r} onClick={() => setFilterRegion(r)}
+                <button type="button" key={r} onClick={() => setFilterRegion(r)}
                   style={{ padding: "5px 12px", borderRadius: 20, fontSize: 11, cursor: "pointer",
                     border: `1px solid ${filterRegion === r ? GREEN : BORDER}`,
                     background: filterRegion === r ? "#3a7d5615" : "transparent",
@@ -668,7 +668,7 @@ export default function WorldPrayerPage() {
                     </div>
 
                     <div style={{ display: "flex", gap: 8 }}>
-                      <button onClick={(e) => { e.stopPropagation(); handlePray(c.id); }}
+                      <button type="button" onClick={(e) => { e.stopPropagation(); handlePray(c.id); }}
                         style={{
                           flex: 1, padding: "8px 12px", borderRadius: 8, border: "none",
                           background: prayed ? "#3a7d5620" : PURPLE,
@@ -677,7 +677,7 @@ export default function WorldPrayerPage() {
                         }}>
                         {prayed ? "🙏 Praying" : "Pray for this Nation"}
                       </button>
-                      <button onClick={(e) => { e.stopPropagation(); handleSave(c.id); }}
+                      <button type="button" onClick={(e) => { e.stopPropagation(); handleSave(c.id); }}
                         style={{ padding: "8px 12px", borderRadius: 8, border: "none", background: saved ? `${PURPLE}20` : BORDER, color: saved ? PURPLE : MUTED, cursor: "pointer", fontSize: 15 }}>
                         {saved ? "★" : "☆"}
                       </button>
@@ -768,7 +768,7 @@ export default function WorldPrayerPage() {
               {/* Left panel — voice list */}
               <div style={{ width: 240, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 24 }}>
                 {VOICES_WPRAYER.map((v) => (
-                  <button key={v.id} onClick={() => setSelectedVoice(v)}
+                  <button type="button" key={v.id} onClick={() => setSelectedVoice(v)}
                     style={{
                       background: selectedVoice.id === v.id ? `${PURPLE}20` : CARD,
                       border: `1px solid ${selectedVoice.id === v.id ? PURPLE : BORDER}`,
@@ -880,14 +880,14 @@ export default function WorldPrayerPage() {
             </div>
 
             <div style={{ display: "flex", gap: 10 }}>
-              <button onClick={() => handlePray(selected.id)}
+              <button type="button" onClick={() => handlePray(selected.id)}
                 style={{ flex: 1, padding: "12px 16px", borderRadius: 10, border: "none",
                   background: prayedFor.has(selected.id) ? "#3a7d5620" : PURPLE,
                   color: prayedFor.has(selected.id) ? GREEN : "#fff",
                   cursor: "pointer", fontWeight: 700, fontSize: 15 }}>
                 {prayedFor.has(selected.id) ? "🙏 Praying for " + selected.country : "Pray for " + selected.country}
               </button>
-              <button onClick={() => setSelected(null)}
+              <button type="button" onClick={() => setSelected(null)}
                 style={{ padding: "12px 16px", borderRadius: 10, border: `1px solid ${BORDER}`, background: "transparent", color: MUTED, cursor: "pointer", fontSize: 15 }}>
                 Close
               </button>

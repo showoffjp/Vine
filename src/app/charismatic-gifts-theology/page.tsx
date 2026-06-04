@@ -172,7 +172,7 @@ function AccordionItem({
         overflow: "hidden",
       }}
     >
-      <button
+      <button type="button"
         onClick={() => onToggle(id)}
         style={{
           width: "100%",
@@ -290,7 +290,7 @@ export default function CharismaticGiftsTheologyPage() {
           }}
         >
           {TABS.map((tab) => (
-            <button
+            <button type="button"
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               style={{
@@ -352,7 +352,7 @@ export default function CharismaticGiftsTheologyPage() {
                 }}
               >
                 {TONGUES_TOPICS.map((topic, idx) => (
-                  <button
+                  <button type="button"
                     key={topic.id}
                     onClick={() => setActiveTongue(topic.id)}
                     style={{

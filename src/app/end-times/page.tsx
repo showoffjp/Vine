@@ -147,7 +147,7 @@ export default function EndTimesPage() {
             { id: "practical" as const, label: "Q&A", icon: "❓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -177,7 +177,7 @@ export default function EndTimesPage() {
           <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 8, minWidth: 160 }}>
               {VIEWS.map(v => (
-                <button key={v.id} onClick={() => setSelectedView(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedView(v.id)}
                   style={{ padding: "10px 14px", borderRadius: 10, border: `1px solid ${selectedView === v.id ? v.color : BORDER}`, background: selectedView === v.id ? `${v.color}18` : CARD, color: selectedView === v.id ? v.color : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer", textAlign: "left" }}>
                   {v.icon} {v.name}
                 </button>
@@ -218,7 +218,7 @@ export default function EndTimesPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 210, flexShrink: 0 }}>
               {THINKERS_ESC.map(t => (
-                <button key={t.id} onClick={() => setSelectedThinker(t.id)}
+                <button type="button" key={t.id} onClick={() => setSelectedThinker(t.id)}
                   style={{ width: "100%", background: selectedThinker === t.id ? `${PURPLE}18` : "transparent", border: `1px solid ${selectedThinker === t.id ? PURPLE + "80" : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 6, cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: selectedThinker === t.id ? TEXT : MUTED, fontWeight: 700, fontSize: 13 }}>{t.name}</div>
                   <div style={{ color: MUTED, fontSize: 11, marginTop: 2 }}>{t.era}</div>
@@ -255,7 +255,7 @@ export default function EndTimesPage() {
           <div>
             {PRACTICAL.map((p, i) => (
               <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, marginBottom: 12, overflow: "hidden" }}>
-                <button
+                <button type="button"
                   onClick={() => setExpanded(expanded === p.q ? null : p.q)}
                   style={{ width: "100%", padding: "18px 22px", background: "transparent", border: "none", color: TEXT, fontWeight: 700, fontSize: 15, cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center", textAlign: "left" }}>
                   <span style={{ color: GREEN }}>{p.q}</span>

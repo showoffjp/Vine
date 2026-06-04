@@ -181,7 +181,7 @@ export default function DeconstructionPage() {
 
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {TABS.map(t => (
-            <button key={t.id} onClick={() => setTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setTab(t.id)}
               style={{ flex: 1, padding: "10px 6px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -198,7 +198,7 @@ export default function DeconstructionPage() {
             <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
               <div style={{ display: "flex", flexDirection: "column", gap: 8, minWidth: 200 }}>
                 {WHAT_ITEMS.map(w => (
-                  <button key={w.id} onClick={() => setSelectedWhat(w.id)}
+                  <button type="button" key={w.id} onClick={() => setSelectedWhat(w.id)}
                     style={{ padding: "10px 14px", borderRadius: 10, border: `1px solid ${selectedWhat === w.id ? GREEN : BORDER}`, background: selectedWhat === w.id ? `${GREEN}18` : CARD, color: selectedWhat === w.id ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer", textAlign: "left" }}>
                     {w.title}
                   </button>
@@ -223,7 +223,7 @@ export default function DeconstructionPage() {
             </div>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 20 }}>
               {CAUSE_ITEMS.map(c => (
-                <button key={c.id} onClick={() => setSelectedCause(c.id)}
+                <button type="button" key={c.id} onClick={() => setSelectedCause(c.id)}
                   style={{ padding: "8px 16px", borderRadius: 20, border: `1px solid ${selectedCause === c.id ? c.color : BORDER}`, background: selectedCause === c.id ? `${c.color}15` : "transparent", color: selectedCause === c.id ? c.color : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
                   {c.title.split(' ').slice(0, 3).join(' ')}...
                 </button>
@@ -246,7 +246,7 @@ export default function DeconstructionPage() {
             <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
               <div style={{ display: "flex", flexDirection: "column", gap: 8, minWidth: 160 }}>
                 {VOICE_ITEMS.map(v => (
-                  <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                     style={{ padding: "10px 14px", borderRadius: 10, border: `1px solid ${selectedVoice === v.id ? v.color : BORDER}`, background: selectedVoice === v.id ? `${v.color}18` : CARD, color: selectedVoice === v.id ? v.color : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer", textAlign: "left" }}>
                     {v.name.split(' ')[0]}
                   </button>
@@ -278,7 +278,7 @@ export default function DeconstructionPage() {
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               {RECONSTRUCTION_ITEMS.map(r => (
                 <div key={r.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                  <button onClick={() => toggleExpand(r.id)}
+                  <button type="button" onClick={() => toggleExpand(r.id)}
                     style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", padding: "18px 22px", background: "none", border: "none", cursor: "pointer", color: TEXT }}>
                     <div style={{ fontWeight: 800, fontSize: 16, textAlign: "left" }}>{r.title}</div>
                     <div style={{ color: MUTED, fontWeight: 700, fontSize: 20, flexShrink: 0 }}>{expanded[r.id] ? "−" : "+"}</div>

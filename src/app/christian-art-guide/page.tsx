@@ -148,7 +148,7 @@ export default function ChristianArtGuidePage() {
 
         <div style={{ display: "flex", gap: 4, marginBottom: 24, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
           {(["theology", "masterworks", "architecture", "contemporary", "videos"] as Tab[]).map(t => (
-            <button key={t} onClick={() => setTab(t)}
+            <button type="button" key={t} onClick={() => setTab(t)}
               style={{ padding: "8px 16px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer", textTransform: "capitalize" }}>
               {t === "theology" ? "Theology of Art" : t === "masterworks" ? "Masterworks" : t === "architecture" ? "Sacred Spaces" : t === "contemporary" ? "Contemporary Artists" : "🎬 Videos"}
             </button>
@@ -159,7 +159,7 @@ export default function ChristianArtGuidePage() {
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {THEOLOGY.map((p, i) => (
               <div key={i} style={{ background: CARD, border: `1px solid ${expanded[p.title] ? p.color + "40" : BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                <button onClick={() => setExpanded(e => ({ ...e, [p.title]: !e[p.title] }))}
+                <button type="button" onClick={() => setExpanded(e => ({ ...e, [p.title]: !e[p.title] }))}
                   style={{ width: "100%", padding: "16px 20px", cursor: "pointer", textAlign: "left", background: "transparent", border: "none", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <div style={{ color: p.color, fontWeight: 800, fontSize: 15 }}>{p.title}</div>
                   <span style={{ color: MUTED, fontSize: 18 }}>{expanded[p.title] ? "−" : "+"}</span>

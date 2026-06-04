@@ -216,7 +216,7 @@ export default function HabitsPage() {
               <h1 className="text-3xl font-black">Habit Tracker</h1>
               <p className="text-sm mt-1" style={{ color: "#6A6A88" }}>Build spiritual disciplines one day at a time.</p>
             </div>
-            <button
+            <button type="button"
               onClick={() => setShowAdd(true)}
               className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold text-black"
               style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}
@@ -228,7 +228,7 @@ export default function HabitsPage() {
           {/* Main Tabs */}
           <div className="flex gap-1 p-1 rounded-xl mb-6" style={{ background: "#12121F", border: "1px solid #1E1E32" }}>
             {(["tracker", "theology", "voices", "methods", "videos"] as const).map((tab) => (
-              <button key={tab} onClick={() => setMainTab(tab)}
+              <button type="button" key={tab} onClick={() => setMainTab(tab)}
                 className="flex-1 py-2 rounded-lg text-sm font-semibold capitalize transition-all"
                 style={{ background: mainTab === tab ? "rgba(58,125,86,0.12)" : "transparent", color: mainTab === tab ? "#3a7d56" : "#6A6A88", border: mainTab === tab ? "1px solid rgba(58,125,86,0.2)" : "1px solid transparent" }}>
                 {tab === "tracker" ? "📊 Tracker" : tab === "theology" ? "📖 Theology" : tab === "voices" ? "🎓 Voices" : tab === "methods" ? "⚗️ Methods" : "▶️ Videos"}
@@ -265,7 +265,7 @@ export default function HabitsPage() {
           {habits.length > 0 && (
             <div className="flex gap-1 p-1 rounded-xl mb-5" style={{ background: "#12121F", border: "1px solid #1E1E32" }}>
               {(["week", "month"] as const).map((v) => (
-                <button
+                <button type="button"
                   key={v}
                   onClick={() => setView(v)}
                   className="flex-1 py-2 rounded-lg text-sm font-semibold capitalize transition-all"
@@ -338,7 +338,7 @@ export default function HabitsPage() {
                           const isToday = key === todayKey;
                           const isFuture = key > todayKey;
                           return (
-                            <button
+                            <button type="button"
                               key={key}
                               onClick={() => !isFuture && toggleDay(habit.id, key)}
                               disabled={isFuture}
@@ -374,7 +374,7 @@ export default function HabitsPage() {
                       </div>
                     )}
 
-                    <button
+                    <button type="button"
                       onClick={() => deleteHabit(habit.id)}
                       className="w-8 flex items-center justify-center transition-all"
                       style={{ color: "#3A3A58" }}
@@ -403,12 +403,12 @@ export default function HabitsPage() {
             <div className="rounded-2xl p-5 mb-6" style={{ background: "#12121F", border: "1px solid rgba(58,125,86,0.2)" }}>
               <div className="flex items-center justify-between mb-4">
                 <h3 className="font-black" style={{ color: "#F2F2F8" }}>New Habit</h3>
-                <button onClick={() => setShowAdd(false)} style={{ color: "#6A6A88" }}><X size={16} /></button>
+                <button type="button" onClick={() => setShowAdd(false)} style={{ color: "#6A6A88" }}><X size={16} /></button>
               </div>
               <div className="space-y-4">
                 <input
                   type="text"
-                  placeholder="Habit name (e.g. Read Bible)"
+                  aria-label="Habit name (e.g. Read Bible)" placeholder="Habit name (e.g. Read Bible)"
                   value={newName}
                   onChange={(e) => setNewName(e.target.value)}
                   className="w-full px-4 py-2.5 rounded-xl text-sm outline-none"
@@ -418,7 +418,7 @@ export default function HabitsPage() {
                   <p className="text-[10px] font-bold uppercase tracking-wider mb-2" style={{ color: "#6A6A88" }}>Icon</p>
                   <div className="flex flex-wrap gap-2">
                     {ICONS.map((ic) => (
-                      <button
+                      <button type="button"
                         key={ic}
                         onClick={() => setNewIcon(ic)}
                         className="w-9 h-9 rounded-xl text-lg transition-all"
@@ -433,7 +433,7 @@ export default function HabitsPage() {
                   <p className="text-[10px] font-bold uppercase tracking-wider mb-2" style={{ color: "#6A6A88" }}>Color</p>
                   <div className="flex gap-2">
                     {COLORS.map((c) => (
-                      <button
+                      <button type="button"
                         key={c}
                         onClick={() => setNewColor(c)}
                         className="w-7 h-7 rounded-full transition-all"
@@ -443,14 +443,14 @@ export default function HabitsPage() {
                   </div>
                 </div>
                 <div className="flex gap-3">
-                  <button
+                  <button type="button"
                     onClick={() => setShowAdd(false)}
                     className="flex-1 py-2.5 rounded-xl text-sm font-semibold"
                     style={{ background: "#0D0D1A", border: "1px solid #1E1E32", color: "#6A6A88" }}
                   >
                     Cancel
                   </button>
-                  <button
+                  <button type="button"
                     onClick={addHabit}
                     disabled={!newName.trim()}
                     className="flex-1 py-2.5 rounded-xl text-sm font-bold text-black"
@@ -471,7 +471,7 @@ export default function HabitsPage() {
                 {PRESET_HABITS.map((p) => {
                   const added = habits.some((h) => h.name === p.name);
                   return (
-                    <button
+                    <button type="button"
                       key={p.name}
                       onClick={() => !added && addPreset(p)}
                       disabled={added}
@@ -544,7 +544,7 @@ export default function HabitsPage() {
             <div style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
               <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 80 }}>
                 {VOICES_HAB.map(v => (
-                  <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                     style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? "rgba(58,125,86,0.4)" : "#1E1E32"}`, background: selectedVoice === v.id ? "rgba(58,125,86,0.08)" : "#12121F", cursor: "pointer" }}>
                     <div style={{ fontSize: 13, fontWeight: 700, color: selectedVoice === v.id ? "#3a7d56" : "#F2F2F8", marginBottom: 2 }}>{v.name}</div>
                     <div style={{ fontSize: 11, color: "#9898B3" }}>{v.era}</div>

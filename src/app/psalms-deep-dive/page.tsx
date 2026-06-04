@@ -483,7 +483,7 @@ export default function PsalmsDeepDivePage() {
           }}
         >
           {(["types", "reading", "psalms", "pray", "videos"] as Tab[]).map((t) => (
-            <button
+            <button type="button"
               key={t}
               onClick={() => setTab(t)}
               style={{
@@ -514,7 +514,7 @@ export default function PsalmsDeepDivePage() {
                 const isActive = psalmFilter === cat;
                 const color = cat === "All" ? GREEN : TYPE_COLORS[cat];
                 return (
-                  <button
+                  <button type="button"
                     key={cat}
                     onClick={() => setPsalmFilter(cat)}
                     style={{
@@ -644,7 +644,7 @@ export default function PsalmsDeepDivePage() {
                     transition: "border-color 0.15s",
                   }}
                 >
-                  <button
+                  <button type="button"
                     onClick={() =>
                       setOpenAccordion(isOpen ? undefined : i)
                     }
@@ -722,7 +722,7 @@ export default function PsalmsDeepDivePage() {
               {BOOKS_DATA.map((book) => {
                 const isActive = selectedBook === book.id;
                 return (
-                  <button
+                  <button type="button"
                     key={book.id}
                     onClick={() => setSelectedBook(book.id)}
                     style={{

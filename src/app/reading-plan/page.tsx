@@ -340,7 +340,7 @@ export default function ReadingPlanPage() {
                   <div style={{ fontSize: 11, color: "#8A8AA8" }}>day streak</div>
                 </div>
               </div>
-              <button
+              <button type="button"
                 onClick={shareStreak}
                 style={{
                   display: "flex",
@@ -447,7 +447,7 @@ export default function ReadingPlanPage() {
                     {todaysReadingTitle}
                   </div>
                   <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-                    <button
+                    <button type="button"
                       onClick={() => {
                         const next = !todayMarked;
                         setTodayMarked(next);
@@ -689,7 +689,7 @@ export default function ReadingPlanPage() {
               {books.map((book) => (
                 <div key={book.name} style={{ borderBottom: "1px solid #1E1E32" }}>
                   {/* Book header */}
-                  <button
+                  <button type="button"
                     onClick={() => toggleBook(book.name)}
                     style={{
                       width: "100%",
@@ -816,7 +816,7 @@ export default function ReadingPlanPage() {
                             )}
 
                             {/* Read button */}
-                            <button
+                            <button type="button"
                               onClick={() => toggleChapter(ch.id)}
                               style={{
                                 background: isDone ? "rgba(58,125,86,0.08)" : "#07070F",
@@ -904,7 +904,7 @@ export default function ReadingPlanPage() {
                       </span>
                     </div>
 
-                    <button
+                    <button type="button"
                       onClick={() => setActivePlan(activePlan === plan.name ? "" : plan.name)}
                       style={{
                         background: activePlan === plan.name ? "rgba(58,125,86,0.1)" : "transparent",

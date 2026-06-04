@@ -116,7 +116,7 @@ export default function ChristianGivingGuidePage() {
 
         <div style={{ display: "flex", gap: 4, marginBottom: 28, background: CARD, borderRadius: 10, padding: 4, width: "fit-content" }}>
           {(["theology", "givers", "organizations", "practical", "videos"] as Tab[]).map(t => (
-            <button key={t} onClick={() => setTab(t)}
+            <button type="button" key={t} onClick={() => setTab(t)}
               style={{ padding: "8px 18px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", textTransform: "capitalize" }}>
               {t === "theology" ? "Theology of Giving" : t === "givers" ? "Models of Generosity" : t === "organizations" ? "Where to Give" : t === "practical" ? "Practical Tips" : "🎬 Videos"}
             </button>
@@ -127,7 +127,7 @@ export default function ChristianGivingGuidePage() {
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {THEOLOGY_POINTS.map((p, i) => (
               <div key={i} style={{ background: CARD, border: `1px solid ${expanded[p.title] ? p.color + "40" : BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                <button onClick={() => setExpanded(e => ({ ...e, [p.title]: !e[p.title] }))}
+                <button type="button" onClick={() => setExpanded(e => ({ ...e, [p.title]: !e[p.title] }))}
                   style={{ width: "100%", padding: "16px 20px", cursor: "pointer", textAlign: "left", background: "transparent", border: "none", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <div>
                     <div style={{ color: p.color, fontWeight: 800, fontSize: 15, marginBottom: 4 }}>{p.title}</div>
@@ -149,7 +149,7 @@ export default function ChristianGivingGuidePage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8 }}>
               {GIVERS.map(g => (
-                <button key={g.id} onClick={() => setSelectedGiver(g.id)}
+                <button type="button" key={g.id} onClick={() => setSelectedGiver(g.id)}
                   style={{ background: selectedGiver === g.id ? `${PURPLE}20` : CARD, border: `1px solid ${selectedGiver === g.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", textAlign: "left", cursor: "pointer" }}>
                   <div style={{ color: TEXT, fontWeight: 700, fontSize: 13 }}>{g.name}</div>
                   <div style={{ color: MUTED, fontSize: 11, marginTop: 2 }}>{g.era}</div>

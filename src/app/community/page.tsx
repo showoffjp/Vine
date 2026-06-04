@@ -227,12 +227,12 @@ export default function CommunityPage() {
                   value={searchInput}
                   onChange={(e) => setSearchInput(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && setSearchQuery(searchInput)}
-                  placeholder="Search circles, topics, or locations..."
+                  aria-label="Search circles, topics, or locations..." placeholder="Search circles, topics, or locations..."
                   className="flex-1 bg-transparent text-sm outline-none"
                   style={{ color: "#F2F2F8" }}
                 />
               </div>
-              <button onClick={() => setSearchQuery(searchInput)} className="btn-gold px-6 py-3 rounded-xl text-sm font-bold">
+              <button type="button" onClick={() => setSearchQuery(searchInput)} className="btn-gold px-6 py-3 rounded-xl text-sm font-bold">
                 Search
               </button>
             </div>
@@ -246,7 +246,7 @@ export default function CommunityPage() {
               <h2 className="text-xl font-black" style={{ color: "#F2F2F8" }}>
                 {searchQuery.trim() ? `Results for "${searchQuery}"` : "Featured Circles"}
               </h2>
-              <button
+              <button type="button"
                 onClick={() => (searchQuery.trim() ? (setSearchQuery(""), setSearchInput("")) : setShowAllFeatured((v) => !v))}
                 className="text-sm font-semibold"
                 style={{ color: "#3a7d56" }}
@@ -300,7 +300,7 @@ export default function CommunityPage() {
                         <span>{circle.posts} posts</span>
                       </div>
                     </div>
-                    <button
+                    <button type="button"
                       onClick={() => toggleFeatured(i)}
                       className="w-full py-2 rounded-xl text-xs font-bold transition-all duration-200 flex items-center justify-center gap-1.5"
                       style={{
@@ -393,7 +393,7 @@ export default function CommunityPage() {
                   <p className="text-xs leading-relaxed mb-3" style={{ color: "#8A8AA8" }}>
                     {circle.description}
                   </p>
-                  <button
+                  <button type="button"
                     onClick={() => toggleNearby(i)}
                     className="text-xs px-4 py-1.5 rounded-xl font-semibold transition-all"
                     style={{
@@ -452,7 +452,7 @@ export default function CommunityPage() {
                       members
                     </p>
                   </div>
-                  <button
+                  <button type="button"
                     onClick={() => toggleActive(i)}
                     className="text-xs px-3 py-1.5 rounded-xl font-semibold flex-shrink-0 transition-all"
                     style={{
@@ -492,14 +492,14 @@ export default function CommunityPage() {
                 <div className="flex gap-3 max-w-sm mx-auto">
                   <input
                     type="email"
-                    placeholder="friend@email.com"
+                    aria-label="friend@email.com" placeholder="friend@email.com"
                     value={inviteEmail}
                     onChange={(e) => setInviteEmail(e.target.value)}
                     onKeyDown={(e) => e.key === "Enter" && handleInvite()}
                     className="flex-1 px-4 py-3 rounded-xl text-sm outline-none"
                     style={{ background: "#12121F", border: "1px solid #1E1E32", color: "#F2F2F8" }}
                   />
-                  <button onClick={handleInvite} className="btn-gold px-5 py-3 rounded-xl text-sm font-bold flex items-center gap-2">
+                  <button type="button" onClick={handleInvite} className="btn-gold px-5 py-3 rounded-xl text-sm font-bold flex items-center gap-2">
                     <Send size={14} />
                     Send
                   </button>

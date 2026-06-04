@@ -151,7 +151,7 @@ function TabButton({
   onClick: () => void;
 }) {
   return (
-    <button
+    <button type="button"
       onClick={onClick}
       style={{
         padding: "10px 18px",
@@ -381,7 +381,7 @@ export default function GospelPresentationPage() {
                     overflow: "hidden",
                   }}
                 >
-                  <button
+                  <button type="button"
                     onClick={() => setOpenMethod(open ? "" : m.id)}
                     style={{
                       width: "100%",

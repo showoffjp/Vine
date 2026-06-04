@@ -191,7 +191,7 @@ export default function ChurchFathersPage() {
             { id: "writings" as const, label: "Writings", icon: "📜" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -240,7 +240,7 @@ export default function ChurchFathersPage() {
           <div style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 80 }}>
               {WRITINGS_DATA.map(w => (
-                <button key={w.id} onClick={() => setSelectedWriting(w.id)}
+                <button type="button" key={w.id} onClick={() => setSelectedWriting(w.id)}
                   style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedWriting === w.id ? "rgba(58,125,86,0.4)" : BORDER}`, background: selectedWriting === w.id ? "rgba(58,125,86,0.08)" : CARD, cursor: "pointer" }}>
                   <div style={{ fontSize: 12, fontWeight: 700, color: selectedWriting === w.id ? GREEN : TEXT, marginBottom: 2 }}>{w.author}</div>
                   <div style={{ fontSize: 10, color: MUTED }}>{w.era}</div>
@@ -270,7 +270,7 @@ export default function ChurchFathersPage() {
         {activeTab === "fathers" && <div>
         <div style={{ display: "flex", gap: 6, marginBottom: 20, flexWrap: "wrap", justifyContent: "center" }}>
           {PERIODS.map(p => (
-            <button key={p} onClick={() => setPeriod(p)}
+            <button type="button" key={p} onClick={() => setPeriod(p)}
               style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${period === p ? PURPLE : BORDER}`, background: period === p ? `${PURPLE}20` : "transparent", color: period === p ? PURPLE : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
               {p}
             </button>
@@ -280,7 +280,7 @@ export default function ChurchFathersPage() {
         <div style={{ display: "flex", gap: 20 }}>
           <div style={{ width: 200, flexShrink: 0 }}>
             {filtered.map(f => (
-              <button key={f.name} onClick={() => setSelected(f.name)}
+              <button type="button" key={f.name} onClick={() => setSelected(f.name)}
                 style={{ width: "100%", background: selected === f.name ? `${f.color}15` : "transparent", border: `1px solid ${selected === f.name ? f.color + "60" : BORDER}`, borderRadius: 10, padding: "10px 14px", marginBottom: 6, cursor: "pointer", textAlign: "left" }}>
                 <div style={{ color: selected === f.name ? f.color : MUTED, fontSize: 10, fontWeight: 700, marginBottom: 2 }}>{f.period.toUpperCase()}</div>
                 <div style={{ color: selected === f.name ? f.color : TEXT, fontWeight: 700, fontSize: 13, lineHeight: 1.3 }}>{f.name}</div>

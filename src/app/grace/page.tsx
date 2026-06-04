@@ -192,7 +192,7 @@ function Accordion({ items }: { items: typeof THEOLOGY_ITEMS }) {
         const open = !!expanded[item.id];
         return (
           <div key={item.id} style={{ background: CARD, border: `1px solid ${open ? PURPLE : BORDER}`, borderRadius: 12, overflow: "hidden", transition: "border-color 0.2s" }}>
-            <button
+            <button type="button"
               onClick={() => setExpanded(prev => ({ ...prev, [item.id]: !prev[item.id] }))}
               style={{ width: "100%", padding: "18px 22px", background: "transparent", border: "none", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center", textAlign: "left", gap: 12 }}
             >
@@ -243,7 +243,7 @@ export default function GracePage() {
         {/* Tabs */}
         <div style={{ display: "flex", gap: 6, marginBottom: 36, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {tabs.map(t => (
-            <button
+            <button type="button"
               key={t.id}
               onClick={() => setTab(t.id)}
               style={{
@@ -283,7 +283,7 @@ export default function GracePage() {
             <div style={{ display: "flex", flexDirection: "column", gap: 8, minWidth: 190, flexShrink: 0 }}>
               <div style={{ color: MUTED, fontSize: 11, fontWeight: 700, letterSpacing: 1, marginBottom: 4, paddingLeft: 4 }}>SELECT TYPE</div>
               {KINDS_ITEMS.map(k => (
-                <button
+                <button type="button"
                   key={k.id}
                   onClick={() => setSelectedKind(k.id)}
                   style={{

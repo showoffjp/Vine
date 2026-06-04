@@ -227,7 +227,7 @@ export default function ChurchCalendarPage() {
             { id: "voices" as const, label: "Voices", icon: "📣" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -239,7 +239,7 @@ export default function ChurchCalendarPage() {
             {/* Season selector */}
             <div style={{ display: "flex", flexDirection: "column", gap: 6, minWidth: 160 }}>
               {SEASONS.map(s => (
-                <button key={s.id} onClick={() => setSelectedSeason(s.id)}
+                <button type="button" key={s.id} onClick={() => setSelectedSeason(s.id)}
                   style={{ padding: "10px 14px", borderRadius: 10, border: `1px solid ${selectedSeason === s.id ? s.color : BORDER}`, background: selectedSeason === s.id ? `${s.color}18` : CARD, color: selectedSeason === s.id ? s.color : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", textAlign: "left", display: "flex", alignItems: "center", gap: 8 }}>
                   <span>{s.emoji}</span> {s.name}
                 </button>
@@ -331,7 +331,7 @@ export default function ChurchCalendarPage() {
           <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
               {VOICES_CAL.map(v => (
-                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                   style={{ background: selectedVoice === v.id ? PURPLE : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: TEXT, fontWeight: 700, fontSize: 14 }}>{v.name}</div>
                   <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{v.era}</div>

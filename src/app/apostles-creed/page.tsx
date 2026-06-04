@@ -215,7 +215,7 @@ export default function ApostlesCreedPage() {
         {/* Tabs */}
         <div style={{ display: "flex", gap: 8, justifyContent: "center", flexWrap: "wrap", marginBottom: 36 }}>
           {TABS.map((t) => (
-            <button
+            <button type="button"
               key={t.id}
               onClick={() => setActiveTab(t.id)}
               style={{

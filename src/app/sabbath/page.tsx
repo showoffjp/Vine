@@ -145,7 +145,7 @@ export default function SabbathPage() {
         {/* Tabs */}
         <div style={{ display: "flex", gap: 4, marginTop: 36, marginBottom: 36, background: CARD, borderRadius: 14, padding: 6, border: `1px solid ${BORDER}` }}>
           {([ { id: "foundation" as Tab, label: "Biblical Foundation" }, { id: "history" as Tab, label: "History" }, { id: "practice" as Tab, label: "How to Practice" }, { id: "benefits" as Tab, label: "Benefits" }, { id: "objections" as Tab, label: "Objections Answered" }, { id: "videos" as Tab, label: "Videos" } ]).map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 6px", borderRadius: 10, border: "none", background: activeTab === t.id ? GREEN : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer", transition: "all 0.2s" }}>
               {t.label}
             </button>
@@ -290,7 +290,7 @@ export default function SabbathPage() {
             </div>
             {OBJECTIONS.map((item, i) => (
               <div key={i} style={{ background: CARD, border: `1px solid ${expandedObj === i ? `${GREEN}50` : BORDER}`, borderRadius: 14, marginBottom: 12, overflow: "hidden", transition: "border-color 0.2s" }}>
-                <button onClick={() => setExpandedObj(expandedObj === i ? null : i)}
+                <button type="button" onClick={() => setExpandedObj(expandedObj === i ? null : i)}
                   style={{ width: "100%", padding: "18px 22px", background: "transparent", border: "none", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
                   <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
                     <div style={{ width: 28, height: 28, borderRadius: "50%", background: "#EF444422", border: "1px solid #EF444440", display: "flex", alignItems: "center", justifyContent: "center", color: "#EF4444", fontSize: 14, fontWeight: 900, flexShrink: 0 }}>?</div>

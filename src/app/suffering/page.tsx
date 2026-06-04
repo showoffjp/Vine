@@ -194,7 +194,7 @@ function AccordionItem({
         background: CARD,
       }}
     >
-      <button
+      <button type="button"
         onClick={onToggle}
         style={{
           width: "100%",
@@ -331,7 +331,7 @@ export default function SufferingPage() {
           }}
         >
           {TABS.map(t => (
-            <button
+            <button type="button"
               key={t.id}
               onClick={() => setActiveTab(t.id)}
               style={{
@@ -553,7 +553,7 @@ export default function SufferingPage() {
                 }}
               >
                 {VOICES.map(v => (
-                  <button
+                  <button type="button"
                     key={v.id}
                     onClick={() => setActiveVoice(v.id)}
                     style={{

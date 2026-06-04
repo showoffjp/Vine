@@ -275,7 +275,7 @@ export default function ChristianGriefGuidePage() {
           borderRadius: 12, padding: 6, border: `1px solid ${BORDER}`, flexWrap: "wrap",
         }}>
           {tabs.map(t => (
-            <button
+            <button type="button"
               key={t.id}
               onClick={() => setActiveTab(t.id)}
               style={{
@@ -305,7 +305,7 @@ export default function ChristianGriefGuidePage() {
                   marginBottom: 12, overflow: "hidden",
                 }}
               >
-                <button
+                <button type="button"
                   onClick={() => toggle(`theo-${i}`)}
                   style={{
                     width: "100%", background: "none", border: "none", color: TEXT,
@@ -362,7 +362,7 @@ export default function ChristianGriefGuidePage() {
                     background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12,
                     borderLeft: `3px solid ${stage.color}`, overflow: "hidden",
                   }}>
-                    <button
+                    <button type="button"
                       onClick={() => toggle(`stage-${i}`)}
                       style={{
                         width: "100%", background: "none", border: "none", color: TEXT,
@@ -412,7 +412,7 @@ export default function ChristianGriefGuidePage() {
             {/* Filter buttons */}
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 32 }}>
               {SCRIPTURE_FILTERS.map(f => (
-                <button
+                <button type="button"
                   key={f.id}
                   onClick={() => setScriptureFilter(f.id)}
                   style={{
@@ -509,7 +509,7 @@ export default function ChristianGriefGuidePage() {
                   marginBottom: 12, overflow: "hidden",
                 }}
               >
-                <button
+                <button type="button"
                   onClick={() => toggle(`comm-${i}`)}
                   style={{
                     width: "100%", background: "none", border: "none", color: TEXT,

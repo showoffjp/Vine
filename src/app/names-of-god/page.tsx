@@ -385,7 +385,7 @@ export default function NamesOfGodPage() {
           }}
         >
           {TABS.map((t) => (
-            <button
+            <button type="button"
               key={t.id}
               onClick={() => setActiveTab(t.id)}
               style={{
@@ -499,7 +499,7 @@ export default function NamesOfGodPage() {
           <section>
             <div style={{ display: "flex", gap: 8, justifyContent: "center", flexWrap: "wrap", marginBottom: 28 }}>
               {NAME_CATEGORIES.map((c) => (
-                <button
+                <button type="button"
                   key={c}
                   onClick={() => setCategory(c)}
                   style={{

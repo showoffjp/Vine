@@ -246,7 +246,7 @@ export default function ChristianFriendshipTheologyPage() {
         {/* Tabs */}
         <div style={{ display: "flex", gap: 4, marginBottom: 32, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 4, flexWrap: "wrap" as const }}>
           {(["theology", "models", "philia", "practices", "videos"] as Tab[]).map((t) => (
-            <button
+            <button type="button"
               key={t}
               onClick={() => setTab(t)}
               style={{
@@ -286,7 +286,7 @@ export default function ChristianFriendshipTheologyPage() {
                       overflow: "hidden",
                     }}
                   >
-                    <button
+                    <button type="button"
                       onClick={() => toggleExpanded(item.id)}
                       style={{
                         width: "100%",
@@ -337,7 +337,7 @@ export default function ChristianFriendshipTheologyPage() {
               {BIBLICAL_MODELS.map((model) => {
                 const isSelected = selectedModel === model.id;
                 return (
-                  <button
+                  <button type="button"
                     key={model.id}
                     onClick={() => setSelectedModel(model.id)}
                     style={{
@@ -463,7 +463,7 @@ export default function ChristianFriendshipTheologyPage() {
                     </div>
 
                     {/* Expand/collapse theology */}
-                    <button
+                    <button type="button"
                       onClick={() => toggleCard(card.id)}
                       style={{
                         width: "100%",
@@ -521,7 +521,7 @@ export default function ChristianFriendshipTheologyPage() {
                       overflow: "hidden",
                     }}
                   >
-                    <button
+                    <button type="button"
                       onClick={() => toggleExpanded(item.id)}
                       style={{
                         width: "100%",

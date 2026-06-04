@@ -110,7 +110,7 @@ export default function GlobalMissionsPage() {
             { id: "howto" as const, label: "How to Engage", icon: "🚀" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -135,7 +135,7 @@ export default function GlobalMissionsPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 200, flexShrink: 0 }}>
               {REGIONS.map(r => (
-                <button key={r.region} onClick={() => setSelected(r.region)}
+                <button type="button" key={r.region} onClick={() => setSelected(r.region)}
                   style={{ width: "100%", background: selected === r.region ? `${r.color}15` : "transparent", border: `1px solid ${selected === r.region ? r.color + "60" : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 8, cursor: "pointer", textAlign: "left" }}>
                   <span style={{ color: selected === r.region ? r.color : TEXT, fontWeight: 700, fontSize: 13 }}>{r.region}</span>
                 </button>
@@ -170,7 +170,7 @@ export default function GlobalMissionsPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 6 }}>
               {PIONEERS.map(p => (
-                <button key={p.id} onClick={() => setSelectedPioneer(p.id)}
+                <button type="button" key={p.id} onClick={() => setSelectedPioneer(p.id)}
                   style={{ width: "100%", background: selectedPioneer === p.id ? `${PURPLE}20` : CARD, border: `1px solid ${selectedPioneer === p.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", textAlign: "left", cursor: "pointer" }}>
                   <div style={{ color: selectedPioneer === p.id ? GREEN : TEXT, fontWeight: 700, fontSize: 13, marginBottom: 2 }}>{p.name}</div>
                   <div style={{ color: MUTED, fontSize: 11 }}>{p.era}</div>

@@ -229,7 +229,7 @@ export default function OnboardingPage() {
               all in one place.
             </p>
             <div className="flex flex-col gap-3 max-w-xs mx-auto">
-              <button
+              <button type="button"
                 onClick={() => setStep(2)}
                 className="btn-gold w-full py-3.5 rounded-2xl text-base font-bold flex items-center justify-center gap-2"
               >
@@ -261,7 +261,7 @@ export default function OnboardingPage() {
                   </label>
                   <input
                     type="text"
-                    placeholder="Jason"
+                    aria-label="Jason" placeholder="Jason"
                     value={form.firstName}
                     onChange={(e) => setForm((f) => ({ ...f, firstName: e.target.value }))}
                     className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all duration-200 focus:border-[rgba(58,125,86,0.5)]"
@@ -274,7 +274,7 @@ export default function OnboardingPage() {
                   </label>
                   <input
                     type="text"
-                    placeholder="Harper"
+                    aria-label="Harper" placeholder="Harper"
                     value={form.lastName}
                     onChange={(e) => setForm((f) => ({ ...f, lastName: e.target.value }))}
                     className="w-full px-4 py-3 rounded-xl text-sm outline-none"
@@ -291,7 +291,7 @@ export default function OnboardingPage() {
                   <span className="pl-4 text-sm" style={{ color: "#6A6A88" }}>@</span>
                   <input
                     type="text"
-                    placeholder="jasonharper"
+                    aria-label="jasonharper" placeholder="jasonharper"
                     value={form.username}
                     onChange={(e) => setForm((f) => ({ ...f, username: e.target.value.replace(/\s/g, "") }))}
                     className="flex-1 px-2 py-3 text-sm outline-none bg-transparent"
@@ -306,7 +306,7 @@ export default function OnboardingPage() {
                 </label>
                 <input
                   type="text"
-                  placeholder="Houston, TX"
+                  aria-label="Houston, TX" placeholder="Houston, TX"
                   value={form.location}
                   onChange={(e) => setForm((f) => ({ ...f, location: e.target.value }))}
                   className="w-full px-4 py-3 rounded-xl text-sm outline-none"
@@ -339,7 +339,7 @@ export default function OnboardingPage() {
                 </label>
                 <div className="flex flex-wrap gap-2">
                   {faithDurations.map((d) => (
-                    <button
+                    <button type="button"
                       key={d}
                       onClick={() => setForm((f) => ({ ...f, faithDuration: d }))}
                       className="px-4 py-2 rounded-xl text-xs font-semibold transition-all duration-200"
@@ -375,7 +375,7 @@ export default function OnboardingPage() {
               {interests.map((interest) => {
                 const selected = selectedInterests.includes(interest.label);
                 return (
-                  <button
+                  <button type="button"
                     key={interest.label}
                     onClick={() => toggleInterest(interest.label)}
                     className="flex items-center gap-3 p-3.5 rounded-xl text-sm font-semibold text-left transition-all duration-200"
@@ -543,7 +543,7 @@ export default function OnboardingPage() {
             </div>
 
             <Link href="/feed" className="block">
-              <button className="btn-gold w-full py-4 rounded-2xl text-base font-black flex items-center justify-center gap-2">
+              <button type="button" className="btn-gold w-full py-4 rounded-2xl text-base font-black flex items-center justify-center gap-2">
                 Enter Vine →
                 <ChevronRight size={18} />
               </button>
@@ -557,14 +557,14 @@ export default function OnboardingPage() {
         {/* Navigation Buttons (steps 2–4) */}
         {step >= 2 && step <= 4 && (
           <div className="flex items-center justify-between mt-8">
-            <button
+            <button type="button"
               onClick={() => setStep((s) => s - 1)}
               className="btn-outline-gold flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-semibold"
             >
               <ChevronLeft size={16} />
               Back
             </button>
-            <button
+            <button type="button"
               onClick={step === 4 ? handleFinishSetup : () => setStep((s) => s + 1)}
               disabled={!canAdvance()}
               className="flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold transition-all duration-200"

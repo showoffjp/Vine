@@ -149,7 +149,7 @@ export default function PrayerLifePage() {
         {/* Tabs */}
         <div style={{ display: "flex", gap: 4, marginTop: 36, marginBottom: 36, background: CARD, borderRadius: 14, padding: 6, border: `1px solid ${BORDER}` }}>
           {([ { id: "why" as Tab, label: "Why Prayer" }, { id: "methods" as Tab, label: "Methods" }, { id: "lords_prayer" as Tab, label: "The Lord's Prayer" }, { id: "acts" as Tab, label: "ACTS Model" }, { id: "daily" as Tab, label: "Through the Day" }, { id: "videos" as Tab, label: "Videos" } ]).map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 6px", borderRadius: 10, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer", transition: "all 0.2s" }}>
               {t.label}
             </button>
@@ -194,7 +194,7 @@ export default function PrayerLifePage() {
             </div>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 20 }}>
               {METHODS.map((m, i) => (
-                <button key={i} onClick={() => setSelectedMethod(i)}
+                <button type="button" key={i} onClick={() => setSelectedMethod(i)}
                   style={{ padding: "9px 16px", borderRadius: 20, border: `1px solid ${selectedMethod === i ? GREEN : BORDER}`, background: selectedMethod === i ? `${GREEN}18` : "transparent", color: selectedMethod === i ? GREEN : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", transition: "all 0.2s" }}>
                   {m.name}
                 </button>
@@ -239,7 +239,7 @@ export default function PrayerLifePage() {
             </div>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 20 }}>
               {LORDS_PRAYER.map((item, i) => (
-                <button key={i} onClick={() => setSelectedPhrase(i)}
+                <button type="button" key={i} onClick={() => setSelectedPhrase(i)}
                   style={{ padding: "8px 14px", borderRadius: 20, border: `1px solid ${selectedPhrase === i ? GOLD : BORDER}`, background: selectedPhrase === i ? `${GOLD}18` : "transparent", color: selectedPhrase === i ? GOLD : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer", transition: "all 0.2s" }}>
                   {i + 1}. {item.phrase.substring(0, 20)}{item.phrase.length > 20 ? "..." : ""}
                 </button>

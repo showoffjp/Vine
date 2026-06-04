@@ -251,7 +251,7 @@ export default function ChristianPhilosophyPage() {
 
         <div style={{ display: "flex", gap: 4, marginBottom: 28, background: CARD, borderRadius: 10, padding: 4, width: "fit-content" }}>
           {(["thinkers", "arguments", "resources", "voices", "videos"] as Tab[]).map(t => (
-            <button key={t} onClick={() => { setTab(t); setSelected(null); }}
+            <button type="button" key={t} onClick={() => { setTab(t); setSelected(null); }}
               style={{ padding: "8px 18px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", textTransform: "capitalize" }}>
               {t === "thinkers" ? "Key Thinkers" : t === "arguments" ? "Core Arguments" : t === "resources" ? "Resources" : t === "voices" ? "🎓 Voices" : "Videos"}
             </button>
@@ -262,7 +262,7 @@ export default function ChristianPhilosophyPage() {
           <div style={{ display: "grid", gridTemplateColumns: thinker ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {THINKERS.map((t, i) => (
-                <button key={i} onClick={() => setSelected(selected === t.name ? null : t.name)}
+                <button type="button" key={i} onClick={() => setSelected(selected === t.name ? null : t.name)}
                   style={{ background: selected === t.name ? `${t.color}12` : CARD, border: `1px solid ${selected === t.name ? t.color + "50" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                     <div style={{ width: 44, height: 44, borderRadius: 10, background: `${t.color}20`, border: `1px solid ${t.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: t.color, fontWeight: 900, fontSize: 9, flexShrink: 0 }}>
@@ -308,7 +308,7 @@ export default function ChristianPhilosophyPage() {
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {ARGUMENTS.map((arg, i) => (
               <div key={i} style={{ background: CARD, border: `1px solid ${argument?.name === arg.name ? arg.color + "50" : BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                <button onClick={() => setSelected(selected === arg.name ? null : arg.name)}
+                <button type="button" onClick={() => setSelected(selected === arg.name ? null : arg.name)}
                   style={{ width: "100%", padding: "16px 20px", cursor: "pointer", textAlign: "left", background: "transparent", border: "none" }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                     <div>
@@ -377,7 +377,7 @@ export default function ChristianPhilosophyPage() {
           <div style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 80 }}>
               {VOICES_CP.map(v => (
-                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                   style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? "rgba(58,125,86,0.4)" : BORDER}`, background: selectedVoice === v.id ? "rgba(58,125,86,0.08)" : CARD, cursor: "pointer" }}>
                   <div style={{ fontSize: 13, fontWeight: 700, color: selectedVoice === v.id ? GREEN : TEXT, marginBottom: 2 }}>{v.name}</div>
                   <div style={{ fontSize: 11, color: MUTED }}>{v.era}</div>

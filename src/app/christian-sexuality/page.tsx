@@ -188,7 +188,7 @@ export default function ChristianSexualityPage() {
         {/* ── TAB BAR ────────────────────────────────────────────────────── */}
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {tabs.map(t => (
-            <button
+            <button type="button"
               key={t.id}
               onClick={() => setActiveTab(t.id)}
               style={{
@@ -230,7 +230,7 @@ export default function ChristianSexualityPage() {
                     overflow: "hidden",
                   }}
                 >
-                  <button
+                  <button type="button"
                     onClick={() => toggle(key)}
                     style={{
                       width: "100%",
@@ -294,7 +294,7 @@ export default function ChristianSexualityPage() {
               {/* Left: framework list */}
               <div style={{ width: 220, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8 }}>
                 {BODY_FRAMEWORKS.map(f => (
-                  <button
+                  <button type="button"
                     key={f.id}
                     onClick={() => setActiveFramework(f.id)}
                     style={{
@@ -349,7 +349,7 @@ export default function ChristianSexualityPage() {
                     overflow: "hidden",
                   }}
                 >
-                  <button
+                  <button type="button"
                     onClick={() => toggle(key)}
                     style={{
                       width: "100%",
@@ -416,7 +416,7 @@ export default function ChristianSexualityPage() {
                     overflow: "hidden",
                   }}
                 >
-                  <button
+                  <button type="button"
                     onClick={() => toggle(key)}
                     style={{
                       width: "100%",

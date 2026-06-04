@@ -312,7 +312,7 @@ export default function CatechismGuidePage() {
         {/* Tab bar */}
         <div style={{ display: "flex", gap: 4, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 4, marginBottom: 28, width: "fit-content" }}>
           {(["catechisms", "questions", "history", "voices", "videos"] as const).map(t => (
-            <button key={t} onClick={() => setActiveTab(t)}
+            <button type="button" key={t} onClick={() => setActiveTab(t)}
               style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t === "catechisms" ? "Catechisms" : t === "questions" ? "Famous Q&As" : t === "history" ? "History" : t === "voices" ? "Voices" : "🎬 Videos"}
             </button>
@@ -341,7 +341,7 @@ export default function CatechismGuidePage() {
 
             <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 28 }}>
               {TRADITIONS.map(t => (
-                <button key={t} onClick={() => setTradition(t)}
+                <button type="button" key={t} onClick={() => setTradition(t)}
                   style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${tradition === t ? GREEN : BORDER}`, background: tradition === t ? `${GREEN}15` : "transparent", color: tradition === t ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
                   {t}
                 </button>
@@ -351,7 +351,7 @@ export default function CatechismGuidePage() {
             <div style={{ display: "grid", gridTemplateColumns: cat ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 {filtered.map((c, i) => (
-                  <button key={i} onClick={() => setSelected(selected === c.name ? null : c.name)}
+                  <button type="button" key={i} onClick={() => setSelected(selected === c.name ? null : c.name)}
                     style={{ background: selected === c.name ? `${c.color}12` : CARD, border: `1px solid ${selected === c.name ? c.color + "50" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left", transition: "all 0.15s" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                       <div style={{ width: 44, height: 44, borderRadius: 10, background: `${c.color}20`, border: `1px solid ${c.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: c.color, fontWeight: 900, fontSize: 9, flexShrink: 0 }}>
@@ -499,7 +499,7 @@ export default function CatechismGuidePage() {
               {/* Left panel */}
               <div style={{ display: "flex", flexDirection: "column", gap: 6, position: "sticky", top: 100 }}>
                 {VOICES_CAT.map(v => (
-                  <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                     style={{ background: selectedVoice === v.id ? `${PURPLE}18` : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE + "60" : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left", transition: "all 0.15s" }}>
                     <div style={{ color: selectedVoice === v.id ? TEXT : MUTED, fontWeight: 700, fontSize: 14 }}>{v.name}</div>
                     <div style={{ color: MUTED, fontSize: 11, marginTop: 2 }}>{v.era}</div>

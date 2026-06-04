@@ -277,7 +277,7 @@ export default function SalvationPage() {
         {/* Top-level tab bar */}
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}`, flexWrap: "wrap" }}>
           {(["gospel", "theology", "voices", "videos"] as const).map(t => (
-            <button key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+            <button type="button" key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t === "gospel" ? "The Good News" : t === "theology" ? "Theology" : t === "voices" ? "Voices" : "Videos"}
             </button>
           ))}
@@ -289,7 +289,7 @@ export default function SalvationPage() {
             {/* Inner tab bar */}
             <div style={{ display: "flex", gap: 4, marginBottom: 32, borderBottom: `1px solid ${BORDER}`, flexWrap: "wrap" }}>
               {([["gospel", "The Good News"], ["prayer", "Pray Now"], ["faq", "Common Questions"], ["testimonies", "Stories"]] as const).map(([t, label]) => (
-                <button key={t} onClick={() => setTab(t)}
+                <button type="button" key={t} onClick={() => setTab(t)}
                   style={{ padding: "10px 20px", fontSize: 14, fontWeight: 600, background: "none", border: "none", cursor: "pointer", color: tab === t ? GREEN : "#6A6A88", borderBottom: `2px solid ${tab === t ? GREEN : "transparent"}`, marginBottom: -1 }}>
                   {label}
                 </button>
@@ -300,7 +300,7 @@ export default function SalvationPage() {
               <div style={{ maxWidth: 720, margin: "0 auto" }}>
                 <div style={{ display: "flex", gap: 8, marginBottom: 28, justifyContent: "center" }}>
                   {STEPS.map((s, i) => (
-                    <button key={s.id} onClick={() => setStep(i)}
+                    <button type="button" key={s.id} onClick={() => setStep(i)}
                       style={{ width: 36, height: 36, borderRadius: "50%", border: `2px solid ${step === i ? s.color : "#2A2A40"}`, background: step === i ? `${s.color}20` : CARD, color: step === i ? s.color : "#4A4A68", fontWeight: 800, cursor: "pointer", fontSize: 14, transition: "all 0.2s" }}>
                       {s.number}
                     </button>
@@ -330,18 +330,18 @@ export default function SalvationPage() {
                 })()}
                 <div style={{ display: "flex", gap: 12, justifyContent: "center" }}>
                   {step > 0 && (
-                    <button onClick={() => setStep(s => s - 1)}
+                    <button type="button" onClick={() => setStep(s => s - 1)}
                       style={{ padding: "12px 24px", borderRadius: 12, border: `1px solid #2A2A40`, background: CARD, color: MUTED, cursor: "pointer", fontWeight: 700 }}>
                       &larr; Previous
                     </button>
                   )}
                   {step < STEPS.length - 1 ? (
-                    <button onClick={() => setStep(s => s + 1)}
+                    <button type="button" onClick={() => setStep(s => s + 1)}
                       style={{ padding: "12px 28px", borderRadius: 12, border: "none", background: "linear-gradient(135deg, #3a7d56, #00CC6A)", color: BG, cursor: "pointer", fontWeight: 800, fontSize: 15 }}>
                       Next &rarr;
                     </button>
                   ) : (
-                    <button onClick={() => setTab("prayer")}
+                    <button type="button" onClick={() => setTab("prayer")}
                       style={{ padding: "12px 28px", borderRadius: 12, border: "none", background: "linear-gradient(135deg, #3a7d56, #00CC6A)", color: BG, cursor: "pointer", fontWeight: 800, fontSize: 15 }}>
                       I&rsquo;m Ready to Respond &rarr;
                     </button>
@@ -363,7 +363,7 @@ export default function SalvationPage() {
                       <p style={{ marginBottom: 12 }}><em>Come into my life. Be my Lord. Be my Savior. I want to follow You for the rest of my life.</em></p>
                       <p><em>In Jesus&rsquo; name, Amen.&rdquo;</em></p>
                     </div>
-                    <button onClick={markPrayed}
+                    <button type="button" onClick={markPrayed}
                       style={{ width: "100%", padding: "16px", borderRadius: 14, border: "none", background: "linear-gradient(135deg, #3a7d56, #00CC6A)", color: BG, cursor: "pointer", fontWeight: 800, fontSize: 16 }}>
                       I prayed this prayer
                     </button>
@@ -456,7 +456,7 @@ export default function SalvationPage() {
           <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
               {VOICES_SAL.map(v => (
-                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                   style={{ background: selectedVoice === v.id ? PURPLE : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: TEXT, fontWeight: 700, fontSize: 14 }}>{v.name}</div>
                   <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{v.era}</div>
@@ -505,7 +505,7 @@ export default function SalvationPage() {
           <div onClick={e => e.stopPropagation()} style={{ background: CARD, borderRadius: 20, padding: 32, maxWidth: 560, width: "100%", border: "1px solid #2A2A40" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
               <h2 style={{ fontSize: 20, fontWeight: 800, color: GREEN }}>{selectedTestimony.name}</h2>
-              <button onClick={() => setSelectedTestimony(null)} style={{ background: "none", border: "none", color: "#6A6A88", fontSize: 22, cursor: "pointer" }}>×</button>
+              <button type="button" onClick={() => setSelectedTestimony(null)} style={{ background: "none", border: "none", color: "#6A6A88", fontSize: 22, cursor: "pointer" }}>×</button>
             </div>
             <p style={{ fontSize: 15, color: "#C0C0D8", lineHeight: 1.8, marginBottom: 20 }}>{selectedTestimony.story}</p>
             <div style={{ background: "#0D0D1A", borderRadius: 12, padding: 14, borderLeft: `3px solid ${GREEN}` }}>

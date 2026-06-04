@@ -126,7 +126,7 @@ export default function MissionsTheologyPage() {
             { id: "practices" as Tab, label: "Practices", icon: "🛠️" },
             { id: "videos" as Tab, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -151,7 +151,7 @@ export default function MissionsTheologyPage() {
           <div>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 20 }}>
               {APPROACHES.map(a => (
-                <button key={a.name} onClick={() => setSelectedApproach(a.name)}
+                <button type="button" key={a.name} onClick={() => setSelectedApproach(a.name)}
                   style={{ padding: "8px 12px", borderRadius: 20, border: `1px solid ${selectedApproach === a.name ? a.color : BORDER}`, background: selectedApproach === a.name ? `${a.color}20` : "transparent", color: selectedApproach === a.name ? a.color : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
                   {a.icon} {a.name}
                 </button>
@@ -172,7 +172,7 @@ export default function MissionsTheologyPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 185, flexShrink: 0 }}>
               {PIONEERS.map(p => (
-                <button key={p.id} onClick={() => setSelectedPioneer(p.id)}
+                <button type="button" key={p.id} onClick={() => setSelectedPioneer(p.id)}
                   style={{ width: "100%", padding: "12px 14px", borderRadius: 10, border: `1px solid ${selectedPioneer === p.id ? p.color : BORDER}`, background: selectedPioneer === p.id ? `${p.color}12` : "transparent", color: selectedPioneer === p.id ? p.color : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", marginBottom: 6, textAlign: "left" }}>
                   {p.name}
                 </button>

@@ -177,7 +177,7 @@ export default function ChristianWorldviewPage() {
             { id: "challenges" as const, label: "Challenges", icon: "⚔️" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -194,7 +194,7 @@ export default function ChristianWorldviewPage() {
 
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 20 }}>
               {NARRATIVE.map(n => (
-                <button key={n.act} onClick={() => setSelectedAct(selectedAct === n.act ? null : n.act)}
+                <button type="button" key={n.act} onClick={() => setSelectedAct(selectedAct === n.act ? null : n.act)}
                   style={{ flex: "1 1 160px", background: selectedAct === n.act ? `${n.color}20` : CARD, border: `1px solid ${selectedAct === n.act ? n.color : BORDER}`, borderRadius: 12, padding: "18px 14px", cursor: "pointer", textAlign: "left" }}>
                   <div style={{ fontSize: 28, fontWeight: 900, color: n.color, marginBottom: 4 }}>Act {n.act}</div>
                   <div style={{ color: n.color, fontWeight: 800, fontSize: 16 }}>{n.title}</div>
@@ -253,7 +253,7 @@ export default function ChristianWorldviewPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 6 }}>
               {THINKERS.map(t => (
-                <button key={t.id} onClick={() => setSelectedThinker(t.id)}
+                <button type="button" key={t.id} onClick={() => setSelectedThinker(t.id)}
                   style={{ width: "100%", background: selectedThinker === t.id ? `${PURPLE}20` : CARD, border: `1px solid ${selectedThinker === t.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", textAlign: "left", cursor: "pointer" }}>
                   <div style={{ color: selectedThinker === t.id ? GREEN : TEXT, fontWeight: 700, fontSize: 13, marginBottom: 2 }}>{t.name}</div>
                   <div style={{ color: MUTED, fontSize: 11 }}>{t.era}</div>

@@ -167,7 +167,7 @@ export default function SimplicityPage() {
             { id: "detox" as const, label: "30-Day Detox", icon: "🗓️" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -203,7 +203,7 @@ export default function SimplicityPage() {
           <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
               {VOICES_SIMP.map(v => (
-                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                   style={{ background: selectedVoice === v.id ? PURPLE : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: TEXT, fontWeight: 700, fontSize: 14 }}>{v.name}</div>
                   <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{v.era}</div>
@@ -232,7 +232,7 @@ export default function SimplicityPage() {
           <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 8, minWidth: 160 }}>
               {AREAS.map(a => (
-                <button key={a.id} onClick={() => setSelectedArea(a.id)}
+                <button type="button" key={a.id} onClick={() => setSelectedArea(a.id)}
                   style={{ padding: "10px 14px", borderRadius: 10, border: `1px solid ${selectedArea === a.id ? a.color : BORDER}`, background: selectedArea === a.id ? `${a.color}18` : CARD, color: selectedArea === a.id ? a.color : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", textAlign: "left", display: "flex", alignItems: "center", gap: 8 }}>
                   <span>{a.icon}</span> {a.name}
                 </button>
@@ -312,7 +312,7 @@ export default function SimplicityPage() {
               <textarea
                 value={detoxText}
                 onChange={(e) => setDetoxText(e.target.value)}
-                placeholder="What is this season of simplicity teaching you?"
+                aria-label="What is this season of simplicity teaching you?" placeholder="What is this season of simplicity teaching you?"
                 rows={6}
                 style={{ width: "100%", background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "12px 14px", color: TEXT, fontSize: 14, lineHeight: 1.7, outline: "none", resize: "vertical", boxSizing: "border-box", fontFamily: "inherit" }}
               />

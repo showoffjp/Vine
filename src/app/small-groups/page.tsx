@@ -290,7 +290,7 @@ export default function SmallGroupsPage() {
             { id: "voices" as const, label: "Voices", icon: "💬" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 12px", fontWeight: 700, fontSize: 13, cursor: "pointer", transition: "background 0.2s" }}>
               {t.icon} {t.label}
             </button>
@@ -320,11 +320,11 @@ export default function SmallGroupsPage() {
                         <p style={{ fontSize: 14, color: MUTED, margin: 0, lineHeight: 1.6 }}>{g.description}</p>
                       </div>
                       <div style={{ display: "flex", gap: 6, flexShrink: 0 }}>
-                        <button onClick={() => toggleSaved(g.id)}
+                        <button type="button" onClick={() => toggleSaved(g.id)}
                           style={{ width: 32, height: 32, borderRadius: 8, border: `1px solid ${savedGuides.has(g.id) ? PURPLE : BORDER}`, background: savedGuides.has(g.id) ? "rgba(107,79,187,0.15)" : "transparent", cursor: "pointer", fontSize: 13, color: savedGuides.has(g.id) ? PURPLE : MUTED }}>
                           {savedGuides.has(g.id) ? "🔖" : "📌"}
                         </button>
-                        <button onClick={() => setSelectedGuide(selectedGuide?.id === g.id ? null : g)}
+                        <button type="button" onClick={() => setSelectedGuide(selectedGuide?.id === g.id ? null : g)}
                           style={{ padding: "6px 14px", borderRadius: 8, border: `1px solid ${g.color}40`, background: `${g.color}10`, color: g.color, cursor: "pointer", fontSize: 13, fontWeight: 700 }}>
                           {selectedGuide?.id === g.id ? "Close" : "See Outlines"}
                         </button>
@@ -338,7 +338,7 @@ export default function SmallGroupsPage() {
                       <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                         {g.weekOutlines.map(w => (
                           <div key={w.week} style={{ borderRadius: 12, border: `1px solid ${expandedWeek === w.week ? g.color + "40" : BORDER}`, overflow: "hidden" }}>
-                            <button onClick={() => setExpandedWeek(expandedWeek === w.week ? null : w.week)}
+                            <button type="button" onClick={() => setExpandedWeek(expandedWeek === w.week ? null : w.week)}
                               style={{ width: "100%", textAlign: "left", padding: "14px 18px", background: expandedWeek === w.week ? `${g.color}08` : "transparent", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: 12 }}>
                               <span style={{ width: 28, height: 28, borderRadius: "50%", background: `${g.color}20`, color: g.color, fontSize: 12, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{w.week}</span>
                               <div style={{ flex: 1 }}>
@@ -394,7 +394,7 @@ export default function SmallGroupsPage() {
               <p style={{ color: MUTED, fontSize: 14, margin: 0 }}>Mark questions as used to track what you&rsquo;ve asked. Filter by depth level for different group needs.</p>
               <div style={{ display: "flex", gap: 6 }}>
                 {(["All", "Light", "Medium", "Deep"] as const).map(d => (
-                  <button key={d} onClick={() => setDepthFilter(d)}
+                  <button type="button" key={d} onClick={() => setDepthFilter(d)}
                     style={{ padding: "5px 12px", borderRadius: 20, border: `1px solid ${depthFilter === d && d !== "All" ? (depthColors[d] || BORDER) : depthFilter === d ? GREEN : BORDER}`, background: depthFilter === d && d !== "All" ? `${depthColors[d] || "#3B82F6"}15` : depthFilter === d ? `${GREEN}15` : "transparent", color: depthFilter === d && d !== "All" ? depthColors[d] : depthFilter === d ? GREEN : MUTED, fontSize: 12, fontWeight: 600, cursor: "pointer" }}>
                     {d}
                   </button>
@@ -415,7 +415,7 @@ export default function SmallGroupsPage() {
                       </div>
                       <p style={{ fontSize: 15, color: used ? MUTED : TEXT, margin: 0, lineHeight: 1.6, fontStyle: "italic" }}>&ldquo;{q.question}&rdquo;</p>
                     </div>
-                    <button onClick={() => toggleUsed(origIndex)}
+                    <button type="button" onClick={() => toggleUsed(origIndex)}
                       style={{ width: 36, height: 36, borderRadius: 10, border: `1px solid ${used ? GREEN + "40" : BORDER}`, background: used ? `${GREEN}0D` : "rgba(255,255,255,0.03)", cursor: "pointer", fontSize: 14, color: used ? GREEN : MUTED, flexShrink: 0 }}>
                       {used ? "✓" : "○"}
                     </button>
@@ -491,7 +491,7 @@ export default function SmallGroupsPage() {
             <div style={{ display: "flex", gap: 20, alignItems: "flex-start", flexWrap: "wrap" }}>
               <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8 }}>
                 {VOICES_SG.map(v => (
-                  <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                     style={{ background: selectedVoice === v.id ? PURPLE : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left", transition: "all 0.2s" }}>
                     <div style={{ color: TEXT, fontWeight: 700, fontSize: 14 }}>{v.name}</div>
                     <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{v.era}</div>

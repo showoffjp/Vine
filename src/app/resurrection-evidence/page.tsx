@@ -71,7 +71,7 @@ export default function ResurrectionEvidencePage() {
 
         <div style={{ display: "flex", gap: 4, marginBottom: 24, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
           {(["facts", "theories", "historians", "significance", "videos"] as Tab[]).map(t => (
-            <button key={t} onClick={() => setTab(t)}
+            <button type="button" key={t} onClick={() => setTab(t)}
               style={{ padding: "8px 16px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
               {t === "facts" ? "Minimal Facts" : t === "theories" ? "Alternative Theories" : t === "historians" ? "Key Scholars" : t === "significance" ? "Why It Matters" : "Videos"}
             </button>
@@ -137,7 +137,7 @@ export default function ResurrectionEvidencePage() {
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {SIGNIFICANCE.map((s, i) => (
               <div key={i} style={{ background: CARD, border: `1px solid ${expanded[s.point] ? s.color + "40" : BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                <button onClick={() => setExpanded(e => ({ ...e, [s.point]: !e[s.point] }))}
+                <button type="button" onClick={() => setExpanded(e => ({ ...e, [s.point]: !e[s.point] }))}
                   style={{ width: "100%", padding: "16px 20px", cursor: "pointer", textAlign: "left", background: "transparent", border: "none", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <div style={{ color: s.color, fontWeight: 800, fontSize: 15 }}>{s.point}</div>
                   <span style={{ color: MUTED, fontSize: 18 }}>{expanded[s.point] ? "−" : "+"}</span>

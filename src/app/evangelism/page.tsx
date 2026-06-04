@@ -446,7 +446,7 @@ export default function EvangelismPage() {
         {/* Main 4-tab navigation */}
         <div style={{ display: "flex", gap: 6, marginBottom: 28, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 6 }}>
           {(["methods", "stories", "training", "videos"] as const).map(t => (
-            <button key={t} onClick={() => setActiveTab(t)} style={{ flex: 1, background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer", transition: "background 0.2s" }}>
+            <button type="button" key={t} onClick={() => setActiveTab(t)} style={{ flex: 1, background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer", transition: "background 0.2s" }}>
               {t === "methods" ? "Methods" : t === "stories" ? "Stories" : t === "training" ? "Training" : "Videos"}
             </button>
           ))}
@@ -462,7 +462,7 @@ export default function EvangelismPage() {
                 { id: "conversations", label: "💬 Conversations" },
                 { id: "fears", label: "😰 Common Fears" },
               ].map(t => (
-                <button key={t.id} onClick={() => setInnerMethodTab(t.id as typeof innerMethodTab)}
+                <button type="button" key={t.id} onClick={() => setInnerMethodTab(t.id as typeof innerMethodTab)}
                   style={{ padding: "10px 18px", borderRadius: "10px 10px 0 0", border: "none", cursor: "pointer", fontWeight: 700, fontSize: 13, background: innerMethodTab === t.id ? CARD : "transparent", color: innerMethodTab === t.id ? TEXT : MUTED, borderBottom: innerMethodTab === t.id ? `2px solid ${GREEN}` : "2px solid transparent" }}>
                   {t.label}
                 </button>
@@ -488,11 +488,11 @@ export default function EvangelismPage() {
                             </div>
                           </div>
                           <div style={{ display: "flex", gap: 8, flexShrink: 0 }}>
-                            <button onClick={() => toggleSaved(m.id)}
+                            <button type="button" onClick={() => toggleSaved(m.id)}
                               style={{ width: 32, height: 32, borderRadius: 8, border: `1px solid ${savedMethods.has(m.id) ? PURPLE : BORDER}`, background: savedMethods.has(m.id) ? "rgba(107,79,187,0.15)" : "transparent", cursor: "pointer", fontSize: 14, color: savedMethods.has(m.id) ? PURPLE : MUTED }}>
                               {savedMethods.has(m.id) ? "🔖" : "📌"}
                             </button>
-                            <button onClick={() => setExpandedMethod(isExp ? null : m.id)}
+                            <button type="button" onClick={() => setExpandedMethod(isExp ? null : m.id)}
                               style={{ padding: "6px 14px", borderRadius: 8, border: `1px solid ${m.color}40`, background: `${m.color}10`, color: m.color, cursor: "pointer", fontSize: 13, fontWeight: 700 }}>
                               {isExp ? "Close" : "Learn"}
                             </button>
@@ -524,7 +524,7 @@ export default function EvangelismPage() {
 
                           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                             <span style={{ fontSize: 12, padding: "4px 12px", borderRadius: 20, background: "rgba(58,125,86,0.08)", color: GREEN, fontWeight: 600 }}>📖 {m.verse}</span>
-                            <button onClick={() => togglePracticed(m.id)}
+                            <button type="button" onClick={() => togglePracticed(m.id)}
                               style={{ padding: "8px 18px", borderRadius: 10, border: `1px solid ${practicedMethods.has(m.id) ? GREEN : BORDER}`, background: practicedMethods.has(m.id) ? "rgba(58,125,86,0.1)" : "transparent", color: practicedMethods.has(m.id) ? GREEN : MUTED, cursor: "pointer", fontSize: 13, fontWeight: 700 }}>
                               {practicedMethods.has(m.id) ? "✓ Practiced" : "Mark as Practiced"}
                             </button>
@@ -581,7 +581,7 @@ export default function EvangelismPage() {
                 <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                   {fears.map((f, i) => (
                     <div key={i} style={{ background: CARD, border: `1px solid ${expandedFear === i ? GREEN + "40" : BORDER}`, borderRadius: 14, overflow: "hidden" }}>
-                      <button onClick={() => setExpandedFear(expandedFear === i ? null : i)}
+                      <button type="button" onClick={() => setExpandedFear(expandedFear === i ? null : i)}
                         style={{ width: "100%", textAlign: "left", padding: "18px 24px", background: "transparent", border: "none", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
                         <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
                           <span style={{ fontSize: 20 }}>😰</span>
@@ -662,7 +662,7 @@ export default function EvangelismPage() {
                   <div style={{ background: "rgba(58,125,86,0.06)", border: "1px solid rgba(58,125,86,0.2)", borderRadius: 10, padding: "12px 16px", marginBottom: 20 }}>
                     <span style={{ fontSize: 13, color: GREEN, fontWeight: 700 }}>📖 {selectedStory.verse}</span>
                   </div>
-                  <button onClick={() => setSelectedStory(null)}
+                  <button type="button" onClick={() => setSelectedStory(null)}
                     style={{ width: "100%", padding: "12px", borderRadius: 12, border: "none", background: "rgba(255,255,255,0.08)", color: MUTED, cursor: "pointer", fontSize: 14, fontWeight: 700 }}>
                     Close
                   </button>

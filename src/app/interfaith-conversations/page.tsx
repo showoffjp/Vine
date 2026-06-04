@@ -204,7 +204,7 @@ export default function InterfaithConversationsPage() {
       <div style={{ display: "flex", gap: 24 }}>
         <div style={{ flex: "0 0 160px", display: "flex", flexDirection: "column", gap: 10 }}>
           {sections.map((s) => (
-            <button
+            <button type="button"
               key={s.id}
               onClick={() => setSection(s.id)}
               style={{
@@ -294,7 +294,7 @@ export default function InterfaithConversationsPage() {
               { id: "videos", label: "Videos" },
             ] as { id: Tab; label: string }[]
           ).map((t) => (
-            <button
+            <button type="button"
               key={t.id}
               onClick={() => setTab(t.id)}
               style={{
@@ -320,7 +320,7 @@ export default function InterfaithConversationsPage() {
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               {principleItems.map((item) => (
                 <div key={item.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                  <button
+                  <button type="button"
                     onClick={() => toggle(item.id)}
                     style={{
                       width: "100%",
@@ -386,7 +386,7 @@ export default function InterfaithConversationsPage() {
             <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
               {otherReligions.map((religion) => (
                 <div key={religion.name} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                  <button
+                  <button type="button"
                     onClick={() => toggle(religion.name)}
                     style={{
                       width: "100%",

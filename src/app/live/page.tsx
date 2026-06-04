@@ -354,7 +354,7 @@ export default function LivePage() {
                 <h2 className="font-black text-lg mb-1" style={{ color: "#F2F2F8" }}>{liveStreams[0].title}</h2>
                 <p className="text-sm mb-4" style={{ color: "#6A6A88" }}>{liveStreams[0].description}</p>
                 <div className="flex gap-2">
-                  <button
+                  <button type="button"
                     onClick={() => toggleJoin(1)}
                     className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold flex-1 justify-center transition-all"
                     style={{
@@ -369,7 +369,7 @@ export default function LivePage() {
                       <><Play size={14} /> Watch Live</>
                     )}
                   </button>
-                  <button
+                  <button type="button"
                     onClick={() => setLikedFeatured((l) => !l)}
                     className="p-2.5 rounded-xl transition-all"
                     style={{
@@ -406,11 +406,11 @@ export default function LivePage() {
                     value={chatInput}
                     onChange={(e) => setChatInput(e.target.value)}
                     onKeyDown={(e) => e.key === "Enter" && sendChat()}
-                    placeholder="Say something..."
+                    aria-label="Say something..." placeholder="Say something..."
                     className="flex-1 bg-transparent text-xs outline-none px-3 py-2 rounded-lg"
                     style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#F2F2F8" }}
                   />
-                  <button
+                  <button type="button"
                     onClick={sendChat}
                     className="px-3 py-2 rounded-lg text-xs font-bold"
                     style={{ background: "rgba(58,125,86,0.15)", color: "#3a7d56", border: "1px solid rgba(58,125,86,0.25)" }}
@@ -427,7 +427,7 @@ export default function LivePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6">
           <div className="flex gap-2 overflow-x-auto pb-1">
             {categories.map((c) => (
-              <button
+              <button type="button"
                 key={c}
                 onClick={() => setActiveCategory(c)}
                 className="px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition-all"
@@ -475,7 +475,7 @@ export default function LivePage() {
                     </div>
                     <h3 className="font-bold text-sm mb-1 leading-snug" style={{ color: "#F2F2F8" }}>{stream.title}</h3>
                     <p className="text-xs mb-3" style={{ color: "#6A6A88" }}>{stream.host} {stream.flag}</p>
-                    <button
+                    <button type="button"
                       onClick={() => toggleJoin(stream.id)}
                       className="w-full py-2 rounded-xl text-xs font-bold transition-all"
                       style={{
@@ -517,7 +517,7 @@ export default function LivePage() {
                     <p className="text-xs" style={{ color: "#6A6A88" }}>{u.host} {u.flag}</p>
                     <p className="text-xs mt-1 font-semibold" style={{ color: u.color }}>{u.time}</p>
                   </div>
-                  <button
+                  <button type="button"
                     onClick={() => toggleRemind(u.id)}
                     className="flex-shrink-0 p-2.5 rounded-xl transition-all"
                     style={{

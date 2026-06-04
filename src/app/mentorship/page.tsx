@@ -329,7 +329,7 @@ export default function MentorshipPage() {
         {/* Tabs */}
         <div style={{ display: "flex", gap: 8, marginBottom: 28, background: "#12121F", padding: 6, borderRadius: 12, border: "1px solid #1E1E32" }}>
           {(["browse", "my-mentors", "guide", "voices", "videos"] as const).map((tab) => (
-            <button
+            <button type="button"
               key={tab}
               onClick={() => setActiveTab(tab)}
               style={{
@@ -357,7 +357,7 @@ export default function MentorshipPage() {
                 <div style={{ fontSize: 12, color: "#9898B3", marginBottom: 6 }}>Expertise</div>
                 <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
                   {expertiseAreas.map((e) => (
-                    <button
+                    <button type="button"
                       key={e}
                       onClick={() => setFilterExpertise(e)}
                       style={{
@@ -379,7 +379,7 @@ export default function MentorshipPage() {
                 <div style={{ fontSize: 12, color: "#9898B3", marginBottom: 6 }}>Availability</div>
                 <div style={{ display: "flex", gap: 6 }}>
                   {["All", "Open", "Limited", "Full"].map((a) => (
-                    <button
+                    <button type="button"
                       key={a}
                       onClick={() => setFilterAvailability(a)}
                       style={{
@@ -495,7 +495,7 @@ export default function MentorshipPage() {
                         {mentor.format.join(" · ")} · {mentor.sessions} sessions
                       </div>
                       <div style={{ display: "flex", gap: 8 }}>
-                        <button
+                        <button type="button"
                           onClick={(e) => { e.stopPropagation(); handleSave(mentor.id); }}
                           style={{
                             padding: "5px 10px",
@@ -509,7 +509,7 @@ export default function MentorshipPage() {
                         >
                           {saved ? "★" : "☆"}
                         </button>
-                        <button
+                        <button type="button"
                           onClick={(e) => {
                             e.stopPropagation();
                             if (!hasRequest) setRequestModal(mentor);
@@ -556,7 +556,7 @@ export default function MentorshipPage() {
                 <p style={{ color: "#9898B3", fontSize: 14 }}>
                   Browse mentors and send your first request to get started.
                 </p>
-                <button
+                <button type="button"
                   onClick={() => setActiveTab("browse")}
                   style={{
                     marginTop: 20,
@@ -669,7 +669,7 @@ export default function MentorshipPage() {
           <div style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 80 }}>
               {VOICES_MENT.map(v => (
-                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                   style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? "rgba(58,125,86,0.4)" : "#1E1E32"}`, background: selectedVoice === v.id ? "rgba(58,125,86,0.08)" : "#12121F", cursor: "pointer" }}>
                   <div style={{ fontSize: 13, fontWeight: 700, color: selectedVoice === v.id ? "#3a7d56" : "#F2F2F8", marginBottom: 2 }}>{v.name}</div>
                   <div style={{ fontSize: 11, color: "#9898B3" }}>{v.era}</div>
@@ -766,7 +766,7 @@ export default function MentorshipPage() {
             </div>
 
             <div style={{ display: "flex", gap: 12 }}>
-              <button
+              <button type="button"
                 onClick={() => { setSelectedMentor(null); setRequestModal(selectedMentor); }}
                 disabled={selectedMentor.availability === "Full" || requests.some((r) => r.mentorId === selectedMentor.id)}
                 style={{
@@ -791,7 +791,7 @@ export default function MentorshipPage() {
                   ? "Currently Full"
                   : "Request Mentorship"}
               </button>
-              <button
+              <button type="button"
                 onClick={() => setSelectedMentor(null)}
                 style={{ padding: "12px 20px", borderRadius: 10, border: "1px solid #1E1E32", background: "transparent", color: "#9898B3", cursor: "pointer", fontSize: 15 }}
               >
@@ -822,7 +822,7 @@ export default function MentorshipPage() {
               <input
                 value={form.topic}
                 onChange={(e) => setForm((p) => ({ ...p, topic: e.target.value }))}
-                placeholder="e.g. Navigating a career change with faith"
+                aria-label="e.g. Navigating a career change with faith" placeholder="e.g. Navigating a career change with faith"
                 style={{ width: "100%", background: "#07070F", border: "1px solid #1E1E32", borderRadius: 8, padding: "10px 14px", color: "#F2F2F8", fontSize: 14, outline: "none", boxSizing: "border-box" }}
               />
             </div>
@@ -832,7 +832,7 @@ export default function MentorshipPage() {
               <textarea
                 value={form.message}
                 onChange={(e) => setForm((p) => ({ ...p, message: e.target.value }))}
-                placeholder="Share a bit about where you are and what you're hoping to get out of mentorship..."
+                aria-label="Share a bit about where you are and what you're hoping to get out of mentorship..." placeholder="Share a bit about where you are and what you're hoping to get out of mentorship..."
                 rows={4}
                 style={{ width: "100%", background: "#07070F", border: "1px solid #1E1E32", borderRadius: 8, padding: "10px 14px", color: "#F2F2F8", fontSize: 14, outline: "none", resize: "vertical", boxSizing: "border-box" }}
               />
@@ -864,7 +864,7 @@ export default function MentorshipPage() {
             </div>
 
             <div style={{ display: "flex", gap: 12 }}>
-              <button
+              <button type="button"
                 onClick={handleRequest}
                 disabled={!form.topic || !form.message}
                 style={{
@@ -881,7 +881,7 @@ export default function MentorshipPage() {
               >
                 Send Request
               </button>
-              <button
+              <button type="button"
                 onClick={() => setRequestModal(null)}
                 style={{ padding: "12px 20px", borderRadius: 10, border: "1px solid #1E1E32", background: "transparent", color: "#9898B3", cursor: "pointer", fontSize: 15 }}
               >

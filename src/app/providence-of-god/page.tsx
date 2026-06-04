@@ -111,7 +111,7 @@ export default function ProvidenceOfGodPage() {
             { id: "practices" as Tab, label: "Practices", icon: "🛠️" },
             { id: "videos" as Tab, label: "Videos", icon: "▶️" },
           ].map(t => (
-            <button key={t.id} onClick={() => setTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -141,7 +141,7 @@ export default function ProvidenceOfGodPage() {
             </div>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 20 }}>
               {ASPECTS.map(a => (
-                <button key={a.title} onClick={() => setSelectedAspect(a.title)}
+                <button type="button" key={a.title} onClick={() => setSelectedAspect(a.title)}
                   style={{ padding: "8px 14px", borderRadius: 20, border: `1px solid ${selectedAspect === a.title ? a.color : BORDER}`, background: selectedAspect === a.title ? `${a.color}20` : "transparent", color: selectedAspect === a.title ? a.color : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
                   {a.icon} {a.title}
                 </button>
@@ -164,7 +164,7 @@ export default function ProvidenceOfGodPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 185, flexShrink: 0 }}>
               {STORIES.map(s => (
-                <button key={s.id} onClick={() => setSelectedStory(s.id)}
+                <button type="button" key={s.id} onClick={() => setSelectedStory(s.id)}
                   style={{ width: "100%", padding: "12px 14px", borderRadius: 10, border: `1px solid ${selectedStory === s.id ? s.color : BORDER}`, background: selectedStory === s.id ? `${s.color}12` : "transparent", color: selectedStory === s.id ? s.color : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", marginBottom: 6, textAlign: "left" }}>
                   {s.name}
                 </button>

@@ -307,7 +307,7 @@ export default function ProtestantDenominationsPage() {
         {/* Tab Bar */}
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 6, width: "fit-content" }}>
           {(["denominations", "history", "comparison", "voices", "videos"] as const).map(t => (
-            <button key={t} onClick={() => setActiveTab(t)}
+            <button type="button" key={t} onClick={() => setActiveTab(t)}
               style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t === "denominations" ? "Denominations" : t === "history" ? "History" : t === "comparison" ? "Comparison" : t === "voices" ? "Voices" : "🎬 Videos"}
             </button>
@@ -319,7 +319,7 @@ export default function ProtestantDenominationsPage() {
           <>
             <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 28 }}>
               {FAMILIES.map(f => (
-                <button key={f} onClick={() => setFamily(f)}
+                <button type="button" key={f} onClick={() => setFamily(f)}
                   style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${family === f ? GREEN : BORDER}`, background: family === f ? `${GREEN}15` : "transparent", color: family === f ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
                   {f}
                 </button>
@@ -329,7 +329,7 @@ export default function ProtestantDenominationsPage() {
             <div style={{ display: "grid", gridTemplateColumns: denom ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 {filtered.map((d, i) => (
-                  <button key={i} onClick={() => setSelected(selected === d.name ? null : d.name)}
+                  <button type="button" key={i} onClick={() => setSelected(selected === d.name ? null : d.name)}
                     style={{ background: selected === d.name ? `${d.color}12` : CARD, border: `1px solid ${selected === d.name ? d.color + "50" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left", transition: "all 0.15s" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                       <div style={{ width: 44, height: 44, borderRadius: 10, background: `${d.color}20`, border: `1px solid ${d.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: d.color, fontWeight: 900, fontSize: 10, flexShrink: 0 }}>
@@ -473,7 +473,7 @@ export default function ProtestantDenominationsPage() {
             <div style={{ display: "grid", gridTemplateColumns: "280px 1fr", gap: 20, alignItems: "start" }}>
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                 {VOICES_DENOM.map(v => (
-                  <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                     style={{ background: selectedVoice === v.id ? `${PURPLE}18` : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE + "60" : BORDER}`, borderRadius: 10, padding: "14px 16px", cursor: "pointer", textAlign: "left" }}>
                     <div style={{ color: TEXT, fontWeight: 800, fontSize: 14 }}>{v.name}</div>
                     <div style={{ color: MUTED, fontSize: 11, marginTop: 2 }}>{v.era} &middot; {v.context}</div>

@@ -221,7 +221,7 @@ export default function DiscipleshipPage() {
             { id: "myplan" as const, label: "My Plan", icon: "📝" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -239,7 +239,7 @@ export default function DiscipleshipPage() {
             <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
               <div style={{ display: "flex", flexDirection: "column", gap: 8, minWidth: 160 }}>
                 {PATHWAYS.map(p => (
-                  <button key={p.id} onClick={() => setSelectedPath(p.id)}
+                  <button type="button" key={p.id} onClick={() => setSelectedPath(p.id)}
                     style={{ padding: "10px 14px", borderRadius: 10, border: `1px solid ${selectedPath === p.id ? p.color : BORDER}`, background: selectedPath === p.id ? `${p.color}18` : CARD, color: selectedPath === p.id ? p.color : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", textAlign: "left", transition: "all 0.2s" }}>
                     {p.icon} {p.name}
                   </button>
@@ -309,7 +309,7 @@ export default function DiscipleshipPage() {
           <div style={{ display: "flex", gap: 20, alignItems: "flex-start", flexWrap: "wrap" }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8 }}>
               {VOICES_DISC.map(v => (
-                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                   style={{ background: selectedVoice === v.id ? PURPLE : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left", transition: "all 0.2s" }}>
                   <div style={{ color: TEXT, fontWeight: 700, fontSize: 14 }}>{v.name}</div>
                   <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{v.era}</div>
@@ -392,7 +392,7 @@ export default function DiscipleshipPage() {
               <h3 style={{ color: GREEN, fontWeight: 800, marginBottom: 12 }}>My Current Pathway</h3>
               <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 16 }}>
                 {PATHWAYS.map(p => (
-                  <button key={p.id} onClick={() => setCurrentPath(p.id)}
+                  <button type="button" key={p.id} onClick={() => setCurrentPath(p.id)}
                     style={{ padding: "8px 16px", borderRadius: 20, border: `1px solid ${currentPath === p.id ? p.color : BORDER}`, background: currentPath === p.id ? `${p.color}15` : "transparent", color: currentPath === p.id ? p.color : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", transition: "all 0.2s" }}>
                     {p.icon} {p.name}
                   </button>

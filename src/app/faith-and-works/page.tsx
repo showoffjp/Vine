@@ -145,7 +145,7 @@ function AccordionItem({
         transition: "border-color 0.2s",
       }}
     >
-      <button
+      <button type="button"
         onClick={onToggle}
         style={{
           width: "100%",
@@ -257,7 +257,7 @@ export default function FaithAndWorksPage() {
           }}
         >
           {tabs.map((t) => (
-            <button
+            <button type="button"
               key={t.id}
               onClick={() => setActiveTab(t.id)}
               style={{
@@ -354,7 +354,7 @@ export default function FaithAndWorksPage() {
               }}
             >
               {PAUL_ITEMS.map((item) => (
-                <button
+                <button type="button"
                   key={item.id}
                   onClick={() => setSelectedPaul(item.id)}
                   style={{

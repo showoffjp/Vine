@@ -297,7 +297,7 @@ export default function TestimonyPage() {
             </div>
           </div>
 
-          <button
+          <button type="button"
             onClick={() => setShowCompose(true)}
             className="flex items-center gap-2 px-6 py-3 rounded-xl font-black text-sm"
             style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)", color: "#07070F" }}
@@ -312,21 +312,21 @@ export default function TestimonyPage() {
             <div className="w-full max-w-lg rounded-2xl p-6 max-h-[90vh] overflow-y-auto" style={{ background: "#12121F", border: "1px solid #1E1E32" }}>
               <div className="flex items-center justify-between mb-5">
                 <h3 className="font-black text-lg" style={{ color: "#F2F2F8" }}>Share Your Testimony</h3>
-                <button onClick={() => setShowCompose(false)} style={{ color: "#4A4A68" }}><X size={20} /></button>
+                <button type="button" onClick={() => setShowCompose(false)} style={{ color: "#4A4A68" }}><X size={20} /></button>
               </div>
               <div className="space-y-3">
                 <div className="grid grid-cols-2 gap-3">
                   <input
                     value={form.author}
                     onChange={(e) => setForm((f) => ({ ...f, author: e.target.value }))}
-                    placeholder="Your name"
+                    aria-label="Your name" placeholder="Your name"
                     className="px-4 py-2.5 rounded-xl text-sm outline-none"
                     style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#F2F2F8" }}
                   />
                   <input
                     value={form.location}
                     onChange={(e) => setForm((f) => ({ ...f, location: e.target.value }))}
-                    placeholder="Location"
+                    aria-label="Location" placeholder="Location"
                     className="px-4 py-2.5 rounded-xl text-sm outline-none"
                     style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#F2F2F8" }}
                   />
@@ -344,14 +344,14 @@ export default function TestimonyPage() {
                 <input
                   value={form.title}
                   onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
-                  placeholder="Title — a headline for your story"
+                  aria-label="Title — a headline for your story" placeholder="Title — a headline for your story"
                   className="w-full px-4 py-2.5 rounded-xl text-sm outline-none"
                   style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#F2F2F8" }}
                 />
                 <textarea
                   value={form.body}
                   onChange={(e) => setForm((f) => ({ ...f, body: e.target.value }))}
-                  placeholder="Tell your story... What happened? How did God move? What changed?"
+                  aria-label="Tell your story... What happened? How did God move? What changed?" placeholder="Tell your story... What happened? How did God move? What changed?"
                   rows={6}
                   className="w-full px-4 py-3 rounded-xl text-sm outline-none resize-none"
                   style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#F2F2F8" }}
@@ -360,28 +360,28 @@ export default function TestimonyPage() {
                   <input
                     value={form.verse}
                     onChange={(e) => setForm((f) => ({ ...f, verse: e.target.value }))}
-                    placeholder="Verse text (optional)"
+                    aria-label="Verse text (optional)" placeholder="Verse text (optional)"
                     className="px-4 py-2.5 rounded-xl text-sm outline-none"
                     style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#F2F2F8" }}
                   />
                   <input
                     value={form.verseRef}
                     onChange={(e) => setForm((f) => ({ ...f, verseRef: e.target.value }))}
-                    placeholder="Reference (e.g. John 3:16)"
+                    aria-label="Reference (e.g. John 3:16)" placeholder="Reference (e.g. John 3:16)"
                     className="px-4 py-2.5 rounded-xl text-sm outline-none"
                     style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#F2F2F8" }}
                   />
                 </div>
               </div>
               <div className="flex gap-3 mt-5">
-                <button
+                <button type="button"
                   onClick={() => setShowCompose(false)}
                   className="flex-1 py-2.5 rounded-xl font-bold text-sm"
                   style={{ background: "rgba(255,255,255,0.04)", color: "#8A8AA8", border: "1px solid rgba(255,255,255,0.08)" }}
                 >
                   Cancel
                 </button>
-                <button
+                <button type="button"
                   onClick={handleSubmit}
                   disabled={!form.title.trim() || !form.body.trim()}
                   className="flex-1 py-2.5 rounded-xl font-black text-sm"
@@ -405,12 +405,12 @@ export default function TestimonyPage() {
               <input
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search testimonies..."
+                aria-label="Search testimonies..." placeholder="Search testimonies..."
                 className="w-full pl-9 pr-4 py-2.5 rounded-xl text-sm outline-none"
                 style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#F2F2F8" }}
               />
             </div>
-            <button
+            <button type="button"
               onClick={() => setShowFeatured((v) => !v)}
               className="px-4 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap"
               style={{
@@ -427,7 +427,7 @@ export default function TestimonyPage() {
           {/* Category pills */}
           <div className="flex gap-2 overflow-x-auto pb-2 mb-6">
             {CATEGORIES.map((c) => (
-              <button
+              <button type="button"
                 key={c}
                 onClick={() => setActiveCategory(c)}
                 className="px-3 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-all"
@@ -501,7 +501,7 @@ export default function TestimonyPage() {
 
                   {/* Actions */}
                   <div className="flex items-center gap-3">
-                    <button
+                    <button type="button"
                       onClick={() => handleLike(t.id)}
                       className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-black transition-all"
                       style={{
@@ -514,7 +514,7 @@ export default function TestimonyPage() {
                       {hasLiked ? "Encouraged" : "Encourage"}
                       <span className="font-normal text-xs opacity-70">{t.likes.toLocaleString()}</span>
                     </button>
-                    <button
+                    <button type="button"
                       onClick={() => handleShare(t.id)}
                       className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-semibold transition-all"
                       style={{
@@ -538,7 +538,7 @@ export default function TestimonyPage() {
             <p className="text-sm mb-5" style={{ color: "#6A6A88" }}>
               Someone somewhere needs to hear exactly what God did for you. Don&apos;t keep it to yourself.
             </p>
-            <button
+            <button type="button"
               onClick={() => setShowCompose(true)}
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-black text-sm"
               style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)", color: "#07070F" }}

@@ -92,7 +92,7 @@ export default function ChristianMediaHubPage() {
             { id: "podcasts" as const, label: "Podcasts", icon: "🎙️" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveSection(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveSection(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeSection === t.id ? PURPLE : "transparent", color: activeSection === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -108,7 +108,7 @@ export default function ChristianMediaHubPage() {
             </div>
             <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 20 }}>
               {CATEGORIES.map(cat => (
-                <button key={cat} onClick={() => setHackCat(cat)}
+                <button type="button" key={cat} onClick={() => setHackCat(cat)}
                   style={{ padding: "5px 14px", borderRadius: 20, border: `1px solid ${hackCat === cat ? GREEN : BORDER}`, background: hackCat === cat ? `${GREEN}15` : "transparent", color: hackCat === cat ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
                   {cat}
                 </button>

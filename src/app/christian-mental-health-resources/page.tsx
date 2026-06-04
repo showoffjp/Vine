@@ -285,7 +285,7 @@ export default function ChristianMentalHealthResourcesPage() {
         {/* Tab bar */}
         <div style={{ display: "flex", gap: 6, marginBottom: 36, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {(["resources", "theology", "voices", "videos"] as const).map(t => (
-            <button key={t} onClick={() => setActiveTab(t)} style={{ flex: 1, background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+            <button type="button" key={t} onClick={() => setActiveTab(t)} style={{ flex: 1, background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t === "resources" ? "Resources" : t === "theology" ? "Theology" : t === "voices" ? "Voices" : "Videos"}
             </button>
           ))}
@@ -302,7 +302,7 @@ export default function ChristianMentalHealthResourcesPage() {
 
             <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 28 }}>
               {TOPICS.map(t => (
-                <button key={t} onClick={() => setTopic(t)}
+                <button type="button" key={t} onClick={() => setTopic(t)}
                   style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${topic === t ? GREEN : BORDER}`, background: topic === t ? `${GREEN}15` : "transparent", color: topic === t ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
                   {t}
                 </button>
@@ -312,7 +312,7 @@ export default function ChristianMentalHealthResourcesPage() {
             <div style={{ display: "grid", gridTemplateColumns: resource ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 {filtered.map((r, i) => (
-                  <button key={i} onClick={() => setSelected(selected === r.title ? null : r.title)}
+                  <button type="button" key={i} onClick={() => setSelected(selected === r.title ? null : r.title)}
                     style={{ background: selected === r.title ? `${r.color}12` : CARD, border: `1px solid ${selected === r.title ? r.color + "50" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left", transition: "all 0.15s" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                       <div style={{ width: 44, height: 44, borderRadius: 10, background: `${r.color}20`, border: `1px solid ${r.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: r.color, fontWeight: 900, fontSize: 9, flexShrink: 0 }}>
@@ -406,7 +406,7 @@ export default function ChristianMentalHealthResourcesPage() {
               {/* Left panel */}
               <div style={{ display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 100 }}>
                 {VOICES_MH.map(v => (
-                  <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                     style={{ background: selectedVoice === v.id ? `${PURPLE}20` : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE + "60" : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
                     <div style={{ color: selectedVoice === v.id ? TEXT : MUTED, fontWeight: 800, fontSize: 13, marginBottom: 2 }}>{v.name}</div>
                     <div style={{ color: MUTED, fontSize: 11 }}>{v.era}</div>

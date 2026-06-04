@@ -172,7 +172,7 @@ export default function ApologeticsArgumentsPage() {
             { id: "practices" as const, label: "Using Them", icon: "🗣️" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -183,7 +183,7 @@ export default function ApologeticsArgumentsPage() {
           <div>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 20 }}>
               {ARGUMENTS.map(a => (
-                <button key={a.name} onClick={() => { setSelectedArg(a.name); setExpandedObj(null); }}
+                <button type="button" key={a.name} onClick={() => { setSelectedArg(a.name); setExpandedObj(null); }}
                   style={{ padding: "8px 14px", borderRadius: 20, border: `1px solid ${selectedArg === a.name ? a.color : BORDER}`, background: selectedArg === a.name ? `${a.color}20` : "transparent", color: selectedArg === a.name ? a.color : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
                   {a.icon} {a.name}
                 </button>
@@ -212,7 +212,7 @@ export default function ApologeticsArgumentsPage() {
                 <div style={{ color: TEXT, fontWeight: 700, fontSize: 14, marginBottom: 10 }}>Common Objections</div>
                 {arg.objections.map((o, i) => (
                   <div key={i} style={{ marginBottom: 8 }}>
-                    <button onClick={() => setExpandedObj(expandedObj === `${arg.name}-${i}` ? null : `${arg.name}-${i}`)}
+                    <button type="button" onClick={() => setExpandedObj(expandedObj === `${arg.name}-${i}` ? null : `${arg.name}-${i}`)}
                       style={{ width: "100%", background: `${PURPLE}08`, border: `1px solid ${PURPLE}15`, borderRadius: expandedObj === `${arg.name}-${i}` ? "8px 8px 0 0" : 8, padding: "10px 14px", color: MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", display: "flex", justifyContent: "space-between", textAlign: "left" }}>
                       <span>{o.objection}</span>
                       <span style={{ flexShrink: 0 }}>{expandedObj === `${arg.name}-${i}` ? "−" : "+"}</span>
@@ -233,7 +233,7 @@ export default function ApologeticsArgumentsPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 210, flexShrink: 0 }}>
               {APOLOGISTS.map(a => (
-                <button key={a.id} onClick={() => setSelectedApologist(a.id)}
+                <button type="button" key={a.id} onClick={() => setSelectedApologist(a.id)}
                   style={{ width: "100%", background: selectedApologist === a.id ? `${PURPLE}18` : "transparent", border: `1px solid ${selectedApologist === a.id ? PURPLE + "80" : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 6, cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: selectedApologist === a.id ? TEXT : MUTED, fontWeight: 700, fontSize: 13 }}>{a.name}</div>
                   <div style={{ color: MUTED, fontSize: 11, marginTop: 2 }}>{a.era}</div>

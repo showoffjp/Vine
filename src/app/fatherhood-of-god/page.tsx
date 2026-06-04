@@ -204,7 +204,7 @@ export default function FatherhoodOfGodPage() {
 
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {TABS.map(t => (
-            <button key={t.id} onClick={() => setTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setTab(t.id)}
               style={{ flex: 1, padding: "10px 6px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -221,7 +221,7 @@ export default function FatherhoodOfGodPage() {
             <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
               <div style={{ display: "flex", flexDirection: "column", gap: 8, minWidth: 180 }}>
                 {THEOLOGY_ITEMS.map(t => (
-                  <button key={t.id} onClick={() => setSelectedTheology(t.id)}
+                  <button type="button" key={t.id} onClick={() => setSelectedTheology(t.id)}
                     style={{ padding: "10px 14px", borderRadius: 10, border: `1px solid ${selectedTheology === t.id ? GREEN : BORDER}`, background: selectedTheology === t.id ? `${GREEN}18` : CARD, color: selectedTheology === t.id ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer", textAlign: "left" }}>
                     {t.title}
                   </button>
@@ -246,7 +246,7 @@ export default function FatherhoodOfGodPage() {
             </div>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 20 }}>
               {ADOPTION_ITEMS.map(a => (
-                <button key={a.id} onClick={() => setSelectedAdoption(a.id)}
+                <button type="button" key={a.id} onClick={() => setSelectedAdoption(a.id)}
                   style={{ padding: "8px 16px", borderRadius: 20, border: `1px solid ${selectedAdoption === a.id ? PURPLE : BORDER}`, background: selectedAdoption === a.id ? `${PURPLE}15` : "transparent", color: selectedAdoption === a.id ? PURPLE : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
                   <VerseRef reference={a.verse} />
                 </button>
@@ -278,7 +278,7 @@ export default function FatherhoodOfGodPage() {
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               {WOUND_ITEMS.map(w => (
                 <div key={w.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                  <button onClick={() => toggleExpand(w.id)}
+                  <button type="button" onClick={() => toggleExpand(w.id)}
                     style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", padding: "18px 22px", background: "none", border: "none", cursor: "pointer", color: TEXT }}>
                     <div style={{ fontWeight: 800, fontSize: 16, textAlign: "left" }}>{w.title}</div>
                     <div style={{ color: MUTED, fontWeight: 700, fontSize: 20, flexShrink: 0 }}>{expanded[w.id] ? "−" : "+"}</div>

@@ -103,7 +103,7 @@ export default function IncarnationPage() {
         {/* Tab nav */}
         <div style={{ display: "flex", gap: 4, margin: "32px 0", background: CARD, borderRadius: 14, padding: 5, border: `1px solid ${BORDER}`, overflowX: "auto" }}>
           {TABS.map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, minWidth: 80, padding: "10px 6px", borderRadius: 10, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer", transition: "all 0.2s ease", whiteSpace: "nowrap" }}>
               {t.icon} {t.label}
             </button>
@@ -163,7 +163,7 @@ export default function IncarnationPage() {
             </div>
             <div style={{ display: "flex", gap: 8, marginBottom: 24 }}>
               {TWO_NATURES.map((n, i) => (
-                <button key={i} onClick={() => setSelectedNature(i)}
+                <button type="button" key={i} onClick={() => setSelectedNature(i)}
                   style={{ flex: 1, padding: "14px 16px", borderRadius: 12, border: `1px solid ${selectedNature === i ? n.color : BORDER}`, background: selectedNature === i ? `${n.color}18` : CARD, color: selectedNature === i ? n.color : MUTED, fontWeight: 700, fontSize: 15, cursor: "pointer", transition: "all 0.2s ease" }}>
                   {n.icon} {n.nature}
                 </button>

@@ -149,7 +149,7 @@ export default function NewTestamentSurveyPage() {
             { id: "reading" as const, label: "Reading Guide", icon: "🗺️" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -160,7 +160,7 @@ export default function NewTestamentSurveyPage() {
           <div>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 20 }}>
               {SECTIONS.map(s => (
-                <button key={s.name} onClick={() => setSelected(s.name)}
+                <button type="button" key={s.name} onClick={() => setSelected(s.name)}
                   style={{ padding: "8px 14px", borderRadius: 20, border: `1px solid ${selected === s.name ? s.color : BORDER}`, background: selected === s.name ? `${s.color}15` : "transparent", color: selected === s.name ? s.color : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
                   {s.name}
                 </button>
@@ -215,7 +215,7 @@ export default function NewTestamentSurveyPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 6 }}>
               {SCHOLARS.map(s => (
-                <button key={s.id} onClick={() => setSelectedScholar(s.id)}
+                <button type="button" key={s.id} onClick={() => setSelectedScholar(s.id)}
                   style={{ width: "100%", background: selectedScholar === s.id ? `${PURPLE}20` : CARD, border: `1px solid ${selectedScholar === s.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", textAlign: "left", cursor: "pointer" }}>
                   <div style={{ color: selectedScholar === s.id ? GREEN : TEXT, fontWeight: 700, fontSize: 13, marginBottom: 2 }}>{s.name}</div>
                   <div style={{ color: MUTED, fontSize: 11 }}>{s.era}</div>

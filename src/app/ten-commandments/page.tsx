@@ -280,7 +280,7 @@ export default function TenCommandmentsPage() {
 
         <div style={{ display: "flex", gap: 8, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {TABS.map(tab => (
-            <button key={tab.id} onClick={() => setActiveTab(tab.id)}
+            <button type="button" key={tab.id} onClick={() => setActiveTab(tab.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", cursor: "pointer", fontWeight: 700, fontSize: 13, background: activeTab === tab.id ? GREEN : "transparent", color: activeTab === tab.id ? BG : MUTED, transition: "all 0.15s" }}>
               {tab.icon} {tab.label}
             </button>
@@ -291,7 +291,7 @@ export default function TenCommandmentsPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 220, flexShrink: 0 }}>
               {COMMANDMENTS.map(c => (
-                <button key={c.n} onClick={() => setSelected(c.n)}
+                <button type="button" key={c.n} onClick={() => setSelected(c.n)}
                   style={{ width: "100%", background: selected === c.n ? `${c.color}15` : "transparent", border: `1px solid ${selected === c.n ? c.color + "60" : BORDER}`, borderRadius: 10, padding: "10px 14px", marginBottom: 6, cursor: "pointer", textAlign: "left", display: "flex", gap: 10, alignItems: "center" }}>
                   <div style={{ width: 24, height: 24, borderRadius: "50%", background: selected === c.n ? `${c.color}25` : "transparent", border: `1px solid ${selected === c.n ? c.color : BORDER}`, display: "flex", alignItems: "center", justifyContent: "center", color: selected === c.n ? c.color : MUTED, fontWeight: 800, fontSize: 12, flexShrink: 0 }}>{c.n}</div>
                   <span style={{ color: selected === c.n ? c.color : MUTED, fontWeight: 600, fontSize: 12, lineHeight: 1.4 }}>{c.cmd.split(' ').slice(0, 5).join(' ')}...</span>
@@ -341,7 +341,7 @@ export default function TenCommandmentsPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 210, flexShrink: 0 }}>
               {THEOLOGIANS.map(t => (
-                <button key={t.id} onClick={() => setSelectedTheologian(t.id)}
+                <button type="button" key={t.id} onClick={() => setSelectedTheologian(t.id)}
                   style={{ width: "100%", background: selectedTheologian === t.id ? `${PURPLE}18` : "transparent", border: `1px solid ${selectedTheologian === t.id ? PURPLE + "80" : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 6, cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: selectedTheologian === t.id ? TEXT : MUTED, fontWeight: 700, fontSize: 13 }}>{t.name}</div>
                   <div style={{ color: MUTED, fontSize: 11, marginTop: 2 }}>{t.era}</div>
@@ -387,7 +387,7 @@ export default function TenCommandmentsPage() {
             <div style={{ display: "flex", gap: 20 }}>
               <div style={{ width: 210, flexShrink: 0 }}>
                 {JESUS_ON_LAW.map((item, i) => (
-                  <button key={i} onClick={() => setSelectedJesus(i)}
+                  <button type="button" key={i} onClick={() => setSelectedJesus(i)}
                     style={{ width: "100%", background: selectedJesus === i ? `${item.color}18` : "transparent", border: `1px solid ${selectedJesus === i ? item.color + "70" : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 6, cursor: "pointer", textAlign: "left" }}>
                     <div style={{ color: selectedJesus === i ? item.color : MUTED, fontWeight: 700, fontSize: 13, lineHeight: 1.4 }}>{item.cmd}</div>
                     <div style={{ color: MUTED, fontSize: 11, marginTop: 3 }}>{item.ref}</div>

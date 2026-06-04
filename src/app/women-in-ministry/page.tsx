@@ -136,7 +136,7 @@ export default function WomenInMinistryPage() {
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -161,7 +161,7 @@ export default function WomenInMinistryPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 210, flexShrink: 0 }}>
               {SCHOLARS.map(s => (
-                <button key={s.id} onClick={() => setSelectedScholar(s.id)}
+                <button type="button" key={s.id} onClick={() => setSelectedScholar(s.id)}
                   style={{ width: "100%", background: selectedScholar === s.id ? `${PURPLE}18` : "transparent", border: `1px solid ${selectedScholar === s.id ? PURPLE + "70" : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 6, cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: selectedScholar === s.id ? PURPLE : TEXT, fontWeight: 800, fontSize: 13, marginBottom: 2 }}>{s.name}</div>
                   <div style={{ color: MUTED, fontSize: 11 }}>{s.era}</div>
@@ -193,7 +193,7 @@ export default function WomenInMinistryPage() {
           <div>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 20 }}>
               {POSITIONS.map(p => (
-                <button key={p.name} onClick={() => setSelectedPos(p.name)}
+                <button type="button" key={p.name} onClick={() => setSelectedPos(p.name)}
                   style={{ padding: "8px 14px", borderRadius: 20, border: `1px solid ${selectedPos === p.name ? p.color : BORDER}`, background: selectedPos === p.name ? `${p.color}20` : "transparent", color: selectedPos === p.name ? p.color : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
                   {p.name}
                 </button>

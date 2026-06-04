@@ -313,7 +313,7 @@ export default function ChristianConferencesPage() {
         {/* Tab Bar */}
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 6, width: "fit-content" }}>
           {(["conferences", "speakers", "howto", "videos"] as const).map(t => (
-            <button key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+            <button type="button" key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t === "conferences" ? "Conferences" : t === "speakers" ? "Speakers" : t === "howto" ? "How To Attend" : "Videos"}
             </button>
           ))}
@@ -324,7 +324,7 @@ export default function ChristianConferencesPage() {
           <>
             <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 28 }}>
               {CATEGORIES.map(c => (
-                <button key={c} onClick={() => setCategory(c)}
+                <button type="button" key={c} onClick={() => setCategory(c)}
                   style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${category === c ? GREEN : BORDER}`, background: category === c ? `${GREEN}15` : "transparent", color: category === c ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
                   {c}
                 </button>
@@ -334,7 +334,7 @@ export default function ChristianConferencesPage() {
             <div style={{ display: "grid", gridTemplateColumns: conf ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 {filtered.map((c, i) => (
-                  <button key={i} onClick={() => setSelected(selected === c.name ? null : c.name)}
+                  <button type="button" key={i} onClick={() => setSelected(selected === c.name ? null : c.name)}
                     style={{ background: selected === c.name ? `${c.color}12` : CARD, border: `1px solid ${selected === c.name ? c.color + "50" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left", transition: "all 0.15s" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                       <div style={{ width: 44, height: 44, borderRadius: 10, background: `${c.color}20`, border: `1px solid ${c.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: c.color, fontWeight: 900, fontSize: 10, flexShrink: 0 }}>
@@ -403,7 +403,7 @@ export default function ChristianConferencesPage() {
           <div style={{ display: "grid", gridTemplateColumns: speaker ? "210px 1fr" : "1fr", gap: 20, alignItems: "start" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 8, position: speaker ? "sticky" : "static", top: 100 }}>
               {CONF_SPEAKERS.map(s => (
-                <button key={s.id} onClick={() => setSelectedSpeaker(selectedSpeaker === s.id ? null : s.id)}
+                <button type="button" key={s.id} onClick={() => setSelectedSpeaker(selectedSpeaker === s.id ? null : s.id)}
                   style={{ background: selectedSpeaker === s.id ? `${PURPLE}20` : CARD, border: `1px solid ${selectedSpeaker === s.id ? PURPLE + "60" : BORDER}`, borderRadius: 10, padding: "14px 16px", cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: TEXT, fontWeight: 800, fontSize: 14 }}>{s.name}</div>
                   <div style={{ color: selectedSpeaker === s.id ? PURPLE : MUTED, fontSize: 11, marginTop: 3, fontWeight: 600 }}>{s.known_for}</div>
@@ -438,7 +438,7 @@ export default function ChristianConferencesPage() {
             ) : (
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 14 }}>
                 {CONF_SPEAKERS.map(s => (
-                  <button key={s.id} onClick={() => setSelectedSpeaker(s.id)}
+                  <button type="button" key={s.id} onClick={() => setSelectedSpeaker(s.id)}
                     style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, cursor: "pointer", textAlign: "left" }}>
                     <div style={{ color: PURPLE, fontWeight: 900, fontSize: 16, marginBottom: 4 }}>{s.name}</div>
                     <div style={{ color: MUTED, fontSize: 12, marginBottom: 10 }}>{s.known_for}</div>

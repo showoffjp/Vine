@@ -891,7 +891,7 @@ export default function QuizPage() {
                       </span>
                     </div>
                     {quiz.available && (
-                      <button
+                      <button type="button"
                         style={{
                           display: "flex",
                           alignItems: "center",
@@ -937,7 +937,7 @@ export default function QuizPage() {
             <div style={{ maxWidth: "640px", margin: "0 auto", paddingTop: "32px" }}>
               {/* Header */}
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "24px" }}>
-                <button
+                <button type="button"
                   onClick={reset}
                   style={{
                     display: "flex",
@@ -1003,7 +1003,7 @@ export default function QuizPage() {
                 </h2>
                 <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
                   {activeQuizData.questions[currentQ].options.map((opt, idx) => (
-                    <button
+                    <button type="button"
                       key={idx}
                       onClick={() => selected === null && handleAnswer(idx, String(opt.tag))}
                       style={{
@@ -1150,7 +1150,7 @@ export default function QuizPage() {
 
                       {/* Actions */}
                       <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
-                        <button
+                        <button type="button"
                           onClick={() => shareResult(activeQuizData.label, res.title)}
                           style={{
                             flex: 1,
@@ -1170,7 +1170,7 @@ export default function QuizPage() {
                         >
                           <Share2 size={15} /> {shared ? "Copied!" : "Share My Result"}
                         </button>
-                        <button
+                        <button type="button"
                           onClick={reset}
                           style={{
                             flex: 1,

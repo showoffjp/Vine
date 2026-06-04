@@ -458,7 +458,7 @@ export default function DailyChristianHabitsPage() {
             ["schedule", "Schedule"],
             ["videos", "Videos"],
           ] as [Tab, string][]).map(([t, label]) => (
-            <button key={t} onClick={() => setActiveTab(t)}
+            <button type="button" key={t} onClick={() => setActiveTab(t)}
               style={{ padding: "10px 20px", fontSize: 14, fontWeight: 600, background: "none", border: "none", cursor: "pointer", color: activeTab === t ? GREEN : "#6A6A88", borderBottom: `2px solid ${activeTab === t ? GREEN : "transparent"}`, marginBottom: -1 }}>
               {label}
             </button>
@@ -483,7 +483,7 @@ export default function DailyChristianHabitsPage() {
 
             <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 24 }}>
               {HABIT_CATEGORIES.map(c => (
-                <button key={c} onClick={() => setCategory(c)}
+                <button type="button" key={c} onClick={() => setCategory(c)}
                   style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${category === c ? GREEN : BORDER}`, background: category === c ? `${GREEN}15` : "transparent", color: category === c ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
                   {c}
                 </button>
@@ -493,7 +493,7 @@ export default function DailyChristianHabitsPage() {
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {filtered.map((h) => (
                 <div key={h.number} style={{ borderRadius: expanded === h.number ? "12px 12px 0 0" : 12, overflow: "hidden" }}>
-                  <button onClick={() => setExpanded(expanded === h.number ? null : h.number)}
+                  <button type="button" onClick={() => setExpanded(expanded === h.number ? null : h.number)}
                     style={{ width: "100%", background: expanded === h.number ? `${h.color}10` : CARD, border: `1px solid ${expanded === h.number ? h.color + "40" : BORDER}`, borderRadius: expanded === h.number ? "12px 12px 0 0" : 12, padding: "16px 20px", cursor: "pointer", textAlign: "left", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
                       <div style={{ width: 36, height: 36, borderRadius: 8, background: `${h.color}20`, border: `1px solid ${h.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: h.color, fontWeight: 900, fontSize: 14, flexShrink: 0 }}>

@@ -210,7 +210,7 @@ export default function FruitOfTheSpiritPage() {
             { id: "growing" as const, label: "Growing in the Spirit", icon: "🌱" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map((t) => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -238,7 +238,7 @@ export default function FruitOfTheSpiritPage() {
 
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(170px, 1fr))", gap: 12 }}>
               {FRUITS.map((f) => (
-                <button key={f.id} onClick={() => { setSelected(f.id); setActiveTab("nine"); }}
+                <button type="button" key={f.id} onClick={() => { setSelected(f.id); setActiveTab("nine"); }}
                   style={{ textAlign: "left", background: BG, border: `1px solid ${f.color}40`, borderRadius: 12, padding: 16, cursor: "pointer" }}>
                   <div style={{ fontSize: 24, marginBottom: 6 }}>{f.icon}</div>
                   <div style={{ color: f.color, fontWeight: 800, fontSize: 15 }}>{f.name}</div>
@@ -253,7 +253,7 @@ export default function FruitOfTheSpiritPage() {
           <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
             <div style={{ width: 200, flexShrink: 0, display: "flex", flexDirection: "column", gap: 6 }}>
               {FRUITS.map((f) => (
-                <button key={f.id} onClick={() => setSelected(f.id)}
+                <button type="button" key={f.id} onClick={() => setSelected(f.id)}
                   style={{ width: "100%", background: selected === f.id ? `${f.color}18` : "transparent", border: `1px solid ${selected === f.id ? f.color + "70" : BORDER}`, borderRadius: 10, padding: "10px 12px", cursor: "pointer", textAlign: "left", display: "flex", gap: 10, alignItems: "center" }}>
                   <span style={{ fontSize: 18 }}>{f.icon}</span>
                   <span style={{ color: selected === f.id ? f.color : MUTED, fontWeight: 700, fontSize: 13 }}>{f.name}</span>

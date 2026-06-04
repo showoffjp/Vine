@@ -181,7 +181,7 @@ function AccordionItem({ title, body }: { title: string; body: string }) {
         overflow: "hidden",
       }}
     >
-      <button
+      <button type="button"
         onClick={() => setOpen(!open)}
         style={{
           width: "100%",
@@ -413,7 +413,7 @@ export default function TheologyOfTechnologyPage() {
           {TABS.map((tab) => {
             const isActive = activeTab === tab.id;
             return (
-              <button
+              <button type="button"
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 style={{

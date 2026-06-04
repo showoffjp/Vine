@@ -180,7 +180,7 @@ export default function LordsPrayerPage() {
             { id: "howto" as const, label: "How to Pray It", icon: "🙏" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map((t) => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -208,7 +208,7 @@ export default function LordsPrayerPage() {
 
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 12 }}>
               {PHRASES.map((p) => (
-                <button key={p.id} onClick={() => { setSelected(p.id); setActiveTab("phrase"); }}
+                <button type="button" key={p.id} onClick={() => { setSelected(p.id); setActiveTab("phrase"); }}
                   style={{ textAlign: "left", background: BG, border: `1px solid ${p.color}40`, borderRadius: 12, padding: 16, cursor: "pointer" }}>
                   <div style={{ fontSize: 22, marginBottom: 6 }}>{p.icon}</div>
                   <div style={{ color: p.color, fontWeight: 700, fontSize: 14, lineHeight: 1.35, fontFamily: SERIF }}>{p.phrase}</div>
@@ -222,7 +222,7 @@ export default function LordsPrayerPage() {
           <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
             <div style={{ width: 250, flexShrink: 0, display: "flex", flexDirection: "column", gap: 6 }}>
               {PHRASES.map((p) => (
-                <button key={p.id} onClick={() => setSelected(p.id)}
+                <button type="button" key={p.id} onClick={() => setSelected(p.id)}
                   style={{ width: "100%", background: selected === p.id ? `${p.color}18` : "transparent", border: `1px solid ${selected === p.id ? p.color + "70" : BORDER}`, borderRadius: 10, padding: "10px 12px", cursor: "pointer", textAlign: "left", display: "flex", gap: 9, alignItems: "flex-start" }}>
                   <span style={{ fontSize: 16, flexShrink: 0 }}>{p.icon}</span>
                   <span style={{ color: selected === p.id ? p.color : MUTED, fontWeight: 600, fontSize: 12, lineHeight: 1.4, fontFamily: SERIF }}>{p.phrase}</span>

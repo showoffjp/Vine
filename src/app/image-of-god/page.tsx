@@ -177,7 +177,7 @@ function AccordionItem({
         transition: "border-color 0.2s",
       }}
     >
-      <button
+      <button type="button"
         onClick={() => onToggle(id)}
         style={{
           width: "100%",
@@ -288,7 +288,7 @@ export default function ImageOfGodPage() {
           }}
         >
           {TABS.map((t) => (
-            <button
+            <button type="button"
               key={t.id}
               onClick={() => setActiveTab(t.id)}
               style={{
@@ -365,7 +365,7 @@ export default function ImageOfGodPage() {
               {/* Left: view list */}
               <div style={{ flex: "0 0 220px", display: "flex", flexDirection: "column", gap: 8 }}>
                 {VIEWS.map((v) => (
-                  <button
+                  <button type="button"
                     key={v.id}
                     onClick={() => setSelectedView(v.id)}
                     style={{

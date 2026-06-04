@@ -105,7 +105,7 @@ export default function SpiritualGrowthPage() {
             { id: "obstacles" as const, label: "Obstacles", icon: "⚠️" },
             { id: "videos" as const, label: "Videos", icon: "▶️" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -130,7 +130,7 @@ export default function SpiritualGrowthPage() {
           <div>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 20 }}>
               {STAGES.map(s => (
-                <button key={s.stage} onClick={() => setSelectedStage(s.stage)}
+                <button type="button" key={s.stage} onClick={() => setSelectedStage(s.stage)}
                   style={{ padding: "8px 16px", borderRadius: 20, border: `1px solid ${selectedStage === s.stage ? s.color : BORDER}`, background: selectedStage === s.stage ? `${s.color}15` : "transparent", color: selectedStage === s.stage ? s.color : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
                   {s.stage}
                 </button>
@@ -160,7 +160,7 @@ export default function SpiritualGrowthPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 220, flexShrink: 0 }}>
               {THINKERS.map(tk => (
-                <button key={tk.id} onClick={() => setSelectedThinker(tk.id)}
+                <button type="button" key={tk.id} onClick={() => setSelectedThinker(tk.id)}
                   style={{ width: "100%", background: selectedThinker === tk.id ? `${PURPLE}20` : CARD, border: `1px solid ${selectedThinker === tk.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 8, cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: selectedThinker === tk.id ? GREEN : TEXT, fontWeight: 700, fontSize: 13, marginBottom: 2 }}>{tk.name}</div>
                   <div style={{ color: MUTED, fontSize: 11 }}>{tk.era}</div>
@@ -193,7 +193,7 @@ export default function SpiritualGrowthPage() {
             </div>
             {OBSTACLES.map((o, i) => (
               <div key={i} style={{ marginBottom: 10 }}>
-                <button onClick={() => setExpanded(expanded === o.obstacle ? null : o.obstacle)}
+                <button type="button" onClick={() => setExpanded(expanded === o.obstacle ? null : o.obstacle)}
                   style={{ width: "100%", background: CARD, border: `1px solid ${BORDER}`, borderRadius: expanded === o.obstacle ? "10px 10px 0 0" : 10, padding: "14px 18px", color: TEXT, fontWeight: 700, fontSize: 14, cursor: "pointer", display: "flex", justifyContent: "space-between", textAlign: "left" }}>
                   <span>{o.obstacle}</span>
                   <span style={{ color: MUTED, flexShrink: 0 }}>{expanded === o.obstacle ? "−" : "+"}</span>

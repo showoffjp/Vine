@@ -148,7 +148,7 @@ export default function FriendshipPage() {
             { id: "practice" as const, label: "My Friends", icon: "🤝" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -173,7 +173,7 @@ export default function FriendshipPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 210, flexShrink: 0 }}>
               {VOICES_FRIENDSHIP.map(v => (
-                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                   style={{ width: "100%", background: selectedVoice === v.id ? `${PURPLE}18` : "transparent", border: `1px solid ${selectedVoice === v.id ? PURPLE + "80" : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 6, cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: selectedVoice === v.id ? TEXT : MUTED, fontWeight: 700, fontSize: 13 }}>{v.name}</div>
                   <div style={{ color: MUTED, fontSize: 11, marginTop: 2 }}>{v.era}</div>
@@ -236,20 +236,20 @@ export default function FriendshipPage() {
           <div>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
               <h3 style={{ color: TEXT, fontWeight: 800, fontSize: 18, margin: 0 }}>Friends to Invest In</h3>
-              <button onClick={() => setShowForm(!showForm)}
+              <button type="button" onClick={() => setShowForm(!showForm)}
                 style={{ padding: "8px 18px", background: PURPLE, border: "none", borderRadius: 8, color: "#fff", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
                 + Add Friend
               </button>
             </div>
             {showForm && (
               <div style={{ background: CARD, border: `1px solid ${PURPLE}50`, borderRadius: 12, padding: 20, marginBottom: 16 }}>
-                <input value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} placeholder="Friend's name"
+                <input value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} aria-label="Friend's name" placeholder="Friend's name"
                   style={{ width: "100%", padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, marginBottom: 10, boxSizing: "border-box" }} />
-                <textarea value={form.notes} onChange={e => setForm(f => ({ ...f, notes: e.target.value }))} placeholder="Prayer needs, what to follow up on, how you can serve them..."
+                <textarea value={form.notes} onChange={e => setForm(f => ({ ...f, notes: e.target.value }))} aria-label="Prayer needs, what to follow up on, how you can serve them..." placeholder="Prayer needs, what to follow up on, how you can serve them..."
                   style={{ width: "100%", minHeight: 70, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box", fontFamily: "inherit", marginBottom: 10 }} />
                 <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
-                  <button onClick={() => setShowForm(false)} style={{ padding: "8px 16px", borderRadius: 8, border: `1px solid ${BORDER}`, background: "transparent", color: MUTED, cursor: "pointer" }}>Cancel</button>
-                  <button onClick={addFriend} style={{ padding: "8px 18px", borderRadius: 8, border: "none", background: GREEN, color: BG, fontWeight: 800, cursor: "pointer" }}>Add</button>
+                  <button type="button" onClick={() => setShowForm(false)} style={{ padding: "8px 16px", borderRadius: 8, border: `1px solid ${BORDER}`, background: "transparent", color: MUTED, cursor: "pointer" }}>Cancel</button>
+                  <button type="button" onClick={addFriend} style={{ padding: "8px 18px", borderRadius: 8, border: "none", background: GREEN, color: BG, fontWeight: 800, cursor: "pointer" }}>Add</button>
                 </div>
               </div>
             )}
@@ -265,7 +265,7 @@ export default function FriendshipPage() {
                         <div style={{ color: color, fontSize: 12, fontWeight: 600, marginBottom: 4 }}>{days === 0 ? "Contacted today" : `${days} days since last contact`}</div>
                         {f.notes && <p style={{ color: MUTED, fontSize: 13, margin: 0, lineHeight: 1.6 }}>{f.notes}</p>}
                       </div>
-                      <button onClick={() => touchFriend(f.id)}
+                      <button type="button" onClick={() => touchFriend(f.id)}
                         style={{ padding: "6px 14px", borderRadius: 8, border: `1px solid ${GREEN}50`, background: `${GREEN}15`, color: GREEN, fontSize: 12, fontWeight: 700, cursor: "pointer", flexShrink: 0, marginLeft: 12 }}>
                         Mark Contact
                       </button>

@@ -105,7 +105,7 @@ export default function ExpositoryPreachingPage() {
 
         <div style={{ display: "flex", gap: 4, marginBottom: 24, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
           {(["what", "process", "example", "series", "preachers", "videos"] as Tab[]).map(t => (
-            <button key={t} onClick={() => setTab(t)}
+            <button type="button" key={t} onClick={() => setTab(t)}
               style={{ padding: "8px 16px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
               {t === "what" ? "What It Is" : t === "process" ? "The Process" : t === "example" ? "Worked Example" : t === "series" ? "Book Series" : t === "preachers" ? "Model Preachers" : "Videos"}
             </button>
@@ -165,7 +165,7 @@ export default function ExpositoryPreachingPage() {
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {PROCESS_STEPS.map((p, i) => (
               <div key={i} style={{ background: CARD, border: `1px solid ${expanded[p.title] ? p.color + "40" : BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                <button onClick={() => setExpanded(e => ({ ...e, [p.title]: !e[p.title] }))}
+                <button type="button" onClick={() => setExpanded(e => ({ ...e, [p.title]: !e[p.title] }))}
                   style={{ width: "100%", padding: "16px 20px", cursor: "pointer", textAlign: "left", background: "transparent", border: "none", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
                     <div style={{ width: 28, height: 28, borderRadius: "50%", background: p.color, color: BG, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 900, fontSize: 12, flexShrink: 0 }}>{p.step}</div>

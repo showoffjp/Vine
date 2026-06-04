@@ -344,7 +344,7 @@ export default function ChristianSimplicityPage() {
           }}
         >
           {tabs.map((t) => (
-            <button
+            <button type="button"
               key={t.id}
               onClick={() => setActiveTab(t.id)}
               style={{
@@ -388,7 +388,7 @@ export default function ChristianSimplicityPage() {
                     transition: "border-color 0.2s",
                   }}
                 >
-                  <button
+                  <button type="button"
                     onClick={() =>
                       setOpenTheology(isOpen ? undefined : i)
                     }
@@ -482,7 +482,7 @@ export default function ChristianSimplicityPage() {
               }}
             >
               {TEACHERS.map((t, i) => (
-                <button
+                <button type="button"
                   key={i}
                   onClick={() => setSelectedTeacher(i)}
                   style={{
@@ -730,7 +730,7 @@ export default function ChristianSimplicityPage() {
                     transition: "border-color 0.2s",
                   }}
                 >
-                  <button
+                  <button type="button"
                     onClick={() =>
                       setOpenObstacle(isOpen ? undefined : i)
                     }

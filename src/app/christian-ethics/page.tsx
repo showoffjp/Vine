@@ -138,7 +138,7 @@ export default function ChristianEthicsPage() {
             { id: "methods" as Tab, label: "Methods", icon: "🔬" },
             { id: "videos" as Tab, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -163,7 +163,7 @@ export default function ChristianEthicsPage() {
           <div>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 20 }}>
               {ISSUES.map(i => (
-                <button key={i.issue} onClick={() => setSelectedIssue(i.issue)}
+                <button type="button" key={i.issue} onClick={() => setSelectedIssue(i.issue)}
                   style={{ padding: "8px 14px", borderRadius: 20, border: `1px solid ${selectedIssue === i.issue ? i.color : BORDER}`, background: selectedIssue === i.issue ? `${i.color}15` : "transparent", color: selectedIssue === i.issue ? i.color : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
                   {i.issue}
                 </button>
@@ -183,7 +183,7 @@ export default function ChristianEthicsPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 190, flexShrink: 0 }}>
               {CONTEMPORARY.map(c => (
-                <button key={c.id} onClick={() => setSelectedContemporary(c.id)}
+                <button type="button" key={c.id} onClick={() => setSelectedContemporary(c.id)}
                   style={{ width: "100%", padding: "12px 14px", borderRadius: 10, border: `1px solid ${selectedContemporary === c.id ? c.color : BORDER}`, background: selectedContemporary === c.id ? `${c.color}12` : "transparent", color: selectedContemporary === c.id ? c.color : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", marginBottom: 6, textAlign: "left" }}>
                   {c.icon} {c.issue.split(" &")[0].split(" &")[0]}
                 </button>

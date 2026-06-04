@@ -55,7 +55,7 @@ export default function CatholicFaithPage() {
         {/* Tabs */}
         <div style={{ display: "flex", gap: 4, background: CARD, borderRadius: 12, padding: 6, marginBottom: 28, overflowX: "auto" }}>
           {tabs.map(t => (
-            <button
+            <button type="button"
               key={t.id}
               onClick={() => setTab(t.id)}
               style={{

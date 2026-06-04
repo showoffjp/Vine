@@ -330,7 +330,7 @@ export default function ReadingProphetsPage() {
           }}
         >
           {tabs.map((t) => (
-            <button
+            <button type="button"
               key={t.id}
               onClick={() => setTab(t.id)}
               style={{
@@ -381,7 +381,7 @@ export default function ReadingProphetsPage() {
                       overflow: "hidden",
                     }}
                   >
-                    <button
+                    <button type="button"
                       onClick={() => setOpenHowto(open ? undefined : i)}
                       style={{
                         width: "100%",
@@ -430,7 +430,7 @@ export default function ReadingProphetsPage() {
             {/* Left: book list */}
             <div style={{ width: 160, flexShrink: 0 }}>
               {MAJOR_BOOKS.map((b) => (
-                <button
+                <button type="button"
                   key={b.book}
                   onClick={() => setSelectedMajor(b.book)}
                   style={{
@@ -752,7 +752,7 @@ export default function ReadingProphetsPage() {
                       overflow: "hidden",
                     }}
                   >
-                    <button
+                    <button type="button"
                       onClick={() => setOpenTheme(open ? undefined : i)}
                       style={{
                         width: "100%",

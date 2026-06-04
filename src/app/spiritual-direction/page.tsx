@@ -213,7 +213,7 @@ function Accordion({
               transition: "border-color 0.2s",
             }}
           >
-            <button
+            <button type="button"
               onClick={() => toggle(item.id)}
               style={{
                 width: "100%",
@@ -309,7 +309,7 @@ function TabTradition({ selected, setSelected }: { selected: string; setSelected
           }}
         >
           {TRADITION_ITEMS.map((t) => (
-            <button
+            <button type="button"
               key={t.id}
               onClick={() => setSelected(t.id)}
               style={{
@@ -532,7 +532,7 @@ export default function SpiritualDirectionPage() {
           }}
         >
           {TABS.map((tab) => (
-            <button
+            <button type="button"
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               style={{

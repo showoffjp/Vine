@@ -393,7 +393,7 @@ export default function CreatorsPage() {
 
                   {/* Buttons */}
                   <div className="flex gap-3 flex-shrink-0">
-                    <button
+                    <button type="button"
                       onClick={() => setFollowingFeatured(!followingFeatured)}
                       className="px-5 py-2.5 rounded-xl text-sm font-bold transition-all"
                       style={{
@@ -485,7 +485,7 @@ export default function CreatorsPage() {
                 <Search size={16} style={{ color: "#6A6A88" }} />
                 <input
                   type="text"
-                  placeholder="Search creators by name or topic..."
+                  aria-label="Search creators by name or topic..." placeholder="Search creators by name or topic..."
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   className="flex-1 bg-transparent text-sm outline-none"
@@ -497,7 +497,7 @@ export default function CreatorsPage() {
               {filterPills.map((pill) => {
                 const active = activeFilter === pill;
                 return (
-                  <button
+                  <button type="button"
                     key={pill}
                     onClick={() => setActiveFilter(pill)}
                     className="text-xs font-semibold px-4 py-2 rounded-full transition-all duration-150"
@@ -520,7 +520,7 @@ export default function CreatorsPage() {
               {filteredCreators.length === 0 && (
                 <div className="col-span-full text-center py-12">
                   <p style={{ color: "#8A8AA8" }}>No creators match your filter.</p>
-                  <button onClick={() => { setActiveFilter("All"); setSearch(""); }} className="mt-2 text-sm font-semibold" style={{ color: "#3a7d56" }}>Clear filters</button>
+                  <button type="button" onClick={() => { setActiveFilter("All"); setSearch(""); }} className="mt-2 text-sm font-semibold" style={{ color: "#3a7d56" }}>Clear filters</button>
                 </div>
               )}
               {filteredCreators.map((creator) => {
@@ -587,7 +587,7 @@ export default function CreatorsPage() {
                   })}
                 </div>
 
-                <button
+                <button type="button"
                   onClick={() => setApplied(true)}
                   disabled={applied}
                   className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl text-sm font-black transition-all"
@@ -708,7 +708,7 @@ function CreatorCard({
 
       {/* Follow button */}
       <div className="px-5 pb-5 mt-auto">
-        <button
+        <button type="button"
           onClick={() => setFollowing(!following)}
           className="w-full py-2.5 rounded-xl text-xs font-bold transition-all duration-150"
           style={{

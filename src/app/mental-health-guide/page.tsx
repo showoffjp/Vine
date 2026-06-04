@@ -107,7 +107,7 @@ export default function MentalHealthGuidePage() {
 
         <div style={{ display: "flex", gap: 4, marginBottom: 28, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
           {(["theology", "conditions", "myths", "resources", "crisis", "videos"] as Tab[]).map(t => (
-            <button key={t} onClick={() => { setTab(t); setSelected(null); }}
+            <button type="button" key={t} onClick={() => { setTab(t); setSelected(null); }}
               style={{ padding: "8px 16px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer", textTransform: "capitalize" }}>
               {t === "theology" ? "Theology" : t === "conditions" ? "Conditions" : t === "myths" ? "Myths & Help" : t === "resources" ? "Resources" : t === "crisis" ? "Crisis Help" : "Videos"}
             </button>
@@ -118,7 +118,7 @@ export default function MentalHealthGuidePage() {
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {THEOLOGY_POINTS.map((p, i) => (
               <div key={i} style={{ background: CARD, border: `1px solid ${expanded[p.title] ? p.color + "40" : BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                <button onClick={() => setExpanded(e => ({ ...e, [p.title]: !e[p.title] }))}
+                <button type="button" onClick={() => setExpanded(e => ({ ...e, [p.title]: !e[p.title] }))}
                   style={{ width: "100%", padding: "16px 20px", cursor: "pointer", textAlign: "left", background: "transparent", border: "none", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <div style={{ color: p.color, fontWeight: 800, fontSize: 15 }}>{p.title}</div>
                   <span style={{ color: MUTED, fontSize: 18 }}>{expanded[p.title] ? "−" : "+"}</span>
@@ -137,7 +137,7 @@ export default function MentalHealthGuidePage() {
           <div style={{ display: "grid", gridTemplateColumns: condition ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {CONDITIONS.map((c, i) => (
-                <button key={i} onClick={() => setSelected(selected === c.name ? null : c.name)}
+                <button type="button" key={i} onClick={() => setSelected(selected === c.name ? null : c.name)}
                   style={{ background: selected === c.name ? `${c.color}12` : CARD, border: `1px solid ${selected === c.name ? c.color + "50" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                     <div style={{ width: 40, height: 40, borderRadius: 10, background: `${c.color}20`, border: `1px solid ${c.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: c.color, fontWeight: 900, fontSize: 9, flexShrink: 0 }}>{c.initials}</div>

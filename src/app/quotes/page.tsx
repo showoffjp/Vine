@@ -193,7 +193,7 @@ export default function QuotesPage() {
         <div style={{ display: "flex", gap: 12, alignItems: "center", marginBottom: 20, flexWrap: "wrap" }}>
           <div style={{ display: "flex", background: "#12121F", border: "1px solid #1E1E32", borderRadius: 10, padding: 4, gap: 4 }}>
             {(["all", "saved", "thinkers", "themes", "videos"] as const).map((tab) => (
-              <button
+              <button type="button"
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 style={{
@@ -211,7 +211,7 @@ export default function QuotesPage() {
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search quotes or authors..."
+            aria-label="Search quotes or authors..." placeholder="Search quotes or authors..."
             style={{
               flex: 1, minWidth: 200, background: "#12121F", border: "1px solid #1E1E32",
               borderRadius: 10, padding: "9px 14px", color: "#F2F2F8", fontSize: 13, outline: "none",
@@ -232,7 +232,7 @@ export default function QuotesPage() {
         <div style={{ marginBottom: 24 }}>
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 8 }}>
             {categories.slice(0, 12).map((c) => (
-              <button
+              <button type="button"
                 key={c}
                 onClick={() => setFilterCategory(c)}
                 style={{
@@ -249,7 +249,7 @@ export default function QuotesPage() {
           </div>
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
             {eras.map((e) => (
-              <button
+              <button type="button"
                 key={e}
                 onClick={() => setFilterEra(e)}
                 style={{
@@ -316,7 +316,7 @@ export default function QuotesPage() {
                 </div>
 
                 <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
-                  <button
+                  <button type="button"
                     onClick={() => handleLike(quote.id)}
                     style={{
                       padding: "4px 10px", borderRadius: 6, border: "none",
@@ -327,7 +327,7 @@ export default function QuotesPage() {
                   >
                     ♥ {(quote.likes + (liked ? 1 : 0)).toLocaleString()}
                   </button>
-                  <button
+                  <button type="button"
                     onClick={() => handleSave(quote.id)}
                     style={{
                       padding: "4px 10px", borderRadius: 6, border: "none",
@@ -338,7 +338,7 @@ export default function QuotesPage() {
                   >
                     {saved ? "★" : "☆"}
                   </button>
-                  <button
+                  <button type="button"
                     onClick={() => handleCopy(quote)}
                     style={{
                       padding: "4px 10px", borderRadius: 6, border: "none",
@@ -367,7 +367,7 @@ export default function QuotesPage() {
           <div style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 80 }}>
               {THINKERS_Q.map(t => (
-                <button key={t.id} onClick={() => setSelectedThinker(t.id)}
+                <button type="button" key={t.id} onClick={() => setSelectedThinker(t.id)}
                   style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedThinker === t.id ? "rgba(107,79,187,0.5)" : "#1E1E32"}`, background: selectedThinker === t.id ? "rgba(107,79,187,0.12)" : "#12121F", cursor: "pointer" }}>
                   <div style={{ fontSize: 13, fontWeight: 700, color: selectedThinker === t.id ? "#A080FF" : "#F2F2F8", marginBottom: 2 }}>{t.name}</div>
                   <div style={{ fontSize: 11, color: "#9898B3" }}>{t.era}</div>

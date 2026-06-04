@@ -219,7 +219,7 @@ export default function WeeklyPrayerGuidePage() {
 
         <div style={{ display: "flex", gap: 8, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {TABS.map(tab => (
-            <button key={tab.id} onClick={() => setActiveTab(tab.id)}
+            <button type="button" key={tab.id} onClick={() => setActiveTab(tab.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", cursor: "pointer", fontWeight: 700, fontSize: 13, background: activeTab === tab.id ? GREEN : "transparent", color: activeTab === tab.id ? BG : MUTED, transition: "all 0.15s" }}>
               {tab.icon} {tab.label}
             </button>
@@ -230,7 +230,7 @@ export default function WeeklyPrayerGuidePage() {
           <>
             <div style={{ display: "flex", gap: 8, marginBottom: 32, flexWrap: "wrap" }}>
               {DAYS.map(d => (
-                <button key={d.day} onClick={() => setSelectedDay(d.day)}
+                <button type="button" key={d.day} onClick={() => setSelectedDay(d.day)}
                   style={{ flex: "1 1 80px", padding: "12px 8px", borderRadius: 10, border: `1px solid ${selectedDay === d.day ? d.color : BORDER}`, background: selectedDay === d.day ? `${d.color}20` : CARD, cursor: "pointer", textAlign: "center" }}>
                   <div style={{ color: selectedDay === d.day ? d.color : MUTED, fontWeight: 900, fontSize: 10, marginBottom: 2 }}>{d.short}</div>
                   <div style={{ color: selectedDay === d.day ? d.color : TEXT, fontWeight: 700, fontSize: 12 }}>{d.day}</div>
@@ -278,7 +278,7 @@ export default function WeeklyPrayerGuidePage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 210, flexShrink: 0 }}>
               {VOICES_PRAYER.map(v => (
-                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                   style={{ width: "100%", background: selectedVoice === v.id ? `${PURPLE}18` : "transparent", border: `1px solid ${selectedVoice === v.id ? PURPLE + "80" : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 6, cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: selectedVoice === v.id ? TEXT : MUTED, fontWeight: 700, fontSize: 13 }}>{v.name}</div>
                   <div style={{ color: MUTED, fontSize: 11, marginTop: 2 }}>{v.era}</div>

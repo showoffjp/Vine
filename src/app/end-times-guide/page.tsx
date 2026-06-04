@@ -267,7 +267,7 @@ export default function EndTimesGuidePage() {
         {/* Tab Bar */}
         <div style={{ display: "flex", gap: 4, marginBottom: 32, background: CARD, borderRadius: 12, padding: 5, border: `1px solid ${BORDER}`, flexWrap: "wrap" }}>
           {tabs.map((t) => (
-            <button
+            <button type="button"
               key={t.id}
               onClick={() => setTab(t.id)}
               style={{
@@ -346,7 +346,7 @@ export default function EndTimesGuidePage() {
             <div style={{ display: "flex", flexDirection: "column", gap: 6, position: "sticky", top: 24 }}>
               <div style={{ color: MUTED, fontSize: 11, fontWeight: 700, letterSpacing: "0.07em", marginBottom: 6 }}>POSITIONS</div>
               {RAPTURE_POSITIONS.map((p) => (
-                <button
+                <button type="button"
                   key={p.id}
                   onClick={() => setSelectedRapture(p.id)}
                   style={{
@@ -477,7 +477,7 @@ export default function EndTimesGuidePage() {
                     transition: "border-color 0.15s",
                   }}
                 >
-                  <button
+                  <button type="button"
                     onClick={() => toggleExpanded(item.id)}
                     style={{
                       width: "100%",

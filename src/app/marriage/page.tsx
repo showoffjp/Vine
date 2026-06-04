@@ -309,7 +309,7 @@ export default function MarriagePage() {
         {/* Tab Nav */}
         <div style={{ display: "flex", gap: 4, margin: "32px 0", background: CARD, borderRadius: 14, padding: 6, border: `1px solid ${BORDER}`, flexWrap: "wrap" }}>
           {tabs.map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)} style={{
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)} style={{
               flex: "1 1 auto",
               padding: "10px 12px",
               borderRadius: 10,
@@ -339,7 +339,7 @@ export default function MarriagePage() {
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               {FOUNDATION_ITEMS.map((item, i) => (
                 <div key={i} style={{ background: CARD, border: `1px solid ${openItem === i ? item.color + "60" : BORDER}`, borderRadius: 14, overflow: "hidden", transition: "border-color 0.2s" }}>
-                  <button onClick={() => setOpenItem(openItem === i ? null : i)} style={{
+                  <button type="button" onClick={() => setOpenItem(openItem === i ? null : i)} style={{
                     width: "100%", padding: "18px 24px", background: "transparent", border: "none", cursor: "pointer",
                     display: "flex", justifyContent: "space-between", alignItems: "center", textAlign: "left"
                   }}>
@@ -407,7 +407,7 @@ export default function MarriagePage() {
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {COVENANT_ITEMS.map((item, i) => (
                 <div key={i} style={{ background: CARD, border: `1px solid ${openCovItem === i ? GOLD + "60" : BORDER}`, borderRadius: 14, overflow: "hidden" }}>
-                  <button onClick={() => setOpenCovItem(openCovItem === i ? null : i)} style={{
+                  <button type="button" onClick={() => setOpenCovItem(openCovItem === i ? null : i)} style={{
                     width: "100%", padding: "18px 24px", background: "transparent", border: "none", cursor: "pointer",
                     display: "flex", justifyContent: "space-between", alignItems: "center", textAlign: "left"
                   }}>
@@ -448,7 +448,7 @@ export default function MarriagePage() {
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               {COMMUNICATION_ITEMS.map((item, i) => (
                 <div key={i} style={{ background: CARD, border: `1px solid ${openCommItem === i ? item.color + "60" : BORDER}`, borderRadius: 14, overflow: "hidden" }}>
-                  <button onClick={() => setOpenCommItem(openCommItem === i ? null : i)} style={{
+                  <button type="button" onClick={() => setOpenCommItem(openCommItem === i ? null : i)} style={{
                     width: "100%", padding: "18px 24px", background: "transparent", border: "none", cursor: "pointer",
                     display: "flex", justifyContent: "space-between", alignItems: "center", textAlign: "left"
                   }}>
@@ -503,7 +503,7 @@ export default function MarriagePage() {
             </div>
             <div style={{ display: "flex", gap: 8, marginBottom: 24, flexWrap: "wrap" }}>
               {SEASONS_ITEMS.map((s, i) => (
-                <button key={i} onClick={() => setActiveSeason(i)} style={{
+                <button type="button" key={i} onClick={() => setActiveSeason(i)} style={{
                   flex: "1 1 auto",
                   padding: "10px 14px",
                   borderRadius: 10,
@@ -564,7 +564,7 @@ export default function MarriagePage() {
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               {CHALLENGES_ITEMS.map((item, i) => (
                 <div key={i} style={{ background: CARD, border: `1px solid ${openChalItem === i ? item.color + "60" : BORDER}`, borderRadius: 14, overflow: "hidden" }}>
-                  <button onClick={() => setOpenChalItem(openChalItem === i ? null : i)} style={{
+                  <button type="button" onClick={() => setOpenChalItem(openChalItem === i ? null : i)} style={{
                     width: "100%", padding: "18px 24px", background: "transparent", border: "none", cursor: "pointer",
                     display: "flex", justifyContent: "space-between", alignItems: "center", textAlign: "left"
                   }}>

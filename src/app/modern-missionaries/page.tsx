@@ -256,7 +256,7 @@ export default function ModernMissionariesPage() {
             { id: "callyou" as const, label: "Called?", icon: "🙏" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ]).map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none",
                 background: activeTab === t.id ? PURPLE : "transparent",
                 color: activeTab === t.id ? "#fff" : MUTED,
@@ -270,7 +270,7 @@ export default function ModernMissionariesPage() {
           <div>
             <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 28 }}>
               {REGION_FILTERS.map(r => (
-                <button key={r} onClick={() => setRegion(r)}
+                <button type="button" key={r} onClick={() => setRegion(r)}
                   style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${region === r ? GREEN : BORDER}`, background: region === r ? `${GREEN}15` : "transparent", color: region === r ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
                   {r}
                 </button>
@@ -280,7 +280,7 @@ export default function ModernMissionariesPage() {
             <div style={{ display: "grid", gridTemplateColumns: missionary ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 {filtered.map((m, i) => (
-                  <button key={i} onClick={() => setSelected(selected === m.name ? null : m.name)}
+                  <button type="button" key={i} onClick={() => setSelected(selected === m.name ? null : m.name)}
                     style={{ background: selected === m.name ? `${m.color}12` : CARD, border: `1px solid ${selected === m.name ? m.color + "50" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left", transition: "all 0.15s" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                       <div style={{ width: 44, height: 44, borderRadius: 10, background: `${m.color}20`, border: `1px solid ${m.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: m.color, fontWeight: 900, fontSize: 10, flexShrink: 0 }}>

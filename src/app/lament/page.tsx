@@ -133,7 +133,7 @@ export default function LamentPage() {
             { id: "write" as const, label: "Write a Lament", icon: "✍️" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -191,7 +191,7 @@ export default function LamentPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 210, flexShrink: 0 }}>
               {VOICES.map(v => (
-                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                   style={{ width: "100%", background: selectedVoice === v.id ? `${PURPLE}18` : "transparent", border: `1px solid ${selectedVoice === v.id ? PURPLE + "70" : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 6, cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: selectedVoice === v.id ? PURPLE : TEXT, fontWeight: 800, fontSize: 13, marginBottom: 2 }}>{v.name}</div>
                   <div style={{ color: MUTED, fontSize: 11 }}>{v.era}</div>
@@ -225,7 +225,7 @@ export default function LamentPage() {
               <h3 style={{ color: GREEN, fontWeight: 900, fontSize: 20, marginBottom: 6 }}>Write Your Lament</h3>
               <p style={{ color: MUTED, fontSize: 14, marginBottom: 20 }}>Follow the structure from "How to Lament." Each section is one step.</p>
               <input value={form.subject} onChange={e => setForm(f => ({ ...f, subject: e.target.value }))}
-                placeholder="What are you lamenting? (e.g. 'Grief over loss of Mom', 'Unanswered prayer for healing')"
+                aria-label="What are you lamenting? (e.g. 'Grief over loss of Mom', 'Unanswered prayer for healing')" placeholder="What are you lamenting? (e.g. 'Grief over loss of Mom', 'Unanswered prayer for healing')"
                 style={{ width: "100%", padding: "12px 16px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, marginBottom: 20, boxSizing: "border-box" }} />
               {STRUCTURE.map(step => (
                 <div key={step.step} style={{ marginBottom: 18 }}>
@@ -240,7 +240,7 @@ export default function LamentPage() {
                   />
                 </div>
               ))}
-              <button onClick={saveLament}
+              <button type="button" onClick={saveLament}
                 style={{ width: "100%", padding: "12px", background: saved ? GREEN : PURPLE, border: "none", borderRadius: 8, color: saved ? BG : "#fff", fontWeight: 800, fontSize: 15, cursor: "pointer" }}>
                 {saved ? "✓ Lament Saved" : "Save This Lament"}
               </button>

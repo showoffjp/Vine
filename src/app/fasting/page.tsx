@@ -171,7 +171,7 @@ export default function FastingPage() {
           {/* Main Tab Bar */}
           <div className="flex gap-1 p-1 rounded-xl mb-6" style={{ background: "#12121F", border: "1px solid #1E1E32" }}>
             {(["tracker", "theology", "voices", "scripture", "videos"] as const).map((tab) => (
-              <button key={tab} onClick={() => setMainTab(tab)}
+              <button type="button" key={tab} onClick={() => setMainTab(tab)}
                 className="flex-1 py-2 rounded-lg text-sm font-semibold transition-all"
                 style={{ background: mainTab === tab ? "rgba(58,125,86,0.12)" : "transparent", color: mainTab === tab ? "#3a7d56" : "#6A6A88", border: mainTab === tab ? "1px solid rgba(58,125,86,0.2)" : "1px solid transparent" }}>
                 {tab === "tracker" ? "📊 Tracker" : tab === "theology" ? "📖 Theology" : tab === "voices" ? "🎓 Voices" : tab === "scripture" ? "📜 Scripture" : "🎬 Videos"}
@@ -184,7 +184,7 @@ export default function FastingPage() {
             <div className="lg:col-span-2 space-y-6">
               {/* Add Fast Button */}
               {!showNew && (
-                <button
+                <button type="button"
                   onClick={() => setShowNew(true)}
                   className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl text-sm font-bold transition-all"
                   style={{ background: "rgba(58,125,86,0.06)", border: "1px dashed rgba(58,125,86,0.3)", color: "#3a7d56" }}
@@ -232,7 +232,7 @@ export default function FastingPage() {
                       <label className="text-[10px] font-bold uppercase tracking-wider block mb-1.5" style={{ color: "#6A6A88" }}>Purpose / Intention</label>
                       <input
                         type="text"
-                        placeholder="What are you seeking God about?"
+                        aria-label="What are you seeking God about?" placeholder="What are you seeking God about?"
                         value={newPurpose}
                         onChange={(e) => setNewPurpose(e.target.value)}
                         className="w-full px-4 py-2.5 rounded-xl text-sm outline-none"
@@ -244,7 +244,7 @@ export default function FastingPage() {
                       <label className="text-[10px] font-bold uppercase tracking-wider block mb-1.5" style={{ color: "#6A6A88" }}>Notes (optional)</label>
                       <textarea
                         rows={3}
-                        placeholder="Scriptures you're meditating on, specific prayers, etc."
+                        aria-label="Scriptures you're meditating on, specific prayers, etc." placeholder="Scriptures you're meditating on, specific prayers, etc."
                         value={newNotes}
                         onChange={(e) => setNewNotes(e.target.value)}
                         className="w-full px-4 py-2.5 rounded-xl text-sm outline-none resize-none"
@@ -253,14 +253,14 @@ export default function FastingPage() {
                     </div>
 
                     <div className="flex gap-3">
-                      <button
+                      <button type="button"
                         onClick={() => setShowNew(false)}
                         className="flex-1 py-2.5 rounded-xl text-sm font-semibold"
                         style={{ background: "#0D0D1A", border: "1px solid #1E1E32", color: "#6A6A88" }}
                       >
                         Cancel
                       </button>
-                      <button
+                      <button type="button"
                         onClick={startFast}
                         className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-bold text-black"
                         style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}
@@ -275,7 +275,7 @@ export default function FastingPage() {
               {/* Tabs */}
               <div className="flex gap-1 p-1 rounded-xl" style={{ background: "#12121F", border: "1px solid #1E1E32" }}>
                 {(["current", "history"] as const).map((tab) => (
-                  <button
+                  <button type="button"
                     key={tab}
                     onClick={() => setActiveTab(tab)}
                     className="flex-1 py-2 rounded-lg text-sm font-semibold capitalize transition-all"
@@ -336,7 +336,7 @@ export default function FastingPage() {
                         </div>
                         <div className="flex items-center gap-2 shrink-0">
                           {!record.completed && (
-                            <button
+                            <button type="button"
                               onClick={() => completeFast(record.id)}
                               className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all"
                               style={{ background: "rgba(16,185,129,0.1)", color: "#10B981", border: "1px solid rgba(16,185,129,0.2)" }}
@@ -347,7 +347,7 @@ export default function FastingPage() {
                           {record.completed && (
                             <Trophy size={16} style={{ color: "#10B981" }} />
                           )}
-                          <button
+                          <button type="button"
                             onClick={() => deleteRecord(record.id)}
                             className="p-1.5 rounded-lg transition-all"
                             style={{ color: "#4A4A68" }}
@@ -472,7 +472,7 @@ export default function FastingPage() {
             <div style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
               <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 80 }}>
                 {VOICES_FAST.map(v => (
-                  <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                     style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? "rgba(58,125,86,0.4)" : "#1E1E32"}`, background: selectedVoice === v.id ? "rgba(58,125,86,0.08)" : "#12121F", cursor: "pointer" }}>
                     <div style={{ fontSize: 13, fontWeight: 700, color: selectedVoice === v.id ? "#3a7d56" : "#F2F2F8", marginBottom: 2 }}>{v.name}</div>
                     <div style={{ fontSize: 11, color: "#9898B3" }}>{v.era}</div>

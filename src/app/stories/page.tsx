@@ -221,7 +221,7 @@ export default function StoriesPage() {
           {/* Category Filter */}
           <div className="flex gap-2 flex-wrap mb-8">
             {categories.map((cat) => (
-              <button
+              <button type="button"
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
                 className="px-4 py-1.5 rounded-full text-sm font-semibold transition-all"
@@ -283,7 +283,7 @@ export default function StoriesPage() {
                     <p className="text-xs" style={{ color: "#4A4A68" }}>{story.location} · {story.readTime}</p>
                   </div>
                   <div className="flex items-center gap-3">
-                    <button
+                    <button type="button"
                       onClick={() => setSaved((s) => ({ ...s, [story.name]: !s[story.name] }))}
                       style={{ color: saved[story.name] ? "#3a7d56" : "#4A4A68" }}
                     >
@@ -322,20 +322,20 @@ export default function StoriesPage() {
                   autoFocus
                   value={submitText}
                   onChange={(e) => setSubmitText(e.target.value)}
-                  placeholder="Share what God has done in your life..."
+                  aria-label="Share what God has done in your life..." placeholder="Share what God has done in your life..."
                   rows={4}
                   className="w-full px-4 py-3 rounded-xl text-sm outline-none resize-none mb-3"
                   style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(58,125,86,0.2)", color: "#F2F2F8" }}
                 />
                 <div className="flex items-center justify-center gap-3">
-                  <button
+                  <button type="button"
                     onClick={() => { setSubmitOpen(false); setSubmitText(""); }}
                     className="px-5 py-2.5 rounded-xl font-semibold text-sm"
                     style={{ border: "1px solid rgba(255,255,255,0.1)", color: "#8A8AA8" }}
                   >
                     Cancel
                   </button>
-                  <button
+                  <button type="button"
                     onClick={handleSubmitTestimony}
                     className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl font-bold text-black"
                     style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)", opacity: submitText.trim() ? 1 : 0.4 }}
@@ -345,7 +345,7 @@ export default function StoriesPage() {
                 </div>
               </div>
             ) : (
-              <button
+              <button type="button"
                 onClick={() => setSubmitOpen(true)}
                 className="inline-flex items-center gap-2 px-8 py-3 rounded-xl font-bold text-black"
                 style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}

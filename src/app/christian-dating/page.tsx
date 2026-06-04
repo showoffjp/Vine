@@ -111,7 +111,7 @@ export default function ChristianDatingPage() {
             { id: "practices" as Tab, label: "Practices", icon: "🛠️" },
             { id: "videos" as Tab, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -136,7 +136,7 @@ export default function ChristianDatingPage() {
           <div>
             {QUESTIONS.map((q, i) => (
               <div key={i} style={{ marginBottom: 10 }}>
-                <button onClick={() => setExpanded(prev => ({ ...prev, [q.q]: !prev[q.q] }))}
+                <button type="button" onClick={() => setExpanded(prev => ({ ...prev, [q.q]: !prev[q.q] }))}
                   style={{ width: "100%", background: CARD, border: `1px solid ${BORDER}`, borderRadius: expanded[q.q] ? "10px 10px 0 0" : 10, padding: "14px 18px", color: TEXT, fontWeight: 700, fontSize: 14, cursor: "pointer", display: "flex", justifyContent: "space-between", textAlign: "left" }}>
                   <span>{q.q}</span>
                   <span style={{ color: MUTED, flexShrink: 0 }}>{expanded[q.q] ? "−" : "+"}</span>
@@ -160,7 +160,7 @@ export default function ChristianDatingPage() {
             </div>
             {RED_FLAGS.map((r, i) => (
               <div key={i} style={{ marginBottom: 10 }}>
-                <button onClick={() => setExpanded(prev => ({ ...prev, [r.flag]: !prev[r.flag] }))}
+                <button type="button" onClick={() => setExpanded(prev => ({ ...prev, [r.flag]: !prev[r.flag] }))}
                   style={{ width: "100%", background: CARD, border: `1px solid ${BORDER}`, borderRadius: expanded[r.flag] ? "10px 10px 0 0" : 10, padding: "14px 18px", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center", textAlign: "left" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                     <span style={{ fontSize: 18 }}>🚩</span>

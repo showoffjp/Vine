@@ -255,7 +255,7 @@ export default function ChristianRetirementPage() {
           }}
         >
           {TABS.map((t) => (
-            <button
+            <button type="button"
               key={t.id}
               onClick={() => setActiveTab(t.id)}
               style={{
@@ -293,7 +293,7 @@ export default function ChristianRetirementPage() {
                     transition: "border-color 0.2s",
                   }}
                 >
-                  <button
+                  <button type="button"
                     onClick={() =>
                       setExpandedTheology(isOpen ? undefined : item.title)
                     }
@@ -356,7 +356,7 @@ export default function ChristianRetirementPage() {
             {/* Left column — season buttons */}
             <div style={{ width: 200, flexShrink: 0, display: "flex", flexDirection: "column", gap: 10 }}>
               {SEASONS.map((s) => (
-                <button
+                <button type="button"
                   key={s.id}
                   onClick={() => setActiveSeason(s.id)}
                   style={{
@@ -542,7 +542,7 @@ export default function ChristianRetirementPage() {
                     transition: "border-color 0.2s",
                   }}
                 >
-                  <button
+                  <button type="button"
                     onClick={() =>
                       setExpandedCalling(isOpen ? undefined : item.title)
                     }
@@ -616,7 +616,7 @@ export default function ChristianRetirementPage() {
                     transition: "border-color 0.2s",
                   }}
                 >
-                  <button
+                  <button type="button"
                     onClick={() =>
                       setExpandedLegacy(isOpen ? undefined : item.title)
                     }

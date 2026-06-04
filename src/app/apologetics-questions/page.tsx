@@ -361,7 +361,7 @@ export default function ApologeticsQuestionsPage() {
         {/* Tab bar */}
         <div style={{ display: "flex", gap: 4, marginBottom: 28, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 6 }}>
           {(["questions", "methods", "thinkers", "resources", "videos"] as const).map(t => (
-            <button key={t} onClick={() => setActiveTab(t)}
+            <button type="button" key={t} onClick={() => setActiveTab(t)}
               style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer", flex: 1 }}>
               {t === "questions" ? "Questions" : t === "methods" ? "Methods" : t === "thinkers" ? "Thinkers" : t === "resources" ? "Resources" : "🎬 Videos"}
             </button>
@@ -380,7 +380,7 @@ export default function ApologeticsQuestionsPage() {
 
             <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 24 }}>
               {TOPIC_FILTERS.map(t => (
-                <button key={t} onClick={() => setTopic(t)}
+                <button type="button" key={t} onClick={() => setTopic(t)}
                   style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${topic === t ? GREEN : BORDER}`, background: topic === t ? `${GREEN}15` : "transparent", color: topic === t ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
                   {t}
                 </button>
@@ -390,7 +390,7 @@ export default function ApologeticsQuestionsPage() {
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {filtered.map((item, i) => (
                 <div key={i}>
-                  <button onClick={() => setExpanded(expanded === item.q ? null : item.q)}
+                  <button type="button" onClick={() => setExpanded(expanded === item.q ? null : item.q)}
                     style={{ width: "100%", background: expanded === item.q ? `${item.color}10` : CARD, border: `1px solid ${expanded === item.q ? item.color + "40" : BORDER}`, borderRadius: expanded === item.q ? "12px 12px 0 0" : 12, padding: "16px 20px", cursor: "pointer", textAlign: "left", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
                     <div style={{ flex: 1 }}>
                       <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4, flexWrap: "wrap" }}>
@@ -500,7 +500,7 @@ export default function ApologeticsQuestionsPage() {
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 14, marginBottom: 24 }}>
               {APOL_THINKERS.map(thinker => (
-                <button key={thinker.id} onClick={() => setSelectedThinker(selectedThinker === thinker.id ? null : thinker.id)}
+                <button type="button" key={thinker.id} onClick={() => setSelectedThinker(selectedThinker === thinker.id ? null : thinker.id)}
                   style={{ background: selectedThinker === thinker.id ? `${PURPLE}18` : CARD, border: `1px solid ${selectedThinker === thinker.id ? PURPLE : BORDER}`, borderRadius: 12, padding: 18, cursor: "pointer", textAlign: "left", transition: "all 0.15s" }}>
                   <div style={{ color: PURPLE, fontWeight: 900, fontSize: 16, marginBottom: 4 }}>{thinker.name}</div>
                   <div style={{ color: MUTED, fontSize: 11, marginBottom: 6 }}>{thinker.era}</div>

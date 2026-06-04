@@ -419,7 +419,7 @@ export default function MissionsPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
           <div className="flex gap-2 flex-wrap" style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 6, display: "inline-flex" }}>
             {(["regions", "theology", "getting-involved", "voices", "videos"] as const).map(t => (
-              <button key={t} onClick={() => setActiveTab(t)}
+              <button type="button" key={t} onClick={() => setActiveTab(t)}
                 style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
                 {t === "regions" ? "Regions" : t === "theology" ? "Theology" : t === "getting-involved" ? "Getting Involved" : t === "voices" ? "Voices" : "🎬 Videos"}
               </button>
@@ -470,7 +470,7 @@ export default function MissionsPage() {
                           </span>
                         ))}
                       </div>
-                      <button
+                      <button type="button"
                         onClick={() => toggleRegionPrayer(i)}
                         className="flex items-center gap-2 text-sm font-bold px-4 py-2 rounded-xl transition-all"
                         style={{
@@ -512,7 +512,7 @@ export default function MissionsPage() {
                         <p className="text-sm italic" style={{ color: "#8A8AA8" }}>&ldquo;{s.update}&rdquo;</p>
                       </div>
                       <div className="flex gap-2">
-                        <button
+                        <button type="button"
                           onClick={() => toggleMissionaryPrayer(i)}
                           className="flex-1 py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-1 transition-all"
                           style={{
@@ -523,7 +523,7 @@ export default function MissionsPage() {
                         >
                           🙏 {prayed ? "Praying" : "Pray"}
                         </button>
-                        <button
+                        <button type="button"
                           onClick={() => toggleFollow(i)}
                           className="flex-1 py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-1 transition-all"
                           style={{
@@ -631,7 +631,7 @@ export default function MissionsPage() {
               {/* Left panel: list */}
               <div className="flex flex-col gap-3" style={{ minWidth: 260, width: 260, flexShrink: 0 }}>
                 {VOICES_MISS.map((v) => (
-                  <button
+                  <button type="button"
                     key={v.id}
                     onClick={() => setSelectedVoice(v)}
                     className="text-left rounded-xl p-4 transition-all"

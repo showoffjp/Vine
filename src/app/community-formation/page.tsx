@@ -110,7 +110,7 @@ export default function CommunityFormationPage() {
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -140,7 +140,7 @@ export default function CommunityFormationPage() {
             </div>
             {OBSTACLES.map((o, i) => (
               <div key={i} style={{ marginBottom: 10 }}>
-                <button onClick={() => setExpanded(expanded === o.obstacle ? null : o.obstacle)}
+                <button type="button" onClick={() => setExpanded(expanded === o.obstacle ? null : o.obstacle)}
                   style={{ width: "100%", background: CARD, border: `1px solid ${BORDER}`, borderRadius: expanded === o.obstacle ? "10px 10px 0 0" : 10, padding: "14px 18px", color: TEXT, fontWeight: 700, fontSize: 14, cursor: "pointer", display: "flex", justifyContent: "space-between", textAlign: "left" }}>
                   <span>{o.obstacle}</span>
                   <span style={{ color: MUTED, flexShrink: 0 }}>{expanded === o.obstacle ? "−" : "+"}</span>
@@ -163,7 +163,7 @@ export default function CommunityFormationPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 210, flexShrink: 0 }}>
               {MODELS.map(m => (
-                <button key={m.id} onClick={() => setSelectedModel(m.id)}
+                <button type="button" key={m.id} onClick={() => setSelectedModel(m.id)}
                   style={{ width: "100%", textAlign: "left", background: selectedModel === m.id ? `${m.color}18` : CARD, border: `1px solid ${selectedModel === m.id ? m.color : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 8, cursor: "pointer" }}>
                   <div style={{ color: selectedModel === m.id ? m.color : TEXT, fontWeight: 700, fontSize: 13, marginBottom: 3 }}>{m.name}</div>
                   <div style={{ color: MUTED, fontSize: 11 }}>{m.era}</div>

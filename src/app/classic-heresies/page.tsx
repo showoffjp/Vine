@@ -168,7 +168,7 @@ export default function ClassicHeresiesPage() {
             { id: "patterns" as Tab, label: "Patterns", icon: "🔄" },
             { id: "videos" as Tab, label: "Videos", icon: "🎬" },
           ]).map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", cursor: "pointer", fontWeight: 700, fontSize: 13, background: activeTab === t.id ? GREEN : "transparent", color: activeTab === t.id ? BG : MUTED, transition: "all 0.15s" }}>
               {t.icon} {t.label}
             </button>
@@ -179,7 +179,7 @@ export default function ClassicHeresiesPage() {
         <div style={{ display: "grid", gridTemplateColumns: heresy ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {HERESIES.map((h, i) => (
-              <button key={i} onClick={() => setSelected(selected === h.name ? null : h.name)}
+              <button type="button" key={i} onClick={() => setSelected(selected === h.name ? null : h.name)}
                 style={{ background: selected === h.name ? `${h.color}12` : CARD, border: `1px solid ${selected === h.name ? h.color + "50" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left", transition: "all 0.15s" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                   <div style={{ width: 44, height: 44, borderRadius: 10, background: `${h.color}20`, border: `1px solid ${h.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: h.color, fontWeight: 900, fontSize: 10, flexShrink: 0 }}>
@@ -243,7 +243,7 @@ export default function ClassicHeresiesPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 210, flexShrink: 0 }}>
               {DEFENDERS.map(d => (
-                <button key={d.id} onClick={() => setSelectedDefender(d.id)}
+                <button type="button" key={d.id} onClick={() => setSelectedDefender(d.id)}
                   style={{ width: "100%", background: selectedDefender === d.id ? `${PURPLE}18` : "transparent", border: `1px solid ${selectedDefender === d.id ? PURPLE + "80" : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 6, cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: selectedDefender === d.id ? TEXT : MUTED, fontWeight: 700, fontSize: 13 }}>{d.name}</div>
                   <div style={{ color: MUTED, fontSize: 11, marginTop: 2 }}>{d.era}</div>

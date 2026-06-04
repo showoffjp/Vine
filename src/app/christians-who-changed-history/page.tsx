@@ -250,7 +250,7 @@ export default function ChristiansWhoChangedHistoryPage() {
             { id: "howto" as const, label: "Apply It", icon: "⚡" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ]).map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none",
                 background: activeTab === t.id ? PURPLE : "transparent",
                 color: activeTab === t.id ? "#fff" : MUTED,
@@ -264,7 +264,7 @@ export default function ChristiansWhoChangedHistoryPage() {
           <div>
             <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 28 }}>
               {DOMAIN_FILTERS.map(d => (
-                <button key={d} onClick={() => setDomain(d)}
+                <button type="button" key={d} onClick={() => setDomain(d)}
                   style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${domain === d ? GREEN : BORDER}`, background: domain === d ? `${GREEN}15` : "transparent", color: domain === d ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
                   {d}
                 </button>
@@ -274,7 +274,7 @@ export default function ChristiansWhoChangedHistoryPage() {
             <div style={{ display: "grid", gridTemplateColumns: figure ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 {filtered.map((f, i) => (
-                  <button key={i} onClick={() => setSelected(selected === f.name ? null : f.name)}
+                  <button type="button" key={i} onClick={() => setSelected(selected === f.name ? null : f.name)}
                     style={{ background: selected === f.name ? `${f.color}12` : CARD, border: `1px solid ${selected === f.name ? f.color + "50" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left", transition: "all 0.15s" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                       <div style={{ width: 44, height: 44, borderRadius: 10, background: `${f.color}20`, border: `1px solid ${f.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: f.color, fontWeight: 900, fontSize: 10, flexShrink: 0 }}>

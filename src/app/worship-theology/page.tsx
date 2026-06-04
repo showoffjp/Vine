@@ -198,7 +198,7 @@ export default function WorshipTheologyPage() {
         {/* Tab Bar */}
         <div style={{ display: "flex", gap: 4, marginBottom: 36, background: CARD, borderRadius: 14, padding: 6, border: `1px solid ${BORDER}` }}>
           {tabs.map(t => (
-            <button
+            <button type="button"
               key={t.id}
               onClick={() => setActiveTab(t.id)}
               style={{
@@ -227,7 +227,7 @@ export default function WorshipTheologyPage() {
                 key={item.id}
                 style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}
               >
-                <button
+                <button type="button"
                   onClick={() => toggleExpanded(item.id)}
                   style={{
                     width: "100%",
@@ -262,7 +262,7 @@ export default function WorshipTheologyPage() {
             {/* Left list — sticky */}
             <div style={{ width: 220, flexShrink: 0, position: "sticky", top: 24, display: "flex", flexDirection: "column", gap: 8 }}>
               {ELEMENTS_ITEMS.map(el => (
-                <button
+                <button type="button"
                   key={el.id}
                   onClick={() => setSelectedElement(el.id)}
                   style={{
@@ -329,7 +329,7 @@ export default function WorshipTheologyPage() {
                 key={item.id}
                 style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}
               >
-                <button
+                <button type="button"
                   onClick={() => toggleExpanded(`formation-${item.id}`)}
                   style={{
                     width: "100%",

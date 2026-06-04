@@ -161,7 +161,7 @@ export default function FeaturedPreachersPage() {
 
         <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 28 }}>
           {TRADITIONS.map(t => (
-            <button key={t} onClick={() => setTradition(t)}
+            <button type="button" key={t} onClick={() => setTradition(t)}
               style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${tradition === t ? GREEN : BORDER}`, background: tradition === t ? `${GREEN}15` : "transparent", color: tradition === t ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
               {t}
             </button>
@@ -171,7 +171,7 @@ export default function FeaturedPreachersPage() {
         <div style={{ display: "grid", gridTemplateColumns: selected ? "1fr 1fr" : "repeat(auto-fill, minmax(260px, 1fr))", gap: 14, alignItems: "start" }}>
           <div style={{ display: "grid", gridTemplateColumns: selected ? "1fr" : "repeat(auto-fill, minmax(260px, 1fr))", gap: 14 }}>
             {filtered.map((p, i) => (
-              <button key={i} onClick={() => setSelected(selected === p.name ? null : p.name)}
+              <button type="button" key={i} onClick={() => setSelected(selected === p.name ? null : p.name)}
                 style={{ background: selected === p.name ? `${p.color}12` : CARD, border: `1px solid ${selected === p.name ? p.color + "50" : BORDER}`, borderRadius: 12, padding: 20, cursor: "pointer", textAlign: "left", transition: "all 0.15s" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}>
                   <div style={{ width: 44, height: 44, borderRadius: 10, background: `${p.color}20`, border: `1px solid ${p.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: p.color, fontWeight: 900, fontSize: 12, flexShrink: 0 }}>

@@ -97,7 +97,7 @@ export default function BiblicalTheologyPrimerPage() {
 
         <div style={{ display: "flex", gap: 4, marginBottom: 24, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
           {(["overview", "themes", "covenants", "reading", "resources", "videos"] as Tab[]).map(t => (
-            <button key={t} onClick={() => setTab(t)}
+            <button type="button" key={t} onClick={() => setTab(t)}
               style={{ padding: "8px 16px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
               {t === "overview" ? "The Storyline" : t === "themes" ? "Major Themes" : t === "covenants" ? "The Covenants" : t === "reading" ? "How to Read" : t === "resources" ? "Resources" : "Videos"}
             </button>
@@ -155,7 +155,7 @@ export default function BiblicalTheologyPrimerPage() {
           <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
             {COVENANTS.map((c, i) => (
               <div key={i} style={{ background: CARD, border: `1px solid ${c.color}25`, borderRadius: 12, overflow: "hidden" }}>
-                <button onClick={() => setExpanded(e => ({ ...e, [c.name]: !e[c.name] }))}
+                <button type="button" onClick={() => setExpanded(e => ({ ...e, [c.name]: !e[c.name] }))}
                   style={{ width: "100%", padding: "18px 22px", cursor: "pointer", textAlign: "left", background: "transparent", border: "none", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <div>
                     <div style={{ color: c.color, fontWeight: 900, fontSize: 16, marginBottom: 3 }}>{c.name}</div>
@@ -189,7 +189,7 @@ export default function BiblicalTheologyPrimerPage() {
             </p>
             {READING_GUIDE.map((r, i) => (
               <div key={i} style={{ background: CARD, border: `1px solid ${expanded[r.title] ? r.color + "40" : BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                <button onClick={() => setExpanded(e => ({ ...e, [r.title]: !e[r.title] }))}
+                <button type="button" onClick={() => setExpanded(e => ({ ...e, [r.title]: !e[r.title] }))}
                   style={{ width: "100%", padding: "16px 20px", cursor: "pointer", textAlign: "left", background: "transparent", border: "none", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
                     <div style={{ width: 28, height: 28, borderRadius: "50%", background: r.color, color: BG, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 900, fontSize: 12, flexShrink: 0 }}>{i + 1}</div>

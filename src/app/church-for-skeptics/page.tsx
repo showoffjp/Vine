@@ -196,7 +196,7 @@ function Accordion({ items, expanded, setExpanded }: {
         const open = !!expanded[item.id];
         return (
           <div key={item.id} style={{ background: CARD, border: `1px solid ${open ? PURPLE : BORDER}`, borderRadius: 12, overflow: "hidden", transition: "border-color 0.2s" }}>
-            <button
+            <button type="button"
               onClick={() => setExpanded({ ...expanded, [item.id]: !open })}
               style={{ width: "100%", background: "transparent", border: "none", padding: "18px 20px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "space-between", textAlign: "left", gap: 12 }}
             >
@@ -263,7 +263,7 @@ export default function ChurchForSkepticsPage() {
         {/* Tabs */}
         <div style={{ display: "flex", gap: 4, marginBottom: 36, background: CARD, borderRadius: 12, padding: 5, border: `1px solid ${BORDER}`, overflowX: "auto" }}>
           {tabs.map(t => (
-            <button
+            <button type="button"
               key={t.id}
               onClick={() => setActiveTab(t.id)}
               style={{
@@ -353,7 +353,7 @@ export default function ChurchForSkepticsPage() {
               {/* Left panel — list */}
               <div style={{ flexShrink: 0, width: 220, display: "flex", flexDirection: "column", gap: 4, position: "sticky", top: 20 }}>
                 {CHURCH_PANELS.map(panel => (
-                  <button
+                  <button type="button"
                     key={panel.id}
                     onClick={() => setSelectedPanel(panel.id)}
                     style={{

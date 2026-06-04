@@ -509,7 +509,7 @@ export default function BlogPage() {
                 {categories.map((cat) => {
                   const active = activeCategory === cat.name;
                   return (
-                    <button
+                    <button type="button"
                       key={cat.name}
                       onClick={() => { setActiveCategory(cat.name); setVisibleCount(6); }}
                       className="px-4 py-1.5 rounded-full text-sm font-semibold transition-all"
@@ -567,7 +567,7 @@ export default function BlogPage() {
                         >
                           {post.category}
                         </span>
-                        <button
+                        <button type="button"
                           onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleSave(i); }}
                           className="ml-auto p-1 rounded transition hover:bg-[#1E1E32]"
                           style={{ color: savedPosts.has(i) || post.saved ? "#3a7d56" : "#4A4A68" }}
@@ -605,7 +605,7 @@ export default function BlogPage() {
 
               {/* Load More */}
               {visiblePosts.length < filteredPosts.length && (
-                <button
+                <button type="button"
                   onClick={() => setVisibleCount((c) => c + 6)}
                   className="w-full py-3.5 rounded-xl text-sm font-semibold transition-all"
                   style={{
@@ -689,7 +689,7 @@ export default function BlogPage() {
                         </p>
                         <p className="text-xs" style={{ color: "#6A6A88" }}>{ed.role}</p>
                       </div>
-                      <button
+                      <button type="button"
                         onClick={() => toggleFollow(ed.name)}
                         className="ml-auto text-xs px-3 py-1 rounded-full font-semibold transition-all"
                         style={{
@@ -732,7 +732,7 @@ export default function BlogPage() {
                       value={newsletterEmail}
                       onChange={(e) => setNewsletterEmail(e.target.value)}
                       onKeyDown={(e) => e.key === "Enter" && handleSubscribe()}
-                      placeholder="your@email.com"
+                      aria-label="your@email.com" placeholder="your@email.com"
                       className="w-full px-4 py-2.5 rounded-lg text-sm mb-3 outline-none"
                       style={{
                         background: "rgba(255,255,255,0.05)",
@@ -740,7 +740,7 @@ export default function BlogPage() {
                         color: "#F2F2F8",
                       }}
                     />
-                    <button
+                    <button type="button"
                       onClick={handleSubscribe}
                       className="w-full py-2.5 rounded-lg text-sm font-bold text-black"
                       style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}

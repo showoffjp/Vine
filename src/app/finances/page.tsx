@@ -234,7 +234,7 @@ export default function FinancesPage() {
                     <div className="flex-1">
                       <div className="flex items-start justify-between gap-3 mb-2">
                         <h3 className="font-bold text-lg" style={{ color: "#F2F2F8" }}>{p.title}</h3>
-                        <button
+                        <button type="button"
                           onClick={() => toggleSavedPrinciple(i)}
                           aria-label={isSaved ? "Remove from saved" : "Save principle"}
                           title={isSaved ? "Saved" : "Save this principle"}
@@ -350,7 +350,7 @@ export default function FinancesPage() {
                     type="number"
                     value={income}
                     onChange={(e) => setIncome(e.target.value)}
-                    placeholder="5000"
+                    aria-label="5000" placeholder="5000"
                     className="flex-1 bg-transparent text-sm outline-none"
                     style={{ color: "#F2F2F8" }}
                   />
@@ -360,7 +360,7 @@ export default function FinancesPage() {
                 <label className="text-xs font-bold uppercase tracking-widest block mb-2" style={{ color: "#8A8AA8" }}>Period</label>
                 <div className="flex rounded-xl overflow-hidden" style={{ border: "1px solid #1E1E32" }}>
                   {(["monthly", "annual"] as const).map((p) => (
-                    <button key={p} onClick={() => setPeriod(p)} className="px-4 py-3 text-xs font-bold capitalize transition-all" style={{ background: period === p ? "#3a7d56" : "#12121F", color: period === p ? "#07070F" : "#8A8AA8" }}>
+                    <button type="button" key={p} onClick={() => setPeriod(p)} className="px-4 py-3 text-xs font-bold capitalize transition-all" style={{ background: period === p ? "#3a7d56" : "#12121F", color: period === p ? "#07070F" : "#8A8AA8" }}>
                       {p}
                     </button>
                   ))}

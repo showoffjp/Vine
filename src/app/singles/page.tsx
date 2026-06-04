@@ -150,7 +150,7 @@ export default function SinglesPage() {
             { id: "journal" as const, label: "Reflection", icon: "✍️" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -161,7 +161,7 @@ export default function SinglesPage() {
           <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 8, minWidth: 180 }}>
               {CHAPTERS.map(c => (
-                <button key={c.id} onClick={() => setSelectedChapter(c.id)}
+                <button type="button" key={c.id} onClick={() => setSelectedChapter(c.id)}
                   style={{ padding: "10px 14px", borderRadius: 10, border: `1px solid ${selectedChapter === c.id ? c.color : BORDER}`, background: selectedChapter === c.id ? `${c.color}18` : CARD, color: selectedChapter === c.id ? c.color : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer", textAlign: "left" }}>
                   {c.icon} {c.title.substring(0, 22)}{c.title.length > 22 ? "..." : ""}
                 </button>
@@ -197,7 +197,7 @@ export default function SinglesPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 210, flexShrink: 0 }}>
               {VOICES_SINGLES.map(v => (
-                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                   style={{ width: "100%", background: selectedVoice === v.id ? `${PURPLE}18` : "transparent", border: `1px solid ${selectedVoice === v.id ? PURPLE + "80" : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 6, cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: selectedVoice === v.id ? TEXT : MUTED, fontWeight: 700, fontSize: 13 }}>{v.name}</div>
                   <div style={{ color: MUTED, fontSize: 11, marginTop: 2 }}>{v.era}</div>

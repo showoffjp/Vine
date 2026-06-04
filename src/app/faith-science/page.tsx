@@ -496,7 +496,7 @@ export default function FaithSciencePage() {
             </span>
             <input
               type="text"
-              placeholder="Search topics and thinkers…"
+              aria-label="Search topics and thinkers…" placeholder="Search topics and thinkers…"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               style={{
@@ -521,7 +521,7 @@ export default function FaithSciencePage() {
             const labels: Record<string, string> = { topics: "Topics", thinkers: "Thinkers", qa: "Q&A", history: "History", videos: "Videos" };
             const isActive = activeTab === tab;
             return (
-              <button
+              <button type="button"
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 style={{
@@ -557,7 +557,7 @@ export default function FaithSciencePage() {
               <div className="flex flex-wrap gap-2">
                 <span style={{ color: SECONDARY, fontSize: "0.8rem", alignSelf: "center", marginRight: 4 }}>Category:</span>
                 {CATEGORIES.map((cat) => (
-                  <button
+                  <button type="button"
                     key={cat}
                     onClick={() => setCategoryFilter(cat)}
                     style={{
@@ -579,7 +579,7 @@ export default function FaithSciencePage() {
               <div className="flex flex-wrap gap-2 mt-2 sm:mt-0">
                 <span style={{ color: SECONDARY, fontSize: "0.8rem", alignSelf: "center", marginRight: 4 }}>Difficulty:</span>
                 {DIFFICULTIES.map((d) => (
-                  <button
+                  <button type="button"
                     key={d}
                     onClick={() => setDifficultyFilter(d)}
                     style={{
@@ -679,7 +679,7 @@ export default function FaithSciencePage() {
                           </span>
                         </label>
                         {/* Save */}
-                        <button
+                        <button type="button"
                           onClick={() => toggleSaved(topic.id)}
                           title={isSaved ? "Unsave" : "Save topic"}
                           style={{
@@ -754,7 +754,7 @@ export default function FaithSciencePage() {
                       </blockquote>
                       <span style={{ fontSize: "0.78rem", color: SECONDARY, flexShrink: 0 }}>
                         🔬 See also:{" "}
-                        <button
+                        <button type="button"
                           onClick={() => {
                             setActiveTab("thinkers");
                             setSearchQuery(topic.relatedScientist.split(" ").slice(-1)[0]);
@@ -782,7 +782,7 @@ export default function FaithSciencePage() {
               <div className="text-center py-20" style={{ color: SECONDARY }}>
                 <div style={{ fontSize: "2rem", marginBottom: "12px" }}>🔭</div>
                 <p style={{ fontSize: "1rem" }}>No topics match your filters.</p>
-                <button
+                <button type="button"
                   onClick={() => { setCategoryFilter("All"); setDifficultyFilter("All"); setSearchQuery(""); }}
                   style={{ marginTop: "10px", color: GREEN, background: "none", border: "none", cursor: "pointer", fontWeight: 600 }}
                 >
@@ -802,7 +802,7 @@ export default function FaithSciencePage() {
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {filteredThinkers.map((t) => (
-                <button
+                <button type="button"
                   key={t.id}
                   onClick={() => setSelectedThinker(t)}
                   style={{
@@ -870,7 +870,7 @@ export default function FaithSciencePage() {
               <div className="text-center py-20" style={{ color: SECONDARY }}>
                 <div style={{ fontSize: "2rem", marginBottom: "12px" }}>🧠</div>
                 <p>No thinkers match your search.</p>
-                <button
+                <button type="button"
                   onClick={() => setSearchQuery("")}
                   style={{ marginTop: "10px", color: GREEN, background: "none", border: "none", cursor: "pointer", fontWeight: 600 }}
                 >
@@ -901,7 +901,7 @@ export default function FaithSciencePage() {
                       transition: "border-color 0.2s",
                     }}
                   >
-                    <button
+                    <button type="button"
                       onClick={() => toggleQA(item.id)}
                       style={{
                         width: "100%",
@@ -1030,7 +1030,7 @@ export default function FaithSciencePage() {
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close */}
-            <button
+            <button type="button"
               onClick={() => setSelectedThinker(null)}
               style={{
                 position: "absolute",

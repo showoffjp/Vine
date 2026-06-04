@@ -243,7 +243,7 @@ export default function ConversionStoriesPage() {
             { id: "yourstory" as const, label: "Your Story", icon: "✍️" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ]).map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none",
                 background: activeTab === t.id ? PURPLE : "transparent",
                 color: activeTab === t.id ? "#fff" : MUTED,
@@ -258,7 +258,7 @@ export default function ConversionStoriesPage() {
           <div>
             <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 28 }}>
               {ERA_FILTERS.map(e => (
-                <button key={e} onClick={() => setEra(e)}
+                <button type="button" key={e} onClick={() => setEra(e)}
                   style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${era === e ? GREEN : BORDER}`, background: era === e ? `${GREEN}15` : "transparent", color: era === e ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
                   {e}
                 </button>
@@ -268,7 +268,7 @@ export default function ConversionStoriesPage() {
             <div style={{ display: "grid", gridTemplateColumns: story ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 {filtered.map((s, i) => (
-                  <button key={i} onClick={() => setSelected(selected === s.name ? null : s.name)}
+                  <button type="button" key={i} onClick={() => setSelected(selected === s.name ? null : s.name)}
                     style={{ background: selected === s.name ? `${s.color}12` : CARD, border: `1px solid ${selected === s.name ? s.color + "50" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left", transition: "all 0.15s" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                       <div style={{ width: 44, height: 44, borderRadius: 10, background: `${s.color}20`, border: `1px solid ${s.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: s.color, fontWeight: 900, fontSize: 10, flexShrink: 0 }}>

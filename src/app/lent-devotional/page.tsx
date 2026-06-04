@@ -288,7 +288,7 @@ export default function LentDevotionalPage() {
           }}
         >
           {TABS.map((tab) => (
-            <button
+            <button type="button"
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               style={{
@@ -326,7 +326,7 @@ export default function LentDevotionalPage() {
                     overflow: "hidden",
                   }}
                 >
-                  <button
+                  <button type="button"
                     onClick={() => toggleAccordion(i)}
                     style={{
                       width: "100%",
@@ -549,7 +549,7 @@ export default function LentDevotionalPage() {
               {/* Left column — day buttons */}
               <div style={{ display: "flex", flexDirection: "column", gap: 8, flexShrink: 0, width: 170 }}>
                 {HOLY_WEEK_DAYS.map((day, i) => (
-                  <button
+                  <button type="button"
                     key={i}
                     onClick={() => setSelectedDay(i)}
                     style={{

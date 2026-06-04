@@ -209,7 +209,7 @@ export default function EasternOrthodoxPage() {
             { id: "dialogue" as Tab, label: "Common Ground", icon: "🤝" },
             { id: "videos" as Tab, label: "Videos", icon: "🎬" },
           ]).map(t => (
-            <button key={t.id} onClick={() => setTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? GOLD : "transparent", color: tab === t.id ? BG : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", minWidth: 100 }}>
               {t.icon} {t.label}
             </button>
@@ -248,7 +248,7 @@ export default function EasternOrthodoxPage() {
           <div style={{ display: "grid", gridTemplateColumns: "220px 1fr", gap: 16 }}>
             <div>
               {THEOLOGY_ITEMS.map(t => (
-                <button key={t.doctrine} onClick={() => setSelectedTheology(t.doctrine)}
+                <button type="button" key={t.doctrine} onClick={() => setSelectedTheology(t.doctrine)}
                   style={{ width: "100%", padding: "12px 14px", borderRadius: 10, border: `1px solid ${selectedTheology === t.doctrine ? t.color : BORDER}`, background: selectedTheology === t.doctrine ? `${t.color}15` : "transparent", color: selectedTheology === t.doctrine ? t.color : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer", marginBottom: 6, textAlign: "left" }}>
                   <div style={{ marginBottom: 2 }}>{t.doctrine}</div>
                   <div style={{ fontWeight: 400, fontSize: 10, fontStyle: "italic" }}>{t.greek}</div>
@@ -280,7 +280,7 @@ export default function EasternOrthodoxPage() {
             </div>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 20 }}>
               {LITURGY_ELEMENTS.map(l => (
-                <button key={l.name} onClick={() => setSelectedLiturgy(l.name)}
+                <button type="button" key={l.name} onClick={() => setSelectedLiturgy(l.name)}
                   style={{ padding: "8px 14px", borderRadius: 20, border: `1px solid ${selectedLiturgy === l.name ? l.color : BORDER}`, background: selectedLiturgy === l.name ? `${l.color}15` : "transparent", color: selectedLiturgy === l.name ? l.color : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
                   {l.name}
                 </button>
@@ -302,7 +302,7 @@ export default function EasternOrthodoxPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 200, flexShrink: 0 }}>
               {HISTORIANS.map(h => (
-                <button key={h.name} onClick={() => setSelectedHistorian(h.name)}
+                <button type="button" key={h.name} onClick={() => setSelectedHistorian(h.name)}
                   style={{ width: "100%", padding: "12px 14px", borderRadius: 10, border: `1px solid ${selectedHistorian === h.name ? h.color : BORDER}`, background: selectedHistorian === h.name ? `${h.color}12` : "transparent", color: selectedHistorian === h.name ? h.color : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer", marginBottom: 6, textAlign: "left" }}>
                   <div>{h.name}</div>
                   <div style={{ fontWeight: 400, fontSize: 10, marginTop: 2 }}>{h.dates}</div>

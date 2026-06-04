@@ -172,7 +172,7 @@ function Accordion({
               marginBottom: 12,
             }}
           >
-            <button
+            <button type="button"
               onClick={() => onToggle(key)}
               style={{
                 width: "100%",
@@ -312,7 +312,7 @@ export default function TheologyOfSabbathPage() {
         {/* Tab bar */}
         <div style={{ display: "flex", gap: 8, marginBottom: 36, flexWrap: "wrap" }}>
           {tabs.map((t) => (
-            <button
+            <button type="button"
               key={t.id}
               onClick={() => setActiveTab(t.id)}
               style={{

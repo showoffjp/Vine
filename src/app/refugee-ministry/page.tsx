@@ -191,7 +191,7 @@ export default function RefugeeMinistryPage() {
         {/* Tabs */}
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {tabs.map((t) => (
-            <button
+            <button type="button"
               key={t.id}
               onClick={() => setActiveTab(t.id)}
               style={{
@@ -219,7 +219,7 @@ export default function RefugeeMinistryPage() {
                 key={i}
                 style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, marginBottom: 10, overflow: "hidden" }}
               >
-                <button
+                <button type="button"
                   onClick={() => toggleTheology(i)}
                   style={{
                     width: "100%",
@@ -354,7 +354,7 @@ export default function RefugeeMinistryPage() {
                 key={i}
                 style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, marginBottom: 10, overflow: "hidden" }}
               >
-                <button
+                <button type="button"
                   onClick={() => toggleWelcome(i)}
                   style={{
                     width: "100%",

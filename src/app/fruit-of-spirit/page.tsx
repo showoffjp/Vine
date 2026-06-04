@@ -189,7 +189,7 @@ export default function FruitOfSpiritPage() {
             { id: "voices" as const, label: "Voices", icon: "🎓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -200,7 +200,7 @@ export default function FruitOfSpiritPage() {
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 16, marginBottom: 24, display: "flex", flexWrap: "wrap", gap: 8 }}>
               {FRUITS.map(f => (
-                <button key={f.fruit} onClick={() => setSelected(f.fruit)}
+                <button type="button" key={f.fruit} onClick={() => setSelected(f.fruit)}
                   style={{ flex: "0 0 auto", padding: "8px 16px", borderRadius: 20, border: `1px solid ${selected === f.fruit ? f.color : BORDER}`, background: selected === f.fruit ? `${f.color}20` : "transparent", color: selected === f.fruit ? f.color : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
                   {f.fruit}
                 </button>
@@ -281,7 +281,7 @@ export default function FruitOfSpiritPage() {
           <div style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 80 }}>
               {VOICES_FRUIT.map(v => (
-                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                   style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? "rgba(58,125,86,0.4)" : BORDER}`, background: selectedVoice === v.id ? "rgba(58,125,86,0.08)" : CARD, cursor: "pointer" }}>
                   <div style={{ fontSize: 13, fontWeight: 700, color: selectedVoice === v.id ? GREEN : TEXT, marginBottom: 2 }}>{v.name}</div>
                   <div style={{ fontSize: 11, color: MUTED }}>{v.era}</div>

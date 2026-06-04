@@ -335,7 +335,7 @@ export default function CreedsPage() {
         {/* Tab Bar */}
         <div style={{ display: "flex", gap: 4, marginBottom: 32, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 4 }}>
           {(["creeds", "commentary", "history", "videos"] as const).map(t => (
-            <button key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer", flex: 1 }}>
+            <button type="button" key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer", flex: 1 }}>
               {t === "creeds" ? "Creeds" : t === "commentary" ? "Commentary" : t === "history" ? "History" : "Videos"}
             </button>
           ))}
@@ -368,7 +368,7 @@ export default function CreedsPage() {
         {/* Creed Detail */}
         {activeTab === "creeds" && selected && (
           <div style={{ maxWidth: 760, margin: "0 auto" }}>
-            <button onClick={() => setSelected(null)} style={{ background: "none", border: "none", color: GREEN, cursor: "pointer", fontSize: 14, fontWeight: 700, marginBottom: 20, display: "flex", alignItems: "center", gap: 6, padding: 0 }}>
+            <button type="button" onClick={() => setSelected(null)} style={{ background: "none", border: "none", color: GREEN, cursor: "pointer", fontSize: 14, fontWeight: 700, marginBottom: 20, display: "flex", alignItems: "center", gap: 6, padding: 0 }}>
               &#8592; Back to Creeds
             </button>
             <div style={{ background: CARD, borderRadius: 20, padding: 32, border: "1px solid #2A2A40", marginBottom: 20 }}>
@@ -384,17 +384,17 @@ export default function CreedsPage() {
               </div>
 
               <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 20 }}>
-                <button onClick={() => copyText(selected.text, selected.id)}
+                <button type="button" onClick={() => copyText(selected.text, selected.id)}
                   style={{ padding: "10px 18px", borderRadius: 10, border: "1px solid #2A2A40", background: BORDER, color: copiedId === selected.id ? GREEN : MUTED, cursor: "pointer", fontWeight: 700, fontSize: 14 }}>
                   {copiedId === selected.id ? "✓ Copied!" : "Copy Text"}
                 </button>
-                <button onClick={() => toggleMemorized(selected.id)}
+                <button type="button" onClick={() => toggleMemorized(selected.id)}
                   style={{ padding: "10px 18px", borderRadius: 10, border: `1px solid ${memorizedIds.has(selected.id) ? "rgba(58,125,86,0.35)" : "#2A2A40"}`, background: memorizedIds.has(selected.id) ? "rgba(58,125,86,0.1)" : BORDER, color: memorizedIds.has(selected.id) ? GREEN : MUTED, cursor: "pointer", fontWeight: 700, fontSize: 14 }}>
                   {memorizedIds.has(selected.id) ? "✓ Memorizing" : "Track Memorization"}
                 </button>
               </div>
 
-              <button onClick={() => setShowLines(!showLines)}
+              <button type="button" onClick={() => setShowLines(!showLines)}
                 style={{ background: "none", border: "none", cursor: "pointer", color: PURPLE, fontWeight: 700, fontSize: 14, padding: 0 }}>
                 {showLines ? "▲ Hide line-by-line commentary" : "▼ Show line-by-line commentary"}
               </button>

@@ -152,7 +152,7 @@ function AccordionItem({
 }) {
   return (
     <div style={{ marginBottom: 10 }}>
-      <button
+      <button type="button"
         onClick={onToggle}
         style={{
           width: "100%",
@@ -256,7 +256,7 @@ export default function TheologyOfForgivenessPage() {
           }}
         >
           {tabs.map((t) => (
-            <button
+            <button type="button"
               key={t.id}
               onClick={() => setActiveTab(t.id)}
               style={{
@@ -306,7 +306,7 @@ export default function TheologyOfForgivenessPage() {
               }}
             >
               {JESUS_EPISODES.map((ep) => (
-                <button
+                <button type="button"
                   key={ep.id}
                   onClick={() => setActiveEpisode(ep.id)}
                   style={{

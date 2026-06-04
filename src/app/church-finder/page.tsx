@@ -360,7 +360,7 @@ export default function ChurchFinderPage() {
               <input
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search by name, city, pastor, or denomination..."
+                aria-label="Search by name, city, pastor, or denomination..." placeholder="Search by name, city, pastor, or denomination..."
                 className="w-full pl-11 pr-4 py-3 rounded-xl text-sm outline-none"
                 style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#F2F2F8" }}
               />
@@ -378,7 +378,7 @@ export default function ChurchFinderPage() {
               <select value={filterStyle} onChange={(e) => setFilterStyle(e.target.value)} className="px-3 py-2 rounded-xl text-xs font-semibold outline-none" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#F2F2F8" }}>
                 {STYLES.map((s) => <option key={s} value={s} style={{ background: "#12121F" }}>{s === "All" ? "All Styles" : s}</option>)}
               </select>
-              <button
+              <button type="button"
                 onClick={() => setFilterOnline((v) => !v)}
                 className="px-3 py-2 rounded-xl text-xs font-bold"
                 style={{ background: filterOnline ? "rgba(58,125,86,0.12)" : "rgba(255,255,255,0.04)", border: filterOnline ? "1px solid rgba(58,125,86,0.35)" : "1px solid rgba(255,255,255,0.08)", color: filterOnline ? "#3a7d56" : "#6A6A88" }}
@@ -427,7 +427,7 @@ export default function ChurchFinderPage() {
                                 <MapPin size={9} className="inline mr-0.5" />{c.city}{c.state ? `, ${c.state}` : ""}, {c.country} · {SIZE_LABELS[c.size]}
                               </p>
                             </div>
-                            <button
+                            <button type="button"
                               onClick={(e) => { e.stopPropagation(); toggleSave(c.id); }}
                               className="shrink-0 p-2 rounded-xl transition-all"
                               style={{ background: isSaved ? "rgba(236,72,153,0.12)" : "rgba(255,255,255,0.04)", border: isSaved ? "1px solid rgba(236,72,153,0.3)" : "1px solid rgba(255,255,255,0.08)" }}
@@ -468,7 +468,7 @@ export default function ChurchFinderPage() {
                                 </div>
                               </div>
                               <div className="flex gap-3">
-                                <button
+                                <button type="button"
                                   onClick={(e) => {
                                     e.stopPropagation();
                                     if (c.website) window.open(c.website, "_blank", "noopener,noreferrer");
@@ -479,7 +479,7 @@ export default function ChurchFinderPage() {
                                 >
                                   {c.website ? "Visit Website" : "No Website Listed"}
                                 </button>
-                                <button
+                                <button type="button"
                                   onClick={(e) => { e.stopPropagation(); toggleSave(c.id); }}
                                   className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold"
                                   style={{ background: isSaved ? "rgba(236,72,153,0.12)" : "rgba(255,255,255,0.04)", color: isSaved ? "#EC4899" : "#6A6A88", border: "1px solid rgba(255,255,255,0.08)" }}
@@ -529,7 +529,7 @@ export default function ChurchFinderPage() {
               <div className="rounded-2xl p-5" style={{ background: "rgba(107,79,187,0.08)", border: "1px solid rgba(107,79,187,0.15)" }}>
                 <p className="font-black text-sm mb-2" style={{ color: "#F2F2F8" }}>Can&apos;t find your church?</p>
                 <p className="text-xs mb-3" style={{ color: "#6A6A88" }}>{submitted ? "Thanks! Your church has been submitted for review." : "Submit your church to be listed in the Vine directory."}</p>
-                <button
+                <button type="button"
                   onClick={() => { setSubmitted(true); setTimeout(() => setSubmitted(false), 3000); }}
                   className="w-full py-2 rounded-xl text-xs font-black"
                   style={{ background: "rgba(107,79,187,0.2)", color: "#9B8FEB", border: "1px solid rgba(107,79,187,0.3)" }}

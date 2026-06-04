@@ -389,7 +389,7 @@ export default function BooksForSeasonsPage() {
         {/* Tab Bar */}
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 6, width: "fit-content" }}>
           {(["books", "seasons", "guides", "voices", "videos"] as const).map(t => (
-            <button key={t} onClick={() => setActiveTab(t)}
+            <button type="button" key={t} onClick={() => setActiveTab(t)}
               style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t === "books" ? "Books" : t === "seasons" ? "Life Seasons" : t === "guides" ? "Reading Guides" : t === "voices" ? "Voices" : "Videos"}
             </button>
@@ -401,7 +401,7 @@ export default function BooksForSeasonsPage() {
           <>
             <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 28 }}>
               {SEASON_FILTERS.map(s => (
-                <button key={s} onClick={() => setSeason(s)}
+                <button type="button" key={s} onClick={() => setSeason(s)}
                   style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${season === s ? GREEN : BORDER}`, background: season === s ? `${GREEN}15` : "transparent", color: season === s ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
                   {s}
                 </button>
@@ -411,7 +411,7 @@ export default function BooksForSeasonsPage() {
             <div style={{ display: "grid", gridTemplateColumns: book ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 {filtered.map((b, i) => (
-                  <button key={i} onClick={() => setSelected(selected === b.title ? null : b.title)}
+                  <button type="button" key={i} onClick={() => setSelected(selected === b.title ? null : b.title)}
                     style={{ background: selected === b.title ? `${b.color}12` : CARD, border: `1px solid ${selected === b.title ? b.color + "50" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                       <div style={{ width: 44, height: 44, borderRadius: 10, background: `${b.color}20`, border: `1px solid ${b.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: b.color, fontWeight: 900, fontSize: 9, flexShrink: 0 }}>
@@ -561,7 +561,7 @@ export default function BooksForSeasonsPage() {
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, alignItems: "start" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {VOICES_BFOS.map(v => (
-                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                   style={{ background: selectedVoice === v.id ? `${PURPLE}15` : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE + "60" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left", transition: "all 0.15s" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                     <div style={{ width: 44, height: 44, borderRadius: "50%", background: `${PURPLE}25`, border: `1px solid ${PURPLE}40`, display: "flex", alignItems: "center", justifyContent: "center", color: PURPLE, fontWeight: 900, fontSize: 13, flexShrink: 0 }}>

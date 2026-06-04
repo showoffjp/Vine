@@ -206,7 +206,7 @@ export default function BibleCharactersPage() {
             { id: "study" as const, label: "How to Study", icon: "📖" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -216,7 +216,7 @@ export default function BibleCharactersPage() {
         {activeTab === "characters" && (<>
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 20 }}>
             {FILTERS.map(f => (
-              <button key={f} onClick={() => setFilter(f)}
+              <button type="button" key={f} onClick={() => setFilter(f)}
                 style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${filter === f ? GREEN : BORDER}`, background: filter === f ? `${GREEN}15` : "transparent", color: filter === f ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
                 {f}
               </button>
@@ -226,7 +226,7 @@ export default function BibleCharactersPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 160, flexShrink: 0 }}>
               {filtered.map(c => (
-                <button key={c.name} onClick={() => setSelected(c.name)}
+                <button type="button" key={c.name} onClick={() => setSelected(c.name)}
                   style={{ width: "100%", background: selected === c.name && filtered.find(f => f.name === selected) ? `${c.color}15` : "transparent", border: `1px solid ${selected === c.name && filtered.find(f => f.name === selected) ? c.color + "60" : BORDER}`, borderRadius: 10, padding: "10px 12px", marginBottom: 8, cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: selected === c.name && filtered.find(f => f.name === selected) ? c.color : TEXT, fontWeight: 700, fontSize: 13 }}>{c.name}</div>
                   <div style={{ color: MUTED, fontSize: 11, marginTop: 2 }}>{c.era}</div>
@@ -267,7 +267,7 @@ export default function BibleCharactersPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 160, flexShrink: 0 }}>
               {WOMEN_CHARS.map(w => (
-                <button key={w.name} onClick={() => setSelectedWoman(w.name)}
+                <button type="button" key={w.name} onClick={() => setSelectedWoman(w.name)}
                   style={{ width: "100%", background: selectedWoman === w.name ? `${w.color}15` : "transparent", border: `1px solid ${selectedWoman === w.name ? w.color + "60" : BORDER}`, borderRadius: 10, padding: "10px 12px", marginBottom: 8, cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: selectedWoman === w.name ? w.color : TEXT, fontWeight: 700, fontSize: 13 }}>{w.name}</div>
                   <div style={{ color: MUTED, fontSize: 11, marginTop: 2 }}>{w.era}</div>

@@ -133,7 +133,7 @@ export default function SermonOnTheMountPage() {
             { id: "scholars" as const, label: "Scholars", icon: "🎓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -144,7 +144,7 @@ export default function SermonOnTheMountPage() {
           <div>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 20 }}>
               {SECTIONS.map(s => (
-                <button key={s.title} onClick={() => setSelectedSection(s.title)}
+                <button type="button" key={s.title} onClick={() => setSelectedSection(s.title)}
                   style={{ padding: "8px 12px", borderRadius: 20, border: `1px solid ${selectedSection === s.title ? s.color : BORDER}`, background: selectedSection === s.title ? `${s.color}20` : "transparent", color: selectedSection === s.title ? s.color : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
                   {s.title}
                 </button>
@@ -212,7 +212,7 @@ export default function SermonOnTheMountPage() {
           <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
               {SCHOLARS_SOTM.map(v => (
-                <button key={v.id} onClick={() => setSelectedScholar(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedScholar(v.id)}
                   style={{ background: selectedScholar === v.id ? PURPLE : CARD, border: `1px solid ${selectedScholar === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: TEXT, fontWeight: 700, fontSize: 14 }}>{v.name}</div>
                   <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{v.era}</div>

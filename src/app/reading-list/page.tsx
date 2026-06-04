@@ -477,7 +477,7 @@ export default function ReadingListPage() {
                 Track your spiritual reading, rate books, and build a library of faith-shaping literature.
               </p>
             </div>
-            <button
+            <button type="button"
               onClick={() => { resetForm(); setShowCompose(true); }}
               className="shrink-0 flex items-center gap-2 px-5 py-2.5 rounded-xl font-black text-sm"
               style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)", color: BG }}
@@ -506,7 +506,7 @@ export default function ReadingListPage() {
         <div style={{ borderBottom: `1px solid ${BORDER}`, marginBottom: 28 }}>
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8" style={{ display: "flex" }}>
             {(["list", "recommendations", "guides", "voices", "videos"] as const).map(tab => (
-              <button key={tab} onClick={() => setMainTab(tab)}
+              <button type="button" key={tab} onClick={() => setMainTab(tab)}
                 style={{ background: "none", border: "none", borderBottom: mainTab === tab ? `2px solid ${GREEN}` : "2px solid transparent", color: mainTab === tab ? TEXT : MUTED, fontWeight: mainTab === tab ? 700 : 500, fontSize: 14, padding: "14px 18px", cursor: "pointer" }}>
                 {tab === "list" ? "My List" : tab === "recommendations" ? "Recommendations" : tab === "guides" ? "Reading Guides" : tab === "voices" ? "🎓 Voices" : "🎬 Videos"}
               </button>
@@ -520,12 +520,12 @@ export default function ReadingListPage() {
             <div className="w-full max-w-lg rounded-2xl p-6 max-h-[90vh] overflow-y-auto" style={{ background: CARD, border: `1px solid ${BORDER}` }}>
               <div className="flex items-center justify-between mb-5">
                 <h3 className="font-black text-lg" style={{ color: TEXT }}>{editingId ? "Edit Book" : "Add Book"}</h3>
-                <button onClick={() => { setShowCompose(false); resetForm(); }} style={{ color: "#4A4A68" }}><X size={20} /></button>
+                <button type="button" onClick={() => { setShowCompose(false); resetForm(); }} style={{ color: "#4A4A68" }}><X size={20} /></button>
               </div>
               <div className="space-y-3">
                 <div className="grid grid-cols-2 gap-3">
-                  <input value={form.title} onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))} placeholder="Book title" className="px-4 py-2.5 rounded-xl text-sm outline-none" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: TEXT }} />
-                  <input value={form.author} onChange={(e) => setForm((f) => ({ ...f, author: e.target.value }))} placeholder="Author" className="px-4 py-2.5 rounded-xl text-sm outline-none" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: TEXT }} />
+                  <input value={form.title} onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))} aria-label="Book title" placeholder="Book title" className="px-4 py-2.5 rounded-xl text-sm outline-none" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: TEXT }} />
+                  <input value={form.author} onChange={(e) => setForm((f) => ({ ...f, author: e.target.value }))} aria-label="Author" placeholder="Author" className="px-4 py-2.5 rounded-xl text-sm outline-none" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: TEXT }} />
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   <select value={form.genre} onChange={(e) => setForm((f) => ({ ...f, genre: e.target.value }))} className="px-4 py-2.5 rounded-xl text-sm outline-none" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: TEXT }}>
@@ -541,7 +541,7 @@ export default function ReadingListPage() {
                   <label className="text-xs font-semibold mb-1 block" style={{ color: "#6A6A88" }}>Cover emoji</label>
                   <div className="flex gap-2 flex-wrap">
                     {COVER_EMOJIS.map((e) => (
-                      <button key={e} onClick={() => setForm((f) => ({ ...f, coverEmoji: e }))} className="w-9 h-9 rounded-lg flex items-center justify-center text-xl" style={{ background: form.coverEmoji === e ? "rgba(58,125,86,0.15)" : "rgba(255,255,255,0.04)", border: form.coverEmoji === e ? "1px solid rgba(58,125,86,0.4)" : "1px solid rgba(255,255,255,0.08)" }}>
+                      <button type="button" key={e} onClick={() => setForm((f) => ({ ...f, coverEmoji: e }))} className="w-9 h-9 rounded-lg flex items-center justify-center text-xl" style={{ background: form.coverEmoji === e ? "rgba(58,125,86,0.15)" : "rgba(255,255,255,0.04)", border: form.coverEmoji === e ? "1px solid rgba(58,125,86,0.4)" : "1px solid rgba(255,255,255,0.08)" }}>
                         {e}
                       </button>
                     ))}
@@ -549,16 +549,16 @@ export default function ReadingListPage() {
                 </div>
                 {(form.status === "reading" || form.status === "completed") && (
                   <div className="grid grid-cols-2 gap-3">
-                    <input type="number" value={form.currentPage} onChange={(e) => setForm((f) => ({ ...f, currentPage: e.target.value }))} placeholder="Current page" min={0} className="px-4 py-2.5 rounded-xl text-sm outline-none" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: TEXT }} />
-                    <input type="number" value={form.totalPages} onChange={(e) => setForm((f) => ({ ...f, totalPages: e.target.value }))} placeholder="Total pages" min={1} className="px-4 py-2.5 rounded-xl text-sm outline-none" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: TEXT }} />
+                    <input type="number" value={form.currentPage} onChange={(e) => setForm((f) => ({ ...f, currentPage: e.target.value }))} aria-label="Current page" placeholder="Current page" min={0} className="px-4 py-2.5 rounded-xl text-sm outline-none" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: TEXT }} />
+                    <input type="number" value={form.totalPages} onChange={(e) => setForm((f) => ({ ...f, totalPages: e.target.value }))} aria-label="Total pages" placeholder="Total pages" min={1} className="px-4 py-2.5 rounded-xl text-sm outline-none" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: TEXT }} />
                   </div>
                 )}
-                <input type="number" value={form.year} onChange={(e) => setForm((f) => ({ ...f, year: e.target.value }))} placeholder="Publication year (optional)" min={1000} max={2026} className="w-full px-4 py-2.5 rounded-xl text-sm outline-none" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: TEXT }} />
-                <textarea value={form.notes} onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))} placeholder="Notes, quotes, or review..." rows={3} className="w-full px-4 py-3 rounded-xl text-sm outline-none resize-none" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: TEXT }} />
+                <input type="number" value={form.year} onChange={(e) => setForm((f) => ({ ...f, year: e.target.value }))} aria-label="Publication year (optional)" placeholder="Publication year (optional)" min={1000} max={2026} className="w-full px-4 py-2.5 rounded-xl text-sm outline-none" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: TEXT }} />
+                <textarea value={form.notes} onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))} aria-label="Notes, quotes, or review..." placeholder="Notes, quotes, or review..." rows={3} className="w-full px-4 py-3 rounded-xl text-sm outline-none resize-none" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: TEXT }} />
               </div>
               <div className="flex gap-3 mt-5">
-                <button onClick={() => { setShowCompose(false); resetForm(); }} className="flex-1 py-2.5 rounded-xl font-bold text-sm" style={{ background: "rgba(255,255,255,0.04)", color: "#8A8AA8", border: "1px solid rgba(255,255,255,0.08)" }}>Cancel</button>
-                <button onClick={handleSubmit} disabled={!form.title.trim() || !form.author.trim()} className="flex-1 py-2.5 rounded-xl font-black text-sm" style={{ background: (form.title.trim() && form.author.trim()) ? "linear-gradient(135deg, #3a7d56, #3a7d56)" : "rgba(255,255,255,0.06)", color: (form.title.trim() && form.author.trim()) ? BG : "#4A4A68" }}>
+                <button type="button" onClick={() => { setShowCompose(false); resetForm(); }} className="flex-1 py-2.5 rounded-xl font-bold text-sm" style={{ background: "rgba(255,255,255,0.04)", color: "#8A8AA8", border: "1px solid rgba(255,255,255,0.08)" }}>Cancel</button>
+                <button type="button" onClick={handleSubmit} disabled={!form.title.trim() || !form.author.trim()} className="flex-1 py-2.5 rounded-xl font-black text-sm" style={{ background: (form.title.trim() && form.author.trim()) ? "linear-gradient(135deg, #3a7d56, #3a7d56)" : "rgba(255,255,255,0.06)", color: (form.title.trim() && form.author.trim()) ? BG : "#4A4A68" }}>
                   {editingId ? "Save" : "Add Book"}
                 </button>
               </div>
@@ -571,8 +571,8 @@ export default function ReadingListPage() {
             <div className="rounded-2xl p-6 max-w-sm w-full" style={{ background: CARD, border: `1px solid ${BORDER}` }}>
               <p className="font-black text-base mb-2" style={{ color: TEXT }}>Remove this book?</p>
               <div className="flex gap-3 mt-4">
-                <button onClick={() => setConfirmDelete(null)} className="flex-1 py-2 rounded-xl font-bold text-sm" style={{ background: "rgba(255,255,255,0.04)", color: "#8A8AA8", border: "1px solid rgba(255,255,255,0.08)" }}>Cancel</button>
-                <button onClick={() => { setBooks((prev) => prev.filter((b) => b.id !== confirmDelete)); setConfirmDelete(null); if (selectedBook === confirmDelete) setSelectedBook(null); }} className="flex-1 py-2 rounded-xl font-black text-sm" style={{ background: "rgba(239,68,68,0.15)", color: "#EF4444", border: "1px solid rgba(239,68,68,0.3)" }}>Remove</button>
+                <button type="button" onClick={() => setConfirmDelete(null)} className="flex-1 py-2 rounded-xl font-bold text-sm" style={{ background: "rgba(255,255,255,0.04)", color: "#8A8AA8", border: "1px solid rgba(255,255,255,0.08)" }}>Cancel</button>
+                <button type="button" onClick={() => { setBooks((prev) => prev.filter((b) => b.id !== confirmDelete)); setConfirmDelete(null); if (selectedBook === confirmDelete) setSelectedBook(null); }} className="flex-1 py-2 rounded-xl font-black text-sm" style={{ background: "rgba(239,68,68,0.15)", color: "#EF4444", border: "1px solid rgba(239,68,68,0.3)" }}>Remove</button>
               </div>
             </div>
           </div>
@@ -589,14 +589,14 @@ export default function ReadingListPage() {
                   <div className="flex flex-col sm:flex-row gap-3 mb-4">
                     <div className="relative flex-1">
                       <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: "#4A4A68" }} />
-                      <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search books..." className="w-full pl-9 pr-4 py-2.5 rounded-xl text-sm outline-none" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: TEXT }} />
+                      <input value={search} onChange={(e) => setSearch(e.target.value)} aria-label="Search books..." placeholder="Search books..." className="w-full pl-9 pr-4 py-2.5 rounded-xl text-sm outline-none" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: TEXT }} />
                     </div>
                   </div>
 
                   {/* Status tabs */}
                   <div className="flex gap-2 mb-4 overflow-x-auto pb-1">
                     {([["all", "All", "#8A8AA8"], ...Object.entries(STATUS_CONFIG).map(([k, v]) => [k, v.label, v.color])] as [string, string, string][]).map(([k, label, color]) => (
-                      <button key={k} onClick={() => setActiveStatus(k as ReadStatus | "all")} className="px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap" style={{ background: activeStatus === k ? `${color}15` : "rgba(255,255,255,0.03)", border: activeStatus === k ? `1px solid ${color}40` : "1px solid rgba(255,255,255,0.06)", color: activeStatus === k ? color : "#6A6A88" }}>
+                      <button type="button" key={k} onClick={() => setActiveStatus(k as ReadStatus | "all")} className="px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap" style={{ background: activeStatus === k ? `${color}15` : "rgba(255,255,255,0.03)", border: activeStatus === k ? `1px solid ${color}40` : "1px solid rgba(255,255,255,0.06)", color: activeStatus === k ? color : "#6A6A88" }}>
                         {STATUS_CONFIG[k as ReadStatus]?.icon ?? "📚"} {label} {k !== "all" ? `(${books.filter((b) => b.status === k).length})` : `(${books.length})`}
                       </button>
                     ))}
@@ -605,7 +605,7 @@ export default function ReadingListPage() {
                   {/* Genre pills */}
                   <div className="flex gap-2 mb-5 overflow-x-auto pb-1">
                     {["All", ...GENRES].map((g) => (
-                      <button key={g} onClick={() => setActiveGenre(g)} className="px-3 py-1 rounded-full text-[11px] font-bold whitespace-nowrap" style={{ background: activeGenre === g ? `${GENRE_COLORS[g] ?? "#8A8AA8"}15` : "rgba(255,255,255,0.03)", border: activeGenre === g ? `1px solid ${GENRE_COLORS[g] ?? "#8A8AA8"}40` : "1px solid rgba(255,255,255,0.06)", color: activeGenre === g ? GENRE_COLORS[g] ?? "#8A8AA8" : "#6A6A88" }}>
+                      <button type="button" key={g} onClick={() => setActiveGenre(g)} className="px-3 py-1 rounded-full text-[11px] font-bold whitespace-nowrap" style={{ background: activeGenre === g ? `${GENRE_COLORS[g] ?? "#8A8AA8"}15` : "rgba(255,255,255,0.03)", border: activeGenre === g ? `1px solid ${GENRE_COLORS[g] ?? "#8A8AA8"}40` : "1px solid rgba(255,255,255,0.06)", color: activeGenre === g ? GENRE_COLORS[g] ?? "#8A8AA8" : "#6A6A88" }}>
                         {g}
                       </button>
                     ))}
@@ -632,8 +632,8 @@ export default function ReadingListPage() {
                         >
                           {/* Hover actions */}
                           <div className="absolute top-3 right-3 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <button onClick={(e) => { e.stopPropagation(); handleEdit(book); }} className="p-1.5 rounded-lg" style={{ background: "rgba(0,0,0,0.5)", color: "#6A6A88" }}><Edit2 size={11} /></button>
-                            <button onClick={(e) => { e.stopPropagation(); setConfirmDelete(book.id); }} className="p-1.5 rounded-lg" style={{ background: "rgba(0,0,0,0.5)", color: "#6A6A88" }}><Trash2 size={11} /></button>
+                            <button type="button" onClick={(e) => { e.stopPropagation(); handleEdit(book); }} className="p-1.5 rounded-lg" style={{ background: "rgba(0,0,0,0.5)", color: "#6A6A88" }}><Edit2 size={11} /></button>
+                            <button type="button" onClick={(e) => { e.stopPropagation(); setConfirmDelete(book.id); }} className="p-1.5 rounded-lg" style={{ background: "rgba(0,0,0,0.5)", color: "#6A6A88" }}><Trash2 size={11} /></button>
                           </div>
 
                           <div className="text-4xl mb-3">{book.coverEmoji}</div>
@@ -657,7 +657,7 @@ export default function ReadingListPage() {
                           {book.status === "completed" && (
                             <div className="flex gap-0.5" onClick={(e) => e.stopPropagation()}>
                               {[1, 2, 3, 4, 5].map((star) => (
-                                <button key={star} onClick={() => setRating(book.id, star as 1 | 2 | 3 | 4 | 5)}>
+                                <button type="button" key={star} onClick={() => setRating(book.id, star as 1 | 2 | 3 | 4 | 5)}>
                                   <Star size={13} fill={book.rating && book.rating >= star ? "#F59E0B" : "none"} style={{ color: book.rating && book.rating >= star ? "#F59E0B" : BORDER }} />
                                 </button>
                               ))}
@@ -696,7 +696,7 @@ export default function ReadingListPage() {
                   const isOpen = expandedRec === rec.id;
                   return (
                     <div key={rec.id} style={{ background: CARD, border: `1px solid ${isOpen ? PURPLE : BORDER}`, borderRadius: 16, overflow: "hidden", transition: "border-color 0.2s" }}>
-                      <button
+                      <button type="button"
                         onClick={() => setExpandedRec(isOpen ? null : rec.id)}
                         style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "18px 20px", background: "transparent", border: "none", cursor: "pointer", textAlign: "left" }}
                       >
@@ -741,7 +741,7 @@ export default function ReadingListPage() {
                   const isOpen = expandedGuide === guide.id;
                   return (
                     <div key={guide.id} style={{ background: CARD, border: `1px solid ${isOpen ? GREEN : BORDER}`, borderRadius: 16, overflow: "hidden", transition: "border-color 0.2s" }}>
-                      <button
+                      <button type="button"
                         onClick={() => setExpandedGuide(isOpen ? null : guide.id)}
                         style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "20px 24px", background: "transparent", border: "none", cursor: "pointer", textAlign: "left" }}
                       >
@@ -835,7 +835,7 @@ export default function ReadingListPage() {
                 {/* Left panel */}
                 <div style={{ width: 240, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 24 }}>
                   {VOICES_READ.map((v) => (
-                    <button key={v.id} onClick={() => setSelectedVoice(v)}
+                    <button type="button" key={v.id} onClick={() => setSelectedVoice(v)}
                       style={{
                         background: selectedVoice.id === v.id ? `${PURPLE}20` : CARD,
                         border: `1px solid ${selectedVoice.id === v.id ? PURPLE : BORDER}`,

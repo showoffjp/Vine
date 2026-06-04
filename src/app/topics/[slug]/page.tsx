@@ -803,7 +803,7 @@ export default async function TopicPage({ params }: { params: Promise<{ slug: st
                       <span className="text-xs font-semibold" style={{ color: "#8A8AA8" }}>{post.author}</span>
                       <div className="flex items-center gap-3 ml-auto">
                         <ReplyUpvote initialCount={post.upvotes} size={12} />
-                        <button className="flex items-center gap-1 text-xs" style={{ color: "#6A6A88" }}>
+                        <button type="button" className="flex items-center gap-1 text-xs" style={{ color: "#6A6A88" }}>
                           <MessageSquare size={12} /> {post.replies}
                         </button>
                       </div>

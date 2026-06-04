@@ -263,7 +263,7 @@ export default function ExplorePage() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search Vine — topics, creators, discussions, resources..."
+                aria-label="Search Vine — topics, creators, discussions, resources..." placeholder="Search Vine — topics, creators, discussions, resources..."
                 className="w-full pl-12 pr-6 py-4 rounded-2xl text-base outline-none"
                 style={{
                   background: "#12121F",
@@ -277,7 +277,7 @@ export default function ExplorePage() {
             {/* Quick search tags */}
             <div className="flex items-center justify-center gap-2 flex-wrap mt-4">
               {["Prayer", "Anxiety", "Marriage", "Salvation", "Fasting", "Apologetics"].map((tag) => (
-                <button
+                <button type="button"
                   key={tag}
                   onClick={() => setSearchQuery(tag)}
                   className="text-xs px-3 py-1.5 rounded-full font-medium transition-all duration-200 hover:border-[rgba(58,125,86,0.4)] hover:text-[#3a7d56]"
@@ -339,7 +339,7 @@ export default function ExplorePage() {
                 <Flame size={16} style={{ color: "#3a7d56" }} />
                 <h2 className="text-lg font-black" style={{ color: "#F2F2F8" }}>Trending Topics</h2>
               </div>
-              <button onClick={() => router.push("/topics")} className="flex items-center gap-1 text-xs font-semibold transition-colors hover:text-[#52a876]" style={{ color: "#3a7d56" }}>
+              <button type="button" onClick={() => router.push("/topics")} className="flex items-center gap-1 text-xs font-semibold transition-colors hover:text-[#52a876]" style={{ color: "#3a7d56" }}>
                 See all <ChevronRight size={13} />
               </button>
             </div>
@@ -380,7 +380,7 @@ export default function ExplorePage() {
                   Personalized
                 </span>
               </div>
-              <button onClick={() => router.push("/feed")} className="flex items-center gap-1 text-xs font-semibold" style={{ color: "#3a7d56" }}>
+              <button type="button" onClick={() => router.push("/feed")} className="flex items-center gap-1 text-xs font-semibold" style={{ color: "#3a7d56" }}>
                 See all <ChevronRight size={13} />
               </button>
             </div>
@@ -518,7 +518,7 @@ export default function ExplorePage() {
                   <p className="text-xs font-bold mb-3" style={{ color: "#8A8AA8" }}>
                     {creator.followers} followers
                   </p>
-                  <button
+                  <button type="button"
                     onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleFollow(creator.handle); }}
                     className="w-full py-1.5 rounded-xl text-xs font-bold transition-all duration-200"
                     style={{

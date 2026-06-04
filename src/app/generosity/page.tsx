@@ -108,7 +108,7 @@ export default function GenerosityPage() {
             { id: "goals" as const, label: "Giving Goals", icon: "🎯" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -142,7 +142,7 @@ export default function GenerosityPage() {
           <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
               {VOICES_GENEROSITY.map(v => (
-                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                   style={{ background: selectedVoice === v.id ? PURPLE : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: TEXT, fontWeight: 700, fontSize: 14 }}>{v.name}</div>
                   <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{v.era}</div>
@@ -210,17 +210,17 @@ export default function GenerosityPage() {
                   <div style={{ flex: 1 }}>
                     <div style={{ color: MUTED, fontSize: 12, marginBottom: 4 }}>Current %</div>
                     <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-                      <button onClick={() => update(g.id, "current", g.current - 1)} style={{ width: 28, height: 28, borderRadius: 6, border: `1px solid ${BORDER}`, background: "transparent", color: MUTED, cursor: "pointer", fontSize: 16 }}>−</button>
+                      <button type="button" onClick={() => update(g.id, "current", g.current - 1)} style={{ width: 28, height: 28, borderRadius: 6, border: `1px solid ${BORDER}`, background: "transparent", color: MUTED, cursor: "pointer", fontSize: 16 }}>−</button>
                       <span style={{ color: GREEN, fontWeight: 800, fontSize: 20, minWidth: 40, textAlign: "center" }}>{g.current}%</span>
-                      <button onClick={() => update(g.id, "current", g.current + 1)} style={{ width: 28, height: 28, borderRadius: 6, border: `1px solid ${BORDER}`, background: "transparent", color: MUTED, cursor: "pointer", fontSize: 16 }}>+</button>
+                      <button type="button" onClick={() => update(g.id, "current", g.current + 1)} style={{ width: 28, height: 28, borderRadius: 6, border: `1px solid ${BORDER}`, background: "transparent", color: MUTED, cursor: "pointer", fontSize: 16 }}>+</button>
                     </div>
                   </div>
                   <div style={{ flex: 1 }}>
                     <div style={{ color: MUTED, fontSize: 12, marginBottom: 4 }}>Goal %</div>
                     <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-                      <button onClick={() => update(g.id, "target", g.target - 1)} style={{ width: 28, height: 28, borderRadius: 6, border: `1px solid ${BORDER}`, background: "transparent", color: MUTED, cursor: "pointer", fontSize: 16 }}>−</button>
+                      <button type="button" onClick={() => update(g.id, "target", g.target - 1)} style={{ width: 28, height: 28, borderRadius: 6, border: `1px solid ${BORDER}`, background: "transparent", color: MUTED, cursor: "pointer", fontSize: 16 }}>−</button>
                       <span style={{ color: MUTED, fontWeight: 800, fontSize: 20, minWidth: 40, textAlign: "center" }}>{g.target}%</span>
-                      <button onClick={() => update(g.id, "target", g.target + 1)} style={{ width: 28, height: 28, borderRadius: 6, border: `1px solid ${BORDER}`, background: "transparent", color: MUTED, cursor: "pointer", fontSize: 16 }}>+</button>
+                      <button type="button" onClick={() => update(g.id, "target", g.target + 1)} style={{ width: 28, height: 28, borderRadius: 6, border: `1px solid ${BORDER}`, background: "transparent", color: MUTED, cursor: "pointer", fontSize: 16 }}>+</button>
                     </div>
                   </div>
                   <div style={{ flex: 1 }}>

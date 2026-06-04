@@ -112,7 +112,7 @@ export default function BiblicalWomanhoodPage() {
             { id: "history" as Tab, label: "Church History", icon: "🏛️" },
             { id: "videos" as Tab, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -142,7 +142,7 @@ export default function BiblicalWomanhoodPage() {
             </div>
             {QUESTIONS.map((q, i) => (
               <div key={i} style={{ marginBottom: 10 }}>
-                <button onClick={() => setExpanded(expanded === q.q ? null : q.q)}
+                <button type="button" onClick={() => setExpanded(expanded === q.q ? null : q.q)}
                   style={{ width: "100%", background: CARD, border: `1px solid ${BORDER}`, borderRadius: expanded === q.q ? "10px 10px 0 0" : 10, padding: "14px 18px", color: TEXT, fontWeight: 700, fontSize: 14, cursor: "pointer", display: "flex", justifyContent: "space-between", textAlign: "left" }}>
                   <span>{q.q}</span>
                   <span style={{ color: MUTED, flexShrink: 0 }}>{expanded === q.q ? "−" : "+"}</span>
@@ -180,7 +180,7 @@ export default function BiblicalWomanhoodPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 185, flexShrink: 0 }}>
               {HISTORY.map(h => (
-                <button key={h.id} onClick={() => setSelectedHistory(h.id)}
+                <button type="button" key={h.id} onClick={() => setSelectedHistory(h.id)}
                   style={{ width: "100%", padding: "12px 14px", borderRadius: 10, border: `1px solid ${selectedHistory === h.id ? h.color : BORDER}`, background: selectedHistory === h.id ? `${h.color}12` : "transparent", color: selectedHistory === h.id ? h.color : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", marginBottom: 6, textAlign: "left" }}>
                   {h.name.split(" of")[0].split(",")[0]}
                 </button>

@@ -119,7 +119,7 @@ export default function ReformedTheologyPage() {
             { id: "resources" as const, label: "Resources", icon: "📚" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -136,7 +136,7 @@ export default function ReformedTheologyPage() {
 
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 20 }}>
               {TULIP.map(t => (
-                <button key={t.letter} onClick={() => setSelectedTulip(selectedTulip === t.letter ? null : t.letter)}
+                <button type="button" key={t.letter} onClick={() => setSelectedTulip(selectedTulip === t.letter ? null : t.letter)}
                   style={{ flex: "1 1 160px", background: selectedTulip === t.letter ? `${t.color}20` : CARD, border: `1px solid ${selectedTulip === t.letter ? t.color : BORDER}`, borderRadius: 12, padding: "16px 14px", cursor: "pointer", textAlign: "left" }}>
                   <div style={{ fontSize: 32, fontWeight: 900, color: t.color, marginBottom: 4 }}>{t.letter}</div>
                   <div style={{ color: t.color, fontWeight: 800, fontSize: 14 }}>{t.name}</div>

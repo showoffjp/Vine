@@ -479,7 +479,7 @@ export default function ParablesPage() {
         {/* Main 4-tab navigation */}
         <div style={{ display: "flex", gap: 6, marginBottom: 28, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 6 }}>
           {(["parables", "themes", "study", "videos"] as const).map(t => (
-            <button key={t} onClick={() => setActiveTab(t)} style={{ flex: 1, background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer", transition: "background 0.2s" }}>
+            <button type="button" key={t} onClick={() => setActiveTab(t)} style={{ flex: 1, background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer", transition: "background 0.2s" }}>
               {t === "parables" ? "Parables" : t === "themes" ? "Themes" : t === "study" ? "Study Methods" : "Videos"}
             </button>
           ))}
@@ -491,7 +491,7 @@ export default function ParablesPage() {
             {/* Inner sub-tabs */}
             <div style={{ display: "flex", gap: 4, marginBottom: 24, borderBottom: `1px solid ${BORDER}`, paddingBottom: 0 }}>
               {(["browse", "studied", "methods", "voices"] as const).map(t => (
-                <button key={t} onClick={() => setInnerTab(t)}
+                <button type="button" key={t} onClick={() => setInnerTab(t)}
                   style={{ padding: "10px 20px", fontSize: 14, fontWeight: 600, background: "none", border: "none", cursor: "pointer", color: innerTab === t ? GREEN : "#6A6A88", borderBottom: `2px solid ${innerTab === t ? GREEN : "transparent"}`, marginBottom: -1 }}>
                   {t === "browse" ? "All Parables" : t === "studied" ? `My Studied (${studiedIds.size})` : t === "methods" ? "📜 Methods" : "🎓 Scholars"}
                 </button>
@@ -502,13 +502,13 @@ export default function ParablesPage() {
               <>
                 {/* Filters */}
                 <div style={{ display: "flex", gap: 12, marginBottom: 20, flexWrap: "wrap", alignItems: "center" }}>
-                  <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search parables..."
+                  <input value={search} onChange={e => setSearch(e.target.value)} aria-label="Search parables..." placeholder="Search parables..."
                     style={{ flex: 1, minWidth: 200, padding: "8px 14px", borderRadius: 10, background: CARD, border: `1px solid ${BORDER}`, color: TEXT, fontSize: 14, outline: "none" }} />
                   <select value={filter} onChange={e => setFilter(e.target.value)}
                     style={{ padding: "8px 14px", borderRadius: 10, background: CARD, border: `1px solid ${BORDER}`, color: MUTED, fontSize: 14, cursor: "pointer" }}>
                     {THEMES_LIST.map(t => <option key={t} value={t}>{t}</option>)}
                   </select>
-                  <button onClick={() => setKingdomOnly(!kingdomOnly)}
+                  <button type="button" onClick={() => setKingdomOnly(!kingdomOnly)}
                     style={{ padding: "8px 16px", borderRadius: 10, border: `1px solid ${kingdomOnly ? PURPLE : BORDER}`, background: kingdomOnly ? "rgba(107,79,187,0.15)" : "transparent", color: kingdomOnly ? "#A080FF" : MUTED, fontSize: 13, cursor: "pointer", fontWeight: 600 }}>
                     Kingdom Parables Only
                   </button>
@@ -537,7 +537,7 @@ export default function ParablesPage() {
                           <h3 style={{ fontSize: 17, fontWeight: 700, marginBottom: 4, color: TEXT }}>{p.title}</h3>
                           <span style={{ fontSize: 12, color: MUTED }}><VerseRef reference={p.reference} /></span>
                         </div>
-                        <button onClick={e => { e.stopPropagation(); toggleSave(p.id); }}
+                        <button type="button" onClick={e => { e.stopPropagation(); toggleSave(p.id); }}
                           style={{ background: "none", border: "none", cursor: "pointer", fontSize: 18, marginLeft: 8, color: savedIds.has(p.id) ? "#FFD700" : "#4A4A68" }}>
                           {savedIds.has(p.id) ? "★" : "☆"}
                         </button>
@@ -557,7 +557,7 @@ export default function ParablesPage() {
                       </p>
                       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                         <span style={{ fontSize: 12, color: "#6A6A88", fontStyle: "italic" }}>{p.audience}</span>
-                        <button onClick={e => { e.stopPropagation(); toggleStudied(p.id); }}
+                        <button type="button" onClick={e => { e.stopPropagation(); toggleStudied(p.id); }}
                           style={{ fontSize: 11, padding: "4px 12px", borderRadius: 8, border: `1px solid ${studiedIds.has(p.id) ? "rgba(58,125,86,0.3)" : "#2A2A40"}`, background: studiedIds.has(p.id) ? "rgba(58,125,86,0.1)" : "transparent", color: studiedIds.has(p.id) ? GREEN : "#6A6A88", cursor: "pointer", fontWeight: 600 }}>
                           {studiedIds.has(p.id) ? "✓ Studied" : "Mark Studied"}
                         </button>
@@ -598,7 +598,7 @@ export default function ParablesPage() {
               <div style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
                 <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 80 }}>
                   {VOICES_PARAB.map(v => (
-                    <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                    <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                       style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? "rgba(58,125,86,0.4)" : BORDER}`, background: selectedVoice === v.id ? "rgba(58,125,86,0.08)" : CARD, cursor: "pointer", transition: "all 0.2s" }}>
                       <div style={{ fontSize: 13, fontWeight: 700, color: selectedVoice === v.id ? GREEN : TEXT, marginBottom: 2 }}>{v.name}</div>
                       <div style={{ fontSize: 11, color: "#6A6A88" }}>{v.era}</div>
@@ -763,7 +763,7 @@ export default function ParablesPage() {
                 <h2 style={{ fontSize: 24, fontWeight: 800, marginBottom: 6 }}>{selected.title}</h2>
                 <span style={{ fontSize: 14, color: MUTED }}><VerseRef reference={selected.reference} /></span>
               </div>
-              <button onClick={() => setSelected(null)} style={{ background: "none", border: "none", color: "#6A6A88", fontSize: 22, cursor: "pointer", lineHeight: 1 }}>×</button>
+              <button type="button" onClick={() => setSelected(null)} style={{ background: "none", border: "none", color: "#6A6A88", fontSize: 22, cursor: "pointer", lineHeight: 1 }}>×</button>
             </div>
 
             <div style={{ display: "flex", gap: 8, marginBottom: 20, flexWrap: "wrap" }}>
@@ -826,11 +826,11 @@ export default function ParablesPage() {
             </div>
 
             <div style={{ display: "flex", gap: 12 }}>
-              <button onClick={() => toggleStudied(selected.id)}
+              <button type="button" onClick={() => toggleStudied(selected.id)}
                 style={{ flex: 1, padding: "12px 20px", borderRadius: 12, border: `1px solid ${studiedIds.has(selected.id) ? "rgba(58,125,86,0.4)" : "#2A2A40"}`, background: studiedIds.has(selected.id) ? "rgba(58,125,86,0.12)" : BORDER, color: studiedIds.has(selected.id) ? GREEN : MUTED, cursor: "pointer", fontWeight: 700, fontSize: 14 }}>
                 {studiedIds.has(selected.id) ? "✓ Marked as Studied" : "Mark as Studied"}
               </button>
-              <button onClick={() => toggleSave(selected.id)}
+              <button type="button" onClick={() => toggleSave(selected.id)}
                 style={{ padding: "12px 20px", borderRadius: 12, border: `1px solid ${savedIds.has(selected.id) ? "rgba(255,215,0,0.3)" : "#2A2A40"}`, background: savedIds.has(selected.id) ? "rgba(255,215,0,0.08)" : BORDER, color: savedIds.has(selected.id) ? "#FFD700" : MUTED, cursor: "pointer", fontWeight: 700, fontSize: 16 }}>
                 {savedIds.has(selected.id) ? "★" : "☆"}
               </button>

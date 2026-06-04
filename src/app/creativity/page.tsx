@@ -118,7 +118,7 @@ export default function CreativityPage() {
             { id: "voices" as const, label: "Voices", icon: "🎭" },
             { id: "videos" as const, label: "Videos", icon: "▶️" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -152,7 +152,7 @@ export default function CreativityPage() {
           <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 8, minWidth: 160 }}>
               {MEDIUMS.map(m => (
-                <button key={m.id} onClick={() => setSelectedMedium(m.id)}
+                <button type="button" key={m.id} onClick={() => setSelectedMedium(m.id)}
                   style={{ padding: "10px 14px", borderRadius: 10, border: `1px solid ${selectedMedium === m.id ? m.color : BORDER}`, background: selectedMedium === m.id ? `${m.color}18` : CARD, color: selectedMedium === m.id ? m.color : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", textAlign: "left" }}>
                   {m.icon} {m.name}
                 </button>
@@ -173,7 +173,7 @@ export default function CreativityPage() {
                   <div style={{ color: medium.color, fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, marginBottom: 10 }}>Creative Prompt</div>
                   <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>{medium.prompt}</p>
                 </div>
-                <button onClick={() => { setForm(f => ({ ...f, medium: medium.name })); setActiveTab("projects"); setShowForm(true); }}
+                <button type="button" onClick={() => { setForm(f => ({ ...f, medium: medium.name })); setActiveTab("projects"); setShowForm(true); }}
                   style={{ marginTop: 16, width: "100%", padding: "10px", background: `${medium.color}20`, border: `1px solid ${medium.color}40`, borderRadius: 8, color: medium.color, fontWeight: 700, cursor: "pointer", fontSize: 14 }}>
                   + Start a {medium.name} Project
                 </button>
@@ -186,7 +186,7 @@ export default function CreativityPage() {
           <div>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
               <h3 style={{ color: TEXT, fontWeight: 800, fontSize: 18, margin: 0 }}>My Creative Projects</h3>
-              <button onClick={() => setShowForm(!showForm)}
+              <button type="button" onClick={() => setShowForm(!showForm)}
                 style={{ padding: "8px 18px", background: PURPLE, border: "none", borderRadius: 8, color: "#fff", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
                 + New Project
               </button>
@@ -194,18 +194,18 @@ export default function CreativityPage() {
             {showForm && (
               <div style={{ background: CARD, border: `1px solid ${PURPLE}50`, borderRadius: 12, padding: 22, marginBottom: 16 }}>
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12 }}>
-                  <input value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} placeholder="Project title"
+                  <input value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} aria-label="Project title" placeholder="Project title"
                     style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14 }} />
                   <select value={form.medium} onChange={e => setForm(f => ({ ...f, medium: e.target.value }))}
                     style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14 }}>
                     {MEDIUMS.map(m => <option key={m.id} value={m.name}>{m.name}</option>)}
                   </select>
                 </div>
-                <textarea value={form.notes} onChange={e => setForm(f => ({ ...f, notes: e.target.value }))} placeholder="Notes, inspiration, or vision for this project..."
+                <textarea value={form.notes} onChange={e => setForm(f => ({ ...f, notes: e.target.value }))} aria-label="Notes, inspiration, or vision for this project..." placeholder="Notes, inspiration, or vision for this project..."
                   style={{ width: "100%", minHeight: 80, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box", fontFamily: "inherit", marginBottom: 12 }} />
                 <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
-                  <button onClick={() => setShowForm(false)} style={{ padding: "8px 16px", borderRadius: 8, border: `1px solid ${BORDER}`, background: "transparent", color: MUTED, cursor: "pointer" }}>Cancel</button>
-                  <button onClick={addProject} style={{ padding: "8px 18px", borderRadius: 8, border: "none", background: GREEN, color: BG, fontWeight: 800, cursor: "pointer" }}>Add Project</button>
+                  <button type="button" onClick={() => setShowForm(false)} style={{ padding: "8px 16px", borderRadius: 8, border: `1px solid ${BORDER}`, background: "transparent", color: MUTED, cursor: "pointer" }}>Cancel</button>
+                  <button type="button" onClick={addProject} style={{ padding: "8px 18px", borderRadius: 8, border: "none", background: GREEN, color: BG, fontWeight: 800, cursor: "pointer" }}>Add Project</button>
                 </div>
               </div>
             )}
@@ -227,7 +227,7 @@ export default function CreativityPage() {
                           {p.notes && <p style={{ color: MUTED, fontSize: 13, margin: "8px 0 0" }}>{p.notes}</p>}
                         </div>
                         {p.status !== "complete" && (
-                          <button onClick={() => advanceStatus(p.id)}
+                          <button type="button" onClick={() => advanceStatus(p.id)}
                             style={{ padding: "6px 14px", borderRadius: 8, border: `1px solid ${GREEN}50`, background: `${GREEN}15`, color: GREEN, fontSize: 12, fontWeight: 700, cursor: "pointer", flexShrink: 0 }}>
                             {p.status === "idea" ? "Start →" : "Complete ✓"}
                           </button>
@@ -261,7 +261,7 @@ export default function CreativityPage() {
           <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
               {VOICES_CREAT.map(v => (
-                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                   style={{ background: selectedVoice === v.id ? PURPLE : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: TEXT, fontWeight: 700, fontSize: 14 }}>{v.name}</div>
                   <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{v.era}</div>

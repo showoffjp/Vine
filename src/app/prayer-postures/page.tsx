@@ -114,7 +114,7 @@ export default function PrayerPosturesPage() {
             { id: "faq" as const, label: "Questions", icon: "❓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -125,7 +125,7 @@ export default function PrayerPosturesPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 180, flexShrink: 0 }}>
               {POSTURES.map(p => (
-                <button key={p.name} onClick={() => setSelected(p.name)}
+                <button type="button" key={p.name} onClick={() => setSelected(p.name)}
                   style={{ width: "100%", background: selected === p.name ? `${p.color}15` : "transparent", border: `1px solid ${selected === p.name ? p.color + "60" : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 8, cursor: "pointer", display: "flex", alignItems: "center", gap: 10, textAlign: "left" }}>
                   <span style={{ fontSize: 20 }}>{p.icon}</span>
                   <span style={{ color: selected === p.name ? p.color : TEXT, fontWeight: 700, fontSize: 14 }}>{p.name}</span>
@@ -166,7 +166,7 @@ export default function PrayerPosturesPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 210, flexShrink: 0 }}>
               {TEACHERS_POSTURE.map(t => (
-                <button key={t.id} onClick={() => setSelectedTeacher(t.id)}
+                <button type="button" key={t.id} onClick={() => setSelectedTeacher(t.id)}
                   style={{ width: "100%", background: selectedTeacher === t.id ? `${PURPLE}18` : "transparent", border: `1px solid ${selectedTeacher === t.id ? PURPLE + "80" : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 6, cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: selectedTeacher === t.id ? TEXT : MUTED, fontWeight: 700, fontSize: 13 }}>{t.name}</div>
                   <div style={{ color: MUTED, fontSize: 11, marginTop: 2 }}>{t.era}</div>

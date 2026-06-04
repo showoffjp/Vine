@@ -252,7 +252,7 @@ export default function GriefPage() {
         {/* Tabs */}
         <div style={{ display: "flex", background: "#12121F", border: "1px solid #1E1E32", borderRadius: 10, padding: 4, gap: 4, marginBottom: 28 }}>
           {(["stories", "voices", "journal", "resources", "videos"] as const).map((tab) => (
-            <button
+            <button type="button"
               key={tab}
               onClick={() => setActiveTab(tab)}
               style={{
@@ -272,7 +272,7 @@ export default function GriefPage() {
           <>
             <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 20 }}>
               {lossTypes.map((lt) => (
-                <button key={lt} onClick={() => setFilterLoss(lt)}
+                <button type="button" key={lt} onClick={() => setFilterLoss(lt)}
                   style={{
                     padding: "5px 14px", borderRadius: 20, fontSize: 12, cursor: "pointer",
                     border: `1px solid ${filterLoss === lt ? "#6B4FBB" : "#1E1E32"}`,
@@ -321,7 +321,7 @@ export default function GriefPage() {
                         {story.hopeful && <span style={{ color: "#3a7d56", marginRight: 8 }}>🌱 Hopeful</span>}
                         Read more →
                       </div>
-                      <button
+                      <button type="button"
                         onClick={(e) => { e.stopPropagation(); handleLike(story.id); }}
                         style={{ padding: "5px 12px", borderRadius: 6, border: "none", background: liked ? "#3a7d5615" : "#1E1E32", color: liked ? "#3a7d56" : "#9898B3", cursor: "pointer", fontSize: 12 }}>
                         ♥ {story.likes + (liked ? 1 : 0)}
@@ -339,7 +339,7 @@ export default function GriefPage() {
           <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
               {VOICES_GRIEF.map(v => (
-                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                   style={{ background: selectedVoice === v.id ? "#6B4FBB" : "#12121F", border: `1px solid ${selectedVoice === v.id ? "#6B4FBB" : "#1E1E32"}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: "#F2F2F8", fontWeight: 700, fontSize: 14 }}>{v.name}</div>
                   <div style={{ color: "#9898B3", fontSize: 12, marginTop: 2 }}>{v.era}</div>
@@ -380,7 +380,7 @@ export default function GriefPage() {
                 <div style={{ fontSize: 12, color: "#9898B3", marginBottom: 8 }}>How are you today?</div>
                 <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
                   {moodOptions.map((m) => (
-                    <button key={m} onClick={() => setMood(mood === m ? "" : m)}
+                    <button type="button" key={m} onClick={() => setMood(mood === m ? "" : m)}
                       style={{
                         padding: "5px 14px", borderRadius: 20, border: `1px solid ${mood === m ? "#6B4FBB" : "#1E1E32"}`,
                         background: mood === m ? "#6B4FBB20" : "transparent",
@@ -395,12 +395,12 @@ export default function GriefPage() {
               <textarea
                 value={journalText}
                 onChange={(e) => setJournalText(e.target.value)}
-                placeholder="Write whatever comes — there's no wrong answer. This is private, just between you and God."
+                aria-label="Write whatever comes — there's no wrong answer. This is private, just between you and God." placeholder="Write whatever comes — there's no wrong answer. This is private, just between you and God."
                 rows={6}
                 style={{ width: "100%", background: "#07070F", border: "1px solid #1E1E32", borderRadius: 8, padding: "12px 14px", color: "#F2F2F8", fontSize: 14, outline: "none", resize: "vertical", lineHeight: 1.7, boxSizing: "border-box", marginBottom: 12 }}
               />
 
-              <button
+              <button type="button"
                 onClick={handleSaveJournal}
                 disabled={!journalText.trim()}
                 style={{
@@ -557,7 +557,7 @@ export default function GriefPage() {
             </div>
 
             <div style={{ display: "flex", gap: 10, marginTop: 24 }}>
-              <button
+              <button type="button"
                 onClick={() => handleLike(selectedStory.id)}
                 style={{ flex: 1, padding: "11px 16px", borderRadius: 10, border: "none",
                   background: likedStories.has(selectedStory.id) ? "#3a7d5615" : "#1E1E32",
@@ -565,7 +565,7 @@ export default function GriefPage() {
                   cursor: "pointer", fontWeight: 600, fontSize: 15 }}>
                 ♥ {selectedStory.likes + (likedStories.has(selectedStory.id) ? 1 : 0)} This helped me
               </button>
-              <button onClick={() => setSelectedStory(null)}
+              <button type="button" onClick={() => setSelectedStory(null)}
                 style={{ padding: "11px 16px", borderRadius: 10, border: "1px solid #1E1E32", background: "transparent", color: "#9898B3", cursor: "pointer", fontSize: 15 }}>
                 Close
               </button>

@@ -391,7 +391,7 @@ function TabButton({
   onClick: () => void;
 }) {
   return (
-    <button
+    <button type="button"
       onClick={onClick}
       style={{
         padding: "10px 18px",
@@ -617,7 +617,7 @@ export default function HymnsPage() {
               }}
             >
               {ERA_FILTERS.map((f) => (
-                <button
+                <button type="button"
                   key={f}
                   onClick={() => setEra(f)}
                   style={{

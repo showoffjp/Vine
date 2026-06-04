@@ -439,7 +439,7 @@ export default function PrayerPartnerPage() {
         {/* Tabs */}
         <div style={{ display: "flex", background: "#12121F", border: "1px solid #1E1E32", borderRadius: 10, padding: 4, gap: 4, marginBottom: 24, maxWidth: 500 }}>
           {([["find", "Find Partners"], ["my-partners", `My Partners (${myPartners.length})`], ["sessions", `Sessions (${sessions.length})`], ["voices", "Voices"]] as const).map(([tab, label]) => (
-            <button
+            <button type="button"
               key={tab}
               onClick={() => setActiveTab(tab)}
               style={{
@@ -462,7 +462,7 @@ export default function PrayerPartnerPage() {
                 <div style={{ fontSize: 12, color: "#9898B3", marginBottom: 6 }}>Focus Area</div>
                 <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
                   {focusAreaOptions.map((f) => (
-                    <button key={f} onClick={() => setFilterFocus(f)}
+                    <button type="button" key={f} onClick={() => setFilterFocus(f)}
                       style={{ padding: "4px 12px", borderRadius: 20, fontSize: 12, cursor: "pointer",
                         border: `1px solid ${filterFocus === f ? "#6B4FBB" : "#1E1E32"}`,
                         background: filterFocus === f ? "#6B4FBB20" : "transparent",
@@ -476,7 +476,7 @@ export default function PrayerPartnerPage() {
                 <div style={{ fontSize: 12, color: "#9898B3", marginBottom: 6 }}>Frequency</div>
                 <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
                   {frequencyOptions.map((f) => (
-                    <button key={f} onClick={() => setFilterFreq(f)}
+                    <button type="button" key={f} onClick={() => setFilterFreq(f)}
                       style={{ padding: "4px 12px", borderRadius: 20, fontSize: 12, cursor: "pointer",
                         border: `1px solid ${filterFreq === f ? "#3a7d56" : "#1E1E32"}`,
                         background: filterFreq === f ? "#3a7d5615" : "transparent",
@@ -527,11 +527,11 @@ export default function PrayerPartnerPage() {
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                       <div style={{ fontSize: 11, color: "#9898B3" }}>{p.frequency} · {p.availability}</div>
                       <div style={{ display: "flex", gap: 6 }}>
-                        <button onClick={(e) => { e.stopPropagation(); handleSave(p.id); }}
+                        <button type="button" onClick={(e) => { e.stopPropagation(); handleSave(p.id); }}
                           style={{ padding: "4px 8px", borderRadius: 6, border: "none", background: saved ? "#6B4FBB20" : "#1E1E32", color: saved ? "#6B4FBB" : "#9898B3", cursor: "pointer", fontSize: 13 }}>
                           {saved ? "★" : "☆"}
                         </button>
-                        <button onClick={(e) => { e.stopPropagation(); handleConnect(p.id); }}
+                        <button type="button" onClick={(e) => { e.stopPropagation(); handleConnect(p.id); }}
                           style={{ padding: "5px 14px", borderRadius: 6, border: "none",
                             background: connected ? "#3a7d5620" : "#6B4FBB",
                             color: connected ? "#3a7d56" : "#fff",
@@ -555,7 +555,7 @@ export default function PrayerPartnerPage() {
                 <div style={{ fontSize: 40, marginBottom: 12 }}>🙏</div>
                 <h3 style={{ fontSize: 18, fontWeight: 600, color: "#F2F2F8", marginBottom: 8 }}>No partners yet</h3>
                 <p style={{ color: "#9898B3", fontSize: 14, marginBottom: 20 }}>Connect with a prayer partner to get started.</p>
-                <button onClick={() => setActiveTab("find")}
+                <button type="button" onClick={() => setActiveTab("find")}
                   style={{ padding: "10px 24px", borderRadius: 8, background: "#6B4FBB", border: "none", color: "#fff", cursor: "pointer", fontWeight: 600 }}>
                   Find a Partner
                 </button>
@@ -574,7 +574,7 @@ export default function PrayerPartnerPage() {
                           <div style={{ fontWeight: 700, color: "#F2F2F8", fontSize: 15 }}>{p.name}</div>
                           <div style={{ fontSize: 12, color: "#9898B3" }}>{p.location} · {p.frequency}</div>
                         </div>
-                        <button
+                        <button type="button"
                           onClick={() => setSessionModal(p)}
                           style={{ padding: "6px 16px", borderRadius: 8, background: "#6B4FBB", border: "none", color: "#fff", cursor: "pointer", fontWeight: 600, fontSize: 13, height: "fit-content" }}>
                           + Log Session
@@ -640,7 +640,7 @@ export default function PrayerPartnerPage() {
           <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
               {VOICES_PP.map(v => (
-                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                   style={{ background: selectedVoice === v.id ? "#6B4FBB" : "#12121F", border: `1px solid ${selectedVoice === v.id ? "#6B4FBB" : "#1E1E32"}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: "#F2F2F8", fontWeight: 700, fontSize: 14 }}>{v.name}</div>
                   <div style={{ color: "#9898B3", fontSize: 12, marginTop: 2 }}>{v.era}</div>
@@ -705,7 +705,7 @@ export default function PrayerPartnerPage() {
             </div>
 
             <div style={{ display: "flex", gap: 10 }}>
-              <button
+              <button type="button"
                 onClick={() => { handleConnect(selectedPartner.id); setSelectedPartner(null); }}
                 style={{
                   flex: 1, padding: "11px 16px", borderRadius: 10, border: "none",
@@ -715,7 +715,7 @@ export default function PrayerPartnerPage() {
                 }}>
                 {connectedIds.has(selectedPartner.id) ? "✓ Connected" : "Connect"}
               </button>
-              <button onClick={() => setSelectedPartner(null)}
+              <button type="button" onClick={() => setSelectedPartner(null)}
                 style={{ padding: "11px 16px", borderRadius: 10, border: "1px solid #1E1E32", background: "transparent", color: "#9898B3", cursor: "pointer", fontSize: 15 }}>
                 Close
               </button>
@@ -744,27 +744,27 @@ export default function PrayerPartnerPage() {
                 <label style={{ fontSize: 12, color: "#9898B3", display: "block", marginBottom: 5 }}>What did you pray about? *</label>
                 <input value={sessionForm.topic}
                   onChange={(e) => setSessionForm((p) => ({ ...p, topic: e.target.value }))}
-                  placeholder="e.g. Healing for a family member, guidance on career"
+                  aria-label="e.g. Healing for a family member, guidance on career" placeholder="e.g. Healing for a family member, guidance on career"
                   style={{ width: "100%", background: "#07070F", border: "1px solid #1E1E32", borderRadius: 8, padding: "9px 12px", color: "#F2F2F8", fontSize: 14, outline: "none", boxSizing: "border-box" }} />
               </div>
               <div>
                 <label style={{ fontSize: 12, color: "#9898B3", display: "block", marginBottom: 5 }}>Scripture used (optional)</label>
                 <input value={sessionForm.verse}
                   onChange={(e) => setSessionForm((p) => ({ ...p, verse: e.target.value }))}
-                  placeholder="e.g. Philippians 4:6–7"
+                  aria-label="e.g. Philippians 4:6–7" placeholder="e.g. Philippians 4:6–7"
                   style={{ width: "100%", background: "#07070F", border: "1px solid #1E1E32", borderRadius: 8, padding: "9px 12px", color: "#F2F2F8", fontSize: 14, outline: "none", boxSizing: "border-box" }} />
               </div>
               <div>
                 <label style={{ fontSize: 12, color: "#9898B3", display: "block", marginBottom: 5 }}>Notes (optional)</label>
                 <textarea value={sessionForm.notes} rows={3}
                   onChange={(e) => setSessionForm((p) => ({ ...p, notes: e.target.value }))}
-                  placeholder="Anything God highlighted, answered prayers, etc."
+                  aria-label="Anything God highlighted, answered prayers, etc." placeholder="Anything God highlighted, answered prayers, etc."
                   style={{ width: "100%", background: "#07070F", border: "1px solid #1E1E32", borderRadius: 8, padding: "9px 12px", color: "#F2F2F8", fontSize: 14, outline: "none", resize: "vertical", boxSizing: "border-box" }} />
               </div>
             </div>
 
             <div style={{ display: "flex", gap: 10, marginTop: 20 }}>
-              <button onClick={handleLogSession}
+              <button type="button" onClick={handleLogSession}
                 disabled={!sessionForm.topic}
                 style={{ flex: 1, padding: "11px 16px", borderRadius: 10, border: "none",
                   background: sessionForm.topic ? "#3a7d56" : "#1E1E32",
@@ -772,7 +772,7 @@ export default function PrayerPartnerPage() {
                   cursor: sessionForm.topic ? "pointer" : "default", fontWeight: 700, fontSize: 15 }}>
                 Log Session
               </button>
-              <button onClick={() => setSessionModal(null)}
+              <button type="button" onClick={() => setSessionModal(null)}
                 style={{ padding: "11px 16px", borderRadius: 10, border: "1px solid #1E1E32", background: "transparent", color: "#9898B3", cursor: "pointer", fontSize: 15 }}>
                 Cancel
               </button>

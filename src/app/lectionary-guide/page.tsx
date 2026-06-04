@@ -255,7 +255,7 @@ export default function LectionaryGuidePage() {
               { id: "videos", label: "Videos" },
             ] as { id: Tab; label: string }[]
           ).map((t) => (
-            <button
+            <button type="button"
               key={t.id}
               onClick={() => setTab(t.id)}
               style={{
@@ -281,7 +281,7 @@ export default function LectionaryGuidePage() {
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               {whatItems.map((item) => (
                 <div key={item.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                  <button
+                  <button type="button"
                     onClick={() => toggle(item.id)}
                     style={{
                       width: "100%",
@@ -320,7 +320,7 @@ export default function LectionaryGuidePage() {
               {/* Left: year list */}
               <div style={{ flex: "0 0 160px", display: "flex", flexDirection: "column", gap: 10 }}>
                 {lectionaryYears.map((y) => (
-                  <button
+                  <button type="button"
                     key={y.id}
                     onClick={() => setSelectedYear(y)}
                     style={{
@@ -384,7 +384,7 @@ export default function LectionaryGuidePage() {
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               {usingItems.map((item) => (
                 <div key={item.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                  <button
+                  <button type="button"
                     onClick={() => toggle(item.id)}
                     style={{
                       width: "100%",

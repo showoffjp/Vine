@@ -207,7 +207,7 @@ function AccordionItem({ id, title, body, expanded, onToggle }: {
 }) {
   return (
     <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, marginBottom: 12, overflow: "hidden" }}>
-      <button
+      <button type="button"
         onClick={onToggle}
         style={{
           width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center",
@@ -267,7 +267,7 @@ export default function ScriptureTheologyPage() {
           borderRadius: 14, padding: 5, border: `1px solid ${BORDER}`, flexWrap: "wrap"
         }}>
           {tabs.map(t => (
-            <button
+            <button type="button"
               key={t.id}
               onClick={() => setActiveTab(t.id)}
               style={{
@@ -311,7 +311,7 @@ export default function ScriptureTheologyPage() {
               {/* Left list */}
               <div style={{ width: 210, flexShrink: 0, position: "sticky", top: 20 }}>
                 {INSPIRATION_MODELS.map(m => (
-                  <button
+                  <button type="button"
                     key={m.id}
                     onClick={() => setSelectedModel(m.id)}
                     style={{

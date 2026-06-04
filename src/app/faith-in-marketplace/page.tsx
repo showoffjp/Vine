@@ -82,7 +82,7 @@ export default function FaithInMarketplacePage() {
             { id: "tools" as const, label: "Practical Tools", icon: "🔧" },
             { id: "videos" as const, label: "Videos", icon: "▶️" },
           ]).map(t => (
-            <button key={t.id} onClick={() => setTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setTab(t.id)}
               style={{ flex: 1, padding: "10px 14px", borderRadius: 8, border: "none", background: tab === t.id ? GREEN : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", transition: "all 0.2s ease", whiteSpace: "nowrap" }}>
               {t.icon} {t.label}
             </button>

@@ -243,10 +243,10 @@ export default function ProfilePage() {
                     style={{ background: "#07070F", border: "1px solid #1E1E32", color: "#F2F2F8" }}
                   />
                   <div className="flex gap-2">
-                    <button onClick={saveBio} className="text-xs px-3 py-1.5 rounded-lg font-bold" style={{ background: "#3a7d56", color: "#07070F" }}>
+                    <button type="button" onClick={saveBio} className="text-xs px-3 py-1.5 rounded-lg font-bold" style={{ background: "#3a7d56", color: "#07070F" }}>
                       Save
                     </button>
-                    <button onClick={() => { setEditingBio(false); }} className="text-xs px-3 py-1.5 rounded-lg font-semibold" style={{ border: "1px solid #1E1E32", color: "#8A8AA8" }}>
+                    <button type="button" onClick={() => { setEditingBio(false); }} className="text-xs px-3 py-1.5 rounded-lg font-semibold" style={{ border: "1px solid #1E1E32", color: "#8A8AA8" }}>
                       Cancel
                     </button>
                   </div>
@@ -282,14 +282,14 @@ export default function ProfilePage() {
 
               {/* Buttons */}
               <div className="flex gap-2 w-full mb-3">
-                <button
+                <button type="button"
                   onClick={() => setEditingBio((v) => !v)}
                   className="btn-gold flex-1 py-2 rounded-xl text-sm font-bold flex items-center justify-center gap-1.5"
                 >
                   <Edit3 size={13} />
                   {editingBio ? "Editing…" : "Edit Profile"}
                 </button>
-                <button
+                <button type="button"
                   onClick={handleShareProfile}
                   className="btn-outline-gold px-3 py-2 rounded-xl text-sm flex items-center justify-center"
                   title={shared ? "Copied!" : "Copy profile link"}
@@ -446,7 +446,7 @@ export default function ProfilePage() {
             >
               <div className="flex overflow-x-auto scrollbar-hide">
                 {tabs.map((tab) => (
-                  <button
+                  <button type="button"
                     key={tab}
                     onClick={() => setActiveTab(tab)}
                     className="flex-shrink-0 px-6 py-4 text-sm font-semibold transition-all duration-200"

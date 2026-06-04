@@ -197,7 +197,7 @@ export default function JournalPage() {
               <h1 className="text-3xl font-black" style={{ color: "#F2F2F8" }}>Devotional Journal</h1>
               <p className="text-sm mt-1" style={{ color: "#6A6A88" }}>{entries.length} entries · Private to you</p>
             </div>
-            <button
+            <button type="button"
               onClick={() => { setComposing(true); setSelectedEntry(null); }}
               className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm text-black"
               style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}
@@ -215,7 +215,7 @@ export default function JournalPage() {
                 <input
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  placeholder="Search entries..."
+                  aria-label="Search entries..." placeholder="Search entries..."
                   className="w-full pl-9 pr-3 py-2 rounded-xl text-xs outline-none"
                   style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#F2F2F8" }}
                 />
@@ -225,7 +225,7 @@ export default function JournalPage() {
               <div className="rounded-2xl p-4" style={{ background: "#12121F", border: "1px solid #1E1E32" }}>
                 <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#4A4A68" }}>Filter by Tag</p>
                 <div className="space-y-1">
-                  <button
+                  <button type="button"
                     onClick={() => setActiveTag(null)}
                     className="w-full text-left text-xs px-2 py-1.5 rounded-lg transition-all"
                     style={{ color: !activeTag ? "#3a7d56" : "#8A8AA8", background: !activeTag ? "rgba(58,125,86,0.08)" : "transparent" }}
@@ -233,7 +233,7 @@ export default function JournalPage() {
                     All entries
                   </button>
                   {allTags.map((tag) => (
-                    <button
+                    <button type="button"
                       key={tag}
                       onClick={() => setActiveTag(activeTag === tag ? null : tag)}
                       className="w-full text-left text-xs px-2 py-1.5 rounded-lg transition-all flex items-center gap-1.5"
@@ -264,7 +264,7 @@ export default function JournalPage() {
                 <div className="rounded-2xl p-6 mb-6" style={{ background: "#12121F", border: "1px solid rgba(58,125,86,0.2)" }}>
                   <div className="flex items-center justify-between mb-4">
                     <h2 className="font-black text-base" style={{ color: "#F2F2F8" }}>New Entry</h2>
-                    <button onClick={() => setComposing(false)} style={{ color: "#4A4A68" }}>
+                    <button type="button" onClick={() => setComposing(false)} style={{ color: "#4A4A68" }}>
                       <X size={16} />
                     </button>
                   </div>
@@ -272,7 +272,7 @@ export default function JournalPage() {
                   <input
                     value={newEntry.title}
                     onChange={(e) => setNewEntry((p) => ({ ...p, title: e.target.value }))}
-                    placeholder="Title your reflection..."
+                    aria-label="Title your reflection..." placeholder="Title your reflection..."
                     className="w-full bg-transparent text-base font-bold outline-none mb-3"
                     style={{ color: "#F2F2F8", borderBottom: "1px solid rgba(255,255,255,0.06)" }}
                   />
@@ -280,7 +280,7 @@ export default function JournalPage() {
                   <textarea
                     value={newEntry.body}
                     onChange={(e) => setNewEntry((p) => ({ ...p, body: e.target.value }))}
-                    placeholder="Write your thoughts, prayers, and reflections..."
+                    aria-label="Write your thoughts, prayers, and reflections..." placeholder="Write your thoughts, prayers, and reflections..."
                     rows={6}
                     className="w-full bg-transparent text-sm outline-none resize-none mb-4"
                     style={{ color: "#C0C0D8", lineHeight: "1.8" }}
@@ -290,14 +290,14 @@ export default function JournalPage() {
                     <input
                       value={newEntry.verse}
                       onChange={(e) => setNewEntry((p) => ({ ...p, verse: e.target.value }))}
-                      placeholder="Key verse text..."
+                      aria-label="Key verse text..." placeholder="Key verse text..."
                       className="w-full px-3 py-2 rounded-xl text-xs outline-none"
                       style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#C0C0D8" }}
                     />
                     <input
                       value={newEntry.verseRef}
                       onChange={(e) => setNewEntry((p) => ({ ...p, verseRef: e.target.value }))}
-                      placeholder="Reference (e.g. John 3:16)"
+                      aria-label="Reference (e.g. John 3:16)" placeholder="Reference (e.g. John 3:16)"
                       className="w-full px-3 py-2 rounded-xl text-xs outline-none"
                       style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#C0C0D8" }}
                     />
@@ -306,7 +306,7 @@ export default function JournalPage() {
                   {/* Mood */}
                   <div className="flex flex-wrap gap-2 mb-4">
                     {moods.map((m) => (
-                      <button
+                      <button type="button"
                         key={m}
                         onClick={() => setNewEntry((p) => ({ ...p, mood: p.mood === m ? "" : m }))}
                         className="text-xs px-2.5 py-1 rounded-full transition-all"
@@ -326,12 +326,12 @@ export default function JournalPage() {
                     {newEntry.tags.map((tag) => (
                       <span key={tag} className="flex items-center gap-1 text-xs px-2 py-0.5 rounded-full" style={{ background: "rgba(107,79,187,0.15)", color: "#6B4FBB", border: "1px solid rgba(107,79,187,0.3)" }}>
                         #{tag}
-                        <button onClick={() => removeTag(tag)} style={{ color: "#4A4A68" }}><X size={10} /></button>
+                        <button type="button" onClick={() => removeTag(tag)} style={{ color: "#4A4A68" }}><X size={10} /></button>
                       </span>
                     ))}
                     <div className="flex items-center gap-1">
                       {tagSuggestions.filter((t) => !newEntry.tags.includes(t)).slice(0, 4).map((t) => (
-                        <button key={t} onClick={() => addTag(t)} className="text-xs px-2 py-0.5 rounded-full" style={{ background: "rgba(255,255,255,0.03)", color: "#4A4A68", border: "1px solid rgba(255,255,255,0.06)" }}>
+                        <button type="button" key={t} onClick={() => addTag(t)} className="text-xs px-2 py-0.5 rounded-full" style={{ background: "rgba(255,255,255,0.03)", color: "#4A4A68", border: "1px solid rgba(255,255,255,0.06)" }}>
                           +{t}
                         </button>
                       ))}
@@ -339,14 +339,14 @@ export default function JournalPage() {
                   </div>
 
                   <div className="flex gap-3 justify-end">
-                    <button
+                    <button type="button"
                       onClick={() => setComposing(false)}
                       className="px-4 py-2 rounded-xl text-xs font-semibold"
                       style={{ color: "#6A6A88" }}
                     >
                       Cancel
                     </button>
-                    <button
+                    <button type="button"
                       onClick={handleSave}
                       disabled={!newEntry.title.trim() || !newEntry.body.trim()}
                       className="flex items-center gap-2 px-5 py-2 rounded-xl text-xs font-bold transition-all"
@@ -375,7 +375,7 @@ export default function JournalPage() {
                       </div>
                       <h2 className="text-xl font-black" style={{ color: "#F2F2F8" }}>{selectedEntry.title}</h2>
                     </div>
-                    <button onClick={() => setSelectedEntry(null)} style={{ color: "#4A4A68" }}>
+                    <button type="button" onClick={() => setSelectedEntry(null)} style={{ color: "#4A4A68" }}>
                       <X size={16} />
                     </button>
                   </div>

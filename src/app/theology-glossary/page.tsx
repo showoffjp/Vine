@@ -304,7 +304,7 @@ export default function TheologyGlossaryPage() {
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "20px 24px 0" }}>
         <div style={{ display: "flex", gap: 6, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}`, width: "fit-content" }}>
           {(["glossary", "doctrines", "history", "voices", "videos"] as const).map(t => (
-            <button key={t} onClick={() => setActiveTab(t)}
+            <button type="button" key={t} onClick={() => setActiveTab(t)}
               style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t === "glossary" ? "Glossary" : t === "doctrines" ? "Core Doctrines" : t === "history" ? "History" : t === "voices" ? "Voices" : "Videos"}
             </button>
@@ -320,11 +320,11 @@ export default function TheologyGlossaryPage() {
             {/* Filters */}
             <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 24, alignItems: "center" }}>
               <input value={search} onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search terms or definitions..."
+                aria-label="Search terms or definitions..." placeholder="Search terms or definitions..."
                 style={{ flex: 1, minWidth: 200, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "9px 14px", color: TEXT, fontSize: 13, outline: "none" }} />
               <div style={{ display: "flex", gap: 6 }}>
                 {categories.map((c) => (
-                  <button key={c} onClick={() => setFilterCat(c)}
+                  <button type="button" key={c} onClick={() => setFilterCat(c)}
                     style={{ padding: "6px 14px", borderRadius: 20, fontSize: 12, cursor: "pointer",
                       border: `1px solid ${filterCat === c ? PURPLE : BORDER}`,
                       background: filterCat === c ? `${PURPLE}20` : "transparent",
@@ -335,7 +335,7 @@ export default function TheologyGlossaryPage() {
               </div>
               <div style={{ display: "flex", gap: 6 }}>
                 {levels.map((l) => (
-                  <button key={l} onClick={() => setFilterLevel(l)}
+                  <button type="button" key={l} onClick={() => setFilterLevel(l)}
                     style={{ padding: "6px 14px", borderRadius: 20, fontSize: 12, cursor: "pointer",
                       border: `1px solid ${filterLevel === l ? (l === "All" ? MUTED : levelColors[l as keyof typeof levelColors]) : BORDER}`,
                       background: filterLevel === l ? `${l === "All" ? MUTED : levelColors[l as keyof typeof levelColors]}20` : "transparent",
@@ -367,7 +367,7 @@ export default function TheologyGlossaryPage() {
                         <h3 style={{ fontSize: 17, fontWeight: 700, color: TEXT, margin: 0 }}>{term.term}</h3>
                         {term.pronunciation && <div style={{ fontSize: 11, color: MUTED, fontStyle: "italic" }}>/{term.pronunciation}/</div>}
                       </div>
-                      <button onClick={(e) => { e.stopPropagation(); handleSave(term.id); }}
+                      <button type="button" onClick={(e) => { e.stopPropagation(); handleSave(term.id); }}
                         style={{ padding: "4px 8px", borderRadius: 6, border: "none", background: saved ? `${PURPLE}20` : BORDER, color: saved ? PURPLE : MUTED, cursor: "pointer", fontSize: 14 }}>
                         {saved ? "★" : "☆"}
                       </button>
@@ -470,7 +470,7 @@ export default function TheologyGlossaryPage() {
               {/* Left panel */}
               <div style={{ width: 210, flexShrink: 0, position: "sticky", top: 20, display: "flex", flexDirection: "column", gap: 8 }}>
                 {VOICES_THEO.map(v => (
-                  <button key={v.id} onClick={() => setSelectedVoice(v)}
+                  <button type="button" key={v.id} onClick={() => setSelectedVoice(v)}
                     style={{ background: selectedVoice.id === v.id ? `${PURPLE}25` : CARD, border: `1px solid ${selectedVoice.id === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left", transition: "all 0.15s" }}>
                     <div style={{ fontSize: 14, fontWeight: 700, color: selectedVoice.id === v.id ? TEXT : MUTED, marginBottom: 2 }}>{v.name}</div>
                     <div style={{ fontSize: 11, color: MUTED }}>{v.era}</div>
@@ -590,21 +590,21 @@ export default function TheologyGlossaryPage() {
             </div>
 
             <div style={{ display: "flex", gap: 10 }}>
-              <button onClick={() => handleLearn(selected.id)}
+              <button type="button" onClick={() => handleLearn(selected.id)}
                 style={{ flex: 1, padding: "11px 16px", borderRadius: 10, border: "none",
                   background: learnedIds.has(selected.id) ? `${GREEN}20` : PURPLE,
                   color: learnedIds.has(selected.id) ? GREEN : "#fff",
                   cursor: "pointer", fontWeight: 700, fontSize: 15 }}>
                 {learnedIds.has(selected.id) ? "✓ Learned" : "Mark as Learned"}
               </button>
-              <button onClick={() => handleSave(selected.id)}
+              <button type="button" onClick={() => handleSave(selected.id)}
                 style={{ padding: "11px 16px", borderRadius: 10, border: "none",
                   background: savedIds.has(selected.id) ? `${PURPLE}20` : BORDER,
                   color: savedIds.has(selected.id) ? PURPLE : MUTED,
                   cursor: "pointer", fontWeight: 600, fontSize: 15 }}>
                 {savedIds.has(selected.id) ? "★" : "☆"}
               </button>
-              <button onClick={() => setSelected(null)}
+              <button type="button" onClick={() => setSelected(null)}
                 style={{ padding: "11px 16px", borderRadius: 10, border: `1px solid ${BORDER}`, background: "transparent", color: MUTED, cursor: "pointer", fontSize: 15 }}>
                 Close
               </button>

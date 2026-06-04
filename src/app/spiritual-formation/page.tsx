@@ -251,7 +251,7 @@ export default function SpiritualFormationPage() {
         {/* Tab Bar */}
         <div style={{ display: "flex", gap: 4, marginBottom: 36, background: CARD, borderRadius: 12, padding: 5, border: `1px solid ${BORDER}`, flexWrap: "wrap" }}>
           {TABS.map(t => (
-            <button
+            <button type="button"
               key={t.id}
               onClick={() => setActiveTab(t.id)}
               style={{
@@ -281,7 +281,7 @@ export default function SpiritualFormationPage() {
               {ACCORDION_ITEMS.map((item, idx) => (
                 <div key={item.id}>
                   {idx > 0 && <div style={{ height: 1, background: BORDER, margin: "0 20px" }} />}
-                  <button
+                  <button type="button"
                     onClick={() => toggleAccordion(item.id)}
                     style={{
                       width: "100%",
@@ -326,7 +326,7 @@ export default function SpiritualFormationPage() {
             {/* Left list */}
             <div style={{ width: 220, flexShrink: 0, display: "flex", flexDirection: "column", gap: 6 }}>
               {TEACHERS.map(t => (
-                <button
+                <button type="button"
                   key={t.id}
                   onClick={() => setSelectedTeacher(t.id)}
                   style={{
@@ -406,7 +406,7 @@ export default function SpiritualFormationPage() {
           <div>
             {/* Category filter */}
             <div style={{ display: "flex", gap: 8, marginBottom: 24, flexWrap: "wrap" }}>
-              <button
+              <button type="button"
                 onClick={() => setSelectedCategory("All")}
                 style={{
                   padding: "7px 16px",
@@ -422,7 +422,7 @@ export default function SpiritualFormationPage() {
                 All
               </button>
               {PRACTICE_CATEGORIES.map(cat => (
-                <button
+                <button type="button"
                   key={cat}
                   onClick={() => setSelectedCategory(cat)}
                   style={{

@@ -214,7 +214,7 @@ export default function TheologyOfEmotionsPage() {
               { id: "videos" as Tab, label: "Videos" },
             ] as { id: Tab; label: string }[]
           ).map((t) => (
-            <button
+            <button type="button"
               key={t.id}
               onClick={() => setActiveTab(t.id)}
               style={{
@@ -248,7 +248,7 @@ export default function TheologyOfEmotionsPage() {
                   overflow: "hidden",
                 }}
               >
-                <button
+                <button type="button"
                   onClick={() => setExpandedTheology(expandedTheology === i ? undefined : i)}
                   style={{
                     width: "100%",
@@ -286,7 +286,7 @@ export default function TheologyOfEmotionsPage() {
             {/* Left: emotion buttons */}
             <div style={{ width: 180, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8 }}>
               {JESUS_EMOTIONS.map((e, i) => (
-                <button
+                <button type="button"
                   key={i}
                   onClick={() => setActiveEmotion(i)}
                   style={{
@@ -416,7 +416,7 @@ export default function TheologyOfEmotionsPage() {
                   overflow: "hidden",
                 }}
               >
-                <button
+                <button type="button"
                   onClick={() => setExpandedPractices(expandedPractices === i ? undefined : i)}
                   style={{
                     width: "100%",

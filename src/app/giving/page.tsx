@@ -307,7 +307,7 @@ export default function GivingPage() {
                   {[10, 25, 50, 100, 250].map((amt) => {
                     const selected = selectedMonthly === amt;
                     return (
-                      <button
+                      <button type="button"
                         key={amt}
                         onClick={() => setSelectedMonthly(amt)}
                         className="px-5 py-2.5 rounded-xl font-bold text-sm transition-all"
@@ -323,7 +323,7 @@ export default function GivingPage() {
                     );
                   })}
                 </div>
-                <button
+                <button type="button"
                   onClick={handleStartGiving}
                   className="inline-flex items-center gap-2 px-8 py-3 rounded-xl font-bold text-black transition-all"
                   style={{

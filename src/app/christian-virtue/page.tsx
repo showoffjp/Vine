@@ -190,7 +190,7 @@ function AccordionItem({
         overflow: "hidden",
       }}
     >
-      <button
+      <button type="button"
         onClick={() => toggle(id)}
         style={{
           width: "100%",
@@ -254,7 +254,7 @@ function DetailPanel({
         }}
       >
         {items.map((v) => (
-          <button
+          <button type="button"
             key={v.name}
             onClick={() => onSelect(v.name)}
             style={{
@@ -410,7 +410,7 @@ export default function ChristianVirtuePage() {
           }}
         >
           {TABS.map((t) => (
-            <button
+            <button type="button"
               key={t.id}
               onClick={() => setActiveTab(t.id)}
               style={{

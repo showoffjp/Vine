@@ -348,7 +348,7 @@ export default function WorkLeadershipPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
           <div style={{ display: "flex", gap: 6, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 6, width: "fit-content" }}>
             {(["principles", "leaders", "ethics", "voices", "videos"] as const).map(t => (
-              <button key={t} onClick={() => setActiveTab(t)}
+              <button type="button" key={t} onClick={() => setActiveTab(t)}
                 style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
                 {t === "principles" ? "Principles" : t === "leaders" ? "Leaders" : t === "ethics" ? "Ethics" : t === "voices" ? "Voices" : "Videos"}
               </button>
@@ -376,7 +376,7 @@ export default function WorkLeadershipPage() {
                   >
                     <div className="flex items-start justify-between mb-3">
                       <span className="text-3xl">{p.icon}</span>
-                      <button
+                      <button type="button"
                         onClick={() => togglePrinciple(p.title)}
                         className="p-1.5 rounded-lg transition-all"
                         style={{ color: savedPrinciples.has(p.title) ? "#3a7d56" : "#4A4A68" }}
@@ -628,7 +628,7 @@ export default function WorkLeadershipPage() {
             <div style={{ display: "grid", gridTemplateColumns: "280px 1fr", gap: 20, alignItems: "start" }}>
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                 {VOICES_WORK.map(v => (
-                  <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                     style={{ background: selectedVoice === v.id ? `${PURPLE}18` : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE + "60" : BORDER}`, borderRadius: 10, padding: "14px 16px", cursor: "pointer", textAlign: "left" }}>
                     <div style={{ color: TEXT, fontWeight: 800, fontSize: 14 }}>{v.name}</div>
                     <div style={{ color: MUTED, fontSize: 11, marginTop: 2 }}>{v.era} &middot; {v.context}</div>

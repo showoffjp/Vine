@@ -417,7 +417,7 @@ export default function ChristianYouTubeChannelsPage() {
         {/* Tab Navigation */}
         <div style={{ display: "flex", gap: 4, marginBottom: 32, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 6 }}>
           {tabs.map(tab => (
-            <button
+            <button type="button"
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               style={{
@@ -450,7 +450,7 @@ export default function ChristianYouTubeChannelsPage() {
 
             <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 28 }}>
               {CATEGORIES.map(c => (
-                <button key={c} onClick={() => setCategory(c)}
+                <button type="button" key={c} onClick={() => setCategory(c)}
                   style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${category === c ? GREEN : BORDER}`, background: category === c ? `${GREEN}15` : "transparent", color: category === c ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
                   {c}
                 </button>
@@ -460,7 +460,7 @@ export default function ChristianYouTubeChannelsPage() {
             <div style={{ display: "grid", gridTemplateColumns: channel ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 {filtered.map((c, i) => (
-                  <button key={i} onClick={() => setSelected(selected === c.name ? null : c.name)}
+                  <button type="button" key={i} onClick={() => setSelected(selected === c.name ? null : c.name)}
                     style={{ background: selected === c.name ? `${c.color}12` : CARD, border: `1px solid ${selected === c.name ? c.color + "50" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left", transition: "all 0.15s" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                       <div style={{ width: 44, height: 44, borderRadius: 10, background: `${c.color}20`, border: `1px solid ${c.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: c.color, fontWeight: 900, fontSize: 9, flexShrink: 0 }}>

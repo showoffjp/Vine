@@ -231,7 +231,7 @@ function Accordion({ items }: { items: AccordionItem[] }) {
               transition: "border-color 0.2s",
             }}
           >
-            <button
+            <button type="button"
               onClick={() => setOpen(isOpen ? undefined : i)}
               style={{
                 width: "100%",
@@ -554,7 +554,7 @@ export default function HouseChurchGuidePage() {
           {TABS.map((t) => {
             const isActive = tab === t.id;
             return (
-              <button
+              <button type="button"
                 key={t.id}
                 onClick={() => setTab(t.id)}
                 style={{

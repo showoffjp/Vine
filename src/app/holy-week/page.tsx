@@ -244,7 +244,7 @@ export default function HolyWeekPage() {
             { id: "voices" as const, label: "Voices", icon: "🎓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -254,7 +254,7 @@ export default function HolyWeekPage() {
         {activeTab === "days" && <div style={{ display: "flex", gap: 20 }}>
           <div style={{ width: 190, flexShrink: 0 }}>
             {DAYS.map(d => (
-              <button key={d.day} onClick={() => setSelected(d.day)}
+              <button type="button" key={d.day} onClick={() => setSelected(d.day)}
                 style={{ width: "100%", background: selected === d.day ? `${d.color}15` : "transparent", border: `1px solid ${selected === d.day ? d.color + "60" : BORDER}`, borderRadius: 10, padding: "10px 14px", marginBottom: 6, cursor: "pointer", textAlign: "left", display: "flex", alignItems: "center", gap: 10 }}>
                 <span style={{ fontSize: 18 }}>{d.icon}</span>
                 <div>
@@ -342,7 +342,7 @@ export default function HolyWeekPage() {
           <div style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 80 }}>
               {VOICES_HW.map(v => (
-                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                   style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? "rgba(58,125,86,0.4)" : BORDER}`, background: selectedVoice === v.id ? "rgba(58,125,86,0.08)" : CARD, cursor: "pointer" }}>
                   <div style={{ fontSize: 13, fontWeight: 700, color: selectedVoice === v.id ? GREEN : TEXT, marginBottom: 2 }}>{v.name}</div>
                   <div style={{ fontSize: 11, color: MUTED }}>{v.era}</div>

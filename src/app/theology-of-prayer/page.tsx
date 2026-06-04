@@ -266,7 +266,7 @@ export default function TheologyOfPrayerPage() {
         {/* Tab Bar */}
         <div style={{ display: "flex", gap: 4, marginBottom: 36, background: CARD, borderRadius: 12, padding: 5, border: `1px solid ${BORDER}` }}>
           {TABS.map((t) => (
-            <button
+            <button type="button"
               key={t.id}
               onClick={() => setActiveTab(t.id)}
               style={{
@@ -298,7 +298,7 @@ export default function TheologyOfPrayerPage() {
                   key={key}
                   style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, marginBottom: 10, overflow: "hidden" }}
                 >
-                  <button
+                  <button type="button"
                     onClick={() => toggleAccordion(key)}
                     style={{
                       width: "100%",
@@ -335,7 +335,7 @@ export default function TheologyOfPrayerPage() {
               {JESUS_EPISODES.map((ep) => {
                 const active = selectedJesus === ep.id;
                 return (
-                  <button
+                  <button type="button"
                     key={ep.id}
                     onClick={() => setSelectedJesus(ep.id)}
                     style={{
@@ -377,7 +377,7 @@ export default function TheologyOfPrayerPage() {
           <div>
             {/* Filter buttons */}
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 24 }}>
-              <button
+              <button type="button"
                 onClick={() => setActiveFormFilter("All")}
                 style={{
                   padding: "8px 16px",
@@ -396,7 +396,7 @@ export default function TheologyOfPrayerPage() {
                 const active = activeFormFilter === cat;
                 const color = CATEGORY_COLORS[cat];
                 return (
-                  <button
+                  <button type="button"
                     key={cat}
                     onClick={() => setActiveFormFilter(cat)}
                     style={{
@@ -461,7 +461,7 @@ export default function TheologyOfPrayerPage() {
                   key={key}
                   style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, marginBottom: 10, overflow: "hidden" }}
                 >
-                  <button
+                  <button type="button"
                     onClick={() => toggleAccordion(key)}
                     style={{
                       width: "100%",

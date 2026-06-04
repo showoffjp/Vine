@@ -106,7 +106,7 @@ export default function AdventPage() {
             { id: "tracker" as const, label: "Reading Tracker", icon: "✅" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -117,7 +117,7 @@ export default function AdventPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 160, flexShrink: 0 }}>
               {WEEKS.map(w => (
-                <button key={w.week} onClick={() => setSelectedWeek(w.week)}
+                <button type="button" key={w.week} onClick={() => setSelectedWeek(w.week)}
                   style={{ width: "100%", background: selectedWeek === w.week ? `${w.color}15` : "transparent", border: `1px solid ${selectedWeek === w.week ? w.color + "60" : BORDER}`, borderRadius: 10, padding: "14px 14px", marginBottom: 8, cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: selectedWeek === w.week ? w.color : MUTED, fontSize: 11, fontWeight: 700, marginBottom: 3 }}>WEEK {w.week}</div>
                   <div style={{ color: selectedWeek === w.week ? w.color : TEXT, fontWeight: 800, fontSize: 16 }}>{w.theme}</div>
@@ -164,7 +164,7 @@ export default function AdventPage() {
           <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
               {VOICES_ADVENT.map(v => (
-                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                   style={{ background: selectedVoice === v.id ? PURPLE : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: TEXT, fontWeight: 700, fontSize: 14 }}>{v.name}</div>
                   <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{v.era}</div>

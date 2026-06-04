@@ -203,7 +203,7 @@ function AccordionItem({
         overflow: "hidden",
       }}
     >
-      <button
+      <button type="button"
         onClick={onToggle}
         style={{
           width: "100%",
@@ -319,7 +319,7 @@ export default function CovenantPage() {
           }}
         >
           {tabs.map((t) => (
-            <button
+            <button type="button"
               key={t.key}
               onClick={() => setTab(t.key)}
               style={{
@@ -382,7 +382,7 @@ export default function CovenantPage() {
                 }}
               >
                 {COVENANT_LIST.map((c) => (
-                  <button
+                  <button type="button"
                     key={c.id}
                     onClick={() => setSelectedCovenant(c.id)}
                     style={{

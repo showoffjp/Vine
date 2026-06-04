@@ -242,7 +242,7 @@ export default function TheologyOfSportsPage() {
               { id: "videos" as Tab, label: "🎬 Videos" },
             ] as { id: Tab; label: string }[]
           ).map((t) => (
-            <button
+            <button type="button"
               key={t.id}
               onClick={() => setActiveTab(t.id)}
               style={{
@@ -273,7 +273,7 @@ export default function TheologyOfSportsPage() {
                   key={item.title}
                   style={{ background: CARD, border: `1px solid ${open ? PURPLE : BORDER}`, borderRadius: 10, overflow: "hidden", transition: "border-color 0.2s" }}
                 >
-                  <button
+                  <button type="button"
                     onClick={() => setExpandedTheology(open ? undefined : item.title)}
                     style={{
                       width: "100%",
@@ -310,7 +310,7 @@ export default function TheologyOfSportsPage() {
             {/* Left column: athlete list */}
             <div style={{ width: 200, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8 }}>
               {ATHLETES.map((a, i) => (
-                <button
+                <button type="button"
                   key={a.name}
                   onClick={() => setSelectedAthlete(i)}
                   style={{
@@ -390,7 +390,7 @@ export default function TheologyOfSportsPage() {
                   key={d.title}
                   style={{ background: CARD, border: `1px solid ${open ? "#FF4466" : BORDER}`, borderRadius: 10, overflow: "hidden", transition: "border-color 0.2s" }}
                 >
-                  <button
+                  <button type="button"
                     onClick={() => setExpandedDanger(open ? undefined : d.title)}
                     style={{
                       width: "100%",

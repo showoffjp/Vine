@@ -194,7 +194,7 @@ function Accordion({
         overflow: "hidden",
       }}
     >
-      <button
+      <button type="button"
         onClick={() => onToggle(id)}
         style={{
           width: "100%",
@@ -377,7 +377,7 @@ export default function SanctificationPage() {
           }}
         >
           {TABS.map((t) => (
-            <button
+            <button type="button"
               key={t.key}
               onClick={() => setTab(t.key)}
               style={{
@@ -448,7 +448,7 @@ export default function SanctificationPage() {
                 }}
               >
                 {VIEWS.map((v, i) => (
-                  <button
+                  <button type="button"
                     key={v.id}
                     onClick={() => setSelectedView(v.id)}
                     style={{
@@ -496,7 +496,7 @@ export default function SanctificationPage() {
                 const isActive = meansFilter === cat;
                 const color = cat === "All" ? GREEN : CATEGORY_COLORS[cat as MeansCategory];
                 return (
-                  <button
+                  <button type="button"
                     key={cat}
                     onClick={() => setMeansFilter(cat)}
                     style={{

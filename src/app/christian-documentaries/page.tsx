@@ -199,7 +199,7 @@ export default function ChristianDocumentariesPage() {
 
         <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 28 }}>
           {GENRE_FILTERS.map(g => (
-            <button key={g} onClick={() => setGenre(g)}
+            <button type="button" key={g} onClick={() => setGenre(g)}
               style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${genre === g ? GREEN : BORDER}`, background: genre === g ? `${GREEN}15` : "transparent", color: genre === g ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
               {g}
             </button>
@@ -209,7 +209,7 @@ export default function ChristianDocumentariesPage() {
         <div style={{ display: "grid", gridTemplateColumns: doc ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {filtered.map((d, i) => (
-              <button key={i} onClick={() => setSelected(selected === d.title ? null : d.title)}
+              <button type="button" key={i} onClick={() => setSelected(selected === d.title ? null : d.title)}
                 style={{ background: selected === d.title ? `${d.color}12` : CARD, border: `1px solid ${selected === d.title ? d.color + "50" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left", transition: "all 0.15s" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                   <div style={{ width: 44, height: 44, borderRadius: 10, background: `${d.color}20`, border: `1px solid ${d.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: d.color, fontWeight: 900, fontSize: 9, flexShrink: 0 }}>

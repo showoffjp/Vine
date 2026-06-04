@@ -172,7 +172,7 @@ export default function ConfessionsPage() {
             { id: "why" as Tab, label: "Why It Matters", icon: "💡" },
             { id: "videos" as Tab, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -183,7 +183,7 @@ export default function ConfessionsPage() {
           <div>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 20 }}>
               {CREEDS.map(c => (
-                <button key={c.name} onClick={() => setSelectedCreed(c.name)}
+                <button type="button" key={c.name} onClick={() => setSelectedCreed(c.name)}
                   style={{ padding: "8px 16px", borderRadius: 20, border: `1px solid ${selectedCreed === c.name ? c.color : BORDER}`, background: selectedCreed === c.name ? `${c.color}15` : "transparent", color: selectedCreed === c.name ? c.color : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
                   {c.name}
                 </button>
@@ -219,7 +219,7 @@ export default function ConfessionsPage() {
           <div>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 20 }}>
               {CONFESSIONS.map(c => (
-                <button key={c.name} onClick={() => setSelectedConf(c.name)}
+                <button type="button" key={c.name} onClick={() => setSelectedConf(c.name)}
                   style={{ padding: "8px 14px", borderRadius: 20, border: `1px solid ${selectedConf === c.name ? c.color : BORDER}`, background: selectedConf === c.name ? `${c.color}15` : "transparent", color: selectedConf === c.name ? c.color : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
                   {c.name}
                 </button>
@@ -250,7 +250,7 @@ export default function ConfessionsPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 210, flexShrink: 0 }}>
               {CATECHISMS.map(c => (
-                <button key={c.name} onClick={() => setSelectedCat(c.name)}
+                <button type="button" key={c.name} onClick={() => setSelectedCat(c.name)}
                   style={{ width: "100%", padding: "12px 14px", borderRadius: 10, border: `1px solid ${selectedCat === c.name ? c.color : BORDER}`, background: selectedCat === c.name ? `${c.color}12` : "transparent", color: selectedCat === c.name ? c.color : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", marginBottom: 6, textAlign: "left" }}>
                   {c.name}
                 </button>

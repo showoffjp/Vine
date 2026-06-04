@@ -275,7 +275,7 @@ export default function AdventDevotionalPage() {
           }}
         >
           {TABS.map((tab) => (
-            <button
+            <button type="button"
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               style={{
@@ -313,7 +313,7 @@ export default function AdventDevotionalPage() {
                     overflow: "hidden",
                   }}
                 >
-                  <button
+                  <button type="button"
                     onClick={() => toggleAccordion(i)}
                     style={{
                       width: "100%",
@@ -374,7 +374,7 @@ export default function AdventDevotionalPage() {
               {/* Left column — week buttons */}
               <div style={{ display: "flex", flexDirection: "column", gap: 8, flexShrink: 0, width: 180 }}>
                 {WEEKS_DATA.map((week, i) => (
-                  <button
+                  <button type="button"
                     key={i}
                     onClick={() => setSelectedWeek(i)}
                     style={{

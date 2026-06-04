@@ -353,7 +353,7 @@ export default function AttributesOfGodPage() {
             { id: "devotional" as const, label: "Devotional", icon: "📖" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ]).map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none",
                 background: activeTab === t.id ? PURPLE : "transparent",
                 color: activeTab === t.id ? "#fff" : MUTED,
@@ -382,7 +382,7 @@ export default function AttributesOfGodPage() {
 
             <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 28 }}>
               {ATTRIBUTE_CATEGORIES.map(c => (
-                <button key={c} onClick={() => setCategory(c)}
+                <button type="button" key={c} onClick={() => setCategory(c)}
                   style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${category === c ? GREEN : BORDER}`, background: category === c ? `${GREEN}15` : "transparent", color: category === c ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
                   {c}
                 </button>
@@ -392,7 +392,7 @@ export default function AttributesOfGodPage() {
             <div style={{ display: "grid", gridTemplateColumns: attr ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 {filtered.map((a, i) => (
-                  <button key={i} onClick={() => setSelected(selected === a.name ? null : a.name)}
+                  <button type="button" key={i} onClick={() => setSelected(selected === a.name ? null : a.name)}
                     style={{ background: selected === a.name ? `${a.color}12` : CARD, border: `1px solid ${selected === a.name ? a.color + "50" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left", transition: "all 0.15s" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                       <div style={{ width: 44, height: 44, borderRadius: 10, background: `${a.color}20`, border: `1px solid ${a.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: a.color, fontWeight: 900, fontSize: 11, flexShrink: 0 }}>
@@ -450,7 +450,7 @@ export default function AttributesOfGodPage() {
           <div style={{ display: "grid", gridTemplateColumns: "210px 1fr", gap: 20, alignItems: "start" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 100 }}>
               {VOICES_AOG.map(v => (
-                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                   style={{ background: selectedVoice === v.id ? `${PURPLE}20` : CARD,
                     border: `1px solid ${selectedVoice === v.id ? PURPLE : BORDER}`,
                     borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>

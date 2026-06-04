@@ -129,7 +129,7 @@ export default function PurityPage() {
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -154,7 +154,7 @@ export default function PurityPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 180, flexShrink: 0 }}>
               {STRUGGLES.map(s => (
-                <button key={s.name} onClick={() => setSelectedStruggle(s.name)}
+                <button type="button" key={s.name} onClick={() => setSelectedStruggle(s.name)}
                   style={{ width: "100%", background: selectedStruggle === s.name ? `${s.color}15` : "transparent", border: `1px solid ${selectedStruggle === s.name ? s.color + "60" : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 8, cursor: "pointer", textAlign: "left" }}>
                   <span style={{ color: selectedStruggle === s.name ? s.color : TEXT, fontWeight: 700, fontSize: 14 }}>{s.name}</span>
                 </button>
@@ -182,7 +182,7 @@ export default function PurityPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 6 }}>
               {VOICES.map(v => (
-                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                   style={{ width: "100%", background: selectedVoice === v.id ? `${PURPLE}20` : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", textAlign: "left", cursor: "pointer" }}>
                   <div style={{ color: selectedVoice === v.id ? GREEN : TEXT, fontWeight: 700, fontSize: 13, marginBottom: 2 }}>{v.name}</div>
                   <div style={{ color: MUTED, fontSize: 11 }}>{v.era}</div>

@@ -113,7 +113,7 @@ export default function DailyOfficePage() {
             { id: "howto" as const, label: "How to Start", icon: "🌱" },
             { id: "videos" as const, label: "Videos", icon: "▶️" },
           ]).map(t => (
-            <button key={t.id} onClick={() => setTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setTab(t.id)}
               style={{ flex: 1, padding: "10px 14px", borderRadius: 8, border: "none", background: tab === t.id ? GREEN : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", transition: "all 0.2s ease", whiteSpace: "nowrap" }}>
               {t.icon} {t.label}
             </button>
@@ -126,7 +126,7 @@ export default function DailyOfficePage() {
               {(Object.keys(OFFICES) as OfficeKey[]).map(key => {
                 const o = OFFICES[key];
                 return (
-                  <button key={key} onClick={() => setSelectedOffice(key)}
+                  <button type="button" key={key} onClick={() => setSelectedOffice(key)}
                     style={{ flex: 1, minWidth: 120, padding: "12px 16px", borderRadius: 10, border: `1px solid ${selectedOffice === key ? o.color : BORDER}`, background: selectedOffice === key ? `${o.color}18` : CARD, cursor: "pointer", transition: "all 0.2s ease", textAlign: "center" }}>
                     <div style={{ fontSize: 20, marginBottom: 4 }}>{o.icon}</div>
                     <div style={{ color: selectedOffice === key ? o.color : TEXT, fontWeight: 700, fontSize: 13 }}>{o.title}</div>

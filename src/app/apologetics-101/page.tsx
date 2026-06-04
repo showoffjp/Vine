@@ -186,7 +186,7 @@ export default function Apologetics101Page() {
         {/* Tab Bar */}
         <div style={{ display: "flex", gap: 4, marginBottom: 32, background: CARD, borderRadius: 12, padding: 5, border: `1px solid ${BORDER}` }}>
           {tabs.map(t => (
-            <button
+            <button type="button"
               key={t.id}
               onClick={() => setActiveTab(t.id)}
               style={{
@@ -222,7 +222,7 @@ export default function Apologetics101Page() {
                   transition: "border-color 0.2s",
                 }}
               >
-                <button
+                <button type="button"
                   onClick={() => toggleAccordion(item.id)}
                   style={{
                     width: "100%",
@@ -257,7 +257,7 @@ export default function Apologetics101Page() {
             {/* Left list */}
             <div style={{ width: 210, flexShrink: 0 }}>
               {METHODS.map(m => (
-                <button
+                <button type="button"
                   key={m.id}
                   onClick={() => setSelectedMethod(m.id)}
                   style={{
@@ -312,7 +312,7 @@ export default function Apologetics101Page() {
             {/* Filter row */}
             <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 24 }}>
               {argTypes.map(t => (
-                <button
+                <button type="button"
                   key={t}
                   onClick={() => setArgFilter(t)}
                   style={{
@@ -389,7 +389,7 @@ export default function Apologetics101Page() {
                   transition: "border-color 0.2s",
                 }}
               >
-                <button
+                <button type="button"
                   onClick={() => toggleAccordion(item.id)}
                   style={{
                     width: "100%",

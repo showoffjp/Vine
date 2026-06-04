@@ -109,7 +109,7 @@ export default function LentPage() {
             { id: "tracker" as const, label: "Tracker", icon: "✅" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -120,7 +120,7 @@ export default function LentPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 160, flexShrink: 0 }}>
               {WEEKS.map(w => (
-                <button key={w.week} onClick={() => setSelectedWeek(w.week)}
+                <button type="button" key={w.week} onClick={() => setSelectedWeek(w.week)}
                   style={{ width: "100%", background: selectedWeek === w.week ? `${w.color}15` : "transparent", border: `1px solid ${selectedWeek === w.week ? w.color + "60" : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 8, cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: selectedWeek === w.week ? w.color : MUTED, fontSize: 10, fontWeight: 700, marginBottom: 3 }}>WEEK {w.week}</div>
                   <div style={{ color: selectedWeek === w.week ? w.color : TEXT, fontWeight: 700, fontSize: 12 }}>{w.title}</div>
@@ -156,7 +156,7 @@ export default function LentPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 210, flexShrink: 0 }}>
               {VOICES_LENT.map(v => (
-                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                   style={{ width: "100%", background: selectedVoice === v.id ? `${PURPLE}18` : "transparent", border: `1px solid ${selectedVoice === v.id ? PURPLE + "80" : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 6, cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: selectedVoice === v.id ? TEXT : MUTED, fontWeight: 700, fontSize: 13 }}>{v.name}</div>
                   <div style={{ color: MUTED, fontSize: 11, marginTop: 2 }}>{v.era}</div>

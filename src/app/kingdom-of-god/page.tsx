@@ -105,7 +105,7 @@ export default function KingdomOfGodPage() {
             { id: "practices" as Tab, label: "Practices", icon: "🛠️" },
             { id: "videos" as Tab, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -130,7 +130,7 @@ export default function KingdomOfGodPage() {
           <div>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 20 }}>
               {PARABLES.map(p => (
-                <button key={p.name} onClick={() => setSelectedParable(p.name)}
+                <button type="button" key={p.name} onClick={() => setSelectedParable(p.name)}
                   style={{ padding: "8px 12px", borderRadius: 20, border: `1px solid ${selectedParable === p.name ? p.color : BORDER}`, background: selectedParable === p.name ? `${p.color}15` : "transparent", color: selectedParable === p.name ? p.color : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
                   {p.name}
                 </button>
@@ -154,7 +154,7 @@ export default function KingdomOfGodPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 185, flexShrink: 0 }}>
               {THINKERS.map(t => (
-                <button key={t.id} onClick={() => setSelectedThinker(t.id)}
+                <button type="button" key={t.id} onClick={() => setSelectedThinker(t.id)}
                   style={{ width: "100%", padding: "12px 14px", borderRadius: 10, border: `1px solid ${selectedThinker === t.id ? t.color : BORDER}`, background: selectedThinker === t.id ? `${t.color}12` : "transparent", color: selectedThinker === t.id ? t.color : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", marginBottom: 6, textAlign: "left" }}>
                   {t.name}
                 </button>

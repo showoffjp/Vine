@@ -105,7 +105,7 @@ export default function ForgivenessGuidePage() {
             { id: "practices" as Tab, label: "Practices", icon: "🛠️" },
             { id: "videos" as Tab, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -135,7 +135,7 @@ export default function ForgivenessGuidePage() {
             </div>
             {HARD_CASES.map((c, i) => (
               <div key={i} style={{ marginBottom: 10 }}>
-                <button onClick={() => setExpanded(expanded === c.case ? null : c.case)}
+                <button type="button" onClick={() => setExpanded(expanded === c.case ? null : c.case)}
                   style={{ width: "100%", background: CARD, border: `1px solid ${BORDER}`, borderRadius: expanded === c.case ? "10px 10px 0 0" : 10, padding: "14px 18px", color: TEXT, fontWeight: 700, fontSize: 14, cursor: "pointer", display: "flex", justifyContent: "space-between", textAlign: "left" }}>
                   <span>{c.case}</span>
                   <span style={{ color: MUTED, flexShrink: 0 }}>{expanded === c.case ? "−" : "+"}</span>
@@ -158,7 +158,7 @@ export default function ForgivenessGuidePage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 190, flexShrink: 0 }}>
               {STORIES.map(s => (
-                <button key={s.id} onClick={() => setSelectedStory(s.id)}
+                <button type="button" key={s.id} onClick={() => setSelectedStory(s.id)}
                   style={{ width: "100%", padding: "12px 14px", borderRadius: 10, border: `1px solid ${selectedStory === s.id ? s.color : BORDER}`, background: selectedStory === s.id ? `${s.color}12` : "transparent", color: selectedStory === s.id ? s.color : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", marginBottom: 6, textAlign: "left" }}>
                   {s.name.split(" &")[0]}
                 </button>

@@ -413,7 +413,7 @@ export default function TheologyOfMoneyPage() {
         {/* Tabs */}
         <div style={{ display: "flex", gap: 4, marginBottom: 32, borderBottom: `1px solid ${BORDER}`, flexWrap: "wrap" }}>
           {tabs.map(t => (
-            <button
+            <button type="button"
               key={t.id}
               onClick={() => setTab(t.id)}
               style={{
@@ -443,7 +443,7 @@ export default function TheologyOfMoneyPage() {
             <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
               {theologyItems.map((item, idx) => (
                 <div key={item.id} style={{ background: CARD, border: `1px solid ${expanded[item.id] ? PURPLE + "50" : BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                  <button
+                  <button type="button"
                     onClick={() => toggleExpanded(item.id)}
                     style={{
                       width: "100%",
@@ -486,7 +486,7 @@ export default function TheologyOfMoneyPage() {
               <p style={{ color: MUTED, fontSize: 12, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 12 }}>Topics</p>
               <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
                 {jesusTopics.map(topic => (
-                  <button
+                  <button type="button"
                     key={topic.id}
                     onClick={() => setSelectedJesusTopic(topic.id)}
                     style={{
@@ -535,7 +535,7 @@ export default function TheologyOfMoneyPage() {
             <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
               {practiceItems.map((item, idx) => (
                 <div key={item.id} style={{ background: CARD, border: `1px solid ${expanded[item.id] ? GREEN + "40" : BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                  <button
+                  <button type="button"
                     onClick={() => toggleExpanded(item.id)}
                     style={{
                       width: "100%",
@@ -579,7 +579,7 @@ export default function TheologyOfMoneyPage() {
             <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
               {pitfallItems.map((item, idx) => (
                 <div key={item.id} style={{ background: CARD, border: `1px solid ${expanded[item.id] ? "#EF444440" : BORDER}`, borderRadius: 14, overflow: "hidden" }}>
-                  <button
+                  <button type="button"
                     onClick={() => toggleExpanded(item.id)}
                     style={{
                       width: "100%",

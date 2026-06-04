@@ -193,7 +193,7 @@ export default function DailyExamenPage() {
             { id: "voices" as const, label: "Voices", icon: "🎓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -229,7 +229,7 @@ export default function DailyExamenPage() {
               ))}
             </div>
             <div style={{ marginTop: 20, textAlign: "center" }}>
-              <button onClick={() => setActiveTab("practice")}
+              <button type="button" onClick={() => setActiveTab("practice")}
                 style={{ padding: "12px 28px", background: PURPLE, border: "none", borderRadius: 10, color: "#fff", fontWeight: 800, fontSize: 15, cursor: "pointer" }}>
                 Begin Tonight&apos;s Examen
               </button>
@@ -242,7 +242,7 @@ export default function DailyExamenPage() {
             {/* Step navigator */}
             <div style={{ display: "flex", gap: 6, marginBottom: 24, justifyContent: "center" }}>
               {EXAMEN_STEPS.map((s, i) => (
-                <button key={s.id} onClick={() => setActiveStep(i)}
+                <button type="button" key={s.id} onClick={() => setActiveStep(i)}
                   style={{ width: 36, height: 36, borderRadius: "50%", border: `2px solid ${i === activeStep ? s.color : BORDER}`, background: i < activeStep ? `${s.color}30` : i === activeStep ? s.color : "transparent", color: i === activeStep ? BG : i < activeStep ? s.color : MUTED, fontWeight: 800, fontSize: 14, cursor: "pointer" }}>
                   {i < activeStep ? "✓" : s.step}
                 </button>
@@ -273,7 +273,7 @@ export default function DailyExamenPage() {
               <textarea
                 value={responses[step.id] || ""}
                 onChange={e => setResponses(prev => ({ ...prev, [step.id]: e.target.value }))}
-                placeholder={`Your response to Step ${step.step}...`}
+                aria-label="Your response" placeholder={`Your response to Step ${step.step}...`}
                 style={{ width: "100%", minHeight: 120, background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: 14, color: TEXT, fontSize: 14, lineHeight: 1.7, resize: "vertical", boxSizing: "border-box", fontFamily: "inherit" }}
               />
             </div>
@@ -284,7 +284,7 @@ export default function DailyExamenPage() {
                 <div style={{ color: MUTED, fontSize: 12, fontWeight: 700, marginBottom: 10 }}>Today&apos;s Overall Spirit</div>
                 <div style={{ display: "flex", gap: 8 }}>
                   {(["1","2","3","4","5"] as const).map(n => (
-                    <button key={n} onClick={() => setMood(n)}
+                    <button type="button" key={n} onClick={() => setMood(n)}
                       style={{ flex: 1, padding: "8px 0", borderRadius: 8, border: `1px solid ${mood === n ? GREEN : BORDER}`, background: mood === n ? `${GREEN}20` : "transparent", color: mood === n ? GREEN : MUTED, fontWeight: 800, fontSize: 16, cursor: "pointer" }}>
                       {["😔","😕","😐","🙂","😊"][parseInt(n)-1]}
                     </button>
@@ -294,17 +294,17 @@ export default function DailyExamenPage() {
             </div>
 
             <div style={{ display: "flex", justifyContent: "space-between", gap: 10 }}>
-              <button onClick={() => setActiveStep(Math.max(0, activeStep - 1))} disabled={activeStep === 0}
+              <button type="button" onClick={() => setActiveStep(Math.max(0, activeStep - 1))} disabled={activeStep === 0}
                 style={{ padding: "10px 20px", borderRadius: 8, border: `1px solid ${BORDER}`, background: "transparent", color: activeStep === 0 ? BORDER : MUTED, cursor: activeStep === 0 ? "default" : "pointer", fontWeight: 700, fontSize: 14 }}>
                 ← Back
               </button>
               {activeStep < EXAMEN_STEPS.length - 1 ? (
-                <button onClick={() => setActiveStep(activeStep + 1)}
+                <button type="button" onClick={() => setActiveStep(activeStep + 1)}
                   style={{ padding: "10px 24px", borderRadius: 8, border: "none", background: PURPLE, color: "#fff", fontWeight: 700, fontSize: 14, cursor: "pointer" }}>
                   Next Step →
                 </button>
               ) : (
-                <button onClick={saveExamen}
+                <button type="button" onClick={saveExamen}
                   style={{ padding: "10px 24px", borderRadius: 8, border: "none", background: saved ? `${GREEN}` : GREEN, color: BG, fontWeight: 800, fontSize: 14, cursor: "pointer" }}>
                   {saved ? "✓ Saved!" : "Complete Examen"}
                 </button>
@@ -350,7 +350,7 @@ export default function DailyExamenPage() {
           <div style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 80 }}>
               {VOICES_EXAMEN.map(v => (
-                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                   style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? "rgba(58,125,86,0.4)" : BORDER}`, background: selectedVoice === v.id ? "rgba(58,125,86,0.08)" : CARD, cursor: "pointer" }}>
                   <div style={{ fontSize: 13, fontWeight: 700, color: selectedVoice === v.id ? GREEN : TEXT, marginBottom: 2 }}>{v.name}</div>
                   <div style={{ fontSize: 11, color: MUTED }}>{v.era}</div>

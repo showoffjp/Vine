@@ -177,7 +177,7 @@ export default function BeatitudesPage() {
             { id: "formation" as const, label: "Formation", icon: "🌱" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -188,7 +188,7 @@ export default function BeatitudesPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 200, flexShrink: 0 }}>
               {BEATITUDES.map(b => (
-                <button key={b.n} onClick={() => setSelected(b.n)}
+                <button type="button" key={b.n} onClick={() => setSelected(b.n)}
                   style={{ width: "100%", background: selected === b.n ? `${b.color}15` : "transparent", border: `1px solid ${selected === b.n ? b.color + "60" : BORDER}`, borderRadius: 10, padding: "10px 12px", marginBottom: 6, cursor: "pointer", textAlign: "left", display: "flex", gap: 10, alignItems: "flex-start" }}>
                   <div style={{ width: 22, height: 22, borderRadius: "50%", background: selected === b.n ? `${b.color}25` : "transparent", border: `1px solid ${selected === b.n ? b.color : BORDER}`, display: "flex", alignItems: "center", justifyContent: "center", color: selected === b.n ? b.color : MUTED, fontWeight: 800, fontSize: 11, flexShrink: 0, marginTop: 1 }}>{b.n}</div>
                   <span style={{ color: selected === b.n ? b.color : MUTED, fontWeight: 600, fontSize: 12, lineHeight: 1.4 }}>{b.blessing.replace("Blessed are ", "").replace("Blessed are ", "").replace("Blessed is ", "").split(' ').slice(0,4).join(' ')}...</span>
@@ -242,7 +242,7 @@ export default function BeatitudesPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 6 }}>
               {COMMENTATORS.map(c => (
-                <button key={c.id} onClick={() => setSelectedCommentator(c.id)}
+                <button type="button" key={c.id} onClick={() => setSelectedCommentator(c.id)}
                   style={{ width: "100%", background: selectedCommentator === c.id ? `${PURPLE}20` : CARD, border: `1px solid ${selectedCommentator === c.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", textAlign: "left", cursor: "pointer" }}>
                   <div style={{ color: selectedCommentator === c.id ? GREEN : TEXT, fontWeight: 700, fontSize: 13, marginBottom: 2 }}>{c.name}</div>
                   <div style={{ color: MUTED, fontSize: 11 }}>{c.era}</div>

@@ -323,7 +323,7 @@ function Accordion({ items }: { items: { id: string; title: string; content: str
             overflow: "hidden",
           }}
         >
-          <button
+          <button type="button"
             onClick={() => toggle(item.id)}
             style={{
               width: "100%",
@@ -400,18 +400,18 @@ function GiftsTab() {
           Filter by List
         </p>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 16 }}>
-          <button style={chipStyle(listFilter === undefined)} onClick={() => setListFilter(undefined)}>All Lists</button>
+          <button type="button" style={chipStyle(listFilter === undefined)} onClick={() => setListFilter(undefined)}>All Lists</button>
           {allLists.map((l) => (
-            <button key={l} style={chipStyle(listFilter === l)} onClick={() => setListFilter(listFilter === l ? undefined : l)}>{l}</button>
+            <button type="button" key={l} style={chipStyle(listFilter === l)} onClick={() => setListFilter(listFilter === l ? undefined : l)}>{l}</button>
           ))}
         </div>
         <p style={{ color: MUTED, fontSize: 13, marginBottom: 10, fontWeight: 600, letterSpacing: "0.05em", textTransform: "uppercase" }}>
           Filter by Category
         </p>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-          <button style={chipStyle(categoryFilter === undefined)} onClick={() => setCategoryFilter(undefined)}>All Categories</button>
+          <button type="button" style={chipStyle(categoryFilter === undefined)} onClick={() => setCategoryFilter(undefined)}>All Categories</button>
           {allCategories.map((c) => (
-            <button key={c} style={chipStyle(categoryFilter === c)} onClick={() => setCategoryFilter(categoryFilter === c ? undefined : c)}>{c}</button>
+            <button type="button" key={c} style={chipStyle(categoryFilter === c)} onClick={() => setCategoryFilter(categoryFilter === c ? undefined : c)}>{c}</button>
           ))}
         </div>
       </div>
@@ -621,7 +621,7 @@ export default function SpiritualGiftsPage() {
           }}
         >
           {tabs.map((tab) => (
-            <button
+            <button type="button"
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               style={{

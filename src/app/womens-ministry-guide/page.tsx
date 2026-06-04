@@ -232,7 +232,7 @@ export default function WomensMinistryGuidePage() {
               { id: "videos" as Tab, label: "Videos", icon: "&#127909;" },
             ] as { id: Tab; label: string; icon: string }[]
           ).map((t) => (
-            <button
+            <button type="button"
               key={t.id}
               onClick={() => setActiveTab(t.id)}
               style={{
@@ -265,7 +265,7 @@ export default function WomensMinistryGuidePage() {
                 key={i}
                 style={{ background: CARD, border: `1px solid ${openAccordion === i ? PURPLE : BORDER}`, borderRadius: 12, marginBottom: 10, overflow: "hidden", transition: "border-color 0.2s" }}
               >
-                <button
+                <button type="button"
                   onClick={() => setOpenAccordion(openAccordion === i ? undefined : i)}
                   style={{
                     width: "100%",
@@ -350,7 +350,7 @@ export default function WomensMinistryGuidePage() {
               </div>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
                 {TEACHERS.map((t) => (
-                  <button
+                  <button type="button"
                     key={t.name}
                     onClick={() => setSelectedTeacher(t.name)}
                     style={{

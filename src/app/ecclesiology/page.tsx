@@ -109,7 +109,7 @@ export default function EcclesiologyPage() {
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -139,7 +139,7 @@ export default function EcclesiologyPage() {
             </div>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 20 }}>
               {MODELS.map(m => (
-                <button key={m.name} onClick={() => setSelectedModel(m.name)}
+                <button type="button" key={m.name} onClick={() => setSelectedModel(m.name)}
                   style={{ padding: "8px 14px", borderRadius: 20, border: `1px solid ${selectedModel === m.name ? m.color : BORDER}`, background: selectedModel === m.name ? `${m.color}20` : "transparent", color: selectedModel === m.name ? m.color : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
                   {m.icon} {m.name}
                 </button>
@@ -166,7 +166,7 @@ export default function EcclesiologyPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 6 }}>
               {THINKERS.map(t => (
-                <button key={t.id} onClick={() => setSelectedThinker(t.id)}
+                <button type="button" key={t.id} onClick={() => setSelectedThinker(t.id)}
                   style={{ width: "100%", background: selectedThinker === t.id ? `${PURPLE}20` : CARD, border: `1px solid ${selectedThinker === t.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", textAlign: "left", cursor: "pointer" }}>
                   <div style={{ color: selectedThinker === t.id ? GREEN : TEXT, fontWeight: 700, fontSize: 13, marginBottom: 2 }}>{t.name}</div>
                   <div style={{ color: MUTED, fontSize: 11 }}>{t.era}</div>

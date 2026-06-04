@@ -421,7 +421,7 @@ export default function WorshipPage() {
               ["voices", "Voices"],
               ["videos", "Videos"],
             ] as const).map(([t, label]) => (
-              <button
+              <button type="button"
                 key={t}
                 onClick={() => setActiveTab(t)}
                 style={{
@@ -494,7 +494,7 @@ export default function WorshipPage() {
                   Music that transcends borders. From Ghana to Nashville to Tokyo &mdash; the global church is singing, and you&rsquo;re invited in.
                 </p>
                 <div style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
-                  <button
+                  <button type="button"
                     onClick={() => togglePlay(0)}
                     style={{
                       display: "flex",
@@ -513,7 +513,7 @@ export default function WorshipPage() {
                     <Headphones size={16} />
                     {playingSong === 0 ? "Now Playing..." : "Start Listening"}
                   </button>
-                  <button
+                  <button type="button"
                     onClick={() => setActiveTab("videos")}
                     style={{
                       display: "flex",
@@ -674,7 +674,7 @@ export default function WorshipPage() {
                           <Users size={12} style={{ display: "inline", verticalAlign: "middle", marginRight: "4px" }} />
                           {pl.contributors} contributors
                         </span>
-                        <button
+                        <button type="button"
                           onClick={(e) => { e.stopPropagation(); togglePlay(songs.length + i); }}
                           style={{
                             background: pl.color,
@@ -725,7 +725,7 @@ export default function WorshipPage() {
                   <Search size={16} style={{ color: "#6A6A88", flexShrink: 0 }} />
                   <input
                     readOnly
-                    placeholder="Search songs, artists, or keys..."
+                    aria-label="Search songs, artists, or keys..." placeholder="Search songs, artists, or keys..."
                     style={{
                       background: "transparent",
                       border: "none",
@@ -784,7 +784,7 @@ export default function WorshipPage() {
                           </span>
                         </div>
                       </div>
-                      <button
+                      <button type="button"
                         onClick={() => setViewChord(viewChord === i ? null : i)}
                         style={{
                           flexShrink: 0,
@@ -866,7 +866,7 @@ export default function WorshipPage() {
                           <Users size={12} style={{ display: "inline", verticalAlign: "middle", marginRight: "4px" }} />
                           {circle.members} members
                         </span>
-                        <button
+                        <button type="button"
                           onClick={() => toggleJoin(i)}
                           style={{
                             background: joinedCircles.has(i) ? circle.color : `${circle.color}18`,
@@ -963,7 +963,7 @@ export default function WorshipPage() {
                         <p style={{ color: "#8A8AA8", fontSize: "13px", lineHeight: 1.6, marginBottom: "16px" }}>
                           {creator.bio}
                         </p>
-                        <button
+                        <button type="button"
                           onClick={() => toggleFollow(i)}
                           style={{
                             width: "100%",
@@ -1032,7 +1032,7 @@ export default function WorshipPage() {
                     </div>
                   ) : (
                     <div style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
-                      <button
+                      <button type="button"
                         onClick={handleSubmit}
                         style={{
                           display: "flex",
@@ -1148,7 +1148,7 @@ export default function WorshipPage() {
               {/* Left panel */}
               <div style={{ width: "210px", flexShrink: 0, display: "flex", flexDirection: "column", gap: "8px", position: "sticky", top: "80px" }}>
                 {VOICES_WOR.map(v => (
-                  <button
+                  <button type="button"
                     key={v.id}
                     onClick={() => setSelectedVoice(v.id)}
                     style={{
@@ -1296,7 +1296,7 @@ export default function WorshipPage() {
               <div style={{ width: "60%", height: "100%", background: "#3a7d56", borderRadius: "2px" }} />
             </div>
           </div>
-          <button
+          <button type="button"
             onClick={() => setPlayingSong(null)}
             style={{ background: "none", border: "none", color: "#6A6A88", cursor: "pointer", padding: "4px" }}
           >

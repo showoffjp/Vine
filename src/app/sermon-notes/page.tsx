@@ -278,7 +278,7 @@ export default function SermonNotesPage() {
                   </div>
                   <p className="text-xs" style={{ color: "#4A4A68" }}>{notes.length} note{notes.length !== 1 ? "s" : ""}</p>
                 </div>
-                <button
+                <button type="button"
                   onClick={startNew}
                   className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-bold text-black"
                   style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}
@@ -292,7 +292,7 @@ export default function SermonNotesPage() {
                 <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: "#4A4A68" }} />
                 <input
                   type="text"
-                  placeholder="Search notes…"
+                  aria-label="Search notes…" placeholder="Search notes…"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full pl-9 pr-3 py-2 rounded-xl text-xs outline-none"
@@ -306,7 +306,7 @@ export default function SermonNotesPage() {
                   <p className="text-xs text-center py-8" style={{ color: "#4A4A68" }}>No notes found.</p>
                 )}
                 {filtered.map((note) => (
-                  <button
+                  <button type="button"
                     key={note.id}
                     onClick={() => { setActiveId(note.id); setShowNew(false); setEditMode(false); }}
                     className="w-full text-left p-3 rounded-xl transition-all"
@@ -343,7 +343,7 @@ export default function SermonNotesPage() {
                   <p className="text-sm mb-6 max-w-xs" style={{ color: "#6A6A88" }}>
                     Take structured notes during sermons — scripture reference, key points, personal application.
                   </p>
-                  <button
+                  <button type="button"
                     onClick={startNew}
                     className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm text-black"
                     style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}
@@ -359,14 +359,14 @@ export default function SermonNotesPage() {
                 >
                   <div className="flex items-center justify-between mb-6">
                     <h2 className="font-black" style={{ color: "#F2F2F8" }}>{showNew ? "New Sermon Notes" : "Edit Notes"}</h2>
-                    <button onClick={() => { setShowNew(false); setEditMode(false); }} style={{ color: "#6A6A88" }}><X size={18} /></button>
+                    <button type="button" onClick={() => { setShowNew(false); setEditMode(false); }} style={{ color: "#6A6A88" }}><X size={18} /></button>
                   </div>
 
                   <div className="space-y-4">
                     <div>
                       <label className="text-[10px] font-bold uppercase tracking-wider block mb-1" style={{ color: "#6A6A88" }}>Sermon Title *</label>
                       <input
-                        type="text" placeholder="What was the sermon about?"
+                        type="text" aria-label="What was the sermon about?" placeholder="What was the sermon about?"
                         value={editDraft.title ?? ""}
                         onChange={(e) => setDraft((p) => ({ ...p, title: e.target.value }))}
                         className="w-full px-4 py-2.5 rounded-xl text-sm outline-none"
@@ -377,7 +377,7 @@ export default function SermonNotesPage() {
                     <div className="grid grid-cols-2 gap-3">
                       <div>
                         <label className="text-[10px] font-bold uppercase tracking-wider block mb-1" style={{ color: "#6A6A88" }}>Speaker</label>
-                        <input type="text" placeholder="Pastor / Speaker name"
+                        <input type="text" aria-label="Pastor / Speaker name" placeholder="Pastor / Speaker name"
                           value={editDraft.speaker ?? ""}
                           onChange={(e) => setDraft((p) => ({ ...p, speaker: e.target.value }))}
                           className="w-full px-3 py-2 rounded-xl text-sm outline-none"
@@ -386,7 +386,7 @@ export default function SermonNotesPage() {
                       </div>
                       <div>
                         <label className="text-[10px] font-bold uppercase tracking-wider block mb-1" style={{ color: "#6A6A88" }}>Date</label>
-                        <input type="text" placeholder="May 25, 2026"
+                        <input type="text" aria-label="May 25, 2026" placeholder="May 25, 2026"
                           value={editDraft.date ?? ""}
                           onChange={(e) => setDraft((p) => ({ ...p, date: e.target.value }))}
                           className="w-full px-3 py-2 rounded-xl text-sm outline-none"
@@ -398,7 +398,7 @@ export default function SermonNotesPage() {
                     <div className="grid grid-cols-2 gap-3">
                       <div>
                         <label className="text-[10px] font-bold uppercase tracking-wider block mb-1" style={{ color: "#6A6A88" }}>Scripture Reference</label>
-                        <input type="text" placeholder="John 3:16"
+                        <input type="text" aria-label="John 3:16" placeholder="John 3:16"
                           value={editDraft.scripture ?? ""}
                           onChange={(e) => setDraft((p) => ({ ...p, scripture: e.target.value }))}
                           className="w-full px-3 py-2 rounded-xl text-sm outline-none"
@@ -407,7 +407,7 @@ export default function SermonNotesPage() {
                       </div>
                       <div>
                         <label className="text-[10px] font-bold uppercase tracking-wider block mb-1" style={{ color: "#6A6A88" }}>Church / Location</label>
-                        <input type="text" placeholder="Church name"
+                        <input type="text" aria-label="Church name" placeholder="Church name"
                           value={editDraft.church ?? ""}
                           onChange={(e) => setDraft((p) => ({ ...p, church: e.target.value }))}
                           className="w-full px-3 py-2 rounded-xl text-sm outline-none"
@@ -421,7 +421,7 @@ export default function SermonNotesPage() {
                       <textarea
                         ref={textareaRef}
                         rows={5}
-                        placeholder="Write your notes, reflections, and key insights here…"
+                        aria-label="Write your notes, reflections, and key insights here…" placeholder="Write your notes, reflections, and key insights here…"
                         value={editDraft.body ?? ""}
                         onChange={(e) => setDraft((p) => ({ ...p, body: e.target.value }))}
                         className="w-full px-4 py-3 rounded-xl text-sm outline-none resize-none leading-relaxed"
@@ -437,20 +437,20 @@ export default function SermonNotesPage() {
                           <div key={i} className="flex items-start gap-2 px-3 py-2 rounded-lg" style={{ background: "#0D0D1A", border: "1px solid #1E1E32" }}>
                             <ChevronRight size={13} className="mt-0.5 shrink-0" style={{ color: "#3a7d56" }} />
                             <span className="flex-1 text-sm" style={{ color: "#C0C0D8" }}>{pt}</span>
-                            <button onClick={() => removePoint(i)} style={{ color: "#4A4A68" }}><X size={13} /></button>
+                            <button type="button" onClick={() => removePoint(i)} style={{ color: "#4A4A68" }}><X size={13} /></button>
                           </div>
                         ))}
                       </div>
                       <div className="flex gap-2">
                         <input
-                          type="text" placeholder="Add a key point…"
+                          type="text" aria-label="Add a key point…" placeholder="Add a key point…"
                           value={newPoint}
                           onChange={(e) => setNewPoint(e.target.value)}
                           onKeyDown={(e) => e.key === "Enter" && addPoint()}
                           className="flex-1 px-3 py-2 rounded-xl text-sm outline-none"
                           style={{ background: "#0D0D1A", border: "1px solid #1E1E32", color: "#F2F2F8" }}
                         />
-                        <button onClick={addPoint} className="px-3 py-2 rounded-xl text-sm font-bold" style={{ background: "rgba(58,125,86,0.12)", color: "#3a7d56" }}>
+                        <button type="button" onClick={addPoint} className="px-3 py-2 rounded-xl text-sm font-bold" style={{ background: "rgba(58,125,86,0.12)", color: "#3a7d56" }}>
                           Add
                         </button>
                       </div>
@@ -462,34 +462,34 @@ export default function SermonNotesPage() {
                       <div className="flex flex-wrap gap-1.5 mb-2">
                         {(editDraft.tags ?? []).map((t) => (
                           <span key={t} className="flex items-center gap-1 text-xs px-2.5 py-1 rounded-full" style={{ background: "rgba(58,125,86,0.1)", color: "#3a7d56" }}>
-                            #{t} <button onClick={() => removeTag(t)}>×</button>
+                            #{t} <button type="button" onClick={() => removeTag(t)}>×</button>
                           </span>
                         ))}
                       </div>
                       <div className="flex gap-2">
                         <input
-                          type="text" placeholder="Add tag (press Enter)"
+                          type="text" aria-label="Add tag (press Enter)" placeholder="Add tag (press Enter)"
                           value={tagInput}
                           onChange={(e) => setTagInput(e.target.value)}
                           onKeyDown={(e) => e.key === "Enter" && addTag()}
                           className="flex-1 px-3 py-2 rounded-xl text-sm outline-none"
                           style={{ background: "#0D0D1A", border: "1px solid #1E1E32", color: "#F2F2F8" }}
                         />
-                        <button onClick={addTag} className="px-3 py-2 rounded-xl text-sm font-bold" style={{ background: "rgba(58,125,86,0.12)", color: "#3a7d56" }}>
+                        <button type="button" onClick={addTag} className="px-3 py-2 rounded-xl text-sm font-bold" style={{ background: "rgba(58,125,86,0.12)", color: "#3a7d56" }}>
                           Add
                         </button>
                       </div>
                     </div>
 
                     <div className="flex gap-3 pt-2">
-                      <button
+                      <button type="button"
                         onClick={() => { setShowNew(false); setEditMode(false); setDraft({}); }}
                         className="flex-1 py-2.5 rounded-xl text-sm font-semibold"
                         style={{ background: "#0D0D1A", border: "1px solid #1E1E32", color: "#6A6A88" }}
                       >
                         Cancel
                       </button>
-                      <button
+                      <button type="button"
                         onClick={showNew ? saveNew : saveEdit}
                         disabled={!editDraft.title?.trim()}
                         className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-bold text-black"
@@ -512,7 +512,7 @@ export default function SermonNotesPage() {
                       </div>
                     </div>
                     <div className="flex items-center gap-2 shrink-0">
-                      <button
+                      <button type="button"
                         onClick={startEdit}
                         className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all"
                         style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#8A8AA8" }}
@@ -521,7 +521,7 @@ export default function SermonNotesPage() {
                       >
                         <Edit3 size={12} /> Edit
                       </button>
-                      <button
+                      <button type="button"
                         onClick={() => deleteNote(activeNote.id)}
                         className="p-1.5 rounded-lg transition-all"
                         style={{ color: "#4A4A68" }}

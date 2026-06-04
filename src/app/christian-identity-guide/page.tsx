@@ -115,7 +115,7 @@ export default function ChristianIdentityGuidePage() {
             { id: "practice" as const, label: "Apply It", icon: "🙏" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -126,7 +126,7 @@ export default function ChristianIdentityGuidePage() {
           <div>
             <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 20 }}>
               {CATEGORIES.map(c => (
-                <button key={c} onClick={() => setCategory(c)}
+                <button type="button" key={c} onClick={() => setCategory(c)}
                   style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${category === c ? GREEN : BORDER}`, background: category === c ? `${GREEN}15` : "transparent", color: category === c ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
                   {c}
                 </button>
@@ -134,7 +134,7 @@ export default function ChristianIdentityGuidePage() {
             </div>
             {filtered.map((s, i) => (
               <div key={i} style={{ marginBottom: 10 }}>
-                <button onClick={() => setExpanded(expanded === s.statement ? null : s.statement)}
+                <button type="button" onClick={() => setExpanded(expanded === s.statement ? null : s.statement)}
                   style={{ width: "100%", background: CARD, border: `1px solid ${expanded === s.statement ? GREEN + "50" : BORDER}`, borderRadius: expanded === s.statement ? "10px 10px 0 0" : 10, padding: "14px 18px", color: TEXT, cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center", textAlign: "left" }}>
                   <div>
                     <div style={{ color: TEXT, fontWeight: 700, fontSize: 15 }}>{s.statement}</div>
@@ -159,7 +159,7 @@ export default function ChristianIdentityGuidePage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8 }}>
               {VOICES_IDENTITY_GUIDE.map(v => (
-                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                   style={{ background: selectedVoice === v.id ? `${PURPLE}20` : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", textAlign: "left", cursor: "pointer" }}>
                   <div style={{ color: TEXT, fontWeight: 700, fontSize: 13 }}>{v.name}</div>
                   <div style={{ color: MUTED, fontSize: 11, marginTop: 2 }}>{v.era}</div>

@@ -337,7 +337,7 @@ export default function GreatHymnsExplainedPage() {
         {/* Tab bar */}
         <div style={{ display: "flex", gap: 6, marginBottom: 28, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 6, flexWrap: "wrap" }}>
           {(["hymns", "theology", "history", "voices", "videos"] as const).map(t => (
-            <button key={t} onClick={() => setActiveTab(t)}
+            <button type="button" key={t} onClick={() => setActiveTab(t)}
               style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t === "hymns" ? "Hymns" : t === "theology" ? "Theology" : t === "history" ? "History" : t === "voices" ? "Voices" : "🎬 Videos"}
             </button>
@@ -349,7 +349,7 @@ export default function GreatHymnsExplainedPage() {
           <>
             <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 28 }}>
               {ERA_FILTERS.map(e => (
-                <button key={e} onClick={() => setEra(e)}
+                <button type="button" key={e} onClick={() => setEra(e)}
                   style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${era === e ? GREEN : BORDER}`, background: era === e ? `${GREEN}15` : "transparent", color: era === e ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
                   {e}
                 </button>
@@ -359,7 +359,7 @@ export default function GreatHymnsExplainedPage() {
             <div style={{ display: "grid", gridTemplateColumns: hymn ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 {filtered.map((h, i) => (
-                  <button key={i} onClick={() => setSelected(selected === h.title ? null : h.title)}
+                  <button type="button" key={i} onClick={() => setSelected(selected === h.title ? null : h.title)}
                     style={{ background: selected === h.title ? `${h.color}12` : CARD, border: `1px solid ${selected === h.title ? h.color + "50" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left", transition: "all 0.15s" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                       <div style={{ width: 44, height: 44, borderRadius: 10, background: `${h.color}20`, border: `1px solid ${h.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: h.color, fontWeight: 900, fontSize: 9, flexShrink: 0 }}>
@@ -475,7 +475,7 @@ export default function GreatHymnsExplainedPage() {
           <div style={{ display: "grid", gridTemplateColumns: "220px 1fr", gap: 20, alignItems: "start" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 100 }}>
               {VOICES_HYM.map(v => (
-                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                   style={{ background: selectedVoice === v.id ? `${PURPLE}20` : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE + "60" : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: selectedVoice === v.id ? TEXT : MUTED, fontWeight: 800, fontSize: 14 }}>{v.name}</div>
                   <div style={{ color: MUTED, fontSize: 11, marginTop: 2 }}>{v.era}</div>

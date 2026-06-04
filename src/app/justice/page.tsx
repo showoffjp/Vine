@@ -188,7 +188,7 @@ export default function JusticePage() {
             { id: "action" as const, label: "How to Engage", icon: "✊" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", transition: "background 0.2s" }}>
               {t.icon} {t.label}
             </button>
@@ -208,7 +208,7 @@ export default function JusticePage() {
                 const isExp = expandedFoundation === i;
                 return (
                   <div key={i} style={{ background: CARD, border: `1px solid ${isExp ? f.color + "50" : BORDER}`, borderRadius: 14, overflow: "hidden", transition: "border-color 0.2s" }}>
-                    <button onClick={() => setExpandedFoundation(isExp ? null : i)}
+                    <button type="button" onClick={() => setExpandedFoundation(isExp ? null : i)}
                       style={{ width: "100%", textAlign: "left", padding: "20px 24px", background: "transparent", border: "none", cursor: "pointer", display: "flex", alignItems: "flex-start", gap: 14 }}>
                       <span style={{ fontSize: 24, flexShrink: 0 }}>{f.icon}</span>
                       <div style={{ flex: 1 }}>
@@ -304,7 +304,7 @@ export default function JusticePage() {
             <div style={{ display: "flex", gap: 20, alignItems: "flex-start", flexWrap: "wrap" }}>
               <div style={{ width: 220, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8 }}>
                 {VOICES.map(v => (
-                  <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                     style={{ width: "100%", textAlign: "left", background: selectedVoice === v.id ? `${v.color}18` : CARD, border: `1px solid ${selectedVoice === v.id ? v.color : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", transition: "all 0.2s" }}>
                     <div style={{ color: selectedVoice === v.id ? v.color : TEXT, fontWeight: 700, fontSize: 13, marginBottom: 2 }}>{v.name}</div>
                     <div style={{ color: MUTED, fontSize: 11 }}>{v.years}</div>

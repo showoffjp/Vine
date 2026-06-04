@@ -148,7 +148,7 @@ export default function VerseOfTheDayPage() {
             { id: "memorize" as const, label: "Memorize", icon: "🧠" },
             { id: "videos" as const, label: "Videos", icon: "▶️" },
           ]).map(t => (
-            <button key={t.id} onClick={() => setTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setTab(t.id)}
               style={{ flex: 1, padding: "10px 14px", borderRadius: 8, border: "none", background: tab === t.id ? GREEN : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", transition: "all 0.2s ease", whiteSpace: "nowrap" }}>
               {t.icon} {t.label}
             </button>
@@ -231,7 +231,7 @@ export default function VerseOfTheDayPage() {
           <div>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 24 }}>
               {TOPICS.map(t => (
-                <button key={t.topic} onClick={() => setSelectedTopic(t.topic)}
+                <button type="button" key={t.topic} onClick={() => setSelectedTopic(t.topic)}
                   style={{ padding: "8px 16px", borderRadius: 20, border: `1px solid ${selectedTopic === t.topic ? t.color : BORDER}`, background: selectedTopic === t.topic ? `${t.color}18` : CARD, color: selectedTopic === t.topic ? t.color : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", transition: "all 0.2s ease" }}>
                   {t.icon} {t.topic}
                 </button>
@@ -262,7 +262,7 @@ export default function VerseOfTheDayPage() {
             </div>
             <div style={{ display: "flex", gap: 8, marginBottom: 20, flexWrap: "wrap" }}>
               {MEMORY_PLANS.map(p => (
-                <button key={p.name} onClick={() => setSelectedPlan(p.name)}
+                <button type="button" key={p.name} onClick={() => setSelectedPlan(p.name)}
                   style={{ padding: "8px 16px", borderRadius: 20, border: `1px solid ${selectedPlan === p.name ? p.color : BORDER}`, background: selectedPlan === p.name ? `${p.color}18` : CARD, color: selectedPlan === p.name ? p.color : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", transition: "all 0.2s ease" }}>
                   {p.name}
                 </button>

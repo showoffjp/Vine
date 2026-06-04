@@ -270,7 +270,7 @@ export default function CreationCareActionPage() {
         {/* Tab Bar */}
         <div style={{ display: "flex", gap: 4, marginBottom: 36, background: CARD, borderRadius: 12, padding: 5, border: `1px solid ${BORDER}` }}>
           {tabs.map(t => (
-            <button
+            <button type="button"
               key={t.id}
               onClick={() => setActiveTab(t.id)}
               style={{
@@ -302,7 +302,7 @@ export default function CreationCareActionPage() {
                 key={item.id}
                 style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, marginBottom: 12, overflow: "hidden" }}
               >
-                <button
+                <button type="button"
                   onClick={() => toggleExpanded(item.id)}
                   style={{
                     width: "100%",
@@ -346,7 +346,7 @@ export default function CreationCareActionPage() {
 
             {/* Filter Buttons */}
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 28 }}>
-              <button
+              <button type="button"
                 onClick={() => setActiveCategory("All")}
                 style={{
                   padding: "7px 16px",
@@ -362,7 +362,7 @@ export default function CreationCareActionPage() {
                 All ({ACTIONS.length})
               </button>
               {ACTION_CATEGORIES.map(cat => (
-                <button
+                <button type="button"
                   key={cat}
                   onClick={() => setActiveCategory(cat)}
                   style={{
@@ -432,7 +432,7 @@ export default function CreationCareActionPage() {
               <div style={{ width: 220, flexShrink: 0 }}>
                 <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden", position: "sticky", top: 20 }}>
                   {VOICES.map(v => (
-                    <button
+                    <button type="button"
                       key={v.id}
                       onClick={() => setSelectedVoice(v.id)}
                       style={{

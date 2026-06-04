@@ -139,7 +139,7 @@ export default function ContactPage() {
                         </label>
                         <input
                           type="text"
-                          placeholder="John Smith"
+                          aria-label="John Smith" placeholder="John Smith"
                           value={form.name}
                           onChange={(e) => setForm({ ...form, name: e.target.value })}
                           className="w-full px-4 py-3 rounded-xl text-sm outline-none"
@@ -156,7 +156,7 @@ export default function ContactPage() {
                         </label>
                         <input
                           type="email"
-                          placeholder="you@email.com"
+                          aria-label="you@email.com" placeholder="you@email.com"
                           value={form.email}
                           onChange={(e) => setForm({ ...form, email: e.target.value })}
                           className="w-full px-4 py-3 rounded-xl text-sm outline-none"
@@ -196,7 +196,7 @@ export default function ContactPage() {
                         Message
                       </label>
                       <textarea
-                        placeholder="Tell us what's on your mind..."
+                        aria-label="Tell us what's on your mind..." placeholder="Tell us what's on your mind..."
                         value={form.message}
                         onChange={(e) => setForm({ ...form, message: e.target.value })}
                         rows={6}
@@ -209,7 +209,7 @@ export default function ContactPage() {
                       />
                     </div>
 
-                    <button
+                    <button type="button"
                       onClick={handleSubmit}
                       className="w-full py-3.5 rounded-xl font-bold text-sm text-black transition-opacity"
                       style={{

@@ -325,7 +325,7 @@ export default function ParablesOfJesusPage() {
     category === "All" ? PARABLES : PARABLES.filter((p) => p.category === category);
 
   const tabBtn = (t: Tab, label: string) => (
-    <button
+    <button type="button"
       key={t}
       onClick={() => setActiveTab(t)}
       style={{
@@ -553,7 +553,7 @@ export default function ParablesOfJesusPage() {
                 const active = category === c;
                 const color = c === "All" ? GREEN : CATEGORY_COLOR[c] ?? GREEN;
                 return (
-                  <button
+                  <button type="button"
                     key={c}
                     onClick={() => setCategory(c)}
                     style={{
@@ -593,7 +593,7 @@ export default function ParablesOfJesusPage() {
                       transition: "border-color 0.2s",
                     }}
                   >
-                    <button
+                    <button type="button"
                       onClick={() => setOpenId(open ? null : p.id)}
                       style={{
                         width: "100%",

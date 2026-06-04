@@ -294,7 +294,7 @@ export default function VerseMemoryPage() {
             <h1 style={{ fontSize: 36, fontWeight: 900, margin: 0, lineHeight: 1.1 }}>Verse Memory</h1>
             <p style={{ fontSize: 14, color: MUTED, marginTop: 6 }}>{verses.length} verses &middot; {mastered} mastered &middot; {verses.length - mastered} in progress</p>
           </div>
-          <button onClick={() => { setAddingVerse(true); setActiveTab("memory"); setInnerTab("library"); }}
+          <button type="button" onClick={() => { setAddingVerse(true); setActiveTab("memory"); setInnerTab("library"); }}
             style={{ padding: "10px 22px", borderRadius: 12, border: "none", background: `linear-gradient(135deg, ${GREEN}, #3a7d56)`, color: BG, fontWeight: 800, fontSize: 14, cursor: "pointer" }}>
             + Add Verse
           </button>
@@ -328,7 +328,7 @@ export default function VerseMemoryPage() {
         {/* OUTER Tab Bar */}
         <div style={{ display: "flex", gap: 6, marginBottom: 28, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {(["memory", "study", "voices", "videos"] as const).map(t => (
-            <button key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer", flex: 1 }}>
+            <button type="button" key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer", flex: 1 }}>
               {t === "memory" ? "Memory" : t === "study" ? "Study" : t === "voices" ? "Voices" : "Videos"}
             </button>
           ))}
@@ -344,7 +344,7 @@ export default function VerseMemoryPage() {
                 { id: "practice", label: "✏️ Practice" },
                 { id: "stats", label: "📊 Stats & Suggestions" },
               ].map(t => (
-                <button key={t.id} onClick={() => setInnerTab(t.id as "library" | "practice" | "stats")}
+                <button type="button" key={t.id} onClick={() => setInnerTab(t.id as "library" | "practice" | "stats")}
                   style={{ padding: "10px 20px", borderRadius: "10px 10px 0 0", border: "none", cursor: "pointer", fontWeight: 700, fontSize: 14, background: innerTab === t.id ? CARD : "transparent", color: innerTab === t.id ? TEXT : MUTED, borderBottom: innerTab === t.id ? `2px solid ${GREEN}` : "2px solid transparent" }}>
                   {t.label}
                 </button>
@@ -358,11 +358,11 @@ export default function VerseMemoryPage() {
                   <div style={{ background: CARD, border: `1px solid rgba(58,125,86,0.25)`, borderRadius: 16, padding: "24px", marginBottom: 20 }}>
                     <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16 }}>
                       <h3 style={{ fontSize: 16, fontWeight: 800, margin: 0 }}>Add a Verse</h3>
-                      <button onClick={() => setAddingVerse(false)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18 }}>×</button>
+                      <button type="button" onClick={() => setAddingVerse(false)} style={{ background: "none", border: "none", color: MUTED, cursor: "pointer", fontSize: 18 }}>×</button>
                     </div>
                     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 10 }}>
                       <input value={newVerse.reference} onChange={e => setNewVerse(p => ({ ...p, reference: e.target.value }))}
-                        placeholder="Reference (e.g. John 3:16)"
+                        aria-label="Reference (e.g. John 3:16)" placeholder="Reference (e.g. John 3:16)"
                         style={{ padding: "10px 14px", borderRadius: 10, border: `1px solid ${BORDER}`, background: "rgba(255,255,255,0.04)", color: TEXT, fontSize: 14, outline: "none" }} />
                       <select value={newVerse.category} onChange={e => setNewVerse(p => ({ ...p, category: e.target.value }))}
                         style={{ padding: "10px 14px", borderRadius: 10, border: `1px solid ${BORDER}`, background: CARD, color: TEXT, fontSize: 14, outline: "none" }}>
@@ -370,10 +370,10 @@ export default function VerseMemoryPage() {
                       </select>
                     </div>
                     <textarea value={newVerse.text} onChange={e => setNewVerse(p => ({ ...p, text: e.target.value }))}
-                      placeholder="Paste the full verse text..." rows={3}
+                      aria-label="Paste the full verse text..." placeholder="Paste the full verse text..." rows={3}
                       style={{ width: "100%", padding: "10px 14px", borderRadius: 10, border: `1px solid ${BORDER}`, background: "rgba(255,255,255,0.04)", color: TEXT, fontSize: 14, resize: "none", outline: "none", marginBottom: 12, boxSizing: "border-box", lineHeight: 1.7 }} />
                     <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                      <button onClick={addVerse} disabled={!newVerse.reference.trim() || !newVerse.text.trim()}
+                      <button type="button" onClick={addVerse} disabled={!newVerse.reference.trim() || !newVerse.text.trim()}
                         style={{ padding: "10px 24px", borderRadius: 10, border: "none", cursor: "pointer", fontWeight: 800, fontSize: 14, background: savedFlash ? "rgba(58,125,86,0.2)" : (newVerse.reference && newVerse.text ? `linear-gradient(135deg, ${GREEN}, #3a7d56)` : BORDER), color: savedFlash ? GREEN : (newVerse.reference && newVerse.text ? BG : MUTED) }}>
                         {savedFlash ? "✓ Saved!" : "Save Verse"}
                       </button>
@@ -383,7 +383,7 @@ export default function VerseMemoryPage() {
 
                 <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 20 }}>
                   {allCategories.map(cat => (
-                    <button key={cat} onClick={() => setActiveCategory(cat)}
+                    <button type="button" key={cat} onClick={() => setActiveCategory(cat)}
                       style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${activeCategory === cat ? (categoryColors[cat] || GREEN) + "60" : BORDER}`, background: activeCategory === cat ? `${categoryColors[cat] || GREEN}15` : "transparent", color: activeCategory === cat ? categoryColors[cat] || GREEN : MUTED, fontSize: 12, fontWeight: 600, cursor: "pointer" }}>
                       {cat}
                     </button>
@@ -407,11 +407,11 @@ export default function VerseMemoryPage() {
                           {verse.mastered && <span style={{ fontSize: 11, padding: "2px 10px", borderRadius: 20, background: "rgba(58,125,86,0.1)", color: GREEN, fontWeight: 700 }}>✓ Mastered</span>}
                         </div>
                         <div style={{ display: "flex", gap: 6, flexShrink: 0 }}>
-                          <button onClick={() => startReview(verse.id)}
+                          <button type="button" onClick={() => startReview(verse.id)}
                             style={{ padding: "6px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: "rgba(255,255,255,0.04)", color: MUTED, cursor: "pointer", fontSize: 12, fontWeight: 700 }}>
                             Practice
                           </button>
-                          <button onClick={() => toggleMastered(verse.id)} title={verse.mastered ? "Mark as in-progress" : "Mark as mastered"}
+                          <button type="button" onClick={() => toggleMastered(verse.id)} title={verse.mastered ? "Mark as in-progress" : "Mark as mastered"}
                             style={{ width: 32, height: 32, borderRadius: 8, border: `1px solid ${verse.mastered ? GREEN + "40" : BORDER}`, background: verse.mastered ? "rgba(58,125,86,0.1)" : "transparent", cursor: "pointer", fontSize: 14, color: verse.mastered ? GREEN : MUTED }}>
                             {verse.mastered ? "✓" : "○"}
                           </button>
@@ -444,7 +444,7 @@ export default function VerseMemoryPage() {
                             <p style={{ fontWeight: 800, fontSize: 14, margin: "0 0 4px" }}><VerseRef reference={v.reference} /></p>
                             <p style={{ fontSize: 12, color: MUTED, margin: 0 }}>{v.reviewCount} reviews &middot; {v.category}</p>
                           </div>
-                          <button onClick={() => startReview(v.id)}
+                          <button type="button" onClick={() => startReview(v.id)}
                             style={{ padding: "8px 18px", borderRadius: 10, border: "none", background: `linear-gradient(135deg, ${PURPLE}, #8B6FDB)`, color: TEXT, cursor: "pointer", fontSize: 13, fontWeight: 700 }}>
                             Practice →
                           </button>
@@ -462,7 +462,7 @@ export default function VerseMemoryPage() {
                         <h3 style={{ fontSize: 18, fontWeight: 800, margin: 0 }}>Practice</h3>
                         <p style={{ fontSize: 14, color: PURPLE, fontWeight: 700, margin: "4px 0 0" }}><VerseRef reference={reviewingVerse.reference} /></p>
                       </div>
-                      <button onClick={() => { setReviewingId(null); setQuizResult(null); setUserInput(""); setShowAnswer(false); }}
+                      <button type="button" onClick={() => { setReviewingId(null); setQuizResult(null); setUserInput(""); setShowAnswer(false); }}
                         style={{ background: "rgba(255,255,255,0.06)", border: `1px solid ${BORDER}`, borderRadius: 10, padding: "8px 14px", color: MUTED, cursor: "pointer", fontSize: 13, fontWeight: 700 }}>
                         ← Back
                       </button>
@@ -478,14 +478,14 @@ export default function VerseMemoryPage() {
                       <div>
                         <p style={{ fontSize: 14, color: MUTED, marginBottom: 12 }}>Type the verse from memory. Punctuation doesn&rsquo;t need to be exact.</p>
                         <textarea value={userInput} onChange={e => setUserInput(e.target.value)}
-                          placeholder="Type the verse here..." rows={4}
+                          aria-label="Type the verse here..." placeholder="Type the verse here..." rows={4}
                           style={{ width: "100%", padding: "12px 16px", borderRadius: 12, border: `1px solid ${BORDER}`, background: "rgba(255,255,255,0.03)", color: TEXT, fontSize: 14, resize: "none", outline: "none", lineHeight: 1.7, marginBottom: 12, boxSizing: "border-box" }} />
                         <div style={{ display: "flex", gap: 10 }}>
-                          <button onClick={checkAnswer} disabled={!userInput.trim()}
+                          <button type="button" onClick={checkAnswer} disabled={!userInput.trim()}
                             style={{ padding: "10px 22px", borderRadius: 10, border: "none", background: userInput.trim() ? `linear-gradient(135deg, ${PURPLE}, #8B6FDB)` : BORDER, color: userInput.trim() ? TEXT : MUTED, cursor: userInput.trim() ? "pointer" : "not-allowed", fontSize: 14, fontWeight: 800 }}>
                             Check Answer
                           </button>
-                          <button onClick={() => setShowAnswer(!showAnswer)}
+                          <button type="button" onClick={() => setShowAnswer(!showAnswer)}
                             style={{ padding: "10px 18px", borderRadius: 10, border: `1px solid ${BORDER}`, background: "rgba(255,255,255,0.04)", color: MUTED, cursor: "pointer", fontSize: 13, fontWeight: 700 }}>
                             {showAnswer ? "Hide Verse" : "Show Verse"}
                           </button>
@@ -500,12 +500,12 @@ export default function VerseMemoryPage() {
                           <p style={{ fontSize: 14, fontStyle: "italic", color: "#C0C0D8", lineHeight: 1.8, margin: 0 }}>&ldquo;{reviewingVerse.text}&rdquo;</p>
                         </div>
                         <div style={{ display: "flex", gap: 10 }}>
-                          <button onClick={() => { setQuizResult(null); setUserInput(""); setShowAnswer(false); }}
+                          <button type="button" onClick={() => { setQuizResult(null); setUserInput(""); setShowAnswer(false); }}
                             style={{ padding: "10px 18px", borderRadius: 10, border: `1px solid ${BORDER}`, background: "rgba(255,255,255,0.04)", color: MUTED, cursor: "pointer", fontSize: 13, fontWeight: 700 }}>
                             ↺ Try Again
                           </button>
                           {quizResult === "correct" && (
-                            <button onClick={() => { toggleMastered(reviewingVerse.id); setReviewingId(null); setQuizResult(null); setUserInput(""); setShowAnswer(false); }}
+                            <button type="button" onClick={() => { toggleMastered(reviewingVerse.id); setReviewingId(null); setQuizResult(null); setUserInput(""); setShowAnswer(false); }}
                               style={{ padding: "10px 20px", borderRadius: 10, border: `1px solid ${GREEN}40`, background: "rgba(58,125,86,0.12)", color: GREEN, cursor: "pointer", fontSize: 13, fontWeight: 800 }}>
                               🏆 Mark as Mastered
                             </button>
@@ -555,7 +555,7 @@ export default function VerseMemoryPage() {
                           </div>
                           <p style={{ fontSize: 13, color: MUTED, lineHeight: 1.6, margin: 0, fontStyle: "italic" }}>&ldquo;{v.text.slice(0, 80)}&hellip;&rdquo;</p>
                         </div>
-                        <button onClick={() => addSuggested(v)} disabled={added}
+                        <button type="button" onClick={() => addSuggested(v)} disabled={added}
                           style={{ padding: "8px 16px", borderRadius: 10, border: `1px solid ${added ? GREEN + "40" : BORDER}`, background: added ? "rgba(58,125,86,0.08)" : "rgba(255,255,255,0.04)", color: added ? GREEN : MUTED, cursor: added ? "not-allowed" : "pointer", fontSize: 12, fontWeight: 700, flexShrink: 0 }}>
                           {added ? "✓ Added" : "+ Add"}
                         </button>
@@ -647,7 +647,7 @@ export default function VerseMemoryPage() {
           <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
               {VOICES_MEM.map(v => (
-                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                   style={{ background: selectedVoice === v.id ? PURPLE : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: TEXT, fontWeight: 700, fontSize: 14 }}>{v.name}</div>
                   <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{v.era}</div>

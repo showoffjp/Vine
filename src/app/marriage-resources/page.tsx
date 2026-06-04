@@ -93,7 +93,7 @@ export default function MarriageResourcesPage() {
 
         <div style={{ display: "flex", gap: 4, marginBottom: 28, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
           {(["books", "premarriage", "principles", "challenges", "counseling", "videos"] as Tab[]).map(t => (
-            <button key={t} onClick={() => { setTab(t); setSelected(null); }}
+            <button type="button" key={t} onClick={() => { setTab(t); setSelected(null); }}
               style={{ padding: "8px 16px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
               {t === "books" ? "Books" : t === "premarriage" ? "Pre-Marriage" : t === "principles" ? "Principles" : t === "challenges" ? "Common Challenges" : t === "counseling" ? "Counseling" : "Videos"}
             </button>
@@ -104,7 +104,7 @@ export default function MarriageResourcesPage() {
           <div style={{ display: "grid", gridTemplateColumns: book ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {BOOKS.map((b, i) => (
-                <button key={i} onClick={() => setSelected(selected === b.title ? null : b.title)}
+                <button type="button" key={i} onClick={() => setSelected(selected === b.title ? null : b.title)}
                   style={{ background: selected === b.title ? `${b.color}12` : CARD, border: `1px solid ${selected === b.title ? b.color + "50" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: TEXT, fontWeight: 800, fontSize: 15, marginBottom: 4 }}>{b.title}</div>
                   <div style={{ color: MUTED, fontSize: 12 }}>{b.author}</div>

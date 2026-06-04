@@ -357,14 +357,14 @@ export default function EventsPage() {
               <Search size={16} style={{ color: "#6A6A88" }} />
               <input
                 type="text"
-                placeholder="Search events by name, location, or topic..."
+                aria-label="Search events by name, location, or topic..." placeholder="Search events by name, location, or topic..."
                 className="flex-1 bg-transparent text-sm outline-none"
                 style={{ color: "#F2F2F8" }}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
               {searchQuery && (
-                <button onClick={() => setSearchQuery("")} style={{ color: "#6A6A88" }}>
+                <button type="button" onClick={() => setSearchQuery("")} style={{ color: "#6A6A88" }}>
                   <X size={14} />
                 </button>
               )}
@@ -375,7 +375,7 @@ export default function EventsPage() {
               {/* Type filters */}
               <div className="flex flex-wrap gap-2">
                 {typeFilters.map((f) => (
-                  <button
+                  <button type="button"
                     key={f}
                     onClick={() => setActiveType(f)}
                     className="text-xs font-semibold px-4 py-2 rounded-full transition-all duration-150"
@@ -396,7 +396,7 @@ export default function EventsPage() {
               {/* Month filters */}
               <div className="flex flex-wrap gap-2">
                 {monthFilters.map((m) => (
-                  <button
+                  <button type="button"
                     key={m}
                     onClick={() => setActiveMonth(activeMonth === m ? null : m)}
                     className="text-xs font-semibold px-3 py-2 rounded-full transition-all"
@@ -415,7 +415,7 @@ export default function EventsPage() {
               <div className="w-px h-6 hidden sm:block" style={{ background: "#1E1E32" }} />
 
               {/* Near Me toggle */}
-              <button
+              <button type="button"
                 onClick={() => setNearMe(!nearMe)}
                 className="flex items-center gap-2 text-xs font-semibold px-4 py-2 rounded-full transition-all"
                 style={{
@@ -435,7 +435,7 @@ export default function EventsPage() {
                 <span className="text-xs" style={{ color: "#6A6A88" }}>
                   {filtered.length} {filtered.length === 1 ? "event" : "events"} found
                 </span>
-                <button
+                <button type="button"
                   onClick={() => { setActiveType("All"); setActiveMonth(null); setSearchQuery(""); setNearMe(false); }}
                   className="text-xs px-3 py-1 rounded-full font-semibold"
                   style={{ background: "rgba(239,68,68,0.1)", color: "#EF4444", border: "1px solid rgba(239,68,68,0.2)" }}
@@ -547,7 +547,7 @@ export default function EventsPage() {
               </h2>
               <div className="flex items-center gap-2">
                 <span className="text-sm" style={{ color: "#6A6A88" }}>Sort by:</span>
-                <button
+                <button type="button"
                   onClick={() => setSortDir(sortDir === "asc" ? "desc" : "asc")}
                   className="flex items-center gap-1 text-sm font-semibold"
                   style={{ color: "#3a7d56" }}
@@ -566,7 +566,7 @@ export default function EventsPage() {
                 <p className="text-4xl mb-4">🔍</p>
                 <p className="font-bold text-lg mb-2" style={{ color: "#F2F2F8" }}>No events match your filters</p>
                 <p className="text-sm mb-4" style={{ color: "#6A6A88" }}>Try adjusting your search or clearing some filters.</p>
-                <button
+                <button type="button"
                   onClick={() => { setActiveType("All"); setActiveMonth(null); setSearchQuery(""); setNearMe(false); }}
                   className="px-6 py-2.5 rounded-xl text-sm font-bold text-black"
                   style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}
@@ -601,7 +601,7 @@ export default function EventsPage() {
                 events
               </p>
               {visible.length < filtered.length && (
-                <button
+                <button type="button"
                   onClick={() => setVisibleCount((c) => c + 6)}
                   className="flex items-center gap-2 px-8 py-3 rounded-xl text-sm font-bold"
                   style={{
@@ -723,7 +723,7 @@ function EventCard({ event, going, saved, onToggleGoing, onToggleSaved }: {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <button
+          <button type="button"
             onClick={(e) => stop(e, onToggleGoing)}
             aria-label={going ? "Cancel RSVP" : "Mark as going"}
             title={going ? "You're going" : "I'm going"}
@@ -732,7 +732,7 @@ function EventCard({ event, going, saved, onToggleGoing, onToggleSaved }: {
           >
             <Check size={15} />
           </button>
-          <button
+          <button type="button"
             onClick={(e) => stop(e, onToggleSaved)}
             aria-label={saved ? "Remove from saved" : "Save event"}
             title={saved ? "Saved" : "Save event"}

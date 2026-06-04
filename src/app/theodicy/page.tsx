@@ -116,7 +116,7 @@ export default function TheodPage() {
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
             { id: "videos" as const, label: "Videos", icon: "▶️" },
           ].map(t => (
-            <button key={t.id} onClick={() => setTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -141,7 +141,7 @@ export default function TheodPage() {
           <div>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 20 }}>
               {RESPONSES.map(r => (
-                <button key={r.response} onClick={() => setSelectedResponse(r.response)}
+                <button type="button" key={r.response} onClick={() => setSelectedResponse(r.response)}
                   style={{ padding: "8px 12px", borderRadius: 20, border: `1px solid ${selectedResponse === r.response ? r.color : BORDER}`, background: selectedResponse === r.response ? `${r.color}20` : "transparent", color: selectedResponse === r.response ? r.color : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
                   {r.response}
                 </button>
@@ -171,7 +171,7 @@ export default function TheodPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 210, flexShrink: 0 }}>
               {WITNESSES.map(w => (
-                <button key={w.id} onClick={() => setSelectedWitness(w.id)}
+                <button type="button" key={w.id} onClick={() => setSelectedWitness(w.id)}
                   style={{ width: "100%", textAlign: "left", background: selectedWitness === w.id ? `${w.color}18` : CARD, border: `1px solid ${selectedWitness === w.id ? w.color : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 8, cursor: "pointer" }}>
                   <div style={{ color: selectedWitness === w.id ? w.color : TEXT, fontWeight: 700, fontSize: 13, marginBottom: 3 }}>{w.name}</div>
                   <div style={{ color: MUTED, fontSize: 11 }}>{w.work}</div>

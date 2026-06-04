@@ -272,7 +272,7 @@ export default function PodcastPage() {
               <Search size={16} style={{ color: "#6A6A88" }} />
               <input
                 type="text"
-                placeholder="Search shows or hosts..."
+                aria-label="Search shows or hosts..." placeholder="Search shows or hosts..."
                 className="flex-1 bg-transparent outline-none text-sm"
                 style={{ color: "#F2F2F8" }}
                 value={search}
@@ -286,7 +286,7 @@ export default function PodcastPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
           <div className="flex gap-2 flex-wrap">
             {categories.map((cat) => (
-              <button
+              <button type="button"
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
                 className="text-xs font-semibold px-4 py-2 rounded-full transition-all"
@@ -315,7 +315,7 @@ export default function PodcastPage() {
             <div className="rounded-2xl p-12 text-center" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>
               <p className="text-4xl mb-4">🎙️</p>
               <p className="font-bold text-lg mb-2" style={{ color: "#F2F2F8" }}>No shows found</p>
-              <button onClick={() => { setActiveCategory("All"); setSearch(""); }} className="text-sm mt-1" style={{ color: "#3a7d56" }}>Clear filters</button>
+              <button type="button" onClick={() => { setActiveCategory("All"); setSearch(""); }} className="text-sm mt-1" style={{ color: "#3a7d56" }}>Clear filters</button>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -358,7 +358,7 @@ export default function PodcastPage() {
                       <span>{show.subscribers}</span>
                     </div>
 
-                    <button
+                    <button type="button"
                       onClick={() => toggleSubscribe(show.id)}
                       className="w-full py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5"
                       style={{
@@ -421,7 +421,7 @@ export default function PodcastPage() {
                         ))}
                       </div>
                       <div className="flex items-center gap-2">
-                        <button
+                        <button type="button"
                           onClick={() => { setPlayingEp(isPlaying ? null : i); setGlobalPlaying(!isPlaying); }}
                           className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all"
                           style={{
@@ -433,7 +433,7 @@ export default function PodcastPage() {
                           {isPlaying ? <Pause size={11} /> : <Play size={11} />}
                           {isPlaying ? "Pause" : "Play"}
                         </button>
-                        <button
+                        <button type="button"
                           onClick={() => toggleSave(i)}
                           className="p-1.5 rounded-lg transition-all"
                           style={{
@@ -512,18 +512,18 @@ export default function PodcastPage() {
               <p className="text-xs" style={{ color: "#6A6A88" }}>{featuredEpisodes[playingEp].show}</p>
             </div>
             <div className="flex items-center gap-3">
-              <button
+              <button type="button"
                 onClick={() => { setPlayingEp((p) => (p === null ? 0 : (p - 1 + featuredEpisodes.length) % featuredEpisodes.length)); setProgress(0); setGlobalPlaying(true); }}
                 style={{ color: "#8A8AA8", background: "transparent", border: "none", cursor: "pointer" }}
               ><SkipBack size={16} /></button>
-              <button
+              <button type="button"
                 onClick={() => setGlobalPlaying(!globalPlaying)}
                 className="w-9 h-9 rounded-full flex items-center justify-center"
                 style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)", border: "none", cursor: "pointer" }}
               >
                 {globalPlaying ? <Pause size={14} style={{ color: "#000" }} /> : <Play size={14} style={{ color: "#000", marginLeft: "2px" }} />}
               </button>
-              <button
+              <button type="button"
                 onClick={() => { setPlayingEp((p) => (p === null ? 0 : (p + 1) % featuredEpisodes.length)); setProgress(0); setGlobalPlaying(true); }}
                 style={{ color: "#8A8AA8", background: "transparent", border: "none", cursor: "pointer" }}
               ><SkipForward size={16} /></button>
@@ -546,7 +546,7 @@ export default function PodcastPage() {
               <span className="text-xs" style={{ color: "#6A6A88" }}>{featuredEpisodes[playingEp].duration}</span>
             </div>
             <Volume2 size={16} style={{ color: "#6A6A88" }} className="hidden lg:block" />
-            <button
+            <button type="button"
               onClick={() => { setPlayingEp(null); setGlobalPlaying(false); }}
               className="text-xs px-2 py-1 rounded"
               style={{ color: "#4A4A68" }}

@@ -232,7 +232,7 @@ export default function SearchPage() {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyDown={(e) => { if (e.key === "Enter") submitSearch(query); }}
-                placeholder="Search articles, scripture, discussions, people..."
+                aria-label="Search articles, scripture, discussions, people..." placeholder="Search articles, scripture, discussions, people..."
                 className="w-full pl-14 pr-12 py-4 rounded-2xl text-base outline-none"
                 style={{
                   background: "rgba(255,255,255,0.05)",
@@ -242,7 +242,7 @@ export default function SearchPage() {
                 }}
               />
               {query && (
-                <button onClick={() => setQuery("")} className="absolute right-4 top-1/2 -translate-y-1/2" style={{ color: "#6A6A88" }}>
+                <button type="button" onClick={() => setQuery("")} className="absolute right-4 top-1/2 -translate-y-1/2" style={{ color: "#6A6A88" }}>
                   <X size={18} />
                 </button>
               )}
@@ -253,7 +253,7 @@ export default function SearchPage() {
               <div className="flex items-center gap-2 mt-4 flex-wrap">
                 <span className="text-xs" style={{ color: "#4A4A68" }}>Recent:</span>
                 {recentSearches.map((s) => (
-                  <button
+                  <button type="button"
                     key={s}
                     onClick={() => { setQuery(s); submitSearch(s); }}
                     className="flex items-center gap-1 text-xs px-3 py-1 rounded-full transition-all"
@@ -275,7 +275,7 @@ export default function SearchPage() {
                 <p className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: "#4A4A68" }}>Filter by type</p>
                 <div className="space-y-1">
                   {categories.map((cat) => (
-                    <button
+                    <button type="button"
                       key={cat.label}
                       onClick={() => setActiveCategory(cat.label)}
                       className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-semibold text-left transition-all"
@@ -297,7 +297,7 @@ export default function SearchPage() {
                   </p>
                   <div className="space-y-2">
                     {trending.slice(0, 7).map((t, i) => (
-                      <button
+                      <button type="button"
                         key={t}
                         onClick={() => setQuery(t)}
                         className="flex items-center gap-2 text-xs w-full text-left group"
@@ -317,7 +317,7 @@ export default function SearchPage() {
               {/* Category pills (mobile) */}
               <div className="flex gap-2 flex-wrap mb-6 lg:hidden">
                 {categories.map((cat) => (
-                  <button
+                  <button type="button"
                     key={cat.label}
                     onClick={() => setActiveCategory(cat.label)}
                     className="px-3 py-1.5 rounded-full text-xs font-semibold"
@@ -397,7 +397,7 @@ export default function SearchPage() {
                   <p className="text-sm mb-6" style={{ color: "#6A6A88" }}>Try different keywords or browse by category</p>
                   <div className="flex flex-wrap gap-2 justify-center">
                     {trending.slice(0, 5).map((t) => (
-                      <button
+                      <button type="button"
                         key={t}
                         onClick={() => setQuery(t)}
                         className="px-4 py-2 rounded-xl text-sm"

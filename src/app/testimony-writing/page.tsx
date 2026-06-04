@@ -125,7 +125,7 @@ export default function TestimonyWritingPage() {
             { id: "write" as const, label: "Write It", icon: "✍️" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -165,7 +165,7 @@ export default function TestimonyWritingPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 210, flexShrink: 0 }}>
               {WITNESSES.map(w => (
-                <button key={w.id} onClick={() => setSelectedWitness(w.id)}
+                <button type="button" key={w.id} onClick={() => setSelectedWitness(w.id)}
                   style={{ width: "100%", background: selectedWitness === w.id ? `${PURPLE}18` : "transparent", border: `1px solid ${selectedWitness === w.id ? PURPLE + "70" : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 6, cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: selectedWitness === w.id ? PURPLE : TEXT, fontWeight: 800, fontSize: 13, marginBottom: 2 }}>{w.name}</div>
                   <div style={{ color: MUTED, fontSize: 11 }}>{w.era}</div>
@@ -214,7 +214,7 @@ export default function TestimonyWritingPage() {
               <h3 style={{ color: "#EF4444", fontWeight: 800, fontSize: 17, marginBottom: 14 }}>Common Pitfalls</h3>
               {PITFALLS.map(p => (
                 <div key={p.pitfall} style={{ marginBottom: 10 }}>
-                  <button onClick={() => setExpandedPitfall(expandedPitfall === p.pitfall ? null : p.pitfall)}
+                  <button type="button" onClick={() => setExpandedPitfall(expandedPitfall === p.pitfall ? null : p.pitfall)}
                     style={{ width: "100%", background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontWeight: 700, fontSize: 14, cursor: "pointer", display: "flex", justifyContent: "space-between", textAlign: "left" }}>
                     <span>{p.pitfall}</span><span style={{ color: MUTED }}>{expandedPitfall === p.pitfall ? "−" : "+"}</span>
                   </button>

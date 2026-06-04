@@ -268,7 +268,7 @@ export default function GlobalConnectPage() {
                     <p className="text-xs mb-1 font-bold" style={{ color: "#3a7d56" }}>🔥 Active Discussion</p>
                     <p className="text-sm" style={{ color: "#8A8AA8" }}>{r.activeDiscussion}</p>
                   </Link>
-                  <button
+                  <button type="button"
                     onClick={() => toggleCircle(i)}
                     className="w-full py-2.5 rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2"
                     style={{
@@ -335,7 +335,7 @@ export default function GlobalConnectPage() {
                     Story
                   </a>
                 ) : (
-                  <button
+                  <button type="button"
                     onClick={() => toggleConnect(m.name)}
                     className="text-xs px-2.5 py-1 rounded-full font-semibold shrink-0 transition-all"
                     style={{
@@ -380,7 +380,7 @@ export default function GlobalConnectPage() {
                         <p className="text-sm leading-relaxed" style={{ color: "#A0A0C0" }}>{p.request}</p>
                         <div className="flex items-center gap-3 mt-2">
                           <span className="text-xs" style={{ color: "#4A4A68" }}>{p.time}</span>
-                          <button
+                          <button type="button"
                             onClick={() => handlePray(p.id)}
                             disabled={prayed}
                             className="text-xs flex items-center gap-1 font-semibold transition-all"
@@ -442,7 +442,7 @@ export default function GlobalConnectPage() {
                     Location saved
                   </div>
                 ) : (
-                  <button
+                  <button type="button"
                     onClick={() => setLocationSet(true)}
                     className="w-full py-2.5 rounded-xl text-sm font-bold text-black"
                     style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}

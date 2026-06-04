@@ -329,7 +329,7 @@ export default function BibleOverviewPage() {
         <div style={{ marginBottom: 28 }}>
           <div style={{ display: "flex", gap: 6, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}`, width: "fit-content" }}>
             {(["books", "themes", "timeline", "voices", "videos"] as const).map(t => (
-              <button key={t} onClick={() => setActiveTab(t)}
+              <button type="button" key={t} onClick={() => setActiveTab(t)}
                 style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
                 {t === "books" ? "Books" : t === "themes" ? "Themes" : t === "timeline" ? "Timeline" : t === "voices" ? "Voices" : "🎬 Videos"}
               </button>
@@ -342,11 +342,11 @@ export default function BibleOverviewPage() {
           <>
             {/* Filters */}
             <div style={{ display: "flex", gap: 12, marginBottom: 24, flexWrap: "wrap", alignItems: "center" }}>
-              <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search books..."
+              <input value={search} onChange={e => setSearch(e.target.value)} aria-label="Search books..." placeholder="Search books..."
                 style={{ flex: 1, minWidth: 200, padding: "8px 14px", borderRadius: 10, background: CARD, border: `1px solid ${BORDER}`, color: TEXT, fontSize: 14, outline: "none" }} />
               <div style={{ display: "flex", gap: 6 }}>
                 {TESTAMENTS.map(t => (
-                  <button key={t} onClick={() => setTestamentFilter(t)}
+                  <button type="button" key={t} onClick={() => setTestamentFilter(t)}
                     style={{ padding: "7px 14px", borderRadius: 10, border: `1px solid ${testamentFilter === t ? GREEN : BORDER}`, background: testamentFilter === t ? "rgba(58,125,86,0.1)" : "transparent", color: testamentFilter === t ? GREEN : MUTED, fontSize: 13, cursor: "pointer", fontWeight: testamentFilter === t ? 700 : 400 }}>
                     {t === "OT" ? "Old Testament" : t === "NT" ? "New Testament" : "All"}
                   </button>
@@ -373,7 +373,7 @@ export default function BibleOverviewPage() {
                         <span style={{ fontSize: 11, padding: "2px 8px", borderRadius: 20, background: BORDER, color: MUTED }}>{book.chapters} chapters</span>
                       </div>
                     </div>
-                    <button onClick={e => { e.stopPropagation(); toggleSave(book.name); }}
+                    <button type="button" onClick={e => { e.stopPropagation(); toggleSave(book.name); }}
                       style={{ background: "none", border: "none", cursor: "pointer", fontSize: 16, color: savedIds.has(book.name) ? "#FFD700" : "#4A4A68" }}>
                       {savedIds.has(book.name) ? "★" : "☆"}
                     </button>
@@ -384,7 +384,7 @@ export default function BibleOverviewPage() {
                   </p>
                   <div style={{ marginTop: 12, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                     <span style={{ fontSize: 12, color: "#6A6A88" }}>{book.author} &middot; {book.date}</span>
-                    <button onClick={e => { e.stopPropagation(); toggleRead(book.name); }}
+                    <button type="button" onClick={e => { e.stopPropagation(); toggleRead(book.name); }}
                       style={{ fontSize: 11, padding: "3px 10px", borderRadius: 8, border: `1px solid ${readIds.has(book.name) ? "rgba(58,125,86,0.3)" : "#2A2A40"}`, background: readIds.has(book.name) ? "rgba(58,125,86,0.1)" : "transparent", color: readIds.has(book.name) ? GREEN : "#6A6A88", cursor: "pointer", fontWeight: 600 }}>
                       {readIds.has(book.name) ? "✓ Read" : "Mark Read"}
                     </button>
@@ -481,7 +481,7 @@ export default function BibleOverviewPage() {
               {/* Left panel */}
               <div style={{ width: 210, flexShrink: 0, position: "sticky", top: 20, display: "flex", flexDirection: "column", gap: 8 }}>
                 {VOICES_BIBLE.map(v => (
-                  <button key={v.id} onClick={() => setSelectedVoice(v)}
+                  <button type="button" key={v.id} onClick={() => setSelectedVoice(v)}
                     style={{ background: selectedVoice.id === v.id ? `${PURPLE}25` : CARD, border: `1px solid ${selectedVoice.id === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left", transition: "all 0.15s" }}>
                     <div style={{ fontSize: 14, fontWeight: 700, color: selectedVoice.id === v.id ? TEXT : MUTED, marginBottom: 2 }}>{v.name}</div>
                     <div style={{ fontSize: 11, color: MUTED }}>{v.era}</div>
@@ -558,7 +558,7 @@ export default function BibleOverviewPage() {
                   <span style={{ fontSize: 12, padding: "3px 10px", borderRadius: 20, background: BORDER, color: MUTED }}>{selected.chapters} chapters</span>
                 </div>
               </div>
-              <button onClick={() => setSelected(null)} style={{ background: "none", border: "none", color: "#6A6A88", fontSize: 22, cursor: "pointer" }}>×</button>
+              <button type="button" onClick={() => setSelected(null)} style={{ background: "none", border: "none", color: "#6A6A88", fontSize: 22, cursor: "pointer" }}>×</button>
             </div>
 
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 20 }}>
@@ -593,11 +593,11 @@ export default function BibleOverviewPage() {
             </div>
 
             <div style={{ display: "flex", gap: 12 }}>
-              <button onClick={() => toggleRead(selected.name)}
+              <button type="button" onClick={() => toggleRead(selected.name)}
                 style={{ flex: 1, padding: "12px", borderRadius: 12, border: `1px solid ${readIds.has(selected.name) ? "rgba(58,125,86,0.4)" : "#2A2A40"}`, background: readIds.has(selected.name) ? "rgba(58,125,86,0.12)" : BORDER, color: readIds.has(selected.name) ? GREEN : MUTED, cursor: "pointer", fontWeight: 700, fontSize: 14 }}>
                 {readIds.has(selected.name) ? "✓ Marked as Read" : "Mark as Read"}
               </button>
-              <button onClick={() => toggleSave(selected.name)}
+              <button type="button" onClick={() => toggleSave(selected.name)}
                 style={{ padding: "12px 20px", borderRadius: 12, border: `1px solid ${savedIds.has(selected.name) ? "rgba(255,215,0,0.3)" : "#2A2A40"}`, background: savedIds.has(selected.name) ? "rgba(255,215,0,0.08)" : BORDER, color: savedIds.has(selected.name) ? "#FFD700" : MUTED, cursor: "pointer", fontWeight: 700, fontSize: 16 }}>
                 {savedIds.has(selected.name) ? "★" : "☆"}
               </button>

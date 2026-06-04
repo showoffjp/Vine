@@ -163,7 +163,7 @@ export default function BiblicalCounselingPage() {
             { id: "voices" as const, label: "Key Voices", icon: "🎓" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 15, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -186,7 +186,7 @@ export default function BiblicalCounselingPage() {
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 12 }}>
               {TOPICS.map(t => (
-                <button key={t.id} onClick={() => { setSelectedTopic(t.id); setActiveTab("topics"); }}
+                <button type="button" key={t.id} onClick={() => { setSelectedTopic(t.id); setActiveTab("topics"); }}
                   style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, cursor: "pointer", textAlign: "left" }}>
                   <div style={{ fontSize: 28, marginBottom: 8 }}>{t.icon}</div>
                   <div style={{ color: t.color, fontWeight: 800, fontSize: 15, marginBottom: 4 }}>{t.name}</div>
@@ -201,7 +201,7 @@ export default function BiblicalCounselingPage() {
           <div>
             <div style={{ display: "flex", gap: 8, marginBottom: 20, flexWrap: "wrap" }}>
               {TOPICS.map(t => (
-                <button key={t.id} onClick={() => setSelectedTopic(t.id)}
+                <button type="button" key={t.id} onClick={() => setSelectedTopic(t.id)}
                   style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${selectedTopic === t.id ? t.color : BORDER}`, background: selectedTopic === t.id ? `${t.color}15` : CARD, color: selectedTopic === t.id ? t.color : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
                   {t.icon} {t.name}
                 </button>
@@ -223,7 +223,7 @@ export default function BiblicalCounselingPage() {
                 { id: "warning", label: "When to Seek Professional Help", content: null },
               ].map(section => (
                 <div key={section.id} style={{ marginBottom: 10, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
-                  <button onClick={() => setOpenSection(openSection === section.id ? "" : section.id)}
+                  <button type="button" onClick={() => setOpenSection(openSection === section.id ? "" : section.id)}
                     style={{ width: "100%", padding: "13px 18px", background: openSection === section.id ? `${topic.color}10` : "transparent", border: "none", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                     <span style={{ color: openSection === section.id ? topic.color : TEXT, fontWeight: 700, fontSize: 14 }}>{section.label}</span>
                     <span style={{ color: MUTED }}>{openSection === section.id ? "−" : "+"}</span>
@@ -290,7 +290,7 @@ export default function BiblicalCounselingPage() {
           <div style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 80 }}>
               {VOICES_BC.map(v => (
-                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                   style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? "rgba(58,125,86,0.4)" : BORDER}`, background: selectedVoice === v.id ? "rgba(58,125,86,0.08)" : CARD, cursor: "pointer" }}>
                   <div style={{ fontSize: 13, fontWeight: 700, color: selectedVoice === v.id ? GREEN : TEXT, marginBottom: 2 }}>{v.name}</div>
                   <div style={{ fontSize: 11, color: MUTED }}>{v.era}</div>

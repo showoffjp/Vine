@@ -154,7 +154,7 @@ export default function PentecostalismPage() {
             { id: "critiques" as Tab, label: "Critiques & Cautions", icon: "⚖️" },
             { id: "videos" as Tab, label: "Videos", icon: "🎬" },
           ]).map(t => (
-            <button key={t.id} onClick={() => setTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? "#EF4444" : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", minWidth: 100 }}>
               {t.icon} {t.label}
             </button>
@@ -191,7 +191,7 @@ export default function PentecostalismPage() {
             <div style={{ display: "grid", gridTemplateColumns: "220px 1fr", gap: 16 }}>
               <div>
                 {THEOLOGY_ITEMS.map(t => (
-                  <button key={t.doctrine} onClick={() => setSelectedTheology(t.doctrine)}
+                  <button type="button" key={t.doctrine} onClick={() => setSelectedTheology(t.doctrine)}
                     style={{ width: "100%", padding: "12px 14px", borderRadius: 10, border: `1px solid ${selectedTheology === t.doctrine ? t.color : BORDER}`, background: selectedTheology === t.doctrine ? `${t.color}15` : "transparent", color: selectedTheology === t.doctrine ? t.color : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer", marginBottom: 6, textAlign: "left" }}>
                     {t.doctrine}
                   </button>
@@ -214,7 +214,7 @@ export default function PentecostalismPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 200, flexShrink: 0 }}>
               {HISTORY_FIGURES.map(h => (
-                <button key={h.name} onClick={() => setSelectedFigure(h.name)}
+                <button type="button" key={h.name} onClick={() => setSelectedFigure(h.name)}
                   style={{ width: "100%", padding: "12px 14px", borderRadius: 10, border: `1px solid ${selectedFigure === h.name ? h.color : BORDER}`, background: selectedFigure === h.name ? `${h.color}12` : "transparent", color: selectedFigure === h.name ? h.color : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer", marginBottom: 6, textAlign: "left" }}>
                   <div>{h.name}</div>
                   <div style={{ fontWeight: 400, fontSize: 10, marginTop: 2 }}>{h.dates}</div>

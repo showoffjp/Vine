@@ -423,7 +423,7 @@ export default function MentalHealthPage() {
         <div style={{ maxWidth: "1100px", margin: "0 auto", padding: "0 24px" }}>
           <div style={{ display: "flex", gap: 4, padding: "8px 0 0", background: "transparent" }}>
             {(["resources", "theology", "support", "voices", "videos"] as const).map(t => (
-              <button key={t} onClick={() => setActiveTab(t)}
+              <button type="button" key={t} onClick={() => setActiveTab(t)}
                 style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
                 {t === "resources" ? "Resources" : t === "theology" ? "Theology" : t === "support" ? "Support Types" : t === "voices" ? "Voices" : "🎬 Videos"}
               </button>
@@ -589,7 +589,7 @@ export default function MentalHealthPage() {
                   <Search size={16} style={{ color: "#6A6A88", flexShrink: 0 }} />
                   <input
                     readOnly
-                    placeholder="Search by specialty, faith tradition, or location..."
+                    aria-label="Search by specialty, faith tradition, or location..." placeholder="Search by specialty, faith tradition, or location..."
                     style={{ background: "transparent", border: "none", outline: "none", color: TEXT, padding: "14px 0", fontSize: "14px", width: "100%" }}
                   />
                 </div>
@@ -644,7 +644,7 @@ export default function MentalHealthPage() {
                           <span style={{ color: "#6A6A88", fontWeight: 400 }}>({t.reviews})</span>
                         </span>
                       </div>
-                      <button
+                      <button type="button"
                         onClick={() => toggleBook(i)}
                         style={{
                           width: "100%",
@@ -698,7 +698,7 @@ export default function MentalHealthPage() {
                         <Calendar size={11} style={{ display: "inline", verticalAlign: "middle", marginRight: "4px" }} />
                         {group.meets}
                       </p>
-                      <button
+                      <button type="button"
                         onClick={() => toggleJoinGroup(i)}
                         style={{
                           width: "100%",
@@ -900,7 +900,7 @@ export default function MentalHealthPage() {
                   const isOpen = openAccordion === entry.id;
                   return (
                     <div key={entry.id} style={{ background: CARD, border: `1px solid ${isOpen ? PURPLE + "50" : BORDER}`, borderRadius: 16, overflow: "hidden", transition: "border-color 0.2s" }}>
-                      <button
+                      <button type="button"
                         onClick={() => setOpenAccordion(isOpen ? null : entry.id)}
                         style={{ width: "100%", textAlign: "left", background: "none", border: "none", padding: "20px 24px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16 }}
                       >
@@ -975,7 +975,7 @@ export default function MentalHealthPage() {
                 <div style={{ width: 220, flexShrink: 0 }}>
                   <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                     {VOICES_MH.map((v) => (
-                      <button
+                      <button type="button"
                         key={v.id}
                         onClick={() => setSelectedVoiceId(v.id)}
                         style={{

@@ -184,7 +184,7 @@ function AccordionItem({
         transition: "border-color 0.2s",
       }}
     >
-      <button
+      <button type="button"
         onClick={onToggle}
         style={{
           width: "100%",
@@ -320,7 +320,7 @@ export default function BaptismTheologyPage() {
           }}
         >
           {TABS.map((tab) => (
-            <button
+            <button type="button"
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               style={{
@@ -379,7 +379,7 @@ export default function BaptismTheologyPage() {
                 Select a View
               </p>
               {VIEWS.map((v) => (
-                <button
+                <button type="button"
                   key={v.id}
                   onClick={() => setSelectedView(v.id)}
                   style={{

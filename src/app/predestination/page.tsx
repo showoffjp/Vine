@@ -144,7 +144,7 @@ const PASTORAL_ITEMS = [
 function AccordionItem({ title, body, expanded, onToggle }: { title: string; body: string; expanded: boolean; onToggle: () => void }) {
   return (
     <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, marginBottom: 12, overflow: "hidden" }}>
-      <button
+      <button type="button"
         onClick={onToggle}
         style={{
           width: "100%", textAlign: "left", background: "transparent", border: "none",
@@ -203,7 +203,7 @@ export default function PredestinationPage() {
           borderRadius: 12, padding: 5, border: `1px solid ${BORDER}`, flexWrap: "wrap",
         }}>
           {tabs.map(t => (
-            <button
+            <button type="button"
               key={t.id}
               onClick={() => setActiveTab(t.id)}
               style={{
@@ -239,7 +239,7 @@ export default function PredestinationPage() {
               background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden",
             }}>
               {VIEWS_DATA.map(v => (
-                <button
+                <button type="button"
                   key={v.id}
                   onClick={() => setSelectedView(v.id)}
                   style={{

@@ -708,7 +708,7 @@ export default function ChristianMusicPage() {
           </div>
           {/* Actions */}
           <div style={{ display: "flex", gap: "8px" }}>
-            <button
+            <button type="button"
               onClick={() => toggleLike(song.id)}
               style={{
                 display: "flex",
@@ -732,7 +732,7 @@ export default function ChristianMusicPage() {
               />
               {(likeCounts[song.id] ?? 0).toLocaleString()}
             </button>
-            <button
+            <button type="button"
               onClick={() => toggleSave(song.id)}
               style={{
                 display: "flex",
@@ -844,7 +844,7 @@ export default function ChristianMusicPage() {
             };
             const isActive = activeTab === tab;
             return (
-              <button
+              <button type="button"
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 style={{
@@ -893,7 +893,7 @@ export default function ChristianMusicPage() {
                 <input
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search songs, artists, albums..."
+                  aria-label="Search songs, artists, albums..." placeholder="Search songs, artists, albums..."
                   style={{
                     background: "transparent",
                     border: "none",
@@ -905,7 +905,7 @@ export default function ChristianMusicPage() {
                   }}
                 />
                 {searchQuery && (
-                  <button
+                  <button type="button"
                     onClick={() => setSearchQuery("")}
                     style={{ background: "none", border: "none", color: "#9898B3", cursor: "pointer", padding: "2px" }}
                   >
@@ -924,7 +924,7 @@ export default function ChristianMusicPage() {
                     const active = genreFilter === g;
                     const col = GENRE_COLORS[g] ?? "#3a7d56";
                     return (
-                      <button
+                      <button type="button"
                         key={g}
                         onClick={() => setGenreFilter(g)}
                         style={{
@@ -958,7 +958,7 @@ export default function ChristianMusicPage() {
                     const active = moodFilter === m;
                     const col = MOOD_COLORS[m] ?? "#3a7d56";
                     return (
-                      <button
+                      <button type="button"
                         key={m}
                         onClick={() => setMoodFilter(m)}
                         style={{
@@ -1095,7 +1095,7 @@ export default function ChristianMusicPage() {
                       </span>
                     </div>
 
-                    <button
+                    <button type="button"
                       onClick={() => setPlayingPlaylist(isPlaying ? null : i)}
                       style={{
                         width: "100%",
@@ -1150,7 +1150,7 @@ export default function ChristianMusicPage() {
                 <input
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search artists..."
+                  aria-label="Search artists..." placeholder="Search artists..."
                   style={{
                     background: "transparent",
                     border: "none",
@@ -1162,7 +1162,7 @@ export default function ChristianMusicPage() {
                   }}
                 />
                 {searchQuery && (
-                  <button
+                  <button type="button"
                     onClick={() => setSearchQuery("")}
                     style={{ background: "none", border: "none", color: "#9898B3", cursor: "pointer", padding: "2px" }}
                   >
@@ -1328,7 +1328,7 @@ export default function ChristianMusicPage() {
 
             {/* Meditate toggle */}
             <div style={{ marginBottom: "24px" }}>
-              <button
+              <button type="button"
                 onClick={() => {
                   setMeditateMode((m) => !m);
                   setStanzaIndex(0);
@@ -1423,7 +1423,7 @@ export default function ChristianMusicPage() {
 
                     {/* Nav */}
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                      <button
+                      <button type="button"
                         onClick={() => setStanzaIndex((n) => Math.max(0, n - 1))}
                         disabled={stanzaIndex === 0}
                         style={{
@@ -1446,7 +1446,7 @@ export default function ChristianMusicPage() {
 
                       <div style={{ display: "flex", gap: "6px" }}>
                         {stanzas.map((_, idx) => (
-                          <button
+                          <button type="button"
                             key={idx}
                             onClick={() => setStanzaIndex(idx)}
                             style={{
@@ -1463,7 +1463,7 @@ export default function ChristianMusicPage() {
                         ))}
                       </div>
 
-                      <button
+                      <button type="button"
                         onClick={() => setStanzaIndex((n) => Math.min(stanzas.length - 1, n + 1))}
                         disabled={stanzaIndex === stanzas.length - 1}
                         style={{
@@ -1609,7 +1609,7 @@ export default function ChristianMusicPage() {
                     <p style={{ color: "#9898B3", fontSize: "13px" }}>{selectedArtist.genre}</p>
                   </div>
                 </div>
-                <button
+                <button type="button"
                   onClick={() => setSelectedArtist(null)}
                   style={{
                     background: "rgba(152,152,179,0.1)",

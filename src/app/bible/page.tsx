@@ -1072,7 +1072,7 @@ export default function BiblePage() {
             { id: "study", label: "📚 Study", desc: "Themes & devotions" },
             { id: "plans", label: "📅 Reading Plans", desc: "Structured plans" },
           ] as const).map(tab => (
-            <button
+            <button type="button"
               key={tab.id}
               onClick={() => setMainTab(tab.id)}
               style={{
@@ -1110,7 +1110,7 @@ export default function BiblePage() {
                     <>
                       <div style={{ fontSize: 10, color: GREEN, fontWeight: 800, letterSpacing: 2, padding: "4px 0 8px" }}>OLD TESTAMENT</div>
                       {OT_BOOKS.map(book => (
-                        <button
+                        <button type="button"
                           key={book.id}
                           onClick={() => { setSelectedBook(book); setSelectedChapter(1); setHighlightedVerse(null); }}
                           style={{
@@ -1129,7 +1129,7 @@ export default function BiblePage() {
                     <>
                       <div style={{ fontSize: 10, color: PURPLE, fontWeight: 800, letterSpacing: 2, padding: "12px 0 8px" }}>NEW TESTAMENT</div>
                       {NT_BOOKS.map(book => (
-                        <button
+                        <button type="button"
                           key={book.id}
                           onClick={() => { setSelectedBook(book); setSelectedChapter(1); setHighlightedVerse(null); }}
                           style={{
@@ -1154,7 +1154,7 @@ export default function BiblePage() {
               <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 16, marginBottom: 16, display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
                 {/* Version selector */}
                 <div ref={versionDropdownRef} style={{ position: "relative" }}>
-                  <button
+                  <button type="button"
                     onClick={() => { setShowVersionList(prev => !prev); setShowChapterList(false); setShowBookList(false); }}
                     style={{ background: `${PURPLE}25`, border: `1px solid ${PURPLE}`, borderRadius: 8, padding: "8px 14px", color: "#A78BFA", fontWeight: 700, fontSize: 14, cursor: "pointer" }}
                   >
@@ -1164,7 +1164,7 @@ export default function BiblePage() {
                     <div style={{ position: "absolute", top: "calc(100% + 6px)", left: 0, zIndex: 9999, background: "#1A1A2E", border: `1px solid ${BORDER}`, borderRadius: 10, padding: 8, width: 300, maxHeight: 400, overflowY: "auto", boxShadow: "0 8px 32px rgba(0,0,0,0.6)" }}>
                       <div style={{ color: MUTED, fontSize: 10, fontWeight: 800, letterSpacing: 1.5, padding: "4px 8px 8px" }}>{versions.length} TRANSLATIONS</div>
                       {versions.map(v => (
-                        <button key={v.id} onClick={() => { setSelectedVersion(v); setShowVersionList(false); }} style={{ width: "100%", textAlign: "left", padding: "10px 12px", borderRadius: 6, border: "none", cursor: "pointer", background: selectedVersion.id === v.id ? `${PURPLE}30` : "transparent", color: selectedVersion.id === v.id ? "#A78BFA" : TEXT, fontSize: 13, marginBottom: 2 }}>
+                        <button type="button" key={v.id} onClick={() => { setSelectedVersion(v); setShowVersionList(false); }} style={{ width: "100%", textAlign: "left", padding: "10px 12px", borderRadius: 6, border: "none", cursor: "pointer", background: selectedVersion.id === v.id ? `${PURPLE}30` : "transparent", color: selectedVersion.id === v.id ? "#A78BFA" : TEXT, fontSize: 13, marginBottom: 2 }}>
                           <div style={{ fontWeight: 700 }}>{v.code}{v.name && v.name.toUpperCase() !== v.code ? ` — ${v.name}` : ""}</div>
                           {v.year && <div style={{ color: MUTED, fontSize: 11 }}>{v.year}</div>}
                         </button>
@@ -1178,7 +1178,7 @@ export default function BiblePage() {
 
                 {/* Chapter selector */}
                 <div ref={chapterDropdownRef} style={{ position: "relative" }}>
-                  <button
+                  <button type="button"
                     onClick={() => { setShowChapterList(prev => !prev); setShowVersionList(false); setShowBookList(false); }}
                     style={{ background: `${GREEN}15`, border: `1px solid ${GREEN}50`, borderRadius: 8, padding: "8px 14px", color: GREEN, fontWeight: 700, fontSize: 14, cursor: "pointer" }}
                   >
@@ -1188,7 +1188,7 @@ export default function BiblePage() {
                     <div style={{ position: "absolute", top: "calc(100% + 6px)", left: 0, zIndex: 9999, background: "#1A1A2E", border: `1px solid ${BORDER}`, borderRadius: 10, padding: 8, width: 220, maxHeight: 300, overflowY: "auto", boxShadow: "0 8px 32px rgba(0,0,0,0.6)" }}>
                       <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 4 }}>
                         {chapterArray.map(ch => (
-                          <button key={ch} onClick={() => { setSelectedChapter(ch); setShowChapterList(false); setHighlightedVerse(null); }} style={{ padding: "8px 4px", borderRadius: 6, border: "none", cursor: "pointer", background: selectedChapter === ch ? GREEN : `${BORDER}`, color: selectedChapter === ch ? "#07070F" : TEXT, fontWeight: 700, fontSize: 13, textAlign: "center" }}>
+                          <button type="button" key={ch} onClick={() => { setSelectedChapter(ch); setShowChapterList(false); setHighlightedVerse(null); }} style={{ padding: "8px 4px", borderRadius: 6, border: "none", cursor: "pointer", background: selectedChapter === ch ? GREEN : `${BORDER}`, color: selectedChapter === ch ? "#07070F" : TEXT, fontWeight: 700, fontSize: 13, textAlign: "center" }}>
                             {ch}
                           </button>
                         ))}
@@ -1200,7 +1200,7 @@ export default function BiblePage() {
                 <div style={{ marginLeft: "auto", display: "flex", gap: 8, alignItems: "center" }}>
                   <span style={{ color: MUTED, fontSize: 12 }}>Aa</span>
                   <input type="range" min={13} max={24} value={fontSize} onChange={e => setFontSize(Number(e.target.value))} style={{ width: 80, accentColor: GREEN }} />
-                  <button onClick={() => setShowStudyNotes(!showStudyNotes)} style={{ padding: "6px 12px", borderRadius: 6, border: `1px solid ${showStudyNotes ? GREEN : BORDER}`, background: showStudyNotes ? `${GREEN}15` : "transparent", color: showStudyNotes ? GREEN : MUTED, fontSize: 12, cursor: "pointer", fontWeight: 700 }}>
+                  <button type="button" onClick={() => setShowStudyNotes(!showStudyNotes)} style={{ padding: "6px 12px", borderRadius: 6, border: `1px solid ${showStudyNotes ? GREEN : BORDER}`, background: showStudyNotes ? `${GREEN}15` : "transparent", color: showStudyNotes ? GREEN : MUTED, fontSize: 12, cursor: "pointer", fontWeight: 700 }}>
                     Study Notes
                   </button>
                 </div>
@@ -1208,7 +1208,7 @@ export default function BiblePage() {
 
               {/* Navigation */}
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-                <button onClick={() => navigateChapter(-1)} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "8px 16px", color: MUTED, cursor: "pointer", fontSize: 14 }}>
+                <button type="button" onClick={() => navigateChapter(-1)} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "8px 16px", color: MUTED, cursor: "pointer", fontSize: 14 }}>
                   ← Prev Chapter
                 </button>
                 <div style={{ textAlign: "center" }}>
@@ -1217,7 +1217,7 @@ export default function BiblePage() {
                   </span>
                   <div style={{ fontSize: 12, color: MUTED }}>{selectedVersion.name}</div>
                 </div>
-                <button onClick={() => navigateChapter(1)} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "8px 16px", color: MUTED, cursor: "pointer", fontSize: 14 }}>
+                <button type="button" onClick={() => navigateChapter(1)} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "8px 16px", color: MUTED, cursor: "pointer", fontSize: 14 }}>
                   Next Chapter →
                 </button>
               </div>
@@ -1246,7 +1246,7 @@ export default function BiblePage() {
                     <div style={{ fontSize: 44, marginBottom: 12 }}>⚠️</div>
                     <p style={{ color: TEXT, fontSize: 16, marginBottom: 6 }}>Couldn&apos;t load this chapter</p>
                     <p style={{ color: MUTED, fontSize: 13, marginBottom: 20, maxWidth: 420, margin: "0 auto 20px" }}>{chapterError}</p>
-                    <button onClick={retryChapter} style={{ padding: "10px 24px", borderRadius: 8, background: GREEN, color: "#07070F", fontWeight: 800, fontSize: 14, cursor: "pointer", border: "none" }}>
+                    <button type="button" onClick={retryChapter} style={{ padding: "10px 24px", borderRadius: 8, background: GREEN, color: "#07070F", fontWeight: 800, fontSize: 14, cursor: "pointer", border: "none" }}>
                       Retry
                     </button>
                   </div>
@@ -1292,7 +1292,7 @@ export default function BiblePage() {
                     </p>
                     <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
                       {[["JHN", 3, "John 3"], ["PSA", 23, "Psalm 23"], ["ROM", 8, "Romans 8"], ["ISA", 53, "Isaiah 53"], ["GEN", 1, "Genesis 1"], ["EPH", 2, "Ephesians 2"]].map(([bid, ch, label]) => (
-                        <button key={String(label)} onClick={() => { setSelectedBook(ALL_BOOKS.find(b => b.id === bid)!); setSelectedChapter(Number(ch)); }} style={{ padding: "8px 16px", background: `${GREEN}15`, border: `1px solid ${GREEN}40`, borderRadius: 8, color: GREEN, fontSize: 13, fontWeight: 700, cursor: "pointer" }}>
+                        <button type="button" key={String(label)} onClick={() => { setSelectedBook(ALL_BOOKS.find(b => b.id === bid)!); setSelectedChapter(Number(ch)); }} style={{ padding: "8px 16px", background: `${GREEN}15`, border: `1px solid ${GREEN}40`, borderRadius: 8, color: GREEN, fontSize: 13, fontWeight: 700, cursor: "pointer" }}>
                           {label}
                         </button>
                       ))}
@@ -1311,13 +1311,13 @@ export default function BiblePage() {
                     </p>
                   </div>
                   <div style={{ display: "flex", gap: 8 }}>
-                    <button
+                    <button type="button"
                       onClick={() => bookmarkVerse(`${selectedBook.abbr}${selectedChapter}:${highlightedVerse}`)}
                       style={{ padding: "6px 12px", borderRadius: 6, border: `1px solid ${BORDER}`, background: bookmarkedVerses.has(`${selectedBook.abbr}${selectedChapter}:${highlightedVerse}`) ? `${GREEN}20` : CARD, color: GREEN, fontSize: 12, cursor: "pointer", fontWeight: 700 }}
                     >
                       {bookmarkedVerses.has(`${selectedBook.abbr}${selectedChapter}:${highlightedVerse}`) ? "★ Saved" : "☆ Save"}
                     </button>
-                    <button
+                    <button type="button"
                       onClick={() => { if (navigator.clipboard) navigator.clipboard.writeText(`"${verses.find(v => v.num === highlightedVerse)?.text}" — ${selectedBook.abbr} ${selectedChapter}:${highlightedVerse} ${selectedVersion.code}`); }}
                       style={{ padding: "6px 12px", borderRadius: 6, border: `1px solid ${BORDER}`, background: CARD, color: MUTED, fontSize: 12, cursor: "pointer" }}
                     >
@@ -1390,17 +1390,17 @@ export default function BiblePage() {
                   value={searchQuery}
                   onChange={e => setSearchQuery(e.target.value)}
                   onKeyDown={e => e.key === "Enter" && handleSearch()}
-                  placeholder="Search words or phrases — e.g. love one another, fear not, living water"
+                  aria-label="Search words or phrases — e.g. love one another, fear not, living water" placeholder="Search words or phrases — e.g. love one another, fear not, living water"
                   style={{ flex: 1, minWidth: 220, padding: "12px 16px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 15 }}
                 />
-                <button onClick={handleSearch} disabled={searchLoading} style={{ padding: "12px 28px", borderRadius: 8, background: GREEN, color: "#07070F", fontWeight: 800, fontSize: 15, cursor: "pointer", border: "none", opacity: searchLoading ? 0.6 : 1 }}>
+                <button type="button" onClick={handleSearch} disabled={searchLoading} style={{ padding: "12px 28px", borderRadius: 8, background: GREEN, color: "#07070F", fontWeight: 800, fontSize: 15, cursor: "pointer", border: "none", opacity: searchLoading ? 0.6 : 1 }}>
                   {searchLoading ? "Searching…" : "Search"}
                 </button>
               </div>
               <div style={{ display: "flex", gap: 8, marginTop: 14, alignItems: "center" }}>
                 <span style={{ color: MUTED, fontSize: 12, fontWeight: 700 }}>SCOPE:</span>
                 {([["ALL", "Whole Bible"], ["OT", "Old Testament"], ["NT", "New Testament"]] as const).map(([s, label]) => (
-                  <button key={s} onClick={() => setSearchScope(s)} style={{ padding: "5px 14px", borderRadius: 20, border: `1px solid ${searchScope === s ? GREEN : BORDER}`, background: searchScope === s ? `${GREEN}20` : "transparent", color: searchScope === s ? GREEN : MUTED, fontSize: 12, fontWeight: 700, cursor: "pointer" }}>
+                  <button type="button" key={s} onClick={() => setSearchScope(s)} style={{ padding: "5px 14px", borderRadius: 20, border: `1px solid ${searchScope === s ? GREEN : BORDER}`, background: searchScope === s ? `${GREEN}20` : "transparent", color: searchScope === s ? GREEN : MUTED, fontSize: 12, fontWeight: 700, cursor: "pointer" }}>
                     {label}
                   </button>
                 ))}
@@ -1456,7 +1456,7 @@ export default function BiblePage() {
                 <h3 style={{ color: GREEN, fontWeight: 700, fontSize: 16, marginBottom: 14 }}>Popular Searches</h3>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginBottom: 20 }}>
                   {["love", "grace", "faith", "hope", "peace", "joy", "fear not", "born again", "Holy Spirit", "forgiveness", "salvation", "eternal life", "shepherd", "righteousness", "the cross", "kingdom of God", "living water", "be still", "do not be afraid", "love one another"].map(term => (
-                    <button key={term} onClick={() => { setSearchQuery(term); setTimeout(() => handleSearch(), 30); }} style={{ padding: "8px 16px", background: BG, border: `1px solid ${BORDER}`, borderRadius: 20, color: MUTED, fontSize: 13, cursor: "pointer" }}>
+                    <button type="button" key={term} onClick={() => { setSearchQuery(term); setTimeout(() => handleSearch(), 30); }} style={{ padding: "8px 16px", background: BG, border: `1px solid ${BORDER}`, borderRadius: 20, color: MUTED, fontSize: 13, cursor: "pointer" }}>
                       {term}
                     </button>
                   ))}
@@ -1483,7 +1483,7 @@ export default function BiblePage() {
               <p style={{ color: MUTED, fontSize: 14, marginBottom: 18 }}>See how the great translations render the same passage, side by side. Choose a verse:</p>
               <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
                 {FAMOUS_COMPARISONS.map((c, i) => (
-                  <button key={c.ref} onClick={() => setActiveComparison(i)} style={{ padding: "8px 16px", borderRadius: 8, border: `1px solid ${activeComparison === i ? GREEN : BORDER}`, background: activeComparison === i ? `${GREEN}20` : "transparent", color: activeComparison === i ? GREEN : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+                  <button type="button" key={c.ref} onClick={() => setActiveComparison(i)} style={{ padding: "8px 16px", borderRadius: 8, border: `1px solid ${activeComparison === i ? GREEN : BORDER}`, background: activeComparison === i ? `${GREEN}20` : "transparent", color: activeComparison === i ? GREEN : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
                     {c.ref}
                   </button>
                 ))}
@@ -1497,18 +1497,18 @@ export default function BiblePage() {
                 <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24, marginBottom: 20 }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16, flexWrap: "wrap", gap: 10 }}>
                     <h3 style={{ color: GREEN, fontWeight: 700, fontSize: 20 }}>{c.ref}</h3>
-                    <button onClick={() => goToReference(c.bookId, c.chapter, c.verse)} style={{ padding: "6px 14px", borderRadius: 8, background: `${PURPLE}25`, border: `1px solid ${PURPLE}`, color: "#A78BFA", fontSize: 12, fontWeight: 700, cursor: "pointer" }}>
+                    <button type="button" onClick={() => goToReference(c.bookId, c.chapter, c.verse)} style={{ padding: "6px 14px", borderRadius: 8, background: `${PURPLE}25`, border: `1px solid ${PURPLE}`, color: "#A78BFA", fontSize: 12, fontWeight: 700, cursor: "pointer" }}>
                       Read in context →
                     </button>
                   </div>
                   <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 18 }}>
                     {c.renderings.map(r => (
-                      <button key={r.code} onClick={() => setCompareVersions(prev => prev.includes(r.code) ? prev.filter(x => x !== r.code) : [...prev, r.code])} style={{ padding: "5px 12px", borderRadius: 16, border: `1px solid ${compareVersions.includes(r.code) ? GREEN : BORDER}`, background: compareVersions.includes(r.code) ? `${GREEN}20` : "transparent", color: compareVersions.includes(r.code) ? GREEN : MUTED, fontSize: 11, fontWeight: 700, cursor: "pointer" }}>
+                      <button type="button" key={r.code} onClick={() => setCompareVersions(prev => prev.includes(r.code) ? prev.filter(x => x !== r.code) : [...prev, r.code])} style={{ padding: "5px 12px", borderRadius: 16, border: `1px solid ${compareVersions.includes(r.code) ? GREEN : BORDER}`, background: compareVersions.includes(r.code) ? `${GREEN}20` : "transparent", color: compareVersions.includes(r.code) ? GREEN : MUTED, fontSize: 11, fontWeight: 700, cursor: "pointer" }}>
                         {r.code}
                       </button>
                     ))}
                     {compareVersions.length > 0 && (
-                      <button onClick={() => setCompareVersions([])} style={{ padding: "5px 12px", borderRadius: 16, border: `1px solid ${BORDER}`, background: "transparent", color: MUTED, fontSize: 11, cursor: "pointer" }}>Show all</button>
+                      <button type="button" onClick={() => setCompareVersions([])} style={{ padding: "5px 12px", borderRadius: 16, border: `1px solid ${BORDER}`, background: "transparent", color: MUTED, fontSize: 11, cursor: "pointer" }}>Show all</button>
                     )}
                   </div>
                   <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
@@ -1555,7 +1555,7 @@ export default function BiblePage() {
             <h3 style={{ color: PURPLE, fontSize: 13, fontWeight: 800, letterSpacing: 1.5, marginBottom: 12 }}>VERSES BY THEME</h3>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))", gap: 10, marginBottom: 24 }}>
               {(Object.entries(VERSE_THEMES) as [keyof typeof VERSE_THEMES, typeof VERSE_THEMES[keyof typeof VERSE_THEMES]][]).map(([key, theme]) => (
-                <button key={key} onClick={() => setActiveTheme(key)} style={{ padding: "14px 12px", borderRadius: 10, border: `2px solid ${activeTheme === key ? theme.color : BORDER}`, background: activeTheme === key ? `${theme.color}15` : CARD, color: activeTheme === key ? theme.color : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", textAlign: "center" }}>
+                <button type="button" key={key} onClick={() => setActiveTheme(key)} style={{ padding: "14px 12px", borderRadius: 10, border: `2px solid ${activeTheme === key ? theme.color : BORDER}`, background: activeTheme === key ? `${theme.color}15` : CARD, color: activeTheme === key ? theme.color : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", textAlign: "center" }}>
                   {theme.theme}
                 </button>
               ))}
@@ -1568,7 +1568,7 @@ export default function BiblePage() {
                   <div key={i} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 22 }}>
                     <p style={{ color: TEXT, fontSize: 20, fontFamily: "var(--font-cormorant, Georgia, serif)", lineHeight: 1.8, fontStyle: "italic", marginBottom: 12 }}>&ldquo;{v.text}&rdquo;</p>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                      <button onClick={() => openRef(v.ref)} style={{ color: VERSE_THEMES[activeTheme].color, fontWeight: 800, fontSize: 14, background: "none", border: "none", cursor: "pointer", padding: 0 }}>— {v.ref} →</button>
+                      <button type="button" onClick={() => openRef(v.ref)} style={{ color: VERSE_THEMES[activeTheme].color, fontWeight: 800, fontSize: 14, background: "none", border: "none", cursor: "pointer", padding: 0 }}>— {v.ref} →</button>
                       <span style={{ color: MUTED, fontSize: 12 }}>{v.version}</span>
                     </div>
                   </div>
@@ -1598,7 +1598,7 @@ export default function BiblePage() {
                     <div style={{ color: TEXT, fontWeight: 700, fontSize: 14, marginBottom: 8 }}>{item.topic}</div>
                     <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
                       {item.refs.map(ref => (
-                        <button key={ref} onClick={() => openRef(ref)} style={{ padding: "2px 8px", background: `${PURPLE}20`, border: `1px solid ${PURPLE}40`, borderRadius: 12, fontSize: 11, color: "#A78BFA", cursor: "pointer" }}>{ref}</button>
+                        <button type="button" key={ref} onClick={() => openRef(ref)} style={{ padding: "2px 8px", background: `${PURPLE}20`, border: `1px solid ${PURPLE}40`, borderRadius: 12, fontSize: 11, color: "#A78BFA", cursor: "pointer" }}>{ref}</button>
                       ))}
                     </div>
                   </div>
@@ -1615,7 +1615,7 @@ export default function BiblePage() {
                   <div key={`${book?.id}-${chapNum}`} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 20 }}>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10, flexWrap: "wrap", gap: 8 }}>
                       <div>
-                        <button onClick={() => { if (book) goToReference(book.id, Number(chapNum)); }} style={{ background: `${GREEN}15`, border: `1px solid ${GREEN}40`, borderRadius: 6, padding: "4px 12px", color: GREEN, fontWeight: 800, fontSize: 13, cursor: "pointer" }}>
+                        <button type="button" onClick={() => { if (book) goToReference(book.id, Number(chapNum)); }} style={{ background: `${GREEN}15`, border: `1px solid ${GREEN}40`, borderRadius: 6, padding: "4px 12px", color: GREEN, fontWeight: 800, fontSize: 13, cursor: "pointer" }}>
                           {book?.name} {chapNum} →
                         </button>
                         <span style={{ color: PURPLE, fontSize: 13, fontWeight: 600, marginLeft: 10 }}>{note.context}</span>
@@ -1625,7 +1625,7 @@ export default function BiblePage() {
                     <div style={{ display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" }}>
                       <span style={{ color: MUTED, fontSize: 11, fontWeight: 700, letterSpacing: 1 }}>CROSS-REFS:</span>
                       {note.crossRefs.map(ref => (
-                        <button key={ref} onClick={() => openRef(ref)} style={{ padding: "3px 10px", background: `${PURPLE}20`, border: `1px solid ${PURPLE}40`, borderRadius: 14, fontSize: 11, color: "#A78BFA", cursor: "pointer" }}>{ref}</button>
+                        <button type="button" key={ref} onClick={() => openRef(ref)} style={{ padding: "3px 10px", background: `${PURPLE}20`, border: `1px solid ${PURPLE}40`, borderRadius: 14, fontSize: 11, color: "#A78BFA", cursor: "pointer" }}>{ref}</button>
                       ))}
                     </div>
                   </div>
@@ -1657,7 +1657,7 @@ export default function BiblePage() {
                 const doneCount = days.filter((_, i) => completedDays.has(`${plan.id}-${i}`)).length;
                 const pct = days.length ? Math.round((doneCount / days.length) * 100) : 0;
                 return (
-                  <button key={plan.id} onClick={() => setActivePlanId(activePlanId === plan.id ? null : plan.id)} style={{ textAlign: "left", background: activePlanId === plan.id ? `${plan.color}12` : CARD, border: `2px solid ${activePlanId === plan.id ? plan.color : BORDER}`, borderRadius: 12, padding: 20, cursor: "pointer" }}>
+                  <button type="button" key={plan.id} onClick={() => setActivePlanId(activePlanId === plan.id ? null : plan.id)} style={{ textAlign: "left", background: activePlanId === plan.id ? `${plan.color}12` : CARD, border: `2px solid ${activePlanId === plan.id ? plan.color : BORDER}`, borderRadius: 12, padding: 20, cursor: "pointer" }}>
                     <h4 style={{ color: plan.color, fontWeight: 800, fontSize: 17, marginBottom: 6 }}>{plan.name}</h4>
                     <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6, marginBottom: 12 }}>{plan.desc}</p>
                     <div style={{ height: 6, background: BORDER, borderRadius: 3, overflow: "hidden", marginBottom: 6 }}>
@@ -1680,9 +1680,9 @@ export default function BiblePage() {
                       <div key={key} style={{ background: BG, border: `1px solid ${done ? GREEN : BORDER}`, borderRadius: 10, padding: 14, display: "flex", flexDirection: "column", gap: 8 }}>
                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                           <span style={{ color: MUTED, fontSize: 11, fontWeight: 700 }}>DAY {i + 1}</span>
-                          <button onClick={() => toggleDay(key)} style={{ width: 22, height: 22, borderRadius: 6, border: `1px solid ${done ? GREEN : BORDER}`, background: done ? GREEN : "transparent", color: "#07070F", fontSize: 13, fontWeight: 900, cursor: "pointer", lineHeight: 1 }}>{done ? "✓" : ""}</button>
+                          <button type="button" onClick={() => toggleDay(key)} style={{ width: 22, height: 22, borderRadius: 6, border: `1px solid ${done ? GREEN : BORDER}`, background: done ? GREEN : "transparent", color: "#07070F", fontSize: 13, fontWeight: 900, cursor: "pointer", lineHeight: 1 }}>{done ? "✓" : ""}</button>
                         </div>
-                        <button onClick={() => goToReference(day.bookId, day.chapter)} style={{ textAlign: "left", background: "none", border: "none", color: done ? GREEN : TEXT, fontWeight: 700, fontSize: 15, cursor: "pointer", padding: 0, fontFamily: "var(--font-cormorant, Georgia, serif)" }}>
+                        <button type="button" onClick={() => goToReference(day.bookId, day.chapter)} style={{ textAlign: "left", background: "none", border: "none", color: done ? GREEN : TEXT, fontWeight: 700, fontSize: 15, cursor: "pointer", padding: 0, fontFamily: "var(--font-cormorant, Georgia, serif)" }}>
                           {day.ref} →
                         </button>
                       </div>

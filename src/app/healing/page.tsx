@@ -904,7 +904,7 @@ export default function HealingPage() {
             { key: "videos", label: "Videos", icon: "🎬" },
           ] as const
         ).map((tab) => (
-          <button
+          <button type="button"
             key={tab.key}
             onClick={() => setActiveTab(tab.key)}
             style={{
@@ -1059,7 +1059,7 @@ export default function HealingPage() {
                         {path.duration}
                       </span>
                     </div>
-                    <button
+                    <button type="button"
                       onClick={(e) => {
                         e.stopPropagation();
                         startPath(path.id);
@@ -1106,7 +1106,7 @@ export default function HealingPage() {
               </p>
               <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
                 {VERSE_THEMES.map((theme) => (
-                  <button
+                  <button type="button"
                     key={theme}
                     onClick={() => setVerseThemeFilter(theme)}
                     style={{
@@ -1165,7 +1165,7 @@ export default function HealingPage() {
                         {verse.theme}
                       </span>
                       <div style={{ display: "flex", gap: "8px", flexShrink: 0 }}>
-                        <button
+                        <button type="button"
                           onClick={() => setMeditatingVerse(verse)}
                           title="Meditate on this verse"
                           style={{
@@ -1180,7 +1180,7 @@ export default function HealingPage() {
                         >
                           🧘
                         </button>
-                        <button
+                        <button type="button"
                           onClick={() => toggleSaveVerse(verse.id)}
                           title={saved ? "Unsave" : "Save verse"}
                           style={{
@@ -1220,7 +1220,7 @@ export default function HealingPage() {
                       <span style={{ fontSize: "13px", color: "#6B4FBB", fontWeight: 600 }}>
                         — {verse.reference}
                       </span>
-                      <button
+                      <button type="button"
                         onClick={() => toggleLikeVerse(verse.id)}
                         style={{
                           display: "flex",
@@ -1376,7 +1376,7 @@ export default function HealingPage() {
                       </span>
                     </div>
 
-                    <button
+                    <button type="button"
                       onClick={() =>
                         setExpandedTestimony(expanded ? null : testimony.id)
                       }
@@ -1418,7 +1418,7 @@ export default function HealingPage() {
               </p>
               <div style={{ display: "flex", gap: "6px" }}>
                 {RESOURCE_TYPES.map((type) => (
-                  <button
+                  <button type="button"
                     key={type}
                     onClick={() => setResourceTypeFilter(type)}
                     style={{
@@ -1670,7 +1670,7 @@ export default function HealingPage() {
                     {selectedPath.theme} · {selectedPath.steps.length} steps · {selectedPath.duration}
                   </p>
                 </div>
-                <button
+                <button type="button"
                   onClick={() => setSelectedPath(null)}
                   style={{
                     background: "rgba(255,255,255,0.07)",
@@ -1693,7 +1693,7 @@ export default function HealingPage() {
               {/* Step nav */}
               <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
                 {selectedPath.steps.map((step, i) => (
-                  <button
+                  <button type="button"
                     key={i}
                     onClick={() => setSelectedStep(i)}
                     style={{
@@ -1788,7 +1788,7 @@ export default function HealingPage() {
                 flexShrink: 0,
               }}
             >
-              <button
+              <button type="button"
                 onClick={() => setSelectedStep((s) => Math.max(0, s - 1))}
                 disabled={selectedStep === 0}
                 style={{
@@ -1803,7 +1803,7 @@ export default function HealingPage() {
               >
                 ← Previous
               </button>
-              <button
+              <button type="button"
                 onClick={() => {
                   startPath(selectedPath.id);
                   setSelectedStep((s) => Math.min(selectedPath.steps.length - 1, s + 1));

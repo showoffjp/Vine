@@ -503,7 +503,7 @@ export default function PrayerMethodsPage() {
             ["guides", "Prayer Guides"],
             ["videos", "Videos"],
           ] as const).map(([t, label]) => (
-            <button key={t} onClick={() => setTab(t)}
+            <button type="button" key={t} onClick={() => setTab(t)}
               style={{ padding: "10px 20px", fontSize: 14, fontWeight: 600, background: "none", border: "none", cursor: "pointer", color: tab === t ? "#3a7d56" : "#6A6A88", borderBottom: `2px solid ${tab === t ? "#3a7d56" : "transparent"}`, marginBottom: -1, whiteSpace: "nowrap", flexShrink: 0 }}>
               {label}
             </button>
@@ -515,7 +515,7 @@ export default function PrayerMethodsPage() {
           <>
             <div style={{ display: "flex", gap: 8, marginBottom: 20, flexWrap: "wrap" }}>
               {categories.map(c => (
-                <button key={c} onClick={() => setCatFilter(c)}
+                <button type="button" key={c} onClick={() => setCatFilter(c)}
                   style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${catFilter === c ? "#3a7d56" : "#1E1E32"}`, background: catFilter === c ? "rgba(58,125,86,0.1)" : "transparent", color: catFilter === c ? "#3a7d56" : "#9898B3", fontSize: 13, cursor: "pointer", fontWeight: catFilter === c ? 700 : 400 }}>
                   {c}
                 </button>
@@ -538,7 +538,7 @@ export default function PrayerMethodsPage() {
                       </div>
                     </div>
                     <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0, marginLeft: 12 }}>
-                      <button onClick={e => { e.stopPropagation(); toggleSaved(m.id); }}
+                      <button type="button" onClick={e => { e.stopPropagation(); toggleSaved(m.id); }}
                         style={{ background: "none", border: "none", cursor: "pointer", fontSize: 16, color: saved.has(m.id) ? "#FFD700" : "#4A4A68" }}>
                         {saved.has(m.id) ? "★" : "☆"}
                       </button>
@@ -576,7 +576,7 @@ export default function PrayerMethodsPage() {
                         </div>
                       </div>
 
-                      <button onClick={() => togglePracticed(m.id)}
+                      <button type="button" onClick={() => togglePracticed(m.id)}
                         style={{ padding: "10px 20px", borderRadius: 10, border: `1px solid ${practiced.has(m.id) ? "rgba(58,125,86,0.4)" : "#2A2A40"}`, background: practiced.has(m.id) ? "rgba(58,125,86,0.1)" : "#1E1E32", color: practiced.has(m.id) ? "#3a7d56" : "#9898B3", cursor: "pointer", fontWeight: 700, fontSize: 14 }}>
                         {practiced.has(m.id) ? "✓ Practiced This Method" : "Mark as Practiced"}
                       </button>
@@ -601,7 +601,7 @@ export default function PrayerMethodsPage() {
                 </div>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 20 }}>
                   {GUIDED.map(session => (
-                    <button
+                    <button type="button"
                       key={session.id}
                       onClick={() => { setGuidedActive(session); setGuidedStep(0); }}
                       style={{ textAlign: "left", background: "#12121F", border: `1px solid ${session.color}30`, borderRadius: 20, padding: 24, cursor: "pointer", display: "flex", flexDirection: "column", gap: 14 }}
@@ -627,7 +627,7 @@ export default function PrayerMethodsPage() {
                     <span style={{ fontSize: 24 }}>{guidedActive.icon}</span>
                     <h2 style={{ fontSize: 20, fontWeight: 800, margin: 0 }}>{guidedActive.title}</h2>
                   </div>
-                  <button onClick={() => setGuidedActive(null)} style={{ background: "none", border: "1px solid #1E1E32", borderRadius: 8, color: "#9898B3", fontSize: 13, fontWeight: 600, padding: "6px 14px", cursor: "pointer" }}>✕ Exit</button>
+                  <button type="button" onClick={() => setGuidedActive(null)} style={{ background: "none", border: "1px solid #1E1E32", borderRadius: 8, color: "#9898B3", fontSize: 13, fontWeight: 600, padding: "6px 14px", cursor: "pointer" }}>✕ Exit</button>
                 </div>
                 <div style={{ height: 6, background: "#1E1E32", borderRadius: 3, marginBottom: 24, overflow: "hidden" }}>
                   <div style={{ height: "100%", background: guidedActive.color, width: `${((guidedStep + 1) / guidedActive.steps.length) * 100}%`, transition: "width 0.3s" }} />
@@ -647,7 +647,7 @@ export default function PrayerMethodsPage() {
                   </div>
                 </div>
                 <div style={{ display: "flex", gap: 12, justifyContent: "space-between" }}>
-                  <button
+                  <button type="button"
                     onClick={() => setGuidedStep(s => Math.max(0, s - 1))}
                     disabled={guidedStep === 0}
                     style={{ flex: 1, background: "transparent", border: "1px solid #1E1E32", borderRadius: 12, padding: "12px", color: guidedStep === 0 ? "#4A4A68" : "#9898B3", fontSize: 15, fontWeight: 700, cursor: guidedStep === 0 ? "default" : "pointer" }}
@@ -655,14 +655,14 @@ export default function PrayerMethodsPage() {
                     ← Previous
                   </button>
                   {guidedStep < guidedActive.steps.length - 1 ? (
-                    <button
+                    <button type="button"
                       onClick={() => setGuidedStep(s => s + 1)}
                       style={{ flex: 1, background: guidedActive.color, border: "none", borderRadius: 12, padding: "12px", color: "#fff", fontSize: 15, fontWeight: 700, cursor: "pointer" }}
                     >
                       Next →
                     </button>
                   ) : (
-                    <button
+                    <button type="button"
                       onClick={() => setGuidedActive(null)}
                       style={{ flex: 1, background: "#3a7d56", border: "none", borderRadius: 12, padding: "12px", color: "#fff", fontSize: 15, fontWeight: 700, cursor: "pointer" }}
                     >
@@ -687,7 +687,7 @@ export default function PrayerMethodsPage() {
             <div style={{ display: "flex", gap: 20, flexWrap: "wrap", alignItems: "flex-start" }}>
               <div style={{ width: 240, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8 }}>
                 {VOICES_PM.map(v => (
-                  <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                     style={{ textAlign: "left", background: selectedVoice === v.id ? "rgba(58,125,86,0.1)" : "#12121F", border: `1px solid ${selectedVoice === v.id ? "rgba(58,125,86,0.4)" : "#1E1E32"}`, borderRadius: 12, padding: "12px 16px", cursor: "pointer" }}>
                     <div style={{ color: selectedVoice === v.id ? "#3a7d56" : "#F2F2F8", fontWeight: 700, fontSize: 14 }}>{v.name}</div>
                     <div style={{ color: "#6A6A88", fontSize: 12 }}>{v.era}</div>
@@ -789,7 +789,7 @@ export default function PrayerMethodsPage() {
                       ✓ Started {planStarted[plan.id]}
                     </div>
                   ) : (
-                    <button
+                    <button type="button"
                       onClick={() => startPlan(plan.id)}
                       style={{ width: "100%", background: "rgba(58,125,86,0.12)", color: "#3a7d56", border: "1px solid rgba(58,125,86,0.3)", borderRadius: 12, padding: "10px 16px", fontSize: 14, fontWeight: 700, cursor: "pointer" }}
                     >

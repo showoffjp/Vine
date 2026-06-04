@@ -425,7 +425,7 @@ export default function ApologeticsPage() {
             { id: "methods", label: "🗺️ Methods" },
             { id: "videos", label: "🎬 Videos" },
           ].map(t => (
-            <button key={t.id} onClick={() => setTab(t.id as typeof tab)}
+            <button type="button" key={t.id} onClick={() => setTab(t.id as typeof tab)}
               style={{ padding: "10px 20px", borderRadius: "10px 10px 0 0", border: "none", cursor: "pointer", fontWeight: 700, fontSize: 14, background: tab === t.id ? CARD : "transparent", color: tab === t.id ? TEXT : MUTED, borderBottom: tab === t.id ? `2px solid ${GREEN}` : "2px solid transparent" }}>
               {t.label}
             </button>
@@ -439,7 +439,7 @@ export default function ApologeticsPage() {
             <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 24 }}>
               <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
                 {categories.map(cat => (
-                  <button key={cat} onClick={() => setCategoryFilter(cat)}
+                  <button type="button" key={cat} onClick={() => setCategoryFilter(cat)}
                     style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${categoryFilter === cat ? PURPLE : BORDER}`, background: categoryFilter === cat ? "rgba(107,79,187,0.2)" : "transparent", color: categoryFilter === cat ? TEXT : MUTED, fontSize: 12, fontWeight: 600, cursor: "pointer" }}>
                     {cat}
                   </button>
@@ -448,7 +448,7 @@ export default function ApologeticsPage() {
               <div style={{ width: "100%", height: 1, background: BORDER, margin: "4px 0" }} />
               <div style={{ display: "flex", gap: 6 }}>
                 {difficulties.map(d => (
-                  <button key={d} onClick={() => setDiffFilter(d)}
+                  <button type="button" key={d} onClick={() => setDiffFilter(d)}
                     style={{ padding: "5px 12px", borderRadius: 20, border: `1px solid ${diffFilter === d ? (difficultyColors[d] || BORDER) : BORDER}`, background: diffFilter === d ? `${difficultyColors[d]}20` : "transparent", color: diffFilter === d ? difficultyColors[d] || TEXT : MUTED, fontSize: 12, fontWeight: 600, cursor: "pointer" }}>
                     {d}
                   </button>
@@ -476,11 +476,11 @@ export default function ApologeticsPage() {
                           </div>
                         </div>
                         <div style={{ display: "flex", gap: 8 }}>
-                          <button onClick={() => toggleSaved(c.id)}
+                          <button type="button" onClick={() => toggleSaved(c.id)}
                             style={{ width: 32, height: 32, borderRadius: 8, border: `1px solid ${savedCases.has(c.id) ? PURPLE : BORDER}`, background: savedCases.has(c.id) ? "rgba(107,79,187,0.2)" : "transparent", cursor: "pointer", fontSize: 14, color: savedCases.has(c.id) ? PURPLE : MUTED }}>
                             {savedCases.has(c.id) ? "🔖" : "📌"}
                           </button>
-                          <button onClick={() => setExpandedCase(isExpanded ? null : c.id)}
+                          <button type="button" onClick={() => setExpandedCase(isExpanded ? null : c.id)}
                             style={{ padding: "6px 14px", borderRadius: 8, border: `1px solid ${c.color}40`, background: `${c.color}10`, color: c.color, cursor: "pointer", fontSize: 13, fontWeight: 700 }}>
                             {isExpanded ? "Close" : "Explore"}
                           </button>
@@ -504,7 +504,7 @@ export default function ApologeticsPage() {
                           <h4 style={{ fontSize: 14, fontWeight: 800, color: "#EF4444", marginBottom: 12, textTransform: "uppercase", letterSpacing: 1 }}>Common Objections & Responses</h4>
                           {c.objections.map((obj, i) => (
                             <div key={i} style={{ marginBottom: 10 }}>
-                              <button onClick={() => setShowRebuttal(prev => ({ ...prev, [c.id]: prev[c.id] === i ? null : i }))}
+                              <button type="button" onClick={() => setShowRebuttal(prev => ({ ...prev, [c.id]: prev[c.id] === i ? null : i }))}
                                 style={{ width: "100%", textAlign: "left", padding: "12px 16px", borderRadius: 10, border: `1px solid ${showRebuttal[c.id] === i ? "#EF444440" : BORDER}`, background: showRebuttal[c.id] === i ? "rgba(239,68,68,0.06)" : "rgba(255,255,255,0.02)", cursor: "pointer", color: "#EF4444", fontSize: 14, fontWeight: 600 }}>
                                 <span style={{ marginRight: 8 }}>{showRebuttal[c.id] === i ? "▾" : "▸"}</span>
                                 "{obj}"
@@ -535,7 +535,7 @@ export default function ApologeticsPage() {
                               <span key={t} style={{ fontSize: 12, padding: "4px 12px", borderRadius: 20, background: "rgba(107,79,187,0.1)", color: PURPLE, fontWeight: 600 }}>👤 {t}</span>
                             ))}
                           </div>
-                          <button onClick={() => toggleStudied(c.id)}
+                          <button type="button" onClick={() => toggleStudied(c.id)}
                             style={{ padding: "8px 18px", borderRadius: 10, border: `1px solid ${studiedCases.has(c.id) ? GREEN : BORDER}`, background: studiedCases.has(c.id) ? "rgba(58,125,86,0.1)" : "transparent", color: studiedCases.has(c.id) ? GREEN : MUTED, cursor: "pointer", fontSize: 13, fontWeight: 700 }}>
                             {studiedCases.has(c.id) ? "✓ Marked as Studied" : "Mark as Studied"}
                           </button>
@@ -571,7 +571,7 @@ export default function ApologeticsPage() {
                   <div style={{ background: "rgba(255,255,255,0.03)", borderRadius: 8, padding: "10px 12px", borderLeft: `3px solid ${t.color}` }}>
                     <p style={{ fontSize: 12, color: "#A0A0C0", fontStyle: "italic", margin: 0, lineHeight: 1.6 }}>"{t.quote.slice(0, 100)}..."</p>
                   </div>
-                  <button style={{ marginTop: 12, width: "100%", padding: "8px", borderRadius: 10, border: `1px solid ${t.color}30`, background: `${t.color}08`, color: t.color, cursor: "pointer", fontSize: 12, fontWeight: 700 }}>
+                  <button type="button" style={{ marginTop: 12, width: "100%", padding: "8px", borderRadius: 10, border: `1px solid ${t.color}30`, background: `${t.color}08`, color: t.color, cursor: "pointer", fontSize: 12, fontWeight: 700 }}>
                     Read Bio →
                   </button>
                 </div>
@@ -606,7 +606,7 @@ export default function ApologeticsPage() {
                     <h4 style={{ fontSize: 13, fontWeight: 800, color: MUTED, textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>Contribution</h4>
                     <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.7, margin: 0 }}>{selectedThinker.contribution}</p>
                   </div>
-                  <button onClick={() => setSelectedThinker(null)}
+                  <button type="button" onClick={() => setSelectedThinker(null)}
                     style={{ width: "100%", padding: "12px", borderRadius: 12, border: "none", background: "rgba(255,255,255,0.08)", color: MUTED, cursor: "pointer", fontSize: 14, fontWeight: 700 }}>
                     Close
                   </button>
@@ -621,7 +621,7 @@ export default function ApologeticsPage() {
           <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
               {APOL_METHODS.map(v => (
-                <button key={v.id} onClick={() => setSelectedMethod(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedMethod(v.id)}
                   style={{ background: selectedMethod === v.id ? PURPLE : CARD, border: `1px solid ${selectedMethod === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: TEXT, fontWeight: 700, fontSize: 14 }}>{v.name}</div>
                   <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{v.era}</div>

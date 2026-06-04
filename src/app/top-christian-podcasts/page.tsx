@@ -415,7 +415,7 @@ export default function TopChristianPodcastsPage() {
         {/* Tab Navigation */}
         <div style={{ display: "flex", gap: 4, marginBottom: 32, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 6 }}>
           {tabs.map(tab => (
-            <button
+            <button type="button"
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               style={{
@@ -444,7 +444,7 @@ export default function TopChristianPodcastsPage() {
                 <span style={{ color: MUTED, fontSize: 14 }}>🔍</span>
                 <input
                   type="text"
-                  placeholder="Search podcasts..."
+                  aria-label="Search podcasts..." placeholder="Search podcasts..."
                   value={search}
                   onChange={e => setSearch(e.target.value)}
                   style={{ background: "transparent", border: "none", outline: "none", color: TEXT, fontSize: 14, width: 180 }}
@@ -454,7 +454,7 @@ export default function TopChristianPodcastsPage() {
 
             <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 32 }}>
               {CATEGORIES.map(cat => (
-                <button key={cat} onClick={() => setActiveCategory(cat)}
+                <button type="button" key={cat} onClick={() => setActiveCategory(cat)}
                   style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${activeCategory === cat ? GREEN : BORDER}`, background: activeCategory === cat ? `${GREEN}15` : "transparent", color: activeCategory === cat ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
                   {cat}
                 </button>
@@ -465,7 +465,7 @@ export default function TopChristianPodcastsPage() {
               <div style={{ textAlign: "center", padding: 60, color: MUTED }}>
                 <div style={{ fontSize: 40, marginBottom: 12 }}>🎙️</div>
                 <p>No podcasts match your search.</p>
-                <button onClick={() => { setActiveCategory("All"); setSearch(""); }} style={{ color: GREEN, background: "none", border: "none", cursor: "pointer", marginTop: 8 }}>Clear filters</button>
+                <button type="button" onClick={() => { setActiveCategory("All"); setSearch(""); }} style={{ color: GREEN, background: "none", border: "none", cursor: "pointer", marginTop: 8 }}>Clear filters</button>
               </div>
             )}
 
@@ -474,7 +474,7 @@ export default function TopChristianPodcastsPage() {
                 const open = expanded === p.name;
                 return (
                   <div key={i} style={{ background: CARD, border: `1px solid ${open ? p.color + "40" : BORDER}`, borderRadius: 14, overflow: "hidden", transition: "border-color 0.2s" }}>
-                    <button
+                    <button type="button"
                       onClick={() => setExpanded(open ? null : p.name)}
                       style={{ width: "100%", background: "transparent", border: "none", padding: "20px 24px", cursor: "pointer", display: "flex", alignItems: "center", gap: 16, textAlign: "left" }}
                     >

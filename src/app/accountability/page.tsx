@@ -375,7 +375,7 @@ export default function AccountabilityPage() {
                 Private accountability goals with real partners. Track progress, share notes, and stay consistent.
               </p>
             </div>
-            <button
+            <button type="button"
               onClick={() => setShowCompose(true)}
               className="shrink-0 flex items-center gap-2 px-5 py-2.5 rounded-xl font-black text-sm"
               style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)", color: "#07070F" }}
@@ -391,14 +391,14 @@ export default function AccountabilityPage() {
             <div className="w-full max-w-lg rounded-2xl p-6 max-h-[90vh] overflow-y-auto" style={{ background: "#12121F", border: "1px solid #1E1E32" }}>
               <div className="flex items-center justify-between mb-5">
                 <h3 className="font-black text-lg" style={{ color: "#F2F2F8" }}>New Accountability Goal</h3>
-                <button onClick={() => setShowCompose(false)} style={{ color: "#4A4A68" }}><X size={20} /></button>
+                <button type="button" onClick={() => setShowCompose(false)} style={{ color: "#4A4A68" }}><X size={20} /></button>
               </div>
               <div className="space-y-3">
                 <div>
                   <label className="text-xs font-semibold mb-1 block" style={{ color: "#6A6A88" }}>Category</label>
                   <div className="grid grid-cols-2 gap-1.5">
                     {CATEGORIES.map((c) => (
-                      <button
+                      <button type="button"
                         key={c.id}
                         onClick={() => setForm((f) => ({ ...f, category: c.id }))}
                         className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold text-left transition-all"
@@ -418,7 +418,7 @@ export default function AccountabilityPage() {
                   <label className="text-xs font-semibold mb-1 block" style={{ color: "#6A6A88" }}>Frequency</label>
                   <div className="flex gap-2">
                     {(["daily", "weekly", "monthly"] as const).map((f) => (
-                      <button
+                      <button type="button"
                         key={f}
                         onClick={() => setForm((prev) => ({ ...prev, frequency: f }))}
                         className="flex-1 py-2 rounded-lg text-xs font-bold capitalize"
@@ -437,14 +437,14 @@ export default function AccountabilityPage() {
                 <input
                   value={form.title}
                   onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
-                  placeholder="Goal title"
+                  aria-label="Goal title" placeholder="Goal title"
                   className="w-full px-4 py-2.5 rounded-xl text-sm outline-none"
                   style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#F2F2F8" }}
                 />
                 <textarea
                   value={form.description}
                   onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
-                  placeholder="Describe your goal and your 'why'..."
+                  aria-label="Describe your goal and your 'why'..." placeholder="Describe your goal and your 'why'..."
                   rows={3}
                   className="w-full px-4 py-3 rounded-xl text-sm outline-none resize-none"
                   style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#F2F2F8" }}
@@ -455,20 +455,20 @@ export default function AccountabilityPage() {
                   <input
                     value={form.partnerName}
                     onChange={(e) => setForm((f) => ({ ...f, partnerName: e.target.value }))}
-                    placeholder="Partner name"
+                    aria-label="Partner name" placeholder="Partner name"
                     className="w-full px-4 py-2.5 rounded-xl text-sm outline-none mb-2"
                     style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#F2F2F8" }}
                   />
                   <input
                     value={form.partnerInitials}
                     onChange={(e) => setForm((f) => ({ ...f, partnerInitials: e.target.value.toUpperCase().slice(0, 2) }))}
-                    placeholder="Initials (auto-generated if blank)"
+                    aria-label="Initials (auto-generated if blank)" placeholder="Initials (auto-generated if blank)"
                     className="w-full px-4 py-2.5 rounded-xl text-sm outline-none mb-2"
                     style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#F2F2F8" }}
                   />
                   <div className="flex gap-2 flex-wrap">
                     {PARTNER_COLORS.map((c) => (
-                      <button
+                      <button type="button"
                         key={c}
                         onClick={() => setForm((f) => ({ ...f, partnerColor: c }))}
                         className="w-7 h-7 rounded-full transition-all"
@@ -483,10 +483,10 @@ export default function AccountabilityPage() {
                 </div>
               </div>
               <div className="flex gap-3 mt-5">
-                <button onClick={() => setShowCompose(false)} className="flex-1 py-2.5 rounded-xl font-bold text-sm" style={{ background: "rgba(255,255,255,0.04)", color: "#8A8AA8", border: "1px solid rgba(255,255,255,0.08)" }}>
+                <button type="button" onClick={() => setShowCompose(false)} className="flex-1 py-2.5 rounded-xl font-bold text-sm" style={{ background: "rgba(255,255,255,0.04)", color: "#8A8AA8", border: "1px solid rgba(255,255,255,0.08)" }}>
                   Cancel
                 </button>
-                <button
+                <button type="button"
                   onClick={handleCreateGoal}
                   disabled={!form.title.trim() || !form.partnerName.trim()}
                   className="flex-1 py-2.5 rounded-xl font-black text-sm"
@@ -506,7 +506,7 @@ export default function AccountabilityPage() {
         <div style={{ borderBottom: "1px solid #1E1E32", background: "#0A0A16", position: "sticky", top: 0, zIndex: 10, marginBottom: 24 }}>
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8" style={{ display: "flex", gap: 2 }}>
             {([["goals", "My Goals"], ["guide", "📖 Guide"], ["voices", "🎓 Voices"], ["questions", "❓ Questions"], ["videos", "🎬 Videos"]] as const).map(([key, label]) => (
-              <button key={key} onClick={() => setMainTab(key)}
+              <button type="button" key={key} onClick={() => setMainTab(key)}
                 style={{ background: "none", border: "none", borderBottom: mainTab === key ? "2px solid #3a7d56" : "2px solid transparent", color: mainTab === key ? "#F2F2F8" : "#9898B3", fontWeight: mainTab === key ? 700 : 500, fontSize: 14, padding: "14px 18px", cursor: "pointer", whiteSpace: "nowrap" }}>
                 {label}
               </button>
@@ -520,7 +520,7 @@ export default function AccountabilityPage() {
             <div className="w-72 shrink-0">
               <div className="flex gap-2 mb-4">
                 {(["active", "completed"] as const).map((t) => (
-                  <button
+                  <button type="button"
                     key={t}
                     onClick={() => setActiveTab(t)}
                     className="flex-1 py-1.5 rounded-lg text-xs font-bold capitalize"
@@ -539,7 +539,7 @@ export default function AccountabilityPage() {
                   const cat = catMap[g.category] ?? catMap["other"];
                   const todayDone = g.checkIns.find((c) => c.date === today)?.completed;
                   return (
-                    <button
+                    <button type="button"
                       key={g.id}
                       onClick={() => setSelectedGoal(g.id)}
                       className="w-full text-left p-4 rounded-xl transition-all"
@@ -639,20 +639,20 @@ export default function AccountabilityPage() {
                             <textarea
                               value={checkInNote}
                               onChange={(e) => setCheckInNote(e.target.value)}
-                              placeholder="Add a note for your partner (optional)..."
+                              aria-label="Add a note for your partner (optional)..." placeholder="Add a note for your partner (optional)..."
                               rows={3}
                               className="w-full px-4 py-3 rounded-xl text-sm outline-none resize-none mb-3"
                               style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#F2F2F8" }}
                             />
                             <div className="flex gap-3">
-                              <button
+                              <button type="button"
                                 onClick={() => handleCheckIn(g.id, true)}
                                 className="flex-1 py-2.5 rounded-xl font-black text-sm flex items-center justify-center gap-2"
                                 style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)", color: "#07070F" }}
                               >
                                 <CheckCircle2 size={15} /> Mark Complete
                               </button>
-                              <button
+                              <button type="button"
                                 onClick={() => handleCheckIn(g.id, false)}
                                 className="px-4 py-2.5 rounded-xl font-bold text-sm"
                                 style={{ background: "rgba(239,68,68,0.1)", color: "#EF4444", border: "1px solid rgba(239,68,68,0.2)" }}
@@ -702,7 +702,7 @@ export default function AccountabilityPage() {
                   <Shield size={48} className="mx-auto mb-4 opacity-20" />
                   <p className="font-black text-lg mb-2" style={{ color: "#F2F2F8" }}>No goals yet</p>
                   <p className="text-sm mb-4">Create your first accountability goal to get started.</p>
-                  <button onClick={() => setShowCompose(true)} className="flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-sm mx-auto" style={{ background: "rgba(58,125,86,0.1)", color: "#3a7d56", border: "1px solid rgba(58,125,86,0.2)" }}>
+                  <button type="button" onClick={() => setShowCompose(true)} className="flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-sm mx-auto" style={{ background: "rgba(58,125,86,0.1)", color: "#3a7d56", border: "1px solid rgba(58,125,86,0.2)" }}>
                     <Plus size={14} /> Create Goal
                   </button>
                 </div>
@@ -741,7 +741,7 @@ export default function AccountabilityPage() {
             <div style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
               <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 80 }}>
                 {VOICES_ACCT.map(v => (
-                  <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                     style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? "rgba(58,125,86,0.4)" : "#1E1E32"}`, background: selectedVoice === v.id ? "rgba(58,125,86,0.08)" : "#12121F", cursor: "pointer" }}>
                     <div style={{ fontSize: 13, fontWeight: 700, color: selectedVoice === v.id ? "#3a7d56" : "#F2F2F8", marginBottom: 2 }}>{v.name}</div>
                     <div style={{ fontSize: 11, color: "#9898B3" }}>{v.era}</div>

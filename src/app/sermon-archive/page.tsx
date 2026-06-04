@@ -326,7 +326,7 @@ export default function SermonArchivePage() {
         <div style={{ display: "flex", gap: 12, marginBottom: 20, flexWrap: "wrap", alignItems: "center" }}>
           <div style={{ display: "flex", background: "#12121F", border: "1px solid #1E1E32", borderRadius: 10, padding: 4, gap: 4 }}>
             {(["all", "saved", "howto", "voices", "videos"] as const).map((tab) => (
-              <button key={tab} onClick={() => setActiveTab(tab)}
+              <button type="button" key={tab} onClick={() => setActiveTab(tab)}
                 style={{ padding: "7px 18px", borderRadius: 7, border: "none",
                   background: activeTab === tab ? "#6B4FBB" : "transparent",
                   color: activeTab === tab ? "#fff" : "#9898B3",
@@ -336,7 +336,7 @@ export default function SermonArchivePage() {
             ))}
           </div>
           <input value={search} onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search sermons or preachers..."
+            aria-label="Search sermons or preachers..." placeholder="Search sermons or preachers..."
             style={{ flex: 1, minWidth: 200, background: "#12121F", border: "1px solid #1E1E32", borderRadius: 10, padding: "9px 14px", color: "#F2F2F8", fontSize: 13, outline: "none" }} />
           <select value={filterType} onChange={(e) => setFilterType(e.target.value)}
             style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 10, padding: "9px 14px", color: "#9898B3", fontSize: 13 }}>
@@ -351,7 +351,7 @@ export default function SermonArchivePage() {
         {/* Topic filters */}
         <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 24 }}>
           {topics.map((t) => (
-            <button key={t} onClick={() => setFilterTopic(t)}
+            <button type="button" key={t} onClick={() => setFilterTopic(t)}
               style={{ padding: "4px 12px", borderRadius: 20, fontSize: 12, cursor: "pointer",
                 border: `1px solid ${filterTopic === t ? "#6B4FBB" : "#1E1E32"}`,
                 background: filterTopic === t ? "#6B4FBB20" : "transparent",
@@ -404,11 +404,11 @@ export default function SermonArchivePage() {
                     {sermon.mainVerse} · {sermon.duration} · {sermon.views.toLocaleString()} views
                   </div>
                   <div style={{ display: "flex", gap: 6 }}>
-                    <button onClick={(e) => { e.stopPropagation(); handleLike(sermon.id); }}
+                    <button type="button" onClick={(e) => { e.stopPropagation(); handleLike(sermon.id); }}
                       style={{ padding: "4px 8px", borderRadius: 6, border: "none", background: liked ? "#3a7d5615" : "#1E1E32", color: liked ? "#3a7d56" : "#9898B3", cursor: "pointer", fontSize: 12 }}>
                       ♥
                     </button>
-                    <button onClick={(e) => { e.stopPropagation(); handleSave(sermon.id); }}
+                    <button type="button" onClick={(e) => { e.stopPropagation(); handleSave(sermon.id); }}
                       style={{ padding: "4px 8px", borderRadius: 6, border: "none", background: saved ? "#6B4FBB20" : "#1E1E32", color: saved ? "#6B4FBB" : "#9898B3", cursor: "pointer", fontSize: 13 }}>
                       {saved ? "★" : "☆"}
                     </button>
@@ -456,7 +456,7 @@ export default function SermonArchivePage() {
           <div style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 80 }}>
               {VOICES_SERM.map(v => (
-                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                   style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? "rgba(58,125,86,0.4)" : "#1E1E32"}`, background: selectedVoice === v.id ? "rgba(58,125,86,0.08)" : "#12121F", cursor: "pointer" }}>
                   <div style={{ fontSize: 13, fontWeight: 700, color: selectedVoice === v.id ? "#3a7d56" : "#F2F2F8", marginBottom: 2 }}>{v.name}</div>
                   <div style={{ fontSize: 11, color: "#9898B3" }}>{v.era}</div>
@@ -552,7 +552,7 @@ export default function SermonArchivePage() {
             <div style={{ background: "#07070F", borderRadius: 12, padding: 16, marginBottom: 20 }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
                 <div style={{ fontSize: 13, fontWeight: 600, color: "#F2F2F8" }}>📝 My Notes</div>
-                <button onClick={() => setNoteMode(!noteMode)}
+                <button type="button" onClick={() => setNoteMode(!noteMode)}
                   style={{ padding: "4px 12px", borderRadius: 6, border: "none", background: "#1E1E32", color: "#9898B3", cursor: "pointer", fontSize: 12 }}>
                   {noteMode ? "Cancel" : notes[selectedSermon.id] ? "Edit" : "Add Notes"}
                 </button>
@@ -561,9 +561,9 @@ export default function SermonArchivePage() {
               {noteMode ? (
                 <>
                   <textarea value={noteText} onChange={(e) => setNoteText(e.target.value)} rows={6}
-                    placeholder="Take notes here... Start lines with - to create key points"
+                    aria-label="Take notes here... Start lines with - to create key points" placeholder="Take notes here... Start lines with - to create key points"
                     style={{ width: "100%", background: "#12121F", border: "1px solid #1E1E32", borderRadius: 8, padding: "10px 12px", color: "#F2F2F8", fontSize: 13, outline: "none", resize: "vertical", boxSizing: "border-box", marginBottom: 10 }} />
-                  <button onClick={() => handleSaveNote(selectedSermon)}
+                  <button type="button" onClick={() => handleSaveNote(selectedSermon)}
                     disabled={!noteText.trim()}
                     style={{ padding: "8px 20px", borderRadius: 8, border: "none",
                       background: noteText.trim() ? "#3a7d56" : "#1E1E32",
@@ -585,21 +585,21 @@ export default function SermonArchivePage() {
             </div>
 
             <div style={{ display: "flex", gap: 10 }}>
-              <button onClick={() => handleLike(selectedSermon.id)}
+              <button type="button" onClick={() => handleLike(selectedSermon.id)}
                 style={{ flex: 1, padding: "11px 16px", borderRadius: 10, border: "none",
                   background: likedIds.has(selectedSermon.id) ? "#3a7d5615" : "#1E1E32",
                   color: likedIds.has(selectedSermon.id) ? "#3a7d56" : "#9898B3",
                   cursor: "pointer", fontWeight: 600, fontSize: 14 }}>
                 ♥ {likedIds.has(selectedSermon.id) ? "Liked" : "Like"}
               </button>
-              <button onClick={() => handleSave(selectedSermon.id)}
+              <button type="button" onClick={() => handleSave(selectedSermon.id)}
                 style={{ flex: 1, padding: "11px 16px", borderRadius: 10, border: "none",
                   background: savedIds.has(selectedSermon.id) ? "#6B4FBB20" : "#1E1E32",
                   color: savedIds.has(selectedSermon.id) ? "#6B4FBB" : "#9898B3",
                   cursor: "pointer", fontWeight: 600, fontSize: 14 }}>
                 {savedIds.has(selectedSermon.id) ? "★ Saved" : "☆ Save"}
               </button>
-              <button onClick={() => { setSelectedSermon(null); setNoteMode(false); }}
+              <button type="button" onClick={() => { setSelectedSermon(null); setNoteMode(false); }}
                 style={{ padding: "11px 16px", borderRadius: 10, border: "1px solid #1E1E32", background: "transparent", color: "#9898B3", cursor: "pointer", fontSize: 14 }}>
                 Close
               </button>

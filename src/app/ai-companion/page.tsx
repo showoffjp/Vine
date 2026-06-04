@@ -438,7 +438,7 @@ export default function AICompanionPage() {
             gap: 16,
           }}
         >
-          <button
+          <button type="button"
             onClick={() => router.back()}
             style={{
               width: 36,
@@ -483,7 +483,7 @@ export default function AICompanionPage() {
 
           {/* Clear history */}
           {messages.length > 1 && (
-            <button
+            <button type="button"
               onClick={() => {
                 setMessages([makeWelcomeMessage()]);
                 try { localStorage.removeItem("vine_ai_history"); } catch {}
@@ -505,7 +505,7 @@ export default function AICompanionPage() {
 
           {/* Dropdown button */}
           <div ref={dropdownRef} style={{ position: "relative" }}>
-            <button
+            <button type="button"
               onClick={() => setShowDropdown((v) => !v)}
               style={{
                 display: "flex",
@@ -542,7 +542,7 @@ export default function AICompanionPage() {
                 }}
               >
                 {DROPDOWN_QUESTIONS.map((q) => (
-                  <button
+                  <button type="button"
                     key={q}
                     onClick={() => {
                       setInput(q);
@@ -611,7 +611,7 @@ export default function AICompanionPage() {
                     }}
                   >
                     {STARTER_CARDS.map((card) => (
-                      <button
+                      <button type="button"
                         key={card.label}
                         onClick={() => sendMessage(card.label)}
                         style={{
@@ -638,7 +638,7 @@ export default function AICompanionPage() {
                     ))}
                   </div>
                   <div style={{ textAlign: "center", marginTop: 14 }}>
-                    <button
+                    <button type="button"
                       onClick={() => sendMessage(ALL_SUGGESTED[Math.floor(Math.random() * ALL_SUGGESTED.length)])}
                       style={{
                         background: "transparent",
@@ -694,7 +694,7 @@ export default function AICompanionPage() {
                 </div>
                 <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
                   {cat.questions.map((q) => (
-                    <button
+                    <button type="button"
                       key={q}
                       onClick={() => {
                         setInput(q);
@@ -765,7 +765,7 @@ export default function AICompanionPage() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Ask about any verse, topic, or question..."
+                aria-label="Ask about any verse, topic, or question..." placeholder="Ask about any verse, topic, or question..."
                 rows={1}
                 style={{
                   flex: 1,
@@ -783,7 +783,7 @@ export default function AICompanionPage() {
                   overflowY: "auto",
                 }}
               />
-              <button
+              <button type="button"
                 onClick={() => sendMessage(input)}
                 disabled={isLoading || !input.trim()}
                 style={{

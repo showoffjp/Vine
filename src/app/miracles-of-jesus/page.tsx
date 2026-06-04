@@ -292,7 +292,7 @@ export default function MiraclesOfJesusPage() {
   const filtered = type === "All" ? MIRACLES : MIRACLES.filter((m) => m.type === type);
 
   const tabBtn = (t: Tab, label: string) => (
-    <button
+    <button type="button"
       key={t}
       onClick={() => setActiveTab(t)}
       style={{
@@ -515,7 +515,7 @@ export default function MiraclesOfJesusPage() {
                 const active = type === t;
                 const color = t === "All" ? GREEN : TYPE_COLOR[t] ?? GREEN;
                 return (
-                  <button
+                  <button type="button"
                     key={t}
                     onClick={() => setType(t)}
                     style={{
@@ -555,7 +555,7 @@ export default function MiraclesOfJesusPage() {
                       transition: "border-color 0.2s",
                     }}
                   >
-                    <button
+                    <button type="button"
                       onClick={() => setOpenId(open ? null : m.id)}
                       style={{
                         width: "100%",

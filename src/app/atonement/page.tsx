@@ -179,7 +179,7 @@ export default function AtonementPage() {
             { id: "doctrines" as const, label: "Doctrines", icon: "📖" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -190,7 +190,7 @@ export default function AtonementPage() {
           <div>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 20 }}>
               {THEORIES.map(t => (
-                <button key={t.name} onClick={() => setSelected(t.name)}
+                <button type="button" key={t.name} onClick={() => setSelected(t.name)}
                   style={{ padding: "8px 14px", borderRadius: 20, border: `1px solid ${selected === t.name ? t.color : BORDER}`, background: selected === t.name ? `${t.color}15` : "transparent", color: selected === t.name ? t.color : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
                   {t.name}
                 </button>
@@ -223,7 +223,7 @@ export default function AtonementPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 6 }}>
               {SCRIPTURE.map((s, i) => (
-                <button key={i} onClick={() => setSelectedScripture(i)}
+                <button type="button" key={i} onClick={() => setSelectedScripture(i)}
                   style={{ width: "100%", background: selectedScripture === i ? `${PURPLE}20` : CARD, border: `1px solid ${selectedScripture === i ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", textAlign: "left", cursor: "pointer" }}>
                   <div style={{ color: selectedScripture === i ? GREEN : TEXT, fontWeight: 700, fontSize: 12, marginBottom: 2 }}>{s.ref}</div>
                   <div style={{ color: MUTED, fontSize: 11 }}>{s.theme}</div>
@@ -251,7 +251,7 @@ export default function AtonementPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 6 }}>
               {THINKERS.map(t => (
-                <button key={t.id} onClick={() => setSelectedThinker(t.id)}
+                <button type="button" key={t.id} onClick={() => setSelectedThinker(t.id)}
                   style={{ width: "100%", background: selectedThinker === t.id ? `${PURPLE}20` : CARD, border: `1px solid ${selectedThinker === t.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", textAlign: "left", cursor: "pointer" }}>
                   <div style={{ color: selectedThinker === t.id ? GREEN : TEXT, fontWeight: 700, fontSize: 13, marginBottom: 2 }}>{t.name}</div>
                   <div style={{ color: MUTED, fontSize: 11 }}>{t.era}</div>

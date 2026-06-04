@@ -248,7 +248,7 @@ export default function PrayerListPage() {
                 <h1 className="text-3xl font-black">Prayer Journal</h1>
                 <p className="text-sm mt-1" style={{ color: "#6A6A88" }}>Your personal, private prayer requests. Pray daily, track answered prayers.</p>
               </div>
-              <button
+              <button type="button"
                 onClick={() => setShowAdd(true)}
                 className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold text-black"
                 style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)" }}
@@ -277,12 +277,12 @@ export default function PrayerListPage() {
             <div className="rounded-2xl p-6 mb-5" style={{ background: "#12121F", border: "1px solid rgba(58,125,86,0.2)" }}>
               <div className="flex items-center justify-between mb-4">
                 <h3 className="font-black" style={{ color: "#F2F2F8" }}>New Prayer Request</h3>
-                <button onClick={() => setShowAdd(false)} style={{ color: "#6A6A88" }}><X size={16} /></button>
+                <button type="button" onClick={() => setShowAdd(false)} style={{ color: "#6A6A88" }}><X size={16} /></button>
               </div>
               <div className="space-y-3">
                 <textarea
                   rows={3}
-                  placeholder="What would you like to bring to God in prayer?"
+                  aria-label="What would you like to bring to God in prayer?" placeholder="What would you like to bring to God in prayer?"
                   value={newRequest}
                   onChange={(e) => setNewRequest(e.target.value)}
                   className="w-full px-4 py-3 rounded-xl text-sm outline-none resize-none"
@@ -303,7 +303,7 @@ export default function PrayerListPage() {
                   <div>
                     <label className="text-[10px] font-bold uppercase tracking-wider block mb-1" style={{ color: "#6A6A88" }}>Person (optional)</label>
                     <input
-                      type="text" placeholder="Who are you praying for?"
+                      type="text" aria-label="Who are you praying for?" placeholder="Who are you praying for?"
                       value={newPerson}
                       onChange={(e) => setNewPerson(e.target.value)}
                       className="w-full px-3 py-2 rounded-xl text-sm outline-none"
@@ -314,7 +314,7 @@ export default function PrayerListPage() {
                 <div>
                   <label className="text-[10px] font-bold uppercase tracking-wider block mb-1" style={{ color: "#6A6A88" }}>Scripture to stand on (optional)</label>
                   <input
-                    type="text" placeholder="e.g. Philippians 4:6-7"
+                    type="text" aria-label="e.g. Philippians 4:6-7" placeholder="e.g. Philippians 4:6-7"
                     value={newVerse}
                     onChange={(e) => setNewVerse(e.target.value)}
                     className="w-full px-3 py-2 rounded-xl text-sm outline-none"
@@ -322,14 +322,14 @@ export default function PrayerListPage() {
                   />
                 </div>
                 <div className="flex gap-3 pt-1">
-                  <button
+                  <button type="button"
                     onClick={() => setShowAdd(false)}
                     className="flex-1 py-2.5 rounded-xl text-sm font-semibold"
                     style={{ background: "#0D0D1A", border: "1px solid #1E1E32", color: "#6A6A88" }}
                   >
                     Cancel
                   </button>
-                  <button
+                  <button type="button"
                     onClick={addItem}
                     disabled={!newRequest.trim()}
                     className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-bold text-black"
@@ -345,7 +345,7 @@ export default function PrayerListPage() {
           {/* Tabs */}
           <div className="flex gap-1 p-1 rounded-xl mb-4" style={{ background: "#12121F", border: "1px solid #1E1E32" }}>
             {(["active", "answered", "guide", "voices"] as const).map((tab) => (
-              <button
+              <button type="button"
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 className="flex-1 py-2 rounded-lg text-sm font-semibold capitalize transition-all"
@@ -364,7 +364,7 @@ export default function PrayerListPage() {
           {/* Category filter */}
           <div className="flex gap-2 flex-wrap mb-5">
             {(["All", ...CATEGORIES] as (PrayerCategory | "All")[]).map((cat) => (
-              <button
+              <button type="button"
                 key={cat}
                 onClick={() => setFilterCat(cat)}
                 className="text-xs font-semibold px-2.5 py-1 rounded-full transition-all"
@@ -420,7 +420,7 @@ export default function PrayerListPage() {
                           </div>
                           <div className="flex items-center gap-1 shrink-0">
                             {!item.answered && (
-                              <button
+                              <button type="button"
                                 onClick={() => setAnsweringId(item.id)}
                                 className="text-[10px] font-bold px-2 py-1 rounded-lg transition-all"
                                 style={{ background: "rgba(16,185,129,0.08)", color: "#10B981", border: "1px solid rgba(16,185,129,0.2)" }}
@@ -429,7 +429,7 @@ export default function PrayerListPage() {
                               </button>
                             )}
                             {item.answered && <CheckCircle2 size={14} style={{ color: "#10B981" }} />}
-                            <button
+                            <button type="button"
                               onClick={() => deleteItem(item.id)}
                               className="p-1 rounded transition-all"
                               style={{ color: "#3A3A58" }}
@@ -463,7 +463,7 @@ export default function PrayerListPage() {
                             {item.answeredAt && ` · Answered ${item.answeredAt}`}
                           </p>
                           {!item.answered && (
-                            <button
+                            <button type="button"
                               onClick={() => markPrayed(item.id)}
                               className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg transition-all"
                               style={{ background: `${color}10`, color, border: `1px solid ${color}25` }}
@@ -483,21 +483,21 @@ export default function PrayerListPage() {
                         <p className="text-xs font-bold mb-2" style={{ color: "#10B981" }}>How did God answer this prayer?</p>
                         <textarea
                           rows={2}
-                          placeholder="Write your testimony here (optional)…"
+                          aria-label="Write your testimony here (optional)…" placeholder="Write your testimony here (optional)…"
                           value={answeredNote}
                           onChange={(e) => setAnsweredNote(e.target.value)}
                           className="w-full px-3 py-2 rounded-xl text-sm outline-none resize-none mb-2"
                           style={{ background: "#0D0D1A", border: "1px solid rgba(16,185,129,0.2)", color: "#F2F2F8" }}
                         />
                         <div className="flex gap-2">
-                          <button
+                          <button type="button"
                             onClick={() => { setAnsweringId(null); setAnsweredNote(""); }}
                             className="flex-1 py-2 rounded-xl text-xs font-semibold"
                             style={{ background: "#0D0D1A", border: "1px solid #1E1E32", color: "#6A6A88" }}
                           >
                             Cancel
                           </button>
-                          <button
+                          <button type="button"
                             onClick={() => markAnswered(item.id)}
                             className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-bold"
                             style={{ background: "rgba(16,185,129,0.12)", color: "#10B981", border: "1px solid rgba(16,185,129,0.3)" }}
@@ -563,7 +563,7 @@ export default function PrayerListPage() {
             <div style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
               <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 80 }}>
                 {VOICES_PL.map(v => (
-                  <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                     style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? "rgba(107,79,187,0.4)" : "#1E1E32"}`, background: selectedVoice === v.id ? "rgba(107,79,187,0.1)" : "#12121F", cursor: "pointer" }}>
                     <div style={{ fontSize: 13, fontWeight: 700, color: selectedVoice === v.id ? "#A080FF" : "#F2F2F8", marginBottom: 2 }}>{v.name}</div>
                     <div style={{ fontSize: 11, color: "#9898B3" }}>{v.era}</div>

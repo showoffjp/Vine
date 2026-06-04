@@ -112,7 +112,7 @@ export default function HospitalityPage() {
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -154,7 +154,7 @@ export default function HospitalityPage() {
             </div>
             {OBSTACLES.map((o, i) => (
               <div key={i} style={{ marginBottom: 10 }}>
-                <button onClick={() => setExpanded(expanded === o.obstacle ? null : o.obstacle)}
+                <button type="button" onClick={() => setExpanded(expanded === o.obstacle ? null : o.obstacle)}
                   style={{ width: "100%", background: CARD, border: `1px solid ${BORDER}`, borderRadius: expanded === o.obstacle ? "10px 10px 0 0" : 10, padding: "14px 18px", color: TEXT, fontWeight: 700, fontSize: 14, cursor: "pointer", display: "flex", justifyContent: "space-between", textAlign: "left" }}>
                   <span>{o.obstacle}</span>
                   <span style={{ color: MUTED, flexShrink: 0 }}>{expanded === o.obstacle ? "−" : "+"}</span>
@@ -173,7 +173,7 @@ export default function HospitalityPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 220, flexShrink: 0 }}>
               {HISTORY.map(h => (
-                <button key={h.id} onClick={() => setSelectedHistory(h.id)}
+                <button type="button" key={h.id} onClick={() => setSelectedHistory(h.id)}
                   style={{ width: "100%", background: selectedHistory === h.id ? `${PURPLE}20` : CARD, border: `1px solid ${selectedHistory === h.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 8, cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: selectedHistory === h.id ? GREEN : TEXT, fontWeight: 700, fontSize: 13, marginBottom: 2 }}>{h.name}</div>
                   <div style={{ color: MUTED, fontSize: 11 }}>{h.era}</div>

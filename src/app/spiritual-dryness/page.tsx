@@ -110,7 +110,7 @@ export default function SpiritualDrynessPage() {
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
             { id: "videos" as const, label: "Videos", icon: "▶️" },
           ].map(t => (
-            <button key={t.id} onClick={() => setTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -126,7 +126,7 @@ export default function SpiritualDrynessPage() {
             </div>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 20 }}>
               {CAUSES.map(c => (
-                <button key={c.cause} onClick={() => setSelectedCause(c.cause)}
+                <button type="button" key={c.cause} onClick={() => setSelectedCause(c.cause)}
                   style={{ padding: "8px 14px", borderRadius: 20, border: `1px solid ${selectedCause === c.cause ? c.color : BORDER}`, background: selectedCause === c.cause ? `${c.color}15` : "transparent", color: selectedCause === c.cause ? c.color : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
                   {c.cause}
                 </button>
@@ -152,7 +152,7 @@ export default function SpiritualDrynessPage() {
             </div>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 20 }}>
               {SAINTS.map(s => (
-                <button key={s.name} onClick={() => setSelectedSaint(s.name)}
+                <button type="button" key={s.name} onClick={() => setSelectedSaint(s.name)}
                   style={{ padding: "8px 14px", borderRadius: 20, border: `1px solid ${selectedSaint === s.name ? PURPLE : BORDER}`, background: selectedSaint === s.name ? `${PURPLE}20` : "transparent", color: selectedSaint === s.name ? PURPLE : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
                   {s.name}
                 </button>
@@ -172,7 +172,7 @@ export default function SpiritualDrynessPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 210, flexShrink: 0 }}>
               {LAMENT_PSALMS.map(p => (
-                <button key={p.id} onClick={() => setSelectedPsalm(p.id)}
+                <button type="button" key={p.id} onClick={() => setSelectedPsalm(p.id)}
                   style={{ width: "100%", textAlign: "left", background: selectedPsalm === p.id ? `${p.color}18` : CARD, border: `1px solid ${selectedPsalm === p.id ? p.color : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 8, cursor: "pointer" }}>
                   <div style={{ color: selectedPsalm === p.id ? p.color : TEXT, fontWeight: 700, fontSize: 13, marginBottom: 3 }}>{p.name}</div>
                   <div style={{ color: MUTED, fontSize: 11 }}>{p.heading}</div>

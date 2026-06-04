@@ -319,7 +319,7 @@ export default function PrayerPage() {
                 ))}
               </div>
 
-              <button
+              <button type="button"
                 onClick={() => setShowForm(!showForm)}
                 className="btn-gold px-6 py-3 rounded-xl text-sm font-bold flex items-center gap-2"
               >
@@ -337,7 +337,7 @@ export default function PrayerPage() {
             >
               <div className="flex items-center justify-between mb-5">
                 <h3 className="font-bold" style={{ color: "#F2F2F8" }}>Share Your Prayer Request</h3>
-                <button
+                <button type="button"
                   onClick={() => setShowForm(false)}
                   className="p-1.5 rounded-lg transition hover:bg-[#1E1E32]"
                   style={{ color: "#6A6A88" }}
@@ -390,7 +390,7 @@ export default function PrayerPage() {
 
               {/* Anonymous toggle */}
               <div className="flex items-center gap-2 mb-4">
-                <button
+                <button type="button"
                   onClick={() => setIsAnonymous(!isAnonymous)}
                   className="relative w-10 h-5 rounded-full transition-all duration-200 flex-shrink-0"
                   style={{ background: isAnonymous ? "#3a7d56" : "#1E1E32" }}
@@ -416,7 +416,7 @@ export default function PrayerPage() {
                 <textarea
                   value={requestText}
                   onChange={(e) => setRequestText(e.target.value)}
-                  placeholder="Share what's on your heart. Be as specific or general as you'd like. This community will lift you up in prayer..."
+                  aria-label="Share what's on your heart. Be as specific or general as you'd like. This community will lift you up in prayer..." placeholder="Share what's on your heart. Be as specific or general as you'd like. This community will lift you up in prayer..."
                   rows={4}
                   className="w-full px-4 py-3 rounded-xl text-sm outline-none resize-none"
                   style={{ background: "#07070F", border: "1px solid #1E1E32", color: "#F2F2F8", lineHeight: 1.6 }}
@@ -433,11 +433,11 @@ export default function PrayerPage() {
                 </div>
               ) : (
                 <div className="flex items-center gap-3">
-                  <button onClick={handleSubmitPrayer} className="btn-gold px-6 py-2.5 rounded-xl text-sm font-bold flex items-center gap-2">
+                  <button type="button" onClick={handleSubmitPrayer} className="btn-gold px-6 py-2.5 rounded-xl text-sm font-bold flex items-center gap-2">
                     <Send size={14} />
                     Submit Prayer Request
                   </button>
-                  <button
+                  <button type="button"
                     onClick={() => setShowForm(false)}
                     className="px-4 py-2.5 rounded-xl text-sm font-semibold transition hover:bg-[#18182A]"
                     style={{ border: "1px solid #1E1E32", color: "#8A8AA8" }}
@@ -459,7 +459,7 @@ export default function PrayerPage() {
                 className="flex items-center gap-1 overflow-x-auto scrollbar-hide mb-5 pb-1"
               >
                 {tabs.map((tab) => (
-                  <button
+                  <button type="button"
                     key={tab}
                     onClick={() => setActiveTab(tab)}
                     className="flex-shrink-0 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200"
@@ -552,7 +552,7 @@ export default function PrayerPage() {
                       {/* Actions */}
                       <div className="flex items-center gap-2 flex-wrap">
                         {/* Pray button */}
-                        <button
+                        <button type="button"
                           onClick={() => handlePray(card.id)}
                           disabled={hasPrayed}
                           className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-all duration-300"
@@ -590,7 +590,7 @@ export default function PrayerPage() {
                           const hasAmened = amenedCards.has(card.id);
                           const amen = amenCounts[card.id] ?? card.amenCount;
                           return (
-                            <button
+                            <button type="button"
                               onClick={() => toggleAmen(card.id)}
                               className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm transition-all duration-200 hover:bg-[#18182A]"
                               style={{
@@ -606,7 +606,7 @@ export default function PrayerPage() {
                         })()}
 
                         {/* Comment */}
-                        <button
+                        <button type="button"
                           onClick={() => { setOpenEncourage(openEncourage === card.id ? null : card.id); setEncourageText(""); }}
                           className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm transition-all duration-200 hover:bg-[#18182A]"
                           style={{
@@ -618,7 +618,7 @@ export default function PrayerPage() {
                           Encourage{(encouragements[card.id]?.length ?? 0) > 0 ? ` · ${encouragements[card.id].length}` : ""}
                         </button>
 
-                        <button
+                        <button type="button"
                           onClick={() => handleSharePrayer(card.id)}
                           className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm transition-all duration-200 hover:bg-[#18182A] ml-auto"
                           style={{ border: `1px solid ${copiedCard === card.id ? "rgba(58,125,86,0.4)" : "#1E1E32"}`, color: copiedCard === card.id ? "#3a7d56" : "#6A6A88" }}
@@ -648,11 +648,11 @@ export default function PrayerPage() {
                             value={encourageText}
                             onChange={(e) => setEncourageText(e.target.value)}
                             onKeyDown={(e) => { if (e.key === "Enter") handleEncourageSubmit(card.id); }}
-                            placeholder="Write an encouragement or a verse…"
+                            aria-label="Write an encouragement or a verse…" placeholder="Write an encouragement or a verse…"
                             className="flex-1 px-3 py-2 rounded-xl text-sm outline-none"
                             style={{ background: "#0D0D17", border: "1px solid #1E1E32", color: "#F2F2F8" }}
                           />
-                          <button
+                          <button type="button"
                             onClick={() => handleEncourageSubmit(card.id)}
                             disabled={!encourageText.trim()}
                             className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-bold"
@@ -783,7 +783,7 @@ export default function PrayerPage() {
                 <p className="text-xs mb-3" style={{ color: "#8A8AA8" }}>
                   Every &quot;Pray&quot; button you click is a real person feeling less alone.
                 </p>
-                <button
+                <button type="button"
                   onClick={() => setShowForm(true)}
                   className="btn-gold w-full py-2 rounded-xl text-sm font-bold"
                 >

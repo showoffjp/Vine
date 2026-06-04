@@ -135,7 +135,7 @@ export default function ChurchPlantingPage() {
             { id: "journal" as const, label: "My Notes", icon: "📝" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 6px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -146,7 +146,7 @@ export default function ChurchPlantingPage() {
           <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 8, minWidth: 160 }}>
               {PHASES.map(p => (
-                <button key={p.id} onClick={() => setSelectedPhase(p.id)}
+                <button type="button" key={p.id} onClick={() => setSelectedPhase(p.id)}
                   style={{ padding: "10px 14px", borderRadius: 10, border: `1px solid ${selectedPhase === p.id ? p.color : BORDER}`, background: selectedPhase === p.id ? `${p.color}18` : CARD, color: selectedPhase === p.id ? p.color : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", textAlign: "left" }}>
                   {p.icon} Phase {p.phase}: {p.name}
                 </button>
@@ -228,7 +228,7 @@ export default function ChurchPlantingPage() {
             <h3 style={{ color: GREEN, fontWeight: 800, marginBottom: 8 }}>Church Planting Notes</h3>
             <p style={{ color: MUTED, fontSize: 13, marginBottom: 12 }}>Record your call story, prayer, vision, questions, and next steps here.</p>
             <textarea value={journalText} onChange={e => setJournalText(e.target.value)}
-              placeholder={"My call story:\n\nWhere I sense God sending me:\n\nMy current preparation stage:\n\nKey people who are part of this:\n\nMy biggest questions right now:\n\nNext concrete steps:"}
+              aria-label="Church planting journal" placeholder={"My call story:\n\nWhere I sense God sending me:\n\nMy current preparation stage:\n\nKey people who are part of this:\n\nMy biggest questions right now:\n\nNext concrete steps:"}
               style={{ width: "100%", minHeight: 320, background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: 16, color: TEXT, fontSize: 14, lineHeight: 1.8, resize: "vertical", boxSizing: "border-box", fontFamily: "inherit" }} />
           </div>
         )}

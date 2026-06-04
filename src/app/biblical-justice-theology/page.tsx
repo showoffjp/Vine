@@ -200,7 +200,7 @@ export default function BiblicalJusticeTheologyPage() {
 
         <div style={{ display: "flex", gap: 4, marginBottom: 28, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
           {(["foundations", "ot", "nt", "today", "videos"] as Tab[]).map(t => (
-            <button key={t} onClick={() => setTab(t)}
+            <button type="button" key={t} onClick={() => setTab(t)}
               style={{ padding: "8px 18px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer", transition: "all 0.15s" }}>
               {t === "foundations" ? "Biblical Foundations" : t === "ot" ? "Old Testament" : t === "nt" ? "New Testament" : t === "today" ? "Justice Today" : "🎬 Videos"}
             </button>
@@ -215,7 +215,7 @@ export default function BiblicalJusticeTheologyPage() {
             </p>
             {FOUNDATIONS.map((f, i) => (
               <div key={i} style={{ background: CARD, border: `1px solid ${expanded[f.title] ? f.color + "50" : BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                <button onClick={() => toggleExpanded(f.title)}
+                <button type="button" onClick={() => toggleExpanded(f.title)}
                   style={{ width: "100%", padding: "16px 20px", cursor: "pointer", textAlign: "left", background: "transparent", border: "none", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <div>
                     <div style={{ color: f.color, fontWeight: 800, fontSize: 15, marginBottom: 3 }}>{f.title}</div>
@@ -238,7 +238,7 @@ export default function BiblicalJusticeTheologyPage() {
           <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 6, position: "sticky", top: 24 }}>
               {OT_THEMES.map(theme => (
-                <button key={theme.id} onClick={() => setActiveOT(theme.id)}
+                <button type="button" key={theme.id} onClick={() => setActiveOT(theme.id)}
                   style={{ padding: "12px 14px", borderRadius: 10, border: `1px solid ${activeOT === theme.id ? GREEN + "60" : BORDER}`, background: activeOT === theme.id ? `${GREEN}15` : CARD, color: activeOT === theme.id ? GREEN : TEXT, fontWeight: activeOT === theme.id ? 700 : 400, fontSize: 13, cursor: "pointer", textAlign: "left", lineHeight: 1.4, transition: "all 0.15s" }}>
                   {theme.title}
                 </button>
@@ -261,7 +261,7 @@ export default function BiblicalJusticeTheologyPage() {
             </p>
             {NT_ITEMS.map((item, i) => (
               <div key={i} style={{ background: CARD, border: `1px solid ${expanded[item.title] ? item.color + "50" : BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                <button onClick={() => toggleExpanded(item.title)}
+                <button type="button" onClick={() => toggleExpanded(item.title)}
                   style={{ width: "100%", padding: "16px 20px", cursor: "pointer", textAlign: "left", background: "transparent", border: "none", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <div>
                     <div style={{ color: item.color, fontWeight: 800, fontSize: 15, marginBottom: 3 }}>{item.title}</div>

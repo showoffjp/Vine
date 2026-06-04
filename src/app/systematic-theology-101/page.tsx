@@ -352,7 +352,7 @@ export default function SystematicTheology101Page() {
             { id: "resources" as const, label: "Resources", icon: "📚" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ]).map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none",
                 background: activeTab === t.id ? PURPLE : "transparent",
                 color: activeTab === t.id ? "#fff" : MUTED,
@@ -366,7 +366,7 @@ export default function SystematicTheology101Page() {
           <div style={{ display: "grid", gridTemplateColumns: locus ? "1fr 1fr" : "repeat(auto-fill, minmax(280px, 1fr))", gap: 14, alignItems: "start" }}>
             <div style={{ display: "contents" }}>
               {!locus && LOCI.map((l, i) => (
-                <button key={i} onClick={() => setSelected(l.name)}
+                <button type="button" key={i} onClick={() => setSelected(l.name)}
                   style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 22, cursor: "pointer", textAlign: "left", transition: "all 0.15s" }}
                   onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.border = `1px solid ${l.color}40`; }}
                   onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.border = `1px solid ${BORDER}`; }}>
@@ -388,7 +388,7 @@ export default function SystematicTheology101Page() {
               <>
                 <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                   {LOCI.map((l, i) => (
-                    <button key={i} onClick={() => setSelected(l.name)}
+                    <button type="button" key={i} onClick={() => setSelected(l.name)}
                       style={{ background: selected === l.name ? `${l.color}12` : CARD, border: `1px solid ${selected === l.name ? l.color + "50" : BORDER}`, borderRadius: 12, padding: "14px 18px", cursor: "pointer", textAlign: "left" }}>
                       <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                         <div style={{ width: 38, height: 38, borderRadius: 8, background: `${l.color}20`, border: `1px solid ${l.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: l.color, fontWeight: 900, fontSize: 9, flexShrink: 0 }}>
@@ -436,7 +436,7 @@ export default function SystematicTheology101Page() {
                     </div>
                   </div>
 
-                  <button onClick={() => setSelected(null)}
+                  <button type="button" onClick={() => setSelected(null)}
                     style={{ background: "transparent", border: `1px solid ${BORDER}`, color: MUTED, padding: "7px 14px", borderRadius: 8, fontSize: 12, cursor: "pointer" }}>
                     ← Back to all
                   </button>
@@ -450,7 +450,7 @@ export default function SystematicTheology101Page() {
           <div style={{ display: "grid", gridTemplateColumns: "210px 1fr", gap: 20, alignItems: "start" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 100 }}>
               {THINKERS_ST.map(v => (
-                <button key={v.id} onClick={() => setSelectedThinker(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedThinker(v.id)}
                   style={{ background: selectedThinker === v.id ? `${PURPLE}20` : CARD,
                     border: `1px solid ${selectedThinker === v.id ? PURPLE : BORDER}`,
                     borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>

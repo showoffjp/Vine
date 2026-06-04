@@ -263,7 +263,7 @@ export default function GroupsPage() {
               <input
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search groups or tags..."
+                aria-label="Search groups or tags..." placeholder="Search groups or tags..."
                 className="w-full pl-10 pr-4 py-3 rounded-xl text-sm outline-none"
                 style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#F2F2F8" }}
               />
@@ -296,7 +296,7 @@ export default function GroupsPage() {
               </div>
 
               {/* Create Group */}
-              <button
+              <button type="button"
                 onClick={createGroup}
                 className="w-full flex items-center gap-2 p-4 rounded-2xl font-bold text-sm"
                 style={{ background: "rgba(58,125,86,0.08)", border: "1px solid rgba(58,125,86,0.2)", color: "#3a7d56" }}
@@ -311,7 +311,7 @@ export default function GroupsPage() {
               {/* Category filter */}
               <div className="flex gap-2 flex-wrap mb-6">
                 {categories.map((cat) => (
-                  <button
+                  <button type="button"
                     key={cat}
                     onClick={() => setActiveCategory(cat)}
                     className="px-4 py-1.5 rounded-full text-sm font-semibold transition-all"
@@ -364,7 +364,7 @@ export default function GroupsPage() {
                         </span>
                       </div>
                     </div>
-                    <button
+                    <button type="button"
                       onClick={() => setJoined((j) => ({ ...j, [featuredGroup.name]: !j[featuredGroup.name] }))}
                       className="px-5 py-2 rounded-xl font-bold text-sm shrink-0"
                       style={{
@@ -431,7 +431,7 @@ export default function GroupsPage() {
                           {g.online}
                         </span>
                       </div>
-                      <button
+                      <button type="button"
                         onClick={(e) => {
                           e.stopPropagation();
                           setJoined((j) => ({ ...j, [g.name]: !j[g.name] }));
@@ -468,7 +468,7 @@ export default function GroupsPage() {
                 <p className="text-sm mb-5 max-w-sm mx-auto" style={{ color: "#6A6A88" }}>
                   Start a group around your passion, your church, or your calling. It takes 2 minutes.
                 </p>
-                <button
+                <button type="button"
                   onClick={createGroup}
                   className="inline-flex items-center gap-2 px-7 py-2.5 rounded-xl font-bold text-sm"
                   style={{ background: "linear-gradient(135deg, #6B4FBB, #5A3FA8)", color: "#fff" }}

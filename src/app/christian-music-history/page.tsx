@@ -272,7 +272,7 @@ function TabButton({
   onClick: () => void;
 }) {
   return (
-    <button
+    <button type="button"
       onClick={onClick}
       style={{
         padding: "10px 18px",
@@ -421,7 +421,7 @@ export default function ChristianMusicHistoryPage() {
               </h3>
               <div style={{ display: "grid", gap: 10 }}>
                 {ERAS.map((e) => (
-                  <button
+                  <button type="button"
                     key={e.id}
                     onClick={() => {
                       setTab("eras");
@@ -473,7 +473,7 @@ export default function ChristianMusicHistoryPage() {
                     overflow: "hidden",
                   }}
                 >
-                  <button
+                  <button type="button"
                     onClick={() => setOpenEra(open ? "" : e.id)}
                     style={{
                       width: "100%",

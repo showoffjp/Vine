@@ -108,7 +108,7 @@ export default function ChristianFinancialGuidePage() {
             { id: "resources" as const, label: "Resources", icon: "🔗" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -133,7 +133,7 @@ export default function ChristianFinancialGuidePage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8 }}>
               {THINKERS_FINANCE.map(v => (
-                <button key={v.id} onClick={() => setSelectedThinker(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedThinker(v.id)}
                   style={{ background: selectedThinker === v.id ? `${PURPLE}20` : CARD, border: `1px solid ${selectedThinker === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", textAlign: "left", cursor: "pointer" }}>
                   <div style={{ color: TEXT, fontWeight: 700, fontSize: 13 }}>{v.name}</div>
                   <div style={{ color: MUTED, fontSize: 11, marginTop: 2 }}>{v.era}</div>

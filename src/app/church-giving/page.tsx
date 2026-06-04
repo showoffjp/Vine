@@ -111,7 +111,7 @@ export default function ChurchGivingPage() {
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -136,7 +136,7 @@ export default function ChurchGivingPage() {
           <div>
             {QUESTIONS.map((q, i) => (
               <div key={i} style={{ marginBottom: 10 }}>
-                <button onClick={() => setExpanded(expanded === q.q ? null : q.q)}
+                <button type="button" onClick={() => setExpanded(expanded === q.q ? null : q.q)}
                   style={{ width: "100%", background: CARD, border: `1px solid ${BORDER}`, borderRadius: expanded === q.q ? "10px 10px 0 0" : 10, padding: "14px 18px", color: TEXT, fontWeight: 700, fontSize: 14, cursor: "pointer", display: "flex", justifyContent: "space-between", textAlign: "left" }}>
                   <span>{q.q}</span>
                   <span style={{ color: MUTED, flexShrink: 0 }}>{expanded === q.q ? "−" : "+"}</span>
@@ -155,7 +155,7 @@ export default function ChurchGivingPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 210, flexShrink: 0 }}>
               {GENEROUS_LIVES.map(g => (
-                <button key={g.id} onClick={() => setSelectedGiver(g.id)}
+                <button type="button" key={g.id} onClick={() => setSelectedGiver(g.id)}
                   style={{ width: "100%", background: selectedGiver === g.id ? `${PURPLE}20` : CARD, border: `1px solid ${selectedGiver === g.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 8, cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: selectedGiver === g.id ? GREEN : TEXT, fontWeight: 700, fontSize: 13, marginBottom: 2 }}>{g.name}</div>
                   <div style={{ color: MUTED, fontSize: 11 }}>{g.era}</div>

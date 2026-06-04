@@ -109,7 +109,7 @@ export default function AngerPage() {
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -139,7 +139,7 @@ export default function AngerPage() {
             </div>
             {TYPES.map((t, i) => (
               <div key={i} style={{ background: CARD, border: `1px solid ${t.color}30`, borderRadius: 12, marginBottom: 12, overflow: "hidden" }}>
-                <button onClick={() => setExpanded(expanded === t.type ? null : t.type)}
+                <button type="button" onClick={() => setExpanded(expanded === t.type ? null : t.type)}
                   style={{ width: "100%", padding: "16px 20px", background: "transparent", border: "none", color: t.color, fontWeight: 800, fontSize: 16, cursor: "pointer", display: "flex", justifyContent: "space-between", textAlign: "left" }}>
                   <span>{t.type}</span>
                   <span style={{ color: MUTED, fontSize: 18 }}>{expanded === t.type ? "−" : "+"}</span>
@@ -166,7 +166,7 @@ export default function AngerPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 220, flexShrink: 0 }}>
               {STORIES.map(s => (
-                <button key={s.id} onClick={() => setSelectedStory(s.id)}
+                <button type="button" key={s.id} onClick={() => setSelectedStory(s.id)}
                   style={{ width: "100%", textAlign: "left", background: selectedStory === s.id ? `${s.color}18` : CARD, border: `1px solid ${selectedStory === s.id ? s.color : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 8, cursor: "pointer" }}>
                   <div style={{ color: selectedStory === s.id ? s.color : TEXT, fontWeight: 700, fontSize: 13, marginBottom: 3 }}>{s.name}</div>
                   <div style={{ color: MUTED, fontSize: 11 }}>{s.ref}</div>

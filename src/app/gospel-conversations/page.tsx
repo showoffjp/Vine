@@ -128,7 +128,7 @@ export default function GospelConversationsPage() {
             { id: "tips" as const, label: "Practical Tips", icon: "💡" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -139,7 +139,7 @@ export default function GospelConversationsPage() {
           <div>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 20 }}>
               {METHODS.map(m => (
-                <button key={m.name} onClick={() => setSelectedMethod(selectedMethod === m.name ? null : m.name)}
+                <button type="button" key={m.name} onClick={() => setSelectedMethod(selectedMethod === m.name ? null : m.name)}
                   style={{ padding: "8px 14px", borderRadius: 20, border: `1px solid ${selectedMethod === m.name ? m.color : BORDER}`, background: selectedMethod === m.name ? `${m.color}20` : "transparent", color: selectedMethod === m.name ? m.color : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
                   {m.name}
                 </button>
@@ -185,7 +185,7 @@ export default function GospelConversationsPage() {
             ) : (
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 12 }}>
                 {METHODS.map((m, i) => (
-                  <button key={i} onClick={() => setSelectedMethod(m.name)}
+                  <button type="button" key={i} onClick={() => setSelectedMethod(m.name)}
                     style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, cursor: "pointer", textAlign: "left" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
                       <div style={{ width: 40, height: 40, borderRadius: 8, background: `${m.color}20`, border: `1px solid ${m.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: m.color, fontWeight: 900, fontSize: 9, flexShrink: 0 }}>
@@ -207,7 +207,7 @@ export default function GospelConversationsPage() {
           <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
               {VOICES_GOSP.map(v => (
-                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                   style={{ background: selectedVoice === v.id ? PURPLE : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: TEXT, fontWeight: 700, fontSize: 14 }}>{v.name}</div>
                   <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{v.era}</div>
@@ -241,7 +241,7 @@ export default function GospelConversationsPage() {
             </div>
             {OBJECTIONS.map((o, i) => (
               <div key={i} style={{ marginBottom: 10 }}>
-                <button onClick={() => setExpanded(expanded === o.obj ? null : o.obj)}
+                <button type="button" onClick={() => setExpanded(expanded === o.obj ? null : o.obj)}
                   style={{ width: "100%", background: CARD, border: `1px solid ${BORDER}`, borderRadius: expanded === o.obj ? "10px 10px 0 0" : 10, padding: "14px 18px", color: TEXT, fontWeight: 700, fontSize: 14, cursor: "pointer", display: "flex", justifyContent: "space-between", textAlign: "left" }}>
                   <span>"{o.obj}"</span>
                   <span style={{ color: MUTED, flexShrink: 0 }}>{expanded === o.obj ? "−" : "+"}</span>

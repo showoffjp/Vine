@@ -626,7 +626,7 @@ function PromiseCard({
             </span>
           )}
         </div>
-        <button
+        <button type="button"
           onClick={() => onSave(promise.id)}
           style={{
             background: "none",
@@ -703,7 +703,7 @@ function PromiseCard({
         }}
       >
         {/* Claim button */}
-        <button
+        <button type="button"
           onClick={() => onClaim(promise.id)}
           style={{
             background: isClaimed
@@ -743,7 +743,7 @@ function PromiseCard({
           <span style={{ color: "#9898B3", fontSize: 12 }}>
             🙌 {claimCount.toLocaleString()} claimed
           </span>
-          <button
+          <button type="button"
             onClick={() => onCopy(promise.id)}
             style={{
               background: justCopied ? "#3a7d5622" : "#1E1E32",
@@ -1047,7 +1047,7 @@ export default function PromisesPage() {
                 { key: "videos", label: "▶️ Videos", count: 4 },
               ] as const
             ).map((tab) => (
-              <button
+              <button type="button"
                 key={tab.key}
                 onClick={() => setActiveTab(tab.key)}
                 style={{
@@ -1118,7 +1118,7 @@ export default function PromisesPage() {
                   </span>
                   <input
                     type="text"
-                    placeholder="Search verses, references, topics..."
+                    aria-label="Search verses, references, topics..." placeholder="Search verses, references, topics..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     style={{
@@ -1137,7 +1137,7 @@ export default function PromisesPage() {
                 {/* Category pills */}
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
                   {["All", ...ALL_CATEGORIES].map((cat) => (
-                    <button
+                    <button type="button"
                       key={cat}
                       onClick={() => setSelectedCategory(cat)}
                       style={{
@@ -1173,7 +1173,7 @@ export default function PromisesPage() {
                 >
                   <div style={{ display: "flex", gap: 6 }}>
                     {(["All", "Old Testament", "New Testament"] as const).map((t) => (
-                      <button
+                      <button type="button"
                         key={t}
                         onClick={() => setTestamentFilter(t)}
                         style={{
@@ -1277,7 +1277,7 @@ export default function PromisesPage() {
                     }}
                   >
                     {/* Category header */}
-                    <button
+                    <button type="button"
                       onClick={() => toggleCategory(category)}
                       style={{
                         width: "100%",
@@ -1447,7 +1447,7 @@ export default function PromisesPage() {
                     Browse All Promises and click &ldquo;Claim This Promise&rdquo; to stand on
                     God&rsquo;s Word.
                   </p>
-                  <button
+                  <button type="button"
                     onClick={() => setActiveTab("all")}
                     style={{
                       marginTop: 20,
@@ -1497,7 +1497,7 @@ export default function PromisesPage() {
               <div style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
                 <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 80 }}>
                   {VOICES_PROM.map(v => (
-                    <button key={v.id} onClick={() => setSelectedThinker(v.id)}
+                    <button type="button" key={v.id} onClick={() => setSelectedThinker(v.id)}
                       style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedThinker === v.id ? "rgba(58,125,86,0.4)" : "#1E1E32"}`, background: selectedThinker === v.id ? "rgba(58,125,86,0.08)" : "#12121F", cursor: "pointer" }}>
                       <div style={{ fontSize: 13, fontWeight: 700, color: selectedThinker === v.id ? "#3a7d56" : "#F2F2F8", marginBottom: 2 }}>{v.name}</div>
                       <div style={{ fontSize: 11, color: "#9898B3" }}>{v.era}</div>

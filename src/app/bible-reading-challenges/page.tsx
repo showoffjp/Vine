@@ -186,7 +186,7 @@ export default function BibleReadingChallengesPage() {
 
         <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 24 }}>
           {DIFFICULTY_FILTERS.map(d => (
-            <button key={d} onClick={() => setDifficulty(d)}
+            <button type="button" key={d} onClick={() => setDifficulty(d)}
               style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${difficulty === d ? GREEN : BORDER}`, background: difficulty === d ? `${GREEN}15` : "transparent", color: difficulty === d ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
               {d}
             </button>
@@ -196,7 +196,7 @@ export default function BibleReadingChallengesPage() {
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
           {filtered.map((c) => (
             <div key={c.name}>
-              <button onClick={() => setExpanded(expanded === c.name ? null : c.name)}
+              <button type="button" onClick={() => setExpanded(expanded === c.name ? null : c.name)}
                 style={{ width: "100%", background: expanded === c.name ? `${c.color}10` : CARD, border: `1px solid ${expanded === c.name ? c.color + "40" : BORDER}`, borderRadius: expanded === c.name ? "12px 12px 0 0" : 12, padding: "16px 20px", cursor: "pointer", textAlign: "left", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
                   <div style={{ width: 44, height: 44, borderRadius: 10, background: `${c.color}20`, border: `1px solid ${c.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: c.color, fontWeight: 900, fontSize: 9, flexShrink: 0 }}>

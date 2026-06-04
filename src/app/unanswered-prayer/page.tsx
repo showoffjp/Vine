@@ -112,7 +112,7 @@ export default function UnansweredPrayerPage() {
             { id: "practices" as Tab, label: "Practices", icon: "🛠️" },
             { id: "videos" as Tab, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -137,7 +137,7 @@ export default function UnansweredPrayerPage() {
           <div>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 20 }}>
               {REASONS.map(r => (
-                <button key={r.reason} onClick={() => setSelectedReason(r.reason)}
+                <button type="button" key={r.reason} onClick={() => setSelectedReason(r.reason)}
                   style={{ padding: "8px 12px", borderRadius: 20, border: `1px solid ${selectedReason === r.reason ? r.color : BORDER}`, background: selectedReason === r.reason ? `${r.color}15` : "transparent", color: selectedReason === r.reason ? r.color : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
                   {r.reason}
                 </button>
@@ -154,7 +154,7 @@ export default function UnansweredPrayerPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 190, flexShrink: 0 }}>
               {VOICES.map(v => (
-                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                   style={{ width: "100%", padding: "12px 14px", borderRadius: 10, border: `1px solid ${selectedVoice === v.id ? v.color : BORDER}`, background: selectedVoice === v.id ? `${v.color}12` : "transparent", color: selectedVoice === v.id ? v.color : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", marginBottom: 6, textAlign: "left" }}>
                   {v.name}
                 </button>

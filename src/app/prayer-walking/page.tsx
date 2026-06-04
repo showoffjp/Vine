@@ -153,7 +153,7 @@ export default function PrayerWalkingPage() {
             { id: "voices" as const, label: "Voices", icon: "📣" },
             { id: "videos" as const, label: "Videos", icon: "▶️" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -187,7 +187,7 @@ export default function PrayerWalkingPage() {
           <div>
             <div style={{ display: "flex", gap: 8, marginBottom: 20, flexWrap: "wrap" }}>
               {ROUTES.map(r => (
-                <button key={r.id} onClick={() => setSelectedRoute(r.id)}
+                <button type="button" key={r.id} onClick={() => setSelectedRoute(r.id)}
                   style={{ padding: "8px 16px", borderRadius: 20, border: `1px solid ${selectedRoute === r.id ? GREEN : BORDER}`, background: selectedRoute === r.id ? `${GREEN}15` : CARD, color: selectedRoute === r.id ? GREEN : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
                   {r.icon} {r.name}
                 </button>
@@ -202,7 +202,7 @@ export default function PrayerWalkingPage() {
                     <span style={{ color: MUTED, fontSize: 13 }}>• {route.difficulty}</span>
                   </div>
                 </div>
-                <button onClick={() => { setWalkCount(c => c + 1); setCompletedStops(new Set()); }}
+                <button type="button" onClick={() => { setWalkCount(c => c + 1); setCompletedStops(new Set()); }}
                   style={{ padding: "8px 18px", background: `${GREEN}20`, border: `1px solid ${GREEN}50`, borderRadius: 8, color: GREEN, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
                   + Log Walk
                 </button>
@@ -258,7 +258,7 @@ export default function PrayerWalkingPage() {
           <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
               {VOICES_PW.map(v => (
-                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                   style={{ background: selectedVoice === v.id ? PURPLE : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: TEXT, fontWeight: 700, fontSize: 14 }}>{v.name}</div>
                   <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{v.era}</div>

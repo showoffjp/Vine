@@ -413,7 +413,7 @@ export default function NotificationsPage() {
             </p>
           </div>
 
-          <button
+          <button type="button"
             onClick={markAllRead}
             style={{
               fontSize: 13,
@@ -442,7 +442,7 @@ export default function NotificationsPage() {
           {filterOptions.map((f) => {
             const active = f === activeFilter;
             return (
-              <button
+              <button type="button"
                 key={f}
                 onClick={() => setActiveFilter(f)}
                 style={{
@@ -593,7 +593,7 @@ export default function NotificationsPage() {
         </div>
 
         <div style={{ textAlign: "center", marginTop: 24 }}>
-          <button
+          <button type="button"
             onClick={() => setShowOlder(true)}
             disabled={showOlder}
             style={{

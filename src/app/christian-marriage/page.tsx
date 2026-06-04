@@ -110,7 +110,7 @@ export default function ChristianMarriagePage() {
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -135,7 +135,7 @@ export default function ChristianMarriagePage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 200, flexShrink: 0 }}>
               {SEASONS.map(s => (
-                <button key={s.season} onClick={() => setSelected(s.season)}
+                <button type="button" key={s.season} onClick={() => setSelected(s.season)}
                   style={{ width: "100%", background: selected === s.season ? `${s.color}15` : "transparent", border: `1px solid ${selected === s.season ? s.color + "60" : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 8, cursor: "pointer", textAlign: "left" }}>
                   <span style={{ color: selected === s.season ? s.color : TEXT, fontWeight: 700, fontSize: 13 }}>{s.season}</span>
                 </button>
@@ -163,7 +163,7 @@ export default function ChristianMarriagePage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 210, flexShrink: 0 }}>
               {MARRIAGE_VOICES.map(v => (
-                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                   style={{ width: "100%", background: selectedVoice === v.id ? `${PURPLE}20` : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 8, cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: selectedVoice === v.id ? GREEN : TEXT, fontWeight: 700, fontSize: 13, marginBottom: 2 }}>{v.name}</div>
                   <div style={{ color: MUTED, fontSize: 11 }}>{v.era}</div>

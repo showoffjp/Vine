@@ -314,7 +314,7 @@ export default function MustReadArticlesPage() {
         {/* Tab Bar */}
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 6, width: "fit-content" }}>
           {(["articles", "topics", "writers", "videos"] as const).map(t => (
-            <button key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+            <button type="button" key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t === "articles" ? "Articles" : t === "topics" ? "Topics" : t === "writers" ? "Writers" : "Videos"}
             </button>
           ))}
@@ -325,7 +325,7 @@ export default function MustReadArticlesPage() {
           <>
             <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 28 }}>
               {CATEGORIES.map(c => (
-                <button key={c} onClick={() => setCategory(c)}
+                <button type="button" key={c} onClick={() => setCategory(c)}
                   style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${category === c ? GREEN : BORDER}`, background: category === c ? `${GREEN}15` : "transparent", color: category === c ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
                   {c}
                 </button>
@@ -335,7 +335,7 @@ export default function MustReadArticlesPage() {
             <div style={{ display: "grid", gridTemplateColumns: article ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 {filtered.map((a, i) => (
-                  <button key={i} onClick={() => setSelected(selected === a.title ? null : a.title)}
+                  <button type="button" key={i} onClick={() => setSelected(selected === a.title ? null : a.title)}
                     style={{ background: selected === a.title ? `${a.color}12` : CARD, border: `1px solid ${selected === a.title ? a.color + "50" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left", transition: "all 0.15s" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                       <div style={{ width: 44, height: 44, borderRadius: 10, background: `${a.color}20`, border: `1px solid ${a.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: a.color, fontWeight: 900, fontSize: 10, flexShrink: 0 }}>
@@ -413,7 +413,7 @@ export default function MustReadArticlesPage() {
           <div style={{ display: "grid", gridTemplateColumns: writer ? "210px 1fr" : "1fr", gap: 20, alignItems: "start" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 8, position: writer ? "sticky" : "static", top: 100 }}>
               {ARTICLE_WRITERS.map(w => (
-                <button key={w.id} onClick={() => setSelectedWriter(selectedWriter === w.id ? null : w.id)}
+                <button type="button" key={w.id} onClick={() => setSelectedWriter(selectedWriter === w.id ? null : w.id)}
                   style={{ background: selectedWriter === w.id ? `${PURPLE}20` : CARD, border: `1px solid ${selectedWriter === w.id ? PURPLE + "60" : BORDER}`, borderRadius: 10, padding: "14px 16px", cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: TEXT, fontWeight: 800, fontSize: 14 }}>{w.name}</div>
                   <div style={{ color: MUTED, fontSize: 11, marginTop: 2 }}>{w.era}</div>
@@ -453,7 +453,7 @@ export default function MustReadArticlesPage() {
             ) : (
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 14 }}>
                 {ARTICLE_WRITERS.map(w => (
-                  <button key={w.id} onClick={() => setSelectedWriter(w.id)}
+                  <button type="button" key={w.id} onClick={() => setSelectedWriter(w.id)}
                     style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, cursor: "pointer", textAlign: "left" }}>
                     <div style={{ color: PURPLE, fontWeight: 900, fontSize: 16, marginBottom: 4 }}>{w.name}</div>
                     <div style={{ color: MUTED, fontSize: 12, marginBottom: 10 }}>{w.era} &middot; {w.specialty}</div>

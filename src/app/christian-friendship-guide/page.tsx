@@ -256,7 +256,7 @@ export default function ChristianFriendshipGuidePage() {
         {/* Tabs */}
         <div style={{ display: "flex", gap: 4, marginBottom: 28, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
           {(["theology", "enemies", "practices", "models", "videos"] as Tab[]).map((t) => (
-            <button
+            <button type="button"
               key={t}
               onClick={() => setTab(t)}
               style={{
@@ -288,7 +288,7 @@ export default function ChristianFriendshipGuidePage() {
                   overflow: "hidden",
                 }}
               >
-                <button
+                <button type="button"
                   onClick={() => toggleExpanded(point.title)}
                   style={{
                     width: "100%",

@@ -222,7 +222,7 @@ export default function ElderDeaconTrainingPage() {
 
         <div style={{ display: "flex", gap: 4, marginBottom: 24, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
           {(["elders", "deacons", "training", "resources", "videos"] as Tab[]).map(t => (
-            <button
+            <button type="button"
               key={t}
               onClick={() => setTab(t)}
               style={{

@@ -473,7 +473,7 @@ export default function YouthPage() {
           }}
         >
           {(["challenges", "resources", "discuss", "voices", "videos"] as const).map((tab) => (
-            <button
+            <button type="button"
               key={tab}
               onClick={() => setActiveTab(tab)}
               style={{
@@ -500,7 +500,7 @@ export default function YouthPage() {
             {/* Category filter */}
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 24 }}>
               {categories.map((cat) => (
-                <button
+                <button type="button"
                   key={cat}
                   onClick={() => setSelectedCategory(cat)}
                   style={{
@@ -587,7 +587,7 @@ export default function YouthPage() {
                       <div style={{ fontSize: 12, color: "#9898B3" }}>
                         👥 {challenge.participants.toLocaleString()} joined
                       </div>
-                      <button
+                      <button type="button"
                         onClick={(e) => { e.stopPropagation(); handleJoin(challenge.id); }}
                         style={{
                           padding: "8px 20px",
@@ -615,7 +615,7 @@ export default function YouthPage() {
           <>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 24 }}>
               {ageGroups.map((ag) => (
-                <button
+                <button type="button"
                   key={ag}
                   onClick={() => setSelectedAgeGroup(ag)}
                   style={{
@@ -732,7 +732,7 @@ export default function YouthPage() {
                           {resource.author} · {resource.duration}
                         </div>
                         <div style={{ display: "flex", gap: 8 }}>
-                          <button
+                          <button type="button"
                             onClick={(e) => { e.stopPropagation(); handleLike(resource.id); }}
                             style={{
                               padding: "4px 10px",
@@ -746,7 +746,7 @@ export default function YouthPage() {
                           >
                             ♥ {resource.likes + (liked ? 1 : 0)}
                           </button>
-                          <button
+                          <button type="button"
                             onClick={(e) => { e.stopPropagation(); handleSave(resource.id); }}
                             style={{
                               padding: "4px 10px",
@@ -889,7 +889,7 @@ export default function YouthPage() {
           <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
               {VOICES_YOUTH.map(v => (
-                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                   style={{ background: selectedVoice === v.id ? "#6B4FBB" : "#12121F", border: `1px solid ${selectedVoice === v.id ? "#6B4FBB" : "#1E1E32"}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: "#F2F2F8", fontWeight: 700, fontSize: 14 }}>{v.name}</div>
                   <div style={{ color: "#9898B3", fontSize: 12, marginTop: 2 }}>{v.era}</div>
@@ -1038,7 +1038,7 @@ export default function YouthPage() {
             </div>
 
             <div style={{ display: "flex", gap: 12 }}>
-              <button
+              <button type="button"
                 onClick={() => handleJoin(selectedChallenge.id)}
                 style={{
                   flex: 1,
@@ -1054,7 +1054,7 @@ export default function YouthPage() {
               >
                 {joinedChallenges.has(selectedChallenge.id) ? "✓ Joined!" : "Accept Challenge"}
               </button>
-              <button
+              <button type="button"
                 onClick={() => setSelectedChallenge(null)}
                 style={{
                   padding: "12px 20px",
@@ -1134,7 +1134,7 @@ export default function YouthPage() {
             </div>
 
             <div style={{ display: "flex", gap: 12 }}>
-              <button
+              <button type="button"
                 onClick={() => { handleLike(selectedResource.id); }}
                 style={{
                   flex: 1,
@@ -1150,7 +1150,7 @@ export default function YouthPage() {
               >
                 ♥ {likedResources.has(selectedResource.id) ? "Liked!" : "Like"}
               </button>
-              <button
+              <button type="button"
                 onClick={() => { handleSave(selectedResource.id); }}
                 style={{
                   flex: 1,
@@ -1166,7 +1166,7 @@ export default function YouthPage() {
               >
                 {savedResources.has(selectedResource.id) ? "★ Saved" : "☆ Save"}
               </button>
-              <button
+              <button type="button"
                 onClick={() => setSelectedResource(null)}
                 style={{
                   padding: "12px 20px",

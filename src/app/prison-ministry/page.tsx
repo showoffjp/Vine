@@ -250,7 +250,7 @@ export default function PrisonMinistryPage() {
           }}
         >
           {tabs.map((t) => (
-            <button
+            <button type="button"
               key={t.id}
               onClick={() => setActiveTab(t.id)}
               style={{
@@ -286,7 +286,7 @@ export default function PrisonMinistryPage() {
                     overflow: "hidden",
                   }}
                 >
-                  <button
+                  <button type="button"
                     onClick={() => setExpandedTheology(open ? undefined : i)}
                     style={{
                       width: "100%",
@@ -539,7 +539,7 @@ export default function PrisonMinistryPage() {
                     overflow: "hidden",
                   }}
                 >
-                  <button
+                  <button type="button"
                     onClick={() => setExpandedReentry(open ? undefined : i)}
                     style={{
                       width: "100%",

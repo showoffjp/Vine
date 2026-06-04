@@ -241,7 +241,7 @@ export default function StewardshipTheologyPage() {
               { id: "videos", label: "Videos" },
             ] as { id: Tab; label: string }[]
           ).map((t) => (
-            <button
+            <button type="button"
               key={t.id}
               onClick={() => setTab(t.id)}
               style={{
@@ -267,7 +267,7 @@ export default function StewardshipTheologyPage() {
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               {theologyItems.map((item) => (
                 <div key={item.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                  <button
+                  <button type="button"
                     onClick={() => toggle(item.id)}
                     style={{ width: "100%", padding: "18px 20px", background: "transparent", border: "none", color: TEXT, textAlign: "left", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 16, fontWeight: 600 }}
                   >
@@ -293,7 +293,7 @@ export default function StewardshipTheologyPage() {
             <div style={{ display: "flex", gap: 24 }}>
               <div style={{ flex: "0 0 200px", display: "flex", flexDirection: "column", gap: 10 }}>
                 {tithingViews.map((v) => (
-                  <button
+                  <button type="button"
                     key={v.id}
                     onClick={() => setSelectedView(v)}
                     style={{
@@ -347,7 +347,7 @@ export default function StewardshipTheologyPage() {
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               {prosperityItems.map((item) => (
                 <div key={item.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                  <button
+                  <button type="button"
                     onClick={() => toggle(item.id)}
                     style={{ width: "100%", padding: "18px 20px", background: "transparent", border: "none", color: TEXT, textAlign: "left", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 16, fontWeight: 600 }}
                   >
@@ -370,7 +370,7 @@ export default function StewardshipTheologyPage() {
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               {contentmentItems.map((item) => (
                 <div key={item.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                  <button
+                  <button type="button"
                     onClick={() => toggle(item.id)}
                     style={{ width: "100%", padding: "18px 20px", background: "transparent", border: "none", color: TEXT, textAlign: "left", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 16, fontWeight: 600 }}
                   >

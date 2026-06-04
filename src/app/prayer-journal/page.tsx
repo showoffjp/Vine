@@ -194,7 +194,7 @@ export default function PrayerJournalPage() {
         {/* Tabs */}
         <div style={{ display: "flex", gap: 4, marginBottom: 24, borderBottom: "1px solid #1E1E32" }}>
           {([["journal", `Active (${unansweredCount})`], ["answered", `Answered (${answeredCount})`], ["write", "Write Prayer"], ["voices", "Voices"], ["videos", "Videos"]] as const).map(([t, label]) => (
-            <button key={t} onClick={() => setTab(t)}
+            <button type="button" key={t} onClick={() => setTab(t)}
               style={{ padding: "10px 20px", fontSize: 14, fontWeight: 600, background: "none", border: "none", cursor: "pointer", color: tab === t ? "#3a7d56" : "#6A6A88", borderBottom: `2px solid ${tab === t ? "#3a7d56" : "transparent"}`, marginBottom: -1 }}>
               {label}
             </button>
@@ -209,12 +209,12 @@ export default function PrayerJournalPage() {
               <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
                 <div>
                   <label style={{ fontSize: 12, fontWeight: 700, color: "#9898B3", textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>Title</label>
-                  <input value={title} onChange={e => setTitle(e.target.value)} placeholder="What are you praying about?"
+                  <input value={title} onChange={e => setTitle(e.target.value)} aria-label="What are you praying about?" placeholder="What are you praying about?"
                     style={{ width: "100%", padding: "10px 14px", borderRadius: 10, background: "#0D0D1A", border: "1px solid #1E1E32", color: "#F2F2F8", fontSize: 14, outline: "none", boxSizing: "border-box" }} />
                 </div>
                 <div>
                   <label style={{ fontSize: 12, fontWeight: 700, color: "#9898B3", textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>Prayer</label>
-                  <textarea value={body} onChange={e => setBody(e.target.value)} placeholder="Write your prayer in your own words..." rows={6}
+                  <textarea value={body} onChange={e => setBody(e.target.value)} aria-label="Write your prayer in your own words..." placeholder="Write your prayer in your own words..." rows={6}
                     style={{ width: "100%", padding: "10px 14px", borderRadius: 10, background: "#0D0D1A", border: "1px solid #1E1E32", color: "#F2F2F8", fontSize: 14, outline: "none", resize: "vertical", boxSizing: "border-box", lineHeight: 1.6 }} />
                 </div>
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
@@ -236,21 +236,21 @@ export default function PrayerJournalPage() {
                 <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: 16 }}>
                   <div>
                     <label style={{ fontSize: 12, fontWeight: 700, color: "#9898B3", textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>Verse (optional)</label>
-                    <input value={verse} onChange={e => setVerse(e.target.value)} placeholder="The verse text..."
+                    <input value={verse} onChange={e => setVerse(e.target.value)} aria-label="The verse text..." placeholder="The verse text..."
                       style={{ width: "100%", padding: "10px 14px", borderRadius: 10, background: "#0D0D1A", border: "1px solid #1E1E32", color: "#F2F2F8", fontSize: 14, outline: "none", boxSizing: "border-box" }} />
                   </div>
                   <div>
                     <label style={{ fontSize: 12, fontWeight: 700, color: "#9898B3", textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>Reference</label>
-                    <input value={verseRef} onChange={e => setVerseRef(e.target.value)} placeholder="John 3:16"
+                    <input value={verseRef} onChange={e => setVerseRef(e.target.value)} aria-label="John 3:16" placeholder="John 3:16"
                       style={{ width: "100%", padding: "10px 14px", borderRadius: 10, background: "#0D0D1A", border: "1px solid #1E1E32", color: "#F2F2F8", fontSize: 14, outline: "none", boxSizing: "border-box" }} />
                   </div>
                 </div>
                 <div>
                   <label style={{ fontSize: 12, fontWeight: 700, color: "#9898B3", textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>Tags (comma-separated)</label>
-                  <input value={tags} onChange={e => setTags(e.target.value)} placeholder="family, healing, work..."
+                  <input value={tags} onChange={e => setTags(e.target.value)} aria-label="family, healing, work..." placeholder="family, healing, work..."
                     style={{ width: "100%", padding: "10px 14px", borderRadius: 10, background: "#0D0D1A", border: "1px solid #1E1E32", color: "#F2F2F8", fontSize: 14, outline: "none", boxSizing: "border-box" }} />
                 </div>
-                <button onClick={addEntry} disabled={!title.trim() || !body.trim()}
+                <button type="button" onClick={addEntry} disabled={!title.trim() || !body.trim()}
                   style={{ padding: "14px", borderRadius: 12, border: "none", background: title.trim() && body.trim() ? "linear-gradient(135deg, #3a7d56, #00CC6A)" : "#1E1E32", color: title.trim() && body.trim() ? "#07070F" : "#4A4A68", cursor: title.trim() && body.trim() ? "pointer" : "not-allowed", fontWeight: 800, fontSize: 15 }}>
                   {saved ? "✓ Prayer Saved!" : "Save Prayer"}
                 </button>
@@ -263,7 +263,7 @@ export default function PrayerJournalPage() {
         {(tab === "journal" || tab === "answered") && (
           <>
             <div style={{ display: "flex", gap: 12, marginBottom: 20, flexWrap: "wrap" }}>
-              <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search prayers..."
+              <input value={search} onChange={e => setSearch(e.target.value)} aria-label="Search prayers..." placeholder="Search prayers..."
                 style={{ flex: 1, minWidth: 200, padding: "8px 14px", borderRadius: 10, background: "#12121F", border: "1px solid #1E1E32", color: "#F2F2F8", fontSize: 14, outline: "none" }} />
               <select value={catFilter} onChange={e => setCatFilter(e.target.value)}
                 style={{ padding: "8px 14px", borderRadius: 10, background: "#12121F", border: "1px solid #1E1E32", color: "#9898B3", fontSize: 14, cursor: "pointer" }}>
@@ -315,7 +315,7 @@ export default function PrayerJournalPage() {
               <div style={{ textAlign: "center", padding: "60px 20px", color: "#4A4A68" }}>
                 <div style={{ fontSize: 40, marginBottom: 12 }}>🙏</div>
                 <p style={{ marginBottom: 16 }}>{tab === "answered" ? "No answered prayers yet — keep believing!" : "No prayers found."}</p>
-                <button onClick={() => setTab("write")} style={{ padding: "10px 24px", borderRadius: 12, background: "rgba(58,125,86,0.1)", border: "1px solid rgba(58,125,86,0.3)", color: "#3a7d56", cursor: "pointer", fontWeight: 700 }}>
+                <button type="button" onClick={() => setTab("write")} style={{ padding: "10px 24px", borderRadius: 12, background: "rgba(58,125,86,0.1)", border: "1px solid rgba(58,125,86,0.3)", color: "#3a7d56", cursor: "pointer", fontWeight: 700 }}>
                   Write First Prayer
                 </button>
               </div>
@@ -359,7 +359,7 @@ export default function PrayerJournalPage() {
           <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
               {VOICES_PJ.map(v => (
-                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                   style={{ background: selectedVoice === v.id ? "#6B4FBB" : "#12121F", border: `1px solid ${selectedVoice === v.id ? "#6B4FBB" : "#1E1E32"}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: "#F2F2F8", fontWeight: 700, fontSize: 14 }}>{v.name}</div>
                   <div style={{ color: "#9898B3", fontSize: 12, marginTop: 2 }}>{v.era}</div>
@@ -399,7 +399,7 @@ export default function PrayerJournalPage() {
                 </div>
                 <h2 style={{ fontSize: 22, fontWeight: 800 }}>{selected.title}</h2>
               </div>
-              <button onClick={() => setSelected(null)} style={{ background: "none", border: "none", color: "#6A6A88", fontSize: 22, cursor: "pointer" }}>×</button>
+              <button type="button" onClick={() => setSelected(null)} style={{ background: "none", border: "none", color: "#6A6A88", fontSize: 22, cursor: "pointer" }}>×</button>
             </div>
 
             <div style={{ background: "#0D0D1A", borderRadius: 12, padding: 18, marginBottom: 20, lineHeight: 1.8 }}>
@@ -428,12 +428,12 @@ export default function PrayerJournalPage() {
 
             <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
               {!selected.answered && (
-                <button onClick={() => { setShowAnswerModal(selected); setSelected(null); }}
+                <button type="button" onClick={() => { setShowAnswerModal(selected); setSelected(null); }}
                   style={{ flex: 1, padding: "12px", borderRadius: 12, border: "1px solid rgba(58,125,86,0.3)", background: "rgba(58,125,86,0.08)", color: "#3a7d56", cursor: "pointer", fontWeight: 700, fontSize: 14 }}>
                   Mark as Answered 🎉
                 </button>
               )}
-              <button onClick={() => deleteEntry(selected.id)}
+              <button type="button" onClick={() => deleteEntry(selected.id)}
                 style={{ padding: "12px 16px", borderRadius: 12, border: "1px solid rgba(239,68,68,0.3)", background: "rgba(239,68,68,0.05)", color: "#EF4444", cursor: "pointer", fontWeight: 700, fontSize: 14 }}>
                 Delete
               </button>
@@ -448,14 +448,14 @@ export default function PrayerJournalPage() {
           <div onClick={e => e.stopPropagation()} style={{ background: "#12121F", borderRadius: 20, padding: 28, maxWidth: 480, width: "100%", border: "1px solid rgba(58,125,86,0.3)" }}>
             <h3 style={{ fontSize: 20, fontWeight: 800, marginBottom: 8, color: "#3a7d56" }}>🎉 Praise God!</h3>
             <p style={{ fontSize: 14, color: "#9898B3", marginBottom: 16 }}>How did God answer your prayer? (Optional)</p>
-            <textarea value={answerNote} onChange={e => setAnswerNote(e.target.value)} placeholder="Describe how God answered..." rows={4}
+            <textarea value={answerNote} onChange={e => setAnswerNote(e.target.value)} aria-label="Describe how God answered..." placeholder="Describe how God answered..." rows={4}
               style={{ width: "100%", padding: "10px 14px", borderRadius: 10, background: "#0D0D1A", border: "1px solid #1E1E32", color: "#F2F2F8", fontSize: 14, outline: "none", resize: "vertical", boxSizing: "border-box", marginBottom: 16 }} />
             <div style={{ display: "flex", gap: 10 }}>
-              <button onClick={() => markAnswered(showAnswerModal.id, answerNote)}
+              <button type="button" onClick={() => markAnswered(showAnswerModal.id, answerNote)}
                 style={{ flex: 1, padding: "12px", borderRadius: 12, border: "none", background: "linear-gradient(135deg, #3a7d56, #00CC6A)", color: "#07070F", cursor: "pointer", fontWeight: 800, fontSize: 15 }}>
                 Record Answer
               </button>
-              <button onClick={() => setShowAnswerModal(null)}
+              <button type="button" onClick={() => setShowAnswerModal(null)}
                 style={{ padding: "12px 16px", borderRadius: 12, border: "1px solid #1E1E32", background: "transparent", color: "#9898B3", cursor: "pointer" }}>
                 Cancel
               </button>

@@ -396,16 +396,16 @@ export default function CouplesDevotionalPage() {
 
         {/* Partner setup */}
         {!progress.partnerName && !editingName ? (
-          <button onClick={() => setEditingName(true)}
+          <button type="button" onClick={() => setEditingName(true)}
             style={{ padding: "8px 20px", borderRadius: 10, background: "#6B4FBB", border: "none", color: "#fff", cursor: "pointer", fontWeight: 600, fontSize: 14 }}>
             + Add Your Partner's Name
           </button>
         ) : editingName ? (
           <div style={{ display: "flex", gap: 8, justifyContent: "center" }}>
             <input value={nameInput} onChange={(e) => setNameInput(e.target.value)}
-              placeholder="Partner's name..."
+              aria-label="Partner's name..." placeholder="Partner's name..."
               style={{ padding: "8px 14px", borderRadius: 8, background: "#12121F", border: "1px solid #1E1E32", color: "#F2F2F8", fontSize: 14, outline: "none" }} />
-            <button onClick={handleSaveName}
+            <button type="button" onClick={handleSaveName}
               style={{ padding: "8px 16px", borderRadius: 8, background: "#3a7d56", border: "none", color: "#07070F", cursor: "pointer", fontWeight: 700 }}>
               Save
             </button>
@@ -413,7 +413,7 @@ export default function CouplesDevotionalPage() {
         ) : (
           <div style={{ fontSize: 14, color: "#9898B3" }}>
             Doing this with <strong style={{ color: "#F2F2F8" }}>{progress.partnerName}</strong>
-            <button onClick={() => { setEditingName(true); setNameInput(progress.partnerName); }}
+            <button type="button" onClick={() => { setEditingName(true); setNameInput(progress.partnerName); }}
               style={{ marginLeft: 8, fontSize: 11, color: "#6B4FBB", background: "none", border: "none", cursor: "pointer" }}>
               edit
             </button>
@@ -425,7 +425,7 @@ export default function CouplesDevotionalPage() {
       <div style={{ borderBottom: "1px solid #1E1E32", background: "#0A0A16", position: "sticky", top: 0, zIndex: 10 }}>
         <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 24px", display: "flex", gap: 2 }}>
           {([["devotionals", "💑 Devotionals"], ["practices", "✝️ Practices"], ["scripture", "📖 Scripture"], ["voices", "🎓 Voices"], ["videos", "▶ Videos"]] as const).map(([key, label]) => (
-            <button key={key} onClick={() => setMainTab(key)}
+            <button type="button" key={key} onClick={() => setMainTab(key)}
               style={{ background: "none", border: "none", borderBottom: mainTab === key ? "2px solid #3a7d56" : "2px solid transparent", color: mainTab === key ? "#F2F2F8" : "#9898B3", fontWeight: mainTab === key ? 700 : 500, fontSize: 14, padding: "14px 18px", cursor: "pointer", whiteSpace: "nowrap" }}>
               {label}
             </button>
@@ -443,7 +443,7 @@ export default function CouplesDevotionalPage() {
             {plans.map((pl) => {
               const active = progress.currentPlan === pl.id;
               return (
-                <button key={pl.id}
+                <button type="button" key={pl.id}
                   disabled={!pl.available}
                   onClick={() => pl.available && handleSelectPlan(pl.id)}
                   style={{
@@ -569,7 +569,7 @@ export default function CouplesDevotionalPage() {
             {/* Section tabs */}
             <div style={{ display: "flex", gap: 4, background: "#07070F", borderRadius: 10, padding: 4, marginBottom: 20 }}>
               {(["husband", "wife", "together"] as const).map((s) => (
-                <button key={s} onClick={() => setActiveSection(s)}
+                <button type="button" key={s} onClick={() => setActiveSection(s)}
                   style={{ flex: 1, padding: "8px 10px", borderRadius: 7, border: "none",
                     background: activeSection === s ? "#6B4FBB" : "transparent",
                     color: activeSection === s ? "#fff" : "#9898B3",
@@ -610,7 +610,7 @@ export default function CouplesDevotionalPage() {
             )}
 
             <div style={{ display: "flex", gap: 10, marginTop: 24 }}>
-              <button onClick={() => { handleComplete(selectedDay.day); setSelectedDay(null); }}
+              <button type="button" onClick={() => { handleComplete(selectedDay.day); setSelectedDay(null); }}
                 style={{
                   flex: 1, padding: "12px 16px", borderRadius: 10, border: "none",
                   background: progress.completedDays.includes(selectedDay.day) ? "#1E1E32" : "#3a7d56",
@@ -619,7 +619,7 @@ export default function CouplesDevotionalPage() {
                 }}>
                 {progress.completedDays.includes(selectedDay.day) ? "Mark Incomplete" : "✓ Complete Day " + selectedDay.day}
               </button>
-              <button onClick={() => setSelectedDay(null)}
+              <button type="button" onClick={() => setSelectedDay(null)}
                 style={{ padding: "12px 16px", borderRadius: 10, border: "1px solid #1E1E32", background: "transparent", color: "#9898B3", cursor: "pointer", fontSize: 15 }}>
                 Close
               </button>
@@ -633,7 +633,7 @@ export default function CouplesDevotionalPage() {
           <div style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 80 }}>
               {VOICES_CD.map(v => (
-                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                   style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? "rgba(58,125,86,0.4)" : "#1E1E32"}`, background: selectedVoice === v.id ? "rgba(58,125,86,0.08)" : "#12121F", cursor: "pointer" }}>
                   <div style={{ fontSize: 13, fontWeight: 700, color: selectedVoice === v.id ? "#3a7d56" : "#F2F2F8", marginBottom: 2 }}>{v.name}</div>
                   <div style={{ fontSize: 11, color: "#9898B3" }}>{v.era}</div>

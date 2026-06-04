@@ -61,7 +61,7 @@ export default function PsalmsAsPrayerPage() {
 
         <div style={{ display: "flex", gap: 4, marginBottom: 28, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
           {(["guide", "types", "psalms", "howto", "videos"] as Tab[]).map(t => (
-            <button key={t} onClick={() => { setTab(t); setSelected(null); }}
+            <button type="button" key={t} onClick={() => { setTab(t); setSelected(null); }}
               style={{ padding: "8px 16px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
               {t === "guide" ? "Why Pray Psalms" : t === "types" ? "Psalm Types" : t === "psalms" ? "Key Psalms" : t === "howto" ? "How to Pray" : "Videos"}
             </button>
@@ -101,7 +101,7 @@ export default function PsalmsAsPrayerPage() {
           <div style={{ display: "grid", gridTemplateColumns: psalmType ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {PSALM_TYPES.map((t, i) => (
-                <button key={i} onClick={() => setSelected(selected === t.type ? null : t.type)}
+                <button type="button" key={i} onClick={() => setSelected(selected === t.type ? null : t.type)}
                   style={{ background: selected === t.type ? `${t.color}12` : CARD, border: `1px solid ${selected === t.type ? t.color + "50" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left" }}>
                   <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
                     <span style={{ color: TEXT, fontWeight: 800, fontSize: 15 }}>{t.type}</span>
@@ -132,7 +132,7 @@ export default function PsalmsAsPrayerPage() {
           <div style={{ display: "grid", gridTemplateColumns: psalm ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {SELECTED_PSALMS.map((p, i) => (
-                <button key={i} onClick={() => setSelected(selected === String(p.number) ? null : String(p.number))}
+                <button type="button" key={i} onClick={() => setSelected(selected === String(p.number) ? null : String(p.number))}
                   style={{ background: selected === String(p.number) ? `${p.color}12` : CARD, border: `1px solid ${selected === String(p.number) ? p.color + "50" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left" }}>
                   <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
                     <div style={{ width: 40, height: 40, borderRadius: 10, background: `${p.color}20`, border: `1px solid ${p.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: p.color, fontWeight: 900, fontSize: 14, flexShrink: 0 }}>{p.number}</div>

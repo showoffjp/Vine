@@ -399,7 +399,7 @@ export default function HouseChurchPage() {
             { id: "voices", label: "🎙️ Voices" },
             { id: "videos", label: "▶️ Videos" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id as Tab)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id as Tab)}
               style={{ padding: "10px 18px", borderRadius: "10px 10px 0 0", border: "none", cursor: "pointer", fontWeight: 700, fontSize: 13, background: activeTab === t.id ? CARD : "transparent", color: activeTab === t.id ? TEXT : MUTED, borderBottom: activeTab === t.id ? `2px solid ${GREEN}` : "2px solid transparent" }}>
               {t.label}
             </button>
@@ -450,11 +450,11 @@ export default function HouseChurchPage() {
                           </div>
                         </div>
                         <div style={{ display: "flex", gap: 6, flexShrink: 0 }}>
-                          <button onClick={() => toggleSaved(el.id)}
+                          <button type="button" onClick={() => toggleSaved(el.id)}
                             style={{ width: 32, height: 32, borderRadius: 8, border: `1px solid ${savedElements.has(el.id) ? PURPLE : BORDER}`, background: savedElements.has(el.id) ? "rgba(107,79,187,0.15)" : "transparent", cursor: "pointer", fontSize: 13, color: savedElements.has(el.id) ? PURPLE : MUTED }}>
                             {savedElements.has(el.id) ? "🔖" : "📌"}
                           </button>
-                          <button onClick={() => setExpandedElement(isExp ? null : el.id)}
+                          <button type="button" onClick={() => setExpandedElement(isExp ? null : el.id)}
                             style={{ padding: "6px 14px", borderRadius: 8, border: `1px solid ${el.color}40`, background: `${el.color}10`, color: el.color, cursor: "pointer", fontSize: 13, fontWeight: 700 }}>
                             {isExp ? "Close" : "How-To"}
                           </button>
@@ -489,7 +489,7 @@ export default function HouseChurchPage() {
                           </div>
                         </div>
                         <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                          <button onClick={() => togglePlan(el.id)}
+                          <button type="button" onClick={() => togglePlan(el.id)}
                             style={{ padding: "8px 18px", borderRadius: 10, border: `1px solid ${planItems.has(el.id) ? GREEN + "40" : BORDER}`, background: planItems.has(el.id) ? "rgba(58,125,86,0.1)" : "transparent", color: planItems.has(el.id) ? GREEN : MUTED, cursor: "pointer", fontSize: 13, fontWeight: 700 }}>
                             {planItems.has(el.id) ? "✓ In My Plan" : "+ Add to Plan"}
                           </button>
@@ -565,7 +565,7 @@ export default function HouseChurchPage() {
               {/* Left panel — name cards */}
               <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
                 {VOICES_HC.map(v => (
-                  <button key={v.id} onClick={() => setSelectedVoice(v)}
+                  <button type="button" key={v.id} onClick={() => setSelectedVoice(v)}
                     style={{ textAlign: "left", padding: "14px 16px", borderRadius: 14, border: `1px solid ${selectedVoice.id === v.id ? GREEN + "50" : BORDER}`, background: selectedVoice.id === v.id ? "rgba(58,125,86,0.07)" : CARD, cursor: "pointer", transition: "all 0.15s" }}>
                     <p style={{ fontSize: 14, fontWeight: 800, margin: "0 0 3px", color: selectedVoice.id === v.id ? GREEN : TEXT }}>{v.name}</p>
                     <p style={{ fontSize: 11, color: MUTED, margin: 0 }}>{v.era}</p>

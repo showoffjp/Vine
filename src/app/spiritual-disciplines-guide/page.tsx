@@ -265,7 +265,7 @@ export default function SpiritualDisciplinesGuidePage() {
 
         <div style={{ display: "flex", gap: 4, marginBottom: 28, background: CARD, borderRadius: 10, padding: 4, width: "fit-content" }}>
           {(["disciplines", "rhythms", "resources", "voices", "videos"] as Tab[]).map(t => (
-            <button key={t} onClick={() => { setTab(t); setSelected(null); }}
+            <button type="button" key={t} onClick={() => { setTab(t); setSelected(null); }}
               style={{ padding: "8px 18px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", textTransform: "capitalize" }}>
               {t === "disciplines" ? "The Disciplines" : t === "rhythms" ? "Sample Rhythms" : t === "resources" ? "Best Resources" : t === "voices" ? "Voices" : "Videos"}
             </button>
@@ -276,7 +276,7 @@ export default function SpiritualDisciplinesGuidePage() {
           <div style={{ display: "grid", gridTemplateColumns: discipline ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {DISCIPLINES.map((d, i) => (
-                <button key={i} onClick={() => setSelected(selected === d.name ? null : d.name)}
+                <button type="button" key={i} onClick={() => setSelected(selected === d.name ? null : d.name)}
                   style={{ background: selected === d.name ? `${d.color}12` : CARD, border: `1px solid ${selected === d.name ? d.color + "50" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                     <div style={{ width: 44, height: 44, borderRadius: 10, background: `${d.color}20`, border: `1px solid ${d.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: d.color, fontWeight: 900, fontSize: 9, flexShrink: 0 }}>
@@ -362,7 +362,7 @@ export default function SpiritualDisciplinesGuidePage() {
           <div style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 80 }}>
               {VOICES_SDG.map(v => (
-                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                   style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? "rgba(58,125,86,0.4)" : BORDER}`, background: selectedVoice === v.id ? "rgba(58,125,86,0.08)" : CARD, cursor: "pointer" }}>
                   <div style={{ fontSize: 13, fontWeight: 700, color: selectedVoice === v.id ? GREEN : TEXT, marginBottom: 2 }}>{v.name}</div>
                   <div style={{ fontSize: 11, color: MUTED }}>{v.era}</div>

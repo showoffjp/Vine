@@ -271,7 +271,7 @@ export default function ChurchHistoryPage() {
             ["theology", "Theology"],
             ["videos", "Videos"],
           ] as [Tab, string][]).map(([t, label]) => (
-            <button key={t} onClick={() => setActiveTab(t)}
+            <button type="button" key={t} onClick={() => setActiveTab(t)}
               style={{ padding: "10px 20px", fontSize: 14, fontWeight: 600, background: "none", border: "none", cursor: "pointer", color: activeTab === t ? "#3a7d56" : "#6A6A88", borderBottom: `2px solid ${activeTab === t ? "#3a7d56" : "transparent"}`, marginBottom: -1 }}>
               {label}
             </button>
@@ -283,7 +283,7 @@ export default function ChurchHistoryPage() {
           <>
             {/* Filters */}
             <div style={{ display: "flex", gap: 12, marginBottom: 24, flexWrap: "wrap", alignItems: "center" }}>
-              <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search events or figures..."
+              <input value={search} onChange={e => setSearch(e.target.value)} aria-label="Search events or figures..." placeholder="Search events or figures..."
                 style={{ flex: 1, minWidth: 200, padding: "8px 14px", borderRadius: 10, background: "#12121F", border: "1px solid #1E1E32", color: "#F2F2F8", fontSize: 14, outline: "none" }} />
               <select value={catFilter} onChange={e => setCatFilter(e.target.value)}
                 style={{ padding: "8px 14px", borderRadius: 10, background: "#12121F", border: "1px solid #1E1E32", color: "#9898B3", fontSize: 14, cursor: "pointer" }}>
@@ -330,7 +330,7 @@ export default function ChurchHistoryPage() {
                           </div>
                           <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 6 }}>{e.title}</h3>
                         </div>
-                        <button onClick={ev => { ev.stopPropagation(); toggleSave(e.id); }}
+                        <button type="button" onClick={ev => { ev.stopPropagation(); toggleSave(e.id); }}
                           style={{ background: "none", border: "none", cursor: "pointer", fontSize: 16, color: savedIds.has(e.id) ? "#FFD700" : "#4A4A68", flexShrink: 0 }}>
                           {savedIds.has(e.id) ? "★" : "☆"}
                         </button>
@@ -472,7 +472,7 @@ export default function ChurchHistoryPage() {
                 </div>
                 <h2 style={{ fontSize: 22, fontWeight: 800 }}>{selected.title}</h2>
               </div>
-              <button onClick={() => setSelected(null)} style={{ background: "none", border: "none", color: "#6A6A88", fontSize: 22, cursor: "pointer" }}>×</button>
+              <button type="button" onClick={() => setSelected(null)} style={{ background: "none", border: "none", color: "#6A6A88", fontSize: 22, cursor: "pointer" }}>×</button>
             </div>
 
             <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.7, marginBottom: 20 }}>{selected.description}</p>
@@ -497,11 +497,11 @@ export default function ChurchHistoryPage() {
             </div>
 
             <div style={{ display: "flex", gap: 12 }}>
-              <button onClick={() => toggleRead(selected.id)}
+              <button type="button" onClick={() => toggleRead(selected.id)}
                 style={{ flex: 1, padding: "12px 20px", borderRadius: 12, border: `1px solid ${readIds.has(selected.id) ? "rgba(58,125,86,0.4)" : "#2A2A40"}`, background: readIds.has(selected.id) ? "rgba(58,125,86,0.12)" : "#1E1E32", color: readIds.has(selected.id) ? "#3a7d56" : "#9898B3", cursor: "pointer", fontWeight: 700, fontSize: 14 }}>
                 {readIds.has(selected.id) ? "✓ Explored" : "Mark as Explored"}
               </button>
-              <button onClick={() => toggleSave(selected.id)}
+              <button type="button" onClick={() => toggleSave(selected.id)}
                 style={{ padding: "12px 20px", borderRadius: 12, border: `1px solid ${savedIds.has(selected.id) ? "rgba(255,215,0,0.3)" : "#2A2A40"}`, background: savedIds.has(selected.id) ? "rgba(255,215,0,0.08)" : "#1E1E32", color: savedIds.has(selected.id) ? "#FFD700" : "#9898B3", cursor: "pointer", fontWeight: 700, fontSize: 16 }}>
                 {savedIds.has(selected.id) ? "★" : "☆"}
               </button>
@@ -519,7 +519,7 @@ export default function ChurchHistoryPage() {
                 <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 4 }}>{selectedFigure.name}</h2>
                 <span style={{ fontSize: 14, color: "#9898B3" }}>{selectedFigure.years} &middot; {selectedFigure.role}</span>
               </div>
-              <button onClick={() => setSelectedFigure(null)} style={{ background: "none", border: "none", color: "#6A6A88", fontSize: 22, cursor: "pointer" }}>×</button>
+              <button type="button" onClick={() => setSelectedFigure(null)} style={{ background: "none", border: "none", color: "#6A6A88", fontSize: 22, cursor: "pointer" }}>×</button>
             </div>
             <div style={{ background: "#0D0D1A", borderRadius: 12, padding: 16, marginBottom: 20, borderLeft: "3px solid #3a7d56" }}>
               <p style={{ fontSize: 15, color: "#C0C0D8", fontStyle: "italic" }}>&ldquo;{selectedFigure.quote}&rdquo;</p>

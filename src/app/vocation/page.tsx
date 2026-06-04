@@ -90,7 +90,7 @@ export default function VocationPage() {
             { id: "journal" as const, label: "My Journal", icon: "✍️" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -165,12 +165,12 @@ export default function VocationPage() {
                 <textarea
                   value={answers[item.q] || ""}
                   onChange={e => setAnswers(prev => ({ ...prev, [item.q]: e.target.value }))}
-                  placeholder="Reflect here..."
+                  aria-label="Reflect here..." placeholder="Reflect here..."
                   style={{ width: "100%", minHeight: 70, background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14, lineHeight: 1.7, resize: "vertical", boxSizing: "border-box", fontFamily: "inherit" }}
                 />
               </div>
             ))}
-            <button onClick={saveAnswers}
+            <button type="button" onClick={saveAnswers}
               style={{ width: "100%", padding: "12px", background: saved ? GREEN : PURPLE, border: "none", borderRadius: 8, color: saved ? BG : "#fff", fontWeight: 800, fontSize: 15, cursor: "pointer" }}>
               {saved ? "✓ Saved to Journal" : "Save Reflections to Journal"}
             </button>

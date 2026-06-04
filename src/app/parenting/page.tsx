@@ -346,7 +346,7 @@ export default function ParentingPage() {
         {/* Tab Bar */}
         <div style={{ display: "flex", gap: 6, marginBottom: 28, padding: "6px", background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, flexWrap: "wrap" }}>
           {(["stages", "rhythms", "voices", "videos"] as const).map(t => (
-            <button key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+            <button type="button" key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t === "stages" ? "By Age & Stage" : t === "rhythms" ? "Family Rhythms" : t === "voices" ? "Voices & Authors" : "Watch & Learn"}
             </button>
           ))}
@@ -366,7 +366,7 @@ export default function ParentingPage() {
                   </div>
                   <h3 style={{ fontSize: 16, fontWeight: 800, margin: "0 0 8px", color: s.color }}>{s.label}</h3>
                   <p style={{ fontSize: 12, color: "#A0A0C0", margin: "0 0 12px", fontStyle: "italic" }}>&ldquo;{s.verse.slice(0, 60)}&hellip;&rdquo;</p>
-                  <button style={{ width: "100%", padding: "8px", borderRadius: 10, border: `1px solid ${s.color}30`, background: `${s.color}08`, color: s.color, cursor: "pointer", fontSize: 12, fontWeight: 700 }}>
+                  <button type="button" style={{ width: "100%", padding: "8px", borderRadius: 10, border: `1px solid ${s.color}30`, background: `${s.color}08`, color: s.color, cursor: "pointer", fontSize: 12, fontWeight: 700 }}>
                     See Guide &rarr;
                   </button>
                 </div>
@@ -426,7 +426,7 @@ export default function ParentingPage() {
                     <p style={{ fontSize: 14, color: "#A0A0C0", lineHeight: 1.7, margin: 0, fontStyle: "italic" }}>{selectedStage.conversation}</p>
                   </div>
 
-                  <button onClick={() => setSelectedStage(null)}
+                  <button type="button" onClick={() => setSelectedStage(null)}
                     style={{ width: "100%", padding: "12px", borderRadius: 12, border: "none", background: "rgba(255,255,255,0.08)", color: MUTED, cursor: "pointer", fontSize: 14, fontWeight: 700 }}>
                     Close
                   </button>
@@ -462,11 +462,11 @@ export default function ParentingPage() {
                           </div>
                         </div>
                         <div style={{ display: "flex", gap: 6, flexShrink: 0 }}>
-                          <button onClick={() => toggleRhythm(r.id)}
+                          <button type="button" onClick={() => toggleRhythm(r.id)}
                             style={{ width: 32, height: 32, borderRadius: 8, border: `1px solid ${savedRhythms.has(r.id) ? PURPLE : BORDER}`, background: savedRhythms.has(r.id) ? "rgba(107,79,187,0.15)" : "transparent", cursor: "pointer", fontSize: 13, color: savedRhythms.has(r.id) ? PURPLE : MUTED }}>
                             {savedRhythms.has(r.id) ? "🔖" : "📌"}
                           </button>
-                          <button onClick={() => setExpandedRhythm(isExp ? null : r.id)}
+                          <button type="button" onClick={() => setExpandedRhythm(isExp ? null : r.id)}
                             style={{ padding: "6px 14px", borderRadius: 8, border: `1px solid ${rc}40`, background: `${rc}10`, color: rc, cursor: "pointer", fontSize: 13, fontWeight: 700 }}>
                             {isExp ? "Close" : "How-To"}
                           </button>
@@ -506,7 +506,7 @@ export default function ParentingPage() {
               {/* Left Panel */}
               <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
                 {VOICES_PAR.map(v => (
-                  <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                  <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                     style={{ background: selectedVoice === v.id ? PURPLE : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
                     <div style={{ color: TEXT, fontWeight: 700, fontSize: 14 }}>{v.name}</div>
                     <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{v.era}</div>

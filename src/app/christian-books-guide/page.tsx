@@ -177,7 +177,7 @@ export default function ChristianBooksGuidePage() {
             <span style={{ color: MUTED, fontSize: 14 }}>🔍</span>
             <input
               type="text"
-              placeholder="Search by title or author..."
+              aria-label="Search by title or author..." placeholder="Search by title or author..."
               value={search}
               onChange={e => setSearch(e.target.value)}
               style={{ background: "transparent", border: "none", outline: "none", color: TEXT, fontSize: 14, width: 220 }}
@@ -193,7 +193,7 @@ export default function ChristianBooksGuidePage() {
             { id: "tips" as const, label: "How to Read", icon: "🧠" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -202,7 +202,7 @@ export default function ChristianBooksGuidePage() {
 
         {activeTab === "books" && (<><div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 28 }}>
           {CATEGORIES.map(cat => (
-            <button key={cat} onClick={() => setActiveCategory(cat)}
+            <button type="button" key={cat} onClick={() => setActiveCategory(cat)}
               style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${activeCategory === cat ? GREEN : BORDER}`, background: activeCategory === cat ? `${GREEN}15` : "transparent", color: activeCategory === cat ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
               {cat}
             </button>
@@ -213,7 +213,7 @@ export default function ChristianBooksGuidePage() {
           <div style={{ textAlign: "center", padding: 60, color: MUTED }}>
             <div style={{ fontSize: 40, marginBottom: 12 }}>📖</div>
             <p>No books match your search.</p>
-            <button onClick={() => { setActiveCategory("All"); setSearch(""); }} style={{ color: GREEN, background: "none", border: "none", cursor: "pointer", marginTop: 8 }}>Clear filters</button>
+            <button type="button" onClick={() => { setActiveCategory("All"); setSearch(""); }} style={{ color: GREEN, background: "none", border: "none", cursor: "pointer", marginTop: 8 }}>Clear filters</button>
           </div>
         )}
 
@@ -222,7 +222,7 @@ export default function ChristianBooksGuidePage() {
             const open = expanded === b.title;
             return (
               <div key={i} style={{ background: CARD, border: `1px solid ${open ? b.color + "40" : BORDER}`, borderRadius: 14, overflow: "hidden" }}>
-                <button
+                <button type="button"
                   onClick={() => setExpanded(open ? null : b.title)}
                   style={{ width: "100%", background: "transparent", border: "none", padding: "18px 22px", cursor: "pointer", display: "flex", alignItems: "center", gap: 14, textAlign: "left" }}>
                   <div style={{ width: 48, height: 60, borderRadius: 6, background: `${b.color}25`, border: `1px solid ${b.color}40`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 10, fontWeight: 900, color: b.color }}>
@@ -266,7 +266,7 @@ export default function ChristianBooksGuidePage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8 }}>
               {READERS.map(r => (
-                <button key={r.id} onClick={() => setSelectedReader(r.id)}
+                <button type="button" key={r.id} onClick={() => setSelectedReader(r.id)}
                   style={{ background: selectedReader === r.id ? `${PURPLE}20` : CARD, border: `1px solid ${selectedReader === r.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", textAlign: "left", cursor: "pointer" }}>
                   <div style={{ color: TEXT, fontWeight: 700, fontSize: 13 }}>{r.name}</div>
                   <div style={{ color: MUTED, fontSize: 11, marginTop: 2 }}>{r.era}</div>

@@ -141,7 +141,7 @@ export default function IdentityInChristPage() {
             { id: "meditate" as const, label: "Meditate", icon: "🙏" },
             { id: "videos" as const, label: "Videos", icon: "▶️" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -152,7 +152,7 @@ export default function IdentityInChristPage() {
           <div>
             <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 20 }}>
               {CATEGORIES.map(c => (
-                <button key={c} onClick={() => setCatFilter(c)}
+                <button type="button" key={c} onClick={() => setCatFilter(c)}
                   style={{ padding: "5px 14px", borderRadius: 20, border: `1px solid ${catFilter === c ? (CATEGORY_COLORS[c] || GREEN) : BORDER}`, background: catFilter === c ? `${CATEGORY_COLORS[c] || GREEN}15` : "transparent", color: catFilter === c ? (CATEGORY_COLORS[c] || GREEN) : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
                   {c}
                 </button>
@@ -171,11 +171,11 @@ export default function IdentityInChristPage() {
                       <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6, margin: 0, fontStyle: "italic" }}><VerseRef reference={item.verse} /></p>
                     </div>
                     <div style={{ display: "flex", gap: 6, marginLeft: 12, flexShrink: 0 }}>
-                      <button onClick={() => { setMeditating(item.ref); setActiveTab("meditate"); }}
+                      <button type="button" onClick={() => { setMeditating(item.ref); setActiveTab("meditate"); }}
                         style={{ padding: "5px 10px", borderRadius: 6, border: `1px solid ${PURPLE}40`, background: `${PURPLE}10`, color: PURPLE, fontSize: 11, fontWeight: 700, cursor: "pointer" }}>
                         Meditate
                       </button>
-                      <button onClick={() => toggleMem(item.ref)}
+                      <button type="button" onClick={() => toggleMem(item.ref)}
                         style={{ padding: "5px 10px", borderRadius: 6, border: `1px solid ${memorized.has(item.ref) ? GREEN + "50" : BORDER}`, background: memorized.has(item.ref) ? `${GREEN}15` : "transparent", color: memorized.has(item.ref) ? GREEN : MUTED, fontSize: 11, fontWeight: 700, cursor: "pointer" }}>
                         {memorized.has(item.ref) ? "✓ Known" : "Memorize"}
                       </button>
@@ -194,7 +194,7 @@ export default function IdentityInChristPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8 }}>
               {VOICES_IDENTITY.map(v => (
-                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                   style={{ background: selectedVoice === v.id ? `${PURPLE}20` : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", textAlign: "left", cursor: "pointer" }}>
                   <div style={{ color: TEXT, fontWeight: 700, fontSize: 13 }}>{v.name}</div>
                   <div style={{ color: MUTED, fontSize: 11, marginTop: 2 }}>{v.era}</div>
@@ -266,7 +266,7 @@ export default function IdentityInChristPage() {
             </div>
             <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 16 }}>
               {IDENTITY_STATEMENTS.map(s => (
-                <button key={s.ref} onClick={() => setMeditating(s.ref)}
+                <button type="button" key={s.ref} onClick={() => setMeditating(s.ref)}
                   style={{ padding: "5px 12px", borderRadius: 20, border: `1px solid ${meditating === s.ref ? GREEN : BORDER}`, background: meditating === s.ref ? `${GREEN}15` : "transparent", color: meditating === s.ref ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
                   {s.ref}
                 </button>

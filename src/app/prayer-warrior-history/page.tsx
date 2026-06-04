@@ -282,7 +282,7 @@ export default function PrayerWarriorHistoryPage() {
             { id: "practices" as const, label: "Practices", icon: "✍️" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ]).map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none",
                 background: activeTab === t.id ? PURPLE : "transparent",
                 color: activeTab === t.id ? "#fff" : MUTED,
@@ -303,7 +303,7 @@ export default function PrayerWarriorHistoryPage() {
 
             <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 28 }}>
               {ERA_FILTERS.map(e => (
-                <button key={e} onClick={() => setEra(e)}
+                <button type="button" key={e} onClick={() => setEra(e)}
                   style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${era === e ? GREEN : BORDER}`, background: era === e ? `${GREEN}15` : "transparent", color: era === e ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
                   {e}
                 </button>
@@ -313,7 +313,7 @@ export default function PrayerWarriorHistoryPage() {
             <div style={{ display: "grid", gridTemplateColumns: warrior ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 {filtered.map((w, i) => (
-                  <button key={i} onClick={() => setSelected(selected === w.name ? null : w.name)}
+                  <button type="button" key={i} onClick={() => setSelected(selected === w.name ? null : w.name)}
                     style={{ background: selected === w.name ? `${w.color}12` : CARD, border: `1px solid ${selected === w.name ? w.color + "50" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left", transition: "all 0.15s" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                       <div style={{ width: 44, height: 44, borderRadius: 10, background: `${w.color}20`, border: `1px solid ${w.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: w.color, fontWeight: 900, fontSize: 10, flexShrink: 0 }}>

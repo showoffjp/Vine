@@ -238,7 +238,7 @@ export default function NewMembersClassPage() {
 
         <div style={{ display: "flex", gap: 8, marginBottom: 32, flexWrap: "wrap" }}>
           {tabs.map(t => (
-            <button
+            <button type="button"
               key={t.id}
               onClick={() => setActiveTab(t.id)}
               style={{ background: activeTab === t.id ? GREEN : CARD, color: activeTab === t.id ? "#000" : TEXT, border: `1px solid ${activeTab === t.id ? GREEN : BORDER}`, borderRadius: 8, padding: "8px 18px", cursor: "pointer", fontWeight: 600, fontSize: 14 }}
@@ -255,7 +255,7 @@ export default function NewMembersClassPage() {
             </p>
             {whyPoints.map((pt, i) => (
               <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, marginBottom: 12 }}>
-                <button
+                <button type="button"
                   onClick={() => toggle(`pt-${i}`)}
                   style={{ width: "100%", background: "none", border: "none", color: TEXT, padding: "16px 20px", textAlign: "left", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center", fontWeight: 700, fontSize: 15 }}
                 >

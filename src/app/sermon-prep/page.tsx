@@ -138,7 +138,7 @@ export default function SermonPrepPage() {
             { id: "notes" as const, label: "My Sermons", icon: "📝" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -163,7 +163,7 @@ export default function SermonPrepPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 210, flexShrink: 0 }}>
               {PREACHERS.map(p => (
-                <button key={p.id} onClick={() => setSelectedPreacher(p.id)}
+                <button type="button" key={p.id} onClick={() => setSelectedPreacher(p.id)}
                   style={{ width: "100%", background: selectedPreacher === p.id ? `${PURPLE}18` : "transparent", border: `1px solid ${selectedPreacher === p.id ? PURPLE + "70" : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 6, cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: selectedPreacher === p.id ? PURPLE : TEXT, fontWeight: 800, fontSize: 13, marginBottom: 2 }}>{p.name}</div>
                   <div style={{ color: MUTED, fontSize: 11 }}>{p.era}</div>
@@ -214,20 +214,20 @@ export default function SermonPrepPage() {
           <div>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
               <p style={{ color: MUTED, fontSize: 14, margin: 0 }}>{notes.length} sermons tracked · {notes.filter(n => n.status === "draft").length} drafts</p>
-              <button onClick={() => setShowForm(true)} style={{ background: GREEN, color: "#000", fontWeight: 700, border: "none", borderRadius: 8, padding: "8px 16px", cursor: "pointer", fontSize: 13 }}>+ New Sermon</button>
+              <button type="button" onClick={() => setShowForm(true)} style={{ background: GREEN, color: "#000", fontWeight: 700, border: "none", borderRadius: 8, padding: "8px 16px", cursor: "pointer", fontSize: 13 }}>+ New Sermon</button>
             </div>
 
             {showForm && (
               <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, marginBottom: 16 }}>
                 <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 12 }}>
-                  <input placeholder="Passage (e.g. Romans 8:1-17)" value={form.passage} onChange={e => setForm(f => ({ ...f, passage: e.target.value }))}
+                  <input aria-label="Passage (e.g. Romans 8:1-17)" placeholder="Passage (e.g. Romans 8:1-17)" value={form.passage} onChange={e => setForm(f => ({ ...f, passage: e.target.value }))}
                     style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14 }} />
-                  <input placeholder="Big Idea (one sentence)" value={form.bigIdea} onChange={e => setForm(f => ({ ...f, bigIdea: e.target.value }))}
+                  <input aria-label="Big Idea (one sentence)" placeholder="Big Idea (one sentence)" value={form.bigIdea} onChange={e => setForm(f => ({ ...f, bigIdea: e.target.value }))}
                     style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14 }} />
                 </div>
                 <div style={{ display: "flex", gap: 8 }}>
-                  <button onClick={addNote} style={{ flex: 1, background: GREEN, color: "#000", fontWeight: 700, border: "none", borderRadius: 8, padding: 10, cursor: "pointer" }}>Add Sermon</button>
-                  <button onClick={() => setShowForm(false)} style={{ flex: 1, background: "transparent", color: MUTED, fontWeight: 700, border: `1px solid ${BORDER}`, borderRadius: 8, padding: 10, cursor: "pointer" }}>Cancel</button>
+                  <button type="button" onClick={addNote} style={{ flex: 1, background: GREEN, color: "#000", fontWeight: 700, border: "none", borderRadius: 8, padding: 10, cursor: "pointer" }}>Add Sermon</button>
+                  <button type="button" onClick={() => setShowForm(false)} style={{ flex: 1, background: "transparent", color: MUTED, fontWeight: 700, border: `1px solid ${BORDER}`, borderRadius: 8, padding: 10, cursor: "pointer" }}>Cancel</button>
                 </div>
               </div>
             )}
@@ -243,8 +243,8 @@ export default function SermonPrepPage() {
                   <div style={{ color: MUTED, fontSize: 11, marginTop: 6 }}>{note.date}</div>
                 </div>
                 <div style={{ display: "flex", gap: 6, flexShrink: 0, marginLeft: 12 }}>
-                  <button onClick={() => toggleStatus(note.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 8px", color: MUTED, fontSize: 11, cursor: "pointer" }}>{note.status === "draft" ? "Mark Preached" : "Back to Draft"}</button>
-                  <button onClick={() => removeNote(note.id)} style={{ background: "transparent", border: "none", color: MUTED, fontSize: 11, cursor: "pointer" }}>✕</button>
+                  <button type="button" onClick={() => toggleStatus(note.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 8px", color: MUTED, fontSize: 11, cursor: "pointer" }}>{note.status === "draft" ? "Mark Preached" : "Back to Draft"}</button>
+                  <button type="button" onClick={() => removeNote(note.id)} style={{ background: "transparent", border: "none", color: MUTED, fontSize: 11, cursor: "pointer" }}>✕</button>
                 </div>
               </div>
             ))}

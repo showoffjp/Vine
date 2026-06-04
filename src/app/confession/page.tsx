@@ -97,7 +97,7 @@ export default function ConfessionPage() {
             { id: "guide" as const, label: "Personal Guide", icon: "✍️" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setActiveTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setActiveTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: activeTab === t.id ? PURPLE : "transparent", color: activeTab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -155,7 +155,7 @@ export default function ConfessionPage() {
               const open = expandedFramework === f.id;
               return (
                 <div key={f.id} style={{ background: CARD, border: `1px solid ${open ? PURPLE + "50" : BORDER}`, borderRadius: 12, marginBottom: 12, overflow: "hidden" }}>
-                  <button onClick={() => setExpandedFramework(open ? "" : f.id)}
+                  <button type="button" onClick={() => setExpandedFramework(open ? "" : f.id)}
                     style={{ width: "100%", padding: "16px 20px", background: "none", border: "none", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                     <span style={{ color: open ? PURPLE : TEXT, fontWeight: 800, fontSize: 16 }}>{f.name}</span>
                     <span style={{ color: MUTED, fontSize: 18 }}>{open ? "−" : "+"}</span>
@@ -186,7 +186,7 @@ export default function ConfessionPage() {
               const open = expandedBarrier === b.barrier;
               return (
                 <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, marginBottom: 12, overflow: "hidden" }}>
-                  <button onClick={() => setExpandedBarrier(open ? null : b.barrier)}
+                  <button type="button" onClick={() => setExpandedBarrier(open ? null : b.barrier)}
                     style={{ width: "100%", padding: "16px 20px", background: "none", border: "none", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center", textAlign: "left" }}>
                     <div>
                       <div style={{ color: "#EF4444", fontWeight: 800, fontSize: 16 }}>{b.barrier}</div>
@@ -234,7 +234,7 @@ export default function ConfessionPage() {
               <h3 style={{ color: GREEN, fontWeight: 800, marginBottom: 8 }}>Confession Journal</h3>
               <p style={{ color: MUTED, fontSize: 13, marginBottom: 12 }}>Write honestly to God here. Name what needs to be named. Receive grace when you're done.</p>
               <textarea value={journalText} onChange={e => setJournalText(e.target.value)}
-                placeholder="Father, I bring before you...&#10;&#10;I confess specifically...&#10;&#10;I receive your forgiveness and ask for..."
+                aria-label="Father, I bring before you...&#10;&#10;I confess specifically...&#10;&#10;I receive your forgiveness and ask for..." placeholder="Father, I bring before you...&#10;&#10;I confess specifically...&#10;&#10;I receive your forgiveness and ask for..."
                 style={{ width: "100%", minHeight: 200, background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: 16, color: TEXT, fontSize: 14, lineHeight: 1.7, resize: "vertical", boxSizing: "border-box", fontFamily: "inherit" }} />
               <div style={{ marginTop: 12, background: `${GREEN}10`, border: `1px solid ${GREEN}30`, borderRadius: 8, padding: 12 }}>
                 <p style={{ color: GREEN, fontSize: 13, fontStyle: "italic", margin: 0 }}>

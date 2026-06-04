@@ -214,7 +214,7 @@ function AccordionItem({
         transition: "border-color 0.2s",
       }}
     >
-      <button
+      <button type="button"
         onClick={() => onToggle(id)}
         style={{
           width: "100%",
@@ -370,7 +370,7 @@ export default function SpiritualWarfarePage() {
           }}
         >
           {tabs.map(({ key, label }) => (
-            <button
+            <button type="button"
               key={key}
               onClick={() => setTab(key)}
               style={{
@@ -483,7 +483,7 @@ export default function SpiritualWarfarePage() {
                     </p>
                   </div>
                   {ARMOR_PIECES.map((piece, idx) => (
-                    <button
+                    <button type="button"
                       key={piece.id}
                       onClick={() => setSelectedArmor(piece.id)}
                       style={{

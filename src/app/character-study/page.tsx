@@ -491,7 +491,7 @@ export default function CharacterStudyPage() {
         {/* Main Tab Bar */}
         <div style={{ display: "flex", gap: 6, marginBottom: 28, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}` }}>
           {(["characters", "themes", "voices", "videos"] as const).map(t => (
-            <button key={t} onClick={() => setMainTab(t)} style={{ background: mainTab === t ? PURPLE : "transparent", color: mainTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer", flex: 1 }}>
+            <button type="button" key={t} onClick={() => setMainTab(t)} style={{ background: mainTab === t ? PURPLE : "transparent", color: mainTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer", flex: 1 }}>
               {t === "characters" ? "Characters" : t === "themes" ? "Themes" : t === "voices" ? "Voices" : "Videos"}
             </button>
           ))}
@@ -503,10 +503,10 @@ export default function CharacterStudyPage() {
             {/* Filters */}
             <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 24, alignItems: "center" }}>
               <input value={search} onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search characters..."
+                aria-label="Search characters..." placeholder="Search characters..."
                 style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: "9px 14px", color: TEXT, fontSize: 13, outline: "none", minWidth: 180 }} />
               {(["All", "Old", "New"] as const).map((t) => (
-                <button key={t} onClick={() => setFilterTestament(t)}
+                <button type="button" key={t} onClick={() => setFilterTestament(t)}
                   style={{ padding: "7px 18px", borderRadius: 20, fontSize: 13, cursor: "pointer",
                     border: `1px solid ${filterTestament === t ? PURPLE : BORDER}`,
                     background: filterTestament === t ? `${PURPLE}20` : "transparent",
@@ -551,11 +551,11 @@ export default function CharacterStudyPage() {
                     </div>
 
                     <div style={{ display: "flex", gap: 8 }}>
-                      <button onClick={(e) => { e.stopPropagation(); handleSave(char.id); }}
+                      <button type="button" onClick={(e) => { e.stopPropagation(); handleSave(char.id); }}
                         style={{ padding: "6px 12px", borderRadius: 7, border: "none", background: saved ? `${PURPLE}20` : BORDER, color: saved ? PURPLE : MUTED, cursor: "pointer", fontSize: 13 }}>
                         {saved ? "★" : "☆"}
                       </button>
-                      <button onClick={(e) => { e.stopPropagation(); setSelected(char); setActiveSection("overview"); }}
+                      <button type="button" onClick={(e) => { e.stopPropagation(); setSelected(char); setActiveSection("overview"); }}
                         style={{ flex: 1, padding: "6px 12px", borderRadius: 7, border: "none", background: PURPLE, color: "#fff", cursor: "pointer", fontWeight: 600, fontSize: 13 }}>
                         Study →
                       </button>
@@ -602,7 +602,7 @@ export default function CharacterStudyPage() {
           <div style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 80 }}>
               {VOICES_CHAR.map(v => (
-                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                   style={{ textAlign: "left", padding: "12px 14px", borderRadius: 12, border: `1px solid ${selectedVoice === v.id ? `${GREEN}60` : BORDER}`, background: selectedVoice === v.id ? `${GREEN}08` : CARD, cursor: "pointer" }}>
                   <div style={{ fontSize: 13, fontWeight: 700, color: selectedVoice === v.id ? GREEN : TEXT, marginBottom: 2 }}>{v.name}</div>
                   <div style={{ fontSize: 11, color: MUTED }}>{v.era}</div>
@@ -670,7 +670,7 @@ export default function CharacterStudyPage() {
                 <div style={{ fontSize: 13, color: MUTED }}>{selected.role} &middot; {selected.era}</div>
               </div>
               <div style={{ display: "flex", gap: 8 }}>
-                <button onClick={() => handleSave(selected.id)}
+                <button type="button" onClick={() => handleSave(selected.id)}
                   style={{ padding: "6px 10px", borderRadius: 8, border: "none", background: savedIds.has(selected.id) ? `${PURPLE}20` : BORDER, color: savedIds.has(selected.id) ? PURPLE : MUTED, cursor: "pointer", fontSize: 16 }}>
                   {savedIds.has(selected.id) ? "★" : "☆"}
                 </button>
@@ -680,7 +680,7 @@ export default function CharacterStudyPage() {
             {/* Section tabs */}
             <div style={{ display: "flex", gap: 4, background: BG, borderRadius: 10, padding: 4, marginBottom: 20 }}>
               {(["overview", "lessons", "moments", "questions"] as const).map((s) => (
-                <button key={s} onClick={() => setActiveSection(s)}
+                <button type="button" key={s} onClick={() => setActiveSection(s)}
                   style={{ flex: 1, padding: "7px 8px", borderRadius: 7, border: "none",
                     background: activeSection === s ? PURPLE : "transparent",
                     color: activeSection === s ? "#fff" : MUTED,
@@ -770,7 +770,7 @@ export default function CharacterStudyPage() {
             )}
 
             <div style={{ display: "flex", gap: 10, marginTop: 24 }}>
-              <button onClick={() => handleComplete(selected.id)}
+              <button type="button" onClick={() => handleComplete(selected.id)}
                 style={{
                   flex: 1, padding: "11px 16px", borderRadius: 10, border: "none",
                   background: completedIds.has(selected.id) ? "#3a7d5620" : PURPLE,
@@ -779,7 +779,7 @@ export default function CharacterStudyPage() {
                 }}>
                 {completedIds.has(selected.id) ? "✓ Studied" : "Mark as Studied"}
               </button>
-              <button onClick={() => setSelected(null)}
+              <button type="button" onClick={() => setSelected(null)}
                 style={{ padding: "11px 16px", borderRadius: 10, border: `1px solid ${BORDER}`, background: "transparent", color: MUTED, cursor: "pointer", fontSize: 15 }}>
                 Close
               </button>

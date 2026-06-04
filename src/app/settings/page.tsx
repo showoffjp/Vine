@@ -325,7 +325,7 @@ function AccountTab() {
               onChange={onPhotoSelected}
               style={{ display: "none" }}
             />
-            <button
+            <button type="button"
               onClick={() => photoInputRef.current?.click()}
               style={{
                 background: "linear-gradient(135deg, #4a9e6e, #3a7d56)",
@@ -394,7 +394,7 @@ function AccountTab() {
           <input style={inputStyle} value={location} onChange={(e) => setLocation(e.target.value)} />
         </Field>
         <Field label="Website">
-          <input style={inputStyle} placeholder="https://yoursite.com" />
+          <input style={inputStyle} aria-label="https://yoursite.com" placeholder="https://yoursite.com" />
         </Field>
         <Field label="Denomination">
           <select
@@ -417,7 +417,7 @@ function AccountTab() {
       </Section>
 
       <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-        <button
+        <button type="button"
           onClick={handleSave}
           style={{
             background: saved ? "linear-gradient(135deg, #00AA55, #4a9e6e)" : "linear-gradient(135deg, #4a9e6e, #3a7d56)",
@@ -692,7 +692,7 @@ function PrivacyTab() {
           <div style={{ fontSize: 12, color: "#6A6A88", marginBottom: 12 }}>
             Get a copy of all your Vine data including posts, prayers, and account info.
           </div>
-          <button
+          <button type="button"
             onClick={() => setExportRequested(true)}
             disabled={exportRequested}
             style={{
@@ -743,7 +743,7 @@ function PrivacyTab() {
                 Are you sure? This will permanently remove your account.
               </div>
               <div style={{ display: "flex", gap: 8 }}>
-                <button
+                <button type="button"
                   onClick={() => setDeleteStep(2)}
                   style={{
                     background: "#BB4F4F", border: "none", borderRadius: 8, padding: "8px 16px",
@@ -754,7 +754,7 @@ function PrivacyTab() {
                   <Trash2 size={14} />
                   Yes, delete my account
                 </button>
-                <button
+                <button type="button"
                   onClick={() => setDeleteStep(0)}
                   style={{
                     background: "transparent", border: "1px solid #1E1E32", borderRadius: 8,
@@ -766,7 +766,7 @@ function PrivacyTab() {
               </div>
             </div>
           ) : (
-            <button
+            <button type="button"
               onClick={() => setDeleteStep(1)}
               style={{
                 background: "transparent",
@@ -902,7 +902,7 @@ function AppearanceTab() {
             }}
           >
             {fontSizes.map((size) => (
-              <button
+              <button type="button"
                 key={size}
                 onClick={() => setFontSize(size)}
                 style={{
@@ -1052,7 +1052,7 @@ function FaithProfileTab() {
               minHeight: 100,
               fontFamily: "inherit",
             }}
-            placeholder="Share a brief testimony of your faith journey..."
+            aria-label="Share a brief testimony of your faith journey..." placeholder="Share a brief testimony of your faith journey..."
           />
         </Field>
       </Section>
@@ -1069,7 +1069,7 @@ function FaithProfileTab() {
             {spiritualGifts.map((g) => {
               const selected = gifts.includes(g);
               return (
-                <button
+                <button type="button"
                   key={g}
                   onClick={() => toggleGift(g)}
                   style={{
@@ -1225,7 +1225,7 @@ function ReadingPlansTab() {
         <div style={{ padding: "16px 20px" }}>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
             {translations.map((t) => (
-              <button
+              <button type="button"
                 key={t}
                 onClick={() => setTranslation(t)}
                 style={{
@@ -1349,7 +1349,7 @@ function ConnectionsTab() {
                 Connected
               </div>
             ) : (
-              <button
+              <button type="button"
                 onClick={() => connectProvider(p.name)}
                 style={{
                   background: "transparent",
@@ -1377,7 +1377,7 @@ function ConnectionsTab() {
           <div style={{ fontSize: 12, color: "#6A6A88", marginBottom: 12 }}>
             Sync your phone contacts to find friends already on Vine. We never store your contacts.
           </div>
-          <button
+          <button type="button"
             onClick={() => setContactsImported(true)}
             disabled={contactsImported}
             style={{
@@ -1395,7 +1395,7 @@ function ConnectionsTab() {
           </button>
         </div>
         <div style={{ padding: "16px 20px" }}>
-          <button
+          <button type="button"
             onClick={copyInvite}
             style={{
               background: "linear-gradient(135deg, #4a9e6e, #3a7d56)",
@@ -1544,7 +1544,7 @@ function BillingTab() {
           ))}
         </div>
 
-        <button
+        <button type="button"
           disabled
           style={{
             background: "linear-gradient(135deg, #4a9e6e, #3a7d56)",
@@ -1636,7 +1636,7 @@ export default function SettingsPage() {
             {TABS.map((tab) => {
               const active = tab.id === activeTab;
               return (
-                <button
+                <button type="button"
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
                   style={{

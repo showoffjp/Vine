@@ -121,7 +121,7 @@ export default function DiscipleshipCostPage() {
             { id: "practices" as const, label: "Practices", icon: "🛠️" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -151,7 +151,7 @@ export default function DiscipleshipCostPage() {
             </div>
             {MYTHS.map((m, i) => (
               <div key={i} style={{ marginBottom: 10 }}>
-                <button onClick={() => setExpanded(expanded === m.myth ? null : m.myth)}
+                <button type="button" onClick={() => setExpanded(expanded === m.myth ? null : m.myth)}
                   style={{ width: "100%", background: CARD, border: `1px solid ${BORDER}`, borderRadius: expanded === m.myth ? "10px 10px 0 0" : 10, padding: "14px 18px", color: TEXT, fontWeight: 700, fontSize: 14, cursor: "pointer", display: "flex", justifyContent: "space-between", textAlign: "left" }}>
                   <span>{m.myth}</span>
                   <span style={{ color: MUTED, flexShrink: 0 }}>{expanded === m.myth ? "−" : "+"}</span>
@@ -170,7 +170,7 @@ export default function DiscipleshipCostPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 210, flexShrink: 0 }}>
               {LIVES.map(l => (
-                <button key={l.id} onClick={() => setSelectedLife(l.id)}
+                <button type="button" key={l.id} onClick={() => setSelectedLife(l.id)}
                   style={{ width: "100%", textAlign: "left", background: selectedLife === l.id ? `${l.color}18` : CARD, border: `1px solid ${selectedLife === l.id ? l.color : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 8, cursor: "pointer" }}>
                   <div style={{ color: selectedLife === l.id ? l.color : TEXT, fontWeight: 700, fontSize: 13, marginBottom: 3 }}>{l.name}</div>
                   <div style={{ color: MUTED, fontSize: 11 }}>{l.era}</div>

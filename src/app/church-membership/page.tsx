@@ -120,7 +120,7 @@ export default function ChurchMembershipPage() {
             { id: "how" as const, label: "How to Join", icon: "🛠️" },
             { id: "videos" as const, label: "Videos", icon: "🎬" },
           ].map(t => (
-            <button key={t.id} onClick={() => setTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? PURPLE : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t.icon} {t.label}
             </button>
@@ -167,7 +167,7 @@ export default function ChurchMembershipPage() {
           <div style={{ display: "flex", gap: 20 }}>
             <div style={{ width: 210, flexShrink: 0 }}>
               {TRADITIONS.map(t => (
-                <button key={t.id} onClick={() => setSelectedTradition(t.id)}
+                <button type="button" key={t.id} onClick={() => setSelectedTradition(t.id)}
                   style={{ width: "100%", textAlign: "left", background: selectedTradition === t.id ? `${t.color}18` : CARD, border: `1px solid ${selectedTradition === t.id ? t.color : BORDER}`, borderRadius: 10, padding: "12px 14px", marginBottom: 8, cursor: "pointer" }}>
                   <div style={{ color: selectedTradition === t.id ? t.color : TEXT, fontWeight: 700, fontSize: 13, marginBottom: 3 }}>{t.name}</div>
                   <div style={{ color: MUTED, fontSize: 11 }}>{t.era}</div>

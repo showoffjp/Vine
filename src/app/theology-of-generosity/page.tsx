@@ -191,7 +191,7 @@ function AccordionItem({
         overflow: "hidden",
       }}
     >
-      <button
+      <button type="button"
         onClick={() => onToggle(id)}
         style={{
           width: "100%",
@@ -310,7 +310,7 @@ export default function TheologyOfGenerosityPage() {
           }}
         >
           {tabs.map((tab) => (
-            <button
+            <button type="button"
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               style={{
@@ -363,7 +363,7 @@ export default function TheologyOfGenerosityPage() {
               {/* Left list */}
               <div style={{ width: 220, flexShrink: 0 }}>
                 {MOTIVATIONS.map((m, i) => (
-                  <button
+                  <button type="button"
                     key={m.id}
                     onClick={() => setActiveMotivation(m.id)}
                     style={{

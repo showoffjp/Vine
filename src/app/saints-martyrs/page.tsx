@@ -96,7 +96,7 @@ export default function SaintsMartyrsPage() {
 
         <div style={{ display: "flex", gap: 4, marginBottom: 24, background: CARD, borderRadius: 10, padding: 4, width: "fit-content", flexWrap: "wrap" }}>
           {(["saints", "martyrs", "theology", "commemoration", "videos"] as Tab[]).map(t => (
-            <button key={t} onClick={() => setTab(t)}
+            <button type="button" key={t} onClick={() => setTab(t)}
               style={{ padding: "8px 16px", borderRadius: 8, border: "none", background: tab === t ? GREEN : "transparent", color: tab === t ? BG : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer", textTransform: "capitalize" }}>
               {t === "theology" ? "Theology of Sainthood" : t === "commemoration" ? "Calendar" : t === "videos" ? "Videos" : t.charAt(0).toUpperCase() + t.slice(1)}
             </button>
@@ -106,7 +106,7 @@ export default function SaintsMartyrsPage() {
         {(tab === "saints" || tab === "martyrs") && (
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 20 }}>
             {eras.map(e => (
-              <button key={e} onClick={() => setEraFilter(e)}
+              <button type="button" key={e} onClick={() => setEraFilter(e)}
                 style={{ padding: "5px 12px", borderRadius: 6, border: `1px solid ${eraFilter === e ? GREEN : BORDER}`, background: eraFilter === e ? `${GREEN}20` : "transparent", color: eraFilter === e ? GREEN : MUTED, fontSize: 11, fontWeight: 700, cursor: "pointer" }}>
                 {e}
               </button>
@@ -186,7 +186,7 @@ export default function SaintsMartyrsPage() {
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {THEOLOGY_DATA.map((t, i) => (
               <div key={i} style={{ background: CARD, border: `1px solid ${expanded[t.point] ? t.color + "40" : BORDER}`, borderRadius: 12, overflow: "hidden" }}>
-                <button onClick={() => setExpanded(e => ({ ...e, [t.point]: !e[t.point] }))}
+                <button type="button" onClick={() => setExpanded(e => ({ ...e, [t.point]: !e[t.point] }))}
                   style={{ width: "100%", padding: "16px 20px", cursor: "pointer", textAlign: "left", background: "transparent", border: "none", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <div style={{ color: t.color, fontWeight: 800, fontSize: 15 }}>{t.point}</div>
                   <span style={{ color: MUTED, fontSize: 18 }}>{expanded[t.point] ? "−" : "+"}</span>

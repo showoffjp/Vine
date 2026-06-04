@@ -261,7 +261,7 @@ export default function MeditationPage() {
         {/* Top-level tab bar */}
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}`, flexWrap: "wrap" }}>
           {(["practice", "scripture", "voices", "videos"] as const).map(t => (
-            <button key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+            <button type="button" key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t === "practice" ? "Practice" : t === "scripture" ? "Scripture" : t === "voices" ? "Voices" : "Videos"}
             </button>
           ))}
@@ -273,7 +273,7 @@ export default function MeditationPage() {
             {/* Inner tab bar */}
             <div style={{ display: "flex", gap: 4, marginBottom: 32, borderBottom: `1px solid ${BORDER}` }}>
               {([["practice", "Meditate Now"], ["passages", "Passages"], ["techniques", "Techniques"], ["voices", "Voices"]] as const).map(([t, label]) => (
-                <button key={t} onClick={() => setTab(t)}
+                <button type="button" key={t} onClick={() => setTab(t)}
                   style={{ padding: "10px 20px", fontSize: 14, fontWeight: 600, background: "none", border: "none", cursor: "pointer", color: tab === t ? GREEN : "#6A6A88", borderBottom: `2px solid ${tab === t ? GREEN : "transparent"}`, marginBottom: -1 }}>
                   {label}
                 </button>
@@ -298,12 +298,12 @@ export default function MeditationPage() {
                     </div>
                     <div style={{ display: "flex", gap: 10, justifyContent: "center" }}>
                       {!timerDone && (
-                        <button onClick={() => setTimerActive(!timerActive)}
+                        <button type="button" onClick={() => setTimerActive(!timerActive)}
                           style={{ padding: "10px 28px", borderRadius: 12, border: timerActive ? "1px solid rgba(239,68,68,0.3)" : "none", background: timerActive ? "rgba(239,68,68,0.15)" : `linear-gradient(135deg, ${PURPLE}, ${GREEN})`, color: timerActive ? "#EF4444" : BG, cursor: "pointer", fontWeight: 800, fontSize: 14 }}>
                           {timerActive ? "Pause" : timeLeft < selectedPassage.duration * 60 ? "Resume" : "Begin"}
                         </button>
                       )}
-                      <button onClick={() => { setTimeLeft(selectedPassage.duration * 60); setTimerActive(false); setTimerDone(false); }}
+                      <button type="button" onClick={() => { setTimeLeft(selectedPassage.duration * 60); setTimerActive(false); setTimerDone(false); }}
                         style={{ padding: "10px 18px", borderRadius: 12, border: "1px solid #2A2A40", background: BORDER, color: MUTED, cursor: "pointer", fontWeight: 700, fontSize: 14 }}>
                         Reset
                       </button>
@@ -316,12 +316,12 @@ export default function MeditationPage() {
                   {(timerDone || progress > 0) && (
                     <div style={{ marginBottom: 20 }}>
                       <label style={{ fontSize: 13, fontWeight: 700, color: MUTED, textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 8 }}>What arose during meditation?</label>
-                      <textarea value={reflection} onChange={e => setReflection(e.target.value)} rows={4} placeholder="A word that stood out, a feeling, a question, a prayer..."
+                      <textarea value={reflection} onChange={e => setReflection(e.target.value)} rows={4} aria-label="A word that stood out, a feeling, a question, a prayer..." placeholder="A word that stood out, a feeling, a question, a prayer..."
                         style={{ width: "100%", padding: "10px 14px", borderRadius: 10, background: "#0D0D1A", border: `1px solid ${BORDER}`, color: TEXT, fontSize: 14, outline: "none", resize: "vertical", boxSizing: "border-box", lineHeight: 1.6 }} />
                     </div>
                   )}
                   {timerDone && !savedReflection && (
-                    <button onClick={completeSession}
+                    <button type="button" onClick={completeSession}
                       style={{ width: "100%", padding: "14px", borderRadius: 12, border: "none", background: "linear-gradient(135deg, #3a7d56, #00CC6A)", color: BG, cursor: "pointer", fontWeight: 800, fontSize: 15 }}>
                       Complete Session
                     </button>
@@ -334,7 +334,7 @@ export default function MeditationPage() {
                   <h3 style={{ fontSize: 15, fontWeight: 700, marginBottom: 12, color: MUTED }}>Choose a different passage:</h3>
                   <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
                     {PASSAGES_FOR_MEDITATION.map(p => (
-                      <button key={p.id} onClick={() => startSession(p)}
+                      <button type="button" key={p.id} onClick={() => startSession(p)}
                         style={{ padding: "6px 14px", borderRadius: 10, border: `1px solid ${selectedPassage.id === p.id ? PURPLE : BORDER}`, background: selectedPassage.id === p.id ? `${PURPLE}26` : "transparent", color: selectedPassage.id === p.id ? "#A080FF" : MUTED, cursor: "pointer", fontSize: 13, fontWeight: selectedPassage.id === p.id ? 700 : 400 }}>
                         <VerseRef reference={p.reference} />
                       </button>
@@ -353,13 +353,13 @@ export default function MeditationPage() {
                         <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 4 }}>{p.title}</h3>
                         <p style={{ fontSize: 13, color: MUTED }}><VerseRef reference={p.reference} /></p>
                       </div>
-                      <button onClick={() => toggleSave(p.id)} style={{ background: "none", border: "none", cursor: "pointer", fontSize: 16, color: savedPassages.has(p.id) ? "#A080FF" : "#4A4A68" }}>
+                      <button type="button" onClick={() => toggleSave(p.id)} style={{ background: "none", border: "none", cursor: "pointer", fontSize: 16, color: savedPassages.has(p.id) ? "#A080FF" : "#4A4A68" }}>
                         {savedPassages.has(p.id) ? "♥" : "♡"}
                       </button>
                     </div>
                     <span style={{ fontSize: 11, padding: "2px 8px", borderRadius: 20, background: `${PURPLE}26`, color: "#A080FF", border: `1px solid ${PURPLE}40`, marginBottom: 12, alignSelf: "flex-start" }}>{p.theme}</span>
                     <p style={{ fontSize: 13, color: "#C0C0D8", lineHeight: 1.6, flex: 1, marginBottom: 14, display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden" }}>{p.text}</p>
-                    <button onClick={() => startSession(p)}
+                    <button type="button" onClick={() => startSession(p)}
                       style={{ padding: "10px", borderRadius: 10, border: `1px solid ${PURPLE}4D`, background: `${PURPLE}14`, color: "#A080FF", cursor: "pointer", fontWeight: 700, fontSize: 13 }}>
                       Meditate on This &rarr; ({p.duration} min)
                     </button>
@@ -396,7 +396,7 @@ export default function MeditationPage() {
               <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
                 <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
                   {VOICES_MEDITATION.map(v => (
-                    <button key={v.id} onClick={() => setSelectedVoiceMed(v.id)}
+                    <button type="button" key={v.id} onClick={() => setSelectedVoiceMed(v.id)}
                       style={{ background: selectedVoiceMed === v.id ? PURPLE : CARD, border: `1px solid ${selectedVoiceMed === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
                       <div style={{ color: TEXT, fontWeight: 700, fontSize: 14 }}>{v.name}</div>
                       <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{v.era}</div>
@@ -442,7 +442,7 @@ export default function MeditationPage() {
           <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
               {VOICES_MED.map(v => (
-                <button key={v.id} onClick={() => setSelectedVoiceNew(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedVoiceNew(v.id)}
                   style={{ background: selectedVoiceNew === v.id ? PURPLE : CARD, border: `1px solid ${selectedVoiceNew === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: TEXT, fontWeight: 700, fontSize: 14 }}>{v.name}</div>
                   <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{v.era}</div>

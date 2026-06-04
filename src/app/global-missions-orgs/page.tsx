@@ -183,7 +183,7 @@ export default function GlobalMissionsOrgsPage() {
             { id: "involved" as Tab, label: "Get Involved", icon: "🚀" },
             { id: "videos" as Tab, label: "Videos", icon: "▶️" },
           ].map(t => (
-            <button key={t.id} onClick={() => setTab(t.id)}
+            <button type="button" key={t.id} onClick={() => setTab(t.id)}
               style={{ flex: 1, padding: "10px 8px", borderRadius: 8, border: "none", background: tab === t.id ? GREEN : "transparent", color: tab === t.id ? "#fff" : MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", minWidth: 80 }}>
               {t.icon} {t.label}
             </button>
@@ -247,7 +247,7 @@ export default function GlobalMissionsOrgsPage() {
         <div>
         <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 28 }}>
           {CATEGORIES.map(c => (
-            <button key={c} onClick={() => setCategory(c)}
+            <button type="button" key={c} onClick={() => setCategory(c)}
               style={{ padding: "6px 14px", borderRadius: 20, border: `1px solid ${category === c ? GREEN : BORDER}`, background: category === c ? `${GREEN}15` : "transparent", color: category === c ? GREEN : MUTED, fontWeight: 700, fontSize: 12, cursor: "pointer" }}>
               {c}
             </button>
@@ -257,7 +257,7 @@ export default function GlobalMissionsOrgsPage() {
         <div style={{ display: "grid", gridTemplateColumns: org ? "1fr 1fr" : "1fr", gap: 14, alignItems: "start" }}>
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {filtered.map((o, i) => (
-              <button key={i} onClick={() => setSelected(selected === o.name ? null : o.name)}
+              <button type="button" key={i} onClick={() => setSelected(selected === o.name ? null : o.name)}
                 style={{ background: selected === o.name ? `${o.color}12` : CARD, border: `1px solid ${selected === o.name ? o.color + "50" : BORDER}`, borderRadius: 12, padding: "16px 20px", cursor: "pointer", textAlign: "left", transition: "all 0.15s" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                   <div style={{ width: 44, height: 44, borderRadius: 10, background: `${o.color}20`, border: `1px solid ${o.color}40`, display: "flex", alignItems: "center", justifyContent: "center", color: o.color, fontWeight: 900, fontSize: 10, flexShrink: 0 }}>

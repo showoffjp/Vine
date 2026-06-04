@@ -244,7 +244,7 @@ export default function BaptismPage() {
         {/* Top-level tab bar */}
         <div style={{ display: "flex", gap: 6, marginBottom: 32, background: CARD, borderRadius: 12, padding: 6, border: `1px solid ${BORDER}`, flexWrap: "wrap" }}>
           {(["meaning", "views", "voices", "videos"] as const).map(t => (
-            <button key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+            <button type="button" key={t} onClick={() => setActiveTab(t)} style={{ background: activeTab === t ? PURPLE : "transparent", color: activeTab === t ? "#fff" : MUTED, border: "none", borderRadius: 8, padding: "8px 18px", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
               {t === "meaning" ? "Meaning" : t === "views" ? "Views" : t === "voices" ? "Voices" : "Videos"}
             </button>
           ))}
@@ -256,7 +256,7 @@ export default function BaptismPage() {
             {/* Inner tab bar */}
             <div style={{ display: "flex", gap: 4, marginBottom: 32, borderBottom: `1px solid ${BORDER}`, flexWrap: "wrap" }}>
               {([["overview", "Overview"], ["methods", "Methods"], ["testimonies", "Testimonies"], ["faq", "FAQ"]] as const).map(([v, label]) => (
-                <button key={v} onClick={() => setView(v)}
+                <button type="button" key={v} onClick={() => setView(v)}
                   style={{ padding: "10px 20px", fontSize: 14, fontWeight: 600, background: "none", border: "none", cursor: "pointer", color: view === v ? GREEN : "#6A6A88", borderBottom: `2px solid ${view === v ? GREEN : "transparent"}`, marginBottom: -1 }}>
                   {label}
                 </button>
@@ -315,7 +315,7 @@ export default function BaptismPage() {
                   <div style={{ background: "linear-gradient(135deg, rgba(58,125,86,0.08), rgba(107,79,187,0.08))", borderRadius: 20, padding: 28, textAlign: "center", border: "1px solid rgba(58,125,86,0.2)" }}>
                     <h3 style={{ fontSize: 20, fontWeight: 800, marginBottom: 8 }}>Ready to Take the Step?</h3>
                     <p style={{ fontSize: 14, color: MUTED, marginBottom: 20 }}>If you&rsquo;ve decided to be baptized, mark this moment.</p>
-                    <button onClick={markDecided}
+                    <button type="button" onClick={markDecided}
                       style={{ padding: "14px 32px", borderRadius: 14, border: "none", background: "linear-gradient(135deg, #3a7d56, #00CC6A)", color: BG, fontWeight: 800, fontSize: 16, cursor: "pointer" }}>
                       Yes, I&rsquo;m Ready to Be Baptized
                     </button>
@@ -435,7 +435,7 @@ export default function BaptismPage() {
           <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
             <div style={{ width: 210, flexShrink: 0, display: "flex", flexDirection: "column", gap: 8, position: "sticky", top: 20 }}>
               {VOICES_BAP.map(v => (
-                <button key={v.id} onClick={() => setSelectedVoice(v.id)}
+                <button type="button" key={v.id} onClick={() => setSelectedVoice(v.id)}
                   style={{ background: selectedVoice === v.id ? PURPLE : CARD, border: `1px solid ${selectedVoice === v.id ? PURPLE : BORDER}`, borderRadius: 10, padding: "12px 14px", cursor: "pointer", textAlign: "left" }}>
                   <div style={{ color: TEXT, fontWeight: 700, fontSize: 14 }}>{v.name}</div>
                   <div style={{ color: MUTED, fontSize: 12, marginTop: 2 }}>{v.era}</div>
@@ -488,7 +488,7 @@ export default function BaptismPage() {
                 <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 4 }}>{selectedTestimony.name}</h2>
                 <span style={{ fontSize: 14, color: MUTED }}>{selectedTestimony.location} &middot; {selectedTestimony.method}</span>
               </div>
-              <button onClick={() => setSelectedTestimony(null)} style={{ background: "none", border: "none", color: "#6A6A88", fontSize: 22, cursor: "pointer" }}>×</button>
+              <button type="button" onClick={() => setSelectedTestimony(null)} style={{ background: "none", border: "none", color: "#6A6A88", fontSize: 22, cursor: "pointer" }}>×</button>
             </div>
             <p style={{ fontSize: 15, color: "#C0C0D8", lineHeight: 1.8, marginBottom: 20 }}>{selectedTestimony.story}</p>
             <div style={{ background: "#0D0D1A", borderRadius: 12, padding: 16, borderLeft: `3px solid ${GREEN}` }}>

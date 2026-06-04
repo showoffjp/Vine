@@ -274,7 +274,7 @@ export default function PrayerJournalPage() {
 
             <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
               {filtered.map(entry => (
-                <div key={entry.id} onClick={() => setSelected(entry)}
+                <div role="button" tabIndex={0} key={entry.id} onClick={() => setSelected(entry)}
                   style={{ background: "#12121F", border: `1px solid ${entry.answered ? "rgba(58,125,86,0.25)" : "#1E1E32"}`, borderRadius: 16, padding: 20, cursor: "pointer", transition: "border-color 0.2s" }}
                   onMouseEnter={e => (e.currentTarget as HTMLDivElement).style.borderColor = "#3a7d56"}
                   onMouseLeave={e => (e.currentTarget as HTMLDivElement).style.borderColor = entry.answered ? "rgba(58,125,86,0.25)" : "#1E1E32"}>

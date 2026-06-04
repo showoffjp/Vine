@@ -317,7 +317,7 @@ export default function CommunionPage() {
             {tab === "faq" && (
               <div style={{ maxWidth: 720, margin: "0 auto" }}>
                 {FAQS.map((faq, i) => (
-                  <div key={i} onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  <div role="button" tabIndex={0} key={i} onClick={() => setOpenFaq(openFaq === i ? null : i)}
                     style={{ background: CARD, borderRadius: 14, marginBottom: 12, overflow: "hidden", border: `1px solid ${BORDER}`, cursor: "pointer" }}>
                     <div style={{ padding: "16px 20px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                       <h3 style={{ fontSize: 15, fontWeight: 700, color: openFaq === i ? GREEN : TEXT, flex: 1, marginRight: 12 }}>{faq.q}</h3>

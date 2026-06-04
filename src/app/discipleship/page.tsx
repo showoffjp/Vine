@@ -260,7 +260,7 @@ export default function DiscipleshipPage() {
                       const key = `${path.id}-${i}`;
                       const done = completedTopics.has(key);
                       return (
-                        <div key={i} onClick={() => setCompletedTopics(prev => { const n = new Set(prev); n.has(key) ? n.delete(key) : n.add(key); return n; })}
+                        <div role="button" tabIndex={0} key={i} onClick={() => setCompletedTopics(prev => { const n = new Set(prev); n.has(key) ? n.delete(key) : n.add(key); return n; })}
                           style={{ background: done ? `${path.color}10` : BG, border: `1px solid ${done ? path.color + "30" : BORDER}`, borderRadius: 10, padding: 14, cursor: "pointer", transition: "all 0.2s" }}>
                           <div style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
                             <div style={{ width: 20, height: 20, borderRadius: "50%", border: `2px solid ${done ? path.color : BORDER}`, background: done ? path.color : "transparent", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>

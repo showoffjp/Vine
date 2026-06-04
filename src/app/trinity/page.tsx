@@ -234,7 +234,7 @@ export default function TrinityPage() {
               </p>
             </div>
             {HERESIES.map((h, i) => (
-              <div key={i} onClick={() => setExpandedHeresy(expandedHeresy === i ? null : i)}
+              <div role="button" tabIndex={0} key={i} onClick={() => setExpandedHeresy(expandedHeresy === i ? null : i)}
                 style={{ background: CARD, border: `1px solid ${expandedHeresy === i ? "#EF444460" : BORDER}`, borderRadius: 12, padding: 20, marginBottom: 10, cursor: "pointer", transition: "all 0.2s ease" }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
@@ -297,7 +297,7 @@ export default function TrinityPage() {
               </p>
             </div>
             {APPLICATIONS.map((a, i) => (
-              <div key={i} onClick={() => setExpandedApp(expandedApp === i ? null : i)}
+              <div role="button" tabIndex={0} key={i} onClick={() => setExpandedApp(expandedApp === i ? null : i)}
                 style={{ background: CARD, border: `1px solid ${expandedApp === i ? `${GREEN}50` : BORDER}`, borderRadius: 14, padding: 22, marginBottom: 12, cursor: "pointer", transition: "all 0.2s ease" }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 12 }}>

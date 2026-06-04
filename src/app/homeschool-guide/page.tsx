@@ -182,7 +182,7 @@ export default function HomeschoolGuidePage() {
           <div style={{ display: "grid", gridTemplateColumns: "1fr 320px", gap: 16, alignItems: "start" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {CURRICULA.map((c) => (
-                <div key={c.name} onClick={() => setSelected(c.name)}
+                <div role="button" tabIndex={0} key={c.name} onClick={() => setSelected(c.name)}
                   style={{ background: CARD, border: `1px solid ${selected === c.name ? c.color + "60" : BORDER}`, borderRadius: 12, padding: 18, cursor: "pointer" }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                     <div>

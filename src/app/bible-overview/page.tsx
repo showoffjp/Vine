@@ -362,7 +362,7 @@ export default function BibleOverviewPage() {
             {/* Books grid */}
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 16 }}>
               {filtered.map(book => (
-                <div key={book.name} onClick={() => setSelected(book)}
+                <div role="button" tabIndex={0} key={book.name} onClick={() => setSelected(book)}
                   style={{ background: CARD, border: `1px solid ${readIds.has(book.name) ? "rgba(58,125,86,0.25)" : BORDER}`, borderRadius: 16, padding: 20, cursor: "pointer", transition: "border-color 0.2s, transform 0.15s" }}
                   onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.transform = "translateY(-2px)"; (e.currentTarget as HTMLDivElement).style.borderColor = CAT_COLORS[book.category]; }}
                   onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.transform = "none"; (e.currentTarget as HTMLDivElement).style.borderColor = readIds.has(book.name) ? "rgba(58,125,86,0.25)" : BORDER; }}>

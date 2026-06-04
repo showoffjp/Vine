@@ -179,7 +179,7 @@ export default function HolySpiritPage() {
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 12, marginBottom: 24 }}>
               {GIFTS.map((g, i) => (
-                <div key={i} onClick={() => setExpandedGift(expandedGift === i ? null : i)}
+                <div role="button" tabIndex={0} key={i} onClick={() => setExpandedGift(expandedGift === i ? null : i)}
                   style={{ background: CARD, border: `1px solid ${expandedGift === i ? `${PURPLE}60` : BORDER}`, borderRadius: 12, padding: 18, cursor: "pointer", transition: "all 0.2s ease" }}>
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: expandedGift === i ? 12 : 0 }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
@@ -232,7 +232,7 @@ export default function HolySpiritPage() {
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 12 }}>
               {FRUIT.map((f, i) => (
-                <div key={i} onClick={() => setExpandedFruit(expandedFruit === i ? null : i)}
+                <div role="button" tabIndex={0} key={i} onClick={() => setExpandedFruit(expandedFruit === i ? null : i)}
                   style={{ background: CARD, border: `1px solid ${expandedFruit === i ? `${f.color}60` : BORDER}`, borderRadius: 12, padding: 18, cursor: "pointer", transition: "all 0.2s ease" }}>
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: expandedFruit === i ? 12 : 0 }}>
                     <div>
@@ -262,7 +262,7 @@ export default function HolySpiritPage() {
               </p>
             </div>
             {WORK_IN_SALVATION.map((w, i) => (
-              <div key={i} onClick={() => setExpandedWork(expandedWork === i ? null : i)}
+              <div role="button" tabIndex={0} key={i} onClick={() => setExpandedWork(expandedWork === i ? null : i)}
                 style={{ background: CARD, border: `1px solid ${expandedWork === i ? `${GREEN}50` : BORDER}`, borderRadius: 14, padding: 22, marginBottom: 12, cursor: "pointer", transition: "all 0.2s ease" }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 12 }}>

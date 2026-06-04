@@ -122,7 +122,7 @@ export default function ResurrectionPage() {
               </p>
             </div>
             {MINIMAL_FACTS.map((f, i) => (
-              <div key={i} onClick={() => setExpandedFact(expandedFact === i ? null : i)}
+              <div role="button" tabIndex={0} key={i} onClick={() => setExpandedFact(expandedFact === i ? null : i)}
                 style={{ background: CARD, border: `1px solid ${expandedFact === i ? `${f.color}60` : BORDER}`, borderRadius: 12, padding: 20, marginBottom: 10, cursor: "pointer", transition: "all 0.2s ease" }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
@@ -162,7 +162,7 @@ export default function ResurrectionPage() {
               </p>
             </div>
             {THEOLOGICAL_MEANINGS.map((m, i) => (
-              <div key={i} onClick={() => setExpandedMeaning(expandedMeaning === i ? null : i)}
+              <div role="button" tabIndex={0} key={i} onClick={() => setExpandedMeaning(expandedMeaning === i ? null : i)}
                 style={{ background: CARD, border: `1px solid ${expandedMeaning === i ? `${GREEN}50` : BORDER}`, borderRadius: 14, padding: 22, marginBottom: 12, cursor: "pointer", transition: "all 0.2s ease" }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
@@ -191,7 +191,7 @@ export default function ResurrectionPage() {
               </p>
             </div>
             {APPEARANCES.map((a, i) => (
-              <div key={i} onClick={() => setExpandedAppearance(expandedAppearance === i ? null : i)}
+              <div role="button" tabIndex={0} key={i} onClick={() => setExpandedAppearance(expandedAppearance === i ? null : i)}
                 style={{ background: CARD, border: `1px solid ${expandedAppearance === i ? `${PURPLE}60` : BORDER}`, borderRadius: 14, padding: 22, marginBottom: 12, cursor: "pointer", transition: "all 0.2s ease" }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                   <div>
@@ -217,7 +217,7 @@ export default function ResurrectionPage() {
               </p>
             </div>
             {ALT_THEORIES.map((t, i) => (
-              <div key={i} onClick={() => setExpandedTheory(expandedTheory === i ? null : i)}
+              <div role="button" tabIndex={0} key={i} onClick={() => setExpandedTheory(expandedTheory === i ? null : i)}
                 style={{ background: CARD, border: `1px solid ${expandedTheory === i ? `${t.color}60` : BORDER}`, borderRadius: 12, padding: 20, marginBottom: 10, cursor: "pointer", transition: "all 0.2s ease" }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <div style={{ color: t.color, fontWeight: 800, fontSize: 17 }}>{t.name}</div>

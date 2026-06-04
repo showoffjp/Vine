@@ -211,7 +211,7 @@ export default function GreatRevivalsPage() {
             <div style={{ display: "grid", gridTemplateColumns: "1fr 340px", gap: 16, alignItems: "start" }}>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 {filtered.map((r) => (
-                  <div key={r.name} onClick={() => setSelected(r.name)}
+                  <div role="button" tabIndex={0} key={r.name} onClick={() => setSelected(r.name)}
                     style={{ background: CARD, border: `1px solid ${selected === r.name ? r.color + "60" : BORDER}`, borderRadius: 12, padding: 18, cursor: "pointer" }}>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 6 }}>
                       <div>

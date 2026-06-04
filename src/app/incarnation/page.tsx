@@ -204,7 +204,7 @@ export default function IncarnationPage() {
               </p>
             </div>
             {WHY_MATTERS.map((w, i) => (
-              <div key={i} onClick={() => setExpandedWhy(expandedWhy === i ? null : i)}
+              <div role="button" tabIndex={0} key={i} onClick={() => setExpandedWhy(expandedWhy === i ? null : i)}
                 style={{ background: CARD, border: `1px solid ${expandedWhy === i ? `${GREEN}50` : BORDER}`, borderRadius: 14, padding: 22, marginBottom: 12, cursor: "pointer", transition: "all 0.2s ease" }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 12 }}>

@@ -490,7 +490,7 @@ function CommunityContent({
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             {filteredArticles.map(a => (
               <div key={a.id} style={{ background: "#12121F", borderRadius: 16, overflow: "hidden", border: `1px solid ${expandedArticle === a.id ? "rgba(58,125,86,0.2)" : "#1E1E32"}` }}>
-                <div onClick={() => setExpandedArticle(expandedArticle === a.id ? null : a.id)}
+                <div role="button" tabIndex={0} onClick={() => setExpandedArticle(expandedArticle === a.id ? null : a.id)}
                   style={{ padding: "18px 22px", display: "flex", justifyContent: "space-between", alignItems: "flex-start", cursor: "pointer" }}>
                   <div style={{ flex: 1 }}>
                     <div style={{ display: "flex", gap: 8, marginBottom: 6, flexWrap: "wrap" }}>
@@ -524,7 +524,7 @@ function CommunityContent({
       {innerTab === "stories" && (
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 20 }}>
           {STORIES.map(s => (
-            <div key={s.id} onClick={() => setSelectedStory(s)}
+            <div role="button" tabIndex={0} key={s.id} onClick={() => setSelectedStory(s)}
               style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 16, padding: 22, cursor: "pointer" }}
               onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = "#3a7d56"; (e.currentTarget as HTMLDivElement).style.transform = "translateY(-2px)"; }}
               onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = "#1E1E32"; (e.currentTarget as HTMLDivElement).style.transform = "none"; }}>

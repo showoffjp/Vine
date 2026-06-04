@@ -221,7 +221,7 @@ export default function ExpositoryPreachingPage() {
           <div style={{ display: "grid", gridTemplateColumns: "1fr 340px", gap: 16, alignItems: "start" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {SERMON_SERIES.map((s) => (
-                <div key={s.book} onClick={() => setSelected(s.book)}
+                <div role="button" tabIndex={0} key={s.book} onClick={() => setSelected(s.book)}
                   style={{ background: CARD, border: `1px solid ${selected === s.book ? s.color + "60" : BORDER}`, borderRadius: 12, padding: 18, cursor: "pointer" }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                     <div>

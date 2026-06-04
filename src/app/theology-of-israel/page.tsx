@@ -167,7 +167,7 @@ export default function TheologyOfIsraelPage() {
           <div style={{ display: "grid", gridTemplateColumns: "1fr 340px", gap: 16, alignItems: "start" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {ROMANS_PASSAGES.map((p) => (
-                <div key={p.passage} onClick={() => setSelected(p.passage)}
+                <div role="button" tabIndex={0} key={p.passage} onClick={() => setSelected(p.passage)}
                   style={{ background: CARD, border: `1px solid ${selected === p.passage ? p.color + "60" : BORDER}`, borderRadius: 12, padding: 18, cursor: "pointer" }}>
                   <div style={{ color: p.color, fontWeight: 800, fontSize: 14 }}>{p.passage}</div>
                   <div style={{ color: MUTED, fontSize: 11, marginTop: 4 }}>{p.key}</div>

@@ -119,7 +119,7 @@ export default function SaintsMartyrsPage() {
           <div style={{ display: "grid", gridTemplateColumns: "1fr 340px", gap: 16, alignItems: "start" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {filteredSaints.map((s) => (
-                <div key={s.name} onClick={() => setSelected(s.name)}
+                <div role="button" tabIndex={0} key={s.name} onClick={() => setSelected(s.name)}
                   style={{ background: CARD, border: `1px solid ${selected === s.name ? s.color + "60" : BORDER}`, borderRadius: 12, padding: 18, cursor: "pointer" }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
                     <div>
@@ -151,7 +151,7 @@ export default function SaintsMartyrsPage() {
           <div style={{ display: "grid", gridTemplateColumns: "1fr 340px", gap: 16, alignItems: "start" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {filteredMartyrs.map((m) => (
-                <div key={m.name} onClick={() => setSelected(m.name)}
+                <div role="button" tabIndex={0} key={m.name} onClick={() => setSelected(m.name)}
                   style={{ background: CARD, border: `1px solid ${selected === m.name ? m.color + "60" : BORDER}`, borderRadius: 12, padding: 18, cursor: "pointer" }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
                     <div>

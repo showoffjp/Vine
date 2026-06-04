@@ -255,7 +255,7 @@ export default function SimplicityPage() {
                     const key = `${area.id}-${i}`;
                     const checked = checkedPractices.has(key);
                     return (
-                      <div key={i} onClick={() => setCheckedPractices(prev => { const n = new Set(prev); n.has(key) ? n.delete(key) : n.add(key); return n; })}
+                      <div role="button" tabIndex={0} key={i} onClick={() => setCheckedPractices(prev => { const n = new Set(prev); n.has(key) ? n.delete(key) : n.add(key); return n; })}
                         style={{ background: checked ? `${area.color}10` : BG, border: `1px solid ${checked ? area.color + "30" : BORDER}`, borderRadius: 10, padding: 14, cursor: "pointer" }}>
                         <div style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
                           <div style={{ width: 20, height: 20, borderRadius: 4, border: `2px solid ${checked ? area.color : BORDER}`, background: checked ? area.color : "transparent", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>
@@ -287,7 +287,7 @@ export default function SimplicityPage() {
                   const key = `detox-${i}`;
                   const checked = checkedPractices.has(key);
                   return (
-                    <div key={i} onClick={() => setCheckedPractices(prev => { const n = new Set(prev); n.has(key) ? n.delete(key) : n.add(key); return n; })}
+                    <div role="button" tabIndex={0} key={i} onClick={() => setCheckedPractices(prev => { const n = new Set(prev); n.has(key) ? n.delete(key) : n.add(key); return n; })}
                       style={{ background: checked ? `${GREEN}10` : CARD, border: `1px solid ${checked ? GREEN + "40" : BORDER}`, borderRadius: 8, padding: 12, cursor: "pointer" }}>
                       <div style={{ display: "flex", gap: 8 }}>
                         <div style={{ width: 18, height: 18, borderRadius: 4, border: `2px solid ${checked ? GREEN : BORDER}`, background: checked ? GREEN : "transparent", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>

@@ -114,7 +114,7 @@ export default function ChurchPolityGuidePage() {
           <div style={{ display: "grid", gridTemplateColumns: "1fr 340px", gap: 16, alignItems: "start" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {MODELS.map((m) => (
-                <div key={m.model} onClick={() => setSelected(m.model)}
+                <div role="button" tabIndex={0} key={m.model} onClick={() => setSelected(m.model)}
                   style={{ background: CARD, border: `1px solid ${selected === m.model ? m.color + "60" : BORDER}`, borderRadius: 12, padding: 18, cursor: "pointer" }}>
                   <div style={{ color: m.color, fontWeight: 800, fontSize: 14 }}>{m.model}</div>
                   <div style={{ color: MUTED, fontSize: 11, marginTop: 2 }}>{m.tradition}</div>

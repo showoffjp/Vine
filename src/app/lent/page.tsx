@@ -225,7 +225,7 @@ export default function LentPage() {
                 {w.readings.map(r => {
                   const key = `lw${w.week}_${r}`;
                   return (
-                    <div key={r} onClick={() => toggleDone(key)}
+                    <div role="button" tabIndex={0} key={r} onClick={() => toggleDone(key)}
                       style={{ display: "flex", alignItems: "center", gap: 12, padding: "8px 0", borderBottom: `1px solid ${BORDER}`, cursor: "pointer" }}>
                       <div style={{ width: 20, height: 20, borderRadius: 6, background: done[key] ? `${w.color}20` : "transparent", border: `2px solid ${done[key] ? w.color : BORDER}`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                         {done[key] && <span style={{ color: w.color, fontSize: 12 }}>✓</span>}

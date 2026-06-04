@@ -174,7 +174,7 @@ export default function ChurchPlantingPage() {
                     const key = `${phase.id}-q-${i}`;
                     const checked = checkedQuestions.has(key);
                     return (
-                      <div key={i} onClick={() => setCheckedQuestions(prev => { const n = new Set(prev); n.has(key) ? n.delete(key) : n.add(key); return n; })}
+                      <div role="button" tabIndex={0} key={i} onClick={() => setCheckedQuestions(prev => { const n = new Set(prev); n.has(key) ? n.delete(key) : n.add(key); return n; })}
                         style={{ display: "flex", gap: 10, cursor: "pointer", padding: 10, borderRadius: 8, background: checked ? `${phase.color}10` : BG, border: `1px solid ${checked ? phase.color + "30" : BORDER}` }}>
                         <div style={{ width: 18, height: 18, borderRadius: 4, border: `2px solid ${checked ? phase.color : BORDER}`, background: checked ? phase.color : "transparent", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>
                           {checked && <span style={{ color: BG, fontSize: 10, fontWeight: 900 }}>✓</span>}

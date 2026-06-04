@@ -1429,7 +1429,7 @@ export default function BiblePage() {
                   {searchResults.map((r, i) => {
                     const idx = r.text.toLowerCase().indexOf(searchQuery.trim().toLowerCase());
                     return (
-                      <div key={i} onClick={() => goToReference(r.bookId, r.chapter, r.verse)} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 20, cursor: "pointer", transition: "border-color 0.15s" }}>
+                      <div role="button" tabIndex={0} key={i} onClick={() => goToReference(r.bookId, r.chapter, r.verse)} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 20, cursor: "pointer", transition: "border-color 0.15s" }}>
                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
                           <span style={{ color: GREEN, fontWeight: 800, fontSize: 14 }}>{r.ref}</span>
                           <span style={{ color: PURPLE, fontSize: 12, fontWeight: 600 }}>Open →</span>

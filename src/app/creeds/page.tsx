@@ -346,7 +346,7 @@ export default function CreedsPage() {
         {activeTab === "creeds" && !selected && (
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             {CREEDS.map(c => (
-              <div key={c.id} onClick={() => { setSelected(c); setShowLines(false); }}
+              <div role="button" tabIndex={0} key={c.id} onClick={() => { setSelected(c); setShowLines(false); }}
                 style={{ background: CARD, border: `1px solid ${memorizedIds.has(c.id) ? "rgba(58,125,86,0.25)" : BORDER}`, borderRadius: 16, padding: 24, cursor: "pointer", transition: "border-color 0.2s" }}
                 onMouseEnter={e => (e.currentTarget as HTMLDivElement).style.borderColor = PURPLE}
                 onMouseLeave={e => (e.currentTarget as HTMLDivElement).style.borderColor = memorizedIds.has(c.id) ? "rgba(58,125,86,0.25)" : BORDER}>

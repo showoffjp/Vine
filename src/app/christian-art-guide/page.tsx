@@ -179,7 +179,7 @@ export default function ChristianArtGuidePage() {
           <div style={{ display: "grid", gridTemplateColumns: "1fr 340px", gap: 16, alignItems: "start" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {MASTERWORKS.map((w) => (
-                <div key={w.title} onClick={() => setSelected(w.title)}
+                <div role="button" tabIndex={0} key={w.title} onClick={() => setSelected(w.title)}
                   style={{ background: CARD, border: `1px solid ${selected === w.title ? w.color + "60" : BORDER}`, borderRadius: 12, padding: 18, cursor: "pointer" }}>
                   <div style={{ color: w.color, fontWeight: 800, fontSize: 14 }}>{w.title}</div>
                   <div style={{ color: MUTED, fontSize: 11, marginTop: 2 }}>{w.artist} · {w.year} · {w.medium}</div>

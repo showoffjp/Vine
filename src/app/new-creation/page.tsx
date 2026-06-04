@@ -145,7 +145,7 @@ export default function NewCreationPage() {
               </p>
             </div>
             {NEW_EARTH_DETAILS.map((n, i) => (
-              <div key={i} onClick={() => setExpandedEarth(expandedEarth === i ? null : i)}
+              <div role="button" tabIndex={0} key={i} onClick={() => setExpandedEarth(expandedEarth === i ? null : i)}
                 style={{ background: CARD, border: `1px solid ${expandedEarth === i ? `${GREEN}50` : BORDER}`, borderRadius: 14, padding: 22, marginBottom: 12, cursor: "pointer", transition: "all 0.2s ease" }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
@@ -180,7 +180,7 @@ export default function NewCreationPage() {
               </p>
             </div>
             {COSMIC_RENEWAL.map((c, i) => (
-              <div key={i} onClick={() => setExpandedCosmic(expandedCosmic === i ? null : i)}
+              <div role="button" tabIndex={0} key={i} onClick={() => setExpandedCosmic(expandedCosmic === i ? null : i)}
                 style={{ background: CARD, border: `1px solid ${expandedCosmic === i ? `${GREEN}50` : BORDER}`, borderRadius: 14, padding: 22, marginBottom: 12, cursor: "pointer", transition: "all 0.2s ease" }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                   <div>
@@ -216,7 +216,7 @@ export default function NewCreationPage() {
               </blockquote>
             </div>
             {RESURRECTION_BODIES.map((b, i) => (
-              <div key={i} onClick={() => setExpandedBody(expandedBody === i ? null : i)}
+              <div role="button" tabIndex={0} key={i} onClick={() => setExpandedBody(expandedBody === i ? null : i)}
                 style={{ background: CARD, border: `1px solid ${expandedBody === i ? `${b.color}60` : BORDER}`, borderRadius: 12, padding: 20, marginBottom: 10, cursor: "pointer", transition: "all 0.2s ease" }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
@@ -245,7 +245,7 @@ export default function NewCreationPage() {
               </p>
             </div>
             {IMPLICATIONS.map((imp, i) => (
-              <div key={i} onClick={() => setExpandedImpl(expandedImpl === i ? null : i)}
+              <div role="button" tabIndex={0} key={i} onClick={() => setExpandedImpl(expandedImpl === i ? null : i)}
                 style={{ background: CARD, border: `1px solid ${expandedImpl === i ? `${GREEN}50` : BORDER}`, borderRadius: 14, padding: 22, marginBottom: 12, cursor: "pointer", transition: "all 0.2s ease" }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 12 }}>

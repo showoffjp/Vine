@@ -216,7 +216,7 @@ export default function PrayerWalkingPage() {
                   const key = `${route.id}-${i}`;
                   const done = completedStops.has(key);
                   return (
-                    <div key={i} onClick={() => setCompletedStops(prev => { const n = new Set(prev); done ? n.delete(key) : n.add(key); return n; })}
+                    <div role="button" tabIndex={0} key={i} onClick={() => setCompletedStops(prev => { const n = new Set(prev); done ? n.delete(key) : n.add(key); return n; })}
                       style={{ background: done ? `${GREEN}10` : BG, border: `1px solid ${done ? GREEN + "40" : BORDER}`, borderRadius: 10, padding: 16, cursor: "pointer", transition: "all 0.2s" }}>
                       <div style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
                         <div style={{ width: 22, height: 22, borderRadius: "50%", border: `2px solid ${done ? GREEN : BORDER}`, background: done ? GREEN : "transparent", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>

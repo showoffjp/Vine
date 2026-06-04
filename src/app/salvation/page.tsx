@@ -401,7 +401,7 @@ export default function SalvationPage() {
             {tab === "faq" && (
               <div style={{ maxWidth: 720, margin: "0 auto" }}>
                 {FAQS.map((faq, i) => (
-                  <div key={i} onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  <div role="button" tabIndex={0} key={i} onClick={() => setOpenFaq(openFaq === i ? null : i)}
                     style={{ background: CARD, borderRadius: 14, marginBottom: 12, overflow: "hidden", border: `1px solid ${BORDER}`, cursor: "pointer" }}>
                     <div style={{ padding: "16px 20px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                       <h3 style={{ fontSize: 15, fontWeight: 700, color: openFaq === i ? GREEN : TEXT, flex: 1, marginRight: 12 }}>{faq.q}</h3>
@@ -420,7 +420,7 @@ export default function SalvationPage() {
             {tab === "testimonies" && (
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 20 }}>
                 {TESTIMONIES.map(t => (
-                  <div key={t.name} onClick={() => setSelectedTestimony(t)}
+                  <div role="button" tabIndex={0} key={t.name} onClick={() => setSelectedTestimony(t)}
                     style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 22, cursor: "pointer", transition: "border-color 0.2s, transform 0.15s" }}
                     onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = GREEN; (e.currentTarget as HTMLDivElement).style.transform = "translateY(-2px)"; }}
                     onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = BORDER; (e.currentTarget as HTMLDivElement).style.transform = "none"; }}>

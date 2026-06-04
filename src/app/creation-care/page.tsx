@@ -218,7 +218,7 @@ export default function CreationCarePage() {
                   </div>
                   <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                     {catItems.map(item => (
-                      <div key={item.id} onClick={() => toggle(item.id)}
+                      <div role="button" tabIndex={0} key={item.id} onClick={() => toggle(item.id)}
                         style={{ display: "flex", gap: 12, alignItems: "flex-start", cursor: "pointer", padding: "8px 12px", borderRadius: 8, background: item.done ? `${cat.color}10` : "transparent", border: `1px solid ${item.done ? cat.color + "30" : "transparent"}` }}>
                         <div style={{ width: 18, height: 18, borderRadius: 4, border: `2px solid ${item.done ? cat.color : BORDER}`, background: item.done ? cat.color : "transparent", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 2 }}>
                           {item.done && <span style={{ color: BG, fontSize: 11, fontWeight: 900 }}>✓</span>}

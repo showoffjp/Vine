@@ -241,7 +241,7 @@ export default function SinglesPage() {
               {PRACTICES.map((p, i) => {
                 const checked = checkedPractices.has(String(i));
                 return (
-                  <div key={i} onClick={() => setCheckedPractices(prev => { const n = new Set(prev); n.has(String(i)) ? n.delete(String(i)) : n.add(String(i)); return n; })}
+                  <div role="button" tabIndex={0} key={i} onClick={() => setCheckedPractices(prev => { const n = new Set(prev); n.has(String(i)) ? n.delete(String(i)) : n.add(String(i)); return n; })}
                     style={{ background: CARD, border: `1px solid ${checked ? GREEN + "40" : BORDER}`, borderRadius: 12, padding: 18, cursor: "pointer" }}>
                     <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
                       <div style={{ width: 22, height: 22, borderRadius: 4, border: `2px solid ${checked ? GREEN : BORDER}`, background: checked ? GREEN : "transparent", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 2 }}>

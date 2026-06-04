@@ -529,7 +529,7 @@ export default function ParablesPage() {
                 {/* Parables grid */}
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: 20 }}>
                   {filtered.map(p => (
-                    <div key={p.id} onClick={() => setSelected(p)}
+                    <div role="button" tabIndex={0} key={p.id} onClick={() => setSelected(p)}
                       style={{ background: CARD, border: `1px solid ${studiedIds.has(p.id) ? "rgba(58,125,86,0.3)" : BORDER}`, borderRadius: 16, padding: 20, cursor: "pointer", transition: "border-color 0.2s, transform 0.15s" }}
                       onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.transform = "translateY(-2px)"; (e.currentTarget as HTMLDivElement).style.borderColor = GREEN; }}
                       onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.transform = "none"; (e.currentTarget as HTMLDivElement).style.borderColor = studiedIds.has(p.id) ? "rgba(58,125,86,0.3)" : BORDER; }}>
@@ -755,7 +755,7 @@ export default function ParablesPage() {
 
       {/* Modal */}
       {selected && (
-        <div onClick={() => { setSelected(null); setOpenQuestion(null); }}
+        <div role="button" tabIndex={0} onClick={() => { setSelected(null); setOpenQuestion(null); }}
           style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.8)", zIndex: 100, display: "flex", alignItems: "flex-start", justifyContent: "center", padding: "20px", overflowY: "auto" }}>
           <div onClick={e => e.stopPropagation()}
             style={{ background: CARD, borderRadius: 20, padding: 32, maxWidth: 680, width: "100%", border: "1px solid #2A2A40", marginTop: 20 }}>
@@ -809,7 +809,7 @@ export default function ParablesPage() {
             <div style={{ marginBottom: 24 }}>
               <h4 style={{ fontSize: 13, fontWeight: 700, color: "#A080FF", textTransform: "uppercase", letterSpacing: 1, marginBottom: 12 }}>Study Questions</h4>
               {selected.studyQuestions.map((q, i) => (
-                <div key={i} onClick={() => setOpenQuestion(openQuestion === i ? null : i)}
+                <div role="button" tabIndex={0} key={i} onClick={() => setOpenQuestion(openQuestion === i ? null : i)}
                   style={{ marginBottom: 8, background: "#0D0D1A", borderRadius: 10, overflow: "hidden", border: `1px solid ${BORDER}`, cursor: "pointer" }}>
                   <div style={{ padding: "12px 16px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                     <span style={{ fontSize: 13, color: "#D0D0E8", fontWeight: 600 }}>{i + 1}. {q}</span>

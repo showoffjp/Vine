@@ -318,7 +318,7 @@ export default function ChurchHistoryPage() {
                         <div style={{ width: 8, height: 8, borderRadius: "50%", background: ERA_COLORS[e.era] }} />
                       </div>
                     </div>
-                    <div onClick={() => setSelected(e)}
+                    <div role="button" tabIndex={0} onClick={() => setSelected(e)}
                       style={{ flex: 1, background: "#12121F", border: `1px solid ${readIds.has(e.id) ? "rgba(58,125,86,0.25)" : "#1E1E32"}`, borderRadius: 14, padding: 18, marginTop: idx === 0 ? 0 : 12, cursor: "pointer", transition: "border-color 0.2s" }}
                       onMouseEnter={ev => (ev.currentTarget as HTMLDivElement).style.borderColor = ERA_COLORS[e.era]}
                       onMouseLeave={ev => (ev.currentTarget as HTMLDivElement).style.borderColor = readIds.has(e.id) ? "rgba(58,125,86,0.25)" : "#1E1E32"}>
@@ -357,7 +357,7 @@ export default function ChurchHistoryPage() {
         {activeTab === "figures" && (
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 20 }}>
             {FIGURES.map(f => (
-              <div key={f.id} onClick={() => setSelectedFigure(f)}
+              <div role="button" tabIndex={0} key={f.id} onClick={() => setSelectedFigure(f)}
                 style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 16, padding: 22, cursor: "pointer", transition: "border-color 0.2s, transform 0.15s" }}
                 onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = "#6B4FBB"; (e.currentTarget as HTMLDivElement).style.transform = "translateY(-2px)"; }}
                 onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = "#1E1E32"; (e.currentTarget as HTMLDivElement).style.transform = "none"; }}>

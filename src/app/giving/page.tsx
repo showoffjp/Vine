@@ -196,7 +196,7 @@ export default function GivingPage() {
               {[
                 { icon: Shield, label: "Vetted partners only" },
                 { icon: Globe, label: "57 countries funded" },
-                { icon: Users, label: "22,000+ donors" },
+                { icon: Users, label: `${causes.reduce((s, c) => s + c.donors, 0).toLocaleString()}+ donors` },
               ].map(({ icon: Icon, label }) => (
                 <div key={label} className="flex items-center gap-2" style={{ color: "#8A8AA8" }}>
                   <Icon size={14} style={{ color: "#3a7d56" }} />

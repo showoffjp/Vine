@@ -60,7 +60,9 @@ function uid() {
   return Math.random().toString(36).slice(2, 10);
 }
 
-const TODAY = new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+function fmtToday() {
+  return new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+}
 
 export default function FastingPage() {
   const [records, setRecords] = useState<FastRecord[]>(() => {
@@ -97,7 +99,7 @@ export default function FastingPage() {
       type: newType,
       duration: newDuration,
       purpose: newPurpose.trim(),
-      startDate: TODAY,
+      startDate: fmtToday(),
       completed: false,
       notes: newNotes.trim(),
     };
@@ -111,7 +113,7 @@ export default function FastingPage() {
 
   const completeFast = (id: string) => {
     setRecords((prev) => prev.map((r) =>
-      r.id === id ? { ...r, completed: true, endDate: TODAY } : r
+      r.id === id ? { ...r, completed: true, endDate: fmtToday() } : r
     ));
   };
 

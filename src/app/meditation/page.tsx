@@ -219,11 +219,13 @@ export default function MeditationPage() {
     setTab("practice");
   };
 
+  useEffect(() => {
+    try { localStorage.setItem("vine_meditation_log", JSON.stringify(practiceLog)); } catch {}
+  }, [practiceLog]);
+
   const completeSession = () => {
     const entry = `${new Date().toLocaleDateString()} — ${selectedPassage.reference}`;
-    const next = [entry, ...practiceLog].slice(0, 50);
-    setPracticeLog(next);
-    try { localStorage.setItem("vine_meditation_log", JSON.stringify(next)); } catch {}
+    setPracticeLog(prev => [entry, ...prev].slice(0, 50));
     if (reflection.trim()) setSavedReflection(true);
   };
 

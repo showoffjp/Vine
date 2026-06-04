@@ -362,7 +362,7 @@ const mostSaved = [
 ];
 
 export default function LifeHacksPage() {
-  const [mainTab, setMainTab] = useState<"hacks" | "theology" | "rhythms" | "voices" | "videos">("hacks");
+  const [mainTab, setMainTab] = usePersistedState<"hacks" | "theology" | "rhythms" | "voices" | "videos">("vine_life-hacks_main_tab", "hacks");
   const [selectedVoiceLH, setSelectedVoiceLH] = useState(VOICES_LH[0]);
   const [activeCategory, setActiveCategory] = usePersistedState("vine_life-hacks_active_category", "All");
   const [submitted, setSubmitted] = useState(false);

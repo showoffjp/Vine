@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 
 import React, { useState, useEffect } from "react";
 import { Sparkles, Plus, X, Edit2, Trash2, MapPin, Calendar, Heart, BookOpen, Star, Zap, Users, Music, Globe } from "lucide-react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 interface Milestone {
   id: string;
@@ -310,7 +311,7 @@ export default function FaithJourneyPage() {
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
-  const [mainTab, setMainTab] = useState<"journey" | "scripture" | "models" | "guide" | "videos">("journey");
+  const [mainTab, setMainTab] = usePersistedState<"journey" | "scripture" | "models" | "guide" | "videos">("vine_faith-journey_main_tab", "journey");
   const [expandedGuide, setExpandedGuide] = useState<string | null>(null);
 
   const [form, setForm] = useState<{ year: number; month: number; title: string; description: string; category: string; verse: string; verseRef: string; significance: 1 | 2 | 3 }>(() => {

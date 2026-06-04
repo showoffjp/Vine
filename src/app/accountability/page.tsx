@@ -260,12 +260,12 @@ export default function AccountabilityPage() {
     } catch { return seedGoals.map((g) => ({ ...g, streak: computeStreak(g) })); }
   });
 
-  const [mainTab, setMainTab] = useState<"goals" | "guide" | "voices" | "questions" | "videos">("goals");
+  const [mainTab, setMainTab] = usePersistedState<"goals" | "guide" | "voices" | "questions" | "videos">("vine_accountability_main_tab", "goals");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_accountability_selected_voice", "wesley-j");
   const [showCompose, setShowCompose] = useState(false);
   const [selectedGoal, setSelectedGoal] = useState<string | null>(goals[0]?.id ?? null);
   const [checkInNote, setCheckInNote] = useState("");
-  const [activeTab, setActiveTab] = useState<"active" | "completed">("active");
+  const [activeTab, setActiveTab] = usePersistedState<"active" | "completed">("vine_accountability_active_tab", "active");
   const voiceItem = VOICES_ACCT.find(v => v.id === selectedVoice)!;
 
   const [form, setForm] = useState({

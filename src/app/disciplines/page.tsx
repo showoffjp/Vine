@@ -393,7 +393,7 @@ export default function DisciplinesPage() {
     } catch { return {}; }
   });
 
-  const [mainTab, setMainTab] = useState<"tracker" | "theology" | "practices" | "voices" | "videos">("tracker");
+  const [mainTab, setMainTab] = usePersistedState<"tracker" | "theology" | "practices" | "voices" | "videos">("vine_disciplines_main_tab", "tracker");
   const [activeCategory, setActiveCategory] = useState<"all" | "inward" | "outward" | "corporate">("all");
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [noteInput, setNoteInput] = useState("");

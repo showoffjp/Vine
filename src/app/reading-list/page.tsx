@@ -371,7 +371,7 @@ export default function ReadingListPage() {
     } catch { return seedBooks; }
   });
 
-  const [mainTab, setMainTab] = useState<"list" | "recommendations" | "guides" | "voices" | "videos">("list");
+  const [mainTab, setMainTab] = usePersistedState<"list" | "recommendations" | "guides" | "voices" | "videos">("vine_reading-list_main_tab", "list");
   const [activeStatus, setActiveStatus] = useState<ReadStatus | "all">("all");
   const [activeGenre, setActiveGenre] = usePersistedState("vine_reading-list_active_genre", "All");
   const [search, setSearch] = useState("");

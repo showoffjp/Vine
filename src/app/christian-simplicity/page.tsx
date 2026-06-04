@@ -223,9 +223,9 @@ const OBSTACLES: Obstacle[] = [
 
 export default function ChristianSimplicityPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_christian-simplicity_tab", "theology");
-  const [openTheology, setOpenTheology] = useState<number | undefined>(undefined);
+  const [openTheology, setOpenTheology] = useState<number | null>(null);
   const [selectedTeacher, setSelectedTeacher] = useState<number>(0);
-  const [openObstacle, setOpenObstacle] = useState<number | undefined>(undefined);
+  const [openObstacle, setOpenObstacle] = useState<number | null>(null);
 
   const totalPractices = PRACTICE_CATEGORIES.reduce((sum, c) => sum + c.practices.length, 0);
   const tabs: { id: Tab; label: string }[] = [
@@ -390,7 +390,7 @@ export default function ChristianSimplicityPage() {
                 >
                   <button type="button"
                     onClick={() =>
-                      setOpenTheology(isOpen ? undefined : i)
+                      setOpenTheology(isOpen ? null : i)
                     }
                     style={{
                       width: "100%",
@@ -732,7 +732,7 @@ export default function ChristianSimplicityPage() {
                 >
                   <button type="button"
                     onClick={() =>
-                      setOpenObstacle(isOpen ? undefined : i)
+                      setOpenObstacle(isOpen ? null : i)
                     }
                     style={{
                       width: "100%",

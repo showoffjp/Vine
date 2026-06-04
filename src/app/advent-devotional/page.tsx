@@ -167,11 +167,11 @@ const TABS: { id: Tab; label: string }[] = [
 
 export default function AdventDevotionalPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_advent-devotional_tab", "theology");
-  const [openAccordion, setOpenAccordion] = useState<number | undefined>(undefined);
+  const [openAccordion, setOpenAccordion] = useState<number | null>(null);
   const [selectedWeek, setSelectedWeek] = useState<number>(0);
 
   function toggleAccordion(index: number) {
-    setOpenAccordion(openAccordion === index ? undefined : index);
+    setOpenAccordion(openAccordion === index ? null : index);
   }
 
   return (

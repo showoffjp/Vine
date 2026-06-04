@@ -152,8 +152,8 @@ const PRISON_VIDEOS = [
 
 export default function PrisonMinistryPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_prison-ministry_tab", "theology");
-  const [expandedTheology, setExpandedTheology] = useState<number | undefined>(undefined);
-  const [expandedReentry, setExpandedReentry] = useState<number | undefined>(undefined);
+  const [expandedTheology, setExpandedTheology] = useState<number | null>(null);
+  const [expandedReentry, setExpandedReentry] = useState<number | null>(null);
 
   const tabs: { id: Tab; label: string }[] = [
     { id: "theology", label: "Theology" },
@@ -287,7 +287,7 @@ export default function PrisonMinistryPage() {
                   }}
                 >
                   <button type="button"
-                    onClick={() => setExpandedTheology(open ? undefined : i)}
+                    onClick={() => setExpandedTheology(open ? null : i)}
                     style={{
                       width: "100%",
                       background: "transparent",
@@ -540,7 +540,7 @@ export default function PrisonMinistryPage() {
                   }}
                 >
                   <button type="button"
-                    onClick={() => setExpandedReentry(open ? undefined : i)}
+                    onClick={() => setExpandedReentry(open ? null : i)}
                     style={{
                       width: "100%",
                       background: "transparent",

@@ -238,7 +238,7 @@ export default function ParentingTeensPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_parenting-teens_tab", "theology");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [selectedStage, setSelectedStage] = useState<Stage>(stages[0]);
-  const [openConversation, setOpenConversation] = useState<string | undefined>(undefined);
+  const [openConversation, setOpenConversation] = useState<string | null>(null);
 
   function toggle(id: string) {
     setExpanded((prev) => ({ ...prev, [id]: !prev[id] }));
@@ -419,7 +419,7 @@ export default function ParentingTeensPage() {
               {conversations.map((conv) => (
                 <div key={conv.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
                   <button type="button"
-                    onClick={() => setOpenConversation(openConversation === conv.id ? undefined : conv.id)}
+                    onClick={() => setOpenConversation(openConversation === conv.id ? null : conv.id)}
                     style={{
                       width: "100%",
                       padding: "18px 20px",

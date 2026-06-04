@@ -236,8 +236,8 @@ const THEMES_ITEMS = [
 
 export default function ReadingProphetsPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_reading-prophets_tab", "howto");
-  const [openHowto, setOpenHowto] = useState<number | undefined>(undefined);
-  const [openTheme, setOpenTheme] = useState<number | undefined>(undefined);
+  const [openHowto, setOpenHowto] = useState<number | null>(null);
+  const [openTheme, setOpenTheme] = useState<number | null>(null);
   const [selectedMajor, setSelectedMajor] = usePersistedState<string>("vine_reading-prophets_selected_major", "Isaiah");
 
   const majorBook = MAJOR_BOOKS.find((b) => b.book === selectedMajor) ?? MAJOR_BOOKS[0];
@@ -382,7 +382,7 @@ export default function ReadingProphetsPage() {
                     }}
                   >
                     <button type="button"
-                      onClick={() => setOpenHowto(open ? undefined : i)}
+                      onClick={() => setOpenHowto(open ? null : i)}
                       style={{
                         width: "100%",
                         display: "flex",
@@ -753,7 +753,7 @@ export default function ReadingProphetsPage() {
                     }}
                   >
                     <button type="button"
-                      onClick={() => setOpenTheme(open ? undefined : i)}
+                      onClick={() => setOpenTheme(open ? null : i)}
                       style={{
                         width: "100%",
                         display: "flex",

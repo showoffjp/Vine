@@ -149,11 +149,11 @@ const WELCOME_ITEMS = [
 
 export default function RefugeeMinistryPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_refugee-ministry_tab", "theology");
-  const [expandedTheology, setExpandedTheology] = useState<number | undefined>(undefined);
-  const [expandedWelcome, setExpandedWelcome] = useState<number | undefined>(undefined);
+  const [expandedTheology, setExpandedTheology] = useState<number | null>(null);
+  const [expandedWelcome, setExpandedWelcome] = useState<number | null>(null);
 
-  const toggleTheology = (i: number) => setExpandedTheology(expandedTheology === i ? undefined : i);
-  const toggleWelcome = (i: number) => setExpandedWelcome(expandedWelcome === i ? undefined : i);
+  const toggleTheology = (i: number) => setExpandedTheology(expandedTheology === i ? null : i);
+  const toggleWelcome = (i: number) => setExpandedWelcome(expandedWelcome === i ? null : i);
 
   const tabs: { id: Tab; label: string }[] = [
     { id: "theology", label: "Biblical Foundation" },

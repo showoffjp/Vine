@@ -373,12 +373,12 @@ function Accordion({ items }: { items: { id: string; title: string; content: str
 }
 
 function GiftsTab() {
-  const [listFilter, setListFilter] = useState<string | undefined>(undefined);
-  const [categoryFilter, setCategoryFilter] = useState<string | undefined>(undefined);
+  const [listFilter, setListFilter] = useState<string | null>(null);
+  const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
 
   const filtered = gifts.filter((g) => {
-    const listOk = listFilter === undefined || g.lists.includes(listFilter);
-    const catOk = categoryFilter === undefined || g.categories.includes(categoryFilter);
+    const listOk = listFilter === null || g.lists.includes(listFilter);
+    const catOk = categoryFilter === null || g.categories.includes(categoryFilter);
     return listOk && catOk;
   });
 
@@ -400,18 +400,18 @@ function GiftsTab() {
           Filter by List
         </p>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 16 }}>
-          <button type="button" style={chipStyle(listFilter === undefined)} onClick={() => setListFilter(undefined)}>All Lists</button>
+          <button type="button" style={chipStyle(listFilter === null)} onClick={() => setListFilter(null)}>All Lists</button>
           {allLists.map((l) => (
-            <button type="button" key={l} style={chipStyle(listFilter === l)} onClick={() => setListFilter(listFilter === l ? undefined : l)}>{l}</button>
+            <button type="button" key={l} style={chipStyle(listFilter === l)} onClick={() => setListFilter(listFilter === l ? null : l)}>{l}</button>
           ))}
         </div>
         <p style={{ color: MUTED, fontSize: 13, marginBottom: 10, fontWeight: 600, letterSpacing: "0.05em", textTransform: "uppercase" }}>
           Filter by Category
         </p>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-          <button type="button" style={chipStyle(categoryFilter === undefined)} onClick={() => setCategoryFilter(undefined)}>All Categories</button>
+          <button type="button" style={chipStyle(categoryFilter === null)} onClick={() => setCategoryFilter(null)}>All Categories</button>
           {allCategories.map((c) => (
-            <button type="button" key={c} style={chipStyle(categoryFilter === c)} onClick={() => setCategoryFilter(categoryFilter === c ? undefined : c)}>{c}</button>
+            <button type="button" key={c} style={chipStyle(categoryFilter === c)} onClick={() => setCategoryFilter(categoryFilter === c ? null : c)}>{c}</button>
           ))}
         </div>
       </div>

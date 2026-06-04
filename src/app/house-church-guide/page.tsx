@@ -214,7 +214,7 @@ const stats: string[] = [
 // ─── Sub-Components ────────────────────────────────────────────────────────────
 
 function Accordion({ items }: { items: AccordionItem[] }) {
-  const [open, setOpen] = useState<number | undefined>(undefined);
+  const [open, setOpen] = useState<number | null>(null);
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -232,7 +232,7 @@ function Accordion({ items }: { items: AccordionItem[] }) {
             }}
           >
             <button type="button"
-              onClick={() => setOpen(isOpen ? undefined : i)}
+              onClick={() => setOpen(isOpen ? null : i)}
               style={{
                 width: "100%",
                 background: "none",

@@ -170,8 +170,8 @@ const resourceColors = [GREEN, PURPLE, "#3B82F6", "#F59E0B", "#10B981", "#EC4899
 
 export default function DisabilityMinistryPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_disability-ministry_tab", "theology");
-  const [openTheology, setOpenTheology] = useState<number | undefined>(undefined);
-  const [openPractical, setOpenPractical] = useState<number | undefined>(undefined);
+  const [openTheology, setOpenTheology] = useState<number | null>(null);
+  const [openPractical, setOpenPractical] = useState<number | null>(null);
   const [selectedJoni, setSelectedJoni] = usePersistedState<string>("vine_disability-ministry_selected_joni", "story");
 
   const activeJoni = joniItems.find((item) => item.id === selectedJoni) ?? joniItems[0];
@@ -268,7 +268,7 @@ export default function DisabilityMinistryPage() {
                     }}
                   >
                     <button type="button"
-                      onClick={() => setOpenTheology(isOpen ? undefined : i)}
+                      onClick={() => setOpenTheology(isOpen ? null : i)}
                       style={{
                         width: "100%",
                         textAlign: "left",
@@ -388,7 +388,7 @@ export default function DisabilityMinistryPage() {
                     }}
                   >
                     <button type="button"
-                      onClick={() => setOpenPractical(isOpen ? undefined : i)}
+                      onClick={() => setOpenPractical(isOpen ? null : i)}
                       style={{
                         width: "100%",
                         textAlign: "left",

@@ -376,7 +376,7 @@ const STATS = [
 export default function PsalmsDeepDivePage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_psalms-deep-dive_tab", "types");
   const [psalmFilter, setPsalmFilter] = usePersistedState<string>("vine_psalms-deep-dive_psalm_filter", "All");
-  const [openAccordion, setOpenAccordion] = useState<number | undefined>(undefined);
+  const [openAccordion, setOpenAccordion] = useState<number | null>(null);
   const [selectedBook, setSelectedBook] = useState<number>(1);
 
   const filteredPsalms =
@@ -646,7 +646,7 @@ export default function PsalmsDeepDivePage() {
                 >
                   <button type="button"
                     onClick={() =>
-                      setOpenAccordion(isOpen ? undefined : i)
+                      setOpenAccordion(isOpen ? null : i)
                     }
                     style={{
                       width: "100%",

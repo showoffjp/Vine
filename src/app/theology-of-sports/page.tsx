@@ -203,9 +203,9 @@ const PRACTICES = [
 
 export default function TheologyOfSportsPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_theology-of-sports_tab", "theology");
-  const [expandedTheology, setExpandedTheology] = useState<string | undefined>(undefined);
+  const [expandedTheology, setExpandedTheology] = useState<string | null>(null);
   const [selectedAthlete, setSelectedAthlete] = useState<number>(0);
-  const [expandedDanger, setExpandedDanger] = useState<string | undefined>(undefined);
+  const [expandedDanger, setExpandedDanger] = useState<string | null>(null);
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
@@ -274,7 +274,7 @@ export default function TheologyOfSportsPage() {
                   style={{ background: CARD, border: `1px solid ${open ? PURPLE : BORDER}`, borderRadius: 10, overflow: "hidden", transition: "border-color 0.2s" }}
                 >
                   <button type="button"
-                    onClick={() => setExpandedTheology(open ? undefined : item.title)}
+                    onClick={() => setExpandedTheology(open ? null : item.title)}
                     style={{
                       width: "100%",
                       display: "flex",
@@ -391,7 +391,7 @@ export default function TheologyOfSportsPage() {
                   style={{ background: CARD, border: `1px solid ${open ? "#FF4466" : BORDER}`, borderRadius: 10, overflow: "hidden", transition: "border-color 0.2s" }}
                 >
                   <button type="button"
-                    onClick={() => setExpandedDanger(open ? undefined : d.title)}
+                    onClick={() => setExpandedDanger(open ? null : d.title)}
                     style={{
                       width: "100%",
                       display: "flex",

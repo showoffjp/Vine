@@ -182,11 +182,11 @@ const TABS: { id: Tab; label: string }[] = [
 
 export default function LentDevotionalPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_lent-devotional_tab", "theology");
-  const [openAccordion, setOpenAccordion] = useState<number | undefined>(undefined);
+  const [openAccordion, setOpenAccordion] = useState<number | null>(null);
   const [selectedDay, setSelectedDay] = useState<number>(0);
 
   function toggleAccordion(index: number) {
-    setOpenAccordion(openAccordion === index ? undefined : index);
+    setOpenAccordion(openAccordion === index ? null : index);
   }
 
   return (

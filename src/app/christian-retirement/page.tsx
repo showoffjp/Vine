@@ -167,9 +167,9 @@ const TABS: { id: Tab; label: string }[] = [
 
 export default function ChristianRetirementPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_christian-retirement_tab", "theology");
-  const [expandedTheology, setExpandedTheology] = useState<string | undefined>(undefined);
-  const [expandedCalling, setExpandedCalling] = useState<string | undefined>(undefined);
-  const [expandedLegacy, setExpandedLegacy] = useState<string | undefined>(undefined);
+  const [expandedTheology, setExpandedTheology] = useState<string | null>(null);
+  const [expandedCalling, setExpandedCalling] = useState<string | null>(null);
+  const [expandedLegacy, setExpandedLegacy] = useState<string | null>(null);
   const [activeSeason, setActiveSeason] = usePersistedState<string>("vine_christian-retirement_active_season", "active");
 
   const currentSeason = SEASONS.find((s) => s.id === activeSeason) ?? SEASONS[0];
@@ -295,7 +295,7 @@ export default function ChristianRetirementPage() {
                 >
                   <button type="button"
                     onClick={() =>
-                      setExpandedTheology(isOpen ? undefined : item.title)
+                      setExpandedTheology(isOpen ? null : item.title)
                     }
                     style={{
                       width: "100%",
@@ -544,7 +544,7 @@ export default function ChristianRetirementPage() {
                 >
                   <button type="button"
                     onClick={() =>
-                      setExpandedCalling(isOpen ? undefined : item.title)
+                      setExpandedCalling(isOpen ? null : item.title)
                     }
                     style={{
                       width: "100%",
@@ -618,7 +618,7 @@ export default function ChristianRetirementPage() {
                 >
                   <button type="button"
                     onClick={() =>
-                      setExpandedLegacy(isOpen ? undefined : item.title)
+                      setExpandedLegacy(isOpen ? null : item.title)
                     }
                     style={{
                       width: "100%",

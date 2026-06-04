@@ -167,8 +167,8 @@ const PRACTICES_ITEMS = [
 
 export default function TheologyOfEmotionsPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_theology-of-emotions_tab", "theology");
-  const [expandedTheology, setExpandedTheology] = useState<number | undefined>(undefined);
-  const [expandedPractices, setExpandedPractices] = useState<number | undefined>(undefined);
+  const [expandedTheology, setExpandedTheology] = useState<number | null>(null);
+  const [expandedPractices, setExpandedPractices] = useState<number | null>(null);
   const [activeEmotion, setActiveEmotion] = useState<number>(0);
 
   return (
@@ -249,7 +249,7 @@ export default function TheologyOfEmotionsPage() {
                 }}
               >
                 <button type="button"
-                  onClick={() => setExpandedTheology(expandedTheology === i ? undefined : i)}
+                  onClick={() => setExpandedTheology(expandedTheology === i ? null : i)}
                   style={{
                     width: "100%",
                     display: "flex",
@@ -417,7 +417,7 @@ export default function TheologyOfEmotionsPage() {
                 }}
               >
                 <button type="button"
-                  onClick={() => setExpandedPractices(expandedPractices === i ? undefined : i)}
+                  onClick={() => setExpandedPractices(expandedPractices === i ? null : i)}
                   style={{
                     width: "100%",
                     display: "flex",

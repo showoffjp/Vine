@@ -200,7 +200,7 @@ const RESOURCES = [
 
 export default function WomensMinistryGuidePage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_womens-ministry-guide_tab", "theology");
-  const [openAccordion, setOpenAccordion] = useState<number | undefined>(0);
+  const [openAccordion, setOpenAccordion] = useState<number | null>(0);
   const [selectedTeacher, setSelectedTeacher] = usePersistedState<string>("vine_womens-ministry-guide_selected_teacher", "Jen Wilkin");
 
   const teacher = TEACHERS.find((t) => t.name === selectedTeacher)!;
@@ -266,7 +266,7 @@ export default function WomensMinistryGuidePage() {
                 style={{ background: CARD, border: `1px solid ${openAccordion === i ? PURPLE : BORDER}`, borderRadius: 12, marginBottom: 10, overflow: "hidden", transition: "border-color 0.2s" }}
               >
                 <button type="button"
-                  onClick={() => setOpenAccordion(openAccordion === i ? undefined : i)}
+                  onClick={() => setOpenAccordion(openAccordion === i ? null : i)}
                   style={{
                     width: "100%",
                     background: "transparent",

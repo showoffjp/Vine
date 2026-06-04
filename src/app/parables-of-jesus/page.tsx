@@ -48,7 +48,7 @@ const PARABLES: Parable[] = [
     id: "prodigal",
     name: "The Prodigal Son",
     reference: "Luke 15:11-32",
-    category: "Grace",
+    category: "Lost & Found",
     summary:
       "A younger son demands his inheritance early — effectively wishing his father dead — squanders it in a far country, and ends up feeding pigs. Coming to his senses, he rehearses a confession and returns. But the father, seeing him still far off, runs to embrace him, restores him with robe, ring, and sandals, and throws a feast. The elder brother, who never left, refuses to join and resents the celebration; the father pleads with him too.",
     meaning:
@@ -460,7 +460,7 @@ export default function ParablesOfJesusPage() {
               {[
                 { n: "~40", label: "Parables in the Gospels" },
                 { n: "13", label: "Kingdom parables in Matthew 13 alone" },
-                { n: "3", label: "Lost & Found parables in Luke 15" },
+                { n: String(PARABLES.filter(p => p.category === "Lost & Found").length), label: "Lost & Found parables in Luke 15" },
                 { n: "1", label: "Central subject: the Kingdom of God" },
               ].map((s) => (
                 <div

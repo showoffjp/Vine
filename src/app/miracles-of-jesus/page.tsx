@@ -425,8 +425,8 @@ export default function MiraclesOfJesusPage() {
             >
               {[
                 { n: "37+", label: "Distinct miracles in the Gospels" },
-                { n: "4", label: "Major types of miracle" },
-                { n: "3", label: "People raised from the dead" },
+                { n: String(TYPES.length - 1), label: "Major types of miracle" },
+                { n: String(MIRACLES.filter(m => m.type === "Raising the Dead").length), label: "People raised from the dead" },
                 { n: "1", label: "Miracle in all four Gospels (5,000 fed)" },
               ].map((s) => (
                 <div

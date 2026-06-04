@@ -198,6 +198,8 @@ const featuredEpisodes = [
 ];
 
 export default function PodcastPage() {
+  const totalEpisodes = shows.reduce((sum, s) => sum + s.episodes, 0);
+
   const [activeCategory, setActiveCategory] = useState("All");
   const [search, setSearch] = useState("");
   const [subscribedShows, setSubscribedShows] = useState<Set<string>>(() => {
@@ -258,7 +260,7 @@ export default function PodcastPage() {
               </span>
             </h1>
             <p className="text-lg mb-8" style={{ color: "#6A6A88" }}>
-              8 shows. 1,600+ episodes. Theology, devotionals, apologetics, parenting, finance, and more — from voices you can trust.
+              {shows.length} shows. {totalEpisodes}+ episodes. Theology, devotionals, apologetics, parenting, finance, and more — from voices you can trust.
             </p>
 
             {/* Search */}
@@ -305,7 +307,7 @@ export default function PodcastPage() {
             <h2 className="text-2xl font-black" style={{ color: "#F2F2F8" }}>
               {filteredShows.length === shows.length ? "All Shows" : `${filteredShows.length} Shows`}
             </h2>
-            <span className="text-sm" style={{ color: "#4A4A68" }}>{shows.length} shows · 1,600+ episodes</span>
+            <span className="text-sm" style={{ color: "#4A4A68" }}>{shows.length} shows · {totalEpisodes}+ episodes</span>
           </div>
 
           {filteredShows.length === 0 ? (

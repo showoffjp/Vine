@@ -660,7 +660,7 @@ export default function SpiritualGiftsPage() {
             <div style={{ marginBottom: 28 }}>
               <h2 style={{ color: TEXT, fontWeight: 700, fontSize: 22, margin: "0 0 8px 0" }}>The Spiritual Gifts</h2>
               <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, maxWidth: 640, margin: 0 }}>
-                {gifts.length} gifts drawn from four NT passages. Some gifts appear in multiple lists — noted with a badge. Filter by passage or category to explore.
+                {gifts.length} gifts drawn from {allLists.length} NT passages. Some gifts appear in multiple lists — noted with a badge. Filter by passage or category to explore.
               </p>
             </div>
             <GiftsTab />

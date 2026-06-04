@@ -312,7 +312,7 @@ export default function SalvationPage() {
                       <div style={{ display: "flex", gap: 16, alignItems: "center", marginBottom: 20 }}>
                         <div style={{ width: 56, height: 56, borderRadius: 16, background: `${s.color}20`, border: `2px solid ${s.color}40`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 28, flexShrink: 0 }}>{s.icon}</div>
                         <div>
-                          <span style={{ fontSize: 12, color: s.color, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Step {s.number} of 4</span>
+                          <span style={{ fontSize: 12, color: s.color, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>Step {s.number} of {STEPS.length}</span>
                           <h2 style={{ fontSize: 22, fontWeight: 800, marginTop: 4 }}>{s.title}</h2>
                         </div>
                       </div>

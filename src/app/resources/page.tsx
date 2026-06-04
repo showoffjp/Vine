@@ -30,15 +30,6 @@ const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3"
 
 type Tab = "books" | "courses" | "tools" | "videos";
 
-const categories = [
-  { name: "All", icon: Filter, count: 2847 },
-  { name: "Articles", icon: FileText, count: 1124 },
-  { name: "Video", icon: Video, count: 487 },
-  { name: "Audio", icon: Mic, count: 312 },
-  { name: "eBooks", icon: Book, count: 203 },
-  { name: "Study Guides", icon: Map, count: 418 },
-  { name: "Infographics", icon: Image, count: 303 },
-];
 
 const topics = [
   "Faith Basics", "Mental Health", "Relationships", "Finance",
@@ -396,6 +387,16 @@ function FilterSection({ title, children }: { title: string; children: React.Rea
 }
 
 export default function ResourcesPage() {
+  const categories = [
+    { name: "All", icon: Filter, count: resources.length },
+    { name: "Articles", icon: FileText, count: resources.filter(r => r.type === "Article").length },
+    { name: "Video", icon: Video, count: resources.filter(r => r.type === "Video").length },
+    { name: "Audio", icon: Mic, count: resources.filter(r => r.type === "Audio").length },
+    { name: "eBooks", icon: Book, count: resources.filter(r => r.type === "eBook").length },
+    { name: "Study Guides", icon: Map, count: resources.filter(r => r.type === "Study Guide").length },
+    { name: "Infographics", icon: Image, count: resources.filter(r => r.type === "Infographic").length },
+  ];
+
   const [activeTab, setActiveTab] = useState<Tab>("books");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedTopic, setSelectedTopic] = useState<string | null>(null);

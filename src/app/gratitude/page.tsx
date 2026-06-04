@@ -130,9 +130,6 @@ const VOICES_GRAT: { id: string; name: string; era: string; work: string; bio: s
   },
 ];
 
-const TODAY = new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" });
-const TODAY_SHORT = new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
-
 const SAMPLE_ENTRIES: GratitudeEntry[] = [
   {
     id: "g1",
@@ -182,6 +179,8 @@ const SAMPLE_ENTRIES: GratitudeEntry[] = [
 ];
 
 export default function GratitudePage() {
+  const TODAY = new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" });
+  const TODAY_SHORT = new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
   type Tab = "journal" | "theology" | "voices" | "practices" | "videos";
   const [activeTab, setActiveTab] = useState<Tab>("journal");
   const [selectedVoice, setSelectedVoice] = useState("voskamp-a");

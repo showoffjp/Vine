@@ -339,7 +339,7 @@ export default function ChristiansWhoChangedHistoryPage() {
 
         {activeTab === "movements" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-            <p style={{ color: MUTED, lineHeight: 1.7 }}>Christianity has been the driving force behind the most significant social transformations in history. Here are six movements that changed the world.</p>
+            <p style={{ color: MUTED, lineHeight: 1.7 }}>Christianity has been the driving force behind the most significant social transformations in history. Here are {MOVEMENTS_CWH.length} movements that changed the world.</p>
             {MOVEMENTS_CWH.map(m => (
               <div key={m.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24 }}>
                 <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 10 }}>

@@ -511,7 +511,7 @@ function DiscoverTab() {
   return (
     <div style={{ maxWidth: 720 }}>
       <p style={{ color: MUTED, fontSize: 15, lineHeight: 1.75, marginBottom: 36 }}>
-        Spiritual gift discovery is a process, not a moment. Here is a six-step framework grounded in Scripture and tested in practice.
+        Spiritual gift discovery is a process, not a moment. Here is a {discoverSteps.length}-step framework grounded in Scripture and tested in practice.
       </p>
       <div style={{ position: "relative" }}>
         <div
@@ -648,7 +648,7 @@ export default function SpiritualGiftsPage() {
             <div style={{ marginBottom: 28 }}>
               <h2 style={{ color: TEXT, fontWeight: 700, fontSize: 22, margin: "0 0 8px 0" }}>Theology of Spiritual Gifts</h2>
               <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, maxWidth: 640, margin: 0 }}>
-                Before discovering your gift, understand the theological framework that makes sense of them. These six foundations are non-negotiable for a healthy gift theology.
+                Before discovering your gift, understand the theological framework that makes sense of them. These {theologyItems.length} foundations are non-negotiable for a healthy gift theology.
               </p>
             </div>
             <Accordion items={theologyItems} />
@@ -672,7 +672,7 @@ export default function SpiritualGiftsPage() {
             <div style={{ marginBottom: 36 }}>
               <h2 style={{ color: TEXT, fontWeight: 700, fontSize: 22, margin: "0 0 8px 0" }}>Discovering Your Gifts</h2>
               <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, maxWidth: 640, margin: 0 }}>
-                Gift discovery is a communal, prayerful, experiential process — not a personality test. Follow these six steps with patience and openness.
+                Gift discovery is a communal, prayerful, experiential process — not a personality test. Follow these {discoverSteps.length} steps with patience and openness.
               </p>
             </div>
             <DiscoverTab />

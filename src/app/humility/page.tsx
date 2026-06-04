@@ -223,7 +223,7 @@ export default function HumilityPage() {
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, marginBottom: 24 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
-                Five of the most penetrating Christian teachers on humility — from medieval monks to modern analysts — each illuminating a different facet of this foundational virtue.
+                {TEACHER_ITEMS.length} of the most penetrating Christian teachers on humility — from medieval monks to modern analysts — each illuminating a different facet of this foundational virtue.
               </p>
             </div>
             <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>

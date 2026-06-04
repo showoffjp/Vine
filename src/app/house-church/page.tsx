@@ -506,7 +506,7 @@ export default function HouseChurchPage() {
         {activeTab === "models" && (
           <div>
             <p style={{ color: MUTED, marginBottom: 28, fontSize: 15 }}>
-              There is no single &ldquo;correct&rdquo; house church model. Different communities, cultures, and missions call for different shapes. Here are five well-established approaches drawn from major practitioners worldwide.
+              There is no single &ldquo;correct&rdquo; house church model. Different communities, cultures, and missions call for different shapes. Here are {HC_MODELS.length} well-established approaches drawn from major practitioners worldwide.
             </p>
             <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
               {HC_MODELS.map(m => (

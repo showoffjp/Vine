@@ -394,7 +394,7 @@ function TabFinding() {
         Finding a Director
       </h2>
       <p style={{ color: MUTED, fontSize: 15, lineHeight: 1.7, marginBottom: 40, maxWidth: 680 }}>
-        Finding the right spiritual director takes patience and discernment. Follow these seven steps as a
+        Finding the right spiritual director takes patience and discernment. Follow these {FINDING_STEPS.length} steps as a
         practical guide for beginning your search.
       </p>
 

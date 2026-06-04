@@ -437,7 +437,7 @@ export default function MissionsOrganizationsPage() {
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 28, display: "flex", gap: 12, alignItems: "flex-start" }}>
               <span style={{ fontSize: 24, flexShrink: 0 }}>🚀</span>
               <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>
-                Every Christian is called to be part of the Great Commission &mdash; but not every Christian is called to the same role. Here are five pathways for meaningful engagement, whatever your season of life.
+                Every Christian is called to be part of the Great Commission &mdash; but not every Christian is called to the same role. Here are {MISSION_STEPS.length} pathways for meaningful engagement, whatever your season of life.
               </p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>

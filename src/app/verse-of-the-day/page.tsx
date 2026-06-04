@@ -109,12 +109,11 @@ export default function VerseOfTheDayPage() {
   const [tab, setTab] = useState<Tab>("today");
   const [selectedTopic, setSelectedTopic] = useState("Anxiety & Fear");
   const [selectedPlan, setSelectedPlan] = useState("Romans Road");
-  const [dayIndex] = useState(() => new Date().getDay());
-
   // Use day-of-year so the verse advances every calendar day and rotates through
   // the full set across months, rather than repeating the same day-of-month mapping.
   const now = new Date();
   const dayOfYear = Math.floor((now.getTime() - new Date(now.getFullYear(), 0, 0).getTime()) / 86400000);
+  const dayIndex = now.getDay();
   const verseIndex = dayOfYear % DAILY_VERSES.length;
   const todayVerse = DAILY_VERSES[verseIndex];
   const todayWeekly = WEEKLY_PLAN[dayIndex];

@@ -164,7 +164,7 @@ export default function BeatitudesPage() {
           <div style={{ fontSize: 48, marginBottom: 12 }}>⛰️</div>
           <h1 style={{ fontSize: 32, fontWeight: 900, marginBottom: 8 }}>The Beatitudes</h1>
           <p style={{ color: MUTED, fontSize: 16, maxWidth: 560, margin: "0 auto" }}>
-            The opening of the Sermon on the Mount — eight upside-down blessings that describe the character of kingdom citizens. These are not commands but descriptions: this is what those who belong to God's kingdom look like.
+            The opening of the Sermon on the Mount — {BEATITUDES.length} upside-down blessings that describe the character of kingdom citizens. These are not commands but descriptions: this is what those who belong to God's kingdom look like.
           </p>
         </div>
 

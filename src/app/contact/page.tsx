@@ -139,7 +139,8 @@ export default function ContactPage() {
                         </label>
                         <input
                           type="text"
-                          aria-label="John Smith" placeholder="John Smith"
+                          aria-label="Your Name" placeholder="John Smith"
+                          autoComplete="name"
                           value={form.name}
                           onChange={(e) => setForm({ ...form, name: e.target.value })}
                           className="w-full px-4 py-3 rounded-xl text-sm outline-none"
@@ -156,7 +157,8 @@ export default function ContactPage() {
                         </label>
                         <input
                           type="email"
-                          aria-label="you@email.com" placeholder="you@email.com"
+                          aria-label="Email Address" placeholder="you@email.com"
+                          autoComplete="email"
                           value={form.email}
                           onChange={(e) => setForm({ ...form, email: e.target.value })}
                           className="w-full px-4 py-3 rounded-xl text-sm outline-none"

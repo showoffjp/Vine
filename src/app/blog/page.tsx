@@ -729,6 +729,7 @@ export default function BlogPage() {
                   <>
                     <input
                       type="email"
+                      autoComplete="email"
                       value={newsletterEmail}
                       onChange={(e) => setNewsletterEmail(e.target.value)}
                       onKeyDown={(e) => e.key === "Enter" && handleSubscribe()}

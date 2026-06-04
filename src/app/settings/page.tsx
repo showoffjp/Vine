@@ -374,6 +374,7 @@ function AccountTab() {
           <input
             style={inputStyle}
             type="email"
+            autoComplete="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />

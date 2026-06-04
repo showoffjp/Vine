@@ -241,7 +241,8 @@ export default function NewsletterPage() {
               <div className="flex gap-3">
                 <input
                   type="email"
-                  aria-label="your@email.com" placeholder="your@email.com"
+                  autoComplete="email"
+                  aria-label="Your email address" placeholder="your@email.com"
                   value={email}
                   onChange={(e) => { setEmail(e.target.value); if (emailError) setEmailError(""); }}
                   onKeyDown={(e) => e.key === "Enter" && handleSubscribe()}

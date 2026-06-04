@@ -492,7 +492,8 @@ export default function CommunityPage() {
                 <div className="flex gap-3 max-w-sm mx-auto">
                   <input
                     type="email"
-                    aria-label="friend@email.com" placeholder="friend@email.com"
+                    autoComplete="email"
+                    aria-label="Invite email address" placeholder="friend@email.com"
                     value={inviteEmail}
                     onChange={(e) => setInviteEmail(e.target.value)}
                     onKeyDown={(e) => e.key === "Enter" && handleInvite()}

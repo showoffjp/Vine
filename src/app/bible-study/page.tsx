@@ -263,7 +263,7 @@ export default function BibleStudyPage() {
             <div className="w-full max-w-md rounded-2xl p-6" style={{ background: "#12121F", border: "1px solid #1E1E32" }}>
               <div className="flex items-center justify-between mb-5">
                 <h3 className="font-black text-lg" style={{ color: "#F2F2F8" }}>Start New Study</h3>
-                <button type="button" onClick={() => setShowNewPlan(false)} style={{ color: "#4A4A68" }}><X size={20} /></button>
+                <button aria-label="Close" type="button" onClick={() => setShowNewPlan(false)} style={{ color: "#4A4A68" }}><X size={20} /></button>
               </div>
               <div className="space-y-3">
                 <div>
@@ -308,7 +308,7 @@ export default function BibleStudyPage() {
             <div className="w-full max-w-lg rounded-2xl p-6 max-h-[90vh] overflow-y-auto" style={{ background: "#12121F", border: "1px solid #1E1E32" }}>
               <div className="flex items-center justify-between mb-5">
                 <h3 className="font-black text-lg" style={{ color: "#F2F2F8" }}>Add Study Note — {selectedPlan.book}</h3>
-                <button type="button" onClick={() => setShowNewNote(false)} style={{ color: "#4A4A68" }}><X size={20} /></button>
+                <button aria-label="Close" type="button" onClick={() => setShowNewNote(false)} style={{ color: "#4A4A68" }}><X size={20} /></button>
               </div>
               <div className="space-y-3">
                 <div className="grid grid-cols-2 gap-3">

@@ -508,7 +508,7 @@ export default function DisciplinesPage() {
                     </span>
                   </div>
                 </div>
-                <button type="button" onClick={() => setSelectedId(null)} style={{ color: "#4A4A68" }}><X size={20} /></button>
+                <button aria-label="Close" type="button" onClick={() => setSelectedId(null)} style={{ color: "#4A4A68" }}><X size={20} /></button>
               </div>
 
               <p className="text-sm italic mb-3" style={{ color: "#8A8AA8" }}>{selected.tagline}</p>

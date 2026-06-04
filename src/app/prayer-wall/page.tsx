@@ -323,7 +323,7 @@ export default function PrayerWallPage() {
             <div className="w-full max-w-lg rounded-2xl p-6" style={{ background: "#12121F", border: "1px solid #1E1E32" }}>
               <div className="flex items-center justify-between mb-5">
                 <h3 className="font-black text-lg" style={{ color: "#F2F2F8" }}>Share a Prayer Request</h3>
-                <button type="button" onClick={() => setShowCompose(false)} style={{ color: "#4A4A68" }}><X size={20} /></button>
+                <button aria-label="Close" type="button" onClick={() => setShowCompose(false)} style={{ color: "#4A4A68" }}><X size={20} /></button>
               </div>
 
               <div className="space-y-4">

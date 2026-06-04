@@ -505,7 +505,7 @@ export default function FaithJourneyPage() {
                                     {hoveredId === m.id && (
                                       <div className="flex gap-1 shrink-0">
                                         <button type="button" onClick={() => handleEdit(m)} className="p-1.5 rounded-lg" style={{ color: "#4A4A68" }} title="Edit"><Edit2 size={13} /></button>
-                                        <button type="button" onClick={() => setConfirmDelete(m.id)} className="p-1.5 rounded-lg" style={{ color: "#4A4A68" }} title="Delete"><Trash2 size={13} /></button>
+                                        <button aria-label="Delete" type="button" onClick={() => setConfirmDelete(m.id)} className="p-1.5 rounded-lg" style={{ color: "#4A4A68" }} title="Delete"><Trash2 size={13} /></button>
                                       </div>
                                     )}
                                   </div>
@@ -715,7 +715,7 @@ export default function FaithJourneyPage() {
           <div className="w-full max-w-lg rounded-2xl p-6 max-h-[90vh] overflow-y-auto" style={{ background: "#12121F", border: "1px solid #1E1E32" }}>
             <div className="flex items-center justify-between mb-5">
               <h3 className="font-black text-lg" style={{ color: "#F2F2F8" }}>{editingId ? "Edit Milestone" : "Add Milestone"}</h3>
-              <button type="button" onClick={() => { setShowCompose(false); resetForm(); }} style={{ color: "#4A4A68" }}><X size={20} /></button>
+              <button aria-label="Close" type="button" onClick={() => { setShowCompose(false); resetForm(); }} style={{ color: "#4A4A68" }}><X size={20} /></button>
             </div>
 
             <div className="space-y-3">

@@ -403,7 +403,7 @@ export default function HabitsPage() {
             <div className="rounded-2xl p-5 mb-6" style={{ background: "#12121F", border: "1px solid rgba(58,125,86,0.2)" }}>
               <div className="flex items-center justify-between mb-4">
                 <h3 className="font-black" style={{ color: "#F2F2F8" }}>New Habit</h3>
-                <button type="button" onClick={() => setShowAdd(false)} style={{ color: "#6A6A88" }}><X size={16} /></button>
+                <button aria-label="Close" type="button" onClick={() => setShowAdd(false)} style={{ color: "#6A6A88" }}><X size={16} /></button>
               </div>
               <div className="space-y-4">
                 <input

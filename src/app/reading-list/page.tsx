@@ -520,7 +520,7 @@ export default function ReadingListPage() {
             <div className="w-full max-w-lg rounded-2xl p-6 max-h-[90vh] overflow-y-auto" style={{ background: CARD, border: `1px solid ${BORDER}` }}>
               <div className="flex items-center justify-between mb-5">
                 <h3 className="font-black text-lg" style={{ color: TEXT }}>{editingId ? "Edit Book" : "Add Book"}</h3>
-                <button type="button" onClick={() => { setShowCompose(false); resetForm(); }} style={{ color: "#4A4A68" }}><X size={20} /></button>
+                <button aria-label="Close" type="button" onClick={() => { setShowCompose(false); resetForm(); }} style={{ color: "#4A4A68" }}><X size={20} /></button>
               </div>
               <div className="space-y-3">
                 <div className="grid grid-cols-2 gap-3">
@@ -633,7 +633,7 @@ export default function ReadingListPage() {
                           {/* Hover actions */}
                           <div className="absolute top-3 right-3 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                             <button type="button" onClick={(e) => { e.stopPropagation(); handleEdit(book); }} className="p-1.5 rounded-lg" style={{ background: "rgba(0,0,0,0.5)", color: "#6A6A88" }}><Edit2 size={11} /></button>
-                            <button type="button" onClick={(e) => { e.stopPropagation(); setConfirmDelete(book.id); }} className="p-1.5 rounded-lg" style={{ background: "rgba(0,0,0,0.5)", color: "#6A6A88" }}><Trash2 size={11} /></button>
+                            <button aria-label="Delete" type="button" onClick={(e) => { e.stopPropagation(); setConfirmDelete(book.id); }} className="p-1.5 rounded-lg" style={{ background: "rgba(0,0,0,0.5)", color: "#6A6A88" }}><Trash2 size={11} /></button>
                           </div>
 
                           <div className="text-4xl mb-3">{book.coverEmoji}</div>

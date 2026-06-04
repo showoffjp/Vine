@@ -359,7 +359,7 @@ export default function SermonNotesPage() {
                 >
                   <div className="flex items-center justify-between mb-6">
                     <h2 className="font-black" style={{ color: "#F2F2F8" }}>{showNew ? "New Sermon Notes" : "Edit Notes"}</h2>
-                    <button type="button" onClick={() => { setShowNew(false); setEditMode(false); }} style={{ color: "#6A6A88" }}><X size={18} /></button>
+                    <button aria-label="Close" type="button" onClick={() => { setShowNew(false); setEditMode(false); }} style={{ color: "#6A6A88" }}><X size={18} /></button>
                   </div>
 
                   <div className="space-y-4">
@@ -437,7 +437,7 @@ export default function SermonNotesPage() {
                           <div key={i} className="flex items-start gap-2 px-3 py-2 rounded-lg" style={{ background: "#0D0D1A", border: "1px solid #1E1E32" }}>
                             <ChevronRight size={13} className="mt-0.5 shrink-0" style={{ color: "#3a7d56" }} />
                             <span className="flex-1 text-sm" style={{ color: "#C0C0D8" }}>{pt}</span>
-                            <button type="button" onClick={() => removePoint(i)} style={{ color: "#4A4A68" }}><X size={13} /></button>
+                            <button aria-label="Remove point" type="button" onClick={() => removePoint(i)} style={{ color: "#4A4A68" }}><X size={13} /></button>
                           </div>
                         ))}
                       </div>

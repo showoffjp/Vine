@@ -326,7 +326,7 @@ export default function JournalPage() {
                     {newEntry.tags.map((tag) => (
                       <span key={tag} className="flex items-center gap-1 text-xs px-2 py-0.5 rounded-full" style={{ background: "rgba(107,79,187,0.15)", color: "#6B4FBB", border: "1px solid rgba(107,79,187,0.3)" }}>
                         #{tag}
-                        <button type="button" onClick={() => removeTag(tag)} style={{ color: "#4A4A68" }}><X size={10} /></button>
+                        <button aria-label="Remove tag" type="button" onClick={() => removeTag(tag)} style={{ color: "#4A4A68" }}><X size={10} /></button>
                       </span>
                     ))}
                     <div className="flex items-center gap-1">

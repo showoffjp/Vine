@@ -462,8 +462,8 @@ export default function ChurchHistoryPage() {
 
       {/* Event Modal */}
       {selected && (
-        <div onClick={() => setSelected(null)} style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.8)", zIndex: 100, display: "flex", alignItems: "flex-start", justifyContent: "center", padding: "20px", overflowY: "auto" }}>
-          <div onClick={e => e.stopPropagation()} style={{ background: "#12121F", borderRadius: 20, padding: 32, maxWidth: 660, width: "100%", border: "1px solid #2A2A40", marginTop: 20 }}>
+        <div aria-hidden="true" onClick={() => setSelected(null)} style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.8)", zIndex: 100, display: "flex", alignItems: "flex-start", justifyContent: "center", padding: "20px", overflowY: "auto" }}>
+          <div role="dialog" aria-modal="true" onClick={e => e.stopPropagation()} style={{ background: "#12121F", borderRadius: 20, padding: 32, maxWidth: 660, width: "100%", border: "1px solid #2A2A40", marginTop: 20 }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16 }}>
               <div>
                 <div style={{ display: "flex", gap: 8, marginBottom: 8, flexWrap: "wrap" }}>
@@ -513,8 +513,8 @@ export default function ChurchHistoryPage() {
 
       {/* Figure Modal */}
       {selectedFigure && (
-        <div onClick={() => setSelectedFigure(null)} style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.8)", zIndex: 100, display: "flex", alignItems: "flex-start", justifyContent: "center", padding: "20px", overflowY: "auto" }}>
-          <div onClick={e => e.stopPropagation()} style={{ background: "#12121F", borderRadius: 20, padding: 32, maxWidth: 600, width: "100%", border: "1px solid #2A2A40", marginTop: 20 }}>
+        <div aria-hidden="true" onClick={() => setSelectedFigure(null)} style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.8)", zIndex: 100, display: "flex", alignItems: "flex-start", justifyContent: "center", padding: "20px", overflowY: "auto" }}>
+          <div role="dialog" aria-modal="true" onClick={e => e.stopPropagation()} style={{ background: "#12121F", borderRadius: 20, padding: 32, maxWidth: 600, width: "100%", border: "1px solid #2A2A40", marginTop: 20 }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16 }}>
               <div>
                 <h2 style={{ fontSize: 22, fontWeight: 800, marginBottom: 4 }}>{selectedFigure.name}</h2>

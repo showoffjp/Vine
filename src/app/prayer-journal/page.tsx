@@ -388,8 +388,8 @@ export default function PrayerJournalPage() {
 
       {/* Entry Modal */}
       {selected && (
-        <div onClick={() => setSelected(null)} style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.8)", zIndex: 100, display: "flex", alignItems: "flex-start", justifyContent: "center", padding: "20px", overflowY: "auto" }}>
-          <div onClick={e => e.stopPropagation()} style={{ background: "#12121F", borderRadius: 20, padding: 32, maxWidth: 640, width: "100%", border: "1px solid #2A2A40", marginTop: 20 }}>
+        <div aria-hidden="true" onClick={() => setSelected(null)} style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.8)", zIndex: 100, display: "flex", alignItems: "flex-start", justifyContent: "center", padding: "20px", overflowY: "auto" }}>
+          <div role="dialog" aria-modal="true" onClick={e => e.stopPropagation()} style={{ background: "#12121F", borderRadius: 20, padding: 32, maxWidth: 640, width: "100%", border: "1px solid #2A2A40", marginTop: 20 }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16 }}>
               <div>
                 <div style={{ display: "flex", gap: 8, marginBottom: 8, flexWrap: "wrap", alignItems: "center" }}>
@@ -445,8 +445,8 @@ export default function PrayerJournalPage() {
 
       {/* Answer Modal */}
       {showAnswerModal && (
-        <div onClick={() => setShowAnswerModal(null)} style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.8)", zIndex: 101, display: "flex", alignItems: "center", justifyContent: "center", padding: "20px" }}>
-          <div onClick={e => e.stopPropagation()} style={{ background: "#12121F", borderRadius: 20, padding: 28, maxWidth: 480, width: "100%", border: "1px solid rgba(58,125,86,0.3)" }}>
+        <div aria-hidden="true" onClick={() => setShowAnswerModal(null)} style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.8)", zIndex: 101, display: "flex", alignItems: "center", justifyContent: "center", padding: "20px" }}>
+          <div role="dialog" aria-modal="true" onClick={e => e.stopPropagation()} style={{ background: "#12121F", borderRadius: 20, padding: 28, maxWidth: 480, width: "100%", border: "1px solid rgba(58,125,86,0.3)" }}>
             <h3 style={{ fontSize: 20, fontWeight: 800, marginBottom: 8, color: "#3a7d56" }}>🎉 Praise God!</h3>
             <p style={{ fontSize: 14, color: "#9898B3", marginBottom: 16 }}>How did God answer your prayer? (Optional)</p>
             <textarea value={answerNote} onChange={e => setAnswerNote(e.target.value)} aria-label="Describe how God answered..." placeholder="Describe how God answered..." rows={4}

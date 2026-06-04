@@ -529,7 +529,7 @@ export default function FeedPage() {
                         </button>
                         {openMenu === post.id && (
                           <>
-                            <div onClick={() => setOpenMenu(null)} style={{ position: "fixed", inset: 0, zIndex: 40 }} />
+                            <div aria-hidden="true" onClick={() => setOpenMenu(null)} style={{ position: "fixed", inset: 0, zIndex: 40 }} />
                             <div
                               role="menu"
                               style={{

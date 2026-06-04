@@ -502,8 +502,8 @@ export default function SalvationPage() {
       </div>
 
       {selectedTestimony && (
-        <div onClick={() => setSelectedTestimony(null)} style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.8)", zIndex: 100, display: "flex", alignItems: "center", justifyContent: "center", padding: "20px" }}>
-          <div onClick={e => e.stopPropagation()} style={{ background: CARD, borderRadius: 20, padding: 32, maxWidth: 560, width: "100%", border: "1px solid #2A2A40" }}>
+        <div aria-hidden="true" onClick={() => setSelectedTestimony(null)} style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.8)", zIndex: 100, display: "flex", alignItems: "center", justifyContent: "center", padding: "20px" }}>
+          <div role="dialog" aria-modal="true" onClick={e => e.stopPropagation()} style={{ background: CARD, borderRadius: 20, padding: 32, maxWidth: 560, width: "100%", border: "1px solid #2A2A40" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
               <h2 style={{ fontSize: 20, fontWeight: 800, color: GREEN }}>{selectedTestimony.name}</h2>
               <button type="button" onClick={() => setSelectedTestimony(null)} style={{ background: "none", border: "none", color: "#6A6A88", fontSize: 22, cursor: "pointer" }}>×</button>

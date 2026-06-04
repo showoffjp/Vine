@@ -548,8 +548,8 @@ export default function BibleOverviewPage() {
 
       {/* Modal */}
       {selected && (
-        <div onClick={() => setSelected(null)} style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.85)", zIndex: 100, display: "flex", alignItems: "flex-start", justifyContent: "center", padding: "20px", overflowY: "auto" }}>
-          <div onClick={e => e.stopPropagation()} style={{ background: CARD, borderRadius: 20, padding: 32, maxWidth: 680, width: "100%", border: `1px solid #2A2A40`, marginTop: 20 }}>
+        <div aria-hidden="true" onClick={() => setSelected(null)} style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.85)", zIndex: 100, display: "flex", alignItems: "flex-start", justifyContent: "center", padding: "20px", overflowY: "auto" }}>
+          <div role="dialog" aria-modal="true" onClick={e => e.stopPropagation()} style={{ background: CARD, borderRadius: 20, padding: 32, maxWidth: 680, width: "100%", border: `1px solid #2A2A40`, marginTop: 20 }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16 }}>
               <div>
                 <h2 style={{ fontSize: 26, fontWeight: 900, marginBottom: 6 }}>{selected.name}</h2>

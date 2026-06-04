@@ -1559,7 +1559,7 @@ export default function ChristianMusicPage() {
             padding: "24px",
           }}
         >
-          <div
+          <div role="dialog" aria-modal="true"
             onClick={(e) => e.stopPropagation()}
             style={{
               background: "#12121F",

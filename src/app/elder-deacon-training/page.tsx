@@ -370,8 +370,7 @@ export default function ElderDeaconTrainingPage() {
                 {r.url !== undefined && (
                   <a
                     href={r.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    target="_blank" rel="noopener noreferrer"
                     style={{ color: r.color, fontSize: 11, fontWeight: 700, textDecoration: "none", marginTop: 4 }}
                   >
                     {r.url} →

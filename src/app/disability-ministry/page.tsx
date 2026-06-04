@@ -486,8 +486,7 @@ export default function DisabilityMinistryPage() {
               </p>
               <a
                 href="https://www.joniandfriends.org"
-                target="_blank"
-                rel="noopener noreferrer"
+                target="_blank" rel="noopener noreferrer"
                 style={{
                   display: "inline-block",
                   padding: "12px 28px",

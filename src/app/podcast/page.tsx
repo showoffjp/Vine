@@ -476,8 +476,7 @@ export default function PodcastPage() {
                 <a
                   key={platform.label}
                   href={platform.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  target="_blank" rel="noopener noreferrer"
                   className="px-5 py-2.5 rounded-xl text-sm font-bold transition-all"
                   style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)", color: "#C0C0D8", textDecoration: "none" }}
                   onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(58,125,86,0.3)"; e.currentTarget.style.color = "#3a7d56"; }}

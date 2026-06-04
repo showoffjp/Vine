@@ -402,8 +402,7 @@ export default function YouthMinistryGuidePage() {
               {selectedCurriculum.url && (
                 <a
                   href={selectedCurriculum.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  target="_blank" rel="noopener noreferrer"
                   style={{ display: "block", marginTop: 12, fontSize: 12, color: GREEN, textDecoration: "none", fontWeight: 700 }}
                 >
                   Visit Resource →
@@ -425,8 +424,7 @@ export default function YouthMinistryGuidePage() {
                 {r.url && (
                   <a
                     href={r.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    target="_blank" rel="noopener noreferrer"
                     style={{ fontSize: 12, color: GREEN, textDecoration: "none", fontWeight: 700 }}
                   >
                     Visit Resource →

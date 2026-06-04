@@ -401,8 +401,7 @@ export default function MensMinistryGuidePage() {
                 {r.url && (
                   <a
                     href={r.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    target="_blank" rel="noopener noreferrer"
                     style={{ fontSize: 12, color: GREEN, textDecoration: "none", fontWeight: 700 }}
                   >
                     Visit Resource →

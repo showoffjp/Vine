@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -656,7 +657,7 @@ type ChapterData = { num: number; text: string }[];
 type SearchHit = { ref: string; bookId: string; chapter: number; verse: number; text: string };
 
 export default function BiblePage() {
-  const [mainTab, setMainTab] = useState<MainTab>("read");
+  const [mainTab, setMainTab] = usePersistedState<MainTab>("vine_bible_main_tab", "read");
   const [selectedBook, setSelectedBook] = useState(ALL_BOOKS.find(b => b.id === "GEN")!);
   const [selectedChapter, setSelectedChapter] = useState(1);
   const [versions, setVersions] = useState<Version[]>(FALLBACK_VERSIONS);

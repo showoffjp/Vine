@@ -18,6 +18,7 @@ import {
   MapPin,
   BadgeCheck,
 } from "lucide-react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -476,7 +477,7 @@ const MUSIC_VIDEOS = [
 
 export default function ChristianMusicPage() {
   // Tab
-  const [activeTab, setActiveTab] = useState<"featured" | "playlists" | "artists" | "lyrics" | "videos">(() => "featured");
+  const [activeTab, setActiveTab] = usePersistedState<"featured" | "playlists" | "artists" | "lyrics" | "videos">("vine_christian-music_active_tab", "featured");
 
   // Filters
   const [genreFilter, setGenreFilter] = useState<string>(() => "All");

@@ -420,7 +420,7 @@ const CHAR_VIDEOS = [
 type MainTab = "characters" | "themes" | "voices" | "videos";
 
 export default function CharacterStudyPage() {
-  const [mainTab, setMainTab] = useState<MainTab>("characters");
+  const [mainTab, setMainTab] = usePersistedState<MainTab>("vine_character-study_main_tab", "characters");
   const [savedIds, setSavedIds] = useState<Set<string>>(() => {
     try { const s = localStorage.getItem("vine_character_study_saved"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
   });

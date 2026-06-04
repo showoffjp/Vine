@@ -309,7 +309,7 @@ export default function FastingGuidePage() {
         {activeTab === "practice" && (
           <div style={{ maxWidth: 720 }}>
             <p style={{ color: MUTED, lineHeight: 1.7, marginBottom: 28 }}>
-              Fasting is a practice — it requires practical wisdom as much as spiritual intention. These eight steps give you the full arc from preparation to completion.
+              Fasting is a practice — it requires practical wisdom as much as spiritual intention. These {practiceSteps.length} steps give you the full arc from preparation to completion.
             </p>
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               {practiceSteps.map((s, i) => (

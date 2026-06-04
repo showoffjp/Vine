@@ -189,7 +189,7 @@ export default function SermonPrepPage() {
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
-                These eight steps represent a standard expository sermon preparation process. Not every sermon requires equal time on every step — but skipping steps tends to produce sermons that show the gap.
+                These {STEPS.length} steps represent a standard expository sermon preparation process. Not every sermon requires equal time on every step — but skipping steps tends to produce sermons that show the gap.
               </p>
             </div>
             {STEPS.map(s => (

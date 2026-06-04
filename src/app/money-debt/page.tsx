@@ -154,7 +154,7 @@ export default function MoneyDebtPage() {
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
-                Financial wisdom is not complicated — it is hard. These six principles represent 90% of what you need to know. The challenge is not understanding them but doing them, consistently, over years.
+                Financial wisdom is not complicated — it is hard. These {PRINCIPLES.length} principles represent 90% of what you need to know. The challenge is not understanding them but doing them, consistently, over years.
               </p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>

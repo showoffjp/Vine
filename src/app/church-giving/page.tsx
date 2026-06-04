@@ -183,7 +183,7 @@ export default function ChurchGivingPage() {
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
-                Generosity is a habit, not a feeling. These six practices move giving from occasional impulse to intentional way of life.
+                Generosity is a habit, not a feeling. These {PRACTICES.length} practices move giving from occasional impulse to intentional way of life.
               </p>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 14 }}>

@@ -241,7 +241,7 @@ export default function NewTestamentSurveyPage() {
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
-                The order you read the NT matters. These six principles will help you read with more context, more connection, and more depth — rather than plowing through from Matthew to Revelation and missing the logic of each book.
+                The order you read the NT matters. These {READING_GUIDE.length} principles will help you read with more context, more connection, and more depth — rather than plowing through from Matthew to Revelation and missing the logic of each book.
               </p>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(270px, 1fr))", gap: 14 }}>

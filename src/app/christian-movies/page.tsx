@@ -418,7 +418,7 @@ export default function ChristianMoviesPage() {
         {activeTab === "watchguide" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
             <p style={{ color: MUTED, fontSize: 15, lineHeight: 1.7, margin: "0 0 8px" }}>
-              How you watch matters as much as what you watch. Christian media can form or deform &mdash; depending on whether you engage it actively and wisely. These five practices will help you receive what is true, beautiful, and good, and discern what is not.
+              How you watch matters as much as what you watch. Christian media can form or deform &mdash; depending on whether you engage it actively and wisely. These {WATCH_GUIDE.length} practices will help you receive what is true, beautiful, and good, and discern what is not.
             </p>
             {WATCH_GUIDE.map(entry => (
               <div key={entry.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: 28 }}>

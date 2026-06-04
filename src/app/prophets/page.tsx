@@ -233,7 +233,7 @@ export default function ProphetsPage() {
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, marginBottom: 20 }}>
               <h3 style={{ color: TEXT, fontWeight: 900, fontSize: 18, marginBottom: 8 }}>Christ in the Prophets</h3>
-              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Jesus said: &ldquo;Everything written about me in the Law of Moses and the Prophets and the Psalms must be fulfilled&rdquo; (Luke 24:44). The prophets did not merely predict Jesus — they shaped the categories through which the NT authors interpreted him. These six passages show the depth of the connection.</p>
+              <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>Jesus said: &ldquo;Everything written about me in the Law of Moses and the Prophets and the Psalms must be fulfilled&rdquo; (Luke 24:44). The prophets did not merely predict Jesus — they shaped the categories through which the NT authors interpreted him. These {CHRISTOLOGICAL_PROPHECIES.length} passages show the depth of the connection.</p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
               {CHRISTOLOGICAL_PROPHECIES.map((p, i) => (

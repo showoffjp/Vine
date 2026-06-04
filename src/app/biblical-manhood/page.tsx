@@ -229,7 +229,7 @@ export default function BiblicalManhoodPage() {
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
-                Biblical manhood is formed through practice — repeated choices that, over time, reshape character. These six practices address the most common gaps in Christian men.
+                Biblical manhood is formed through practice — repeated choices that, over time, reshape character. These {PRACTICES.length} practices address the most common gaps in Christian men.
               </p>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 14 }}>

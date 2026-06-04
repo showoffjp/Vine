@@ -196,7 +196,7 @@ export default function CommunityFormationPage() {
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
-                Community does not happen accidentally — it is built through repeated practices of presence, commitment, and vulnerability. These six practices move community from surface to depth.
+                Community does not happen accidentally — it is built through repeated practices of presence, commitment, and vulnerability. These {PRACTICES.length} practices move community from surface to depth.
               </p>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 14 }}>

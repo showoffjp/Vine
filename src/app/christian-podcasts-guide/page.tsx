@@ -415,7 +415,7 @@ export default function ChristianPodcastsGuidePage() {
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 28, display: "flex", gap: 12, alignItems: "flex-start" }}>
               <span style={{ fontSize: 24, flexShrink: 0 }}>📖</span>
               <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>
-                Listening to podcasts is not the same as learning from them. These five practices will help you get maximum spiritual and intellectual value from the time you invest.
+                Listening to podcasts is not the same as learning from them. These {PODCAST_GUIDE.length} practices will help you get maximum spiritual and intellectual value from the time you invest.
               </p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>

@@ -184,7 +184,7 @@ export default function BiblicalTheologyPrimerPage() {
         {tab === "reading" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.7, margin: "0 0 6px" }}>
-              Biblical theology is as much a way of reading as a body of content. These six habits help you read any passage in light of the whole story that climaxes in Christ.
+              Biblical theology is as much a way of reading as a body of content. These {READING_GUIDE.length} habits help you read any passage in light of the whole story that climaxes in Christ.
             </p>
             {READING_GUIDE.map((r, i) => (
               <div key={i} style={{ background: CARD, border: `1px solid ${expanded[r.title] ? r.color + "40" : BORDER}`, borderRadius: 12, overflow: "hidden" }}>

@@ -244,7 +244,7 @@ export default function NewBelieverPage() {
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "24px 28px", marginBottom: 24 }}>
               <h2 style={{ color: GREEN, fontWeight: 900, fontSize: 22, marginBottom: 12 }}>Am I Really Saved?</h2>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.8, margin: 0 }}>
-                This is the most common question new believers ask. The good news: your assurance does not rest on your feelings, your performance, or your worthiness. It rests on God&apos;s character and his promises — which do not change. Here are five truths your assurance is anchored to.
+                This is the most common question new believers ask. The good news: your assurance does not rest on your feelings, your performance, or your worthiness. It rests on God&apos;s character and his promises — which do not change. Here are {ASSURANCE_TRUTHS.length} truths your assurance is anchored to.
               </p>
             </div>
 
@@ -379,7 +379,7 @@ export default function NewBelieverPage() {
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 18, marginBottom: 24 }}>
               <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>
-                These four voices have guided new believers across centuries. Each one offers something different — Stott&apos;s intellectual clarity, Lewis&apos;s imaginative reason, Augustine&apos;s honest confession, and Willard&apos;s practical formation wisdom.
+                These {MENTORS_NB.length} voices have guided new believers across centuries. Each one offers something different — Stott&apos;s intellectual clarity, Lewis&apos;s imaginative reason, Augustine&apos;s honest confession, and Willard&apos;s practical formation wisdom.
               </p>
             </div>
             <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>

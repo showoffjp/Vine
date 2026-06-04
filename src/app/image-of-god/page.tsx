@@ -515,7 +515,7 @@ export default function ImageOfGodPage() {
             >
               <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.75, margin: 0 }}>
                 The imago Dei is not merely a doctrine to affirm -- it is a reality to live from.
-                These six areas show how the image of God reshapes ethics, culture, vocation, and
+                These {IMPLICATIONS_ITEMS.length} areas show how the image of God reshapes ethics, culture, vocation, and
                 the church's engagement with the world.
               </p>
             </div>
@@ -546,7 +546,7 @@ export default function ImageOfGodPage() {
             >
               <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.75, margin: 0 }}>
                 Every age produces its own ways of denying, distorting, or suppressing the image of
-                God in human beings. These six distortions are not merely cultural errors -- they
+                God in human beings. These {DISTORTION_ITEMS.length} distortions are not merely cultural errors -- they
                 are theological failures with real human costs.
               </p>
             </div>

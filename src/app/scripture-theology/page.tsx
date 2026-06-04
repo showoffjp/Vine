@@ -304,7 +304,7 @@ export default function ScriptureTheologyPage() {
         {activeTab === "inspiration" && (
           <div>
             <p style={{ color: MUTED, fontSize: 14, marginBottom: 24, lineHeight: 1.7 }}>
-              Five models of biblical inspiration. Select a model on the left to see its key claim, proponents, strengths, and weaknesses.
+              {INSPIRATION_MODELS.length} models of biblical inspiration. Select a model on the left to see its key claim, proponents, strengths, and weaknesses.
             </p>
             <div style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>
               {/* Left list */}
@@ -383,7 +383,7 @@ export default function ScriptureTheologyPage() {
         {activeTab === "interpretation" && (
           <div>
             <p style={{ color: MUTED, fontSize: 14, marginBottom: 24, lineHeight: 1.7 }}>
-              Hermeneutics is the science and art of biblical interpretation. These six principles form the core of the historical-grammatical method used by evangelical scholars.
+              Hermeneutics is the science and art of biblical interpretation. These {INTERPRETATION_ITEMS.length} principles form the core of the historical-grammatical method used by evangelical scholars.
             </p>
             {INTERPRETATION_ITEMS.map(item => (
               <AccordionItem
@@ -402,7 +402,7 @@ export default function ScriptureTheologyPage() {
         {activeTab === "debates" && (
           <div>
             <p style={{ color: MUTED, fontSize: 14, marginBottom: 28, lineHeight: 1.7 }}>
-              Four live debates dividing evangelical and mainline scholars. Each card presents both positions, their key figures, and the hermeneutical question at the center.
+              {DEBATE_CARDS.length} live debates dividing evangelical and mainline scholars. Each card presents both positions, their key figures, and the hermeneutical question at the center.
             </p>
             <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
               {DEBATE_CARDS.map(card => (

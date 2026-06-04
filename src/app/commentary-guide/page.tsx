@@ -437,7 +437,7 @@ export default function CommentaryGuidePage() {
             <div style={{ background: CARD, border: `1px solid ${PURPLE}20`, borderRadius: 12, padding: 18, marginBottom: 8 }}>
               <div style={{ color: PURPLE, fontWeight: 700, fontSize: 12, marginBottom: 6 }}>HOW TO USE A COMMENTARY WELL</div>
               <p style={{ color: MUTED, fontSize: 14, margin: 0 }}>
-                A commentary is a tool, not a substitute for reading Scripture. These five steps will help you get the most out of any commentary — from beginner to academic level.
+                A commentary is a tool, not a substitute for reading Scripture. These {COMMENTARY_HOWTO.length} steps will help you get the most out of any commentary — from beginner to academic level.
               </p>
             </div>
             {COMMENTARY_HOWTO.map(h => (

@@ -165,7 +165,7 @@ export default function ChristianMoneyPage() {
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 16 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
-                Financial faithfulness is not just about giving — it includes the whole orientation of the heart toward money. These five pitfalls are the most common patterns that undermine financial discipleship.
+                Financial faithfulness is not just about giving — it includes the whole orientation of the heart toward money. These {PITFALLS.length} pitfalls are the most common patterns that undermine financial discipleship.
               </p>
             </div>
             {PITFALLS.map((o, i) => (
@@ -193,7 +193,7 @@ export default function ChristianMoneyPage() {
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
-                Financial faithfulness is built through habits and structures, not through occasional heroic decisions. These six practices create the conditions for generosity and contentment to grow.
+                Financial faithfulness is built through habits and structures, not through occasional heroic decisions. These {PRACTICES.length} practices create the conditions for generosity and contentment to grow.
               </p>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 14 }}>

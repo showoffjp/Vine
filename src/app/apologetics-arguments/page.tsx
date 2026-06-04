@@ -283,7 +283,7 @@ export default function ApologeticsArgumentsPage() {
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
-                Arguments are tools. Their value depends on how they are used. These six principles help arguments serve genuine inquiry rather than winning debates.
+                Arguments are tools. Their value depends on how they are used. These {PRACTICES.length} principles help arguments serve genuine inquiry rather than winning debates.
               </p>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 14 }}>

@@ -119,7 +119,7 @@ const GLOBAL_CHURCH = [
 export default function PentecostalismPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_pentecostalism_tab", "overview");
   const [selectedTheology, setSelectedTheology] = usePersistedState("vine_pentecostalism_selected_theology", "Baptism in the Holy Spirit");
-  const [selectedFigure, setSelectedFigure] = useState(HISTORY_FIGURES[0].name);
+  const [selectedFigure, setSelectedFigure] = usePersistedState<string>("vine_pentecostalism_selected_figure", "William J. Seymour");
 
   const theologyItem = THEOLOGY_ITEMS.find(t => t.doctrine === selectedTheology)!;
   const figure = HISTORY_FIGURES.find(f => f.name === selectedFigure)!;

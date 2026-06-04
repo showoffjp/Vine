@@ -324,7 +324,7 @@ const DEVOTIONAL_AOG: { id: string; title: string; attribute: string; verse: str
 ];
 
 export default function AttributesOfGodPage() {
-  const [category, setCategory] = useState("All");
+  const [category, setCategory] = usePersistedState("vine_attributes-of-god_category", "All");
   const [selected, setSelected] = useState<string | null>(null);
   type Tab = "attributes" | "voices" | "practices" | "devotional" | "videos";
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_attributes-of-god_tab", "attributes");

@@ -158,7 +158,7 @@ const ORGS = [
 
 export default function GlobalMissionsOrgsPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_global-missions-orgs_tab", "orgs");
-  const [category, setCategory] = useState("All");
+  const [category, setCategory] = usePersistedState("vine_global-missions-orgs_category", "All");
   const [selected, setSelected] = useState<string | null>(null);
 
   const filtered = ORGS.filter(o => category === "All" || o.category === category);

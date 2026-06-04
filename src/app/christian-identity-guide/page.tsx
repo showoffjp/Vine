@@ -88,7 +88,7 @@ const LIES = [
 
 export default function ChristianIdentityGuidePage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_christian-identity-guide_tab", "statements");
-  const [category, setCategory] = useState("All");
+  const [category, setCategory] = usePersistedState("vine_christian-identity-guide_category", "All");
   const [expanded, setExpanded] = useState<string | null>(null);
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_christian-identity-guide_voice", "ferguson");
   const voiceItem = VOICES_IDENTITY_GUIDE.find(v => v.id === selectedVoice)!;

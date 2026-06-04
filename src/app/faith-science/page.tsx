@@ -361,7 +361,7 @@ export default function FaithSciencePage() {
   });
 
   // Filters
-  const [categoryFilter, setCategoryFilter] = useState("All");
+  const [categoryFilter, setCategoryFilter] = usePersistedState("vine_faith-science_category_filter", "All");
   const [difficultyFilter, setDifficultyFilter] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
 

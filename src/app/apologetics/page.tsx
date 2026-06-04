@@ -342,7 +342,7 @@ export default function ApologeticsPage() {
   const [tab, setTab] = usePersistedState<"cases" | "thinkers" | "resources" | "methods" | "videos">("vine_apologetics_tab", "cases");
   const [selectedMethod, setSelectedMethod] = usePersistedState("vine_apologetics_selected_method", "classical");
   const methodItem = APOL_METHODS.find(m => m.id === selectedMethod)!;
-  const [categoryFilter, setCategoryFilter] = useState("All");
+  const [categoryFilter, setCategoryFilter] = usePersistedState("vine_apologetics_category_filter", "All");
   const [diffFilter, setDiffFilter] = useState("All");
   const [expandedCase, setExpandedCase] = useState<string | null>(null);
   const [showRebuttal, setShowRebuttal] = useState<Record<string, number | null>>({});

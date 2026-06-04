@@ -389,7 +389,7 @@ const FEATURED_VIDEOS = [
 
 export default function ChristianYouTubeChannelsPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_christian-youtube-channels_tab", "channels");
-  const [category, setCategory] = useState("All");
+  const [category, setCategory] = usePersistedState("vine_christian-youtube-channels_category", "All");
   const [selected, setSelected] = useState<string | null>(null);
 
   const filtered = CHANNELS.filter(c => category === "All" || c.category === category);

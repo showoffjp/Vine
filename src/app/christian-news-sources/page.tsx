@@ -301,7 +301,7 @@ const NEWS_VIDEOS = [
 
 export default function ChristianNewsSourcesPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_christian-news-sources_tab", "sources");
-  const [category, setCategory] = useState("All");
+  const [category, setCategory] = usePersistedState("vine_christian-news-sources_category", "All");
   const [selected, setSelected] = useState<string | null>(null);
 
   const filtered = SOURCES.filter(s => category === "All" || s.category === category);

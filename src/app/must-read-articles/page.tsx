@@ -291,7 +291,7 @@ const ARTICLE_VIDEOS = [
 
 export default function MustReadArticlesPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_must-read-articles_tab", "articles");
-  const [category, setCategory] = useState("All");
+  const [category, setCategory] = usePersistedState("vine_must-read-articles_category", "All");
   const [selected, setSelected] = useState<string | null>(null);
   const [selectedWriter, setSelectedWriter] = useState<string | null>(null);
 

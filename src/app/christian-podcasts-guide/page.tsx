@@ -284,7 +284,7 @@ const PODCAST_VIDEOS = [
 
 export default function ChristianPodcastsGuidePage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_christian-podcasts-guide_tab", "podcasts");
-  const [category, setCategory] = useState("All");
+  const [category, setCategory] = usePersistedState("vine_christian-podcasts-guide_category", "All");
   const [selected, setSelected] = useState<string | null>(null);
 
   const filtered = PODCASTS.filter(p => category === "All" || p.category === category);

@@ -431,7 +431,7 @@ const DIFFICULTY_COLOR: Record<string, string> = {
 
 export default function DailyChristianHabitsPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_daily-christian-habits_tab", "habits");
-  const [category, setCategory] = useState("All");
+  const [category, setCategory] = usePersistedState("vine_daily-christian-habits_category", "All");
   const [expanded, setExpanded] = useState<number | null>(null);
 
   const filtered = HABITS.filter(h => category === "All" || h.category === category);

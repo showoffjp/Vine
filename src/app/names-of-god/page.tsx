@@ -299,7 +299,7 @@ const PRAYERS = [
 
 export default function NamesOfGodPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_names-of-god_tab", "overview");
-  const [category, setCategory] = useState("All");
+  const [category, setCategory] = usePersistedState("vine_names-of-god_category", "All");
   const [selected, setSelected] = useState<string | null>(null);
 
   const filtered = NAMES.filter((n) => category === "All" || n.category === category);

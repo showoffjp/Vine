@@ -293,7 +293,7 @@ const VIDEOS = [
 
 export default function BibleStudyAppsPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_bible-study-apps_tab", "apps");
-  const [category, setCategory] = useState("All");
+  const [category, setCategory] = usePersistedState("vine_bible-study-apps_category", "All");
   const [selected, setSelected] = useState<string | null>(null);
 
   const filtered = APPS.filter(a => category === "All" || a.category === category);

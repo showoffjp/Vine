@@ -290,7 +290,7 @@ const CONF_VIDEOS = [
 
 export default function ChristianConferencesPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_christian-conferences_tab", "conferences");
-  const [category, setCategory] = useState("All");
+  const [category, setCategory] = usePersistedState("vine_christian-conferences_category", "All");
   const [selected, setSelected] = useState<string | null>(null);
   const [selectedSpeaker, setSelectedSpeaker] = useState<string | null>(null);
 

@@ -116,7 +116,7 @@ export default function PrayerJournalPage() {
   // Write form state
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
-  const [category, setCategory] = useState("Personal");
+  const [category, setCategory] = usePersistedState("vine_prayer-journal_category", "Personal");
   const [mood, setMood] = useState("Hopeful");
   const [verse, setVerse] = useState("");
   const [verseRef, setVerseRef] = useState("");

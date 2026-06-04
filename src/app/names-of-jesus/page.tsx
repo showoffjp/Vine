@@ -341,7 +341,7 @@ const I_AM_STATEMENTS = [
 
 export default function NamesOfJesusPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_names-of-jesus_tab", "overview");
-  const [category, setCategory] = useState("All");
+  const [category, setCategory] = usePersistedState("vine_names-of-jesus_category", "All");
   const [selected, setSelected] = useState<string | null>(null);
 
   const filtered = NAMES.filter((n) => category === "All" || n.category === category);

@@ -200,19 +200,16 @@ export default function TestimonyPage() {
   const [showFeatured, setShowFeatured] = useState(true);
   const [shared, setShared] = useState<string | null>(null);
 
-  const [form, setForm] = useState({
-    author: "",
-    location: "",
-    category: "Answered Prayer",
-    title: "",
-    body: "",
-    verse: "",
-    verseRef: "",
+  const [form, setForm] = useState<{ author: string; location: string; category: string; title: string; body: string; verse: string; verseRef: string }>(() => {
+    try { const s = localStorage.getItem("vine_testimony_draft"); return s ? JSON.parse(s) : { author: "", location: "", category: "Answered Prayer", title: "", body: "", verse: "", verseRef: "" }; } catch { return { author: "", location: "", category: "Answered Prayer", title: "", body: "", verse: "", verseRef: "" }; }
   });
 
   useEffect(() => {
     try { localStorage.setItem("vine_testimonies", JSON.stringify(testimonies)); } catch {}
   }, [testimonies]);
+  useEffect(() => {
+    try { localStorage.setItem("vine_testimony_draft", JSON.stringify(form)); } catch {}
+  }, [form]);
 
   useEffect(() => {
     try { localStorage.setItem("vine_testimonies_liked", JSON.stringify([...liked])); } catch {}

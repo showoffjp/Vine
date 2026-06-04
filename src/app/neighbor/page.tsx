@@ -82,7 +82,12 @@ export default function NeighborPage() {
   const [neighbors, setNeighbors] = useState<NeighborEntry[]>(() => {
     try { const s = localStorage.getItem("vine_neighbor_list"); return s ? JSON.parse(s) : SEED_NEIGHBORS; } catch { return SEED_NEIGHBORS; }
   });
-  const [form, setForm] = useState({ name: "", address: "", notes: "" });
+  const [form, setForm] = useState<{ name: string; address: string; notes: string }>(() => {
+    try { const s = localStorage.getItem("vine_neighbor_draft"); return s ? JSON.parse(s) : { name: "", address: "", notes: "" }; } catch { return { name: "", address: "", notes: "" }; }
+  });
+  useEffect(() => {
+    try { localStorage.setItem("vine_neighbor_draft", JSON.stringify(form)); } catch {}
+  }, [form]);
   const [showForm, setShowForm] = useState(false);
 
   useEffect(() => { try { localStorage.setItem("vine_neighbor_list", JSON.stringify(neighbors)); } catch {} }, [neighbors]);

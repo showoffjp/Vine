@@ -105,7 +105,12 @@ export default function FriendshipPage() {
   const [friends, setFriends] = useState<Friend[]>(() => {
     try { const s = localStorage.getItem("vine_friendship_list"); return s ? JSON.parse(s) : SEED; } catch { return SEED; }
   });
-  const [form, setForm] = useState({ name: "", notes: "" });
+  const [form, setForm] = useState<{ name: string; notes: string }>(() => {
+    try { const s = localStorage.getItem("vine_friendship_draft"); return s ? JSON.parse(s) : { name: "", notes: "" }; } catch { return { name: "", notes: "" }; }
+  });
+  useEffect(() => {
+    try { localStorage.setItem("vine_friendship_draft", JSON.stringify(form)); } catch {}
+  }, [form]);
   const [showForm, setShowForm] = useState(false);
 
   useEffect(() => { try { localStorage.setItem("vine_friendship_list", JSON.stringify(friends)); } catch {} }, [friends]);

@@ -313,16 +313,12 @@ export default function FaithJourneyPage() {
   const [mainTab, setMainTab] = useState<"journey" | "scripture" | "models" | "guide" | "videos">("journey");
   const [expandedGuide, setExpandedGuide] = useState<string | null>(null);
 
-  const [form, setForm] = useState({
-    year: currentYear,
-    month: new Date().getMonth() + 1,
-    title: "",
-    description: "",
-    category: "other",
-    verse: "",
-    verseRef: "",
-    significance: 2 as 1 | 2 | 3,
+  const [form, setForm] = useState<{ year: number; month: number; title: string; description: string; category: string; verse: string; verseRef: string; significance: 1 | 2 | 3 }>(() => {
+    try { const s = localStorage.getItem("vine_faith_journey_draft"); return s ? JSON.parse(s) : { year: currentYear, month: new Date().getMonth() + 1, title: "", description: "", category: "other", verse: "", verseRef: "", significance: 2 }; } catch { return { year: currentYear, month: new Date().getMonth() + 1, title: "", description: "", category: "other", verse: "", verseRef: "", significance: 2 }; }
   });
+  useEffect(() => {
+    try { localStorage.setItem("vine_faith_journey_draft", JSON.stringify(form)); } catch {}
+  }, [form]);
 
   useEffect(() => {
     try { localStorage.setItem("vine_faith_journey", JSON.stringify(milestones)); } catch {}

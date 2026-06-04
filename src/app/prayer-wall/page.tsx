@@ -208,13 +208,12 @@ export default function PrayerWallPage() {
   const [showCompose, setShowCompose] = useState(false);
   const [sortBy, setSortBy] = useState<"recent" | "most-prayed" | "answered">("recent");
 
-  const [form, setForm] = useState({
-    author: "",
-    body: "",
-    category: "Personal",
-    anonymous: false,
-    location: "",
+  const [form, setForm] = useState<{ author: string; body: string; category: string; anonymous: boolean; location: string }>(() => {
+    try { const s = localStorage.getItem("vine_prayer_wall_draft"); return s ? JSON.parse(s) : { author: "", body: "", category: "Personal", anonymous: false, location: "" }; } catch { return { author: "", body: "", category: "Personal", anonymous: false, location: "" }; }
   });
+  useEffect(() => {
+    try { localStorage.setItem("vine_prayer_wall_draft", JSON.stringify(form)); } catch {}
+  }, [form]);
 
   useEffect(() => {
     try { localStorage.setItem("vine_prayer_wall", JSON.stringify(requests)); } catch {}

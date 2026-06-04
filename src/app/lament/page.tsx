@@ -88,10 +88,15 @@ export default function LamentPage() {
   const [laments, setLaments] = useState<LamentEntry[]>(() => {
     try { const s = localStorage.getItem("vine_lament_entries"); return s ? JSON.parse(s) : []; } catch { return []; }
   });
-  const [form, setForm] = useState({ subject: "", steps: {} as Record<string, string> });
+  const [form, setForm] = useState<{ subject: string; steps: Record<string, string> }>(() => {
+    try { const s = localStorage.getItem("vine_lament_draft"); return s ? JSON.parse(s) : { subject: "", steps: {} as Record<string, string> }; } catch { return { subject: "", steps: {} as Record<string, string> }; }
+  });
   const [saved, setSaved] = useState(false);
 
   useEffect(() => { try { localStorage.setItem("vine_lament_entries", JSON.stringify(laments)); } catch {} }, [laments]);
+  useEffect(() => {
+    try { localStorage.setItem("vine_lament_draft", JSON.stringify(form)); } catch {}
+  }, [form]);
 
   const saveLament = () => {
     if (!form.subject) return;

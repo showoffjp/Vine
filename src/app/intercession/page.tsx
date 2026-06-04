@@ -91,9 +91,14 @@ export default function IntercessionPage() {
   const [filterCat, setFilterCat] = useState("All");
   const [filterAnswered, setFilterAnswered] = useState<"all" | "active" | "answered">("active");
   const [expandedModel, setExpandedModel] = useState<string | null>("The Daniel Model");
-  const [form, setForm] = useState({ name: "", category: "Family", request: "", priority: "medium" as "high" | "medium" | "low" });
+  const [form, setForm] = useState<{ name: string; category: string; request: string; priority: "high" | "medium" | "low" }>(() => {
+    try { const s = localStorage.getItem("vine_intercession_draft"); return s ? JSON.parse(s) : { name: "", category: "Family", request: "", priority: "medium" as "high" | "medium" | "low" }; } catch { return { name: "", category: "Family", request: "", priority: "medium" as "high" | "medium" | "low" }; }
+  });
 
   useEffect(() => { try { localStorage.setItem("vine_intercession_items", JSON.stringify(items)); } catch {} }, [items]);
+  useEffect(() => {
+    try { localStorage.setItem("vine_intercession_draft", JSON.stringify(form)); } catch {}
+  }, [form]);
 
   const addItem = () => {
     if (!form.name || !form.request) return;

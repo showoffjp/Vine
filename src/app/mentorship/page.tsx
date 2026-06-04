@@ -249,13 +249,12 @@ export default function MentorshipPage() {
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_mentorship_voice", "stanley-p");
   const voiceItem = VOICES_MENT.find(v => v.id === selectedVoice)!;
 
-  const [form, setForm] = useState({
-    topic: "",
-    message: "",
-    format: "Video",
-    frequency: "Weekly",
+  const [form, setForm] = useState<{ topic: string; message: string; format: string; frequency: string }>(() => {
+    try { const s = localStorage.getItem("vine_mentorship_form_draft"); return s ? JSON.parse(s) : { topic: "", message: "", format: "Video", frequency: "Weekly" }; } catch { return { topic: "", message: "", format: "Video", frequency: "Weekly" }; }
   });
-
+  useEffect(() => {
+    try { localStorage.setItem("vine_mentorship_form_draft", JSON.stringify(form)); } catch {}
+  }, [form]);
 
   const handleSave = (id: string) => {
     setSavedMentors((prev) => {

@@ -64,10 +64,15 @@ export default function CreativityPage() {
     try { const s = localStorage.getItem("vine_creativity_projects"); return s ? JSON.parse(s) : []; } catch { return []; }
   });
   const [showForm, setShowForm] = useState(false);
-  const [form, setForm] = useState({ title: "", medium: "Writing", notes: "" });
+  const [form, setForm] = useState<{ title: string; medium: string; notes: string }>(() => {
+    try { const s = localStorage.getItem("vine_creativity_draft"); return s ? JSON.parse(s) : { title: "", medium: "Writing", notes: "" }; } catch { return { title: "", medium: "Writing", notes: "" }; }
+  });
   const [selectedMedium, setSelectedMedium] = useState("writing");
 
   useEffect(() => { try { localStorage.setItem("vine_creativity_projects", JSON.stringify(projects)); } catch {} }, [projects]);
+  useEffect(() => {
+    try { localStorage.setItem("vine_creativity_draft", JSON.stringify(form)); } catch {}
+  }, [form]);
 
   const addProject = () => {
     if (!form.title) return;

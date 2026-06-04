@@ -97,10 +97,15 @@ export default function SermonPrepPage() {
   const [notes, setNotes] = useState<SermonNote[]>(() => {
     try { const s = localStorage.getItem("vine_sermon_notes"); return s ? JSON.parse(s) : SEED_NOTES; } catch { return SEED_NOTES; }
   });
-  const [form, setForm] = useState({ passage: "", bigIdea: "" });
+  const [form, setForm] = useState<{ passage: string; bigIdea: string }>(() => {
+    try { const s = localStorage.getItem("vine_sermon_prep_draft"); return s ? JSON.parse(s) : { passage: "", bigIdea: "" }; } catch { return { passage: "", bigIdea: "" }; }
+  });
   const [showForm, setShowForm] = useState(false);
 
   useEffect(() => { try { localStorage.setItem("vine_sermon_notes", JSON.stringify(notes)); } catch {} }, [notes]);
+  useEffect(() => {
+    try { localStorage.setItem("vine_sermon_prep_draft", JSON.stringify(form)); } catch {}
+  }, [form]);
 
   const addNote = () => {
     if (!form.passage) return;

@@ -54,7 +54,12 @@ export default function MoneyDebtPage() {
   const [debts, setDebts] = useState<DebtEntry[]>(() => {
     try { const s = localStorage.getItem("vine_debts"); return s ? JSON.parse(s) : SEED_DEBTS; } catch { return SEED_DEBTS; }
   });
-  const [form, setForm] = useState({ name: "", balance: "", rate: "", minPayment: "" });
+  const [form, setForm] = useState<{ name: string; balance: string; rate: string; minPayment: string }>(() => {
+    try { const s = localStorage.getItem("vine_debt_draft"); return s ? JSON.parse(s) : { name: "", balance: "", rate: "", minPayment: "" }; } catch { return { name: "", balance: "", rate: "", minPayment: "" }; }
+  });
+  useEffect(() => {
+    try { localStorage.setItem("vine_debt_draft", JSON.stringify(form)); } catch {}
+  }, [form]);
   const [showForm, setShowForm] = useState(false);
 
   useEffect(() => { try { localStorage.setItem("vine_debts", JSON.stringify(debts)); } catch {} }, [debts]);

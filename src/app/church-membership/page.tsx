@@ -97,7 +97,7 @@ type Tab = "why" | "objections" | "traditions" | "how" | "videos";
 
 export default function ChurchMembershipPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_church-membership_tab", "why");
-  const [selectedTradition, setSelectedTradition] = useState("earlychurch");
+  const [selectedTradition, setSelectedTradition] = usePersistedState("vine_church-membership_selected_tradition", "earlychurch");
 
   const trad = TRADITIONS.find(t => t.id === selectedTradition)!;
 

@@ -303,7 +303,7 @@ const CATEGORY_COLORS: Record<MeansCategory, string> = {
 export default function SanctificationPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_sanctification_tab", "theology");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
-  const [selectedView, setSelectedView] = useState<string>(VIEWS[0].id);
+  const [selectedView, setSelectedView] = usePersistedState("vine_sanctification_selected_view", "reformed");
   const [meansFilter, setMeansFilter] = useState<MeansCategory | "All">("All");
 
   function toggleAccordion(id: string) {

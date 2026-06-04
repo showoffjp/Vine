@@ -101,7 +101,7 @@ const PRACTICES = [
 
 export default function MissionsTheologyPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_missions-theology_tab", "theology");
-  const [selectedApproach, setSelectedApproach] = useState("Church Planting");
+  const [selectedApproach, setSelectedApproach] = usePersistedState("vine_missions-theology_selected_approach", "Church Planting");
   const [selectedPioneer, setSelectedPioneer] = useState("carey");
 
   const approach = APPROACHES.find(a => a.name === selectedApproach)!;

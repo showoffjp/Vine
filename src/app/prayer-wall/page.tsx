@@ -361,7 +361,7 @@ export default function PrayerWallPage() {
                   </div>
                 )}
 
-                <select
+                <select aria-label="Category"
                   value={form.category}
                   onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))}
                   className="w-full px-4 py-2.5 rounded-xl text-sm outline-none"

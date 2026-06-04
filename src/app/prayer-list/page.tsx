@@ -291,7 +291,7 @@ export default function PrayerListPage() {
                 <div className="grid grid-cols-2 gap-3">
                   <div>
                     <label className="text-[10px] font-bold uppercase tracking-wider block mb-1" style={{ color: "#6A6A88" }}>Category</label>
-                    <select
+                    <select aria-label="Category"
                       value={newCategory}
                       onChange={(e) => setNewCategory(e.target.value as PrayerCategory)}
                       className="w-full px-3 py-2 rounded-xl text-sm outline-none"

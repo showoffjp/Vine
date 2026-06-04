@@ -506,7 +506,7 @@ export default function DevotionalCreatorPage() {
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
                   <div>
                     <label style={{ fontSize: 13, color: "#9898B3", display: "block", marginBottom: 6 }}>Theme</label>
-                    <select
+                    <select aria-label="Theme"
                       value={draft.theme}
                       onChange={(e) => setDraft((p) => ({ ...p, theme: e.target.value }))}
                       style={{ width: "100%", background: "#12121F", border: "1px solid #1E1E32", borderRadius: 8, padding: "10px 14px", color: "#F2F2F8", fontSize: 14 }}
@@ -516,7 +516,7 @@ export default function DevotionalCreatorPage() {
                   </div>
                   <div>
                     <label style={{ fontSize: 13, color: "#9898B3", display: "block", marginBottom: 6 }}>Audience</label>
-                    <select
+                    <select aria-label="Audience"
                       value={draft.audience}
                       onChange={(e) => setDraft((p) => ({ ...p, audience: e.target.value }))}
                       style={{ width: "100%", background: "#12121F", border: "1px solid #1E1E32", borderRadius: 8, padding: "10px 14px", color: "#F2F2F8", fontSize: 14 }}

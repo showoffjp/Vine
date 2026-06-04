@@ -220,14 +220,14 @@ export default function PrayerJournalPage() {
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
                   <div>
                     <label style={{ fontSize: 12, fontWeight: 700, color: "#9898B3", textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>Category</label>
-                    <select value={category} onChange={e => setCategory(e.target.value)}
+                    <select aria-label="Category" value={category} onChange={e => setCategory(e.target.value)}
                       style={{ width: "100%", padding: "10px 14px", borderRadius: 10, background: "#0D0D1A", border: "1px solid #1E1E32", color: "#F2F2F8", fontSize: 14, cursor: "pointer" }}>
                       {CATEGORIES.filter(c => c !== "All").map(c => <option key={c} value={c}>{c}</option>)}
                     </select>
                   </div>
                   <div>
                     <label style={{ fontSize: 12, fontWeight: 700, color: "#9898B3", textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>Mood</label>
-                    <select value={mood} onChange={e => setMood(e.target.value)}
+                    <select aria-label="Mood" value={mood} onChange={e => setMood(e.target.value)}
                       style={{ width: "100%", padding: "10px 14px", borderRadius: 10, background: "#0D0D1A", border: "1px solid #1E1E32", color: "#F2F2F8", fontSize: 14, cursor: "pointer" }}>
                       {MOODS.map(m => <option key={m} value={m}>{m}</option>)}
                     </select>
@@ -265,7 +265,7 @@ export default function PrayerJournalPage() {
             <div style={{ display: "flex", gap: 12, marginBottom: 20, flexWrap: "wrap" }}>
               <input value={search} onChange={e => setSearch(e.target.value)} aria-label="Search prayers..." placeholder="Search prayers..."
                 style={{ flex: 1, minWidth: 200, padding: "8px 14px", borderRadius: 10, background: "#12121F", border: "1px solid #1E1E32", color: "#F2F2F8", fontSize: 14, outline: "none" }} />
-              <select value={catFilter} onChange={e => setCatFilter(e.target.value)}
+              <select aria-label="Search" value={catFilter} onChange={e => setCatFilter(e.target.value)}
                 style={{ padding: "8px 14px", borderRadius: 10, background: "#12121F", border: "1px solid #1E1E32", color: "#9898B3", fontSize: 14, cursor: "pointer" }}>
                 {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
               </select>

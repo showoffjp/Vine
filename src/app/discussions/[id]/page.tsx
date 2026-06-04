@@ -1588,7 +1588,7 @@ export default async function DiscussionPage({ params }: { params: Promise<{ id:
             <h2 className="font-black text-lg" style={{ color: "#F2F2F8" }}>
               {totalReplies} {totalReplies === 1 ? "Reply" : "Replies"}
             </h2>
-            <select className="text-xs rounded-lg px-3 py-1.5 outline-none"
+            <select aria-label="Sort replies" className="text-xs rounded-lg px-3 py-1.5 outline-none"
               style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#6A6A88" }}>
               <option>Best</option>
               <option>Newest</option>

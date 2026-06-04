@@ -352,7 +352,7 @@ export default function BibleOverviewPage() {
                   </button>
                 ))}
               </div>
-              <select value={catFilter} onChange={e => setCatFilter(e.target.value)}
+              <select aria-label="Category filter" value={catFilter} onChange={e => setCatFilter(e.target.value)}
                 style={{ padding: "8px 14px", borderRadius: 10, background: CARD, border: `1px solid ${BORDER}`, color: MUTED, fontSize: 14, cursor: "pointer" }}>
                 {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
               </select>

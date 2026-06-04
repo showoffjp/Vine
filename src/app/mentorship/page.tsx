@@ -841,7 +841,7 @@ export default function MentorshipPage() {
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 24 }}>
               <div>
                 <label style={{ fontSize: 13, color: "#9898B3", display: "block", marginBottom: 6 }}>Preferred format</label>
-                <select
+                <select aria-label="Preferred format"
                   value={form.format}
                   onChange={(e) => setForm((p) => ({ ...p, format: e.target.value }))}
                   style={{ width: "100%", background: "#07070F", border: "1px solid #1E1E32", borderRadius: 8, padding: "10px 14px", color: "#F2F2F8", fontSize: 14 }}
@@ -851,7 +851,7 @@ export default function MentorshipPage() {
               </div>
               <div>
                 <label style={{ fontSize: 13, color: "#9898B3", display: "block", marginBottom: 6 }}>Frequency</label>
-                <select
+                <select aria-label="Frequency"
                   value={form.frequency}
                   onChange={(e) => setForm((p) => ({ ...p, frequency: e.target.value }))}
                   style={{ width: "100%", background: "#07070F", border: "1px solid #1E1E32", borderRadius: 8, padding: "10px 14px", color: "#F2F2F8", fontSize: 14 }}

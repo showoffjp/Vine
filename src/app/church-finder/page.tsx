@@ -366,16 +366,16 @@ export default function ChurchFinderPage() {
               />
             </div>
             <div className="flex flex-wrap gap-2 items-center">
-              <select value={filterDenom} onChange={(e) => setFilterDenom(e.target.value)} className="px-3 py-2 rounded-xl text-xs font-semibold outline-none" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#F2F2F8" }}>
+              <select aria-label="Filterdenom" value={filterDenom} onChange={(e) => setFilterDenom(e.target.value)} className="px-3 py-2 rounded-xl text-xs font-semibold outline-none" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#F2F2F8" }}>
                 {DENOMINATIONS.map((d) => <option key={d} value={d} style={{ background: "#12121F" }}>{d}</option>)}
               </select>
-              <select value={filterCountry} onChange={(e) => setFilterCountry(e.target.value)} className="px-3 py-2 rounded-xl text-xs font-semibold outline-none" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#F2F2F8" }}>
+              <select aria-label="Filterdenom" value={filterCountry} onChange={(e) => setFilterCountry(e.target.value)} className="px-3 py-2 rounded-xl text-xs font-semibold outline-none" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#F2F2F8" }}>
                 {COUNTRIES.map((c) => <option key={c} value={c} style={{ background: "#12121F" }}>{c}</option>)}
               </select>
-              <select value={filterSize} onChange={(e) => setFilterSize(e.target.value)} className="px-3 py-2 rounded-xl text-xs font-semibold outline-none" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#F2F2F8" }}>
+              <select aria-label="Filtercountry" value={filterSize} onChange={(e) => setFilterSize(e.target.value)} className="px-3 py-2 rounded-xl text-xs font-semibold outline-none" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#F2F2F8" }}>
                 {SIZES.map((s) => <option key={s} value={s} style={{ background: "#12121F" }}>{s}</option>)}
               </select>
-              <select value={filterStyle} onChange={(e) => setFilterStyle(e.target.value)} className="px-3 py-2 rounded-xl text-xs font-semibold outline-none" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#F2F2F8" }}>
+              <select aria-label="Filtersize" value={filterStyle} onChange={(e) => setFilterStyle(e.target.value)} className="px-3 py-2 rounded-xl text-xs font-semibold outline-none" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#F2F2F8" }}>
                 {STYLES.map((s) => <option key={s} value={s} style={{ background: "#12121F" }}>{s === "All" ? "All Styles" : s}</option>)}
               </select>
               <button type="button"

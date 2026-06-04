@@ -528,10 +528,10 @@ export default function ReadingListPage() {
                   <input value={form.author} onChange={(e) => setForm((f) => ({ ...f, author: e.target.value }))} aria-label="Author" placeholder="Author" className="px-4 py-2.5 rounded-xl text-sm outline-none" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: TEXT }} />
                 </div>
                 <div className="grid grid-cols-2 gap-3">
-                  <select value={form.genre} onChange={(e) => setForm((f) => ({ ...f, genre: e.target.value }))} className="px-4 py-2.5 rounded-xl text-sm outline-none" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: TEXT }}>
+                  <select aria-label="Author" value={form.genre} onChange={(e) => setForm((f) => ({ ...f, genre: e.target.value }))} className="px-4 py-2.5 rounded-xl text-sm outline-none" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: TEXT }}>
                     {GENRES.map((g) => <option key={g} value={g} style={{ background: CARD }}>{g}</option>)}
                   </select>
-                  <select value={form.status} onChange={(e) => setForm((f) => ({ ...f, status: e.target.value as ReadStatus }))} className="px-4 py-2.5 rounded-xl text-sm outline-none" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: TEXT }}>
+                  <select aria-label="Genre" value={form.status} onChange={(e) => setForm((f) => ({ ...f, status: e.target.value as ReadStatus }))} className="px-4 py-2.5 rounded-xl text-sm outline-none" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: TEXT }}>
                     {(Object.entries(STATUS_CONFIG) as [ReadStatus, typeof STATUS_CONFIG[ReadStatus]][]).map(([k, v]) => (
                       <option key={k} value={k} style={{ background: CARD }}>{v.icon} {v.label}</option>
                     ))}

@@ -687,7 +687,7 @@ export default function ResourcesPage() {
                   </div>
                   <div className="ml-auto flex items-center gap-2">
                     <TrendingUp size={14} style={{ color: "#6A6A88" }} />
-                    <select value={selectedSort} onChange={(e) => setSelectedSort(e.target.value)} className="text-xs bg-transparent outline-none" style={{ color: MUTED }}>
+                    <select aria-label="Sort by" value={selectedSort} onChange={(e) => setSelectedSort(e.target.value)} className="text-xs bg-transparent outline-none" style={{ color: MUTED }}>
                       <option style={{ background: CARD }}>Most Popular</option>
                       <option style={{ background: CARD }}>Newest</option>
                       <option style={{ background: CARD }}>Highest Rated</option>

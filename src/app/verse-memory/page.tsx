@@ -364,7 +364,7 @@ export default function VerseMemoryPage() {
                       <input value={newVerse.reference} onChange={e => setNewVerse(p => ({ ...p, reference: e.target.value }))}
                         aria-label="Reference (e.g. John 3:16)" placeholder="Reference (e.g. John 3:16)"
                         style={{ padding: "10px 14px", borderRadius: 10, border: `1px solid ${BORDER}`, background: "rgba(255,255,255,0.04)", color: TEXT, fontSize: 14, outline: "none" }} />
-                      <select value={newVerse.category} onChange={e => setNewVerse(p => ({ ...p, category: e.target.value }))}
+                      <select aria-label="C" value={newVerse.category} onChange={e => setNewVerse(p => ({ ...p, category: e.target.value }))}
                         style={{ padding: "10px 14px", borderRadius: 10, border: `1px solid ${BORDER}`, background: CARD, color: TEXT, fontSize: 14, outline: "none" }}>
                         {allCategories.filter(c => c !== "All").map(c => <option key={c} value={c}>{c}</option>)}
                       </select>

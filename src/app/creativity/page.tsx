@@ -196,7 +196,7 @@ export default function CreativityPage() {
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12 }}>
                   <input value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} aria-label="Project title" placeholder="Project title"
                     style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14 }} />
-                  <select value={form.medium} onChange={e => setForm(f => ({ ...f, medium: e.target.value }))}
+                  <select aria-label="Title" value={form.medium} onChange={e => setForm(f => ({ ...f, medium: e.target.value }))}
                     style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14 }}>
                     {MEDIUMS.map(m => <option key={m.id} value={m.name}>{m.name}</option>)}
                   </select>

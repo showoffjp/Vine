@@ -338,7 +338,7 @@ export default function SermonArchivePage() {
           <input value={search} onChange={(e) => setSearch(e.target.value)}
             aria-label="Search sermons or preachers..." placeholder="Search sermons or preachers..."
             style={{ flex: 1, minWidth: 200, background: "#12121F", border: "1px solid #1E1E32", borderRadius: 10, padding: "9px 14px", color: "#F2F2F8", fontSize: 13, outline: "none" }} />
-          <select value={filterType} onChange={(e) => setFilterType(e.target.value)}
+          <select aria-label="Search" value={filterType} onChange={(e) => setFilterType(e.target.value)}
             style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 10, padding: "9px 14px", color: "#9898B3", fontSize: 13 }}>
             <option value="All">All Types</option>
             <option>Video</option>

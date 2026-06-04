@@ -318,7 +318,7 @@ export default function OnboardingPage() {
                 <label className="text-xs font-semibold mb-1.5 block" style={{ color: "#8A8AA8" }}>
                   Denomination
                 </label>
-                <select
+                <select aria-label="Denomination"
                   value={form.denomination}
                   onChange={(e) => setForm((f) => ({ ...f, denomination: e.target.value }))}
                   className="w-full px-4 py-3 rounded-xl text-sm outline-none appearance-none cursor-pointer"

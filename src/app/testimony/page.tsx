@@ -331,7 +331,7 @@ export default function TestimonyPage() {
                     style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#F2F2F8" }}
                   />
                 </div>
-                <select
+                <select aria-label="Category"
                   value={form.category}
                   onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))}
                   className="w-full px-4 py-2.5 rounded-xl text-sm outline-none"

@@ -206,7 +206,7 @@ export default function FastingPage() {
                     <div className="grid grid-cols-2 gap-3">
                       <div>
                         <label className="text-[10px] font-bold uppercase tracking-wider block mb-1.5" style={{ color: "#6A6A88" }}>Fast Type</label>
-                        <select
+                        <select aria-label="Fast Type"
                           value={newType}
                           onChange={(e) => setNewType(e.target.value as FastType)}
                           className="w-full px-3 py-2.5 rounded-xl text-sm outline-none"
@@ -217,7 +217,7 @@ export default function FastingPage() {
                       </div>
                       <div>
                         <label className="text-[10px] font-bold uppercase tracking-wider block mb-1.5" style={{ color: "#6A6A88" }}>Duration</label>
-                        <select
+                        <select aria-label="Duration"
                           value={newDuration}
                           onChange={(e) => setNewDuration(e.target.value as FastDuration)}
                           className="w-full px-3 py-2.5 rounded-xl text-sm outline-none"

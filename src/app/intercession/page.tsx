@@ -188,7 +188,7 @@ export default function IntercessionPage() {
                   </button>
                 ))}
               </div>
-              <select value={filterCat} onChange={e => setFilterCat(e.target.value)}
+              <select aria-label="Filtercat" value={filterCat} onChange={e => setFilterCat(e.target.value)}
                 style={{ padding: "5px 10px", borderRadius: 8, border: `1px solid ${BORDER}`, background: CARD, color: TEXT, fontSize: 12, cursor: "pointer" }}>
                 <option value="All">All Categories</option>
                 {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
@@ -206,7 +206,7 @@ export default function IntercessionPage() {
                   <input value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
                     aria-label="Person / situation name" placeholder="Person / situation name"
                     style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14 }} />
-                  <select value={form.category} onChange={e => setForm(f => ({ ...f, category: e.target.value }))}
+                  <select aria-label="Name" value={form.category} onChange={e => setForm(f => ({ ...f, category: e.target.value }))}
                     style={{ padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14 }}>
                     {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
                   </select>

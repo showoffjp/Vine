@@ -218,7 +218,7 @@ export default function QuotesPage() {
             }}
           />
 
-          <select
+          <select aria-label="Sort by"
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
             style={{ background: "#12121F", border: "1px solid #1E1E32", borderRadius: 10, padding: "9px 14px", color: "#9898B3", fontSize: 13 }}

@@ -268,7 +268,7 @@ export default function BibleStudyPage() {
               <div className="space-y-3">
                 <div>
                   <label className="text-xs font-semibold mb-1 block" style={{ color: "#6A6A88" }}>Book of the Bible</label>
-                  <select
+                  <select aria-label="Book of the Bible"
                     value={newPlanForm.book}
                     onChange={(e) => setNewPlanForm((f) => ({ ...f, book: e.target.value }))}
                     className="w-full px-4 py-2.5 rounded-xl text-sm outline-none"

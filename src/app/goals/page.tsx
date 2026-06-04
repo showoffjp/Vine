@@ -415,7 +415,7 @@ export default function GoalsPage() {
                 <div className="grid grid-cols-2 gap-3">
                   <div>
                     <label className="text-xs font-bold uppercase tracking-wider block mb-1.5" style={{ color: "#6A6A88" }}>Category</label>
-                    <select
+                    <select aria-label="Category"
                       value={newCategory}
                       onChange={(e) => setNewCategory(e.target.value as GoalCategory)}
                       className="w-full px-4 py-2.5 rounded-xl text-sm outline-none"

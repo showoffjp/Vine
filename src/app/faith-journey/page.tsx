@@ -734,7 +734,7 @@ export default function FaithJourneyPage() {
                 </div>
                 <div>
                   <label className="text-xs font-semibold mb-1 block" style={{ color: "#6A6A88" }}>Month</label>
-                  <select
+                  <select aria-label="Month"
                     value={form.month}
                     onChange={(e) => setForm((f) => ({ ...f, month: Number(e.target.value) }))}
                     className="w-full px-4 py-2.5 rounded-xl text-sm outline-none"

@@ -353,7 +353,7 @@ export default function PrayerPage() {
                     Topic
                   </label>
                   <div className="relative">
-                    <select
+                    <select aria-label="Selectedtopic"
                       value={selectedTopic}
                       onChange={(e) => setSelectedTopic(e.target.value)}
                       className="w-full px-3 py-2.5 rounded-xl text-sm appearance-none outline-none"

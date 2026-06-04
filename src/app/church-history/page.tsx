@@ -285,11 +285,11 @@ export default function ChurchHistoryPage() {
             <div style={{ display: "flex", gap: 12, marginBottom: 24, flexWrap: "wrap", alignItems: "center" }}>
               <input value={search} onChange={e => setSearch(e.target.value)} aria-label="Search events or figures..." placeholder="Search events or figures..."
                 style={{ flex: 1, minWidth: 200, padding: "8px 14px", borderRadius: 10, background: "#12121F", border: "1px solid #1E1E32", color: "#F2F2F8", fontSize: 14, outline: "none" }} />
-              <select value={catFilter} onChange={e => setCatFilter(e.target.value)}
+              <select aria-label="Search" value={catFilter} onChange={e => setCatFilter(e.target.value)}
                 style={{ padding: "8px 14px", borderRadius: 10, background: "#12121F", border: "1px solid #1E1E32", color: "#9898B3", fontSize: 14, cursor: "pointer" }}>
                 {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
               </select>
-              <select value={eraFilter} onChange={e => setEraFilter(e.target.value)}
+              <select aria-label="C" value={eraFilter} onChange={e => setEraFilter(e.target.value)}
                 style={{ padding: "8px 14px", borderRadius: 10, background: "#12121F", border: "1px solid #1E1E32", color: "#9898B3", fontSize: 14, cursor: "pointer" }}>
                 {ERAS.map(e => <option key={e} value={e}>{e}</option>)}
               </select>

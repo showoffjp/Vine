@@ -504,7 +504,7 @@ export default function ParablesPage() {
                 <div style={{ display: "flex", gap: 12, marginBottom: 20, flexWrap: "wrap", alignItems: "center" }}>
                   <input value={search} onChange={e => setSearch(e.target.value)} aria-label="Search parables..." placeholder="Search parables..."
                     style={{ flex: 1, minWidth: 200, padding: "8px 14px", borderRadius: 10, background: CARD, border: `1px solid ${BORDER}`, color: TEXT, fontSize: 14, outline: "none" }} />
-                  <select value={filter} onChange={e => setFilter(e.target.value)}
+                  <select aria-label="Search" value={filter} onChange={e => setFilter(e.target.value)}
                     style={{ padding: "8px 14px", borderRadius: 10, background: CARD, border: `1px solid ${BORDER}`, color: MUTED, fontSize: 14, cursor: "pointer" }}>
                     {THEMES_LIST.map(t => <option key={t} value={t}>{t}</option>)}
                   </select>

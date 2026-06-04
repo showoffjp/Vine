@@ -397,7 +397,7 @@ function AccountTab() {
           <input style={inputStyle} aria-label="https://yoursite.com" placeholder="https://yoursite.com" />
         </Field>
         <Field label="Denomination">
-          <select
+          <select aria-label="Denomination"
             style={{
               ...inputStyle,
               appearance: "none",
@@ -973,6 +973,7 @@ function FaithProfileTab() {
       <Section title="Faith Background">
         <Field label="Denomination">
           <select
+            aria-label="Denomination"
             style={{
               ...inputStyle,
               appearance: "none",

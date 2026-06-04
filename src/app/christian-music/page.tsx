@@ -1297,7 +1297,7 @@ export default function ChristianMusicPage() {
               <label style={{ display: "block", color: "#9898B3", fontSize: "11px", fontWeight: 600, letterSpacing: "0.08em", marginBottom: "8px" }}>
                 SELECT SONG
               </label>
-              <select
+              <select aria-label="SELECT SONG"
                 value={selectedLyricId}
                 onChange={(e) => {
                   setSelectedLyricId(Number(e.target.value));

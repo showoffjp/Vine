@@ -173,7 +173,7 @@ export default function ContactPage() {
                       <label className="text-xs font-bold uppercase tracking-widest mb-2 block" style={{ color: "#8A8AA8" }}>
                         Reason for Contacting
                       </label>
-                      <select
+                      <select aria-label="Reason for Contacting"
                         value={form.reason}
                         onChange={(e) => setForm({ ...form, reason: e.target.value })}
                         className="w-full px-4 py-3 rounded-xl text-sm outline-none"

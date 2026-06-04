@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Menu, X, Search, Bell, ChevronDown, Sparkles } from "lucide-react";
 import SearchOverlay from "./SearchOverlay";
 import AuthModal from "./AuthModal";
@@ -494,6 +495,7 @@ interface VineUser {
 }
 
 export default function Navbar() {
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
@@ -763,14 +765,15 @@ export default function Navbar() {
                                 <a
                                   key={item.label}
                                   href={item.href}
+                                  aria-current={pathname === item.href ? "page" : undefined}
                                   className="flex items-center px-4 py-1.5 text-sm transition-colors"
-                                  style={{ color: "#8A8AA8" }}
+                                  style={{ color: pathname === item.href ? "#3a7d56" : "#8A8AA8" }}
                                   onMouseEnter={(e) => {
                                     e.currentTarget.style.color = "#F2F2F8";
                                     e.currentTarget.style.background = "rgba(58,125,86,0.06)";
                                   }}
                                   onMouseLeave={(e) => {
-                                    e.currentTarget.style.color = "#8A8AA8";
+                                    e.currentTarget.style.color = pathname === item.href ? "#3a7d56" : "#8A8AA8";
                                     e.currentTarget.style.background = "transparent";
                                   }}
                                 >
@@ -1025,8 +1028,9 @@ export default function Navbar() {
                             <a
                               key={item.label}
                               href={item.href}
+                              aria-current={pathname === item.href ? "page" : undefined}
                               className="block px-2 py-1.5 text-sm rounded"
-                              style={{ color: "#6A6A88" }}
+                              style={{ color: pathname === item.href ? "#3a7d56" : "#6A6A88" }}
                               onClick={() => setMobileOpen(false)}
                             >
                               {item.label}

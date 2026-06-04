@@ -523,7 +523,7 @@ export default function Footer() {
               fontFamily: "var(--font-jost, system-ui, sans-serif)",
             }}
           >
-            &copy; 2026 The Vine. Built for the Body of Christ.
+            &copy; {new Date().getFullYear()} The Vine. Built for the Body of Christ.
           </p>
           <p
             style={{

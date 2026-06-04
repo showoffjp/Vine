@@ -188,7 +188,12 @@ export default function ProfilePage() {
   const displayHandle = user ? `@${(user.firstName || "jason").toLowerCase()}${(user.lastName || "harper").toLowerCase()}` : "@jasonharper";
   const displayAvatar = user?.avatar || "JH";
   const displayInterests = user?.interests?.length ? user.interests : interests;
-  const joinedYear = user?.joinedAt ? new Date(user.joinedAt).getFullYear() : 2025;
+  const joinedDisplay = user?.joinedAt
+    ? new Date(user.joinedAt).toLocaleDateString("en-US", { month: "short", year: "numeric" })
+    : "Jan 2025";
+  const joinedDisplayFull = user?.joinedAt
+    ? new Date(user.joinedAt).toLocaleDateString("en-US", { month: "long", year: "numeric" })
+    : "January 2025";
 
   return (
     <div className="min-h-screen" style={{ background: "#07070F" }}>
@@ -228,7 +233,7 @@ export default function ProfilePage() {
               </div>
               <div className="flex items-center gap-1.5 text-xs mb-4" style={{ color: "#6A6A88" }}>
                 <Calendar size={12} />
-                Member since Jan {joinedYear}
+                Member since {joinedDisplay}
               </div>
 
               {editingBio ? (
@@ -574,7 +579,7 @@ export default function ProfilePage() {
                       { icon: Calendar, label: "Christian since", value: "Since birth" },
                       { icon: Target, label: "Primary goal", value: "Grow in apologetics & biblical finance" },
                       { icon: MapPin, label: "Location", value: "Houston, TX, United States" },
-                      { icon: TrendingUp, label: "Joined", value: "January 2025" },
+                      { icon: TrendingUp, label: "Joined", value: joinedDisplayFull },
                     ].map((row) => (
                       <div key={row.label} className="flex items-center gap-3">
                         <row.icon size={15} style={{ color: "#6A6A88" }} />

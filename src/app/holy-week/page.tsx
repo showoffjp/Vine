@@ -218,7 +218,7 @@ const VOICES_HW = [
 ];
 
 export default function HolyWeekPage() {
-  const [selected, setSelected] = useState("Palm Sunday");
+  const [selected, setSelected] = usePersistedState("vine_holy-week_selected", "Palm Sunday");
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_holy-week_tab", "days");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_holy-week_voice", "stott-jrw");
   const voiceItem = VOICES_HW.find(v => v.id === selectedVoice)!;

@@ -148,8 +148,8 @@ const RECONSTRUCTION_ITEMS = [
 
 export default function DeconstructionPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_deconstruction_tab", "what");
-  const [selectedWhat, setSelectedWhat] = useState("definition");
-  const [selectedCause, setSelectedCause] = useState("abuse");
+  const [selectedWhat, setSelectedWhat] = usePersistedState("vine_deconstruction_selected_what", "definition");
+  const [selectedCause, setSelectedCause] = usePersistedState("vine_deconstruction_selected_cause", "abuse");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_deconstruction_voice", "kearney");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 

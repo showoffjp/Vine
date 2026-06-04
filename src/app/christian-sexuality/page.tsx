@@ -153,7 +153,7 @@ const QUESTION_ITEMS = [
 export default function ChristianSexualityPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_christian-sexuality_tab", "theology");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
-  const [activeFramework, setActiveFramework] = useState("jpii");
+  const [activeFramework, setActiveFramework] = usePersistedState("vine_christian-sexuality_active_framework", "jpii");
 
   const toggle = (key: string) => {
     setExpanded(prev => ({ ...prev, [key]: !prev[key] }));

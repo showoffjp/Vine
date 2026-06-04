@@ -18,6 +18,7 @@ import {
   Filter,
   Rss,
 } from "lucide-react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 
 const featuredPost = {
@@ -368,7 +369,7 @@ const editors = [
 ];
 
 export default function BlogPage() {
-  const [activeCategory, setActiveCategory] = useState("All");
+  const [activeCategory, setActiveCategory] = usePersistedState("vine_blog_active_category", "All");
   const [savedPosts, setSavedPosts] = useState<Set<number>>(() => {
     try { const s = localStorage.getItem("vine_blog_saved"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
   });

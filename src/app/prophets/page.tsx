@@ -120,7 +120,7 @@ export default function ProphetsPage() {
   const [activeTab, setActiveTab] = usePersistedState<"prophets" | "scholars" | "christological" | "howto" | "videos">("vine_prophets_tab", "prophets");
   const [selectedScholar, setSelectedScholar] = usePersistedState("vine_prophets_selected_scholar", "motyer");
   const scholarItem = SCHOLARS_PROPHETS.find(s => s.id === selectedScholar)!;
-  const [selected, setSelected] = useState("Isaiah");
+  const [selected, setSelected] = usePersistedState("vine_prophets_selected", "Isaiah");
 
   const prophet = PROPHETS.find(p => p.name === selected)!;
 

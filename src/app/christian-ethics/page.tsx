@@ -113,8 +113,8 @@ const METHODS = [
 
 export default function ChristianEthicsPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_christian-ethics_tab", "foundations");
-  const [selectedIssue, setSelectedIssue] = useState("Wealth and Poverty");
-  const [selectedContemporary, setSelectedContemporary] = useState("digital");
+  const [selectedIssue, setSelectedIssue] = usePersistedState("vine_christian-ethics_selected_issue", "Wealth and Poverty");
+  const [selectedContemporary, setSelectedContemporary] = usePersistedState("vine_christian-ethics_selected_contemporary", "digital");
 
   const issue = ISSUES.find(i => i.issue === selectedIssue)!;
   const contemporary = CONTEMPORARY.find(c => c.id === selectedContemporary)!;

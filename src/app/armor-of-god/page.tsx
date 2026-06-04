@@ -141,7 +141,7 @@ const WARFARE = [
 
 export default function ArmorOfGodPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_armor-of-god_tab", "overview");
-  const [selected, setSelected] = useState("belt");
+  const [selected, setSelected] = usePersistedState("vine_armor-of-god_selected", "belt");
 
   const piece = PIECES.find((p) => p.id === selected)!;
 

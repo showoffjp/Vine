@@ -84,7 +84,7 @@ type Tab = "theology" | "discontentment" | "teachers" | "practices" | "videos";
 
 export default function ContentmentPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_contentment_tab", "theology");
-  const [selectedTeacher, setSelectedTeacher] = useState("burroughs");
+  const [selectedTeacher, setSelectedTeacher] = usePersistedState("vine_contentment_selected_teacher", "burroughs");
 
   const teacher = TEACHERS.find(t => t.id === selectedTeacher)!;
 

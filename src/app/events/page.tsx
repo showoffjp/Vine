@@ -17,6 +17,7 @@ import {
   Bookmark,
   Check,
 } from "lucide-react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 /* ------------------------------------------------------------------ */
 /* Data                                                                  */
@@ -256,7 +257,7 @@ const monthFilters = ["Jun", "Jul", "Aug", "Sep", "Oct", "Nov"];
 /* ------------------------------------------------------------------ */
 
 export default function EventsPage() {
-  const [activeType, setActiveType] = useState("All");
+  const [activeType, setActiveType] = usePersistedState("vine_events_active_type", "All");
   const [activeMonth, setActiveMonth] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [nearMe, setNearMe] = useState(false);

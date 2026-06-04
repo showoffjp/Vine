@@ -383,7 +383,7 @@ const PODCAST_VIDEOS = [
 
 export default function TopChristianPodcastsPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_top-christian-podcasts_tab", "podcasts");
-  const [activeCategory, setActiveCategory] = useState("All");
+  const [activeCategory, setActiveCategory] = usePersistedState("vine_top-christian-podcasts_active_category", "All");
   const [search, setSearch] = useState("");
   const [expanded, setExpanded] = useState<string | null>(null);
 

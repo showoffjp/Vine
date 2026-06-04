@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 type NotifCategory =
   | "prayer"
@@ -338,7 +339,7 @@ function filterMatches(n: Notification, filter: string, readSet: Set<number>): b
 }
 
 export default function NotificationsPage() {
-  const [activeFilter, setActiveFilter] = useState("All");
+  const [activeFilter, setActiveFilter] = usePersistedState<string>("vine_notifications_active_filter", "All");
   const [showOlder, setShowOlder] = useState(false);
   const [readSet, setReadSet] = useState<Set<number>>(() => {
     try { const s = localStorage.getItem("vine_notif_read"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }

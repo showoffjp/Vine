@@ -151,10 +151,10 @@ const READING_TIPS = [
 
 export default function ChristianBooksGuidePage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_christian-books-guide_tab", "books");
-  const [activeCategory, setActiveCategory] = useState("All");
+  const [activeCategory, setActiveCategory] = usePersistedState("vine_christian-books-guide_active_category", "All");
   const [search, setSearch] = useState("");
   const [expanded, setExpanded] = useState<string | null>(null);
-  const [selectedReader, setSelectedReader] = useState("edwards");
+  const [selectedReader, setSelectedReader] = usePersistedState("vine_christian-books-guide_selected_reader", "edwards");
 
   const reader = READERS.find(r => r.id === selectedReader)!;
   const filtered = BOOKS.filter(b => {

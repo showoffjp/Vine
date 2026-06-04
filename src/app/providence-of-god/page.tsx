@@ -86,8 +86,8 @@ const PRACTICES = [
 
 export default function ProvidenceOfGodPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_providence-of-god_tab", "theology");
-  const [selectedAspect, setSelectedAspect] = useState("Preservation");
-  const [selectedStory, setSelectedStory] = useState("joseph");
+  const [selectedAspect, setSelectedAspect] = usePersistedState("vine_providence-of-god_selected_aspect", "Preservation");
+  const [selectedStory, setSelectedStory] = usePersistedState("vine_providence-of-god_selected_story", "joseph");
 
   const aspect = ASPECTS.find(a => a.title === selectedAspect)!;
   const story = STORIES.find(s => s.id === selectedStory)!;

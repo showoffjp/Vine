@@ -251,7 +251,7 @@ const TC_VIDEOS = [
 export default function TenCommandmentsPage() {
   const [selected, setSelected] = useState(1);
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_ten-commandments_tab", "commands");
-  const [selectedTheologian, setSelectedTheologian] = useState("augustine");
+  const [selectedTheologian, setSelectedTheologian] = usePersistedState("vine_ten-commandments_selected_theologian", "augustine");
   const [selectedJesus, setSelectedJesus] = useState(0);
 
   const cmd = COMMANDMENTS.find(c => c.n === selected)!;

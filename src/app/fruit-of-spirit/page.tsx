@@ -164,7 +164,7 @@ type Tab = "fruit" | "theology" | "practices" | "voices" | "videos";
 
 export default function FruitOfSpiritPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_fruit-of-spirit_tab", "fruit");
-  const [selected, setSelected] = useState("Love");
+  const [selected, setSelected] = usePersistedState("vine_fruit-of-spirit_selected", "Love");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_fruit-of-spirit_voice", "torrey-ra");
   const voiceItem = VOICES_FRUIT.find(v => v.id === selectedVoice)!;
 

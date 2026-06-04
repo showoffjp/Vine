@@ -88,7 +88,7 @@ const HISTORY = [
 export default function BiblicalWomanhoodPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_biblical-womanhood_tab", "theology");
   const [expanded, setExpanded] = useState<string | null>(null);
-  const [selectedHistory, setSelectedHistory] = useState("perpetua");
+  const [selectedHistory, setSelectedHistory] = usePersistedState("vine_biblical-womanhood_selected_history", "perpetua");
 
   const historyFigure = HISTORY.find(h => h.id === selectedHistory)!;
 

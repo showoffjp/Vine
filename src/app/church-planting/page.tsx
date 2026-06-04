@@ -102,7 +102,7 @@ const RESOURCES = [
 
 export default function ChurchPlantingPage() {
   const [activeTab, setActiveTab] = usePersistedState<"phases" | "models" | "resources" | "journal" | "videos">("vine_church-planting_tab", "phases");
-  const [selectedPhase, setSelectedPhase] = useState("call");
+  const [selectedPhase, setSelectedPhase] = usePersistedState("vine_church-planting_selected_phase", "call");
   const [checkedQuestions, setCheckedQuestions] = useState<Set<string>>(() => {
     try { const s = localStorage.getItem("vine_cp_checked"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
   });

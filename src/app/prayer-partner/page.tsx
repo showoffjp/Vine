@@ -347,8 +347,8 @@ export default function PrayerPartnerPage() {
     try { const ps = localStorage.getItem("vine_prayer_sessions"); return ps ? JSON.parse(ps) : []; } catch { return []; }
   });
   const [selectedPartner, setSelectedPartner] = useState<Partner | null>(null);
-  const [filterFocus, setFilterFocus] = useState("All");
-  const [filterFreq, setFilterFreq] = useState("Any");
+  const [filterFocus, setFilterFocus] = usePersistedState("vine_prayer-partner_filter_focus", "All");
+  const [filterFreq, setFilterFreq] = usePersistedState("vine_prayer-partner_filter_freq", "Any");
   const [activeTab, setActiveTab] = usePersistedState<"find" | "my-partners" | "sessions" | "voices">("vine_prayer-partner_tab", "find");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_prayer-partner_voice", "intercess-bounds");
   const voiceItem = VOICES_PP.find(v => v.id === selectedVoice)!;

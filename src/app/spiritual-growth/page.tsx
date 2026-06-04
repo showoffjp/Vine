@@ -78,7 +78,7 @@ type Tab = "theology" | "stages" | "thinkers" | "obstacles" | "videos";
 
 export default function SpiritualGrowthPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_spiritual-growth_tab", "theology");
-  const [selectedStage, setSelectedStage] = useState("New Believer");
+  const [selectedStage, setSelectedStage] = usePersistedState("vine_spiritual-growth_selected_stage", "New Believer");
   const [expanded, setExpanded] = useState<string | null>(null);
   const [selectedThinker, setSelectedThinker] = usePersistedState("vine_spiritual-growth_selected_thinker", "willard");
 

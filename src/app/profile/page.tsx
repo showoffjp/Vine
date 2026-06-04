@@ -25,6 +25,7 @@ import {
   Target,
   ChevronRight,
 } from "lucide-react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const tabs = ["Activity", "Saved", "Discussions", "Resources", "About"];
 
@@ -152,7 +153,7 @@ interface VineUser {
 }
 
 export default function ProfilePage() {
-  const [activeTab, setActiveTab] = useState("Activity");
+  const [activeTab, setActiveTab] = usePersistedState<string>("vine_profile_active_tab", "Activity");
   const [hoveredBadge, setHoveredBadge] = useState<string | null>(null);
   const [user, setUser] = useState<VineUser | null>(() => {
     try { const raw = localStorage.getItem("vine_user"); return raw ? JSON.parse(raw) : null; } catch { return null; }

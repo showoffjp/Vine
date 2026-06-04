@@ -4,7 +4,6 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 import { useState, useEffect } from "react";
-import { usePersistedState } from "@/hooks/usePersistedState";
 import {
   CheckCircle2,
   Circle,
@@ -15,6 +14,7 @@ import {
   Star,
   ChevronRight,
 } from "lucide-react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 interface Habit {
   id: string;

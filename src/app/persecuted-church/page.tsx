@@ -145,7 +145,7 @@ export default function PerisecutedChurchPage() {
   const [region, setRegion] = useState("All");
   const [selected, setSelected] = useState<string | null>(null);
   const [activeTab, setActiveTab] = usePersistedState<"countries" | "witnesses" | "orgs" | "prayer" | "videos">("vine_persecuted-church_tab", "countries");
-  const [selectedWitness, setSelectedWitness] = useState("polycarp-p");
+  const [selectedWitness, setSelectedWitness] = usePersistedState("vine_persecuted-church_selected_witness", "polycarp-p");
   const witnessItem = WITNESSES.find(w => w.id === selectedWitness)!;
 
   const filtered = COUNTRIES.filter(c => region === "All" || c.region === region);

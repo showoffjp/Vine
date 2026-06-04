@@ -180,7 +180,7 @@ const GROWING = [
 
 export default function FruitOfTheSpiritPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_fruit-of-the-spirit_tab", "overview");
-  const [selected, setSelected] = useState("love");
+  const [selected, setSelected] = usePersistedState("vine_fruit-of-the-spirit_selected", "love");
 
   const fruit = FRUITS.find((f) => f.id === selected)!;
 

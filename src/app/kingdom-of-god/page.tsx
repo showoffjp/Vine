@@ -80,7 +80,7 @@ const PRACTICES = [
 
 export default function KingdomOfGodPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_kingdom-of-god_tab", "theology");
-  const [selectedParable, setSelectedParable] = useState("Sower and the Soils");
+  const [selectedParable, setSelectedParable] = usePersistedState("vine_kingdom-of-god_selected_parable", "Sower and the Soils");
   const [selectedThinker, setSelectedThinker] = usePersistedState("vine_kingdom-of-god_selected_thinker", "ladd");
 
   const parable = PARABLES.find(p => p.name === selectedParable)!;

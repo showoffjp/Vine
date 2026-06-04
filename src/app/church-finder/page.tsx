@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { MapPin, Search, Star, Heart, ExternalLink, Users, Clock, ChevronRight, Globe } from "lucide-react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 interface Church {
   id: string;
@@ -290,10 +291,10 @@ export default function ChurchFinderPage() {
   });
 
   const [search, setSearch] = useState("");
-  const [filterDenom, setFilterDenom] = useState("All");
-  const [filterCountry, setFilterCountry] = useState("All");
-  const [filterSize, setFilterSize] = useState("All");
-  const [filterStyle, setFilterStyle] = useState("All");
+  const [filterDenom, setFilterDenom] = usePersistedState("vine_church-finder_filter_denom", "All");
+  const [filterCountry, setFilterCountry] = usePersistedState("vine_church-finder_filter_country", "All");
+  const [filterSize, setFilterSize] = usePersistedState("vine_church-finder_filter_size", "All");
+  const [filterStyle, setFilterStyle] = usePersistedState("vine_church-finder_filter_style", "All");
   const [filterOnline, setFilterOnline] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);

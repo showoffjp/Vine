@@ -124,8 +124,8 @@ type Tab = "sections" | "themes" | "scholars" | "reading" | "videos";
 
 export default function NewTestamentSurveyPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_new-testament-survey_tab", "sections");
-  const [selected, setSelected] = useState("Gospels");
-  const [selectedScholar, setSelectedScholar] = useState("bruce");
+  const [selected, setSelected] = usePersistedState("vine_new-testament-survey_selected", "Gospels");
+  const [selectedScholar, setSelectedScholar] = usePersistedState("vine_new-testament-survey_selected_scholar", "bruce");
 
   const section = SECTIONS.find(s => s.name === selected)!;
   const scholar = SCHOLARS.find(s => s.id === selectedScholar)!;

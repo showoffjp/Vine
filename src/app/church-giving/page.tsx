@@ -87,7 +87,7 @@ type Tab = "theology" | "questions" | "givers" | "practices" | "videos";
 export default function ChurchGivingPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_church-giving_tab", "theology");
   const [expanded, setExpanded] = useState<string | null>(null);
-  const [selectedGiver, setSelectedGiver] = useState("wesley");
+  const [selectedGiver, setSelectedGiver] = usePersistedState("vine_church-giving_selected_giver", "wesley");
 
   const giver = GENEROUS_LIVES.find(g => g.id === selectedGiver)!;
 

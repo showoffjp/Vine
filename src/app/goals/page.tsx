@@ -4,7 +4,6 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 import React, { useState, useEffect } from "react";
-import { usePersistedState } from "@/hooks/usePersistedState";
 import {
   Target,
   Plus,
@@ -20,6 +19,7 @@ import {
   Music,
   X,
 } from "lucide-react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 type GoalCategory = "Scripture" | "Prayer" | "Service" | "Community" | "Discipline" | "Evangelism" | "Other";
 

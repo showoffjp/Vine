@@ -145,9 +145,9 @@ const MAJOR_OBJECTIONS = [
 
 export default function ApologeticsArgumentsPage() {
   const [activeTab, setActiveTab] = usePersistedState<"arguments" | "apologists" | "practices" | "objections" | "videos">("vine_apologetics-arguments_tab", "arguments");
-  const [selectedArg, setSelectedArg] = useState("Cosmological");
+  const [selectedArg, setSelectedArg] = usePersistedState("vine_apologetics-arguments_selected_arg", "Cosmological");
   const [expandedObj, setExpandedObj] = useState<string | null>(null);
-  const [selectedApologist, setSelectedApologist] = useState("lewis");
+  const [selectedApologist, setSelectedApologist] = usePersistedState("vine_apologetics-arguments_selected_apologist", "lewis");
   const apologist = APOLOGISTS.find(a => a.id === selectedApologist)!;
 
   const arg = ARGUMENTS.find(a => a.name === selectedArg)!;

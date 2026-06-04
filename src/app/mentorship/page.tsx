@@ -243,8 +243,8 @@ export default function MentorshipPage() {
   });
   const [selectedMentor, setSelectedMentor] = useState<Mentor | null>(null);
   const [requestModal, setRequestModal] = useState<Mentor | null>(null);
-  const [filterExpertise, setFilterExpertise] = useState("All");
-  const [filterAvailability, setFilterAvailability] = useState("All");
+  const [filterExpertise, setFilterExpertise] = usePersistedState("vine_mentorship_filter_expertise", "All");
+  const [filterAvailability, setFilterAvailability] = usePersistedState("vine_mentorship_filter_availability", "All");
   const [activeTab, setActiveTab] = usePersistedState<"browse" | "my-mentors" | "voices" | "guide" | "videos">("vine_mentorship_tab", "browse");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_mentorship_voice", "stanley-p");
   const voiceItem = VOICES_MENT.find(v => v.id === selectedVoice)!;

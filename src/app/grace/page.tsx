@@ -213,7 +213,7 @@ function Accordion({ items }: { items: typeof THEOLOGY_ITEMS }) {
 
 export default function GracePage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_grace_tab", "theology");
-  const [selectedKind, setSelectedKind] = useState("prevenient");
+  const [selectedKind, setSelectedKind] = usePersistedState("vine_grace_selected_kind", "prevenient");
 
   const currentKind = KINDS_ITEMS.find(k => k.id === selectedKind)!;
 

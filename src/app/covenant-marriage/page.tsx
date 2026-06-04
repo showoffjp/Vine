@@ -86,7 +86,7 @@ type Tab = "theology" | "seasons" | "portraits" | "practices" | "videos";
 export default function CovenantMarriagePage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_covenant-marriage_tab", "theology");
   const [expanded, setExpanded] = useState<string | null>(null);
-  const [selectedPortrait, setSelectedPortrait] = useState("priscilla");
+  const [selectedPortrait, setSelectedPortrait] = usePersistedState("vine_covenant-marriage_selected_portrait", "priscilla");
 
   const portrait = PORTRAITS.find(p => p.id === selectedPortrait)!;
 

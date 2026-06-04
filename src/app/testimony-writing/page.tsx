@@ -94,7 +94,7 @@ interface TestimonyDraft {
 
 export default function TestimonyWritingPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_testimony-writing_tab", "theology");
-  const [selectedWitness, setSelectedWitness] = useState("augustine");
+  const [selectedWitness, setSelectedWitness] = usePersistedState("vine_testimony-writing_selected_witness", "augustine");
   const witness = WITNESSES.find(w => w.id === selectedWitness)!;
   const [draft, setDraft] = useState<TestimonyDraft>(() => {
     try { const s = localStorage.getItem("vine_testimony_draft"); return s ? JSON.parse(s) : { before: "", during: "", after: "", invitation: "" }; } catch { return { before: "", during: "", after: "", invitation: "" }; }

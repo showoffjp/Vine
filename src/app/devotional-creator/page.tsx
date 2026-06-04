@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 import { useState, useEffect } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 interface Devotional {
   id: string;
@@ -134,8 +135,8 @@ export default function DevotionalCreatorPage() {
   const [view, setView] = useState<"browse" | "create" | "detail">("browse");
   const [selectedDev, setSelectedDev] = useState<Devotional | null>(null);
   const [step, setStep] = useState(0);
-  const [filterTheme, setFilterTheme] = useState("All");
-  const [filterAudience, setFilterAudience] = useState("All");
+  const [filterTheme, setFilterTheme] = usePersistedState("vine_devotional-creator_filter_theme", "All");
+  const [filterAudience, setFilterAudience] = usePersistedState("vine_devotional-creator_filter_audience", "All");
   const [editingId, setEditingId] = useState<string | null>(null);
 
   const [draft, setDraft] = useState({

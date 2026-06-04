@@ -146,8 +146,8 @@ const WHY = [
 export default function ConfessionsPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_confessions_tab", "creeds");
   const [selectedCreed, setSelectedCreed] = useState("Apostles' Creed");
-  const [selectedConf, setSelectedConf] = useState("Westminster Confession");
-  const [selectedCat, setSelectedCat] = useState("Westminster Shorter Catechism");
+  const [selectedConf, setSelectedConf] = usePersistedState("vine_confessions_selected_conf", "Westminster Confession");
+  const [selectedCat, setSelectedCat] = usePersistedState("vine_confessions_selected_cat", "Westminster Shorter Catechism");
 
   const creed = CREEDS.find(c => c.name === selectedCreed)!;
   const conf = CONFESSIONS.find(c => c.name === selectedConf)!;

@@ -89,7 +89,7 @@ const SCHOLARS_PSALMS = [
 
 export default function PsalmsGuidePage() {
   const [activeTab, setActiveTab] = usePersistedState<"types" | "theology" | "scholars" | "plans" | "videos">("vine_psalms-guide_tab", "types");
-  const [selectedScholar, setSelectedScholar] = useState("lewis");
+  const [selectedScholar, setSelectedScholar] = usePersistedState("vine_psalms-guide_selected_scholar", "lewis");
   const scholarItem = SCHOLARS_PSALMS.find(s => s.id === selectedScholar)!;
   const [selectedType, setSelectedType] = usePersistedState("vine_psalms-guide_selected_type", "Lament");
 

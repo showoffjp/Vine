@@ -98,7 +98,7 @@ const GIVING_VIDEOS = [
 export default function ChristianGivingGuidePage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_christian-giving-guide_tab", "theology");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
-  const [selectedGiver, setSelectedGiver] = useState("muller");
+  const [selectedGiver, setSelectedGiver] = usePersistedState("vine_christian-giving-guide_selected_giver", "muller");
   const giver = GIVERS.find(g => g.id === selectedGiver)!;
 
   return (

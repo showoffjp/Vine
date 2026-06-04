@@ -175,9 +175,9 @@ const STUDY_APPROACHES = [
 
 export default function BibleCharactersPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_bible-characters_tab", "characters");
-  const [filter, setFilter] = useState("All");
-  const [selected, setSelected] = useState("Abraham");
-  const [selectedWoman, setSelectedWoman] = useState("Deborah");
+  const [filter, setFilter] = usePersistedState("vine_bible-characters_filter", "All");
+  const [selected, setSelected] = usePersistedState("vine_bible-characters_selected", "Abraham");
+  const [selectedWoman, setSelectedWoman] = usePersistedState("vine_bible-characters_selected_woman", "Deborah");
 
   const filtered = CHARACTERS.filter(c =>
     filter === "All" || filter === c.testament || filter === c.era

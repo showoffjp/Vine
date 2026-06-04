@@ -503,8 +503,8 @@ export default function WorldPrayerPage() {
     try { const s = localStorage.getItem("vine_world_prayer_saved"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
   });
   const [selected, setSelected] = useState<CountryPrayer | null>(null);
-  const [filterRegion, setFilterRegion] = useState("All Regions");
-  const [filterStatus, setFilterStatus] = useState("All");
+  const [filterRegion, setFilterRegion] = usePersistedState("vine_world-prayer_filter_region", "All Regions");
+  const [filterStatus, setFilterStatus] = usePersistedState("vine_world-prayer_filter_status", "All");
   const [search, setSearch] = useState("");
   const [prayerLog, setPrayerLog] = useState<{ countryId: string; date: string }[]>(() => {
     try { const l = localStorage.getItem("vine_world_prayer_log"); return l ? JSON.parse(l) : []; } catch { return []; }

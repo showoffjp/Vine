@@ -95,9 +95,9 @@ export default function QuotesPage() {
   const [likedIds, setLikedIds] = useState<Set<string>>(() => {
     try { const l = localStorage.getItem("vine_quotes_liked"); return l ? new Set(JSON.parse(l)) : new Set(); } catch { return new Set(); }
   });
-  const [filterCategory, setFilterCategory] = useState("All");
-  const [filterEra, setFilterEra] = useState("All Eras");
-  const [sortBy, setSortBy] = useState("Most Liked");
+  const [filterCategory, setFilterCategory] = usePersistedState("vine_quotes_filter_category", "All");
+  const [filterEra, setFilterEra] = usePersistedState("vine_quotes_filter_era", "All Eras");
+  const [sortBy, setSortBy] = usePersistedState("vine_quotes_sort_by", "Most Liked");
   const [search, setSearch] = useState("");
   const [activeTab, setActiveTab] = usePersistedState<"all" | "saved" | "thinkers" | "themes" | "videos">("vine_quotes_tab", "all");
   const [selectedThinker, setSelectedThinker] = usePersistedState("vine_quotes_selected_thinker", "lewis-cs");

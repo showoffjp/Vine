@@ -29,6 +29,7 @@ import {
   Star,
   AlertCircle,
 } from "lucide-react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 
 const hubs = [
@@ -497,7 +498,7 @@ export default function DiscussionsPage() {
   const [joinedHubs, setJoinedHubs] = useState<Set<number>>(() => {
     try { const s = localStorage.getItem("vine_disc_hubs"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
   });
-  const [activeSort, setActiveSort] = useState("Hot");
+  const [activeSort, setActiveSort] = usePersistedState("vine_discussions_active_sort", "Hot");
   const [sharedPost, setSharedPost] = useState<number | null>(null);
   const [composerOpen, setComposerOpen] = useState(false);
   const [composerText, setComposerText] = useState("");

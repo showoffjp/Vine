@@ -150,7 +150,7 @@ const HOWTO = [
 
 export default function LordsPrayerPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_lords-prayer_tab", "overview");
-  const [selected, setSelected] = useState("father");
+  const [selected, setSelected] = usePersistedState("vine_lords-prayer_selected", "father");
 
   const phrase = PHRASES.find((p) => p.id === selected)!;
 

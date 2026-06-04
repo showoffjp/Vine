@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 import { useState, useEffect, useCallback } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 interface Verse {
   id: string;
@@ -88,7 +89,7 @@ export default function ScriptureGamePage() {
 
   const [mode, setMode] = useState<GameMode | null>(null);
   const [filterDifficulty, setFilterDifficulty] = useState<"All" | "Easy" | "Medium" | "Hard">("All");
-  const [filterCategory, setFilterCategory] = useState("All");
+  const [filterCategory, setFilterCategory] = usePersistedState("vine_scripture-game_filter_category", "All");
   const [gameState, setGameState] = useState<"idle" | "playing" | "result" | "done">("idle");
   const [queue, setQueue] = useState<Verse[]>([]);
   const [currentIdx, setCurrentIdx] = useState(0);

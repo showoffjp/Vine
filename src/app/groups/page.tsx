@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import Link from "next/link";
 import { Users, ChevronRight, Search, Lock, Globe, Flame, Star, Plus } from "lucide-react";
 import { useState, useEffect } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const categories = ["All", "Theology", "Prayer", "Parenting", "Men", "Women", "Students", "Marriage", "Missions", "Creative Arts", "Business", "Recovery"];
 
@@ -212,7 +213,7 @@ const myGroups = [
 ];
 
 export default function GroupsPage() {
-  const [activeCategory, setActiveCategory] = useState("All");
+  const [activeCategory, setActiveCategory] = usePersistedState("vine_groups_active_category", "All");
   const [search, setSearch] = useState("");
   const [joined, setJoined] = useState<Record<string, boolean>>(() => {
     try {

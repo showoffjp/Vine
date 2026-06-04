@@ -85,7 +85,7 @@ const PRACTICES = [
 
 export default function LonelinessPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_loneliness_tab", "theology");
-  const [selectedStory, setSelectedStory] = useState("elijah");
+  const [selectedStory, setSelectedStory] = usePersistedState("vine_loneliness_selected_story", "elijah");
 
   const story = STORIES.find(s => s.id === selectedStory)!;
 

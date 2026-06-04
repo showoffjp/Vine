@@ -207,7 +207,7 @@ export default function VerseMemoryPage() {
   const [innerTab, setInnerTab] = useState<"library" | "practice" | "stats" | "voices">("library");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_verse-memory_voice", "trotman-d");
   const voiceItem = VOICES_MEM.find(v => v.id === selectedVoice)!;
-  const [activeCategory, setActiveCategory] = useState("All");
+  const [activeCategory, setActiveCategory] = usePersistedState("vine_verse-memory_active_category", "All");
   const [addingVerse, setAddingVerse] = useState(false);
   const [reviewingId, setReviewingId] = useState<number | null>(null);
   const [userInput, setUserInput] = useState("");

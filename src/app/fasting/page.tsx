@@ -5,7 +5,6 @@ import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 
 import React, { useState, useEffect } from "react";
-import { usePersistedState } from "@/hooks/usePersistedState";
 import {
   Flame,
   CheckCircle2,
@@ -16,6 +15,7 @@ import {
   Heart,
   Trophy,
 } from "lucide-react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 type FastType = "Complete" | "Partial (liquids only)" | "Daniel Fast" | "Media Fast" | "Social Media Fast" | "Custom";
 type FastDuration = "Sunrise to Sunset" | "24 Hours" | "3 Days" | "7 Days" | "21 Days (Daniel)" | "Custom";

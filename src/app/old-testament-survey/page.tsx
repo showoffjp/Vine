@@ -157,7 +157,7 @@ type Tab = "overview" | "books" | "themes" | "scholars" | "reading" | "videos";
 export default function OldTestamentSurveyPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_old-testament-survey_tab", "overview");
   const [selected, setSelected] = useState("The Law (Torah)");
-  const [selectedScholar, setSelectedScholar] = useState("wenham");
+  const [selectedScholar, setSelectedScholar] = usePersistedState("vine_old-testament-survey_selected_scholar", "wenham");
 
   const section = SECTIONS.find(s => s.name === selected)!;
   const scholar = SCHOLARS.find(s => s.id === selectedScholar)!;

@@ -350,8 +350,8 @@ function DetailPanel({
 export default function ChristianVirtuePage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_christian-virtue_tab", "theology");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
-  const [selectedCardinal, setSelectedCardinal] = useState("Prudence");
-  const [selectedTheological, setSelectedTheological] = useState("Faith");
+  const [selectedCardinal, setSelectedCardinal] = usePersistedState("vine_christian-virtue_selected_cardinal", "Prudence");
+  const [selectedTheological, setSelectedTheological] = usePersistedState("vine_christian-virtue_selected_theological", "Faith");
 
   function toggle(id: string) {
     setExpanded((prev) => ({ ...prev, [id]: !prev[id] }));

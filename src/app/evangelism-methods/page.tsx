@@ -153,8 +153,8 @@ const ESSENTIALS = [
 
 export default function EvangelismMethodsPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_evangelism-methods_tab", "methods");
-  const [selected, setSelected] = useState("Friendship Evangelism");
-  const [selectedEvangelist, setSelectedEvangelist] = useState("paul");
+  const [selected, setSelected] = usePersistedState("vine_evangelism-methods_selected", "Friendship Evangelism");
+  const [selectedEvangelist, setSelectedEvangelist] = usePersistedState("vine_evangelism-methods_selected_evangelist", "paul");
   const evangelist = EVANGELISTS.find(e => e.id === selectedEvangelist)!;
 
   const method = METHODS.find(m => m.name === selected)!;

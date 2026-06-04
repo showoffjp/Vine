@@ -15,6 +15,7 @@ import {
   Volume2,
 } from "lucide-react";
 import { useState, useEffect } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const categories = [
   { name: "All", active: true },
@@ -147,7 +148,7 @@ const channels = [
 ];
 
 export default function VideoPage() {
-  const [activeCategory, setActiveCategory] = useState("All");
+  const [activeCategory, setActiveCategory] = usePersistedState("vine_video_active_category", "All");
   const [search, setSearch] = useState("");
   const [likedVideos, setLikedVideos] = useState<Set<number>>(() => {
     try { const s = localStorage.getItem("vine_video_liked"); return s ? new Set(JSON.parse(s)) : new Set([1]); } catch { return new Set([1]); }

@@ -145,7 +145,7 @@ type NTab = "steps" | "assurance" | "questions" | "reading" | "mentors" | "video
 
 export default function NewBelieverPage() {
   const [activeTab, setActiveTab] = usePersistedState<NTab>("vine_new-believer_tab", "steps");
-  const [selectedMentor, setSelectedMentor] = useState("stott");
+  const [selectedMentor, setSelectedMentor] = usePersistedState("vine_new-believer_selected_mentor", "stott");
   const mentorItem = MENTORS_NB.find(m => m.id === selectedMentor)!;
   const [completed, setCompleted] = useState<Set<number>>(() => {
     try { const s = localStorage.getItem("vine_nb_steps"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }

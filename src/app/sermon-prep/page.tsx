@@ -92,7 +92,7 @@ const SEED_NOTES: SermonNote[] = [
 
 export default function SermonPrepPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_sermon-prep_tab", "principles");
-  const [selectedPreacher, setSelectedPreacher] = useState("chrysostom");
+  const [selectedPreacher, setSelectedPreacher] = usePersistedState("vine_sermon-prep_selected_preacher", "chrysostom");
   const preacher = PREACHERS.find(p => p.id === selectedPreacher)!;
   const [notes, setNotes] = useState<SermonNote[]>(() => {
     try { const s = localStorage.getItem("vine_sermon_notes"); return s ? JSON.parse(s) : SEED_NOTES; } catch { return SEED_NOTES; }

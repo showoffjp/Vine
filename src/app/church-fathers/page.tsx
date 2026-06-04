@@ -167,7 +167,7 @@ export default function ChurchFathersPage() {
   const [selected, setSelected] = useState<string | null>("Athanasius of Alexandria");
   const [period, setPeriod] = useState("All");
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_church-fathers_tab", "fathers");
-  const [selectedWriting, setSelectedWriting] = useState("didache");
+  const [selectedWriting, setSelectedWriting] = usePersistedState("vine_church-fathers_selected_writing", "didache");
 
   const filtered = period === "All" ? FATHERS : FATHERS.filter(f => f.period === period);
   const father = FATHERS.find(f => f.name === selected);

@@ -67,7 +67,7 @@ export default function CreativityPage() {
   const [form, setForm] = useState<{ title: string; medium: string; notes: string }>(() => {
     try { const s = localStorage.getItem("vine_creativity_draft"); return s ? JSON.parse(s) : { title: "", medium: "Writing", notes: "" }; } catch { return { title: "", medium: "Writing", notes: "" }; }
   });
-  const [selectedMedium, setSelectedMedium] = useState("writing");
+  const [selectedMedium, setSelectedMedium] = usePersistedState("vine_creativity_selected_medium", "writing");
 
   useEffect(() => { try { localStorage.setItem("vine_creativity_projects", JSON.stringify(projects)); } catch {} }, [projects]);
   useEffect(() => {

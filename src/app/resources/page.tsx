@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { usePersistedState } from "@/hooks/usePersistedState";
 import {
   Search,
   Star,
@@ -25,6 +24,7 @@ import {
   CheckSquare,
   Square,
 } from "lucide-react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -404,7 +404,7 @@ export default function ResourcesPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedDifficulties, setSelectedDifficulties] = useState<Set<string>>(new Set());
   const [selectedLengths, setSelectedLengths] = useState<Set<string>>(new Set());
-  const [selectedSort, setSelectedSort] = useState("Most Popular");
+  const [selectedSort, setSelectedSort] = usePersistedState<string>("vine_resources_selected_sort", "Most Popular");
   const [page, setPage] = useState(1);
   const [copiedTitle, setCopiedTitle] = useState<string | null>(null);
   const [savedResources, setSavedResources] = useState<Set<string>>(() => {

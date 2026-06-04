@@ -19,6 +19,7 @@ import {
   Headphones,
   ArrowRight,
 } from "lucide-react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 
 const featuredCreator = {
@@ -237,7 +238,7 @@ const roleIcons: Record<string, React.ComponentType<{ size?: number; style?: Rea
 };
 
 export default function CreatorsPage() {
-  const [activeFilter, setActiveFilter] = useState("All");
+  const [activeFilter, setActiveFilter] = usePersistedState("vine_creators_active_filter", "All");
   const [followingFeatured, setFollowingFeatured] = useState(() => {
     try { return localStorage.getItem("vine_creators_featured") === "1"; } catch { return false; }
   });

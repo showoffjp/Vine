@@ -179,7 +179,7 @@ export default function GriefPage() {
   const [todayPrompt] = useState(() => journalPrompts[Math.floor(Math.random() * journalPrompts.length)]);
   const [journalText, setJournalText] = useState("");
   const [mood, setMood] = useState("");
-  const [filterLoss, setFilterLoss] = useState("All");
+  const [filterLoss, setFilterLoss] = usePersistedState("vine_grief_filter_loss", "All");
 
 
   const handleLike = (id: string) => {

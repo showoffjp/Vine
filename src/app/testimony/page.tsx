@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Sparkles, Heart, Plus, X, Flame, Search, Clock, Share2 } from "lucide-react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 interface Testimony {
   id: string;
@@ -194,7 +195,7 @@ export default function TestimonyPage() {
     } catch { return new Set(); }
   });
 
-  const [activeCategory, setActiveCategory] = useState("All");
+  const [activeCategory, setActiveCategory] = usePersistedState("vine_testimony_active_category", "All");
   const [search, setSearch] = useState("");
   const [showCompose, setShowCompose] = useState(false);
   const [showFeatured, setShowFeatured] = useState(true);

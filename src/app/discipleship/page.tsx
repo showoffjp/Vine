@@ -158,7 +158,7 @@ export default function DiscipleshipPage() {
   const [activeTab, setActiveTab] = usePersistedState<DTab>("vine_discipleship_tab", "pathways");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_discipleship_voice", "bonhoeffer");
   const voiceItem = VOICES_DISC.find(v => v.id === selectedVoice)!;
-  const [selectedPath, setSelectedPath] = useState("foundation");
+  const [selectedPath, setSelectedPath] = usePersistedState("vine_discipleship_selected_path", "foundation");
   const [completedTopics, setCompletedTopics] = useState<Set<string>>(() => {
     try { const s = localStorage.getItem("vine_disc_completed"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
   });

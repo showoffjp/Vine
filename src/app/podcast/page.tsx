@@ -20,6 +20,7 @@ import {
   Clock,
   TrendingUp,
 } from "lucide-react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const categories = ["All", "Theology", "Devotional", "Apologetics", "Parenting", "Finance", "Leadership", "Worship", "Mental Health"];
 
@@ -200,7 +201,7 @@ const featuredEpisodes = [
 export default function PodcastPage() {
   const totalEpisodes = shows.reduce((sum, s) => sum + s.episodes, 0);
 
-  const [activeCategory, setActiveCategory] = useState("All");
+  const [activeCategory, setActiveCategory] = usePersistedState("vine_podcast_active_category", "All");
   const [search, setSearch] = useState("");
   const [subscribedShows, setSubscribedShows] = useState<Set<string>>(() => {
     try { const s = localStorage.getItem("vine_podcast_subscribed"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Radio, Users, Heart, MessageSquare, Bell, BellOff, Play, Eye } from "lucide-react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const liveStreams = [
   {
@@ -212,7 +213,7 @@ const upcoming = [
 const categories = ["All", "Worship", "Prayer", "Bible Study", "Youth", "Mental Health", "Missions", "Evangelism", "Theology", "Relationships"];
 
 export default function LivePage() {
-  const [activeCategory, setActiveCategory] = useState("All");
+  const [activeCategory, setActiveCategory] = usePersistedState("vine_live_active_category", "All");
   const [joinedStreams, setJoinedStreams] = useState<Set<number>>(() => {
     try {
       const s = localStorage.getItem("vine_live_joined");

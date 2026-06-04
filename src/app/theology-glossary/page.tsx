@@ -243,8 +243,8 @@ export default function TheologyGlossaryPage() {
     try { const l = localStorage.getItem("vine_theology_learned"); return l ? new Set(JSON.parse(l)) : new Set(); } catch { return new Set(); }
   });
   const [selected, setSelected] = useState<Term | null>(null);
-  const [filterCat, setFilterCat] = useState("All");
-  const [filterLevel, setFilterLevel] = useState("All");
+  const [filterCat, setFilterCat] = usePersistedState("vine_theology-glossary_filter_cat", "All");
+  const [filterLevel, setFilterLevel] = usePersistedState("vine_theology-glossary_filter_level", "All");
   const [search, setSearch] = useState("");
   const [selectedVoice, setSelectedVoice] = useState<TheologicalVoice>(VOICES_THEO[0]);
 

@@ -251,8 +251,8 @@ type Tab = "books" | "themes" | "timeline" | "voices" | "videos";
 
 export default function BibleOverviewPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_bible-overview_tab", "books");
-  const [catFilter, setCatFilter] = useState("All");
-  const [testamentFilter, setTestamentFilter] = useState("All");
+  const [catFilter, setCatFilter] = usePersistedState("vine_bible-overview_cat_filter", "All");
+  const [testamentFilter, setTestamentFilter] = usePersistedState("vine_bible-overview_testament_filter", "All");
   const [search, setSearch] = useState("");
   const [selected, setSelected] = useState<BibleBook | null>(null);
   const [selectedVoice, setSelectedVoice] = useState<BibleVoice>(VOICES_BIBLE[0]);

@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { usePersistedState } from "@/hooks/usePersistedState";
 import {
   User,
   Bell,
@@ -18,6 +17,7 @@ import {
   Download,
   Trash2,
 } from "lucide-react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 

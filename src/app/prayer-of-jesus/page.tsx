@@ -149,9 +149,9 @@ const MODELS = [
 ];
 
 export default function PrayerOfJesusPage() {
-  const [selected, setSelected] = useState("Our Father in heaven");
+  const [selected, setSelected] = usePersistedState("vine_prayer-of-jesus_selected", "Our Father in heaven");
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_prayer-of-jesus_tab", "petitions");
-  const [selectedCommentator, setSelectedCommentator] = useState("tertullian");
+  const [selectedCommentator, setSelectedCommentator] = usePersistedState("vine_prayer-of-jesus_selected_commentator", "tertullian");
 
   const petition = PETITIONS.find(p => p.line === selected)!;
   const commentator = COMMENTATORS.find(c => c.id === selectedCommentator)!;

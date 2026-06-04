@@ -286,7 +286,7 @@ export default function ChallengesPage() {
       return s ? new Set(JSON.parse(s) as number[]) : new Set([1]);
     } catch { return new Set([1]); }
   });
-  const [activeCategory, setActiveCategory] = useState("All");
+  const [activeCategory, setActiveCategory] = usePersistedState("vine_challenges_active_category", "All");
   const [completedDays, setCompletedDays] = useState<Set<number>>(() => {
     try {
       const s = localStorage.getItem("vine_prayer_streak");

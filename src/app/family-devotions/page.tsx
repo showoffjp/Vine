@@ -102,7 +102,7 @@ export default function FamilyDevotionsPage() {
   const [activeTab, setActiveTab] = usePersistedState<"ages" | "formats" | "plans" | "voices" | "videos">("vine_family-devotions_tab", "ages");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_family-devotions_voice", "tullian-t");
   const voiceItem = VOICES_FAM.find(v => v.id === selectedVoice)!;
-  const [selectedAge, setSelectedAge] = useState("elementary");
+  const [selectedAge, setSelectedAge] = usePersistedState("vine_family-devotions_selected_age", "elementary");
   const [expandedPlan, setExpandedPlan] = useState<string | null>(null);
 
   const ageGuide = AGE_GUIDES.find(a => a.id === selectedAge)!;

@@ -85,7 +85,7 @@ type Tab = "theology" | "types" | "stories" | "practices" | "videos";
 export default function AngerPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_anger_tab", "theology");
   const [expanded, setExpanded] = useState<string | null>(null);
-  const [selectedStory, setSelectedStory] = useState("moses");
+  const [selectedStory, setSelectedStory] = usePersistedState("vine_anger_selected_story", "moses");
 
   const story = STORIES.find(s => s.id === selectedStory)!;
 

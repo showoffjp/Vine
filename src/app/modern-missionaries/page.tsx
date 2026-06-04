@@ -223,7 +223,7 @@ const FIELDS_MM: { id: string; region: string; icon: string; unreached: string; 
 export default function ModernMissionariesPage() {
   type Tab = "missionaries" | "principles" | "fields" | "callyou" | "videos";
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_modern-missionaries_tab", "missionaries");
-  const [region, setRegion] = useState("All");
+  const [region, setRegion] = usePersistedState("vine_modern-missionaries_region", "All");
   const [selected, setSelected] = useState<string | null>(null);
 
   const filtered = MISSIONARIES.filter(m => region === "All" || m.region === region);

@@ -152,7 +152,7 @@ type Tab = "beatitudes" | "background" | "commentators" | "formation" | "videos"
 export default function BeatitudesPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_beatitudes_tab", "beatitudes");
   const [selected, setSelected] = useState(1);
-  const [selectedCommentator, setSelectedCommentator] = useState("augustine");
+  const [selectedCommentator, setSelectedCommentator] = usePersistedState("vine_beatitudes_selected_commentator", "augustine");
 
   const beat = BEATITUDES.find(b => b.n === selected)!;
   const commentator = COMMENTATORS.find(c => c.id === selectedCommentator)!;

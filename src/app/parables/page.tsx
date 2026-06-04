@@ -419,7 +419,7 @@ export default function ParablesPage() {
     try { const s = localStorage.getItem("vine_parables_studied"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
   });
   const [selected, setSelected] = useState<Parable | null>(null);
-  const [filter, setFilter] = useState("All");
+  const [filter, setFilter] = usePersistedState("vine_parables_filter", "All");
   const [kingdomOnly, setKingdomOnly] = useState(false);
   const [search, setSearch] = useState("");
   const [innerTab, setInnerTab] = useState<"browse" | "studied" | "methods" | "voices">("browse");

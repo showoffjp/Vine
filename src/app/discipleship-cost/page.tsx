@@ -91,7 +91,7 @@ type Tab = "passages" | "myths" | "lives" | "practices" | "videos";
 export default function DiscipleshipCostPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_discipleship-cost_tab", "passages");
   const [expanded, setExpanded] = useState<string | null>(null);
-  const [selectedLife, setSelectedLife] = useState("bonhoeffer");
+  const [selectedLife, setSelectedLife] = usePersistedState("vine_discipleship-cost_selected_life", "bonhoeffer");
 
   const life = LIVES.find(l => l.id === selectedLife)!;
 

@@ -109,7 +109,7 @@ type Tab = "today" | "weekly" | "topics" | "memorize" | "videos";
 export default function VerseOfTheDayPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_verse-of-the-day_tab", "today");
   const [selectedTopic, setSelectedTopic] = usePersistedState("vine_verse-of-the-day_selected_topic", "Anxiety & Fear");
-  const [selectedPlan, setSelectedPlan] = useState("Romans Road");
+  const [selectedPlan, setSelectedPlan] = usePersistedState("vine_verse-of-the-day_selected_plan", "Romans Road");
   // Use day-of-year so the verse advances every calendar day and rotates through
   // the full set across months, rather than repeating the same day-of-month mapping.
   const now = new Date();

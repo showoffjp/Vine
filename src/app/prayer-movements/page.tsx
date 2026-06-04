@@ -277,7 +277,7 @@ const VIDEOS_PRM = [
 
 export default function PrayerMovementsPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_prayer-movements_tab", "movements");
-  const [type, setType] = useState("All");
+  const [type, setType] = usePersistedState("vine_prayer-movements_type", "All");
   const [selected, setSelected] = useState<string | null>(null);
   const [selectedVoice, setSelectedVoice] = useState<number | null>(null);
 

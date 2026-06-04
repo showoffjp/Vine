@@ -379,7 +379,7 @@ export default function YouthPage() {
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_youth_voice", "smith-jk");
   const voiceItem = VOICES_YOUTH.find(v => v.id === selectedVoice)!;
   const [selectedCategory, setSelectedCategory] = usePersistedState("vine_youth_selected_category", "All");
-  const [selectedAgeGroup, setSelectedAgeGroup] = useState("All Ages");
+  const [selectedAgeGroup, setSelectedAgeGroup] = usePersistedState("vine_youth_selected_age_group", "All Ages");
 
 
   const handleJoin = (id: string) => {

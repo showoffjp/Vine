@@ -81,7 +81,7 @@ const PRACTICES = [
 export default function ForgivenessGuidePage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_forgiveness-guide_tab", "theology");
   const [expanded, setExpanded] = useState<string | null>(null);
-  const [selectedStory, setSelectedStory] = useState("corrie");
+  const [selectedStory, setSelectedStory] = usePersistedState("vine_forgiveness-guide_selected_story", "corrie");
 
   const story = STORIES.find(s => s.id === selectedStory)!;
 

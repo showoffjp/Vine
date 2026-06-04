@@ -151,7 +151,7 @@ const DOCTRINES = [
 
 export default function AtonementPage() {
   const [activeTab, setActiveTab] = usePersistedState<"theories" | "scripture" | "thinkers" | "doctrines" | "videos">("vine_atonement_tab", "theories");
-  const [selected, setSelected] = useState("Penal Substitution");
+  const [selected, setSelected] = usePersistedState("vine_atonement_selected", "Penal Substitution");
   const [selectedThinker, setSelectedThinker] = usePersistedState("vine_atonement_selected_thinker", "anselm");
   const [selectedScripture, setSelectedScripture] = useState(0);
 

@@ -134,7 +134,7 @@ export default function SimplicityPage() {
   const [activeTab, setActiveTab] = usePersistedState<"why" | "voices" | "areas" | "detox" | "videos">("vine_simplicity_tab", "why");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_simplicity_voice", "francis");
   const voiceItem = VOICES_SIMP.find(v => v.id === selectedVoice)!;
-  const [selectedArea, setSelectedArea] = useState("possessions");
+  const [selectedArea, setSelectedArea] = usePersistedState("vine_simplicity_selected_area", "possessions");
   const [checkedPractices, setCheckedPractices] = useState<Set<string>>(() => {
     try { const s = localStorage.getItem("vine_simplicity_checked"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
   });

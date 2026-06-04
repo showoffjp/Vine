@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 
 import { Search, X, BookOpen, MessageSquare, Users, Flame, Globe, Star, ChevronRight, Clock, Heart, Shield, Video } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const categories = [
   { label: "All", icon: "✦", color: "#3a7d56" },
@@ -187,7 +188,7 @@ const DEFAULT_RECENT = ["Philippians 4:13", "prayer for anxiety", "C.S. Lewis Me
 
 export default function SearchPage() {
   const [query, setQuery] = useState("");
-  const [activeCategory, setActiveCategory] = useState("All");
+  const [activeCategory, setActiveCategory] = usePersistedState("vine_search_active_category", "All");
   const [recentSearches, setRecentSearches] = useState<string[]>(() => {
     try { const s = localStorage.getItem("vine_search_recent"); return s ? JSON.parse(s) : DEFAULT_RECENT; } catch { return DEFAULT_RECENT; }
   });

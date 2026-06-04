@@ -81,7 +81,7 @@ const TABS: { id: Tab; label: string; icon: string }[] = [
 
 export default function TrinityPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_trinity_tab", "overview");
-  const [selectedPerson, setSelectedPerson] = useState("father");
+  const [selectedPerson, setSelectedPerson] = usePersistedState("vine_trinity_selected_person", "father");
   const [expandedHeresy, setExpandedHeresy] = useState<number | null>(null);
   const [expandedApp, setExpandedApp] = useState<number | null>(null);
 

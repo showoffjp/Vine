@@ -278,7 +278,7 @@ const MISSIONS_VIDEOS = [
 
 export default function MissionsOrganizationsPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_missions-organizations_tab", "organizations");
-  const [type, setType] = useState("All");
+  const [type, setType] = usePersistedState("vine_missions-organizations_type", "All");
   const [selected, setSelected] = useState<string | null>(null);
 
   const filtered = ORGS.filter(o => type === "All" || o.type === type);

@@ -24,6 +24,7 @@ import {
   Zap,
   Brain,
 } from "lucide-react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 interface Stats {
   bibleBook: string;
@@ -195,7 +196,7 @@ function loadStats(): Stats {
 
 export default function DashboardPage() {
   const [stats, setStats] = useState<Stats | null>(null);
-  const [activeTab, setActiveTab] = useState("Overview");
+  const [activeTab, setActiveTab] = usePersistedState("vine_dashboard_active_tab", "Overview");
 
   useEffect(() => {
     setStats(loadStats());

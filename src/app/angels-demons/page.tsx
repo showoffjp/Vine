@@ -72,8 +72,8 @@ const PRACTICES = [
 
 export default function AngelsDemonsPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_angels-demons_tab", "angels");
-  const [selectedAngel, setSelectedAngel] = useState("Ordinary Angels");
-  const [selectedWarfare, setSelectedWarfare] = useState("armor");
+  const [selectedAngel, setSelectedAngel] = usePersistedState("vine_angels-demons_selected_angel", "Ordinary Angels");
+  const [selectedWarfare, setSelectedWarfare] = usePersistedState("vine_angels-demons_selected_warfare", "armor");
 
   const angel = ANGELS.find(a => a.name === selectedAngel)!;
   const warfare = WARFARE.find(w => w.id === selectedWarfare)!;

@@ -18,6 +18,7 @@ import {
   Plus,
   X,
 } from "lucide-react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const tabs = ["All", "Health", "Family", "Work", "Relationships", "Grief", "Guidance", "Praise Reports"];
 
@@ -166,7 +167,7 @@ const recentlyAnswered = [
 ];
 
 export default function PrayerPage() {
-  const [activeTab, setActiveTab] = useState("All");
+  const [activeTab, setActiveTab] = usePersistedState("vine_prayer_active_tab", "All");
   const [showForm, setShowForm] = useState(false);
   const [isAnonymous, setIsAnonymous] = useState(false);
   const [prayedCards, setPrayedCards] = useState<Set<number>>(() => {

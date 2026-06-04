@@ -88,7 +88,7 @@ type Tab = "theology" | "obstacles" | "history" | "practices" | "videos";
 export default function HospitalityPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_hospitality_tab", "theology");
   const [expanded, setExpanded] = useState<string | null>(null);
-  const [selectedHistory, setSelectedHistory] = useState("desert");
+  const [selectedHistory, setSelectedHistory] = usePersistedState("vine_hospitality_selected_history", "desert");
 
   const history = HISTORY.find(h => h.id === selectedHistory)!;
 

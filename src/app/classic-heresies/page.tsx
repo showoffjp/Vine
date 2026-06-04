@@ -142,7 +142,7 @@ const HERESY_PATTERNS = [
 
 export default function ClassicHeresiesPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_classic-heresies_tab", "heresies");
-  const [selectedDefender, setSelectedDefender] = useState("athanasius");
+  const [selectedDefender, setSelectedDefender] = usePersistedState("vine_classic-heresies_selected_defender", "athanasius");
   const defender = DEFENDERS.find(d => d.id === selectedDefender)!;
   const [selected, setSelected] = useState<string | null>(null);
 

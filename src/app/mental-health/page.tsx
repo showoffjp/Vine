@@ -4,7 +4,6 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 import { useState, useEffect } from "react";
-import { usePersistedState } from "@/hooks/usePersistedState";
 import {
   Heart,
   Phone,
@@ -22,6 +21,7 @@ import {
   MapPin,
   Quote,
 } from "lucide-react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F";
 const CARD = "#12121F";

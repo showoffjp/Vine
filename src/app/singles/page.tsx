@@ -115,7 +115,7 @@ const PRACTICES = [
 
 export default function SinglesPage() {
   const [activeTab, setActiveTab] = usePersistedState<"chapters" | "voices" | "practices" | "journal" | "videos">("vine_singles_tab", "chapters");
-  const [selectedChapter, setSelectedChapter] = useState("identity");
+  const [selectedChapter, setSelectedChapter] = usePersistedState("vine_singles_selected_chapter", "identity");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_singles_voice", "lewis");
   const [checkedPractices, setCheckedPractices] = useState<Set<string>>(() => {
     try { const s = localStorage.getItem("vine_singles_checked"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }

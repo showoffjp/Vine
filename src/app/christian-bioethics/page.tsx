@@ -133,9 +133,9 @@ const EMERGING_ITEMS = [
 
 export default function ChristianBioethicsPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_christian-bioethics_tab", "foundations");
-  const [selectedFoundation, setSelectedFoundation] = useState("imagodei");
-  const [selectedIssue, setSelectedIssue] = useState("abortion");
-  const [selectedEndOfLife, setSelectedEndOfLife] = useState("ordinary");
+  const [selectedFoundation, setSelectedFoundation] = usePersistedState("vine_christian-bioethics_selected_foundation", "imagodei");
+  const [selectedIssue, setSelectedIssue] = usePersistedState("vine_christian-bioethics_selected_issue", "abortion");
+  const [selectedEndOfLife, setSelectedEndOfLife] = usePersistedState("vine_christian-bioethics_selected_end_of_life", "ordinary");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
   const toggleExpand = (id: string) => setExpanded(prev => ({ ...prev, [id]: !prev[id] }));

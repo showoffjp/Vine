@@ -239,8 +239,8 @@ export default function SermonArchivePage() {
   });
   const [selectedSermon, setSelectedSermon] = useState<Sermon | null>(null);
   const [noteText, setNoteText] = useState("");
-  const [filterTopic, setFilterTopic] = useState("All");
-  const [filterType, setFilterType] = useState("All");
+  const [filterTopic, setFilterTopic] = usePersistedState("vine_sermon-archive_filter_topic", "All");
+  const [filterType, setFilterType] = usePersistedState("vine_sermon-archive_filter_type", "All");
   const [search, setSearch] = useState("");
   const [activeTab, setActiveTab] = usePersistedState<"all" | "saved" | "voices" | "howto" | "videos">("vine_sermon-archive_tab", "all");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_sermon-archive_voice", "piper-j");

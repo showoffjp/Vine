@@ -19,6 +19,7 @@ import {
   Send,
   Trophy,
 } from "lucide-react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const LH_THEOLOGY = [
   {
@@ -363,7 +364,7 @@ const mostSaved = [
 export default function LifeHacksPage() {
   const [mainTab, setMainTab] = useState<"hacks" | "theology" | "rhythms" | "voices" | "videos">("hacks");
   const [selectedVoiceLH, setSelectedVoiceLH] = useState(VOICES_LH[0]);
-  const [activeCategory, setActiveCategory] = useState("All");
+  const [activeCategory, setActiveCategory] = usePersistedState("vine_life-hacks_active_category", "All");
   const [submitted, setSubmitted] = useState(false);
   const [hackTitle, setHackTitle] = useState("");
   const [savedHacks, setSavedHacks] = useState<Set<string>>(() => {

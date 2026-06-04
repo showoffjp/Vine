@@ -300,7 +300,7 @@ const VOICES_COM = [
 
 export default function CommentaryGuidePage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_commentary-guide_tab", "commentaries");
-  const [type, setType] = useState("All");
+  const [type, setType] = usePersistedState("vine_commentary-guide_type", "All");
   const [selected, setSelected] = useState<string | null>(null);
   const [selectedVoice, setSelectedVoice] = useState<number>(VOICES_COM[0].id);
 

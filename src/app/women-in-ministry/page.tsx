@@ -111,7 +111,7 @@ const PRACTICES = [
 
 export default function WomenInMinistryPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_women-in-ministry_tab", "theology");
-  const [selectedPos, setSelectedPos] = useState("Complementarian");
+  const [selectedPos, setSelectedPos] = usePersistedState("vine_women-in-ministry_selected_pos", "Complementarian");
   const [selectedScholar, setSelectedScholar] = usePersistedState("vine_women-in-ministry_selected_scholar", "grudem");
   const scholar = SCHOLARS.find(s => s.id === selectedScholar)!;
 

@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 
 import { useState, useEffect } from "react";
 import { Heart, Plus, X, Flame, Globe, Lock, ChevronDown, Search, Clock, CheckCircle2 } from "lucide-react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 interface PrayerRequest {
   id: string;
@@ -203,7 +204,7 @@ export default function PrayerWallPage() {
     } catch { return new Set(); }
   });
 
-  const [activeCategory, setActiveCategory] = useState("All");
+  const [activeCategory, setActiveCategory] = usePersistedState("vine_prayer-wall_active_category", "All");
   const [search, setSearch] = useState("");
   const [showCompose, setShowCompose] = useState(false);
   const [sortBy, setSortBy] = useState<"recent" | "most-prayed" | "answered">("recent");

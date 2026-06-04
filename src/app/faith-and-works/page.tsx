@@ -188,7 +188,7 @@ function AccordionItem({
 export default function FaithAndWorksPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_faith-and-works_tab", "theology");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
-  const [selectedPaul, setSelectedPaul] = useState("rom3");
+  const [selectedPaul, setSelectedPaul] = usePersistedState("vine_faith-and-works_selected_paul", "rom3");
 
   function toggle(key: string) {
     setExpanded((prev) => ({ ...prev, [key]: !prev[key] }));

@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 
 import { useState, useEffect } from "react";
 import { BookOpen, Plus, X, Star, Search, Edit2, Trash2 } from "lucide-react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -372,7 +373,7 @@ export default function ReadingListPage() {
 
   const [mainTab, setMainTab] = useState<"list" | "recommendations" | "guides" | "voices" | "videos">("list");
   const [activeStatus, setActiveStatus] = useState<ReadStatus | "all">("all");
-  const [activeGenre, setActiveGenre] = useState("All");
+  const [activeGenre, setActiveGenre] = usePersistedState("vine_reading-list_active_genre", "All");
   const [search, setSearch] = useState("");
   const [showCompose, setShowCompose] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);

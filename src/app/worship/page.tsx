@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { usePersistedState } from "@/hooks/usePersistedState";
 import {
   Play,
   Pause,
@@ -25,6 +24,7 @@ import {
   X,
   Volume2,
 } from "lucide-react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 type Tab = "songs" | "theology" | "voices" | "videos";
 

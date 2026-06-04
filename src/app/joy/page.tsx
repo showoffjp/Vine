@@ -92,7 +92,7 @@ const JOY_VIDEOS = [
 
 export default function JoyPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_joy_tab", "theology");
-  const [selectedStory, setSelectedStory] = useState("prodigal");
+  const [selectedStory, setSelectedStory] = usePersistedState("vine_joy_selected_story", "prodigal");
 
   const story = STORIES.find(s => s.id === selectedStory)!;
 

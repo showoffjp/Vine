@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 
 import { Heart, Share2, Bookmark, ChevronRight, Star, Flame, Globe } from "lucide-react";
 import { useState, useEffect } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const featured = {
   slug: "carlos-mendez-drug-cartel-to-church-planter",
@@ -111,7 +112,7 @@ const stories = [
 const categories = ["All", "Redemption", "Grief & Restoration", "Identity & Calling", "Deconstruction", "Theology & Transformation", "Mental Health", "Missions", "Marriage & Restoration", "Faith Transition"];
 
 export default function StoriesPage() {
-  const [activeCategory, setActiveCategory] = useState("All");
+  const [activeCategory, setActiveCategory] = usePersistedState("vine_stories_active_category", "All");
   const [submitOpen, setSubmitOpen] = useState(false);
   const [submitText, setSubmitText] = useState("");
   const [submitted, setSubmitted] = useState(false);

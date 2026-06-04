@@ -5,7 +5,6 @@ import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 
 import { useState, useEffect } from "react";
-import { usePersistedState } from "@/hooks/usePersistedState";
 import {
   Sparkles,
   Plus,
@@ -15,6 +14,7 @@ import {
   Calendar,
   Star,
 } from "lucide-react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 interface GratitudeEntry {
   id: string;

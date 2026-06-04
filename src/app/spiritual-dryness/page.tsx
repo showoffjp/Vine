@@ -83,9 +83,9 @@ type Tab = "causes" | "saints" | "psalms" | "practices" | "videos";
 
 export default function SpiritualDrynessPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_spiritual-dryness_tab", "causes");
-  const [selectedCause, setSelectedCause] = useState("Sin Blocking the Way");
-  const [selectedSaint, setSelectedSaint] = useState("Mother Teresa");
-  const [selectedPsalm, setSelectedPsalm] = useState("psalm22");
+  const [selectedCause, setSelectedCause] = usePersistedState("vine_spiritual-dryness_selected_cause", "Sin Blocking the Way");
+  const [selectedSaint, setSelectedSaint] = usePersistedState("vine_spiritual-dryness_selected_saint", "Mother Teresa");
+  const [selectedPsalm, setSelectedPsalm] = usePersistedState("vine_spiritual-dryness_selected_psalm", "psalm22");
 
   const cause = CAUSES.find(c => c.cause === selectedCause)!;
   const saint = SAINTS.find(s => s.name === selectedSaint)!;

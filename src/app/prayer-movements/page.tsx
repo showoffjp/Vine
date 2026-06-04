@@ -288,6 +288,7 @@ export default function PrayerMovementsPage() {
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
       <Navbar />
+      <main>
       <div style={{ maxWidth: 1000, margin: "0 auto", padding: "0 20px 60px" }}>
 
         <div style={{ textAlign: "center", marginBottom: 32 }}>
@@ -483,6 +484,7 @@ export default function PrayerMovementsPage() {
         )}
 
       </div>
+      </main>
       <Footer />
     </div>
   );

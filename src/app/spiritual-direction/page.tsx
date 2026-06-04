@@ -489,6 +489,7 @@ export default function SpiritualDirectionPage() {
       }}
     >
       <Navbar />
+      <main>
       <div style={{ maxWidth: 960, margin: "0 auto", padding: "0 24px" }}>
         {/* Header */}
         <div style={{ marginBottom: 40 }}>
@@ -599,6 +600,7 @@ export default function SpiritualDirectionPage() {
           </div>
         )}
       </div>
+      </main>
       <Footer />
     </div>
   );

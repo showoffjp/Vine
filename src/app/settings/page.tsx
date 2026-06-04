@@ -1609,6 +1609,7 @@ export default function SettingsPage() {
   return (
     <div style={{ background: "#07070F", minHeight: "100vh", color: "#F2F2F8" }}>
       <Navbar />
+      <main>
 
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "40px 24px 80px" }}>
         {/* Page header */}
@@ -1689,6 +1690,7 @@ export default function SettingsPage() {
         </div>
       </div>
 
+      </main>
       <Footer />
     </div>
   );

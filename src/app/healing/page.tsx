@@ -826,6 +826,7 @@ export default function HealingPage() {
       }}
     >
       <Navbar />
+      <main>
       {/* Hero Header */}
       <div
         style={{
@@ -1930,6 +1931,7 @@ export default function HealingPage() {
           </div>
         </div>
       )}
+      </main>
       <Footer />
     </div>
   );

@@ -370,6 +370,7 @@ export default function FaithJourneyPage() {
   return (
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
       <Navbar />
+      <main>
       <div className="pb-20" style={{ paddingTop: 80 }}>
 
         {/* Hero */}
@@ -857,6 +858,7 @@ export default function FaithJourneyPage() {
           </div>
         </div>
       )}
+      </main>
       <Footer />
     </div>
   );

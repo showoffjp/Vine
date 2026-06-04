@@ -315,6 +315,7 @@ export default function SpiritualWarfarePage() {
   return (
     <div style={{ minHeight: "100vh", background: BG, color: TEXT, paddingTop: 80 }}>
       <Navbar />
+      <main>
       <div style={{ maxWidth: 1080, margin: "0 auto", padding: "0 20px 80px" }}>
         {/* Header */}
         <div style={{ textAlign: "center", marginBottom: 44 }}>
@@ -729,6 +730,7 @@ export default function SpiritualWarfarePage() {
           </div>
         )}
       </div>
+      </main>
       <Footer />
     </div>
   );

@@ -61,6 +61,7 @@ export default function FaithInMarketplacePage() {
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
       <Navbar />
+      <main>
       <div style={{ background: "linear-gradient(135deg, #050e07 0%, #0a1a10 50%, #07070F 100%)", padding: "100px 24px 56px", textAlign: "center", position: "relative", overflow: "hidden" }}>
         <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 70% 50% at 50% 0%, rgba(58,125,86,0.1) 0%, transparent 70%)", pointerEvents: "none" }} />
         <div style={{ position: "relative", zIndex: 1, maxWidth: 700, margin: "0 auto" }}>
@@ -182,6 +183,7 @@ export default function FaithInMarketplacePage() {
           </div>
         )}
       </div>
+      </main>
       <Footer />
     </div>
   );

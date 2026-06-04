@@ -577,6 +577,7 @@ export default function SpiritualGiftsPage() {
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, paddingTop: 80 }}>
       <Navbar />
+      <main>
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 24px 80px 24px" }}>
         {/* Header */}
         <div style={{ marginBottom: 40 }}>
@@ -740,6 +741,7 @@ export default function SpiritualGiftsPage() {
           </div>
         )}
       </div>
+      </main>
       <Footer />
     </div>
   );

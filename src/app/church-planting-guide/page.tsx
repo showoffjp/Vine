@@ -269,6 +269,7 @@ export default function ChurchPlantingGuidePage() {
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, paddingTop: 80, fontFamily: "system-ui, sans-serif" }}>
       <Navbar />
+      <main>
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 20px 60px" }}>
 
         {/* Header */}
@@ -498,6 +499,7 @@ export default function ChurchPlantingGuidePage() {
           </div>
         )}
       </div>
+      </main>
       <Footer />
     </div>
   );

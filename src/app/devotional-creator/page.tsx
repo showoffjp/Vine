@@ -233,6 +233,7 @@ export default function DevotionalCreatorPage() {
   return (
     <div style={{ minHeight: "100vh", background: "#07070F", color: "#F2F2F8" }}>
       <Navbar />
+      <main>
       {/* Header */}
       <div
         style={{
@@ -637,6 +638,7 @@ Break into paragraphs for readability. Aim for 200–600 words."
           </div>
         )}
       </div>
+      </main>
       <Footer />
     </div>
   );

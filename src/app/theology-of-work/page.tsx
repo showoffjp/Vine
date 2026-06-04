@@ -218,6 +218,7 @@ export default function TheologyOfWorkPage() {
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
       <Navbar />
+      <main>
       <div style={{ maxWidth: 960, margin: "0 auto", padding: "0 20px 60px" }}>
 
         {/* Header */}
@@ -394,6 +395,7 @@ export default function TheologyOfWorkPage() {
         )}
 
       </div>
+      </main>
       <Footer />
     </div>
   );

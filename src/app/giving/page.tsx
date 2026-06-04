@@ -175,6 +175,7 @@ export default function GivingPage() {
   return (
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
       <Navbar />
+      <main>
       <div className="pb-20" style={{ paddingTop: 80 }}>
         {/* Hero */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-14">
@@ -340,6 +341,7 @@ export default function GivingPage() {
           </div>
         </div>
       </div>
+      </main>
       <Footer />
     </div>
   );

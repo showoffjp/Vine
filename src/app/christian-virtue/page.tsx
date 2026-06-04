@@ -376,6 +376,7 @@ export default function ChristianVirtuePage() {
       }}
     >
       <Navbar />
+      <main>
       <div style={{ maxWidth: 960, margin: "0 auto", padding: "0 20px 80px" }}>
         {/* Header */}
         <div style={{ textAlign: "center", marginBottom: 44 }}>
@@ -551,6 +552,7 @@ export default function ChristianVirtuePage() {
           </div>
         )}
       </div>
+      </main>
       <Footer />
     </div>
   );

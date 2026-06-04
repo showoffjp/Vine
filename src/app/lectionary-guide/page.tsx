@@ -213,6 +213,7 @@ export default function LectionaryGuidePage() {
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "sans-serif", paddingTop: 80 }}>
       <Navbar />
+      <main>
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 24px 40px" }}>
         {/* Header */}
         <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
@@ -471,6 +472,7 @@ export default function LectionaryGuidePage() {
           </div>
         )}
       </div>
+      </main>
       <Footer />
     </div>
   );

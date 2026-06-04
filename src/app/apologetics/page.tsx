@@ -375,6 +375,7 @@ export default function ApologeticsPage() {
   return (
     <div style={{ minHeight: "100vh", background: BG, color: TEXT, fontFamily: "inherit" }}>
       <Navbar />
+      <main>
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "40px 16px 80px" }}>
 
         {/* Header */}
@@ -750,6 +751,7 @@ export default function ApologeticsPage() {
           </div>
         )}
       </div>
+      </main>
       <Footer />
     </div>
   );

@@ -768,6 +768,7 @@ export default function ChristianMusicPage() {
   return (
     <div style={{ background: "#07070F", minHeight: "100vh", color: "#F2F2F8" }}>
       <Navbar />
+      <main>
       {/* ── Header ── */}
       <section
         style={{
@@ -1707,6 +1708,7 @@ export default function ChristianMusicPage() {
           </div>
         </div>
       )}
+      </main>
       <Footer />
     </div>
   );

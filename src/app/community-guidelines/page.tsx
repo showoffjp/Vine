@@ -58,6 +58,7 @@ export default function CommunityGuidelinesPage() {
   return (
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
       <Navbar />
+      <main>
       <div className="pb-20 page-body">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
@@ -178,6 +179,7 @@ export default function CommunityGuidelinesPage() {
           </div>
         </div>
       </div>
+      </main>
       <Footer />
     </div>
   );

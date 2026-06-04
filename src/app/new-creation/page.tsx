@@ -75,6 +75,7 @@ export default function NewCreationPage() {
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: `var(--font-jost, system-ui, sans-serif)` }}>
       <Navbar />
+      <main>
 
       {/* Hero */}
       <div style={{ background: `linear-gradient(135deg, #060f06 0%, #0a140a 40%, #0c0a18 100%)`, paddingTop: 100, paddingBottom: 60, textAlign: "center", borderBottom: `1px solid ${BORDER}` }}>
@@ -290,6 +291,7 @@ export default function NewCreationPage() {
           </div>
         )}
       </div>
+      </main>
       <Footer />
     </div>
   );

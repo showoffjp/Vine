@@ -245,6 +245,7 @@ export default function PodcastPage() {
   return (
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
       <Navbar />
+      <main>
       <div className="page-body pb-32">
 
         {/* Hero */}
@@ -557,6 +558,7 @@ export default function PodcastPage() {
         </div>
       )}
 
+      </main>
       <Footer />
     </div>
   );

@@ -181,6 +181,7 @@ export default function FinancesPage() {
   return (
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
       <Navbar />
+      <main>
       <div className="page-body pb-20">
         {/* Hero */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
@@ -415,6 +416,7 @@ export default function FinancesPage() {
           </div>
         </div>
       </div>
+      </main>
       <Footer />
     </div>
   );

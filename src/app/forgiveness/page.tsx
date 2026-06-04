@@ -194,6 +194,7 @@ export default function ForgivenessPage() {
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
       <Navbar />
+      <main>
 
       {/* Hero */}
       <div style={{
@@ -476,6 +477,7 @@ export default function ForgivenessPage() {
           </div>
         )}
       </div>
+      </main>
       <Footer />
     </div>
   );

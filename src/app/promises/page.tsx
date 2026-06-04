@@ -897,6 +897,7 @@ export default function PromisesPage() {
         }}
       >
         <Navbar />
+        <main>
         {/* ── Hero Header ─────────────────────────────────────────────── */}
         <div
           style={{
@@ -1542,6 +1543,7 @@ export default function PromisesPage() {
             </div>
           )}
         </div>
+      </main>
       </div>
       <Footer />
     </>

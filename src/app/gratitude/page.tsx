@@ -264,6 +264,7 @@ export default function GratitudePage() {
   return (
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
       <Navbar />
+      <main>
       <div className="pb-24" style={{ paddingTop: 80 }}>
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
 
@@ -623,6 +624,7 @@ export default function GratitudePage() {
 
         </div>
       </div>
+      </main>
       <Footer />
     </div>
   );

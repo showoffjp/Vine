@@ -150,6 +150,7 @@ export default function QuotesPage() {
   return (
     <div style={{ minHeight: "100vh", background: "#07070F", color: "#F2F2F8" }}>
       <Navbar />
+      <main>
       {/* Hero */}
       <div
         style={{
@@ -448,6 +449,7 @@ export default function QuotesPage() {
           </div>
         )}
       </div>
+      </main>
       <Footer />
     </div>
   );

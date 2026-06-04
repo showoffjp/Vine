@@ -1529,6 +1529,7 @@ export default async function DiscussionPage({ params }: { params: Promise<{ id:
     return (
       <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
         <Navbar />
+        <main>
         <div className="page-body pb-20 text-center max-w-2xl mx-auto px-4">
           <p className="text-6xl mb-6">💬</p>
           <h1 className="text-3xl font-black mb-4">Thread not found</h1>
@@ -1537,6 +1538,7 @@ export default async function DiscussionPage({ params }: { params: Promise<{ id:
             Back to Discussions
           </Link>
         </div>
+        </main>
         <Footer />
       </div>
     );

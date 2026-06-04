@@ -228,6 +228,7 @@ export default function GracePage() {
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, -apple-system, sans-serif", paddingTop: 80 }}>
       <Navbar />
+      <main>
       <div style={{ maxWidth: 960, margin: "0 auto", padding: "0 20px 80px" }}>
 
         {/* Header */}
@@ -416,6 +417,7 @@ export default function GracePage() {
           </div>
         )}
       </div>
+      </main>
       <Footer />
     </div>
   );

@@ -294,6 +294,7 @@ export default function SermonArchivePage() {
   return (
     <div style={{ minHeight: "100vh", background: "#07070F", color: "#F2F2F8" }}>
       <Navbar />
+      <main>
       {/* Hero */}
       <div style={{
         background: "linear-gradient(135deg, #0a0a1e 0%, #07070F 100%)",
@@ -607,6 +608,7 @@ export default function SermonArchivePage() {
           </div>
         </div>
       )}
+      </main>
       <Footer />
     </div>
   );

@@ -81,6 +81,7 @@ export default function IncarnationPage() {
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: `var(--font-jost, system-ui, sans-serif)` }}>
       <Navbar />
+      <main>
 
       {/* Hero */}
       <div style={{ background: `linear-gradient(135deg, #0d0820 0%, #1a0d1a 40%, #080d14 100%)`, paddingTop: 100, paddingBottom: 60, textAlign: "center", borderBottom: `1px solid ${BORDER}` }}>
@@ -302,6 +303,7 @@ export default function IncarnationPage() {
           </div>
         )}
       </div>
+      </main>
       <Footer />
     </div>
   );

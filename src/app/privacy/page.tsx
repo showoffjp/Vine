@@ -126,6 +126,7 @@ export default function PrivacyPage() {
   return (
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
       <Navbar />
+      <main>
       <div className="page-body pb-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
@@ -190,6 +191,7 @@ export default function PrivacyPage() {
           </div>
         </div>
       </div>
+      </main>
       <Footer />
     </div>
   );

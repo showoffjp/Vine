@@ -163,6 +163,7 @@ export default function NewBelieverPage() {
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
       <Navbar />
+      <main>
 
       {/* Hero */}
       <div style={{ background: `linear-gradient(180deg, rgba(58,125,86,0.1) 0%, transparent 100%)`, borderBottom: `1px solid ${BORDER}`, padding: "80px 20px 48px" }}>
@@ -446,6 +447,7 @@ export default function NewBelieverPage() {
           </div>
         )}
       </div>
+      </main>
       <Footer />
     </div>
   );

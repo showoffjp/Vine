@@ -54,6 +54,7 @@ export default function ResurrectionEvidencePage() {
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
       <Navbar />
+      <main>
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 20px 60px" }}>
 
         <div style={{ textAlign: "center", marginBottom: 36 }}>
@@ -186,6 +187,7 @@ export default function ResurrectionEvidencePage() {
           </div>
         )}
       </div>
+      </main>
       <Footer />
     </div>
   );

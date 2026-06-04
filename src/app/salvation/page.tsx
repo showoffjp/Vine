@@ -265,6 +265,7 @@ export default function SalvationPage() {
   return (
     <div style={{ minHeight: "100vh", background: BG, color: TEXT }}>
       <Navbar />
+      <main>
       <div style={{ maxWidth: 1000, margin: "0 auto", padding: "80px 20px 60px" }}>
 
         {/* Header */}
@@ -515,6 +516,7 @@ export default function SalvationPage() {
           </div>
         </div>
       )}
+      </main>
       <Footer />
     </div>
   );

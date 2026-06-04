@@ -123,6 +123,7 @@ export default function VerseOfTheDayPage() {
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
       <Navbar />
+      <main>
 
       {/* Hero */}
       <div style={{ background: "linear-gradient(135deg, #050e07 0%, #0d1a0f 50%, #07070F 100%)", padding: "100px 24px 56px", textAlign: "center", position: "relative", overflow: "hidden" }}>
@@ -315,6 +316,7 @@ export default function VerseOfTheDayPage() {
           </div>
         )}
       </div>
+      </main>
       <Footer />
     </div>
   );

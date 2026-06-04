@@ -217,6 +217,7 @@ export default function GriefPage() {
   return (
     <div style={{ minHeight: "100vh", background: "#07070F", color: "#F2F2F8" }}>
       <Navbar />
+      <main>
       {/* Hero */}
       <div
         style={{
@@ -573,6 +574,7 @@ export default function GriefPage() {
           </div>
         </div>
       )}
+      </main>
       <Footer />
     </div>
   );

@@ -335,6 +335,7 @@ export default function SystematicTheology101Page() {
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
       <Navbar />
+      <main>
       <div style={{ maxWidth: 980, margin: "0 auto", padding: "0 20px 60px" }}>
         <div style={{ textAlign: "center", marginBottom: 40 }}>
           <div style={{ fontSize: 48, marginBottom: 12 }}>🏛️</div>
@@ -551,6 +552,7 @@ export default function SystematicTheology101Page() {
         )}
 
       </div>
+      </main>
       <Footer />
     </div>
   );

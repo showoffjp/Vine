@@ -171,6 +171,7 @@ export default function PrayerJournalPage() {
   return (
     <div style={{ minHeight: "100vh", background: "#07070F", color: "#F2F2F8" }}>
       <Navbar />
+      <main>
       <div style={{ maxWidth: 1000, margin: "0 auto", padding: "80px 20px 60px" }}>
 
         {/* Header */}
@@ -463,6 +464,7 @@ export default function PrayerJournalPage() {
           </div>
         </div>
       )}
+      </main>
       <Footer />
     </div>
   );

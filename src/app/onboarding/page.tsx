@@ -162,6 +162,7 @@ export default function OnboardingPage() {
       style={{ background: "#07070F" }}
     >
       <Navbar />
+      <main>
       {/* Background glow */}
       <div
         className="absolute inset-0 pointer-events-none"
@@ -582,6 +583,7 @@ export default function OnboardingPage() {
           </div>
         )}
       </div>
+      </main>
       <Footer />
     </div>
   );

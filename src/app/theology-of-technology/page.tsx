@@ -333,6 +333,7 @@ export default function TheologyOfTechnologyPage() {
       }}
     >
       <Navbar />
+      <main>
       <div
         style={{
           maxWidth: "900px",
@@ -558,6 +559,7 @@ export default function TheologyOfTechnologyPage() {
           </div>
         )}
       </div>
+      </main>
       <Footer />
     </div>
   );

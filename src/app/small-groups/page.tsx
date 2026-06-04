@@ -248,6 +248,7 @@ export default function SmallGroupsPage() {
   return (
     <div style={{ minHeight: "100vh", background: BG, color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
       <Navbar />
+      <main>
 
       {/* Hero */}
       <div style={{ background: `linear-gradient(180deg, rgba(107,79,187,0.08) 0%, transparent 100%)`, borderBottom: `1px solid ${BORDER}`, padding: "80px 20px 48px" }}>
@@ -545,6 +546,7 @@ export default function SmallGroupsPage() {
           </div>
         )}
       </div>
+      </main>
       <Footer />
     </div>
   );

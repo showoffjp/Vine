@@ -200,6 +200,7 @@ export default function LentDevotionalPage() {
       }}
     >
       <Navbar />
+      <main>
       {/* Header */}
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 24px 48px" }}>
         <div
@@ -685,6 +686,7 @@ export default function LentDevotionalPage() {
           </div>
         )}
       </div>
+      </main>
       <Footer />
     </div>
   );

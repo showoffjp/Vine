@@ -215,6 +215,7 @@ export default function FaithAndWorksPage() {
       }}
     >
       <Navbar />
+      <main>
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 20px 80px" }}>
         {/* Header */}
         <div style={{ textAlign: "center", marginBottom: 40 }}>
@@ -564,6 +565,7 @@ export default function FaithAndWorksPage() {
           </div>
         )}
       </div>
+      </main>
       <Footer />
     </div>
   );

@@ -120,6 +120,7 @@ export default function SabbathPage() {
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)", paddingTop: 80 }}>
       <Navbar />
+      <main>
 
       {/* Hero */}
       <div style={{ background: `linear-gradient(180deg, #0a0a1a 0%, ${BG} 100%)`, borderBottom: `1px solid ${BORDER}`, padding: "60px 20px 48px" }}>
@@ -354,6 +355,7 @@ export default function SabbathPage() {
           </div>
         )}
       </div>
+      </main>
       <Footer />
     </div>
   );

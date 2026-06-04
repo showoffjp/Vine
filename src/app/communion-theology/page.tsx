@@ -340,6 +340,7 @@ export default function CommunionTheologyPage() {
       }}
     >
       <Navbar />
+      <main>
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 20px" }}>
         {/* Header */}
         <div style={{ marginBottom: 36 }}>
@@ -727,6 +728,7 @@ export default function CommunionTheologyPage() {
           </div>
         )}
       </div>
+      </main>
       <Footer />
     </div>
   );

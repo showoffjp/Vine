@@ -172,6 +172,7 @@ export default function ChristianSexualityPage() {
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>
       <Navbar />
+      <main>
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 20px 80px" }}>
 
         {/* ── HEADER ─────────────────────────────────────────────────────── */}
@@ -518,6 +519,7 @@ export default function ChristianSexualityPage() {
         )}
 
       </div>
+      </main>
       <Footer />
     </div>
   );

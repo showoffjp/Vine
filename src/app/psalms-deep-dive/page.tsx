@@ -405,6 +405,7 @@ export default function PsalmsDeepDivePage() {
       }}
     >
       <Navbar />
+      <main>
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 20px 80px" }}>
 
         {/* Header */}
@@ -1017,6 +1018,7 @@ export default function PsalmsDeepDivePage() {
           </div>
         )}
       </div>
+      </main>
       <Footer />
     </div>
   );

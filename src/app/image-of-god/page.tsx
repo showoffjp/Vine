@@ -245,6 +245,7 @@ export default function ImageOfGodPage() {
       }}
     >
       <Navbar />
+      <main>
       <div style={{ maxWidth: 920, margin: "0 auto", padding: "0 20px 80px" }}>
         {/* Hero */}
         <div style={{ textAlign: "center", marginBottom: 48 }}>
@@ -597,6 +598,7 @@ export default function ImageOfGodPage() {
           </div>
         )}
       </div>
+      </main>
       <Footer />
     </div>
   );

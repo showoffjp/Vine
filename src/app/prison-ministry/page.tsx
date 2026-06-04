@@ -174,6 +174,7 @@ export default function PrisonMinistryPage() {
       }}
     >
       <Navbar />
+      <main>
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 20px 60px" }}>
         {/* Header */}
         <div style={{ textAlign: "center", marginBottom: 40 }}>
@@ -609,6 +610,7 @@ export default function PrisonMinistryPage() {
           </div>
         )}
       </div>
+      </main>
       <Footer />
     </div>
   );

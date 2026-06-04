@@ -419,6 +419,7 @@ export default function YouthPage() {
   return (
     <div style={{ minHeight: "100vh", background: "#07070F", color: "#F2F2F8" }}>
       <Navbar />
+      <main>
       {/* Hero */}
       <div
         style={{
@@ -1184,6 +1185,7 @@ export default function YouthPage() {
           </div>
         </div>
       )}
+      </main>
       <Footer />
     </div>
   );

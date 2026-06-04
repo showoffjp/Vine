@@ -271,6 +271,7 @@ export default function SufferingPage() {
       }}
     >
       <Navbar />
+      <main>
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 20px 80px" }}>
 
         {/* Header */}
@@ -754,6 +755,7 @@ export default function SufferingPage() {
         )}
 
       </div>
+      </main>
       <Footer />
     </div>
   );

@@ -96,6 +96,39 @@ const VOICES_SIMP = [
   { id: "swenson", name: "Richard Swenson", era: "b. 1950", context: "Margin (1992); The Overload Syndrome (1998); physician and futurist", bio: "Swenson is a physician who diagnosed the modern epidemic of overloaded lives — too many commitments, too little time, too little space between what we're carrying and what we can bear. His concept of 'margin' — the space between our load and our limits — gave evangelical Christians a medical and practical framework for what Scripture teaches about Sabbath and simplicity. His research showed that chronic overloading produces not only physical stress but spiritual deadness: the person who has no margin has no time for God, for family, or for the unexpected call to generosity.", quote: "Margin is the space between our load and our limits. It is the gap between rest and exhaustion, the space between breathing freely and suffocating.", contribution: "Gave the evangelical conversation about simplicity a medical and empirical foundation. Margin made the case for simplicity in terms that busy Christians could hear: the overloaded life is not only spiritually impoverished but physically unsustainable." },
 ];
 
+const DETOX_DAYS = [
+  "Day 1: Turn off all non-essential notifications",
+  "Day 2: Give away 10 things you don't need",
+  "Day 3: Phone-free morning until 9am",
+  "Day 4: Cook a simple meal — resist the urge to order out",
+  "Day 5: Delete one app you use mindlessly",
+  "Day 6: Spend 20 minutes in silence",
+  "Day 7: Full digital Sabbath — screens off from sundown to sundown",
+  "Day 8: Audit your subscriptions — cancel what you don't need",
+  "Day 9: Write down what 'enough' looks like for you in 3 areas",
+  "Day 10: Give generously — a specific amount to a specific person or cause",
+  "Day 11: Spend an evening without streaming — read instead",
+  "Day 12: Go through your closet and give away what you haven't worn in a year",
+  "Day 13: Spend no money on anything non-essential",
+  "Day 14: Write a list of 10 things you're grateful for that cost nothing",
+  "Day 15: Commit to one month of tracking all spending",
+  "Day 16: Remove social media from your phone for 48 hours",
+  "Day 17: Give away something you love",
+  "Day 18: Take a walk without your phone",
+  "Day 19: Decline one commitment you said yes to out of obligation",
+  "Day 20: Eat simply — one meal of bread and water as a fast",
+  "Day 21: Go through your bookmarks, feeds, and subscriptions — prune aggressively",
+  "Day 22: Spend the evening with people, not screens",
+  "Day 23: Write a list of what occupies your attention — rank what actually matters",
+  "Day 24: Have a conversation about simplicity with someone you live with",
+  "Day 25: Identify one financial goal that reflects your values — start today",
+  "Day 26: Spend one hour in nature without a phone",
+  "Day 27: Write a letter (by hand) to someone you love",
+  "Day 28: Review days 1-27. What stuck? What felt most freeing?",
+  "Day 29: Make one permanent change from this challenge",
+  "Day 30: Pray: 'Lord, show me what needs to leave my life so you can have more of it.'"
+];
+
 export default function SimplicityPage() {
   const [activeTab, setActiveTab] = useState<"why" | "voices" | "areas" | "detox" | "videos">("why");
   const [selectedVoice, setSelectedVoice] = useState("francis");
@@ -248,38 +281,7 @@ export default function SimplicityPage() {
                 This challenge asks you to practice one act of simplicity each day for 30 days. Some are small habits; some are significant decisions. All are designed to create space.
               </p>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 10 }}>
-                {[
-                  "Day 1: Turn off all non-essential notifications",
-                  "Day 2: Give away 10 things you don't need",
-                  "Day 3: Phone-free morning until 9am",
-                  "Day 4: Cook a simple meal — resist the urge to order out",
-                  "Day 5: Delete one app you use mindlessly",
-                  "Day 6: Spend 20 minutes in silence",
-                  "Day 7: Full digital Sabbath — screens off from sundown to sundown",
-                  "Day 8: Audit your subscriptions — cancel what you don't need",
-                  "Day 9: Write down what 'enough' looks like for you in 3 areas",
-                  "Day 10: Give generously — a specific amount to a specific person or cause",
-                  "Day 11: Spend an evening without streaming — read instead",
-                  "Day 12: Go through your closet and give away what you haven't worn in a year",
-                  "Day 13: Spend no money on anything non-essential",
-                  "Day 14: Write a list of 10 things you're grateful for that cost nothing",
-                  "Day 15: Commit to one month of tracking all spending",
-                  "Day 16: Remove social media from your phone for 48 hours",
-                  "Day 17: Give away something you love",
-                  "Day 18: Take a walk without your phone",
-                  "Day 19: Decline one commitment you said yes to out of obligation",
-                  "Day 20: Eat simply — one meal of bread and water as a fast",
-                  "Day 21: Go through your bookmarks, feeds, and subscriptions — prune aggressively",
-                  "Day 22: Spend the evening with people, not screens",
-                  "Day 23: Write a list of what occupies your attention — rank what actually matters",
-                  "Day 24: Have a conversation about simplicity with someone you live with",
-                  "Day 25: Identify one financial goal that reflects your values — start today",
-                  "Day 26: Spend one hour in nature without a phone",
-                  "Day 27: Write a letter (by hand) to someone you love",
-                  "Day 28: Review days 1-27. What stuck? What felt most freeing?",
-                  "Day 29: Make one permanent change from this challenge",
-                  "Day 30: Pray: 'Lord, show me what needs to leave my life so you can have more of it.'"
-                ].map((day, i) => {
+                {DETOX_DAYS.map((day, i) => {
                   const key = `detox-${i}`;
                   const checked = checkedPractices.has(key);
                   return (
@@ -297,7 +299,7 @@ export default function SimplicityPage() {
               </div>
               <div style={{ marginTop: 16, background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 14, display: "flex", justifyContent: "space-between" }}>
                 <span style={{ color: MUTED, fontSize: 14 }}>Progress</span>
-                <span style={{ color: GREEN, fontWeight: 700 }}>{Array.from(checkedPractices).filter(k => k.startsWith("detox-")).length} / 30</span>
+                <span style={{ color: GREEN, fontWeight: 700 }}>{Array.from(checkedPractices).filter(k => k.startsWith("detox-")).length} / {DETOX_DAYS.length}</span>
               </div>
             </div>
 

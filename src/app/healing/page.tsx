@@ -1043,7 +1043,7 @@ export default function HealingPage() {
                           color: "#9898B3",
                         }}
                       >
-                        {path.stepCount} steps
+                        {path.steps.length} steps
                       </span>
                       <span
                         style={{
@@ -1101,7 +1101,7 @@ export default function HealingPage() {
               }}
             >
               <p style={{ color: "#9898B3", fontSize: "14px", margin: 0 }}>
-                {savedVerses.size > 0 ? `${savedVerses.size} verse${savedVerses.size > 1 ? "s" : ""} saved` : "20 curated healing scriptures"}
+                {savedVerses.size > 0 ? `${savedVerses.size} verse${savedVerses.size > 1 ? "s" : ""} saved` : `${HEALING_VERSES.length} curated healing scriptures`}
               </p>
               <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
                 {VERSE_THEMES.map((theme) => (
@@ -1666,7 +1666,7 @@ export default function HealingPage() {
                     {selectedPath.title}
                   </h2>
                   <p style={{ margin: 0, fontSize: "13px", color: "#9898B3" }}>
-                    {selectedPath.theme} · {selectedPath.stepCount} steps · {selectedPath.duration}
+                    {selectedPath.theme} · {selectedPath.steps.length} steps · {selectedPath.duration}
                   </p>
                 </div>
                 <button

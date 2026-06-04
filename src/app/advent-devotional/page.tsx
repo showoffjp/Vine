@@ -150,7 +150,7 @@ const RESOURCES_DATA = [
 ];
 
 const STATS = [
-  { value: "4 weeks", label: "leading to Christmas" },
+  { value: `${WEEKS_DATA.length} weeks`, label: "leading to Christmas" },
   { value: "Year Start", label: "Advent begins the Christian year" },
   { value: "4th century", label: "Rooted in early church practice" },
   { value: "Adventus", label: "Advent means 'coming' in Latin" },
@@ -158,7 +158,7 @@ const STATS = [
 
 const TABS: { id: Tab; label: string }[] = [
   { id: "theology", label: "Theology of Advent" },
-  { id: "weeks", label: "The Four Weeks" },
+  { id: "weeks", label: `The ${WEEKS_DATA.length} Weeks` },
   { id: "practices", label: "Advent Practices" },
   { id: "resources", label: "Resources" },
   { id: "videos", label: "🎬 Videos" },
@@ -222,7 +222,7 @@ export default function AdventDevotionalPage() {
             margin: 0,
           }}
         >
-          Advent is not early Christmas. It is the church's season of expectant waiting — for the first coming remembered, and the second coming anticipated. Four weeks of preparation, repentance, and joy.
+          Advent is not early Christmas. It is the church's season of expectant waiting — for the first coming remembered, and the second coming anticipated. {WEEKS_DATA.length} weeks of preparation, repentance, and joy.
         </p>
       </div>
 

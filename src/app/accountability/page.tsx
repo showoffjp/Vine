@@ -41,13 +41,6 @@ const CATEGORIES = [
 
 const catMap = Object.fromEntries(CATEGORIES.map((c) => [c.id, c]));
 
-const today = new Date().toISOString().split("T")[0];
-const thisWeek = Array.from({ length: 7 }, (_, i) => {
-  const d = new Date();
-  d.setDate(d.getDate() - 6 + i);
-  return d.toISOString().split("T")[0];
-});
-
 function computeStreak(g: AccountabilityGoal): number {
   const doneSet = new Set(g.checkIns.filter((c) => c.completed).map((c) => c.date));
   if (g.frequency === "daily") {
@@ -289,6 +282,7 @@ export default function AccountabilityPage() {
   }, [goals]);
 
   const handleCheckIn = (goalId: string, completed: boolean) => {
+    const today = new Date().toISOString().split("T")[0];
     setGoals((prev) => prev.map((g) => {
       if (g.id !== goalId) return g;
       const existing = g.checkIns.find((c) => c.date === today);
@@ -319,6 +313,7 @@ export default function AccountabilityPage() {
 
   const handleCreateGoal = () => {
     if (!form.title.trim() || !form.partnerName.trim()) return;
+    const today = new Date().toISOString().split("T")[0];
     const initials = form.partnerInitials.trim() || form.partnerName.trim().split(" ").map((w) => w[0]).join("").toUpperCase().slice(0, 2);
     const newGoal: AccountabilityGoal = {
       id: `ag-${Date.now()}`,
@@ -344,6 +339,11 @@ export default function AccountabilityPage() {
   const completedGoals = goals.filter((g) => !g.active);
   const selectedGoalData = goals.find((g) => g.id === selectedGoal);
 
+  const today = new Date().toISOString().split("T")[0];
+  const thisWeek = Array.from({ length: 7 }, (_, i) => {
+    const d = new Date(); d.setDate(d.getDate() - 6 + i);
+    return d.toISOString().split("T")[0];
+  });
   const todayCheckedIn = selectedGoalData?.checkIns.find((c) => c.date === today);
   const recentCheckIns = selectedGoalData?.checkIns.slice(-14).reverse() ?? [];
   const weekCheckIns = selectedGoalData?.checkIns.filter((c) => thisWeek.includes(c.date)) ?? [];

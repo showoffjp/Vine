@@ -15,7 +15,6 @@ const weeklyChallenge = {
   verse: "Devote yourselves to prayer, being watchful and thankful.",
   verseRef: "Colossians 4:2",
   participants: 14823,
-  daysLeft: 22,
   category: "Prayer",
   color: "#3a7d56",
   emoji: "🙏",

@@ -123,7 +123,7 @@ export default function PrayerLifePage() {
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)", paddingTop: 80 }}>
       <Navbar />
-      <main>
+      <main id="main-content">
 
       {/* Hero */}
       <div style={{ background: `linear-gradient(180deg, #0d0d1f 0%, ${BG} 100%)`, borderBottom: `1px solid ${BORDER}`, padding: "60px 20px 48px" }}>

@@ -261,7 +261,7 @@ export default function ReadingProphetsPage() {
       }}
     >
       <Navbar />
-      <main>
+      <main id="main-content">
       <div style={{ maxWidth: 980, margin: "0 auto", padding: "0 20px 80px" }}>
 
         {/* Header */}

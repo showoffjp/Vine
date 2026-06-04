@@ -75,7 +75,7 @@ export default function HolySpiritPage() {
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: `var(--font-jost, system-ui, sans-serif)` }}>
       <Navbar />
-      <main>
+      <main id="main-content">
 
       {/* Hero */}
       <div style={{ background: `linear-gradient(135deg, #0a0a1a 0%, #0e1a0e 50%, #12101f 100%)`, paddingTop: 100, paddingBottom: 60, textAlign: "center", borderBottom: `1px solid ${BORDER}` }}>

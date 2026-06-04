@@ -326,7 +326,7 @@ export default function FeedPage() {
   return (
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
       <Navbar />
-      <main>
+      <main id="main-content">
       <div className="pt-20 pb-20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 pt-6">

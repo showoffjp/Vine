@@ -326,7 +326,7 @@ export default function SanctificationPage() {
   return (
     <div style={{ background: BG, minHeight: "100vh", paddingTop: 80, color: TEXT }}>
       <Navbar />
-      <main>
+      <main id="main-content">
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 24px 80px" }}>
         {/* Header */}
         <div style={{ marginBottom: 40 }}>

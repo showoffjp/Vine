@@ -87,7 +87,7 @@ export default function DailyOfficePage() {
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
       <Navbar />
-      <main>
+      <main id="main-content">
       <div style={{ background: "linear-gradient(135deg, #050e07 0%, #0d1408 50%, #07070F 100%)", padding: "100px 24px 56px", textAlign: "center", position: "relative", overflow: "hidden" }}>
         <div style={{ position: "absolute", inset: 0, background: "radial-gradient(ellipse 70% 50% at 50% 0%, rgba(201,162,39,0.08) 0%, transparent 70%)", pointerEvents: "none" }} />
         <div style={{ position: "relative", zIndex: 1, maxWidth: 700, margin: "0 auto" }}>

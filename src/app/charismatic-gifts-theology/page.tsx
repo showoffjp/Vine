@@ -241,7 +241,7 @@ export default function CharismaticGiftsTheologyPage() {
       }}
     >
       <Navbar />
-      <main>
+      <main id="main-content">
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 20px 80px" }}>
         {/* Header */}
         <div style={{ marginBottom: 40, textAlign: "center" }}>

@@ -445,7 +445,7 @@ export default function WorshipPage() {
         </div>
       </div>
 
-      <main>
+      <main id="main-content">
         {/* ─── SONGS TAB ─── */}
         {activeTab === "songs" && (
           <>

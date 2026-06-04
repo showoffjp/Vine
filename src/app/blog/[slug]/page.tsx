@@ -759,7 +759,7 @@ export default async function BlogArticlePage({ params }: { params: Promise<{ sl
     return (
       <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
         <Navbar />
-        <main>
+        <main id="main-content">
         <div className="page-body pb-20 text-center max-w-2xl mx-auto px-4">
           <p className="text-6xl mb-6">📭</p>
           <h1 className="text-3xl font-black mb-4">Article not found</h1>

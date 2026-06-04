@@ -280,7 +280,7 @@ export default function BaptismTheologyPage() {
       }}
     >
       <Navbar />
-      <main>
+      <main id="main-content">
       <div style={{ maxWidth: 920, margin: "0 auto", padding: "0 20px 80px" }}>
         {/* Header */}
         <div style={{ textAlign: "center", marginBottom: 48 }}>

@@ -454,7 +454,7 @@ export default function FaithSciencePage() {
   return (
     <div style={{ background: BG, color: TEXT, minHeight: "100vh" }}>
       <Navbar />
-      <main>
+      <main id="main-content">
       {/* ── Header ─────────────────────────────────────────────────────────── */}
       <div
         style={{

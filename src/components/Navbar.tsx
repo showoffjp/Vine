@@ -579,6 +579,51 @@ export default function Navbar() {
       className="fixed top-0 left-0 right-0 z-50"
       style={{ transition: "background 300ms, border-color 300ms" }}
     >
+      {/* Skip navigation */}
+      <a
+        href="#main-content"
+        style={{
+          position: "absolute",
+          left: "-9999px",
+          top: "auto",
+          width: 1,
+          height: 1,
+          overflow: "hidden",
+        }}
+        onFocus={(e) => {
+          const el = e.currentTarget;
+          el.style.left = "16px";
+          el.style.top = "16px";
+          el.style.width = "auto";
+          el.style.height = "auto";
+          el.style.overflow = "visible";
+          el.style.background = "#3a7d56";
+          el.style.color = "#fff";
+          el.style.padding = "8px 16px";
+          el.style.borderRadius = "6px";
+          el.style.zIndex = "9999";
+          el.style.fontSize = "14px";
+          el.style.fontWeight = "600";
+        }}
+        onBlur={(e) => {
+          const el = e.currentTarget;
+          el.style.left = "-9999px";
+          el.style.top = "auto";
+          el.style.width = "1px";
+          el.style.height = "1px";
+          el.style.overflow = "hidden";
+          el.style.background = "";
+          el.style.color = "";
+          el.style.padding = "";
+          el.style.borderRadius = "";
+          el.style.zIndex = "";
+          el.style.fontSize = "";
+          el.style.fontWeight = "";
+        }}
+      >
+        Skip to main content
+      </a>
+
       {/* Announcement Banner */}
       {bannerVisible && (
         <div

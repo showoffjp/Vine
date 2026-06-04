@@ -90,7 +90,7 @@ export default function TrinityPage() {
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: `var(--font-jost, system-ui, sans-serif)` }}>
       <Navbar />
-      <main>
+      <main id="main-content">
 
       {/* Hero */}
       <div style={{ background: `linear-gradient(135deg, #0d0d1f 0%, #1a103a 40%, #0a1a0e 100%)`, paddingTop: 100, paddingBottom: 60, textAlign: "center", borderBottom: `1px solid ${BORDER}` }}>

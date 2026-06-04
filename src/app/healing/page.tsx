@@ -826,7 +826,7 @@ export default function HealingPage() {
       }}
     >
       <Navbar />
-      <main>
+      <main id="main-content">
       {/* Hero Header */}
       <div
         style={{

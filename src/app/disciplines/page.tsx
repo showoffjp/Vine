@@ -452,7 +452,7 @@ export default function DisciplinesPage() {
   return (
     <div className="min-h-screen" style={{ background: BG, color: TEXT }}>
       <Navbar />
-      <main>
+      <main id="main-content">
       <div className="pb-20" style={{ paddingTop: 80 }}>
 
         {/* Header */}

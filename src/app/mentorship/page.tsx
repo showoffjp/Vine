@@ -296,7 +296,7 @@ export default function MentorshipPage() {
   return (
     <div style={{ minHeight: "100vh", background: "#07070F", color: "#F2F2F8" }}>
       <Navbar />
-      <main>
+      <main id="main-content">
       {/* Hero */}
       <div
         style={{

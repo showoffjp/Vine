@@ -149,7 +149,7 @@ export default function JusticePage() {
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "var(--font-jost, system-ui, sans-serif)" }}>
       <Navbar />
-      <main>
+      <main id="main-content">
 
       {/* Hero */}
       <div style={{ background: `linear-gradient(180deg, rgba(58,125,86,0.08) 0%, transparent 100%)`, borderBottom: `1px solid ${BORDER}`, padding: "80px 20px 48px" }}>

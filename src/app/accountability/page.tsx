@@ -355,7 +355,7 @@ export default function AccountabilityPage() {
   return (
     <div className="min-h-screen" style={{ background: "#07070F", color: "#F2F2F8" }}>
       <Navbar />
-      <main>
+      <main id="main-content">
       <div className="pb-20" style={{ paddingTop: 80 }}>
 
         {/* Header */}

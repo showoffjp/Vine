@@ -222,7 +222,7 @@ export default function TheologyOfForgivenessPage() {
       }}
     >
       <Navbar />
-      <main>
+      <main id="main-content">
       <div style={{ maxWidth: 960, margin: "0 auto", padding: "0 20px 80px" }}>
         {/* Header */}
         <div style={{ textAlign: "center", marginBottom: 40 }}>

@@ -269,7 +269,7 @@ export default function CovenantPage() {
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, paddingTop: 80 }}>
       <Navbar />
-      <main>
+      <main id="main-content">
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 24px 80px" }}>
         {/* Header */}
         <div style={{ textAlign: "center", marginBottom: 48 }}>

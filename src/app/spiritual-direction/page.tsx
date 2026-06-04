@@ -489,7 +489,7 @@ export default function SpiritualDirectionPage() {
       }}
     >
       <Navbar />
-      <main>
+      <main id="main-content">
       <div style={{ maxWidth: 960, margin: "0 auto", padding: "0 24px" }}>
         {/* Header */}
         <div style={{ marginBottom: 40 }}>

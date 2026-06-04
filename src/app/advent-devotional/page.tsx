@@ -185,7 +185,7 @@ export default function AdventDevotionalPage() {
       }}
     >
       <Navbar />
-      <main>
+      <main id="main-content">
       {/* Header */}
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 24px 48px" }}>
         <div

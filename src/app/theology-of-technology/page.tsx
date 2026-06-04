@@ -333,7 +333,7 @@ export default function TheologyOfTechnologyPage() {
       }}
     >
       <Navbar />
-      <main>
+      <main id="main-content">
       <div
         style={{
           maxWidth: "900px",

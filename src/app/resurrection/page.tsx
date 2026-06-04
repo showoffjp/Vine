@@ -79,7 +79,7 @@ export default function ResurrectionPage() {
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: `var(--font-jost, system-ui, sans-serif)` }}>
       <Navbar />
-      <main>
+      <main id="main-content">
 
       {/* Hero */}
       <div style={{ background: `linear-gradient(135deg, #150a0a 0%, #1f0808 40%, #0a100a 100%)`, paddingTop: 100, paddingBottom: 60, textAlign: "center", borderBottom: `1px solid ${BORDER}` }}>

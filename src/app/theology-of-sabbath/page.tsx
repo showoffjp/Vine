@@ -242,7 +242,7 @@ export default function TheologyOfSabbathPage() {
       }}
     >
       <Navbar />
-      <main>
+      <main id="main-content">
       <div
         style={{
           maxWidth: 1120,

@@ -431,7 +431,7 @@ export default function MissionsPage() {
           <div>
             {/* 6 Ways to engage */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-14">
-              <h2 className="text-2xl font-black mb-8" style={{ color: TEXT }}>6 Ways to Engage the Great Commission</h2>
+              <h2 className="text-2xl font-black mb-8" style={{ color: TEXT }}>{ways.length} Ways to Engage the Great Commission</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {ways.map((w) => (
                   <div key={w.title} className="rounded-2xl p-6" style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}>

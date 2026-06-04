@@ -288,9 +288,6 @@ export default function StewardshipPage() {
   const [savedIds, setSavedIds] = useState<Set<string>>(() => {
     try { const s = localStorage.getItem("vine_stewardship_saved"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
   });
-  const [income] = useState(() => {
-    try { return parseInt(localStorage.getItem("vine_stewardship_income") || "5000", 10); } catch { return 5000; }
-  });
   const [budget] = useState<BudgetCategory[]>(DEFAULT_BUDGET);
 
   const toggleSave = (id: string) => {

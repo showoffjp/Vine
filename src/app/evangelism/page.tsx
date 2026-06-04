@@ -677,7 +677,7 @@ export default function EvangelismPage() {
             <div style={{ marginBottom: 32 }}>
               <h2 style={{ fontSize: 26, fontWeight: 900, marginBottom: 8 }}>Evangelism Training</h2>
               <p style={{ color: MUTED, fontSize: 15, lineHeight: 1.7 }}>
-                Five practical training modules &mdash; each one a skill you can develop with an hour of focused effort. Not theory: actionable steps, anchor scriptures, and real practice.
+                {EVANG_TRAINING.length} practical training modules &mdash; each one a skill you can develop with an hour of focused effort. Not theory: actionable steps, anchor scriptures, and real practice.
               </p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
@@ -723,7 +723,7 @@ export default function EvangelismPage() {
             <div style={{ marginBottom: 28 }}>
               <h2 style={{ fontSize: 26, fontWeight: 900, marginBottom: 8 }}>Evangelism Sermons &amp; Teaching</h2>
               <p style={{ color: MUTED, fontSize: 15, lineHeight: 1.7, marginBottom: 6 }}>
-                Six essential sermons on the Gospel, evangelism, and the Christian life &mdash; from preachers who have shaped how millions understand what it means to share their faith.
+                {EVANG_VIDEOS.length} essential sermons on the Gospel, evangelism, and the Christian life &mdash; from preachers who have shaped how millions understand what it means to share their faith.
               </p>
               <p style={{ color: "#6A6A88", fontSize: 13 }}>
                 Opens embedded &mdash; may require YouTube in the browser.

@@ -296,9 +296,8 @@ const JOURNEY_GUIDE = [
 ];
 
 const categoryMap = Object.fromEntries(CATEGORIES.map((c) => [c.id, c]));
-const currentYear = 2026;
-
 export default function FaithJourneyPage() {
+  const currentYear = new Date().getFullYear();
   const [milestones, setMilestones] = useState<Milestone[]>(() => {
     try {
       const s = localStorage.getItem("vine_faith_journey");

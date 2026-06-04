@@ -301,7 +301,7 @@ export default function SmallGroupsPage() {
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "18px 22px", marginBottom: 24 }}>
               <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>
-                Four multi-week inductive studies with week-by-week outlines and discussion questions — designed for groups of 6-12 who want to go deep into Scripture together rather than skimming the surface.
+                {studyGuides.length} multi-week inductive studies with week-by-week outlines and discussion questions — designed for groups of 6-12 who want to go deep into Scripture together rather than skimming the surface.
               </p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
@@ -437,7 +437,7 @@ export default function SmallGroupsPage() {
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "18px 22px", marginBottom: 24 }}>
               <p style={{ color: TEXT, fontSize: 14, lineHeight: 1.75, margin: 0 }}>
-                Small group leadership is not about having all the answers — it is about creating the conditions in which genuine community and transformation can occur. These eight principles, applied consistently, will change your group&apos;s culture.
+                Small group leadership is not about having all the answers — it is about creating the conditions in which genuine community and transformation can occur. These {LEADER_TIPS.length} principles, applied consistently, will change your group&apos;s culture.
               </p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
@@ -522,7 +522,7 @@ export default function SmallGroupsPage() {
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "18px 22px", marginBottom: 28 }}>
               <h2 style={{ fontSize: 20, fontWeight: 800, marginBottom: 8 }}>Preaching on Community</h2>
               <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.7, margin: 0 }}>
-                Six messages on what makes Christian community genuine — centered on Christ, empowered by the Spirit, and oriented outward in mission rather than inward in comfort.
+                {SG_VIDEOS.length} messages on what makes Christian community genuine — centered on Christ, empowered by the Spirit, and oriented outward in mission rather than inward in comfort.
               </p>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(380px, 1fr))", gap: 24 }}>

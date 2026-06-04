@@ -528,7 +528,7 @@ export default function CouplesDevotionalPage() {
         {completedCount === totalDays && (
           <div style={{ background: "#3a7d5615", border: "1px solid #3a7d5640", borderRadius: 14, padding: 20, textAlign: "center", marginBottom: 24 }}>
             <div style={{ fontSize: 24, marginBottom: 8 }}>🎉</div>
-            <div style={{ fontSize: 17, fontWeight: 700, color: "#3a7d56", marginBottom: 4 }}>You completed the 7-Day Series!</div>
+            <div style={{ fontSize: 17, fontWeight: 700, color: "#3a7d56", marginBottom: 4 }}>You completed the {totalDays}-Day Series!</div>
             <div style={{ fontSize: 13, color: "#9898B3" }}>You've built something meaningful. Keep the conversation going.</div>
           </div>
         )}

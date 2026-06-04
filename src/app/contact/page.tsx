@@ -12,7 +12,7 @@ import {
   Phone,
   MapPin,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const reasons = [
   { value: "general", label: "General Question" },
@@ -75,12 +75,19 @@ const faqs = [
 ];
 
 export default function ContactPage() {
-  const [form, setForm] = useState({ name: "", email: "", reason: "general", message: "" });
+  const [form, setForm] = useState<{ name: string; email: string; reason: string; message: string }>(() => {
+    try { const s = localStorage.getItem("vine_contact_draft"); return s ? JSON.parse(s) : { name: "", email: "", reason: "general", message: "" }; } catch { return { name: "", email: "", reason: "general", message: "" }; }
+  });
   const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    try { localStorage.setItem("vine_contact_draft", JSON.stringify(form)); } catch {}
+  }, [form]);
 
   const handleSubmit = () => {
     if (form.name && form.email && form.message) {
       setSubmitted(true);
+      try { localStorage.removeItem("vine_contact_draft"); } catch {}
     }
   };
 

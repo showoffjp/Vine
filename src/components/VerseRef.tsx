@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useCallback, useId } from "react";
+import { useState, useRef, useCallback, useId, useEffect } from "react";
 import Link from "next/link";
 import { parseReference, bibleHref, type ParsedRef } from "@/lib/bibleRef";
 

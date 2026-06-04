@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -468,7 +469,7 @@ function TabSession({
 }
 
 export default function SpiritualDirectionPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("what");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_spiritual-direction_tab", "what");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [selectedDirector, setSelectedDirector] = useState<string>("desert");
 

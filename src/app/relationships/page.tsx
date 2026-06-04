@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -209,8 +210,8 @@ const REL_VIDEOS = [
 ];
 
 export default function RelationshipsPage() {
-  const [activeTab, setActiveTab] = useState<"community" | "conflict" | "voices" | "videos">("community");
-  const [selectedVoice, setSelectedVoice] = useState("lewis-cs");
+  const [activeTab, setActiveTab] = usePersistedState<"community" | "conflict" | "voices" | "videos">("vine_relationships_tab", "community");
+  const [selectedVoice, setSelectedVoice] = usePersistedState("vine_relationships_voice", "lewis-cs");
   const voiceItem = VOICES_REL.find(v => v.id === selectedVoice)!;
   const [openGuidance, setOpenGuidance] = useState<string | null>(null);
   const [savedIds, setSavedIds] = useState<Set<string>>(() => {

@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -319,7 +320,7 @@ function PracticeCard({
 }
 
 export default function TheologyOfTechnologyPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("theology");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_theology-of-technology_tab", "theology");
 
   return (
     <div

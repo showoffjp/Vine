@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -273,7 +274,7 @@ const CFW_ERAS = [
 type Tab = "writings" | "themes" | "howto" | "eras" | "videos";
 
 export default function ChurchFathersWritingsPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("writings");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_church-fathers-writings_tab", "writings");
   const [era, setEra] = useState("All");
   const [selected, setSelected] = useState<string | null>(null);
 

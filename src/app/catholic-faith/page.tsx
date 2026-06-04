@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -16,7 +17,7 @@ const GOLD = "#C9A227";
 type Tab = "overview" | "theology" | "tradition" | "saints" | "dialogue" | "videos";
 
 export default function CatholicFaithPage() {
-  const [tab, setTab] = useState<Tab>("overview");
+  const [tab, setTab] = usePersistedState<Tab>("vine_catholic-faith_tab", "overview");
 
   const tabs: { id: Tab; label: string; icon: string }[] = [
     { id: "overview", label: "Overview", icon: "✝️" },

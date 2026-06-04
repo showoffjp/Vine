@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Target, CheckCircle2, Users, Flame, Trophy, Star, Calendar } from "lucide-react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 type Tab = "active" | "devotionals" | "scripture" | "videos";
 
@@ -278,7 +279,7 @@ const CHALLENGE_VIDEOS = [
 ];
 
 export default function ChallengesPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("active");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_challenges_tab", "active");
   const [joined, setJoined] = useState<Set<number>>(() => {
     try {
       const s = localStorage.getItem("vine_challenges_joined");

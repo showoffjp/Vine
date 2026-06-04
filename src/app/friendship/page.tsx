@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -98,8 +99,8 @@ const SEED: Friend[] = [
 ];
 
 export default function FriendshipPage() {
-  const [activeTab, setActiveTab] = useState<"theology" | "voices" | "obstacles" | "practice" | "videos">("theology");
-  const [selectedVoice, setSelectedVoice] = useState("lewis");
+  const [activeTab, setActiveTab] = usePersistedState<"theology" | "voices" | "obstacles" | "practice" | "videos">("vine_friendship_tab", "theology");
+  const [selectedVoice, setSelectedVoice] = usePersistedState("vine_friendship_voice", "lewis");
   const voiceItem = VOICES_FRIENDSHIP.find(v => v.id === selectedVoice)!;
   const [friends, setFriends] = useState<Friend[]>(() => {
     try { const s = localStorage.getItem("vine_friendship_list"); return s ? JSON.parse(s) : SEED; } catch { return SEED; }

@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -316,7 +317,7 @@ const READING_KEYS = [
 ];
 
 export default function ParablesOfJesusPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("overview");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_parables-of-jesus_tab", "overview");
   const [category, setCategory] = useState<Category>("All");
   const [openId, setOpenId] = useState<string | null>(PARABLES[0].id);
 

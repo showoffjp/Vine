@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -81,7 +82,7 @@ const PRACTICES = [
 type Tab = "causes" | "saints" | "psalms" | "practices" | "videos";
 
 export default function SpiritualDrynessPage() {
-  const [tab, setTab] = useState<Tab>("causes");
+  const [tab, setTab] = usePersistedState<Tab>("vine_spiritual-dryness_tab", "causes");
   const [selectedCause, setSelectedCause] = useState("Sin Blocking the Way");
   const [selectedSaint, setSelectedSaint] = useState("Mother Teresa");
   const [selectedPsalm, setSelectedPsalm] = useState("psalm22");

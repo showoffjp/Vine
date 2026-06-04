@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -158,7 +159,7 @@ const DISCERNMENT = [
 ];
 
 export default function SeminaryGuidePage() {
-  const [tab, setTab] = useState<Tab>("seminaries");
+  const [tab, setTab] = usePersistedState<Tab>("vine_seminary-guide_tab", "seminaries");
   const [selected, setSelected] = useState(SEMINARIES[0].name);
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const sel = SEMINARIES.find(s => s.name === selected) || SEMINARIES[0];

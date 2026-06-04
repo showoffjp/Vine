@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -45,7 +46,7 @@ const SIGNIFICANCE = [
 ];
 
 export default function ResurrectionEvidencePage() {
-  const [tab, setTab] = useState<Tab>("facts");
+  const [tab, setTab] = usePersistedState<Tab>("vine_resurrection-evidence_tab", "facts");
   const [selected, setSelected] = useState(MINIMAL_FACTS[0].fact);
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const sel = MINIMAL_FACTS.find(f => f.fact === selected) || MINIMAL_FACTS[0];

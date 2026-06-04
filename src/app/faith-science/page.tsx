@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 // ─── Data ───────────────────────────────────────────────────────────────────
 
@@ -337,7 +338,7 @@ const DIFFICULTIES = ["All", "Beginner", "Intermediate", "Advanced"];
 
 export default function FaithSciencePage() {
   // Tab state
-  const [activeTab, setActiveTab] = useState<"topics" | "thinkers" | "qa" | "history" | "videos">("topics");
+  const [activeTab, setActiveTab] = usePersistedState<"topics" | "thinkers" | "qa" | "history" | "videos">("vine_faith-science_tab", "topics");
 
   // Saved topics (localStorage)
   const [savedTopics, setSavedTopics] = useState<Set<string>>(() => {

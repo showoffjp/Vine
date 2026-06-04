@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -289,7 +290,7 @@ const ARTICLE_VIDEOS = [
 ];
 
 export default function MustReadArticlesPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("articles");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_must-read-articles_tab", "articles");
   const [category, setCategory] = useState("All");
   const [selected, setSelected] = useState<string | null>(null);
   const [selectedWriter, setSelectedWriter] = useState<string | null>(null);

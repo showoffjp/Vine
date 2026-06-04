@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { usePersistedState } from "@/hooks/usePersistedState";
 import {
   Heart,
   Plus,
@@ -153,8 +154,8 @@ export default function PrayerListPage() {
       return saved && saved.length > 0 ? saved : STARTER_ITEMS;
     } catch { return STARTER_ITEMS; }
   });
-  const [activeTab, setActiveTab] = useState<"active" | "answered" | "guide" | "voices">("active");
-  const [selectedVoice, setSelectedVoice] = useState("bounds-pl");
+  const [activeTab, setActiveTab] = usePersistedState<"active" | "answered" | "guide" | "voices">("vine_prayer-list_tab", "active");
+  const [selectedVoice, setSelectedVoice] = usePersistedState("vine_prayer-list_voice", "bounds-pl");
   const VOICES_PL = [
     { id: "bounds-pl", name: "E.M. Bounds", era: "1835-1913", context: "Power Through Prayer (1907) — the most uncompromising book on specific, persistent prayer", bio: "Edward McKendree Bounds spent the last seventeen years of his life rising at 4am to pray for three hours before anyone else in his household was awake. He wrote eight books on prayer, all published posthumously, of which Power Through Prayer is the most widely read. Bounds's argument is stark: the church's greatest need is not better programs, more money, or more talented leaders — it is men and women who pray. His prayer list was extensive, specific, and personal — he believed that vague prayer is no prayer at all, and that God honors the specificity that reflects genuine faith and genuine need.", quote: "Prayer is the one prime, eternal condition by which the Father is honored and the Son is glorified. No learning can make up for the failure to pray. No earnestness, no diligence, no study, no gifts will supply its lack.", contribution: "Bounds's work established specific, persistent, intercessory prayer as the primary discipline of Christian ministry. His eight books on prayer have shaped generations of pastors and prayer warriors, and his example of daily extended prayer has been held up as a model for serious intercession." },
     { id: "foster-pl", name: "Richard Foster", era: "b. 1942", context: "Prayer: Finding the Heart's True Home (1992) — the most comprehensive evangelical guide to forms of prayer", bio: "Richard Foster's Prayer: Finding the Heart's True Home is the most comprehensive single-volume guide to Christian prayer for a general audience. Foster surveys 21 different forms of prayer — simple prayer, prayer of examination, intercessory prayer, contemplative prayer, healing prayer, sacramental prayer — and shows how each addresses different needs and dimensions of the human relationship with God. His treatment of petition and intercession is particularly useful for those learning to keep prayer lists: he argues that specific, expectant prayer honors God's personhood and invites genuine encounter rather than religious soliloquy.", quote: "Prayer is the central avenue God uses to transform us. If we are unwilling to change, we will abandon prayer as a noticeable characteristic of our lives. The closer we come to the heartbeat of God, the more we see our need and the more we desire to be conformed to Christ.", contribution: "Foster's Prayer introduced a generation of evangelical Christians to the full range of Christian prayer practice, from the ancient tradition of contemplative prayer to specific intercessory petition. His comprehensive treatment gave Christians a vocabulary for understanding the different dimensions of prayer and a guide for developing a richer prayer life." },

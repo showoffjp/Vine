@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -66,7 +67,7 @@ const TABS: { id: Tab; label: string; icon: string }[] = [
 ];
 
 export default function HolySpiritPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("person");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_holy-spirit_tab", "person");
   const [expandedGift, setExpandedGift] = useState<number | null>(null);
   const [expandedFruit, setExpandedFruit] = useState<number | null>(null);
   const [expandedWork, setExpandedWork] = useState<number | null>(null);

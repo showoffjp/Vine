@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 interface PrayerEntry {
   id: string;
@@ -103,8 +104,8 @@ export default function PrayerJournalPage() {
     try { const s = localStorage.getItem("vine_prayer_journal_entries"); return s ? JSON.parse(s) : SEED_ENTRIES; } catch { return SEED_ENTRIES; }
   });
 
-  const [tab, setTab] = useState<"journal" | "answered" | "write" | "voices" | "videos">("journal");
-  const [selectedVoice, setSelectedVoice] = useState("journal-bounds");
+  const [tab, setTab] = usePersistedState<"journal" | "answered" | "write" | "voices" | "videos">("vine_prayer-journal_tab", "journal");
+  const [selectedVoice, setSelectedVoice] = usePersistedState("vine_prayer-journal_voice", "journal-bounds");
   const voiceItem = VOICES_PJ.find(v => v.id === selectedVoice)!;
   const [catFilter, setCatFilter] = useState("All");
   const [search, setSearch] = useState("");

@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -212,14 +213,14 @@ const BAPTISM_VIDEOS = [
 type Tab = "meaning" | "views" | "voices" | "videos";
 
 export default function BaptismPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("meaning");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_baptism_tab", "meaning");
   const [view, setView] = useState<"overview" | "methods" | "testimonies" | "faq">("overview");
   const [selectedTestimony, setSelectedTestimony] = useState<BaptismTestimony | null>(null);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [decided, setDecided] = useState(() => {
     try { return localStorage.getItem("vine_baptism_decided") === "true"; } catch { return false; }
   });
-  const [selectedVoice, setSelectedVoice] = useState("calvin-b");
+  const [selectedVoice, setSelectedVoice] = usePersistedState("vine_baptism_voice", "calvin-b");
 
   const markDecided = () => {
     try { localStorage.setItem("vine_baptism_decided", "true"); } catch {}

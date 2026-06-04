@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -319,7 +320,7 @@ const VOICES_SER = [
 ];
 
 export default function LandmarkSermonsPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("sermons");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_landmark-sermons_tab", "sermons");
   const [era, setEra] = useState("All");
   const [selected, setSelected] = useState<string | null>(null);
   const [selectedVoice, setSelectedVoice] = useState<number>(VOICES_SER[0].id);

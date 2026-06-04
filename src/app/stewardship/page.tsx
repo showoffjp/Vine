@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 interface BudgetCategory {
   name: string;
@@ -281,8 +282,8 @@ const DEFAULT_BUDGET: BudgetCategory[] = [
 ];
 
 export default function StewardshipPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("principles");
-  const [selectedVoice, setSelectedVoice] = useState("wesley-sv");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_stewardship_tab", "principles");
+  const [selectedVoice, setSelectedVoice] = usePersistedState("vine_stewardship_voice", "wesley-sv");
   const voiceItem = VOICES_STE.find(v => v.id === selectedVoice)!;
   const [openPrinciple, setOpenPrinciple] = useState<string | null>(null);
   const [savedIds, setSavedIds] = useState<Set<string>>(() => {

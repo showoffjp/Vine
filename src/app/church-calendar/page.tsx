@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -182,8 +183,8 @@ const VOICES_CAL = [
 
 export default function ChurchCalendarPage() {
   const [selectedSeason, setSelectedSeason] = useState<string | null>("advent");
-  const [activeTab, setActiveTab] = useState<"seasons" | "holidays" | "guide" | "voices" | "videos">("seasons");
-  const [selectedVoice, setSelectedVoice] = useState("webber-r");
+  const [activeTab, setActiveTab] = usePersistedState<"seasons" | "holidays" | "guide" | "voices" | "videos">("vine_church-calendar_tab", "seasons");
+  const [selectedVoice, setSelectedVoice] = usePersistedState("vine_church-calendar_voice", "webber-r");
   const voiceItem = VOICES_CAL.find(v => v.id === selectedVoice)!;
 
   const season = SEASONS.find(s => s.id === selectedSeason);

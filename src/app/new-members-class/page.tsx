@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -198,7 +199,7 @@ const resources = [
 ];
 
 export default function NewMembersClassPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("why");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_new-members-class_tab", "why");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [selectedSession, setSelectedSession] = useState(sessions[0]);
 

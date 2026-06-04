@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -84,7 +85,7 @@ const RESOURCES_LIST = [
 ];
 
 export default function ChristianFinancialGuidePage() {
-  const [activeTab, setActiveTab] = useState<Tab>("theology");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_christian-financial-guide_tab", "theology");
   const [selectedThinker, setSelectedThinker] = useState("wesley");
   const thinker = THINKERS_FINANCE.find(t => t.id === selectedThinker)!;
 

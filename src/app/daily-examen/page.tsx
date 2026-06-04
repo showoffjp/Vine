@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -143,8 +144,8 @@ export default function DailyExamenPage() {
   const [history, setHistory] = useState<ExamenEntry[]>(() => {
     try { const s = localStorage.getItem("vine_examen_history"); return s ? JSON.parse(s) : []; } catch { return []; }
   });
-  const [activeTab, setActiveTab] = useState<"practice" | "history" | "about" | "voices" | "videos">("about");
-  const [selectedVoice, setSelectedVoice] = useState("ignatius");
+  const [activeTab, setActiveTab] = usePersistedState<"practice" | "history" | "about" | "voices" | "videos">("vine_daily-examen_tab", "about");
+  const [selectedVoice, setSelectedVoice] = usePersistedState("vine_daily-examen_voice", "ignatius");
   const voiceItem = VOICES_EXAMEN.find(v => v.id === selectedVoice)!;
   const [saved, setSaved] = useState(false);
 

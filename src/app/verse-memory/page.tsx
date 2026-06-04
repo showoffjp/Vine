@@ -4,6 +4,7 @@ import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 
 import { useState, useEffect } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -199,12 +200,12 @@ const MEMORY_VIDEOS = [
 type Tab = "memory" | "study" | "voices" | "videos";
 
 export default function VerseMemoryPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("memory");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_verse-memory_tab", "memory");
   const [verses, setVerses] = useState<MemoryVerse[]>(() => {
     try { const s = localStorage.getItem("vine_verse_memory"); return s ? JSON.parse(s) : seedVerses; } catch { return seedVerses; }
   });
   const [innerTab, setInnerTab] = useState<"library" | "practice" | "stats" | "voices">("library");
-  const [selectedVoice, setSelectedVoice] = useState("trotman-d");
+  const [selectedVoice, setSelectedVoice] = usePersistedState("vine_verse-memory_voice", "trotman-d");
   const voiceItem = VOICES_MEM.find(v => v.id === selectedVoice)!;
   const [activeCategory, setActiveCategory] = useState("All");
   const [addingVerse, setAddingVerse] = useState(false);

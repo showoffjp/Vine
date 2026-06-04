@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -244,15 +245,15 @@ const SALVATION_VIDEOS = [
 type Tab = "gospel" | "theology" | "voices" | "videos";
 
 export default function SalvationPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("gospel");
-  const [tab, setTab] = useState<"gospel" | "prayer" | "faq" | "testimonies">("gospel");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_salvation_tab", "gospel");
+  const [tab, setTab] = usePersistedState<"gospel" | "prayer" | "faq" | "testimonies">("vine_salvation_tab", "gospel");
   const [step, setStep] = useState(0);
   const [prayed, setPrayed] = useState(() => {
     try { return localStorage.getItem("vine_salvation_prayed") === "true"; } catch { return false; }
   });
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [selectedTestimony, setSelectedTestimony] = useState<typeof TESTIMONIES[0] | null>(null);
-  const [selectedVoice, setSelectedVoice] = useState("luther-s");
+  const [selectedVoice, setSelectedVoice] = usePersistedState("vine_salvation_voice", "luther-s");
 
   const markPrayed = () => {
     try { localStorage.setItem("vine_salvation_prayed", "true"); } catch {}

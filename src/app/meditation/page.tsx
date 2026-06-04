@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -184,8 +185,8 @@ function TimerDisplay({ seconds }: { seconds: number }) {
 }
 
 export default function MeditationPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("practice");
-  const [tab, setTab] = useState<"practice" | "passages" | "techniques" | "voices">("practice");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_meditation_tab", "practice");
+  const [tab, setTab] = usePersistedState<"practice" | "passages" | "techniques" | "voices">("vine_meditation_tab", "practice");
   const [selectedVoiceMed, setSelectedVoiceMed] = useState("merton-m");
   const [selectedVoiceNew, setSelectedVoiceNew] = useState("kempis-med");
   const voiceItem = VOICES_MEDITATION.find(v => v.id === selectedVoiceMed)!;

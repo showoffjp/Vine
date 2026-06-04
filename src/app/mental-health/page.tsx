@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 import { useState, useEffect } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 import {
   Heart,
   Phone,
@@ -316,7 +317,7 @@ const VOICES_MH: Voice[] = [
 ];
 
 export default function MentalHealthPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("resources");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_mental-health_tab", "resources");
   const [bookedSessions, setBookedSessions] = useState<Set<number>>(() => {
     try { const s = localStorage.getItem("vine_mh_booked"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
   });

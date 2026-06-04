@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -102,9 +103,9 @@ const PRACTICES = [
 type Tab = "theology" | "struggles" | "voices" | "practices" | "videos";
 
 export default function PurityPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("theology");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_purity_tab", "theology");
   const [selectedStruggle, setSelectedStruggle] = useState<string | null>("Pornography");
-  const [selectedVoice, setSelectedVoice] = useState("lewis");
+  const [selectedVoice, setSelectedVoice] = usePersistedState("vine_purity_voice", "lewis");
 
   const struggle = STRUGGLES.find(s => s.name === selectedStruggle);
   const voice = VOICES.find(v => v.id === selectedVoice)!;

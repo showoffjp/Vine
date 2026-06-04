@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F"; const CARD = "#12121F"; const BORDER = "#1E1E32"; const GREEN = "#3a7d56"; const PURPLE = "#6B4FBB"; const TEXT = "#F2F2F8"; const MUTED = "#9898B3";
 
@@ -201,7 +202,7 @@ const RESOURCES = [
 ];
 
 export default function ElderDeaconTrainingPage() {
-  const [tab, setTab] = useState<Tab>("elders");
+  const [tab, setTab] = usePersistedState<Tab>("vine_elder-deacon-training_tab", "elders");
   const [selectedElder, setSelectedElder] = useState<string>("qualifications");
 
   const selElder = ELDERS.find(e => e.id === selectedElder) || ELDERS[0];

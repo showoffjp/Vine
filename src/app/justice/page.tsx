@@ -3,6 +3,7 @@ import { useState } from "react";
 import VerseRef from "@/components/VerseRef";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", GOLD = "#c9a227", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -139,8 +140,8 @@ const JUSTICE_VIDEOS = [
 type Tab = "foundations" | "tensions" | "voices" | "action" | "videos";
 
 export default function JusticePage() {
-  const [tab, setTab] = useState<Tab>("foundations");
-  const [selectedVoice, setSelectedVoice] = useState("mlk");
+  const [tab, setTab] = usePersistedState<Tab>("vine_justice_tab", "foundations");
+  const [selectedVoice, setSelectedVoice] = usePersistedState("vine_justice_voice", "mlk");
   const [expandedFoundation, setExpandedFoundation] = useState<number | null>(null);
 
   const voice = VOICES.find(v => v.id === selectedVoice)!;

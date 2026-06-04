@@ -5,6 +5,7 @@ import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -365,7 +366,7 @@ const MONEY_VIDEOS = [
 // ─── COMPONENT ───────────────────────────────────────────────────────────────
 
 export default function TheologyOfMoneyPage() {
-  const [tab, setTab] = useState<Tab>("theology");
+  const [tab, setTab] = usePersistedState<Tab>("vine_theology-of-money_tab", "theology");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [selectedJesusTopic, setSelectedJesusTopic] = useState<string>(jesusTopics[0].id);
 

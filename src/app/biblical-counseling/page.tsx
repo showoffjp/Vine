@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -132,10 +133,10 @@ const VOICES_BC = [
 ];
 
 export default function BiblicalCounselingPage() {
-  const [activeTab, setActiveTab] = useState<"overview" | "topics" | "voices" | "schools" | "videos">("overview");
+  const [activeTab, setActiveTab] = usePersistedState<"overview" | "topics" | "voices" | "schools" | "videos">("vine_biblical-counseling_tab", "overview");
   const [selectedTopic, setSelectedTopic] = useState("anxiety");
   const [openSection, setOpenSection] = useState<string>("approach");
-  const [selectedVoice, setSelectedVoice] = useState("adams-j");
+  const [selectedVoice, setSelectedVoice] = usePersistedState("vine_biblical-counseling_voice", "adams-j");
   const voiceItem = VOICES_BC.find(v => v.id === selectedVoice)!;
 
   const topic = TOPICS.find(t => t.id === selectedTopic)!;

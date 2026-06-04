@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -161,7 +162,7 @@ const WORSHIP_VIDEOS = [
 ];
 
 export default function WorshipTheologyPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("theology");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_worship-theology_tab", "theology");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [selectedElement, setSelectedElement] = useState<string>("scripture");
 

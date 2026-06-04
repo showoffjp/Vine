@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -100,7 +101,7 @@ const RESOURCES = [
 ];
 
 export default function ChurchPlantingPage() {
-  const [activeTab, setActiveTab] = useState<"phases" | "models" | "resources" | "journal" | "videos">("phases");
+  const [activeTab, setActiveTab] = usePersistedState<"phases" | "models" | "resources" | "journal" | "videos">("vine_church-planting_tab", "phases");
   const [selectedPhase, setSelectedPhase] = useState("call");
   const [checkedQuestions, setCheckedQuestions] = useState<Set<string>>(() => {
     try { const s = localStorage.getItem("vine_cp_checked"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }

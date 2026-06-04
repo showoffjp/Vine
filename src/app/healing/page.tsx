@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 import { useState, useEffect } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -707,7 +708,7 @@ const RESOURCE_TYPES = ["All", "Book", "Program", "Hotline"];
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function HealingPage() {
-  const [activeTab, setActiveTab] = useState<"paths" | "scriptures" | "testimonies" | "resources" | "videos">("paths");
+  const [activeTab, setActiveTab] = usePersistedState<"paths" | "scriptures" | "testimonies" | "resources" | "videos">("vine_healing_tab", "paths");
 
   // Saved verses (Set of IDs)
   const [savedVerses, setSavedVerses] = useState<Set<string>>(() => {

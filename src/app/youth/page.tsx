@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 interface Challenge {
   id: string;
@@ -374,8 +375,8 @@ export default function YouthPage() {
   });
   const [selectedChallenge, setSelectedChallenge] = useState<Challenge | null>(null);
   const [selectedResource, setSelectedResource] = useState<Resource | null>(null);
-  const [activeTab, setActiveTab] = useState<"challenges" | "resources" | "discuss" | "voices" | "videos">("challenges");
-  const [selectedVoice, setSelectedVoice] = useState("smith-jk");
+  const [activeTab, setActiveTab] = usePersistedState<"challenges" | "resources" | "discuss" | "voices" | "videos">("vine_youth_tab", "challenges");
+  const [selectedVoice, setSelectedVoice] = usePersistedState("vine_youth_voice", "smith-jk");
   const voiceItem = VOICES_YOUTH.find(v => v.id === selectedVoice)!;
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedAgeGroup, setSelectedAgeGroup] = useState("All Ages");

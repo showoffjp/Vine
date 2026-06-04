@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 import { useState, useEffect } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 interface CouplesDevotional {
   id: string;
@@ -342,7 +343,7 @@ export default function CouplesDevotionalPage() {
   const [nameInput, setNameInput] = useState("");
   const [activeSection, setActiveSection] = useState<"husband" | "wife" | "together">("together");
   const [mainTab, setMainTab] = useState<"devotionals" | "voices" | "practices" | "scripture" | "videos">("devotionals");
-  const [selectedVoice, setSelectedVoice] = useState("keller-t");
+  const [selectedVoice, setSelectedVoice] = usePersistedState("vine_couples-devotional_voice", "keller-t");
   const voiceItem = VOICES_CD.find(v => v.id === selectedVoice)!;
 
 

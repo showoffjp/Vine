@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -234,7 +235,7 @@ const THEMES_ITEMS = [
 ];
 
 export default function ReadingProphetsPage() {
-  const [tab, setTab] = useState<Tab>("howto");
+  const [tab, setTab] = usePersistedState<Tab>("vine_reading-prophets_tab", "howto");
   const [openHowto, setOpenHowto] = useState<number | undefined>(undefined);
   const [openTheme, setOpenTheme] = useState<number | undefined>(undefined);
   const [selectedMajor, setSelectedMajor] = useState<string>("Isaiah");

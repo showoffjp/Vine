@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -100,8 +101,8 @@ const FALSE_IDENTITIES = [
 ];
 
 export default function IdentityInChristPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("who");
-  const [selectedVoice, setSelectedVoice] = useState("nouwen");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_identity-in-christ_tab", "who");
+  const [selectedVoice, setSelectedVoice] = usePersistedState("vine_identity-in-christ_voice", "nouwen");
   const voiceItem = VOICES_IDENTITY.find(v => v.id === selectedVoice)!;
   const [catFilter, setCatFilter] = useState("All");
   const [memorized, setMemorized] = useState<Set<string>>(() => {

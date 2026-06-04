@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import React, { useState, useEffect } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -80,8 +81,8 @@ const VOICES_INTER = [
 ];
 
 export default function IntercessionPage() {
-  const [activeTab, setActiveTab] = useState<"list" | "models" | "voices" | "howto" | "videos">("list");
-  const [selectedVoice, setSelectedVoice] = useState("bounds");
+  const [activeTab, setActiveTab] = usePersistedState<"list" | "models" | "voices" | "howto" | "videos">("vine_intercession_tab", "list");
+  const [selectedVoice, setSelectedVoice] = usePersistedState("vine_intercession_voice", "bounds");
   const voiceItem = VOICES_INTER.find(v => v.id === selectedVoice)!;
   const [items, setItems] = useState<PrayerItem[]>(() => {
     try { const s = localStorage.getItem("vine_intercession_items"); return s ? JSON.parse(s) : SEED_ITEMS; } catch { return SEED_ITEMS; }

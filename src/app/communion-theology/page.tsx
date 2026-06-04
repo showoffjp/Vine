@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 type Tab = "theology" | "views" | "practice" | "history" | "videos";
 
@@ -310,7 +311,7 @@ function DetailRow({
 }
 
 export default function CommunionTheologyPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("theology");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_communion-theology_tab", "theology");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [activeView, setActiveView] = useState<string>("transubstantiation");
 

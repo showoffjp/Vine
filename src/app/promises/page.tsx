@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 import { useState, useCallback } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -774,7 +775,7 @@ export default function PromisesPage() {
   const [claimCounts, setClaimCounts] = useState<Record<string, number>>(() => loadClaimCounts());
 
   // ── State: UI ────────────────────────────────────────────────────────────
-  const [activeTab, setActiveTab] = useState<"all" | "category" | "myclaims" | "thinkers" | "videos">("all");
+  const [activeTab, setActiveTab] = usePersistedState<"all" | "category" | "myclaims" | "thinkers" | "videos">("vine_promises_tab", "all");
   const [selectedThinker, setSelectedThinker] = useState("spurgeon-ch");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("All");

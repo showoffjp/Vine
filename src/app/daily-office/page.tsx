@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -79,7 +80,7 @@ type Tab = "offices" | "history" | "howto" | "videos";
 type OfficeKey = "morning" | "midday" | "evening" | "compline";
 
 export default function DailyOfficePage() {
-  const [tab, setTab] = useState<Tab>("offices");
+  const [tab, setTab] = usePersistedState<Tab>("vine_daily-office_tab", "offices");
   const [selectedOffice, setSelectedOffice] = useState<OfficeKey>("morning");
 
   const office = OFFICES[selectedOffice];

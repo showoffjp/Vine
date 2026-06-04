@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -63,7 +64,7 @@ const CONFESSION_VIDEOS = [
 ];
 
 export default function ConfessionPage() {
-  const [activeTab, setActiveTab] = useState<"why" | "how" | "barriers" | "guide" | "videos">("why");
+  const [activeTab, setActiveTab] = usePersistedState<"why" | "how" | "barriers" | "guide" | "videos">("vine_confession_tab", "why");
   const [expandedFramework, setExpandedFramework] = useState<string>("ACTS");
   const [journalText, setJournalText] = useState(() => {
     try { return localStorage.getItem("vine_confession_journal") || ""; } catch { return ""; }

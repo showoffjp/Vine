@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -101,8 +102,8 @@ const VOICES_PW = [
 ];
 
 export default function PrayerWalkingPage() {
-  const [activeTab, setActiveTab] = useState<"routes" | "guide" | "journal" | "voices" | "videos">("guide");
-  const [selectedVoice, setSelectedVoice] = useState("hawthorne-s");
+  const [activeTab, setActiveTab] = usePersistedState<"routes" | "guide" | "journal" | "voices" | "videos">("vine_prayer-walking_tab", "guide");
+  const [selectedVoice, setSelectedVoice] = usePersistedState("vine_prayer-walking_voice", "hawthorne-s");
   const voiceItem = VOICES_PW.find(v => v.id === selectedVoice)!;
   const [selectedRoute, setSelectedRoute] = useState<string>("neighborhood");
   const [completedStops, setCompletedStops] = useState<Set<string>>(() => {

@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", GOLD = "#c9a227", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -154,8 +155,8 @@ const DISC_VIDEOS = [
 type DTab = "pathways" | "voices" | "questions" | "myplan" | "videos";
 
 export default function DiscipleshipPage() {
-  const [activeTab, setActiveTab] = useState<DTab>("pathways");
-  const [selectedVoice, setSelectedVoice] = useState("bonhoeffer");
+  const [activeTab, setActiveTab] = usePersistedState<DTab>("vine_discipleship_tab", "pathways");
+  const [selectedVoice, setSelectedVoice] = usePersistedState("vine_discipleship_voice", "bonhoeffer");
   const voiceItem = VOICES_DISC.find(v => v.id === selectedVoice)!;
   const [selectedPath, setSelectedPath] = useState("foundation");
   const [completedTopics, setCompletedTopics] = useState<Set<string>>(() => {

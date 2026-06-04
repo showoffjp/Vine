@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { usePersistedState } from "@/hooks/usePersistedState";
 import {
   Search,
   Star,
@@ -397,7 +398,7 @@ export default function ResourcesPage() {
     { name: "Infographics", icon: Image, count: resources.filter(r => r.type === "Infographic").length },
   ];
 
-  const [activeTab, setActiveTab] = useState<Tab>("books");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_resources_tab", "books");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedTopic, setSelectedTopic] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");

@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -326,7 +327,7 @@ const RESOURCES_ST: { id: string; title: string; author: string; level: string; 
 
 export default function SystematicTheology101Page() {
   type Tab = "loci" | "thinkers" | "debates" | "resources" | "videos";
-  const [activeTab, setActiveTab] = useState<Tab>("loci");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_systematic-theology-101_tab", "loci");
   const [selected, setSelected] = useState<string | null>(null);
   const [selectedThinker, setSelectedThinker] = useState("calvin-j");
   const locus = LOCI.find(l => l.name === selected);

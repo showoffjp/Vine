@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -223,7 +224,7 @@ const CATEGORY_COLORS: Record<FormCategory, string> = {
 };
 
 export default function TheologyOfPrayerPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("theology");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_theology-of-prayer_tab", "theology");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [selectedJesus, setSelectedJesus] = useState<string>(JESUS_EPISODES[0].id);
   const [activeFormFilter, setActiveFormFilter] = useState<FormCategory | "All">("All");

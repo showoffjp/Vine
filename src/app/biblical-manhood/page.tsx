@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -91,10 +92,10 @@ const MODELS = [
 ];
 
 export default function BiblicalManhoodPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("theology");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_biblical-manhood_tab", "theology");
   const [selectedModel, setSelectedModel] = useState("Joseph");
   const [expanded, setExpanded] = useState<string | null>(null);
-  const [selectedVoice, setSelectedVoice] = useState("nouwen");
+  const [selectedVoice, setSelectedVoice] = usePersistedState("vine_biblical-manhood_voice", "nouwen");
   const voice = VOICES.find(v => v.id === selectedVoice)!;
 
   const model = MODELS.find(m => m.name === selectedModel)!;

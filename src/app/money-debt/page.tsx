@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 import React, { useState, useEffect } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -47,8 +48,8 @@ const SEED_DEBTS: DebtEntry[] = [
 ];
 
 export default function MoneyDebtPage() {
-  const [activeTab, setActiveTab] = useState<"theology" | "voices" | "principles" | "tracker" | "videos">("theology");
-  const [selectedVoice, setSelectedVoice] = useState("wesley");
+  const [activeTab, setActiveTab] = usePersistedState<"theology" | "voices" | "principles" | "tracker" | "videos">("vine_money-debt_tab", "theology");
+  const [selectedVoice, setSelectedVoice] = usePersistedState("vine_money-debt_voice", "wesley");
   const voiceItem = VOICES_DEBT.find(v => v.id === selectedVoice)!;
   const [debts, setDebts] = useState<DebtEntry[]>(() => {
     try { const s = localStorage.getItem("vine_debts"); return s ? JSON.parse(s) : SEED_DEBTS; } catch { return SEED_DEBTS; }

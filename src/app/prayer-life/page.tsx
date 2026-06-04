@@ -3,6 +3,7 @@ import { useState } from "react";
 import VerseRef from "@/components/VerseRef";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", GOLD = "#c9a227";
@@ -115,7 +116,7 @@ const VIDEOS = [
 ];
 
 export default function PrayerLifePage() {
-  const [activeTab, setActiveTab] = useState<Tab>("why");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_prayer-life_tab", "why");
   const [selectedMethod, setSelectedMethod] = useState(0);
   const [selectedPhrase, setSelectedPhrase] = useState(0);
 

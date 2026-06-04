@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -165,7 +166,7 @@ const TABS: { id: Tab; label: string }[] = [
 ];
 
 export default function ChristianRetirementPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("theology");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_christian-retirement_tab", "theology");
   const [expandedTheology, setExpandedTheology] = useState<string | undefined>(undefined);
   const [expandedCalling, setExpandedCalling] = useState<string | undefined>(undefined);
   const [expandedLegacy, setExpandedLegacy] = useState<string | undefined>(undefined);

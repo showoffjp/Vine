@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -154,7 +155,7 @@ const PRACTICE_ITEMS = [
 ];
 
 export default function HumilityPage() {
-  const [tab, setTab] = useState<Tab>("theology");
+  const [tab, setTab] = usePersistedState<Tab>("vine_humility_tab", "theology");
   const [selectedTheology, setSelectedTheology] = useState("definition");
   const [selectedTeacher, setSelectedTeacher] = useState("murray");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});

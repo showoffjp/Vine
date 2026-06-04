@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -147,7 +148,7 @@ const WELCOME_ITEMS = [
 ];
 
 export default function RefugeeMinistryPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("theology");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_refugee-ministry_tab", "theology");
   const [expandedTheology, setExpandedTheology] = useState<number | undefined>(undefined);
   const [expandedWelcome, setExpandedWelcome] = useState<number | undefined>(undefined);
 

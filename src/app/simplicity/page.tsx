@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -130,8 +131,8 @@ const DETOX_DAYS = [
 ];
 
 export default function SimplicityPage() {
-  const [activeTab, setActiveTab] = useState<"why" | "voices" | "areas" | "detox" | "videos">("why");
-  const [selectedVoice, setSelectedVoice] = useState("francis");
+  const [activeTab, setActiveTab] = usePersistedState<"why" | "voices" | "areas" | "detox" | "videos">("vine_simplicity_tab", "why");
+  const [selectedVoice, setSelectedVoice] = usePersistedState("vine_simplicity_voice", "francis");
   const voiceItem = VOICES_SIMP.find(v => v.id === selectedVoice)!;
   const [selectedArea, setSelectedArea] = useState("possessions");
   const [checkedPractices, setCheckedPractices] = useState<Set<string>>(() => {

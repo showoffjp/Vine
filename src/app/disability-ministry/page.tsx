@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -168,7 +169,7 @@ const resourceCards: ResourceCard[] = [
 const resourceColors = [GREEN, PURPLE, "#3B82F6", "#F59E0B", "#10B981", "#EC4899"];
 
 export default function DisabilityMinistryPage() {
-  const [tab, setTab] = useState<Tab>("theology");
+  const [tab, setTab] = usePersistedState<Tab>("vine_disability-ministry_tab", "theology");
   const [openTheology, setOpenTheology] = useState<number | undefined>(undefined);
   const [openPractical, setOpenPractical] = useState<number | undefined>(undefined);
   const [selectedJoni, setSelectedJoni] = useState<string>("story");

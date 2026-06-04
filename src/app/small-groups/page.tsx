@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", GOLD = "#c9a227", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -222,8 +223,8 @@ const depthColors = { "Light": "#10B981", "Medium": "#F59E0B", "Deep": "#EF4444"
 type SGTab = "guides" | "icebreakers" | "leading" | "voices" | "videos";
 
 export default function SmallGroupsPage() {
-  const [activeTab, setActiveTab] = useState<SGTab>("guides");
-  const [selectedVoice, setSelectedVoice] = useState("bonhoeffer");
+  const [activeTab, setActiveTab] = usePersistedState<SGTab>("vine_small-groups_tab", "guides");
+  const [selectedVoice, setSelectedVoice] = usePersistedState("vine_small-groups_voice", "bonhoeffer");
   const voiceItem = VOICES_SG.find(v => v.id === selectedVoice)!;
   const [selectedGuide, setSelectedGuide] = useState<StudyGuide | null>(null);
   const [depthFilter, setDepthFilter] = useState<"All" | "Light" | "Medium" | "Deep">("All");

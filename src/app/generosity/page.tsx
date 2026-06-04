@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -71,8 +72,8 @@ const SEED_GOALS: GivingGoal[] = [
 ];
 
 export default function GenerosityPage() {
-  const [activeTab, setActiveTab] = useState<"theology" | "voices" | "practical" | "goals" | "videos">("theology");
-  const [selectedVoice, setSelectedVoice] = useState("muller");
+  const [activeTab, setActiveTab] = usePersistedState<"theology" | "voices" | "practical" | "goals" | "videos">("vine_generosity_tab", "theology");
+  const [selectedVoice, setSelectedVoice] = usePersistedState("vine_generosity_voice", "muller");
   const voiceItem = VOICES_GENEROSITY.find(v => v.id === selectedVoice)!;
   const [goals, setGoals] = useState<GivingGoal[]>(() => {
     try { const s = localStorage.getItem("vine_giving_goals"); return s ? JSON.parse(s) : SEED_GOALS; } catch { return SEED_GOALS; }

@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -191,9 +192,9 @@ const CORPORATE = [
 ];
 
 export default function WeeklyPrayerGuidePage() {
-  const [activeTab, setActiveTab] = useState<Tab>("guide");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_weekly-prayer-guide_tab", "guide");
   const [selectedDay, setSelectedDay] = useState("Sunday");
-  const [selectedVoice, setSelectedVoice] = useState("foster");
+  const [selectedVoice, setSelectedVoice] = usePersistedState("vine_weekly-prayer-guide_voice", "foster");
   const day = DAYS.find(d => d.day === selectedDay)!;
   const voiceItem = VOICES_PRAYER.find(v => v.id === selectedVoice)!;
 

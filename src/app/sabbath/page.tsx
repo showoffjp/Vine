@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", GOLD = "#c9a227";
@@ -113,7 +114,7 @@ const VIDEOS = [
 ];
 
 export default function SabbathPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("foundation");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_sabbath_tab", "foundation");
   const [expandedObj, setExpandedObj] = useState<number | null>(null);
 
   return (

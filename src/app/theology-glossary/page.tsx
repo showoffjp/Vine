@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 import { useState, useEffect } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -234,7 +235,7 @@ const VOICES_THEO: TheologicalVoice[] = [
 type Tab = "glossary" | "doctrines" | "history" | "voices" | "videos";
 
 export default function TheologyGlossaryPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("glossary");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_theology-glossary_tab", "glossary");
   const [savedIds, setSavedIds] = useState<Set<string>>(() => {
     try { const s = localStorage.getItem("vine_theology_saved"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
   });

@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -162,9 +163,9 @@ const VOICES_FRUIT = [
 type Tab = "fruit" | "theology" | "practices" | "voices" | "videos";
 
 export default function FruitOfSpiritPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("fruit");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_fruit-of-spirit_tab", "fruit");
   const [selected, setSelected] = useState("Love");
-  const [selectedVoice, setSelectedVoice] = useState("torrey-ra");
+  const [selectedVoice, setSelectedVoice] = usePersistedState("vine_fruit-of-spirit_voice", "torrey-ra");
   const voiceItem = VOICES_FRUIT.find(v => v.id === selectedVoice)!;
 
   const fruit = FRUITS.find(f => f.fruit === selected)!;

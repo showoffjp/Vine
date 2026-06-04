@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -86,10 +87,10 @@ const LIES = [
 ];
 
 export default function ChristianIdentityGuidePage() {
-  const [activeTab, setActiveTab] = useState<Tab>("statements");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_christian-identity-guide_tab", "statements");
   const [category, setCategory] = useState("All");
   const [expanded, setExpanded] = useState<string | null>(null);
-  const [selectedVoice, setSelectedVoice] = useState("ferguson");
+  const [selectedVoice, setSelectedVoice] = usePersistedState("vine_christian-identity-guide_voice", "ferguson");
   const voiceItem = VOICES_IDENTITY_GUIDE.find(v => v.id === selectedVoice)!;
 
   const filtered = IDENTITY_STATEMENTS.filter(s => category === "All" || s.category === category);

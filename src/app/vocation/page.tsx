@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -45,7 +46,7 @@ interface VocationEntry {
 }
 
 export default function VocationPage() {
-  const [activeTab, setActiveTab] = useState<"theology" | "calling" | "discern" | "journal" | "videos">("theology");
+  const [activeTab, setActiveTab] = usePersistedState<"theology" | "calling" | "discern" | "journal" | "videos">("vine_vocation_tab", "theology");
   const [journal, setJournal] = useState<VocationEntry[]>(() => {
     try { const s = localStorage.getItem("vine_vocation_journal"); return s ? JSON.parse(s) : []; } catch { return []; }
   });

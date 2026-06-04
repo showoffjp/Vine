@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -143,7 +144,7 @@ const WHY = [
 ];
 
 export default function ConfessionsPage() {
-  const [tab, setTab] = useState<Tab>("creeds");
+  const [tab, setTab] = usePersistedState<Tab>("vine_confessions_tab", "creeds");
   const [selectedCreed, setSelectedCreed] = useState("Apostles' Creed");
   const [selectedConf, setSelectedConf] = useState("Westminster Confession");
   const [selectedCat, setSelectedCat] = useState("Westminster Shorter Catechism");

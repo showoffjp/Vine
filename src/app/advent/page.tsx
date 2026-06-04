@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -70,8 +71,8 @@ interface AdventDone {
 }
 
 export default function AdventPage() {
-  const [activeTab, setActiveTab] = useState<"guide" | "voices" | "traditions" | "tracker" | "videos">("guide");
-  const [selectedVoice, setSelectedVoice] = useState("rutledge");
+  const [activeTab, setActiveTab] = usePersistedState<"guide" | "voices" | "traditions" | "tracker" | "videos">("vine_advent_tab", "guide");
+  const [selectedVoice, setSelectedVoice] = usePersistedState("vine_advent_voice", "rutledge");
   const voiceItem = VOICES_ADVENT.find(v => v.id === selectedVoice)!;
   const [selectedWeek, setSelectedWeek] = useState(1);
   const [done, setDone] = useState<AdventDone>(() => {

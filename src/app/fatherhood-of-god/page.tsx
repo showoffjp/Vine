@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -171,7 +172,7 @@ const PRACTICE_ITEMS = [
 ];
 
 export default function FatherhoodOfGodPage() {
-  const [tab, setTab] = useState<Tab>("theology");
+  const [tab, setTab] = usePersistedState<Tab>("vine_fatherhood-of-god_tab", "theology");
   const [selectedTheology, setSelectedTheology] = useState("ot");
   const [selectedAdoption, setSelectedAdoption] = useState("rom8");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});

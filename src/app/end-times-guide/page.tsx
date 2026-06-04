@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -230,7 +231,7 @@ const KEYS_ITEMS = [
 ];
 
 export default function EndTimesGuidePage() {
-  const [tab, setTab] = useState<Tab>("timeline");
+  const [tab, setTab] = usePersistedState<Tab>("vine_end-times-guide_tab", "timeline");
   const [selectedRapture, setSelectedRapture] = useState<string>("pretrib");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 

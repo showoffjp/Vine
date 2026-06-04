@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -201,7 +202,7 @@ const FRIENDSHIP_VIDEOS = [
 ];
 
 export default function ChristianFriendshipTheologyPage() {
-  const [tab, setTab] = useState<Tab>("theology");
+  const [tab, setTab] = usePersistedState<Tab>("vine_christian-friendship-theology_tab", "theology");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [selectedModel, setSelectedModel] = useState<string>("david-jonathan");
   const [expandedCard, setExpandedCard] = useState<Record<string, boolean>>({});

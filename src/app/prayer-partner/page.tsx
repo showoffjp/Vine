@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 import { useState, useEffect } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 interface Partner {
   id: string;
@@ -348,8 +349,8 @@ export default function PrayerPartnerPage() {
   const [selectedPartner, setSelectedPartner] = useState<Partner | null>(null);
   const [filterFocus, setFilterFocus] = useState("All");
   const [filterFreq, setFilterFreq] = useState("Any");
-  const [activeTab, setActiveTab] = useState<"find" | "my-partners" | "sessions" | "voices">("find");
-  const [selectedVoice, setSelectedVoice] = useState("intercess-bounds");
+  const [activeTab, setActiveTab] = usePersistedState<"find" | "my-partners" | "sessions" | "voices">("vine_prayer-partner_tab", "find");
+  const [selectedVoice, setSelectedVoice] = usePersistedState("vine_prayer-partner_voice", "intercess-bounds");
   const voiceItem = VOICES_PP.find(v => v.id === selectedVoice)!;
   const [sessionModal, setSessionModal] = useState<Partner | null>(null);
   const [sessionForm, setSessionForm] = useState({ duration: 20, topic: "", verse: "", notes: "" });

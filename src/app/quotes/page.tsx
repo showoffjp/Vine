@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 import { useState, useEffect, useCallback } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 interface Quote {
   id: string;
@@ -98,7 +99,7 @@ export default function QuotesPage() {
   const [filterEra, setFilterEra] = useState("All Eras");
   const [sortBy, setSortBy] = useState("Most Liked");
   const [search, setSearch] = useState("");
-  const [activeTab, setActiveTab] = useState<"all" | "saved" | "thinkers" | "themes" | "videos">("all");
+  const [activeTab, setActiveTab] = usePersistedState<"all" | "saved" | "thinkers" | "themes" | "videos">("vine_quotes_tab", "all");
   const [selectedThinker, setSelectedThinker] = useState("lewis-cs");
   const [copiedId, setCopiedId] = useState<string | null>(null);
 

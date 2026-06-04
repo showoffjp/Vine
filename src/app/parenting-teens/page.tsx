@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -234,7 +235,7 @@ const leavingwellItems = [
 ];
 
 export default function ParentingTeensPage() {
-  const [tab, setTab] = useState<Tab>("theology");
+  const [tab, setTab] = usePersistedState<Tab>("vine_parenting-teens_tab", "theology");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [selectedStage, setSelectedStage] = useState<Stage>(stages[0]);
   const [openConversation, setOpenConversation] = useState<string | undefined>(undefined);

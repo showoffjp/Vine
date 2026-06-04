@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import React, { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -246,7 +247,7 @@ const resources = [
 ];
 
 export default function LiturgicalYearPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("seasons");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_liturgical-year_tab", "seasons");
   const [selectedSeason, setSelectedSeason] = useState(seasons[0]);
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 

@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -81,8 +82,8 @@ interface LamentEntry {
 }
 
 export default function LamentPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("howto");
-  const [selectedVoice, setSelectedVoice] = useState("brueggemann");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_lament_tab", "howto");
+  const [selectedVoice, setSelectedVoice] = usePersistedState("vine_lament_voice", "brueggemann");
   const voice = VOICES.find(v => v.id === selectedVoice)!;
   const [laments, setLaments] = useState<LamentEntry[]>(() => {
     try { const s = localStorage.getItem("vine_lament_entries"); return s ? JSON.parse(s) : []; } catch { return []; }

@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -130,9 +131,9 @@ const VOICES = [
 ];
 
 export default function DoubtPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("types");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_doubt_tab", "types");
   const [selectedType, setSelectedType] = useState("intellectual");
-  const [selectedVoice, setSelectedVoice] = useState("lewis");
+  const [selectedVoice, setSelectedVoice] = usePersistedState("vine_doubt_voice", "lewis");
   const voiceItem = VOICES.find(v => v.id === selectedVoice)!;
 
   const doubt = DOUBT_TYPES.find(d => d.id === selectedType)!;

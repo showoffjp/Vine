@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import React, { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -180,7 +181,7 @@ const TABS: { id: Tab; label: string }[] = [
 ];
 
 export default function LentDevotionalPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("theology");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_lent-devotional_tab", "theology");
   const [openAccordion, setOpenAccordion] = useState<number | undefined>(undefined);
   const [selectedDay, setSelectedDay] = useState<number>(0);
 

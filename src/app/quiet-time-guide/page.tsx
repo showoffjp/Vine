@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -159,8 +160,8 @@ const VOICES_QT = [
 ];
 
 export default function QuietTimeGuidePage() {
-  const [activeTab, setActiveTab] = useState<"methods" | "voices" | "schedules" | "obstacles" | "videos">("methods");
-  const [selectedVoice, setSelectedVoice] = useState("murray");
+  const [activeTab, setActiveTab] = usePersistedState<"methods" | "voices" | "schedules" | "obstacles" | "videos">("vine_quiet-time-guide_tab", "methods");
+  const [selectedVoice, setSelectedVoice] = usePersistedState("vine_quiet-time-guide_voice", "murray");
   const voiceItem = VOICES_QT.find(v => v.id === selectedVoice)!;
   const [selectedMethod, setSelectedMethod] = useState<string | null>(null);
   const method = METHODS.find(m => m.name === selectedMethod);

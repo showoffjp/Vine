@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -107,7 +108,7 @@ const THINKERS = [
 interface CheckItem { id: string; text: string; cat: string; done: boolean; }
 
 export default function TechnologyPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("theology");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_technology_tab", "theology");
   const [selectedThinker, setSelectedThinker] = useState("mcluhan");
   const thinker = THINKERS.find(t => t.id === selectedThinker)!;
   const [checks, setChecks] = useState<CheckItem[]>(() => {

@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -221,7 +222,7 @@ const OBSTACLES: Obstacle[] = [
 // ─── COMPONENT ───────────────────────────────────────────────────────────────
 
 export default function ChristianSimplicityPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("theology");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_christian-simplicity_tab", "theology");
   const [openTheology, setOpenTheology] = useState<number | undefined>(undefined);
   const [selectedTeacher, setSelectedTeacher] = useState<number>(0);
   const [openObstacle, setOpenObstacle] = useState<number | undefined>(undefined);

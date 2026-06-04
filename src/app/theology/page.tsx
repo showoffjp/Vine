@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 import { useState, useEffect } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -331,7 +332,7 @@ const diffColors: Record<string, string> = {
 };
 
 export default function TheologyPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("doctrines");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_theology_tab", "doctrines");
   const [catFilter, setCatFilter] = useState("All");
   const [diffFilter, setDiffFilter] = useState("All");
   const [expandedDoc, setExpandedDoc] = useState<string | null>(null);

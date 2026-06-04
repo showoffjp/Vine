@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -56,8 +57,8 @@ const VOICES_CREAT = [
 ];
 
 export default function CreativityPage() {
-  const [activeTab, setActiveTab] = useState<"theology" | "mediums" | "projects" | "voices" | "videos">("theology");
-  const [selectedVoice, setSelectedVoice] = useState("makoto-f");
+  const [activeTab, setActiveTab] = usePersistedState<"theology" | "mediums" | "projects" | "voices" | "videos">("vine_creativity_tab", "theology");
+  const [selectedVoice, setSelectedVoice] = usePersistedState("vine_creativity_voice", "makoto-f");
   const voiceItem = VOICES_CREAT.find(v => v.id === selectedVoice)!;
   const [projects, setProjects] = useState<Project[]>(() => {
     try { const s = localStorage.getItem("vine_creativity_projects"); return s ? JSON.parse(s) : []; } catch { return []; }

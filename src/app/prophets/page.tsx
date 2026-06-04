@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import React, { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -116,7 +117,7 @@ const CHRISTOLOGICAL_PROPHECIES = [
 ];
 
 export default function ProphetsPage() {
-  const [activeTab, setActiveTab] = useState<"prophets" | "scholars" | "christological" | "howto" | "videos">("prophets");
+  const [activeTab, setActiveTab] = usePersistedState<"prophets" | "scholars" | "christological" | "howto" | "videos">("vine_prophets_tab", "prophets");
   const [selectedScholar, setSelectedScholar] = useState("motyer");
   const scholarItem = SCHOLARS_PROPHETS.find(s => s.id === selectedScholar)!;
   const [selected, setSelected] = useState("Isaiah");

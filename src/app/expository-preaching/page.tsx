@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -79,7 +80,7 @@ const PREACHING_VIDEOS = [
 ];
 
 export default function ExpositoryPreachingPage() {
-  const [tab, setTab] = useState<Tab>("what");
+  const [tab, setTab] = usePersistedState<Tab>("vine_expository-preaching_tab", "what");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [selected, setSelected] = useState(SERMON_SERIES[0].book);
   const sel = SERMON_SERIES.find(s => s.book === selected) || SERMON_SERIES[0];

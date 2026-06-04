@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 import { useState, useEffect } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 interface Sermon {
   id: string;
@@ -241,8 +242,8 @@ export default function SermonArchivePage() {
   const [filterTopic, setFilterTopic] = useState("All");
   const [filterType, setFilterType] = useState("All");
   const [search, setSearch] = useState("");
-  const [activeTab, setActiveTab] = useState<"all" | "saved" | "voices" | "howto" | "videos">("all");
-  const [selectedVoice, setSelectedVoice] = useState("piper-j");
+  const [activeTab, setActiveTab] = usePersistedState<"all" | "saved" | "voices" | "howto" | "videos">("vine_sermon-archive_tab", "all");
+  const [selectedVoice, setSelectedVoice] = usePersistedState("vine_sermon-archive_voice", "piper-j");
   const voiceItem = VOICES_SERM.find(v => v.id === selectedVoice)!;
   const [noteMode, setNoteMode] = useState(false);
 

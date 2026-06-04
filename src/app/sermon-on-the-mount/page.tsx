@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -106,7 +107,7 @@ const PRACTICES = [
 ];
 
 export default function SermonOnTheMountPage() {
-  const [activeTab, setActiveTab] = useState<"sections" | "interpretations" | "practices" | "scholars" | "videos">("sections");
+  const [activeTab, setActiveTab] = usePersistedState<"sections" | "interpretations" | "practices" | "scholars" | "videos">("vine_sermon-on-the-mount_tab", "sections");
   const [selectedScholar, setSelectedScholar] = useState("stott-jrw");
   const scholarItem = SCHOLARS_SOTM.find(s => s.id === selectedScholar)!;
   const [selectedSection, setSelectedSection] = useState("The Beatitudes");

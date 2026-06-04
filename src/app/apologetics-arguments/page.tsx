@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -143,7 +144,7 @@ const MAJOR_OBJECTIONS = [
 ];
 
 export default function ApologeticsArgumentsPage() {
-  const [activeTab, setActiveTab] = useState<"arguments" | "apologists" | "practices" | "objections" | "videos">("arguments");
+  const [activeTab, setActiveTab] = usePersistedState<"arguments" | "apologists" | "practices" | "objections" | "videos">("vine_apologetics-arguments_tab", "arguments");
   const [selectedArg, setSelectedArg] = useState("Cosmological");
   const [expandedObj, setExpandedObj] = useState<string | null>(null);
   const [selectedApologist, setSelectedApologist] = useState("lewis");

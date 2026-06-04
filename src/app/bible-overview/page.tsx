@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -249,7 +250,7 @@ const VOICES_BIBLE: BibleVoice[] = [
 type Tab = "books" | "themes" | "timeline" | "voices" | "videos";
 
 export default function BibleOverviewPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("books");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_bible-overview_tab", "books");
   const [catFilter, setCatFilter] = useState("All");
   const [testamentFilter, setTestamentFilter] = useState("All");
   const [search, setSearch] = useState("");

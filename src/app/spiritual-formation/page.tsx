@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -211,7 +212,7 @@ const STAGES = [
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function SpiritualFormationPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("what");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_spiritual-formation_tab", "what");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [selectedTeacher, setSelectedTeacher] = useState<string>(TEACHERS[0].id);
   const [selectedCategory, setSelectedCategory] = useState<PracticeCategory | "All">("All");

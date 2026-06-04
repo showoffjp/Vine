@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -305,7 +306,7 @@ const VOICES_HYM = [
 ];
 
 export default function GreatHymnsExplainedPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("hymns");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_great-hymns-explained_tab", "hymns");
   const [era, setEra] = useState("All");
   const [selected, setSelected] = useState<string | null>(null);
   const [selectedVoice, setSelectedVoice] = useState<string>(VOICES_HYM[0].id);

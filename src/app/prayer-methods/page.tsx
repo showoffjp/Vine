@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 type Tab = "methods" | "guided" | "scripture" | "voices" | "guides" | "videos";
 
@@ -428,8 +429,8 @@ const PRAYER_VIDEOS = [
 ];
 
 export default function PrayerMethodsPage() {
-  const [tab, setTab] = useState<Tab>("methods");
-  const [selectedVoice, setSelectedVoice] = useState("bounds-em");
+  const [tab, setTab] = usePersistedState<Tab>("vine_prayer-methods_tab", "methods");
+  const [selectedVoice, setSelectedVoice] = usePersistedState("vine_prayer-methods_voice", "bounds-em");
   const voiceItem = VOICES_PM.find(v => v.id === selectedVoice)!;
   const [practiced, setPracticed] = useState<Set<string>>(() => {
     try { const s = localStorage.getItem("vine_prayer_methods_practiced"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }

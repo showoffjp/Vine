@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -373,7 +374,7 @@ const STATS = [
 ];
 
 export default function PsalmsDeepDivePage() {
-  const [tab, setTab] = useState<Tab>("types");
+  const [tab, setTab] = usePersistedState<Tab>("vine_psalms-deep-dive_tab", "types");
   const [psalmFilter, setPsalmFilter] = useState<PsalmType>("All");
   const [openAccordion, setOpenAccordion] = useState<number | undefined>(undefined);
   const [selectedBook, setSelectedBook] = useState<number>(1);

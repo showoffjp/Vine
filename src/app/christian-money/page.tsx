@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -83,9 +84,9 @@ const PRACTICES = [
 ];
 
 export default function ChristianMoneyPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("theology");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_christian-money_tab", "theology");
   const [expanded, setExpanded] = useState<string | null>(null);
-  const [selectedVoice, setSelectedVoice] = useState("chrysostom");
+  const [selectedVoice, setSelectedVoice] = usePersistedState("vine_christian-money_voice", "chrysostom");
   const voiceItem = VOICES_MONEY.find(v => v.id === selectedVoice)!;
 
   return (

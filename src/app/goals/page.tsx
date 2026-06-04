@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 import React, { useState, useEffect } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 import {
   Target,
   Plus,
@@ -77,8 +78,8 @@ export default function GoalsPage() {
     } catch { return []; }
   });
   const [showAdd, setShowAdd] = useState(false);
-  const [activeTab, setActiveTab] = useState<"active" | "completed" | "theology" | "voices" | "videos">("active");
-  const [selectedVoice, setSelectedVoice] = useState("smith-jka");
+  const [activeTab, setActiveTab] = usePersistedState<"active" | "completed" | "theology" | "voices" | "videos">("vine_goals_tab", "active");
+  const [selectedVoice, setSelectedVoice] = usePersistedState("vine_goals_voice", "smith-jka");
   const voiceItem = VOICES_GOALS.find(v => v.id === selectedVoice)!;
 
   // New goal form state

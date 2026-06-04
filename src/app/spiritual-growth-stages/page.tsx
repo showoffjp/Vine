@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -179,8 +180,8 @@ const GROWTH_OBSTACLES = [
 ];
 
 export default function SpiritualGrowthStagesPage() {
-  const [activeTab, setActiveTab] = useState<"biblical" | "classic" | "voices" | "obstacles" | "videos">("biblical");
-  const [selectedVoice, setSelectedVoice] = useState("teresa");
+  const [activeTab, setActiveTab] = usePersistedState<"biblical" | "classic" | "voices" | "obstacles" | "videos">("vine_spiritual-growth-stages_tab", "biblical");
+  const [selectedVoice, setSelectedVoice] = usePersistedState("vine_spiritual-growth-stages_voice", "teresa");
   const voiceItem = VOICES_GROWTH.find(v => v.id === selectedVoice)!;
   const [selectedStage, setSelectedStage] = useState<string | null>(null);
   const [selectedFramework, setSelectedFramework] = useState<string | null>(null);

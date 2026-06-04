@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -146,10 +147,10 @@ const RECONSTRUCTION_ITEMS = [
 ];
 
 export default function DeconstructionPage() {
-  const [tab, setTab] = useState<Tab>("what");
+  const [tab, setTab] = usePersistedState<Tab>("vine_deconstruction_tab", "what");
   const [selectedWhat, setSelectedWhat] = useState("definition");
   const [selectedCause, setSelectedCause] = useState("abuse");
-  const [selectedVoice, setSelectedVoice] = useState("kearney");
+  const [selectedVoice, setSelectedVoice] = usePersistedState("vine_deconstruction_voice", "kearney");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
   const toggleExpand = (id: string) => setExpanded(prev => ({ ...prev, [id]: !prev[id] }));

@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -73,8 +74,8 @@ interface LentProgress {
 }
 
 export default function LentPage() {
-  const [activeTab, setActiveTab] = useState<"weeks" | "voices" | "practices" | "tracker" | "videos">("weeks");
-  const [selectedVoice, setSelectedVoice] = useState("chrysostom");
+  const [activeTab, setActiveTab] = usePersistedState<"weeks" | "voices" | "practices" | "tracker" | "videos">("vine_lent_tab", "weeks");
+  const [selectedVoice, setSelectedVoice] = usePersistedState("vine_lent_voice", "chrysostom");
   const voiceItem = VOICES_LENT.find(v => v.id === selectedVoice)!;
   const [selectedWeek, setSelectedWeek] = useState(1);
   const [done, setDone] = useState<LentProgress>(() => {

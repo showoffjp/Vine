@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 interface HistoryEvent {
   id: string;
@@ -211,7 +212,7 @@ export default function ChurchHistoryPage() {
   const [readIds, setReadIds] = useState<Set<string>>(() => {
     try { const s = localStorage.getItem("vine_church_history_read"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
   });
-  const [activeTab, setActiveTab] = useState<Tab>("timeline");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_church-history_tab", "timeline");
   const [catFilter, setCatFilter] = useState("All");
   const [eraFilter, setEraFilter] = useState("All");
   const [search, setSearch] = useState("");

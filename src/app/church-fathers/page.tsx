@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -165,7 +166,7 @@ const PERIODS = ["All", "Apostolic", "Apologist", "Anti-Gnostic", "Nicene", "Lat
 export default function ChurchFathersPage() {
   const [selected, setSelected] = useState<string | null>("Athanasius of Alexandria");
   const [period, setPeriod] = useState("All");
-  const [activeTab, setActiveTab] = useState<Tab>("fathers");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_church-fathers_tab", "fathers");
   const [selectedWriting, setSelectedWriting] = useState("didache");
 
   const filtered = period === "All" ? FATHERS : FATHERS.filter(f => f.period === period);

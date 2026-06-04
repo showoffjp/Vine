@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -169,9 +170,9 @@ const LIVING_ITEMS = [
 ];
 
 export default function HeavenPage() {
-  const [tab, setTab] = useState<Tab>("theology");
+  const [tab, setTab] = usePersistedState<Tab>("vine_heaven_tab", "theology");
   const [selectedTheology, setSelectedTheology] = useState("intermediate");
-  const [selectedVoice, setSelectedVoice] = useState("lewis");
+  const [selectedVoice, setSelectedVoice] = usePersistedState("vine_heaven_voice", "lewis");
 
   const theologyItem = THEOLOGY_ITEMS.find(t => t.id === selectedTheology)!;
   const voiceItem = VOICE_ITEMS.find(v => v.id === selectedVoice)!;

@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -326,7 +327,7 @@ const VOICES_PROPH = [
 ];
 
 export default function ProphecyTodayPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("prophecies");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_prophecy-today_tab", "prophecies");
   const [topic, setTopic] = useState("All");
   const [selected, setSelected] = useState<string | null>(null);
   const [selectedVoice, setSelectedVoice] = useState<number | null>(null);

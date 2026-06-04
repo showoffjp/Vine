@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -106,7 +107,7 @@ const VERSE_VIDEOS = [
 type Tab = "today" | "weekly" | "topics" | "memorize" | "videos";
 
 export default function VerseOfTheDayPage() {
-  const [tab, setTab] = useState<Tab>("today");
+  const [tab, setTab] = usePersistedState<Tab>("vine_verse-of-the-day_tab", "today");
   const [selectedTopic, setSelectedTopic] = useState("Anxiety & Fear");
   const [selectedPlan, setSelectedPlan] = useState("Romans Road");
   // Use day-of-year so the verse advances every calendar day and rotates through

@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 import { useState, useEffect } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -386,7 +387,7 @@ const EVANG_VIDEOS: EvangelismVideo[] = [
 ];
 
 export default function EvangelismPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("methods");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_evangelism_tab", "methods");
   const [expandedMethod, setExpandedMethod] = useState<string | null>(null);
   const [expandedFear, setExpandedFear] = useState<number | null>(null);
   const [innerMethodTab, setInnerMethodTab] = useState<"methods" | "conversations" | "fears">("methods");

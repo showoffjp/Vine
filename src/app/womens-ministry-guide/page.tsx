@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -198,7 +199,7 @@ const RESOURCES = [
 ];
 
 export default function WomensMinistryGuidePage() {
-  const [activeTab, setActiveTab] = useState<Tab>("theology");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_womens-ministry-guide_tab", "theology");
   const [openAccordion, setOpenAccordion] = useState<number | undefined>(0);
   const [selectedTeacher, setSelectedTeacher] = useState<string>("Jen Wilkin");
 

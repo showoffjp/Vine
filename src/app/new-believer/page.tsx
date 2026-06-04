@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import VerseRef from "@/components/VerseRef";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", GOLD = "#c9a227", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -143,7 +144,7 @@ const NB_VIDEOS = [
 type NTab = "steps" | "assurance" | "questions" | "reading" | "mentors" | "videos";
 
 export default function NewBelieverPage() {
-  const [activeTab, setActiveTab] = useState<NTab>("steps");
+  const [activeTab, setActiveTab] = usePersistedState<NTab>("vine_new-believer_tab", "steps");
   const [selectedMentor, setSelectedMentor] = useState("stott");
   const mentorItem = MENTORS_NB.find(m => m.id === selectedMentor)!;
   const [completed, setCompleted] = useState<Set<number>>(() => {

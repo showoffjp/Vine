@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -150,7 +151,7 @@ const PRISON_VIDEOS = [
 ];
 
 export default function PrisonMinistryPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("theology");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_prison-ministry_tab", "theology");
   const [expandedTheology, setExpandedTheology] = useState<number | undefined>(undefined);
   const [expandedReentry, setExpandedReentry] = useState<number | undefined>(undefined);
 

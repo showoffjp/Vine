@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -168,7 +169,7 @@ const SHARED_GROUND = [
 ];
 
 export default function EasternOrthodoxPage() {
-  const [tab, setTab] = useState<Tab>("overview");
+  const [tab, setTab] = usePersistedState<Tab>("vine_eastern-orthodox_tab", "overview");
   const [selectedTheology, setSelectedTheology] = useState(THEOLOGY_ITEMS[0].doctrine);
   const [selectedLiturgy, setSelectedLiturgy] = useState(LITURGY_ELEMENTS[0].name);
   const [selectedHistorian, setSelectedHistorian] = useState(HISTORIANS[0].name);

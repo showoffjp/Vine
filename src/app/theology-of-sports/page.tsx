@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -201,7 +202,7 @@ const PRACTICES = [
 ];
 
 export default function TheologyOfSportsPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("theology");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_theology-of-sports_tab", "theology");
   const [expandedTheology, setExpandedTheology] = useState<string | undefined>(undefined);
   const [selectedAthlete, setSelectedAthlete] = useState<number>(0);
   const [expandedDanger, setExpandedDanger] = useState<string | undefined>(undefined);

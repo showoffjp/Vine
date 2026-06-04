@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { usePersistedState } from "@/hooks/usePersistedState";
 import {
   Briefcase,
   Users,
@@ -283,7 +284,7 @@ const VOICES_WORK = [
 ];
 
 export default function WorkLeadershipPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("principles");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_work-leadership_tab", "principles");
   const [savedPrinciples, setSavedPrinciples] = useState<Set<string>>(() => {
     try {
       const s = localStorage.getItem("vine_work_principles");

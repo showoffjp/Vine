@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import React, { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -149,7 +150,7 @@ const MODELS = [
 
 export default function PrayerOfJesusPage() {
   const [selected, setSelected] = useState("Our Father in heaven");
-  const [activeTab, setActiveTab] = useState<Tab>("petitions");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_prayer-of-jesus_tab", "petitions");
   const [selectedCommentator, setSelectedCommentator] = useState("tertullian");
 
   const petition = PETITIONS.find(p => p.line === selected)!;

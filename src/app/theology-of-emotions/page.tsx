@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -165,7 +166,7 @@ const PRACTICES_ITEMS = [
 ];
 
 export default function TheologyOfEmotionsPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("theology");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_theology-of-emotions_tab", "theology");
   const [expandedTheology, setExpandedTheology] = useState<number | undefined>(undefined);
   const [expandedPractices, setExpandedPractices] = useState<number | undefined>(undefined);
   const [activeEmotion, setActiveEmotion] = useState<number>(0);

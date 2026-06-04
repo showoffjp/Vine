@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState, useEffect } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -88,8 +89,8 @@ const VOICES_LD = [
 ];
 
 export default function LectioDivinaPage() {
-  const [activeTab, setActiveTab] = useState<"guide" | "practice" | "voices" | "history" | "videos">("guide");
-  const [selectedVoice, setSelectedVoice] = useState("guigo-ld");
+  const [activeTab, setActiveTab] = usePersistedState<"guide" | "practice" | "voices" | "history" | "videos">("vine_lectio-divina_tab", "guide");
+  const [selectedVoice, setSelectedVoice] = usePersistedState("vine_lectio-divina_voice", "guigo-ld");
   const voiceItem = VOICES_LD.find(v => v.id === selectedVoice)!;
   const [selectedPassage, setSelectedPassage] = useState(0);
   const [activeMovement, setActiveMovement] = useState(0);

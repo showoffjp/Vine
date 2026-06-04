@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { usePersistedState } from "@/hooks/usePersistedState";
 import {
   User,
   Bell,
@@ -1580,7 +1581,7 @@ const TABS: { id: Tab; icon: React.ReactNode; label: string }[] = [
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function SettingsPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("Account");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_settings_tab", "Account");
 
   function renderTab() {
     switch (activeTab) {

@@ -4,6 +4,7 @@ import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 
 import { useState, useEffect } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -342,7 +343,7 @@ const essentials = [
 ];
 
 export default function HouseChurchPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("guide");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_house-church_tab", "guide");
   const [expandedElement, setExpandedElement] = useState<string | null>(null);
   const [planItems, setPlanItems] = useState<Set<string>>(() => {
     try { const s = localStorage.getItem("vine_house_church_plan"); return s ? new Set(JSON.parse(s)) : new Set(["welcome", "scripture", "prayer"]); } catch { return new Set(["welcome", "scripture", "prayer"]); }

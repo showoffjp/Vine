@@ -3,6 +3,7 @@ import { useState } from "react";
 import VerseRef from "@/components/VerseRef";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB";
@@ -257,7 +258,7 @@ const VIDEOS = [
 ];
 
 export default function MarriagePage() {
-  const [activeTab, setActiveTab] = useState<Tab>("foundation");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_marriage_tab", "foundation");
   const [openItem, setOpenItem] = useState<number | null>(0);
   const [openCovItem, setOpenCovItem] = useState<number | null>(null);
   const [openCommItem, setOpenCommItem] = useState<number | null>(null);

@@ -5,6 +5,7 @@ import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 
 import { useState, useEffect } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 import {
   Sparkles,
   Plus,
@@ -182,8 +183,8 @@ export default function GratitudePage() {
   const TODAY = new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" });
   const TODAY_SHORT = new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
   type Tab = "journal" | "theology" | "voices" | "practices" | "videos";
-  const [activeTab, setActiveTab] = useState<Tab>("journal");
-  const [selectedVoice, setSelectedVoice] = useState("voskamp-a");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_gratitude_tab", "journal");
+  const [selectedVoice, setSelectedVoice] = usePersistedState("vine_gratitude_voice", "voskamp-a");
 
   const [entries, setEntries] = useState<GratitudeEntry[]>(() => {
     try {

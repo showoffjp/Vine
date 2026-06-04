@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 import React, { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -87,7 +88,7 @@ const SCHOLARS_PSALMS = [
 ];
 
 export default function PsalmsGuidePage() {
-  const [activeTab, setActiveTab] = useState<"types" | "theology" | "scholars" | "plans" | "videos">("types");
+  const [activeTab, setActiveTab] = usePersistedState<"types" | "theology" | "scholars" | "plans" | "videos">("vine_psalms-guide_tab", "types");
   const [selectedScholar, setSelectedScholar] = useState("lewis");
   const scholarItem = SCHOLARS_PSALMS.find(s => s.id === selectedScholar)!;
   const [selectedType, setSelectedType] = useState("Lament");

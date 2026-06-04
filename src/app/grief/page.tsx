@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 import React, { useState, useEffect } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 interface GriefStory {
   id: string;
@@ -171,8 +172,8 @@ export default function GriefPage() {
   const [journalEntries, setJournalEntries] = useState<JournalEntry[]>(() => {
     try { const j = localStorage.getItem("vine_grief_journal"); return j ? JSON.parse(j) : []; } catch { return []; }
   });
-  const [activeTab, setActiveTab] = useState<"stories" | "voices" | "journal" | "resources" | "videos">("stories");
-  const [selectedVoice, setSelectedVoice] = useState("lewis");
+  const [activeTab, setActiveTab] = usePersistedState<"stories" | "voices" | "journal" | "resources" | "videos">("vine_grief_tab", "stories");
+  const [selectedVoice, setSelectedVoice] = usePersistedState("vine_grief_voice", "lewis");
   const voiceItem = VOICES_GRIEF.find(v => v.id === selectedVoice)!;
   const [selectedStory, setSelectedStory] = useState<GriefStory | null>(null);
   const [todayPrompt] = useState(() => journalPrompts[Math.floor(Math.random() * journalPrompts.length)]);

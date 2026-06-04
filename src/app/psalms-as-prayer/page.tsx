@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -39,7 +40,7 @@ const HOW_TO_STEPS = [
 ];
 
 export default function PsalmsAsPrayerPage() {
-  const [tab, setTab] = useState<Tab>("guide");
+  const [tab, setTab] = usePersistedState<Tab>("vine_psalms-as-prayer_tab", "guide");
   const [selected, setSelected] = useState<string | null>(null);
 
   const psalm = SELECTED_PSALMS.find(p => p.number === parseInt(selected || "0"));

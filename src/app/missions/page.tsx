@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 
 import React, { useState, useEffect } from "react";
 import { Globe, Heart, Users, ChevronRight, MapPin, Flame, BookOpen, CheckCircle2 } from "lucide-react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -332,7 +333,7 @@ const VOICES_MISS = [
 type Tab = "regions" | "theology" | "getting-involved" | "voices" | "videos";
 
 export default function MissionsPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("regions");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_missions_tab", "regions");
   const [selectedVoice, setSelectedVoice] = useState(VOICES_MISS[0]);
 
   const [prayedRegions, setPrayedRegions] = useState<Set<number>>(() => {

@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -291,7 +292,7 @@ const VIDEOS = [
 ];
 
 export default function BibleStudyAppsPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("apps");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_bible-study-apps_tab", "apps");
   const [category, setCategory] = useState("All");
   const [selected, setSelected] = useState<string | null>(null);
 

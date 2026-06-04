@@ -4,6 +4,7 @@ import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 type Tab = "theology" | "gifts" | "discover" | "cessation" | "videos";
 
@@ -563,7 +564,7 @@ function DiscoverTab() {
 }
 
 export default function SpiritualGiftsPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("theology");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_spiritual-gifts_tab", "theology");
 
   const tabs: { id: Tab; label: string }[] = [
     { id: "theology", label: "Theology of Gifts" },

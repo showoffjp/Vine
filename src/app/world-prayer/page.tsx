@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 import { useState, useEffect } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -494,7 +495,7 @@ const statusColors = { Open: "#3a7d56", Restricted: "#F59E0B", Persecuted: "#EF4
 const missionaryColors = { Strong: "#3a7d56", Moderate: "#3B82F6", Minimal: "#F59E0B", None: "#EF4444" };
 
 export default function WorldPrayerPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("countries");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_world-prayer_tab", "countries");
   const [prayedFor, setPrayedFor] = useState<Set<string>>(() => {
     try { const p = localStorage.getItem("vine_world_prayer_prayed"); return p ? new Set(JSON.parse(p)) : new Set(); } catch { return new Set(); }
   });

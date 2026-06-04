@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -201,7 +202,7 @@ const resources = [
 ];
 
 export default function LectionaryGuidePage() {
-  const [tab, setTab] = useState<Tab>("what");
+  const [tab, setTab] = usePersistedState<Tab>("vine_lectionary-guide_tab", "what");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [selectedYear, setSelectedYear] = useState<LectionaryYear>(lectionaryYears[0]);
 

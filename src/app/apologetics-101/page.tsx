@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -148,7 +149,7 @@ const COMMON_ITEMS = [
 ];
 
 export default function Apologetics101Page() {
-  const [activeTab, setActiveTab] = useState<Tab>("what");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_apologetics-101_tab", "what");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [selectedMethod, setSelectedMethod] = useState<string>("classical");
   const [argFilter, setArgFilter] = useState<ArgFilter>("all");

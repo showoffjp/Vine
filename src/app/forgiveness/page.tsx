@@ -3,6 +3,7 @@ import { useState } from "react";
 import VerseRef from "@/components/VerseRef";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB";
@@ -174,7 +175,7 @@ const VIDEOS = [
 ];
 
 export default function ForgivenessPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("what-is");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_forgiveness_tab", "what-is");
   const [openWhatIs, setOpenWhatIs] = useState<number | null>(0);
   const [openWhy, setOpenWhy] = useState<number | null>(null);
   const [openHow, setOpenHow] = useState<number | null>(0);

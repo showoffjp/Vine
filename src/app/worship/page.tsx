@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { usePersistedState } from "@/hooks/usePersistedState";
 import {
   Play,
   Pause,
@@ -369,7 +370,7 @@ const WORSHIP_VIDEOS = [
 ];
 
 export default function WorshipPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("songs");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_worship_tab", "songs");
   const [playingSong, setPlayingSong] = useState<number | null>(null);
   const [joinedCircles, setJoinedCircles] = useState<Set<number>>(() => {
     try { const s = localStorage.getItem("vine_worship_circles"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
@@ -379,7 +380,7 @@ export default function WorshipPage() {
   });
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [viewChord, setViewChord] = useState<number | null>(null);
-  const [selectedVoice, setSelectedVoice] = useState("calvin");
+  const [selectedVoice, setSelectedVoice] = usePersistedState("vine_worship_voice", "calvin");
 
   useEffect(() => {
     try { localStorage.setItem("vine_worship_circles", JSON.stringify([...joinedCircles])); } catch {}

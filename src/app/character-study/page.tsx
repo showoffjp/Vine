@@ -4,6 +4,7 @@ import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
 
 import { useState, useEffect } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -430,7 +431,7 @@ export default function CharacterStudyPage() {
   const [activeSection, setActiveSection] = useState<"overview" | "lessons" | "moments" | "questions">("overview");
   const [filterTestament, setFilterTestament] = useState<"All" | "Old" | "New">("All");
   const [search, setSearch] = useState("");
-  const [selectedVoice, setSelectedVoice] = useState("meyer-fb");
+  const [selectedVoice, setSelectedVoice] = usePersistedState("vine_character-study_voice", "meyer-fb");
   const voiceItem = VOICES_CHAR.find(v => v.id === selectedVoice)!;
 
 

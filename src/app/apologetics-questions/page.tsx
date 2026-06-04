@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -335,7 +336,7 @@ const APOL_RESOURCES = [
 ];
 
 export default function ApologeticsQuestionsPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("questions");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_apologetics-questions_tab", "questions");
   const [topic, setTopic] = useState("All");
   const [expanded, setExpanded] = useState<string | null>(null);
   const [selectedThinker, setSelectedThinker] = useState<string | null>(null);

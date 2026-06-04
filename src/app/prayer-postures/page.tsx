@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -87,7 +88,7 @@ const TEACHERS_POSTURE = [
 ];
 
 export default function PrayerPosturesPage() {
-  const [activeTab, setActiveTab] = useState<"postures" | "teachers" | "traditions" | "faq" | "videos">("postures");
+  const [activeTab, setActiveTab] = usePersistedState<"postures" | "teachers" | "traditions" | "faq" | "videos">("vine_prayer-postures_tab", "postures");
   const [selectedTeacher, setSelectedTeacher] = useState("teresa");
   const teacherItem = TEACHERS_POSTURE.find(t => t.id === selectedTeacher)!;
   const [selected, setSelected] = useState<string | null>("Standing");

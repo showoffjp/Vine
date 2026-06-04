@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -276,7 +277,7 @@ const MISSIONS_VIDEOS = [
 ];
 
 export default function MissionsOrganizationsPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("organizations");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_missions-organizations_tab", "organizations");
   const [type, setType] = useState("All");
   const [selected, setSelected] = useState<string | null>(null);
 

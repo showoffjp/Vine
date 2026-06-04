@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
 const GREEN = "#3a7d56", PURPLE = "#6B4FBB", TEXT = "#F2F2F8", MUTED = "#9898B3";
@@ -139,7 +140,7 @@ const WARFARE = [
 ];
 
 export default function ArmorOfGodPage() {
-  const [activeTab, setActiveTab] = useState<Tab>("overview");
+  const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_armor-of-god_tab", "overview");
   const [selected, setSelected] = useState("belt");
 
   const piece = PIECES.find((p) => p.id === selected)!;

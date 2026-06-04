@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F";
 const CARD = "#12121F";
@@ -181,7 +182,7 @@ const otherReligions = [
 ];
 
 export default function InterfaithConversationsPage() {
-  const [tab, setTab] = useState<Tab>("principles");
+  const [tab, setTab] = usePersistedState<Tab>("vine_interfaith-conversations_tab", "principles");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [selectedIslamSection, setSelectedIslamSection] = useState<string>("commonGround");
   const [selectedJudaismSection, setSelectedJudaismSection] = useState<string>("commonGround");

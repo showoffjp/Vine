@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useState } from "react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const VIDEOS = [
   { videoId: "Z8lkuuhVkOI", title: "Understanding Global Missions Today", channel: "Lausanne Movement", description: "A comprehensive look at the current state of global missions — where the church is making inroads, where billions remain unreached, and what faithful mission looks like in the 21st century." },
@@ -156,7 +157,7 @@ const ORGS = [
 ];
 
 export default function GlobalMissionsOrgsPage() {
-  const [tab, setTab] = useState<Tab>("orgs");
+  const [tab, setTab] = usePersistedState<Tab>("vine_global-missions-orgs_tab", "orgs");
   const [category, setCategory] = useState("All");
   const [selected, setSelected] = useState<string | null>(null);
 

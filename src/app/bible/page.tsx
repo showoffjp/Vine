@@ -673,7 +673,9 @@ export default function BiblePage() {
   const pendingVerseRef = useRef<number | null>(null);
   const [highlightedVerse, setHighlightedVerse] = useState<number | null>(null);
   const [pulseVerse, setPulseVerse] = useState<number | null>(null);
-  const [bookmarkedVerses, setBookmarkedVerses] = useState<Set<string>>(new Set());
+  const [bookmarkedVerses, setBookmarkedVerses] = useState<Set<string>>(() => {
+    try { const bm = localStorage.getItem("vine-bible-bookmarks"); return bm ? new Set(JSON.parse(bm)) : new Set(); } catch { return new Set(); }
+  });
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<SearchHit[]>([]);
   const [searchTotal, setSearchTotal] = useState(0);
@@ -683,7 +685,9 @@ export default function BiblePage() {
   const [compareVersions, setCompareVersions] = useState<string[]>([]);
   const [activeComparison, setActiveComparison] = useState(0);
   const [activePlanId, setActivePlanId] = useState<string | null>(null);
-  const [completedDays, setCompletedDays] = useState<Set<string>>(new Set());
+  const [completedDays, setCompletedDays] = useState<Set<string>>(() => {
+    try { const done = localStorage.getItem("vine-bible-plan-progress"); return done ? new Set(JSON.parse(done)) : new Set(); } catch { return new Set(); }
+  });
   const [activeTheme, setActiveTheme] = useState<keyof typeof VERSE_THEMES>("salvation");
   const [otFilter, setOtFilter] = useState(true);
   const [ntFilter, setNtFilter] = useState(true);
@@ -864,10 +868,6 @@ export default function BiblePage() {
           }
         }
       }
-      const done = localStorage.getItem("vine-bible-plan-progress");
-      if (done) setCompletedDays(new Set(JSON.parse(done)));
-      const bm = localStorage.getItem("vine-bible-bookmarks");
-      if (bm) setBookmarkedVerses(new Set(JSON.parse(bm)));
     } catch { /* ignore */ }
   }, []);
 

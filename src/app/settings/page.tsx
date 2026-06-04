@@ -1116,14 +1116,9 @@ function FaithProfileTab() {
 function ReadingPlansTab() {
   const [translation, setTranslation] = useState("NIV");
   const translations = ["NIV", "ESV", "KJV", "NKJV", "NLT", "MSG"];
-  const [readingDays, setReadingDays] = useState<Set<string>>(new Set());
-
-  useEffect(() => {
-    try {
-      const s = localStorage.getItem("vine_reading_days");
-      setReadingDays(s ? new Set(JSON.parse(s)) : new Set());
-    } catch {}
-  }, []);
+  const [readingDays, setReadingDays] = useState<Set<string>>(() => {
+    try { const s = localStorage.getItem("vine_reading_days"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
+  });
 
   const PLAN_TOTAL = 90;
   const daysCompleted = Math.min(readingDays.size, PLAN_TOTAL);

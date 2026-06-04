@@ -377,8 +377,6 @@ const VOICES_DISC: Voice[] = [
   },
 ];
 
-const today = new Date().toISOString().split("T")[0];
-
 const DISC_VIDEOS = [
   { videoId: "KbFKcFxqVlo", title: "What Are Spiritual Disciplines? — Tim Keller", channel: "Gospel in Life", description: "Keller on the purpose of spiritual disciplines: not to earn merit but to create the conditions in which God works transformation." },
   { videoId: "ACZbpLkY8To", title: "The Means of Grace — How God Shapes His People", channel: "Ligonier Ministries", description: "A theological account of the spiritual disciplines as means of grace — practices through which the Spirit forms Christlikeness." },
@@ -414,6 +412,7 @@ export default function DisciplinesPage() {
   };
 
   const logPractice = (id: string) => {
+    const today = new Date().toISOString().split("T")[0];
     setRecords((prev) => {
       const rec = getRecord(id);
       return { ...prev, [id]: { ...rec, lastPracticed: today, timesThisMonth: rec.timesThisMonth + 1 } };
@@ -429,6 +428,7 @@ export default function DisciplinesPage() {
     setNoteInput("");
   };
 
+  const today = new Date().toISOString().split("T")[0];
   const filtered = DISCIPLINES.filter((d) => activeCategory === "all" || d.category === activeCategory);
   const committed = DISCIPLINES.filter((d) => getRecord(d.id).committed);
   const practicedToday = DISCIPLINES.filter((d) => getRecord(d.id).lastPracticed === today);

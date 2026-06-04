@@ -462,7 +462,7 @@ export default function EndTimesGuidePage() {
         {tab === "keys" && (
           <div>
             <p style={{ color: MUTED, fontSize: 14, marginBottom: 28, lineHeight: 1.6 }}>
-              Six foundational principles for approaching biblical prophecy with intelligence, humility, and faithfulness.
+              {KEYS_ITEMS.length} foundational principles for approaching biblical prophecy with intelligence, humility, and faithfulness.
             </p>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {KEYS_ITEMS.map((item, i) => (

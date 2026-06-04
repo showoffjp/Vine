@@ -334,7 +334,7 @@ export default function TheologyOfGenerosityPage() {
           <div>
             <p style={{ color: MUTED, fontSize: 15, lineHeight: 1.7, marginBottom: 28 }}>
               Christian generosity is not a financial strategy — it is a theological conviction
-              expressed through concrete action. These six foundations ground the practice of
+              expressed through concrete action. These {THEOLOGY_ITEMS.length} foundations ground the practice of
               giving in the character of God and the logic of the Gospel.
             </p>
             {THEOLOGY_ITEMS.map((item) => (
@@ -501,7 +501,7 @@ export default function TheologyOfGenerosityPage() {
         {activeTab === "practices" && (
           <div>
             <p style={{ color: MUTED, fontSize: 15, lineHeight: 1.7, marginBottom: 28 }}>
-              Theology without practice is incomplete. These six disciplines form the practical
+              Theology without practice is incomplete. These {PRACTICES_ITEMS.length} disciplines form the practical
               architecture of a generous life — from the tithe to your estate, from spontaneous
               giving to giving everything but money.
             </p>

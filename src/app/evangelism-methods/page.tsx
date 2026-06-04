@@ -257,7 +257,7 @@ export default function EvangelismMethodsPage() {
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
-                These six essentials apply to every evangelism method. The method varies; the core stays constant.
+                These {ESSENTIALS.length} essentials apply to every evangelism method. The method varies; the core stays constant.
               </p>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 14 }}>

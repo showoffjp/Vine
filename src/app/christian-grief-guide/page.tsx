@@ -294,7 +294,7 @@ export default function ChristianGriefGuidePage() {
           <div>
             <p style={{ color: MUTED, lineHeight: 1.75, marginBottom: 28, fontSize: 15 }}>
               Christianity does not offer an escape from grief — it offers a transformed grief.
-              These six convictions form the theological foundation for Christian lament.
+              These {THEOLOGY_ITEMS.length} convictions form the theological foundation for Christian lament.
             </p>
             {THEOLOGY_ITEMS.map((item, i) => (
               <div
@@ -334,7 +334,7 @@ export default function ChristianGriefGuidePage() {
         {activeTab === "stages" && (
           <div>
             <p style={{ color: MUTED, lineHeight: 1.75, marginBottom: 32, fontSize: 15 }}>
-              Grief does not move in a straight line. These seven stages are not sequential requirements
+              Grief does not move in a straight line. These {STAGES.length} stages are not sequential requirements
               but common territories — visited repeatedly, out of order, and in different intensities.
               Each has biblical resonance and practical wisdom.
             </p>

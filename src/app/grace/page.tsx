@@ -268,7 +268,7 @@ export default function GracePage() {
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 24 }}>
               <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.75, margin: 0 }}>
-                Six foundational dimensions of the doctrine of grace — from the word itself to its transforming power. Each accordion explores a different facet of what Scripture and theology mean when they speak of grace.
+                {THEOLOGY_ITEMS.length} foundational dimensions of the doctrine of grace — from the word itself to its transforming power. Each accordion explores a different facet of what Scripture and theology mean when they speak of grace.
               </p>
             </div>
             <Accordion items={THEOLOGY_ITEMS} />
@@ -374,7 +374,7 @@ export default function GracePage() {
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 24 }}>
               <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.75, margin: 0 }}>
-                Grace is not merely a doctrine to affirm but a reality to inhabit. These six dimensions describe how the person who has genuinely received grace lives differently — in gratitude, effort, rest, growth, generosity, and sober awareness.
+                Grace is not merely a doctrine to affirm but a reality to inhabit. These {RESPONSE_ITEMS.length} dimensions describe how the person who has genuinely received grace lives differently — in gratitude, effort, rest, growth, generosity, and sober awareness.
               </p>
             </div>
             <Accordion items={RESPONSE_ITEMS} />

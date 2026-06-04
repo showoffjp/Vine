@@ -305,7 +305,7 @@ export default function WomensMinistryGuidePage() {
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: "16px 20px", marginBottom: 24 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
-                Six core practices for women&rsquo;s ministry that form disciples rather than entertain an audience. Each practice includes guiding principles and a key caution.
+                {PRACTICES.length} core practices for women&rsquo;s ministry that form disciples rather than entertain an audience. Each practice includes guiding principles and a key caution.
               </p>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 16 }}>

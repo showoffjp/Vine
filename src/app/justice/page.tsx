@@ -199,7 +199,7 @@ export default function JusticePage() {
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 14, padding: "20px 24px", marginBottom: 24 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.8, margin: 0 }}>
-                Biblical justice is woven into the character of God, the covenant with Israel, and the mission of Jesus. These six foundations establish what Scripture actually says — before we reach for any political framework.
+                Biblical justice is woven into the character of God, the covenant with Israel, and the mission of Jesus. These {FOUNDATIONS.length} foundations establish what Scripture actually says — before we reach for any political framework.
               </p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>

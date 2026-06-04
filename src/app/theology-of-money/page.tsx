@@ -529,7 +529,7 @@ export default function TheologyOfMoneyPage() {
         {tab === "practices" && (
           <div>
             <p style={{ color: MUTED, marginBottom: 28, fontSize: 15, lineHeight: 1.7 }}>
-              Theology that does not produce practice is incomplete. These six disciplines flow from Scripture's vision for financial faithfulness — not as laws to keep but as postures to cultivate.
+              Theology that does not produce practice is incomplete. These {practiceItems.length} disciplines flow from Scripture's vision for financial faithfulness — not as laws to keep but as postures to cultivate.
             </p>
             <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
               {practiceItems.map((item, idx) => (
@@ -573,7 +573,7 @@ export default function TheologyOfMoneyPage() {
         {tab === "pitfalls" && (
           <div>
             <p style={{ color: MUTED, marginBottom: 28, fontSize: 15, lineHeight: 1.7 }}>
-              The enemy of faithful stewardship is not usually dramatic temptation — it is slow drift into culturally normalized distortions of the kingdom vision. These six traps are the most common for Christians in the Western world.
+              The enemy of faithful stewardship is not usually dramatic temptation — it is slow drift into culturally normalized distortions of the kingdom vision. These {pitfallItems.length} traps are the most common for Christians in the Western world.
             </p>
             <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
               {pitfallItems.map((item, idx) => (

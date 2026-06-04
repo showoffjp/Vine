@@ -386,7 +386,7 @@ export default function TheologyOfForgivenessPage() {
               }}
             >
               <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.75, margin: 0 }}>
-                These seven movements describe a realistic journey through forgiveness — not a
+                These {PROCESS_STEPS.length} movements describe a realistic journey through forgiveness — not a
                 formula to complete in sequence, but a map of the terrain. Most people cycle through
                 them repeatedly before the forgiveness becomes settled.
               </p>

@@ -315,7 +315,7 @@ export default function NewMembersClassPage() {
         {activeTab === "covenant" && (
           <div style={{ maxWidth: 720 }}>
             <p style={{ color: MUTED, lineHeight: 1.7, marginBottom: 28 }}>
-              A church membership covenant is not a legal document — it is a mutual pledge between the member and the congregation. These six elements form the core of a biblically grounded covenant.
+              A church membership covenant is not a legal document — it is a mutual pledge between the member and the congregation. These {covenantElements.length} elements form the core of a biblically grounded covenant.
             </p>
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               {covenantElements.map((el, i) => (

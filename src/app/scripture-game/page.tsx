@@ -79,12 +79,11 @@ const blankify = (text: string): { blanked: string; answer: string } => {
 };
 
 export default function ScriptureGamePage() {
-  const [stats, setStats] = useState<GameStats>({
-    totalPlayed: 0,
-    totalCorrect: 0,
-    bestStreak: 0,
-    currentStreak: 0,
-    categoryScores: {},
+  const [stats, setStats] = useState<GameStats>(() => {
+    try {
+      const s = localStorage.getItem("vine_scripture_game_stats");
+      return s ? (JSON.parse(s) as GameStats) : { totalPlayed: 0, totalCorrect: 0, bestStreak: 0, currentStreak: 0, categoryScores: {} };
+    } catch { return { totalPlayed: 0, totalCorrect: 0, bestStreak: 0, currentStreak: 0, categoryScores: {} }; }
   });
 
   const [mode, setMode] = useState<GameMode | null>(null);
@@ -98,13 +97,6 @@ export default function ScriptureGamePage() {
   const [selected, setSelected] = useState<string | null>(null);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [blank, setBlank] = useState<{ blanked: string; answer: string } | null>(null);
-
-  useEffect(() => {
-    try {
-      const s = localStorage.getItem("vine_scripture_game_stats");
-      if (s) setStats(JSON.parse(s));
-    } catch {}
-  }, []);
 
   const saveStats = (s: GameStats) => {
     try { localStorage.setItem("vine_scripture_game_stats", JSON.stringify(s)); } catch {}

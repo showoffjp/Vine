@@ -220,7 +220,7 @@ export default function SermonPrepPage() {
             {showForm && (
               <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, marginBottom: 16 }}>
                 <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 12 }}>
-                  <input aria-label="Passage (e.g. Romans 8:1-17)" placeholder="Passage (e.g. Romans 8:1-17)" value={form.passage} onChange={e => setForm(f => ({ ...f, passage: e.target.value }))}
+                  <input spellCheck={false} aria-label="Passage (e.g. Romans 8:1-17)" placeholder="Passage (e.g. Romans 8:1-17)" value={form.passage} onChange={e => setForm(f => ({ ...f, passage: e.target.value }))}
                     style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14 }} />
                   <input aria-label="Big Idea (one sentence)" placeholder="Big Idea (one sentence)" value={form.bigIdea} onChange={e => setForm(f => ({ ...f, bigIdea: e.target.value }))}
                     style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14 }} />

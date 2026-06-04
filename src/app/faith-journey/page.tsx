@@ -813,7 +813,7 @@ export default function FaithJourneyPage() {
                 <input
                   value={form.verseRef}
                   onChange={(e) => setForm((f) => ({ ...f, verseRef: e.target.value }))}
-                  aria-label="Reference (e.g. John 3:16)" placeholder="Reference (e.g. John 3:16)"
+                  aria-label="Reference (e.g. John 3:16)" spellCheck={false} placeholder="Reference (e.g. John 3:16)"
                   className="px-4 py-2.5 rounded-xl text-sm outline-none"
                   style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#F2F2F8" }}
                 />

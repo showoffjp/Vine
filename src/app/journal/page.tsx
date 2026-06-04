@@ -297,7 +297,7 @@ export default function JournalPage() {
                     <input
                       value={newEntry.verseRef}
                       onChange={(e) => setNewEntry((p) => ({ ...p, verseRef: e.target.value }))}
-                      aria-label="Reference (e.g. John 3:16)" placeholder="Reference (e.g. John 3:16)"
+                      aria-label="Reference (e.g. John 3:16)" spellCheck={false} placeholder="Reference (e.g. John 3:16)"
                       className="w-full px-3 py-2 rounded-xl text-xs outline-none"
                       style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#C0C0D8" }}
                     />

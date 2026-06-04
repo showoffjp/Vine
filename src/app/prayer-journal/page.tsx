@@ -236,12 +236,12 @@ export default function PrayerJournalPage() {
                 <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: 16 }}>
                   <div>
                     <label style={{ fontSize: 12, fontWeight: 700, color: "#9898B3", textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>Verse (optional)</label>
-                    <input value={verse} onChange={e => setVerse(e.target.value)} aria-label="The verse text..." placeholder="The verse text..."
+                    <input spellCheck={false} value={verse} onChange={e => setVerse(e.target.value)} aria-label="The verse text..." placeholder="The verse text..."
                       style={{ width: "100%", padding: "10px 14px", borderRadius: 10, background: "#0D0D1A", border: "1px solid #1E1E32", color: "#F2F2F8", fontSize: 14, outline: "none", boxSizing: "border-box" }} />
                   </div>
                   <div>
                     <label style={{ fontSize: 12, fontWeight: 700, color: "#9898B3", textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>Reference</label>
-                    <input value={verseRef} onChange={e => setVerseRef(e.target.value)} aria-label="Verse reference" placeholder="John 3:16"
+                    <input spellCheck={false} value={verseRef} onChange={e => setVerseRef(e.target.value)} aria-label="Verse reference"  placeholder="John 3:16"
                       style={{ width: "100%", padding: "10px 14px", borderRadius: 10, background: "#0D0D1A", border: "1px solid #1E1E32", color: "#F2F2F8", fontSize: 14, outline: "none", boxSizing: "border-box" }} />
                   </div>
                 </div>

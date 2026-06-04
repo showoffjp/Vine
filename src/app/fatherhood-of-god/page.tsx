@@ -171,6 +171,14 @@ const PRACTICE_ITEMS = [
   },
 ];
 
+const TABS = [
+    { id: "theology" as Tab, label: "Who God Is as Father", icon: "☁️" },
+    { id: "adoption" as Tab, label: "Adoption & Sonship", icon: "🏠" },
+    { id: "fatherwound" as Tab, label: "Healing Father Wounds", icon: "💚" },
+    { id: "practices" as Tab, label: "Living as Beloved", icon: "✨" },
+    { id: "videos" as Tab, label: "Videos", icon: "🎬" },
+  ];
+
 export default function FatherhoodOfGodPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_fatherhood-of-god_tab", "theology");
   const [selectedTheology, setSelectedTheology] = usePersistedState("vine_fatherhood-of-god_selected_theology", "ot");
@@ -181,13 +189,6 @@ export default function FatherhoodOfGodPage() {
   const theologyItem = THEOLOGY_ITEMS.find(t => t.id === selectedTheology)!;
   const adoptionItem = ADOPTION_ITEMS.find(a => a.id === selectedAdoption)!;
 
-  const TABS = [
-    { id: "theology" as Tab, label: "Who God Is as Father", icon: "☁️" },
-    { id: "adoption" as Tab, label: "Adoption & Sonship", icon: "🏠" },
-    { id: "fatherwound" as Tab, label: "Healing Father Wounds", icon: "💚" },
-    { id: "practices" as Tab, label: "Living as Beloved", icon: "✨" },
-    { id: "videos" as Tab, label: "Videos", icon: "🎬" },
-  ];
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>

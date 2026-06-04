@@ -168,6 +168,14 @@ const LIVING_ITEMS = [
   },
 ];
 
+const TABS = [
+    { id: "theology" as Tab, label: "What Scripture Says", icon: "📖" },
+    { id: "misunderstandings" as Tab, label: "Correcting Myths", icon: "⚖️" },
+    { id: "voices" as Tab, label: "Great Christian Voices", icon: "🎓" },
+    { id: "living" as Tab, label: "Living with Eternal Hope", icon: "✨" },
+    { id: "videos" as Tab, label: "Videos", icon: "🎬" },
+  ];
+
 export default function HeavenPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_heaven_tab", "theology");
   const [selectedTheology, setSelectedTheology] = usePersistedState("vine_heaven_selected_theology", "intermediate");
@@ -176,13 +184,6 @@ export default function HeavenPage() {
   const theologyItem = THEOLOGY_ITEMS.find(t => t.id === selectedTheology)!;
   const voiceItem = VOICE_ITEMS.find(v => v.id === selectedVoice)!;
 
-  const TABS = [
-    { id: "theology" as Tab, label: "What Scripture Says", icon: "📖" },
-    { id: "misunderstandings" as Tab, label: "Correcting Myths", icon: "⚖️" },
-    { id: "voices" as Tab, label: "Great Christian Voices", icon: "🎓" },
-    { id: "living" as Tab, label: "Living with Eternal Hope", icon: "✨" },
-    { id: "videos" as Tab, label: "Videos", icon: "🎬" },
-  ];
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>

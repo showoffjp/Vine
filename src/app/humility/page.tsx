@@ -154,6 +154,14 @@ const PRACTICE_ITEMS = [
   },
 ];
 
+const TABS = [
+    { id: "theology" as Tab, label: "What Humility Is", icon: "📖" },
+    { id: "teachers" as Tab, label: "Teachers on Humility", icon: "🎓" },
+    { id: "pride" as Tab, label: "Pride's Disguises", icon: "🎭" },
+    { id: "practices" as Tab, label: "Practices", icon: "🛠️" },
+    { id: "videos" as Tab, label: "Videos", icon: "🎬" },
+  ];
+
 export default function HumilityPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_humility_tab", "theology");
   const [selectedTheology, setSelectedTheology] = usePersistedState("vine_humility_selected_theology", "definition");
@@ -164,13 +172,6 @@ export default function HumilityPage() {
   const theologyItem = THEOLOGY_ITEMS.find(t => t.id === selectedTheology)!;
   const teacherItem = TEACHER_ITEMS.find(t => t.id === selectedTeacher)!;
 
-  const TABS = [
-    { id: "theology" as Tab, label: "What Humility Is", icon: "📖" },
-    { id: "teachers" as Tab, label: "Teachers on Humility", icon: "🎓" },
-    { id: "pride" as Tab, label: "Pride's Disguises", icon: "🎭" },
-    { id: "practices" as Tab, label: "Practices", icon: "🛠️" },
-    { id: "videos" as Tab, label: "Videos", icon: "🎬" },
-  ];
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>

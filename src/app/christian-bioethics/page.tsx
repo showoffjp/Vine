@@ -131,6 +131,14 @@ const EMERGING_ITEMS = [
   },
 ];
 
+const TABS = [
+    { id: "foundations" as Tab, label: "Theological Foundations", icon: "📖" },
+    { id: "issues" as Tab, label: "Core Issues", icon: "⚖️" },
+    { id: "endoflife" as Tab, label: "End of Life", icon: "🕊️" },
+    { id: "emerging" as Tab, label: "Emerging Questions", icon: "🔬" },
+    { id: "videos" as Tab, label: "Videos", icon: "🎬" },
+  ];
+
 export default function ChristianBioethicsPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_christian-bioethics_tab", "foundations");
   const [selectedFoundation, setSelectedFoundation] = usePersistedState("vine_christian-bioethics_selected_foundation", "imagodei");
@@ -143,13 +151,6 @@ export default function ChristianBioethicsPage() {
   const issueItem = ISSUE_ITEMS.find(i => i.id === selectedIssue)!;
   const endOfLifeItem = ENDOFLIFE_ITEMS.find(e => e.id === selectedEndOfLife)!;
 
-  const TABS = [
-    { id: "foundations" as Tab, label: "Theological Foundations", icon: "📖" },
-    { id: "issues" as Tab, label: "Core Issues", icon: "⚖️" },
-    { id: "endoflife" as Tab, label: "End of Life", icon: "🕊️" },
-    { id: "emerging" as Tab, label: "Emerging Questions", icon: "🔬" },
-    { id: "videos" as Tab, label: "Videos", icon: "🎬" },
-  ];
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>

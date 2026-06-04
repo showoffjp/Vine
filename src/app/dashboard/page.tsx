@@ -312,6 +312,8 @@ export default function DashboardPage() {
     },
   ];
 
+  const tabs = ["Overview", ...sections.map((s) => s.title)];
+
   const quickLinks = [
     { label: "Daily Devotional", icon: Flame, color: "#E07030", href: "/daily" },
     { label: "Reading Plan", icon: BookOpen, color: "#3a7d56", href: "/reading-plan" },
@@ -332,7 +334,6 @@ export default function DashboardPage() {
     { label: "AI Companion", icon: Zap, color: "#8B9BCC", href: "/ai-companion" },
   ];
 
-  const tabs = ["Overview", ...sections.map((s) => s.title)];
   const visibleSections = activeTab === "Overview" ? sections : sections.filter((s) => s.title === activeTab);
 
   return (

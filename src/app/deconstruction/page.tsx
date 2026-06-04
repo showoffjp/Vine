@@ -146,6 +146,14 @@ const RECONSTRUCTION_ITEMS = [
   },
 ];
 
+const TABS = [
+    { id: "what" as Tab, label: "What Is This?", icon: "❓" },
+    { id: "causes" as Tab, label: "Common Causes", icon: "🔍" },
+    { id: "voices" as Tab, label: "Voices That Help", icon: "🕊️" },
+    { id: "reconstruction" as Tab, label: "Path Forward", icon: "🏗️" },
+    { id: "videos" as Tab, label: "Videos", icon: "🎬" },
+  ];
+
 export default function DeconstructionPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_deconstruction_tab", "what");
   const [selectedWhat, setSelectedWhat] = usePersistedState("vine_deconstruction_selected_what", "definition");
@@ -158,13 +166,6 @@ export default function DeconstructionPage() {
   const causeItem = CAUSE_ITEMS.find(c => c.id === selectedCause)!;
   const voiceItem = VOICE_ITEMS.find(v => v.id === selectedVoice)!;
 
-  const TABS = [
-    { id: "what" as Tab, label: "What Is This?", icon: "❓" },
-    { id: "causes" as Tab, label: "Common Causes", icon: "🔍" },
-    { id: "voices" as Tab, label: "Voices That Help", icon: "🕊️" },
-    { id: "reconstruction" as Tab, label: "Path Forward", icon: "🏗️" },
-    { id: "videos" as Tab, label: "Videos", icon: "🎬" },
-  ];
 
   return (
     <div style={{ background: BG, minHeight: "100vh", color: TEXT, fontFamily: "system-ui, sans-serif", paddingTop: 80 }}>

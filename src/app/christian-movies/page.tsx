@@ -292,7 +292,7 @@ const VIDEOS = [
 
 export default function ChristianMoviesPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_christian-movies_tab", "films");
-  const [genre, setGenre] = useState("All");
+  const [genre, setGenre] = usePersistedState<string>("vine_christian-movies_genre", "All");
   const [selected, setSelected] = useState<string | null>(null);
 
   const filtered = MOVIES.filter(m => genre === "All" || m.genre === genre);

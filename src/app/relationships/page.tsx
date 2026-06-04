@@ -217,7 +217,7 @@ export default function RelationshipsPage() {
   const [savedIds, setSavedIds] = useState<Set<string>>(() => {
     try { const s = localStorage.getItem("vine_relationships_saved"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
   });
-  const [catFilter, setCatFilter] = useState("All");
+  const [catFilter, setCatFilter] = usePersistedState<string>("vine_relationships_cat_filter", "All");
   const [search, setSearch] = useState("");
   const [expandedArticle, setExpandedArticle] = useState<string | null>(null);
   const [selectedStory, setSelectedStory] = useState<typeof STORIES[0] | null>(null);

@@ -745,10 +745,10 @@ export default function HealingPage() {
   const [meditatingVerse, setMeditatingVerse] = useState<HealingVerse | null>(null);
 
   // Verse filter
-  const [verseThemeFilter, setVerseThemeFilter] = useState("All");
+  const [verseThemeFilter, setVerseThemeFilter] = usePersistedState<string>("vine_healing_verse_theme_filter", "All");
 
   // Resource type filter
-  const [resourceTypeFilter, setResourceTypeFilter] = useState("All");
+  const [resourceTypeFilter, setResourceTypeFilter] = usePersistedState<string>("vine_healing_resource_type_filter", "All");
 
   // Testimony expanded
   const [expandedTestimony, setExpandedTestimony] = useState<string | null>(null);

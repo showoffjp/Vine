@@ -444,7 +444,7 @@ export default function PrayerMethodsPage() {
   const [planStarted, setPlanStarted] = useState<Record<string, string>>(() => {
     try { const s = localStorage.getItem("vine_prayer_plan_started"); return s ? JSON.parse(s) : {}; } catch { return {}; }
   });
-  const [catFilter, setCatFilter] = useState("All");
+  const [catFilter, setCatFilter] = usePersistedState<string>("vine_prayer-methods_cat_filter", "All");
 
   const togglePracticed = (id: string) => {
     setPracticed(prev => {

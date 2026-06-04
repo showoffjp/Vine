@@ -328,7 +328,7 @@ const VOICES_PROPH = [
 
 export default function ProphecyTodayPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_prophecy-today_tab", "prophecies");
-  const [topic, setTopic] = useState("All");
+  const [topic, setTopic] = usePersistedState<string>("vine_prophecy-today_topic", "All");
   const [selected, setSelected] = useState<string | null>(null);
   const [selectedVoice, setSelectedVoice] = useState<number | null>(null);
 

@@ -262,7 +262,7 @@ const MH_VIDEOS = [
 
 export default function ChristianMentalHealthResourcesPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_christian-mental-health-resources_tab", "resources");
-  const [topic, setTopic] = useState("All");
+  const [topic, setTopic] = usePersistedState<string>("vine_christian-mental-health-resources_topic", "All");
   const [selected, setSelected] = useState<string | null>(null);
   const [selectedVoice, setSelectedVoice] = useState<number>(1);
 

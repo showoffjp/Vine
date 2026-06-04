@@ -779,7 +779,7 @@ export default function PromisesPage() {
   const [selectedThinker, setSelectedThinker] = usePersistedState("vine_promises_selected_thinker", "spurgeon-ch");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = usePersistedState("vine_promises_selected_category", "All");
-  const [testamentFilter, setTestamentFilter] = useState<"All" | "Old Testament" | "New Testament">("All");
+  const [testamentFilter, setTestamentFilter] = usePersistedState<string>("vine_promises_testament_filter", "All");
   const [showConditionalOnly, setShowConditionalOnly] = useState(false);
   const [collapsedCategories, setCollapsedCategories] = useState<Set<string>>(new Set());
 

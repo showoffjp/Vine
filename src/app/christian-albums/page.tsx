@@ -285,7 +285,7 @@ const VIDEOS_ALB = [
 
 export default function ChristianAlbumsPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_christian-albums_tab", "albums");
-  const [genre, setGenre] = useState("All");
+  const [genre, setGenre] = usePersistedState<string>("vine_christian-albums_genre", "All");
   const [selected, setSelected] = useState<string | null>(null);
 
   const filtered = ALBUMS.filter(a => genre === "All" || a.genre === genre);

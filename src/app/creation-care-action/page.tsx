@@ -358,7 +358,7 @@ export default function CreationCareActionPage() {
                   cursor: "pointer",
                 }}
               >
-                All (30)
+                All ({ACTIONS.length})
               </button>
               {ACTION_CATEGORIES.map(cat => (
                 <button
@@ -414,7 +414,7 @@ export default function CreationCareActionPage() {
 
             {/* Count footer */}
             <div style={{ textAlign: "center", color: MUTED, fontSize: 13, marginTop: 24 }}>
-              Showing {filteredActions.length} of 30 actions
+              Showing {filteredActions.length} of {ACTIONS.length} actions
             </div>
           </div>
         )}

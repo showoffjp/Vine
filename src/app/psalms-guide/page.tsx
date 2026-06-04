@@ -212,7 +212,7 @@ export default function PsalmsGuidePage() {
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
-                The Psalms reward sustained reading more than occasional visits. Here are four ways to make the Psalter a regular part of your life.
+                The Psalms reward sustained reading more than occasional visits. Here are {READING_PLANS.length} ways to make the Psalter a regular part of your life.
               </p>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>

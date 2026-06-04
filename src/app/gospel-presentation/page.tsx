@@ -202,7 +202,7 @@ export default function GospelPresentationPage() {
             }}
           >
             The good news of Jesus Christ is the most important message in the world — and you can
-            learn to share it clearly and graciously. Here are six proven gospel presentations,
+            learn to share it clearly and graciously. Here are {METHODS.length} proven gospel presentations,
             practical tips for everyday conversations, gracious answers to common objections, and how
             to help someone take the step of faith.
           </p>

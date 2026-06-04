@@ -148,7 +148,7 @@ export default function HospitalityPage() {
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
-                Most Christians want to be more hospitable. The gap between intention and practice is almost always one of these five obstacles. Naming them honestly is the first step to moving past them.
+                Most Christians want to be more hospitable. The gap between intention and practice is almost always one of these {OBSTACLES.length} obstacles. Naming them honestly is the first step to moving past them.
               </p>
             </div>
             {OBSTACLES.map((o, i) => (

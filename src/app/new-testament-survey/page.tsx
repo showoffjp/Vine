@@ -196,7 +196,7 @@ export default function NewTestamentSurveyPage() {
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
-                These five themes are the backbone of the New Testament's theological vision — essential for reading any part of the NT in its larger context.
+                These {THEMES.length} themes are the backbone of the New Testament's theological vision — essential for reading any part of the NT in its larger context.
               </p>
             </div>
             {THEMES.map((t, i) => (

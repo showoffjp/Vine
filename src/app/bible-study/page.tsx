@@ -329,7 +329,7 @@ export default function BibleStudyPage() {
                       type="number"
                       value={newNoteForm.verse}
                       onChange={(e) => setNewNoteForm((f) => ({ ...f, verse: e.target.value }))}
-                      min={1} aria-label="Chapter count" placeholder="e.g. 28"
+                      min={1} aria-label="Verse number" placeholder="e.g. 28"
                       className="w-full px-4 py-2.5 rounded-xl text-sm outline-none"
                       style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#F2F2F8" }}
                     />

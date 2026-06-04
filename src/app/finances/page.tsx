@@ -350,7 +350,7 @@ export default function FinancesPage() {
                     type="number"
                     value={income}
                     onChange={(e) => setIncome(e.target.value)}
-                    aria-label="5000" placeholder="5000"
+                    aria-label="Monthly income" placeholder="5000"
                     className="flex-1 bg-transparent text-sm outline-none"
                     style={{ color: "#F2F2F8" }}
                   />

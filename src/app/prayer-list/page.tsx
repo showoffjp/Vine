@@ -314,7 +314,7 @@ export default function PrayerListPage() {
                 <div>
                   <label className="text-[10px] font-bold uppercase tracking-wider block mb-1" style={{ color: "#6A6A88" }}>Scripture to stand on (optional)</label>
                   <input
-                    type="text" aria-label="e.g. Philippians 4:6-7" placeholder="e.g. Philippians 4:6-7"
+                    type="text" aria-label="Scripture reference" placeholder="e.g. Philippians 4:6-7"
                     value={newVerse}
                     onChange={(e) => setNewVerse(e.target.value)}
                     className="w-full px-3 py-2 rounded-xl text-sm outline-none"

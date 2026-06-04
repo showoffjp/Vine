@@ -490,7 +490,7 @@ export default function DevotionalCreatorPage() {
                   <input
                     value={draft.verse}
                     onChange={(e) => setDraft((p) => ({ ...p, verse: e.target.value }))}
-                    aria-label="e.g. For I can do all things through Christ who strengthens me." placeholder="e.g. For I can do all things through Christ who strengthens me."
+                    aria-label="Scripture text" placeholder="e.g. For I can do all things through Christ who strengthens me."
                     style={{ width: "100%", background: "#12121F", border: "1px solid #1E1E32", borderRadius: 8, padding: "10px 14px", color: "#F2F2F8", fontSize: 14, outline: "none", boxSizing: "border-box" }}
                   />
                 </div>
@@ -499,7 +499,7 @@ export default function DevotionalCreatorPage() {
                   <input
                     value={draft.verseRef}
                     onChange={(e) => setDraft((p) => ({ ...p, verseRef: e.target.value }))}
-                    aria-label="e.g. Philippians 4:13" placeholder="e.g. Philippians 4:13"
+                    aria-label="Scripture reference" placeholder="e.g. Philippians 4:13"
                     style={{ width: "100%", background: "#12121F", border: "1px solid #1E1E32", borderRadius: 8, padding: "10px 14px", color: "#F2F2F8", fontSize: 14, outline: "none", boxSizing: "border-box" }}
                   />
                 </div>

@@ -822,7 +822,7 @@ export default function MentorshipPage() {
               <input
                 value={form.topic}
                 onChange={(e) => setForm((p) => ({ ...p, topic: e.target.value }))}
-                aria-label="e.g. Navigating a career change with faith" placeholder="e.g. Navigating a career change with faith"
+                aria-label="Topic or question" placeholder="e.g. Navigating a career change with faith"
                 style={{ width: "100%", background: "#07070F", border: "1px solid #1E1E32", borderRadius: 8, padding: "10px 14px", color: "#F2F2F8", fontSize: 14, outline: "none", boxSizing: "border-box" }}
               />
             </div>

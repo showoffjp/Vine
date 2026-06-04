@@ -198,7 +198,7 @@ export default function ContactPage() {
                         Message
                       </label>
                       <textarea
-                        aria-label="Tell us what's on your mind..." placeholder="Tell us what's on your mind..."
+                        aria-label="Message" placeholder="Tell us what's on your mind..."
                         value={form.message}
                         onChange={(e) => setForm({ ...form, message: e.target.value })}
                         rows={6}

@@ -386,7 +386,7 @@ export default function SermonNotesPage() {
                       </div>
                       <div>
                         <label className="text-[10px] font-bold uppercase tracking-wider block mb-1" style={{ color: "#6A6A88" }}>Date</label>
-                        <input type="text" aria-label="May 25, 2026" placeholder="May 25, 2026"
+                        <input type="text" aria-label="Sermon date" placeholder="May 25, 2026"
                           value={editDraft.date ?? ""}
                           onChange={(e) => setDraft((p) => ({ ...p, date: e.target.value }))}
                           className="w-full px-3 py-2 rounded-xl text-sm outline-none"
@@ -398,7 +398,7 @@ export default function SermonNotesPage() {
                     <div className="grid grid-cols-2 gap-3">
                       <div>
                         <label className="text-[10px] font-bold uppercase tracking-wider block mb-1" style={{ color: "#6A6A88" }}>Scripture Reference</label>
-                        <input type="text" aria-label="John 3:16" placeholder="John 3:16"
+                        <input type="text" aria-label="Scripture reference" placeholder="John 3:16"
                           value={editDraft.scripture ?? ""}
                           onChange={(e) => setDraft((p) => ({ ...p, scripture: e.target.value }))}
                           className="w-full px-3 py-2 rounded-xl text-sm outline-none"

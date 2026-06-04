@@ -744,14 +744,14 @@ export default function PrayerPartnerPage() {
                 <label style={{ fontSize: 12, color: "#9898B3", display: "block", marginBottom: 5 }}>What did you pray about? *</label>
                 <input value={sessionForm.topic}
                   onChange={(e) => setSessionForm((p) => ({ ...p, topic: e.target.value }))}
-                  aria-label="e.g. Healing for a family member, guidance on career" placeholder="e.g. Healing for a family member, guidance on career"
+                  aria-label="Prayer request" placeholder="e.g. Healing for a family member, guidance on career"
                   style={{ width: "100%", background: "#07070F", border: "1px solid #1E1E32", borderRadius: 8, padding: "9px 12px", color: "#F2F2F8", fontSize: 14, outline: "none", boxSizing: "border-box" }} />
               </div>
               <div>
                 <label style={{ fontSize: 12, color: "#9898B3", display: "block", marginBottom: 5 }}>Scripture used (optional)</label>
                 <input value={sessionForm.verse}
                   onChange={(e) => setSessionForm((p) => ({ ...p, verse: e.target.value }))}
-                  aria-label="e.g. Philippians 4:6–7" placeholder="e.g. Philippians 4:6–7"
+                  aria-label="Scripture reference" placeholder="e.g. Philippians 4:6–7"
                   style={{ width: "100%", background: "#07070F", border: "1px solid #1E1E32", borderRadius: 8, padding: "9px 12px", color: "#F2F2F8", fontSize: 14, outline: "none", boxSizing: "border-box" }} />
               </div>
               <div>

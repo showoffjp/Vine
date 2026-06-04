@@ -241,13 +241,13 @@ export default function PrayerJournalPage() {
                   </div>
                   <div>
                     <label style={{ fontSize: 12, fontWeight: 700, color: "#9898B3", textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>Reference</label>
-                    <input value={verseRef} onChange={e => setVerseRef(e.target.value)} aria-label="John 3:16" placeholder="John 3:16"
+                    <input value={verseRef} onChange={e => setVerseRef(e.target.value)} aria-label="Verse reference" placeholder="John 3:16"
                       style={{ width: "100%", padding: "10px 14px", borderRadius: 10, background: "#0D0D1A", border: "1px solid #1E1E32", color: "#F2F2F8", fontSize: 14, outline: "none", boxSizing: "border-box" }} />
                   </div>
                 </div>
                 <div>
                   <label style={{ fontSize: 12, fontWeight: 700, color: "#9898B3", textTransform: "uppercase", letterSpacing: 1, display: "block", marginBottom: 6 }}>Tags (comma-separated)</label>
-                  <input value={tags} onChange={e => setTags(e.target.value)} aria-label="family, healing, work..." placeholder="family, healing, work..."
+                  <input value={tags} onChange={e => setTags(e.target.value)} aria-label="Tags" placeholder="family, healing, work..."
                     style={{ width: "100%", padding: "10px 14px", borderRadius: 10, background: "#0D0D1A", border: "1px solid #1E1E32", color: "#F2F2F8", fontSize: 14, outline: "none", boxSizing: "border-box" }} />
                 </div>
                 <button type="button" onClick={addEntry} disabled={!title.trim() || !body.trim()}

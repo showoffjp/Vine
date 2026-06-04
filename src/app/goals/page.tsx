@@ -404,7 +404,7 @@ export default function GoalsPage() {
                   <label className="text-xs font-bold uppercase tracking-wider block mb-1.5" style={{ color: "#6A6A88" }}>Goal Title</label>
                   <input
                     type="text"
-                    aria-label="e.g. Read the Psalms" placeholder="e.g. Read the Psalms"
+                    aria-label="Goal title" placeholder="e.g. Read the Psalms"
                     value={newTitle}
                     onChange={(e) => setNewTitle(e.target.value)}
                     className="w-full px-4 py-2.5 rounded-xl text-sm outline-none"

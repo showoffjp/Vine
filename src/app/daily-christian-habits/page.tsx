@@ -443,9 +443,9 @@ export default function DailyChristianHabitsPage() {
         {/* Header */}
         <div style={{ textAlign: "center", marginBottom: 40 }}>
           <div style={{ fontSize: 48, marginBottom: 12 }}>&#127807;</div>
-          <h1 style={{ fontSize: 32, fontWeight: 900, marginBottom: 8 }}>21 Daily Christian Habits</h1>
+          <h1 style={{ fontSize: 32, fontWeight: 900, marginBottom: 8 }}>{HABITS.length} Daily Christian Habits</h1>
           <p style={{ color: MUTED, fontSize: 16, maxWidth: 580, margin: "0 auto" }}>
-            Spiritual growth is not a feeling &mdash; it is a set of practiced habits, repeated over years, that reshape who we are. These 21 practices are the building blocks of a life with God.
+            Spiritual growth is not a feeling &mdash; it is a set of practiced habits, repeated over years, that reshape who we are. These {HABITS.length} practices are the building blocks of a life with God.
           </p>
         </div>
 

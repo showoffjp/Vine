@@ -270,7 +270,7 @@ export default function ChristianFriendshipTheologyPage() {
         {tab === "theology" && (
           <div>
             <p style={{ color: MUTED, fontSize: 14, marginBottom: 24, lineHeight: 1.7 }}>
-              Six theological foundations — from the eternal friendship within the Trinity to the loneliness epidemic as a spiritual crisis.
+              {THEOLOGY_ITEMS.length} theological foundations — from the eternal friendship within the Trinity to the loneliness epidemic as a spiritual crisis.
             </p>
             <div style={{ display: "flex", flexDirection: "column" as const, gap: 8 }}>
               {THEOLOGY_ITEMS.map((item) => {

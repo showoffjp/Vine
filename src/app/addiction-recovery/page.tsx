@@ -193,7 +193,7 @@ export default function AddictionRecoveryPage() {
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
-                Recovery from addiction is a process, not an event. These six steps reflect the wisdom accumulated from decades of addiction recovery ministry and research. None of them can be skipped; none of them are enough alone.
+                Recovery from addiction is a process, not an event. These {STEPS.length} steps reflect the wisdom accumulated from decades of addiction recovery ministry and research. None of them can be skipped; none of them are enough alone.
               </p>
             </div>
             {STEPS.map(s => (

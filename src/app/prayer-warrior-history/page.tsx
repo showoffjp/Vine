@@ -219,6 +219,39 @@ const SCRIPTURE_PWH: { id: string; ref: string; text: string; warrior: string; h
   },
 ];
 
+const HABITS_PWH = [
+  {
+    icon: "📓",
+    title: "Daily Prayer Journal",
+    description: "Each morning, write three specific prayer requests and one thanksgiving before you do anything else. Dating each entry creates a record of God's faithfulness over time — and forces the specificity that Müller practiced for 60 years.",
+    time: "5 min / day",
+  },
+  {
+    icon: "📋",
+    title: "Long-Term Intercession List",
+    description: "Keep a separate list of five to ten “impossible” prayers you will not give up on — people who need to come to faith, situations that seem intractable, promises you believe God has given you. Review this list weekly and pray through it. Müller prayed 52 years for one name on his list.",
+    time: "Weekly review",
+  },
+  {
+    icon: "📖",
+    title: "Scripture-Prayer",
+    description: "Choose one Bible verse or promise per day. Read it slowly. Then pray it back to God in your own words, letting the text shape what you ask and how you ask it. Hudson Taylor built his entire prayer life on praying biblical promises back to the God who made them.",
+    time: "10 min / day",
+  },
+  {
+    icon: "👥",
+    title: "Corporate Prayer",
+    description: "Commit to one fixed weekly prayer time with at least one other person. It does not need to be long — 20 to 30 minutes is enough to start. Rees Howells believed that corporate intercession carried a spiritual weight that solitary prayer could not. Jesus promised special presence where two or three gather in his name.",
+    time: "30 min / week",
+  },
+  {
+    icon: "🚶",
+    title: "Prayer Walk",
+    description: "Once a month, walk a neighborhood, campus, or workplace in prayer. Pray out loud quietly or silently for the people you pass, the buildings you see, and the spiritual climate of the place. This practice connects intercession to geography and makes your prayers concrete and local.",
+    time: "30 min / month",
+  },
+];
+
 export default function PrayerWarriorHistoryPage() {
   const [era, setEra] = useState("All");
   const [selected, setSelected] = useState<string | null>(null);
@@ -345,7 +378,7 @@ export default function PrayerWarriorHistoryPage() {
 
         {activeTab === "principles" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-            <p style={{ color: MUTED, fontSize: 15, lineHeight: 1.7 }}>Six principles distilled from the lives of history&rsquo;s greatest prayer warriors.</p>
+            <p style={{ color: MUTED, fontSize: 15, lineHeight: 1.7 }}>{PRINCIPLES_PWH.length} principles distilled from the lives of history&rsquo;s greatest prayer warriors.</p>
             {PRINCIPLES_PWH.map(p => (
               <div key={p.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 }}>
@@ -385,39 +418,8 @@ export default function PrayerWarriorHistoryPage() {
 
         {activeTab === "practices" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-            <p style={{ color: MUTED, fontSize: 15, lineHeight: 1.7 }}>Five habits drawn from the lives of the great prayer warriors &mdash; simple enough to start today.</p>
-            {[
-              {
-                icon: "📓",
-                title: "Daily Prayer Journal",
-                description: "Each morning, write three specific prayer requests and one thanksgiving before you do anything else. Dating each entry creates a record of God's faithfulness over time — and forces the specificity that Müller practiced for 60 years.",
-                time: "5 min / day",
-              },
-              {
-                icon: "📋",
-                title: "Long-Term Intercession List",
-                description: "Keep a separate list of five to ten &ldquo;impossible&rdquo; prayers you will not give up on &mdash; people who need to come to faith, situations that seem intractable, promises you believe God has given you. Review this list weekly and pray through it. Müller prayed 52 years for one name on his list.",
-                time: "Weekly review",
-              },
-              {
-                icon: "📖",
-                title: "Scripture-Prayer",
-                description: "Choose one Bible verse or promise per day. Read it slowly. Then pray it back to God in your own words, letting the text shape what you ask and how you ask it. Hudson Taylor built his entire prayer life on praying biblical promises back to the God who made them.",
-                time: "10 min / day",
-              },
-              {
-                icon: "👥",
-                title: "Corporate Prayer",
-                description: "Commit to one fixed weekly prayer time with at least one other person. It does not need to be long &mdash; 20 to 30 minutes is enough to start. Rees Howells believed that corporate intercession carried a spiritual weight that solitary prayer could not. Jesus promised special presence where two or three gather in his name.",
-                time: "30 min / week",
-              },
-              {
-                icon: "🚶",
-                title: "Prayer Walk",
-                description: "Once a month, walk a neighborhood, campus, or workplace in prayer. Pray out loud quietly or silently for the people you pass, the buildings you see, and the spiritual climate of the place. This practice connects intercession to geography and makes your prayers concrete and local.",
-                time: "30 min / month",
-              },
-            ].map((habit, i) => (
+            <p style={{ color: MUTED, fontSize: 15, lineHeight: 1.7 }}>{HABITS_PWH.length} habits drawn from the lives of the great prayer warriors &mdash; simple enough to start today.</p>
+            {HABITS_PWH.map((habit, i) => (
               <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 24 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 }}>
                   <h3 style={{ margin: 0, fontSize: 17 }}>{habit.icon} {habit.title}</h3>

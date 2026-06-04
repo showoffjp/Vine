@@ -389,7 +389,7 @@ export default function SufferingPage() {
               <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.65 }}>
                 Lament is the biblical practice of bringing suffering to God
                 with honesty, directness, and trust. It is not complaining — it
-                is a form of prayer. Here are the six movements of a lament
+                is a form of prayer. Here are the {LAMENT_STEPS.length} movements of a lament
                 Psalm.
               </p>
             </div>

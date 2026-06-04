@@ -680,7 +680,7 @@ export default function PrayerMethodsPage() {
             <div style={{ textAlign: "center", marginBottom: 32 }}>
               <h2 style={{ fontSize: 28, fontWeight: 900, marginBottom: 8 }}>Voices on Prayer</h2>
               <p style={{ color: "#9898B3", fontSize: 15, maxWidth: 580, margin: "0 auto" }}>
-                Five teachers whose writings on prayer have formed the church &mdash; from E.M. Bounds&rsquo;s intensity to Dallas Willard&rsquo;s conversational model.
+                {VOICES_PM.length} teachers whose writings on prayer have formed the church &mdash; from E.M. Bounds&rsquo;s intensity to Dallas Willard&rsquo;s conversational model.
               </p>
             </div>
             <div style={{ display: "flex", gap: 20, flexWrap: "wrap", alignItems: "flex-start" }}>
@@ -715,7 +715,7 @@ export default function PrayerMethodsPage() {
             <div style={{ textAlign: "center", marginBottom: 40 }}>
               <h2 style={{ fontSize: 28, fontWeight: 900, marginBottom: 8 }}>Scripture on Prayer</h2>
               <p style={{ color: "#9898B3", fontSize: 15, maxWidth: 580, margin: "0 auto" }}>
-                Six passages that define, deepen, and transform the practice of prayer &mdash; with devotional reflections for each.
+                {PRAYER_SCRIPTURE.length} passages that define, deepen, and transform the practice of prayer &mdash; with devotional reflections for each.
               </p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>

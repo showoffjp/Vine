@@ -495,25 +495,21 @@ const missionaryColors = { Strong: "#3a7d56", Moderate: "#3B82F6", Minimal: "#F5
 
 export default function WorldPrayerPage() {
   const [activeTab, setActiveTab] = useState<Tab>("countries");
-  const [prayedFor, setPrayedFor] = useState<Set<string>>(new Set());
-  const [savedCountries, setSavedCountries] = useState<Set<string>>(new Set());
+  const [prayedFor, setPrayedFor] = useState<Set<string>>(() => {
+    try { const p = localStorage.getItem("vine_world_prayer_prayed"); return p ? new Set(JSON.parse(p)) : new Set(); } catch { return new Set(); }
+  });
+  const [savedCountries, setSavedCountries] = useState<Set<string>>(() => {
+    try { const s = localStorage.getItem("vine_world_prayer_saved"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
+  });
   const [selected, setSelected] = useState<CountryPrayer | null>(null);
   const [filterRegion, setFilterRegion] = useState("All Regions");
   const [filterStatus, setFilterStatus] = useState("All");
   const [search, setSearch] = useState("");
-  const [prayerLog, setPrayerLog] = useState<{ countryId: string; date: string }[]>([]);
+  const [prayerLog, setPrayerLog] = useState<{ countryId: string; date: string }[]>(() => {
+    try { const l = localStorage.getItem("vine_world_prayer_log"); return l ? JSON.parse(l) : []; } catch { return []; }
+  });
   const [selectedVoice, setSelectedVoice] = useState<VoiceWPrayer>(VOICES_WPRAYER[0]);
 
-  useEffect(() => {
-    try {
-      const p = localStorage.getItem("vine_world_prayer_prayed");
-      if (p) setPrayedFor(new Set(JSON.parse(p)));
-      const s = localStorage.getItem("vine_world_prayer_saved");
-      if (s) setSavedCountries(new Set(JSON.parse(s)));
-      const l = localStorage.getItem("vine_world_prayer_log");
-      if (l) setPrayerLog(JSON.parse(l));
-    } catch {}
-  }, []);
 
   const handlePray = (id: string) => {
     setPrayedFor((prev) => {

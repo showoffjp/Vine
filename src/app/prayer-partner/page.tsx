@@ -336,9 +336,15 @@ const focusAreaOptions = ["All", "Healing", "Family", "Nations", "Youth", "Menta
 const frequencyOptions = ["Any", "Daily", "3x per week", "Weekly", "2x per week"];
 
 export default function PrayerPartnerPage() {
-  const [connectedIds, setConnectedIds] = useState<Set<string>>(new Set());
-  const [savedIds, setSavedIds] = useState<Set<string>>(new Set());
-  const [sessions, setSessions] = useState<PrayerSession[]>([]);
+  const [connectedIds, setConnectedIds] = useState<Set<string>>(() => {
+    try { const c = localStorage.getItem("vine_prayer_partner_connected"); return c ? new Set(JSON.parse(c)) : new Set(); } catch { return new Set(); }
+  });
+  const [savedIds, setSavedIds] = useState<Set<string>>(() => {
+    try { const s = localStorage.getItem("vine_prayer_partner_saved"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
+  });
+  const [sessions, setSessions] = useState<PrayerSession[]>(() => {
+    try { const ps = localStorage.getItem("vine_prayer_sessions"); return ps ? JSON.parse(ps) : []; } catch { return []; }
+  });
   const [selectedPartner, setSelectedPartner] = useState<Partner | null>(null);
   const [filterFocus, setFilterFocus] = useState("All");
   const [filterFreq, setFilterFreq] = useState("Any");
@@ -348,16 +354,6 @@ export default function PrayerPartnerPage() {
   const [sessionModal, setSessionModal] = useState<Partner | null>(null);
   const [sessionForm, setSessionForm] = useState({ duration: 20, topic: "", verse: "", notes: "" });
 
-  useEffect(() => {
-    try {
-      const c = localStorage.getItem("vine_prayer_partner_connected");
-      if (c) setConnectedIds(new Set(JSON.parse(c)));
-      const s = localStorage.getItem("vine_prayer_partner_saved");
-      if (s) setSavedIds(new Set(JSON.parse(s)));
-      const ps = localStorage.getItem("vine_prayer_sessions");
-      if (ps) setSessions(JSON.parse(ps));
-    } catch {}
-  }, []);
 
   const handleConnect = (id: string) => {
     setConnectedIds((prev) => {

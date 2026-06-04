@@ -88,8 +88,12 @@ const THEMES_Q = [
 ];
 
 export default function QuotesPage() {
-  const [savedIds, setSavedIds] = useState<Set<string>>(new Set());
-  const [likedIds, setLikedIds] = useState<Set<string>>(new Set());
+  const [savedIds, setSavedIds] = useState<Set<string>>(() => {
+    try { const s = localStorage.getItem("vine_quotes_saved"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
+  });
+  const [likedIds, setLikedIds] = useState<Set<string>>(() => {
+    try { const l = localStorage.getItem("vine_quotes_liked"); return l ? new Set(JSON.parse(l)) : new Set(); } catch { return new Set(); }
+  });
   const [filterCategory, setFilterCategory] = useState("All");
   const [filterEra, setFilterEra] = useState("All Eras");
   const [sortBy, setSortBy] = useState("Most Liked");
@@ -98,14 +102,6 @@ export default function QuotesPage() {
   const [selectedThinker, setSelectedThinker] = useState("lewis-cs");
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
-  useEffect(() => {
-    try {
-      const s = localStorage.getItem("vine_quotes_saved");
-      if (s) setSavedIds(new Set(JSON.parse(s)));
-      const l = localStorage.getItem("vine_quotes_liked");
-      if (l) setLikedIds(new Set(JSON.parse(l)));
-    } catch {}
-  }, []);
 
   const handleSave = (id: string) => {
     setSavedIds((prev) => {

@@ -165,8 +165,12 @@ const VOICES_GRIEF = [
 const moodOptions = ["🌧️ Dark", "😶 Numb", "😢 Sad", "😤 Angry", "🌤️ Cautiously okay", "☀️ Peaceful"];
 
 export default function GriefPage() {
-  const [likedStories, setLikedStories] = useState<Set<string>>(new Set());
-  const [journalEntries, setJournalEntries] = useState<JournalEntry[]>([]);
+  const [likedStories, setLikedStories] = useState<Set<string>>(() => {
+    try { const l = localStorage.getItem("vine_grief_liked"); return l ? new Set(JSON.parse(l)) : new Set(); } catch { return new Set(); }
+  });
+  const [journalEntries, setJournalEntries] = useState<JournalEntry[]>(() => {
+    try { const j = localStorage.getItem("vine_grief_journal"); return j ? JSON.parse(j) : []; } catch { return []; }
+  });
   const [activeTab, setActiveTab] = useState<"stories" | "voices" | "journal" | "resources" | "videos">("stories");
   const [selectedVoice, setSelectedVoice] = useState("lewis");
   const voiceItem = VOICES_GRIEF.find(v => v.id === selectedVoice)!;
@@ -176,14 +180,6 @@ export default function GriefPage() {
   const [mood, setMood] = useState("");
   const [filterLoss, setFilterLoss] = useState("All");
 
-  useEffect(() => {
-    try {
-      const l = localStorage.getItem("vine_grief_liked");
-      if (l) setLikedStories(new Set(JSON.parse(l)));
-      const j = localStorage.getItem("vine_grief_journal");
-      if (j) setJournalEntries(JSON.parse(j));
-    } catch {}
-  }, []);
 
   const handleLike = (id: string) => {
     setLikedStories((prev) => {

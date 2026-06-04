@@ -234,8 +234,12 @@ const MENTORSHIP_VIDEOS = [
 ];
 
 export default function MentorshipPage() {
-  const [savedMentors, setSavedMentors] = useState<Set<string>>(new Set());
-  const [requests, setRequests] = useState<MentorshipRequest[]>([]);
+  const [savedMentors, setSavedMentors] = useState<Set<string>>(() => {
+    try { const s = localStorage.getItem("vine_mentorship_saved"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
+  });
+  const [requests, setRequests] = useState<MentorshipRequest[]>(() => {
+    try { const r = localStorage.getItem("vine_mentorship_requests"); return r ? JSON.parse(r) : []; } catch { return []; }
+  });
   const [selectedMentor, setSelectedMentor] = useState<Mentor | null>(null);
   const [requestModal, setRequestModal] = useState<Mentor | null>(null);
   const [filterExpertise, setFilterExpertise] = useState("All");
@@ -251,14 +255,6 @@ export default function MentorshipPage() {
     frequency: "Weekly",
   });
 
-  useEffect(() => {
-    try {
-      const s = localStorage.getItem("vine_mentorship_saved");
-      if (s) setSavedMentors(new Set(JSON.parse(s)));
-      const r = localStorage.getItem("vine_mentorship_requests");
-      if (r) setRequests(JSON.parse(r));
-    } catch {}
-  }, []);
 
   const handleSave = (id: string) => {
     setSavedMentors((prev) => {

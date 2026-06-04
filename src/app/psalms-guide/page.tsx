@@ -91,7 +91,7 @@ export default function PsalmsGuidePage() {
   const [activeTab, setActiveTab] = usePersistedState<"types" | "theology" | "scholars" | "plans" | "videos">("vine_psalms-guide_tab", "types");
   const [selectedScholar, setSelectedScholar] = useState("lewis");
   const scholarItem = SCHOLARS_PSALMS.find(s => s.id === selectedScholar)!;
-  const [selectedType, setSelectedType] = useState("Lament");
+  const [selectedType, setSelectedType] = usePersistedState("vine_psalms-guide_selected_type", "Lament");
 
   const type = TYPES.find(t => t.type === selectedType)!;
 

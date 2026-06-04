@@ -93,7 +93,7 @@ const PRACTICES = [
 
 export default function PrayerFastingPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_prayer-fasting_tab", "theology");
-  const [selectedType, setSelectedType] = useState("Complete Fast");
+  const [selectedType, setSelectedType] = usePersistedState("vine_prayer-fasting_selected_type", "Complete Fast");
   const [selectedExample, setSelectedExample] = useState("moses");
 
   const type = TYPES.find(t => t.name === selectedType)!;

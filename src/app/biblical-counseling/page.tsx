@@ -134,7 +134,7 @@ const VOICES_BC = [
 
 export default function BiblicalCounselingPage() {
   const [activeTab, setActiveTab] = usePersistedState<"overview" | "topics" | "voices" | "schools" | "videos">("vine_biblical-counseling_tab", "overview");
-  const [selectedTopic, setSelectedTopic] = useState("anxiety");
+  const [selectedTopic, setSelectedTopic] = usePersistedState("vine_biblical-counseling_selected_topic", "anxiety");
   const [openSection, setOpenSection] = useState<string>("approach");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_biblical-counseling_voice", "adams-j");
   const voiceItem = VOICES_BC.find(v => v.id === selectedVoice)!;

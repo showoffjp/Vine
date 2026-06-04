@@ -86,7 +86,7 @@ type Tab = "theology" | "types" | "stories" | "practices" | "videos";
 
 export default function FearPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_fear_tab", "theology");
-  const [selectedType, setSelectedType] = useState("Fear of Death");
+  const [selectedType, setSelectedType] = usePersistedState("vine_fear_selected_type", "Fear of Death");
   const [selectedStory, setSelectedStory] = useState("disciples");
 
   const fearType = FEAR_TYPES.find(f => f.type === selectedType)!;

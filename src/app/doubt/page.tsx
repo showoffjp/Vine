@@ -132,7 +132,7 @@ const VOICES = [
 
 export default function DoubtPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_doubt_tab", "types");
-  const [selectedType, setSelectedType] = useState("intellectual");
+  const [selectedType, setSelectedType] = usePersistedState("vine_doubt_selected_type", "intellectual");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_doubt_voice", "lewis");
   const voiceItem = VOICES.find(v => v.id === selectedVoice)!;
 

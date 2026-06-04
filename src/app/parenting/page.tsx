@@ -302,7 +302,7 @@ export default function ParentingPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_parenting_tab", "stages");
   const [selectedStage, setSelectedStage] = useState<Stage | null>(null);
   const [expandedRhythm, setExpandedRhythm] = useState<string | null>(null);
-  const [selectedVoice, setSelectedVoice] = useState<string>("baucham");
+  const [selectedVoice, setSelectedVoice] = usePersistedState<string>("vine_parenting_selected_voice", "baucham");
   const [savedRhythms, setSavedRhythms] = useState<Set<string>>(() => {
     try { const s = localStorage.getItem("vine_parenting_rhythms"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
   });

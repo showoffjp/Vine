@@ -85,7 +85,7 @@ type Tab = "theology" | "seasons" | "voices" | "practices" | "videos";
 
 export default function ChristianMarriagePage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_christian-marriage_tab", "theology");
-  const [selected, setSelected] = useState<string>("Newlyweds (0-3 years)");
+  const [selected, setSelected] = usePersistedState<string>("vine_christian-marriage_selected", "Newlyweds (0-3 years)");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_christian-marriage_voice", "keller");
 
   const season = SEASONS.find(s => s.season === selected);

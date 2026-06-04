@@ -215,7 +215,7 @@ function Accordion({
 export default function TheologyOfSabbathPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_theology-of-sabbath_tab", "theology");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
-  const [selectedHistory, setSelectedHistory] = useState<string>("second-temple");
+  const [selectedHistory, setSelectedHistory] = usePersistedState<string>("vine_theology-of-sabbath_selected_history", "second-temple");
 
   const toggle = (k: string) =>
     setExpanded((prev) => ({ ...prev, [k]: !prev[k] }));

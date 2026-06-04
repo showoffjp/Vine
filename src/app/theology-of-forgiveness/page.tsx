@@ -195,7 +195,7 @@ function AccordionItem({
 export default function TheologyOfForgivenessPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_theology-of-forgiveness_tab", "theology");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
-  const [activeEpisode, setActiveEpisode] = useState<string>("cross");
+  const [activeEpisode, setActiveEpisode] = usePersistedState<string>("vine_theology-of-forgiveness_active_episode", "cross");
 
   function toggle(key: string) {
     setExpanded((prev) => ({ ...prev, [key]: !prev[key] }));

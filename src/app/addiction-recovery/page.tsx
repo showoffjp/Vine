@@ -86,7 +86,7 @@ type Tab = "theology" | "types" | "voices" | "steps" | "videos";
 
 export default function AddictionRecoveryPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_addiction-recovery_tab", "theology");
-  const [selected, setSelected] = useState<string>("Alcohol");
+  const [selected, setSelected] = usePersistedState<string>("vine_addiction-recovery_selected", "Alcohol");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_addiction-recovery_voice", "manning");
 
   const type = TYPES.find(t => t.type === selected);

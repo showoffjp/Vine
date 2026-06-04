@@ -87,7 +87,7 @@ const PRACTICES = [
 
 export default function UnansweredPrayerPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_unanswered-prayer_tab", "theology");
-  const [selectedReason, setSelectedReason] = useState("Against God's Will");
+  const [selectedReason, setSelectedReason] = usePersistedState("vine_unanswered-prayer_selected_reason", "Against God's Will");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_unanswered-prayer_voice", "yancey");
 
   const reason = REASONS.find(r => r.reason === selectedReason)!;

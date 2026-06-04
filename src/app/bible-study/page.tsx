@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 
 import { useState, useEffect } from "react";
 import { BookOpen, Plus, ChevronDown, ChevronRight, CheckCircle2, Circle, Search, Tag, Save, X, Lightbulb } from "lucide-react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 interface StudyNote {
   id: string;
@@ -147,8 +148,8 @@ export default function BibleStudyPage() {
   const [search, setSearch] = useState("");
   const [showNewPlan, setShowNewPlan] = useState(false);
   const [showNewNote, setShowNewNote] = useState(false);
-  const [filterType, setFilterType] = useState<string>("all");
-  const [activeView, setActiveView] = useState<"plan" | "notes">("plan");
+  const [filterType, setFilterType] = usePersistedState<string>("vine_bible-study_filter_type", "all");
+  const [activeView, setActiveView] = usePersistedState<"plan" | "notes">("vine_bible-study_active_view", "plan");
 
   const [newPlanForm, setNewPlanForm] = useState({ book: "Matthew", title: "" });
   const [newNoteForm, setNewNoteForm] = useState({

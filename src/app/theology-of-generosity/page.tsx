@@ -243,7 +243,7 @@ function AccordionItem({
 export default function TheologyOfGenerosityPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_theology-of-generosity_tab", "theology");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
-  const [activeMotivation, setActiveMotivation] = useState<string>("m1");
+  const [activeMotivation, setActiveMotivation] = usePersistedState<string>("vine_theology-of-generosity_active_motivation", "m1");
 
   const toggleExpanded = (id: string) => {
     setExpanded((prev) => ({ ...prev, [id]: !prev[id] }));

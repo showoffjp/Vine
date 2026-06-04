@@ -225,7 +225,7 @@ function Accordion({ items, expanded, setExpanded }: {
 export default function ChurchForSkepticsPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_church-for-skeptics_tab", "wounds");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
-  const [selectedPanel, setSelectedPanel] = useState<string>("health-signs");
+  const [selectedPanel, setSelectedPanel] = usePersistedState<string>("vine_church-for-skeptics_selected_panel", "health-signs");
 
   const tabs: { id: Tab; label: string }[] = [
     { id: "wounds", label: "Understanding the Wounds" },

@@ -145,7 +145,7 @@ const WHY = [
 
 export default function ConfessionsPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_confessions_tab", "creeds");
-  const [selectedCreed, setSelectedCreed] = useState("Apostles' Creed");
+  const [selectedCreed, setSelectedCreed] = usePersistedState("vine_confessions_selected_creed", "Apostles' Creed");
   const [selectedConf, setSelectedConf] = usePersistedState("vine_confessions_selected_conf", "Westminster Confession");
   const [selectedCat, setSelectedCat] = usePersistedState("vine_confessions_selected_cat", "Westminster Shorter Catechism");
 

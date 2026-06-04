@@ -313,7 +313,7 @@ function DetailRow({
 export default function CommunionTheologyPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_communion-theology_tab", "theology");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
-  const [activeView, setActiveView] = useState<string>("transubstantiation");
+  const [activeView, setActiveView] = usePersistedState<string>("vine_communion-theology_active_view", "transubstantiation");
 
   function toggleAccordion(id: string) {
     setExpanded((prev) => ({ ...prev, [id]: !prev[id] }));

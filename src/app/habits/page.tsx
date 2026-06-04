@@ -135,7 +135,7 @@ export default function HabitsPage() {
   const [newName, setNewName] = useState("");
   const [newIcon, setNewIcon] = useState(ICONS[0]);
   const [newColor, setNewColor] = useState(COLORS[0]);
-  const [view, setView] = useState<"week" | "month">("week");
+  const [view, setView] = usePersistedState<"week" | "month">("vine_habits_view", "week");
   const [mainTab, setMainTab] = usePersistedState<"tracker" | "theology" | "voices" | "methods" | "videos">("vine_habits_main_tab", "tracker");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_habits_voice", "smith-hab");
   const VOICES_HAB = [

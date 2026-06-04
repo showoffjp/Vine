@@ -336,7 +336,7 @@ export default function TheologyPage() {
   const [catFilter, setCatFilter] = useState("All");
   const [diffFilter, setDiffFilter] = useState("All");
   const [expandedDoc, setExpandedDoc] = useState<string | null>(null);
-  const [selectedCreed, setSelectedCreed] = useState<string>("apostles");
+  const [selectedCreed, setSelectedCreed] = usePersistedState<string>("vine_theology_selected_creed", "apostles");
   const [studiedDocs, setStudiedDocs] = useState<Set<string>>(() => {
     try { const s = localStorage.getItem("vine_theology_studied"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
   });

@@ -132,7 +132,7 @@ export default function DevotionalCreatorPage() {
   const [likedIds, setLikedIds] = useState<Set<string>>(() => {
     try { const l = localStorage.getItem("vine_devotionals_liked"); return l ? new Set(JSON.parse(l)) : new Set(); } catch { return new Set(); }
   });
-  const [view, setView] = useState<"browse" | "create" | "detail">("browse");
+  const [view, setView] = usePersistedState<"browse" | "create" | "detail">("vine_devotional-creator_view", "browse");
   const [selectedDev, setSelectedDev] = useState<Devotional | null>(null);
   const [step, setStep] = useState(0);
   const [filterTheme, setFilterTheme] = usePersistedState("vine_devotional-creator_filter_theme", "All");

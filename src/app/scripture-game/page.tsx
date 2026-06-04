@@ -88,7 +88,7 @@ export default function ScriptureGamePage() {
   });
 
   const [mode, setMode] = useState<GameMode | null>(null);
-  const [filterDifficulty, setFilterDifficulty] = useState<"All" | "Easy" | "Medium" | "Hard">("All");
+  const [filterDifficulty, setFilterDifficulty] = usePersistedState<"All" | "Easy" | "Medium" | "Hard">("vine_scripture-game_filter_difficulty", "All");
   const [filterCategory, setFilterCategory] = usePersistedState("vine_scripture-game_filter_category", "All");
   const [gameState, setGameState] = useState<"idle" | "playing" | "result" | "done">("idle");
   const [queue, setQueue] = useState<Verse[]>([]);

@@ -91,7 +91,7 @@ const VIDEOS = [
 
 export default function TheodPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_theodicy_tab", "theology");
-  const [selectedResponse, setSelectedResponse] = useState("Classical Theism (Augustinian)");
+  const [selectedResponse, setSelectedResponse] = usePersistedState("vine_theodicy_selected_response", "Classical Theism (Augustinian)");
   const [selectedWitness, setSelectedWitness] = usePersistedState("vine_theodicy_selected_witness", "wolterstorff");
 
   const resp = RESPONSES.find(r => r.response === selectedResponse)!;

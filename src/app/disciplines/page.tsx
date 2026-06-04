@@ -394,7 +394,7 @@ export default function DisciplinesPage() {
   });
 
   const [mainTab, setMainTab] = usePersistedState<"tracker" | "theology" | "practices" | "voices" | "videos">("vine_disciplines_main_tab", "tracker");
-  const [activeCategory, setActiveCategory] = useState<"all" | "inward" | "outward" | "corporate">("all");
+  const [activeCategory, setActiveCategory] = usePersistedState<"all" | "inward" | "outward" | "corporate">("vine_disciplines_active_category", "all");
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [noteInput, setNoteInput] = useState("");
   const [selectedVoiceId, setSelectedVoiceId] = usePersistedState("vine_disciplines_selected_voice", "kempis");

@@ -184,8 +184,8 @@ const otherReligions = [
 export default function InterfaithConversationsPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_interfaith-conversations_tab", "principles");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
-  const [selectedIslamSection, setSelectedIslamSection] = useState<string>("commonGround");
-  const [selectedJudaismSection, setSelectedJudaismSection] = useState<string>("commonGround");
+  const [selectedIslamSection, setSelectedIslamSection] = usePersistedState<string>("vine_interfaith-conversations_selected_islam_section", "commonGround");
+  const [selectedJudaismSection, setSelectedJudaismSection] = usePersistedState<string>("vine_interfaith-conversations_selected_judaism_section", "commonGround");
 
   function toggle(id: string) {
     setExpanded((prev) => ({ ...prev, [id]: !prev[id] }));

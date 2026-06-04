@@ -203,7 +203,7 @@ const RESOURCES = [
 
 export default function ElderDeaconTrainingPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_elder-deacon-training_tab", "elders");
-  const [selectedElder, setSelectedElder] = useState<string>("qualifications");
+  const [selectedElder, setSelectedElder] = usePersistedState<string>("vine_elder-deacon-training_selected_elder", "qualifications");
 
   const selElder = ELDERS.find(e => e.id === selectedElder) || ELDERS[0];
 

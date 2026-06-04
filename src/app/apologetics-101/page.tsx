@@ -151,7 +151,7 @@ const COMMON_ITEMS = [
 export default function Apologetics101Page() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_apologetics-101_tab", "what");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
-  const [selectedMethod, setSelectedMethod] = useState<string>("classical");
+  const [selectedMethod, setSelectedMethod] = usePersistedState<string>("vine_apologetics-101_selected_method", "classical");
   const [argFilter, setArgFilter] = useState<ArgFilter>("all");
 
   function toggleAccordion(id: string) {

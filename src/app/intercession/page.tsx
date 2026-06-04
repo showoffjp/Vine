@@ -89,7 +89,7 @@ export default function IntercessionPage() {
   });
   const [showForm, setShowForm] = useState(false);
   const [filterCat, setFilterCat] = usePersistedState("vine_intercession_filter_cat", "All");
-  const [filterAnswered, setFilterAnswered] = useState<"all" | "active" | "answered">("active");
+  const [filterAnswered, setFilterAnswered] = usePersistedState<"all" | "active" | "answered">("vine_intercession_filter_answered", "active");
   const [expandedModel, setExpandedModel] = useState<string | null>("The Daniel Model");
   const [form, setForm] = useState<{ name: string; category: string; request: string; priority: "high" | "medium" | "low" }>(() => {
     try { const s = localStorage.getItem("vine_intercession_draft"); return s ? JSON.parse(s) : { name: "", category: "Family", request: "", priority: "medium" as "high" | "medium" | "low" }; } catch { return { name: "", category: "Family", request: "", priority: "medium" as "high" | "medium" | "low" }; }

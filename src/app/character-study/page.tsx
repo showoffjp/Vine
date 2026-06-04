@@ -428,8 +428,8 @@ export default function CharacterStudyPage() {
     try { const c = localStorage.getItem("vine_character_study_completed"); return c ? new Set(JSON.parse(c)) : new Set(); } catch { return new Set(); }
   });
   const [selected, setSelected] = useState<BiblicalCharacter | null>(null);
-  const [activeSection, setActiveSection] = useState<"overview" | "lessons" | "moments" | "questions">("overview");
-  const [filterTestament, setFilterTestament] = useState<"All" | "Old" | "New">("All");
+  const [activeSection, setActiveSection] = usePersistedState<"overview" | "lessons" | "moments" | "questions">("vine_character-study_active_section", "overview");
+  const [filterTestament, setFilterTestament] = usePersistedState<"All" | "Old" | "New">("vine_character-study_filter_testament", "All");
   const [search, setSearch] = useState("");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_character-study_voice", "meyer-fb");
   const voiceItem = VOICES_CHAR.find(v => v.id === selectedVoice)!;

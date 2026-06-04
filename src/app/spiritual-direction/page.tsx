@@ -471,7 +471,7 @@ function TabSession({
 export default function SpiritualDirectionPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_spiritual-direction_tab", "what");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
-  const [selectedDirector, setSelectedDirector] = useState<string>("desert");
+  const [selectedDirector, setSelectedDirector] = usePersistedState<string>("vine_spiritual-direction_selected_director", "desert");
 
   function toggle(id: string) {
     setExpanded((prev) => ({ ...prev, [id]: !prev[id] }));

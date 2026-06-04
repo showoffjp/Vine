@@ -232,7 +232,7 @@ const KEYS_ITEMS = [
 
 export default function EndTimesGuidePage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_end-times-guide_tab", "timeline");
-  const [selectedRapture, setSelectedRapture] = useState<string>("pretrib");
+  const [selectedRapture, setSelectedRapture] = usePersistedState<string>("vine_end-times-guide_selected_rapture", "pretrib");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
   const toggleExpanded = (id: string) => {

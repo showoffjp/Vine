@@ -172,7 +172,7 @@ export default function DisabilityMinistryPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_disability-ministry_tab", "theology");
   const [openTheology, setOpenTheology] = useState<number | undefined>(undefined);
   const [openPractical, setOpenPractical] = useState<number | undefined>(undefined);
-  const [selectedJoni, setSelectedJoni] = useState<string>("story");
+  const [selectedJoni, setSelectedJoni] = usePersistedState<string>("vine_disability-ministry_selected_joni", "story");
 
   const activeJoni = joniItems.find((item) => item.id === selectedJoni) ?? joniItems[0];
 

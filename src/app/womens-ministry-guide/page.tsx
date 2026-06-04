@@ -201,7 +201,7 @@ const RESOURCES = [
 export default function WomensMinistryGuidePage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_womens-ministry-guide_tab", "theology");
   const [openAccordion, setOpenAccordion] = useState<number | undefined>(0);
-  const [selectedTeacher, setSelectedTeacher] = useState<string>("Jen Wilkin");
+  const [selectedTeacher, setSelectedTeacher] = usePersistedState<string>("vine_womens-ministry-guide_selected_teacher", "Jen Wilkin");
 
   const teacher = TEACHERS.find((t) => t.name === selectedTeacher)!;
 

@@ -105,7 +105,7 @@ export default function PrayerWalkingPage() {
   const [activeTab, setActiveTab] = usePersistedState<"routes" | "guide" | "journal" | "voices" | "videos">("vine_prayer-walking_tab", "guide");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_prayer-walking_voice", "hawthorne-s");
   const voiceItem = VOICES_PW.find(v => v.id === selectedVoice)!;
-  const [selectedRoute, setSelectedRoute] = useState<string>("neighborhood");
+  const [selectedRoute, setSelectedRoute] = usePersistedState<string>("vine_prayer-walking_selected_route", "neighborhood");
   const [completedStops, setCompletedStops] = useState<Set<string>>(() => {
     try { const s = localStorage.getItem("vine_pw_stops"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
   });

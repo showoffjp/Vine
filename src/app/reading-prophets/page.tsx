@@ -238,7 +238,7 @@ export default function ReadingProphetsPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_reading-prophets_tab", "howto");
   const [openHowto, setOpenHowto] = useState<number | undefined>(undefined);
   const [openTheme, setOpenTheme] = useState<number | undefined>(undefined);
-  const [selectedMajor, setSelectedMajor] = useState<string>("Isaiah");
+  const [selectedMajor, setSelectedMajor] = usePersistedState<string>("vine_reading-prophets_selected_major", "Isaiah");
 
   const majorBook = MAJOR_BOOKS.find((b) => b.book === selectedMajor) ?? MAJOR_BOOKS[0];
 

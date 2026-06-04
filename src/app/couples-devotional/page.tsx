@@ -341,7 +341,7 @@ export default function CouplesDevotionalPage() {
   const [selectedDay, setSelectedDay] = useState<CouplesDevotional | null>(null);
   const [editingName, setEditingName] = useState(false);
   const [nameInput, setNameInput] = useState("");
-  const [activeSection, setActiveSection] = useState<"husband" | "wife" | "together">("together");
+  const [activeSection, setActiveSection] = usePersistedState<"husband" | "wife" | "together">("vine_couples-devotional_active_section", "together");
   const [mainTab, setMainTab] = usePersistedState<"devotionals" | "voices" | "practices" | "scripture" | "videos">("vine_couples-devotional_main_tab", "devotionals");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_couples-devotional_voice", "keller-t");
   const voiceItem = VOICES_CD.find(v => v.id === selectedVoice)!;

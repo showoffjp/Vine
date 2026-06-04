@@ -170,7 +170,7 @@ export default function ChristianRetirementPage() {
   const [expandedTheology, setExpandedTheology] = useState<string | undefined>(undefined);
   const [expandedCalling, setExpandedCalling] = useState<string | undefined>(undefined);
   const [expandedLegacy, setExpandedLegacy] = useState<string | undefined>(undefined);
-  const [activeSeason, setActiveSeason] = useState<string>("active");
+  const [activeSeason, setActiveSeason] = usePersistedState<string>("vine_christian-retirement_active_season", "active");
 
   const currentSeason = SEASONS.find((s) => s.id === activeSeason) ?? SEASONS[0];
 

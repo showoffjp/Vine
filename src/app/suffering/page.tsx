@@ -244,7 +244,7 @@ function AccordionItem({
 export default function SufferingPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_suffering_tab", "theology");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
-  const [activeVoice, setActiveVoice] = useState<string>("corrie");
+  const [activeVoice, setActiveVoice] = usePersistedState<string>("vine_suffering_active_voice", "corrie");
 
   function toggleAccordion(id: string) {
     setExpanded(prev => ({ ...prev, [id]: !prev[id] }));

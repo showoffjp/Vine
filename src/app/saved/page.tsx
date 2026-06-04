@@ -278,7 +278,7 @@ function loadSavedItems(): SavedItem[] {
 
   // Bible bookmarks
   try {
-    const bibleBookmarks = JSON.parse(tryGet("vine_bible_bookmarks", "[]"));
+    const bibleBookmarks = JSON.parse(tryGet("vine-bible-bookmarks", "[]"));
     if (Array.isArray(bibleBookmarks) && bibleBookmarks.length > 0) {
       items.push({
         type: "Bible Bookmarks",

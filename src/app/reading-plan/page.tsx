@@ -274,6 +274,10 @@ export default function ReadingPlanPage() {
     return s;
   })();
 
+  const totalPlanChapters = books.reduce((sum, b) => sum + b.chapters.length, 0);
+  const completedCount = completedChapters.size + (todayMarked ? 1 : 0);
+  const pacePct = Math.min(100, Math.round((completedCount / Math.max(1, planDay)) * 100));
+
   const todayDow = (new Date().getDay() + 6) % 7; // 0=Mon…6=Sun
   const weekDays = WEEK_DAY_LABELS.map((label, i) => {
     const d = new Date(); d.setDate(d.getDate() - todayDow + i); d.setHours(0, 0, 0, 0);
@@ -520,7 +524,7 @@ export default function ReadingPlanPage() {
                 </div>
 
                 {[
-                  { label: "Chapters completed", value: String(completedChapters.size + (todayMarked ? 1 : 0)), sub: "of 44 in plan" },
+                  { label: "Chapters completed", value: String(completedCount), sub: `of ${totalPlanChapters} in plan` },
                   { label: "Plan day", value: `Day ${planDay}`, sub: "of 90 total days" },
                   { label: "Consecutive days", value: String(streak), sub: `personal best: ${streak}` },
                   { label: "Est. reading time", value: completedChapters.size > 0 ? `~${Math.round(completedChapters.size * 15 / 60)} hrs` : "0 min", sub: "at 15 min/chapter" },
@@ -564,7 +568,7 @@ export default function ReadingPlanPage() {
                   <div style={{ background: "#1E1E32", borderRadius: 6, height: 8, overflow: "hidden" }}>
                     <div
                       style={{
-                        width: "68%",
+                        width: `${pacePct}%`,
                         height: "100%",
                         background: "linear-gradient(90deg, #22c55e, #4ade80)",
                         borderRadius: 6,

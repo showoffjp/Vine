@@ -141,7 +141,9 @@ function uid() {
   return Math.random().toString(36).slice(2, 10);
 }
 
-const TODAY = new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+function today() {
+  return new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+}
 
 export default function PrayerListPage() {
   const [items, setItems] = useState<PrayerItem[]>(() => {
@@ -185,7 +187,7 @@ export default function PrayerListPage() {
       person: newPerson.trim() || undefined,
       verse: newVerse.trim() || undefined,
       answered: false,
-      createdAt: TODAY,
+      createdAt: today(),
       prayCount: 0,
     };
     setItems((prev) => [item, ...prev]);
@@ -196,7 +198,7 @@ export default function PrayerListPage() {
   const markPrayed = (id: string) => {
     setItems((prev) => prev.map((item) =>
       item.id === id
-        ? { ...item, prayCount: item.prayCount + 1, lastPrayed: TODAY }
+        ? { ...item, prayCount: item.prayCount + 1, lastPrayed: today() }
         : item
     ));
   };
@@ -204,7 +206,7 @@ export default function PrayerListPage() {
   const markAnswered = (id: string) => {
     setItems((prev) => prev.map((item) =>
       item.id === id
-        ? { ...item, answered: true, answeredAt: TODAY, answeredNote: answeredNote.trim() || undefined }
+        ? { ...item, answered: true, answeredAt: today(), answeredNote: answeredNote.trim() || undefined }
         : item
     ));
     setAnsweringId(null);

@@ -142,7 +142,7 @@ function loadStats(): Stats {
         return Object.entries(scores).sort((a, b) => b[1] - a[1])[0]?.[0] ?? "";
       } catch { return ""; }
     })(),
-    sermonSaved: 0,
+    sermonSaved: parseSet("vine_sermons_saved"),
     habitsCount: parseArr("vine_habits"),
     habitStreak: (() => {
       try {

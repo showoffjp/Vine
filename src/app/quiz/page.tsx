@@ -16,53 +16,6 @@ import {
 
 // ─── DATA ───────────────────────────────────────────────────────────────────
 
-const quizMeta = [
-  {
-    id: "spiritual-gifts",
-    title: "What Is Your Spiritual Gift?",
-    subtitle: "Romans 12, 1 Corinthians 12",
-    icon: "✨",
-    questions: 10,
-    results: 7,
-    color: "#3a7d56",
-    gradient: "linear-gradient(135deg, rgba(58,125,86,0.2), rgba(58,125,86,0.05))",
-    available: true,
-  },
-  {
-    id: "biblical-character",
-    title: "Which Biblical Character Are You?",
-    subtitle: "8 questions · 8 possible results",
-    icon: "📜",
-    questions: 8,
-    results: 8,
-    color: "#6B4FBB",
-    gradient: "linear-gradient(135deg, rgba(107,79,187,0.2), rgba(107,79,187,0.05))",
-    available: true,
-  },
-  {
-    id: "faith-muscle",
-    title: "How Strong Is Your Faith Muscle?",
-    subtitle: "12 questions · 5 strength levels",
-    icon: "💪",
-    questions: 12,
-    results: 5,
-    color: "#4FBBAA",
-    gradient: "linear-gradient(135deg, rgba(79,187,170,0.2), rgba(79,187,170,0.05))",
-    available: true,
-  },
-  {
-    id: "prayer-style",
-    title: "What's Your Prayer Style?",
-    subtitle: "8 questions · 4 types",
-    icon: "🙏",
-    questions: 8,
-    results: 4,
-    color: "#BB4F7A",
-    gradient: "linear-gradient(135deg, rgba(187,79,122,0.2), rgba(187,79,122,0.05))",
-    available: true,
-  },
-];
-
 // "What Is Your Spiritual Gift?" quiz data
 const giftQuestions = [
   {
@@ -661,6 +614,53 @@ const prayerStyleResults: Record<string, { title: string; description: string; v
     emoji: "💬",
   },
 };
+
+const quizMeta = [
+  {
+    id: "spiritual-gifts",
+    title: "What Is Your Spiritual Gift?",
+    subtitle: "Romans 12, 1 Corinthians 12",
+    icon: "✨",
+    questions: giftQuestions.length,
+    results: Object.keys(giftResults).length,
+    color: "#3a7d56",
+    gradient: "linear-gradient(135deg, rgba(58,125,86,0.2), rgba(58,125,86,0.05))",
+    available: true,
+  },
+  {
+    id: "biblical-character",
+    title: "Which Biblical Character Are You?",
+    subtitle: `${characterQuestions.length} questions · ${Object.keys(characterResults).length} possible results`,
+    icon: "📜",
+    questions: characterQuestions.length,
+    results: Object.keys(characterResults).length,
+    color: "#6B4FBB",
+    gradient: "linear-gradient(135deg, rgba(107,79,187,0.2), rgba(107,79,187,0.05))",
+    available: true,
+  },
+  {
+    id: "faith-muscle",
+    title: "How Strong Is Your Faith Muscle?",
+    subtitle: `${faithMuscleQuestions.length} questions · ${Object.keys(faithMuscleResults).length} strength levels`,
+    icon: "💪",
+    questions: faithMuscleQuestions.length,
+    results: Object.keys(faithMuscleResults).length,
+    color: "#4FBBAA",
+    gradient: "linear-gradient(135deg, rgba(79,187,170,0.2), rgba(79,187,170,0.05))",
+    available: true,
+  },
+  {
+    id: "prayer-style",
+    title: "What's Your Prayer Style?",
+    subtitle: `${prayerStyleQuestions.length} questions · ${Object.keys(prayerStyleResults).length} types`,
+    icon: "🙏",
+    questions: prayerStyleQuestions.length,
+    results: Object.keys(prayerStyleResults).length,
+    color: "#BB4F7A",
+    gradient: "linear-gradient(135deg, rgba(187,79,122,0.2), rgba(187,79,122,0.05))",
+    available: true,
+  },
+];
 
 // ─── UNIFIED QUIZ DATA ──────────────────────────────────────────────────────
 

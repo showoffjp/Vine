@@ -663,13 +663,13 @@ export default function FeedPage() {
                         <p className="text-sm font-semibold truncate" style={{ color: "#E8E8F0" }}>{p.name}</p>
                         <p className="text-xs truncate" style={{ color: "#6A6A88" }}>{p.role} · {p.mutual} mutual</p>
                       </div>
-                      <a
+                      <Link
                         href="/community"
                         className="text-xs font-bold px-3 py-1.5 rounded-full shrink-0 transition-all"
                         style={{ background: "rgba(58,125,86,0.12)", color: "#3a7d56", textDecoration: "none" }}
                       >
                         Follow
-                      </a>
+                      </Link>
                     </div>
                   ))}
                 </div>
@@ -688,7 +688,7 @@ export default function FeedPage() {
                 </div>
                 <div className="space-y-1">
                   {trendingNow.map((t) => (
-                    <a
+                    <Link
                       key={t.tag}
                       href="/explore"
                       className="flex items-center justify-between px-2 py-2 rounded-xl transition-all"
@@ -698,7 +698,7 @@ export default function FeedPage() {
                     >
                       <span className="text-sm font-semibold" style={{ color: "#C0C0D8" }}>#{t.tag}</span>
                       <span className="text-xs" style={{ color: "#6A6A88" }}>{t.posts}</span>
-                    </a>
+                    </Link>
                   ))}
                 </div>
               </div>

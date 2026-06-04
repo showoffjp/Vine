@@ -81,7 +81,7 @@ const PRACTICES = [
 export default function KingdomOfGodPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_kingdom-of-god_tab", "theology");
   const [selectedParable, setSelectedParable] = useState("Sower and the Soils");
-  const [selectedThinker, setSelectedThinker] = useState("ladd");
+  const [selectedThinker, setSelectedThinker] = usePersistedState("vine_kingdom-of-god_selected_thinker", "ladd");
 
   const parable = PARABLES.find(p => p.name === selectedParable)!;
   const thinker = THINKERS.find(t => t.id === selectedThinker)!;

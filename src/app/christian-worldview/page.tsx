@@ -152,7 +152,7 @@ type Tab = "narrative" | "applications" | "thinkers" | "challenges" | "videos";
 export default function ChristianWorldviewPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_christian-worldview_tab", "narrative");
   const [selectedAct, setSelectedAct] = useState<string | null>(null);
-  const [selectedThinker, setSelectedThinker] = useState("kuyper");
+  const [selectedThinker, setSelectedThinker] = usePersistedState("vine_christian-worldview_selected_thinker", "kuyper");
 
   const act = NARRATIVE.find(n => n.act === selectedAct);
   const thinker = THINKERS.find(t => t.id === selectedThinker)!;

@@ -110,7 +110,7 @@ interface CheckItem {
 
 export default function CreationCarePage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_creation-care_tab", "theology");
-  const [selectedThinker, setSelectedThinker] = useState("francis");
+  const [selectedThinker, setSelectedThinker] = usePersistedState("vine_creation-care_selected_thinker", "francis");
   const thinker = THINKERS.find(t => t.id === selectedThinker)!;
   const [checklist, setChecklist] = useState<CheckItem[]>(() => {
     try {

@@ -171,7 +171,7 @@ const LIVING_ITEMS = [
 
 export default function HeavenPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_heaven_tab", "theology");
-  const [selectedTheology, setSelectedTheology] = useState("intermediate");
+  const [selectedTheology, setSelectedTheology] = usePersistedState("vine_heaven_selected_theology", "intermediate");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_heaven_voice", "lewis");
 
   const theologyItem = THEOLOGY_ITEMS.find(t => t.id === selectedTheology)!;

@@ -170,7 +170,7 @@ const SHARED_GROUND = [
 
 export default function EasternOrthodoxPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_eastern-orthodox_tab", "overview");
-  const [selectedTheology, setSelectedTheology] = useState(THEOLOGY_ITEMS[0].doctrine);
+  const [selectedTheology, setSelectedTheology] = usePersistedState("vine_eastern-orthodox_selected_theology", "Theosis (Deification)");
   const [selectedLiturgy, setSelectedLiturgy] = useState(LITURGY_ELEMENTS[0].name);
   const [selectedHistorian, setSelectedHistorian] = useState(HISTORIANS[0].name);
 

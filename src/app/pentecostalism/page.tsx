@@ -118,7 +118,7 @@ const GLOBAL_CHURCH = [
 
 export default function PentecostalismPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_pentecostalism_tab", "overview");
-  const [selectedTheology, setSelectedTheology] = useState(THEOLOGY_ITEMS[0].doctrine);
+  const [selectedTheology, setSelectedTheology] = usePersistedState("vine_pentecostalism_selected_theology", "Baptism in the Holy Spirit");
   const [selectedFigure, setSelectedFigure] = useState(HISTORY_FIGURES[0].name);
 
   const theologyItem = THEOLOGY_ITEMS.find(t => t.doctrine === selectedTheology)!;

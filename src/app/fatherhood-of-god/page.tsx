@@ -173,7 +173,7 @@ const PRACTICE_ITEMS = [
 
 export default function FatherhoodOfGodPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_fatherhood-of-god_tab", "theology");
-  const [selectedTheology, setSelectedTheology] = useState("ot");
+  const [selectedTheology, setSelectedTheology] = usePersistedState("vine_fatherhood-of-god_selected_theology", "ot");
   const [selectedAdoption, setSelectedAdoption] = useState("rom8");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 

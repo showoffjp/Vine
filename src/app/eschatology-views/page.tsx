@@ -121,7 +121,7 @@ const THINKERS = [
 export default function EschatologyViewsPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_eschatology-views_tab", "theology");
   const [selectedView, setSelectedView] = useState("Historic Premillennialism");
-  const [selectedThinker, setSelectedThinker] = useState("wright");
+  const [selectedThinker, setSelectedThinker] = usePersistedState("vine_eschatology-views_selected_thinker", "wright");
   const thinker = THINKERS.find(t => t.id === selectedThinker)!;
 
   const view = VIEWS.find(v => v.name === selectedView)!;

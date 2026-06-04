@@ -86,7 +86,7 @@ const RESOURCES_LIST = [
 
 export default function ChristianFinancialGuidePage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_christian-financial-guide_tab", "theology");
-  const [selectedThinker, setSelectedThinker] = useState("wesley");
+  const [selectedThinker, setSelectedThinker] = usePersistedState("vine_christian-financial-guide_selected_thinker", "wesley");
   const thinker = THINKERS_FINANCE.find(t => t.id === selectedThinker)!;
 
   return (

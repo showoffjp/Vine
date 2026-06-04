@@ -109,7 +109,7 @@ interface CheckItem { id: string; text: string; cat: string; done: boolean; }
 
 export default function TechnologyPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_technology_tab", "theology");
-  const [selectedThinker, setSelectedThinker] = useState("mcluhan");
+  const [selectedThinker, setSelectedThinker] = usePersistedState("vine_technology_selected_thinker", "mcluhan");
   const thinker = THINKERS.find(t => t.id === selectedThinker)!;
   const [checks, setChecks] = useState<CheckItem[]>(() => {
     try {

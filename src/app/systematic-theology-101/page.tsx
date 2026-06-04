@@ -329,7 +329,7 @@ export default function SystematicTheology101Page() {
   type Tab = "loci" | "thinkers" | "debates" | "resources" | "videos";
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_systematic-theology-101_tab", "loci");
   const [selected, setSelected] = useState<string | null>(null);
-  const [selectedThinker, setSelectedThinker] = useState("calvin-j");
+  const [selectedThinker, setSelectedThinker] = usePersistedState("vine_systematic-theology-101_selected_thinker", "calvin-j");
   const locus = LOCI.find(l => l.name === selected);
 
   return (

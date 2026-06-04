@@ -85,7 +85,7 @@ const PRACTICES = [
 export default function EcclesiologyPage() {
   const [activeTab, setActiveTab] = usePersistedState<"theology" | "models" | "thinkers" | "practices" | "videos">("vine_ecclesiology_tab", "theology");
   const [selectedModel, setSelectedModel] = useState("Body of Christ");
-  const [selectedThinker, setSelectedThinker] = useState("luther");
+  const [selectedThinker, setSelectedThinker] = usePersistedState("vine_ecclesiology_selected_thinker", "luther");
 
   const model = MODELS.find(m => m.name === selectedModel)!;
   const thinker = THINKERS.find(t => t.id === selectedThinker)!;

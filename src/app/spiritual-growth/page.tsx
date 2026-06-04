@@ -80,7 +80,7 @@ export default function SpiritualGrowthPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_spiritual-growth_tab", "theology");
   const [selectedStage, setSelectedStage] = useState("New Believer");
   const [expanded, setExpanded] = useState<string | null>(null);
-  const [selectedThinker, setSelectedThinker] = useState("willard");
+  const [selectedThinker, setSelectedThinker] = usePersistedState("vine_spiritual-growth_selected_thinker", "willard");
 
   const stage = STAGES.find(s => s.stage === selectedStage)!;
   const thinker = THINKERS.find(t => t.id === selectedThinker)!;

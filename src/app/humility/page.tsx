@@ -156,7 +156,7 @@ const PRACTICE_ITEMS = [
 
 export default function HumilityPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_humility_tab", "theology");
-  const [selectedTheology, setSelectedTheology] = useState("definition");
+  const [selectedTheology, setSelectedTheology] = usePersistedState("vine_humility_selected_theology", "definition");
   const [selectedTeacher, setSelectedTeacher] = useState("murray");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 

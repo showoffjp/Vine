@@ -100,7 +100,7 @@ export default function QuotesPage() {
   const [sortBy, setSortBy] = useState("Most Liked");
   const [search, setSearch] = useState("");
   const [activeTab, setActiveTab] = usePersistedState<"all" | "saved" | "thinkers" | "themes" | "videos">("vine_quotes_tab", "all");
-  const [selectedThinker, setSelectedThinker] = useState("lewis-cs");
+  const [selectedThinker, setSelectedThinker] = usePersistedState("vine_quotes_selected_thinker", "lewis-cs");
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
 

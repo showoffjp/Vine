@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { MapPin, Users, Calendar, Globe, ArrowRight, Check } from "lucide-react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 type FilterKey = "All" | "Online" | "In-Person" | "Conferences" | "Retreats";
 
@@ -86,7 +87,7 @@ const EVENTS = [
 const REGISTERED_STORAGE_KEY = "vine:events:registered";
 
 export default function EventsSection() {
-  const [activeFilter, setActiveFilter] = useState<FilterKey>("All");
+  const [activeFilter, setActiveFilter] = usePersistedState<FilterKey>("vine_home_event_filter", "All");
   const [registered, setRegistered] = useState<Record<number, boolean>>({});
 
   useEffect(() => {

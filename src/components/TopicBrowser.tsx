@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import { Search, Hash } from "lucide-react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 type Topic = {
   label: string;
@@ -76,7 +77,7 @@ const ALL_TOPICS: Topic[] = [
 const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
 export default function TopicBrowser() {
-  const [activeLetter, setActiveLetter] = useState("All");
+  const [activeLetter, setActiveLetter] = usePersistedState("vine_home_topic_letter", "All");
   const [searchQuery, setSearchQuery] = useState("");
   const [suggested, setSuggested] = useState(false);
 

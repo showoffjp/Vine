@@ -1,7 +1,6 @@
 "use client";
-
-import { useState } from "react";
 import { ChevronRight, Clock, Eye } from "lucide-react";
+import { usePersistedState } from "@/hooks/usePersistedState";
 
 const FEATURED = {
   tag: "Featured Guide",
@@ -69,7 +68,7 @@ const ARTICLES = [
 const CATEGORIES = ["All", "Life & Faith", "Mental Health", "Theology", "Relationships", "Parenting", "Finance", "Leadership"];
 
 export default function ResourceHub() {
-  const [activeCategory, setActiveCategory] = useState("All");
+  const [activeCategory, setActiveCategory] = usePersistedState("vine_home_resource_category", "All");
 
   const filteredArticles =
     activeCategory === "All"

@@ -70,13 +70,15 @@ const DROPDOWN_QUESTIONS = [
   "Explain 1 Corinthians 13 on love",
 ];
 
-const WELCOME_MESSAGE: Message = {
-  id: "welcome",
-  role: "assistant",
-  content:
-    "Peace be with you! I'm your AI Bible companion. Ask me anything — a verse you want to understand, a topic you're wrestling with, or wisdom for something you're going through.",
-  timestamp: new Date(),
-};
+function makeWelcomeMessage(): Message {
+  return {
+    id: "welcome",
+    role: "assistant",
+    content:
+      "Peace be with you! I'm your AI Bible companion. Ask me anything — a verse you want to understand, a topic you're wrestling with, or wisdom for something you're going through.",
+    timestamp: new Date(),
+  };
+}
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -265,7 +267,7 @@ export default function AICompanionPage() {
         return parsed.map((m) => ({ ...m, timestamp: new Date(m.timestamp), streaming: false }));
       }
     } catch {}
-    return [WELCOME_MESSAGE];
+    return [makeWelcomeMessage()];
   });
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -483,7 +485,7 @@ export default function AICompanionPage() {
           {messages.length > 1 && (
             <button
               onClick={() => {
-                setMessages([WELCOME_MESSAGE]);
+                setMessages([makeWelcomeMessage()]);
                 try { localStorage.removeItem("vine_ai_history"); } catch {}
               }}
               style={{

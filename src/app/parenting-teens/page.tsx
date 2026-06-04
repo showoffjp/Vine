@@ -282,7 +282,7 @@ export default function ParentingTeensPage() {
           {(
             [
               { id: "theology", label: "Theology & Framework" },
-              { id: "stages", label: "The Three Stages" },
+              { id: "stages", label: `${stages.length} Adolescent Stages` },
               { id: "conversations", label: "Hard Conversations" },
               { id: "leavingwell", label: "Launching Well" },
               { id: "videos", label: "Videos" },
@@ -412,7 +412,7 @@ export default function ParentingTeensPage() {
           <div>
             <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>Having the Hard Conversations</h2>
             <p style={{ color: MUTED, fontSize: 15, marginBottom: 24 }}>
-              The conversations you avoid are the ones your teenager most needs you to have. Here are guides to six of the most important.
+              The conversations you avoid are the ones your teenager most needs you to have. Here are guides to {conversations.length} of the most important.
             </p>
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               {conversations.map((conv) => (

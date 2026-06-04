@@ -295,7 +295,7 @@ export default function BibleStudyPage() {
                   style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#F2F2F8" }}
                 />
               </div>
-              <div className="flex gap-3 mt-5">
+              <div role="button" tabIndex={0} className="flex gap-3 mt-5">
                 <button type="button" onClick={() => setShowNewPlan(false)} className="flex-1 py-2.5 rounded-xl font-bold text-sm" style={{ background: "rgba(255,255,255,0.04)", color: "#8A8AA8", border: "1px solid rgba(255,255,255,0.08)" }}>Cancel</button>
                 <button type="button" onClick={addStudyPlan} className="flex-1 py-2.5 rounded-xl font-black text-sm" style={{ background: "linear-gradient(135deg, #3a7d56, #3a7d56)", color: "#07070F" }}>Start Study</button>
               </div>
@@ -366,7 +366,7 @@ export default function BibleStudyPage() {
                   style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: "#F2F2F8" }}
                 />
               </div>
-              <div className="flex gap-3 mt-5">
+              <div role="button" tabIndex={0} className="flex gap-3 mt-5">
                 <button type="button" onClick={() => setShowNewNote(false)} className="flex-1 py-2.5 rounded-xl font-bold text-sm" style={{ background: "rgba(255,255,255,0.04)", color: "#8A8AA8", border: "1px solid rgba(255,255,255,0.08)" }}>Cancel</button>
                 <button type="button"
                   onClick={addNote}
@@ -558,7 +558,7 @@ export default function BibleStudyPage() {
                         <Plus size={14} /> Note
                       </button>
                     </div>
-                    <div className="flex gap-2 mb-4 flex-wrap">
+                    <div role="button" tabIndex={0} className="flex gap-2 mb-4 flex-wrap">
                       <button type="button" onClick={() => setFilterType("all")} className="px-3 py-1.5 rounded-full text-xs font-bold" style={{ background: filterType === "all" ? "rgba(255,255,255,0.1)" : "rgba(255,255,255,0.03)", border: filterType === "all" ? "1px solid rgba(255,255,255,0.2)" : "1px solid rgba(255,255,255,0.06)", color: filterType === "all" ? "#F2F2F8" : "#6A6A88" }}>All</button>
                       {NOTE_TYPES.map((t) => (
                         <button type="button"

@@ -212,7 +212,7 @@ export default function ApologeticsArgumentsPage() {
               <div style={{ borderTop: `1px solid ${BORDER}`, paddingTop: 16, marginTop: 8 }}>
                 <div style={{ color: TEXT, fontWeight: 700, fontSize: 14, marginBottom: 10 }}>Common Objections</div>
                 {arg.objections.map((o, i) => (
-                  <div key={i} style={{ marginBottom: 8 }}>
+                  <div role="button" tabIndex={0} key={i} style={{ marginBottom: 8 }}>
                     <button type="button" onClick={() => setExpandedObj(expandedObj === `${arg.name}-${i}` ? null : `${arg.name}-${i}`)}
                       style={{ width: "100%", background: `${PURPLE}08`, border: `1px solid ${PURPLE}15`, borderRadius: expandedObj === `${arg.name}-${i}` ? "8px 8px 0 0" : 8, padding: "10px 14px", color: MUTED, fontWeight: 700, fontSize: 13, cursor: "pointer", display: "flex", justifyContent: "space-between", textAlign: "left" }}>
                       <span>{o.objection}</span>

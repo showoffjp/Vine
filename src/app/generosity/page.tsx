@@ -210,7 +210,7 @@ export default function GenerosityPage() {
                 <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
                   <div style={{ flex: 1 }}>
                     <div style={{ color: MUTED, fontSize: 12, marginBottom: 4 }}>Current %</div>
-                    <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                    <div role="button" tabIndex={0} style={{ display: "flex", gap: 8, alignItems: "center" }}>
                       <button type="button" onClick={() => update(g.id, "current", g.current - 1)} style={{ width: 28, height: 28, borderRadius: 6, border: `1px solid ${BORDER}`, background: "transparent", color: MUTED, cursor: "pointer", fontSize: 16 }}>−</button>
                       <span style={{ color: GREEN, fontWeight: 800, fontSize: 20, minWidth: 40, textAlign: "center" }}>{g.current}%</span>
                       <button type="button" onClick={() => update(g.id, "current", g.current + 1)} style={{ width: 28, height: 28, borderRadius: 6, border: `1px solid ${BORDER}`, background: "transparent", color: MUTED, cursor: "pointer", fontSize: 16 }}>+</button>
@@ -218,7 +218,7 @@ export default function GenerosityPage() {
                   </div>
                   <div style={{ flex: 1 }}>
                     <div style={{ color: MUTED, fontSize: 12, marginBottom: 4 }}>Goal %</div>
-                    <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                    <div role="button" tabIndex={0} style={{ display: "flex", gap: 8, alignItems: "center" }}>
                       <button type="button" onClick={() => update(g.id, "target", g.target - 1)} style={{ width: 28, height: 28, borderRadius: 6, border: `1px solid ${BORDER}`, background: "transparent", color: MUTED, cursor: "pointer", fontSize: 16 }}>−</button>
                       <span style={{ color: MUTED, fontWeight: 800, fontSize: 20, minWidth: 40, textAlign: "center" }}>{g.target}%</span>
                       <button type="button" onClick={() => update(g.id, "target", g.target + 1)} style={{ width: 28, height: 28, borderRadius: 6, border: `1px solid ${BORDER}`, background: "transparent", color: MUTED, cursor: "pointer", fontSize: 16 }}>+</button>

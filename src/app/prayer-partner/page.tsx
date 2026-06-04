@@ -764,7 +764,7 @@ export default function PrayerPartnerPage() {
               </div>
             </div>
 
-            <div style={{ display: "flex", gap: 10, marginTop: 20 }}>
+            <div role="button" tabIndex={0} style={{ display: "flex", gap: 10, marginTop: 20 }}>
               <button type="button" onClick={handleLogSession}
                 disabled={!sessionForm.topic}
                 style={{ flex: 1, padding: "11px 16px", borderRadius: 10, border: "none",

@@ -140,7 +140,7 @@ export default function RaceReconciliationPage() {
               </p>
             </div>
             {BARRIERS.map((b, i) => (
-              <div key={i} style={{ marginBottom: 10 }}>
+              <div role="button" tabIndex={0} key={i} style={{ marginBottom: 10 }}>
                 <button type="button" onClick={() => setExpanded(expanded === b.barrier ? null : b.barrier)}
                   style={{ width: "100%", background: CARD, border: `1px solid ${BORDER}`, borderRadius: expanded === b.barrier ? "10px 10px 0 0" : 10, padding: "14px 18px", color: TEXT, fontWeight: 700, fontSize: 14, cursor: "pointer", display: "flex", justifyContent: "space-between", textAlign: "left" }}>
                   <span>{b.barrier}</span>

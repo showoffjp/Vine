@@ -557,7 +557,7 @@ export default function ReadingListPage() {
                 <input type="number" value={form.year} onChange={(e) => setForm((f) => ({ ...f, year: e.target.value }))} aria-label="Publication year (optional)" placeholder="Publication year (optional)" min={1000} max={2026} className="w-full px-4 py-2.5 rounded-xl text-sm outline-none" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: TEXT }} />
                 <textarea value={form.notes} onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))} aria-label="Notes, quotes, or review..." placeholder="Notes, quotes, or review..." rows={3} className="w-full px-4 py-3 rounded-xl text-sm outline-none resize-none" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", color: TEXT }} />
               </div>
-              <div className="flex gap-3 mt-5">
+              <div role="button" tabIndex={0} className="flex gap-3 mt-5">
                 <button type="button" onClick={() => { setShowCompose(false); resetForm(); }} className="flex-1 py-2.5 rounded-xl font-bold text-sm" style={{ background: "rgba(255,255,255,0.04)", color: "#8A8AA8", border: "1px solid rgba(255,255,255,0.08)" }}>Cancel</button>
                 <button type="button" onClick={handleSubmit} disabled={!form.title.trim() || !form.author.trim()} className="flex-1 py-2.5 rounded-xl font-black text-sm" style={{ background: (form.title.trim() && form.author.trim()) ? "linear-gradient(135deg, #3a7d56, #3a7d56)" : "rgba(255,255,255,0.06)", color: (form.title.trim() && form.author.trim()) ? BG : "#4A4A68" }}>
                   {editingId ? "Save" : "Add Book"}
@@ -571,7 +571,7 @@ export default function ReadingListPage() {
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: "rgba(0,0,0,0.7)" }}>
             <div className="rounded-2xl p-6 max-w-sm w-full" style={{ background: CARD, border: `1px solid ${BORDER}` }}>
               <p className="font-black text-base mb-2" style={{ color: TEXT }}>Remove this book?</p>
-              <div className="flex gap-3 mt-4">
+              <div role="button" tabIndex={0} className="flex gap-3 mt-4">
                 <button type="button" onClick={() => setConfirmDelete(null)} className="flex-1 py-2 rounded-xl font-bold text-sm" style={{ background: "rgba(255,255,255,0.04)", color: "#8A8AA8", border: "1px solid rgba(255,255,255,0.08)" }}>Cancel</button>
                 <button type="button" onClick={() => { setBooks((prev) => prev.filter((b) => b.id !== confirmDelete)); setConfirmDelete(null); if (selectedBook === confirmDelete) setSelectedBook(null); }} className="flex-1 py-2 rounded-xl font-black text-sm" style={{ background: "rgba(239,68,68,0.15)", color: "#EF4444", border: "1px solid rgba(239,68,68,0.3)" }}>Remove</button>
               </div>

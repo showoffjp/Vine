@@ -525,7 +525,7 @@ export default function PrayerMethodsPage() {
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               {filteredMethods.map(m => (
                 <div key={m.id} style={{ background: "#12121F", borderRadius: 16, overflow: "hidden", border: `1px solid ${openMethod === m.id ? "rgba(58,125,86,0.3)" : practiced.has(m.id) ? "rgba(58,125,86,0.15)" : "#1E1E32"}` }}>
-                  <div style={{ padding: "18px 22px", display: "flex", justifyContent: "space-between", alignItems: "center", cursor: "pointer" }}
+                  <div role="button" tabIndex={0} style={{ padding: "18px 22px", display: "flex", justifyContent: "space-between", alignItems: "center", cursor: "pointer" }}
                     onClick={() => setOpenMethod(openMethod === m.id ? null : m.id)}>
                     <div style={{ display: "flex", gap: 14, alignItems: "center", flex: 1 }}>
                       <span style={{ fontSize: 26 }}>{m.icon}</span>

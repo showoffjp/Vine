@@ -451,7 +451,7 @@ export default function PrayerJournalPage() {
             <p style={{ fontSize: 14, color: "#9898B3", marginBottom: 16 }}>How did God answer your prayer? (Optional)</p>
             <textarea value={answerNote} onChange={e => setAnswerNote(e.target.value)} aria-label="Describe how God answered..." placeholder="Describe how God answered..." rows={4}
               style={{ width: "100%", padding: "10px 14px", borderRadius: 10, background: "#0D0D1A", border: "1px solid #1E1E32", color: "#F2F2F8", fontSize: 14, outline: "none", resize: "vertical", boxSizing: "border-box", marginBottom: 16 }} />
-            <div style={{ display: "flex", gap: 10 }}>
+            <div role="button" tabIndex={0} style={{ display: "flex", gap: 10 }}>
               <button type="button" onClick={() => markAnswered(showAnswerModal.id, answerNote)}
                 style={{ flex: 1, padding: "12px", borderRadius: 12, border: "none", background: "linear-gradient(135deg, #3a7d56, #00CC6A)", color: "#07070F", cursor: "pointer", fontWeight: 800, fontSize: 15 }}>
                 Record Answer

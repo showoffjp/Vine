@@ -439,7 +439,7 @@ export default function FeedPage() {
                   />
                 </div>
                 <div className="flex items-center justify-between border-t pt-3" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
-                  <div className="flex gap-3">
+                  <div role="button" tabIndex={0} className="flex gap-3">
                     <button aria-label="Read" type="button" onClick={() => insertPrefix("📖 Verse: ")} className="text-xs flex items-center gap-1.5 font-semibold" style={{ color: "#6A6A88" }}>
                       <BookOpen size={14} /> Verse
                     </button>

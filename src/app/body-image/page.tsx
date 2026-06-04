@@ -171,7 +171,7 @@ export default function BodyImagePage() {
               </p>
             </div>
             {STRUGGLES.map((s, i) => (
-              <div key={i} style={{ marginBottom: 10 }}>
+              <div role="button" tabIndex={0} key={i} style={{ marginBottom: 10 }}>
                 <button type="button" onClick={() => setExpanded(expanded === s.struggle ? null : s.struggle)}
                   style={{ width: "100%", background: CARD, border: `1px solid ${BORDER}`, borderRadius: expanded === s.struggle ? "10px 10px 0 0" : 10, padding: "14px 18px", color: TEXT, fontWeight: 700, fontSize: 14, cursor: "pointer", display: "flex", justifyContent: "space-between", textAlign: "left" }}>
                   <span>{s.struggle}</span>

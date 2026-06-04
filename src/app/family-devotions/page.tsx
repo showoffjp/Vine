@@ -202,7 +202,7 @@ export default function FamilyDevotionsPage() {
               </p>
             </div>
             {DEVOTIONAL_PLANS.map(p => (
-              <div key={p.series} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, marginBottom: 12, overflow: "hidden" }}>
+              <div role="button" tabIndex={0} key={p.series} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, marginBottom: 12, overflow: "hidden" }}>
                 <button type="button" onClick={() => setExpandedPlan(expandedPlan === p.series ? null : p.series)}
                   style={{ width: "100%", padding: "18px 22px", background: "transparent", border: "none", color: TEXT, fontWeight: 700, fontSize: 15, cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center", textAlign: "left" }}>
                   <div>

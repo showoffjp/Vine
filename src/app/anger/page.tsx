@@ -139,7 +139,7 @@ export default function AngerPage() {
               </p>
             </div>
             {TYPES.map((t, i) => (
-              <div key={i} style={{ background: CARD, border: `1px solid ${t.color}30`, borderRadius: 12, marginBottom: 12, overflow: "hidden" }}>
+              <div role="button" tabIndex={0} key={i} style={{ background: CARD, border: `1px solid ${t.color}30`, borderRadius: 12, marginBottom: 12, overflow: "hidden" }}>
                 <button type="button" onClick={() => setExpanded(expanded === t.type ? null : t.type)}
                   style={{ width: "100%", padding: "16px 20px", background: "transparent", border: "none", color: t.color, fontWeight: 800, fontSize: 16, cursor: "pointer", display: "flex", justifyContent: "space-between", textAlign: "left" }}>
                   <span>{t.type}</span>

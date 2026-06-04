@@ -215,7 +215,7 @@ export default function BiblicalJusticeTheologyPage() {
               Six key words — three Hebrew, three Greek — form the theological vocabulary for understanding what God requires and what biblical justice actually means.
             </p>
             {FOUNDATIONS.map((f, i) => (
-              <div key={i} style={{ background: CARD, border: `1px solid ${expanded[f.title] ? f.color + "50" : BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+              <div role="button" tabIndex={0} key={i} style={{ background: CARD, border: `1px solid ${expanded[f.title] ? f.color + "50" : BORDER}`, borderRadius: 12, overflow: "hidden" }}>
                 <button type="button" onClick={() => toggleExpanded(f.title)}
                   style={{ width: "100%", padding: "16px 20px", cursor: "pointer", textAlign: "left", background: "transparent", border: "none", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <div>
@@ -261,7 +261,7 @@ export default function BiblicalJusticeTheologyPage() {
               The New Testament does not soften the Old Testament's demands for justice — it embeds them in the person and mission of Jesus Christ and the life of the new covenant community.
             </p>
             {NT_ITEMS.map((item, i) => (
-              <div key={i} style={{ background: CARD, border: `1px solid ${expanded[item.title] ? item.color + "50" : BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+              <div role="button" tabIndex={0} key={i} style={{ background: CARD, border: `1px solid ${expanded[item.title] ? item.color + "50" : BORDER}`, borderRadius: 12, overflow: "hidden" }}>
                 <button type="button" onClick={() => toggleExpanded(item.title)}
                   style={{ width: "100%", padding: "16px 20px", cursor: "pointer", textAlign: "left", background: "transparent", border: "none", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <div>

@@ -504,7 +504,7 @@ export default function FaithJourneyPage() {
                                       <h3 className="font-black text-base leading-tight" style={{ color: "#F2F2F8" }}>{m.title}</h3>
                                     </div>
                                     {hoveredId === m.id && (
-                                      <div className="flex gap-1 shrink-0">
+                                      <div role="button" tabIndex={0} className="flex gap-1 shrink-0">
                                         <button type="button" onClick={() => handleEdit(m)} className="p-1.5 rounded-lg" style={{ color: "#4A4A68" }} title="Edit"><Edit2 size={13} /></button>
                                         <button aria-label="Delete" type="button" onClick={() => setConfirmDelete(m.id)} className="p-1.5 rounded-lg" style={{ color: "#4A4A68" }} title="Delete"><Trash2 size={13} /></button>
                                       </div>
@@ -851,7 +851,7 @@ export default function FaithJourneyPage() {
           <div className="rounded-2xl p-6 max-w-sm w-full" style={{ background: "#12121F", border: "1px solid #1E1E32" }}>
             <p className="font-black text-base mb-2" style={{ color: "#F2F2F8" }}>Delete this milestone?</p>
             <p className="text-sm mb-5" style={{ color: "#6A6A88" }}>This can&apos;t be undone.</p>
-            <div className="flex gap-3">
+            <div role="button" tabIndex={0} className="flex gap-3">
               <button type="button" onClick={() => setConfirmDelete(null)} className="flex-1 py-2 rounded-xl font-bold text-sm" style={{ background: "rgba(255,255,255,0.04)", color: "#8A8AA8", border: "1px solid rgba(255,255,255,0.08)" }}>Cancel</button>
               <button type="button" onClick={() => handleDelete(confirmDelete)} className="flex-1 py-2 rounded-xl font-black text-sm" style={{ background: "rgba(239,68,68,0.15)", color: "#EF4444", border: "1px solid rgba(239,68,68,0.3)" }}>Delete</button>
             </div>

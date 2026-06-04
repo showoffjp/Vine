@@ -446,7 +446,7 @@ function CommunityContent({
       {innerTab === "guidance" && (
         <div style={{ maxWidth: 800, margin: "0 auto", display: "flex", flexDirection: "column", gap: 12 }}>
           {GUIDANCE.map(g => (
-            <div key={g.id} style={{ background: "#12121F", borderRadius: 16, overflow: "hidden", border: `1px solid ${openGuidance === g.id ? "rgba(58,125,86,0.3)" : "#1E1E32"}` }}>
+            <div role="button" tabIndex={0} key={g.id} style={{ background: "#12121F", borderRadius: 16, overflow: "hidden", border: `1px solid ${openGuidance === g.id ? "rgba(58,125,86,0.3)" : "#1E1E32"}` }}>
               <button type="button" onClick={() => setOpenGuidance(openGuidance === g.id ? null : g.id)}
                 style={{ width: "100%", padding: "18px 22px", display: "flex", justifyContent: "space-between", alignItems: "center", background: "none", border: "none", cursor: "pointer", textAlign: "left" }}>
                 <div style={{ display: "flex", gap: 14, alignItems: "center" }}>
@@ -489,7 +489,7 @@ function CommunityContent({
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             {filteredArticles.map(a => (
-              <div key={a.id} style={{ background: "#12121F", borderRadius: 16, overflow: "hidden", border: `1px solid ${expandedArticle === a.id ? "rgba(58,125,86,0.2)" : "#1E1E32"}` }}>
+              <div role="button" tabIndex={0} key={a.id} style={{ background: "#12121F", borderRadius: 16, overflow: "hidden", border: `1px solid ${expandedArticle === a.id ? "rgba(58,125,86,0.2)" : "#1E1E32"}` }}>
                 <div role="button" tabIndex={0} onClick={() => setExpandedArticle(expandedArticle === a.id ? null : a.id)}
                   style={{ padding: "18px 22px", display: "flex", justifyContent: "space-between", alignItems: "flex-start", cursor: "pointer" }}>
                   <div style={{ flex: 1 }}>

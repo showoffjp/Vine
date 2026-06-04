@@ -483,7 +483,7 @@ export default function AccountabilityPage() {
                   </div>
                 </div>
               </div>
-              <div className="flex gap-3 mt-5">
+              <div role="button" tabIndex={0} className="flex gap-3 mt-5">
                 <button type="button" onClick={() => setShowCompose(false)} className="flex-1 py-2.5 rounded-xl font-bold text-sm" style={{ background: "rgba(255,255,255,0.04)", color: "#8A8AA8", border: "1px solid rgba(255,255,255,0.08)" }}>
                   Cancel
                 </button>

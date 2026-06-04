@@ -171,7 +171,7 @@ export default function IdentityInChristPage() {
                       <div style={{ color: GREEN, fontWeight: 800, fontSize: 16, marginBottom: 6 }}>{item.statement}</div>
                       <p style={{ color: MUTED, fontSize: 13, lineHeight: 1.6, margin: 0, fontStyle: "italic" }}><VerseRef reference={item.verse} /></p>
                     </div>
-                    <div style={{ display: "flex", gap: 6, marginLeft: 12, flexShrink: 0 }}>
+                    <div role="button" tabIndex={0} style={{ display: "flex", gap: 6, marginLeft: 12, flexShrink: 0 }}>
                       <button type="button" onClick={() => { setMeditating(item.ref); setActiveTab("meditate"); }}
                         style={{ padding: "5px 10px", borderRadius: 6, border: `1px solid ${PURPLE}40`, background: `${PURPLE}10`, color: PURPLE, fontSize: 11, fontWeight: 700, cursor: "pointer" }}>
                         Meditate

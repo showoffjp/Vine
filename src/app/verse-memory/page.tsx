@@ -373,7 +373,7 @@ export default function VerseMemoryPage() {
                     <textarea value={newVerse.text} onChange={e => setNewVerse(p => ({ ...p, text: e.target.value }))}
                       aria-label="Paste the full verse text..." placeholder="Paste the full verse text..." rows={3}
                       style={{ width: "100%", padding: "10px 14px", borderRadius: 10, border: `1px solid ${BORDER}`, background: "rgba(255,255,255,0.04)", color: TEXT, fontSize: 14, resize: "none", outline: "none", marginBottom: 12, boxSizing: "border-box", lineHeight: 1.7 }} />
-                    <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                    <div role="button" tabIndex={0} style={{ display: "flex", justifyContent: "flex-end" }}>
                       <button type="button" onClick={addVerse} disabled={!newVerse.reference.trim() || !newVerse.text.trim()}
                         style={{ padding: "10px 24px", borderRadius: 10, border: "none", cursor: "pointer", fontWeight: 800, fontSize: 14, background: savedFlash ? "rgba(58,125,86,0.2)" : (newVerse.reference && newVerse.text ? `linear-gradient(135deg, ${GREEN}, #3a7d56)` : BORDER), color: savedFlash ? GREEN : (newVerse.reference && newVerse.text ? BG : MUTED) }}>
                         {savedFlash ? "✓ Saved!" : "Save Verse"}
@@ -407,7 +407,7 @@ export default function VerseMemoryPage() {
                           <span style={{ fontSize: 11, padding: "2px 10px", borderRadius: 20, background: `${categoryColors[verse.category] || PURPLE}15`, color: categoryColors[verse.category] || PURPLE, fontWeight: 700 }}>{verse.category}</span>
                           {verse.mastered && <span style={{ fontSize: 11, padding: "2px 10px", borderRadius: 20, background: "rgba(58,125,86,0.1)", color: GREEN, fontWeight: 700 }}>✓ Mastered</span>}
                         </div>
-                        <div style={{ display: "flex", gap: 6, flexShrink: 0 }}>
+                        <div role="button" tabIndex={0} style={{ display: "flex", gap: 6, flexShrink: 0 }}>
                           <button type="button" onClick={() => startReview(verse.id)}
                             style={{ padding: "6px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: "rgba(255,255,255,0.04)", color: MUTED, cursor: "pointer", fontSize: 12, fontWeight: 700 }}>
                             Practice
@@ -481,7 +481,7 @@ export default function VerseMemoryPage() {
                         <textarea value={userInput} onChange={e => setUserInput(e.target.value)}
                           aria-label="Type the verse here..." placeholder="Type the verse here..." rows={4}
                           style={{ width: "100%", padding: "12px 16px", borderRadius: 12, border: `1px solid ${BORDER}`, background: "rgba(255,255,255,0.03)", color: TEXT, fontSize: 14, resize: "none", outline: "none", lineHeight: 1.7, marginBottom: 12, boxSizing: "border-box" }} />
-                        <div style={{ display: "flex", gap: 10 }}>
+                        <div role="button" tabIndex={0} style={{ display: "flex", gap: 10 }}>
                           <button type="button" onClick={checkAnswer} disabled={!userInput.trim()}
                             style={{ padding: "10px 22px", borderRadius: 10, border: "none", background: userInput.trim() ? `linear-gradient(135deg, ${PURPLE}, #8B6FDB)` : BORDER, color: userInput.trim() ? TEXT : MUTED, cursor: userInput.trim() ? "pointer" : "not-allowed", fontSize: 14, fontWeight: 800 }}>
                             Check Answer
@@ -500,7 +500,7 @@ export default function VerseMemoryPage() {
                           <p style={{ fontSize: 14, fontWeight: 800, color: resultConfig[quizResult].color, marginBottom: 8 }}>{resultConfig[quizResult].msg}</p>
                           <p style={{ fontSize: 14, fontStyle: "italic", color: "#C0C0D8", lineHeight: 1.8, margin: 0 }}>&ldquo;{reviewingVerse.text}&rdquo;</p>
                         </div>
-                        <div style={{ display: "flex", gap: 10 }}>
+                        <div role="button" tabIndex={0} style={{ display: "flex", gap: 10 }}>
                           <button type="button" onClick={() => { setQuizResult(null); setUserInput(""); setShowAnswer(false); }}
                             style={{ padding: "10px 18px", borderRadius: 10, border: `1px solid ${BORDER}`, background: "rgba(255,255,255,0.04)", color: MUTED, cursor: "pointer", fontSize: 13, fontWeight: 700 }}>
                             ↺ Try Again

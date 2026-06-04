@@ -204,7 +204,7 @@ export default function CreativityPage() {
                 </div>
                 <textarea value={form.notes} onChange={e => setForm(f => ({ ...f, notes: e.target.value }))} aria-label="Notes, inspiration, or vision for this project..." placeholder="Notes, inspiration, or vision for this project..."
                   style={{ width: "100%", minHeight: 80, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box", fontFamily: "inherit", marginBottom: 12 }} />
-                <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
+                <div role="button" tabIndex={0} style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
                   <button type="button" onClick={() => setShowForm(false)} style={{ padding: "8px 16px", borderRadius: 8, border: `1px solid ${BORDER}`, background: "transparent", color: MUTED, cursor: "pointer" }}>Cancel</button>
                   <button type="button" onClick={addProject} style={{ padding: "8px 18px", borderRadius: 8, border: "none", background: GREEN, color: BG, fontWeight: 800, cursor: "pointer" }}>Add Project</button>
                 </div>

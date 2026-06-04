@@ -450,7 +450,7 @@ export default function HouseChurchPage() {
                             <p style={{ fontSize: 14, color: MUTED, margin: 0, lineHeight: 1.6 }}>{el.description}</p>
                           </div>
                         </div>
-                        <div style={{ display: "flex", gap: 6, flexShrink: 0 }}>
+                        <div role="button" tabIndex={0} style={{ display: "flex", gap: 6, flexShrink: 0 }}>
                           <button type="button" onClick={() => toggleSaved(el.id)}
                             style={{ width: 32, height: 32, borderRadius: 8, border: `1px solid ${savedElements.has(el.id) ? PURPLE : BORDER}`, background: savedElements.has(el.id) ? "rgba(107,79,187,0.15)" : "transparent", cursor: "pointer", fontSize: 13, color: savedElements.has(el.id) ? PURPLE : MUTED }}>
                             {savedElements.has(el.id) ? "🔖" : "📌"}
@@ -489,7 +489,7 @@ export default function HouseChurchPage() {
                             </div>
                           </div>
                         </div>
-                        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                        <div role="button" tabIndex={0} style={{ display: "flex", justifyContent: "flex-end" }}>
                           <button type="button" onClick={() => togglePlan(el.id)}
                             style={{ padding: "8px 18px", borderRadius: 10, border: `1px solid ${planItems.has(el.id) ? GREEN + "40" : BORDER}`, background: planItems.has(el.id) ? "rgba(58,125,86,0.1)" : "transparent", color: planItems.has(el.id) ? GREEN : MUTED, cursor: "pointer", fontSize: 13, fontWeight: 700 }}>
                             {planItems.has(el.id) ? "✓ In My Plan" : "+ Add to Plan"}

@@ -880,7 +880,7 @@ export default function WorldPrayerPage() {
               <div style={{ fontSize: 12, color: PURPLE, marginTop: 4 }}>{selected.verseRef}</div>
             </div>
 
-            <div style={{ display: "flex", gap: 10 }}>
+            <div role="button" tabIndex={0} style={{ display: "flex", gap: 10 }}>
               <button type="button" onClick={() => handlePray(selected.id)}
                 style={{ flex: 1, padding: "12px 16px", borderRadius: 10, border: "none",
                   background: prayedFor.has(selected.id) ? "#3a7d5620" : PURPLE,

@@ -256,7 +256,7 @@ export default function ForgivenessPage() {
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               {WHAT_IS_ITEMS.map((item, i) => (
-                <div key={i} style={{ background: CARD, border: `1px solid ${openWhatIs === i ? item.color + "60" : BORDER}`, borderRadius: 14, overflow: "hidden" }}>
+                <div role="button" tabIndex={0} key={i} style={{ background: CARD, border: `1px solid ${openWhatIs === i ? item.color + "60" : BORDER}`, borderRadius: 14, overflow: "hidden" }}>
                   <button type="button" onClick={() => setOpenWhatIs(openWhatIs === i ? null : i)} style={{
                     width: "100%", padding: "18px 24px", background: "transparent", border: "none", cursor: "pointer",
                     display: "flex", justifyContent: "space-between", alignItems: "center", textAlign: "left"
@@ -297,7 +297,7 @@ export default function ForgivenessPage() {
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               {WHY_ITEMS.map((item, i) => (
-                <div key={i} style={{ background: CARD, border: `1px solid ${openWhy === i ? item.color + "60" : BORDER}`, borderRadius: 14, overflow: "hidden" }}>
+                <div role="button" tabIndex={0} key={i} style={{ background: CARD, border: `1px solid ${openWhy === i ? item.color + "60" : BORDER}`, borderRadius: 14, overflow: "hidden" }}>
                   <button type="button" onClick={() => setOpenWhy(openWhy === i ? null : i)} style={{
                     width: "100%", padding: "18px 24px", background: "transparent", border: "none", cursor: "pointer",
                     display: "flex", justifyContent: "space-between", alignItems: "center", textAlign: "left"
@@ -335,7 +335,7 @@ export default function ForgivenessPage() {
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               {HOW_ITEMS.map((item, i) => (
-                <div key={i} style={{ background: CARD, border: `1px solid ${openHow === i ? item.color + "60" : BORDER}`, borderRadius: 14, overflow: "hidden" }}>
+                <div role="button" tabIndex={0} key={i} style={{ background: CARD, border: `1px solid ${openHow === i ? item.color + "60" : BORDER}`, borderRadius: 14, overflow: "hidden" }}>
                   <button type="button" onClick={() => setOpenHow(openHow === i ? null : i)} style={{
                     width: "100%", padding: "18px 24px", background: "transparent", border: "none", cursor: "pointer",
                     display: "flex", justifyContent: "space-between", alignItems: "center", textAlign: "left"
@@ -422,7 +422,7 @@ export default function ForgivenessPage() {
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {WHEN_HARD_ITEMS.map((item, i) => (
-                <div key={i} style={{ background: CARD, border: `1px solid ${openWhenHard === i ? PURPLE + "60" : BORDER}`, borderRadius: 14, overflow: "hidden" }}>
+                <div role="button" tabIndex={0} key={i} style={{ background: CARD, border: `1px solid ${openWhenHard === i ? PURPLE + "60" : BORDER}`, borderRadius: 14, overflow: "hidden" }}>
                   <button type="button" onClick={() => setOpenWhenHard(openWhenHard === i ? null : i)} style={{
                     width: "100%", padding: "18px 24px", background: "transparent", border: "none", cursor: "pointer",
                     display: "flex", justifyContent: "space-between", alignItems: "center", textAlign: "left"

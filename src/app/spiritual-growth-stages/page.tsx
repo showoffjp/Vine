@@ -275,7 +275,7 @@ export default function SpiritualGrowthStagesPage() {
               </p>
             </div>
             {CLASSIC_FRAMEWORKS.map((f, i) => (
-              <div key={i} style={{ marginBottom: 12 }}>
+              <div role="button" tabIndex={0} key={i} style={{ marginBottom: 12 }}>
                 <button type="button" onClick={() => setSelectedFramework(selectedFramework === f.name ? null : f.name)}
                   style={{ width: "100%", background: selectedFramework === f.name ? `${f.color}10` : CARD, border: `1px solid ${selectedFramework === f.name ? f.color + "40" : BORDER}`, borderRadius: selectedFramework === f.name ? "12px 12px 0 0" : 12, padding: "16px 20px", cursor: "pointer", textAlign: "left", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <div>
@@ -343,7 +343,7 @@ export default function SpiritualGrowthStagesPage() {
               </p>
             </div>
             {GROWTH_OBSTACLES.map((o, i) => (
-              <div key={i} style={{ marginBottom: 10 }}>
+              <div role="button" tabIndex={0} key={i} style={{ marginBottom: 10 }}>
                 <button type="button" onClick={() => setExpanded(expanded === o.obstacle ? null : o.obstacle)}
                   style={{ width: "100%", background: expanded === o.obstacle ? `${o.color}10` : CARD, border: `1px solid ${expanded === o.obstacle ? o.color + "40" : BORDER}`, borderRadius: expanded === o.obstacle ? "12px 12px 0 0" : 12, padding: "14px 18px", cursor: "pointer", textAlign: "left", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <div style={{ color: TEXT, fontWeight: 700, fontSize: 15 }}>{o.obstacle}</div>

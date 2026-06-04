@@ -290,7 +290,7 @@ export default function SabbathPage() {
               </p>
             </div>
             {OBJECTIONS.map((item, i) => (
-              <div key={i} style={{ background: CARD, border: `1px solid ${expandedObj === i ? `${GREEN}50` : BORDER}`, borderRadius: 14, marginBottom: 12, overflow: "hidden", transition: "border-color 0.2s" }}>
+              <div role="button" tabIndex={0} key={i} style={{ background: CARD, border: `1px solid ${expandedObj === i ? `${GREEN}50` : BORDER}`, borderRadius: 14, marginBottom: 12, overflow: "hidden", transition: "border-color 0.2s" }}>
                 <button type="button" onClick={() => setExpandedObj(expandedObj === i ? null : i)}
                   style={{ width: "100%", padding: "18px 22px", background: "transparent", border: "none", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
                   <div style={{ display: "flex", gap: 12, alignItems: "center" }}>

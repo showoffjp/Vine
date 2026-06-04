@@ -335,7 +335,7 @@ export default function StewardshipPage() {
           <div style={{ maxWidth: 800, margin: "0 auto" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 32 }}>
               {PRINCIPLES.map(p => (
-                <div key={p.id} style={{ background: "#12121F", borderRadius: 16, overflow: "hidden", border: `1px solid ${openPrinciple === p.id ? "rgba(58,125,86,0.3)" : "#1E1E32"}` }}>
+                <div role="button" tabIndex={0} key={p.id} style={{ background: "#12121F", borderRadius: 16, overflow: "hidden", border: `1px solid ${openPrinciple === p.id ? "rgba(58,125,86,0.3)" : "#1E1E32"}` }}>
                   <div role="button" tabIndex={0} onClick={() => setOpenPrinciple(openPrinciple === p.id ? null : p.id)}
                     style={{ padding: "18px 22px", display: "flex", justifyContent: "space-between", alignItems: "center", cursor: "pointer" }}>
                     <div style={{ display: "flex", gap: 14, alignItems: "center", flex: 1 }}>

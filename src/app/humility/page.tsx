@@ -263,7 +263,7 @@ export default function HumilityPage() {
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               {PRIDE_ITEMS.map(p => (
-                <div key={p.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                <div role="button" tabIndex={0} key={p.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
                   <button type="button" onClick={() => toggleExpand(p.id)}
                     style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", padding: "18px 22px", background: "none", border: "none", cursor: "pointer", color: TEXT }}>
                     <div style={{ fontWeight: 800, fontSize: 16, textAlign: "left" }}>{p.title}</div>

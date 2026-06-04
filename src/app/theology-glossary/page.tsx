@@ -590,7 +590,7 @@ export default function TheologyGlossaryPage() {
               </div>
             </div>
 
-            <div style={{ display: "flex", gap: 10 }}>
+            <div role="button" tabIndex={0} style={{ display: "flex", gap: 10 }}>
               <button type="button" onClick={() => handleLearn(selected.id)}
                 style={{ flex: 1, padding: "11px 16px", borderRadius: 10, border: "none",
                   background: learnedIds.has(selected.id) ? `${GREEN}20` : PURPLE,

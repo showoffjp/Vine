@@ -155,7 +155,7 @@ export default function ConfessionPage() {
             {FRAMEWORKS.map(f => {
               const open = expandedFramework === f.id;
               return (
-                <div key={f.id} style={{ background: CARD, border: `1px solid ${open ? PURPLE + "50" : BORDER}`, borderRadius: 12, marginBottom: 12, overflow: "hidden" }}>
+                <div role="button" tabIndex={0} key={f.id} style={{ background: CARD, border: `1px solid ${open ? PURPLE + "50" : BORDER}`, borderRadius: 12, marginBottom: 12, overflow: "hidden" }}>
                   <button type="button" onClick={() => setExpandedFramework(open ? "" : f.id)}
                     style={{ width: "100%", padding: "16px 20px", background: "none", border: "none", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                     <span style={{ color: open ? PURPLE : TEXT, fontWeight: 800, fontSize: 16 }}>{f.name}</span>
@@ -186,7 +186,7 @@ export default function ConfessionPage() {
             {BARRIERS.map((b, i) => {
               const open = expandedBarrier === b.barrier;
               return (
-                <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, marginBottom: 12, overflow: "hidden" }}>
+                <div role="button" tabIndex={0} key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, marginBottom: 12, overflow: "hidden" }}>
                   <button type="button" onClick={() => setExpandedBarrier(open ? null : b.barrier)}
                     style={{ width: "100%", padding: "16px 20px", background: "none", border: "none", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center", textAlign: "left" }}>
                     <div>

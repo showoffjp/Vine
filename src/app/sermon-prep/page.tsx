@@ -226,7 +226,7 @@ export default function SermonPrepPage() {
                   <input aria-label="Big Idea (one sentence)" placeholder="Big Idea (one sentence)" value={form.bigIdea} onChange={e => setForm(f => ({ ...f, bigIdea: e.target.value }))}
                     style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontSize: 14 }} />
                 </div>
-                <div style={{ display: "flex", gap: 8 }}>
+                <div role="button" tabIndex={0} style={{ display: "flex", gap: 8 }}>
                   <button type="button" onClick={addNote} style={{ flex: 1, background: GREEN, color: "#000", fontWeight: 700, border: "none", borderRadius: 8, padding: 10, cursor: "pointer" }}>Add Sermon</button>
                   <button type="button" onClick={() => setShowForm(false)} style={{ flex: 1, background: "transparent", color: MUTED, fontWeight: 700, border: `1px solid ${BORDER}`, borderRadius: 8, padding: 10, cursor: "pointer" }}>Cancel</button>
                 </div>
@@ -243,7 +243,7 @@ export default function SermonPrepPage() {
                   {note.bigIdea && <p style={{ color: TEXT, fontSize: 13, lineHeight: 1.6, margin: 0, fontStyle: "italic" }}>{note.bigIdea}</p>}
                   <div style={{ color: MUTED, fontSize: 11, marginTop: 6 }}>{note.date}</div>
                 </div>
-                <div style={{ display: "flex", gap: 6, flexShrink: 0, marginLeft: 12 }}>
+                <div role="button" tabIndex={0} style={{ display: "flex", gap: 6, flexShrink: 0, marginLeft: 12 }}>
                   <button type="button" onClick={() => toggleStatus(note.id)} style={{ background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 6, padding: "4px 8px", color: MUTED, fontSize: 11, cursor: "pointer" }}>{note.status === "draft" ? "Mark Preached" : "Back to Draft"}</button>
                   <button type="button" onClick={() => removeNote(note.id)} style={{ background: "transparent", border: "none", color: MUTED, fontSize: 11, cursor: "pointer" }}>✕</button>
                 </div>

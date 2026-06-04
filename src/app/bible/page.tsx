@@ -1207,7 +1207,7 @@ export default function BiblePage() {
               </div>
 
               {/* Navigation */}
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+              <div role="button" tabIndex={0} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
                 <button type="button" onClick={() => navigateChapter(-1)} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "8px 16px", color: MUTED, cursor: "pointer", fontSize: 14 }}>
                   ← Prev Chapter
                 </button>
@@ -1567,7 +1567,7 @@ export default function BiblePage() {
                 {VERSE_THEMES[activeTheme].verses.map((v, i) => (
                   <div key={i} style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 10, padding: 22 }}>
                     <p style={{ color: TEXT, fontSize: 20, fontFamily: "var(--font-cormorant, Georgia, serif)", lineHeight: 1.8, fontStyle: "italic", marginBottom: 12 }}>&ldquo;{v.text}&rdquo;</p>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <div role="button" tabIndex={0} style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                       <button type="button" onClick={() => openRef(v.ref)} style={{ color: VERSE_THEMES[activeTheme].color, fontWeight: 800, fontSize: 14, background: "none", border: "none", cursor: "pointer", padding: 0 }}>— {v.ref} →</button>
                       <span style={{ color: MUTED, fontSize: 12 }}>{v.version}</span>
                     </div>

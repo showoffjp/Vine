@@ -245,7 +245,7 @@ export default function ChristianFictionPage() {
         {tab === "theology" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {THEOLOGY_DATA.map((t, i) => (
-              <div key={i} style={{ background: CARD, border: `1px solid ${expanded[t.point] ? t.color + "40" : BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+              <div role="button" tabIndex={0} key={i} style={{ background: CARD, border: `1px solid ${expanded[t.point] ? t.color + "40" : BORDER}`, borderRadius: 12, overflow: "hidden" }}>
                 <button type="button" onClick={() => setExpanded(e => ({ ...e, [t.point]: !e[t.point] }))}
                   style={{ width: "100%", padding: "16px 20px", cursor: "pointer", textAlign: "left", background: "transparent", border: "none", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <div style={{ color: t.color, fontWeight: 800, fontSize: 15 }}>{t.point}</div>

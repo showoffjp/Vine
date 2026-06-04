@@ -432,7 +432,7 @@ export default function PrayerPage() {
                   <p className="text-xs mt-1" style={{ color: "#6A6A88" }}>Believers around the world are already lifting you up.</p>
                 </div>
               ) : (
-                <div className="flex items-center gap-3">
+                <div role="button" tabIndex={0} className="flex items-center gap-3">
                   <button aria-label="Send" type="button" onClick={handleSubmitPrayer} className="btn-gold px-6 py-2.5 rounded-xl text-sm font-bold flex items-center gap-2">
                     <Send size={14} />
                     Submit Prayer Request

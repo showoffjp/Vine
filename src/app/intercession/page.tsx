@@ -215,7 +215,7 @@ export default function IntercessionPage() {
                 <textarea value={form.request} onChange={e => setForm(f => ({ ...f, request: e.target.value }))}
                   aria-label="Specific prayer request..." placeholder="Specific prayer request..."
                   style={{ width: "100%", minHeight: 80, padding: "10px 14px", borderRadius: 8, border: `1px solid ${BORDER}`, background: BG, color: TEXT, fontSize: 14, resize: "vertical", boxSizing: "border-box", fontFamily: "inherit", marginBottom: 12 }} />
-                <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
+                <div role="button" tabIndex={0} style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
                   <button type="button" onClick={() => setShowForm(false)} style={{ padding: "8px 16px", borderRadius: 8, border: `1px solid ${BORDER}`, background: "transparent", color: MUTED, cursor: "pointer", fontWeight: 600 }}>Cancel</button>
                   <button type="button" onClick={addItem} style={{ padding: "8px 18px", borderRadius: 8, border: "none", background: GREEN, color: BG, fontWeight: 800, cursor: "pointer" }}>Add Prayer</button>
                 </div>
@@ -270,7 +270,7 @@ export default function IntercessionPage() {
             {MODELS.map(model => {
               const open = expandedModel === model.name;
               return (
-                <div key={model.name} style={{ background: CARD, border: `1px solid ${open ? model.color + "50" : BORDER}`, borderRadius: 12, marginBottom: 12, overflow: "hidden" }}>
+                <div role="button" tabIndex={0} key={model.name} style={{ background: CARD, border: `1px solid ${open ? model.color + "50" : BORDER}`, borderRadius: 12, marginBottom: 12, overflow: "hidden" }}>
                   <button type="button" onClick={() => setExpandedModel(open ? null : model.name)}
                     style={{ width: "100%", padding: "18px 22px", background: "none", border: "none", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 12, textAlign: "left" }}>

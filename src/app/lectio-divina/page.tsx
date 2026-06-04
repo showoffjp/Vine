@@ -256,7 +256,7 @@ export default function LectioDivinaPage() {
               </div>
             )}
 
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <div role="button" tabIndex={0} style={{ display: "flex", justifyContent: "space-between" }}>
               <button type="button" onClick={() => setActiveMovement(Math.max(0, activeMovement - 1))} disabled={activeMovement === 0}
                 style={{ padding: "10px 20px", borderRadius: 8, border: `1px solid ${BORDER}`, background: "transparent", color: activeMovement === 0 ? BORDER : MUTED, cursor: activeMovement === 0 ? "default" : "pointer", fontWeight: 700 }}>
                 ← Previous

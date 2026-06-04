@@ -282,7 +282,7 @@ export default function SeminaryGuidePage() {
         {tab === "discernment" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {DISCERNMENT.map((d, i) => (
-              <div key={i} style={{ background: CARD, border: `1px solid ${expanded[d.question] ? "#F59E0B40" : BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+              <div role="button" tabIndex={0} key={i} style={{ background: CARD, border: `1px solid ${expanded[d.question] ? "#F59E0B40" : BORDER}`, borderRadius: 12, overflow: "hidden" }}>
                 <button type="button" onClick={() => setExpanded(e => ({ ...e, [d.question]: !e[d.question] }))}
                   style={{ width: "100%", padding: "16px 20px", cursor: "pointer", textAlign: "left", background: "transparent", border: "none", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <div style={{ color: GREEN, fontWeight: 800, fontSize: 14, paddingRight: 16 }}>{d.question}</div>

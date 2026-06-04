@@ -552,7 +552,7 @@ export default function SermonArchivePage() {
             {/* Note section */}
             <div style={{ background: "#07070F", borderRadius: 12, padding: 16, marginBottom: 20 }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
-                <div style={{ fontSize: 13, fontWeight: 600, color: "#F2F2F8" }}>📝 My Notes</div>
+                <div role="button" tabIndex={0} style={{ fontSize: 13, fontWeight: 600, color: "#F2F2F8" }}>📝 My Notes</div>
                 <button type="button" onClick={() => setNoteMode(!noteMode)}
                   style={{ padding: "4px 12px", borderRadius: 6, border: "none", background: "#1E1E32", color: "#9898B3", cursor: "pointer", fontSize: 12 }}>
                   {noteMode ? "Cancel" : notes[selectedSermon.id] ? "Edit" : "Add Notes"}
@@ -585,7 +585,7 @@ export default function SermonArchivePage() {
               )}
             </div>
 
-            <div style={{ display: "flex", gap: 10 }}>
+            <div role="button" tabIndex={0} style={{ display: "flex", gap: 10 }}>
               <button type="button" onClick={() => handleLike(selectedSermon.id)}
                 style={{ flex: 1, padding: "11px 16px", borderRadius: 10, border: "none",
                   background: likedIds.has(selectedSermon.id) ? "#3a7d5615" : "#1E1E32",

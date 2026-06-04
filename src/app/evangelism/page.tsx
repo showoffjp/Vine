@@ -488,7 +488,7 @@ export default function EvangelismPage() {
                               <p style={{ fontSize: 14, color: MUTED, margin: 0, lineHeight: 1.6 }}>{m.description}</p>
                             </div>
                           </div>
-                          <div style={{ display: "flex", gap: 8, flexShrink: 0 }}>
+                          <div role="button" tabIndex={0} style={{ display: "flex", gap: 8, flexShrink: 0 }}>
                             <button type="button" onClick={() => toggleSaved(m.id)}
                               style={{ width: 32, height: 32, borderRadius: 8, border: `1px solid ${savedMethods.has(m.id) ? PURPLE : BORDER}`, background: savedMethods.has(m.id) ? "rgba(107,79,187,0.15)" : "transparent", cursor: "pointer", fontSize: 14, color: savedMethods.has(m.id) ? PURPLE : MUTED }}>
                               {savedMethods.has(m.id) ? "🔖" : "📌"}
@@ -581,7 +581,7 @@ export default function EvangelismPage() {
                 </p>
                 <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                   {fears.map((f, i) => (
-                    <div key={i} style={{ background: CARD, border: `1px solid ${expandedFear === i ? GREEN + "40" : BORDER}`, borderRadius: 14, overflow: "hidden" }}>
+                    <div role="button" tabIndex={0} key={i} style={{ background: CARD, border: `1px solid ${expandedFear === i ? GREEN + "40" : BORDER}`, borderRadius: 14, overflow: "hidden" }}>
                       <button type="button" onClick={() => setExpandedFear(expandedFear === i ? null : i)}
                         style={{ width: "100%", textAlign: "left", padding: "18px 24px", background: "transparent", border: "none", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
                         <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
@@ -627,7 +627,7 @@ export default function EvangelismPage() {
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(380px, 1fr))", gap: 20 }}>
               {EVANG_STORIES.map(s => (
-                <div key={s.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 22, cursor: "pointer", transition: "border-color 0.2s" }}
+                <div role="button" tabIndex={0} key={s.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: 22, cursor: "pointer", transition: "border-color 0.2s" }}
                   onClick={() => setSelectedStory(s)}
                   onMouseEnter={e => (e.currentTarget as HTMLDivElement).style.borderColor = GREEN}
                   onMouseLeave={e => (e.currentTarget as HTMLDivElement).style.borderColor = BORDER}>

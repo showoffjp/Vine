@@ -223,7 +223,7 @@ export default function BiblicalCounselingPage() {
                 { id: "steps", label: "Practical Steps", content: null },
                 { id: "warning", label: "When to Seek Professional Help", content: null },
               ].map(section => (
-                <div key={section.id} style={{ marginBottom: 10, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
+                <div role="button" tabIndex={0} key={section.id} style={{ marginBottom: 10, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: "hidden" }}>
                   <button type="button" onClick={() => setOpenSection(openSection === section.id ? "" : section.id)}
                     style={{ width: "100%", padding: "13px 18px", background: openSection === section.id ? `${topic.color}10` : "transparent", border: "none", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                     <span style={{ color: openSection === section.id ? topic.color : TEXT, fontWeight: 700, fontSize: 14 }}>{section.label}</span>

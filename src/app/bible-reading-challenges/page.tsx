@@ -196,7 +196,7 @@ export default function BibleReadingChallengesPage() {
 
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
           {filtered.map((c) => (
-            <div key={c.name}>
+            <div role="button" tabIndex={0} key={c.name}>
               <button type="button" onClick={() => setExpanded(expanded === c.name ? null : c.name)}
                 style={{ width: "100%", background: expanded === c.name ? `${c.color}10` : CARD, border: `1px solid ${expanded === c.name ? c.color + "40" : BORDER}`, borderRadius: expanded === c.name ? "12px 12px 0 0" : 12, padding: "16px 20px", cursor: "pointer", textAlign: "left", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 14 }}>

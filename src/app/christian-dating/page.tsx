@@ -136,7 +136,7 @@ export default function ChristianDatingPage() {
         {tab === "questions" && (
           <div>
             {QUESTIONS.map((q, i) => (
-              <div key={i} style={{ marginBottom: 10 }}>
+              <div role="button" tabIndex={0} key={i} style={{ marginBottom: 10 }}>
                 <button type="button" onClick={() => setExpanded(prev => ({ ...prev, [q.q]: !prev[q.q] }))}
                   style={{ width: "100%", background: CARD, border: `1px solid ${BORDER}`, borderRadius: expanded[q.q] ? "10px 10px 0 0" : 10, padding: "14px 18px", color: TEXT, fontWeight: 700, fontSize: 14, cursor: "pointer", display: "flex", justifyContent: "space-between", textAlign: "left" }}>
                   <span>{q.q}</span>
@@ -160,7 +160,7 @@ export default function ChristianDatingPage() {
               </p>
             </div>
             {RED_FLAGS.map((r, i) => (
-              <div key={i} style={{ marginBottom: 10 }}>
+              <div role="button" tabIndex={0} key={i} style={{ marginBottom: 10 }}>
                 <button type="button" onClick={() => setExpanded(prev => ({ ...prev, [r.flag]: !prev[r.flag] }))}
                   style={{ width: "100%", background: CARD, border: `1px solid ${BORDER}`, borderRadius: expanded[r.flag] ? "10px 10px 0 0" : 10, padding: "14px 18px", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center", textAlign: "left" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 12 }}>

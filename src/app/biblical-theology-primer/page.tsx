@@ -155,7 +155,7 @@ export default function BiblicalTheologyPrimerPage() {
         {tab === "covenants" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
             {COVENANTS.map((c, i) => (
-              <div key={i} style={{ background: CARD, border: `1px solid ${c.color}25`, borderRadius: 12, overflow: "hidden" }}>
+              <div role="button" tabIndex={0} key={i} style={{ background: CARD, border: `1px solid ${c.color}25`, borderRadius: 12, overflow: "hidden" }}>
                 <button type="button" onClick={() => setExpanded(e => ({ ...e, [c.name]: !e[c.name] }))}
                   style={{ width: "100%", padding: "18px 22px", cursor: "pointer", textAlign: "left", background: "transparent", border: "none", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <div>
@@ -189,7 +189,7 @@ export default function BiblicalTheologyPrimerPage() {
               Biblical theology is as much a way of reading as a body of content. These {READING_GUIDE.length} habits help you read any passage in light of the whole story that climaxes in Christ.
             </p>
             {READING_GUIDE.map((r, i) => (
-              <div key={i} style={{ background: CARD, border: `1px solid ${expanded[r.title] ? r.color + "40" : BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+              <div role="button" tabIndex={0} key={i} style={{ background: CARD, border: `1px solid ${expanded[r.title] ? r.color + "40" : BORDER}`, borderRadius: 12, overflow: "hidden" }}>
                 <button type="button" onClick={() => setExpanded(e => ({ ...e, [r.title]: !e[r.title] }))}
                   style={{ width: "100%", padding: "16px 20px", cursor: "pointer", textAlign: "left", background: "transparent", border: "none", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <div style={{ display: "flex", gap: 12, alignItems: "center" }}>

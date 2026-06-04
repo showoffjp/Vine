@@ -242,7 +242,7 @@ export default function ProfilePage() {
                     className="w-full px-3 py-2 rounded-xl text-sm outline-none resize-none mb-2"
                     style={{ background: "#07070F", border: "1px solid #1E1E32", color: "#F2F2F8" }}
                   />
-                  <div className="flex gap-2">
+                  <div role="button" tabIndex={0} className="flex gap-2">
                     <button type="button" onClick={saveBio} className="text-xs px-3 py-1.5 rounded-lg font-bold" style={{ background: "#3a7d56", color: "#07070F" }}>
                       Save
                     </button>

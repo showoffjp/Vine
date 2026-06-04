@@ -359,7 +359,7 @@ export default function ParentingPage() {
             <p style={{ color: MUTED, marginBottom: 24, fontSize: 15 }}>Each stage requires a different approach. What works with a 5-year-old will not work with a teenager. Wisdom means adjusting the approach while holding the goal constant.</p>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 14, marginBottom: 24 }}>
               {stages.map(s => (
-                <div key={s.age} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: "20px", cursor: "pointer" }}
+                <div role="button" tabIndex={0} key={s.age} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: "20px", cursor: "pointer" }}
                   onClick={() => setSelectedStage(s)}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 }}>
                     <span style={{ fontSize: 28 }}>{s.emoji}</span>
@@ -462,7 +462,7 @@ export default function ParentingPage() {
                             <p style={{ fontSize: 14, color: MUTED, margin: 0, lineHeight: 1.6 }}>{r.description}</p>
                           </div>
                         </div>
-                        <div style={{ display: "flex", gap: 6, flexShrink: 0 }}>
+                        <div role="button" tabIndex={0} style={{ display: "flex", gap: 6, flexShrink: 0 }}>
                           <button type="button" onClick={() => toggleRhythm(r.id)}
                             style={{ width: 32, height: 32, borderRadius: 8, border: `1px solid ${savedRhythms.has(r.id) ? PURPLE : BORDER}`, background: savedRhythms.has(r.id) ? "rgba(107,79,187,0.15)" : "transparent", cursor: "pointer", fontSize: 13, color: savedRhythms.has(r.id) ? PURPLE : MUTED }}>
                             {savedRhythms.has(r.id) ? "🔖" : "📌"}

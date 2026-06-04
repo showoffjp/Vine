@@ -214,7 +214,7 @@ export default function TestimonyWritingPage() {
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22 }}>
               <h3 style={{ color: "#EF4444", fontWeight: 800, fontSize: 17, marginBottom: 14 }}>Common Pitfalls</h3>
               {PITFALLS.map(p => (
-                <div key={p.pitfall} style={{ marginBottom: 10 }}>
+                <div role="button" tabIndex={0} key={p.pitfall} style={{ marginBottom: 10 }}>
                   <button type="button" onClick={() => setExpandedPitfall(expandedPitfall === p.pitfall ? null : p.pitfall)}
                     style={{ width: "100%", background: "transparent", border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px 14px", color: TEXT, fontWeight: 700, fontSize: 14, cursor: "pointer", display: "flex", justifyContent: "space-between", textAlign: "left" }}>
                     <span>{p.pitfall}</span><span style={{ color: MUTED }}>{expandedPitfall === p.pitfall ? "−" : "+"}</span>

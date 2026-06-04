@@ -308,7 +308,7 @@ export default function NewBelieverPage() {
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {COMMON_QUESTIONS.map((q, i) => (
-                <div key={i} style={{ background: CARD, border: `1px solid ${expandedQ === i ? GREEN + "40" : BORDER}`, borderRadius: 12, overflow: "hidden", transition: "border-color 0.2s" }}>
+                <div role="button" tabIndex={0} key={i} style={{ background: CARD, border: `1px solid ${expandedQ === i ? GREEN + "40" : BORDER}`, borderRadius: 12, overflow: "hidden", transition: "border-color 0.2s" }}>
                   <button type="button" onClick={() => setExpandedQ(expandedQ === i ? null : i)}
                     style={{ width: "100%", textAlign: "left", padding: "16px 20px", background: "transparent", border: "none", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
                     <span style={{ color: expandedQ === i ? GREEN : TEXT, fontWeight: 700, fontSize: 15 }}>&ldquo;{q.q}&rdquo;</span>

@@ -493,7 +493,7 @@ export default function DailyChristianHabitsPage() {
 
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {filtered.map((h) => (
-                <div key={h.number} style={{ borderRadius: expanded === h.number ? "12px 12px 0 0" : 12, overflow: "hidden" }}>
+                <div role="button" tabIndex={0} key={h.number} style={{ borderRadius: expanded === h.number ? "12px 12px 0 0" : 12, overflow: "hidden" }}>
                   <button type="button" onClick={() => setExpanded(expanded === h.number ? null : h.number)}
                     style={{ width: "100%", background: expanded === h.number ? `${h.color}10` : CARD, border: `1px solid ${expanded === h.number ? h.color + "40" : BORDER}`, borderRadius: expanded === h.number ? "12px 12px 0 0" : 12, padding: "16px 20px", cursor: "pointer", textAlign: "left", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 14 }}>

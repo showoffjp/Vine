@@ -368,7 +368,7 @@ export default function CreedsPage() {
 
         {/* Creed Detail */}
         {activeTab === "creeds" && selected && (
-          <div style={{ maxWidth: 760, margin: "0 auto" }}>
+          <div role="button" tabIndex={0} style={{ maxWidth: 760, margin: "0 auto" }}>
             <button type="button" onClick={() => setSelected(null)} style={{ background: "none", border: "none", color: GREEN, cursor: "pointer", fontSize: 14, fontWeight: 700, marginBottom: 20, display: "flex", alignItems: "center", gap: 6, padding: 0 }}>
               &#8592; Back to Creeds
             </button>
@@ -384,7 +384,7 @@ export default function CreedsPage() {
                 <pre style={{ fontSize: 15, color: "#C0C0D8", lineHeight: 2, fontFamily: "inherit", whiteSpace: "pre-wrap", margin: 0 }}>{selected.text}</pre>
               </div>
 
-              <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 20 }}>
+              <div role="button" tabIndex={0} style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 20 }}>
                 <button type="button" onClick={() => copyText(selected.text, selected.id)}
                   style={{ padding: "10px 18px", borderRadius: 10, border: "1px solid #2A2A40", background: BORDER, color: copiedId === selected.id ? GREEN : MUTED, cursor: "pointer", fontWeight: 700, fontSize: 14 }}>
                   {copiedId === selected.id ? "✓ Copied!" : "Copy Text"}

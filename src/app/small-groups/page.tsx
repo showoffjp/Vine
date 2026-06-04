@@ -320,7 +320,7 @@ export default function SmallGroupsPage() {
                         <p style={{ fontSize: 13, color: g.color, fontWeight: 700, margin: "0 0 10px" }}>{g.passage}</p>
                         <p style={{ fontSize: 14, color: MUTED, margin: 0, lineHeight: 1.6 }}>{g.description}</p>
                       </div>
-                      <div style={{ display: "flex", gap: 6, flexShrink: 0 }}>
+                      <div role="button" tabIndex={0} style={{ display: "flex", gap: 6, flexShrink: 0 }}>
                         <button type="button" onClick={() => toggleSaved(g.id)}
                           style={{ width: 32, height: 32, borderRadius: 8, border: `1px solid ${savedGuides.has(g.id) ? PURPLE : BORDER}`, background: savedGuides.has(g.id) ? "rgba(107,79,187,0.15)" : "transparent", cursor: "pointer", fontSize: 13, color: savedGuides.has(g.id) ? PURPLE : MUTED }}>
                           {savedGuides.has(g.id) ? "🔖" : "📌"}
@@ -338,7 +338,7 @@ export default function SmallGroupsPage() {
                       <h4 style={{ fontSize: 13, fontWeight: 800, color: g.color, textTransform: "uppercase", letterSpacing: 1, marginBottom: 16 }}>Week-by-Week Outlines</h4>
                       <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                         {g.weekOutlines.map(w => (
-                          <div key={w.week} style={{ borderRadius: 12, border: `1px solid ${expandedWeek === w.week ? g.color + "40" : BORDER}`, overflow: "hidden" }}>
+                          <div role="button" tabIndex={0} key={w.week} style={{ borderRadius: 12, border: `1px solid ${expandedWeek === w.week ? g.color + "40" : BORDER}`, overflow: "hidden" }}>
                             <button type="button" onClick={() => setExpandedWeek(expandedWeek === w.week ? null : w.week)}
                               style={{ width: "100%", textAlign: "left", padding: "14px 18px", background: expandedWeek === w.week ? `${g.color}08` : "transparent", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: 12 }}>
                               <span style={{ width: 28, height: 28, borderRadius: "50%", background: `${g.color}20`, color: g.color, fontSize: 12, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>{w.week}</span>

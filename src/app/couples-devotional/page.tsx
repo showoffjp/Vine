@@ -610,7 +610,7 @@ export default function CouplesDevotionalPage() {
               </div>
             )}
 
-            <div style={{ display: "flex", gap: 10, marginTop: 24 }}>
+            <div role="button" tabIndex={0} style={{ display: "flex", gap: 10, marginTop: 24 }}>
               <button type="button" onClick={() => { handleComplete(selectedDay.day); setSelectedDay(null); }}
                 style={{
                   flex: 1, padding: "12px 16px", borderRadius: 10, border: "none",

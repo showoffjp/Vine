@@ -399,7 +399,7 @@ function GiftsTab() {
         <p style={{ color: MUTED, fontSize: 13, marginBottom: 10, fontWeight: 600, letterSpacing: "0.05em", textTransform: "uppercase" }}>
           Filter by List
         </p>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 16 }}>
+        <div role="button" tabIndex={0} style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 16 }}>
           <button type="button" style={chipStyle(listFilter === null)} onClick={() => setListFilter(null)}>All Lists</button>
           {allLists.map((l) => (
             <button type="button" key={l} style={chipStyle(listFilter === l)} onClick={() => setListFilter(listFilter === l ? null : l)}>{l}</button>
@@ -408,7 +408,7 @@ function GiftsTab() {
         <p style={{ color: MUTED, fontSize: 13, marginBottom: 10, fontWeight: 600, letterSpacing: "0.05em", textTransform: "uppercase" }}>
           Filter by Category
         </p>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+        <div role="button" tabIndex={0} style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
           <button type="button" style={chipStyle(categoryFilter === null)} onClick={() => setCategoryFilter(null)}>All Categories</button>
           {allCategories.map((c) => (
             <button type="button" key={c} style={chipStyle(categoryFilter === c)} onClick={() => setCategoryFilter(categoryFilter === c ? null : c)}>{c}</button>

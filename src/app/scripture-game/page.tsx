@@ -441,7 +441,7 @@ export default function ScriptureGamePage() {
             <p style={{ fontSize: 15, color: "#9898B3", marginBottom: 28 }}>
               Accuracy: {accuracy}% · Best streak: {stats.bestStreak} · Total answered: {stats.totalPlayed}
             </p>
-            <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
+            <div role="button" tabIndex={0} style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
               <button type="button" onClick={() => { setGameState("idle"); setMode(null); }}
                 style={{ padding: "12px 28px", borderRadius: 10, background: "#3a7d56", border: "none", color: "#07070F", fontWeight: 700, fontSize: 15, cursor: "pointer" }}>
                 Play Again

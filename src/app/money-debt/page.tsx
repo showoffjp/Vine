@@ -210,7 +210,7 @@ export default function MoneyDebtPage() {
                       </div>
                     </div>
                     <div style={{ textAlign: "right" }}>
-                      <div style={{ color: "#EF4444", fontWeight: 700, fontSize: 15 }}>${d.balance.toLocaleString()}</div>
+                      <div role="button" tabIndex={0} style={{ color: "#EF4444", fontWeight: 700, fontSize: 15 }}>${d.balance.toLocaleString()}</div>
                       <button type="button" onClick={() => removeDebt(d.id)} style={{ color: MUTED, fontSize: 11, background: "none", border: "none", cursor: "pointer", padding: 0 }}>remove</button>
                     </div>
                   </div>
@@ -231,7 +231,7 @@ export default function MoneyDebtPage() {
                   <input aria-label="Min Payment ($)" placeholder="Min Payment ($)" type="number" value={form.minPayment} onChange={e => setForm(f => ({ ...f, minPayment: e.target.value }))}
                     style={{ background: BG, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "8px 12px", color: TEXT, fontSize: 13 }} />
                 </div>
-                <div style={{ display: "flex", gap: 8 }}>
+                <div role="button" tabIndex={0} style={{ display: "flex", gap: 8 }}>
                   <button type="button" onClick={addDebt} style={{ flex: 1, background: GREEN, color: "#000", fontWeight: 700, border: "none", borderRadius: 8, padding: "10px", cursor: "pointer", fontSize: 13 }}>Add Debt</button>
                   <button type="button" onClick={() => setShowForm(false)} style={{ flex: 1, background: "transparent", color: MUTED, fontWeight: 700, border: `1px solid ${BORDER}`, borderRadius: 8, padding: "10px", cursor: "pointer", fontSize: 13 }}>Cancel</button>
                 </div>

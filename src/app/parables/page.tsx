@@ -826,7 +826,7 @@ export default function ParablesPage() {
               ))}
             </div>
 
-            <div style={{ display: "flex", gap: 12 }}>
+            <div role="button" tabIndex={0} style={{ display: "flex", gap: 12 }}>
               <button type="button" onClick={() => toggleStudied(selected.id)}
                 style={{ flex: 1, padding: "12px 20px", borderRadius: 12, border: `1px solid ${studiedIds.has(selected.id) ? "rgba(58,125,86,0.4)" : "#2A2A40"}`, background: studiedIds.has(selected.id) ? "rgba(58,125,86,0.12)" : BORDER, color: studiedIds.has(selected.id) ? GREEN : MUTED, cursor: "pointer", fontWeight: 700, fontSize: 14 }}>
                 {studiedIds.has(selected.id) ? "✓ Marked as Studied" : "Mark as Studied"}

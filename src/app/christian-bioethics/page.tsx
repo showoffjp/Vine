@@ -264,7 +264,7 @@ export default function ChristianBioethicsPage() {
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
               {EMERGING_ITEMS.map(e => (
-                <div key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                <div role="button" tabIndex={0} key={e.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
                   <button type="button" onClick={() => toggleExpand(e.id)}
                     style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", padding: "18px 22px", background: "none", border: "none", cursor: "pointer", color: TEXT }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 10 }}>

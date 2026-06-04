@@ -279,7 +279,7 @@ export default function DeconstructionPage() {
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               {RECONSTRUCTION_ITEMS.map(r => (
-                <div key={r.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+                <div role="button" tabIndex={0} key={r.id} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, overflow: "hidden" }}>
                   <button type="button" onClick={() => toggleExpand(r.id)}
                     style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", padding: "18px 22px", background: "none", border: "none", cursor: "pointer", color: TEXT }}>
                     <div style={{ fontWeight: 800, fontSize: 16, textAlign: "left" }}>{r.title}</div>

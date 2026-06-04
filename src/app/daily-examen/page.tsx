@@ -229,7 +229,7 @@ export default function DailyExamenPage() {
                 </div>
               ))}
             </div>
-            <div style={{ marginTop: 20, textAlign: "center" }}>
+            <div role="button" tabIndex={0} style={{ marginTop: 20, textAlign: "center" }}>
               <button type="button" onClick={() => setActiveTab("practice")}
                 style={{ padding: "12px 28px", background: PURPLE, border: "none", borderRadius: 10, color: "#fff", fontWeight: 800, fontSize: 15, cursor: "pointer" }}>
                 Begin Tonight&apos;s Examen
@@ -294,7 +294,7 @@ export default function DailyExamenPage() {
               </div>
             </div>
 
-            <div style={{ display: "flex", justifyContent: "space-between", gap: 10 }}>
+            <div role="button" tabIndex={0} style={{ display: "flex", justifyContent: "space-between", gap: 10 }}>
               <button type="button" onClick={() => setActiveStep(Math.max(0, activeStep - 1))} disabled={activeStep === 0}
                 style={{ padding: "10px 20px", borderRadius: 8, border: `1px solid ${BORDER}`, background: "transparent", color: activeStep === 0 ? BORDER : MUTED, cursor: activeStep === 0 ? "default" : "pointer", fontWeight: 700, fontSize: 14 }}>
                 ← Back

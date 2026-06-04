@@ -208,7 +208,7 @@ export default function JusticePage() {
               {FOUNDATIONS.map((f, i) => {
                 const isExp = expandedFoundation === i;
                 return (
-                  <div key={i} style={{ background: CARD, border: `1px solid ${isExp ? f.color + "50" : BORDER}`, borderRadius: 14, overflow: "hidden", transition: "border-color 0.2s" }}>
+                  <div role="button" tabIndex={0} key={i} style={{ background: CARD, border: `1px solid ${isExp ? f.color + "50" : BORDER}`, borderRadius: 14, overflow: "hidden", transition: "border-color 0.2s" }}>
                     <button type="button" onClick={() => setExpandedFoundation(isExp ? null : i)}
                       style={{ width: "100%", textAlign: "left", padding: "20px 24px", background: "transparent", border: "none", cursor: "pointer", display: "flex", alignItems: "flex-start", gap: 14 }}>
                       <span style={{ fontSize: 24, flexShrink: 0 }}>{f.icon}</span>

@@ -670,7 +670,7 @@ export default function CharacterStudyPage() {
                 <h2 style={{ fontSize: 24, fontWeight: 700, color: TEXT, marginBottom: 2 }}>{selected.name}</h2>
                 <div style={{ fontSize: 13, color: MUTED }}>{selected.role} &middot; {selected.era}</div>
               </div>
-              <div style={{ display: "flex", gap: 8 }}>
+              <div role="button" tabIndex={0} style={{ display: "flex", gap: 8 }}>
                 <button type="button" onClick={() => handleSave(selected.id)}
                   style={{ padding: "6px 10px", borderRadius: 8, border: "none", background: savedIds.has(selected.id) ? `${PURPLE}20` : BORDER, color: savedIds.has(selected.id) ? PURPLE : MUTED, cursor: "pointer", fontSize: 16 }}>
                   {savedIds.has(selected.id) ? "★" : "☆"}
@@ -770,7 +770,7 @@ export default function CharacterStudyPage() {
               </div>
             )}
 
-            <div style={{ display: "flex", gap: 10, marginTop: 24 }}>
+            <div role="button" tabIndex={0} style={{ display: "flex", gap: 10, marginTop: 24 }}>
               <button type="button" onClick={() => handleComplete(selected.id)}
                 style={{
                   flex: 1, padding: "11px 16px", borderRadius: 10, border: "none",

@@ -593,7 +593,7 @@ export default function BibleOverviewPage() {
               <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.7 }}>{selected.readingTips}</p>
             </div>
 
-            <div style={{ display: "flex", gap: 12 }}>
+            <div role="button" tabIndex={0} style={{ display: "flex", gap: 12 }}>
               <button type="button" onClick={() => toggleRead(selected.name)}
                 style={{ flex: 1, padding: "12px", borderRadius: 12, border: `1px solid ${readIds.has(selected.name) ? "rgba(58,125,86,0.4)" : "#2A2A40"}`, background: readIds.has(selected.name) ? "rgba(58,125,86,0.12)" : BORDER, color: readIds.has(selected.name) ? GREEN : MUTED, cursor: "pointer", fontWeight: 700, fontSize: 14 }}>
                 {readIds.has(selected.name) ? "✓ Marked as Read" : "Mark as Read"}

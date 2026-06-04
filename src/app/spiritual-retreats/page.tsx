@@ -309,7 +309,7 @@ export default function SpiritualRetreatsPage() {
         {tab === "howto" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {HOW_TO_STEPS.map((step, i) => (
-              <div key={i} style={{ background: CARD, border: `1px solid ${expanded[step.title] ? step.color + "40" : BORDER}`, borderRadius: 12, overflow: "hidden" }}>
+              <div role="button" tabIndex={0} key={i} style={{ background: CARD, border: `1px solid ${expanded[step.title] ? step.color + "40" : BORDER}`, borderRadius: 12, overflow: "hidden" }}>
                 <button type="button" onClick={() => setExpanded(e => ({ ...e, [step.title]: !e[step.title] }))}
                   style={{ width: "100%", padding: "16px 20px", cursor: "pointer", textAlign: "left", background: "transparent", border: "none", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 12 }}>

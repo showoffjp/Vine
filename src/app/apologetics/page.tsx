@@ -476,7 +476,7 @@ export default function ApologeticsPage() {
                             <h3 style={{ fontSize: 18, fontWeight: 800, margin: 0, color: TEXT }}>{c.title}</h3>
                           </div>
                         </div>
-                        <div style={{ display: "flex", gap: 8 }}>
+                        <div role="button" tabIndex={0} style={{ display: "flex", gap: 8 }}>
                           <button type="button" onClick={() => toggleSaved(c.id)}
                             style={{ width: 32, height: 32, borderRadius: 8, border: `1px solid ${savedCases.has(c.id) ? PURPLE : BORDER}`, background: savedCases.has(c.id) ? "rgba(107,79,187,0.2)" : "transparent", cursor: "pointer", fontSize: 14, color: savedCases.has(c.id) ? PURPLE : MUTED }}>
                             {savedCases.has(c.id) ? "🔖" : "📌"}
@@ -504,7 +504,7 @@ export default function ApologeticsPage() {
                         <div style={{ marginBottom: 24 }}>
                           <h4 style={{ fontSize: 14, fontWeight: 800, color: "#EF4444", marginBottom: 12, textTransform: "uppercase", letterSpacing: 1 }}>Common Objections & Responses</h4>
                           {c.objections.map((obj, i) => (
-                            <div key={i} style={{ marginBottom: 10 }}>
+                            <div role="button" tabIndex={0} key={i} style={{ marginBottom: 10 }}>
                               <button type="button" onClick={() => setShowRebuttal(prev => ({ ...prev, [c.id]: prev[c.id] === i ? null : i }))}
                                 style={{ width: "100%", textAlign: "left", padding: "12px 16px", borderRadius: 10, border: `1px solid ${showRebuttal[c.id] === i ? "#EF444440" : BORDER}`, background: showRebuttal[c.id] === i ? "rgba(239,68,68,0.06)" : "rgba(255,255,255,0.02)", cursor: "pointer", color: "#EF4444", fontSize: 14, fontWeight: 600 }}>
                                 <span style={{ marginRight: 8 }}>{showRebuttal[c.id] === i ? "▾" : "▸"}</span>
@@ -558,7 +558,7 @@ export default function ApologeticsPage() {
             </p>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 16 }}>
               {thinkers.map(t => (
-                <div key={t.name} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: "20px", cursor: "pointer", transition: "border-color 0.2s" }}
+                <div role="button" tabIndex={0} key={t.name} style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 16, padding: "20px", cursor: "pointer", transition: "border-color 0.2s" }}
                   onClick={() => setSelectedThinker(t)}>
                   <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
                     <span style={{ fontSize: 28 }}>{t.icon}</span>

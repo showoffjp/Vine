@@ -497,7 +497,7 @@ export default function ChurchHistoryPage() {
               <p style={{ fontSize: 14, color: "#C0C0D8", lineHeight: 1.7 }}>{selected.significance}</p>
             </div>
 
-            <div style={{ display: "flex", gap: 12 }}>
+            <div role="button" tabIndex={0} style={{ display: "flex", gap: 12 }}>
               <button type="button" onClick={() => toggleRead(selected.id)}
                 style={{ flex: 1, padding: "12px 20px", borderRadius: 12, border: `1px solid ${readIds.has(selected.id) ? "rgba(58,125,86,0.4)" : "#2A2A40"}`, background: readIds.has(selected.id) ? "rgba(58,125,86,0.12)" : "#1E1E32", color: readIds.has(selected.id) ? "#3a7d56" : "#9898B3", cursor: "pointer", fontWeight: 700, fontSize: 14 }}>
                 {readIds.has(selected.id) ? "✓ Explored" : "Mark as Explored"}

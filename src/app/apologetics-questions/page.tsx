@@ -390,7 +390,7 @@ export default function ApologeticsQuestionsPage() {
 
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {filtered.map((item, i) => (
-                <div key={i}>
+                <div role="button" tabIndex={0} key={i}>
                   <button type="button" onClick={() => setExpanded(expanded === item.q ? null : item.q)}
                     style={{ width: "100%", background: expanded === item.q ? `${item.color}10` : CARD, border: `1px solid ${expanded === item.q ? item.color + "40" : BORDER}`, borderRadius: expanded === item.q ? "12px 12px 0 0" : 12, padding: "16px 20px", cursor: "pointer", textAlign: "left", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
                     <div style={{ flex: 1 }}>

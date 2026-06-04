@@ -448,7 +448,7 @@ export default function TheologyPage() {
                             <p style={{ fontSize: 14, color: MUTED, margin: 0, lineHeight: 1.6 }}>{doc.headline}</p>
                           </div>
                         </div>
-                        <div style={{ display: "flex", gap: 6, flexShrink: 0 }}>
+                        <div role="button" tabIndex={0} style={{ display: "flex", gap: 6, flexShrink: 0 }}>
                           <button type="button" onClick={() => toggleSaved(doc.id)}
                             style={{ width: 32, height: 32, borderRadius: 8, border: `1px solid ${savedDocs.has(doc.id) ? PURPLE : BORDER}`, background: savedDocs.has(doc.id) ? "rgba(107,79,187,0.15)" : "transparent", cursor: "pointer", fontSize: 13, color: savedDocs.has(doc.id) ? PURPLE : MUTED }}>
                             {savedDocs.has(doc.id) ? "🔖" : "📌"}

@@ -118,8 +118,19 @@ const sampleDevotionals: Devotional[] = [
 const STEP_LABELS = ["Verse & Theme", "Body", "Prayer & Application", "Preview & Publish"];
 
 export default function DevotionalCreatorPage() {
-  const [devotionals, setDevotionals] = useState<Devotional[]>(sampleDevotionals);
-  const [likedIds, setLikedIds] = useState<Set<string>>(new Set());
+  const [devotionals, setDevotionals] = useState<Devotional[]>(() => {
+    try {
+      const d = localStorage.getItem("vine_devotionals");
+      if (d) {
+        const parsed: Devotional[] = JSON.parse(d);
+        return [...sampleDevotionals, ...parsed.filter((p) => !sampleDevotionals.find((s) => s.id === p.id))];
+      }
+    } catch {}
+    return sampleDevotionals;
+  });
+  const [likedIds, setLikedIds] = useState<Set<string>>(() => {
+    try { const l = localStorage.getItem("vine_devotionals_liked"); return l ? new Set(JSON.parse(l)) : new Set(); } catch { return new Set(); }
+  });
   const [view, setView] = useState<"browse" | "create" | "detail">("browse");
   const [selectedDev, setSelectedDev] = useState<Devotional | null>(null);
   const [step, setStep] = useState(0);
@@ -139,17 +150,6 @@ export default function DevotionalCreatorPage() {
     author: "",
   });
 
-  useEffect(() => {
-    try {
-      const d = localStorage.getItem("vine_devotionals");
-      if (d) {
-        const parsed: Devotional[] = JSON.parse(d);
-        setDevotionals([...sampleDevotionals, ...parsed.filter((p) => !sampleDevotionals.find((s) => s.id === p.id))]);
-      }
-      const l = localStorage.getItem("vine_devotionals_liked");
-      if (l) setLikedIds(new Set(JSON.parse(l)));
-    } catch {}
-  }, []);
 
   const saveDevoToStorage = (list: Devotional[]) => {
     try {

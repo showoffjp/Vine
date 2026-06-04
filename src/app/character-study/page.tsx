@@ -420,8 +420,12 @@ type MainTab = "characters" | "themes" | "voices" | "videos";
 
 export default function CharacterStudyPage() {
   const [mainTab, setMainTab] = useState<MainTab>("characters");
-  const [savedIds, setSavedIds] = useState<Set<string>>(new Set());
-  const [completedIds, setCompletedIds] = useState<Set<string>>(new Set());
+  const [savedIds, setSavedIds] = useState<Set<string>>(() => {
+    try { const s = localStorage.getItem("vine_character_study_saved"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
+  });
+  const [completedIds, setCompletedIds] = useState<Set<string>>(() => {
+    try { const c = localStorage.getItem("vine_character_study_completed"); return c ? new Set(JSON.parse(c)) : new Set(); } catch { return new Set(); }
+  });
   const [selected, setSelected] = useState<BiblicalCharacter | null>(null);
   const [activeSection, setActiveSection] = useState<"overview" | "lessons" | "moments" | "questions">("overview");
   const [filterTestament, setFilterTestament] = useState<"All" | "Old" | "New">("All");
@@ -429,14 +433,6 @@ export default function CharacterStudyPage() {
   const [selectedVoice, setSelectedVoice] = useState("meyer-fb");
   const voiceItem = VOICES_CHAR.find(v => v.id === selectedVoice)!;
 
-  useEffect(() => {
-    try {
-      const s = localStorage.getItem("vine_character_study_saved");
-      if (s) setSavedIds(new Set(JSON.parse(s)));
-      const c = localStorage.getItem("vine_character_study_completed");
-      if (c) setCompletedIds(new Set(JSON.parse(c)));
-    } catch {}
-  }, []);
 
   const handleSave = (id: string) => {
     setSavedIds((prev) => {

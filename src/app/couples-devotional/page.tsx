@@ -334,11 +334,8 @@ const SCRIPTURE_CD: { id: string; ref: string; text: string; theme: string; refl
 ];
 
 export default function CouplesDevotionalPage() {
-  const [progress, setProgress] = useState<Progress>({
-    completedDays: [],
-    startedAt: "",
-    currentPlan: "7day",
-    partnerName: "",
+  const [progress, setProgress] = useState<Progress>(() => {
+    try { const p = localStorage.getItem("vine_couples_devotional"); return p ? JSON.parse(p) : { completedDays: [], startedAt: "", currentPlan: "7day", partnerName: "" }; } catch { return { completedDays: [], startedAt: "", currentPlan: "7day", partnerName: "" }; }
   });
   const [selectedDay, setSelectedDay] = useState<CouplesDevotional | null>(null);
   const [editingName, setEditingName] = useState(false);
@@ -348,12 +345,6 @@ export default function CouplesDevotionalPage() {
   const [selectedVoice, setSelectedVoice] = useState("keller-t");
   const voiceItem = VOICES_CD.find(v => v.id === selectedVoice)!;
 
-  useEffect(() => {
-    try {
-      const p = localStorage.getItem("vine_couples_devotional");
-      if (p) setProgress(JSON.parse(p));
-    } catch {}
-  }, []);
 
   const saveProgress = (p: Progress) => {
     try { localStorage.setItem("vine_couples_devotional", JSON.stringify(p)); } catch {}

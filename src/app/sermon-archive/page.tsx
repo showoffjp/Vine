@@ -227,9 +227,15 @@ const VOICES_SERM = [
 ];
 
 export default function SermonArchivePage() {
-  const [savedIds, setSavedIds] = useState<Set<string>>(new Set());
-  const [likedIds, setLikedIds] = useState<Set<string>>(new Set());
-  const [notes, setNotes] = useState<Record<string, SermonNote>>({});
+  const [savedIds, setSavedIds] = useState<Set<string>>(() => {
+    try { const s = localStorage.getItem("vine_sermons_saved"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
+  });
+  const [likedIds, setLikedIds] = useState<Set<string>>(() => {
+    try { const l = localStorage.getItem("vine_sermons_liked"); return l ? new Set(JSON.parse(l)) : new Set(); } catch { return new Set(); }
+  });
+  const [notes, setNotes] = useState<Record<string, SermonNote>>(() => {
+    try { const n = localStorage.getItem("vine_sermon_notes"); return n ? JSON.parse(n) : {}; } catch { return {}; }
+  });
   const [selectedSermon, setSelectedSermon] = useState<Sermon | null>(null);
   const [noteText, setNoteText] = useState("");
   const [filterTopic, setFilterTopic] = useState("All");
@@ -240,16 +246,6 @@ export default function SermonArchivePage() {
   const voiceItem = VOICES_SERM.find(v => v.id === selectedVoice)!;
   const [noteMode, setNoteMode] = useState(false);
 
-  useEffect(() => {
-    try {
-      const s = localStorage.getItem("vine_sermons_saved");
-      if (s) setSavedIds(new Set(JSON.parse(s)));
-      const l = localStorage.getItem("vine_sermons_liked");
-      if (l) setLikedIds(new Set(JSON.parse(l)));
-      const n = localStorage.getItem("vine_sermon_notes");
-      if (n) setNotes(JSON.parse(n));
-    } catch {}
-  }, []);
 
   const handleSave = (id: string) => {
     setSavedIds((prev) => {

@@ -154,24 +154,20 @@ interface VineUser {
 export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState("Activity");
   const [hoveredBadge, setHoveredBadge] = useState<string | null>(null);
-  const [user, setUser] = useState<VineUser | null>(null);
+  const [user, setUser] = useState<VineUser | null>(() => {
+    try { const raw = localStorage.getItem("vine_user"); return raw ? JSON.parse(raw) : null; } catch { return null; }
+  });
   const [shared, setShared] = useState(false);
-  const [postsCount, setPostsCount] = useState(0);
+  const [postsCount, setPostsCount] = useState(() => {
+    try { const p = localStorage.getItem("vine_disc_my_posts"); return p ? (JSON.parse(p) as string[]).length : 0; } catch { return 0; }
+  });
   const defaultBio =
     "Husband. Father of 3. Passionate about apologetics, biblical finance, and helping men grow in their faith.";
-  const [bio, setBio] = useState(defaultBio);
+  const [bio, setBio] = useState(() => {
+    try { const b = localStorage.getItem("vine_profile_bio"); return b ?? defaultBio; } catch { return defaultBio; }
+  });
   const [editingBio, setEditingBio] = useState(false);
 
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem("vine_user");
-      if (raw) setUser(JSON.parse(raw));
-      const savedBio = localStorage.getItem("vine_profile_bio");
-      if (savedBio) setBio(savedBio);
-      const myPosts: string[] = JSON.parse(localStorage.getItem("vine_disc_my_posts") ?? "[]");
-      setPostsCount(myPosts.length);
-    } catch {}
-  }, []);
 
   const saveBio = () => {
     setEditingBio(false);

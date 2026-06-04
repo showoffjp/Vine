@@ -235,22 +235,18 @@ type Tab = "glossary" | "doctrines" | "history" | "voices" | "videos";
 
 export default function TheologyGlossaryPage() {
   const [activeTab, setActiveTab] = useState<Tab>("glossary");
-  const [savedIds, setSavedIds] = useState<Set<string>>(new Set());
-  const [learnedIds, setLearnedIds] = useState<Set<string>>(new Set());
+  const [savedIds, setSavedIds] = useState<Set<string>>(() => {
+    try { const s = localStorage.getItem("vine_theology_saved"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
+  });
+  const [learnedIds, setLearnedIds] = useState<Set<string>>(() => {
+    try { const l = localStorage.getItem("vine_theology_learned"); return l ? new Set(JSON.parse(l)) : new Set(); } catch { return new Set(); }
+  });
   const [selected, setSelected] = useState<Term | null>(null);
   const [filterCat, setFilterCat] = useState("All");
   const [filterLevel, setFilterLevel] = useState("All");
   const [search, setSearch] = useState("");
   const [selectedVoice, setSelectedVoice] = useState<TheologicalVoice>(VOICES_THEO[0]);
 
-  useEffect(() => {
-    try {
-      const s = localStorage.getItem("vine_theology_saved");
-      if (s) setSavedIds(new Set(JSON.parse(s)));
-      const l = localStorage.getItem("vine_theology_learned");
-      if (l) setLearnedIds(new Set(JSON.parse(l)));
-    } catch {}
-  }, []);
 
   const handleSave = (id: string) => {
     setSavedIds((prev) => {

@@ -276,7 +276,9 @@ export default function FeedPage() {
   const [postText, setPostText] = useState("");
   const [postShared, setPostShared] = useState(false);
   const [feedSort, setFeedSort] = useState("Latest");
-  const [userName, setUserName] = useState("Friend");
+  const [userName, setUserName] = useState(() => {
+    try { const u = localStorage.getItem("vine_user"); if (u) { const p = JSON.parse(u); if (p.firstName) return p.firstName as string; } } catch {} return "Friend";
+  });
   const [openMenu, setOpenMenu] = useState<number | null>(null);
   const [hiddenPosts, setHiddenPosts] = useState<Set<number>>(new Set());
   const [postNotice, setPostNotice] = useState<{ id: number; text: string } | null>(null);
@@ -296,15 +298,6 @@ export default function FeedPage() {
     }
   };
 
-  useEffect(() => {
-    try {
-      const stored = localStorage.getItem("vine_user");
-      if (stored) {
-        const u = JSON.parse(stored);
-        if (u.firstName) setUserName(u.firstName);
-      }
-    } catch {}
-  }, []);
 
   useEffect(() => {
     try { localStorage.setItem("vine_feed_likes", JSON.stringify(likedPosts)); } catch {}

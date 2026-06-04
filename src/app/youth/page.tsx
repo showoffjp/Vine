@@ -363,9 +363,15 @@ const difficultyColor: Record<string, string> = {
 };
 
 export default function YouthPage() {
-  const [joinedChallenges, setJoinedChallenges] = useState<Set<string>>(new Set());
-  const [savedResources, setSavedResources] = useState<Set<string>>(new Set());
-  const [likedResources, setLikedResources] = useState<Set<string>>(new Set());
+  const [joinedChallenges, setJoinedChallenges] = useState<Set<string>>(() => {
+    try { const j = localStorage.getItem("vine_youth_challenges"); return j ? new Set(JSON.parse(j)) : new Set(); } catch { return new Set(); }
+  });
+  const [savedResources, setSavedResources] = useState<Set<string>>(() => {
+    try { const s = localStorage.getItem("vine_youth_saved"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
+  });
+  const [likedResources, setLikedResources] = useState<Set<string>>(() => {
+    try { const l = localStorage.getItem("vine_youth_liked"); return l ? new Set(JSON.parse(l)) : new Set(); } catch { return new Set(); }
+  });
   const [selectedChallenge, setSelectedChallenge] = useState<Challenge | null>(null);
   const [selectedResource, setSelectedResource] = useState<Resource | null>(null);
   const [activeTab, setActiveTab] = useState<"challenges" | "resources" | "discuss" | "voices" | "videos">("challenges");
@@ -374,16 +380,6 @@ export default function YouthPage() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedAgeGroup, setSelectedAgeGroup] = useState("All Ages");
 
-  useEffect(() => {
-    try {
-      const j = localStorage.getItem("vine_youth_challenges");
-      if (j) setJoinedChallenges(new Set(JSON.parse(j)));
-      const s = localStorage.getItem("vine_youth_saved");
-      if (s) setSavedResources(new Set(JSON.parse(s)));
-      const l = localStorage.getItem("vine_youth_liked");
-      if (l) setLikedResources(new Set(JSON.parse(l)));
-    } catch {}
-  }, []);
 
   const handleJoin = (id: string) => {
     setJoinedChallenges((prev) => {

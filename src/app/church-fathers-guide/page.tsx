@@ -232,7 +232,7 @@ type Tab = "guide" | "periods" | "texts" | "videos";
 
 export default function ChurchFathersGuidePage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_church-fathers-guide_tab", "guide");
-  const [era, setEra] = useState("All");
+  const [era, setEra] = usePersistedState<string>("vine_church-fathers-guide_era", "All");
   const [selected, setSelected] = useState<string | null>(null);
   const [selectedText, setSelectedText] = useState<number | null>(null);
 

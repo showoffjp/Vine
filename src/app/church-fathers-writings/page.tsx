@@ -275,7 +275,7 @@ type Tab = "writings" | "themes" | "howto" | "eras" | "videos";
 
 export default function ChurchFathersWritingsPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_church-fathers-writings_tab", "writings");
-  const [era, setEra] = useState("All");
+  const [era, setEra] = usePersistedState<string>("vine_church-fathers-writings_era", "All");
   const [selected, setSelected] = useState<string | null>(null);
 
   const filtered = FATHERS.filter(f => era === "All" || f.era === era);

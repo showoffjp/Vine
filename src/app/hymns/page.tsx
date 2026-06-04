@@ -434,7 +434,7 @@ function EraTag({ era }: { era: string }) {
 
 export default function HymnsPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_hymns_tab", "overview");
-  const [era, setEra] = useState<Era>("All");
+  const [era, setEra] = usePersistedState<string>("vine_hymns_era", "All");
 
   const filtered = era === "All" ? HYMNS : HYMNS.filter((h) => h.era === era);
 

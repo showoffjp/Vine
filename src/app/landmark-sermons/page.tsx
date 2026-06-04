@@ -321,7 +321,7 @@ const VOICES_SER = [
 
 export default function LandmarkSermonsPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_landmark-sermons_tab", "sermons");
-  const [era, setEra] = useState("All");
+  const [era, setEra] = usePersistedState<string>("vine_landmark-sermons_era", "All");
   const [selected, setSelected] = useState<string | null>(null);
   const [selectedVoice, setSelectedVoice] = useState<number>(VOICES_SER[0].id);
 

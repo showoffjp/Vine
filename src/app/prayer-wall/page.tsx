@@ -207,7 +207,7 @@ export default function PrayerWallPage() {
   const [activeCategory, setActiveCategory] = usePersistedState("vine_prayer-wall_active_category", "All");
   const [search, setSearch] = useState("");
   const [showCompose, setShowCompose] = useState(false);
-  const [sortBy, setSortBy] = useState<"recent" | "most-prayed" | "answered">("recent");
+  const [sortBy, setSortBy] = usePersistedState<string>("vine_prayer-wall_sort_by", "recent");
 
   const [form, setForm] = useState<{ author: string; body: string; category: string; anonymous: boolean; location: string }>(() => {
     try { const s = localStorage.getItem("vine_prayer_wall_draft"); return s ? JSON.parse(s) : { author: "", body: "", category: "Personal", anonymous: false, location: "" }; } catch { return { author: "", body: "", category: "Personal", anonymous: false, location: "" }; }

@@ -66,7 +66,7 @@ const COMMEMORATION = [
 
 export default function SaintsMartyrsPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_saints-martyrs_tab", "saints");
-  const [eraFilter, setEraFilter] = useState<"All" | Era>("All");
+  const [eraFilter, setEraFilter] = usePersistedState<string>("vine_saints-martyrs_era_filter", "All");
   const [selected, setSelected] = useState(SAINTS[0].name);
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 

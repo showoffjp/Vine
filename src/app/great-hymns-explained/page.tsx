@@ -307,7 +307,7 @@ const VOICES_HYM = [
 
 export default function GreatHymnsExplainedPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_great-hymns-explained_tab", "hymns");
-  const [era, setEra] = useState("All");
+  const [era, setEra] = usePersistedState<string>("vine_great-hymns-explained_era", "All");
   const [selected, setSelected] = useState<string | null>(null);
   const [selectedVoice, setSelectedVoice] = useState<string>(VOICES_HYM[0].id);
 

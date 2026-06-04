@@ -254,7 +254,7 @@ const HABITS_PWH = [
 ];
 
 export default function PrayerWarriorHistoryPage() {
-  const [era, setEra] = useState("All");
+  const [era, setEra] = usePersistedState<string>("vine_prayer-warrior-history_era", "All");
   const [selected, setSelected] = useState<string | null>(null);
   type Tab = "warriors" | "principles" | "scripture" | "practices" | "videos";
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_prayer-warrior-history_tab", "warriors");

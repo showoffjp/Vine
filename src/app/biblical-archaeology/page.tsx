@@ -323,7 +323,7 @@ const VOICES_ARCH = [
 
 export default function BiblicalArchaeologyPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_biblical-archaeology_tab", "discoveries");
-  const [era, setEra] = useState("All");
+  const [era, setEra] = usePersistedState<string>("vine_biblical-archaeology_era", "All");
   const [selected, setSelected] = useState<string | null>(null);
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_biblical-archaeology_selected_voice", "albright");
 

@@ -261,7 +261,7 @@ export default function EventsPage() {
   const [activeMonth, setActiveMonth] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [nearMe, setNearMe] = useState(false);
-  const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
+  const [sortDir, setSortDir] = usePersistedState<string>("vine_events_sort_dir", "asc");
   const [visibleCount, setVisibleCount] = useState(6);
   const [goingEvents, setGoingEvents] = useState<Set<string>>(() => {
     try { const s = localStorage.getItem("vine_events_going"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
@@ -548,7 +548,7 @@ export default function EventsPage() {
               <div className="flex items-center gap-2">
                 <span className="text-sm" style={{ color: "#6A6A88" }}>Sort by:</span>
                 <button
-                  onClick={() => setSortDir((d) => (d === "asc" ? "desc" : "asc"))}
+                  onClick={() => setSortDir(sortDir === "asc" ? "desc" : "asc")}
                   className="flex items-center gap-1 text-sm font-semibold"
                   style={{ color: "#3a7d56" }}
                 >

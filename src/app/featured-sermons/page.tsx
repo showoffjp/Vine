@@ -329,7 +329,7 @@ const VOICES_FSER = [
 
 export default function FeaturedSermonsPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_featured-sermons_tab", "sermons");
-  const [era, setEra] = useState("All");
+  const [era, setEra] = usePersistedState<string>("vine_featured-sermons_era", "All");
   const [selected, setSelected] = useState<string | null>(null);
   const [selectedVoice, setSelectedVoice] = useState<number | null>(null);
 

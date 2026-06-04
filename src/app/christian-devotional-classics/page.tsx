@@ -300,7 +300,7 @@ type Tab = "classics" | "themes" | "reading-guide" | "voices" | "videos";
 
 export default function ChristianDevotionalClassicsPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_christian-devotional-classics_tab", "classics");
-  const [era, setEra] = useState("All");
+  const [era, setEra] = usePersistedState<string>("vine_christian-devotional-classics_era", "All");
   const [selected, setSelected] = useState<string | null>(null);
   const [selectedVoice, setSelectedVoice] = useState<number>(VOICES_CDC[0].id);
 

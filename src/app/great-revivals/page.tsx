@@ -164,7 +164,7 @@ export default function GreatRevivalsPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_great-revivals_tab", "revivals");
   const [selected, setSelected] = useState(REVIVALS[0].name);
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
-  const [eraFilter, setEraFilter] = useState("All");
+  const [eraFilter, setEraFilter] = usePersistedState<string>("vine_great-revivals_era_filter", "All");
 
   const eras = ["All", "Colonial", "Frontier", "Pre-Civil War", "Twentieth Century", "Pentecostal Origins", "Contemporary"];
   const filtered = eraFilter === "All" ? REVIVALS : REVIVALS.filter(r => r.era === eraFilter);

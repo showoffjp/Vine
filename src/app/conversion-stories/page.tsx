@@ -209,7 +209,7 @@ const THEOLOGY_CS: { id: string; title: string; verse: string; body: string }[] 
 export default function ConversionStoriesPage() {
   type Tab = "stories" | "patterns" | "theology" | "yourstory" | "videos";
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_conversion-stories_tab", "stories");
-  const [era, setEra] = useState("All");
+  const [era, setEra] = usePersistedState<string>("vine_conversion-stories_era", "All");
   const [selected, setSelected] = useState<string | null>(null);
 
   const filtered = STORIES.filter(s => era === "All" || s.era === era);

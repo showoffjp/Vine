@@ -214,7 +214,7 @@ export default function ChurchHistoryPage() {
   });
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_church-history_tab", "timeline");
   const [catFilter, setCatFilter] = useState("All");
-  const [eraFilter, setEraFilter] = useState("All");
+  const [eraFilter, setEraFilter] = usePersistedState<string>("vine_church-history_era_filter", "All");
   const [search, setSearch] = useState("");
   const [selected, setSelected] = useState<HistoryEvent | null>(null);
   const [selectedFigure, setSelectedFigure] = useState<HistoricalFigure | null>(null);

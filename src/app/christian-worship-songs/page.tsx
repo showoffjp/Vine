@@ -276,7 +276,7 @@ const SONG_VIDEOS = [
 
 export default function ChristianWorshipSongsPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_christian-worship-songs_tab", "songs");
-  const [era, setEra] = useState("All");
+  const [era, setEra] = usePersistedState<string>("vine_christian-worship-songs_era", "All");
   const [selected, setSelected] = useState<string | null>(null);
 
   const filtered = SONGS.filter(s => era === "All" || s.era === era);

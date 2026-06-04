@@ -214,7 +214,7 @@ const STAGES = [
 export default function SpiritualFormationPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_spiritual-formation_tab", "what");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
-  const [selectedTeacher, setSelectedTeacher] = useState<string>(TEACHERS[0].id);
+  const [selectedTeacher, setSelectedTeacher] = usePersistedState<string>("vine_spiritual-formation_selected_teacher", "willard");
   const [selectedCategory, setSelectedCategory] = usePersistedState<PracticeCategory | "All">("vine_spiritual-formation_selected_category", "All");
 
   function toggleAccordion(id: string) {

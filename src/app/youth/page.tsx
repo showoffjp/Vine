@@ -378,7 +378,7 @@ export default function YouthPage() {
   const [activeTab, setActiveTab] = usePersistedState<"challenges" | "resources" | "discuss" | "voices" | "videos">("vine_youth_tab", "challenges");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_youth_voice", "smith-jk");
   const voiceItem = VOICES_YOUTH.find(v => v.id === selectedVoice)!;
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedCategory, setSelectedCategory] = usePersistedState("vine_youth_selected_category", "All");
   const [selectedAgeGroup, setSelectedAgeGroup] = useState("All Ages");
 
 

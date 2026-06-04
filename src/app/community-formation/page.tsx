@@ -86,7 +86,7 @@ type Tab = "theology" | "obstacles" | "models" | "practices" | "videos";
 export default function CommunityFormationPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_community-formation_tab", "theology");
   const [expanded, setExpanded] = useState<string | null>(null);
-  const [selectedModel, setSelectedModel] = useState("acts2");
+  const [selectedModel, setSelectedModel] = usePersistedState("vine_community-formation_selected_model", "acts2");
 
   const model = MODELS.find(m => m.id === selectedModel)!;
 

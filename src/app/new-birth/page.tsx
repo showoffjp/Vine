@@ -120,7 +120,7 @@ const PRACTICES = [
 
 export default function NewBirthPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_new-birth_tab", "theology");
-  const [selectedModel, setSelectedModel] = useState("Reformed / Calvinist");
+  const [selectedModel, setSelectedModel] = usePersistedState("vine_new-birth_selected_model", "Reformed / Calvinist");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_new-birth_voice", "augustine");
   const voice = VOICES.find(v => v.id === selectedVoice)!;
 

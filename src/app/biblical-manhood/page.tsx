@@ -93,7 +93,7 @@ const MODELS = [
 
 export default function BiblicalManhoodPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_biblical-manhood_tab", "theology");
-  const [selectedModel, setSelectedModel] = useState("Joseph");
+  const [selectedModel, setSelectedModel] = usePersistedState("vine_biblical-manhood_selected_model", "Joseph");
   const [expanded, setExpanded] = useState<string | null>(null);
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_biblical-manhood_voice", "nouwen");
   const voice = VOICES.find(v => v.id === selectedVoice)!;

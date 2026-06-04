@@ -230,7 +230,7 @@ function AccordionItem({ id, title, body, expanded, onToggle }: {
 export default function ScriptureTheologyPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_scripture-theology_tab", "doctrine");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
-  const [selectedModel, setSelectedModel] = useState<string>("verbal-plenary");
+  const [selectedModel, setSelectedModel] = usePersistedState("vine_scripture-theology_selected_model", "verbal-plenary");
 
   function toggleExpanded(id: string) {
     setExpanded(prev => ({ ...prev, [id]: !prev[id] }));

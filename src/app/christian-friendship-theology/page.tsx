@@ -204,7 +204,7 @@ const FRIENDSHIP_VIDEOS = [
 export default function ChristianFriendshipTheologyPage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_christian-friendship-theology_tab", "theology");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
-  const [selectedModel, setSelectedModel] = useState<string>("david-jonathan");
+  const [selectedModel, setSelectedModel] = usePersistedState("vine_christian-friendship-theology_selected_model", "david-jonathan");
   const [expandedCard, setExpandedCard] = useState<Record<string, boolean>>({});
 
   const toggleExpanded = (key: string) => {

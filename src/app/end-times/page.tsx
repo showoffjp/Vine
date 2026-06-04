@@ -120,7 +120,7 @@ const THINKERS_ESC = [
 
 export default function EndTimesPage() {
   const [activeTab, setActiveTab] = usePersistedState<"views" | "thinkers" | "essentials" | "practical" | "videos">("vine_end-times_tab", "essentials");
-  const [selectedView, setSelectedView] = useState("amillennial");
+  const [selectedView, setSelectedView] = usePersistedState("vine_end-times_selected_view", "amillennial");
   const [selectedThinker, setSelectedThinker] = usePersistedState("vine_end-times_selected_thinker", "wright");
   const [expanded, setExpanded] = useState<string | null>(null);
 

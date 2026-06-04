@@ -218,7 +218,7 @@ function AccordionItem({
 export default function ImageOfGodPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_image-of-god_tab", "theology");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
-  const [selectedView, setSelectedView] = useState<string>("substantive");
+  const [selectedView, setSelectedView] = usePersistedState("vine_image-of-god_selected_view", "substantive");
 
   function toggleAccordion(id: string) {
     setExpanded((prev) => ({ ...prev, [id]: !prev[id] }));

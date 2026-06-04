@@ -399,7 +399,7 @@ export default function ResourcesPage() {
   ];
 
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_resources_tab", "books");
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedCategory, setSelectedCategory] = usePersistedState("vine_resources_selected_category", "All");
   const [selectedTopic, setSelectedTopic] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedDifficulties, setSelectedDifficulties] = useState<Set<string>>(new Set());

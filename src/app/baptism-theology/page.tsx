@@ -253,7 +253,7 @@ function AccordionItem({
 export default function BaptismTheologyPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_baptism-theology_tab", "theology");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
-  const [selectedView, setSelectedView] = useState<string>("regeneration");
+  const [selectedView, setSelectedView] = usePersistedState("vine_baptism-theology_selected_view", "regeneration");
 
   function toggleAccordion(key: string) {
     setExpanded((prev) => ({ ...prev, [key]: !prev[key] }));

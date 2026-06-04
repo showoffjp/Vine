@@ -215,7 +215,7 @@ export default function SpiritualFormationPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_spiritual-formation_tab", "what");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [selectedTeacher, setSelectedTeacher] = useState<string>(TEACHERS[0].id);
-  const [selectedCategory, setSelectedCategory] = useState<PracticeCategory | "All">("All");
+  const [selectedCategory, setSelectedCategory] = usePersistedState<PracticeCategory | "All">("vine_spiritual-formation_selected_category", "All");
 
   function toggleAccordion(id: string) {
     setExpanded(prev => ({ ...prev, [id]: !prev[id] }));

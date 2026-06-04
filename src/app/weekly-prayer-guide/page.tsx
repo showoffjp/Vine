@@ -193,7 +193,7 @@ const CORPORATE = [
 
 export default function WeeklyPrayerGuidePage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_weekly-prayer-guide_tab", "guide");
-  const [selectedDay, setSelectedDay] = useState("Sunday");
+  const [selectedDay, setSelectedDay] = usePersistedState("vine_weekly-prayer-guide_selected_day", "Sunday");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_weekly-prayer-guide_voice", "foster");
   const day = DAYS.find(d => d.day === selectedDay)!;
   const voiceItem = VOICES_PRAYER.find(v => v.id === selectedVoice)!;

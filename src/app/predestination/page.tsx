@@ -166,7 +166,7 @@ function AccordionItem({ title, body, expanded, onToggle }: { title: string; bod
 export default function PredestinationPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_predestination_tab", "theology");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
-  const [selectedView, setSelectedView] = useState<string>("high-calvinist");
+  const [selectedView, setSelectedView] = usePersistedState("vine_predestination_selected_view", "high-calvinist");
 
   function toggle(key: string) {
     setExpanded(prev => ({ ...prev, [key]: !prev[key] }));

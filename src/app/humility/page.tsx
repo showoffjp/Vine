@@ -287,7 +287,7 @@ export default function HumilityPage() {
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
-                Humility is not a feeling or an insight — it is a disposition formed through habitual practices that orient the self correctly. These six practices are the classical Christian training for humility.
+                Humility is not a feeling or an insight — it is a disposition formed through habitual practices that orient the self correctly. These {PRACTICE_ITEMS.length} practices are the classical Christian training for humility.
               </p>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 14 }}>

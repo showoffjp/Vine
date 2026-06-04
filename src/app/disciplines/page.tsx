@@ -691,7 +691,7 @@ export default function DisciplinesPage() {
             <div>
               <div className="mb-6">
                 <h2 className="text-2xl font-black mb-2" style={{ color: TEXT }}>Deep Practice Guides</h2>
-                <p style={{ color: MUTED, fontSize: 15 }}>Six practices explored in depth — history, method, and step-by-step guides for getting started.</p>
+                <p style={{ color: MUTED, fontSize: 15 }}>{DISC_PRACTICES.length} practices explored in depth — history, method, and step-by-step guides for getting started.</p>
               </div>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
                 {DISC_PRACTICES.map((p) => {

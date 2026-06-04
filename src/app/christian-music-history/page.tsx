@@ -384,7 +384,7 @@ export default function ChristianMusicHistoryPage() {
               }}
             >
               {[
-                ["10", "Major eras", GREEN],
+                [String(ERAS.length), "Major eras", GREEN],
                 ["2,000", "Years of song", PURPLE],
                 ["8th c.", "Oldest hymn here", "#F59E0B"],
                 ["Global", "Worship today", "#3B82F6"],

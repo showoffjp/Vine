@@ -391,7 +391,7 @@ export default function ChristianVirtuePage() {
             Christian Virtue
           </h1>
           <p style={{ color: MUTED, fontSize: 16, maxWidth: 580, margin: "0 auto", lineHeight: 1.7 }}>
-            Virtue ethics asks not what you should do but what kind of person you should become. The classical virtues — four cardinal, three theological — form the skeleton of a genuinely Christian character.
+            Virtue ethics asks not what you should do but what kind of person you should become. The classical virtues — {CARDINAL_VIRTUES.length} cardinal, {THEOLOGICAL_VIRTUES.length} theological — form the skeleton of a genuinely Christian character.
           </p>
         </div>
 
@@ -452,7 +452,7 @@ export default function ChristianVirtuePage() {
         {activeTab === "cardinal" && (
           <div>
             <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
-              The four cardinal virtues — prudence, justice, fortitude, temperance — were identified by Greek philosophers and integrated into Christian theology by Aquinas. They are called cardinal (from cardo, hinge) because all other moral virtues hinge on them. Select a virtue to explore its definition, sources, biblical grounding, cultivation practices, and pitfalls.
+              The {CARDINAL_VIRTUES.length} cardinal virtues — prudence, justice, fortitude, temperance — were identified by Greek philosophers and integrated into Christian theology by Aquinas. They are called cardinal (from cardo, hinge) because all other moral virtues hinge on them. Select a virtue to explore its definition, sources, biblical grounding, cultivation practices, and pitfalls.
             </p>
             <DetailPanel
               items={CARDINAL_VIRTUES as Array<{ name: string; greek?: string; latin?: string; definition: string; [key: string]: string | undefined }>}
@@ -472,7 +472,7 @@ export default function ChristianVirtuePage() {
         {activeTab === "theological" && (
           <div>
             <p style={{ color: MUTED, fontSize: 14, marginBottom: 20, lineHeight: 1.7 }}>
-              The three theological virtues — faith, hope, and love — are so called because they have God as their immediate object and source. They cannot be produced by human effort alone; they are given by the Spirit and orient the whole person toward God. Select a virtue to explore its nature, scholarship, cultivation, and pitfalls.
+              The {THEOLOGICAL_VIRTUES.length} theological virtues — faith, hope, and love — are so called because they have God as their immediate object and source. They cannot be produced by human effort alone; they are given by the Spirit and orient the whole person toward God. Select a virtue to explore its nature, scholarship, cultivation, and pitfalls.
             </p>
             <DetailPanel
               items={THEOLOGICAL_VIRTUES as Array<{ name: string; greek?: string; latin?: string; definition: string; [key: string]: string | undefined }>}

@@ -398,7 +398,7 @@ export default function ChristianMentalHealthResourcesPage() {
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 28 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
-                Five voices &mdash; physicians, counselors, psychologists, and survivors &mdash; who have shaped the church&rsquo;s understanding of mental health. Each brought something the others couldn&rsquo;t: clinical precision, pastoral wisdom, lived experience, or prophetic courage.
+                {VOICES_MH.length} voices &mdash; physicians, counselors, psychologists, and survivors &mdash; who have shaped the church&rsquo;s understanding of mental health. Each brought something the others couldn&rsquo;t: clinical precision, pastoral wisdom, lived experience, or prophetic courage.
               </p>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "210px 1fr", gap: 20, alignItems: "start" }}>

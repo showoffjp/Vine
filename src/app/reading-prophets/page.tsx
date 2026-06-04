@@ -364,7 +364,7 @@ export default function ReadingProphetsPage() {
             >
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
                 The prophetic books are among the most neglected and most rewarding in all of Scripture.
-                These six practices will transform how you read them.
+                These {HOWTO_ITEMS.length} practices will transform how you read them.
               </p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>

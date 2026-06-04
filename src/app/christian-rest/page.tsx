@@ -191,7 +191,7 @@ export default function ChristianRestPage() {
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
-                Sabbath is not primarily about doing nothing — it is about doing the right things in the right posture. These six practices shape a sustainable rhythm of rest.
+                Sabbath is not primarily about doing nothing — it is about doing the right things in the right posture. These {PRACTICES.length} practices shape a sustainable rhythm of rest.
               </p>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 14 }}>

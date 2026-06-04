@@ -183,7 +183,7 @@ export default function ForgivenessGuidePage() {
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
-                Forgiveness is a decision that becomes a practice over time. These six practices support the process of forgiving well — not as a one-time act but as a sustained orientation.
+                Forgiveness is a decision that becomes a practice over time. These {PRACTICES.length} practices support the process of forgiving well — not as a one-time act but as a sustained orientation.
               </p>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 14 }}>

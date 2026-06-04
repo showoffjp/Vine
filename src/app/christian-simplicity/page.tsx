@@ -226,10 +226,11 @@ export default function ChristianSimplicityPage() {
   const [selectedTeacher, setSelectedTeacher] = useState<number>(0);
   const [openObstacle, setOpenObstacle] = useState<number | undefined>(undefined);
 
+  const totalPractices = PRACTICE_CATEGORIES.reduce((sum, c) => sum + c.practices.length, 0);
   const tabs: { id: Tab; label: string }[] = [
     { id: "theology", label: "Theology" },
     { id: "voices", label: "Voices" },
-    { id: "practices", label: "30 Practices" },
+    { id: "practices", label: `${totalPractices} Practices` },
     { id: "obstacles", label: "Obstacles" },
     { id: "videos", label: "🎬 Videos" },
   ];

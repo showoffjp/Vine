@@ -193,7 +193,7 @@ export default function PrayerFastingPage() {
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 22, marginBottom: 20 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.75, margin: 0 }}>
-                Fasting is a learnable discipline. These six practices make fasting both spiritually fruitful and physically sustainable.
+                Fasting is a learnable discipline. These {PRACTICES.length} practices make fasting both spiritually fruitful and physically sustainable.
               </p>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 14 }}>

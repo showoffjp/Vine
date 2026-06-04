@@ -323,7 +323,7 @@ export default function ImageOfGodPage() {
             >
               <p style={{ color: MUTED, fontSize: 14, lineHeight: 1.75, margin: 0 }}>
                 The doctrine of the imago Dei spans the whole biblical narrative -- from the first
-                declaration of creation to the final vision of the new Jerusalem. These six topics
+                declaration of creation to the final vision of the new Jerusalem. These {THEOLOGY_ITEMS.length} topics
                 trace the full arc of the image: given, damaged, fulfilled in Christ, restored in
                 believers, and completed in the new humanity.
               </p>

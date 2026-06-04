@@ -355,7 +355,7 @@ export default function ChristianWeddingGuidePage() {
         {activeTab === "premarital" && (
           <div>
             <p style={{ color: MUTED, lineHeight: 1.7, marginBottom: 28, maxWidth: 720 }}>
-              Research shows premarital preparation reduces divorce risk by 30%+. These six topic areas are the essential conversations every couple must have before the wedding.
+              Research shows premarital preparation reduces divorce risk by 30%+. These {premaritalTopics.length} topic areas are the essential conversations every couple must have before the wedding.
             </p>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(300px,1fr))", gap: 20 }}>
               {premaritalTopics.map((t, i) => (

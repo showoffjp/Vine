@@ -505,7 +505,7 @@ export default function ChristianFriendshipTheologyPage() {
         {tab === "practices" && (
           <div>
             <p style={{ color: MUTED, fontSize: 14, marginBottom: 24, lineHeight: 1.7 }}>
-              Six practices for building the kind of deep Christian friendship that the biblical models describe and the theology demands.
+              {PRACTICES_ITEMS.length} practices for building the kind of deep Christian friendship that the biblical models describe and the theology demands.
             </p>
             <div style={{ display: "flex", flexDirection: "column" as const, gap: 8 }}>
               {PRACTICES_ITEMS.map((item) => {

@@ -370,7 +370,7 @@ export default function DisabilityMinistryPage() {
         {tab === "practical" && (
           <div>
             <p style={{ color: MUTED, fontSize: 15, lineHeight: 1.7, marginBottom: 28 }}>
-              Disability ministry is not a specialized program for specialists — it is a dimension of ordinary pastoral faithfulness. These six practices represent the most impactful areas for most congregations.
+              Disability ministry is not a specialized program for specialists — it is a dimension of ordinary pastoral faithfulness. These {practicalItems.length} practices represent the most impactful areas for most congregations.
             </p>
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               {practicalItems.map((item, i) => {

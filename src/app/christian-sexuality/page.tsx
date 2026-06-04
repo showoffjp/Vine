@@ -212,7 +212,7 @@ export default function ChristianSexualityPage() {
           <div>
             <div style={{ background: CARD, border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, marginBottom: 24 }}>
               <p style={{ color: TEXT, fontSize: 15, lineHeight: 1.8, margin: 0 }}>
-                Christianity did not invent sexual shame — it inherited it. A recovery of the biblical vision of sexuality begins with Genesis, not with evangelical subculture. These six topics build a theological foundation that is frank, rich, and honest.
+                Christianity did not invent sexual shame — it inherited it. A recovery of the biblical vision of sexuality begins with Genesis, not with evangelical subculture. These {THEOLOGY_ITEMS.length} topics build a theological foundation that is frank, rich, and honest.
               </p>
             </div>
             {THEOLOGY_ITEMS.map((item, i) => {

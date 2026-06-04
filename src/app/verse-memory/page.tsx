@@ -204,7 +204,7 @@ export default function VerseMemoryPage() {
   const [verses, setVerses] = useState<MemoryVerse[]>(() => {
     try { const s = localStorage.getItem("vine_verse_memory"); return s ? JSON.parse(s) : seedVerses; } catch { return seedVerses; }
   });
-  const [innerTab, setInnerTab] = useState<"library" | "practice" | "stats" | "voices">("library");
+  const [innerTab, setInnerTab] = usePersistedState<"library" | "practice" | "stats" | "voices">("vine_verse-memory_inner_tab", "library");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_verse-memory_voice", "trotman-d");
   const voiceItem = VOICES_MEM.find(v => v.id === selectedVoice)!;
   const [activeCategory, setActiveCategory] = usePersistedState("vine_verse-memory_active_category", "All");

@@ -390,7 +390,7 @@ export default function EvangelismPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_evangelism_tab", "methods");
   const [expandedMethod, setExpandedMethod] = useState<string | null>(null);
   const [expandedFear, setExpandedFear] = useState<number | null>(null);
-  const [innerMethodTab, setInnerMethodTab] = useState<"methods" | "conversations" | "fears">("methods");
+  const [innerMethodTab, setInnerMethodTab] = usePersistedState<"methods" | "conversations" | "fears">("vine_evangelism_inner_method_tab", "methods");
   const [practicedMethods, setPracticedMethods] = useState<Set<string>>(() => {
     try { const s = localStorage.getItem("vine_evangelism_practiced"); return s ? new Set(JSON.parse(s)) : new Set(); } catch { return new Set(); }
   });

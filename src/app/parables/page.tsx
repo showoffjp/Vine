@@ -422,7 +422,7 @@ export default function ParablesPage() {
   const [filter, setFilter] = usePersistedState("vine_parables_filter", "All");
   const [kingdomOnly, setKingdomOnly] = useState(false);
   const [search, setSearch] = useState("");
-  const [innerTab, setInnerTab] = useState<"browse" | "studied" | "methods" | "voices">("browse");
+  const [innerTab, setInnerTab] = usePersistedState<"browse" | "studied" | "methods" | "voices">("vine_parables_inner_tab", "browse");
   const [openQuestion, setOpenQuestion] = useState<number | null>(null);
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_parables_voice", "jeremias-j");
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_parables_tab", "parables");

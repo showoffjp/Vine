@@ -429,7 +429,7 @@ function CommunityContent({
   setSelectedStory: (s: { id: string; couple: string; title: string; type: string; story: string; verse: string; verseRef: string } | null) => void;
   filteredArticles: { id: string; title: string; summary: string; readTime: string; category: string; body: string }[];
 }) {
-  const [innerTab, setInnerTab] = useState<"guidance" | "articles" | "stories">("guidance");
+  const [innerTab, setInnerTab] = usePersistedState<"guidance" | "articles" | "stories">("vine_relationships_inner_tab", "guidance");
   return (
     <>
       <div style={{ display: "flex", gap: 4, marginBottom: 32, borderBottom: "1px solid #1E1E32" }}>

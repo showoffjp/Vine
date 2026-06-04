@@ -228,7 +228,7 @@ const CHURCHES: ChurchOrg[] = [
 export default function CreationCareActionPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_creation-care-action_tab", "theology");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
-  const [activeCategory, setActiveCategory] = useState<ActionCategory | "All">("All");
+  const [activeCategory, setActiveCategory] = usePersistedState<string>("vine_creation-care-action_active_category", "All");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_creation-care-action_selected_voice", "berry");
 
   const toggleExpanded = (id: string) => {

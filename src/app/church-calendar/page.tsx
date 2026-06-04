@@ -182,7 +182,7 @@ const VOICES_CAL = [
 ];
 
 export default function ChurchCalendarPage() {
-  const [selectedSeason, setSelectedSeason] = useState<string | null>("advent");
+  const [selectedSeason, setSelectedSeason] = usePersistedState<string>("vine_church-calendar_selected_season", "advent");
   const [activeTab, setActiveTab] = usePersistedState<"seasons" | "holidays" | "guide" | "voices" | "videos">("vine_church-calendar_tab", "seasons");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_church-calendar_voice", "webber-r");
   const voiceItem = VOICES_CAL.find(v => v.id === selectedVoice)!;

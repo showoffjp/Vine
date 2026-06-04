@@ -214,7 +214,7 @@ type Tab = "meaning" | "views" | "voices" | "videos";
 
 export default function BaptismPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_baptism_tab", "meaning");
-  const [view, setView] = useState<"overview" | "methods" | "testimonies" | "faq">("overview");
+  const [view, setView] = usePersistedState<"overview" | "methods" | "testimonies" | "faq">("vine_baptism_view", "overview");
   const [selectedTestimony, setSelectedTestimony] = useState<BaptismTestimony | null>(null);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [decided, setDecided] = useState(() => {

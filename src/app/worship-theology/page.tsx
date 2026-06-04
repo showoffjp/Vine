@@ -164,7 +164,7 @@ const WORSHIP_VIDEOS = [
 export default function WorshipTheologyPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_worship-theology_tab", "theology");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
-  const [selectedElement, setSelectedElement] = useState<string>("scripture");
+  const [selectedElement, setSelectedElement] = usePersistedState<string>("vine_worship-theology_selected_element", "scripture");
 
   function toggleExpanded(id: string) {
     setExpanded(prev => ({ ...prev, [id]: !prev[id] }));

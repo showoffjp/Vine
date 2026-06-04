@@ -227,7 +227,7 @@ export default function TheologyOfPrayerPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_theology-of-prayer_tab", "theology");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [selectedJesus, setSelectedJesus] = useState<string>(JESUS_EPISODES[0].id);
-  const [activeFormFilter, setActiveFormFilter] = useState<FormCategory | "All">("All");
+  const [activeFormFilter, setActiveFormFilter] = usePersistedState<string>("vine_theology-of-prayer_active_form_filter", "All");
 
   function toggleAccordion(key: string) {
     setExpanded((prev) => ({ ...prev, [key]: !prev[key] }));

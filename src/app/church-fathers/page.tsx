@@ -164,7 +164,7 @@ const FATHERS = [
 const PERIODS = ["All", "Apostolic", "Apologist", "Anti-Gnostic", "Nicene", "Latin West", "Eastern", "Medieval"];
 
 export default function ChurchFathersPage() {
-  const [selected, setSelected] = useState<string | null>("Athanasius of Alexandria");
+  const [selected, setSelected] = usePersistedState<string>("vine_church-fathers_selected", "Athanasius of Alexandria");
   const [period, setPeriod] = useState("All");
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_church-fathers_tab", "fathers");
   const [selectedWriting, setSelectedWriting] = usePersistedState("vine_church-fathers_selected_writing", "didache");

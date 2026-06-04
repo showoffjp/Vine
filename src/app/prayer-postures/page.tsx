@@ -91,7 +91,7 @@ export default function PrayerPosturesPage() {
   const [activeTab, setActiveTab] = usePersistedState<"postures" | "teachers" | "traditions" | "faq" | "videos">("vine_prayer-postures_tab", "postures");
   const [selectedTeacher, setSelectedTeacher] = usePersistedState("vine_prayer-postures_selected_teacher", "teresa");
   const teacherItem = TEACHERS_POSTURE.find(t => t.id === selectedTeacher)!;
-  const [selected, setSelected] = useState<string | null>("Standing");
+  const [selected, setSelected] = usePersistedState<string>("vine_prayer-postures_selected", "Standing");
 
   const selectedPosture = POSTURES.find(p => p.name === selected);
 

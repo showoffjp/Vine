@@ -85,7 +85,7 @@ type Tab = "theology" | "regions" | "pioneers" | "howto" | "videos";
 
 export default function GlobalMissionsPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_global-missions_tab", "theology");
-  const [selected, setSelected] = useState<string | null>("The 10/40 Window");
+  const [selected, setSelected] = usePersistedState<string>("vine_global-missions_selected", "The 10/40 Window");
   const [selectedPioneer, setSelectedPioneer] = usePersistedState("vine_global-missions_selected_pioneer", "carey");
 
   const region = REGIONS.find(r => r.region === selected);

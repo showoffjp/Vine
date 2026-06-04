@@ -689,7 +689,7 @@ export default function BiblePage() {
   const [completedDays, setCompletedDays] = useState<Set<string>>(() => {
     try { const done = localStorage.getItem("vine-bible-plan-progress"); return done ? new Set(JSON.parse(done)) : new Set(); } catch { return new Set(); }
   });
-  const [activeTheme, setActiveTheme] = useState<keyof typeof VERSE_THEMES>("salvation");
+  const [activeTheme, setActiveTheme] = usePersistedState<string>("vine_bible_active_theme", "salvation");
   const [otFilter, setOtFilter] = useState(true);
   const [ntFilter, setNtFilter] = useState(true);
   const [fontSize, setFontSize] = useState(17);

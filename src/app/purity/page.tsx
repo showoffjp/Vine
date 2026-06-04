@@ -104,7 +104,7 @@ type Tab = "theology" | "struggles" | "voices" | "practices" | "videos";
 
 export default function PurityPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_purity_tab", "theology");
-  const [selectedStruggle, setSelectedStruggle] = useState<string | null>("Pornography");
+  const [selectedStruggle, setSelectedStruggle] = usePersistedState<string>("vine_purity_selected_struggle", "Pornography");
   const [selectedVoice, setSelectedVoice] = usePersistedState("vine_purity_voice", "lewis");
 
   const struggle = STRUGGLES.find(s => s.name === selectedStruggle);

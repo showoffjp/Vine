@@ -318,7 +318,7 @@ const READING_KEYS = [
 
 export default function ParablesOfJesusPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_parables-of-jesus_tab", "overview");
-  const [category, setCategory] = useState<Category>("All");
+  const [category, setCategory] = usePersistedState<string>("vine_parables-of-jesus_category", "All");
   const [openId, setOpenId] = useState<string | null>(PARABLES[0].id);
 
   const filtered =

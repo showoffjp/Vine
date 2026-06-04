@@ -81,7 +81,7 @@ type OfficeKey = "morning" | "midday" | "evening" | "compline";
 
 export default function DailyOfficePage() {
   const [tab, setTab] = usePersistedState<Tab>("vine_daily-office_tab", "offices");
-  const [selectedOffice, setSelectedOffice] = useState<OfficeKey>("morning");
+  const [selectedOffice, setSelectedOffice] = usePersistedState<OfficeKey>("vine_daily-office_selected_office", "morning");
 
   const office = OFFICES[selectedOffice];
 

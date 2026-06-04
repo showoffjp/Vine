@@ -372,7 +372,7 @@ export default function ReadingListPage() {
   });
 
   const [mainTab, setMainTab] = usePersistedState<"list" | "recommendations" | "guides" | "voices" | "videos">("vine_reading-list_main_tab", "list");
-  const [activeStatus, setActiveStatus] = useState<ReadStatus | "all">("all");
+  const [activeStatus, setActiveStatus] = usePersistedState<string>("vine_reading-list_active_status", "all");
   const [activeGenre, setActiveGenre] = usePersistedState("vine_reading-list_active_genre", "All");
   const [search, setSearch] = useState("");
   const [showCompose, setShowCompose] = useState(false);

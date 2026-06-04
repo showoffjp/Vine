@@ -286,7 +286,7 @@ const REVEAL_POINTS = [
 
 export default function MiraclesOfJesusPage() {
   const [activeTab, setActiveTab] = usePersistedState<Tab>("vine_miracles-of-jesus_tab", "overview");
-  const [type, setType] = useState<MType>("All");
+  const [type, setType] = usePersistedState<string>("vine_miracles-of-jesus_type", "All");
   const [openId, setOpenId] = useState<string | null>(MIRACLES[0].id);
 
   const filtered = type === "All" ? MIRACLES : MIRACLES.filter((m) => m.type === type);

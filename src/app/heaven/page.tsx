@@ -2,7 +2,6 @@
 import Navbar from "@/components/Navbar";
 import VerseRef from "@/components/VerseRef";
 import Footer from "@/components/Footer";
-import { useState } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F";

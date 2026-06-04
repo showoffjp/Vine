@@ -1,7 +1,7 @@
 "use client";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { usePersistedState } from "@/hooks/usePersistedState";
 
 const BG = "#07070F", CARD = "#12121F", BORDER = "#1E1E32";
